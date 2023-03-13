@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,105 +27,88 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * A dialog to show a wizard.
  */
-public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog
-{
+public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog {
 
 	/**
 	 * Creates a new wizard dialog for the given wizard.
-	 * 
-	 * @param parentShell
-	 *            the parent shell
-	 * @param newWizard
-	 *            the wizard this dialog is working on
+	 *
+	 * @param parentShell the parent shell
+	 * @param newWizard   the wizard this dialog is working on
 	 */
-	public WizardDialog( Shell parentShell, AbstractWizard newWizard )
-	{
-		super( parentShell, newWizard );
-		setHelpAvailable( false );
-		setBlockOnOpen( true );
-		setShellStyle( getShellStyle( ) ^ SWT.RESIZE );
+	public WizardDialog(Shell parentShell, AbstractWizard newWizard) {
+		super(parentShell, newWizard);
+		setHelpAvailable(false);
+		setBlockOnOpen(true);
+		setShellStyle(getShellStyle() ^ SWT.RESIZE);
 	}
 
 	/**
 	 * Sets the label of Finish button
-	 * 
-	 * @param text
-	 *            the new label of the Finish button
+	 *
+	 * @param text the new label of the Finish button
 	 */
-	public void setFinishLabel( String text )
-	{
-		getButton( IDialogConstants.FINISH_ID ).setText( text );
+	public void setFinishLabel(String text) {
+		getButton(IDialogConstants.FINISH_ID).setText(text);
 	}
 
 	/**
 	 * Creates and returns the contents of this dialog's button bar.
 	 * <p>
 	 * The <code>WizardDialog</code> implementation of this framework method
-	 * prevents the buttons from aligning with the same direction in order to
-	 * make Help button split with other buttons.
+	 * prevents the buttons from aligning with the same direction in order to make
+	 * Help button split with other buttons.
 	 * </p>
-	 * 
-	 * @param parent
-	 *            the parent composite to contain the button bar
+	 *
+	 * @param parent the parent composite to contain the button bar
 	 * @return the button bar control
 	 */
-	protected Control createButtonBar( Composite parent )
-	{
-		Composite composite = (Composite) super.createButtonBar( parent );
-		composite.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.VERTICAL_ALIGN_CENTER ) );
+	@Override
+	protected Control createButtonBar(Composite parent) {
+		Composite composite = (Composite) super.createButtonBar(parent);
+		composite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_CENTER));
 		return composite;
 	}
 
 	/**
-	 * Sets the layout data of the button to a GridData with appropriate heights
-	 * and widths.
+	 * Sets the layout data of the button to a GridData with appropriate heights and
+	 * widths.
 	 * <p>
 	 * The <code>WizardDialog</code> override the method in order to make Help
 	 * button split with other buttons.
-	 * 
-	 * @param button
-	 *            the button to be set layout data to
+	 *
+	 * @param button the button to be set layout data to
 	 */
-	protected void setButtonLayoutData( Button button )
-	{
+	@Override
+	protected void setButtonLayoutData(Button button) {
 		GridData data;
-		if ( button.getText( ).equals( IDialogConstants.HELP_LABEL ) )
-		{
-			data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING
-					| GridData.VERTICAL_ALIGN_CENTER );
+		if (button.getText().equals(IDialogConstants.HELP_LABEL)) {
+			data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_CENTER);
 			data.grabExcessHorizontalSpace = true;
+		} else {
+			data = new GridData(GridData.HORIZONTAL_ALIGN_END | GridData.VERTICAL_ALIGN_CENTER);
 		}
-		else
-		{
-			data = new GridData( GridData.HORIZONTAL_ALIGN_END
-					| GridData.VERTICAL_ALIGN_CENTER );
-		}
-		data.heightHint = convertVerticalDLUsToPixels( IDialogConstants.BUTTON_HEIGHT );
-		int widthHint = convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
-		data.widthHint = Math.max( widthHint, button.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
-		button.setLayoutData( data );
+		data.heightHint = convertVerticalDLUsToPixels(IDialogConstants.BUTTON_HEIGHT);
+		int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
+		data.widthHint = Math.max(widthHint, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
+		button.setLayoutData(data);
 	}
 
 	/**
 	 * The Next button has been pressed.
-	 * 
-	 * The <code>WizardDialog</code> override the method in order to save
-	 * current result and when pages are switched
-	 * 
-	 *  
+	 *
+	 * The <code>WizardDialog</code> override the method in order to save current
+	 * result and when pages are switched
+	 *
+	 *
 	 */
-	protected void nextPressed( )
-	{
-		ElementWizardPage page = (ElementWizardPage) getCurrentPage( );
-		( (AbstractWizard) getWizard( ) ).savePage( page );
-		ElementWizardPage nextPage = (ElementWizardPage) page.getNextPage( );
-		if ( nextPage != null )
-		{
-			( (AbstractWizard) getWizard( ) ).initPage( nextPage );
-			showPage( nextPage );
+	@Override
+	protected void nextPressed() {
+		ElementWizardPage page = (ElementWizardPage) getCurrentPage();
+		((AbstractWizard) getWizard()).savePage(page);
+		ElementWizardPage nextPage = (ElementWizardPage) page.getNextPage();
+		if (nextPage != null) {
+			((AbstractWizard) getWizard()).initPage(nextPage);
+			showPage(nextPage);
 		}
 	}
 }

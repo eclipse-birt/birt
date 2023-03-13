@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,96 +40,80 @@ import org.eclipse.ui.texteditor.ITextEditor;
  * Supprot <CTRL+R>
  */
 
-public class ScriptRunToLineAdapter implements IRunToLineTarget
-{
+public class ScriptRunToLineAdapter implements IRunToLineTarget {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IRunToLineTarget#canRunToLine(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection, org.eclipse.debug.core.model.ISuspendResume)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.debug.ui.actions.IRunToLineTarget#canRunToLine(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection,
+	 * org.eclipse.debug.core.model.ISuspendResume)
 	 */
-	public boolean canRunToLine( IWorkbenchPart part, ISelection selection,
-			ISuspendResume target )
-	{
-		if ( target instanceof ScriptDebugElement )
-		{
+	@Override
+	public boolean canRunToLine(IWorkbenchPart part, ISelection selection, ISuspendResume target) {
+		if (target instanceof ScriptDebugElement) {
 			IDebugElement element = (IDebugElement) target;
-			ScriptDebugTarget adapter = (ScriptDebugTarget) element.getDebugTarget( )
-					.getAdapter( IDebugTarget.class );
+			ScriptDebugTarget adapter = (ScriptDebugTarget) element.getDebugTarget().getAdapter(IDebugTarget.class);
 			return adapter != null;
 		}
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IRunToLineTarget#runToLine(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection, org.eclipse.debug.core.model.ISuspendResume)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.debug.ui.actions.IRunToLineTarget#runToLine(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection,
+	 * org.eclipse.debug.core.model.ISuspendResume)
 	 */
-	public void runToLine( IWorkbenchPart part, ISelection selection,
-			ISuspendResume target ) throws CoreException
-	{
-		ITextEditor textEditor = getTextEditor( part );
+	@Override
+	public void runToLine(IWorkbenchPart part, ISelection selection, ISuspendResume target) throws CoreException {
+		ITextEditor textEditor = getTextEditor(part);
 
-		if ( textEditor == null )
-		{
-			return;
-		}
-		else
-		{
-			IEditorInput input = textEditor.getEditorInput( );
+		if (textEditor == null) {
+		} else {
+			IEditorInput input = textEditor.getEditorInput();
 
-			if ( input == null || !( input instanceof DebugJsInput ) )
-			{
+			if (input == null || !(input instanceof DebugJsInput)) {
 				return;
 			}
 
 			DebugJsInput scriptInput = (DebugJsInput) input;
-			IResource resource = (IResource) input.getAdapter( IResource.class );
-			if ( resource == null )
-			{
-				resource = ScriptDebugUtil.getDefaultResource( );
+			IResource resource = (IResource) input.getAdapter(IResource.class);
+			if (resource == null) {
+				resource = ScriptDebugUtil.getDefaultResource();
 			}
 
-			final IDocument document = textEditor.getDocumentProvider( )
-					.getDocument( input );
-			if ( document == null )
-			{
-				return;
-			}
-			else
-			{
+			final IDocument document = textEditor.getDocumentProvider().getDocument(input);
+			if (document == null) {
+			} else {
 				final int[] validLine = new int[1];
 				// final String[] typeName = new String[1];
 				final int[] lineNumber = new int[1];
 				final ITextSelection textSelection = (ITextSelection) selection;
-				Runnable r = new Runnable( ) {
+				Runnable r = new Runnable() {
 
-					public void run( )
-					{
-						lineNumber[0] = textSelection.getStartLine( ) + 1;
+					@Override
+					public void run() {
+						lineNumber[0] = textSelection.getStartLine() + 1;
 					}
 				};
-				BusyIndicator.showWhile( DebugUI.getStandardDisplay( ), r );
+				BusyIndicator.showWhile(DebugUI.getStandardDisplay(), r);
 				// TODO add the validLine to adjust if the line is validLine
 				validLine[0] = lineNumber[0];
-				if ( validLine[0] == lineNumber[0] )
-				{
-					ScriptLineBreakpoint point = new RunToLinebreakPoint( resource,
-							scriptInput.getFile( ).getAbsolutePath( ),
-							scriptInput.getId( ),
-							lineNumber[0] );
-					point.setType( ScriptLineBreakpoint.RUNTOLINE );
-					if ( target instanceof IAdaptable )
-					{
-						ScriptDebugTarget debugTarget = (ScriptDebugTarget) ( (IAdaptable) target ).getAdapter( IDebugTarget.class );
-						if ( debugTarget != null )
-						{
-							debugTarget.breakpointAdded( point );
-							debugTarget.resume( );
+				if (validLine[0] == lineNumber[0]) {
+					ScriptLineBreakpoint point = new RunToLinebreakPoint(resource,
+							scriptInput.getFile().getAbsolutePath(), scriptInput.getId(), lineNumber[0]);
+					point.setType(ScriptLineBreakpoint.RUNTOLINE);
+					if (target instanceof IAdaptable) {
+						ScriptDebugTarget debugTarget = (ScriptDebugTarget) ((IAdaptable) target)
+								.getAdapter(IDebugTarget.class);
+						if (debugTarget != null) {
+							debugTarget.breakpointAdded(point);
+							debugTarget.resume();
 						}
 					}
-				}
-				else
-				{
-					// invalid line
-					return;
 				}
 			}
 
@@ -137,13 +124,11 @@ public class ScriptRunToLineAdapter implements IRunToLineTarget
 	 * @param part
 	 * @return
 	 */
-	protected ITextEditor getTextEditor( IWorkbenchPart part )
-	{
-		if ( part instanceof ITextEditor )
-		{
+	protected ITextEditor getTextEditor(IWorkbenchPart part) {
+		if (part instanceof ITextEditor) {
 			return (ITextEditor) part;
 		}
-		return (ITextEditor) part.getAdapter( ITextEditor.class );
+		return (ITextEditor) part.getAdapter(ITextEditor.class);
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,8 +38,7 @@ import org.eclipse.swt.widgets.Label;
 /**
  * SpinnerPropertyDescriptor manages Spinner choice control.
  */
-public class MarginsPropertyDescriptor extends PropertyDescriptor
-{
+public class MarginsPropertyDescriptor extends PropertyDescriptor {
 
 	protected CSpinner spinner;
 
@@ -44,180 +46,163 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	protected Composite container;
 
-	public MarginsPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public MarginsPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
-	public void load( )
-	{
-		String value = provider.load( ).toString( );
+	@Override
+	public void load() {
+		String value = provider.load().toString();
 
-		boolean stateFlag = ( ( value == null ) == spinner.getEnabled( ) );
-		if ( stateFlag )
-		{
-			spinner.setEnabled( value != null );
-			combo.setEnabled( value != null );
+		boolean stateFlag = ((value == null) == spinner.getEnabled());
+		if (stateFlag) {
+			spinner.setEnabled(value != null);
+			combo.setEnabled(value != null);
 		}
-		if ( value == null )
-			return;
-		String spinnerValue = provider.getMeasureValue( );
-		BigDecimal bigValue = new BigDecimal( spinnerValue );
-		spinner.setSelection( bigValue.doubleValue( ) );
-
-		if ( combo.getItems( ) == null || combo.getItemCount( ) == 0 )
-			combo.setItems( provider.getUnits( ) );
-		String comboValue = provider.getDefaultUnit( );
-		if ( provider.getUnitDisplayName( comboValue ) == null )
-		{
-			combo.deselectAll( );
+		if (value == null) {
 			return;
 		}
-		if ( !provider.getUnitDisplayName( comboValue )
-				.equals( combo.getText( ) ) )
-		{
-			combo.deselectAll( );
-			combo.setText( provider.getUnitDisplayName( comboValue ) );
+		String spinnerValue = provider.getMeasureValue();
+		BigDecimal bigValue = new BigDecimal(spinnerValue);
+		spinner.setSelection(bigValue.doubleValue());
+
+		if (combo.getItems() == null || combo.getItemCount() == 0) {
+			combo.setItems(provider.getUnits());
+		}
+		String comboValue = provider.getDefaultUnit();
+		if (provider.getUnitDisplayName(comboValue) == null) {
+			combo.deselectAll();
+			return;
+		}
+		if (!provider.getUnitDisplayName(comboValue).equals(combo.getText())) {
+			combo.deselectAll();
+			combo.setText(provider.getUnitDisplayName(comboValue));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		container = new Composite( parent, SWT.NONE );
-		FormLayout layout = new FormLayout( );
-		if ( isFormStyle( ) )
-		{
+	@Override
+	public Control createControl(Composite parent) {
+		container = new Composite(parent, SWT.NONE);
+		FormLayout layout = new FormLayout();
+		if (isFormStyle()) {
 			layout.marginHeight = 1;
 			layout.marginWidth = 2;
 			layout.spacing = 4;
-		}
-		else
-		{
+		} else {
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;
 			layout.spacing = 0;
 		}
-		container.setLayout( layout );
+		container.setLayout(layout);
 
-		Label label = FormWidgetFactory.getInstance( ).createLabel( container,
-				isFormStyle( ) );
-		label.setText( provider.getDisplayName( ) );
+		Label label = FormWidgetFactory.getInstance().createLabel(container, isFormStyle());
+		label.setText(provider.getDisplayName());
 
-		if ( isFormStyle( ) )
-			spinner = FormWidgetFactory.getInstance( )
-					.createCSpinner( container );
-		else
-			spinner = new CSpinner( container, SWT.BORDER );
-		spinner.setMaximum( Short.MAX_VALUE );
-		spinner.setMinimum( -Short.MAX_VALUE );
-		spinner.setStep( 0.25 );
-		spinner.setSelection( 0.00 );
-		spinner.setFormatPattern( "0.00" ); //$NON-NLS-1$
-		spinner.addValueChangeListener( new IValueChangedListener( ) {
-
-			public void valueChanged( double newValue )
-			{
-				handleSelectedEvent( );
-			}
-
-		} );
-
-		if ( !isFormStyle( ) )
-		{
-			combo = new CCombo( container, SWT.BORDER | SWT.READ_ONLY );
-			combo.setVisibleItemCount( 30 );
+		if (isFormStyle()) {
+			spinner = FormWidgetFactory.getInstance().createCSpinner(container);
+		} else {
+			spinner = new CSpinner(container, SWT.BORDER);
 		}
-		else
-			combo = FormWidgetFactory.getInstance( ).createCCombo( container,
-					true );
-		combo.addSelectionListener( new SelectionAdapter( ) {
+		spinner.setMaximum(Short.MAX_VALUE);
+		spinner.setMinimum(-Short.MAX_VALUE);
+		spinner.setStep(0.25);
+		spinner.setSelection(0.00);
+		spinner.setFormatPattern("0.00"); //$NON-NLS-1$
+		spinner.addValueChangeListener(new IValueChangedListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleSelectedEvent( );
+			@Override
+			public void valueChanged(double newValue) {
+				handleSelectedEvent();
 			}
-		} );
-		FormData data = new FormData( );
-		data.top = new FormAttachment( spinner, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( spinner, 0, SWT.LEFT );
-		data.right = new FormAttachment( spinner, 0, SWT.RIGHT );
-		combo.setLayoutData( data );
 
-		data = new FormData( );
-		data.top = new FormAttachment( label, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( label, 0, SWT.LEFT );
-		data.right = new FormAttachment( 100, -layout.spacing );
-		spinner.setLayoutData( data );
+		});
+
+		if (!isFormStyle()) {
+			combo = new CCombo(container, SWT.BORDER | SWT.READ_ONLY);
+			combo.setVisibleItemCount(30);
+		} else {
+			combo = FormWidgetFactory.getInstance().createCCombo(container, true);
+		}
+		combo.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleSelectedEvent();
+			}
+		});
+		FormData data = new FormData();
+		data.top = new FormAttachment(spinner, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(spinner, 0, SWT.LEFT);
+		data.right = new FormAttachment(spinner, 0, SWT.RIGHT);
+		combo.setLayoutData(data);
+
+		data = new FormData();
+		data.top = new FormAttachment(label, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(label, 0, SWT.LEFT);
+		data.right = new FormAttachment(100, -layout.spacing);
+		spinner.setLayoutData(data);
 		return container;
 	}
 
-	protected void handleSelectedEvent( )
-	{
-		try
-		{
-			save( new DimensionValue( spinner.getSelection( ),
-					provider.getUnit( combo.getText( ) ) ) );
-		}
-		catch ( SemanticException e )
-		{
-			WidgetUtil.processError( combo.getShell( ), e );
+	protected void handleSelectedEvent() {
+		try {
+			save(new DimensionValue(spinner.getSelection(), provider.getUnit(combo.getText())));
+		} catch (SemanticException e) {
+			WidgetUtil.processError(combo.getShell(), e);
 		}
 	}
 
 	private MarginsPropertyDescriptorProvider provider;
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
-		if ( provider instanceof MarginsPropertyDescriptorProvider )
+	@Override
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
+		if (provider instanceof MarginsPropertyDescriptorProvider) {
 			this.provider = (MarginsPropertyDescriptorProvider) provider;
+		}
 
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		provider.save( obj );
+	@Override
+	public void save(Object obj) throws SemanticException {
+		provider.save(obj);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( container, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(container, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		container.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		container.setVisible(isVisible);
 	}
 
-	public void setInput( Object input )
-	{
-		super.setInput( input );
-		getDescriptorProvider( ).setInput( input );
+	@Override
+	public void setInput(Object input) {
+		super.setInput(input);
+		getDescriptorProvider().setInput(input);
 	}
 
 }

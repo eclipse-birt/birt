@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -72,10 +75,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.ULocale;
 
-public class LayoutEngine extends LayoutEmitterAdapter
-		implements
-			IContentEmitter
-{
+public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitter {
 	protected IContentEmitter emitter;
 
 	protected LayoutContext context;
@@ -83,7 +83,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	protected ContainerArea current;
 
 	protected AreaFactory af = null;
-	
+
 	protected ILayoutPageHandler pageHandler;
 
 	/**
@@ -91,213 +91,151 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	 */
 	protected boolean isFirst = true;
 
-	public LayoutEngine( IContentEmitter emitter,
-			IRenderOption renderOptions, ExecutionContext executionContext,
-			long documentTotalPage )
-	{
+	public LayoutEngine(IContentEmitter emitter, IRenderOption renderOptions, ExecutionContext executionContext,
+			long documentTotalPage) {
 		this.emitter = emitter;
-		context = new LayoutContext( );
-		af = new AreaFactory( this );
+		context = new LayoutContext();
+		af = new AreaFactory(this);
 		// FIXME
-		setupLayoutOptions( renderOptions );
+		setupLayoutOptions(renderOptions);
 		String format = "pdf";
-		if ( renderOptions != null )
-		{
-			format = renderOptions.getOutputFormat( );
+		if (renderOptions != null) {
+			format = renderOptions.getOutputFormat();
 		}
-		context.setFormat( format );
-		context.setLocale( executionContext.getLocale( ) );
-		context.setEngineTaskType( executionContext.getTaskType( ) );
-		long filteredTotalPage = executionContext.getFilteredTotalPage( );
-		if ( filteredTotalPage == 0 )
-		{
+		context.setFormat(format);
+		context.setLocale(executionContext.getLocale());
+		context.setEngineTaskType(executionContext.getTaskType());
+		long filteredTotalPage = executionContext.getFilteredTotalPage();
+		if (filteredTotalPage == 0) {
 			context.totalPage = documentTotalPage;
-		}
-		else
-		{
+		} else {
 			context.totalPage = filteredTotalPage;
 		}
 	}
-	
-	public LayoutEngine( HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter,
-			IRenderOption renderOptions, ExecutionContext executionContext,
-			long totalPage )
-	{
-		this( emitter, renderOptions, executionContext, totalPage );
-		context.setHtmlLayoutContext( htmlLayoutContext );
+
+	public LayoutEngine(HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter, IRenderOption renderOptions,
+			ExecutionContext executionContext, long totalPage) {
+		this(emitter, renderOptions, executionContext, totalPage);
+		context.setHtmlLayoutContext(htmlLayoutContext);
 	}
-	
-	public LayoutEngine( LayoutContext context )
-	{
+
+	public LayoutEngine(LayoutContext context) {
 		this.context = context;
 		af = new AreaFactory(this);
 	}
 
-	public void initialize( IEmitterServices service ) throws BirtException
-	{
-		if ( emitter != null )
-		{
-			emitter.initialize( service );
+	@Override
+	public void initialize(IEmitterServices service) throws BirtException {
+		if (emitter != null) {
+			emitter.initialize(service);
 		}
-		ReportDesignHandle designHandle = (ReportDesignHandle) service
-				.getReportRunnable( ).getDesignHandle( );
-		if ( designHandle != null )
-		{
-			String reportLayoutPreference = designHandle.getLayoutPreference( );
-			context
-					.setFixedLayout( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-							.equals( reportLayoutPreference ) );
+		ReportDesignHandle designHandle = (ReportDesignHandle) service.getReportRunnable().getDesignHandle();
+		if (designHandle != null) {
+			String reportLayoutPreference = designHandle.getLayoutPreference();
+			context.setFixedLayout(
+					DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(reportLayoutPreference));
 		}
-		if ( context.getHtmlLayoutContext( ) != null )
-		{
-			if ( context.isFixedLayout( ) )
-			{
-				context.setAutoPageBreak( context.getHtmlLayoutContext( )
-						.allowPageBreak( ) );
+		if (context.getHtmlLayoutContext() != null) {
+			if (context.isFixedLayout()) {
+				context.setAutoPageBreak(context.getHtmlLayoutContext().allowPageBreak());
 			}
 		}
 	}
-	
-	public void createPageHintGenerator( )
-	{
-		context.createPageHintGenerator( );
+
+	public void createPageHintGenerator() {
+		context.createPageHintGenerator();
 	}
-	
-	protected void setupLayoutOptions( IRenderOption renderOptions )
-	{
+
+	protected void setupLayoutOptions(IRenderOption renderOptions) {
 		Map options = null;
-		if ( renderOptions != null )
-		{
-			options = renderOptions.getOptions( );
+		if (renderOptions != null) {
+			options = renderOptions.getOptions();
 		}
-		if ( options != null )
-		{
-			Object fitToPage = options.get( IPDFRenderOption.FIT_TO_PAGE );
-			if ( fitToPage != null && fitToPage instanceof Boolean )
-			{
-				if ( ( (Boolean) fitToPage ).booleanValue( ) )
-				{
-					context.setFitToPage( true );
+		if (options != null) {
+			Object fitToPage = options.get(IPDFRenderOption.FIT_TO_PAGE);
+			if (fitToPage instanceof Boolean) {
+				if (((Boolean) fitToPage).booleanValue()) {
+					context.setFitToPage(true);
 				}
 			}
-			Object pageBreakOnly = options
-					.get( IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY );
-			if ( pageBreakOnly != null && pageBreakOnly instanceof Boolean )
-			{
-				if ( ( (Boolean) pageBreakOnly ).booleanValue( ) )
-				{
-					context.setPagebreakPaginationOnly( true );
+			Object pageBreakOnly = options.get(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
+			if (pageBreakOnly instanceof Boolean) {
+				if (((Boolean) pageBreakOnly).booleanValue()) {
+					context.setPagebreakPaginationOnly(true);
 				}
 			}
-			Object pageOverflow = options.get( IPDFRenderOption.PAGE_OVERFLOW );
-			if ( pageOverflow != null && pageOverflow instanceof Integer )
-			{
-				int pageOverflowType = ( (Integer) pageOverflow ).intValue( );
-				context.setPageOverflow( pageOverflowType );
-				if ( pageOverflowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
-				{
-					context.setPagebreakPaginationOnly( false );
+			Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
+			if (pageOverflow instanceof Integer) {
+				int pageOverflowType = ((Integer) pageOverflow).intValue();
+				context.setPageOverflow(pageOverflowType);
+				if (pageOverflowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES) {
+					context.setPagebreakPaginationOnly(false);
+				} else {
+					context.setPagebreakPaginationOnly(true);
 				}
-				else
-				{
-					context.setPagebreakPaginationOnly( true );
-				}
+			} else if (context.fitToPage()) {
+				context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
+				context.setPagebreakPaginationOnly(true);
 			}
-			else
-			{
-				if ( context.fitToPage( ) )
-				{
-					context.setPageOverflow( IPDFRenderOption.FIT_TO_PAGE_SIZE );
-					context.setPagebreakPaginationOnly( true );
-				}
-			}
-			/*
-			 * Object outputDisplayNone = options .get(
-			 * IPDFRenderOption.OUTPUT_DISPLAY_NONE ); if ( outputDisplayNone
-			 * instanceof Boolean ) { if ( ( (Boolean) outputDisplayNone
-			 * ).booleanValue( ) ) { context.setOutputDisplayNone( true ); } }
-			 */
 
-			Object textWrapping = options
-					.get( IPDFRenderOption.PDF_TEXT_WRAPPING );
-			if ( textWrapping != null && textWrapping instanceof Boolean )
-			{
-				if ( !( (Boolean) textWrapping ).booleanValue( ) )
-				{
-					context.setTextWrapping( false );
+			Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
+			if (textWrapping instanceof Boolean) {
+				if (!((Boolean) textWrapping).booleanValue()) {
+					context.setTextWrapping(false);
 				}
 			}
-			Object pageLimit = options.get( IPDFRenderOption.PDF_PAGE_LIMIT );
-			if ( pageLimit != null && pageLimit instanceof Integer )
-			{
-				int limit = ( (Integer) pageLimit ).intValue( );
-				if ( limit > 0 )
-				{
-					context.setPageLimit( limit );
+			Object pageLimit = options.get(IPDFRenderOption.PDF_PAGE_LIMIT);
+			if (pageLimit instanceof Integer) {
+				int limit = ((Integer) pageLimit).intValue();
+				if (limit > 0) {
+					context.setPageLimit(limit);
 				}
 			}
 
-			Object fontSubstitution = options
-					.get( IPDFRenderOption.PDF_FONT_SUBSTITUTION );
-			if ( fontSubstitution != null
-					&& fontSubstitution instanceof Boolean )
-			{
-				if ( !( (Boolean) fontSubstitution ).booleanValue( ) )
-				{
-					context.setFontSubstitution( false );
+			Object fontSubstitution = options.get(IPDFRenderOption.PDF_FONT_SUBSTITUTION);
+			if (fontSubstitution instanceof Boolean) {
+				if (!((Boolean) fontSubstitution).booleanValue()) {
+					context.setFontSubstitution(false);
 				}
 			}
-			Object bidiProcessing = options
-					.get( IPDFRenderOption.PDF_BIDI_PROCESSING );
-			if ( bidiProcessing != null && bidiProcessing instanceof Boolean )
-			{
-				if ( !( (Boolean) bidiProcessing ).booleanValue( ) )
-				{
-					context.setBidiProcessing( false );
+			Object bidiProcessing = options.get(IPDFRenderOption.PDF_BIDI_PROCESSING);
+			if (bidiProcessing instanceof Boolean) {
+				if (!((Boolean) bidiProcessing).booleanValue()) {
+					context.setBidiProcessing(false);
 				}
 			}
 			/*
-			 * bidi_hcg: Only disable Bidi processing when the rtl flag is null,
-			 * i.e. Bidi support is disabled.
+			 * bidi_hcg: Only disable Bidi processing when the rtl flag is null, i.e. Bidi
+			 * support is disabled.
 			 */
 			// if ( options.get( IRenderOption.RTL_FLAG ) == null )
 			// {
 			// context.setBidiProcessing( false );
 			// }
-			Object wordbreak = options.get( IPDFRenderOption.PDF_WORDBREAK );
-			if ( wordbreak != null && wordbreak instanceof Boolean )
-			{
-				if ( ( (Boolean) wordbreak ).booleanValue( ) )
-				{
-					context.setEnableWordbreak( true );
+			Object wordbreak = options.get(IPDFRenderOption.PDF_WORDBREAK);
+			if (wordbreak instanceof Boolean) {
+				if (((Boolean) wordbreak).booleanValue()) {
+					context.setEnableWordbreak(true);
 				}
 			}
 
-			Object dpi = options.get( IPDFRenderOption.DPI );
-			if ( dpi != null && dpi instanceof Integer )
-			{
-				int renderDpi = ( (Integer) dpi ).intValue( );
-				context.setDpi( renderDpi );
+			Object dpi = options.get(IPDFRenderOption.DPI);
+			if (dpi instanceof Integer) {
+				int renderDpi = ((Integer) dpi).intValue();
+				context.setDpi(renderDpi);
 			}
-			
-			Object supportedImageFormats = options.get( IRenderOption.SUPPORTED_IMAGE_FORMATS );
-			if ( supportedImageFormats != null && supportedImageFormats instanceof String )
-			{
-				context.setSupportedImageFormats( (String)supportedImageFormats );
+
+			Object supportedImageFormats = options.get(IRenderOption.SUPPORTED_IMAGE_FORMATS);
+			if (supportedImageFormats instanceof String) {
+				context.setSupportedImageFormats((String) supportedImageFormats);
 			}
-			
-			Object reserveDocumentPageNumbers = options
-					.get( IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS );
-			if ( reserveDocumentPageNumbers != null
-					&& reserveDocumentPageNumbers instanceof Boolean )
-			{
-				if ( ( (Boolean) reserveDocumentPageNumbers ).booleanValue( ) )
-				{
-					context.setReserveDocumentPageNumbers( true );
-				}
-				else
-				{
-					context.setReserveDocumentPageNumbers( false );
+
+			Object reserveDocumentPageNumbers = options.get(IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS);
+			if (reserveDocumentPageNumbers instanceof Boolean) {
+				if (((Boolean) reserveDocumentPageNumbers).booleanValue()) {
+					context.setReserveDocumentPageNumbers(true);
+				} else {
+					context.setReserveDocumentPageNumbers(false);
 				}
 			}
 			// Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
@@ -310,304 +248,218 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			// }
 		}
 	}
-	
-	public String getOutputFormat( )
-	{
-		if( null != emitter )
-		{
-			return emitter.getOutputFormat( );
+
+	@Override
+	public String getOutputFormat() {
+		if (null != emitter) {
+			return emitter.getOutputFormat();
 		}
 		return null;
 	}
 
-	public void start( IReportContent report ) throws BirtException
-	{
-		if( null != emitter )
-		{
-			emitter.start( report );
+	@Override
+	public void start(IReportContent report) throws BirtException {
+		if (null != emitter) {
+			emitter.start(report);
 		}
-		context.setReport( report );
+		context.setReport(report);
 	}
 
-	public void end( IReportContent report ) throws BirtException
-	{
-		if ( emitter != null )
-		{
-			resolveTotalPage( emitter );
+	@Override
+	public void end(IReportContent report) throws BirtException {
+		if (emitter != null) {
+			resolveTotalPage(emitter);
 		}
-		context.setFinished( true );
-		if ( pageHandler != null )
-		{
-			pageHandler.onPage( context.pageNumber, context );
+		context.setFinished(true);
+		if (pageHandler != null) {
+			pageHandler.onPage(context.pageNumber, context);
 		}
-		if ( null != emitter )
-		{
-			emitter.end( report );
+		if (null != emitter) {
+			emitter.end(report);
 		}
 	}
 
-	public void startContainer( IContainerContent container )
-			throws BirtException
-	{
-		checkDisplayNone( container, true );
-		_startContainer( container );
-	}
-	
-	public void endContainer( IContainerContent container )
-			throws BirtException
-	{
-		_endContainer( container );
-		checkDisplayNone( container, false );
+	@Override
+	public void startContainer(IContainerContent container) throws BirtException {
+		checkDisplayNone(container, true);
+		_startContainer(container);
 	}
 
-	protected void setContainer( ContainerArea container )
-			throws BirtException
-	{
-		container.initialize( );
+	@Override
+	public void endContainer(IContainerContent container) throws BirtException {
+		_endContainer(container);
+		checkDisplayNone(container, false);
+	}
+
+	protected void setContainer(ContainerArea container) throws BirtException {
+		container.initialize();
 		current = container;
 	}
 
-	protected void closeContainer( ) throws BirtException
-	{
-		if ( current != null )
-		{
-			current.close( );
-			current = current.getParent( );
+	protected void closeContainer() throws BirtException {
+		if (current != null) {
+			current.close();
+			current = current.getParent();
 		}
 	}
 
-	
-	LinkedList<IContent> unfinishedContents = new LinkedList<IContent>( );
-	
+	LinkedList<IContent> unfinishedContents = new LinkedList<>();
+
 	protected IContent contentDisplayNone = null;
-	
-	protected void checkDisplayNone( IContent content, boolean isStart )
-	{
-		if ( isStart )
-		{
-			if ( context.isDisplayNone( ) )
-			{
-				return;
-			}
-			else
-			{
-				if ( PropertyUtil.isDisplayNone( content ) )
-				{
+
+	protected void checkDisplayNone(IContent content, boolean isStart) {
+		if (isStart) {
+			if (context.isDisplayNone()) {
+			} else {
+				if (PropertyUtil.isDisplayNone(content)) {
 					contentDisplayNone = content;
-					context.setDisplayNone( true );
+					context.setDisplayNone(true);
 				}
 			}
-		}
-		else
-		{
-			if ( context.isDisplayNone( ) )
-			{
-				if ( PropertyUtil.isDisplayNone( content ) )
-				{
-					if ( contentDisplayNone.getInstanceID( ) == content
-							.getInstanceID( ) )
-					{
-						context.setDisplayNone( false );
-						contentDisplayNone = null;
-					}
+		} else if (context.isDisplayNone()) {
+			if (PropertyUtil.isDisplayNone(content)) {
+				if (contentDisplayNone.getInstanceID() == content.getInstanceID()) {
+					context.setDisplayNone(false);
+					contentDisplayNone = null;
 				}
 			}
 		}
 	}
 
-	protected void _startContainer( IContent container ) throws BirtException
-	{
-		boolean isInline = PropertyUtil.isInlineElement( container );
-		if ( isInline )
-		{
-			if ( !unfinishedContents.isEmpty( )
-					&& container.getParent( ) == unfinishedContents.peek( ) )
-			{
-				IContent parent = unfinishedContents.poll( );
-				_startContainer( parent );
-			}
-			else
-			{
-				if ( current != null && current.isInlineStacking( ) )
-				{
+	protected void _startContainer(IContent container) throws BirtException {
+		boolean isInline = PropertyUtil.isInlineElement(container);
+		if (isInline) {
+			if (!unfinishedContents.isEmpty() && container.getParent() == unfinishedContents.peek()) {
+				IContent parent = unfinishedContents.poll();
+				_startContainer(parent);
+			} else if (current != null && current.isInlineStacking()) {
 
+			} else {
+				setContainer(af.createLineArea(current, context));
+			}
+		} else {
+			while (current != null && current.isInlineStacking()) {
+				if (null != current.getContent()) {
+					unfinishedContents.add(current.getContent());
 				}
-				else
-				{
-					setContainer( af.createLineArea( current, context ) );
-				}
+				closeContainer();
 			}
 		}
-		else
-		{
-			while ( current != null && current.isInlineStacking( ) )
-			{
-				if ( null != current.getContent( ) )
-				{
-					unfinishedContents.add( current.getContent( ) );
-				}
-				closeContainer( );
-			}
-		}
-		ContainerArea area = (ContainerArea) af.createArea( current, context,
-				container );
-		setContainer( area );
+		ContainerArea area = (ContainerArea) af.createArea(current, context, container);
+		setContainer(area);
 	}
-	
-	protected boolean checkUnfinishedContent( IContent content )
-	{
-		if ( !unfinishedContents.isEmpty( ) )
-		{
-			if ( unfinishedContents.contains( content ) )
-			{
-				unfinishedContents.remove( content );
+
+	protected boolean checkUnfinishedContent(IContent content) {
+		if (!unfinishedContents.isEmpty()) {
+			if (unfinishedContents.contains(content)) {
+				unfinishedContents.remove(content);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	protected void _endContainer( IContent container ) throws BirtException
-	{
-		if ( checkUnfinishedContent(container) )
-		{
+	protected void _endContainer(IContent container) throws BirtException {
+		if (checkUnfinishedContent(container)) {
 			return;
 		}
-		boolean isInline = PropertyUtil.isInlineElement( container );
-		if ( isInline )
-		{
-			if ( current != null && current.isInlineStacking( ) )
-			{
+		boolean isInline = PropertyUtil.isInlineElement(container);
+		if (isInline) {
+			if (current != null && current.isInlineStacking()) {
+
+			} else {
 
 			}
-			else
-			{
-
+		} else {
+			while (current != null && current.isInlineStacking()) {
+				closeContainer();
 			}
 		}
-		else
-		{
-			while ( current != null && current.isInlineStacking( ) )
-			{
-				closeContainer( );
-			}
-		}
-		closeContainer( );
+		closeContainer();
 	}
-	
-	public void endList( IListContent list ) throws BirtException
-	{
-		if ( checkUnfinishedContent( list ) )
-		{
+
+	@Override
+	public void endList(IListContent list) throws BirtException {
+		if (checkUnfinishedContent(list)) {
 			return;
 		}
-		while ( current != null && !( current instanceof ListArea ) )
-		{
-			closeContainer( );
+		while (current != null && !(current instanceof ListArea)) {
+			closeContainer();
 		}
-		closeContainer( );
-		checkDisplayNone( list, false );
+		closeContainer();
+		checkDisplayNone(list, false);
 	}
 
-	
-	protected void _endCell( ICellContent cell ) throws BirtException
-	{
-		while ( !( current instanceof CellArea ) )
-		{
-			current.close( );
-			current = current.getParent( );
+	protected void _endCell(ICellContent cell) throws BirtException {
+		while (!(current instanceof CellArea)) {
+			current.close();
+			current = current.getParent();
 		}
-		current.close( );
-		current = current.getParent( );
+		current.close();
+		current = current.getParent();
 	}
 
-	public void startContent( IContent content ) throws BirtException
-	{
-		boolean isInline = PropertyUtil.isInlineElement( content );
-		if ( isInline )
-		{
-			if ( !unfinishedContents.isEmpty( )
-					&& content.getParent( ) == unfinishedContents.peek( ) )
-			{
-				IContent parent = unfinishedContents.poll( );
-				_startContainer( parent );
+	@Override
+	public void startContent(IContent content) throws BirtException {
+		boolean isInline = PropertyUtil.isInlineElement(content);
+		if (isInline) {
+			if (!unfinishedContents.isEmpty() && content.getParent() == unfinishedContents.peek()) {
+				IContent parent = unfinishedContents.poll();
+				_startContainer(parent);
+			} else if (current != null && current.isInlineStacking()) {
+
+			} else {
+				setContainer(af.createLineArea(current, context));
 			}
-			else
-			{
-				if ( current != null && current.isInlineStacking( ) )
-				{
-
+		} else {
+			while (current != null && current.isInlineStacking()) {
+				if (null != current.getContent()) {
+					unfinishedContents.add(current.getContent());
 				}
-				else
-				{
-					setContainer( af.createLineArea( current, context ) );
-				}
+				closeContainer();
 			}
 		}
-		else
-		{
-			while ( current != null && current.isInlineStacking( ) )
-			{
-				if ( null != current.getContent( ) )
-				{
-					unfinishedContents.add( current.getContent( ) );
-				}
-				closeContainer( );
-			}
+		checkDisplayNone(content, true);
+		ILayout layout = af.createLayout(current, context, content);
+		if (layout != null) {
+			layout.layout();
 		}
-		checkDisplayNone( content, true );
-		ILayout layout = af.createLayout( current, context, content );
-		if ( layout != null )
-		{
-			layout.layout( );
-		}
-		checkDisplayNone( content, false );
+		checkDisplayNone(content, false);
 	}
 
-	public void endContent( IContent content ) throws BirtException
-	{
-		if ( checkUnfinishedContent( content ) )
-		{
-			return;
+	@Override
+	public void endContent(IContent content) throws BirtException {
+		if (checkUnfinishedContent(content)) {
 		}
 	}
 
-	public void startListBand( IListBandContent listBand ) throws BirtException
-	{
-		int bandType = listBand.getBandType( );
-		if ( bandType == IBandContent.BAND_HEADER
-				|| bandType == IBandContent.BAND_GROUP_HEADER )
-		{
-			if ( current instanceof RepeatableArea )
-			{
-				( (RepeatableArea) current ).setInHeaderBand( true );
+	@Override
+	public void startListBand(IListBandContent listBand) throws BirtException {
+		int bandType = listBand.getBandType();
+		if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
+			if (current instanceof RepeatableArea) {
+				((RepeatableArea) current).setInHeaderBand(true);
 			}
 		}
 	}
 
-	public void startListGroup( IListGroupContent listGroup )
-			throws BirtException
-	{
-		super.startListGroup( listGroup );
+	@Override
+	public void startListGroup(IListGroupContent listGroup) throws BirtException {
+		super.startListGroup(listGroup);
 	}
 
-	public void endListBand( IListBandContent listBand ) throws BirtException
-	{
-		int bandType = listBand.getBandType( );
-		if ( bandType == IBandContent.BAND_HEADER
-				|| bandType == IBandContent.BAND_GROUP_HEADER )
-		{
+	@Override
+	public void endListBand(IListBandContent listBand) throws BirtException {
+		int bandType = listBand.getBandType();
+		if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
 			// the current may be a lineArea, groupArea or listArea
 			ContainerArea container = current;
-			while ( container != null && !( container instanceof ListArea )
-					&& !( container instanceof ListGroupArea ) )
-			{
-				container = container.getParent( );
+			while (container != null && !(container instanceof ListArea) && !(container instanceof ListGroupArea)) {
+				container = container.getParent();
 			}
 
-			if ( container instanceof RepeatableArea )
-			{
-				( (RepeatableArea) container ).setInHeaderBand( false );
+			if (container instanceof RepeatableArea) {
+				((RepeatableArea) container).setInHeaderBand(false);
 			}
 		}
 	}
@@ -631,354 +483,270 @@ public class LayoutEngine extends LayoutEmitterAdapter
 //		super.endPage( page );
 //	}
 
-	protected void startTableContainer( IContainerContent container )
-			throws BirtException
-	{
-		setContainer( (ContainerArea) af.createArea( current, context,
-				container ) );
+	protected void startTableContainer(IContainerContent container) throws BirtException {
+		setContainer((ContainerArea) af.createArea(current, context, container));
 	}
 
-	protected void endTableContainer( IContainerContent container )
-			throws BirtException
-	{
-		closeContainer( );
+	protected void endTableContainer(IContainerContent container) throws BirtException {
+		closeContainer();
 	}
 
-	public void startRow( IRowContent row ) throws BirtException
-	{
-		checkDisplayNone( row, true );
-		startTableContainer( row );
+	@Override
+	public void startRow(IRowContent row) throws BirtException {
+		checkDisplayNone(row, true);
+		startTableContainer(row);
 	}
 
-	public void endRow( IRowContent row ) throws BirtException
-	{
-		endTableContainer( row );
-		checkDisplayNone( row, false );
+	@Override
+	public void endRow(IRowContent row) throws BirtException {
+		endTableContainer(row);
+		checkDisplayNone(row, false);
 	}
 
-	public void startTableBand( ITableBandContent band ) throws BirtException
-	{
-		int bandType = band.getBandType( );
-		if ( bandType == IBandContent.BAND_HEADER
-				|| bandType == IBandContent.BAND_GROUP_HEADER )
-		{
-			if ( current instanceof RepeatableArea )
-			{
-				( (RepeatableArea) current ).setInHeaderBand( true );
+	@Override
+	public void startTableBand(ITableBandContent band) throws BirtException {
+		int bandType = band.getBandType();
+		if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
+			if (current instanceof RepeatableArea) {
+				((RepeatableArea) current).setInHeaderBand(true);
 			}
 		}
 	}
 
-	public void startTableGroup( ITableGroupContent group )
-			throws BirtException
-	{
-		checkDisplayNone( group, true );
-		startTableContainer( group );
+	@Override
+	public void startTableGroup(ITableGroupContent group) throws BirtException {
+		checkDisplayNone(group, true);
+		startTableContainer(group);
 	}
 
-	public void endTableBand( ITableBandContent band ) throws BirtException
-	{
-		int bandType = band.getBandType( );
-		if ( bandType == IBandContent.BAND_HEADER
-				|| bandType == IBandContent.BAND_GROUP_HEADER )
-		{
-			if ( current instanceof RepeatableArea )
-			{
-				( (RepeatableArea) current ).setInHeaderBand( false );
+	@Override
+	public void endTableBand(ITableBandContent band) throws BirtException {
+		int bandType = band.getBandType();
+		if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
+			if (current instanceof RepeatableArea) {
+				((RepeatableArea) current).setInHeaderBand(false);
 			}
 		}
 	}
 
-	public void endTableGroup( ITableGroupContent group ) throws BirtException
-	{
-		endTableContainer( group );
-		checkDisplayNone( group, false );
+	@Override
+	public void endTableGroup(ITableGroupContent group) throws BirtException {
+		endTableContainer(group);
+		checkDisplayNone(group, false);
 	}
 
-	public void startCell( ICellContent cell ) throws BirtException
-	{
-		checkDisplayNone( cell, true );
-		startTableContainer( cell );
+	@Override
+	public void startCell(ICellContent cell) throws BirtException {
+		checkDisplayNone(cell, true);
+		startTableContainer(cell);
 	}
 
-	public void endCell( ICellContent cell ) throws BirtException
-	{
+	@Override
+	public void endCell(ICellContent cell) throws BirtException {
 		_endCell(cell);
-		checkDisplayNone( cell, false );
+		checkDisplayNone(cell, false);
 	}
-	
-	protected void visitContent( IContent content, IContentEmitter emitter )
-			throws BirtException
-	{
-		ContentEmitterUtil.startContent( content, emitter );
-		java.util.Collection children = content.getChildren( );
-		if ( children != null && !children.isEmpty( ) )
-		{
-			Iterator iter = children.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				IContent child = (IContent) iter.next( );
-				visitContent( child, emitter );
+
+	protected void visitContent(IContent content, IContentEmitter emitter) throws BirtException {
+		ContentEmitterUtil.startContent(content, emitter);
+		java.util.Collection children = content.getChildren();
+		if (children != null && !children.isEmpty()) {
+			Iterator iter = children.iterator();
+			while (iter.hasNext()) {
+				IContent child = (IContent) iter.next();
+				visitContent(child, emitter);
 			}
 		}
-		ContentEmitterUtil.endContent( content, emitter );
+		ContentEmitterUtil.endContent(content, emitter);
 	}
-	
-	protected void visitChildren( IContent content, IContentEmitter emitter )
-			throws BirtException
-	{
-		java.util.Collection children = content.getChildren( );
-		if ( children != null && !children.isEmpty( ) )
-		{
-			Iterator iter = children.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				IContent child = (IContent) iter.next( );
-				visitContent( child, emitter );
+
+	protected void visitChildren(IContent content, IContentEmitter emitter) throws BirtException {
+		java.util.Collection children = content.getChildren();
+		if (children != null && !children.isEmpty()) {
+			Iterator iter = children.iterator();
+			while (iter.hasNext()) {
+				IContent child = (IContent) iter.next();
+				visitContent(child, emitter);
 			}
 		}
 	}
 
-	public void startForeign( IForeignContent foreign ) throws BirtException
-	{
-		checkDisplayNone( foreign, true );
-		if ( context.isFixedLayout( )
-				&& context.getEngineTaskType( ) == IEngineTask.TASK_RUN
-				&& IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
-		{
-			HTML2Content.html2Content( foreign );
-			processHTML( foreign );
-		}
-		else
-		{
-			_startContainer( foreign );
-			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
-			{
+	@Override
+	public void startForeign(IForeignContent foreign) throws BirtException {
+		checkDisplayNone(foreign, true);
+		if (context.isFixedLayout() && context.getEngineTaskType() == IEngineTask.TASK_RUN
+				&& IForeignContent.HTML_TYPE.equals(foreign.getRawType())) {
+			HTML2Content.html2Content(foreign);
+			processHTML(foreign);
+		} else {
+			_startContainer(foreign);
+			if (IForeignContent.HTML_TYPE.equals(foreign.getRawType())) {
 				// build content DOM tree for HTML text
-				HTML2Content.html2Content( foreign );
-				java.util.Collection children = foreign.getChildren( );
-				if ( children != null && !children.isEmpty( ) )
-				{
-					Iterator iter = children.iterator( );
-					IContent child = (IContent) iter.next( );
-					visitContent( child, this );
+				HTML2Content.html2Content(foreign);
+				java.util.Collection children = foreign.getChildren();
+				if (children != null && !children.isEmpty()) {
+					Iterator iter = children.iterator();
+					IContent child = (IContent) iter.next();
+					visitContent(child, this);
 				}
 				// FIXME
-				foreign.getChildren( ).clear( );
+				foreign.getChildren().clear();
 			}
-			_endContainer( foreign );
+			_endContainer(foreign);
 		}
-		checkDisplayNone( foreign, false );
+		checkDisplayNone(foreign, false);
 	}
 
-	private void processHTML( IForeignContent foreign ) throws BirtException
-	{
-		boolean isInline = PropertyUtil.isInlineElement( foreign );
-		if ( isInline )
-		{
-			if ( !unfinishedContents.isEmpty( )
-					&& foreign.getParent( ) == unfinishedContents.peek( ) )
-			{
-				IContent parent = unfinishedContents.poll( );
-				_startContainer( parent );
-			}
-			else
-			{
-				if ( current != null && current.isInlineStacking( ) )
-				{
+	private void processHTML(IForeignContent foreign) throws BirtException {
+		boolean isInline = PropertyUtil.isInlineElement(foreign);
+		if (isInline) {
+			if (!unfinishedContents.isEmpty() && foreign.getParent() == unfinishedContents.peek()) {
+				IContent parent = unfinishedContents.poll();
+				_startContainer(parent);
+			} else if (current != null && current.isInlineStacking()) {
 
-				}
-				else
-				{
-					setContainer( af.createLineArea( current, context ) );
-				}
+			} else {
+				setContainer(af.createLineArea(current, context));
 			}
-		}
-		else
-		{
-			while ( current != null && current.isInlineStacking( ) )
-			{
-				if ( null != current.getContent( ) )
-				{
-					unfinishedContents.add( current.getContent( ) );
+		} else {
+			while (current != null && current.isInlineStacking()) {
+				if (null != current.getContent()) {
+					unfinishedContents.add(current.getContent());
 				}
-				closeContainer( );
+				closeContainer();
 			}
 		}
 
-		ForeignHTMLRegionLayout rle = new ForeignHTMLRegionLayout( current,
-				context, foreign );
-		rle.layout( );
+		ForeignHTMLRegionLayout rle = new ForeignHTMLRegionLayout(current, context, foreign);
+		rle.layout();
 	}
 
-	protected void resolveTotalPage( IContentEmitter emitter )
-			throws BirtException
-	{
-		IContent con = context.getUnresolvedContent( );
-		if ( !( con instanceof IAutoTextContent ) )
-		{
+	protected void resolveTotalPage(IContentEmitter emitter) throws BirtException {
+		IContent con = context.getUnresolvedContent();
+		if (!(con instanceof IAutoTextContent)) {
 			return;
 		}
 
 		IAutoTextContent totalPageContent = (IAutoTextContent) con;
-		if ( null != totalPageContent )
-		{
-			DataFormatValue format = totalPageContent.getComputedStyle( )
-					.getDataFormat( );
+		if (null != totalPageContent) {
+			DataFormatValue format = totalPageContent.getComputedStyle().getDataFormat();
 			NumberFormatter nf = null;
-			if ( format == null )
-			{
-				nf = new NumberFormatter( );
-			}
-			else
-			{
-				String pattern = format.getNumberPattern( );
-				String locale = format.getNumberLocale( );
-				if ( locale == null )
-					nf = new NumberFormatter( pattern );
-				else
-					nf = new NumberFormatter( pattern, new ULocale( locale ) );
+			if (format == null) {
+				nf = new NumberFormatter();
+			} else {
+				String pattern = format.getNumberPattern();
+				String locale = format.getNumberLocale();
+				if (locale == null) {
+					nf = new NumberFormatter(pattern);
+				} else {
+					nf = new NumberFormatter(pattern, new ULocale(locale));
+				}
 			}
 
-			totalPageContent.setText( nf.format( context.pageCount ) );
+			totalPageContent.setText(nf.format(context.pageCount));
 
 			AbstractArea totalPageArea = null;
-			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),
-					totalPageContent, true, true );
-			if ( cg.hasMore( ) )
-			{
-				Chunk c = cg.getNext( );
+			ChunkGenerator cg = new ChunkGenerator(context.getFontManager(), totalPageContent, true, true);
+			if (cg.hasMore()) {
+				Chunk c = cg.getNext();
 				Dimension d = new Dimension(
-						(int) ( c.getFontInfo( ).getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
-						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
-				totalPageArea = createTextArea( totalPageContent, c
-						.getFontInfo( ), false );
-				totalPageArea.setWidth( Math.min( context.getMaxWidth( ), d
-						.getWidth( ) ) );
-				totalPageArea.setHeight( Math.min( context.getMaxHeight( ), d
-						.getHeight( ) ) );
+						(int) (c.getFontInfo().getWordWidth(c.getText()) * PDFConstants.LAYOUT_TO_PDF_RATIO),
+						(int) (c.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));
+				totalPageArea = createTextArea(totalPageContent, c.getFontInfo(), false);
+				totalPageArea.setWidth(Math.min(context.getMaxWidth(), d.getWidth()));
+				totalPageArea.setHeight(Math.min(context.getMaxHeight(), d.getHeight()));
 			}
 
-			String align = totalPageContent.getComputedStyle( ).getTextAlign( );
+			String align = totalPageContent.getComputedStyle().getTextAlign();
 			// bidi_hcg: handle empty or justify align in RTL direction as right
 			// alignment
-			boolean isRightAligned = BidiAlignmentResolver.isRightAligned(
-					totalPageContent, align, false );
-			if ( ( isRightAligned || CSSConstants.CSS_CENTER_VALUE
-					.equalsIgnoreCase( align ) ) )
-			{
-				int spacing = context.getTotalPageTemplateWidth( )
-						- totalPageArea.getWidth( );
-				if ( spacing > 0 )
-				{
-					if ( isRightAligned )
-					{
-						totalPageArea.setPosition( spacing
-								+ totalPageArea.getX( ), totalPageArea.getY( ) );
-					}
-					else if ( CSSConstants.CSS_CENTER_VALUE
-							.equalsIgnoreCase( align ) )
-					{
-						totalPageArea.setPosition( spacing / 2
-								+ totalPageArea.getX( ), totalPageArea.getY( ) );
+			boolean isRightAligned = BidiAlignmentResolver.isRightAligned(totalPageContent, align, false);
+			if ((isRightAligned || CSSConstants.CSS_CENTER_VALUE.equalsIgnoreCase(align))) {
+				int spacing = context.getTotalPageTemplateWidth() - totalPageArea.getWidth();
+				if (spacing > 0) {
+					if (isRightAligned) {
+						totalPageArea.setPosition(spacing + totalPageArea.getX(), totalPageArea.getY());
+					} else if (CSSConstants.CSS_CENTER_VALUE.equalsIgnoreCase(align)) {
+						totalPageArea.setPosition(spacing / 2 + totalPageArea.getX(), totalPageArea.getY());
 					}
 				}
 			}
 
-			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
-					totalPageArea );
-			emitter.startAutoText( totalPageContent );
+			totalPageContent.setExtension(IContent.LAYOUT_EXTENSION, totalPageArea);
+			emitter.startAutoText(totalPageContent);
 		}
 	}
 
-	protected TextArea createTextArea( IAutoTextContent content,
-			FontInfo fontInfo, boolean blankLine )
-	{
-		TextStyle textStyle = TextAreaLayout.buildTextStyle( content, fontInfo );
-		String text = content.getText( );
-		TextArea area = new TextArea( text, textStyle );
-		area.setTextLength( text.length( ) );
-		area.setAction( content.getHyperlinkAction( ) );
+	protected TextArea createTextArea(IAutoTextContent content, FontInfo fontInfo, boolean blankLine) {
+		TextStyle textStyle = TextAreaLayout.buildTextStyle(content, fontInfo);
+		String text = content.getText();
+		TextArea area = new TextArea(text, textStyle);
+		area.setTextLength(text.length());
+		area.setAction(content.getHyperlinkAction());
 		return area;
 	}
 
-	boolean showPageFooter( SimpleMasterPageDesign masterPage, IPageContent page )
-	{
+	boolean showPageFooter(SimpleMasterPageDesign masterPage, IPageContent page) {
 		boolean showFooter = true;
-		if ( !masterPage.isShowFooterOnLast( ) )
-		{
-			if ( page.getPageNumber( ) == context.totalPage )
-			{
+		if (!masterPage.isShowFooterOnLast()) {
+			if (page.getPageNumber() == context.totalPage) {
 				showFooter = false;
 			}
 		}
 		return showFooter;
 	}
 
-	public void outputPage( IPageContent page ) throws BirtException
-	{
-		MasterPageDesign mp = (MasterPageDesign) page.getGenerateBy( );
+	@Override
+	public void outputPage(IPageContent page) throws BirtException {
+		MasterPageDesign mp = (MasterPageDesign) page.getGenerateBy();
 
-		if ( mp instanceof SimpleMasterPageDesign )
-		{
-			Object obj = page.getExtension( IContent.LAYOUT_EXTENSION );
+		if (mp instanceof SimpleMasterPageDesign) {
+			Object obj = page.getExtension(IContent.LAYOUT_EXTENSION);
 
-			if ( obj != null && obj instanceof PageArea )
-			{
+			if (obj instanceof PageArea) {
 				PageArea pageArea = (PageArea) obj;
 
-				if ( isFirst
-						&& !( (SimpleMasterPageDesign) mp )
-								.isShowHeaderOnFirst( ) )
-				{
-					pageArea.removeHeader( );
+				if (isFirst && !((SimpleMasterPageDesign) mp).isShowHeaderOnFirst()) {
+					pageArea.removeHeader();
 					isFirst = false;
 				}
-				if ( !showPageFooter( (SimpleMasterPageDesign) mp, page ) )
-				{
-					pageArea.removeFooter( );
+				if (!showPageFooter((SimpleMasterPageDesign) mp, page)) {
+					pageArea.removeFooter();
 				}
 
-				if ( ( (SimpleMasterPageDesign) mp ).isFloatingFooter( ) )
-				{
-					ContainerArea footer = (ContainerArea) page.getFooter( );
-					IContainerArea body = pageArea.getBody( );
-					IContainerArea header = pageArea.getHeader( );
-					if ( footer != null )
-					{
-						footer.setPosition( footer.getX( ), ( header == null
-								? 0
-								: header.getHeight( ) )
-								+ ( body == null ? 0 : body.getHeight( ) ) );
+				if (((SimpleMasterPageDesign) mp).isFloatingFooter()) {
+					ContainerArea footer = (ContainerArea) page.getFooter();
+					IContainerArea body = pageArea.getBody();
+					IContainerArea header = pageArea.getHeader();
+					if (footer != null) {
+						footer.setPosition(footer.getX(),
+								(header == null ? 0 : header.getHeight()) + (body == null ? 0 : body.getHeight()));
 					}
 				}
 			}
 		}
-		if ( null != emitter )
-		{
-			if ( !context.exceedPageLimit( ) )
-			{
-				emitter.startPage( page );
-				emitter.endPage( page );
+		if (null != emitter) {
+			if (!context.exceedPageLimit()) {
+				emitter.startPage(page);
+				emitter.endPage(page);
 			}
 		}
 		context.pageCount++;
-		if ( pageHandler != null )
-		{
-			pageHandler.onPage( context.pageNumber, context );
+		if (pageHandler != null) {
+			pageHandler.onPage(context.pageNumber, context);
 		}
 
 	}
 
-	public ILayoutPageHandler getPageHandler( )
-	{
+	@Override
+	public ILayoutPageHandler getPageHandler() {
 		return pageHandler;
 	}
 
-	public void setPageHandler( ILayoutPageHandler pageHandler )
-	{
+	@Override
+	public void setPageHandler(ILayoutPageHandler pageHandler) {
 		this.pageHandler = pageHandler;
-		
+
 	}
 
 }

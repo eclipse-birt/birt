@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,17 +29,16 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
-public class DeleteMeasureHandleAction extends AbstractCrosstabAction
-{
+public class DeleteMeasureHandleAction extends AbstractCrosstabAction {
 	private MeasureViewHandle measureViewHandle;
 	/**
 	 * Action displayname
 	 */
-	//private static final String ACTION_MSG_MERGE = "Remove";
-	private static final String ACTION_MSG_MERGE = Messages.getString( "DeleteMeasureHandleAction.DisplayName" );//$NON-NLS-1$
+	// private static final String ACTION_MSG_MERGE = "Remove";
+	private static final String ACTION_MSG_MERGE = Messages.getString("DeleteMeasureHandleAction.DisplayName");//$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction"; //$NON-NLS-1$
@@ -44,81 +46,72 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	/**
 	 * Trans name
 	 */
-	//private static final String NAME = "Delete MeasureViewHandle";
-	private static final String NAME = Messages.getString( "DeleteMeasureHandleAction.TransName" );//$NON-NLS-1$
+	// private static final String NAME = "Delete MeasureViewHandle";
+	private static final String NAME = Messages.getString("DeleteMeasureHandleAction.TransName");//$NON-NLS-1$
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
-	public DeleteMeasureHandleAction( DesignElementHandle handle )
-	{
-		super( handle );
-		setId( ID );
-		setText( ACTION_MSG_MERGE );
-		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
-		setHandle( extendedHandle );
-		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		
-		ISharedImages shareImages = PlatformUI.getWorkbench( )
-		.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
+	public DeleteMeasureHandleAction(DesignElementHandle handle) {
+		super(handle);
+		setId(ID);
+		setText(ACTION_MSG_MERGE);
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle(handle);
+		setHandle(extendedHandle);
+		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle(extendedHandle);
+
+		ISharedImages shareImages = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
 	}
-	
-	public boolean isEnabled( )
-	{
-		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
+
+	@Override
+	public boolean isEnabled() {
+		return !DEUtil.isReferenceElement(measureViewHandle.getCrosstabHandle());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
+	protected boolean calculateEnabled() {
+		return !DEUtil.isReferenceElement(measureViewHandle.getCrosstabHandle());
 	}
 
-	private CrosstabReportItemHandle getCrosstabReportItemHandle(
-			Object editpart )
-	{
-		return measureViewHandle.getCrosstab( );
+	private CrosstabReportItemHandle getCrosstabReportItemHandle(Object editpart) {
+		return measureViewHandle.getCrosstab();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
-		CrosstabReportItemHandle reportItem = getCrosstabReportItemHandle( getHandle( ) );
+	@Override
+	public void run() {
+		CrosstabReportItemHandle reportItem = getCrosstabReportItemHandle(getHandle());
 
-		if ( reportItem != null )
-		{
-			transStar( NAME );
-			
-			try
-			{
-				boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings(reportItem );
+		if (reportItem != null) {
+			transStar(NAME);
 
-				if (bool)
-				{
-					reportItem.removeMeasure( measureViewHandle.getIndex( ) );
-					CrosstabAdaptUtil.removeInvalidBindings( reportItem );
+			try {
+				boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings(reportItem);
+
+				if (bool) {
+					reportItem.removeMeasure(measureViewHandle.getIndex());
+					CrosstabAdaptUtil.removeInvalidBindings(reportItem);
 				}
-				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper((ExtendedItemHandle)reportItem.getModelHandle( ));
-				providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
-			}
-			catch ( SemanticException e )
-			{
-				rollBack( );
-				ExceptionUtil.handle( e );
+				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(
+						(ExtendedItemHandle) reportItem.getModelHandle());
+				providerWrapper.updateAllAggregationCells(AggregationCellViewAdapter.SWITCH_VIEW_TYPE);
+			} catch (SemanticException e) {
+				rollBack();
+				ExceptionUtil.handle(e);
 				return;
 			}
-			transEnd( );
+			transEnd();
 		}
 
 	}

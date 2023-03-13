@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -20,8 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * This class defines all the chart properties definition for reportItem
  * extension.
  */
-public final class ChartPropertyDefinitionImpl extends PropertyDefinition
-{
+public final class ChartPropertyDefinitionImpl extends PropertyDefinition {
 
 	private String sGroupNameID = null;
 
@@ -41,25 +43,13 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 
 	private IMethodInfo mi = null;
 
-	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
-			String sDisplayNameID, boolean bList, int iType, List liChoices,
-			List liMembers, Object oDefaultValue )
-	{
-		this( sGroupNameID,
-				sName,
-				sDisplayNameID,
-				bList,
-				iType,
-				liChoices,
-				liMembers,
-				oDefaultValue,
-				null );
+	public ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList,
+			int iType, List liChoices, List liMembers, Object oDefaultValue) {
+		this(sGroupNameID, sName, sDisplayNameID, bList, iType, liChoices, liMembers, oDefaultValue, null);
 	}
 
-	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
-			String sDisplayNameID, boolean bList, int iType, List liChoices,
-			List liMembers, Object oDefaultValue, IMethodInfo mi )
-	{
+	public ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList,
+			int iType, List liChoices, List liMembers, Object oDefaultValue, IMethodInfo mi) {
 		this.sGroupNameID = sGroupNameID;
 		this.sName = sName;
 		this.sDisplayNameID = sDisplayNameID;
@@ -73,96 +63,101 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
 	 */
-	public String getGroupNameID( )
-	{
+	@Override
+	public String getGroupNameID() {
 		return sGroupNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return sName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
+	 * )
 	 */
-	public String getDisplayNameID( )
-	{
+	@Override
+	public String getDisplayNameID() {
 		return sDisplayNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
 	 */
-	public int getType( )
-	{
+	@Override
+	public int getType() {
 		return iType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#isList()
 	 */
-	public boolean isList( )
-	{
+	@Override
+	public boolean isList() {
 		return bList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
 	 */
-	public List getChoices( )
-	{
+	@Override
+	public List getChoices() {
 		return liChoices;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
 	 */
-	public List getMembers( )
-	{
+	@Override
+	public List getMembers() {
 		return liMembers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	@Override
+	public Object getDefaultValue() {
 		return oDefaultValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
 	 */
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		return false;
 	}
 
-	public IMethodInfo getMethodInfo( )
-	{
+	@Override
+	public IMethodInfo getMethodInfo() {
 		return mi;
 	}
 

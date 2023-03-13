@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,335 +44,276 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 /**
- * 
+ *
  */
 
-public class ClassPathsPageHelper
-{
-	public static final String DEFAULT_MSG = Messages.getString( "DataSource.PageMessage" ); //$NON-NLS-1$
+public class ClassPathsPageHelper {
+	public static final String DEFAULT_MSG = Messages.getString("DataSource.PageMessage"); //$NON-NLS-1$
 	private WizardPage wizardPage;
-	
+
 	private ResourceIdentifiers ri;
 	private Properties props;
-	
+
 	private Composite parent;
 	private TabFolder tabFolder;
 	private Button synchronizeCheckbox;
-	
+
 	private POJOClassTabFolderPage runtimePage;
 	private POJOClassTabFolderPage designtimePage;
-	
+
 	private boolean needsRefresh, synchronizeClassPath;
-	
-	public ClassPathsPageHelper( ResourceIdentifiers ri )
-	{
+
+	public ClassPathsPageHelper(ResourceIdentifiers ri) {
 		this.ri = ri;
 	}
-	
-	public void setWizardPage( WizardPage page )
-	{
+
+	public void setWizardPage(WizardPage page) {
 		wizardPage = page;
 	}
 
-	public void setResourceIdentifiers( ResourceIdentifiers ri )
-	{
+	public void setResourceIdentifiers(ResourceIdentifiers ri) {
 		this.ri = ri;
 	}
 
-	public Properties collectCustomProperties( Properties properties )
-	{
-		if ( properties == null )
+	public Properties collectCustomProperties(Properties properties) {
+		if (properties == null) {
 			return properties;
-
-		properties.put( Constants.POJO_DATA_SET_CLASS_PATH,
-				runtimePage.getClassPathString( ) );
-		properties.put( Constants.SYNCHRONIZE_CLASS_PATH,
-				String.valueOf( synchronizeClassPath ) );
-
-		if ( synchronizeClassPath )
-		{
-			properties.put( Constants.POJO_CLASS_PATH,
-					runtimePage.getClassPathString( ) );
 		}
-		else
-		{
-			properties.put( Constants.POJO_CLASS_PATH,
-					designtimePage.getClassPathString( ) );
+
+		properties.put(Constants.POJO_DATA_SET_CLASS_PATH, runtimePage.getClassPathString());
+		properties.put(Constants.SYNCHRONIZE_CLASS_PATH, String.valueOf(synchronizeClassPath));
+
+		if (synchronizeClassPath) {
+			properties.put(Constants.POJO_CLASS_PATH, runtimePage.getClassPathString());
+		} else {
+			properties.put(Constants.POJO_CLASS_PATH, designtimePage.getClassPathString());
 		}
 		return properties;
 	}
 
-	public void createPageCustomControl( Composite parent )
-	{	
+	public void createPageCustomControl(Composite parent) {
 		this.parent = parent;
-		ScrolledComposite sComposite = new ScrolledComposite( parent,
-				SWT.H_SCROLL | SWT.V_SCROLL );
-		sComposite.setLayout( new GridLayout( ) );
-		sComposite.setMinWidth( 560 );
-		sComposite.setExpandHorizontal( true );
-		sComposite.setMinHeight( 400 );
-		sComposite.setExpandVertical( true );
+		ScrolledComposite sComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		sComposite.setLayout(new GridLayout());
+		sComposite.setMinWidth(560);
+		sComposite.setExpandHorizontal(true);
+		sComposite.setMinHeight(400);
+		sComposite.setExpandVertical(true);
 
-		Composite composite = new Composite( sComposite, SWT.NONE );
-		GridLayout layout = new GridLayout( 1, false );
+		Composite composite = new Composite(sComposite, SWT.NONE);
+		GridLayout layout = new GridLayout(1, false);
 		layout.horizontalSpacing = 10;
-		composite.setLayout( layout );
-		
-		createTabFolderArea( composite );
-		
-		createCheckboxArea( composite );
+		composite.setLayout(layout);
 
-		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		composite.setSize( size.x, size.y );
+		createTabFolderArea(composite);
 
-		sComposite.setContent( composite );
+		createCheckboxArea(composite);
 
-		HelpUtil.setSystemHelp( parent, HelpUtil.CONEXT_ID_DATASOURCE_POJO );
-		
-	}
-	
-	protected boolean isPageInitialized( )
-	{
-		return tabFolder != null && !tabFolder.isDisposed( );
+		Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		composite.setSize(size.x, size.y);
+
+		sComposite.setContent(composite);
+
+		HelpUtil.setSystemHelp(parent, HelpUtil.CONEXT_ID_DATASOURCE_POJO);
+
 	}
 
-	private void createCheckboxArea( Composite composite )
-	{
-		Composite bottom = new Composite( composite, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	protected boolean isPageInitialized() {
+		return tabFolder != null && !tabFolder.isDisposed();
+	}
+
+	private void createCheckboxArea(Composite composite) {
+		Composite bottom = new Composite(composite, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.marginLeft = 5;
-		bottom.setLayout( layout );
-		bottom.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
-		synchronizeCheckbox = new Button( bottom, SWT.CHECK );
-		synchronizeCheckbox.setLayoutData( new GridData( ) );
-		synchronizeCheckbox.setText( Messages.getString( "DataSource.ClassPathPage.synchronize.checkbox.message" ) ); //$NON-NLS-1$
-		synchronizeCheckbox.setToolTipText( Messages.getString( "DataSource.ClassPathPage.synchronize.checkbox.tooltip" ) ); //$NON-NLS-1$
+		bottom.setLayout(layout);
+		bottom.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		synchronizeCheckbox.addSelectionListener( new SelectionListener( ) {
+		synchronizeCheckbox = new Button(bottom, SWT.CHECK);
+		synchronizeCheckbox.setLayoutData(new GridData());
+		synchronizeCheckbox.setText(Messages.getString("DataSource.ClassPathPage.synchronize.checkbox.message")); //$NON-NLS-1$
+		synchronizeCheckbox.setToolTipText(Messages.getString("DataSource.ClassPathPage.synchronize.checkbox.tooltip")); //$NON-NLS-1$
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				synchronizeClassPath = synchronizeCheckbox.getSelection( );
-				handleSynchronizeCheckboxSelection( );
+		synchronizeCheckbox.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				synchronizeClassPath = synchronizeCheckbox.getSelection();
+				handleSynchronizeCheckboxSelection();
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
 
-		} );
-		
-		Label label = new Label( bottom, SWT.NONE );
-		label.setText( Messages.getString( "DataSource.ClassPathPage.synchronize.PrompMessage" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
+		});
+
+		Label label = new Label(bottom, SWT.NONE);
+		label.setText(Messages.getString("DataSource.ClassPathPage.synchronize.PrompMessage")); //$NON-NLS-1$
+		GridData gd = new GridData();
 		gd.horizontalAlignment = 30;
-		label.setLayoutData( gd );
+		label.setLayoutData(gd);
 
-		synchronizeCheckbox.setSelection( synchronizeClassPath );
-		handleSynchronizeCheckboxSelection( );
-	}
-	
-	private void updateDesigntimePageStatus( boolean enabled )
-	{
-		designtimePage.setEnabled( enabled );
+		synchronizeCheckbox.setSelection(synchronizeClassPath);
+		handleSynchronizeCheckboxSelection();
 	}
 
-	private void createTabFolderArea( Composite composite )
-	{
-		Composite tabArea = new Composite( composite, SWT.NONE );
-		GridLayout layout = new GridLayout( 1, false );
+	private void updateDesigntimePageStatus(boolean enabled) {
+		designtimePage.setEnabled(enabled);
+	}
+
+	private void createTabFolderArea(Composite composite) {
+		Composite tabArea = new Composite(composite, SWT.NONE);
+		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 10;
-		tabArea.setLayout( layout );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		tabArea.setLayoutData( gd );
-		
-		tabFolder = new TabFolder( tabArea, SWT.TOP );
-		tabFolder.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		tabArea.setLayout(layout);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		tabArea.setLayoutData(gd);
 
-		runtimePage = new POJOClassTabFolderPage( this,
-				getApplResourceDir( ) );
-		runtimePage.setPrompMessage( Messages.getString( "DataSource.POJOClassTabFolderPage.promptLabel.runtime" ) ); //$NON-NLS-1$
-		TabItem runtimeTab = runtimePage.createContents( tabFolder );
-		runtimeTab.setText( Messages.getString( "DataSource.POJOClasses.tab.runtime" ) ); //$NON-NLS-1$
+		tabFolder = new TabFolder(tabArea, SWT.TOP);
+		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		designtimePage = new POJOClassTabFolderPage( this,
-				getApplResourceDir( ) );
-		designtimePage.setPrompMessage( Messages.getString( "DataSource.POJOClassTabFolderPage.promptLabel.designtime" ) ); //$NON-NLS-1$
-		TabItem designTimeTab = designtimePage.createContents( tabFolder );
-		designTimeTab.setText( Messages.getString( "DataSource.POJOClasses.tab.designTime" ) ); //$NON-NLS-1$
+		runtimePage = new POJOClassTabFolderPage(this, getApplResourceDir());
+		runtimePage.setPrompMessage(Messages.getString("DataSource.POJOClassTabFolderPage.promptLabel.runtime")); //$NON-NLS-1$
+		TabItem runtimeTab = runtimePage.createContents(tabFolder);
+		runtimeTab.setText(Messages.getString("DataSource.POJOClasses.tab.runtime")); //$NON-NLS-1$
 
-		runtimePage.setFriendPage( designtimePage );
-		designtimePage.setFriendPage( runtimePage );
+		designtimePage = new POJOClassTabFolderPage(this, getApplResourceDir());
+		designtimePage.setPrompMessage(Messages.getString("DataSource.POJOClassTabFolderPage.promptLabel.designtime")); //$NON-NLS-1$
+		TabItem designTimeTab = designtimePage.createContents(tabFolder);
+		designTimeTab.setText(Messages.getString("DataSource.POJOClasses.tab.designTime")); //$NON-NLS-1$
 
-		initControlValues( );
+		runtimePage.setFriendPage(designtimePage);
+		designtimePage.setFriendPage(runtimePage);
+
+		initControlValues();
 	}
 
-	protected void setInitialProperties( Properties dataSourceProps )
-	{
-		if ( dataSourceProps != null )
-		{
+	protected void setInitialProperties(Properties dataSourceProps) {
+		if (dataSourceProps != null) {
 			props = dataSourceProps;
 			needsRefresh = true;
-		}
-		else
-		{
-			props = new Properties( );
+		} else {
+			props = new Properties();
 		}
 	}
-	
-	public void refresh( )
-	{
-		if ( needsRefresh && runtimePage != null && designtimePage != null )
-		{
-			String dataSetClassPath = props.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
-			String pojoClassPath = props.getProperty( Constants.POJO_CLASS_PATH );
+
+	public void refresh() {
+		if (needsRefresh && runtimePage != null && designtimePage != null) {
+			String dataSetClassPath = props.getProperty(Constants.POJO_DATA_SET_CLASS_PATH);
+			String pojoClassPath = props.getProperty(Constants.POJO_CLASS_PATH);
 
 			// UI controls are already created
-			runtimePage.setClassPath( dataSetClassPath );
-			designtimePage.setClassPath( pojoClassPath );
+			runtimePage.setClassPath(dataSetClassPath);
+			designtimePage.setClassPath(pojoClassPath);
 
-			runtimePage.refresh( );
-			designtimePage.refresh( );
-			
+			runtimePage.refresh();
+			designtimePage.refresh();
+
 		}
 		needsRefresh = false;
 	}
 
-	private void initControlValues( )
-	{
-		if ( runtimePage != null && props != null )
-		{
-			String dataSetClassPath = props.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
-			String pojoClassPath = props.getProperty( Constants.POJO_CLASS_PATH );
-			String value = props.getProperty( Constants.SYNCHRONIZE_CLASS_PATH );
-			if ( value != null )
-			{
-				synchronizeClassPath = Boolean.valueOf( value );
-			}
-			else
-			{
+	private void initControlValues() {
+		if (runtimePage != null && props != null) {
+			String dataSetClassPath = props.getProperty(Constants.POJO_DATA_SET_CLASS_PATH);
+			String pojoClassPath = props.getProperty(Constants.POJO_CLASS_PATH);
+			String value = props.getProperty(Constants.SYNCHRONIZE_CLASS_PATH);
+			if (value != null) {
+				synchronizeClassPath = Boolean.parseBoolean(value);
+			} else {
 				synchronizeClassPath = false;
 			}
 
 			// UI controls are already created
-			runtimePage.setClassPath( dataSetClassPath );
-			designtimePage.setClassPath( pojoClassPath );
+			runtimePage.setClassPath(dataSetClassPath);
+			designtimePage.setClassPath(pojoClassPath);
 		}
-		runtimePage.initClassPathElements( );
-		designtimePage.initClassPathElements( );
+		runtimePage.initClassPathElements();
+		designtimePage.initClassPathElements();
 	}
 
-	private File getApplResourceDir( )
-	{
-		if ( ri != null )
-		{
-			if ( ri.getApplResourceBaseURI( ) != null )
-			{
-				return new File( ri.getApplResourceBaseURI( ) );
+	private File getApplResourceDir() {
+		if (ri != null) {
+			if (ri.getApplResourceBaseURI() != null) {
+				return new File(ri.getApplResourceBaseURI());
 			}
 		}
 		return null;
 	}
-	
-	public void updatePageStatus( )
-	{
-		if ( wizardPage != null )
-			wizardPage.setPageComplete( runtimePage.canFinish( )
-					&& designtimePage.canFinish( ) );
+
+	public void updatePageStatus() {
+		if (wizardPage != null) {
+			wizardPage.setPageComplete(runtimePage.canFinish() && designtimePage.canFinish());
+		}
 	}
 
-	protected Runnable createTestConnectionRunnable( final IConnectionProfile profile )
-	{
-        return new Runnable() 
-        {
-			public void run() 
-            {
-                IConnection conn = PingJob.createTestConnection( profile );
+	protected Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				IConnection conn = PingJob.createTestConnection(profile);
 
-                Throwable exception = PingJob.getTestConnectionException( conn );
-                
-                if ( exception == null ) //succeed in creating connection
-                {
-					exception = testConnection( );
-                }
-                PingJob.PingUIJob.showTestConnectionMessage( parent.getShell(), exception );
-                if( conn != null )
-                {
-                    conn.close();
-                }
-            }
+				Throwable exception = PingJob.getTestConnectionException(conn);
 
-			private Throwable testConnection(  )
-			{
+				if (exception == null) // succeed in creating connection
+				{
+					exception = testConnection();
+				}
+				PingJob.PingUIJob.showTestConnectionMessage(parent.getShell(), exception);
+				if (conn != null) {
+					conn.close();
+				}
+			}
+
+			private Throwable testConnection() {
 				Throwable exception = null;
-				if ( runtimePage.getClassPathString( ).length( ) == 0 )
-				{
-					exception = new OdaException( Messages.getString( "DataSource.MissDataSetPojoClassPath.runtime" ) ); //$NON-NLS-1$
-				}
-				else if ( designtimePage.getClassPathString( ).length( ) == 0 )
-				{
-					exception = new OdaException( Messages.getString( "DataSource.MissDataSetPojoClassPath.designtime" ) ); //$NON-NLS-1$
-				}
-				else
-				{
-					exception = validateAllJars( exception);
+				if (runtimePage.getClassPathString().length() == 0) {
+					exception = new OdaException(Messages.getString("DataSource.MissDataSetPojoClassPath.runtime")); //$NON-NLS-1$
+				} else if (designtimePage.getClassPathString().length() == 0) {
+					exception = new OdaException(Messages.getString("DataSource.MissDataSetPojoClassPath.designtime")); //$NON-NLS-1$
+				} else {
+					exception = validateAllJars(exception);
 				}
 				return exception;
 			}
-			
-			private Throwable validateAllJars( Throwable exception )
-			{
-				URLParser up = Utils.createURLParser( ri );
-				try
-				{
-					URL[] urls = up.parse( runtimePage.getClassPathString( ) );
-					for ( URL url : urls )
-					{
-						try
-						{
+
+			private Throwable validateAllJars(Throwable exception) {
+				URLParser up = Utils.createURLParser(ri);
+				try {
+					URL[] urls = up.parse(runtimePage.getClassPathString());
+					for (URL url : urls) {
+						try {
 							// check if url exists
-							url.openStream( ).close( );
-						}
-						catch ( IOException e )
-						{
-							throw new OdaException( Messages.getFormattedString( "DataSource.ClassPathPage.testConnection.failed.runtime", //$NON-NLS-1$
-									new Object[]{
-										url.getFile( )
-									} ) );
+							url.openStream().close();
+						} catch (IOException e) {
+							throw new OdaException(Messages.getFormattedString(
+									"DataSource.ClassPathPage.testConnection.failed.runtime", //$NON-NLS-1$
+									new Object[] { url.getFile() }));
 						}
 					}
-				}
-				catch ( OdaException e1 )
-				{
+				} catch (OdaException e1) {
 					exception = e1;
 				}
-				
-				if( exception != null )
+
+				if (exception != null) {
 					return exception;
-				
-				try
-				{
-					URL[] urls = up.parse( designtimePage.getClassPathString( ) );
-					for ( URL url : urls )
-					{
-						try
-						{
+				}
+
+				try {
+					URL[] urls = up.parse(designtimePage.getClassPathString());
+					for (URL url : urls) {
+						try {
 							// check if url exists
-							url.openStream( ).close( );
-						}
-						catch ( IOException e )
-						{
-							throw new OdaException( Messages.getFormattedString( "DataSource.ClassPathPage.testConnection.failed.designtime", //$NON-NLS-1$
-									new Object[]{
-										url.getFile( )
-									} ) );
+							url.openStream().close();
+						} catch (IOException e) {
+							throw new OdaException(Messages.getFormattedString(
+									"DataSource.ClassPathPage.testConnection.failed.designtime", //$NON-NLS-1$
+									new Object[] { url.getFile() }));
 						}
 					}
-				}
-				catch ( OdaException e1 )
-				{
+				} catch (OdaException e1) {
 					exception = e1;
 				}
 				return exception;
@@ -377,14 +321,12 @@ public class ClassPathsPageHelper
 		};
 	}
 
-	private void handleSynchronizeCheckboxSelection( )
-	{
-		updateDesigntimePageStatus( !synchronizeClassPath );
-		if ( synchronizeClassPath )
-		{
-			designtimePage.resetJarElements( runtimePage.getJarElements( ) );
+	private void handleSynchronizeCheckboxSelection() {
+		updateDesigntimePageStatus(!synchronizeClassPath);
+		if (synchronizeClassPath) {
+			designtimePage.resetJarElements(runtimePage.getJarElements());
 		}
-		updatePageStatus( );
+		updatePageStatus();
 	}
 
 }

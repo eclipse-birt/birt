@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,32 +22,23 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * every where.
  */
 
-public class FlattenCopyPolicy extends CopyForPastePolicy
-{
+public class FlattenCopyPolicy extends CopyForPastePolicy {
 
-
-
-	private final static FlattenCopyPolicy instance = new FlattenCopyPolicy( );
-
-	
+	private final static FlattenCopyPolicy instance = new FlattenCopyPolicy();
 
 	/**
 	 * Auxiliary function helps to clear display name and display name id.
-	 * 
-	 * @param e
-	 *            the design element need to clear display name information.
+	 *
+	 * @param e the design element need to clear display name information.
 	 */
 
-	protected void clearDisplayName( DesignElement e )
-	{
-		//Need not clear display name when flatten design
-	}
-	
-	public static FlattenCopyPolicy getInstance( )
-	{
-		return instance;
+	@Override
+	protected void clearDisplayName(DesignElement e) {
+		// Need not clear display name when flatten design
 	}
 
-	
+	public static FlattenCopyPolicy getInstance() {
+		return instance;
+	}
 
 }

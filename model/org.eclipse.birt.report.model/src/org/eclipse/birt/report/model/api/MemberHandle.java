@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,13 +28,12 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * A handle to a member of a property structure. A structure list occurs in an
  * element property that contains a list of structures. The class handles a
  * member of one structure in the list.
- * 
- * 
+ *
+ *
  * @see StructureHandle
  */
 
-public class MemberHandle extends SimpleValueHandle
-{
+public class MemberHandle extends SimpleValueHandle {
 
 	/**
 	 * The context to the member itself.
@@ -41,83 +43,70 @@ public class MemberHandle extends SimpleValueHandle
 
 	/**
 	 * Constructs a member handle with the given structure handle and the member
-	 * property definition. This form is used by the
-	 * <code>StructureIterator</code> class.
-	 * 
-	 * @param structHandle
-	 *            a handle to the structure
-	 * @param member
-	 *            definition of the member within the structure
+	 * property definition. This form is used by the <code>StructureIterator</code>
+	 * class.
+	 *
+	 * @param structHandle a handle to the structure
+	 * @param member       definition of the member within the structure
 	 */
 
-	public MemberHandle( StructureHandle structHandle, StructPropertyDefn member )
-	{
-		super( structHandle.getElementHandle( ) );
+	public MemberHandle(StructureHandle structHandle, StructPropertyDefn member) {
+		super(structHandle.getElementHandle());
 
-		if ( !StructureContextUtil.isValidStructureHandle( structHandle ) )
-		{
-			throw new RuntimeException(
-					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+		if (!StructureContextUtil.isValidStructureHandle(structHandle)) {
+			throw new RuntimeException("The structure is floating, and its handle is invalid!"); //$NON-NLS-1$
 		}
 
-		memberContext = StructureContextUtil.getMemberContext( structHandle,
-				member );
+		memberContext = StructureContextUtil.getMemberContext(structHandle, member);
 		assert memberContext != null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getDefn()
 	 */
-	public IPropertyDefn getDefn( )
-	{
-		return memberContext.getPropDefn( );
+	@Override
+	public IPropertyDefn getDefn() {
+		return memberContext.getPropDefn();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getRawValue()
 	 */
-	protected Object getRawValue( )
-	{
-		return memberContext.getValue( getModule( ) );
+	@Override
+	protected Object getRawValue() {
+		return memberContext.getValue(getModule());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang
+	 *
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang
 	 * .Object)
 	 */
-	public void setValue( Object value ) throws SemanticException
-	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
-		cmd.setMember( memberContext, value );
+	@Override
+	public void setValue(Object value) throws SemanticException {
+		PropertyCommand cmd = new PropertyCommand(getModule(), getElement());
+		cmd.setMember(memberContext, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 	 */
-	public void removeItem( int posn ) throws PropertyValueException
-	{
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
+	@Override
+	public void removeItem(int posn) throws PropertyValueException {
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
 
-		try
-		{
-			cmd.removeItem( memberContext, posn );
-		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			cmd.removeItem(memberContext, posn);
+		} catch (PropertyValueException e) {
 			throw e;
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			assert false;
 		}
 
@@ -125,61 +114,60 @@ public class MemberHandle extends SimpleValueHandle
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
+	 *
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
 	 * .Object)
 	 */
-	public void addItem( Object item ) throws SemanticException
-	{
-		if ( item == null )
+	@Override
+	public void addItem(Object item) throws SemanticException {
+		if (item == null) {
 			return;
+		}
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.addItem( memberContext, item );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
+		cmd.addItem(memberContext, item);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getPropertyDefn()
 	 */
-	public IElementPropertyDefn getPropertyDefn( )
-	{
-		return memberContext.getElementProp( );
+	@Override
+	public IElementPropertyDefn getPropertyDefn() {
+		return memberContext.getElementProp();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
 	 */
-	public StructureContext getContext( )
-	{
+	@Override
+	public StructureContext getContext() {
 		return memberContext;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isReadOnly()
 	 */
 
-	public boolean isReadOnly( )
-	{
+	@Override
+	public boolean isReadOnly() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
 
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		return true;
 	}
 

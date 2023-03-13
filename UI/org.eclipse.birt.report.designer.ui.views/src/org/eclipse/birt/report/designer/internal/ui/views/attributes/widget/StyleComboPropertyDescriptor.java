@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,8 +34,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * ComboPropertyDescriptor manages Combo choice control.
  */
-public class StyleComboPropertyDescriptor extends PropertyDescriptor
-{
+public class StyleComboPropertyDescriptor extends PropertyDescriptor {
 
 	protected StyleCombo combo;
 
@@ -40,152 +42,142 @@ public class StyleComboPropertyDescriptor extends PropertyDescriptor
 
 	protected String oldValue;
 
-	public StyleComboPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public StyleComboPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
-	public void setInput( Object handle )
-	{
+	@Override
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	private int style = SWT.BORDER | SWT.READ_ONLY;
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor#resetUIData()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor#
+	 * resetUIData()
 	 */
-	void refresh( String value )
-	{
-		combo.setSelectedItem( value );
+	void refresh(String value) {
+		combo.setSelectedItem(value);
 	}
 
 	private String text;
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		assert ( getDescriptorProvider( ) instanceof IComboProvider );
-		if ( isFormStyle( ) )
-		{
-			combo = FormWidgetFactory.getInstance( ).createStyleCombo( parent,
-					(IComboProvider) getDescriptorProvider( ) );
+	@Override
+	public Control createControl(Composite parent) {
+		assert (getDescriptorProvider() instanceof IComboProvider);
+		if (isFormStyle()) {
+			combo = FormWidgetFactory.getInstance().createStyleCombo(parent, (IComboProvider) getDescriptorProvider());
+		} else {
+			combo = new StyleCombo(parent, style, (IComboProvider) getDescriptorProvider());
 		}
-		else
-			combo = new StyleCombo( parent,
-					style,
-					(IComboProvider) getDescriptorProvider( ) );
-		combo.setItems( ( (IComboProvider) getDescriptorProvider( ) ).getItems( ) );
-		if ( text != null )
-			combo.setSelectedItem( text );
-		combo.addControlListener( new ControlListener( ) {
+		combo.setItems(((IComboProvider) getDescriptorProvider()).getItems());
+		if (text != null) {
+			combo.setSelectedItem(text);
+		}
+		combo.addControlListener(new ControlListener() {
 
-			public void controlMoved( ControlEvent e )
-			{
-				combo.clearSelection( );
+			@Override
+			public void controlMoved(ControlEvent e) {
+				combo.clearSelection();
 			}
 
-			public void controlResized( ControlEvent e )
-			{
-				combo.clearSelection( );
+			@Override
+			public void controlResized(ControlEvent e) {
+				combo.clearSelection();
 			}
-		} );
-		combo.addSelectionListener( new SelectionListener( ) {
+		});
+		combo.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleComboSelectEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleComboSelectEvent();
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				handleComboSelectEvent( );
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				handleComboSelectEvent();
 			}
-		} );
+		});
 		return combo;
 	}
 
 	/**
 	 * Processes the save action.
 	 */
-	protected void handleComboSelectEvent( )
-	{
-		CommandStack stack = getActionStack( );
-		stack.startTrans( "" );//$NON-NLS-1$
-		try
-		{
-			save( (String) combo.getSelectedItem( ) );
+	protected void handleComboSelectEvent() {
+		CommandStack stack = getActionStack();
+		stack.startTrans("");//$NON-NLS-1$
+		try {
+			save((String) combo.getSelectedItem());
+		} catch (SemanticException e1) {
+			stack.rollback();
+			WidgetUtil.processError(combo.getShell(), e1);
 		}
-		catch ( SemanticException e1 )
-		{
-			stack.rollback( );
-			WidgetUtil.processError( combo.getShell( ), e1 );
-		}
-		stack.commit( );
+		stack.commit();
 	}
 
-	private CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	private CommandStack getActionStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
+	@Override
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		descriptorProvider.save( value );
+	@Override
+	public void save(Object value) throws SemanticException {
+		descriptorProvider.save(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( combo, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(combo, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		combo.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		combo.setVisible(isVisible);
 	}
 
-	public void load( )
-	{
-		oldValue = getDescriptorProvider( ).load( ).toString( );
-		refresh( oldValue );
+	@Override
+	public void load() {
+		oldValue = getDescriptorProvider().load().toString();
+		refresh(oldValue);
 	}
 
-	public void addStyle( int style )
-	{
+	public void addStyle(int style) {
 		this.style |= style;
 	}
 
-	public String getText( )
-	{
+	public String getText() {
 		return text;
 	}
 
-	public void setText( String text )
-	{
+	public void setText(String text) {
 		this.text = text;
-		if ( combo != null )
-			combo.setSelectedItem( text );
+		if (combo != null) {
+			combo.setSelectedItem(text);
+		}
 	}
 }

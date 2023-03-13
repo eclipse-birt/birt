@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -24,7 +27,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Step:
  * <ol>
- * <li> New a library and add a data item.
+ * <li>New a library and add a data item.
  * <li>Publish the library to resource folder
  * <li>New a report design and use the library
  * <li>Drop the data item from library explorer into layout
@@ -39,8 +42,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * sure that the properties can be restored.
  * <p>
  */
-public class Regression_146758 extends BaseTestCase
-{
+public class Regression_146758 extends BaseTestCase {
 
 	private final static String REPORT = "regression_146758.xml"; //$NON-NLS-1$
 
@@ -48,34 +50,29 @@ public class Regression_146758 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( REPORT , REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( REPORT , REPORT );
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	public void test_regression_146758( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( REPORT );
-		DataItemHandle data = (DataItemHandle) designHandle
-				.findElement( "NewData" ); //$NON-NLS-1$
-		data.getPrivateStyle( ).setStringFormatCategory(
-				DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE );
 
-		ArrayList elements = new ArrayList( );
-		elements.add( data );
+	public void test_regression_146758() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		DataItemHandle data = (DataItemHandle) designHandle.findElement("NewData"); //$NON-NLS-1$
+		data.getPrivateStyle().setStringFormatCategory(DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE);
 
-		GroupElementHandle groupElementHandle = new SimpleGroupElementHandle(
-				designHandle,
-				elements );
-		assertTrue( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		ArrayList elements = new ArrayList();
+		elements.add(data);
+
+		GroupElementHandle groupElementHandle = new SimpleGroupElementHandle(designHandle, elements);
+		assertTrue(groupElementHandle.hasLocalPropertiesForExtendedElements());
 
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,51 +31,46 @@ import org.xml.sax.SAXException;
  * This is a part of backward compatibility work from BIRT 2.1 to BIRT 2.1.1.
  */
 
-public class CompatibleBoundColumnExprState
-		extends
-			CompatibleMiscExpressionState
-{
+public class CompatibleBoundColumnExprState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs a compatible state.
-	 * 
-	 * @param theHandler
-	 *            the handler to parse the design file.
-	 * @param element
-	 *            the data item
+	 *
+	 * @param theHandler the handler to parse the design file.
+	 * @param element    the data item
 	 * @param propDefn
 	 * @param struct
 	 */
 
-	CompatibleBoundColumnExprState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	CompatibleBoundColumnExprState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( value == null )
+		if (value == null) {
 			return;
+		}
 
-		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
-				element, handler.module );
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
 		// not to create bound data columns locally.
 
-		if ( target != null )
-			setupBoundDataColumns( target, value, false );
+		if (target != null) {
+			setupBoundDataColumns(target, value, false);
+		}
 
 		// keep the expression as same.
 
-		doEnd( value );
+		doEnd(value);
 	}
 }

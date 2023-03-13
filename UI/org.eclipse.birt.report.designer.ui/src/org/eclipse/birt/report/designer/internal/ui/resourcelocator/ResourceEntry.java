@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,37 +20,35 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
-public interface ResourceEntry extends IAdaptable
-{
+public interface ResourceEntry extends IAdaptable {
 
-	public static interface Filter
-	{
+	public interface Filter {
 
-		public boolean accept( ResourceEntry entity );
+		boolean accept(ResourceEntry entity);
 	}
 
-	String getName( );
+	String getName();
 
 	String getDisplayName();
-	
-	Image getImage( );
 
-	URL getURL( );
+	Image getImage();
 
-	ResourceEntry getParent( );
+	URL getURL();
 
-	ResourceEntry[] getChildren( );
-	
-	boolean hasChildren( );
+	ResourceEntry getParent();
 
-	ResourceEntry[] getChildren( Filter filter );
+	ResourceEntry[] getChildren();
 
-	boolean isFile( );
-	
-	boolean isRoot( );
+	boolean hasChildren();
 
-	void dispose( );
+	ResourceEntry[] getChildren(Filter filter);
+
+	boolean isFile();
+
+	boolean isRoot();
+
+	void dispose();
 }

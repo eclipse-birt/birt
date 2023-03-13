@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <feature
       id="org.eclipse.birt.cshelp"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.13.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.cshelp"
       image="eclipse_update_120.jpg">
@@ -20,8 +34,8 @@
    </license>
 
    <url>
-      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>

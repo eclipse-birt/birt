@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,11 +22,10 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Adaptor class of <code>IParameter</code>
- * 
+ *
  */
 
-public abstract class ScalarParam implements IParameter
-{
+public abstract class ScalarParam implements IParameter {
 
 	/**
 	 * Parameter Group
@@ -34,37 +36,37 @@ public abstract class ScalarParam implements IParameter
 
 	/**
 	 * Gets selection value.
-	 * 
+	 *
 	 * @return selection value.
 	 */
-	public String getSelectionValue( )
-	{
+	@Override
+	public String getSelectionValue() {
 		return selectionValue;
 	}
 
 	/**
 	 * Sets selection value.
-	 * 
+	 *
 	 * @param value
 	 */
-	public void setSelectionValue( String value )
-	{
+	@Override
+	public void setSelectionValue(String value) {
 		selectionValue = value;
 	}
 
 	/**
 	 * Sets parameter group
 	 */
-	public void setParentGroup( IParamGroup group )
-	{
+	@Override
+	public void setParentGroup(IParamGroup group) {
 		this.group = group;
 	}
 
 	/**
 	 * Gets parameter group
 	 */
-	public IParamGroup getParentGroup( )
-	{
+	@Override
+	public IParamGroup getParentGroup() {
 		return group;
 	}
 
@@ -80,66 +82,63 @@ public abstract class ScalarParam implements IParameter
 
 	/**
 	 * Constructor
-	 * 
-	 * @param handle
-	 *            scalar parameter handle.
-	 * @param engineTask
-	 *            engine task.
+	 *
+	 * @param handle     scalar parameter handle.
+	 * @param engineTask engine task.
 	 */
 
-	public ScalarParam( ScalarParameterHandle handle, IEngineTask engineTask )
-	{
+	public ScalarParam(ScalarParameterHandle handle, IEngineTask engineTask) {
 		this.handle = handle;
 		this.engineTask = engineTask;
 	}
 
 	/**
 	 * Gets values of parameter.
-	 * 
+	 *
 	 * @return value list.
 	 */
-	public abstract List getValueList( );
+	@Override
+	public abstract List getValueList();
 
 	/**
 	 * Gets default value.
-	 * 
+	 *
 	 * @return default value
 	 */
 
-	public String getDefaultValue( )
-	{
-		return handle.getDefaultValue( );
+	@Override
+	public String getDefaultValue() {
+		return handle.getDefaultValue();
 	}
 
 	/**
 	 * Get parameter handle.
-	 * 
+	 *
 	 * @return parameter handle.
 	 */
 
-	public ScalarParameterHandle getHandle( )
-	{
+	public ScalarParameterHandle getHandle() {
 		return handle;
 	}
 
-	public String format( String input ) throws BirtException
-	{
-		return FormatUtil.format( handle, input );
+	@Override
+	public String format(String input) throws BirtException {
+		return FormatUtil.format(handle, input);
 	}
 
-	public Object converToDataType( Object value ) throws BirtException
-	{
-		return DataTypeConvertUtil.convert( value, handle.getDataType( ) );
+	@Override
+	public Object converToDataType(Object value) throws BirtException {
+		return DataTypeConvertUtil.convert(value, handle.getDataType());
 	}
 
 	/**
 	 * Gets isRequired property.
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isRequired( )
-	{
-		return handle.isRequired( );
+	@Override
+	public boolean isRequired() {
+		return handle.isRequired();
 	}
 
 }

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
@@ -30,165 +42,142 @@ import org.eclipse.swt.widgets.Text;
 /**
  * ResourceFilterDialog
  */
-public class ResourceFilterDialog extends BaseDialog
-{
+public class ResourceFilterDialog extends BaseDialog {
 
-	private List filters = new ArrayList( );
+	private List filters = new ArrayList();
 	private Text descriptionText;
 	private CheckboxTableViewer viewer;
 
-	public ResourceFilterDialog( )
-	{
-		super( Messages.getString( "ResourceFilterDialog.Title" ) );//$NON-NLS-1$
+	public ResourceFilterDialog() {
+		super(Messages.getString("ResourceFilterDialog.Title"));//$NON-NLS-1$
 	}
 
-	public void setInput( List filters )
-	{
+	public void setInput(List filters) {
 		this.filters = filters;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		Composite container = new Composite( composite, SWT.NONE );
-		container.setLayout( new GridLayout( ) );
+		Composite container = new Composite(composite, SWT.NONE);
+		container.setLayout(new GridLayout());
 
-		createViewerArea( container );
-		createHelpArea( container );
-		initViewer( );
+		createViewerArea(container);
+		createHelpArea(container);
+		initViewer();
 
-		UIUtil.bindHelp( composite, IHelpContextIds.RESOURCE_FILTER_DIALOG_ID );
+		UIUtil.bindHelp(composite, IHelpContextIds.RESOURCE_FILTER_DIALOG_ID);
 		return composite;
 	}
 
-	private void initViewer( )
-	{
-		viewer.setInput( filters );
-		for ( int i = 0; i < filters.size( ); i++ )
-		{
-			ResourceFilter filter = (ResourceFilter) filters.get( i );
-			viewer.setChecked( filter, filter.isEnabled( ) );
+	private void initViewer() {
+		viewer.setInput(filters);
+		for (int i = 0; i < filters.size(); i++) {
+			ResourceFilter filter = (ResourceFilter) filters.get(i);
+			viewer.setChecked(filter, filter.isEnabled());
 		}
 
 	}
 
-	private void createHelpArea( Composite parent )
-	{
-		Label descriptionLabel = new Label( parent, SWT.NONE );
-		descriptionLabel.setText( Messages.getString( "ResourceFilterDialog.Lable.Description" ) ); //$NON-NLS-1$
-		descriptionText = new Text( parent, SWT.BORDER
-				| SWT.MULTI
-				| SWT.V_SCROLL
-				| SWT.READ_ONLY
-				| SWT.WRAP );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+	private void createHelpArea(Composite parent) {
+		Label descriptionLabel = new Label(parent, SWT.NONE);
+		descriptionLabel.setText(Messages.getString("ResourceFilterDialog.Lable.Description")); //$NON-NLS-1$
+		descriptionText = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.READ_ONLY | SWT.WRAP);
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.heightHint = 40;
-		descriptionText.setLayoutData( gd );
+		descriptionText.setLayoutData(gd);
 	}
 
-	private void createViewerArea( Composite parent )
-	{
-		Label viewerLabel = new Label( parent, SWT.NONE );
-		viewerLabel.setText( Messages.getString( "ResourceFilterDialog.Lable.Viewer" ) );//$NON-NLS-1$
+	private void createViewerArea(Composite parent) {
+		Label viewerLabel = new Label(parent, SWT.NONE);
+		viewerLabel.setText(Messages.getString("ResourceFilterDialog.Lable.Viewer"));//$NON-NLS-1$
 
-		Table table = new Table( parent, SWT.SINGLE
-				| SWT.BORDER
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.CHECK );
-		table.setLinesVisible( false );
-		table.setHeaderVisible( false );
+		Table table = new Table(parent, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CHECK);
+		table.setLinesVisible(false);
+		table.setHeaderVisible(false);
 
-		TableColumn column = new TableColumn( table, SWT.LEFT );
-		column.setWidth( 250 );
+		TableColumn column = new TableColumn(table, SWT.LEFT);
+		column.setWidth(250);
 
-		viewer = new CheckboxTableViewer( table );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		viewer = new CheckboxTableViewer(table);
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 250;
 		gd.heightHint = 200;
-		viewer.getTable( ).setLayoutData( gd );
+		viewer.getTable().setLayoutData(gd);
 
-		table.addSelectionListener( new SelectionListener( ) {
+		table.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				StructuredSelection selection = ( (StructuredSelection) viewer.getSelection( ) );
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				StructuredSelection selection = ((StructuredSelection) viewer.getSelection());
 				Object obj = null;
-				if ( selection != null
-						&& ( obj = selection.getFirstElement( ) ) != null )
-				{
+				if (selection != null && (obj = selection.getFirstElement()) != null) {
 					ResourceFilter filter = (ResourceFilter) obj;
-					if ( filter.getDescription( ) != null )
-						descriptionText.setText( filter.getDescription( ) );
+					if (filter.getDescription() != null) {
+						descriptionText.setText(filter.getDescription());
+					}
 				}
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				StructuredSelection selection = ( (StructuredSelection) viewer.getSelection( ) );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				StructuredSelection selection = ((StructuredSelection) viewer.getSelection());
 				Object obj = null;
-				if ( selection != null
-						&& ( obj = selection.getFirstElement( ) ) != null )
-				{
+				if (selection != null && (obj = selection.getFirstElement()) != null) {
 					ResourceFilter filter = (ResourceFilter) obj;
-					if ( filter.getDescription( ) != null )
-						descriptionText.setText( filter.getDescription( ) );
+					if (filter.getDescription() != null) {
+						descriptionText.setText(filter.getDescription());
+					}
 				}
 			}
 
-		} );
-		FilterProvider provider = new FilterProvider( );
-		viewer.setContentProvider( provider );
-		viewer.setLabelProvider( provider );
-		viewer.addCheckStateListener( new ICheckStateListener( ) {
+		});
+		FilterProvider provider = new FilterProvider();
+		viewer.setContentProvider(provider);
+		viewer.setLabelProvider(provider);
+		viewer.addCheckStateListener(new ICheckStateListener() {
 
-			public void checkStateChanged( CheckStateChangedEvent event )
-			{
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event) {
 
-				ResourceFilter filter = (ResourceFilter) event.getElement( );
-				if ( event.getChecked( ) )
-				{
-					filter.setEnabled( true );
-				}
-				else
-				{
-					filter.setEnabled( false );
+				ResourceFilter filter = (ResourceFilter) event.getElement();
+				if (event.getChecked()) {
+					filter.setEnabled(true);
+				} else {
+					filter.setEnabled(false);
 				}
 			}
 
-		} );
-		viewer.setInput( filters );
+		});
+		viewer.setInput(filters);
 	}
 
 	/**
 	 * FilterProvider
 	 */
-	private static class FilterProvider extends LabelProvider implements
-			IStructuredContentProvider
-	{
+	private static class FilterProvider extends LabelProvider implements IStructuredContentProvider {
 
-		public Object[] getElements( Object inputElement )
-		{
-			if ( inputElement instanceof List )
-				return ( (List) inputElement ).toArray( );
-			else
+		@Override
+		public Object[] getElements(Object inputElement) {
+			if (inputElement instanceof List) {
+				return ((List) inputElement).toArray();
+			} else {
 				return new Object[0];
-		}
-
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
-		}
-
-		public String getText( Object element )
-		{
-			if ( element instanceof ResourceFilter )
-			{
-				return ( (ResourceFilter) element ).getDisplayName( );
 			}
-			else
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
+
+		@Override
+		public String getText(Object element) {
+			if (element instanceof ResourceFilter) {
+				return ((ResourceFilter) element).getDisplayName();
+			} else {
 				return ""; //$NON-NLS-1$
+			}
 		}
 
 //		public String getToolTip( Object element )

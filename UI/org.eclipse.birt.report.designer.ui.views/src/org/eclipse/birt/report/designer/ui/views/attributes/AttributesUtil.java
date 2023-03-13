@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,8 +60,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Utility class to help creating standard attribute pages.
  */
-public class AttributesUtil
-{
+public class AttributesUtil {
 
 	/**
 	 * Category name for standard Font page.
@@ -121,149 +123,110 @@ public class AttributesUtil
 	 */
 	public static final String EVENTHANDLER = "EventHandler"; //$NON-NLS-1$
 
-	private static Map<String, String> categoryMap = new HashMap<String, String>( );
-	private static Map<String, Class<?>> paneClassMap = new HashMap<String, Class<?>>( );
+	private static Map<String, String> categoryMap = new HashMap<>();
+	private static Map<String, Class<?>> paneClassMap = new HashMap<>();
 
-	static
-	{
-		addCategory( FONT,
-				Messages.getString( "GridPageGenerator.List.Font" ), FontPage.class );//$NON-NLS-1$		
-		addCategory( PADDING,
-				Messages.getString( "DataPageGenerator.List.Padding" ), CellPaddingPage.class ); //$NON-NLS-1$
-		addCategory( ALT,
-				Messages.getString( "ImagePageGenerator.List.AltText" ), AlterPage.class ); //$NON-NLS-1$
-		addCategory( BORDER,
-				Messages.getString( "DataPageGenerator.List.Borders" ), BordersPage.class ); //$NON-NLS-1$
-		addCategory( MARGIN,
-				Messages.getString( "DataPageGenerator.List.Margin" ), ItemMarginPage.class ); //$NON-NLS-1$
-		addCategory( HYPERLINK,
-				Messages.getString( "DataPageGenerator.List.HyperLink" ), HyperLinkPage.class ); //$NON-NLS-1$
-		addCategory( SECTION,
-				Messages.getString( "DataPageGenerator.List.Section" ), SectionPage.class ); //$NON-NLS-1$
-		addCategory( VISIBILITY,
-				Messages.getString( "DataPageGenerator.List.Visibility" ), VisibilityPage.class ); //$NON-NLS-1$
-		addCategory( TOC,
-				Messages.getString( "DataPageGenerator.List.TOC" ), TOCExpressionPage.class ); //$NON-NLS-1$
-		addCategory( BOOKMARK,
-				Messages.getString( "DataPageGenerator.List.Bookmark" ), BookMarkExpressionPage.class ); //$NON-NLS-1$
-		addCategory( USERPROPERTIES,
-				Messages.getString( "ReportPageGenerator.List.UserProperties" ), UserPropertiesPage.class ); //$NON-NLS-1$
-		addCategory( NAMEDEXPRESSIONS,
-				Messages.getString( "ReportPageGenerator.List.NamedExpressions" ), NamedExpressionsPage.class ); //$NON-NLS-1$
-		addCategory( COMMENTS,
-				Messages.getString( "ReportPageGenerator.List.Comments" ), CommentsPage.class ); //$NON-NLS-1$
-		addCategory( ADVANCEPROPERTY,
-				Messages.getString( "ReportPageGenerator.List.AdvancedProperty" ), AdvancePropertyPage.class ); //$NON-NLS-1$
+	static {
+		addCategory(FONT, Messages.getString("GridPageGenerator.List.Font"), FontPage.class);//$NON-NLS-1$
+		addCategory(PADDING, Messages.getString("DataPageGenerator.List.Padding"), CellPaddingPage.class); //$NON-NLS-1$
+		addCategory(ALT, Messages.getString("ImagePageGenerator.List.AltText"), AlterPage.class); //$NON-NLS-1$
+		addCategory(BORDER, Messages.getString("DataPageGenerator.List.Borders"), BordersPage.class); //$NON-NLS-1$
+		addCategory(MARGIN, Messages.getString("DataPageGenerator.List.Margin"), ItemMarginPage.class); //$NON-NLS-1$
+		addCategory(HYPERLINK, Messages.getString("DataPageGenerator.List.HyperLink"), HyperLinkPage.class); //$NON-NLS-1$
+		addCategory(SECTION, Messages.getString("DataPageGenerator.List.Section"), SectionPage.class); //$NON-NLS-1$
+		addCategory(VISIBILITY, Messages.getString("DataPageGenerator.List.Visibility"), VisibilityPage.class); //$NON-NLS-1$
+		addCategory(TOC, Messages.getString("DataPageGenerator.List.TOC"), TOCExpressionPage.class); //$NON-NLS-1$
+		addCategory(BOOKMARK, Messages.getString("DataPageGenerator.List.Bookmark"), BookMarkExpressionPage.class); //$NON-NLS-1$
+		addCategory(USERPROPERTIES, Messages.getString("ReportPageGenerator.List.UserProperties"), //$NON-NLS-1$
+				UserPropertiesPage.class);
+		addCategory(NAMEDEXPRESSIONS, Messages.getString("ReportPageGenerator.List.NamedExpressions"), //$NON-NLS-1$
+				NamedExpressionsPage.class);
+		addCategory(COMMENTS, Messages.getString("ReportPageGenerator.List.Comments"), CommentsPage.class); //$NON-NLS-1$
+		addCategory(ADVANCEPROPERTY, Messages.getString("ReportPageGenerator.List.AdvancedProperty"), //$NON-NLS-1$
+				AdvancePropertyPage.class);
 	}
 
-	private AttributesUtil( )
-	{
+	private AttributesUtil() {
 		// no instantiation
 	}
 
 	/**
 	 * Add default category for Attribute Page
-	 * 
+	 *
 	 * @param id
 	 * @param displayLabelKey
 	 * @param pageClass
 	 */
-	public static void addCategory( String id, String displayLabelKey,
-			Class pageClass )
-	{
+	public static void addCategory(String id, String displayLabelKey, Class pageClass) {
 		assert id != null;
 		assert pageClass != null;
 
-		categoryMap.put( id, displayLabelKey );
-		paneClassMap.put( id, pageClass );
+		categoryMap.put(id, displayLabelKey);
+		paneClassMap.put(id, pageClass);
 	}
 
 	/**
 	 * Creates the standard categoried property page.
-	 * 
+	 *
 	 * @param parent
-	 * @param categories
-	 *            A standard category id array, the contained value must be the
-	 *            category name constants defined within the AttributeUtil
-	 *            class, such as AttributesUtil.FONT, AttributesUtil.MARGIN. A
-	 *            null value means reserve this position for custom pages.
-	 * @param customCategories
-	 *            A custom categories name array.
-	 * @param customPageWrappers
-	 *            A custom page wrapper array.
+	 * @param categories         A standard category id array, the contained value
+	 *                           must be the category name constants defined within
+	 *                           the AttributeUtil class, such as
+	 *                           AttributesUtil.FONT, AttributesUtil.MARGIN. A null
+	 *                           value means reserve this position for custom pages.
+	 * @param customCategories   A custom categories name array.
+	 * @param customPageWrappers A custom page wrapper array.
 	 * @return Page object.
 	 */
-	public static IPropertyTabUI buildGeneralPage( Composite parent,
-			String[] categories, String[] customKeys,
-			String[] customCategories, PageWrapper[] customPageWrappers,
-			Object input )
-	{
-		BaseAttributePage basicPage = new BaseAttributePage( );
-		LinkedHashMap<String, String> categorys = new LinkedHashMap<String, String>( );
-		List<Object> paneClassList = new ArrayList<Object>( );
+	public static IPropertyTabUI buildGeneralPage(Composite parent, String[] categories, String[] customKeys,
+			String[] customCategories, PageWrapper[] customPageWrappers, Object input) {
+		BaseAttributePage basicPage = new BaseAttributePage();
+		LinkedHashMap<String, String> categorys = new LinkedHashMap<>();
+		List<Object> paneClassList = new ArrayList<>();
 
-		if ( categories == null )
-		{
-			if ( customCategories != null && customPageWrappers != null )
-			{
-				for ( int i = 0; i < customCategories.length; i++ )
-				{
-					categorys.put( customKeys[i], customCategories[i] );
-					paneClassList.add( customPageWrappers[i] );
+		if (categories == null) {
+			if (customCategories != null && customPageWrappers != null) {
+				for (int i = 0; i < customCategories.length; i++) {
+					categorys.put(customKeys[i], customCategories[i]);
+					paneClassList.add(customPageWrappers[i]);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			int customIndex = 0;
 
-			for ( int i = 0; i < categories.length; i++ )
-			{
-				if ( categories[i] == null )
-				{
-					if ( customCategories != null
-							&& customPageWrappers != null
-							&& customCategories.length > customIndex )
-					{
-						categorys.put( customKeys[customIndex],
-								customCategories[customIndex] );
-						paneClassList.add( customPageWrappers[customIndex] );
+			for (int i = 0; i < categories.length; i++) {
+				if (categories[i] == null) {
+					if (customCategories != null && customPageWrappers != null
+							&& customCategories.length > customIndex) {
+						categorys.put(customKeys[customIndex], customCategories[customIndex]);
+						paneClassList.add(customPageWrappers[customIndex]);
 						customIndex++;
 					}
-				}
-				else
-				{
-					Object cat = categoryMap.get( categories[i] );
+				} else {
+					Object cat = categoryMap.get(categories[i]);
 
-					if ( cat instanceof String )
-					{
-						categorys.put( categories[i], (String) cat );
-						paneClassList.add( paneClassMap.get( categories[i] ) );
+					if (cat instanceof String) {
+						categorys.put(categories[i], (String) cat);
+						paneClassList.add(paneClassMap.get(categories[i]));
 					}
 				}
 			}
 
-			if ( customCategories != null
-					&& customPageWrappers != null
-					&& customCategories.length > customIndex )
-			{
-				for ( int i = customIndex; i < customCategories.length; i++ )
-				{
-					categorys.put( customKeys[customIndex],
-							customCategories[customIndex] );
-					paneClassList.add( customPageWrappers[customIndex] );
+			if (customCategories != null && customPageWrappers != null && customCategories.length > customIndex) {
+				for (int i = customIndex; i < customCategories.length; i++) {
+					categorys.put(customKeys[customIndex], customCategories[customIndex]);
+					paneClassList.add(customPageWrappers[customIndex]);
 					customIndex++;
 				}
 			}
 		}
 
-		Object[] clss = paneClassList.toArray( new Object[0] );
+		Object[] clss = paneClassList.toArray(new Object[0]);
 
-		basicPage.setCategoryProvider( new ExtendedCategoryProvider( categorys,
-				clss ) );
+		basicPage.setCategoryProvider(new ExtendedCategoryProvider(categorys, clss));
 
-		basicPage.setInput( input );
-		basicPage.buildUI( parent );
+		basicPage.setInput(input);
+		basicPage.buildUI(parent);
 
 		return basicPage;
 	}
@@ -271,54 +234,44 @@ public class AttributesUtil
 	/**
 	 * Returns standard category page display name.
 	 */
-	public static String getGeneralPageDisplayName( )
-	{
-		return Messages.getString( "CategoryPageGenerator.TabItem.Attributes" ); //$NON-NLS-1$
+	public static String getGeneralPageDisplayName() {
+		return Messages.getString("CategoryPageGenerator.TabItem.Attributes"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Creates the standard data binding page.
-	 * 
-	 * @param parent
-	 *            Parent composite.
+	 *
+	 * @param parent Parent composite.
 	 * @return Page object.
 	 */
-	public static IPropertyTabUI buildBindingPage( Composite parent,
-			Object input )
-	{
-		GridLayout gl = new GridLayout( );
-		parent.setLayout( gl );
-		BindingPage page = new BindingPage( );
-		page.setInput( input );
-		page.buildUI( parent );
+	public static IPropertyTabUI buildBindingPage(Composite parent, Object input) {
+		GridLayout gl = new GridLayout();
+		parent.setLayout(gl);
+		BindingPage page = new BindingPage();
+		page.setInput(input);
+		page.buildUI(parent);
 		return page;
 	}
 
 	/**
 	 * Returns standard data binding page display name.
 	 */
-	public static String getBindingPageDisplayName( )
-	{
-		return Messages.getString( "TablePageGenerator.TabItem.Binding" ); //$NON-NLS-1$
+	public static String getBindingPageDisplayName() {
+		return Messages.getString("TablePageGenerator.TabItem.Binding"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Creates standard data filter page.
-	 * 
-	 * @param parent
-	 *            Parent composite.
+	 *
+	 * @param parent Parent composite.
 	 * @return Page object.
 	 */
-	public static IPropertyTabUI buildFilterPage( Composite parent, Object input )
-	{
-		GridLayout gl = new GridLayout( );
-		parent.setLayout( gl );
-		FormPage page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
-				new FilterHandleProvider( ),
-				true,
-				true );
-		page.setInput( input );
-		page.buildUI( parent );
+	public static IPropertyTabUI buildFilterPage(Composite parent, Object input) {
+		GridLayout gl = new GridLayout();
+		parent.setLayout(gl);
+		FormPage page = new FormPage(FormPropertyDescriptor.FULL_FUNCTION, new FilterHandleProvider(), true, true);
+		page.setInput(input);
+		page.buildUI(parent);
 
 		return page;
 	}
@@ -326,28 +279,24 @@ public class AttributesUtil
 	/**
 	 * Returns standard data filter page display name.
 	 */
-	public static String getFilterPageDisplayName( )
-	{
-		return Messages.getString( "TablePageGenerator.TabItem.Filters" ); //$NON-NLS-1$
+	public static String getFilterPageDisplayName() {
+		return Messages.getString("TablePageGenerator.TabItem.Filters"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Creates standard data filter page.
-	 * 
-	 * @param parent
-	 *            Parent composite.
+	 *
+	 * @param parent Parent composite.
 	 * @return Page object.
 	 */
-	public static IPropertyTabUI buildHighlightPage( Composite parent,
-			Object input )
-	{
-		GridLayout gl = new GridLayout( );
-		parent.setLayout( gl );
-		PreviewPage page = new PreviewPage( true );
-		page.setPreview( new HighlightPropertyDescriptor( true ) );
-		page.setProvider( new HighlightDescriptorProvider( ) );
-		page.setInput( input );
-		page.buildUI( parent );
+	public static IPropertyTabUI buildHighlightPage(Composite parent, Object input) {
+		GridLayout gl = new GridLayout();
+		parent.setLayout(gl);
+		PreviewPage page = new PreviewPage(true);
+		page.setPreview(new HighlightPropertyDescriptor(true));
+		page.setProvider(new HighlightDescriptorProvider());
+		page.setInput(input);
+		page.buildUI(parent);
 
 		return page;
 	}
@@ -355,141 +304,115 @@ public class AttributesUtil
 	/**
 	 * Returns standard data filter page display name.
 	 */
-	public static String getHighlightPageDisplayName( )
-	{
-		return Messages.getString( "TablePageGenerator.TabItem.Highlights" ); //$NON-NLS-1$
+	public static String getHighlightPageDisplayName() {
+		return Messages.getString("TablePageGenerator.TabItem.Highlights"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Sets input to the page.
-	 * 
-	 * @param page
-	 *            This must be the result object returned by
-	 *            AttributesUtil.buildXXXPage().
-	 * @param input
-	 *            input objects.
-	 * 
+	 *
+	 * @param page  This must be the result object returned by
+	 *              AttributesUtil.buildXXXPage().
+	 * @param input input objects.
+	 *
 	 * @deprecated should not be used anymore
 	 */
-	public static void setPageInput( IPropertyTabUI page, Object input )
-	{
-		page.setInput( input );
-		if ( page instanceof TabPage && page.getControl( ) != null )
-		{
-			( (TabPage) page ).refresh( );
+	@Deprecated
+	public static void setPageInput(IPropertyTabUI page, Object input) {
+		page.setInput(input);
+		if (page instanceof TabPage && page.getControl() != null) {
+			((TabPage) page).refresh();
 		}
 	}
 
 	/**
 	 * Convenient method to handle property page exceptions.
-	 * 
+	 *
 	 * @deprecated see {@link ExceptionUtil}
 	 */
-	public static void handleError( Throwable e )
-	{
-		ExceptionUtil.handle( e );
+	@Deprecated
+	public static void handleError(Throwable e) {
+		ExceptionUtil.handle(e);
 	}
 
 	/**
 	 * ExtendedCategoryProvider
 	 */
-	static class ExtendedCategoryProvider implements ICategoryProvider
-	{
+	static class ExtendedCategoryProvider implements ICategoryProvider {
 
 		private LinkedHashMap<String, String> categorieLabels;
 		private LinkedHashMap<String, String> categorieTitles;
 		private Object[] paneObjects;
 
-		ExtendedCategoryProvider(
-				LinkedHashMap<String, String> categorieLabels,
-				LinkedHashMap<String, String> categorieTitles,
-				Object[] paneObjects )
-		{
+		ExtendedCategoryProvider(LinkedHashMap<String, String> categorieLabels,
+				LinkedHashMap<String, String> categorieTitles, Object[] paneObjects) {
 			assert categorieLabels != null;
 			assert paneObjects != null;
-			assert categorieLabels.size( ) == paneObjects.length;
-			assert categorieTitles.size( ) == paneObjects.length;
+			assert categorieLabels.size() == paneObjects.length;
+			assert categorieTitles.size() == paneObjects.length;
 			this.categorieLabels = categorieLabels;
 			this.categorieTitles = categorieTitles;
 			this.paneObjects = paneObjects;
 		}
 
-		ExtendedCategoryProvider(
-				LinkedHashMap<String, String> categorieLabels,
-				Object[] paneObjects )
-		{
+		ExtendedCategoryProvider(LinkedHashMap<String, String> categorieLabels, Object[] paneObjects) {
 			assert categorieLabels != null;
 			assert paneObjects != null;
-			assert categorieLabels.size( ) == paneObjects.length;
+			assert categorieLabels.size() == paneObjects.length;
 			this.categorieLabels = categorieLabels;
 			this.categorieTitles = categorieLabels;
 			this.paneObjects = paneObjects;
 		}
 
-		public ICategoryPage[] getCategories( )
-		{
-			List<ICategoryPage> pageList = new ArrayList<ICategoryPage>( paneObjects.length );
+		@Override
+		public ICategoryPage[] getCategories() {
+			List<ICategoryPage> pageList = new ArrayList<>(paneObjects.length);
 
 			int i = 0;
-			for ( Iterator<Entry<String, String>> itr = categorieLabels.entrySet( )
-					.iterator( ); itr.hasNext( ); i++ )
-			{
-				Entry<String, String> entry = itr.next( );
-				final String categoryKey = entry.getKey( );
-				final String displayLabel = entry.getValue( );
-				String displayTitle = categorieTitles.get( categoryKey );
-				if ( displayTitle == null )
-				{
+			for (Iterator<Entry<String, String>> itr = categorieLabels.entrySet().iterator(); itr.hasNext(); i++) {
+				Entry<String, String> entry = itr.next();
+				final String categoryKey = entry.getKey();
+				final String displayLabel = entry.getValue();
+				String displayTitle = categorieTitles.get(categoryKey);
+				if (displayTitle == null) {
 					displayTitle = displayLabel;
 				}
 
 				Object pane = paneObjects[i];
 
-				if ( pane instanceof Class
-						&& PageWrapper.class.isAssignableFrom( (Class) pane ) )
-				{
-					try
-					{
-						pane = ( (Class) pane ).getConstructor( (Class[]) null )
-								.newInstance( (Object[]) null );
-					}
-					catch ( Exception e )
-					{
-						e.printStackTrace( );
+				if (pane instanceof Class && PageWrapper.class.isAssignableFrom((Class) pane)) {
+					try {
+						pane = ((Class) pane).getConstructor((Class[]) null).newInstance((Object[]) null);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 
-				if ( pane instanceof Class )
-				{
-					pageList.add( new CategoryPage( categoryKey,
-							displayLabel,
-							displayTitle,
-							(Class) pane ) );
-				}
-				else if ( pane instanceof PageWrapper )
-				{
+				if (pane instanceof Class) {
+					pageList.add(new CategoryPage(categoryKey, displayLabel, displayTitle, (Class) pane));
+				} else if (pane instanceof PageWrapper) {
 					final PageWrapper wrapper = (PageWrapper) pane;
 
-					pageList.add( new ICategoryPage( ) {
+					pageList.add(new ICategoryPage() {
 
-						public String getDisplayLabel( )
-						{
+						@Override
+						public String getDisplayLabel() {
 							return displayLabel;
 						}
 
-						public TabPage createPage( )
-						{
-							return wrapper.getPage( );
+						@Override
+						public TabPage createPage() {
+							return wrapper.getPage();
 						}
 
-						public String getCategoryKey( )
-						{
+						@Override
+						public String getCategoryKey() {
 							return categoryKey;
 						}
-					} );
+					});
 				}
 			}
-			return pageList.toArray( new ICategoryPage[pageList.size( )] );
+			return pageList.toArray(new ICategoryPage[pageList.size()]);
 		}
 	}
 
@@ -498,125 +421,117 @@ public class AttributesUtil
 	 * pages. It also provide the capability to integrate the PropertyProcessor
 	 * mechanism with user customized pages.
 	 */
-	public abstract static class PageWrapper implements IModelEventProcessor
-	{
+	public abstract static class PageWrapper implements IModelEventProcessor {
 
 		private AttributePage page;
 
 		/**
 		 * Internal used to return the wrapped page.
-		 * 
+		 *
 		 * @param parent
 		 * @return
 		 */
-		public TabPage getPage( )
-		{
-			if ( page == null )
-				page = new AttributePage( ) {
+		public TabPage getPage() {
+			if (page == null) {
+				page = new AttributePage() {
 
-					public void buildUI( Composite parent )
-					{
-						super.buildUI( parent );
-						PageWrapper.this.buildUI( parent );
+					@Override
+					public void buildUI(Composite parent) {
+						super.buildUI(parent);
+						PageWrapper.this.buildUI(parent);
 					}
 
-					public void addElementEvent( DesignElementHandle focus,
-							NotificationEvent ev )
-					{
-						PageWrapper.this.addElementEvent( focus, ev );
+					@Override
+					public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
+						PageWrapper.this.addElementEvent(focus, ev);
 					}
 
-					public void clear( )
-					{
-						PageWrapper.this.clear( );
+					@Override
+					public void clear() {
+						PageWrapper.this.clear();
 					}
 
-					public void postElementEvent( )
-					{
-						PageWrapper.this.postElementEvent( );
+					@Override
+					public void postElementEvent() {
+						PageWrapper.this.postElementEvent();
 					}
 
-					public Object getAdapter( Class adapter )
-					{
-						return PageWrapper.this.getAdapter( adapter );
+					@Override
+					public Object getAdapter(Class adapter) {
+						return PageWrapper.this.getAdapter(adapter);
 					}
 
-					public void refresh( )
-					{
-						PageWrapper.this.refresh( );
-						super.refresh( );
+					@Override
+					public void refresh() {
+						PageWrapper.this.refresh();
+						super.refresh();
 					}
 
-					public void setInput( Object elements )
-					{
-						super.setInput( elements );
-						PageWrapper.this.setInput( elements );
+					@Override
+					public void setInput(Object elements) {
+						super.setInput(elements);
+						PageWrapper.this.setInput(elements);
 					}
 
-					public void dispose( )
-					{
-						PageWrapper.this.dispose( );
-						super.dispose( );
+					@Override
+					public void dispose() {
+						PageWrapper.this.dispose();
+						super.dispose();
 					}
 
 				};
+			}
 			return page;
 		}
 
-		public void addElementEvent( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		@Override
+		public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 		}
 
-		public void clear( )
-		{
+		@Override
+		public void clear() {
 
 		}
 
-		public void postElementEvent( )
-		{
+		@Override
+		public void postElementEvent() {
 
 		}
 
-		public Object getAdapter( Class adapter )
-		{
+		@Override
+		public Object getAdapter(Class adapter) {
 			return null;
 		}
 
 		/**
 		 * Creates property page user content.
-		 * 
-		 * @param parent
-		 *            property UI parent.
-		 * @param propertyMap
-		 *            build-in property map. User can put their own
-		 *            PropertyDescriptor in to integrate with build-in property
-		 *            framework. Usage: propertyMap.put(propertyName,
-		 *            propertyDescriptor).
+		 *
+		 * @param parent      property UI parent.
+		 * @param propertyMap build-in property map. User can put their own
+		 *                    PropertyDescriptor in to integrate with build-in property
+		 *                    framework. Usage: propertyMap.put(propertyName,
+		 *                    propertyDescriptor).
 		 */
-		public abstract void buildUI( Composite parent );
+		public abstract void buildUI(Composite parent);
 
 		/**
 		 * Sets page input.
-		 * 
+		 *
 		 * @param elements
 		 */
-		public void setInput( Object input )
-		{
+		public void setInput(Object input) {
 			// default doing nothing;
 		}
 
-		public void refresh( )
-		{
+		public void refresh() {
 			// default doing nothing;
 		}
 
 		/**
 		 * Notifies if parent UI disposed.
 		 */
-		public void dispose( )
-		{
+		public void dispose() {
 			// default doing nothing.
 		}
 
@@ -624,160 +539,117 @@ public class AttributesUtil
 
 	/**
 	 * Creates the category provider for attribute page.
-	 * 
-	 * @param categories
-	 *            An array of category keys, the contained value must be the
-	 *            category key constants defined within the AttributeUtil class,
-	 *            such as AttributesUtil.FONT, AttributesUtil.MARGIN. The array
-	 *            elememt can be null, which means this position is reserved for
-	 *            custom category pages.
-	 * @param customKeys
-	 *            An array of custom category page key name.
-	 * @param customLabels
-	 *            An array of custom category page display labels.
-	 * @param customPageClasses
-	 *            An array of custom category page class, each class should
-	 *            extend from either <code>{@link TabPage}</code> class or
-	 *            <code>{@link PageWrapper}</code> class and have a public
-	 *            non-argument constructor.
+	 *
+	 * @param categories        An array of category keys, the contained value must
+	 *                          be the category key constants defined within the
+	 *                          AttributeUtil class, such as AttributesUtil.FONT,
+	 *                          AttributesUtil.MARGIN. The array elememt can be
+	 *                          null, which means this position is reserved for
+	 *                          custom category pages.
+	 * @param customKeys        An array of custom category page key name.
+	 * @param customLabels      An array of custom category page display labels.
+	 * @param customPageClasses An array of custom category page class, each class
+	 *                          should extend from either
+	 *                          <code>{@link TabPage}</code> class or
+	 *                          <code>{@link PageWrapper}</code> class and have a
+	 *                          public non-argument constructor.
 	 * @return Returns a new category provider instance
-	 * 
+	 *
 	 * @since 2.5
 	 */
-	public static ICategoryProvider createCategoryProvider(
-			String[] categories, String[] customKeys, String[] customLabels,
-			Class<?>[] customPageClasses )
-	{
-		return createCategoryProvider( categories,
-				customKeys,
-				customLabels,
-				null,
-				customPageClasses );
+	public static ICategoryProvider createCategoryProvider(String[] categories, String[] customKeys,
+			String[] customLabels, Class<?>[] customPageClasses) {
+		return createCategoryProvider(categories, customKeys, customLabels, null, customPageClasses);
 	}
 
-	public static ICategoryProvider createCategoryProvider(
-			String[] categories, String[] customKeys, String[] customLabels,
-			String[] customTitles, Class<?>[] customPageClasses )
-	{
-		LinkedHashMap<String, String> categoryLabels = new LinkedHashMap<String, String>( );
-		LinkedHashMap<String, String> categoryTitles = new LinkedHashMap<String, String>( );
-		List<Class<?>> paneClassList = new ArrayList<Class<?>>( );
+	public static ICategoryProvider createCategoryProvider(String[] categories, String[] customKeys,
+			String[] customLabels, String[] customTitles, Class<?>[] customPageClasses) {
+		LinkedHashMap<String, String> categoryLabels = new LinkedHashMap<>();
+		LinkedHashMap<String, String> categoryTitles = new LinkedHashMap<>();
+		List<Class<?>> paneClassList = new ArrayList<>();
 
-		if ( categories == null )
-		{
+		if (categories == null) {
 			// use only custom categories
-			if ( customKeys != null && customPageClasses != null )
-			{
-				for ( int i = 0; i < customKeys.length; i++ )
-				{
-					if ( customLabels != null )
-					{
-						categoryLabels.put( customKeys[i], customLabels[i] );
+			if (customKeys != null && customPageClasses != null) {
+				for (int i = 0; i < customKeys.length; i++) {
+					if (customLabels != null) {
+						categoryLabels.put(customKeys[i], customLabels[i]);
 					}
-					if ( customTitles != null )
-					{
-						categoryTitles.put( customKeys[i], customTitles[i] );
+					if (customTitles != null) {
+						categoryTitles.put(customKeys[i], customTitles[i]);
 					}
-					paneClassList.add( customPageClasses[i] );
+					paneClassList.add(customPageClasses[i]);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			int currentCustomIndex = 0;
 
-			for ( int i = 0; i < categories.length; i++ )
-			{
-				if ( categories[i] == null )
-				{
-					if ( customKeys != null
-							&& customPageClasses != null
-							&& customKeys.length > currentCustomIndex )
-					{
-						if ( customLabels != null )
-						{
-							categoryLabels.put( customKeys[currentCustomIndex],
-									customLabels[currentCustomIndex] );
+			for (int i = 0; i < categories.length; i++) {
+				if (categories[i] == null) {
+					if (customKeys != null && customPageClasses != null && customKeys.length > currentCustomIndex) {
+						if (customLabels != null) {
+							categoryLabels.put(customKeys[currentCustomIndex], customLabels[currentCustomIndex]);
 						}
-						if ( customTitles != null )
-						{
-							categoryTitles.put( customKeys[currentCustomIndex],
-									customTitles[currentCustomIndex] );
+						if (customTitles != null) {
+							categoryTitles.put(customKeys[currentCustomIndex], customTitles[currentCustomIndex]);
 						}
-						paneClassList.add( customPageClasses[currentCustomIndex] );
+						paneClassList.add(customPageClasses[currentCustomIndex]);
 						currentCustomIndex++;
 					}
-				}
-				else
-				{
-					Object cat = categoryMap.get( categories[i] );
+				} else {
+					Object cat = categoryMap.get(categories[i]);
 
-					if ( cat instanceof String )
-					{
-						categoryLabels.put( categories[i], (String) cat );
-						categoryTitles.put( categories[i], (String) cat );
-						paneClassList.add( paneClassMap.get( categories[i] ) );
+					if (cat instanceof String) {
+						categoryLabels.put(categories[i], (String) cat);
+						categoryTitles.put(categories[i], (String) cat);
+						paneClassList.add(paneClassMap.get(categories[i]));
 					}
 				}
 			}
 
-			if ( customKeys != null
-					&& customPageClasses != null
-					&& customKeys.length > currentCustomIndex )
-			{
-				for ( int i = currentCustomIndex; i < customKeys.length; i++ )
-				{
-					if ( customLabels != null )
-					{
-						categoryLabels.put( customKeys[i], customLabels[i] );
+			if (customKeys != null && customPageClasses != null && customKeys.length > currentCustomIndex) {
+				for (int i = currentCustomIndex; i < customKeys.length; i++) {
+					if (customLabels != null) {
+						categoryLabels.put(customKeys[i], customLabels[i]);
 					}
-					if ( customTitles != null )
-					{
-						categoryTitles.put( customKeys[i], customTitles[i] );
+					if (customTitles != null) {
+						categoryTitles.put(customKeys[i], customTitles[i]);
 					}
-					paneClassList.add( customPageClasses[i] );
+					paneClassList.add(customPageClasses[i]);
 				}
 			}
 		}
 
-		return new ExtendedCategoryProvider( categoryLabels,
-				categoryTitles,
-				paneClassList.toArray( new Object[paneClassList.size( )] ) );
+		return new ExtendedCategoryProvider(categoryLabels, categoryTitles,
+				paneClassList.toArray(new Object[paneClassList.size()]));
 	}
 
 	/**
 	 * Checks if specified category already exists by default
-	 * 
+	 *
 	 * @param categoryId
 	 * @return
 	 */
-	public static boolean containCategory( String categoryId )
-	{
-		return categoryMap.containsKey( categoryId );
+	public static boolean containCategory(String categoryId) {
+		return categoryMap.containsKey(categoryId);
 	}
 
 	/**
 	 * Returns a new instance of specified category page.
-	 * 
+	 *
 	 * @param categoryId
 	 * @return
 	 */
-	public static ICategoryPage getCategory( String categoryId )
-	{
-		if ( containCategory( categoryId ) )
-		{
-			return new CategoryPage( categoryId,
-					categoryMap.get( categoryId ),
-					paneClassMap.get( categoryId ) );
+	public static ICategoryPage getCategory(String categoryId) {
+		if (containCategory(categoryId)) {
+			return new CategoryPage(categoryId, categoryMap.get(categoryId), paneClassMap.get(categoryId));
 		}
 		return null;
 	}
 
-	public static String getCategoryDisplayName( String categoryId )
-	{
-		if ( containCategory( categoryId ) )
-		{
-			return categoryMap.get( categoryId );
+	public static String getCategoryDisplayName(String categoryId) {
+		if (containCategory(categoryId)) {
+			return categoryMap.get(categoryId);
 		}
 		return categoryId;
 	}

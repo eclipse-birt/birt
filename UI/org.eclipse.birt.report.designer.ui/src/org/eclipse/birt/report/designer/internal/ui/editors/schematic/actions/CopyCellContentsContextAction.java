@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,50 +28,42 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Copy cell's contents context menu
  */
-public class CopyCellContentsContextAction extends ContextSelectionAction
-{
+public class CopyCellContentsContextAction extends ContextSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.command.copyCellContentsContextAction"; //$NON-NLS-1$
 
-	public CopyCellContentsContextAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( Messages.getString( "CopyCellContentsContextAction.actionText" ) ); //$NON-NLS-1$
+	public CopyCellContentsContextAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(Messages.getString("CopyCellContentsContextAction.actionText")); //$NON-NLS-1$
 	}
 
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Copy action >> Copy " + getSelection( ) ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Copy action >> Copy " + getSelection()); //$NON-NLS-1$
 		}
 
-		try
-		{
-			CommandUtils.executeCommand( CopyCellContentsHandler.ID );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		try {
+			CommandUtils.executeCommand(CopyCellContentsHandler.ID);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	public boolean calculateEnabled( )
-	{
-		if ( canCopy( getSelectedObjects( ) ) )
+	@Override
+	public boolean calculateEnabled() {
+		if (canCopy(getSelectedObjects())) {
 			return true;
+		}
 		return false;
 	}
 
-	public boolean canCopy( List selection )
-	{
-		if ( selection.size( ) == 1
-				&& selection.get( 0 ) instanceof TableCellEditPart )
-		{
-			TableCellEditPart tcep = (TableCellEditPart) selection.get( 0 );
-			CellHandle cellHandle = (CellHandle) tcep.getModel( );
-			return cellHandle.getContent( ).getCount( ) > 0;
+	public boolean canCopy(List selection) {
+		if (selection.size() == 1 && selection.get(0) instanceof TableCellEditPart) {
+			TableCellEditPart tcep = (TableCellEditPart) selection.get(0);
+			CellHandle cellHandle = (CellHandle) tcep.getModel();
+			return cellHandle.getContent().getCount() > 0;
 		}
 		return false;
 	}

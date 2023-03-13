@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,169 +38,140 @@ import org.eclipse.swt.widgets.MenuItem;
 /**
  * The sup-class of all resetable attribute page.
  */
-public abstract class ResetAttributePage extends AttributePage
-{
+public abstract class ResetAttributePage extends AttributePage {
 
-	public void reset( )
-	{
-		if ( !canReset( ) )
+	public void reset() {
+		if (!canReset()) {
 			return;
-
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( Messages.getString( "ResetAttributePage.Style.Restore.Transaction.Name" ) ); //$NON-NLS-1$
-
-		Section[] sectionArray = getSections( );
-		for ( int i = 0; i < sectionArray.length; i++ )
-		{
-			Section section = sectionArray[i];
-			section.reset( );
 		}
-		stack.commit( );
+
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(Messages.getString("ResetAttributePage.Style.Restore.Transaction.Name")); //$NON-NLS-1$
+
+		Section[] sectionArray = getSections();
+		for (int i = 0; i < sectionArray.length; i++) {
+			Section section = sectionArray[i];
+			section.reset();
+		}
+		stack.commit();
 	}
 
-	protected void resetAll( )
-	{
-		if ( !canResetAll( ) )
+	protected void resetAll() {
+		if (!canResetAll()) {
 			return;
+		}
 
-		List handles = DEUtil.getInputElements( input );
-		if ( handles != null )
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( Messages.getString( "ResetAttributePage.Style.Restore.All.Transaction.Name" ) ); //$NON-NLS-1$
+		List handles = DEUtil.getInputElements(input);
+		if (handles != null) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			stack.startTrans(Messages.getString("ResetAttributePage.Style.Restore.All.Transaction.Name")); //$NON-NLS-1$
 
-			try
-			{
-				for ( Object handle : handles )
-				{
-					if ( handle instanceof DesignElementHandle )
-					{
-						DEUtil.resetAllStyleProperties( (DesignElementHandle) handle );
+			try {
+				for (Object handle : handles) {
+					if (handle instanceof DesignElementHandle) {
+						DEUtil.resetAllStyleProperties((DesignElementHandle) handle);
 					}
 				}
 
-				stack.commit( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
+				stack.commit();
+			} catch (SemanticException e) {
+				stack.rollback();
 
-				ExceptionUtil.handle( e );
+				ExceptionUtil.handle(e);
 			}
 		}
 	}
 
-	protected boolean canReset( )
-	{
+	protected boolean canReset() {
 		return true;
 	}
 
-	protected boolean canResetAll( )
-	{
-		return canReset( );
+	protected boolean canResetAll() {
+		return canReset();
 	}
 
-	class ResetAction extends Action
-	{
+	class ResetAction extends Action {
 
-		ResetAction( )
-		{
-			super( null, canResetAll( ) ? IAction.AS_DROP_DOWN_MENU
-					: IAction.AS_PUSH_BUTTON );
-			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_STYLE_RESOTRE ) );
-			setToolTipText( Messages.getString( "ResetAttributePage.Style.Restore.TooltipText" ) ); //$NON-NLS-1$
+		ResetAction() {
+			super(null, canResetAll() ? IAction.AS_DROP_DOWN_MENU : IAction.AS_PUSH_BUTTON);
+			setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_STYLE_RESOTRE));
+			setToolTipText(Messages.getString("ResetAttributePage.Style.Restore.TooltipText")); //$NON-NLS-1$
 
-			if ( canResetAll( ) )
-			{
-				setMenuCreator( new IMenuCreator( ) {
+			if (canResetAll()) {
+				setMenuCreator(new IMenuCreator() {
 
 					private Menu mMenu, cMenu;
 
 					@Override
-					public Menu getMenu( Menu parent )
-					{
-						if ( mMenu != null && !mMenu.isDisposed( ) )
-						{
+					public Menu getMenu(Menu parent) {
+						if (mMenu != null && !mMenu.isDisposed()) {
 							return mMenu;
 						}
-						mMenu = new Menu( parent );
-						initMenu( mMenu );
+						mMenu = new Menu(parent);
+						initMenu(mMenu);
 						return mMenu;
 					}
 
 					@Override
-					public Menu getMenu( Control parent )
-					{
-						if ( cMenu != null && !cMenu.isDisposed( ) )
-						{
+					public Menu getMenu(Control parent) {
+						if (cMenu != null && !cMenu.isDisposed()) {
 							return cMenu;
 						}
 
-						cMenu = new Menu( parent );
-						initMenu( cMenu );
+						cMenu = new Menu(parent);
+						initMenu(cMenu);
 						return cMenu;
 					}
 
-					private void initMenu( Menu parent )
-					{
-						MenuItem mi = new MenuItem( parent, SWT.PUSH );
-						mi.setText(  Messages.getString( "ResetAttributePage.Style.Restore.Menu.Name" ) ); //$NON-NLS-1$
-						mi.addSelectionListener( new SelectionAdapter( ) {
+					private void initMenu(Menu parent) {
+						MenuItem mi = new MenuItem(parent, SWT.PUSH);
+						mi.setText(Messages.getString("ResetAttributePage.Style.Restore.Menu.Name")); //$NON-NLS-1$
+						mi.addSelectionListener(new SelectionAdapter() {
 
-							public void widgetSelected(
-									org.eclipse.swt.events.SelectionEvent e )
-							{
-								reset( );
-							};
-						} );
+							@Override
+							public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+								reset();
+							}
+						});
 
-						mi = new MenuItem( parent, SWT.PUSH );
-						mi.setText(  Messages.getString( "ResetAttributePage.Style.Restore.All.Menu.Name" ) ); //$NON-NLS-1$
-						mi.addSelectionListener( new SelectionAdapter( ) {
+						mi = new MenuItem(parent, SWT.PUSH);
+						mi.setText(Messages.getString("ResetAttributePage.Style.Restore.All.Menu.Name")); //$NON-NLS-1$
+						mi.addSelectionListener(new SelectionAdapter() {
 
-							public void widgetSelected(
-									org.eclipse.swt.events.SelectionEvent e )
-							{
-								resetAll( );
-							};
-						} );
+							@Override
+							public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+								resetAll();
+							}
+						});
 					}
 
 					@Override
-					public void dispose( )
-					{
-						if ( mMenu != null && !mMenu.isDisposed( ) )
-						{
-							mMenu.dispose( );
+					public void dispose() {
+						if (mMenu != null && !mMenu.isDisposed()) {
+							mMenu.dispose();
 							mMenu = null;
 						}
 
-						if ( cMenu != null && !cMenu.isDisposed( ) )
-						{
-							cMenu.dispose( );
+						if (cMenu != null && !cMenu.isDisposed()) {
+							cMenu.dispose();
 							cMenu = null;
 						}
 					}
-				} );
+				});
 			}
 		}
 
-		public void run( )
-		{
-			reset( );
+		@Override
+		public void run() {
+			reset();
 		}
 
 	}
 
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == IAction.class && canReset( ) )
-		{
-			return new Action[]{
-				new ResetAction( )
-			};
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IAction.class && canReset()) {
+			return new Action[] { new ResetAction() };
 		}
 		return null;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +18,7 @@ package org.eclipse.birt.report.designer.ui.editors.extension;
  * Defines the constants used by extension framework
  */
 
-public interface IExtensionConstants
-{
+public interface IExtensionConstants {
 
 	/** Extension Point Id */
 	String EXTENSION_MULTIPAGE_EDITOR_CONTRIBUTOR = "org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor"; //$NON-NLS-1$
@@ -24,11 +26,11 @@ public interface IExtensionConstants
 	/** Element name */
 	String ELEMENT_FORM_PAGE = "formPage"; //$NON-NLS-1$
 	/** Attributes name */
-	
-	String ATTRIBUTE_NAME = "name"; //$NON-NLS-1$	
+
+	String ATTRIBUTE_NAME = "name"; //$NON-NLS-1$
 
 	String ATTRIBUTE_TARGET_EDITOR_ID = "targetEditorId"; //$NON-NLS-1$
-	
+
 	String ATTRIBUTE_ID = "id"; //$NON-NLS-1$
 	String ATTRIBUTE_DISPLAY_NAME = "displayName"; //$NON-NLS-1$
 	String ATTRIBUTE_CLASS = "class"; //$NON-NLS-1$

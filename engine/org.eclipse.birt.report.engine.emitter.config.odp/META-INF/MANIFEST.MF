@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT OpenDocument Presentation Emitter Descriptor
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config.odp;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.13.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.1,5.0.0)",
  org.eclipse.birt.report.engine;bundle-version="[2.3.1,5.0.0)",

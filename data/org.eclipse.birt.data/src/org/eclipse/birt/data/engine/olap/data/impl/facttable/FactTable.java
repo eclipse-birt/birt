@@ -1,12 +1,15 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
@@ -22,20 +25,19 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.Di
  * This class describes a fact table.
  */
 
-public class FactTable
-{
+public class FactTable {
 	private String name;
 	private DimensionInfo[] dimensionInfo;
 	private MeasureInfo[] measureInfo, calculatedMeasureInfo;
 	private int segmentCount;
 	private DimensionDivision[] dimensionDivision;
-	
+
 	private IDocumentManager documentManager;
 	private CombinedPositionContructor combinedPositionCalculator;
-	private static Logger logger = Logger.getLogger( FactTable.class.getName( ) );
-	
+	private static Logger logger = Logger.getLogger(FactTable.class.getName());
+
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param documentManager
 	 * @param dimensionInfo
@@ -43,19 +45,11 @@ public class FactTable
 	 * @param segmentCount
 	 * @param dimensionDivision
 	 */
-	FactTable( String name, IDocumentManager documentManager, DimensionInfo[] dimensionInfo,
-			MeasureInfo[] measureInfo, MeasureInfo[] calculatedMeasureInfo, int segmentCount,
-			DimensionDivision[] dimensionDivision )
-	{
-		Object[] params = {
-				name,
-				documentManager,
-				dimensionInfo,
-				measureInfo,
-				Integer.valueOf( segmentCount ),
-				dimensionDivision
-		};
-		logger.entering( FactTable.class.getName( ), "FactTable", params );
+	FactTable(String name, IDocumentManager documentManager, DimensionInfo[] dimensionInfo, MeasureInfo[] measureInfo,
+			MeasureInfo[] calculatedMeasureInfo, int segmentCount, DimensionDivision[] dimensionDivision) {
+		Object[] params = { name, documentManager, dimensionInfo, measureInfo, Integer.valueOf(segmentCount),
+				dimensionDivision };
+		logger.entering(FactTable.class.getName(), "FactTable", params);
 		this.name = name;
 		this.dimensionInfo = dimensionInfo;
 		this.measureInfo = measureInfo;
@@ -63,131 +57,94 @@ public class FactTable
 		this.segmentCount = segmentCount;
 		this.dimensionDivision = dimensionDivision;
 		this.documentManager = documentManager;
-		this.combinedPositionCalculator = new CombinedPositionContructor( dimensionDivision );
-		logger.exiting( FactTable.class.getName( ), "FactTable" );
+		this.combinedPositionCalculator = new CombinedPositionContructor(dimensionDivision);
+		logger.exiting(FactTable.class.getName(), "FactTable");
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public DimensionDivision[] getDimensionDivision( )
-	{
+	public DimensionDivision[] getDimensionDivision() {
 		return dimensionDivision;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public CombinedPositionContructor getCombinedPositionCalculator( )
-	{
+	public CombinedPositionContructor getCombinedPositionCalculator() {
 		return combinedPositionCalculator;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public DimensionInfo[] getDimensionInfo( )
-	{
+	public DimensionInfo[] getDimensionInfo() {
 		return dimensionInfo;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public MeasureInfo[] getMeasureInfo( )
-	{
+	public MeasureInfo[] getMeasureInfo() {
 		return measureInfo;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public MeasureInfo[] getCalcualtedMeasureInfo( )
-	{
+	public MeasureInfo[] getCalcualtedMeasureInfo() {
 		return this.calculatedMeasureInfo;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public String[] getMeasureNames( )
-	{
+	public String[] getMeasureNames() {
 		String[] measureNames = new String[measureInfo.length];
-		for ( int i = 0; i < measureNames.length; i++ )
-		{
+		for (int i = 0; i < measureNames.length; i++) {
 			measureNames[i] = measureInfo[i].getMeasureName();
 		}
 		return measureNames;
 	}
-	
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getSegmentCount( )
-	{
+	public int getSegmentCount() {
 		return segmentCount;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public DimensionDivision[] getSubDimensions( )
-	{
+	public DimensionDivision[] getSubDimensions() {
 		return dimensionDivision;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public IDocumentManager getDocumentManager( )
-	{
+	public IDocumentManager getDocumentManager() {
 		return documentManager;
 	}
-	
-	
+
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
-	public int getDimensionIndex( String dimensionName )
-	{
-		for ( int i = 0; i < dimensionInfo.length; i++ )
-		{
-			if(dimensionInfo[i].dimensionName.equals( dimensionName ))
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	/**
-	 * 
-	 * @param measureName
-	 * @return
-	 */
-	public int getMeasureIndex( String measureName )
-	{
-		for ( int i = 0; i < measureInfo.length; i++ )
-		{
-			if(measureInfo[i].getMeasureName().equals( measureName ))
-			{
+	public int getDimensionIndex(String dimensionName) {
+		for (int i = 0; i < dimensionInfo.length; i++) {
+			if (dimensionInfo[i].dimensionName.equals(dimensionName)) {
 				return i;
 			}
 		}
@@ -195,11 +152,24 @@ public class FactTable
 	}
 
 	/**
-	 * 
+	 *
+	 * @param measureName
 	 * @return
 	 */
-	public String getName( )
-	{
+	public int getMeasureIndex(String measureName) {
+		for (int i = 0; i < measureInfo.length; i++) {
+			if (measureInfo[i].getMeasureName().equals(measureName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public String getName() {
 		return name;
 	}
 

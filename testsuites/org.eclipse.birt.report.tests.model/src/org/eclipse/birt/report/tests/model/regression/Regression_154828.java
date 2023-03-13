@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,41 +47,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Can delete extended label with user property
  */
-public class Regression_154828 extends BaseTestCase
-{
+public class Regression_154828 extends BaseTestCase {
 
 	private String filename = "Regression_154828.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( filename , filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( filename , filename );
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_154828( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		libraryHandle = designHandle.getLibrary( "lib" ); //$NON-NLS-1$
-		LabelHandle label = (LabelHandle) libraryHandle.findElement( "label" ); //$NON-NLS-1$
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle newlabel = (LabelHandle) factory.newElementFrom( label,
-				"newlabel" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( newlabel );
+	public void test_regression_154828() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		libraryHandle = designHandle.getLibrary("lib"); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) libraryHandle.findElement("label"); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle newlabel = (LabelHandle) factory.newElementFrom(label, "newlabel"); //$NON-NLS-1$
+		designHandle.getBody().add(newlabel);
 
-		assertTrue( newlabel.canDrop( ) );
-		designHandle.getBody( ).drop( newlabel );
-		assertEquals( 0, designHandle.getBody( ).getContents( ).size( ) );
+		assertTrue(newlabel.canDrop());
+		designHandle.getBody().drop(newlabel);
+		assertEquals(0, designHandle.getBody().getContents().size());
 
 	}
 }

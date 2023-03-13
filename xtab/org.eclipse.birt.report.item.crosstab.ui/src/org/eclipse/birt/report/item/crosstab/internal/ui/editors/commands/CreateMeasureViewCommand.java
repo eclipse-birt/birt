@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Add the measure handle to the cross tab through the virtual editpart.
  */
-public class CreateMeasureViewCommand extends AbstractCrosstabCommand
-{
+public class CreateMeasureViewCommand extends AbstractCrosstabCommand {
 
 	private CrosstabHandleAdapter handleAdpter;
 	private MeasureHandle measureHandle;
@@ -31,77 +33,72 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 	/**
 	 * Trans name
 	 */
-	//private static final String NAME = "Create MeasureViewHandle";
-	private static final String NAME = Messages.getString( "CreateMeasureViewCommand.TransName" );//$NON-NLS-1$
+	// private static final String NAME = "Create MeasureViewHandle";
+	private static final String NAME = Messages.getString("CreateMeasureViewCommand.TransName");//$NON-NLS-1$
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
-	public CreateMeasureViewCommand( CrosstabHandleAdapter handleAdpter,
-			MeasureHandle measureHandle )
-	{
-		super( measureHandle );
+	public CreateMeasureViewCommand(CrosstabHandleAdapter handleAdpter, MeasureHandle measureHandle) {
+		super(measureHandle);
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
-		
-		setLabel( NAME );
+
+		setLabel(NAME);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
+	@Override
+	public boolean canExecute() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+	@Override
+	public void execute() {
+		transStart(NAME);
+		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle();
 
-		try
-		{
-			if ( reportHandle.getCube( ) == null )
-			{
-				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( measureHandle ) );
+		try {
+			if (reportHandle.getCube() == null) {
+				reportHandle.setCube(CrosstabAdaptUtil.getCubeHandle(measureHandle));
 			}
-			CrosstabAdaptUtil.addMeasureHandle( reportHandle, measureHandle, 0 );
+			CrosstabAdaptUtil.addMeasureHandle(reportHandle, measureHandle, 0);
 //			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 //					0 );
 //			measureViewHandle.addHeader( );
-//			
+//
 //			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
 //			ComputedColumnHandle bindingHandle =((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-//			
+//
 //			CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
 //
 //			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 //					.newDataItem( measureHandle.getName( ) );
 //			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-//			
+//
 //			cellHandle.addContent( dataHandle );
-//			
+//
 //			LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
 //			labelHandle.setText( measureHandle.getName( ) );
 //
 //			measureViewHandle.getHeader( ).addContent( labelHandle );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 			return;
 		}
-		transEnd( );
+		transEnd();
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,40 +19,39 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.report.engine.api.DataSetID;
 
-public interface IBaseResultSet
-{
+public interface IBaseResultSet {
 
-	static int QUERY_RESULTSET = 0;
-	static int CUBE_RESULTSET = 1;
+	int QUERY_RESULTSET = 0;
+	int CUBE_RESULTSET = 1;
 
-	int getType( );
+	int getType();
 
-	IBaseQueryResults getQueryResults( );
+	IBaseQueryResults getQueryResults();
 
 	/**
 	 * return the Raw ID
-	 * 
+	 *
 	 * @return
 	 */
-	String getRawID( ) throws BirtException;
+	String getRawID() throws BirtException;
 
-	DataSetID getID( );
+	DataSetID getID();
 
-	IBaseResultSet getParent( );
+	IBaseResultSet getParent();
 
-	public Object evaluate( String expr ) throws BirtException;
-	
+	Object evaluate(String expr) throws BirtException;
+
 	/**
 	 * evaluate the expression with specified script language.
-	 * 
+	 *
 	 * @param language
 	 * @param expr
 	 * @return
 	 * @throws BirtException
 	 */
-	public Object evaluate( String language, String expr ) throws BirtException;
+	Object evaluate(String language, String expr) throws BirtException;
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException;
+	Object evaluate(IBaseExpression expr) throws BirtException;
 
-	void close( );
+	void close();
 }

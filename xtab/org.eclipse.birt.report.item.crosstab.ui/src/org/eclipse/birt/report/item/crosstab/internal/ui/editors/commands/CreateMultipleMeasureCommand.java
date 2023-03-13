@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,11 +26,10 @@ import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
- * 
+ *
  */
 
-public class CreateMultipleMeasureCommand extends AbstractCrosstabCommand
-{
+public class CreateMultipleMeasureCommand extends AbstractCrosstabCommand {
 
 	private CrosstabHandleAdapter handleAdpter;
 	// private MeasureHandle measureHandle;
@@ -37,84 +39,71 @@ public class CreateMultipleMeasureCommand extends AbstractCrosstabCommand
 	 * Trans name
 	 */
 	// private static final String NAME = "Create MeasureViewHandle";
-	private static final String NAME = Messages.getString( "CreateMeasureViewCommand.TransName" );//$NON-NLS-1$
+	private static final String NAME = Messages.getString("CreateMeasureViewCommand.TransName");//$NON-NLS-1$
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
-	public CreateMultipleMeasureCommand( CrosstabHandleAdapter handleAdpter,
-			List list )
-	{
-		super( handleAdpter.getDesignElementHandle( ) );
+	public CreateMultipleMeasureCommand(CrosstabHandleAdapter handleAdpter, List list) {
+		super(handleAdpter.getDesignElementHandle());
 		this.handleAdpter = handleAdpter;
 		this.list = list;
-		
-		setLabel( NAME );
+
+		setLabel(NAME);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
+	@Override
+	public boolean canExecute() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		try
-		{
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				Object obj = list.get( i );
-				if (obj instanceof MeasureHandle)
-				{
-					addMeasureHandle( (MeasureHandle)obj);
+	@Override
+	public void execute() {
+		transStart(NAME);
+		try {
+			for (int i = 0; i < list.size(); i++) {
+				Object obj = list.get(i);
+				if (obj instanceof MeasureHandle) {
+					addMeasureHandle((MeasureHandle) obj);
 				}
-				if (obj instanceof MeasureGroupHandle)
-				{
-					List children  = ((MeasureGroupHandle)obj).getContents( MeasureGroupHandle.MEASURES_PROP );
-					for ( int j = 0; j < children.size( ); j++ )
-					{
-						Object temp = children.get( j );
-						if (temp instanceof MeasureHandle)
-						{
-							addMeasureHandle( (MeasureHandle)temp);
+				if (obj instanceof MeasureGroupHandle) {
+					List children = ((MeasureGroupHandle) obj).getContents(MeasureGroupHandle.MEASURES_PROP);
+					for (int j = 0; j < children.size(); j++) {
+						Object temp = children.get(j);
+						if (temp instanceof MeasureHandle) {
+							addMeasureHandle((MeasureHandle) temp);
 						}
 					}
 				}
 			}
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 			return;
 		}
-		transEnd( );
+		transEnd();
 	}
 
-	private void addMeasureHandle( MeasureHandle measureHandle )
-			throws SemanticException
-	{
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+	private void addMeasureHandle(MeasureHandle measureHandle) throws SemanticException {
+		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle();
 
-		if ( reportHandle.getCube( ) == null )
-		{
-			reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( measureHandle ) );
+		if (reportHandle.getCube() == null) {
+			reportHandle.setCube(CrosstabAdaptUtil.getCubeHandle(measureHandle));
 		}
 
-		CrosstabAdaptUtil.addMeasureHandle( reportHandle, measureHandle, reportHandle.getMeasureCount( ) );
+		CrosstabAdaptUtil.addMeasureHandle(reportHandle, measureHandle, reportHandle.getMeasureCount());
 	}
 }

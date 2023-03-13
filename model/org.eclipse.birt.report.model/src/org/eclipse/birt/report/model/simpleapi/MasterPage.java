@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,48 +21,44 @@ import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 
 /**
- * 
+ *
  * Implements of <code>IMasterPage</code>
- * 
+ *
  */
 
-public class MasterPage extends ReportElement implements IMasterPage
-{
+public class MasterPage extends ReportElement implements IMasterPage {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 
-	public MasterPage( ReportElementHandle handle )
-	{
-		super( handle );
+	public MasterPage(ReportElementHandle handle) {
+		super(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IMasterPage#getPageType()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IMasterPage#getPageType()
 	 */
 
-	public String getPageType( )
-	{
-		return ( (MasterPageHandle) handle ).getPageType( );
+	@Override
+	public String getPageType() {
+		return ((MasterPageHandle) handle).getPageType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IMasterPage#setPageType(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IMasterPage#setPageType(java
 	 * .lang.String)
 	 */
 
-	public void setPageType( String pageType ) throws SemanticException
-	{
-		setProperty( IMasterPageModel.TYPE_PROP, pageType );
+	@Override
+	public void setPageType(String pageType) throws SemanticException {
+		setProperty(IMasterPageModel.TYPE_PROP, pageType);
 	}
 
 }

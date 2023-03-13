@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,65 +24,57 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class TableOptionPage extends WizardPage
-{
+public class TableOptionPage extends WizardPage {
 
 	private TableOptionDialog dialog;
 
-	public TableOptionPage( )
-	{
-		super( Messages.getString( "TableOptionPage.Title" ) ); //$NON-NLS-1$
-		this.setTitle( Messages.getString( "TableOptionPage.Title" ) ); //$NON-NLS-1$
-	}
-
-	public void createControl( Composite parent )
-	{
-		Composite pageComp = new Composite( parent, SWT.NONE );
-		GridLayout pageCompLayout = new GridLayout( );
-		pageCompLayout.marginWidth = 10;
-		pageCompLayout.marginHeight = 10;
-		pageComp.setLayout( pageCompLayout );
-		pageComp.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_FILL
-				| GridData.GRAB_VERTICAL
-				| GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.GRAB_HORIZONTAL ) );
-
-		UIUtil.bindHelp( pageComp,
-				IHelpContextIds.SELECT_DATASET_BINDING_COLUMN );
-
-		pageComp.layout( );
-
-		dialog = new TableOptionDialog( UIUtil.getDefaultShell( ), true );
-		dialog.showDataSetOption( false );
-		Control control = dialog.createDialogArea( pageComp );
-		control.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		setControl( pageComp );
-	}
-
-	public boolean isPageComplete( )
-	{
-		return true;
-	}
-
-	public Object getResult( )
-	{
-		if ( dialog != null )
-			return dialog.getResult( );
-		return null;
-	}
-
-	public void performFinish( )
-	{
-		dialog.okPressed( );
+	public TableOptionPage() {
+		super(Messages.getString("TableOptionPage.Title")); //$NON-NLS-1$
+		this.setTitle(Messages.getString("TableOptionPage.Title")); //$NON-NLS-1$
 	}
 
 	@Override
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		if ( visible )
-		{
-			getControl( ).forceFocus( );
+	public void createControl(Composite parent) {
+		Composite pageComp = new Composite(parent, SWT.NONE);
+		GridLayout pageCompLayout = new GridLayout();
+		pageCompLayout.marginWidth = 10;
+		pageCompLayout.marginHeight = 10;
+		pageComp.setLayout(pageCompLayout);
+		pageComp.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+
+		UIUtil.bindHelp(pageComp, IHelpContextIds.SELECT_DATASET_BINDING_COLUMN);
+
+		pageComp.layout();
+
+		dialog = new TableOptionDialog(UIUtil.getDefaultShell(), true);
+		dialog.showDataSetOption(false);
+		Control control = dialog.createDialogArea(pageComp);
+		control.setLayoutData(new GridData(GridData.FILL_BOTH));
+		setControl(pageComp);
+	}
+
+	@Override
+	public boolean isPageComplete() {
+		return true;
+	}
+
+	public Object getResult() {
+		if (dialog != null) {
+			return dialog.getResult();
+		}
+		return null;
+	}
+
+	public void performFinish() {
+		dialog.okPressed();
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			getControl().forceFocus();
 		}
 	}
 }

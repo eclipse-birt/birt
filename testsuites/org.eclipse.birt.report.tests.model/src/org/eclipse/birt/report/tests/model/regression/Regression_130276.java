@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,8 +35,7 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_130276 extends BaseTestCase
-{
+public class Regression_130276 extends BaseTestCase {
 
 	private ElementFactory factory = null;
 
@@ -42,21 +44,19 @@ public class Regression_130276 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_130276( ) throws DesignFileException, SemanticException
-	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = sessionHandle.createDesign( );
-		factory = new ElementFactory( designHandle.getModule( ) );
+	public void test_regression_130276() throws DesignFileException, SemanticException {
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = sessionHandle.createDesign();
+		factory = new ElementFactory(designHandle.getModule());
 
-		TableHandle table = factory.newTableItem( "table" ); //$NON-NLS-1$
-		TableGroupHandle group = factory.newTableGroup( );
-		table.getGroups( ).add( group );
-		designHandle.getBody( ).add( table );
+		TableHandle table = factory.newTableItem("table"); //$NON-NLS-1$
+		TableGroupHandle group = factory.newTableGroup();
+		table.getGroups().add(group);
+		designHandle.getBody().add(table);
 
-		designHandle.findElement( "table" ).drop( ); //$NON-NLS-1$
-		designHandle.getCommandStack( ).undo( );
+		designHandle.findElement("table").drop(); //$NON-NLS-1$
+		designHandle.getCommandStack().undo();
 
-		assertNotNull( designHandle.findElement( "table" ) ); //$NON-NLS-1$
+		assertNotNull(designHandle.findElement("table")); //$NON-NLS-1$
 	}
 }

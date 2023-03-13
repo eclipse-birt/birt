@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
 import java.util.List;
@@ -20,86 +32,77 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class HandlerPage extends LibraryAttributePage
-{
-
+public class HandlerPage extends LibraryAttributePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#buildUI()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#buildUI()
 	 */
-	public void buildUI( Composite parent)
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15 ) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5, 15));
 
-		needCheckLibraryReadOnly( true );
-		
-		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP,
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT ) {
+		needCheckLibraryReadOnly(true);
 
-			public boolean isEditable( )
-			{
-				if ( HandlerPage.this.isLibraryReadOnly( ) )
+		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider(
+				ReportDesignHandle.EVENT_HANDLER_CLASS_PROP, ReportDesignConstants.REPORT_DESIGN_ELEMENT) {
+
+			@Override
+			public boolean isEditable() {
+				if (HandlerPage.this.isLibraryReadOnly()) {
 					return false;
-				else
-					return super.isEditable( );
+				} else {
+					return super.isEditable();
+				}
 			}
 		};
-		TextAndButtonSection eventSection = new TextAndButtonSection( eventProvider.getDisplayName( ),
-				container,
-				true );
-		eventSection.setProvider( eventProvider );
-		eventSection.addSelectionListener( new SelectionAdapter( ) {
+		TextAndButtonSection eventSection = new TextAndButtonSection(eventProvider.getDisplayName(), container, true);
+		eventSection.setProvider(eventProvider);
+		eventSection.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				ClassFinder finder = new ClassFinder( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ClassFinder finder = new ClassFinder();
 				String className = null;
-				if ( input != null && ( (List) input ).size( ) > 0 )
-				{
+				if (input != null && ((List) input).size() > 0) {
 					// if ( input.get( 0 ) instanceof ExtendedItemHandle
 					// {
 					// className = (String) ( EventHandlerWrapper.get(
 					// AttributeConstant.EVENT_HANDLER_CLASS_PROPERTY_KEY ) );
 					// }
 					// else
-					if ( ( (List) input ).get( 0 ) instanceof DesignElementHandle )
-					{
-						className = EventHandlerWrapper.getEventHandlerClassName( (DesignElementHandle) ( (List) input ).get( 0 ) );
+					if (((List) input).get(0) instanceof DesignElementHandle) {
+						className = EventHandlerWrapper
+								.getEventHandlerClassName((DesignElementHandle) ((List) input).get(0));
 
 					}
 				}
-				if ( className != null )
-				{
-					finder.setParentClassName( className );
-					GroupPropertyHandle handle = DEUtil.getMultiSelectionHandle( (List) input )
-							.getPropertyHandle( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP );
-					try
-					{
-						String finderClassName = finder.getFinderClassName( );
-						if ( finderClassName != null
-								&& finderClassName.trim( ).length( ) > 0 )
-						{
-							handle.setStringValue( finderClassName.trim( ) );
+				if (className != null) {
+					finder.setParentClassName(className);
+					GroupPropertyHandle handle = DEUtil.getMultiSelectionHandle((List) input)
+							.getPropertyHandle(ReportDesignHandle.EVENT_HANDLER_CLASS_PROP);
+					try {
+						String finderClassName = finder.getFinderClassName();
+						if (finderClassName != null && finderClassName.trim().length() > 0) {
+							handle.setStringValue(finderClassName.trim());
 						}
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionUtil.handle( e1 );
+					} catch (SemanticException e1) {
+						ExceptionUtil.handle(e1);
 					}
 				}
 			}
 
-		} );
-		eventSection.setWidth( 400 );
-		eventSection.setGridPlaceholder( 1, true );
-		eventSection.setButtonText( Messages.getString( "EventHandlerPage.Browse" ) ); //$NON-NLS-1$
-		addSection( PageSectionId.HANDLER_EVENT, eventSection );
-		
-		createSections( );
-		layoutSections( );
+		});
+		eventSection.setWidth(400);
+		eventSection.setGridPlaceholder(1, true);
+		eventSection.setButtonText(Messages.getString("EventHandlerPage.Browse")); //$NON-NLS-1$
+		addSection(PageSectionId.HANDLER_EVENT, eventSection);
+
+		createSections();
+		layoutSections();
 	}
 
 }

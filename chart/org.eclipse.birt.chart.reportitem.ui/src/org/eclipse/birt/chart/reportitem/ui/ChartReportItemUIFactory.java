@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,179 +58,149 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.core.resources.IProject;
 
 /**
- * 
+ *
  */
 
-public class ChartReportItemUIFactory extends ChartUIFactory
-{
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-	
-	private static ChartReportItemUIFactory instance = new ChartReportItemUIFactory( );
+public class ChartReportItemUIFactory extends ChartUIFactory {
+	protected static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
+
+	private static ChartReportItemUIFactory instance = new ChartReportItemUIFactory();
 
 	protected ReportDataServiceProvider reportDataProvider = null;
-	
-	protected ChartReportItemUIFactory( )
-	{
+
+	protected ChartReportItemUIFactory() {
 
 	}
 
-	public static ChartReportItemUIFactory instance( )
-	{
+	public static ChartReportItemUIFactory instance() {
 		return instance;
 	}
 
-	public static void initInstance( ChartReportItemUIFactory newInstance )
-	{
+	public static void initInstance(ChartReportItemUIFactory newInstance) {
 		instance = newInstance;
 	}
 
-	public IChartDataSheet createDataSheet( ExtendedItemHandle handle,
-			ReportDataServiceProvider dataProvider )
-	{
-		return new StandardChartDataSheet( handle, dataProvider );
+	public IChartDataSheet createDataSheet(ExtendedItemHandle handle, ReportDataServiceProvider dataProvider) {
+		return new StandardChartDataSheet(handle, dataProvider);
 	}
 
-	public ChartWizardContext createWizardContext( Chart cm,
-			IUIServiceProvider uiProvider, IImageServiceProvider imageProvider,
-			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
-	{
-		return new ChartWizardContext( cm,
-				uiProvider,
-				imageProvider,
-				dataProvider,
-				dataSheet,
-				this );
+	public ChartWizardContext createWizardContext(Chart cm, IUIServiceProvider uiProvider,
+			IImageServiceProvider imageProvider, IDataServiceProvider dataProvider, IChartDataSheet dataSheet) {
+		return new ChartWizardContext(cm, uiProvider, imageProvider, dataProvider, dataSheet, this);
 	}
 
-	public DteAdapter createDteAdapter( )
-	{
-		return new DteAdapter( );
+	public DteAdapter createDteAdapter() {
+		return new DteAdapter();
 	}
 
 	/**
 	 * Creates instance of <code>ChartReportItemBuilderImpl</code>.
-	 * 
+	 *
 	 * @param taskId
 	 * @return instance of <code>ChartReportItemBuilderImpl</code>.
 	 */
-	public ChartReportItemBuilderImpl createReportItemBuilder(  String taskId )
-	{
-		return new ChartReportItemBuilderImpl( taskId );
+	public ChartReportItemBuilderImpl createReportItemBuilder(String taskId) {
+		return new ChartReportItemBuilderImpl(taskId);
 	}
-	
+
 	/**
 	 * Creates instance of <code>IMenuBuilder</code>.
-	 * 
+	 *
 	 * @return instance of <code>IMenuBuilder</code>.
 	 */
-	public IMenuBuilder createMenuBuilder( )
-	{
+	public IMenuBuilder createMenuBuilder() {
 		return new ChartMenuBuilder();
 	}
-	
+
 	/**
 	 * Updates chart page section helper according to context.
-	 * 
+	 *
 	 * @param sectionHelper
 	 * @return chart page section helper according to context.
 	 */
-	public ISectionHelper updateChartPageSectionHelper( ISectionHelper sectionHelper )
-	{
+	public ISectionHelper updateChartPageSectionHelper(ISectionHelper sectionHelper) {
 		return sectionHelper;
 	}
 
-	public ReportDataServiceProvider createReportDataServiceProvider(
-			ExtendedItemHandle extendedHandle )
-	{
-		return new ReportDataServiceProvider( extendedHandle );
+	public ReportDataServiceProvider createReportDataServiceProvider(ExtendedItemHandle extendedHandle) {
+		return new ReportDataServiceProvider(extendedHandle);
 	}
+
 	/**
 	 * Creates Figure used for edit part in layout editor.
-	 * 
-	 * @param crii
-	 *            report item
+	 *
+	 * @param crii report item
 	 * @return figure instance
 	 * @since 3.7
 	 */
-	public DesignerRepresentation createFigure( ChartReportItemImpl crii )
-	{
-		return new DesignerRepresentation( crii );
-	}	
-	
+	public DesignerRepresentation createFigure(ChartReportItemImpl crii) {
+		return new DesignerRepresentation(crii);
+	}
+
 	/**
 	 * Create chart preference page
+	 *
 	 * @param context
 	 * @param project
 	 * @return ChartConfigurationBlock
 	 */
-	public ChartConfigurationBlock createChartConfigurationBlock(IStatusChangeListener context,
-			IProject project){
-		return new ChartConfigurationBlock( context,
-				project );
+	public ChartConfigurationBlock createChartConfigurationBlock(IStatusChangeListener context, IProject project) {
+		return new ChartConfigurationBlock(context, project);
 	}
 
-	public AbstractFilterHandleProvider getFilterProvider( Object handle,
-			ReportDataServiceProvider dataServiceProvider )
-	{
-		AbstractFilterHandleProvider baseProvider = AbstractFilterHandleProvider.class.cast( ElementAdapterManager.getAdapter( new ChartPageGenerator( ),
-				AbstractFilterHandleProvider.class ) );
-		if ( baseProvider == null )
-		{
-			baseProvider = new FilterHandleProvider( );
+	public AbstractFilterHandleProvider getFilterProvider(Object handle,
+			ReportDataServiceProvider dataServiceProvider) {
+		AbstractFilterHandleProvider baseProvider = AbstractFilterHandleProvider.class
+				.cast(ElementAdapterManager.getAdapter(new ChartPageGenerator(), AbstractFilterHandleProvider.class));
+		if (baseProvider == null) {
+			baseProvider = new FilterHandleProvider();
 		}
 		return baseProvider;
 	}
-	
-	public ExtendedItemHandle createChartViewHandle( DesignElementHandle host )
-			throws ExtendedElementException
-	{
+
+	public ExtendedItemHandle createChartViewHandle(DesignElementHandle host) throws ExtendedElementException {
 		// Create chart
-		ChartWithAxes cm = ChartWithAxesImpl.createDefault( );
-		cm.setType( "Bar Chart" );//$NON-NLS-1$
-		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
+		ChartWithAxes cm = ChartWithAxesImpl.createDefault();
+		cm.setType("Bar Chart");//$NON-NLS-1$
+		cm.setSubType("Side-by-side");//$NON-NLS-1$
 
 		// Add base series
-		SeriesDefinition sdBase = SeriesDefinitionImpl.createDefault( );
-		Series series = SeriesImpl.createDefault( );
-		sdBase.getSeries( ).add( series );
-		cm.getBaseAxes( )[0].getSeriesDefinitions( ).add( sdBase );
+		SeriesDefinition sdBase = SeriesDefinitionImpl.createDefault();
+		Series series = SeriesImpl.createDefault();
+		sdBase.getSeries().add(series);
+		cm.getBaseAxes()[0].getSeriesDefinitions().add(sdBase);
 
 		// Add orthogonal series
-		SeriesDefinition sdOrth = SeriesDefinitionImpl.createDefault( );
-		series = BarSeriesImpl.createDefault( );
-		Action a = ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
-				TooltipValueImpl.create( 200, "" ) ); //$NON-NLS-1$
-		Trigger e = TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL, a );
-		series.getTriggers( ).add( e );
-		sdOrth.getSeries( ).add( series );
-		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
-				.add( sdOrth );
-		ChartUIUtil.setSeriesName( cm );
+		SeriesDefinition sdOrth = SeriesDefinitionImpl.createDefault();
+		series = BarSeriesImpl.createDefault();
+		Action a = ActionImpl.create(ActionType.SHOW_TOOLTIP_LITERAL, TooltipValueImpl.create(200, "")); //$NON-NLS-1$
+		Trigger e = TriggerImpl.create(TriggerCondition.ONMOUSEOVER_LITERAL, a);
+		series.getTriggers().add(e);
+		sdOrth.getSeries().add(series);
+		cm.getOrthogonalAxes(cm.getBaseAxes()[0], true)[0].getSeriesDefinitions().add(sdOrth);
+		ChartUIUtil.setSeriesName(cm);
 
 		// Add sample data
-		SampleData sampleData = DataFactory.eINSTANCE.createSampleData( );
-		sampleData.getBaseSampleData( ).clear( );
-		sampleData.getOrthogonalSampleData( ).clear( );
+		SampleData sampleData = DataFactory.eINSTANCE.createSampleData();
+		sampleData.getBaseSampleData().clear();
+		sampleData.getOrthogonalSampleData().clear();
 		// Create Base Sample Data
-		BaseSampleData sampleDataBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sampleDataBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
-		sampleData.getBaseSampleData( ).add( sampleDataBase );
+		BaseSampleData sampleDataBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sampleDataBase.setDataSetRepresentation("A, B, C"); //$NON-NLS-1$
+		sampleData.getBaseSampleData().add(sampleDataBase);
 		// Create Orthogonal Sample Data (with simulation count of 2)
-		OrthogonalSampleData sampleDataOrth = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sampleDataOrth.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
-		sampleDataOrth.setSeriesDefinitionIndex( 0 );
-		sampleData.getOrthogonalSampleData( ).add( sampleDataOrth );
-		cm.setSampleData( sampleData );
+		OrthogonalSampleData sampleDataOrth = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sampleDataOrth.setDataSetRepresentation("5,4,12"); //$NON-NLS-1$
+		sampleDataOrth.setSeriesDefinitionIndex(0);
+		sampleData.getOrthogonalSampleData().add(sampleDataOrth);
+		cm.setSampleData(sampleData);
 
 		// Create a new item handle.
-		String name = ReportPlugin.getDefault( )
-				.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
-		ExtendedItemHandle itemHandle = host.getElementFactory( )
-				.newExtendedItem( name,
-						ChartReportItemConstants.CHART_EXTENSION_NAME );
+		String name = ReportPlugin.getDefault().getCustomName(ChartReportItemConstants.CHART_EXTENSION_NAME);
+		ExtendedItemHandle itemHandle = host.getElementFactory().newExtendedItem(name,
+				ChartReportItemConstants.CHART_EXTENSION_NAME);
 
-		itemHandle.getReportItem( )
-				.setProperty( ChartReportItemConstants.PROPERTY_CHART, cm );
+		itemHandle.getReportItem().setProperty(ChartReportItemConstants.PROPERTY_CHART, cm);
 
 		return itemHandle;
 	}

@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,79 +20,78 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 
 /**
- * 
+ *
  */
 
-public interface IFactTableRowIterator
-{
+public interface IFactTableRowIterator {
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getDimensionCount( );
-	
+	int getDimensionCount();
+
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
-	public int getDimensionIndex( String dimensionName );
-	
+	int getDimensionIndex(String dimensionName);
+
 	/**
-	 * 
+	 *
 	 * @param dimensionIndex
 	 * @return
 	 */
-	public int getDimensionPosition( int dimensionIndex );
-	
+	int getDimensionPosition(int dimensionIndex);
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int[] getDimensionPosition( );
-	
+	int[] getDimensionPosition();
+
 	/**
-	 * 
+	 *
 	 * @param measureIndex
 	 * @return
 	 */
-	public Object getMeasure( int measureIndex );
-	
+	Object getMeasure(int measureIndex);
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getMeasureCount( );
-	
+	int getMeasureCount();
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public MeasureInfo[] getMeasureInfos( );
-	
+	MeasureInfo[] getMeasureInfos();
+
 	/**
-	 * 
+	 *
 	 * @param measureName
 	 * @return
 	 */
-	public int getMeasureIndex( String measureName );
-	
+	int getMeasureIndex(String measureName);
+
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean next( ) throws IOException, DataException;
-	
+	boolean next() throws IOException, DataException;
+
 	/**
 	 * @throws IOException
 	 */
-	public void close() throws DataException, IOException;
-	
+	void close() throws DataException, IOException;
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isDuplicatedRow( );
+	boolean isDuplicatedRow();
 }

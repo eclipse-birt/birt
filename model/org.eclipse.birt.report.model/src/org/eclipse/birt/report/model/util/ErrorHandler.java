@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,10 @@ import org.xml.sax.Locator;
 
 /**
  * Implements the error handler during the XML parser.
- * 
+ *
  */
 
-public abstract class ErrorHandler
-{
+public abstract class ErrorHandler {
 
 	/**
 	 * The current element being parsed.
@@ -34,13 +36,13 @@ public abstract class ErrorHandler
 	 * The list contains errors encountered when parsing a XML file.
 	 */
 
-	protected List<XMLParserException> errors = new ArrayList<XMLParserException>( );
+	protected List<XMLParserException> errors = new ArrayList<>();
 
 	/**
 	 * The list contains warnings encountered when parsing a XML file.
 	 */
 
-	protected List<XMLParserException> warnings = new ArrayList<XMLParserException>( );
+	protected List<XMLParserException> warnings = new ArrayList<>();
 
 	/**
 	 * SAX <code>Locator</code> for reporting errors.
@@ -50,98 +52,86 @@ public abstract class ErrorHandler
 
 	/**
 	 * Returns the error list when parsing xml file.
-	 * 
+	 *
 	 * @return the errors
 	 */
 
-	public List<XMLParserException> getErrors( )
-	{
+	public List<XMLParserException> getErrors() {
 		return errors;
 	}
 
 	/**
 	 * Gets the warning list when parsing xml file.
-	 * 
+	 *
 	 * @return the warnings
 	 */
 
-	public List<XMLParserException> getWarnings( )
-	{
+	public List<XMLParserException> getWarnings() {
 		return this.warnings;
 	}
 
 	/**
 	 * Add a recoverable semantic error to the error list.
-	 * 
-	 * @param e
-	 *            The exception to log.
+	 *
+	 * @param e The exception to log.
 	 * @return the added semantic error
 	 */
 
-	public XMLParserException semanticError( Exception e )
-	{
-		return semanticError( new XMLParserException( e ) );
+	public XMLParserException semanticError(Exception e) {
+		return semanticError(new XMLParserException(e));
 	}
 
 	/**
 	 * Add a recoverable semantic error to the error list.
-	 * 
-	 * @param e
-	 *            The exception to log
+	 *
+	 * @param e The exception to log
 	 * @return the added semantic error
 	 */
 
-	public abstract XMLParserException semanticError( XMLParserException e );
+	public abstract XMLParserException semanticError(XMLParserException e);
 
 	/**
 	 * Receive a Locator object for document events.
-	 * 
-	 * @param theLocator
-	 *            a locator for all SAX document events
+	 *
+	 * @param theLocator a locator for all SAX document events
 	 * @see org.xml.sax.Locator
 	 */
 
-	public void setDocumentLocator( Locator theLocator )
-	{
+	public void setDocumentLocator(Locator theLocator) {
 		locator = theLocator;
 	}
 
 	/**
 	 * Sets the current element name.
-	 * 
-	 * @param theCurrentElement
-	 *            the current element name
+	 *
+	 * @param theCurrentElement the current element name
 	 */
 
-	public void setCurrentElement( String theCurrentElement )
-	{
+	public void setCurrentElement(String theCurrentElement) {
 		this.currentElement = theCurrentElement;
 	}
 
 	/**
 	 * Gets the current element name.
-	 * 
+	 *
 	 * @return the current element name
 	 */
 
-	String getCurrentElement( )
-	{
+	String getCurrentElement() {
 		return this.currentElement;
 	}
 
 	/**
 	 * Adds a warning to the warning list inherited from XMLParserHandler during
 	 * parsing the design file.
-	 * 
-	 * @param e
-	 *            the exception to log
+	 *
+	 * @param e the exception to log
 	 */
 
-	public void semanticWarning( Exception e )
-	{
-		XMLParserException xmlException = new XMLParserException( e );
-		xmlException.setLineNumber( locator.getLineNumber( ) );
-		xmlException.setTag( currentElement );
-		warnings.add( xmlException );
+	public void semanticWarning(Exception e) {
+		XMLParserException xmlException = new XMLParserException(e);
+		xmlException.setLineNumber(locator.getLineNumber());
+		xmlException.setTag(currentElement);
+		warnings.add(xmlException);
 	}
 }

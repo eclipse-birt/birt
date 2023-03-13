@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.13.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.ui;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.datatools.connectivity.ui;bundle-version="[1.2.0,2.0.0)",
  org.eclipse.datatools.connectivity.apache.derby.ui;bundle-version="[1.0.3,2.0.0)"

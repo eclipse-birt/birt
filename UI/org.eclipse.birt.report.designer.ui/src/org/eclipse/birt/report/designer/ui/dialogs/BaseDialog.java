@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,17 +32,16 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * Base class for dialogs in BIRT, the dialog extends JFace's TrayDialog
- * 
+ *
  * @since 2.5
  */
-public abstract class BaseDialog extends TrayDialog
-{
+public abstract class BaseDialog extends TrayDialog {
 
 	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT"; //$NON-NLS-1$
 
 	private static final String DIALOG_WIDTH = "DIALOG_WIDTH"; //$NON-NLS-1$
 
-	protected Logger logger = Logger.getLogger( BaseDialog.class.getName( ) );
+	protected Logger logger = Logger.getLogger(BaseDialog.class.getName());
 
 	private String title;
 
@@ -51,39 +52,33 @@ public abstract class BaseDialog extends TrayDialog
 	private IDialogSettings dialogSettings;
 
 	/**
-	 * 
+	 *
 	 * Creates a dialog under the parent shell with the given title and a help
 	 * button. This constructor is equivalent to calling
 	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
-	 * 
-	 * @param title
-	 *            the title of the dialog
+	 *
+	 * @param title the title of the dialog
 	 */
 
-	protected BaseDialog( String title )
-	{
-		this( UIUtil.getDefaultShell( ), title );
+	protected BaseDialog(String title) {
+		this(UIUtil.getDefaultShell(), title);
 	}
 
-	protected BaseDialog( Shell parentShell )
-	{
-		this( parentShell, null );
+	protected BaseDialog(Shell parentShell) {
+		this(parentShell, null);
 	}
 
 	/**
 	 * Creates a dialog under the parent shell with the given title
-	 * 
-	 * @param parentShell
-	 *            the parent shell
-	 * @param title
-	 *            the title of the dialog
+	 *
+	 * @param parentShell the parent shell
+	 * @param title       the title of the dialog
 	 */
 
-	protected BaseDialog( Shell parentShell, String title )
-	{
-		super( parentShell );
-		setHelpAvailable( false );
-		setShellStyle( getShellStyle( ) | SWT.RESIZE );
+	protected BaseDialog(Shell parentShell, String title) {
+		super(parentShell);
+		setHelpAvailable(false);
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.title = title;
 	}
 
@@ -94,27 +89,24 @@ public abstract class BaseDialog extends TrayDialog
 	 * after create it. If initializtion failed, the dialog will be treated as
 	 * cancel button is pressed
 	 * </p>
-	 * 
+	 *
 	 * @return the return code
-	 * 
+	 *
 	 * @see #create()
 	 */
-	public int open( )
-	{
-		if ( getShell( ) == null )
-		{
+	@Override
+	public int open() {
+		if (getShell() == null) {
 			// create the window
-			create( );
+			create();
 		}
-		if ( initDialog( ) )
-		{
-			if ( Policy.TRACING_DIALOGS )
-			{
-				String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
-				System.out.println( "Dialog >> Open " //$NON-NLS-1$
-						+ result[result.length - 1] );
+		if (initDialog()) {
+			if (Policy.TRACING_DIALOGS) {
+				String[] result = this.getClass().getName().split("\\."); //$NON-NLS-1$
+				System.out.println("Dialog >> Open " //$NON-NLS-1$
+						+ result[result.length - 1]);
 			}
-			return super.open( );
+			return super.open();
 		}
 
 		return Dialog.CANCEL;
@@ -122,14 +114,12 @@ public abstract class BaseDialog extends TrayDialog
 
 	/**
 	 * Initialize the dialog after all controls have been created.The default
-	 * implement of this framework method does nothing.Subclassed may override
-	 * it.
-	 * 
+	 * implement of this framework method does nothing.Subclassed may override it.
+	 *
 	 * @return Returns true if the dialog is initialized correctly, or false if
 	 *         failed
 	 */
-	protected boolean initDialog( )
-	{
+	protected boolean initDialog() {
 		// Doing nothing
 		return true;
 	}
@@ -137,19 +127,17 @@ public abstract class BaseDialog extends TrayDialog
 	/**
 	 * Configures the given shell in preparation for opening this window in it.
 	 * <p>
-	 * The <code>BaseDialog</code> overrides this framework method sets in order
-	 * to set the title of the dialog.
+	 * The <code>BaseDialog</code> overrides this framework method sets in order to
+	 * set the title of the dialog.
 	 * </p>
-	 * 
-	 * @param shell
-	 *            the shell
+	 *
+	 * @param shell the shell
 	 */
-	protected void configureShell( Shell shell )
-	{
-		super.configureShell( shell );
-		if ( title != null )
-		{
-			shell.setText( title );
+	@Override
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		if (title != null) {
+			shell.setText(title);
 		}
 	}
 
@@ -157,230 +145,189 @@ public abstract class BaseDialog extends TrayDialog
 	 * Sets the title of the dialog
 	 */
 
-	public void setTitle( String newTitle )
-	{
+	public void setTitle(String newTitle) {
 		title = newTitle;
-		if ( getShell( ) != null )
-		{
-			getShell( ).setText( newTitle );
+		if (getShell() != null) {
+			getShell().setText(newTitle);
 		}
 	}
 
 	/**
 	 * Gets the title of the dialog
-	 * 
+	 *
 	 * @return Returns the title.
 	 */
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 
 	/**
 	 * Gets the Ok button
-	 * 
+	 *
 	 * @return Returns the OK button
 	 */
-	protected Button getOkButton( )
-	{
-		return getButton( IDialogConstants.OK_ID );
+	protected Button getOkButton() {
+		return getButton(IDialogConstants.OK_ID);
 	}
 
 	/**
 	 * Sets the text for OK button.
-	 * 
+	 *
 	 * @param label
 	 */
-	protected void setOkButtonText( String label )
-	{
+	protected void setOkButtonText(String label) {
 		okLabel = label;
 	}
 
 	/**
 	 * Gets the dialog result.
-	 * 
+	 *
 	 * @return the dialog result.
 	 */
-	public Object getResult( )
-	{
+	public Object getResult() {
 		return result;
 	}
 
 	/**
 	 * Sets the dialog result.
-	 * 
+	 *
 	 * @param value
 	 */
-	final protected void setResult( Object value )
-	{
+	final protected void setResult(Object value) {
 		result = value;
 	}
 
 	/**
 	 * Creates a new button with the given id. Override this method to support
 	 * custom label for OK button
-	 * 
-	 * 
-	 * @param parent
-	 *            the parent composite
-	 * @param id
-	 *            the id of the button (see <code>IDialogConstants.*_ID</code>
-	 *            constants for standard dialog button ids)
-	 * @param label
-	 *            the label from the button
-	 * @param defaultButton
-	 *            <code>true</code> if the button is to be the default button,
-	 *            and <code>false</code> otherwise
-	 * 
+	 *
+	 *
+	 * @param parent        the parent composite
+	 * @param id            the id of the button (see
+	 *                      <code>IDialogConstants.*_ID</code> constants for
+	 *                      standard dialog button ids)
+	 * @param label         the label from the button
+	 * @param defaultButton <code>true</code> if the button is to be the default
+	 *                      button, and <code>false</code> otherwise
+	 *
 	 * @return the new button
-	 * 
+	 *
 	 * @see #getCancelButton
 	 * @see #getOKButton()
 	 */
-	protected Button createButton( Composite parent, int id, String label,
-			boolean defaultButton )
-	{
-		if ( IDialogConstants.OK_ID == id && okLabel != null )
-		{
-			return super.createButton( parent, id, okLabel, defaultButton );
+	@Override
+	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
+		if (IDialogConstants.OK_ID == id && okLabel != null) {
+			return super.createButton(parent, id, okLabel, defaultButton);
 		}
-		return super.createButton( parent, id, label, defaultButton );
+		return super.createButton(parent, id, label, defaultButton);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#getDialogBoundsSettings()
 	 */
-	protected IDialogSettings getDialogBoundsSettings( )
-	{
-		if ( dialogSettings == null )
-			dialogSettings = loadDialogSettings( );
+	@Override
+	protected IDialogSettings getDialogBoundsSettings() {
+		if (dialogSettings == null) {
+			dialogSettings = loadDialogSettings();
+		}
 		return dialogSettings;
 	}
 
 	/**
 	 * @return
 	 */
-	private IDialogSettings loadDialogSettings( )
-	{
-		if ( !needRememberLastSize( ) )
-		{
+	private IDialogSettings loadDialogSettings() {
+		if (!needRememberLastSize()) {
 			return null;
 		}
-		IDialogSettings dialogSettings = ReportPlugin.getDefault( )
-				.getDialogSettings( );
-		StringBuffer buf = new StringBuffer( );
-		Shell curShell = getShell( );
-		while ( curShell != null )
-		{
-			buf.append( curShell.toString( ) + '/' );
-			Composite parent = curShell.getParent( );
-			if ( parent != null )
-			{
-				curShell = parent.getShell( );
-			}
-			else
-			{
+		IDialogSettings dialogSettings = ReportPlugin.getDefault().getDialogSettings();
+		StringBuilder buf = new StringBuilder();
+		Shell curShell = getShell();
+		while (curShell != null) {
+			buf.append(curShell.toString() + '/');
+			Composite parent = curShell.getParent();
+			if (parent != null) {
+				curShell = parent.getShell();
+			} else {
 				curShell = null;
 			}
 		}
-		if ( buf.length( ) > 0 )
-		{
-			buf.deleteCharAt( buf.length( ) - 1 );
-			String sectionName = buf.toString( );
-			IDialogSettings setting = dialogSettings.getSection( sectionName );
-			if ( setting == null )
-			{
-				setting = dialogSettings.addNewSection( sectionName );
+		if (buf.length() > 0) {
+			buf.deleteCharAt(buf.length() - 1);
+			String sectionName = buf.toString();
+			IDialogSettings setting = dialogSettings.getSection(sectionName);
+			if (setting == null) {
+				setting = dialogSettings.addNewSection(sectionName);
 			}
 			return setting;
-		}
-		else
-		{
+		} else {
 			return dialogSettings;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#getInitialSize()
 	 */
-	protected Point getInitialSize( )
-	{
-		try
-		{
-			IDialogSettings setting = getDialogBoundsSettings( );
-			if ( setting != null )
-			{
-				int width = setting.getInt( DIALOG_WIDTH );
-				int height = setting.getInt( DIALOG_HEIGHT );
-				return new Point( width, height );
+	@Override
+	protected Point getInitialSize() {
+		try {
+			IDialogSettings setting = getDialogBoundsSettings();
+			if (setting != null) {
+				int width = setting.getInt(DIALOG_WIDTH);
+				int height = setting.getInt(DIALOG_HEIGHT);
+				return new Point(width, height);
 			}
+		} catch (NumberFormatException e) {
 		}
-		catch ( NumberFormatException e )
-		{
-		}
-		return getDefaultSize( );
+		return getDefaultSize();
 	}
 
 	/**
 	 * Override this method to get the default size of current dialog.
-	 * 
-	 * @return a Point object which encapsulate the width and height of the
-	 *         dialog.
+	 *
+	 * @return a Point object which encapsulate the width and height of the dialog.
 	 */
-	protected Point getDefaultSize( )
-	{
-		return super.getInitialSize( );
+	protected Point getDefaultSize() {
+		return super.getInitialSize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#initializeBounds()
 	 */
-	protected void initializeBounds( )
-	{
-		Shell shell = getShell( );
-		if ( shell != null )
-		{
-			if ( shell.getDisplay( ).getDismissalAlignment( ) == SWT.RIGHT )
-			{
+	@Override
+	protected void initializeBounds() {
+		Shell shell = getShell();
+		if (shell != null) {
+			if (shell.getDisplay().getDismissalAlignment() == SWT.RIGHT) {
 				// make the default button the right-most button
-				Button defaultButton = shell.getDefaultButton( );
-				if ( defaultButton != null
-						&& isContained( buttonBar, defaultButton ) )
-				{
-					defaultButton.moveBelow( null );
-					( (Composite) buttonBar ).layout( );
+				Button defaultButton = shell.getDefaultButton();
+				if (defaultButton != null && isContained(buttonBar, defaultButton)) {
+					defaultButton.moveBelow(null);
+					((Composite) buttonBar).layout();
 				}
 			}
 		}
 		Point size;
-		if ( !needRememberLastSize( ) )
-		{
-			size = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+		if (!needRememberLastSize()) {
+			size = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+		} else {
+			size = getInitialSize();
 		}
-		else
-		{
-			size = getInitialSize( );
-		}
-		Point location = getInitialLocation( size );
-		getShell( ).setBounds( getConstrainedShellBounds( new Rectangle( location.x,
-				location.y,
-				size.x,
-				size.y ) ) );
+		Point location = getInitialLocation(size);
+		getShell().setBounds(getConstrainedShellBounds(new Rectangle(location.x, location.y, size.x, size.y)));
 	}
 
-	private boolean isContained( Control container, Control control )
-	{
+	private boolean isContained(Control container, Control control) {
 		Composite parent;
-		while ( ( parent = control.getParent( ) ) != null )
-		{
-			if ( parent == container )
-			{
+		while ((parent = control.getParent()) != null) {
+			if (parent == container) {
 				return true;
 			}
 			control = parent;
@@ -390,8 +337,7 @@ public abstract class BaseDialog extends TrayDialog
 
 	// if an instance of this dialog needn't remember last size and location,
 	// then return false
-	protected boolean needRememberLastSize( )
-	{
+	protected boolean needRememberLastSize() {
 		return false;
 	}
 

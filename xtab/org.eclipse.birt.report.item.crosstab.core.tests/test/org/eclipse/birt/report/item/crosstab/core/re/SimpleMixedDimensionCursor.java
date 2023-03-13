@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,12 +19,10 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 /**
- * 
+ *
  */
 
-public class SimpleMixedDimensionCursor extends DummyCursorSupport implements
-		DimensionCursor
-{
+public class SimpleMixedDimensionCursor extends DummyCursorSupport implements DimensionCursor {
 
 	private long count;
 	private long pos;
@@ -31,44 +32,39 @@ public class SimpleMixedDimensionCursor extends DummyCursorSupport implements
 
 	private boolean isEmptyMode;
 
-	public SimpleMixedDimensionCursor( long count, boolean initialEmpty )
-	{
+	public SimpleMixedDimensionCursor(long count, boolean initialEmpty) {
 		this.count = count;
 		this.isEmptyMode = initialEmpty;
 	}
 
-	void switchMode( boolean isEmptyMode )
-	{
+	void switchMode(boolean isEmptyMode) {
 		this.isEmptyMode = isEmptyMode;
 	}
 
-	long getCount( )
-	{
+	long getCount() {
 		return isEmptyMode ? 1 : count;
 	}
 
-	public void beforeFirst( ) throws OLAPException
-	{
-		if ( !isEmptyMode )
-		{
+	@Override
+	public void beforeFirst() throws OLAPException {
+		if (!isEmptyMode) {
 			pos = 0;
 		}
 	}
 
-	public boolean isFirst( ) throws OLAPException
-	{
-		return isEmptyMode ? false : ( pos == 1 );
+	@Override
+	public boolean isFirst() throws OLAPException {
+		return isEmptyMode ? false : (pos == 1);
 	}
 
-	public boolean isLast( ) throws OLAPException
-	{
-		return isEmptyMode ? false : ( pos == count );
+	@Override
+	public boolean isLast() throws OLAPException {
+		return isEmptyMode ? false : (pos == count);
 	}
 
-	public boolean next( ) throws OLAPException
-	{
-		if ( isEmptyMode )
-		{
+	@Override
+	public boolean next() throws OLAPException {
+		if (isEmptyMode) {
 			return false;
 		}
 
@@ -76,66 +72,60 @@ public class SimpleMixedDimensionCursor extends DummyCursorSupport implements
 		return pos <= count;
 	}
 
-	public void setPosition( long position ) throws OLAPException
-	{
-		if ( !isEmptyMode )
-		{
+	@Override
+	public void setPosition(long position) throws OLAPException {
+		if (!isEmptyMode) {
 			this.pos = position;
 		}
 	}
 
-	public long getPosition( ) throws OLAPException
-	{
-		if ( isEmptyMode )
-		{
+	@Override
+	public long getPosition() throws OLAPException {
+		if (isEmptyMode) {
 			return -1;
 		}
 
 		return pos;
 	}
 
-	public EdgeCursor getEdgeCursor( ) throws OLAPException
-	{
+	@Override
+	public EdgeCursor getEdgeCursor() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public long getEdgeEnd( ) throws OLAPException
-	{
-		if ( isEmptyMode )
-		{
+	@Override
+	public long getEdgeEnd() throws OLAPException {
+		if (isEmptyMode) {
 			return -1;
 		}
 		return edgeEnd;
 	}
 
-	public long getEdgeStart( ) throws OLAPException
-	{
-		if ( isEmptyMode )
-		{
+	@Override
+	public long getEdgeStart() throws OLAPException {
+		if (isEmptyMode) {
 			return -1;
 		}
 		return edgeStart;
 	}
 
-	public void setEdgeCursor( EdgeCursor value ) throws OLAPException
-	{
+	@Override
+	public void setEdgeCursor(EdgeCursor value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setEdgeEnd( long value ) throws OLAPException
-	{
-		if ( !isEmptyMode )
-		{
+	@Override
+	public void setEdgeEnd(long value) throws OLAPException {
+		if (!isEmptyMode) {
 			edgeEnd = value;
 		}
 	}
 
-	public void setEdgeStart( long value ) throws OLAPException
-	{
-		if ( !isEmptyMode )
-		{
+	@Override
+	public void setEdgeStart(long value) throws OLAPException {
+		if (!isEmptyMode) {
 			edgeStart = value;
 		}
 	}

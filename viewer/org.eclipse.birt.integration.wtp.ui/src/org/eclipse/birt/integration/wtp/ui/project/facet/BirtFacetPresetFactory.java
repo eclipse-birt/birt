@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,41 +32,37 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 /**
  * Preset factory for the BIRT runtime component.
  */
-public class BirtFacetPresetFactory implements IPresetFactory
-{
+public class BirtFacetPresetFactory implements IPresetFactory {
 
 	/**
 	 * Creates a preset for the web module version >= 2.3
-	 * 
+	 *
 	 * @see org.eclipse.wst.common.project.facet.core.IPresetFactory#createPreset(java.lang.String,
 	 *      java.util.Map)
 	 */
-	public PresetDefinition createPreset( final String presetId,
-			final Map<String, Object> context ) throws CoreException
-	{
+	@Override
+	public PresetDefinition createPreset(final String presetId, final Map<String, Object> context)
+			throws CoreException {
 		final IFacetedProjectBase project = (IFacetedProjectBase) context
-				.get( IDynamicPreset.CONTEXT_KEY_FACETED_PROJECT );
+				.get(IDynamicPreset.CONTEXT_KEY_FACETED_PROJECT);
 
-		final IProjectFacetVersion webFacetVersion = project
-				.getProjectFacetVersion( WebFacetUtils.WEB_FACET );
+		final IProjectFacetVersion webFacetVersion = project.getProjectFacetVersion(WebFacetUtils.WEB_FACET);
 
-		if ( webFacetVersion != null
-				&& webFacetVersion.compareTo( WebFacetUtils.WEB_23 ) >= 0 )
-		{
-			final Set<IProjectFacetVersion> facets = new HashSet<IProjectFacetVersion>( );
+		if (webFacetVersion != null && webFacetVersion.compareTo(WebFacetUtils.WEB_23) >= 0) {
+			final Set<IProjectFacetVersion> facets = new HashSet<>();
 
 			final IProjectFacet birtFacet = ProjectFacetsManager
-					.getProjectFacet( IBirtFacetConstants.BIRT_RUNTIME_FACET_ID );
+					.getProjectFacet(IBirtFacetConstants.BIRT_RUNTIME_FACET_ID);
 
 			final IProjectFacetVersion birtFacetVersion = birtFacet
-					.getVersion( IBirtFacetConstants.BIRT_RUNTIME_FACET_VERSION );
+					.getVersion(IBirtFacetConstants.BIRT_RUNTIME_FACET_VERSION);
 
-			facets.add( birtFacetVersion );
-			facets.add( webFacetVersion );
-			facets.add( JavaFacetUtils.JAVA_50 );
+			facets.add(birtFacetVersion);
+			facets.add(webFacetVersion);
+			facets.add(JavaFacetUtils.JAVA_50);
 
-			return new PresetDefinition( Resources.BIRT_FACET_TEMPLATE_LABEL,
-					Resources.BIRT_FACET_TEMPLATE_DESCRIPTION, facets );
+			return new PresetDefinition(Resources.BIRT_FACET_TEMPLATE_LABEL, Resources.BIRT_FACET_TEMPLATE_DESCRIPTION,
+					facets);
 		}
 
 		return null;
@@ -80,9 +78,8 @@ public class BirtFacetPresetFactory implements IPresetFactory
 		public static String BIRT_FACET_TEMPLATE_LABEL;
 		public static String BIRT_FACET_TEMPLATE_DESCRIPTION;
 
-		static
-		{
-			initializeMessages( "plugin", Resources.class );
+		static {
+			initializeMessages("plugin", Resources.class);
 		}
 	}
 

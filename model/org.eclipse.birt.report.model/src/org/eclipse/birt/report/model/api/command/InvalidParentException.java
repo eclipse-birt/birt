@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,8 +23,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * element.
  */
 
-public class InvalidParentException extends ExtendsException
-{
+public class InvalidParentException extends ExtendsException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -55,62 +57,44 @@ public class InvalidParentException extends ExtendsException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param name
-	 *            the value being set for the extends property.
-	 * @param errCode
-	 *            what went wrong.
+	 *
+	 * @param obj     the element being changed.
+	 * @param name    the value being set for the extends property.
+	 * @param errCode what went wrong.
 	 */
 
-	public InvalidParentException( DesignElement obj, String name,
-			String errCode )
-	{
-		super( obj, name, errCode );
+	public InvalidParentException(DesignElement obj, String name, String errCode) {
+		super(obj, name, errCode);
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param parent
-	 *            the parent element.
-	 * @param errCode
-	 *            what went wrong.
+	 *
+	 * @param obj     the element being changed.
+	 * @param parent  the parent element.
+	 * @param errCode what went wrong.
 	 */
 
-	public InvalidParentException( DesignElement obj, DesignElement parent,
-			String errCode )
-	{
-		super( obj, parent, errCode );
+	public InvalidParentException(DesignElement obj, DesignElement parent, String errCode) {
+		super(obj, parent, errCode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_FOUND )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{extendsName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_NO_PARENT )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_INCLUDE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{parent
-					.getIdentifier( )} );
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_FOUND) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { extendsName });
+		} else if (sResourceKey == DESIGN_EXCEPTION_NO_PARENT) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_INCLUDE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { parent.getIdentifier() });
 		}
 
-		return super.getLocalizedMessage( );
+		return super.getLocalizedMessage();
 	}
 }

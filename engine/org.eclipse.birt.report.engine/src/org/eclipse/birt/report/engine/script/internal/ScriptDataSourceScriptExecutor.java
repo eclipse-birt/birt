@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,9 +24,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
-public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
-		implements IScriptDataSourceEventHandler
-{
+public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor implements IScriptDataSourceEventHandler {
 
 	private static final String OPEN = "OPEN";
 
@@ -31,68 +32,57 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 
 	private IScriptedDataSourceEventHandler scriptedEventHandler;
 
-	public ScriptDataSourceScriptExecutor(
-			ScriptDataSourceHandle dataSourceHandle, ExecutionContext context ) throws BirtException
-	{
-		super( dataSourceHandle, context );
+	public ScriptDataSourceScriptExecutor(ScriptDataSourceHandle dataSourceHandle, ExecutionContext context)
+			throws BirtException {
+		super(dataSourceHandle, context);
 	}
 
-	protected void initEventHandler(  )
-	{
-		super.initEventHandler( );
-		if ( eventHandler != null )
-		{
-			try
-			{
+	@Override
+	protected void initEventHandler() {
+		super.initEventHandler();
+		if (eventHandler != null) {
+			try {
 				scriptedEventHandler = (IScriptedDataSourceEventHandler) eventHandler;
-			}
-			catch ( ClassCastException e )
-			{
-				addClassCastException( context,
-						e,
-						dataSourceHandle,
-						IScriptedDataSetEventHandler.class );
+			} catch (ClassCastException e) {
+				addClassCastException(context, e, dataSourceHandle, IScriptedDataSetEventHandler.class);
 			}
 		}
 	}
 
-	public void handleOpen( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		try
-		{
-			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.OPEN_METHOD ) );
-			ScriptStatus status = super.handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), OPEN,
-					( ( ScriptDataSourceHandle ) dataSourceHandle ).getOpen( ), id );
-			if ( status.didRun( ) )
+	@Override
+	public void handleOpen(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		try {
+			String id = ModuleUtil.getScriptUID(dataSourceHandle.getPropertyHandle(IScriptDataSourceModel.OPEN_METHOD));
+			ScriptStatus status = super.handleJS(dataSource.getScriptScope(), dataSource.getName(), OPEN,
+					((ScriptDataSourceHandle) dataSourceHandle).getOpen(), id);
+			if (status.didRun()) {
 				return;
-			if ( scriptedEventHandler != null )
-				scriptedEventHandler
-						.open( new DataSourceInstance( dataSource ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			}
+			if (scriptedEventHandler != null) {
+				scriptedEventHandler.open(new DataSourceInstance(dataSource));
+			}
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public void handleClose( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		try
-		{
-			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.CLOSE_METHOD ) );
-			ScriptStatus status = handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), CLOSE,
-					( ( ScriptDataSourceHandle ) dataSourceHandle ).getClose( ), id );
-			if ( status.didRun( ) )
+	@Override
+	public void handleClose(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		try {
+			String id = ModuleUtil
+					.getScriptUID(dataSourceHandle.getPropertyHandle(IScriptDataSourceModel.CLOSE_METHOD));
+			ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), CLOSE,
+					((ScriptDataSourceHandle) dataSourceHandle).getClose(), id);
+			if (status.didRun()) {
 				return;
-			if ( scriptedEventHandler != null )
-				scriptedEventHandler
-						.close( new DataSourceInstance( dataSource ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			}
+			if (scriptedEventHandler != null) {
+				scriptedEventHandler.close(new DataSourceInstance(dataSource));
+			}
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 }

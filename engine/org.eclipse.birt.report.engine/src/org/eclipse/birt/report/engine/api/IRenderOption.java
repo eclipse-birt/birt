@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,196 +20,281 @@ import java.util.Map;
 /**
  * Defines render options for emitters
  */
-public interface IRenderOption extends ITaskOption
-{
+public interface IRenderOption extends ITaskOption {
 
-	public static final String OUTPUT_FORMAT = "Format"; //$NON-NLS-1$
-	public static final String OUTPUT_FORMAT_HTML = "html"; //$NON-NLS-1$
-	public static final String OUTPUT_FORMAT_PDF = "pdf"; //$NON-NLS-1$
-	public static final String OUTPUT_FORMAT_FO = "fo"; //$NON-NLS-1$
-	public static final String OUTPUT_EMITTERID_HTML = "org.eclipse.birt.report.engine.emitter.html";
-	public static final String OUTPUT_EMITTERID_PDF = "org.eclipse.birt.report.engine.emitter.pdf";
-	public static final String EMITTER_ID = "emitterID"; //$NON-NLS-1$
-
-	public static final String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$
-	public static final String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
-
-	public static final String IMAGE_HANDLER = "imageHandler"; //$NON-NLS-1$
-	public static final String ACTION_HANDLER = "actionHandler"; //$NON-NLS-1$
-
-	public static final String LOCALE = "locale"; //$NON-NLS-1$
-
-	/** The DPI which layout engine uses to convert pixel to an abstract length*/
-	public static final String RENDER_DPI = "RenderDpi";
-	
-	/** The DPI which chart engine uses to generate charts*/
-	public static final String CHART_DPI = "ChartDpi";
-	
-	public static final String SUPPORTED_IMAGE_FORMATS = "supportedImageFormats";
-
-	public static final String BASE_URL = "baseUrl";
-	
 	/**
-	 * bidi_hcg: Should we output report as RTL. The value is a Boolean
-	 * Object, the default is <code>Boolean.FALSE</code>.
+	 * Property of format
 	 */
-	public static final String RTL_FLAG = "RTLFlag"; //$NON-NLS-1$
-	
+	String OUTPUT_FORMAT = "Format"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format HTML
+	 */
+	String OUTPUT_FORMAT_HTML = "html"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format PDF
+	 */
+	String OUTPUT_FORMAT_PDF = "pdf"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format FO
+	 */
+	String OUTPUT_FORMAT_FO = "fo"; //$NON-NLS-1$
+
+	/**
+	 * Property of emitter id HTML
+	 */
+	String OUTPUT_EMITTERID_HTML = "org.eclipse.birt.report.engine.emitter.html";
+
+	/**
+	 * Property of emitter id PDF
+	 */
+	String OUTPUT_EMITTERID_PDF = "org.eclipse.birt.report.engine.emitter.pdf";
+
+	/**
+	 * Property of emitter id
+	 */
+	String EMITTER_ID = "emitterID"; //$NON-NLS-1$
+
+	/**
+	 * Property of output file
+	 */
+	String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$
+	/**
+	 * Property of output stream
+	 */
+	String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
+
+	/**
+	 * Property of image handler
+	 */
+	String IMAGE_HANDLER = "imageHandler"; //$NON-NLS-1$
+
+	/**
+	 * Property of action handler
+	 */
+	String ACTION_HANDLER = "actionHandler"; //$NON-NLS-1$
+
+	/**
+	 * Property for local
+	 */
+	String LOCALE = "locale"; //$NON-NLS-1$
+
+	/** The DPI which layout engine uses to convert pixel to an abstract length */
+	String RENDER_DPI = "RenderDpi";
+
+	/** The DPI which chart engine uses to generate charts */
+	String CHART_DPI = "ChartDpi";
+
+	/**
+	 * Supported image formats
+	 */
+	String SUPPORTED_IMAGE_FORMATS = "supportedImageFormats";
+
+	/**
+	 * Property of base URL
+	 */
+	String BASE_URL = "baseUrl";
+
+	/**
+	 * bidi_hcg: Should we output report as RTL. The value is a Boolean Object, the
+	 * default is <code>Boolean.FALSE</code>.
+	 */
+	String RTL_FLAG = "RTLFlag"; //$NON-NLS-1$
+
 	/**
 	 * APP_BASE_URL is the same as BASE_URL
 	 */
-	public static final String APP_BASE_URL = BASE_URL; //$NON-NLS-1$
-	
-	public static final String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
-	
+	String APP_BASE_URL = BASE_URL; // $NON-NLS-1$
+
 	/**
-	 * Should the report contains paginations The value is a Boolean object,
-	 * default is <code>Boolean.FALSE</code>.
+	 * Property to set output display to none
 	 */
-	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
+	String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
+
+	/**
+	 * Should the report contains paginations The value is a Boolean object, default
+	 * is <code>Boolean.FALSE</code>.
+	 */
+	String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 
 	/**
 	 * Should the output stream be closed when render task exits.The value is a
 	 * Boolean object, default is <code>Boolean.FALSE</code>
 	 */
-	public static final String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
-	
-	public static final String REPORTLET_SIZE = "reportletSize";
+	String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
 
 	/**
-	 * @return
-	 * @deprecated use getOptions instead
+	 * Property for report size
 	 */
-	public Map getOutputSetting( );
+	String REPORTLET_SIZE = "reportletSize";
+
+	/**
+	 * Get the output settings
+	 *
+	 * @deprecated use getOptions instead
+	 * @return Return the output settings
+	 */
+	@Deprecated
+	Map<String, Object> getOutputSetting();
 
 	/**
 	 * Set output format.
-	 * 
+	 *
 	 * @param format
 	 */
-	public void setOutputFormat( String format );
+	void setOutputFormat(String format);
 
 	/**
 	 * Get output format.
-	 * 
-	 * @return
+	 *
+	 * @return Return the output format
 	 */
-	public String getOutputFormat( );
+	String getOutputFormat();
 
 	/**
 	 * Set name of the output file.
-	 * 
-	 * @param outputFileName
-	 *                name of the output file
+	 *
+	 * @param outputFileName name of the output file
 	 */
-	public void setOutputFileName( String outputFileName );
+	void setOutputFileName(String outputFileName);
 
 	/**
 	 * Get name of the output file.
-	 * 
+	 *
 	 * @return name
 	 */
-	public String getOutputFileName( );
+	String getOutputFileName();
 
 	/**
 	 * Set output stream.
-	 * 
+	 *
 	 * @param ostream
 	 */
-	public void setOutputStream( OutputStream ostream );
+	void setOutputStream(OutputStream ostream);
 
 	/**
 	 * Get output stream.
-	 * 
+	 *
 	 * @return output stream
 	 */
-	public OutputStream getOutputStream( );
+	OutputStream getOutputStream();
 
 	/**
-	 * @param formats -
-	 *            the image format supported by the browser
+	 * @param formats - the image format supported by the browser
 	 */
-	public void setSupportedImageFormats( String formats );
+	void setSupportedImageFormats(String formats);
 
 	/**
 	 * @return the image format supported by the browser
 	 */
-	public String getSupportedImageFormats( );
+	String getSupportedImageFormats();
 
 	/**
 	 * Returns the base URL for creating an Action URL
-	 * 
+	 *
 	 * @return the baseURL.
 	 */
-	public String getBaseURL( );
+	String getBaseURL();
 
 	/**
 	 * sets the base url for action handling
-	 * 
-	 * @param baseURL
-	 *            sets the base URL used for action handling
+	 *
+	 * @param baseURL sets the base URL used for action handling
 	 */
-	public void setBaseURL( String baseURL );
-	
+	void setBaseURL(String baseURL);
+
 	/**
 	 * Returns the app base url for URL images
-	 * 
+	 *
 	 * @return appBaseUrl
 	 */
-	public String getAppBaseURL( );
+	String getAppBaseURL();
 
 	/**
 	 * Set app base url
-	 * 
-	 * @param appBaseURL
-	 *            the app base url
+	 *
+	 * @param appBaseURL the app base url
 	 */
-	public void setAppBaseURL( String appBaseURL );
+	void setAppBaseURL(String appBaseURL);
 
 	/**
+	 * Set the action handler
+	 *
 	 * @deprecated
 	 * @param handler
 	 */
-	public void setActionHandle( IHTMLActionHandler handler );
-
-	public void setActionHandler( IHTMLActionHandler handler );
+	@Deprecated
+	void setActionHandle(IHTMLActionHandler handler);
 
 	/**
-	 * @deprecated
-	 * @return
+	 * Set the action handler
+	 *
+	 * @param handler
 	 */
-	public IHTMLActionHandler getActionHandle( );
-
-	public IHTMLActionHandler getActionHandler( );
+	void setActionHandler(IHTMLActionHandler handler);
 
 	/**
+	 * Get the action handler
+	 *
+	 * @deprecated
+	 * @return Return the action handler
+	 */
+	@Deprecated
+	IHTMLActionHandler getActionHandle();
+
+	/**
+	 * Get the action handler
+	 *
+	 * @return Return the action handler
+	 */
+	IHTMLActionHandler getActionHandler();
+
+	/**
+	 * Set the image handler
+	 *
 	 * @deprecated
 	 * @param handler
 	 */
-	public void setImageHandle( IHTMLImageHandler handler );
-
-	public void setImageHandler( IHTMLImageHandler handler );
+	@Deprecated
+	void setImageHandle(IHTMLImageHandler handler);
 
 	/**
-	 * @deprecated
-	 * @return
+	 * Set the image handler
+	 *
+	 * @param handler
 	 */
-	public IHTMLImageHandler getImageHandle( );
+	void setImageHandler(IHTMLImageHandler handler);
 
-	public IHTMLImageHandler getImageHandler( );
+	/**
+	 * Get the image handler
+	 *
+	 * @deprecated
+	 * @return Return the image handler
+	 */
+	@Deprecated
+	IHTMLImageHandler getImageHandle();
+
+	/**
+	 * Get the image handler
+	 *
+	 * @return Return the image handler
+	 */
+	IHTMLImageHandler getImageHandler();
 
 	/**
 	 * returns the emitter id
-	 * 
+	 *
 	 * @return Returns the emitter id
 	 */
-	public String getEmitterID( );
+	String getEmitterID();
 
 	/**
 	 * sets the emitter id
-	 * 
+	 *
 	 * @param emitterID
 	 */
-	public void setEmitterID( String emitterID );
+	void setEmitterID(String emitterID);
 
 }

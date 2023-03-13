@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,11 +22,10 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Exception thrown when a property name is invalid.
- * 
+ *
  */
 
-public class PropertyNameException extends SemanticException
-{
+public class PropertyNameException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -57,81 +59,64 @@ public class PropertyNameException extends SemanticException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element that has the property.
-	 * @param propName
-	 *            the property name that caused the error
+	 *
+	 * @param obj      the element that has the property.
+	 * @param propName the property name that caused the error
 	 */
 
-	public PropertyNameException( DesignElement obj, String propName )
-	{
-		super( obj, DESIGN_EXCEPTION_PROPERTY_NAME_INVALID );
+	public PropertyNameException(DesignElement obj, String propName) {
+		super(obj, DESIGN_EXCEPTION_PROPERTY_NAME_INVALID);
 		name = propName;
 	}
 
 	/**
 	 * Constructs a exception given a structure and its element and the invalid
 	 * member name.
-	 * 
-	 * @param obj
-	 *            the element that has the structure.
-	 * @param struct
-	 *            the structure that doesn't contain the member.
-	 * @param memberName
-	 *            the member name that caused the exception.
+	 *
+	 * @param obj        the element that has the structure.
+	 * @param struct     the structure that doesn't contain the member.
+	 * @param memberName the member name that caused the exception.
 	 */
 
-	public PropertyNameException( DesignElement obj, IStructure struct,
-			String memberName )
-	{
-		super( obj, DESIGN_EXCEPTION_MEMBER_NAME_INVALID );
+	public PropertyNameException(DesignElement obj, IStructure struct, String memberName) {
+		super(obj, DESIGN_EXCEPTION_MEMBER_NAME_INVALID);
 		this.name = memberName;
 		this.struct = struct;
 	}
 
 	/**
 	 * Returns the invalid property name.
-	 * 
+	 *
 	 * @return the invalid property name.
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return name;
 	}
 
 	/**
 	 * Return the invalid member name.
-	 * 
+	 *
 	 * @return the invalid member name.
 	 */
 
-	public String getMemberName( )
-	{
+	public String getMemberName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID )
-		{
-			String elementName = element == null ? "" : element.getFullName( ); //$NON-NLS-1$
-			return ModelMessages.getMessage(
-					DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[]{name,
-							elementName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_MEMBER_NAME_INVALID )
-		{
-			String structName = struct == null ? "" : struct.getStructName( ); //$NON-NLS-1$
-			return ModelMessages.getMessage(
-					DESIGN_EXCEPTION_MEMBER_NAME_INVALID, new String[]{name,
-							structName} );
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID) {
+			String elementName = element == null ? "" : element.getFullName(); //$NON-NLS-1$
+			return ModelMessages.getMessage(DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[] { name, elementName });
+		} else if (sResourceKey == DESIGN_EXCEPTION_MEMBER_NAME_INVALID) {
+			String structName = struct == null ? "" : struct.getStructName(); //$NON-NLS-1$
+			return ModelMessages.getMessage(DESIGN_EXCEPTION_MEMBER_NAME_INVALID, new String[] { name, structName });
 		}
 		return ""; //$NON-NLS-1$
 	}

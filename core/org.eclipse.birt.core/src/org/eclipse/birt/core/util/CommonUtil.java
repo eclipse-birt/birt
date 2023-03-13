@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004-2017 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,25 +24,21 @@ import org.xml.sax.SAXException;
  * To provide common utility method in BIRT
  */
 
-public class CommonUtil
-{
+public class CommonUtil {
 
 	/**
 	 * Creates SAX parser and disables XXE
-	 * 
+	 *
 	 * @return new SAX parser
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	public static SAXParser createSAXParser( )
-			throws ParserConfigurationException, SAXException
-	{
+	public static SAXParser createSAXParser() throws ParserConfigurationException, SAXException {
 
-		SAXParserFactory factory = SAXParserFactory.newInstance( );
+		SAXParserFactory factory = SAXParserFactory.newInstance();
 		// Disable XML External Entity to avoid hack
-		factory.setFeature(
-				"http://apache.org/xml/features/disallow-doctype-decl", true ); //$NON-NLS-1$
-		SAXParser parser = factory.newSAXParser( );
+		factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
+		SAXParser parser = factory.newSAXParser();
 
 		return parser;
 	}

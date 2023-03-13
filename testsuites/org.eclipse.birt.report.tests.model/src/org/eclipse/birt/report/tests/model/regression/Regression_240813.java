@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -21,12 +24,12 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Steps to reproduce:
  * <ol>
- * <li> create a library with a grid (1x1) and place a label inside. (define a text
-on that label).
- * <li> create a report using this library.
- * <li> drag the grid twice into this report.
- * <li> override the text of the two labels.
- * <li> hit "refresh library"
+ * <li>create a library with a grid (1x1) and place a label inside. (define a
+ * text on that label).
+ * <li>create a report using this library.
+ * <li>drag the grid twice into this report.
+ * <li>override the text of the two labels.
+ * <li>hit "refresh library"
  * </ol>
  * </p>
  * Test description:
@@ -34,39 +37,38 @@ on that label).
  * Check two overridden values are kept.
  * </p>
  */
-public class Regression_240813 extends BaseTestCase
-{
+public class Regression_240813 extends BaseTestCase {
 
 	private final static String REPORT = "regression_240813.xml";
 	private final static String LIBRARY = "regression_240813_lib.xml";
 	private final static String GOLDEN = "regression_240813_golden.xml";
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
-		copyGoldenToFile(GOLDEN_FOLDER+ "/" + GOLDEN);
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIBRARY);
+		copyGoldenToFile(GOLDEN_FOLDER + "/" + GOLDEN);
 	}
+
 	/**
-	 * @throws Exception 
-	 * 
+	 * @throws Exception
+	 *
 	 */
-	public void test_regression_240813( ) throws Exception
-	{
-		openDesign( REPORT );
-		LabelHandle labelHandle=(LabelHandle)designHandle.findElement("NewLabel");
+	public void test_regression_240813() throws Exception {
+		openDesign(REPORT);
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("NewLabel");
 		labelHandle.setText("label");
-		LabelHandle labelHandle1=(LabelHandle)designHandle.findElement("NewLabel1");
+		LabelHandle labelHandle1 = (LabelHandle) designHandle.findElement("NewLabel1");
 		labelHandle1.setText("label1");
-		
+
 		designHandle.reloadLibraries();
-		
-		String fileName=genOutputFile(REPORT);
+
+		String fileName = genOutputFile(REPORT);
 		designHandle.saveAs(fileName);
-		
+
 		assertTrue(compareTextFile(GOLDEN, REPORT));
 	}
 }

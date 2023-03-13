@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,43 +25,38 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
  * DialScaleSheet
  */
 
-public class DialScaleSheet extends AbstractScaleSheet
-{
+public class DialScaleSheet extends AbstractScaleSheet {
 
 	private DialSeries series;
 
-	public DialScaleSheet( String title, ChartWizardContext context,
-			DialSeries series )
-	{
-		super( title, context );
+	public DialScaleSheet(String title, ChartWizardContext context, DialSeries series) {
+		super(title, context);
 		this.series = series;
 	}
 
-	protected Scale getScale( )
-	{
-		return series.getDial( ).getScale( );
+	@Override
+	protected Scale getScale() {
+		return series.getDial().getScale();
 	}
 
-	protected int getValueType( )
-	{
+	@Override
+	protected int getValueType() {
 		return TextEditorComposite.TYPE_NUMBERIC;
 	}
-	
-	protected void setState( )
-	{
-		super.setState( );
 
-		if(btnShowOutside != null)
-		{
+	@Override
+	protected void setState() {
+		super.setState();
+
+		if (btnShowOutside != null) {
 			// Hide invalid attributes.
-			btnShowOutside.setVisible( false );
+			btnShowOutside.setVisible(false);
 		}
 	}
 
 	@Override
-	protected Scale getDefaultVauleScale( )
-	{
-		return DefaultValueProvider.defDialSeries( ).getDial( ).getScale( );
+	protected Scale getDefaultVauleScale() {
+		return DefaultValueProvider.defDialSeries().getDial().getScale();
 	}
 
 }

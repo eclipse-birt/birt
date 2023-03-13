@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,173 +44,157 @@ import org.eclipse.swt.graphics.Image;
 /**
  * DefaultChartTypeImpl
  */
-public class DefaultChartTypeImpl implements IChartType
-{
+public class DefaultChartTypeImpl implements IChartType {
 
 	protected String chartTitle = ""; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getImage()
 	 */
-	public Image getImage( )
-	{
+	@Override
+	public Image getImage() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String, org.eclipse.birt.chart.model.attribute.Orientation)
 	 */
-	public Collection<IChartSubType> getChartSubtypes( String Dimension,
-			Orientation orientation )
-	{
-		return new Vector<IChartSubType>( );
+	@Override
+	public Collection<IChartSubType> getChartSubtypes(String Dimension, Orientation orientation) {
+		return new Vector<>();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
 	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
+	@Override
 	@SuppressWarnings("rawtypes")
-	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
-	{
+	public boolean canAdapt(Chart cModel, Hashtable htModelHints) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, org.eclipse.birt.chart.model.attribute.Orientation,
 	 * java.lang.String, org.eclipse.birt.chart.model.Chart)
 	 */
-	public Chart getModel( String sType, Orientation Orientation,
-			String Dimension, Chart currentChart )
-	{
+	@Override
+	public Chart getModel(String sType, Orientation Orientation, String Dimension, Chart currentChart) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
-	 * ()
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
-	public String[] getSupportedDimensions( )
-	{
-		return new String[]{
-			TWO_DIMENSION_TYPE
-		};
+	@Override
+	public String[] getSupportedDimensions() {
+		return new String[] { TWO_DIMENSION_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
-	public String getDefaultDimension( )
-	{
+	@Override
+	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
-	 * ()
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
-	public boolean supportsTransposition( )
-	{
+	@Override
+	public boolean supportsTransposition() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * (java.lang.String)
 	 */
-	public boolean supportsTransposition( String dimension )
-	{
-		return supportsTransposition( );
+	@Override
+	public boolean supportsTransposition(String dimension) {
+		return supportsTransposition();
 	}
 
-	public Orientation getDefaultOrientation( )
-	{
+	@Override
+	public Orientation getDefaultOrientation() {
 		return Orientation.VERTICAL_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getHelp()
 	 */
-	public IHelpContent getHelp( )
-	{
-		return new HelpContentImpl( "{Title}", "{Description}" ); //$NON-NLS-1$ //$NON-NLS-2$
+	@Override
+	public IHelpContent getHelp() {
+		return new HelpContentImpl("{Title}", "{Description}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
-			String sTitle )
-	{
-		return new DefaultSelectDataComponent( );
+	@Override
+	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle) {
+		return new DefaultSelectDataComponent();
 	}
 
-	public boolean isDimensionSupported( String dimensionType,
-			ChartWizardContext context, int nbOfAxes, int nbOfSeries )
-	{
+	@Override
+	public boolean isDimensionSupported(String dimensionType, ChartWizardContext context, int nbOfAxes,
+			int nbOfSeries) {
 		boolean isSupported = false;
 
 		// Check whether general dimension types include specified type
-		String[] supportedDimensions = getSupportedDimensions( );
-		for ( int i = 0; i < supportedDimensions.length; i++ )
-		{
-			if ( supportedDimensions[i].equals( dimensionType ) )
-			{
+		String[] supportedDimensions = getSupportedDimensions();
+		for (int i = 0; i < supportedDimensions.length; i++) {
+			if (supportedDimensions[i].equals(dimensionType)) {
 				isSupported = true;
 				break;
 			}
 		}
 
-		if ( isSupported && THREE_DIMENSION_TYPE.equals( dimensionType ) )
-		{
-			if ( context.getDataServiceProvider( )
-					.checkState( IDataServiceProvider.PART_CHART ) )
-			{
+		if (isSupported && THREE_DIMENSION_TYPE.equals(dimensionType)) {
+			if (context.getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART)) {
 				// Not support 3D in xtab
 				return false;
 			}
@@ -219,46 +206,40 @@ public class DefaultChartTypeImpl implements IChartType
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
-	public Series getSeries( )
-	{
+	@Override
+	public Series getSeries() {
 		// TODO Auto-generated method stub
-		return getSeries( true );
+		return getSeries(true);
 	}
 
 	/**
 	 * Make the series the same type as the other one
-	 * 
+	 *
 	 * @param series
 	 * @param seriesIndex
 	 * @param firtsSeries
 	 * @return converted series
 	 * @since 2.3
 	 */
-	protected Series getConvertedSeriesAsFirst( Series series, int seriesIndex,
-			Series firstSeries )
-	{
+	protected Series getConvertedSeriesAsFirst(Series series, int seriesIndex, Series firstSeries) {
 		// Do not convert base series
-		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
-		{
+		if (series.getClass().getName().equals(SeriesImpl.class.getName())) {
 			return series;
 		}
 
-		Series tmpseries = ChartCacheManager.getInstance( )
-				.findSeries( firstSeries.getClass( ).getName( ), seriesIndex );
-		if ( tmpseries == null )
-		{
-			tmpseries = firstSeries.copyInstance( );
+		Series tmpseries = ChartCacheManager.getInstance().findSeries(firstSeries.getClass().getName(), seriesIndex);
+		if (tmpseries == null) {
+			tmpseries = firstSeries.copyInstance();
 		}
 
 		// Copy generic series properties
-		ChartUIUtil.copyGeneralSeriesAttributes( series, tmpseries );
+		ChartUIUtil.copyGeneralSeriesAttributes(series, tmpseries);
 
-		if ( firstSeries instanceof BarSeriesImpl )
-		{
-			( (BarSeriesImpl) tmpseries ).setRiser( ( (BarSeriesImpl) firstSeries ).getRiser( ) );
+		if (firstSeries instanceof BarSeriesImpl) {
+			((BarSeriesImpl) tmpseries).setRiser(((BarSeriesImpl) firstSeries).getRiser());
 		}
 
 		return tmpseries;
@@ -266,175 +247,152 @@ public class DefaultChartTypeImpl implements IChartType
 
 	/**
 	 * Converts sample data for chart types.
-	 * 
+	 *
 	 * @param currentSampleData
 	 * @param xAxisType
 	 * @param yAxisType
 	 * @return
 	 */
-	protected SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType xAxisType, AxisType yAxisType )
-	{
+	protected SampleData getConvertedSampleData(SampleData currentSampleData, AxisType xAxisType, AxisType yAxisType) {
 		// Convert base sample data
-		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData( );
-		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
-				xAxisType );
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData();
+		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation(bsdList, xAxisType);
+		currentSampleData.getBaseSampleData().clear();
+		currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
 
 		// Convert orthogonal sample data
-		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( yAxisType,
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData();
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<>();
+		for (int i = 0; i < osdList.size(); i++) {
+			OrthogonalSampleData osd = osdList.get(i);
+			osd.setDataSetRepresentation(
+					ChartUIUtil.getConvertedSampleDataRepresentation(yAxisType, osd.getDataSetRepresentation(), i));
+			vNewOrthogonalSampleData.add(osd);
 		}
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
+		currentSampleData.getOrthogonalSampleData().clear();
+		currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
 		return currentSampleData;
 	}
 
 	/**
 	 * Converts sample data for chart types.
-	 * 
+	 *
 	 * @param currentSampleData
 	 * @param xAxisType
 	 * @param yAxisTypes
 	 * @return
 	 */
-	protected SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType xAxisType, List<AxisType> yAxisTypes )
-	{
+	protected SampleData getConvertedSampleData(SampleData currentSampleData, AxisType xAxisType,
+			List<AxisType> yAxisTypes) {
 		// Convert base sample data
-		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData( );
-		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
-				xAxisType );
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData();
+		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation(bsdList, xAxisType);
+		currentSampleData.getBaseSampleData().clear();
+		currentSampleData.getBaseSampleData().addAll(vNewBaseSampleData);
 
 		// Convert orthogonal sample data
-		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList,
-				yAxisTypes );
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData();
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation(osdList,
+				yAxisTypes);
+		currentSampleData.getOrthogonalSampleData().clear();
+		currentSampleData.getOrthogonalSampleData().addAll(vNewOrthogonalSampleData);
 		return currentSampleData;
 	}
 
-	private Vector<BaseSampleData> getConvertedBaseSampleDataRepresentation(
-			EList<BaseSampleData> bsdList, AxisType xAxisType )
-	{
-		Vector<BaseSampleData> vNewBaseSampleData = new Vector<BaseSampleData>( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
+	private Vector<BaseSampleData> getConvertedBaseSampleDataRepresentation(EList<BaseSampleData> bsdList,
+			AxisType xAxisType) {
+		Vector<BaseSampleData> vNewBaseSampleData = new Vector<>();
+		for (int i = 0; i < bsdList.size(); i++) {
+			BaseSampleData bsd = bsdList.get(i);
+			bsd.setDataSetRepresentation(
+					ChartUIUtil.getConvertedSampleDataRepresentation(xAxisType, bsd.getDataSetRepresentation(), i));
+			vNewBaseSampleData.add(bsd);
 		}
 		return vNewBaseSampleData;
 	}
 
 	private Vector<OrthogonalSampleData> getConvertedOrthogonalSampleDataRepresentation(
-			EList<OrthogonalSampleData> osdList, List<AxisType> axisTypes )
-	{
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
-		for ( int i = 0; i < axisTypes.size( ); i++ )
-		{
-			OrthogonalSampleData osd = osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisTypes.get( i ),
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
+			EList<OrthogonalSampleData> osdList, List<AxisType> axisTypes) {
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<>();
+		for (int i = 0; i < axisTypes.size(); i++) {
+			OrthogonalSampleData osd = osdList.get(i);
+			osd.setDataSetRepresentation(ChartUIUtil.getConvertedSampleDataRepresentation(axisTypes.get(i),
+					osd.getDataSetRepresentation(), i));
+			vNewOrthogonalSampleData.add(osd);
 		}
 		return vNewOrthogonalSampleData;
 	}
 
-	public boolean canCombine( )
-	{
+	@Override
+	public boolean canCombine() {
 		return false;
 	}
 
-	public String getDefaultTitle( )
-	{
+	@Override
+	public String getDefaultTitle() {
 		return chartTitle;
 	}
 
-	public boolean canExpand( )
-	{
+	@Override
+	public boolean canExpand() {
 		return false;
 	}
-	
+
 	/**
 	 * Copies generic chart properties
-	 * 
-	 * @param oldChart
-	 *            chart model as copy source
-	 * @param newChart
-	 *            chart model as copy target
+	 *
+	 * @param oldChart chart model as copy source
+	 * @param newChart chart model as copy target
 	 */
-	protected void copyChartProperties( Chart oldChart, Chart newChart )
-	{
+	protected void copyChartProperties(Chart oldChart, Chart newChart) {
 		// Copy generic chart properties from the old chart
-		newChart.setBlock( oldChart.getBlock( ) );
-		newChart.setDescription( oldChart.getDescription( ) );
-		if ( newChart.isSetGridColumnCount( ) )
-		{
-			newChart.setGridColumnCount( oldChart.getGridColumnCount( ) );
+		newChart.setBlock(oldChart.getBlock());
+		newChart.setDescription(oldChart.getDescription());
+		if (newChart.isSetGridColumnCount()) {
+			newChart.setGridColumnCount(oldChart.getGridColumnCount());
 		}
-		newChart.setSampleData( oldChart.getSampleData( ) );
-		newChart.setScript( oldChart.getScript( ) );
-		newChart.setUnits( oldChart.getUnits( ) );
-		if ( oldChart.isSetSeriesThickness( ) )
-		{
-			newChart.setSeriesThickness( oldChart.getSeriesThickness( ) );
+		newChart.setSampleData(oldChart.getSampleData());
+		newChart.setScript(oldChart.getScript());
+		newChart.setUnits(oldChart.getUnits());
+		if (oldChart.isSetSeriesThickness()) {
+			newChart.setSeriesThickness(oldChart.getSeriesThickness());
 		}
 
-		newChart.getExtendedProperties( ).clear( );
-		newChart.getExtendedProperties( )
-				.addAll( oldChart.getExtendedProperties( ) );
+		newChart.getExtendedProperties().clear();
+		newChart.getExtendedProperties().addAll(oldChart.getExtendedProperties());
 
-		if ( oldChart.getInteractivity( ) != null )
-		{
-			if ( oldChart.getInteractivity( ).isSetEnable( ) )
-			{
-				newChart.getInteractivity( ).setEnable( oldChart.getInteractivity( )
-					.isEnable( ) );
+		if (oldChart.getInteractivity() != null) {
+			if (oldChart.getInteractivity().isSetEnable()) {
+				newChart.getInteractivity().setEnable(oldChart.getInteractivity().isEnable());
 			}
-			if ( oldChart.getInteractivity( ).isSetLegendBehavior( ) )
-			{
-				newChart.getInteractivity( )
-					.setLegendBehavior( oldChart.getInteractivity( )
-							.getLegendBehavior( ) );
+			if (oldChart.getInteractivity().isSetLegendBehavior()) {
+				newChart.getInteractivity().setLegendBehavior(oldChart.getInteractivity().getLegendBehavior());
 			}
 		}
 	}
 
-	public String getValueDefinitionName( )
-	{
-		return Messages.getString( "DefaultChartTypeImpl.Label.ValueDefinitionName" ); //$NON-NLS-1$
+	@Override
+	public String getValueDefinitionName() {
+		return Messages.getString("DefaultChartTypeImpl.Label.ValueDefinitionName"); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#isChartWithAxis()
 	 */
-	public boolean isChartWithAxes( )
-	{
+	@Override
+	public boolean isChartWithAxes() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries(boolean)
 	 */
-	public Series getSeries( boolean needInitialing )
-	{
+	@Override
+	public Series getSeries(boolean needInitialing) {
 		return null;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,26 +24,21 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
 
-
-public class QueryDefnDelegator extends QueryDefinition
-{
+public class QueryDefnDelegator extends QueryDefinition {
 
 	protected IBaseQueryDefinition baseQuery;
 	protected String queryResultsId;
 	protected String dataSetName;
 
-	public QueryDefnDelegator( IBaseQueryDefinition query )
-	{
+	public QueryDefnDelegator(IBaseQueryDefinition query) {
 		baseQuery = query;
-		if ( query instanceof IQueryDefinition)
-		{
-			queryResultsId = ((IQueryDefinition)query).getQueryResultsID( );
-			dataSetName = ((IQueryDefinition)query).getDataSetName( );
+		if (query instanceof IQueryDefinition) {
+			queryResultsId = ((IQueryDefinition) query).getQueryResultsID();
+			dataSetName = ((IQueryDefinition) query).getDataSetName();
 		}
 	}
-	
-	public QueryDefnDelegator( IBaseQueryDefinition query, String queryResultsId, String dataSetName )
-	{
+
+	public QueryDefnDelegator(IBaseQueryDefinition query, String queryResultsId, String dataSetName) {
 		this.baseQuery = query;
 		this.queryResultsId = queryResultsId;
 		this.dataSetName = dataSetName;
@@ -48,299 +46,311 @@ public class QueryDefnDelegator extends QueryDefinition
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#usesDetails
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#usesDetails ()
 	 */
-	public boolean usesDetails( )
-	{
-		return baseQuery.usesDetails( );
+	@Override
+	public boolean usesDetails() {
+		return baseQuery.usesDetails();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * cacheQueryResults()
 	 */
-	public boolean cacheQueryResults( )
-	{
-		return baseQuery.cacheQueryResults( );
+	@Override
+	public boolean cacheQueryResults() {
+		return baseQuery.cacheQueryResults();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getParentQuery
 	 * ()
 	 */
-	public IBaseQueryDefinition getParentQuery( )
-	{
-		return baseQuery.getParentQuery( );
+	@Override
+	public IBaseQueryDefinition getParentQuery() {
+		return baseQuery.getParentQuery();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getMaxRows
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getMaxRows ()
 	 */
-	public int getMaxRows( )
-	{
-		return baseQuery.getMaxRows( );
+	@Override
+	public int getMaxRows() {
+		return baseQuery.getMaxRows();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setMaxRows
 	 * (int)
 	 */
-	public void setMaxRows( int maxRows )
-	{
-		baseQuery.setMaxRows( maxRows );
+	@Override
+	public void setMaxRows(int maxRows) {
+		baseQuery.setMaxRows(maxRows);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getResultSetExpressions()
 	 */
-	public Map getResultSetExpressions( )
-	{
-		return baseQuery.getResultSetExpressions( );
+	@Override
+	public Map getResultSetExpressions() {
+		return baseQuery.getResultSetExpressions();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#addBinding
 	 * (org.eclipse.birt.data.engine.api.IBinding)
 	 */
-	public void addBinding( IBinding binding ) throws DataException
-	{
+	@Override
+	public void addBinding(IBinding binding) throws DataException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getBindings
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getBindings ()
 	 */
-	public Map getBindings( )
-	{
-		return baseQuery.getBindings( );
+	@Override
+	public Map getBindings() {
+		return baseQuery.getBindings();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getQueryExecutionHints()
 	 */
-	public IQueryExecutionHints getQueryExecutionHints( )
-	{
-		return baseQuery.getQueryExecutionHints( );
+	@Override
+	public IQueryExecutionHints getQueryExecutionHints() {
+		return baseQuery.getQueryExecutionHints();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getStartingRow
 	 * ()
 	 */
-	public int getStartingRow( )
-	{
-		return baseQuery.getStartingRow( );
+	@Override
+	public int getStartingRow() {
+		return baseQuery.getStartingRow();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getDistinctValue()
 	 */
-	public boolean getDistinctValue( )
-	{
-		return baseQuery.getDistinctValue( );
+	@Override
+	public boolean getDistinctValue() {
+		return baseQuery.getDistinctValue();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getFilters()
+	 *
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getFilters()
 	 */
-	public List getFilters( )
-	{
-		return baseQuery.getFilters( );
+	@Override
+	public List getFilters() {
+		return baseQuery.getFilters();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSubqueries()
+	 *
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSubqueries()
 	 */
-	public Collection getSubqueries( )
-	{
-		return baseQuery.getSubqueries( );
+	@Override
+	public Collection getSubqueries() {
+		return baseQuery.getSubqueries();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSorts()
 	 */
-	public List getSorts( )
-	{
-		return baseQuery.getSorts( );
+	@Override
+	public List getSorts() {
+		return baseQuery.getSorts();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setName
+	 *
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setName
 	 * (java.lang.String)
 	 */
-	public void setName( String name )
-	{
+	@Override
+	public void setName(String name) {
 		this.dataSetName = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getName()
+	 *
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getName()
 	 */
-	public String getName( )
-	{
-		return baseQuery.getName( );
+	@Override
+	public String getName() {
+		return baseQuery.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getDataSetName
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getDataSetName ()
 	 */
-	public String getDataSetName( )
-	{
+	@Override
+	public String getDataSetName() {
 		return dataSetName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getQueryResultsID
 	 * ()
 	 */
-	public String getQueryResultsID( )
-	{
+	@Override
+	public String getQueryResultsID() {
 		return queryResultsId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#needAutoBinding
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#needAutoBinding ()
 	 */
-	public boolean needAutoBinding( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).needAutoBinding( );
+	@Override
+	public boolean needAutoBinding() {
+		if (baseQuery instanceof QueryDefinition) {
+			return ((QueryDefinition) baseQuery).needAutoBinding();
+		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#
 	 * getInputParamBindings()
 	 */
-	public Collection getInputParamBindings( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getInputParamBindings( );
+	@Override
+	public Collection getInputParamBindings() {
+		if (baseQuery instanceof QueryDefinition) {
+			return ((QueryDefinition) baseQuery).getInputParamBindings();
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#
 	 * getColumnProjection()
 	 */
-	public String[] getColumnProjection( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getColumnProjection( );
+	@Override
+	public String[] getColumnProjection() {
+		if (baseQuery instanceof QueryDefinition) {
+			return ((QueryDefinition) baseQuery).getColumnProjection();
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getSourceQuery()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getSourceQuery()
 	 */
-	public IBaseQueryDefinition getSourceQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getSourceQuery( );
+	@Override
+	public IBaseQueryDefinition getSourceQuery() {
+		if (baseQuery instanceof QueryDefinition) {
+			return ((QueryDefinition) baseQuery).getSourceQuery();
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#isSummaryQuery()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#isSummaryQuery()
 	 */
-	public boolean isSummaryQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).isSummaryQuery( );
+	@Override
+	public boolean isSummaryQuery() {
+		if (baseQuery instanceof QueryDefinition) {
+			return ((QueryDefinition) baseQuery).isSummaryQuery();
+		}
 		return false;
 	}
 
-	public IQueryDefinition getBaseQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
+	public IQueryDefinition getBaseQuery() {
+		if (baseQuery instanceof QueryDefinition) {
 			return (QueryDefinition) baseQuery;
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setSourceQuery(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setSourceQuery(org
+	 * .eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
-	public void setSourceQuery( IBaseQueryDefinition object )
-	{
+	@Override
+	public void setSourceQuery(IBaseQueryDefinition object) {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getGroups()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getGroups()
 	 */
-	public List getGroups( )
-	{
-		return baseQuery.getGroups( );
+	@Override
+	public List getGroups() {
+		return baseQuery.getGroups();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setQueryResultsID(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setQueryResultsID(
+	 * java.lang.String)
 	 */
-	public void setQueryResultsID( String queryResultsID )
-	{
+	@Override
+	public void setQueryResultsID(String queryResultsID) {
 		this.queryResultsId = queryResultsID;
 	}
-	
-	
+
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +42,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * etc. The output of the executor, for now, is a specific output format, i.e.,
  * HTML, FO or PDF, with the help of the emitter extensions.
  * <p>
- * 
+ *
  * The report instance creation logic is subject to further abstraction, because
  * it is needed in both report generation and report presentation. This is
  * because report document (not supported for now) does not store each report
@@ -51,10 +54,9 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
  * output format, but also be a report document. Data would then come from
  * database in factory engine, and from report document in the presentation
  * engine.
- * 
+ *
  */
-public class ReportExecutor implements IReportExecutor
-{
+public class ReportExecutor implements IReportExecutor {
 	// the report execution context
 	protected ExecutionContext context;
 
@@ -66,104 +68,85 @@ public class ReportExecutor implements IReportExecutor
 	protected ReportContent reportContent;
 
 	protected long uniqueId;
-	
+
 	protected HashMap pages = new HashMap();
 
 	protected ReportletItemExecutor reportletExecutor;
 
 	/**
 	 * constructor
-	 * 
-	 * @param context
-	 *            the executor context
-	 * @param emitter
-	 *            the report emitter
-	 * 
+	 *
+	 * @param context the executor context
+	 * @param emitter the report emitter
+	 *
 	 */
-	public ReportExecutor( ExecutionContext context )
-	{
+	public ReportExecutor(ExecutionContext context) {
 		this.context = context;
-		this.report = context.getReport( );
-		this.manager = new ExecutorManager( this );
+		this.report = context.getReport();
+		this.manager = new ExecutorManager(this);
 		this.uniqueId = 0;
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		reportContent = new ReportContent( report );
-		reportContent.setExecutionContext( context );
-		context.setReportContent( reportContent );
-		
-		try
-		{
-			TOCBuilder tocBuilder = new TOCBuilder( context );
-			reportContent.setTOCTree( tocBuilder.getTOCTree( ) );
-			context.setTOCBuilder( tocBuilder );
-		}
-		catch ( IOException ex )
-		{
-			context.addException( new EngineException( MessageConstants.FAILED_TO_CREATE_TOC_EXCEPTION,
-					ex ) );
+	@Override
+	public IReportContent execute() throws BirtException {
+		reportContent = new ReportContent(report);
+		reportContent.setExecutionContext(context);
+		context.setReportContent(reportContent);
+
+		try {
+			TOCBuilder tocBuilder = new TOCBuilder(context);
+			reportContent.setTOCTree(tocBuilder.getTOCTree());
+			context.setTOCBuilder(tocBuilder);
+		} catch (IOException ex) {
+			context.addException(new EngineException(MessageConstants.FAILED_TO_CREATE_TOC_EXCEPTION, ex));
 		}
 
-		DocumentDataSource dataSource = context.getDataSource( );
-		if ( dataSource != null )
-		{
-			long reportletId = dataSource.getElementID( );
-			if ( reportletId != -1 )
-			{
-				reportletExecutor = new ReportletItemExecutor( manager );
+		DocumentDataSource dataSource = context.getDataSource();
+		if (dataSource != null) {
+			long reportletId = dataSource.getElementID();
+			if (reportletId != -1) {
+				reportletExecutor = new ReportletItemExecutor(manager);
 			}
 		}
 
 		// Prepare necessary data for this report
-		Map appContext = context.getAppContext( );
-		
-		context.getDataEngine( ).prepare( report, appContext );
+		Map appContext = context.getAppContext();
+
+		context.getDataEngine().prepare(report, appContext);
 
 		// the report variables has been registered before the initialize at
 		// EngineTask.initReportVariable()
 
-		if ( reportletExecutor == null )
-		{
+		if (reportletExecutor == null) {
 			// create execution optimize policy
-			context.optimizeExecution( );
+			context.optimizeExecution();
 		}
 
 		// prepare to execute the child
 		currentItem = 0;
 
-		if ( reportletExecutor != null )
-		{
-			reportletExecutor.execute( );
+		if (reportletExecutor != null) {
+			reportletExecutor.execute();
 		}
 
 		return reportContent;
 	}
 
-	public void close( ) throws BirtException
-	{
-		TOCBuilder builder = context.getTOCBuilder( );
-		if ( builder != null )
-		{
-			try
-			{
-				builder.close( );
-			}
-			catch ( IOException ex )
-			{
-				context.addException( new EngineException(
-						"failed to close TOC", ex ) );
-			}
-			finally
-			{
-				context.setTOCBuilder( null );
+	@Override
+	public void close() throws BirtException {
+		TOCBuilder builder = context.getTOCBuilder();
+		if (builder != null) {
+			try {
+				builder.close();
+			} catch (IOException ex) {
+				context.addException(new EngineException("failed to close TOC", ex));
+			} finally {
+				context.setTOCBuilder(null);
 			}
 		}
 
-		if ( reportletExecutor != null )
-		{
-			reportletExecutor.close( );
+		if (reportletExecutor != null) {
+			reportletExecutor.close();
 			reportletExecutor = null;
 		}
 		uniqueId = 0;
@@ -171,70 +154,59 @@ public class ReportExecutor implements IReportExecutor
 
 	int currentItem;
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( reportletExecutor != null )
-		{
-			return reportletExecutor.getNextChild( );
+	@Override
+	public IReportItemExecutor getNextChild() {
+		if (reportletExecutor != null) {
+			return reportletExecutor.getNextChild();
 		}
 
-		if ( currentItem < report.getContentCount( ) )
-		{
-			ReportItemDesign design = report.getContent( currentItem++ );
-			ReportItemExecutor executor = manager.createExecutor( null, design );
+		if (currentItem < report.getContentCount()) {
+			ReportItemDesign design = report.getContent(currentItem++);
+			ReportItemExecutor executor = manager.createExecutor(null, design);
 			return executor;
 		}
 		return null;
 	}
 
-	public boolean hasNextChild( )
-	{
-		if ( reportletExecutor != null )
-		{
-			return reportletExecutor.hasNextChild( );
+	@Override
+	public boolean hasNextChild() {
+		if (reportletExecutor != null) {
+			return reportletExecutor.hasNextChild();
 		}
-		if ( currentItem < report.getContentCount( ) )
-		{
+		if (currentItem < report.getContentCount()) {
 			return true;
 		}
 		return false;
 	}
 
-	public ExecutionContext getContext( )
-	{
+	public ExecutionContext getContext() {
 		return this.context;
 	}
 
-	public ExecutorManager getManager( )
-	{
+	public ExecutorManager getManager() {
 		return this.manager;
 	}
 
-	long generateUniqueID( )
-	{
+	long generateUniqueID() {
 		return uniqueId++;
 	}
 
-	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign ) throws BirtException
-	{
-		//only execute once for the same page design
-		IPageContent pageContent = (IPageContent)pages.get( pageDesign );
-		if(pageContent == null )
-		{
-			
-			IReportItemExecutor pageExecutor = new MasterPageExecutor( manager, pageNumber, pageDesign );
-			pageContent = (IPageContent) pageExecutor.execute( );
-			IContentEmitter domEmitter = new DOMBuilderEmitter( pageContent );
-			ReportExecutorUtil.executeAll( pageExecutor, domEmitter );
-			pageExecutor.close( );
-			pages.put( pageDesign, pageContent );
+	@Override
+	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
+		// only execute once for the same page design
+		IPageContent pageContent = (IPageContent) pages.get(pageDesign);
+		if (pageContent == null) {
+
+			IReportItemExecutor pageExecutor = new MasterPageExecutor(manager, pageNumber, pageDesign);
+			pageContent = (IPageContent) pageExecutor.execute();
+			IContentEmitter domEmitter = new DOMBuilderEmitter(pageContent);
+			ReportExecutorUtil.executeAll(pageExecutor, domEmitter);
+			pageExecutor.close();
+			pages.put(pageDesign, pageContent);
+		} else {
+			pageContent.setPageNumber(pageNumber);
+			context.setPageNumber(pageNumber);
 		}
-		else
-		{
-			pageContent.setPageNumber( pageNumber );
-			context.setPageNumber( pageNumber );
-		}
-		return new DOMReportItemExecutor( pageContent, true );
+		return new DOMReportItemExecutor(pageContent, true);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,15 +21,13 @@ import com.ibm.icu.util.ULocale;
  * instantiated.
  */
 
-public class ModelMessages
-{
+public class ModelMessages {
 
 	/**
 	 * This class can not be instantiated.
 	 */
 
-	private ModelMessages( )
-	{
+	private ModelMessages() {
 	}
 
 	/**
@@ -35,52 +36,43 @@ public class ModelMessages
 
 	private static ThreadResources threadResources = null;
 
-	static
-	{
-		threadResources = new ThreadResources( );
+	static {
+		threadResources = new ThreadResources();
 	}
 
 	/**
 	 * Returns the localized message with the given resource key.
-	 * 
-	 * @param key
-	 *            the resource key
+	 *
+	 * @param key the resource key
 	 * @return the localized message
 	 */
 
-	public static String getMessage( String key )
-	{
-		return threadResources.getMessage( key );
+	public static String getMessage(String key) {
+		return threadResources.getMessage(key);
 	}
 
 	/**
 	 * Returns the localized message with the given resource key.
-	 * 
-	 * @param key
-	 *            the resource key
-	 * @param locale
-	 *            the locale
+	 *
+	 * @param key    the resource key
+	 * @param locale the locale
 	 * @return the localized message
 	 */
 
-	public static String getMessage( String key, ULocale locale )
-	{
-		return threadResources.getMessage( key, locale );
+	public static String getMessage(String key, ULocale locale) {
+		return threadResources.getMessage(key, locale);
 	}
 
 	/**
 	 * Returns the localized message with the given resource key and arguments.
-	 * 
-	 * @param key
-	 *            the resource key
-	 * @param arguments
-	 *            the arguments for localized message
+	 *
+	 * @param key       the resource key
+	 * @param arguments the arguments for localized message
 	 * @return the localized message
 	 */
 
-	public static String getMessage( String key, Object[] arguments )
-	{
-		return threadResources.getMessage( key, arguments );
+	public static String getMessage(String key, Object[] arguments) {
+		return threadResources.getMessage(key, arguments);
 	}
 
 }

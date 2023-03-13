@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Testhelper Fragment
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.testhelper
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Fragment-Host: org.eclipse.birt.report.engine;bundle-version="[2.5.0,5.0.0)"
 Bundle-ClassPath: enginetesthelper.jar
 Export-Package: org.eclipse.birt.report.engine,
@@ -15,7 +15,7 @@ Export-Package: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.internal.executor.doc,
  org.eclipse.birt.report.engine.internal.executor.load,
  org.eclipse.birt.report.engine.internal.index.v2
-Require-Bundle: org.junit;resolution:=optional;visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Eclipse BIRT Project
+Require-Bundle: org.junit;bundle-version="4.13.0";resolution:=optional;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.testhelper

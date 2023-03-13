@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
  *
  */
 
-public class CssEvent extends NotificationEvent
-{
+public class CssEvent extends NotificationEvent {
 	/**
 	 * New css is added.
 	 */
@@ -32,13 +34,13 @@ public class CssEvent extends NotificationEvent
 	 */
 
 	public static final int DROP = 2;
-	
+
 	/**
 	 * Css is shifted.
 	 */
-	
+
 	public static final int SHIFT = 3;
-	
+
 	/**
 	 * The type of change. One of {@link #ADD}, or {@link #DROP}.
 	 */
@@ -53,49 +55,45 @@ public class CssEvent extends NotificationEvent
 
 	/**
 	 * Constructs the event with the added or dropped css and action.
-	 * 
-	 * @param css
-	 *            the css causing this event
-	 * @param action
-	 *            th etype of change
+	 *
+	 * @param css    the css causing this event
+	 * @param action th etype of change
 	 */
 
-	public CssEvent( CssStyleSheet css, int action )
-	{
+	public CssEvent(CssStyleSheet css, int action) {
 		this.css = css;
 		this.action = action;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return CSS_EVENT;
 	}
 
 	/**
 	 * Returns the type of change.
-	 * 
+	 *
 	 * @return the type of change.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
 	/**
 	 * Returns the css causing this event.
-	 * 
+	 *
 	 * @return the css causing this event
 	 */
 
-	public CssStyleSheet getCss( )
-	{
+	public CssStyleSheet getCss() {
 		return css;
 	}
 

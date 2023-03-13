@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
@@ -10,42 +22,37 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.content.ItemExecutorWrapper;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 
-public class PDFImageBlockContainerLM extends PDFBlockContainerLM
-		implements
-			IBlockStackingLayoutManager
-{
+public class PDFImageBlockContainerLM extends PDFBlockContainerLM implements IBlockStackingLayoutManager {
 
-	public PDFImageBlockContainerLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content, executor );
-		child = new PDFLineAreaLM( context, this,
-				new LineStackingExecutor( new ItemExecutorWrapper( executor,
-						content ), executor ) );
+	public PDFImageBlockContainerLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
+		child = new PDFLineAreaLM(context, this,
+				new LineStackingExecutor(new ItemExecutorWrapper(executor, content), executor));
 	}
 
-	protected boolean traverseChildren( ) throws BirtException
-	{
-		return traverseSingleChild( );
+	@Override
+	protected boolean traverseChildren() throws BirtException {
+		return traverseSingleChild();
 	}
 
-	protected void closeLayout( )
-	{
+	@Override
+	protected void closeLayout() {
 		/**
-		 * set root height.
-		 * For Image block container, OffsetY and box property should be zero
+		 * set root height. For Image block container, OffsetY and box property should
+		 * be zero
 		 */
-		root.setHeight( getCurrentBP( ));
+		root.setHeight(getCurrentBP());
 	}
 
-	protected void createRoot( )
-	{
-		root = (ContainerArea)AreaFactory.createLogicContainer( content.getReportContent( ) );
+	@Override
+	protected void createRoot() {
+		root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 	}
 
-	protected void closeExecutor( )
-	{
-		
+	@Override
+	protected void closeExecutor() {
+
 	}
 
 }

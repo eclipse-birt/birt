@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,176 +36,170 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * implementation class according to Chart's context.
  */
 
-public class ChartReportItemPresentationProxy implements
-		IReportItemPresentation
-{
+public class ChartReportItemPresentationProxy implements IReportItemPresentation {
 
 	private IReportItemPresentation impl;
 	private IReportItemPresentationInfo info;
 
-	public void init( IReportItemPresentationInfo info )
-	{
-		if ( info == null )
-		{
-			throw new NullPointerException( );
+	@Override
+	public void init(IReportItemPresentationInfo info) {
+		if (info == null) {
+			throw new NullPointerException();
 		}
 
 		this.info = info;
-		impl = createImpl( info );
-		impl.init( info );
+		impl = createImpl(info);
+		impl.init(info);
 	}
 
-	protected IReportItemPresentation createImpl(
-			IReportItemPresentationInfo info )
-	{
-		ExtendedItemHandle modelHandle = info.getModelObject( );
-		if ( ChartCubeUtil.isInXTabMeasureCell( modelHandle ) )
-		{
+	protected IReportItemPresentation createImpl(IReportItemPresentationInfo info) {
+		ExtendedItemHandle modelHandle = info.getModelObject();
+		if (ChartCubeUtil.isInXTabMeasureCell(modelHandle)) {
 			// // If chart is in cross tab cell, use specific impl
-			if ( ChartCubeUtil.isPlotChart( modelHandle ) )
-			{
-				return new ChartReportItemPresentationPlotImpl( );
-			}
-			else if ( ChartCubeUtil.isAxisChart( modelHandle ) )
-			{
-				return new ChartReportItemPresentationAxisImpl( );
+			if (ChartCubeUtil.isPlotChart(modelHandle)) {
+				return new ChartReportItemPresentationPlotImpl();
+			} else if (ChartCubeUtil.isAxisChart(modelHandle)) {
+				return new ChartReportItemPresentationAxisImpl();
 			}
 		}
-		return ChartReportItemUtil.instanceReportItemPresentation( modelHandle,
-				info );
+		return ChartReportItemUtil.instanceReportItemPresentation(modelHandle, info);
 	}
 
-	public void deserialize( InputStream istream )
-	{
+	@Override
+	public void deserialize(InputStream istream) {
 		assert impl != null;
-		impl.deserialize( istream );
+		impl.deserialize(istream);
 	}
 
-	public void finish( )
-	{
+	@Override
+	public void finish() {
 		assert impl != null;
-		impl.finish( );
+		impl.finish();
 	}
 
-	public String getImageMIMEType( )
-	{
+	@Override
+	public String getImageMIMEType() {
 		assert impl != null;
-		return impl.getImageMIMEType( );
+		return impl.getImageMIMEType();
 	}
 
-	public int getOutputType( )
-	{
+	@Override
+	public int getOutputType() {
 		assert impl != null;
-		return impl.getOutputType( );
+		return impl.getOutputType();
 	}
 
-	public Size getSize( )
-	{
+	@Override
+	public Size getSize() {
 		assert impl != null;
-		return impl.getSize( );
+		return impl.getSize();
 	}
 
-	public Object onRowSets( IBaseResultSet[] results ) throws BirtException
-	{
+	@Override
+	public Object onRowSets(IBaseResultSet[] results) throws BirtException {
 		assert impl != null;
-		return impl.onRowSets( results );
+		return impl.onRowSets(results);
 	}
 
-	public IReportItemPresentationInfo getPresentationConfig( )
-	{
+	@Override
+	public IReportItemPresentationInfo getPresentationConfig() {
 		return info;
 	}
 
 	// Follows deprecated methods. Empty implementation
+	@Override
 	@SuppressWarnings("deprecation")
-	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
-	{
+	public Object onRowSets(IRowSet[] rowSets) throws BirtException {
 		assert false;
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setActionHandler( IHTMLActionHandler ah )
-	{
+	public void setActionHandler(IHTMLActionHandler ah) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setApplicationClassLoader( ClassLoader loader )
-	{
+	public void setApplicationClassLoader(ClassLoader loader) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setDynamicStyle( IStyle style )
-	{
+	public void setDynamicStyle(IStyle style) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setExtendedItemContent( IContent content )
-	{
+	public void setExtendedItemContent(IContent content) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setLocale( Locale locale )
-	{
+	public void setLocale(Locale locale) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
+	public void setModelObject(ExtendedItemHandle modelHandle) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setOutputFormat( String outputFormat )
-	{
+	public void setOutputFormat(String outputFormat) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setReportQueries( IDataQueryDefinition[] queries )
-	{
+	public void setReportQueries(IDataQueryDefinition[] queries) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setResolution( int dpi )
-	{
+	public void setResolution(int dpi) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setScriptContext( IReportContext context )
-	{
+	public void setScriptContext(IReportContext context) {
 		assert false;
 
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
-	public void setSupportedImageFormats( String supportedImageFormats )
-	{
+	public void setSupportedImageFormats(String supportedImageFormats) {
 		assert false;
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#isCacheable()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemPresentation#isCacheable(
+	 * )
 	 */
-	public boolean isCacheable( )
-	{
-		return impl.isCacheable( );
+	@Override
+	public boolean isCacheable() {
+		return impl.isCacheable();
 	}
 }

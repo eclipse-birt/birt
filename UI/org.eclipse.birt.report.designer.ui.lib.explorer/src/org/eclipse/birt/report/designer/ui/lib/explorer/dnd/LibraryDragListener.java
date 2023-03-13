@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,83 +38,70 @@ import org.eclipse.swt.dnd.DragSourceEvent;
  * Library tree viewer drag listener.
  */
 
-public class LibraryDragListener extends DesignElementDragAdapter
-{
+public class LibraryDragListener extends DesignElementDragAdapter {
 
-	public LibraryDragListener( StructuredViewer viewer )
-	{
-		super( viewer );
+	public LibraryDragListener(StructuredViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDragAdapter#validateTransfer(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDragAdapter#
+	 * validateTransfer(java.lang.Object)
 	 */
-	protected boolean validateTransfer( Object transfer )
-	{
-		if ( transfer instanceof ReportElementHandle
-				|| transfer instanceof EmbeddedImageHandle )
-		{
-			if ( transfer instanceof ScalarParameterHandle
-					&& ( (ScalarParameterHandle) transfer ).getContainer( ) instanceof CascadingParameterGroupHandle )
-			{
+	@Override
+	protected boolean validateTransfer(Object transfer) {
+		if (transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle) {
+			if (transfer instanceof ScalarParameterHandle
+					&& ((ScalarParameterHandle) transfer).getContainer() instanceof CascadingParameterGroupHandle) {
 				return false;
-			}
-			else if ( transfer instanceof StyleHandle
-					&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
-			{
+			} else if (transfer instanceof StyleHandle
+					&& ((StyleHandle) transfer).getContainer() instanceof ThemeHandle) {
 				return false;
-			}
-			else if ( transfer instanceof DimensionHandle
-					|| transfer instanceof LevelHandle
-					|| transfer instanceof MeasureHandle
-					|| transfer instanceof MeasureGroupHandle )
-			{
+			} else if (transfer instanceof DimensionHandle || transfer instanceof LevelHandle
+					|| transfer instanceof MeasureHandle || transfer instanceof MeasureGroupHandle) {
 				return false;
-			}
-			else
-			{
+			} else {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public void dragStart( DragSourceEvent event )
-	{
-		boolean doit = !getViewer( ).getSelection( ).isEmpty( );
-		if ( doit )
-		{
-			IStructuredSelection selection = (IStructuredSelection) getViewer( ).getSelection( );
-			List objectList = selection.toList( );
-			selectionList.clear( );
-			for ( int i = 0; i < objectList.size( ); i++ )
-			{
-				if ( objectList.get( i ) instanceof ReportResourceEntry )
-					selectionList.add( ( (ReportResourceEntry) objectList.get( i ) ).getReportElement( ) );
-				else
-					selectionList.add( objectList.get( i ) );
+	@Override
+	public void dragStart(DragSourceEvent event) {
+		boolean doit = !getViewer().getSelection().isEmpty();
+		if (doit) {
+			IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
+			List objectList = selection.toList();
+			selectionList.clear();
+			for (int i = 0; i < objectList.size(); i++) {
+				if (objectList.get(i) instanceof ReportResourceEntry) {
+					selectionList.add(((ReportResourceEntry) objectList.get(i)).getReportElement());
+				} else {
+					selectionList.add(objectList.get(i));
+				}
 			}
-			Object[] objects = selectionList.toArray( );
-			if ( validateType( objects ) )
-			{
-				for ( int i = 0; i < objects.length; i++ )
-					if ( !validateTransfer( objects[i] ) )
-					{
+			Object[] objects = selectionList.toArray();
+			if (validateType(objects)) {
+				for (int i = 0; i < objects.length; i++) {
+					if (!validateTransfer(objects[i])) {
 						doit = false;
 						break;
 					}
-			}
-			else
+				}
+			} else {
 				doit = false;
-			if ( doit )
-				TemplateTransfer.getInstance( ).setTemplate( objects );
+			}
+			if (doit) {
+				TemplateTransfer.getInstance().setTemplate(objects);
+			}
 		}
 		event.doit = doit;
-		if ( Policy.TRACING_DND_DRAG && doit )
-		{
-			System.out.println( "DND >> Drag starts." ); //$NON-NLS-1$
+		if (Policy.TRACING_DND_DRAG && doit) {
+			System.out.println("DND >> Drag starts."); //$NON-NLS-1$
 		}
 	}
 

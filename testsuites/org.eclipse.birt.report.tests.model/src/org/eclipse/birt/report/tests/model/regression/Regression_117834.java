@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -43,35 +46,33 @@ import com.ibm.icu.util.ULocale;
  * retrieve the style property value.
  * </p>
  */
-public class Regression_117834 extends BaseTestCase
-{
+public class Regression_117834 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_117834( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table", 1, 1, 1,1 ); //$NON-NLS-1$
-		designHandle.getBody( ).add( table );
-		
-		StyleHandle table_header = factory.newStyle( "table-header" ); //$NON-NLS-1$
-		table_header.setFontStyle( DesignChoiceConstants.FONT_STYLE_ITALIC );
-		designHandle.getStyles( ).add( table_header );
-		
+	public void test_regression_117834() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table", 1, 1, 1, 1); //$NON-NLS-1$
+		designHandle.getBody().add(table);
+
+		StyleHandle table_header = factory.newStyle("table-header"); //$NON-NLS-1$
+		table_header.setFontStyle(DesignChoiceConstants.FONT_STYLE_ITALIC);
+		designHandle.getStyles().add(table_header);
+
 		// static prop value.
-		
-		RowHandle headerRow = (RowHandle)table.getHeader( ).get( 0 );
-		assertEquals( "italic", headerRow.getStringProperty( StyleHandle.FONT_STYLE_PROP ) ); //$NON-NLS-1$
-		
+
+		RowHandle headerRow = (RowHandle) table.getHeader().get(0);
+		assertEquals("italic", headerRow.getStringProperty(StyleHandle.FONT_STYLE_PROP)); //$NON-NLS-1$
+
 		// factory prop value
-		
-		FactoryPropertyHandle factoryPropHandle = headerRow.getFactoryPropertyHandle( StyleHandle.FONT_STYLE_PROP );
-		assertEquals( "italic", factoryPropHandle.getStringValue( ) ); //$NON-NLS-1$
+
+		FactoryPropertyHandle factoryPropHandle = headerRow.getFactoryPropertyHandle(StyleHandle.FONT_STYLE_PROP);
+		assertEquals("italic", factoryPropHandle.getStringValue()); //$NON-NLS-1$
 	}
 }

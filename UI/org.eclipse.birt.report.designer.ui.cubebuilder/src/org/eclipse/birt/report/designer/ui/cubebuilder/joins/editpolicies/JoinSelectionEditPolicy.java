@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -15,40 +18,39 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConne
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 
-public class JoinSelectionEditPolicy extends SelectionEditPolicy
-{
+public class JoinSelectionEditPolicy extends SelectionEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 	 */
-	protected void hideSelection( )
-	{
-		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
-		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 1 );
-		if ( part.getTarget( ) instanceof ColumnEditPart )
-		{
-			if ( part.getSource( ) != null )
-				part.getSource( ).setSelected( EditPart.SELECTED_NONE );
-			part.getTarget( ).setSelected( EditPart.SELECTED_NONE );
+	@Override
+	protected void hideSelection() {
+		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost();
+		((ColumnConnection) this.getHostFigure()).setLineWidth(1);
+		if (part.getTarget() instanceof ColumnEditPart) {
+			if (part.getSource() != null) {
+				part.getSource().setSelected(EditPart.SELECTED_NONE);
+			}
+			part.getTarget().setSelected(EditPart.SELECTED_NONE);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 	 */
-	protected void showSelection( )
-	{
-		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
-		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 2 );
-		if ( part.getTarget( ) instanceof ColumnEditPart )
-		{
-			if ( part.getSource( ) != null )
-				part.getSource( ).setSelected( EditPart.SELECTED );
-			part.getTarget( ).setSelected( EditPart.SELECTED );
+	@Override
+	protected void showSelection() {
+		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost();
+		((ColumnConnection) this.getHostFigure()).setLineWidth(2);
+		if (part.getTarget() instanceof ColumnEditPart) {
+			if (part.getSource() != null) {
+				part.getSource().setSelected(EditPart.SELECTED);
+			}
+			part.getTarget().setSelected(EditPart.SELECTED);
 		}
 	}
 

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -11,159 +23,145 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class RadioGroupSection extends Section
-{
+public class RadioGroupSection extends Section {
 
 	protected RadioGroupPropertyDescriptor radioGroup;
 
-	public RadioGroupSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public RadioGroupSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void createSection( )
-	{
-		getLabelControl( parent );
-		getRadioGroupControl( parent );
-		getGridPlaceholder( parent );
+	@Override
+	public void createSection() {
+		getLabelControl(parent);
+		getRadioGroupControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) radioGroup.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
-		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 1
-					- placeholder;
-		if ( width > -1 )
-		{
+	@Override
+	public void layout() {
+		GridData gd = (GridData) radioGroup.getControl().getLayoutData();
+		if (getLayoutNum() > 0) {
+			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
+		} else {
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else {
 			gd.grabExcessHorizontalSpace = fillRadioGroup;
+		}
 	}
 
-	protected RadioGroupPropertyDescriptor getRadioGroupControl(
-			Composite parent )
-	{
-		if ( radioGroup == null )
-		{
-			radioGroup = DescriptorToolkit.createRadioGroupPropertyDescriptor( isFormStyle );
-			if ( getProvider( ) != null )
-			{
-				radioGroup.setDescriptorProvider( getProvider( ) );
+	protected RadioGroupPropertyDescriptor getRadioGroupControl(Composite parent) {
+		if (radioGroup == null) {
+			radioGroup = DescriptorToolkit.createRadioGroupPropertyDescriptor(isFormStyle);
+			if (getProvider() != null) {
+				radioGroup.setDescriptorProvider(getProvider());
 			}
-			radioGroup.createControl( parent );
-			radioGroup.getControl( ).setLayoutData( new GridData( ) );
-			radioGroup.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
+			radioGroup.createControl(parent);
+			radioGroup.getControl().setLayoutData(new GridData());
+			radioGroup.getControl().addDisposeListener(new DisposeListener() {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							radioGroup = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( radioGroup.getControl( ), parent );
+				@Override
+				public void widgetDisposed(DisposeEvent event) {
+					radioGroup = null;
+				}
+			});
+		} else {
+			checkParent(radioGroup.getControl(), parent);
 		}
 		return radioGroup;
 	}
 
-	public RadioGroupPropertyDescriptor getRadioGroupControl( )
-	{
+	public RadioGroupPropertyDescriptor getRadioGroupControl() {
 		return radioGroup;
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( radioGroup != null )
-			radioGroup.setDescriptorProvider( provider );
+		if (radioGroup != null) {
+			radioGroup.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		radioGroup.setInput( input );
+	@Override
+	public void setInput(Object input) {
+		assert (input != null);
+		radioGroup.setInput(input);
 	}
 
 	private boolean fillRadioGroup = false;
 
-	public boolean isFillRadioGroup( )
-	{
+	public boolean isFillRadioGroup() {
 		return fillRadioGroup;
 	}
 
-	public void setFillRadioGroup( boolean fillRadioGroup )
-	{
+	public void setFillRadioGroup(boolean fillRadioGroup) {
 		this.fillRadioGroup = fillRadioGroup;
 	}
 
-	public void setFocus( )
-	{
-		if ( radioGroup != null )
-		{
-			radioGroup.getControl( ).setFocus( );
+	public void setFocus() {
+		if (radioGroup != null) {
+			radioGroup.getControl().setFocus();
 		}
 	}
 
-	public void load( )
-	{
-		if ( radioGroup != null && !radioGroup.getControl( ).isDisposed( ) )
-			radioGroup.load( );
-	}
-
-	public void reset( )
-	{
-		if ( radioGroup != null && !radioGroup.getControl( ).isDisposed( ) )
-		{
-			radioGroup.reset( );
+	@Override
+	public void load() {
+		if (radioGroup != null && !radioGroup.getControl().isDisposed()) {
+			radioGroup.load();
 		}
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( radioGroup != null )
-			radioGroup.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	@Override
+	public void reset() {
+		if (radioGroup != null && !radioGroup.getControl().isDisposed()) {
+			radioGroup.reset();
+		}
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( radioGroup != null )
-			radioGroup.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	@Override
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null) {
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		}
+		if (radioGroup != null) {
+			radioGroup.setHidden(isHidden);
+		}
+		if (placeholderLabel != null) {
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
+	}
+
+	@Override
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null) {
+			displayLabel.setVisible(isVisible);
+		}
+		if (radioGroup != null) {
+			radioGroup.setVisible(isVisible);
+		}
+		if (placeholderLabel != null) {
+			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

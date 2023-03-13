@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,11 +39,10 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Records an insertion into, or deletion from a name space.
- * 
+ *
  */
 
-public class NameSpaceRecord extends SimpleRecord
-{
+public class NameSpaceRecord extends SimpleRecord {
 
 	/**
 	 * The module that has the name space.
@@ -68,19 +70,14 @@ public class NameSpaceRecord extends SimpleRecord
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param nameHelper
-	 *            the name container
+	 *
+	 * @param nameHelper the name container
 	 * @param ns
-	 * @param symbol
-	 *            the element to insert or remove.
-	 * @param isAdd
-	 *            whether to add (true) or remove (false) the element.
+	 * @param symbol     the element to insert or remove.
+	 * @param isAdd      whether to add (true) or remove (false) the element.
 	 */
 
-	public NameSpaceRecord( INameHelper nameHelper, String ns,
-			DesignElement symbol, boolean isAdd )
-	{
+	public NameSpaceRecord(INameHelper nameHelper, String ns, DesignElement symbol, boolean isAdd) {
 		this.nameHelper = nameHelper;
 		this.nameSpaceID = ns;
 		element = symbol;
@@ -93,125 +90,99 @@ public class NameSpaceRecord extends SimpleRecord
 		// Instead, this record should appear as part of a larger task,
 		// and the label for that task should appear in the UI.
 
-		if ( add )
-			label = CommandLabelFactory
-					.getCommandLabel( MessageConstants.INSERT_ELEMENT_MESSAGE );
-		else
-			label = CommandLabelFactory
-					.getCommandLabel( MessageConstants.DELETE_ELEMENT_MESSAGE );
+		if (add) {
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.INSERT_ELEMENT_MESSAGE);
+		} else {
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.DELETE_ELEMENT_MESSAGE);
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 *
+	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		Module root = nameHelper.getElement( ).getRoot( );
-		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
+	@Override
+	protected void perform(boolean undo) {
+		Module root = nameHelper.getElement().getRoot();
+		NameSpace ns = nameHelper.getNameSpace(nameSpaceID);
 		assert root != null;
-		if ( add && !undo || !add && undo )
-		{
-			if ( element instanceof IReferencableElement )
-			{
-				IReferencableElement originalElement = (IReferencableElement) root
-						.resolveElement( null, element.getName( ), null,
-								element.getDefn( ) );
-				ns.insert( element );
+		if (add && !undo || !add && undo) {
+			if (element instanceof IReferencableElement) {
+				IReferencableElement originalElement = (IReferencableElement) root.resolveElement(null,
+						element.getName(), null, element.getDefn());
+				ns.insert(element);
 
 				// drop the element from the cached name manager
 
-				nameHelper.dropElement( nameSpaceID, element );
-				if ( originalElement != null )
-					updateAllElementReferences( root, originalElement );
-			}
-			else
-			{
-				ns.insert( element );
+				nameHelper.dropElement(nameSpaceID, element);
+				if (originalElement != null) {
+					updateAllElementReferences(root, originalElement);
+				}
+			} else {
+				ns.insert(element);
 
 				// drop the element from the cached name manager
 
-				nameHelper.dropElement( nameSpaceID, element );
+				nameHelper.dropElement(nameSpaceID, element);
 			}
-		}
-		else
-		{
-			ns.remove( element );
+		} else {
+			ns.remove(element);
 
-			if ( element instanceof ReferenceableElement )
-				updateAllElementReferences( root,
-						(ReferenceableElement) element );
+			if (element instanceof ReferenceableElement) {
+				updateAllElementReferences(root, (ReferenceableElement) element);
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param root
 	 * @param referred
 	 */
 
-	private void updateAllElementReferences( Module root,
-			IReferencableElement referred )
-	{
-		List<BackRef> clients = referred.getClientList( );
-		Iterator<BackRef> iter = clients.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			BackRef ref = iter.next( );
-			DesignElement client = ref.getElement( );
+	private void updateAllElementReferences(Module root, IReferencableElement referred) {
+		List<BackRef> clients = referred.getClientList();
+		Iterator<BackRef> iter = clients.iterator();
+		while (iter.hasNext()) {
+			BackRef ref = iter.next();
+			DesignElement client = ref.getElement();
 
-			Structure struct = ref.getStructure( );
+			Structure struct = ref.getStructure();
 
-			if ( struct != null )
-			{
-				updatePropertyListnMemberCase( root, referred, struct, ref
-						.getPropertyName( ), client );
+			if (struct != null) {
+				updatePropertyListnMemberCase(root, referred, struct, ref.getPropertyName(), client);
 				continue;
 			}
 
-			Object value = client
-					.getLocalProperty( root, ref.getPropertyName( ) );
-			if ( value instanceof ElementRefValue )
-			{
+			Object value = client.getLocalProperty(root, ref.getPropertyName());
+			if (value instanceof ElementRefValue) {
 				ElementRefValue refValue = (ElementRefValue) value;
-				refValue.unresolved( refValue.getName( ) );
+				refValue.unresolved(refValue.getName());
 
-				referred.dropClient( client );
+				referred.dropClient(client);
 
-				client.resolveElementReference( root, client
-						.getPropertyDefn( ref.getPropertyName( ) ) );
-			}
-			else if ( value instanceof List )
-			{
+				client.resolveElementReference(root, client.getPropertyDefn(ref.getPropertyName()));
+			} else if (value instanceof List) {
 				List<Object> valueList = (List) value;
-				for ( int i = 0; i < valueList.size( ); i++ )
-				{
-					Object tempObj = valueList.get( i );
-					if ( tempObj instanceof ElementRefValue )
-					{
+				for (int i = 0; i < valueList.size(); i++) {
+					Object tempObj = valueList.get(i);
+					if (tempObj instanceof ElementRefValue) {
 						ElementRefValue item = (ElementRefValue) tempObj;
-						if ( referred == item.getElement( ) )
-						{
-							item.unresolved( item.getName( ) );
-							referred.dropClient( client );
-							ReferenceValueUtil.resolveElementReference( root,
-									client, client.getPropertyDefn( ref
-											.getPropertyName( ) ), item );
+						if (referred == item.getElement()) {
+							item.unresolved(item.getName());
+							referred.dropClient(client);
+							ReferenceValueUtil.resolveElementReference(root, client,
+									client.getPropertyDefn(ref.getPropertyName()), item);
 							break;
 						}
 					}
 				}
-			}
-			else if ( value instanceof DesignElement )
-			{
+			} else if (value instanceof DesignElement) {
 				// Do nothing now.
-			}
-			else
-			{
+			} else {
 				assert false;
 			}
 
@@ -219,42 +190,32 @@ public class NameSpaceRecord extends SimpleRecord
 	}
 
 	/**
-	 * Now special deal with case: element -> list-property -> structure->
-	 * member is elementRefValue
-	 * 
-	 * @param referred
-	 *            reference element
-	 * @param memberRef
-	 *            member ref
-	 * @param valueList
-	 *            structure list
-	 * @param client
-	 *            client element
+	 * Now special deal with case: element -> list-property -> structure-> member is
+	 * elementRefValue
+	 *
+	 * @param referred  reference element
+	 * @param memberRef member ref
+	 * @param valueList structure list
+	 * @param client    client element
 	 */
 
-	private void updatePropertyListnMemberCase( Module root,
-			IReferencableElement referred, Structure struct, String memberName,
-			DesignElement client )
-	{
-		IPropertyDefn propDefn = struct.getDefn( ).getMember( memberName );
+	private void updatePropertyListnMemberCase(Module root, IReferencableElement referred, Structure struct,
+			String memberName, DesignElement client) {
+		IPropertyDefn propDefn = struct.getDefn().getMember(memberName);
 
 		// if member is element ref type , then do
 		// unreslove.
 
-		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-		{
-			ElementRefValue tempRefValue = (ElementRefValue) struct
-					.getLocalProperty( root, (PropertyDefn) propDefn );
+		if (propDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
+			ElementRefValue tempRefValue = (ElementRefValue) struct.getLocalProperty(root, (PropertyDefn) propDefn);
 
-			if ( referred == tempRefValue.getElement( ) )
-			{
-				tempRefValue.unresolved( tempRefValue.getName( ) );
-				referred.dropClient( client );
+			if (referred == tempRefValue.getElement()) {
+				tempRefValue.unresolved(tempRefValue.getName());
+				referred.dropClient(client);
 
 				// reslove member
 
-				ReferenceValueUtil.resolveElementReference( struct, root,
-						(StructPropertyDefn) propDefn, tempRefValue );
+				ReferenceValueUtil.resolveElementReference(struct, root, (StructPropertyDefn) propDefn, tempRefValue);
 			}
 		}
 
@@ -262,32 +223,31 @@ public class NameSpaceRecord extends SimpleRecord
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
-	 * ()
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	public DesignElement getTarget( )
-	{
-		return nameHelper.getElement( );
+	@Override
+	public DesignElement getTarget() {
+		return nameHelper.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 *
+	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
+	@Override
+	public NotificationEvent getEvent() {
 		NotificationEvent event = null;
-		if ( this.add )
-			event = new NameEvent( element, null, element.getName( ) );
-		else
-			event = new NameEvent( element, element.getName( ), null );
+		if (this.add) {
+			event = new NameEvent(element, null, element.getName());
+		} else {
+			event = new NameEvent(element, element.getName(), null);
+		}
 		return event;
 	}
 

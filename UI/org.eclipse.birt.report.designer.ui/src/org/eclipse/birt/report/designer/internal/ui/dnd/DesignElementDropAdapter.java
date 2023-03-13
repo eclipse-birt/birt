@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,36 +28,32 @@ import org.eclipse.swt.dnd.TransferData;
  * Supports dropping elements in outline view.
  */
 
-public abstract class DesignElementDropAdapter extends ViewerDropAdapter
-{
+public abstract class DesignElementDropAdapter extends ViewerDropAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param viewer
 	 */
-	public DesignElementDropAdapter( TreeViewer viewer )
-	{
-		super( viewer );
+	public DesignElementDropAdapter(TreeViewer viewer) {
+		super(viewer);
 	}
 
 	/**
 	 * @see ViewerDropAdapter#dragOver(DropTargetEvent)
-	 * 
+	 *
 	 */
-	public void dragOver( DropTargetEvent event )
-	{
-		super.dragOver( event );
-		if ( event.detail == DND.DROP_NONE )
+	@Override
+	public void dragOver(DropTargetEvent event) {
+		super.dragOver(event);
+		if (event.detail == DND.DROP_NONE) {
 			return;
-		if ( !validateTarget( getCurrentTarget( ) )
-				|| !validateTarget( getCurrentTarget( ),
-						TemplateTransfer.getInstance( ).getTemplate( ) ) )
-		{
+		}
+		if (!validateTarget(getCurrentTarget())
+				|| !validateTarget(getCurrentTarget(), TemplateTransfer.getInstance().getTemplate())) {
 			event.detail = DND.DROP_NONE;
-			if ( Policy.TRACING_DND_DRAG )
-			{
-				System.out.println( "DND >> Drag over " + event.getSource( ) ); //$NON-NLS-1$
+			if (Policy.TRACING_DND_DRAG) {
+				System.out.println("DND >> Drag over " + event.getSource()); //$NON-NLS-1$
 			}
 		}
 	}
@@ -62,54 +61,38 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	/**
 	 * @see ViewerDropAdapter#performDrop(Object)
 	 */
-	public boolean performDrop( Object data )
-	{
+	@Override
+	public boolean performDrop(Object data) {
 
-		if ( DNDService.getInstance( ).performDrop( data,
-				getCurrentTarget( ),
-				getCurrentOperation( ),
-				new DNDLocation( getCurrentLocation( ) ) ) )
-		{
+		if (DNDService.getInstance().performDrop(data, getCurrentTarget(), getCurrentOperation(),
+				new DNDLocation(getCurrentLocation()))) {
 			return true;
 		}
 
-		if ( data instanceof Object[]
-				&& ( (Object[]) data )[0] instanceof ThemeHandle )
-		{
-			if ( getCurrentTarget( ) instanceof ModuleHandle )
-			{
-				if ( Policy.TRACING_DND_DRAG )
-				{
-					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
-							+ getCurrentTarget( ) );
+		if (data instanceof Object[] && ((Object[]) data)[0] instanceof ThemeHandle) {
+			if (getCurrentTarget() instanceof ModuleHandle) {
+				if (Policy.TRACING_DND_DRAG) {
+					System.out.println("DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
+							+ getCurrentTarget());
 				}
-				return applyTheme( (ThemeHandle) ( (Object[]) data )[0],
-						(ModuleHandle) getCurrentTarget( ) );
-			}
-			else
-			{
+				return applyTheme((ThemeHandle) ((Object[]) data)[0], (ModuleHandle) getCurrentTarget());
+			} else {
 				return false;
 			}
 		}
 
-		if ( getCurrentOperation( ) == DND.DROP_MOVE )
-		{
-			if ( Policy.TRACING_DND_DRAG )
-			{
-				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
-						+ getCurrentTarget( ) );
+		if (getCurrentOperation() == DND.DROP_MOVE) {
+			if (Policy.TRACING_DND_DRAG) {
+				System.out.println("DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
+						+ getCurrentTarget());
 			}
-			return moveData( data, getCurrentTarget( ) );
-		}
-		else if ( getCurrentOperation( ) == DND.DROP_COPY
-				|| getCurrentOperation( ) == DND.DROP_LINK )
-		{
-			if ( Policy.TRACING_DND_DRAG )
-			{
-				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
-						+ getCurrentTarget( ) );
+			return moveData(data, getCurrentTarget());
+		} else if (getCurrentOperation() == DND.DROP_COPY || getCurrentOperation() == DND.DROP_LINK) {
+			if (Policy.TRACING_DND_DRAG) {
+				System.out.println("DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
+						+ getCurrentTarget());
 			}
-			return copyData( data, getCurrentTarget( ) );
+			return copyData(data, getCurrentTarget());
 		}
 		return false;
 	}
@@ -117,62 +100,56 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	/**
 	 * @see ViewerDropAdapter#validateDrop(Object, int, TransferData)
 	 */
-	public boolean validateDrop( Object target, int op, TransferData type )
-	{
+	@Override
+	public boolean validateDrop(Object target, int op, TransferData type) {
 
-		//		if(target!=null){
-		//			Object adapter = ElementAdapterManager.getAdatper( target, IElementDropAdapter.class );
-		//			if(adapter!=null){
-		//				IElementDropAdapter dropAdapter = (IElementDropAdapter)adapter;
-		//				return dropAdapter.validateDrop( target, getCurrentOperation( ), getCurrentLocation( ), null, type );
-		//			}
-		//		}
+		// if(target!=null){
+		// Object adapter = ElementAdapterManager.getAdatper( target,
+		// IElementDropAdapter.class );
+		// if(adapter!=null){
+		// IElementDropAdapter dropAdapter = (IElementDropAdapter)adapter;
+		// return dropAdapter.validateDrop( target, getCurrentOperation( ),
+		// getCurrentLocation( ), null, type );
+		// }
+		// }
 
-		return TemplateTransfer.getInstance( ).isSupportedType( type );
+		return TemplateTransfer.getInstance().isSupportedType(type);
 	}
 
 	/**
 	 * Validates target elements can be dropped
-	 * 
-	 * @param target
-	 *            target elements
+	 *
+	 * @param target target elements
 	 * @return if target elements can be dropped
 	 */
-	protected abstract boolean validateTarget( Object target );
+	protected abstract boolean validateTarget(Object target);
 
 	/**
 	 * Validates target elements can contain transfer data data
-	 * 
-	 * @param target
-	 *            target elements
-	 * @param transfer
-	 *            transfer data
+	 *
+	 * @param target   target elements
+	 * @param transfer transfer data
 	 * @return if target elements can be dropped
 	 */
-	protected abstract boolean validateTarget( Object target, Object transfer );
+	protected abstract boolean validateTarget(Object target, Object transfer);
 
 	/**
 	 * Moves elements
-	 * 
-	 * @param transfer
-	 *            transfer elements.
-	 * @param target
-	 *            target elements
+	 *
+	 * @param transfer transfer elements.
+	 * @param target   target elements
 	 * @return if succeeding in moving data
 	 */
-	protected abstract boolean moveData( Object transfer, Object target );
+	protected abstract boolean moveData(Object transfer, Object target);
 
-	protected abstract boolean applyTheme( ThemeHandle themeHandle,
-			ModuleHandle moudelHandle );
+	protected abstract boolean applyTheme(ThemeHandle themeHandle, ModuleHandle moudelHandle);
 
 	/**
 	 * Copys elements
-	 * 
-	 * @param transfer
-	 *            transfer elements.
-	 * @param target
-	 *            target elements
+	 *
+	 * @param transfer transfer elements.
+	 * @param target   target elements
 	 * @return if succeeding in copying data
 	 */
-	protected abstract boolean copyData( Object transfer, Object target );
+	protected abstract boolean copyData(Object transfer, Object target);
 }

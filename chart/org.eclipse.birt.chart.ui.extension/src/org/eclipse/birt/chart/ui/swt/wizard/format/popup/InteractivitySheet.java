@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,11 +27,10 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
-public class InteractivitySheet extends AbstractPopupSheet
-{
+public class InteractivitySheet extends AbstractPopupSheet {
 
 	private final EList<Trigger> triggers;
 	private final EObject cursorContainer;
@@ -36,43 +38,35 @@ public class InteractivitySheet extends AbstractPopupSheet
 	private final int optionalStyle;
 
 	/**
-	 * 
+	 *
 	 * @param title
 	 * @param context
 	 * @param triggers
 	 * @param cursorContainer
-	 * @param iInteractivityType
-	 *            see <code>TriggerSupportMatrix</code>
+	 * @param iInteractivityType see <code>TriggerSupportMatrix</code>
 	 * @param optionalStyle
 	 */
-	public InteractivitySheet( String title, ChartWizardContext context,
-			EList<Trigger> triggers, EObject cursorContainer,
-			int iInteractivityType, int optionalStyle )
-	{
-		super( title, context, false );
+	public InteractivitySheet(String title, ChartWizardContext context, EList<Trigger> triggers,
+			EObject cursorContainer, int iInteractivityType, int optionalStyle) {
+		super(title, context, false);
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
 		this.iInteractivityType = iInteractivityType;
 		this.optionalStyle = optionalStyle;
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_INTERACTIVITY );
-		final TriggerDataComposite triggerUI = new TriggerDataComposite( parent,
-				SWT.NONE,
-				triggers,
-				cursorContainer,
-				getContext( ),
-				iInteractivityType,
-				optionalStyle );
-		parent.getShell( ).addDisposeListener( new DisposeListener( ) {
+	@Override
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_INTERACTIVITY);
+		final TriggerDataComposite triggerUI = new TriggerDataComposite(parent, SWT.NONE, triggers, cursorContainer,
+				getContext(), iInteractivityType, optionalStyle);
+		parent.getShell().addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				triggerUI.markSaveWhenClosing( );
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				triggerUI.markSaveWhenClosing();
 			}
-		} );
+		});
 		return triggerUI;
 	}
 

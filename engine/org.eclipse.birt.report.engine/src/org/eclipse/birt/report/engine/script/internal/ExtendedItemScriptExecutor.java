@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,67 +24,42 @@ import org.eclipse.birt.report.engine.extension.internal.ReportEventContext;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public class ExtendedItemScriptExecutor extends ScriptExecutor
-{
+public class ExtendedItemScriptExecutor extends ScriptExecutor {
 
-	public static void handleOnPrepare( ExtendedItemHandle handle,
-			ExecutionContext context )
-	{
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnPrepareEvent event = new OnPrepareEvent(
-						new ReportEventContext( context ), handle );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnPrepare(ExtendedItemHandle handle, ExecutionContext context) {
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnPrepareEvent event = new OnPrepareEvent(new ReportEventContext(context), handle);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}
 
-	public static void handleOnCreate( ExtendedItemDesign design,
-			IContent content, ExecutionContext context )
-	{
-		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnCreateEvent event = new OnCreateEvent(
-						new ReportEventContext( context ), handle, content );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnCreate(ExtendedItemDesign design, IContent content, ExecutionContext context) {
+		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnCreateEvent event = new OnCreateEvent(new ReportEventContext(context), handle, content);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}
 
-	public static void handleOnRender( ExtendedItemDesign design,
-			IContent content, ExecutionContext context )
-	{
-		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnRenderEvent event = new OnRenderEvent(
-						new ReportEventContext( context ), handle, content );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnRender(ExtendedItemDesign design, IContent content, ExecutionContext context) {
+		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnRenderEvent event = new OnRenderEvent(new ReportEventContext(context), handle, content);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}

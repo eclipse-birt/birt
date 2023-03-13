@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -30,56 +32,55 @@ public class Issue76ExistingWorkbook extends ReportRunner {
 
 	@Test
 	public void testVariousOptions() throws BirtException, IOException {
-		
-		InputStream inputStream = null;
-		
+
+		InputStream inputStream;
+
 		inputStream = openFileStream("MannedSpaceMissions.xlsx");
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 3, workbook.getNumberOfSheets() );
-			assertTrue( workbook.getSheetAt(0) instanceof XSSFChartSheet );
-			assertEquals( 3, firstNullRow( workbook.getSheetAt(1) ) );
-			assertEquals( 5, firstNullRow( workbook.getSheetAt(2) ) );
+
+			assertEquals(3, workbook.getNumberOfSheets());
+			assertTrue(workbook.getSheetAt(0) instanceof XSSFChartSheet);
+			assertEquals(3, firstNullRow(workbook.getSheetAt(1)));
+			assertEquals(5, firstNullRow(workbook.getSheetAt(2)));
 		} finally {
 			inputStream.close();
 		}
-		
+
 		// Output to new XLSX file
 		inputStream = runAndRenderReport("Issue76ExistingWorkbook.rptdesign", "xlsx");
 		assertNotNull(inputStream);
-		try {			
+		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( 280, firstNullRow( workbook.getSheetAt(0) ) );
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals(280, firstNullRow(workbook.getSheetAt(0)));
 		} finally {
 			inputStream.close();
 		}
-		
+
 		// Output using XLSX template
-		String file = deriveFilepath( "MannedSpaceMissions.xlsx" );
-		File template = new File( file );
-		
-		assertTrue( template.exists() );
+		String file = deriveFilepath("MannedSpaceMissions.xlsx");
+		File template = new File(file);
+
+		assertTrue(template.exists());
 		templateFile = template.getAbsolutePath();
 		inputStream = runAndRenderReport("Issue76ExistingWorkbook.rptdesign", "xlsx");
 		assertNotNull(inputStream);
-		try {			
+		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 3, workbook.getNumberOfSheets() );
-			assertTrue( workbook.getSheetAt(0) instanceof XSSFChartSheet );
-			assertEquals( 280, firstNullRow( workbook.getSheetAt(1) ) );
-			assertEquals( 5, firstNullRow( workbook.getSheetAt(2) ) );
+
+			assertEquals(3, workbook.getNumberOfSheets());
+			assertTrue(workbook.getSheetAt(0) instanceof XSSFChartSheet);
+			assertEquals(280, firstNullRow(workbook.getSheetAt(1)));
+			assertEquals(5, firstNullRow(workbook.getSheetAt(2)));
 		} finally {
 			inputStream.close();
 		}
-		
-		
+
 	}
 
 }

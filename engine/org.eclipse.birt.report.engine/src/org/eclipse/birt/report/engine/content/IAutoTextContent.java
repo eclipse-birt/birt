@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,31 +25,29 @@ package org.eclipse.birt.report.engine.content;
  * <li><code>TOTAL_PAGE</code></li>
  * <li><code>PAGE_NUMBER</code></li>
  */
-public interface IAutoTextContent extends ITextContent
-{
-	public static final int TOTAL_PAGE = 0;
-	public static final int PAGE_NUMBER = 1;
-	public static final int UNFILTERED_TOTAL_PAGE = 2;
-	public static final int UNFILTERED_PAGE_NUMBER = 3;
-	public static final int PAGE_VARIABLE = 4;
-	
+public interface IAutoTextContent extends ITextContent {
+	int TOTAL_PAGE = 0;
+	int PAGE_NUMBER = 1;
+	int UNFILTERED_TOTAL_PAGE = 2;
+	int UNFILTERED_PAGE_NUMBER = 3;
+	int PAGE_VARIABLE = 4;
+
 	/**
 	 * Set the type of the AutoText Content. This type must be one of the
 	 * predefines.
 	 * <li><code>TOTAL_PAGE</code></li>
 	 * <li><code>PAGE_NUMBER</code></li>
-	 * @param type
-	 *            the type of the AutoText Content.
+	 *
+	 * @param type the type of the AutoText Content.
 	 */
-	void setType ( int type );
-	
+	void setType(int type);
+
 	/**
-	 * Get the type of the AutoText Content. 
+	 * Get the type of the AutoText Content.
 	 * <p>
-	 * The return value must be on of the
-	 * predefines.
+	 * The return value must be on of the predefines.
 	 * <li><code>TOTAL_PAGE</code></li>
 	 * <li><code>PAGE_NUMBER</code></li>
 	 */
-	int getType ( );
+	int getType();
 }

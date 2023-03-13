@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -38,60 +41,57 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * operation.
  * </p>
  */
-public class Regression_116558 extends BaseTestCase
-{
+public class Regression_116558 extends BaseTestCase {
 
 	private final static String INPUT = "regression_116558.xml"; //$NON-NLS-1$
 
 	private final static String LIB = "regression_116558_lib.xml"; //$NON-NLS-1$
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-	
-		copyResource_INPUT( LIB , LIB );
+		copyResource_INPUT(INPUT, INPUT);
+
+		copyResource_INPUT(LIB, LIB);
 	}
-	
-	
+
 	/**
 	 * @throws DesignFileException
-	 * @throws ExtendsException 
-	 * @throws NameException 
-	 * @throws ContentException 
+	 * @throws ExtendsException
+	 * @throws NameException
+	 * @throws ContentException
 	 */
-	public void test_regression_116558( ) throws DesignFileException, ExtendsException, ContentException, NameException
-	{
-		openDesign( INPUT );
-		
-		LibraryHandle lib = designHandle.getLibrary( "regression_116558_lib" ); //$NON-NLS-1$
-		LabelHandle parentLabel = (LabelHandle)lib.findElement( "label1" ); //$NON-NLS-1$
-		TableHandle parentTabel= (TableHandle)lib.findElement( "tabel1" ); //$NON-NLS-1$
-		
+	public void test_regression_116558() throws DesignFileException, ExtendsException, ContentException, NameException {
+		openDesign(INPUT);
+
+		LibraryHandle lib = designHandle.getLibrary("regression_116558_lib"); //$NON-NLS-1$
+		LabelHandle parentLabel = (LabelHandle) lib.findElement("label1"); //$NON-NLS-1$
+		TableHandle parentTabel = (TableHandle) lib.findElement("tabel1"); //$NON-NLS-1$
+
 		// extends label and table
-		
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle childLabel = (LabelHandle)factory.newElementFrom( parentLabel, "childLabel1" ); //$NON-NLS-1$
-		TableHandle childTabel = (TableHandle)factory.newElementFrom( parentTabel, "childTabel1" ); //$NON-NLS-1$
-		
-		designHandle.getBody( ).add( childLabel );
-		designHandle.getBody( ).add( childTabel );
-		
-		assertNotNull( designHandle.findElement( "childLabel1" )); //$NON-NLS-1$
-		assertNotNull( designHandle.findElement( "childTabel1" )); //$NON-NLS-1$
-		
-		// undo 
-		designHandle.getCommandStack( ).undo( );
-		assertNull( designHandle.findElement( "childTabel1" )); //$NON-NLS-1$
-		assertNotNull( designHandle.findElement( "childLabel1" )); //$NON-NLS-1$
-		
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle childLabel = (LabelHandle) factory.newElementFrom(parentLabel, "childLabel1"); //$NON-NLS-1$
+		TableHandle childTabel = (TableHandle) factory.newElementFrom(parentTabel, "childTabel1"); //$NON-NLS-1$
+
+		designHandle.getBody().add(childLabel);
+		designHandle.getBody().add(childTabel);
+
+		assertNotNull(designHandle.findElement("childLabel1")); //$NON-NLS-1$
+		assertNotNull(designHandle.findElement("childTabel1")); //$NON-NLS-1$
+
 		// undo
-		designHandle.getCommandStack( ).undo( );
-		assertNull( designHandle.findElement( "childLabel1" )); //$NON-NLS-1$
-		assertNull( designHandle.findElement( "childTabel1" )); //$NON-NLS-1$
-		
+		designHandle.getCommandStack().undo();
+		assertNull(designHandle.findElement("childTabel1")); //$NON-NLS-1$
+		assertNotNull(designHandle.findElement("childLabel1")); //$NON-NLS-1$
+
+		// undo
+		designHandle.getCommandStack().undo();
+		assertNull(designHandle.findElement("childLabel1")); //$NON-NLS-1$
+		assertNull(designHandle.findElement("childTabel1")); //$NON-NLS-1$
+
 	}
 }

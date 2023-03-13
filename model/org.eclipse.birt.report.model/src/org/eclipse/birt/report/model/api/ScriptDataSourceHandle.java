@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,78 +27,64 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
  * fails.
  * <li>Close: drop the connection to the external system.
  * </ul>
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.report.model.elements.ScriptDataSource
  */
 
-public class ScriptDataSourceHandle extends DataSourceHandle
-		implements
-			IScriptDataSourceModel
-{
+public class ScriptDataSourceHandle extends DataSourceHandle implements IScriptDataSourceModel {
 
 	/**
 	 * Constructs a handle for script data source.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the script data source element
+	 *
+	 * @param module  the module
+	 * @param element the script data source element
 	 */
 
-	public ScriptDataSourceHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ScriptDataSourceHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
 	 * Sets the script for opening data connection.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 *
+	 * @param value the script to set.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setOpen( String value ) throws SemanticException
-	{
-		setProperty( IScriptDataSourceModel.OPEN_METHOD, value );
+	public void setOpen(String value) throws SemanticException {
+		setProperty(IScriptDataSourceModel.OPEN_METHOD, value);
 	}
 
 	/**
 	 * Returns the script name for opening data connection.
-	 * 
+	 *
 	 * @return the script name for opening data connection.
 	 */
 
-	public String getOpen( )
-	{
-		return getStringProperty( IScriptDataSourceModel.OPEN_METHOD );
+	public String getOpen() {
+		return getStringProperty(IScriptDataSourceModel.OPEN_METHOD);
 	}
 
 	/**
 	 * Sets the script name for closing data connection.
-	 * 
-	 * @param value
-	 *            the script name to set.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 *
+	 * @param value the script name to set.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setClose( String value ) throws SemanticException
-	{
-		setProperty( IScriptDataSourceModel.CLOSE_METHOD, value );
+	public void setClose(String value) throws SemanticException {
+		setProperty(IScriptDataSourceModel.CLOSE_METHOD, value);
 	}
 
 	/**
 	 * Returns the script name for closing data connection.
-	 * 
+	 *
 	 * @return the script name for closing data connection.
 	 */
 
-	public String getClose( )
-	{
-		return getStringProperty( IScriptDataSourceModel.CLOSE_METHOD );
+	public String getClose() {
+		return getStringProperty(IScriptDataSourceModel.CLOSE_METHOD);
 	}
 
 }

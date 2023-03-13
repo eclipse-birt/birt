@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,8 +16,7 @@ package org.eclipse.birt.core.btree;
 
 import java.util.Comparator;
 
-public class BTreeOption<K, V>
-{
+public class BTreeOption<K, V> {
 
 	boolean readOnly;
 	int keySize;
@@ -31,8 +33,7 @@ public class BTreeOption<K, V>
 	int headNodeId;
 	int cacheSize;
 
-	public BTreeOption( )
-	{
+	public BTreeOption() {
 		readOnly = false;
 		keySize = 0;
 		valueSize = 0;
@@ -40,9 +41,9 @@ public class BTreeOption<K, V>
 		allowNullKey = false;
 		allowDuplicate = false;
 
-		comparator = new JavaComparator<K>( );
-		keySerializer = new JavaSerializer<K>( );
-		valueSerializer = new JavaSerializer<V>( );
+		comparator = new JavaComparator<>();
+		keySerializer = new JavaSerializer<>();
+		valueSerializer = new JavaSerializer<>();
 
 		headNodeId = BTreeConstants.HEAD_BLOCK_ID;
 		cacheSize = 13;
@@ -50,84 +51,68 @@ public class BTreeOption<K, V>
 		file = null;
 	}
 
-	public void setAllowDuplicate( boolean allowDuplicate )
-	{
+	public void setAllowDuplicate(boolean allowDuplicate) {
 		this.allowDuplicate = allowDuplicate;
 	}
 
-	public void setAllowNullKey( boolean allowNullKey )
-	{
+	public void setAllowNullKey(boolean allowNullKey) {
 		this.allowNullKey = allowNullKey;
 	}
 
-	public void setReadOnly( boolean readOnly )
-	{
+	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
 
-	public void setHasValue( boolean hasValue )
-	{
+	public void setHasValue(boolean hasValue) {
 		this.hasValue = hasValue;
 	}
 
-	public boolean hasValue( )
-	{
+	public boolean hasValue() {
 		return hasValue;
 	}
 
-	public void setComparator( Comparator<K> comparator )
-	{
+	public void setComparator(Comparator<K> comparator) {
 		this.comparator = comparator;
 	}
 
-	public void setKeySerializer( BTreeSerializer<K> serializer )
-	{
+	public void setKeySerializer(BTreeSerializer<K> serializer) {
 		this.keySerializer = serializer;
 	}
 
-	public void setValueSerializer( BTreeSerializer<V> serializer )
-	{
+	public void setValueSerializer(BTreeSerializer<V> serializer) {
 		this.valueSerializer = serializer;
 	}
 
-	public void setFile( BTreeFile file )
-	{
+	public void setFile(BTreeFile file) {
 		this.file = file;
 	}
 
-	public void setFile( BTreeFile file, boolean shareFile )
-	{
+	public void setFile(BTreeFile file, boolean shareFile) {
 		this.file = file;
 		this.shareFile = shareFile;
 	}
 
-	public void setKeySize( int size )
-	{
+	public void setKeySize(int size) {
 		keySize = size;
 	}
 
-	public int getKeySize( )
-	{
+	public int getKeySize() {
 		return keySize;
 	}
 
-	public void setValueSize( int size )
-	{
+	public void setValueSize(int size) {
 		valueSize = size;
 	}
 
-	public int getValueSize( )
-	{
+	public int getValueSize() {
 		return valueSize;
 	}
 
-	public void setHeadNodeId( int headNodeId )
-	{
+	public void setHeadNodeId(int headNodeId) {
 		this.headNodeId = headNodeId;
 	}
 
-	public void setCacheSize( int cacheSize )
-	{
+	public void setCacheSize(int cacheSize) {
 		this.cacheSize = cacheSize;
 	}
 }

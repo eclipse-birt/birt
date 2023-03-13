@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,11 +37,7 @@ import org.eclipse.swt.widgets.TreeItem;
  * The listeners for rename action
  */
 
-public class RenameListener extends KeyAdapter implements
-		MouseListener,
-		SelectionListener,
-		IDoubleClickListener
-{
+public class RenameListener extends KeyAdapter implements MouseListener, SelectionListener, IDoubleClickListener {
 
 	private TreeViewer sourceViewer;
 
@@ -51,143 +50,138 @@ public class RenameListener extends KeyAdapter implements
 
 	private boolean readyToRename;
 
-	public RenameListener( TreeViewer sourceViewer )
-	{
+	public RenameListener(TreeViewer sourceViewer) {
 		this.sourceViewer = sourceViewer;
 	}
 
-	public void apply( )
-	{
-		sourceViewer.getTree( ).addSelectionListener( this );
-		sourceViewer.getTree( ).addKeyListener( this );
-		//sourceViewer.getTree( ).addMouseListener( this );
-		sourceViewer.addDoubleClickListener( this );
+	public void apply() {
+		sourceViewer.getTree().addSelectionListener(this);
+		sourceViewer.getTree().addKeyListener(this);
+		// sourceViewer.getTree( ).addMouseListener( this );
+		sourceViewer.addDoubleClickListener(this);
 	}
 
-	public void remove( )
-	{
-		sourceViewer.getTree( ).removeSelectionListener( this );
-		sourceViewer.getTree( ).removeKeyListener( this );
-		//sourceViewer.getTree( ).removeMouseListener( this );
-		sourceViewer.removeDoubleClickListener( this );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseDoubleClick( MouseEvent e )
-	{
+	public void remove() {
+		sourceViewer.getTree().removeSelectionListener(this);
+		sourceViewer.getTree().removeKeyListener(this);
+		// sourceViewer.getTree( ).removeMouseListener( this );
+		sourceViewer.removeDoubleClickListener(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
+	 * MouseEvent)
 	 */
-	public void mouseDown( MouseEvent e )
-	{//prevent from conflicts
-		cancelTimer( );
-		if ( e.button != 1 )
-		{
-			cancelRenaming( );
+	@Override
+	public void mouseDoubleClick(MouseEvent e) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
+	 * MouseEvent)
+	 */
+	@Override
+	public void mouseDown(MouseEvent e) {// prevent from conflicts
+		cancelTimer();
+		if (e.button != 1) {
+			cancelRenaming();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.MouseEvent)
+	 *
+	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
+	 * MouseEvent)
 	 */
-	public void mouseUp( MouseEvent e )
-	{
-		if ( !readyToRename )
-		{
+	@Override
+	public void mouseUp(MouseEvent e) {
+		if (!readyToRename) {
 			return;
 		}
 		readyToRename = false;
 
-		//selection doesn't change
+		// selection doesn't change
 
-		timer = new Timer( );
-		final RenameAction renameAction = new RenameAction( sourceViewer );
-		timer.schedule( new TimerTask( ) {
+		timer = new Timer();
+		final RenameAction renameAction = new RenameAction(sourceViewer);
+		timer.schedule(new TimerTask() {
 
-			public void run( )
-			{//Do rename
-				sourceViewer.getTree( )
-						.getDisplay( )
-						.asyncExec( new Runnable( ) {
+			@Override
+			public void run() {// Do rename
+				sourceViewer.getTree().getDisplay().asyncExec(new Runnable() {
 
-							public void run( )
-							{
-								renameAction.run( );
-							}
-						} );
+					@Override
+					public void run() {
+						renameAction.run();
+					}
+				});
 			}
-			//wait for double time to check if it is a double click
-		}, Display.getCurrent( ).getDoubleClickTime( ) + 100 );
+			// wait for double time to check if it is a double click
+		}, Display.getCurrent().getDoubleClickTime() + 100);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
+	 *
+	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.
+	 * KeyEvent)
 	 */
-	public void keyReleased( KeyEvent e )
-	{
-		cancelTimer( );
-		if ( e.keyCode == SWT.F2 && e.stateMask == 0 )
-		{
-			if ( selectedItem != null )
-			{
-				RenameAction action = new RenameAction( sourceViewer );
-				if ( action.isEnabled( ) && action.isHandled( ) )
-					action.run( );
+	@Override
+	public void keyReleased(KeyEvent e) {
+		cancelTimer();
+		if (e.keyCode == SWT.F2 && e.stateMask == 0) {
+			if (selectedItem != null) {
+				RenameAction action = new RenameAction(sourceViewer);
+				if (action.isEnabled() && action.isHandled()) {
+					action.run();
+				}
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		cancelTimer( );
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		cancelTimer();
 		TreeItem lastSelect = selectedItem;
-		TreeItem[] selectedItems = ( (Tree) e.getSource( ) ).getSelection( );
-		if ( selectedItems.length != 1 )
-		{//No selection or multiple selection
+		TreeItem[] selectedItems = ((Tree) e.getSource()).getSelection();
+		if (selectedItems.length != 1) {// No selection or multiple selection
 			readyToRename = false;
-		}
-		else
-		{
+		} else {
 			selectedItem = selectedItems[0];
-			readyToRename = ( selectedItem == lastSelect );
+			readyToRename = (selectedItem == lastSelect);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{//Do nothing
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {// Do nothing
 	}
 
 	/**
 	 * Cancels the timer
 	 */
-	private void cancelTimer( )
-	{
-		if ( timer != null )
-		{
-			timer.cancel( );
+	private void cancelTimer() {
+		if (timer != null) {
+			timer.cancel();
 			timer = null;
 		}
 	}
@@ -195,23 +189,25 @@ public class RenameListener extends KeyAdapter implements
 	/**
 	 * Cancels the inline rename action
 	 */
-	private void cancelRenaming( )
-	{
-		RenameInlineTool.cancelActiveInstance( );
-		cancelTimer( );
+	private void cancelRenaming() {
+		RenameInlineTool.cancelActiveInstance();
+		cancelTimer();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.
+	 * viewers.DoubleClickEvent)
 	 */
-	public void doubleClick( DoubleClickEvent event )
-	{
-		//perform edit
-		cancelTimer( );
-		if ( selectedItem != null && !selectedItem.isDisposed( ) )
-		{//ignore multiple selection or invalid
-			// selection
-			new EditAction( selectedItem.getData( ) ).run( );
+	@Override
+	public void doubleClick(DoubleClickEvent event) {
+		// perform edit
+		cancelTimer();
+		if (selectedItem != null && !selectedItem.isDisposed()) {// ignore multiple selection or invalid
+																	// selection
+			new EditAction(selectedItem.getData()).run();
 		}
 	}
 }

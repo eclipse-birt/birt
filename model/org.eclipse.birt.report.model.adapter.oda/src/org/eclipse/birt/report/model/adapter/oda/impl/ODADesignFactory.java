@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,466 +63,468 @@ import org.eclipse.emf.ecore.EObject;
  *
  */
 
-class ODADesignFactory implements IODADesignFactory
-{
+class ODADesignFactory implements IODADesignFactory {
 
 	private DesignFactory designFactory = DesignFactory.eINSTANCE;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createColumnDefinition()
 	 */
 
-	public ColumnDefinition createColumnDefinition( )
-	{
-		return designFactory.createColumnDefinition( );
+	@Override
+	public ColumnDefinition createColumnDefinition() {
+		return designFactory.createColumnDefinition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataAccessDesign()
 	 */
-	public DataAccessDesign createDataAccessDesign( )
-	{
-		return designFactory.createDataAccessDesign( );
+	@Override
+	public DataAccessDesign createDataAccessDesign() {
+		return designFactory.createDataAccessDesign();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataElementAttributes()
 	 */
-	public DataElementAttributes createDataElementAttributes( )
-	{
-		return designFactory.createDataElementAttributes( );
+	@Override
+	public DataElementAttributes createDataElementAttributes() {
+		return designFactory.createDataElementAttributes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataSetDesign()
 	 */
-	public DataSetDesign createDataSetDesign( )
-	{
-		return designFactory.createDataSetDesign( );
+	@Override
+	public DataSetDesign createDataSetDesign() {
+		return designFactory.createDataSetDesign();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataSetParameters()
 	 */
-	public DataSetParameters createDataSetParameters( )
-	{
-		return designFactory.createDataSetParameters( );
+	@Override
+	public DataSetParameters createDataSetParameters() {
+		return designFactory.createDataSetParameters();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataSetQuery()
 	 */
-	public DataSetQuery createDataSetQuery( )
-	{
-		return designFactory.createDataSetQuery( );
+	@Override
+	public DataSetQuery createDataSetQuery() {
+		return designFactory.createDataSetQuery();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataSourceDesign()
 	 */
-	public DataSourceDesign createDataSourceDesign( )
-	{
-		return designFactory.createDataSourceDesign( );
+	@Override
+	public DataSourceDesign createDataSourceDesign() {
+		return designFactory.createDataSourceDesign();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDesignSessionRequest()
 	 */
-	public DesignSessionRequest createDesignSessionRequest( )
-	{
-		return designFactory.createDesignSessionRequest( );
+	@Override
+	public DesignSessionRequest createDesignSessionRequest() {
+		return designFactory.createDesignSessionRequest();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createOdaDesignSession()
 	 */
-	public OdaDesignSession createOdaDesignSession( )
-	{
-		return designFactory.createOdaDesignSession( );
+	@Override
+	public OdaDesignSession createOdaDesignSession() {
+		return designFactory.createOdaDesignSession();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createParameterDefinition()
 	 */
-	public ParameterDefinition createParameterDefinition( )
-	{
-		return designFactory.createParameterDefinition( );
+	@Override
+	public ParameterDefinition createParameterDefinition() {
+		return designFactory.createParameterDefinition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createProperties
 	 * ()
 	 */
-	public Properties createProperties( )
-	{
-		return designFactory.createProperties( );
+	@Override
+	public Properties createProperties() {
+		return designFactory.createProperties();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createResultSetColumns()
 	 */
-	public ResultSetColumns createResultSetColumns( )
-	{
-		return designFactory.createResultSetColumns( );
+	@Override
+	public ResultSetColumns createResultSetColumns() {
+		return designFactory.createResultSetColumns();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createResultSetDefinition()
 	 */
-	public ResultSetDefinition createResultSetDefinition( )
-	{
-		return designFactory.createResultSetDefinition( );
+	@Override
+	public ResultSetDefinition createResultSetDefinition() {
+		return designFactory.createResultSetDefinition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSets
 	 * ()
 	 */
-	public ResultSets createResultSets( )
-	{
-		return designFactory.createResultSets( );
+	@Override
+	public ResultSets createResultSets() {
+		return designFactory.createResultSets();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDataElementUIHints()
 	 */
-	public DataElementUIHints createDataElementUIHints( )
-	{
-		return designFactory.createDataElementUIHints( );
+	@Override
+	public DataElementUIHints createDataElementUIHints() {
+		return designFactory.createDataElementUIHints();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDesignerState()
 	 */
-	public DesignerState createDesignerState( )
-	{
-		return designFactory.createDesignerState( );
+	@Override
+	public DesignerState createDesignerState() {
+		return designFactory.createDesignerState();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDesignerStateContent()
 	 */
-	public DesignerStateContent createDesignerStateContent( )
-	{
-		return designFactory.createDesignerStateContent( );
+	@Override
+	public DesignerStateContent createDesignerStateContent() {
+		return designFactory.createDesignerStateContent();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDynamicValuesQuery()
 	 */
-	public DynamicValuesQuery createDynamicValuesQuery( )
-	{
-		return designFactory.createDynamicValuesQuery( );
+	@Override
+	public DynamicValuesQuery createDynamicValuesQuery() {
+		return designFactory.createDynamicValuesQuery();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createInputElementAttributes()
 	 */
-	public InputElementAttributes createInputElementAttributes( )
-	{
-		return designFactory.createInputElementAttributes( );
+	@Override
+	public InputElementAttributes createInputElementAttributes() {
+		return designFactory.createInputElementAttributes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createInputElementUIHints()
 	 */
-	public InputElementUIHints createInputElementUIHints( )
-	{
-		return designFactory.createInputElementUIHints( );
+	@Override
+	public InputElementUIHints createInputElementUIHints() {
+		return designFactory.createInputElementUIHints();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createInputParameterAttributes()
 	 */
-	public InputParameterAttributes createInputParameterAttributes( )
-	{
-		return designFactory.createInputParameterAttributes( );
+	@Override
+	public InputParameterAttributes createInputParameterAttributes() {
+		return designFactory.createInputParameterAttributes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createInputParameterUIHints()
 	 */
-	public InputParameterUIHints createInputParameterUIHints( )
-	{
-		return designFactory.createInputParameterUIHints( );
+	@Override
+	public InputParameterUIHints createInputParameterUIHints() {
+		return designFactory.createInputParameterUIHints();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createOutputElementAttributes()
 	 */
-	public OutputElementAttributes createOutputElementAttributes( )
-	{
-		return designFactory.createOutputElementAttributes( );
+	@Override
+	public OutputElementAttributes createOutputElementAttributes() {
+		return designFactory.createOutputElementAttributes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createScalarValueChoices()
 	 */
-	public ScalarValueChoices createScalarValueChoices( )
-	{
-		return designFactory.createScalarValueChoices( );
+	@Override
+	public ScalarValueChoices createScalarValueChoices() {
+		return designFactory.createScalarValueChoices();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createScalarValueDefinition()
 	 */
-	public ScalarValueDefinition createScalarValueDefinition( )
-	{
-		return designFactory.createScalarValueDefinition( );
+	@Override
+	public ScalarValueDefinition createScalarValueDefinition() {
+		return designFactory.createScalarValueDefinition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createValueFormatHints()
 	 */
-	public ValueFormatHints createValueFormatHints( )
-	{
-		return designFactory.createValueFormatHints( );
+	@Override
+	public ValueFormatHints createValueFormatHints() {
+		return designFactory.createValueFormatHints();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#validateObject
 	 * (org.eclipse.emf.ecore.EObject)
 	 */
 
-	public void validateObject( EObject eObject )
-	{
-		DesignUtil.validateObject( eObject );
+	@Override
+	public void validateObject(EObject eObject) {
+		DesignUtil.validateObject(eObject);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDesignSessionResponse()
 	 */
 
-	public DesignSessionResponse createDesignSessionResponse( )
-	{
-		return designFactory.createDesignSessionResponse( );
+	@Override
+	public DesignSessionResponse createDesignSessionResponse() {
+		return designFactory.createDesignSessionResponse();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createStaticValues()
 	 */
 
-	public StaticValues createStaticValues( )
-	{
-		return designFactory.createStaticValues( );
+	@Override
+	public StaticValues createStaticValues() {
+		return designFactory.createStaticValues();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createFilterExpressionType()
 	 */
 
-	public FilterExpressionType createFilterExpressionType( )
-	{
-		return designFactory.createFilterExpressionType( );
+	@Override
+	public FilterExpressionType createFilterExpressionType() {
+		return designFactory.createFilterExpressionType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createAndExpression()
 	 */
-	public AndExpression createAndExpression( )
-	{
-		return designFactory.createAndExpression( );
+	@Override
+	public AndExpression createAndExpression() {
+		return designFactory.createAndExpression();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createCustomFilterExpression()
 	 */
-	public CustomFilterExpression createCustomFilterExpression( )
-	{
-		return designFactory.createCustomFilterExpression( );
+	@Override
+	public CustomFilterExpression createCustomFilterExpression() {
+		return designFactory.createCustomFilterExpression();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createDynamicFilterExpression()
 	 */
-	public DynamicFilterExpression createDynamicFilterExpression( )
-	{
-		return designFactory.createDynamicFilterExpression( );
+	@Override
+	public DynamicFilterExpression createDynamicFilterExpression() {
+		return designFactory.createDynamicFilterExpression();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createExpressionArguments()
 	 */
-	public ExpressionArguments createExpressionArguments( )
-	{
-		return designFactory.createExpressionArguments( );
+	@Override
+	public ExpressionArguments createExpressionArguments() {
+		return designFactory.createExpressionArguments();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createExpressionVariable()
 	 */
-	public ExpressionVariable createExpressionVariable( )
-	{
-		return designFactory.createExpressionVariable( );
+	@Override
+	public ExpressionVariable createExpressionVariable() {
+		return designFactory.createExpressionVariable();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createResultSetCriteria()
 	 */
-	public ResultSetCriteria createResultSetCriteria( )
-	{
-		return designFactory.createResultSetCriteria( );
+	@Override
+	public ResultSetCriteria createResultSetCriteria() {
+		return designFactory.createResultSetCriteria();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createSortKey
-	 * ()
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createSortKey ()
 	 */
-	public SortKey createSortKey( )
-	{
-		return designFactory.createSortKey( );
+	@Override
+	public SortKey createSortKey() {
+		return designFactory.createSortKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
 	 * createSortSpecification()
 	 */
 
-	public SortSpecification createSortSpecification( )
-	{
-		return designFactory.createSortSpecification( );
+	@Override
+	public SortSpecification createSortSpecification() {
+		return designFactory.createSortSpecification();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createCustomData
 	 * ()
 	 */
-	public CustomData createCustomData( )
-	{
-		return designFactory.createCustomData( );
+	@Override
+	public CustomData createCustomData() {
+		return designFactory.createCustomData();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createAxisAttributes()
+	 *
+	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createAxisAttributes()
 	 */
-	public AxisAttributes createAxisAttributes( )
-	{		
-		return designFactory.createAxisAttributes( );
+	@Override
+	public AxisAttributes createAxisAttributes() {
+		return designFactory.createAxisAttributes();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSubset()
+	 *
+	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#
+	 * createResultSubset()
 	 */
-	public ResultSubset createResultSubset( )
-	{
-		return designFactory.createResultSubset( );
+	@Override
+	public ResultSubset createResultSubset() {
+		return designFactory.createResultSubset();
 	}
 }

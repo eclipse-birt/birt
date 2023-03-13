@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,11 +24,10 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 
 /**
  * The record to break/setup element back reference.
- * 
+ *
  */
 
-public class ElementRefRecord extends SimpleRecord
-{
+public class ElementRefRecord extends SimpleRecord {
 
 	/**
 	 * Name of property.
@@ -40,21 +42,15 @@ public class ElementRefRecord extends SimpleRecord
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param reference
-	 *            the element
-	 * @param referred
-	 *            the referred element
-	 * @param propName
-	 *            the property name
-	 * @param isAdd
-	 *            <code>true</code> is to add back reference. Otherwise
-	 *            <code>false</code>.
+	 *
+	 * @param reference the element
+	 * @param referred  the referred element
+	 * @param propName  the property name
+	 * @param isAdd     <code>true</code> is to add back reference. Otherwise
+	 *                  <code>false</code>.
 	 */
 
-	public ElementRefRecord( DesignElement reference,
-			IReferencableElement referred, String propName, boolean isAdd )
-	{
+	public ElementRefRecord(DesignElement reference, IReferencableElement referred, String propName, boolean isAdd) {
 		this.reference = reference;
 		this.referred = referred;
 		this.isAdd = isAdd;
@@ -63,42 +59,40 @@ public class ElementRefRecord extends SimpleRecord
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
-	protected void perform( boolean undo )
-	{
-		if ( isAdd && !undo || !isAdd && undo )
-		{
-			referred.addClient( reference, propName );
-		}
-		else
-		{
-			referred.dropClient( reference );
+	@Override
+	protected void perform(boolean undo) {
+		if (isAdd && !undo || !isAdd && undo) {
+			referred.addClient(reference, propName);
+		} else {
+			referred.dropClient(reference);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
-			return new StyleEvent( reference );
-		return new PropertyEvent( reference, propName );
+	@Override
+	public NotificationEvent getEvent() {
+		if (IStyledElementModel.STYLE_PROP.equals(propName)) {
+			return new StyleEvent(reference);
+		}
+		return new PropertyEvent(reference, propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	@Override
+	public DesignElement getTarget() {
 		return (DesignElement) referred;
 	}
 

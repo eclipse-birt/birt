@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -26,55 +29,46 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Encapulates the runtime definition of a generic extended data source.
  */
-public class OdaDataSourceRuntime extends DataSourceRuntime
-{
-	private String		extensionID;
-	private	Map			publicProperties;
-	
-	private static Logger logger = Logger.getLogger( OdaDataSourceRuntime.class.getName( ) );
+public class OdaDataSourceRuntime extends DataSourceRuntime {
+	private String extensionID;
+	private Map publicProperties;
 
-	OdaDataSourceRuntime( IOdaDataSourceDesign dataSource,
-			Scriptable sharedScope, ScriptContext cx )
-	{
-		super( dataSource, sharedScope, cx );
+	private static Logger logger = Logger.getLogger(OdaDataSourceRuntime.class.getName());
 
-		Object[] params = {
-				dataSource, sharedScope
-		};
-		logger.entering( OdaDataSourceRuntime.class.getName( ),
-				"OdaDataSourceRuntime",
-				params );
+	OdaDataSourceRuntime(IOdaDataSourceDesign dataSource, Scriptable sharedScope, ScriptContext cx) {
+		super(dataSource, sharedScope, cx);
+
+		Object[] params = { dataSource, sharedScope };
+		logger.entering(OdaDataSourceRuntime.class.getName(), "OdaDataSourceRuntime", params);
 		// Copy updatable properties
-		publicProperties = new HashMap( );
-		publicProperties.putAll( dataSource.getPublicProperties( ) );
+		publicProperties = new HashMap();
+		publicProperties.putAll(dataSource.getPublicProperties());
 
-		extensionID = dataSource.getExtensionID( );
-		logger.exiting( OdaDataSourceRuntime.class.getName( ),
-				"OdaDataSourceRuntime" );
-		logger.log( Level.FINER, "OdaDataSourceRuntime starts up" );
+		extensionID = dataSource.getExtensionID();
+		logger.exiting(OdaDataSourceRuntime.class.getName(), "OdaDataSourceRuntime");
+		logger.log(Level.FINER, "OdaDataSourceRuntime starts up");
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public IOdaDataSourceDesign getSubdesign( )
-	{
-		return (IOdaDataSourceDesign) getDesign( );
+	public IOdaDataSourceDesign getSubdesign() {
+		return (IOdaDataSourceDesign) getDesign();
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionID()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
+	 * getExtensionID()
 	 */
-	public String getExtensionID( )
-	{
+	@Override
+	public String getExtensionID() {
 		return extensionID;
 	}
 
 	/**
 	 * @return
 	 */
-	public Map getPublicProperties( )
-	{
+	public Map getPublicProperties() {
 		// Return runtime copy of public properties, which may have been updated
 		return this.publicProperties;
 	}
@@ -82,34 +76,35 @@ public class OdaDataSourceRuntime extends DataSourceRuntime
 	/**
 	 * @return
 	 */
-	public Map getPrivateProperties( )
-	{
-		return getSubdesign( ).getPrivateProperties( );
+	public Map getPrivateProperties() {
+		return getSubdesign().getPrivateProperties();
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getAllExtensionProperties()
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
+	 * getAllExtensionProperties()
 	 */
-	public Map getAllExtensionProperties( )
-	{
+	@Override
+	public Map getAllExtensionProperties() {
 		return this.publicProperties;
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#getExtensionProperty(java.lang.String)
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
+	 * getExtensionProperty(java.lang.String)
 	 */
-	public String getExtensionProperty( String name )
-	{
-		return (String) publicProperties.get( name );
+	@Override
+	public String getExtensionProperty(String name) {
+		return (String) publicProperties.get(name);
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#setExtensionProperty(java.lang.String,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle#
+	 * setExtensionProperty(java.lang.String, java.lang.String)
 	 */
-	public void setExtensionProperty( String name, String value )
-	{
-		publicProperties.put( name, value );
+	@Override
+	public void setExtensionProperty(String name, String value) {
+		publicProperties.put(name, value);
 	}
-	
+
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,38 +19,39 @@ import java.util.Map;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * A POJO data set from an Iterator.
- * All the null values in the iterator are omitted. Say the iterator is {null, object1, null, null, object2, null, object3},
- * then the POJO data set from that iterator is {object1, object2, object3}
+ * A POJO data set from an Iterator. All the null values in the iterator are
+ * omitted. Say the iterator is {null, object1, null, null, object2, null,
+ * object3}, then the POJO data set from that iterator is {object1, object2,
+ * object3}
  */
-public abstract class PojoDataSetFromIterator implements IPojoDataSet
-{
+public abstract class PojoDataSetFromIterator implements IPojoDataSet {
 	@SuppressWarnings("unchecked")
 	private Iterator iterator;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#open(java.lang.Object, Map<String, Object>)
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#open(java.lang.Object,
+	 * Map<String, Object>)
 	 */
-	public void open( Object appContext, Map<String, Object> dataSetParamValues ) throws OdaException
-	{
-		iterator = fetchPojos( );
+	@Override
+	public void open(Object appContext, Map<String, Object> dataSetParamValues) throws OdaException {
+		iterator = fetchPojos();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#next()
 	 */
-	public Object next( ) throws OdaException
-	{
-		if ( iterator == null )
-		{
+	@Override
+	public Object next() throws OdaException {
+		if (iterator == null) {
 			return null;
-		}
-		else
-		{
-			while ( iterator.hasNext( ) )
-			{
-				Object o = iterator.next( );
-				if ( o != null ) //omit null value
+		} else {
+			while (iterator.hasNext()) {
+				Object o = iterator.next();
+				if (o != null) // omit null value
 				{
 					return o;
 				}
@@ -56,11 +60,13 @@ public abstract class PojoDataSetFromIterator implements IPojoDataSet
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#close()
 	 */
-	public void close( ) throws OdaException
-	{
+	@Override
+	public void close() throws OdaException {
 		iterator = null;
 	}
 
@@ -69,5 +75,5 @@ public abstract class PojoDataSetFromIterator implements IPojoDataSet
 	 * @throws OdaException
 	 */
 	@SuppressWarnings("unchecked")
-	protected abstract Iterator fetchPojos( ) throws OdaException; 
+	protected abstract Iterator fetchPojos() throws OdaException;
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,47 +27,44 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * JSExpressionSupport
  */
-public class JSExpressionSupport extends AbstractExpressionSupport
-{
+public class JSExpressionSupport extends AbstractExpressionSupport {
 
-	public IExpressionBuilder createBuilder( Shell shl, Object expression )
-	{
-		String expr = expression == null ? null : expression.toString( );
+	@Override
+	public IExpressionBuilder createBuilder(Shell shl, Object expression) {
+		String expr = expression == null ? null : expression.toString();
 
-		return new JSExpressionBuilder( shl, expr );
+		return new JSExpressionBuilder(shl, expr);
 	}
 
-	public IExpressionBuilder createBuilder( Shell shl, Object expression,
-			boolean showLeafOnlyInThirdColumn )
-	{
-		String expr = expression == null ? null : expression.toString( );
-		JSExpressionBuilder builder = new JSExpressionBuilder( shl, expr );
-		builder.setShowLeafOnlyInThirdColumn( showLeafOnlyInThirdColumn );
+	public IExpressionBuilder createBuilder(Shell shl, Object expression, boolean showLeafOnlyInThirdColumn) {
+		String expr = expression == null ? null : expression.toString();
+		JSExpressionBuilder builder = new JSExpressionBuilder(shl, expr);
+		builder.setShowLeafOnlyInThirdColumn(showLeafOnlyInThirdColumn);
 		return builder;
 	}
 
-	public Image getImage( )
-	{
-		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT );
+	@Override
+	public Image getImage() {
+		return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT);
 	}
 
-	public String getDisplayName( )
-	{
-		return Messages.getString( "ExpressionButtonProvider.Javascript" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("ExpressionButtonProvider.Javascript"); //$NON-NLS-1$
 	}
 
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return ExpressionType.JAVASCRIPT;
 	}
 
 	/**
 	 * The stateless singleton renderer instance
 	 */
-	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter( );
+	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter();
 
-	public IExpressionConverter getConverter( )
-	{
+	@Override
+	public IExpressionConverter getConverter() {
 		return JS_EXPR_RENDERER;
 	}
 

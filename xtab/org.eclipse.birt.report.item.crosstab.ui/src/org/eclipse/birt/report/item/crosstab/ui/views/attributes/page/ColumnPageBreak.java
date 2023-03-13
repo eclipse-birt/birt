@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,36 +26,32 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
-public class ColumnPageBreak extends AttributePage
-{
+public class ColumnPageBreak extends AttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1, 15 ) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1, 15));
 
-		RepeatHeaderProvider repeatHeaderProvider = new RepeatHeaderProvider( ICrosstabReportItemConstants.REPEAT_ROW_HEADER_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		CheckSection repeatRowHeaderSection = new CheckSection( container, true );
-		repeatRowHeaderSection.setProvider( repeatHeaderProvider );
-		repeatRowHeaderSection.setWidth( 200 );
-		addSection( CrosstabSectionPageId.COLUMNPAGEBREAK_REPEAT_ROW_HEADER,
-				repeatRowHeaderSection );
+		RepeatHeaderProvider repeatHeaderProvider = new RepeatHeaderProvider(
+				ICrosstabReportItemConstants.REPEAT_ROW_HEADER_PROP, ReportDesignConstants.EXTENDED_ITEM);
+		CheckSection repeatRowHeaderSection = new CheckSection(container, true);
+		repeatRowHeaderSection.setProvider(repeatHeaderProvider);
+		repeatRowHeaderSection.setWidth(200);
+		addSection(CrosstabSectionPageId.COLUMNPAGEBREAK_REPEAT_ROW_HEADER, repeatRowHeaderSection);
 
-		ColumnPageBreakProvider pageBreakProvider = new ColumnPageBreakProvider( );
-		FormSection pageBreakSection = new FormSection( pageBreakProvider.getDisplayName( ),
-				container,
-				true );
-		pageBreakSection.setProvider( pageBreakProvider );
-		pageBreakSection.setButtonWithDialog( true );
-		pageBreakSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
-		pageBreakSection.setFillForm( true );
-		pageBreakSection.setHeight( 170 );
-		addSection( CrosstabPageSectionId.COLUMN_PAGE_BREAK, pageBreakSection );
-		createSections( );
-		layoutSections( );
+		ColumnPageBreakProvider pageBreakProvider = new ColumnPageBreakProvider();
+		FormSection pageBreakSection = new FormSection(pageBreakProvider.getDisplayName(), container, true);
+		pageBreakSection.setProvider(pageBreakProvider);
+		pageBreakSection.setButtonWithDialog(true);
+		pageBreakSection.setStyle(FormPropertyDescriptor.NO_UP_DOWN);
+		pageBreakSection.setFillForm(true);
+		pageBreakSection.setHeight(170);
+		addSection(CrosstabPageSectionId.COLUMN_PAGE_BREAK, pageBreakSection);
+		createSections();
+		layoutSections();
 	}
 }

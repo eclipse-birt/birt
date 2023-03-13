@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,103 +26,79 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
-public class MeasureSubNodeProvider extends DefaultNodeProvider
-{
+public class MeasureSubNodeProvider extends DefaultNodeProvider {
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		
+	@Override
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+
 	}
 
-	public Object[] getChildren( Object model )
-	{
-		PropertyHandle handle = ( (CrosstabPropertyHandleWrapper) model ).getModel( );
-		ExtendedItemHandle element = (ExtendedItemHandle) handle.getElementHandle( );
-		try
-		{
-			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( );
-			String propertyName = handle.getPropertyDefn( ).getName( );
-			Object value = handle.getValue( );
-			if ( value == null )
+	@Override
+	public Object[] getChildren(Object model) {
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel();
+		ExtendedItemHandle element = (ExtendedItemHandle) handle.getElementHandle();
+		try {
+			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem();
+			String propertyName = handle.getPropertyDefn().getName();
+			Object value = handle.getValue();
+			if (value == null) {
 				return new Object[0];
+			}
 
-			if ( propertyName.equals( IMeasureViewConstants.HEADER_PROP ) )
-			{
-				return new Object[]{
-					measure.getHeader( ).getModelHandle( )
-				};
-			}
-			else if ( propertyName.equals( IMeasureViewConstants.DETAIL_PROP ) )
-			{
-				return new Object[]{
-					measure.getCell( ).getModelHandle( )
-				};
-			}
-			else if ( propertyName.equals( IMeasureViewConstants.AGGREGATIONS_PROP ) )
-			{
-				int count = measure.getAggregationCount( );
+			if (propertyName.equals(IMeasureViewConstants.HEADER_PROP)) {
+				return new Object[] { measure.getHeader().getModelHandle() };
+			} else if (propertyName.equals(IMeasureViewConstants.DETAIL_PROP)) {
+				return new Object[] { measure.getCell().getModelHandle() };
+			} else if (propertyName.equals(IMeasureViewConstants.AGGREGATIONS_PROP)) {
+				int count = measure.getAggregationCount();
 				Object[] aggs = new Object[count];
-				for ( int i = 0; i < count; i++ )
-				{
-					aggs[i] = measure.getAggregationCell( i ).getModelHandle( );
+				for (int i = 0; i < count; i++) {
+					aggs[i] = measure.getAggregationCell(i).getModelHandle();
 				}
 				return aggs;
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 		}
 		return new Object[0];
 	}
 
-	public Object getParent( Object model )
-	{
-		PropertyHandle handle = ( (CrosstabPropertyHandleWrapper) model ).getModel( );
-		return handle.getElementHandle( );
+	@Override
+	public Object getParent(Object model) {
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel();
+		return handle.getElementHandle();
 	}
 
-	public boolean hasChildren( Object model )
-	{
-		return getChildren( model ).length != 0;
+	@Override
+	public boolean hasChildren(Object model) {
+		return getChildren(model).length != 0;
 	}
 
-	public String getNodeDisplayName( Object element )
-	{
-		PropertyHandle handle = ( (CrosstabPropertyHandleWrapper) element ).getModel( );
-		String propertyName = handle.getPropertyDefn( ).getName( );
+	@Override
+	public String getNodeDisplayName(Object element) {
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel();
+		String propertyName = handle.getPropertyDefn().getName();
 
-		if ( propertyName.equals( IMeasureViewConstants.HEADER_PROP ) )
-		{
-			return Messages.getString( "MeasureSubNodeProvider.Header" ); //$NON-NLS-1$
+		if (propertyName.equals(IMeasureViewConstants.HEADER_PROP)) {
+			return Messages.getString("MeasureSubNodeProvider.Header"); //$NON-NLS-1$
+		} else if (propertyName.equals(IMeasureViewConstants.DETAIL_PROP)) {
+			return Messages.getString("MeasureSubNodeProvider.Detail"); //$NON-NLS-1$
+		} else if (propertyName.equals(IMeasureViewConstants.AGGREGATIONS_PROP)) {
+			return Messages.getString("MeasureSubNodeProvider.Aggregation"); //$NON-NLS-1$
 		}
-		else if ( propertyName.equals( IMeasureViewConstants.DETAIL_PROP ) )
-		{
-			return Messages.getString( "MeasureSubNodeProvider.Detail" ); //$NON-NLS-1$
-		}
-		else if ( propertyName.equals( IMeasureViewConstants.AGGREGATIONS_PROP ) )
-		{
-			return Messages.getString( "MeasureSubNodeProvider.Aggregation" ); //$NON-NLS-1$
-		}
-		return super.getNodeDisplayName( element );
+		return super.getNodeDisplayName(element);
 	}
 
-	public Image getNodeIcon( Object element )
-	{
-		PropertyHandle handle = ( (CrosstabPropertyHandleWrapper) element ).getModel( );
-		String propertyName = handle.getPropertyDefn( ).getName( );
-		if ( propertyName.equals( IMeasureViewConstants.HEADER_PROP ) )
-		{
-			return CrosstabUIHelper.getImage( CrosstabUIHelper.HEADER_IMAGE );
+	@Override
+	public Image getNodeIcon(Object element) {
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel();
+		String propertyName = handle.getPropertyDefn().getName();
+		if (propertyName.equals(IMeasureViewConstants.HEADER_PROP)) {
+			return CrosstabUIHelper.getImage(CrosstabUIHelper.HEADER_IMAGE);
+		} else if (propertyName.equals(IMeasureViewConstants.DETAIL_PROP)) {
+			return CrosstabUIHelper.getImage(CrosstabUIHelper.DETAIL_IMAGE);
+		} else if (propertyName.equals(IMeasureViewConstants.AGGREGATIONS_PROP)) {
+			return CrosstabUIHelper.getImage(CrosstabUIHelper.AGGREGATION_IMAGE);
 		}
-		else if ( propertyName.equals( IMeasureViewConstants.DETAIL_PROP ) )
-		{
-			return CrosstabUIHelper.getImage( CrosstabUIHelper.DETAIL_IMAGE );
-		}
-		else if ( propertyName.equals( IMeasureViewConstants.AGGREGATIONS_PROP ) )
-		{
-			return CrosstabUIHelper.getImage( CrosstabUIHelper.AGGREGATION_IMAGE );
-		}
-		return super.getNodeIcon( element );
+		return super.getNodeIcon(element);
 	}
 }

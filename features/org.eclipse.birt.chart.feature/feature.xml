@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <feature
       id="org.eclipse.birt.chart"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.13.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.chart"
       image="eclipse_update_120.jpg">
@@ -20,13 +34,12 @@
    </license>
 
    <url>
-      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.swt" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.jface" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.swt" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
@@ -128,6 +141,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.apache.batik.codec"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
@@ -136,13 +156,6 @@
 
    <plugin
          id="org.apache.batik.dom.svg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -177,14 +190,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.util.gui"
+         id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.xml"
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"

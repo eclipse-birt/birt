@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine;
 
@@ -33,204 +45,193 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 
-public abstract class BaseEmitter extends EngineCase implements IContentEmitter
-{
+public abstract class BaseEmitter extends EngineCase implements IContentEmitter {
 
-	private String inPath = this.genInputFolder( ) + "/";
-	private String outPath = this.genOutputFolder( ) + "/";
+	private String inPath = this.genInputFolder() + "/";
+	private String outPath = this.genOutputFolder() + "/";
 
 	protected final static String EMITTER_HTML = "html";
 	protected final static String EMITTER_PDF = "emitter_pdf";
 
-	protected abstract String getReportName( );
+	protected abstract String getReportName();
 
 	/**
-	 * @param format
-	 *            render format
-	 * @param pagination
-	 *            For html output only, decide whether generate report with page
-	 *            break or not.
+	 * @param format     render format
+	 * @param pagination For html output only, decide whether generate report with
+	 *                   page break or not.
 	 * @throws EngineException
 	 */
-	protected ArrayList runandrender_emitter( String format, boolean pagination )
-			throws EngineException
-	{
-		IReportRunnable reportRunnable = engine.openReportDesign( inPath
-				+ getReportName( ) );
-		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
-		RenderOption options = new HTMLRenderOption( );
-		options.setOutputFormat( format );
-		if ( format.equals( EMITTER_HTML ) )
-		{
-			( (HTMLRenderOption) options ).setHtmlPagination( pagination );
+	protected ArrayList runandrender_emitter(String format, boolean pagination) throws EngineException {
+		IReportRunnable reportRunnable = engine.openReportDesign(inPath + getReportName());
+		IRunAndRenderTask task = engine.createRunAndRenderTask(reportRunnable);
+		RenderOption options = new HTMLRenderOption();
+		options.setOutputFormat(format);
+		if (format.equals(EMITTER_HTML)) {
+			((HTMLRenderOption) options).setHtmlPagination(pagination);
 		}
-		HashMap appContext = new HashMap( );
-		appContext.put( "emitter_class", this );
-		task.setAppContext( appContext );
-		task.setRenderOption( options );
-		task.run( );
-		ArrayList errors = (ArrayList) task.getErrors( );
-		task.close( );
+		HashMap appContext = new HashMap();
+		appContext.put("emitter_class", this);
+		task.setAppContext(appContext);
+		task.setRenderOption(options);
+		task.run();
+		ArrayList errors = (ArrayList) task.getErrors();
+		task.close();
 		return errors;
 	}
 
-	protected ArrayList runandthenrender_emitter( String format )
-			throws EngineException
-	{
-		ArrayList errors = new ArrayList( );
-		this.run( getReportName( ) + ".rptdesign", getReportName( )
-				+ ".rptdocument" );
-		IReportDocument document = engine.openReportDocument( outPath
-				+ getReportName( ) + ".rptdocument" );
-		IRenderTask task = engine.createRenderTask( document );
-		RenderOption options = new HTMLRenderOption( );
-		options.setOutputFormat( format );
-		HashMap appContext = new HashMap( );
-		appContext.put( "emitter_class", this );
-		task.setAppContext( appContext );
-		task.setRenderOption( options );
-		task.render( );
-		errors = (ArrayList) task.getErrors( );
-		task.close( );
+	protected ArrayList runandthenrender_emitter(String format) throws EngineException {
+		ArrayList errors = new ArrayList();
+		this.run(getReportName() + ".rptdesign", getReportName() + ".rptdocument");
+		IReportDocument document = engine.openReportDocument(outPath + getReportName() + ".rptdocument");
+		IRenderTask task = engine.createRenderTask(document);
+		RenderOption options = new HTMLRenderOption();
+		options.setOutputFormat(format);
+		HashMap appContext = new HashMap();
+		appContext.put("emitter_class", this);
+		task.setAppContext(appContext);
+		task.setRenderOption(options);
+		task.render();
+		errors = (ArrayList) task.getErrors();
+		task.close();
 		return errors;
 
 	}
 
-	public void end( IReportContent report )
-	{
+	@Override
+	public void end(IReportContent report) {
 	}
 
-	public void endCell( ICellContent cell )
-	{
+	@Override
+	public void endCell(ICellContent cell) {
 	}
 
-	public void endContainer( IContainerContent container )
-	{
+	@Override
+	public void endContainer(IContainerContent container) {
 	}
 
-	public void endContent( IContent content )
-	{
+	@Override
+	public void endContent(IContent content) {
 	}
 
-	public void endGroup( IGroupContent group )
-	{
+	@Override
+	public void endGroup(IGroupContent group) {
 	}
 
-	public void endList( IListContent list )
-	{
+	@Override
+	public void endList(IListContent list) {
 	}
 
-	public void endListBand( IListBandContent listBand )
-	{
+	@Override
+	public void endListBand(IListBandContent listBand) {
 	}
 
-	public void endListGroup( IListGroupContent group )
-	{
+	@Override
+	public void endListGroup(IListGroupContent group) {
 	}
 
-	public void endPage( IPageContent page )
-	{
+	@Override
+	public void endPage(IPageContent page) {
 	}
 
-	public void endRow( IRowContent row )
-	{
+	@Override
+	public void endRow(IRowContent row) {
 	}
 
-	public void endTable( ITableContent table )
-	{
+	@Override
+	public void endTable(ITableContent table) {
 	}
 
-	public void endTableBand( ITableBandContent band )
-	{
+	@Override
+	public void endTableBand(ITableBandContent band) {
 	}
 
-	public void endTableGroup( ITableGroupContent group )
-	{
+	@Override
+	public void endTableGroup(ITableGroupContent group) {
 	}
 
-	public String getOutputFormat( )
-	{
+	@Override
+	public String getOutputFormat() {
 		return null;
 	}
 
-	public void initialize( IEmitterServices service )
-	{
+	@Override
+	public void initialize(IEmitterServices service) {
 	}
 
-	public void start( IReportContent report )
-	{
+	@Override
+	public void start(IReportContent report) {
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
-	{
+	@Override
+	public void startAutoText(IAutoTextContent autoText) {
 	}
 
-	public void startCell( ICellContent cell )
-	{
+	@Override
+	public void startCell(ICellContent cell) {
 	}
 
-	public void startContainer( IContainerContent container )
-	{
+	@Override
+	public void startContainer(IContainerContent container) {
 	}
 
-	public void startContent( IContent content )
-	{
+	@Override
+	public void startContent(IContent content) {
 	}
 
-	public void startData( IDataContent data )
-	{
+	@Override
+	public void startData(IDataContent data) {
 	}
 
-	public void startForeign( IForeignContent foreign )
-	{
+	@Override
+	public void startForeign(IForeignContent foreign) {
 	}
 
-	public void startGroup( IGroupContent group )
-	{
+	@Override
+	public void startGroup(IGroupContent group) {
 	}
 
-	public void startImage( IImageContent image )
-	{
+	@Override
+	public void startImage(IImageContent image) {
 	}
 
-	public void startLabel( ILabelContent label )
-	{
+	@Override
+	public void startLabel(ILabelContent label) {
 	}
 
-	public void startList( IListContent list )
-	{
+	@Override
+	public void startList(IListContent list) {
 	}
 
-	public void startListBand( IListBandContent listBand )
-	{
+	@Override
+	public void startListBand(IListBandContent listBand) {
 	}
 
-	public void startListGroup( IListGroupContent group )
-	{
+	@Override
+	public void startListGroup(IListGroupContent group) {
 	}
 
-	public void startPage( IPageContent page )
-	{
+	@Override
+	public void startPage(IPageContent page) {
 	}
 
-	public void startRow( IRowContent row )
-	{
+	@Override
+	public void startRow(IRowContent row) {
 	}
 
-	public void startTable( ITableContent table )
-	{
+	@Override
+	public void startTable(ITableContent table) {
 	}
 
-	public void startTableBand( ITableBandContent band )
-	{
+	@Override
+	public void startTableBand(ITableBandContent band) {
 	}
 
-	public void startTableGroup( ITableGroupContent group )
-	{
+	@Override
+	public void startTableGroup(ITableGroupContent group) {
 	}
 
-	public void startText( ITextContent text )
-	{
+	@Override
+	public void startText(ITextContent text) {
 	}
 
 	// protected String genOutputFile( String output )
@@ -242,7 +243,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	// protected String getFullQualifiedClassName( )
 	// {
 	// String className = this.getClass( ).getName( );
-	//		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+	// int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 	// className = className.substring( 0, lastDotIndex );
 	//
 	// return className;

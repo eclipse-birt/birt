@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,120 +23,126 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 /**
  * An Action class that implements IAction interface
  */
-public class Action implements IAction
-{
+public class Action implements IAction {
 	protected IHyperlinkAction content;
 	protected String systemId;
 
-	public Action( String systemId, IHyperlinkAction content )
-	{
+	public Action(String systemId, IHyperlinkAction content) {
 		this.systemId = systemId;
 		this.content = content;
 	}
-	
-	public Action( IHyperlinkAction content )
-	{
+
+	public Action(IHyperlinkAction content) {
 		this.content = content;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getType()
 	 */
-	public int getType()
-	{
+	@Override
+	public int getType() {
 		return content.getType();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getBookmark()
 	 */
-	public String getBookmark()
-	{
+	@Override
+	public String getBookmark() {
 		return content.getBookmark();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getActionString()
 	 */
-	public String getActionString( )
-	{
-		switch ( content.getType( ) )
-		{
-			case IHyperlinkAction.ACTION_HYPERLINK :
-				return content.getHyperlink( );
-			case IHyperlinkAction.ACTION_BOOKMARK :
-				return content.getBookmark( );
+	@Override
+	public String getActionString() {
+		switch (content.getType()) {
+		case IHyperlinkAction.ACTION_HYPERLINK:
+			return content.getHyperlink();
+		case IHyperlinkAction.ACTION_BOOKMARK:
+			return content.getBookmark();
 		}
 		return null;
 	}
 
-	public String getSystemId()
-	{
+	@Override
+	public String getSystemId() {
 		return systemId;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getReportName()
 	 */
-	public String getReportName()
-	{
+	@Override
+	public String getReportName() {
 		return content.getReportName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getParameterBindings()
 	 */
-	public Map getParameterBindings()
-	{
+	@Override
+	public Map getParameterBindings() {
 		return content.getParameterBindings();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getSearchCriteria()
 	 */
-	public Map getSearchCriteria()
-	{
+	@Override
+	public Map getSearchCriteria() {
 		return content.getSearchCriteria();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.api2.IAction#getTargetWindow()
 	 */
-	public String getTargetWindow()
-	{
+	@Override
+	public String getTargetWindow() {
 		return content.getTargetWindow();
 	}
-	
-	public String getFormat( )
-	{
+
+	@Override
+	public String getFormat() {
 		return content.getFormat();
 	}
 
-	public boolean isBookmark( )
-	{
-		return content.isBookmark( );
+	@Override
+	public boolean isBookmark() {
+		return content.isBookmark();
 	}
-	
+
 	/**
 	 * @return the type of the target report file.
 	 */
-	public String getTargetFileType( )
-	{
-		IDrillThroughAction drillThrough = content.getDrillThrough( );
-		if ( null == drillThrough )
-		{
+	@Override
+	public String getTargetFileType() {
+		IDrillThroughAction drillThrough = content.getDrillThrough();
+		if (null == drillThrough) {
 			return null;
-		}
-		else
-		{
-			return drillThrough.getTargetFileType( );
+		} else {
+			return drillThrough.getTargetFileType();
 		}
 	}
-	
-	public String getTooltip()
-	{
+
+	@Override
+	public String getTooltip() {
 		return content.getTooltip();
 	}
-	
 
 }

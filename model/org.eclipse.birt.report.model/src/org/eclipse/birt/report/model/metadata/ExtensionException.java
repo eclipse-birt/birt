@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +18,7 @@ package org.eclipse.birt.report.model.metadata;
  * Indicates the error when loading extensions.
  */
 
-public class ExtensionException extends MetaDataException
-{
+public class ExtensionException extends MetaDataException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -43,8 +45,8 @@ public class ExtensionException extends MetaDataException
 	public static final String DESIGN_EXCEPTION_VALUE_REQUIRED = "VALUE_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating the choice value is invalid for the user property
-	 * type, which is not choice.
+	 * Error code indicating the choice value is invalid for the user property type,
+	 * which is not choice.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_VALUE = "INVALID_CHOICE_VALUE"; //$NON-NLS-1$
@@ -70,29 +72,25 @@ public class ExtensionException extends MetaDataException
 	public static final String DESIGN_EXCEPTION_DEFAULT_ENCRYPTION_EXIST = "DEFAULT_ENCRYPTION_EXIST"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating that The defaultStyle for extension element should
-	 * not be empty.
+	 * Error code indicating that The defaultStyle for extension element should not
+	 * be empty.
 	 */
 	public static final String DESIGN_EXCEPTION_EMPTY_STYLE_NAME = "DEFAULT_EMPTY_STYLE_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating that the input stream returned for delta-rom is
-	 * empty.
+	 * Error code indicating that the input stream returned for delta-rom is empty.
 	 */
 	public static final String DESIGN_EXCEPTION_EMPTY_DELTA_ROM_STREAM = "EMPTY_DELTA_ROM_STREAM"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an extension exception with error code.
-	 * 
-	 * @param params
-	 *            the parameters for building error message
-	 * @param errorCode
-	 *            the error code
+	 *
+	 * @param params    the parameters for building error message
+	 * @param errorCode the error code
 	 */
 
-	public ExtensionException( String[] params, String errorCode )
-	{
-		super( params, errorCode );
+	public ExtensionException(String[] params, String errorCode) {
+		super(params, errorCode);
 	}
 
 }

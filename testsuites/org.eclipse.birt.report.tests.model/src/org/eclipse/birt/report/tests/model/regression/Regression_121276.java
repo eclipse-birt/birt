@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -39,45 +42,39 @@ import com.ibm.icu.util.ULocale;
  * properties are read-only.
  * <p>
  */
-public class Regression_121276 extends BaseTestCase
-{
+public class Regression_121276 extends BaseTestCase {
 
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public void test_regression_121276( ) throws ContentException, NameException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_121276() throws ContentException, NameException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
 
-		SimpleMasterPageHandle page = factory.newSimpleMasterPage( "newpage" ); //$NON-NLS-1$
-		designHandle.getMasterPages( ).add( page );
+		SimpleMasterPageHandle page = factory.newSimpleMasterPage("newpage"); //$NON-NLS-1$
+		designHandle.getMasterPages().add(page);
 
-		page.getPageHeader( ).add( label );
+		page.getPageHeader().add(label);
 
-		List elements = new ArrayList( );
-		elements.add( label );
-		SimpleGroupElementHandle group = new SimpleGroupElementHandle(
-				designHandle, elements );
+		List elements = new ArrayList();
+		elements.add(label);
+		SimpleGroupElementHandle group = new SimpleGroupElementHandle(designHandle, elements);
 
 		// ensure that TOC, Bookmark and Page break properties are read-only.
-		
-		GroupPropertyHandle bookmark = group
-				.getPropertyHandle( LabelHandle.BOOKMARK_PROP );
-		assertEquals( true, bookmark.isReadOnly( ) );
 
-		GroupPropertyHandle toc = group
-				.getPropertyHandle( LabelHandle.TOC_PROP );
-		assertEquals( true, toc.isReadOnly( ) );
+		GroupPropertyHandle bookmark = group.getPropertyHandle(LabelHandle.BOOKMARK_PROP);
+		assertEquals(true, bookmark.isReadOnly());
 
-		GroupPropertyHandle pagebreak = group
-				.getPropertyHandle( StyleHandle.PAGE_BREAK_AFTER_PROP );
-		assertEquals( true, pagebreak.isReadOnly( ) );
+		GroupPropertyHandle toc = group.getPropertyHandle(LabelHandle.TOC_PROP);
+		assertEquals(true, toc.isReadOnly());
+
+		GroupPropertyHandle pagebreak = group.getPropertyHandle(StyleHandle.PAGE_BREAK_AFTER_PROP);
+		assertEquals(true, pagebreak.isReadOnly());
 
 	}
 }

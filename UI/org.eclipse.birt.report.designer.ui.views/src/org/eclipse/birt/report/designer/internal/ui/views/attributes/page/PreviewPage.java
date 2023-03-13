@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
@@ -13,64 +25,58 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
-public class PreviewPage extends AttributePage
-{
+public class PreviewPage extends AttributePage {
 
 	private PreviewPropertyDescriptorProvider provider;
 	private boolean isTabbed = false;
 
-	public PreviewPage( boolean isTabbed )
-	{
+	public PreviewPage(boolean isTabbed) {
 		this.isTabbed = isTabbed;
 	}
 
-	public void buildUI( Composite parent )
-	{
-		container = new ScrolledComposite( parent, SWT.V_SCROLL | SWT.H_SCROLL );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		( (ScrolledComposite) container ).setExpandHorizontal( true );
-		( (ScrolledComposite) container ).setExpandVertical( true );
-		container.addControlListener( new ControlAdapter( ) {
+	@Override
+	public void buildUI(Composite parent) {
+		container = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+		((ScrolledComposite) container).setExpandHorizontal(true);
+		((ScrolledComposite) container).setExpandVertical(true);
+		container.addControlListener(new ControlAdapter() {
 
-			public void controlResized( ControlEvent e )
-			{
-				computeSize( );
+			@Override
+			public void controlResized(ControlEvent e) {
+				computeSize();
 			}
-		} );
+		});
 
-		composite = new Composite( container, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite = new Composite(container, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if ( sections == null )
-			sections = new SortMap( );
-		composite.setLayout( WidgetUtil.createGridLayout( 1 ) );
+		if (sections == null) {
+			sections = new SortMap();
+		}
+		composite.setLayout(WidgetUtil.createGridLayout(1));
 
-		previewSection = new PreviewSection( provider.getDisplayName( ),
-				composite,
-				true,
-				isTabbed );
-		previewSection.setPreview( preview );
-		previewSection.setProvider( provider );
-		previewSection.setHeight( 160 );
-		previewSection.setFillPreview( true );
-		addSection( PageSectionId.PREVIEW_PREVIEW, previewSection );
+		previewSection = new PreviewSection(provider.getDisplayName(), composite, true, isTabbed);
+		previewSection.setPreview(preview);
+		previewSection.setProvider(provider);
+		previewSection.setHeight(160);
+		previewSection.setFillPreview(true);
+		addSection(PageSectionId.PREVIEW_PREVIEW, previewSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 
-		( (ScrolledComposite) container ).setContent( composite );
+		((ScrolledComposite) container).setContent(composite);
 	}
 
-	private void computeSize( )
-	{
-		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		( (ScrolledComposite) container ).setMinSize( size.x, size.y + 10 );
-		container.layout( );
+	private void computeSize() {
+		Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		((ScrolledComposite) container).setMinSize(size.x, size.y + 10);
+		container.layout();
 
 	}
 
-	public void setProvider( PreviewPropertyDescriptorProvider provider )
-	{
+	public void setProvider(PreviewPropertyDescriptorProvider provider) {
 		this.provider = provider;
 	}
 
@@ -78,21 +84,19 @@ public class PreviewPage extends AttributePage
 	private PreviewSection previewSection;
 	private Composite composite;
 
-	public void setPreview( PreviewPropertyDescriptor preview )
-	{
+	public void setPreview(PreviewPropertyDescriptor preview) {
 		this.preview = preview;
 	}
 
-	private boolean checkControl( PreviewSection preview )
-	{
-		return preview != null
-				&& preview.getPreviewControl( ) != null
-				&& !preview.getPreviewControl( ).getControl( ).isDisposed( );
+	private boolean checkControl(PreviewSection preview) {
+		return preview != null && preview.getPreviewControl() != null
+				&& !preview.getPreviewControl().getControl().isDisposed();
 	}
 
-	public void postElementEvent( )
-	{
-		if ( checkControl( previewSection ) )
-			previewSection.getPreviewControl( ).postElementEvent( );
+	@Override
+	public void postElementEvent() {
+		if (checkControl(previewSection)) {
+			previewSection.getPreviewControl().postElementEvent();
+		}
 	}
 }

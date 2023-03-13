@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,108 +28,96 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * This class represents a theme in the library.
- * 
+ *
  */
 
-public class ReportItemTheme extends AbstractTheme
-		implements
-			IReportItemThemeModel
-{
+public class ReportItemTheme extends AbstractTheme implements IReportItemThemeModel {
 
 	/**
 	 * Constructor.
 	 */
 
-	public ReportItemTheme( )
-	{
-		super( );
+	public ReportItemTheme() {
+		super();
 	}
 
 	/**
 	 * Constructor with the element name.
-	 * 
-	 * @param theName
-	 *            the element name
+	 *
+	 * @param theName the element name
 	 */
 
-	public ReportItemTheme( String theName )
-	{
-		super( theName );
+	public ReportItemTheme(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitReportItemTheme( this );
+	@Override
+	public void apply(ElementVisitor visitor) {
+		visitor.visitReportItemTheme(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	@Override
+	public String getElementName() {
 		return ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	@Override
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the report design of the row
-	 * 
+	 *
+	 * @param module the report design of the row
+	 *
 	 * @return an API handle for this element
 	 */
 
-	public ReportItemThemeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ReportItemThemeHandle( module, this );
+	public ReportItemThemeHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ReportItemThemeHandle(module, this);
 		}
 		return (ReportItemThemeHandle) handle;
 	}
 
-	public static boolean isValidType( String type )
-	{
-		if ( StringUtil.isBlank( type ) )
+	public static boolean isValidType(String type) {
+		if (StringUtil.isBlank(type)) {
 			return false;
-		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance( )
-				.getPredefinedStyles( type );
-		if ( styles == null || styles.isEmpty( ) )
+		}
+		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance().getPredefinedStyles(type);
+		if (styles == null || styles.isEmpty()) {
 			return false;
+		}
 		return true;
 	}
 
-	public String getType( Module module )
-	{
-		return getStringProperty( module, TYPE_PROP );
+	public String getType(Module module) {
+		return getStringProperty(module, TYPE_PROP);
 	}
-	
-	public Object FlattenClone( ) throws CloneNotSupportedException 
-	{
-		return doClone( FlattenCopyPolicy.getInstance( ) );
+
+	public Object FlattenClone() throws CloneNotSupportedException {
+		return doClone(FlattenCopyPolicy.getInstance());
 	}
 }

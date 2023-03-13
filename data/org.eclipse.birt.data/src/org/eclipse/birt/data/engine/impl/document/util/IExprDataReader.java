@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,47 +21,46 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Read the raw expression result from report document.
  */
-interface IExprDataReader
-{
-	
+interface IExprDataReader {
+
 	/**
 	 * @return the id of current row
 	 */
-	int getRowId( );
+	int getRowId();
 
 	/**
 	 * @return the index of current row
 	 */
-	int getRowIndex( );
-	
+	int getRowIndex();
+
 	/**
 	 * @return the row count value
 	 */
-	int getCount( );
+	int getCount();
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	boolean next( ) throws DataException;
+	boolean next() throws DataException;
 
 	/**
 	 * Move the cursor forward
-	 * 
+	 *
 	 * @param index
 	 * @throws DataException
 	 */
-	void moveTo( int index ) throws DataException;
-	
+	void moveTo(int index) throws DataException;
+
 	/**
 	 * @return value map of current row
 	 * @throws DataException
 	 */
-	Map getRowValue( ) throws DataException;
+	Map getRowValue() throws DataException;
 
 	/**
 	 * close the reader
 	 */
-	void close( );
-	
+	void close();
+
 }

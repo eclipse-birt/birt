@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,94 +20,75 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * Viewer utility
- * 
- * 
- *  
+ *
+ *
+ *
  */
-public class ViewerUnti
-{
+public class ViewerUnti {
 
 	/**
 	 * View Tree
-	 * 
-	 * @param treeViewer
-	 *            the tree viewer to display
+	 *
+	 * @param treeViewer the tree viewer to display
 	 */
-	public static void viewTree( TreeViewer treeViewer )
-	{
-		viewTree( treeViewer.getTree( ) );
+	public static void viewTree(TreeViewer treeViewer) {
+		viewTree(treeViewer.getTree());
 	}
 
 	/**
 	 * View Tree
-	 * 
-	 * @param tree
-	 *            the tree to display
+	 *
+	 * @param tree the tree to display
 	 */
-	public static void viewTree( Tree tree )
-	{
-		viewTree( tree.getItems( )[0] );
+	public static void viewTree(Tree tree) {
+		viewTree(tree.getItems()[0]);
 	}
 
 	/**
 	 * View Tree
-	 * 
-	 * @param root
-	 *            the tree item to display
+	 *
+	 * @param root the tree item to display
 	 */
 
-	public static void viewTree( TreeItem root )
-	{
-		viewTree( root, root );
+	public static void viewTree(TreeItem root) {
+		viewTree(root, root);
 	}
 
-	private static void viewTree( TreeItem item, TreeItem root )
-	{
-		if ( item.getItemCount( ) != 0 )
-		{
-			if ( item == root )
-			{
-				System.err.println( );
+	private static void viewTree(TreeItem item, TreeItem root) {
+		if (item.getItemCount() != 0) {
+			if (item == root) {
+				System.err.println();
 			}
-			if ( item.getExpanded( ) )
-			{
-				TreeItem[] ti = item.getItems( );
-				System.err.println( "-" //$NON-NLS-1$
-						+ item.getText( ) + "(" + ti.length + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
-				for ( int i = 0; i < ti.length; i++ )
-				{
+			if (item.getExpanded()) {
+				TreeItem[] ti = item.getItems();
+				System.err.println("-" //$NON-NLS-1$
+						+ item.getText() + "(" + ti.length + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				for (int i = 0; i < ti.length; i++) {
 					String out = ""; //$NON-NLS-1$
 					TreeItem parent = item;
-					while ( parent != root )
-					{
-						TreeItem[] tp = parent.getParentItem( ).getItems( );
-						if ( parent != tp[tp.length - 1] )
-						{
+					while (parent != root) {
+						TreeItem[] tp = parent.getParentItem().getItems();
+						if (parent != tp[tp.length - 1]) {
 							out = " \u2502" + out; //$NON-NLS-1$
-						}
-						else
-						{
+						} else {
 							out = "  " + out; //$NON-NLS-1$
 						}
-						parent = parent.getParentItem( );
+						parent = parent.getParentItem();
 					}
-					if ( i == item.getItemCount( ) - 1 )
-					{
+					if (i == item.getItemCount() - 1) {
 						out += " \u2514"; //$NON-NLS-1$
-					}
-					else
-					{
+					} else {
 						out += " \u251C"; //$NON-NLS-1$
 					}
 
-					System.err.print( out );
-					viewTree( ti[i], root );
+					System.err.print(out);
+					viewTree(ti[i], root);
 				}
+			} else {
+				System.err.println("+" + item.getText() + "(?)"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			else
-				System.err.println( "+" + item.getText( ) + "(?)" ); //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			System.err.println(item.getText());
 		}
-		else
-			System.err.println( item.getText( ) );
 	}
 }

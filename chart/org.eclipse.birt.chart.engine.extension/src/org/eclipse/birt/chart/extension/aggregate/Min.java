@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,41 +18,35 @@ import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.core.data.DataType;
 
 /**
- * 
+ *
  */
 
-public class Min extends AggregateFunctionAdapter
-{
+public class Min extends AggregateFunctionAdapter {
 
 	private Object min;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		if ( min == null )
-		{
+	@Override
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		if (min == null) {
 			min = oValue;
+		} else if (oValue instanceof Comparable) {
+			min = ((Comparable) oValue).compareTo(min) <= 0 ? oValue : min;
 		}
-		else if ( oValue instanceof Comparable )
-		{
-			min = ((Comparable)oValue ).compareTo( min ) <= 0 ? oValue : min;
-		}
-		
+
 	}
 
-	public Object getAggregatedValue( )
-	{
+	@Override
+	public Object getAggregatedValue() {
 		return min;
 	}
 
-	public void initialize( )
-	{
+	@Override
+	public void initialize() {
 		min = null;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.ANY_TYPE;
 	}
 }
-

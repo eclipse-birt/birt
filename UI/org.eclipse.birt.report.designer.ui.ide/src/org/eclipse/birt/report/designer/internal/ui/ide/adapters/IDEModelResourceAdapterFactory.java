@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,25 +25,18 @@ import org.eclipse.core.runtime.Path;
  * to resolve the current IResoruce selection when focus on non-editor views,
  * e.g. outline view, data explorer view.
  */
-public class IDEModelResourceAdapterFactory implements IAdapterFactory
-{
+public class IDEModelResourceAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IResource.class )
-		{
-			if ( adaptableObject instanceof SlotHandle )
-			{
-				String file = ( (SlotHandle) adaptableObject ).getModule( )
-						.getFileName( );
-				if ( file != null )
-				{
-					IResource[] res = ResourcesPlugin.getWorkspace( )
-							.getRoot( )
-							.findFilesForLocation( Path.fromOSString( file ) );
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IResource.class) {
+			if (adaptableObject instanceof SlotHandle) {
+				String file = ((SlotHandle) adaptableObject).getModule().getFileName();
+				if (file != null) {
+					IResource[] res = ResourcesPlugin.getWorkspace().getRoot()
+							.findFilesForLocation(Path.fromOSString(file));
 
-					if ( res != null && res.length > 0 )
-					{
+					if (res != null && res.length > 0) {
 						return res[0];
 					}
 				}
@@ -49,11 +45,9 @@ public class IDEModelResourceAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IResource.class
-		};
+	@Override
+	public Class[] getAdapterList() {
+		return new Class[] { IResource.class };
 	}
 
 }

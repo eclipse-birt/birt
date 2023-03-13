@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,8 +36,7 @@ import org.eclipse.birt.report.model.metadata.SemanticTriggerDefn;
  * validate and the validation trigger.
  */
 
-public class ValidationNode
-{
+public class ValidationNode {
 
 	/**
 	 * The element to validate
@@ -50,15 +52,12 @@ public class ValidationNode
 
 	/**
 	 * Constructs the validation node.
-	 * 
-	 * @param element
-	 *            the element to validate
-	 * @param triggerDefn
-	 *            the trigger definition
+	 *
+	 * @param element     the element to validate
+	 * @param triggerDefn the trigger definition
 	 */
 
-	ValidationNode( DesignElement element, SemanticTriggerDefn triggerDefn )
-	{
+	ValidationNode(DesignElement element, SemanticTriggerDefn triggerDefn) {
 		assert element != null;
 		assert triggerDefn != null;
 
@@ -68,136 +67,126 @@ public class ValidationNode
 
 	/**
 	 * Returns the element to validate
-	 * 
+	 *
 	 * @return the element to validate
 	 */
 
-	DesignElement getElement( )
-	{
+	DesignElement getElement() {
 		return element;
 	}
 
 	/**
 	 * Performs the validation of this node.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param sendEvent
-	 *            indicates whether to send event is needed
+	 *
+	 * @param module    the module
+	 * @param sendEvent indicates whether to send event is needed
 	 * @return error list. Each one is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	final List<SemanticException> perform( Module module, boolean sendEvent )
-	{
-		AbstractSemanticValidator validator = triggerDefn.getValidator( );
-		if ( module instanceof ReportDesign && !validator.canApplyToDesign( )
-				|| module instanceof Library && !validator.canApplyToLibrary( ) )
-			return Collections.emptyList( );
+	final List<SemanticException> perform(Module module, boolean sendEvent) {
+		AbstractSemanticValidator validator = triggerDefn.getValidator();
+		if (module instanceof ReportDesign && !validator.canApplyToDesign()
+				|| module instanceof Library && !validator.canApplyToLibrary()) {
+			return Collections.emptyList();
+		}
 
 		// Locate the target element of validation.
 
 		DesignElement toValidate = element;
-		String elementName = triggerDefn.getTargetElement( );
-		if ( !StringUtil.isBlank( elementName ) )
-		{
-			ElementDefn targetDefn = (ElementDefn) MetaDataDictionary
-					.getInstance( ).getElement( elementName );
+		String elementName = triggerDefn.getTargetElement();
+		if (!StringUtil.isBlank(elementName)) {
+			ElementDefn targetDefn = (ElementDefn) MetaDataDictionary.getInstance().getElement(elementName);
 
-			while ( toValidate != null )
-			{
-				ElementDefn elementDefn = (ElementDefn) toValidate.getDefn( );
-				if ( elementDefn.isKindOf( targetDefn ) )
+			while (toValidate != null) {
+				ElementDefn elementDefn = (ElementDefn) toValidate.getDefn();
+				if (elementDefn.isKindOf(targetDefn)) {
 					break;
+				}
 
-				toValidate = toValidate.getContainer( );
+				toValidate = toValidate.getContainer();
 			}
 		}
 
 		// If the target is not found, no validation is needed. This case is
 		// usually for the element which is not added into report.
 
-		if ( toValidate == null )
-			return Collections.emptyList( );
+		if (toValidate == null) {
+			return Collections.emptyList();
+		}
 
 		// Perform validation.
 
 		List<SemanticException> errors = null;
-		if ( validator instanceof AbstractPropertyValidator )
-		{
-			errors = ( (AbstractPropertyValidator) validator ).validate(
-					module, toValidate, triggerDefn.getPropertyName( ) );
-		}
-		else if ( validator instanceof AbstractElementValidator )
-		{
-			errors = ( (AbstractElementValidator) validator ).validate( module,
-					toValidate );
+		if (validator instanceof AbstractPropertyValidator) {
+			errors = ((AbstractPropertyValidator) validator).validate(module, toValidate,
+					triggerDefn.getPropertyName());
+		} else if (validator instanceof AbstractElementValidator) {
+			errors = ((AbstractElementValidator) validator).validate(module, toValidate);
 		}
 
 		assert errors != null;
 
 		// Returns if validation events are not needed
 
-		if ( !sendEvent )
+		if (!sendEvent) {
 			return errors;
-
-		List<ErrorDetail> errorDetailList = new ArrayList<ErrorDetail>( );
-
-		Iterator<SemanticException> iter = errors.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			SemanticException e = iter.next( );
-
-			ErrorDetail errorDetail = new ErrorDetail( e );
-			errorDetail.setValidationID( triggerDefn.getValidationID( ) );
-			errorDetailList.add( errorDetail );
 		}
 
-		ValidationEvent event = new ValidationEvent( toValidate, triggerDefn
-				.getValidationID( ), errorDetailList );
+		List<ErrorDetail> errorDetailList = new ArrayList<>();
 
-		module.broadcastValidationEvent( toValidate, event );
+		Iterator<SemanticException> iter = errors.iterator();
+		while (iter.hasNext()) {
+			SemanticException e = iter.next();
+
+			ErrorDetail errorDetail = new ErrorDetail(e);
+			errorDetail.setValidationID(triggerDefn.getValidationID());
+			errorDetailList.add(errorDetail);
+		}
+
+		ValidationEvent event = new ValidationEvent(toValidate, triggerDefn.getValidationID(), errorDetailList);
+
+		module.broadcastValidationEvent(toValidate, event);
 
 		return errors;
 	}
 
 	/**
 	 * Returns the trigger definition.
-	 * 
+	 *
 	 * @return the trigger definition
 	 */
 
-	SemanticTriggerDefn getTriggerDefn( )
-	{
+	SemanticTriggerDefn getTriggerDefn() {
 		return triggerDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		StringBuffer sb = new StringBuffer( );
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-		sb.append( "element=" ); //$NON-NLS-1$
-		sb.append( element.getElementName( ) );
-		sb.append( ", " ); //$NON-NLS-1$
-		sb.append( "name=" ); //$NON-NLS-1$
+		sb.append("element="); //$NON-NLS-1$
+		sb.append(element.getElementName());
+		sb.append(", "); //$NON-NLS-1$
+		sb.append("name="); //$NON-NLS-1$
 
-		sb.append( element.getFullName( ) );
+		sb.append(element.getFullName());
 
-		sb.append( ", " ); //$NON-NLS-1$
-		sb.append( "id=" ); //$NON-NLS-1$
-		sb.append( element.toString( ) );
+		sb.append(", "); //$NON-NLS-1$
+		sb.append("id="); //$NON-NLS-1$
+		sb.append(element.toString());
 
-		sb.append( ", " ); //$NON-NLS-1$
-		sb.append( "validator=" ); //$NON-NLS-1$
-		sb.append( triggerDefn.getValidatorName( ) );
+		sb.append(", "); //$NON-NLS-1$
+		sb.append("validator="); //$NON-NLS-1$
+		sb.append(triggerDefn.getValidatorName());
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 }

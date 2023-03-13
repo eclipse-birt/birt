@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Resources Fragment
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model.testresources
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Fragment-Host: org.eclipse.birt.resources;bundle-version="2.2.0"
 Automatic-Module-Name: org.eclipse.birt.report.model.testresources

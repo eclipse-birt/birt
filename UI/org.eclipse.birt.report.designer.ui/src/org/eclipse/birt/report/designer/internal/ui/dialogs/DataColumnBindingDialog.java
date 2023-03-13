@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,17 +52,19 @@ import org.eclipse.swt.widgets.Control;
 /**
  * DataColumnBindingDialog
  */
-public class DataColumnBindingDialog extends BaseDialog
-{
+public class DataColumnBindingDialog extends BaseDialog {
 
 	protected static final String DEFAULT_ITEM_NAME = "data column"; //$NON-NLS-1$
 
-	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.CreateNewDataBinding" ); //$NON-NLS-1$
+	protected static final String NEW_DATAITEM_TITLE = Messages
+			.getString("DataColumBindingDialog.title.CreateNewDataBinding"); //$NON-NLS-1$
 
-	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ); //$NON-NLS-1$
+	protected static final String EDIT_DATAITEM_TITLE = Messages
+			.getString("DataColumBindingDialog.title.EditDataBinding"); //$NON-NLS-1$
 
-	protected static final String AGG_BUILDER_TITLE = Messages.getString( "DataColumBindingDialog.title.AggBuilder" ); //$NON-NLS-1$
-	protected static final String TIMEPERIOD_BUILDER_TITLE = Messages.getString("DataColumnBindingDialog.title.TimePeriodBuild"); //$NON-NLS-1$
+	protected static final String AGG_BUILDER_TITLE = Messages.getString("DataColumBindingDialog.title.AggBuilder"); //$NON-NLS-1$
+	protected static final String TIMEPERIOD_BUILDER_TITLE = Messages
+			.getString("DataColumnBindingDialog.title.TimePeriodBuild"); //$NON-NLS-1$
 
 	IBindingDialogHelper dialogHelper;
 
@@ -72,54 +77,43 @@ public class DataColumnBindingDialog extends BaseDialog
 	private boolean isAggregate;
 	private boolean isMeasure;
 	private boolean isTimePeriod;
-	
+
 	private boolean needPrompt = true;
-	
+
 	private boolean isLinkModelTimePeriod = false;
 
-	
-	public boolean isNeedPrompt( )
-	{
+	public boolean isNeedPrompt() {
 		return needPrompt;
 	}
 
-	
-	public void setNeedPrompt( boolean needPrompt )
-	{
+	public void setNeedPrompt(boolean needPrompt) {
 		this.needPrompt = needPrompt;
 	}
 
 	private boolean bindSelf = false;
 
-	public DataColumnBindingDialog( boolean isCreateNew )
-	{
-		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
+	public DataColumnBindingDialog(boolean isCreateNew) {
+		super(isCreateNew ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
 	}
 
-	public DataColumnBindingDialog( boolean isCreateNew, boolean bindSelf )
-	{
-		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
+	public DataColumnBindingDialog(boolean isCreateNew, boolean bindSelf) {
+		super(isCreateNew ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE);
 		this.bindSelf = bindSelf;
 	}
 
-	public void setInput( ReportItemHandle input )
-	{
-		setInput( input, null );
+	public void setInput(ReportItemHandle input) {
+		setInput(input, null);
 	}
 
-	public DesignElementHandle getBindingObject( )
-	{
+	public DesignElementHandle getBindingObject() {
 		return bindingObject;
 	}
 
-	public ComputedColumnHandle getBindingColumn( )
-	{
+	public ComputedColumnHandle getBindingColumn() {
 		return this.bindingColumn;
 	}
 
-	public void setInput( ReportItemHandle bindingObject,
-			ComputedColumnHandle bindingColumn, Object container )
-	{
+	public void setInput(ReportItemHandle bindingObject, ComputedColumnHandle bindingColumn, Object container) {
 		this.bindingObject = bindingObject;
 		// setAggregateOns( DEUtil.getGroups( input ) );
 		// setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet(
@@ -151,156 +145,128 @@ public class DataColumnBindingDialog extends BaseDialog
 		// ExceptionHandler.handle( e );
 		// }
 
-		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
-				IBindingDialogHelper.class );
-		
+		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(DEUtil.getBindingHolder(bindingObject),
+				IBindingDialogHelper.class);
+
 		isTableAddTimeDemision(bindingObject, bindingColumn);
-		if(isLinkModelTimePeriod )
-		{
-			dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(this,
-					IBindingDialogHelper.class );
+		if (isLinkModelTimePeriod) {
+			dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(this, IBindingDialogHelper.class);
 		}
-		if ( dialogHelper == null )
-		{
+		if (dialogHelper == null) {
 			// use default helper.
-			dialogHelper = new BindingDialogHelper( );
+			dialogHelper = new BindingDialogHelper();
 		}
-		
-		IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( dialogHelper,
-				IBindingDialogHelper.class );
-		if ( helperHelper != null )
-		{
+
+		IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(dialogHelper,
+				IBindingDialogHelper.class);
+		if (helperHelper != null) {
 			dialogHelper = helperHelper;
 		}
 
-		dialogHelper.setEditModal( isEditModal( ) );
+		dialogHelper.setEditModal(isEditModal());
 
-		if ( !bindSelf )
-			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
-		else
-			dialogHelper.setBindingHolder( bindingObject );
-		dialogHelper.setBinding( bindingColumn );
-		dialogHelper.setContainer( container );
-		dialogHelper.setDialog( this );
-		if ( isAggregate )
-		{
-			dialogHelper.setAggregate( isAggregate );
+		if (!bindSelf) {
+			dialogHelper.setBindingHolder(DEUtil.getBindingHolder(bindingObject));
+		} else {
+			dialogHelper.setBindingHolder(bindingObject);
 		}
-		if ( isMeasure )
-		{
-			dialogHelper.setMeasure( isMeasure );
+		dialogHelper.setBinding(bindingColumn);
+		dialogHelper.setContainer(container);
+		dialogHelper.setDialog(this);
+		if (isAggregate) {
+			dialogHelper.setAggregate(isAggregate);
 		}
-		
-		if ( isAggregate
-				|| ( bindingColumn != null
-						&& bindingColumn.getAggregateFunction( ) != null
-						&& !bindingColumn.getAggregateFunction( ).equals( "" ) ) //$NON-NLS-1$
-				|| ( bindingColumn != null
-						&& bindingColumn.getAggregateOn( ) != null
-						&& !bindingColumn.getAggregateOn( )
-								.equals( "" ) ) ) //$NON-NLS-1$
-		{
-			setTitle( AGG_BUILDER_TITLE );
+		if (isMeasure) {
+			dialogHelper.setMeasure(isMeasure);
 		}
-		if(isTimePeriod)
+
+		if (isAggregate
+				|| (bindingColumn != null && bindingColumn.getAggregateFunction() != null
+						&& !bindingColumn.getAggregateFunction().equals("")) //$NON-NLS-1$
+				|| (bindingColumn != null && bindingColumn.getAggregateOn() != null
+						&& !bindingColumn.getAggregateOn().equals(""))) //$NON-NLS-1$
 		{
-			dialogHelper.setTimePeriod( isTimePeriod );
-			
+			setTitle(AGG_BUILDER_TITLE);
 		}
-		
-		if ( isTimePeriod || isEditTimePeriod())
-		{
-			setTitle( TIMEPERIOD_BUILDER_TITLE );
+		if (isTimePeriod) {
+			dialogHelper.setTimePeriod(isTimePeriod);
+
+		}
+
+		if (isTimePeriod || isEditTimePeriod()) {
+			setTitle(TIMEPERIOD_BUILDER_TITLE);
 		}
 	}
-	
-	private void isTableAddTimeDemision( ReportItemHandle bindingObject,
-			ComputedColumnHandle bindingColumn)
-	{
-		if(DEUtil.getBindingHolder( bindingObject ) instanceof TableHandle)
-		{
-			if(bindingColumn != null && bindingColumn.getTimeDimension() != null && !"".equals(bindingColumn.getTimeDimension()))
-			{
+
+	private void isTableAddTimeDemision(ReportItemHandle bindingObject, ComputedColumnHandle bindingColumn) {
+		if (DEUtil.getBindingHolder(bindingObject) instanceof TableHandle) {
+			if (bindingColumn != null && bindingColumn.getTimeDimension() != null
+					&& !"".equals(bindingColumn.getTimeDimension())) {
 				isLinkModelTimePeriod = true;
 			}
 		}
 	}
 
-	private boolean isEditTimePeriod ()
-	{
-		return ( bindingColumn != null
-				&& bindingColumn.getTimeDimension( ) != null 
-				&& !bindingColumn.getTimeDimension( ).equals( "" )); //$NON-NLS-1$
-	}
-	
-	public void setInput( ReportItemHandle bindingObject,
-			ComputedColumnHandle bindingColumn )
-	{
-		this.setInput( bindingObject, bindingColumn, null );
+	private boolean isEditTimePeriod() {
+		return (bindingColumn != null && bindingColumn.getTimeDimension() != null
+				&& !bindingColumn.getTimeDimension().equals("")); //$NON-NLS-1$
 	}
 
-	public void setAggreate( boolean isAggregate )
-	{
+	public void setInput(ReportItemHandle bindingObject, ComputedColumnHandle bindingColumn) {
+		this.setInput(bindingObject, bindingColumn, null);
+	}
+
+	public void setAggreate(boolean isAggregate) {
 		this.isAggregate = isAggregate;
-		if ( isAggregate )
-		{
-			setTitle( AGG_BUILDER_TITLE );
+		if (isAggregate) {
+			setTitle(AGG_BUILDER_TITLE);
 		}
-		if ( this.dialogHelper != null )
-		{
-			this.dialogHelper.setAggregate( isAggregate );
-		}
-	}
-	
-	public void setMeasure( boolean isMeasure )
-	{
-		this.isMeasure = isMeasure;
-		if ( isMeasure )
-		{
-			setTitle( AGG_BUILDER_TITLE );
-		}
-		if ( this.dialogHelper != null )
-		{
-			this.dialogHelper.setMeasure( isMeasure );
-		}
-	}
-	
-	public void setTimePeriod(boolean timePeriod)
-	{
-		this.isTimePeriod = timePeriod;
-		if(isTimePeriod)
-		{
-			dialogHelper.setTimePeriod( isTimePeriod );
-			setTitle( TIMEPERIOD_BUILDER_TITLE );
-		}
-		if ( this.dialogHelper != null )
-		{
-			this.dialogHelper.setTimePeriod( timePeriod );
+		if (this.dialogHelper != null) {
+			this.dialogHelper.setAggregate(isAggregate);
 		}
 	}
 
-	public void setExpressionProvider( ExpressionProvider expressionProvider )
-	{
+	public void setMeasure(boolean isMeasure) {
+		this.isMeasure = isMeasure;
+		if (isMeasure) {
+			setTitle(AGG_BUILDER_TITLE);
+		}
+		if (this.dialogHelper != null) {
+			this.dialogHelper.setMeasure(isMeasure);
+		}
+	}
+
+	public void setTimePeriod(boolean timePeriod) {
+		this.isTimePeriod = timePeriod;
+		if (isTimePeriod) {
+			dialogHelper.setTimePeriod(isTimePeriod);
+			setTitle(TIMEPERIOD_BUILDER_TITLE);
+		}
+		if (this.dialogHelper != null) {
+			this.dialogHelper.setTimePeriod(timePeriod);
+		}
+	}
+
+	public void setExpressionProvider(ExpressionProvider expressionProvider) {
 		this.expressionProvider = expressionProvider;
 	}
 
-	protected boolean isForceBinding( )
-	{
+	protected boolean isForceBinding() {
 		return true;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
+	@Override
+	protected Control createDialogArea(Composite parent) {
 
-		Composite composite = (Composite) super.createDialogArea( parent );
-		ScrolledComposite sc = new ScrolledComposite( composite, SWT.V_SCROLL );
-		sc.setAlwaysShowScrollBars( false );
-		sc.setExpandHorizontal( true );
-		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Composite composite = (Composite) super.createDialogArea(parent);
+		ScrolledComposite sc = new ScrolledComposite(composite, SWT.V_SCROLL);
+		sc.setAlwaysShowScrollBars(false);
+		sc.setExpandHorizontal(true);
+		sc.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite content = new Composite( sc, SWT.NONE );
-		sc.setContent( content );
-		content.setLayout( new GridLayout( ) );
+		Composite content = new Composite(sc, SWT.NONE);
+		sc.setContent(content);
+		content.setLayout(new GridLayout());
 
 		// sc.setBackground( Display.getCurrent( ).getSystemColor(
 		// SWT.COLOR_BLACK ) );
@@ -309,205 +275,172 @@ public class DataColumnBindingDialog extends BaseDialog
 		// composite.setBackground( Display.getCurrent( ).getSystemColor(
 		// SWT.COLOR_RED ) );
 
-		dialogHelper.setExpressionProvider( expressionProvider );
-		dialogHelper.createContent( content );
-		UIUtil.bindHelp( content, isTimePeriod || isEditTimePeriod()? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG : IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		dialogHelper.setExpressionProvider(expressionProvider);
+		dialogHelper.createContent(content);
+		UIUtil.bindHelp(content, isTimePeriod || isEditTimePeriod() ? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG
+				: IHelpContextIds.DATA_COLUMN_BINDING_DIALOG);
 		return content;
 	}
 
-	protected void okPressed( )
-	{
-		try
-		{
+	@Override
+	protected void okPressed() {
+		try {
 			ComputedColumnHandle newBindingColumn = null;
-			if ( bindingColumn != null )
-			{
-				if ( dialogHelper.differs( bindingColumn ) )
-				{
-					if (isNeedPrompt( ) && isBindingMultipleReferenced( ) )
-					{
-						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
-								Messages.getString( "DataColumnBindingDialog.NewBindingDialogTitle" ), //$NON-NLS-1$
-								null,
-								Messages.getString( "DataColumnBindingDialog.NewBindingDialogMessage" ), //$NON-NLS-1$
+			if (bindingColumn != null) {
+				if (dialogHelper.differs(bindingColumn)) {
+					if (isNeedPrompt() && isBindingMultipleReferenced()) {
+						MessageDialog dialog = new MessageDialog(UIUtil.getDefaultShell(),
+								Messages.getString("DataColumnBindingDialog.NewBindingDialogTitle"), //$NON-NLS-1$
+								null, Messages.getString("DataColumnBindingDialog.NewBindingDialogMessage"), //$NON-NLS-1$
 								MessageDialog.QUESTION,
-								new String[]{
-										Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonYes" ), Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonNo" ), Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonCancel" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								},
-								0 );
-						int dialogClick = dialog.open( );
-						if ( dialogClick == 0 )
-						{
-							InputDialog inputDialog = new InputDialog( UIUtil.getDefaultShell( ),
-									Messages.getString( "DataColumnBindingDialog.NewBindingDialogInputNewNameTitle" ), //$NON-NLS-1$
-									Messages.getString( "DataColumnBindingDialog.NewBindingDialogInputNewNameMessage" ), //$NON-NLS-1$
+								new String[] { Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonYes"), //$NON-NLS-1$
+										Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonNo"), //$NON-NLS-1$
+										Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonCancel") //$NON-NLS-1$
+								}, 0);
+						int dialogClick = dialog.open();
+						if (dialogClick == 0) {
+							InputDialog inputDialog = new InputDialog(UIUtil.getDefaultShell(),
+									Messages.getString("DataColumnBindingDialog.NewBindingDialogInputNewNameTitle"), //$NON-NLS-1$
+									Messages.getString("DataColumnBindingDialog.NewBindingDialogInputNewNameMessage"), //$NON-NLS-1$
 									"", //$NON-NLS-1$
-									new IInputValidator( ) {
+									new IInputValidator() {
 
-										public String isValid( String newText )
-										{
+										@Override
+										public String isValid(String newText) {
 
-											for ( Iterator iterator = DEUtil.getBindingHolder( bindingObject )
-													.getColumnBindings( )
-													.iterator( ); iterator.hasNext( ); )
-											{
-												ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
-												if ( computedColumn.getName( )
-														.equals( newText ) )
-												{
-													return Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
-															new Object[]{
-																newText
-															} );
+											for (Iterator iterator = DEUtil.getBindingHolder(bindingObject)
+													.getColumnBindings().iterator(); iterator.hasNext();) {
+												ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator
+														.next();
+												if (computedColumn.getName().equals(newText)) {
+													return Messages.getFormattedString(
+															"BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+															new Object[] { newText });
 												}
 											}
 											return null;
 										}
-									} );
-							if ( inputDialog.open( ) == Window.OK )
-							{
-								bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
-										inputDialog.getValue( ) );
-								super.okPressed( );
+									});
+							if (inputDialog.open() == Window.OK) {
+								bindingColumn = dialogHelper.newBinding(DEUtil.getBindingHolder(bindingObject),
+										inputDialog.getValue());
+								super.okPressed();
+								return;
+							} else {
 								return;
 							}
-							else
-							{
-								return;
-							}
-						}
-						else if ( dialogClick == 2 )
-						{
+						} else if (dialogClick == 2) {
 							return;
 						}
 					}
-					if ( !dialogHelper.canProcessWithWarning( ) )
+					if (!dialogHelper.canProcessWithWarning()) {
 						return;
-					bindingColumn = dialogHelper.editBinding( bindingColumn );
+					}
+					bindingColumn = dialogHelper.editBinding(bindingColumn);
 				}
-			}
-			else
-			{
-				if ( !dialogHelper.canProcessWithWarning( ) )
+			} else {
+				if (!dialogHelper.canProcessWithWarning()) {
 					return;
-				if ( bindSelf )
-					bindingColumn = dialogHelper.newBinding( bindingObject,
-							null );
-				else
-					bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
-							null );
+				}
+				if (bindSelf) {
+					bindingColumn = dialogHelper.newBinding(bindingObject, null);
+				} else {
+					bindingColumn = dialogHelper.newBinding(DEUtil.getBindingHolder(bindingObject), null);
+				}
 				newBindingColumn = bindingColumn;
 			}
-			if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( DEUtil.getBindingHolder( bindingObject ) ) )
-			{
-				DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod(DEUtil.getBindingHolder( bindingObject ), bindingColumn);
-				if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
-				{
-					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
+			if (ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(DEUtil.getBindingHolder(bindingObject))) {
+				DataModelAdapterStatus status = DataModelAdapterUtil
+						.validateRelativeTimePeriod(DEUtil.getBindingHolder(bindingObject), bindingColumn);
+				if (status.getStatus() == DataModelAdapterStatus.Status.FAIL) {
+					MessageDialog.openError(UIUtil.getDefaultShell(), null, status.getMessage());
 					removeColumnBinding(newBindingColumn);
 					return;
 				}
 			}
-			super.okPressed( );
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
+			super.okPressed();
+		} catch (Exception e) {
+			ExceptionHandler.handle(e);
 		}
 	}
-	
-	private void removeColumnBinding(ComputedColumnHandle removeBindingColumn) throws SemanticException
-	{
-		if(removeBindingColumn == null)
-		{
-			return ;
+
+	private void removeColumnBinding(ComputedColumnHandle removeBindingColumn) throws SemanticException {
+		if (removeBindingColumn == null) {
+			return;
 		}
-		if(bindSelf)
-		{
-			bindingObject.removedColumnBinding( removeBindingColumn.getName( ) );
-		}
-		else
-		{
-			DEUtil.getBindingHolder( bindingObject ).removedColumnBinding( removeBindingColumn.getName( )  );
+		if (bindSelf) {
+			bindingObject.removedColumnBinding(removeBindingColumn.getName());
+		} else {
+			DEUtil.getBindingHolder(bindingObject).removedColumnBinding(removeBindingColumn.getName());
 		}
 		bindingColumn = null;
 	}
 
-	private boolean isBindingMultipleReferenced( )
-	{
+	private boolean isBindingMultipleReferenced() {
 		// get referenced bindings
-		List bindings = new ArrayList( );
-		ReportItemHandle holder = DEUtil.getBindingHolder( bindingObject );
-		for ( Iterator iterator = holder.getColumnBindings( ).iterator( ); iterator.hasNext( ); )
-		{
-			ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next( );
-			bindings.add( computedColumn );
+		List bindings = new ArrayList();
+		ReportItemHandle holder = DEUtil.getBindingHolder(bindingObject);
+		for (Iterator iterator = holder.getColumnBindings().iterator(); iterator.hasNext();) {
+			ComputedColumnHandle computedColumn = (ComputedColumnHandle) iterator.next();
+			bindings.add(computedColumn);
 		}
-		Set referencedBindings = DataUtil.getReferencedBindings( bindingColumn,
-				bindings );
-		referencedBindings.add( bindingColumn );
-		return isBindingUsed( holder, referencedBindings, bindingObject );
+		Set referencedBindings = DataUtil.getReferencedBindings(bindingColumn, bindings);
+		referencedBindings.add(bindingColumn);
+		return isBindingUsed(holder, referencedBindings, bindingObject);
 	}
 
-	private boolean isBindingUsed( Object obj, Set bindings,
-			ReportItemHandle excepted )
-	{
-		if ( obj instanceof DataItemHandle && !obj.equals( excepted ) )
-		{
-			for ( Iterator iterator = bindings.iterator( ); iterator.hasNext( ); )
-			{
-				ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next( );
-				if ( binding.getName( )
-						.equals( ( (DataItemHandle) obj ).getResultSetColumn( ) ) )
+	private boolean isBindingUsed(Object obj, Set bindings, ReportItemHandle excepted) {
+		if (obj instanceof DataItemHandle && !obj.equals(excepted)) {
+			for (Iterator iterator = bindings.iterator(); iterator.hasNext();) {
+				ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next();
+				if (binding.getName().equals(((DataItemHandle) obj).getResultSetColumn())) {
 					return true;
+				}
 			}
 		}
 
-		Object[] children = ProviderFactory.createProvider( obj )
-				.getChildren( obj );
-		for ( int i = 0; i < children.length; i++ )
-		{
-			if ( children[i] instanceof ReportItemHandle
-					&& ( ( (ReportItemHandle) children[i] ).getDataSet( ) != null || ( (ReportItemHandle) children[i] ).getDataBindingReference( ) != null ) )
+		Object[] children = ProviderFactory.createProvider(obj).getChildren(obj);
+		for (int i = 0; i < children.length; i++) {
+			if (children[i] instanceof ReportItemHandle && (((ReportItemHandle) children[i]).getDataSet() != null
+					|| ((ReportItemHandle) children[i]).getDataBindingReference() != null)) {
 				continue;
-			if ( isBindingUsed( children[i], bindings, excepted ) )
+			}
+			if (isBindingUsed(children[i], bindings, excepted)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
-	protected void createButtonsForButtonBar( Composite parent )
-	{
-		super.createButtonsForButtonBar( parent );
-		dialogHelper.validate( );
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		dialogHelper.validate();
 	}
 
-	protected boolean initDialog( )
-	{
-		dialogHelper.initDialog( );
-		return super.initDialog( );
+	@Override
+	protected boolean initDialog() {
+		dialogHelper.initDialog();
+		return super.initDialog();
 	}
 
-	public void setCanFinish( boolean canFinish )
-	{
-		if ( getOkButton( ) != null )
-			getOkButton( ).setEnabled( canFinish );
+	public void setCanFinish(boolean canFinish) {
+		if (getOkButton() != null) {
+			getOkButton().setEnabled(canFinish);
+		}
 	}
 
 	private boolean isEditModal = false;
 
-	public void setEditModal( boolean isEditModal )
-	{
+	public void setEditModal(boolean isEditModal) {
 		this.isEditModal = isEditModal;
 	}
 
-	public boolean isEditModal( )
-	{
+	public boolean isEditModal() {
 		return isEditModal;
 	}
-	
-	public void setLinkedModelTimePeriod(boolean isLinkModelTimePeriod)
-	{
+
+	public void setLinkedModelTimePeriod(boolean isLinkModelTimePeriod) {
 		this.isLinkModelTimePeriod = isLinkModelTimePeriod;
 	}
 }

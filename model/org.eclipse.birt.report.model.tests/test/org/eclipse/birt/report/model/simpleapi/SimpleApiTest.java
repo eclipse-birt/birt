@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,8 +38,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Test cases for simple API classes and methods.
  */
 
-public class SimpleApiTest extends BaseTestCase
-{
+public class SimpleApiTest extends BaseTestCase {
 
 	private final static String FILENAME = "DesignFileTest.xml"; //$NON-NLS-1$
 	private final static String OUT_FILENAME = "DesignFileTest_out.xml"; //$NON-NLS-1$
@@ -47,78 +49,73 @@ public class SimpleApiTest extends BaseTestCase
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.BaseTestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
+	@Override
+	protected void setUp() throws Exception {
 
-		DesignEngine engine = new DesignEngine( null );
+		DesignEngine engine = new DesignEngine(null);
 
-		InputStream ins = getResource( INPUT_FOLDER + FILENAME ).openStream( );
-		simpleDesign = engine.openDesign( INPUT_FOLDER + FILENAME, ins, null );
+		InputStream ins = getResource(INPUT_FOLDER + FILENAME).openStream();
+		simpleDesign = engine.openDesign(INPUT_FOLDER + FILENAME, ins, null);
 	}
 
 	/**
 	 * @throws Exception
 	 */
 
-	public void testSimpleElement( ) throws Exception
-	{
+	public void testSimpleElement() throws Exception {
 
-		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
-		assertNotNull( table );
+		ITable table = (ITable) simpleDesign.getReportElement("my table"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		ILabel label = (ILabel) simpleDesign.getReportElement( "my label" ); //$NON-NLS-1$
-		assertNotNull( label );
+		ILabel label = (ILabel) simpleDesign.getReportElement("my label"); //$NON-NLS-1$
+		assertNotNull(label);
 
-		IReportItem matrix = (IReportItem) simpleDesign
-				.getReportElement( "testMatrix" ); //$NON-NLS-1$
-		assertNotNull( matrix );
-		assertTrue( matrix instanceof IMultiRowItem );
-		assertTrue( matrix instanceof MultiRowItem );
-		assertEquals( "org.eclipse.birt.report.model.tests.matrix.Matrix", //$NON-NLS-1$
-				matrix.getClass( ).getName( ) );
+		IReportItem matrix = (IReportItem) simpleDesign.getReportElement("testMatrix"); //$NON-NLS-1$
+		assertNotNull(matrix);
+		assertTrue(matrix instanceof IMultiRowItem);
+		assertTrue(matrix instanceof MultiRowItem);
+		assertEquals("org.eclipse.birt.report.model.tests.matrix.Matrix", //$NON-NLS-1$
+				matrix.getClass().getName());
 
-		IReportItem box = (IReportItem) simpleDesign
-				.getReportElement( "testBox" ); //$NON-NLS-1$
-		assertNotNull( box );
-		assertFalse( box instanceof IMultiRowItem );
-		assertTrue( box instanceof SimpleRowItem );
-		assertEquals( "org.eclipse.birt.report.model.tests.box.Box", //$NON-NLS-1$
-				box.getClass( ).getName( ) );
+		IReportItem box = (IReportItem) simpleDesign.getReportElement("testBox"); //$NON-NLS-1$
+		assertNotNull(box);
+		assertFalse(box instanceof IMultiRowItem);
+		assertTrue(box instanceof SimpleRowItem);
+		assertEquals("org.eclipse.birt.report.model.tests.box.Box", //$NON-NLS-1$
+				box.getClass().getName());
 	}
 
 	/**
 	 * gets the url of the resource.
-	 * 
-	 * @param name
-	 *            name of the resource
+	 *
+	 * @param name name of the resource
 	 * @return the url of the resource
 	 */
 
-	protected URL getResource( String name )
-	{
-		return this.getClass( ).getResource( name );
+	@Override
+	protected URL getResource(String name) {
+		return this.getClass().getResource(name);
 	}
 
 	/**
 	 * Opens a design file, modifies it and then saves it.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testSaveDesign( ) throws Exception
-	{
-		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
-		assertNotNull( table );
+	public void testSaveDesign() throws Exception {
+		ITable table = (ITable) simpleDesign.getReportElement("my table"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		table.setName( "my new table" ); //$NON-NLS-1$
+		table.setName("my new table"); //$NON-NLS-1$
 
-		simpleDesign.saveAs( getOutputFolder( OUT_FILENAME ) );
+		simpleDesign.saveAs(getOutputFolder(OUT_FILENAME));
 
-		assertTrue( compareFile( GOLDEN_FILENAME, OUT_FILENAME ) );
+		assertTrue(compareFile(GOLDEN_FILENAME, OUT_FILENAME));
 	}
 
 	/**
@@ -127,12 +124,12 @@ public class SimpleApiTest extends BaseTestCase
 	 * @throws IOException
 	 */
 
-	private String getOutputFolder( String outputFile ) throws IOException
-	{
-		String folder = getTempFolder( ) + OUTPUT_FOLDER;
-		File tmpFolder = new File( folder );
-		if ( !tmpFolder.exists( ) )
-			tmpFolder.mkdirs( );
+	private String getOutputFolder(String outputFile) throws IOException {
+		String folder = getTempFolder() + OUTPUT_FOLDER;
+		File tmpFolder = new File(folder);
+		if (!tmpFolder.exists()) {
+			tmpFolder.mkdirs();
+		}
 
 		return folder + outputFile;
 	}
@@ -140,28 +137,22 @@ public class SimpleApiTest extends BaseTestCase
 	/**
 	 * Valid values are set for the structure handle. In such case, exceptions
 	 * should be thrown.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testStructureHandle( ) throws Exception
-	{
-		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
-		assertNotNull( table );
+	public void testStructureHandle() throws Exception {
+		ITable table = (ITable) simpleDesign.getReportElement("my table"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		ISortCondition[] sorts = table.getSortConditions( );
+		ISortCondition[] sorts = table.getSortConditions();
 		ISortCondition sort = sorts[0];
 
-		try
-		{
-			sort.setDirection( "invalidValue" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
+		try {
+			sort.setDirection("invalidValue"); //$NON-NLS-1$
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e.getErrorCode());
 		}
 
 	}
@@ -169,27 +160,25 @@ public class SimpleApiTest extends BaseTestCase
 	/**
 	 * Test cases for undo/redo on script calls. All calls should not be able to
 	 * undo/redo.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testUndoRedo( ) throws Exception
-	{
-		openDesign( FILENAME );
+	public void testUndoRedo() throws Exception {
+		openDesign(FILENAME);
 
-		simpleDesign = (IReportDesign) SimpleElementFactory.getInstance( )
-				.getElement( designHandle );
+		simpleDesign = (IReportDesign) SimpleElementFactory.getInstance().getElement(designHandle);
 
-		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
-		assertNotNull( table );
+		ITable table = (ITable) simpleDesign.getReportElement("my table"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		table.setCaption( "new caption" ); //$NON-NLS-1$
-		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
+		table.setCaption("new caption"); //$NON-NLS-1$
+		assertFalse(designHandle.getCommandStack().canUndo());
 
-		simpleDesign.setTheme( null );
-		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
+		simpleDesign.setTheme(null);
+		assertFalse(designHandle.getCommandStack().canUndo());
 
-		assertNull( designHandle.getProperty( ReportDesignHandle.THEME_PROP ) );
+		assertNull(designHandle.getProperty(ReportDesignHandle.THEME_PROP));
 
 	}
 }

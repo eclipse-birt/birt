@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -44,67 +47,61 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Follow the steps in bug description, chart can't restore properties till
  * set/change any lccal properties
  */
-public class Regression_155943 extends BaseTestCase
-{
+public class Regression_155943 extends BaseTestCase {
 
-    private String INPUT = "Regression_155943.xml"; //$NON-NLS-1$
-    private String LIBRARY = "Regression_155943_lib.xml";
+	private String INPUT = "Regression_155943.xml"; //$NON-NLS-1$
+	private String LIBRARY = "Regression_155943_lib.xml";
 
-    public void setUp( ) throws Exception
-    {
-        super.setUp( );
-        removeResource( );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
-        // copy the files to input folder
-        copyInputToFile( INPUT_FOLDER + "/" + INPUT );
-        copyInputToFile( INPUT_FOLDER + "/" + LIBRARY );
-    }
+		// copy the files to input folder
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIBRARY);
+	}
 
-    public void tearDown( )
-    {
-        removeResource( );
-    }
+	@Override
+	public void tearDown() {
+		removeResource();
+	}
 
-    /**
-     * @throws DesignFileException
-     * @throws SemanticException
-     * @throws IOException
-     */
-    public void test_regression_155943( ) throws DesignFileException,
-            SemanticException, IOException
-    {
-        String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
-        String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY;
+	/**
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 * @throws IOException
+	 */
+	public void test_regression_155943() throws DesignFileException, SemanticException, IOException {
+		String report = getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT;
+		String libA = getTempFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY;
 
-        // sessionHandle = new DesignEngine( new DesignConfig( )
-        // ).newSessionHandle( ULocale.ENGLISH );
-        // designHandle = sessionHandle.openDesign( INPUT );
-        openDesign( INPUT );
+		// sessionHandle = new DesignEngine( new DesignConfig( )
+		// ).newSessionHandle( ULocale.ENGLISH );
+		// designHandle = sessionHandle.openDesign( INPUT );
+		openDesign(INPUT);
 
-        ExtendedItemHandle chart = (ExtendedItemHandle) designHandle
-                .findElement( "NewChart" );
-        assertNotNull( chart );
-        assertEquals( "NewChart", chart.getName( ) );
+		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle.findElement("NewChart");
+		assertNotNull(chart);
+		assertEquals("NewChart", chart.getName());
 
-        List elements = new ArrayList( );
-        elements.add( chart );
-        GroupElementHandle group = new SimpleGroupElementHandle(
-                designHandle,
-                elements );
+		List elements = new ArrayList();
+		elements.add(chart);
+		GroupElementHandle group = new SimpleGroupElementHandle(designHandle, elements);
 
-        // Get local properity
-        // assertEquals( "212pt", chart.getProperty( ReportItemHandle.WIDTH_PROP
-        // ).toString( ) );
-        // assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
+		// Get local properity
+		// assertEquals( "212pt", chart.getProperty( ReportItemHandle.WIDTH_PROP
+		// ).toString( ) );
+		// assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
 
-        // Set local properity
-        chart.setProperty( ReportItemHandle.WIDTH_PROP, "210pt" );
-        assertTrue( group.hasLocalPropertiesForExtendedElements( ) );
+		// Set local properity
+		chart.setProperty(ReportItemHandle.WIDTH_PROP, "210pt");
+		assertTrue(group.hasLocalPropertiesForExtendedElements());
 
-        // Clear local property
-        group.clearLocalProperties( );
-        elements.clear( );
-        assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
+		// Clear local property
+		group.clearLocalProperties();
+		elements.clear();
+		assertFalse(group.hasLocalPropertiesForExtendedElements());
 
-    }
+	}
 }

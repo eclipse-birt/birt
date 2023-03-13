@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,47 +20,38 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 
-public abstract class PDFGroupLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
-{
+public abstract class PDFGroupLM extends PDFBlockStackingLM implements IBlockStackingLayoutManager {
 
 	protected IGroupContent groupContent;
 
 	protected int repeatCount = 0;
-	
 
-	public PDFGroupLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content, executor );
+	public PDFGroupLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
 		groupContent = (IGroupContent) content;
 	}
 
-	public void setRepeatCount(int repeatCount)
-	{
+	public void setRepeatCount(int repeatCount) {
 		this.repeatCount = repeatCount;
 	}
-	
-	
-	protected boolean traverseChildren( ) throws BirtException
-	{
+
+	@Override
+	protected boolean traverseChildren() throws BirtException {
 		repeatHeader();
-		boolean hasNextPage = super.traverseChildren( );
+		boolean hasNextPage = super.traverseChildren();
 		return hasNextPage;
 	}
 
-	protected boolean isRepeatHeader( )
-	{
-		return ( (IGroupContent) content ).isHeaderRepeat( );
+	protected boolean isRepeatHeader() {
+		return ((IGroupContent) content).isHeaderRepeat();
 	}
 
-	protected abstract void repeatHeader( ) throws BirtException;
+	protected abstract void repeatHeader() throws BirtException;
 
-	protected boolean isRootEmpty( )
-	{
-		return !(( root != null && root.getChildrenCount( ) > repeatCount ) || isLast);
+	@Override
+	protected boolean isRootEmpty() {
+		return !((root != null && root.getChildrenCount() > repeatCount) || isLast);
 	}
-	
 
 }

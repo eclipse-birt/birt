@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,7 +28,7 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Description: Copy and paste data source/data set will paste them with same
  * name.
- * 
+ *
  * Steps to reproduce:
  * <ol>
  * <li>New a datasource
@@ -46,42 +49,38 @@ import com.ibm.icu.util.ULocale;
  * duplicate.
  * </p>
  */
-public class Regression_135508 extends BaseTestCase
-{
+public class Regression_135508 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
-	public void test_regression_135508( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_135508() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		DataSourceHandle ds = factory.newOdaDataSource( "dsource", null );//$NON-NLS-1$
-		ds.setDisplayName( "TestDisplayName" ); //$NON-NLS-1$
-		ds.setDisplayNameKey( "TestDisplayNameKey" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		DataSourceHandle ds = factory.newOdaDataSource("dsource", null);//$NON-NLS-1$
+		ds.setDisplayName("TestDisplayName"); //$NON-NLS-1$
+		ds.setDisplayNameKey("TestDisplayNameKey"); //$NON-NLS-1$
 
-		designHandle.getDataSources( ).add( ds );
+		designHandle.getDataSources().add(ds);
 
 		// copy and added to the tree.
 
-		DataSourceHandle original = designHandle.findDataSource( "dsource" ); //$NON-NLS-1$
-		DataSourceHandle copy = (DataSourceHandle) original.copy( ).getHandle(
-				designHandle.getModule( ) );
-		designHandle.rename( copy );
-		designHandle.getDataSources( ).add( copy );
+		DataSourceHandle original = designHandle.findDataSource("dsource"); //$NON-NLS-1$
+		DataSourceHandle copy = (DataSourceHandle) original.copy().getHandle(designHandle.getModule());
+		designHandle.rename(copy);
+		designHandle.getDataSources().add(copy);
 
 		// ensure that name, display name and display label won't duplicate.
 
-		DataSourceHandle secondDS = (DataSourceHandle) designHandle
-				.getDataSources( ).get( 1 );
-		assertEquals( null, secondDS.getDisplayName( ) );
-		assertEquals( null, secondDS.getDisplayNameKey( ) );
-		assertEquals( "dsource1", secondDS.getName( ) ); //$NON-NLS-1$
-		assertEquals( "dsource1", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
+		DataSourceHandle secondDS = (DataSourceHandle) designHandle.getDataSources().get(1);
+		assertEquals(null, secondDS.getDisplayName());
+		assertEquals(null, secondDS.getDisplayNameKey());
+		assertEquals("dsource1", secondDS.getName()); //$NON-NLS-1$
+		assertEquals("dsource1", secondDS.getDisplayLabel()); //$NON-NLS-1$
 	}
 }

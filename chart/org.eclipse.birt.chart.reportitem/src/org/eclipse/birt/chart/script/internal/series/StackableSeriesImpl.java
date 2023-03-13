@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,31 +20,27 @@ import org.eclipse.birt.chart.script.api.series.IStackableSeries;
 import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
 
 /**
- * 
+ *
  */
 
-public abstract class StackableSeriesImpl extends ValueSeriesImpl
-		implements
-			IStackableSeries
-{
+public abstract class StackableSeriesImpl extends ValueSeriesImpl implements IStackableSeries {
 
-	public StackableSeriesImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public StackableSeriesImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 	}
 
-	public boolean isStacked( )
-	{
-		return series.isStacked( );
+	@Override
+	public boolean isStacked() {
+		return series.isStacked();
 	}
 
-	public void setStacked( boolean stacked )
-	{
-		series.setStacked( stacked );
+	@Override
+	public void setStacked(boolean stacked) {
+		series.setStacked(stacked);
 	}
 
-	public void setPercent( boolean percent )
-	{
-		getAxis( ).setPercent( percent );
+	@Override
+	public void setPercent(boolean percent) {
+		getAxis().setPercent(percent);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,11 +43,10 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
-public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelper implements IJSFilterHelper
-{
+public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelper implements IJSFilterHelper {
 	protected DimLevel[] aggrLevels;
 	protected ICubeFilterDefinition cubeFilter;
 	protected ILevelDefinition[] axisLevels;
@@ -52,7 +54,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	protected boolean isAxisFilter;
 
 	/**
-	 * 
+	 *
 	 * @param outResults
 	 * @param parentScope
 	 * @param queryDefn
@@ -60,245 +62,227 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 * @return
 	 * @throws DataException
 	 */
-	public static IJSFilterHelper createFilterHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx ) throws DataException
-	{
-		if( cubeFilter.getExpression( ) instanceof IConditionalExpression )
-		{
-			IConditionalExpression expr = (IConditionalExpression)cubeFilter.getExpression( );
-			if( expr.getOperator( ) == IConditionalExpression.OP_TOP_N 
-				|| expr.getOperator( )== IConditionalExpression.OP_BOTTOM_N
-				|| expr.getOperator( )== IConditionalExpression.OP_TOP_PERCENT
-				|| expr.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
-				return new TopBottomDimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter, cx );
+	public static IJSFilterHelper createFilterHelper(IBaseQueryResults outResults, Scriptable parentScope,
+			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx) throws DataException {
+		if (cubeFilter.getExpression() instanceof IConditionalExpression) {
+			IConditionalExpression expr = (IConditionalExpression) cubeFilter.getExpression();
+			if (expr.getOperator() == IConditionalExpression.OP_TOP_N
+					|| expr.getOperator() == IConditionalExpression.OP_BOTTOM_N
+					|| expr.getOperator() == IConditionalExpression.OP_TOP_PERCENT
+					|| expr.getOperator() == IConditionalExpression.OP_BOTTOM_PERCENT) {
+				return new TopBottomDimensionFilterEvalHelper(outResults, parentScope, queryDefn, cubeFilter, cx);
+			}
 		}
-		
-		return new DimensionFilterEvalHelper( outResults, parentScope, cx, queryDefn,cubeFilter);
+
+		return new DimensionFilterEvalHelper(outResults, parentScope, cx, queryDefn, cubeFilter);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param cubeFilter
 	 * @param cx
 	 * @throws DataException
 	 */
-	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter,
-			ScriptContext cx ) throws DataException
-	{
-		populaterFilterDefinition( cubeFilter );
-		super.init( outResults, parentScope, queryDefn, cx, cubeFilter.getExpression( ) );
+	protected void initialize(IBaseQueryResults outResults, Scriptable parentScope, ICubeQueryDefinition queryDefn,
+			IFilterDefinition cubeFilter, ScriptContext cx) throws DataException {
+		populaterFilterDefinition(cubeFilter);
+		super.init(outResults, parentScope, queryDefn, cx, cubeFilter.getExpression());
 	}
 
-	private void populaterFilterDefinition( IFilterDefinition cubeFilter )
-			throws DataException
-	{
-		if ( cubeFilter instanceof ICubeFilterDefinition )
-		{
+	private void populaterFilterDefinition(IFilterDefinition cubeFilter) throws DataException {
+		if (cubeFilter instanceof ICubeFilterDefinition) {
 			this.cubeFilter = (ICubeFilterDefinition) cubeFilter;
+		} else {
+			this.cubeFilter = new CubeFilterDefinition(cubeFilter.getExpression());
 		}
-		else
-		{
-			this.cubeFilter = new CubeFilterDefinition( cubeFilter.getExpression( ) );
-		}
-		axisLevels = this.cubeFilter.getAxisQualifierLevels( );
-		axisValues = this.cubeFilter.getAxisQualifierValues( );
-		if ( axisLevels == null
-				|| axisValues == null || axisLevels.length != axisValues.length )
-		{
+		axisLevels = this.cubeFilter.getAxisQualifierLevels();
+		axisValues = this.cubeFilter.getAxisQualifierValues();
+		if (axisLevels == null || axisValues == null || axisLevels.length != axisValues.length) {
 			this.isAxisFilter = false;
-		}
-		else
-		{
-			for ( int i = 0; i < axisLevels.length; i++ )
-			{
-				if ( axisLevels[i] == null )
-					throw new DataException( ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL );
-				if ( axisValues[i] == null )
-					throw new DataException( ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL,
-							axisLevels[i].getName( ) );
+		} else {
+			for (int i = 0; i < axisLevels.length; i++) {
+				if (axisLevels[i] == null) {
+					throw new DataException(ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL);
+				}
+				if (axisValues[i] == null) {
+					throw new DataException(ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL, axisLevels[i].getName());
+				}
 			}
 		}
-		this.isAxisFilter = ( axisLevels != null && axisValues != null && axisLevels.length == axisValues.length );
+		this.isAxisFilter = (axisLevels != null && axisValues != null && axisLevels.length == axisValues.length);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.BaseJSEvalHelper#registerJSObjectPopulators()
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.util.BaseJSEvalHelper#
+	 * registerJSObjectPopulators()
 	 */
-	protected void registerJSObjectPopulators( ) throws DataException
-	{
-		super.registerJSObjectPopulators( );
-		this.aggrLevels = populateAggrLevels( );
-		register( new DataJSObjectPopulator( this.outResults, scope,
-				queryDefn.getBindings( ),
-				this.aggrLevels != null && this.aggrLevels.length > 0, cx ) );
+	@Override
+	protected void registerJSObjectPopulators() throws DataException {
+		super.registerJSObjectPopulators();
+		this.aggrLevels = populateAggrLevels();
+		register(new DataJSObjectPopulator(this.outResults, scope, queryDefn.getBindings(),
+				this.aggrLevels != null && this.aggrLevels.length > 0, cx));
 	}
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	protected DimLevel[] populateAggrLevels( ) throws DataException
-	{
+	protected DimLevel[] populateAggrLevels() throws DataException {
 		// get aggregation level names from the query definition related with
 		// the query expression
-		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
-				ScriptConstants.DATA_BINDING_SCRIPTABLE );//$NON-NLS-1$
-		if ( bindingName == null )
-		{
-			bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
-					ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );//$NON-NLS-1$
+		String bindingName = OlapExpressionCompiler.getReferencedScriptObject(expr,
+				ScriptConstants.DATA_BINDING_SCRIPTABLE);// $NON-NLS-1$
+		if (bindingName == null) {
+			bindingName = OlapExpressionCompiler.getReferencedScriptObject(expr,
+					ScriptConstants.DATA_SET_BINDING_SCRIPTABLE);// $NON-NLS-1$
 		}
-		if ( bindingName == null )
+		if (bindingName == null) {
 			return null;
-		
-		return getAggregateOnLevels( bindingName );
+		}
+
+		return getAggregateOnLevels(bindingName);
 	}
 
-	private DimLevel[] getAggregateOnLevels( String bindingName )
-			throws DataException
-	{
-		List bindingList = new ArrayList( );
-		List bindingForNestList = new ArrayList( );
-		bindingList.addAll( queryDefn.getBindings( ) );
-		if ( this.queryDefn instanceof PreparedCubeQueryDefinition )
-		{
-			bindingForNestList.addAll( ( (PreparedCubeQueryDefinition) this.queryDefn ).getBindingsForNestAggregation( ) );
+	private DimLevel[] getAggregateOnLevels(String bindingName) throws DataException {
+		List bindingList = new ArrayList();
+		List bindingForNestList = new ArrayList();
+		bindingList.addAll(queryDefn.getBindings());
+		if (this.queryDefn instanceof PreparedCubeQueryDefinition) {
+			bindingForNestList.addAll(((PreparedCubeQueryDefinition) this.queryDefn).getBindingsForNestAggregation());
 		}
-		
-		for ( Iterator it = bindingList.iterator( ); it.hasNext( ); )
-		{
-			IBinding binding = (IBinding) it.next( );
-			if ( binding.getBindingName( ).equals( bindingName ) )
-			{
-				return getAggregationOnsForBinding( binding );
+
+		for (Iterator it = bindingList.iterator(); it.hasNext();) {
+			IBinding binding = (IBinding) it.next();
+			if (binding.getBindingName().equals(bindingName)) {
+				return getAggregationOnsForBinding(binding);
 			}
 		}
-		for( Iterator it = bindingForNestList.iterator( ); it.hasNext( ); )
-		{
-			IBinding binding = (IBinding) it.next( );
-			if ( binding.getBindingName( ).equals( bindingName ) )
-			{
-				if( CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ) )
-				{
-					List fullAggrOnLevels = OlapExpressionUtil.getFullLevelsForRunningAggregation( binding,
-							bindingList );
-					return (DimLevel[]) fullAggrOnLevels.toArray( new DimLevel[]{} );
-				}
-				else
-				{
-					getAggregationOnsForBinding( binding );
+		for (Iterator it = bindingForNestList.iterator(); it.hasNext();) {
+			IBinding binding = (IBinding) it.next();
+			if (binding.getBindingName().equals(bindingName)) {
+				if (CubeQueryDefinitionUtil.isRunnnigAggr(binding.getAggrFunction())) {
+					List fullAggrOnLevels = OlapExpressionUtil.getFullLevelsForRunningAggregation(binding, bindingList);
+					return (DimLevel[]) fullAggrOnLevels.toArray(new DimLevel[] {});
+				} else {
+					getAggregationOnsForBinding(binding);
 				}
 			}
 		}
 		return null;
 	}
 
-	private DimLevel[] getAggregationOnsForBinding( IBinding binding )
-			throws DataException
-	{
-		List aggrs = binding.getAggregatOns( );
-		if ( aggrs.size( ) == 0 )
-		{
-			if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-					ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
+	private DimLevel[] getAggregationOnsForBinding(IBinding binding) throws DataException {
+		List aggrs = binding.getAggregatOns();
+		if (aggrs.size() == 0) {
+			if (OlapExpressionCompiler.getReferencedScriptObject(binding.getExpression(),
+					ScriptConstants.DIMENSION_SCRIPTABLE) != null) {
 				return null;
+			}
 
-			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, queryDefn.getBindings( ) );
-			if ( directReferenceBinding != null && directReferenceBinding!= binding )
-			{
-				return getAggregateOnLevels( directReferenceBinding.getBindingName( ) );
+			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding(binding,
+					queryDefn.getBindings());
+			if (directReferenceBinding != null && directReferenceBinding != binding) {
+				return getAggregateOnLevels(directReferenceBinding.getBindingName());
 			}
 			// get all level names in the query definition
-			List levelList = new ArrayList( );
+			List levelList = new ArrayList();
 			// get all levels from the row edge and column edge
-			IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
-			populateDimLevel( levelList, rowEdge );
-			IEdgeDefinition colEdge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-			populateDimLevel( levelList, colEdge );
-			DimLevel[] levels = new DimLevel[levelList.size( )];
-			levelList.toArray( levels );
+			IEdgeDefinition rowEdge = queryDefn.getEdge(ICubeQueryDefinition.ROW_EDGE);
+			populateDimLevel(levelList, rowEdge);
+			IEdgeDefinition colEdge = queryDefn.getEdge(ICubeQueryDefinition.COLUMN_EDGE);
+			populateDimLevel(levelList, colEdge);
+			DimLevel[] levels = new DimLevel[levelList.size()];
+			levelList.toArray(levels);
 			return levels;
-		}
-		else
-		{
-			DimLevel[] levels = new DimLevel[aggrs.size( )];
-			for ( int i = 0; i < aggrs.size( ); i++ )
-			{
-				levels[i] = OlapExpressionUtil.getTargetDimLevel( aggrs.get( i )
-						.toString( ) );
+		} else {
+			DimLevel[] levels = new DimLevel[aggrs.size()];
+			for (int i = 0; i < aggrs.size(); i++) {
+				levels[i] = OlapExpressionUtil.getTargetDimLevel(aggrs.get(i).toString());
 			}
 			return levels;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelList
 	 * @param edge
 	 */
-	private void populateDimLevel( List levelList, IEdgeDefinition edge )
-	{
-		if( edge == null )
+	private void populateDimLevel(List levelList, IEdgeDefinition edge) {
+		if (edge == null) {
 			return;
-		List rowDims = edge.getDimensions( );
-		for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
-		{
-			IDimensionDefinition dim = (IDimensionDefinition) i.next( );
-			IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
-					.get( 0 );
-			for ( Iterator j = hirarchy.getLevels( ).iterator( ); j.hasNext( ); )
-			{
-				ILevelDefinition level = (ILevelDefinition) j.next( );
-				levelList.add( new DimLevel( dim.getName( ),
-						level.getName( ) ) );
+		}
+		List rowDims = edge.getDimensions();
+		for (Iterator i = rowDims.iterator(); i.hasNext();) {
+			IDimensionDefinition dim = (IDimensionDefinition) i.next();
+			IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy().get(0);
+			for (Iterator j = hirarchy.getLevels().iterator(); j.hasNext();) {
+				ILevelDefinition level = (ILevelDefinition) j.next();
+				levelList.add(new DimLevel(dim.getName(), level.getName()));
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getAggrLevels()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getAggrLevels()
 	 */
-	public DimLevel[] getAggrLevels( )
-	{
+	@Override
+	public DimLevel[] getAggrLevels() {
 		return this.aggrLevels;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getDimensionName()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
+	 * getDimensionName()
 	 */
-	public String getDimensionName( )
-	{
+	@Override
+	public String getDimensionName() {
 		return this.dimName;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getCubeFiterDefinition()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
+	 * getCubeFiterDefinition()
 	 */
-	public ICubeFilterDefinition getCubeFilterDefinition( )
-	{
+	@Override
+	public ICubeFilterDefinition getCubeFilterDefinition() {
 		return cubeFilter;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#isAggregationFilter()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
+	 * isAggregationFilter()
 	 */
-	public boolean isAggregationFilter( )
-	{
-		if( this.isAxisFilter )
+	@Override
+	public boolean isAggregationFilter() {
+		if (this.isAxisFilter) {
 			return true;
+		}
 		return this.dimName == null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#getTargetDimension()
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#
+	 * getTargetDimension()
 	 */
-	protected IDimensionDefinition getTargetDimension( ) throws DataException
-	{
+	@Override
+	protected IDimensionDefinition getTargetDimension() throws DataException {
 //		if ( isAggregationFilter( ) )
 //		{
 //			ILevelDefinition targetLevel = cubeFilter.getTargetLevel( );
@@ -317,7 +301,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 //		}
 //		else
 		{
-			return super.getTargetDimension( );
+			return super.getTargetDimension();
 		}
-	}	
+	}
 }

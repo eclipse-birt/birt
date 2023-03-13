@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -50,11 +52,9 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Preview Form Page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor implements
-		IAdvanceReportEditorPage
-{
+public class ReportPreviewFormPage extends ReportPreviewEditor implements IAdvanceReportEditorPage {
 
-	protected static final Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(ReportPreviewFormPage.class.getName());
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview.web"; //$NON-NLS-1$
 
@@ -76,445 +76,409 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
 
 	// Property -- value expression
-	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$	
+	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
 	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
-	public boolean onBroughtToTop( IReportEditorPage prePage )
-	{
-		if ( getEditorInput( ) != prePage.getEditorInput( ) )
-		{
-			setInput( prePage.getEditorInput( ) );
+	@Override
+	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		if (getEditorInput() != prePage.getEditorInput()) {
+			setInput(prePage.getEditorInput());
 		}
 
 		boolean bool = true;
 		// if the model is dirty, save it at first.
-		if ( isDirtyModel( ) )
-		{
-			doSave( null );
+		if (isDirtyModel()) {
+			doSave(null);
 			bool = false;
 		}
 
 		// save the last changes.
-		if ( prePage.isDirty( ) && bool)
-		{
-			prePage.doSave( null );
+		if (prePage.isDirty() && bool) {
+			prePage.doSave(null);
 		}
 
-		boolean ret = refresh( );
-		if ( ret == false && isMissingParameter( ) )
-		{
+		boolean ret = refresh();
+		if (!ret && isMissingParameter()) {
 			// if miss parameter yet, can't preview report and scroll to
 			// the previous page.
-			editor.setActivePage( prePage.getId( ) );
+			editor.setActivePage(prePage.getId());
 		}
 
 		return ret;
 	}
 
-	protected boolean refresh( )
-	{
-		if ( isPreviewing )
+	@Override
+	protected boolean refresh() {
+		if (isPreviewing) {
 			return false;
+		}
 		isPreviewing = true;
 
-		ModuleHandle model = getModel( );
+		ModuleHandle model = getModel();
 
-		if ( !UIUtil.canPreviewWithErrors( model ) )
-		{
+		if (!UIUtil.canPreviewWithErrors(model)) {
 			isPreviewing = false;
 			return false;
 		}
 
 		boolean isDisplay = false;
 
-		if ( BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
-		{
-			showProgress( );
+		if (BrowserManager.getInstance().isEmbeddedBrowserPresent()) {
+			showProgress();
 		}
 
-		if ( hasParameters( ) )
-		{
-			if ( parameterDialog != null )
-			{
-				parameterDialog.open( );
+		if (hasParameters()) {
+			if (parameterDialog != null) {
+				parameterDialog.open();
 
 				// if parameter dialog closed successfully, then preview the
 				// current report
-				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
-				{
+				if (parameterDialog.getReturnCode() == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED) {
 					isDisplay = true;
-					
-					if ( isMissingParameter( ) )
-					{
+
+					if (isMissingParameter()) {
 						isPreviewing = false;
 						return false;
 					}
+				} else {
+					hideProgress();
 				}
-				else
-				{
-					hideProgress( );
-				}
-			}
-			else
-			{
+			} else {
 				isDisplay = true;
 			}
-		}
-		else
-		{
+		} else {
 			isDisplay = true;
 		}
 
-		if ( isDisplay )
-		{
-			display( );
+		if (isDisplay) {
+			display();
 		}
 
-		ReportRequest request = new ReportRequest( ReportPreviewFormPage.this );
-		List list = new ArrayList( );
+		ReportRequest request = new ReportRequest(ReportPreviewFormPage.this);
+		List list = new ArrayList();
 		// Fix bug 223758, let attribute view page show a empty page.
-		list.add( new Object( ) );
+		list.add(new Object());
 
-		request.setSelectionObject( list );
-		request.setType( ReportRequest.SELECTION );
+		request.setSelectionObject(list);
+		request.setType(ReportRequest.SELECTION);
 
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
 		isPreviewing = false;
 		return true;
 	}
 
-	private boolean isDirtyModel( )
-	{
-		if ( getModel( ) != null )
-		{
-			return getModel( ).needsSave( );
+	private boolean isDirtyModel() {
+		if (getModel() != null) {
+			return getModel().needsSave();
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
-	public Control getPartControl( )
-	{
+	@Override
+	public Control getPartControl() {
 		return control;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
-	public String getId( )
-	{
+	@Override
+	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 *
+	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		super.createPartControl( parent );
-		Control[] children = parent.getChildren( );
+	@Override
+	public void createPartControl(Composite parent) {
+		super.createPartControl(parent);
+		Control[] children = parent.getChildren();
 		control = children[children.length - 1];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
 	 * (int)
 	 */
-	public void markPageStale( int type )
-	{
+	@Override
+	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
-	 * ()
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType ()
 	 */
-	public int getStaleType( )
-	{
+	@Override
+	public int getStaleType() {
 		return staleType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
-	public boolean isDirty( )
-	{
+	@Override
+	public boolean isDirty() {
 		return false;
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		return (IReportProvider) editor.getAdapter( IReportProvider.class );
+	@Override
+	protected IReportProvider getProvider() {
+		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter.equals( ActionRegistry.class ) )
-		{
-			return new ActionRegistry( );
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter.equals(ActionRegistry.class)) {
+			return new ActionRegistry();
 		}
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 *
+	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
-	public void initialize( FormEditor editor )
-	{
+	@Override
+	public void initialize(FormEditor editor) {
 		this.editor = editor;
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	public FormEditor getEditor( )
-	{
+	@Override
+	public FormEditor getEditor() {
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	public IManagedForm getManagedForm( )
-	{
+	@Override
+	public IManagedForm getManagedForm() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	public void setActive( boolean active )
-	{
+	@Override
+	public void setActive(boolean active) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	public boolean isActive( )
-	{
+	@Override
+	public boolean isActive() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	public boolean canLeaveThePage( )
-	{
-		handleLeaveThePage( );
+	@Override
+	public boolean canLeaveThePage() {
+		handleLeaveThePage();
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	public int getIndex( )
-	{
+	@Override
+	public int getIndex() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	public void setIndex( int index )
-	{
+	@Override
+	public void setIndex(int index) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	public boolean isEditor( )
-	{
+	@Override
+	public boolean isEditor() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	public boolean selectReveal( Object object )
-	{
+	@Override
+	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	public void setInput( IEditorInput input )
-	{
-		super.setInput( input );
-		if ( parameterDialog != null )
-			parameterDialog.setUri( getFileUri( ) );
+	@Override
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
+		if (parameterDialog != null) {
+			parameterDialog.setUri(getFileUri());
+		}
 	}
 
 	/**
 	 * Get parameter values from config file.
-	 * 
+	 *
 	 * @return Map
 	 */
-	private Map<String, ?> getConfigVars( )
-	{
-		Map<String, Object> configVars = new HashMap<String, Object>( );
+	private Map<String, ?> getConfigVars() {
+		Map<String, Object> configVars = new HashMap<>();
 
 		// get design config file name
-		String configFileName = getConfigFileName( this.getFileUri( ) );
-		if ( configFileName == null )
+		String configFileName = getConfigFileName(this.getFileUri());
+		if (configFileName == null) {
 			return configVars;
+		}
 
 		ReportDesignHandle handle = null;
 
-		try
-		{
+		try {
 			// Generate the session handle
-			SessionHandle sessionHandle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( );
+			SessionHandle sessionHandle = SessionHandleAdapter.getInstance().getSessionHandle();
 
-			File configFile = new File( configFileName );
+			File configFile = new File(configFileName);
 
 			// if config file existed, then delete it
-			if ( configFile != null
-					&& configFile.exists( )
-					&& configFile.isFile( ) )
-			{
-				handle = sessionHandle.openDesign( configFileName );
+			if (configFile != null && configFile.exists() && configFile.isFile()) {
+				handle = sessionHandle.openDesign(configFileName);
 
-				if ( handle != null )
-				{
+				if (handle != null) {
 					// get parameter values from config file
-					Iterator it = handle.configVariablesIterator( );
-					while ( it != null && it.hasNext( ) )
-					{
-						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next( );
-						if ( configVar != null && configVar.getName( ) != null )
-						{
-							String varName = prepareConfigVarName( configVar.getName( ) );
+					Iterator it = handle.configVariablesIterator();
+					while (it != null && it.hasNext()) {
+						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next();
+						if (configVar != null && configVar.getName() != null) {
+							String varName = prepareConfigVarName(configVar.getName());
 
 							// check the parameter whether exist or not
-							String paramName = getParameterName( varName );
+							String paramName = getParameterName(varName);
 
 							// get parameter handle
-							ScalarParameterHandle parameter = findParameter( paramName );
+							ScalarParameterHandle parameter = findParameter(paramName);
 
-							if ( parameter != null )
-							{
+							if (parameter != null) {
 								// get cached parameter type
 								String typeVarName = varName + "_" //$NON-NLS-1$
-										+ PROP_TYPE
-										+ "_"; //$NON-NLS-1$
-								ConfigVariable typeVar = handle.findConfigVariable( typeVarName );
+										+ PROP_TYPE + "_"; //$NON-NLS-1$
+								ConfigVariable typeVar = handle.findConfigVariable(typeVarName);
 								String dataType = null;
-								if ( typeVar != null )
-									dataType = typeVar.getValue( );
+								if (typeVar != null) {
+									dataType = typeVar.getValue();
+								}
 
 								// if null or data type changed, skip it
-								if ( dataType == null
-										|| !dataType.equalsIgnoreCase( parameter.getDataType( ) ) )
+								if (dataType == null || !dataType.equalsIgnoreCase(parameter.getDataType())) {
 									continue;
+								}
 
 								// find cached parameter value expression
 								String exprVarName = varName + "_" //$NON-NLS-1$
-										+ PROP_EXPR
-										+ "_"; //$NON-NLS-1$
-								ConfigVariable exprVar = handle.findConfigVariable( exprVarName );
-								String expr = parameter.getValueExpr( );
+										+ PROP_EXPR + "_"; //$NON-NLS-1$
+								ConfigVariable exprVar = handle.findConfigVariable(exprVarName);
+								String expr = parameter.getValueExpr();
 								String cachedExpr = null;
-								if ( exprVar != null )
-									cachedExpr = exprVar.getValue( );
+								if (exprVar != null) {
+									cachedExpr = exprVar.getValue();
+								}
 
-								if ( cachedExpr == null )
+								if (cachedExpr == null) {
 									cachedExpr = ""; //$NON-NLS-1$
-								if ( expr == null )
+								}
+								if (expr == null) {
 									expr = ""; //$NON-NLS-1$
+								}
 
 								// if value expression changed,skip it
-								if ( !cachedExpr.equals( expr ) )
+								if (!cachedExpr.equals(expr)) {
 									continue;
+								}
 							}
 
-							if ( paramName != null && paramName.length( ) > 0 )
-							{
-								if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equalsIgnoreCase( parameter.getParamType( ) ) )
-								{
+							if (paramName != null && paramName.length() > 0) {
+								if (DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+										.equalsIgnoreCase(parameter.getParamType())) {
 									// handle multi-value parameter
-									List values = (List) configVars.get( paramName );
-									if ( values == null )
-									{
-										values = new ArrayList( );
-										configVars.put( paramName, values );
+									List values = (List) configVars.get(paramName);
+									if (values == null) {
+										values = new ArrayList();
+										configVars.put(paramName, values);
 									}
-									values.add( configVar.getValue( ) );
-								}
-								else
-								{
-									configVars.put( paramName,
-											configVar.getValue( ) );
+									values.add(configVar.getValue());
+								} else {
+									configVars.put(paramName, configVar.getValue());
 								}
 							}
 						}
 					}
-					handle.close( );
+					handle.close();
 				}
 			}
-		}
-		catch ( DesignFileException e )
-		{
+		} catch (DesignFileException e) {
 			// close handle
 //			try
 //			{
@@ -527,65 +491,56 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 //			{
 //				logger.log( Level.SEVERE, e.getMessage( ), e );
 //			}
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
+
 		return configVars;
 	}
 
 	/**
 	 * Delete the last "_" part
-	 * 
+	 *
 	 * @param name
 	 * @return String
 	 */
-	private String prepareConfigVarName( String name )
-	{
-		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
-		return name.substring( 0, index );
+	private String prepareConfigVarName(String name) {
+		int index = name.lastIndexOf("_"); //$NON-NLS-1$
+		return name.substring(0, index);
 	}
 
 	/**
 	 * if parameter existed in config file, return the correct parameter name
-	 * 
+	 *
 	 * @param configVarName
 	 * @return String
 	 */
-	private String getParameterName( String configVarName )
-	{
+	private String getParameterName(String configVarName) {
 		String paramName = null;
 		List parameters = null;
 
 		// get parameter list from design handle
-		ModuleHandle model = getModel( );
-		if ( model != null )
-		{
-			parameters = model.getFlattenParameters( );
+		ModuleHandle model = getModel();
+		if (model != null) {
+			parameters = model.getFlattenParameters();
 		}
 
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
+		if (parameters != null) {
+			for (int i = 0; i < parameters.size(); i++) {
 				ScalarParameterHandle parameter = null;
 
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+				if (parameters.get(i) instanceof ScalarParameterHandle) {
+					parameter = ((ScalarParameterHandle) parameters.get(i));
 				}
 
 				// get current name
 				String curName = null;
-				if ( parameter != null && parameter.getName( ) != null )
-				{
-					curName = parameter.getName( ) + "_" + parameter.getID( ); //$NON-NLS-1$
+				if (parameter != null && parameter.getName() != null) {
+					curName = parameter.getName() + "_" + parameter.getID(); //$NON-NLS-1$
 				}
 
 				// if find the parameter exist, return true
-				if ( curName != null
-						&& curName.equalsIgnoreCase( configVarName ) )
-				{
-					paramName = parameter.getName( );
+				if (curName != null && curName.equalsIgnoreCase(configVarName)) {
+					paramName = parameter.getName();
 					break;
 				}
 			}
@@ -596,37 +551,31 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	/**
 	 * Find parameter by name
-	 * 
+	 *
 	 * @param paramName
 	 * @return ScalarParameterHandle
 	 */
-	private ScalarParameterHandle findParameter( String paramName )
-	{
-		if ( paramName == null )
+	private ScalarParameterHandle findParameter(String paramName) {
+		if (paramName == null) {
 			return null;
+		}
 
 		ScalarParameterHandle parameter = null;
 		List parameters = null;
 
 		// get parameter list from design handle
-		ModuleHandle model = getModel( );
-		if ( model != null )
-		{
-			parameters = model.getFlattenParameters( );
+		ModuleHandle model = getModel();
+		if (model != null) {
+			parameters = model.getFlattenParameters();
 		}
 
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+		if (parameters != null) {
+			for (int i = 0; i < parameters.size(); i++) {
+				if (parameters.get(i) instanceof ScalarParameterHandle) {
+					parameter = ((ScalarParameterHandle) parameters.get(i));
 				}
 
-				if ( parameter != null
-						&& paramName.equalsIgnoreCase( parameter.getName( ) ) )
-				{
+				if (parameter != null && paramName.equalsIgnoreCase(parameter.getName())) {
 					break;
 				}
 			}
@@ -635,26 +584,20 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		return parameter;
 	}
 
-	private boolean hasParameters( )
-	{
-		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+	private boolean hasParameters() {
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp();
 
-		if ( webapp != null && webapp.useCustomParamHandling( ) )
-		{
+		if (webapp != null && webapp.useCustomParamHandling()) {
 			return false;
 		}
 
-		ModuleHandle model = getModel( );
+		ModuleHandle model = getModel();
 
-		List parameters = model.getFlattenParameters( );
+		List parameters = model.getFlattenParameters();
 
-		if ( parameters != null )
-		{
-			for ( Object p : parameters )
-			{
-				if ( p instanceof ParameterHandle
-						&& !( (ParameterHandle) p ).isHidden( ) )
-				{
+		if (parameters != null) {
+			for (Object p : parameters) {
+				if (p instanceof ParameterHandle && !((ParameterHandle) p).isHidden()) {
 					return true;
 				}
 			}
@@ -665,83 +608,62 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	/**
 	 * If miss parameter.
-	 * 
+	 *
 	 * @return boolean
 	 */
-	protected boolean isMissingParameter( )
-	{
-		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+	protected boolean isMissingParameter() {
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp();
 
-		if ( webapp != null && webapp.useCustomParamHandling( ) )
-		{
+		if (webapp != null && webapp.useCustomParamHandling()) {
 			return false;
 		}
 
 		boolean missingParameter = false;
 
-		ModuleHandle model = getModel( );
+		ModuleHandle model = getModel();
 
-		Map<String, ?> params = this.getConfigVars( );
-		List parameters = model.getFlattenParameters( );
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
+		Map<String, ?> params = this.getConfigVars();
+		List parameters = model.getFlattenParameters();
+		if (parameters != null) {
+			for (int i = 0; i < parameters.size(); i++) {
+				if (parameters.get(i) instanceof ScalarParameterHandle) {
+					ScalarParameterHandle parameter = ((ScalarParameterHandle) parameters.get(i));
 
-					if ( parameter.isHidden( ) || !parameter.isRequired( ) )
-					{
+					if (parameter.isHidden() || !parameter.isRequired()) {
 						continue;
 					}
 
-					if ( params == null )
-					{
+					if (params == null) {
 						missingParameter = true;
 						break;
 					}
 
-					Object valueObj = params.get( parameter.getName( ) );
-					if ( valueObj == null )
-					{
+					Object valueObj = params.get(parameter.getName());
+					if (valueObj == null) {
 						missingParameter = true;
 						break;
 					}
 
-					if ( valueObj instanceof List )
-					{
+					if (valueObj instanceof List) {
 						// multi-value parameter
 						// handle multi-value parameter
 						List values = (List) valueObj;
-						for ( int j = 0; j < values.size( ); j++ )
-						{
-							Object value = values.get( j );
-							if ( value == null )
-							{
-								missingParameter = true;
-								break;
-							}
-
-							if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( parameter.getDataType( ) )
-									&& ( (String) value ).length( ) <= 0 )
-							{
+						for (int j = 0; j < values.size(); j++) {
+							Object value = values.get(j);
+							if ((value == null) || (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
+									&& ((String) value).length() <= 0)) {
 								missingParameter = true;
 								break;
 							}
 						}
 
-						if ( missingParameter )
-							break;
-					}
-					else
-					{
-						if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( parameter.getDataType( ) )
-								&& ( (String) valueObj ).length( ) <= 0 )
-						{
-							missingParameter = true;
+						if (missingParameter) {
 							break;
 						}
+					} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(parameter.getDataType())
+							&& ((String) valueObj).length() <= 0) {
+						missingParameter = true;
+						break;
 					}
 				}
 			}
@@ -752,21 +674,19 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	/**
 	 * Parse config file name from report design filename.
-	 * 
-	 * @param reportDesignName
-	 *            String
+	 *
+	 * @param reportDesignName String
 	 * @return String
 	 */
 
-	private String getConfigFileName( String reportDesignName )
-	{
-		if ( reportDesignName == null )
+	private String getConfigFileName(String reportDesignName) {
+		if (reportDesignName == null) {
 			return null;
+		}
 
-		String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
+		String[] result = reportDesignName.split("\\."); //$NON-NLS-1$
 		String extensionName = result[result.length - 1];
-		String configFileName = reportDesignName.substring( 0,
-				reportDesignName.length( ) - extensionName.length( ) )
+		String configFileName = reportDesignName.substring(0, reportDesignName.length() - extensionName.length())
 				+ SUFFIX_DESIGN_CONFIG;
 
 		return configFileName;
@@ -774,39 +694,35 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	protected void firePropertyChange( int type )
-	{
-		if ( type == PROP_DIRTY )
-		{
-			editor.editorDirtyStateChanged( );
-		}
-		else
-		{
-			super.firePropertyChange( type );
+	@Override
+	protected void firePropertyChange(int type) {
+		if (type == PROP_DIRTY) {
+			editor.editorDirtyStateChanged();
+		} else {
+			super.firePropertyChange(type);
 		}
 	}
 
-	protected void finalize( ) throws Throwable
-	{
-		if ( Policy.TRACING_PAGE_CLOSE )
-		{
-			System.out.println( "Report preview page finalized" ); //$NON-NLS-1$
+	@Override
+	protected void finalize() throws Throwable {
+		if (Policy.TRACING_PAGE_CLOSE) {
+			System.out.println("Report preview page finalized"); //$NON-NLS-1$
 		}
-		super.finalize( );
+		super.finalize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage
 	 * #isSensitivePartChange()
 	 */
-	public boolean isSensitivePartChange( )
-	{
+	@Override
+	public boolean isSensitivePartChange() {
 		return false;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,79 +24,71 @@ import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 
-
-public class BaseResultSetDecorator implements IBaseResultSet
-{
+public class BaseResultSetDecorator implements IBaseResultSet {
 	private List<IBaseResultSet> resultSets;
 
 	private IBaseResultSet lastResultSet;
-	
-	public BaseResultSetDecorator( List<IBaseResultSet> resultSets )
-	{
-		assert( resultSets.size( ) > 0 );
+
+	public BaseResultSetDecorator(List<IBaseResultSet> resultSets) {
+		assert (resultSets.size() > 0);
 		this.resultSets = resultSets;
-		lastResultSet = resultSets.get( resultSets.size( ) - 1 );
+		lastResultSet = resultSets.get(resultSets.size() - 1);
 	}
-	
-	public void close( )
-	{
-		for ( IBaseResultSet resultSet : resultSets )
-		{
-			resultSet.close( );
+
+	@Override
+	public void close() {
+		for (IBaseResultSet resultSet : resultSets) {
+			resultSet.close();
 		}
 	}
 
-	public Object evaluate( String expr ) throws BirtException
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
+	@Override
+	public Object evaluate(String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
+	@Override
+	public Object evaluate(String language, String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
-	public DataSetID getID( )
-	{
-		return lastResultSet.getID( );
+	@Override
+	public Object evaluate(IBaseExpression expr) throws BirtException {
+		throw new UnsupportedOperationException();
 	}
 
-	public IBaseResultSet getParent( )
-	{
-		return lastResultSet.getParent( );
+	@Override
+	public DataSetID getID() {
+		return lastResultSet.getID();
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
-		return lastResultSet.getQueryResults( );
+	@Override
+	public IBaseResultSet getParent() {
+		return lastResultSet.getParent();
 	}
 
-	public String getRawID( ) throws BirtException
-	{
-		return lastResultSet.getRawID( );
+	@Override
+	public IBaseQueryResults getQueryResults() {
+		return lastResultSet.getQueryResults();
 	}
 
-	public int getType( )
-	{
-		return lastResultSet.getType( );
+	@Override
+	public String getRawID() throws BirtException {
+		return lastResultSet.getRawID();
 	}
 
-	public String getResultSetId( )
-	{
-		if ( lastResultSet instanceof QueryResultSet )
-		{
+	@Override
+	public int getType() {
+		return lastResultSet.getType();
+	}
+
+	public String getResultSetId() {
+		if (lastResultSet instanceof QueryResultSet) {
 			QueryResultSet queryResultSet = (QueryResultSet) lastResultSet;
-			return queryResultSet.getQueryResultsID( );
-		}
-		else
-		{
+			return queryResultSet.getQueryResultsID();
+		} else {
 			CubeResultSet cubeResultSet = (CubeResultSet) lastResultSet;
-			return cubeResultSet.getQueryResultsID( );
+			return cubeResultSet.getQueryResultsID();
 		}
 	}
 }

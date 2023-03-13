@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,62 +21,60 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.runtime.IAdaptable;
 
 /**
- * 
+ *
  */
 
-public class CrosstabPropertyHandleWrapper implements IAdaptable
-{
+public class CrosstabPropertyHandleWrapper implements IAdaptable {
 
 	private PropertyHandle handle;
 	private String type;
 
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == LibraryHandleAdapter.class )
-		{
-			DesignElementHandle element = handle.getElementHandle( );
-			if ( element instanceof ExtendedItemHandle )
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == LibraryHandleAdapter.class) {
+			DesignElementHandle element = handle.getElementHandle();
+			if (element instanceof ExtendedItemHandle) {
 				return element;
+			}
 		}
 		return null;
 	}
-	
-	public void setTestType(String testType)
-	{
+
+	public void setTestType(String testType) {
 		this.type = testType;
 	}
-	public String getTestType()
-	{
-		if (type == null)
-		{
-			return getModel( ).getPropertyDefn( ).getName( );
+
+	public String getTestType() {
+		if (type == null) {
+			return getModel().getPropertyDefn().getName();
 		}
 		return type;
 	}
 
-	public CrosstabPropertyHandleWrapper( PropertyHandle handle )
-	{
+	public CrosstabPropertyHandleWrapper(PropertyHandle handle) {
 		this.handle = handle;
 	}
 
-	public PropertyHandle getModel( )
-	{
+	public PropertyHandle getModel() {
 		return handle;
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
 			return true;
-		if ( !( obj instanceof CrosstabPropertyHandleWrapper ) )
+		}
+		if (!(obj instanceof CrosstabPropertyHandleWrapper)) {
 			return false;
-		return ( (CrosstabPropertyHandleWrapper) obj ).getModel( ) == getModel( );
+		}
+		return ((CrosstabPropertyHandleWrapper) obj).getModel() == getModel();
 	}
 
-	public int hashCode( )
-	{
-		if ( getModel( ) != null )
-			return getModel( ).hashCode( );
-		return super.hashCode( );
+	@Override
+	public int hashCode() {
+		if (getModel() != null) {
+			return getModel().hashCode();
+		}
+		return super.hashCode();
 	}
 }

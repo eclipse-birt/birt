@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,86 +20,81 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
-public interface ISelectDataCustomizeUI
-{
+public interface ISelectDataCustomizeUI {
 
-	static final int ORTHOGONAL_SERIES = 1;
-	static final int GROUPING_SERIES = 2;
+	int ORTHOGONAL_SERIES = 1;
+	int GROUPING_SERIES = 2;
 
 	/**
 	 * Creates left binding area
-	 * 
-	 * @param parent
-	 *            composite parent
+	 *
+	 * @param parent composite parent
 	 */
-	void createLeftBindingArea( Composite parent );
+	void createLeftBindingArea(Composite parent);
 
-	void createRightBindingArea( Composite parent );
+	void createRightBindingArea(Composite parent);
 
-	void createBottomBindingArea( Composite parent );
+	void createBottomBindingArea(Composite parent);
 
-	void refreshLeftBindingArea( );
+	void refreshLeftBindingArea();
 
-	void refreshRightBindingArea( );
+	void refreshRightBindingArea();
 
-	void refreshBottomBindingArea( );
+	void refreshBottomBindingArea();
 
-	void selectLeftBindingArea( boolean selected, Object data );
+	void selectLeftBindingArea(boolean selected, Object data);
 
-	void selectRightBindingArea( boolean selected, Object data );
+	void selectRightBindingArea(boolean selected, Object data);
 
-	void selectBottomBindingArea( boolean selected, Object data );
+	void selectBottomBindingArea(boolean selected, Object data);
 
 	/**
 	 * Notifies changes according to EMF model notification
-	 * 
-	 * @param notification
-	 *            EMF model notification
+	 *
+	 * @param notification EMF model notification
 	 */
-	void notifyChange( Notification notification );
+	void notifyChange(Notification notification);
 
 	/**
 	 * Initializes all required resource.
-	 * 
+	 *
 	 */
-	void init( );
+	void init();
 
 	/**
 	 * Disposes all resources.
-	 * 
+	 *
 	 */
-	void dispose( );
+	void dispose();
 
 	/**
-	 * 
-	 * @param areaType
-	 *            <code>ORTHOGONAL_SERIES</code>, <code>GROUPING_SERIES</code>
+	 *
+	 * @param areaType         <code>ORTHOGONAL_SERIES</code>,
+	 *                         <code>GROUPING_SERIES</code>
 	 * @param seriesdefinition
 	 * @param context
 	 * @param sTitle
 	 * @return UI component
 	 */
-	ISelectDataComponent getAreaComponent( int areaType,
-			SeriesDefinition seriesdefinition, ChartWizardContext context,
-			String sTitle );
+	ISelectDataComponent getAreaComponent(int areaType, SeriesDefinition seriesdefinition, ChartWizardContext context,
+			String sTitle);
 
-	void layoutAll( );
+	void layoutAll();
 
 	/**
 	 * Gets current selected series index of each axis.
-	 * 
+	 *
 	 * @return array of current selected series index
 	 */
-	int[] getSeriesIndex( );
+	int[] getSeriesIndex();
 
 	/**
 	 * Sets current selected series index of each axis.
-	 * 
-	 * @param seriesIndex
-	 *            array of current selected series index
+	 *
+	 * @param seriesIndex array of current selected series index
 	 */
-	void setSeriesIndex( int[] seriesIndex );
+	void setSeriesIndex(int[] seriesIndex);
 }

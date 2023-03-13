@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,69 +27,54 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 /**
- * 
+ *
  */
 
-public class RefreshLibraryHandler extends SelectionHandler
-{
+public class RefreshLibraryHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 		boolean retBoolean = true;
-		super.execute( event );
+		super.execute(event);
 
-		Object obj = getElementHandles( );
-		//if ( obj instanceof List )
+		Object obj = getElementHandles();
+		// if ( obj instanceof List )
 		{
-			obj = ( (List) obj ).get( 0 );
+			obj = ((List) obj).get(0);
 		}
 
-		if ( ( obj instanceof LibraryHandle )
-				&& ( (LibraryHandle) obj ).getHostHandle( ) != null )
-		{
-			ModuleHandle host = ( (LibraryHandle) obj ).getHostHandle( );
+		if ((obj instanceof LibraryHandle) && ((LibraryHandle) obj).getHostHandle() != null) {
+			ModuleHandle host = ((LibraryHandle) obj).getHostHandle();
 
-			try
-			{
-				host.reloadLibrary( (LibraryHandle) obj );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-				retBoolean = false;
-			}
-			catch ( DesignFileException e )
-			{
-				ExceptionHandler.handle( e );
+			try {
+				host.reloadLibrary((LibraryHandle) obj);
+			} catch (SemanticException | DesignFileException e) {
+				ExceptionHandler.handle(e);
 				retBoolean = false;
 			}
 
+		} else {
+			return reloadAllLibraries(obj);
 		}
-		else
-		{
-			return reloadAllLibraries( obj );
-		}
-		
-		UIUtil.refreshCurrentEditorMarkers( );
 
-		return Boolean.valueOf( retBoolean );
+		UIUtil.refreshCurrentEditorMarkers();
+
+		return Boolean.valueOf(retBoolean);
 	}
 
-	private Boolean reloadAllLibraries( Object obj )
-	{
+	private Boolean reloadAllLibraries(Object obj) {
 		boolean retBoolean = true;
-		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
-		{
-			retBoolean = UIUtil.reloadModuleHandleLibraries( (ModuleHandle) obj );
+		if (obj instanceof ReportDesignHandle || obj instanceof LibraryHandle) {
+			retBoolean = UIUtil.reloadModuleHandleLibraries((ModuleHandle) obj);
 		}
-		UIUtil.refreshCurrentEditorMarkers( );
-		return Boolean.valueOf( retBoolean );
+		UIUtil.refreshCurrentEditorMarkers();
+		return retBoolean;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -19,12 +22,11 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * 
+ *
  * A Command to set the Constraints for a TableNodeEditPart
- * 
+ *
  */
-public class SetConstraintCommand extends org.eclipse.gef.commands.Command
-{
+public class SetConstraintCommand extends org.eclipse.gef.commands.Command {
 
 	private Point newPos;
 
@@ -34,82 +36,61 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		if ( module == null || id == null )
+	@Override
+	public void execute() {
+		if (module == null || id == null) {
 			return;
+		}
 
-		if ( module instanceof ModuleHandle )
-		{
-			ModuleHandle module = (ModuleHandle)this.module;
-			try
-			{
-				UIHelper.setIntProperty( module,
-						id,
-						BuilderConstants.POSITION_X,
-						newPos.x );
-				UIHelper.setIntProperty( module,
-						id,
-						BuilderConstants.POSITION_Y,
-						newPos.y );
-				UIHelper.setIntProperty( module,
-						id,
-						BuilderConstants.SIZE_WIDTH,
-						newSize.width );
-				UIHelper.setIntProperty( module,
-						id,
-						BuilderConstants.SIZE_HEIGHT,
-						newSize.height );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionUtil.handle( e );
+		if (module instanceof ModuleHandle) {
+			ModuleHandle module = (ModuleHandle) this.module;
+			try {
+				UIHelper.setIntProperty(module, id, BuilderConstants.POSITION_X, newPos.x);
+				UIHelper.setIntProperty(module, id, BuilderConstants.POSITION_Y, newPos.y);
+				UIHelper.setIntProperty(module, id, BuilderConstants.SIZE_WIDTH, newSize.width);
+				UIHelper.setIntProperty(module, id, BuilderConstants.SIZE_HEIGHT, newSize.height);
+			} catch (SemanticException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 	}
 
-	public void setLocation( Rectangle r )
-	{
-		setLocation( r.getLocation( ) );
-		setSize( r.getSize( ) );
+	public void setLocation(Rectangle r) {
+		setLocation(r.getLocation());
+		setSize(r.getSize());
 	}
 
 	/**
 	 * @param dimension
 	 */
-	private void setSize( Dimension dimension )
-	{
+	private void setSize(Dimension dimension) {
 		newSize = dimension;
 	}
 
 	/**
 	 * Sets the Location of the element
-	 * 
+	 *
 	 * @param p
 	 */
-	public void setLocation( Point p )
-	{
+	public void setLocation(Point p) {
 		newPos = p;
 	}
 
 	/**
 	 * Sets the Edit Part for this Event
-	 * 
-	 * @param part
-	 *            The Editr Part to be Set
+	 *
+	 * @param part The Editr Part to be Set
 	 */
-	public void setModuleHandle( Object module )
-	{
+	public void setModuleHandle(Object module) {
 		this.module = module;
 	}
 
 	private String id;
 
-	public void setId( String id )
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 

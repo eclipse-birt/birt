@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,73 +20,83 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 
 /**
- * 
+ *
  */
 
-public class RADocumentManager implements IDocumentManager
-{
+public class RADocumentManager implements IDocumentManager {
 	private IDocArchiveReader archiveReader;
-	
+
 	/**
-	 * 
+	 *
 	 * @param archiveFile
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	RADocumentManager( IDocArchiveReader reader ) throws IOException
-	{
+	RADocumentManager(IDocArchiveReader reader) throws IOException {
 		this.archiveReader = reader;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#close()
 	 */
-	public void close( ) throws IOException
-	{
-		//archiveReader.close( );
+	@Override
+	public void close() throws IOException {
+		// archiveReader.close( );
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#
+	 * createDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
-	{
-		throw new UnsupportedOperationException( );
+	@Override
+	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#exist(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#exist(java.
+	 * lang.String)
 	 */
-	public boolean exist( String documentObjectName )
-	{
-		if( archiveReader == null )
+	@Override
+	public boolean exist(String documentObjectName) {
+		if (archiveReader == null) {
 			return false;
-		return archiveReader.exists( documentObjectName );
+		}
+		return archiveReader.exists(documentObjectName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#openDocumentObject(java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#
+	 * openDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
-	{
-		if( archiveReader == null )
+	@Override
+	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException {
+		if (archiveReader == null) {
 			return null;
-		RAInputStream inputStream = archiveReader.getStream( documentObjectName );
-		if ( inputStream == null )
+		}
+		RAInputStream inputStream = archiveReader.getStream(documentObjectName);
+		if (inputStream == null) {
 			return null;
-		return new DocumentObject( new BufferedRandomDataAccessObject( new RAReader( inputStream ), 8192 ) );
+		}
+		return new DocumentObject(new BufferedRandomDataAccessObject(new RAReader(inputStream), 8192));
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#flush()
 	 */
-	public void flush( ) throws IOException
-	{
-		
+	@Override
+	public void flush() throws IOException {
+
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,8 +40,7 @@ import org.osgi.framework.BundleContext;
 /**
  * CrosstabPlugin
  */
-public class CrosstabPlugin extends AbstractUIPlugin
-{
+public class CrosstabPlugin extends AbstractUIPlugin {
 
 	/** Plugin ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.ui"; //$NON-NLS-1$
@@ -60,155 +62,120 @@ public class CrosstabPlugin extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public CrosstabPlugin( )
-	{
-		super( );
+	public CrosstabPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static CrosstabPlugin getDefault( )
-	{
+	public static CrosstabPlugin getDefault() {
 		return plugin;
 	}
 
 	/**
 	 * This method is called upon plug-in activation
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 
-		PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( PREFERENCE_FILTER_LIMIT, FILTER_LIMIT_DEFAULT );
-		PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( PREFERENCE_AUTO_DEL_BINDINGS,
-						AUTO_DEL_BINDING_DEFAULT );
-		PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( CUBE_BUILDER_WARNING_PREFERENCE,
-						MessageDialogWithToggle.PROMPT );
+		PreferenceFactory.getInstance().getPreferences(CrosstabPlugin.getDefault()).setDefault(PREFERENCE_FILTER_LIMIT,
+				FILTER_LIMIT_DEFAULT);
+		PreferenceFactory.getInstance().getPreferences(CrosstabPlugin.getDefault())
+				.setDefault(PREFERENCE_AUTO_DEL_BINDINGS, AUTO_DEL_BINDING_DEFAULT);
+		PreferenceFactory.getInstance().getPreferences(CrosstabPlugin.getDefault())
+				.setDefault(CUBE_BUILDER_WARNING_PREFERENCE, MessageDialogWithToggle.PROMPT);
 
 		// There add a listener, when create a measure head, add a lable to the
 		// head cell
-		CrosstabUtil.setCrosstabUpdateListener( new AbstractCrosstabUpateListener( ) {
+		CrosstabUtil.setCrosstabUpdateListener(new AbstractCrosstabUpateListener() {
 
-			public void onCreated( int type, Object model,
-					Map<String, Object> extras )
-			{
-				if ( context != null )
-				{
-					try
-					{
+			@Override
+			public void onCreated(int type, Object model, Map<String, Object> extras) {
+				if (context != null) {
+					try {
 						// do not call this if want to perform custom handling
-						context.performDefaultCreation( type, model, extras );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionUtil.handle( e );
+						context.performDefaultCreation(type, model, extras);
+					} catch (SemanticException e) {
+						ExceptionUtil.handle(e);
 					}
 				}
 
-				if ( type == ICrosstabUpdateListener.MEASURE_HEADER
-						&& model instanceof CrosstabCellHandle )
-				{
-					CrosstabCellHandle cellHandle = ( (CrosstabCellHandle) model );
-					if ( cellHandle.getContents( ).size( ) > 0 )
-					{
+				if (type == ICrosstabUpdateListener.MEASURE_HEADER && model instanceof CrosstabCellHandle) {
+					CrosstabCellHandle cellHandle = ((CrosstabCellHandle) model);
+					if (cellHandle.getContents().size() > 0) {
 						return;
 					}
-					LabelHandle labelHandle = DesignElementFactory.getInstance( cellHandle.getModuleHandle( ) )
-							.newLabel( null );
-					try
-					{
-						MeasureViewHandle measureViewHandle = ( (MeasureViewHandle) cellHandle.getContainer( ) );
-						MeasureHandle measure = measureViewHandle.getCubeMeasure( );
-						String labelName = measureViewHandle.getCubeMeasureName( );
-						//ComputedMeasureViews doesn't hold reference to measure , if they don't have their own aggregation.
-						if(measure != null && measure.getDisplayName( ) != null )
-						{
-							labelName =  measure.getDisplayName( );
+					LabelHandle labelHandle = DesignElementFactory.getInstance(cellHandle.getModuleHandle())
+							.newLabel(null);
+					try {
+						MeasureViewHandle measureViewHandle = ((MeasureViewHandle) cellHandle.getContainer());
+						MeasureHandle measure = measureViewHandle.getCubeMeasure();
+						String labelName = measureViewHandle.getCubeMeasureName();
+						// ComputedMeasureViews doesn't hold reference to measure , if they don't have
+						// their own aggregation.
+						if (measure != null && measure.getDisplayName() != null) {
+							labelName = measure.getDisplayName();
 						}
 						labelHandle.setText(labelName);
 
-						cellHandle.addContent( labelHandle );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionUtil.handle( e );
+						cellHandle.addContent(labelHandle);
+					} catch (SemanticException e) {
+						ExceptionUtil.handle(e);
 					}
 				}
 			}
 
-			public void onValidate( int type, Object model,
-					Map<String, Object> extras )
-			{
-				if ( context != null )
-				{
-					try
-					{
+			@Override
+			public void onValidate(int type, Object model, Map<String, Object> extras) {
+				if (context != null) {
+					try {
 						// do not call this if want to perform custom handling
-						context.performDefaultValidation( type, model, extras );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionUtil.handle( e );
+						context.performDefaultValidation(type, model, extras);
+					} catch (SemanticException e) {
+						ExceptionUtil.handle(e);
 					}
 				}
 
-				if ( type == ICrosstabUpdateListener.MEASURE_DETAIL
-						&& model instanceof AggregationCellHandle )
-				{
+				if (type == ICrosstabUpdateListener.MEASURE_DETAIL && model instanceof AggregationCellHandle) {
 					AggregationCellHandle cellHandle = (AggregationCellHandle) model;
 
-					if ( cellHandle.getContents( ).size( ) == 1
-							&& cellHandle.getContents( ).get( 0 ) instanceof DataItemHandle )
-					{
-						MeasureViewHandle measureView = (MeasureViewHandle) cellHandle.getContainer( );
+					if (cellHandle.getContents().size() == 1
+							&& cellHandle.getContents().get(0) instanceof DataItemHandle) {
+						MeasureViewHandle measureView = (MeasureViewHandle) cellHandle.getContainer();
 
-						DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents( )
-								.get( 0 );
+						DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents().get(0);
 
-						CrosstabAdaptUtil.formatDataItem( measureView.getCubeMeasure( ),
-								dataItem );
+						CrosstabAdaptUtil.formatDataItem(measureView.getCubeMeasure(), dataItem);
 						// update action to dataHandle
-						if ( measureView.getCubeMeasure( ) == null )
-						{
+						if (measureView.getCubeMeasure() == null) {
 							return;
 						}
-						ActionHandle actionHandle = measureView.getCubeMeasure( )
-								.getActionHandle( );
+						ActionHandle actionHandle = measureView.getCubeMeasure().getActionHandle();
 
-						if ( actionHandle != null )
-						{
-							try
-							{
-								dataItem.setAction( (Action) actionHandle.getStructure( )
-										.copy( ) );
-							}
-							catch ( SemanticException e )
-							{
-								ExceptionUtil.handle( e );
+						if (actionHandle != null) {
+							try {
+								dataItem.setAction((Action) actionHandle.getStructure().copy());
+							} catch (SemanticException e) {
+								ExceptionUtil.handle(e);
 							}
 						}
 					}
 				}
 			}
 
-		} );
+		});
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 		plugin = null;
-		CrosstabModelUtil.setCrosstabModelListener( null );
+		CrosstabModelUtil.setCrosstabModelListener(null);
 	}
 }

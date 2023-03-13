@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,8 +28,7 @@ import org.eclipse.swt.layout.GridData;
  * Provides block preference page.
  */
 
-public class SizePreferencePage extends BaseStylePreferencePage
-{
+public class SizePreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * the preference store( model ) for the preference page.
@@ -35,7 +37,7 @@ public class SizePreferencePage extends BaseStylePreferencePage
 
 	/**
 	 * field editors.
-	 * 
+	 *
 	 */
 	private ComboBoxMeasureFieldEditor widthIndent;
 
@@ -43,142 +45,116 @@ public class SizePreferencePage extends BaseStylePreferencePage
 
 	/**
 	 * Constructs a new instance of block preference page.
-	 * 
-	 * @param model
-	 *            the preference store( model ) for the following field editors.
+	 *
+	 * @param model the preference store( model ) for the following field editors.
 	 */
-	public SizePreferencePage( Object model )
-	{
-		super( model );
-		setTitle( Messages.getString( "SizePreferencePage.displayname.Title" ) ); //$NON-NLS-1$
+	public SizePreferencePage(Object model) {
+		super(model);
+		setTitle(Messages.getString("SizePreferencePage.displayname.Title")); //$NON-NLS-1$
 
 		this.model = model;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
-	protected void adjustGridLayout( )
-	{
-		super.adjustGridLayout( );
-		( (GridData) widthIndent.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 116;
-		( (GridData) heightIndent.getTextControl( getFieldEditorParent( ) )
-				.getLayoutData( ) ).widthHint = 116;
+	@Override
+	protected void adjustGridLayout() {
+		super.adjustGridLayout();
+		((GridData) widthIndent.getTextControl(getFieldEditorParent()).getLayoutData()).widthHint = 116;
+		((GridData) heightIndent.getTextControl(getFieldEditorParent()).getLayoutData()).widthHint = 116;
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
-	 * ()
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors ()
 	 */
-	protected void createFieldEditors( )
-	{
+	@Override
+	protected void createFieldEditors() {
 
-		widthIndent = new ComboBoxMeasureFieldEditor( StyleHandle.WIDTH_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.WIDTH_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						StyleHandle.WIDTH_PROP ) ),
-				getFieldEditorParent( ) );
-		widthIndent.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.WIDTH_PROP )
-				.getDefaultUnit( ) );
+		widthIndent = new ComboBoxMeasureFieldEditor(StyleHandle.WIDTH_PROP,
+				Messages.getString(
+						((StyleHandle) model).getPropertyHandle(StyleHandle.WIDTH_PROP).getDefn().getDisplayNameID()),
+				getChoiceArray(ChoiceSetFactory.getDimensionChoiceSet(ReportDesignConstants.STYLE_ELEMENT,
+						StyleHandle.WIDTH_PROP)),
+				getFieldEditorParent());
+		widthIndent.setDefaultUnit(((StyleHandle) model).getPropertyHandle(StyleHandle.WIDTH_PROP).getDefaultUnit());
 
-		addField( widthIndent );
+		addField(widthIndent);
 
-		heightIndent = new ComboBoxMeasureFieldEditor( StyleHandle.HEIGHT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.HEIGHT_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						StyleHandle.HEIGHT_PROP ) ),
-				getFieldEditorParent( ) );
-		heightIndent.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.HEIGHT_PROP )
-				.getDefaultUnit( ) );
+		heightIndent = new ComboBoxMeasureFieldEditor(StyleHandle.HEIGHT_PROP,
+				Messages.getString(
+						((StyleHandle) model).getPropertyHandle(StyleHandle.HEIGHT_PROP).getDefn().getDisplayNameID()),
+				getChoiceArray(ChoiceSetFactory.getDimensionChoiceSet(ReportDesignConstants.STYLE_ELEMENT,
+						StyleHandle.HEIGHT_PROP)),
+				getFieldEditorParent());
+		heightIndent.setDefaultUnit(((StyleHandle) model).getPropertyHandle(StyleHandle.HEIGHT_PROP).getDefaultUnit());
 
-		addField( heightIndent );
+		addField(heightIndent);
 
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
-				IHelpContextIds.STYLE_BUILDER_SIZE_ID );
+		UIUtil.bindHelp(getFieldEditorParent().getParent(), IHelpContextIds.STYLE_BUILDER_SIZE_ID);
 
 	}
 
 	/**
 	 * Gets choice array of the given choise set.
-	 * 
-	 * @param set
-	 *            The given choice set.
+	 *
+	 * @param set The given choice set.
 	 * @return String[][]: The choice array of the key, which contains he names
 	 *         (labels) and underlying values, will be arranged as: { {name1,
 	 *         value1}, {name2, value2}, ...}
 	 */
-	private String[][] getChoiceArray( IChoiceSet set )
-	{
-		return getChoiceArray( set, false );
+	private String[][] getChoiceArray(IChoiceSet set) {
+		return getChoiceArray(set, false);
 	}
 
 	/**
 	 * Gets choice array of the given choise set.
-	 * 
-	 * @param set
-	 *            The given choice set.
+	 *
+	 * @param set The given choice set.
 	 * @return String[][]: The choice array of the key, which contains he names
 	 *         (labels) and underlying values, will be arranged as: { {name1,
 	 *         value1}, {name2, value2}, ...}
 	 */
-	private String[][] getChoiceArray( IChoiceSet set, boolean addAuto )
-	{
-		IChoice[] choices = set.getChoices( );
+	private String[][] getChoiceArray(IChoiceSet set, boolean addAuto) {
+		IChoice[] choices = set.getChoices();
 
 		String[][] names = null;
 
-		if ( choices.length > 0 )
-		{
+		if (choices.length > 0) {
 			int offset = 0;
 
-			if ( addAuto )
-			{
+			if (addAuto) {
 				offset = 1;
 
 				names = new String[choices.length + 1][2];
 				names[0][0] = ChoiceSetFactory.CHOICE_AUTO;
 				names[0][1] = ""; //$NON-NLS-1$
-			}
-			else
-			{
+			} else {
 				names = new String[choices.length][2];
 			}
 
-			for ( int i = 0; i < choices.length; i++ )
-			{
-				names[i + offset][0] = choices[i].getDisplayName( );
-				names[i + offset][1] = choices[i].getName( );
+			for (int i = 0; i < choices.length; i++) {
+				names[i + offset][0] = choices[i].getDisplayName();
+				names[i + offset][1] = choices[i].getName();
 			}
-		}
-		else if ( addAuto )
-		{
-			names = new String[][]{
-				{
-						ChoiceSetFactory.CHOICE_AUTO, "" //$NON-NLS-1$
-				}
-			};
+		} else if (addAuto) {
+			names = new String[][] { { ChoiceSetFactory.CHOICE_AUTO, "" //$NON-NLS-1$
+					} };
 		}
 
 		return names;
 	}
 
-	protected String[] getPreferenceNames( )
-	{
-		return new String[]{
-				StyleHandle.WIDTH_PROP, StyleHandle.HEIGHT_PROP,
-		};
+	@Override
+	protected String[] getPreferenceNames() {
+		return new String[] { StyleHandle.WIDTH_PROP, StyleHandle.HEIGHT_PROP, };
 	}
 
 }

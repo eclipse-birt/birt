@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,201 +36,170 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.expressions.IEvaluationContext;
 
 /**
- * 
+ *
  */
 
-public class InsertGroupHanlder extends SelectionHandler
-{
+public class InsertGroupHanlder extends SelectionHandler {
 
-	//private Object currentModel;
+	// private Object currentModel;
 
-	private static final String STACK_MSG_ADD_GROUP = Messages.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_ADD_GROUP = Messages.getString("AddGroupAction.stackMsg.addGroup"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		//currentModel = context.getVariable( ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME );
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		// currentModel = context.getVariable(
+		// ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME );
 
 		int position = 0;
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_GROUP_POSITION);
-		if ( obj != null && obj instanceof Integer )
-		{
-			position = ( (Integer) obj ).intValue( );
+		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_GROUP_POSITION);
+		if (obj instanceof Integer) {
+			position = ((Integer) obj).intValue();
 		}
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert group action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert group action >> Run ..."); //$NON-NLS-1$
 		}
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_ADD_GROUP );
+		CommandStack stack = getActiveCommandStack();
+		stack.startTrans(STACK_MSG_ADD_GROUP);
 		boolean retValue = false;
-		if ( getTableEditPart( ) != null )
-		{
-			retValue = getTableEditPart( ).insertGroup( position );
+		if (getTableEditPart() != null) {
+			retValue = getTableEditPart().insertGroup(position);
+		} else if (getTableMultipleEditPart() != null) {
+			retValue = UIUtil.createGroup((DesignElementHandle) getTableMultipleEditPart().getModel(), position);
+		} else {
+			retValue = getListEditPart().insertGroup(position);
 		}
-		else if (getTableMultipleEditPart( ) != null)
-		{
-			retValue = UIUtil.createGroup( (DesignElementHandle)getTableMultipleEditPart( ).getModel( ), position );
-		}
-		else
-		{
-			retValue = getListEditPart( ).insertGroup( position );
-		}
-		if ( retValue )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
+		if (retValue) {
+			stack.commit();
+		} else {
+			stack.rollbackAll();
 		}
 
 		return Boolean.TRUE;
 	}
-	
-	//fix bug 217589
-	protected ReportElementEditPart getTableMultipleEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+
+	// fix bug 217589
+	@Override
+	protected ReportElementEditPart getTableMultipleEditPart() {
+		if (getSelection() == null || getSelection().isEmpty()) {
 			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
+		}
+		List list = getSelectedObjects();
+		int size = list.size();
 		ReportElementEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = list.get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				// currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			ReportElementEditPart currentEditPart = null;
-			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
-			{
+			if (obj instanceof MultipleEditPart && ((MultipleEditPart) obj).getModel() instanceof TableHandle) {
 				currentEditPart = (ReportElementEditPart) obj;
 			}
-			
-			else if ( obj instanceof DummyEditpart )
-			{
+
+			else if (obj instanceof DummyEditpart) {
 				continue;
 			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
 		// Only table permitted
-		if ( part instanceof GridEditPart )
+		if (part instanceof GridEditPart) {
 			return null;
+		}
 		return part;
 	}
-	
+
 	/**
 	 * Gets table edit part.
-	 * 
-	 * @return The current selected table edit part, null if no table edit part
-	 *         is selected.
+	 *
+	 * @return The current selected table edit part, null if no table edit part is
+	 *         selected.
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+	@Override
+	protected TableEditPart getTableEditPart() {
+		if (getSelection() == null || getSelection().isEmpty()) {
 			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
+		}
+		List list = getSelectedObjects();
+		int size = list.size();
 		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = list.get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				// currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			TableEditPart currentEditPart = null;
-			if ( obj instanceof TableEditPart )
-			{
+			if (obj instanceof TableEditPart) {
 				currentEditPart = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-			else if ( obj instanceof DummyEditpart )
-			{
+			} else if (obj instanceof TableCellEditPart) {
+				currentEditPart = (TableEditPart) ((TableCellEditPart) obj).getParent();
+			} else if (obj instanceof DummyEditpart) {
 				continue;
 			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
 		// Only table permitted
-		if ( part instanceof GridEditPart )
+		if (part instanceof GridEditPart) {
 			return null;
+		}
 		return part;
 	}
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	protected ListEditPart getListEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+	@Override
+	protected ListEditPart getListEditPart() {
+		if (getSelection() == null || getSelection().isEmpty()) {
 			return null;
+		}
 		List list = getSelectedObjects();
-		int size = list.size( );
+		int size = list.size();
 		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = list.get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				// currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			ListEditPart currentEditPart = null;
-			if ( obj instanceof ListEditPart )
-			{
+			if (obj instanceof ListEditPart) {
 				currentEditPart = (ListEditPart) obj;
+			} else if (obj instanceof ListBandEditPart) {
+				currentEditPart = (ListEditPart) ((ListBandEditPart) obj).getParent();
 			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one list
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
@@ -236,11 +208,11 @@ public class InsertGroupHanlder extends SelectionHandler
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	@Override
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 }

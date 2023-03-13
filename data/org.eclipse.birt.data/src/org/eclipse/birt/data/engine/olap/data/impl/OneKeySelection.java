@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,45 +16,41 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 
-
 /**
  *
  */
-public class OneKeySelection implements ISelection
-{
+public class OneKeySelection implements ISelection {
 
 	Object[] keyValue = null;
 
-	
 	/**
 	 * @return the keyValue
 	 */
-	public Object[] getKeyValue( )
-	{
+	public Object[] getKeyValue() {
 		return keyValue;
 	}
 
-	public OneKeySelection( Object[] keyValue )
-	{
+	public OneKeySelection(Object[] keyValue) {
 		this.keyValue = keyValue;
 	}
 
-	public Object[] getMax( )
-	{
+	@Override
+	public Object[] getMax() {
 		return keyValue;
 	}
 
-	public Object[] getMin( )
-	{
+	@Override
+	public Object[] getMin() {
 		return keyValue;
 	}
 
-	public boolean isSelected( Object[] obj )
-	{
-		if ( CompareUtil.compare( keyValue, obj ) == 0 )
+	@Override
+	public boolean isSelected(Object[] obj) {
+		if (CompareUtil.compare(keyValue, obj) == 0) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,16 +35,12 @@ import org.eclipse.ui.part.EditorPart;
 
 /**
  * ReportEditorProxy is a editor proxy, which use in eclipse IDE enviroment.
- * 
+ *
  * ReportEditorProxy determines editor input, then create a proper editor
  * instance to represents the editor behaivors.
  */
 
-public class ReportEditorProxy extends EditorPart implements
-		IPartListener,
-		IPropertyListener,
-		IReportEditor
-{
+public class ReportEditorProxy extends EditorPart implements IPartListener, IPropertyListener, IReportEditor {
 
 	/**
 	 * The ID of the Report Editor
@@ -68,274 +67,247 @@ public class ReportEditorProxy extends EditorPart implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getEditorInput()
 	 */
+	@Override
 	@SuppressWarnings("restriction")
-	public IEditorInput getEditorInput( )
-	{
-		if ( instance != null )
-		{
-			return instance.getEditorInput( );
+	public IEditorInput getEditorInput() {
+		if (instance != null) {
+			return instance.getEditorInput();
 		}
-		return new NullEditorInput( );
+		return new NullEditorInput();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getEditorSite()
 	 */
-	public IEditorSite getEditorSite( )
-	{
-		if ( instance != null )
-		{
-			return instance.getEditorSite( );
+	@Override
+	public IEditorSite getEditorSite() {
+		if (instance != null) {
+			return instance.getEditorSite();
 		}
 		return cachedSite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		cachedSite = site;
 
-		if ( instance != null )
-		{
-			getSite( ).getWorkbenchWindow( )
-					.getPartService( )
-					.removePartListener( instance );
-			instance.dispose( );
+		if (instance != null) {
+			getSite().getWorkbenchWindow().getPartService().removePartListener(instance);
+			instance.dispose();
 		}
 
-		if ( input instanceof IFileEditorInput
-				|| input instanceof IURIEditorInput )
-		{
-			instance = new IDEMultiPageReportEditor( );
-		}
-		else
-		{
-			instance = new MultiPageReportEditor( );
+		if (input instanceof IFileEditorInput || input instanceof IURIEditorInput) {
+			instance = new IDEMultiPageReportEditor();
+		} else {
+			instance = new MultiPageReportEditor();
 		}
 
 		// must add property listener before init.
-		instance.addPropertyListener( this );
+		instance.addPropertyListener(this);
 
-		instance.init( site, input );
-		getSite( ).getWorkbenchWindow( )
-				.getPartService( )
-				.addPartListener( this );
+		instance.init(site, input);
+		getSite().getWorkbenchWindow().getPartService().addPartListener(this);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		instance.createPartControl( parent );
+	@Override
+	public void createPartControl(Composite parent) {
+		instance.createPartControl(parent);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
-	public void dispose( )
-	{
-		if ( instance != null )
-		{
-			instance.dispose( );
-			getSite( ).getWorkbenchWindow( )
-					.getPartService( )
-					.removePartListener( this );
-			instance.removePropertyListener( this );
+	@Override
+	public void dispose() {
+		if (instance != null) {
+			instance.dispose();
+			getSite().getWorkbenchWindow().getPartService().removePartListener(this);
+			instance.removePropertyListener(this);
 		}
 		instance = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getSite()
 	 */
-	public IWorkbenchPartSite getSite( )
-	{
-		if ( instance != null )
-		{
-			return instance.getSite( );
+	@Override
+	public IWorkbenchPartSite getSite() {
+		if (instance != null) {
+			return instance.getSite();
 		}
 		return cachedSite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getTitle()
 	 */
-	public String getTitle( )
-	{
+	@Override
+	public String getTitle() {
 		return this.title;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#getTitleToolTip()
 	 */
-	public String getTitleToolTip( )
-	{
-		if ( instance != null )
-		{
-			return instance.getTitleToolTip( );
+	@Override
+	public String getTitleToolTip() {
+		if (instance != null) {
+			return instance.getTitleToolTip();
 		}
 		return ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
-		if ( instance != null )
-		{
-			instance.setFocus( );
+	@Override
+	public void setFocus() {
+		if (instance != null) {
+			instance.setFocus();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( instance != null )
-		{
-			return instance.getAdapter( adapter );
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (instance != null) {
+			return instance.getAdapter(adapter);
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
-	public void doSave( IProgressMonitor monitor )
-	{
-		if ( instance != null )
-		{
-			instance.doSave( monitor );
-			firePropertyChange( PROP_DIRTY );
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		if (instance != null) {
+			instance.doSave(monitor);
+			firePropertyChange(PROP_DIRTY);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
-	public void doSaveAs( )
-	{
-		if ( instance != null )
-		{
-			instance.doSaveAs( );
-			firePropertyChange( PROP_DIRTY );
+	@Override
+	public void doSaveAs() {
+		if (instance != null) {
+			instance.doSaveAs();
+			firePropertyChange(PROP_DIRTY);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
-	public boolean isDirty( )
-	{
-		if ( instance != null )
-		{
-			return instance.isDirty( );
+	@Override
+	public boolean isDirty() {
+		if (instance != null) {
+			return instance.isDirty();
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
-	public boolean isSaveAsAllowed( )
-	{
-		if ( instance != null )
-		{
-			return instance.isSaveAsAllowed( );
+	@Override
+	public boolean isSaveAsAllowed() {
+		if (instance != null) {
+			return instance.isSaveAsAllowed();
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveOnCloseNeeded()
 	 */
-	public boolean isSaveOnCloseNeeded( )
-	{
-		if ( instance != null )
-		{
-			return instance.isSaveOnCloseNeeded( );
+	@Override
+	public boolean isSaveOnCloseNeeded() {
+		if (instance != null) {
+			return instance.isSaveOnCloseNeeded();
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	protected void setInput( IEditorInput input )
-	{
-		super.setInput( input );
+	@Override
+	protected void setInput(IEditorInput input) {
+		super.setInput(input);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#setPartName(java.lang.String)
 	 */
-	protected void setPartName( String partName )
-	{
+	@Override
+	protected void setPartName(String partName) {
 		this.title = partName;
-		super.setPartName( partName );
+		super.setPartName(partName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partActivated( IWorkbenchPart part )
-	{
-		if ( part instanceof ReportEditorProxy )
-		{
-			instance.partActivated( ( (ReportEditorProxy) part ).getEditorPart( ) );
-		}
-		else
-		{
-			instance.partActivated( part );
+	@Override
+	public void partActivated(IWorkbenchPart part) {
+		if (part instanceof ReportEditorProxy) {
+			instance.partActivated(((ReportEditorProxy) part).getEditorPart());
+		} else {
+			instance.partActivated(part);
 		}
 		// if ( part != this )
 		// {
@@ -417,147 +389,121 @@ public class ReportEditorProxy extends EditorPart implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart )
 	 */
-	public void partBroughtToTop( IWorkbenchPart part )
-	{
-		if ( instance == null )
-		{
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		if (instance == null) {
 			return;
 		}
 
-		if ( part instanceof ReportEditorProxy )
-		{
-			instance.partBroughtToTop( ( (ReportEditorProxy) part ).getEditorPart( ) );
-		}
-		else
-		{
-			instance.partBroughtToTop( part );
+		if (part instanceof ReportEditorProxy) {
+			instance.partBroughtToTop(((ReportEditorProxy) part).getEditorPart());
+		} else {
+			instance.partBroughtToTop(part);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+	 *
+	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partClosed( IWorkbenchPart part )
-	{
-		if ( instance == null )
-		{
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		if (instance == null) {
 			return;
 		}
-		
-		if ( part instanceof ReportEditorProxy )
-		{
-			instance.partClosed( ( (ReportEditorProxy) part ).getEditorPart( ) );
-		}
-		else
-		{
-			instance.partClosed( part );
+
+		if (part instanceof ReportEditorProxy) {
+			instance.partClosed(((ReportEditorProxy) part).getEditorPart());
+		} else {
+			instance.partClosed(part);
 		}
 		// instance.partClosed( part );
 		// FIXME ugly code
-		if ( part == this )
-		{
-			SessionHandleAdapter.getInstance( ).clear( instance.getModel( ) );
-			if ( instance.getModel( ) != null )
-			{
-				GlobalActionFactory.removeStackActions( instance.getModel( )
-						.getCommandStack( ) );
+		if (part == this) {
+			SessionHandleAdapter.getInstance().clear(instance.getModel());
+			if (instance.getModel() != null) {
+				GlobalActionFactory.removeStackActions(instance.getModel().getCommandStack());
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart )
 	 */
-	public void partDeactivated( IWorkbenchPart part )
-	{
-		if ( instance == null )
-		{
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		if (instance == null) {
 			return;
 		}
-		
-		if ( part instanceof ReportEditorProxy )
-		{
-			instance.partDeactivated( ( (ReportEditorProxy) part ).getEditorPart( ) );
-		}
-		else
-		{
-			instance.partDeactivated( part );
+
+		if (part instanceof ReportEditorProxy) {
+			instance.partDeactivated(((ReportEditorProxy) part).getEditorPart());
+		} else {
+			instance.partDeactivated(part);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+	 *
+	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partOpened( IWorkbenchPart part )
-	{
-		if ( instance == null )
-		{
+	@Override
+	public void partOpened(IWorkbenchPart part) {
+		if (instance == null) {
 			return;
 		}
-		
-		if ( part instanceof ReportEditorProxy )
-		{
-			instance.partOpened( ( (ReportEditorProxy) part ).getEditorPart( ) );
-		}
-		else
-		{
-			instance.partOpened( part );
+
+		if (part instanceof ReportEditorProxy) {
+			instance.partOpened(((ReportEditorProxy) part).getEditorPart());
+		} else {
+			instance.partOpened(part);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IPropertyListener#propertyChanged(java.lang.Object,
-	 * int)
+	 *
+	 * @see org.eclipse.ui.IPropertyListener#propertyChanged(java.lang.Object, int)
 	 */
-	public void propertyChanged( Object source, int propId )
-	{
-		if ( propId == IWorkbenchPartConstants.PROP_PART_NAME )
-		{
-			setPartName( instance.getPartName( ) );
+	@Override
+	public void propertyChanged(Object source, int propId) {
+		if (propId == IWorkbenchPartConstants.PROP_PART_NAME) {
+			setPartName(instance.getPartName());
 		}
 
-		firePropertyChange( propId );
+		firePropertyChange(propId);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor#
 	 * getEditorPart()
 	 */
-	public IEditorPart getEditorPart( )
-	{
+	@Override
+	public IEditorPart getEditorPart() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( obj == instance )
-		{
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == instance) {
 			return true;
 		}
-		return super.equals( obj );
+		return super.equals(obj);
 	}
 }

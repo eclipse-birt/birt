@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,182 +19,181 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an HighLightRule in the scripting environment
- * 
+ *
  */
-public interface IHighlightRule
-{
+public interface IHighlightRule {
 
 	/**
 	 * Returns Test Expression
-	 * 
+	 *
 	 * @return Test Expression
 	 */
 
-	public String getTestExpression( );
+	String getTestExpression();
 
 	/**
 	 * Sets Test Expression
-	 * 
+	 *
 	 * @param expression
 	 * @throws ScriptException
 	 */
 
-	public void setTestExpression( String expression ) throws ScriptException;
+	void setTestExpression(String expression) throws ScriptException;
 
 	/**
 	 * Returns font style
-	 * 
+	 *
 	 * @return font style
 	 */
 
-	public String getFontStyle( );
+	String getFontStyle();
 
 	/**
 	 * Sets font style
-	 * 
+	 *
 	 * @param style
 	 * @throws ScriptException
 	 */
 
-	public void setFontStyle( String style ) throws ScriptException;
+	void setFontStyle(String style) throws ScriptException;
 
 	/**
 	 * Returns font weight.
-	 * 
+	 *
 	 * @return font weight.
 	 */
 
-	public String getFontWeight( );
+	String getFontWeight();
 
 	/**
 	 * Sets font weight.
-	 * 
+	 *
 	 * @param weight
 	 * @throws ScriptException
 	 */
 
-	public void setFontWeight( String weight ) throws ScriptException;
+	void setFontWeight(String weight) throws ScriptException;
 
 	/**
 	 * Return date time format.
-	 * 
+	 *
 	 * @return date time format.
 	 */
 
-	public String getDateTimeFormat( );
+	String getDateTimeFormat();
 
 	/**
 	 * Sets date time format
-	 * 
+	 *
 	 * @param format
 	 * @throws ScriptException
 	 */
 
-	public void setDateTimeFormat( String format ) throws ScriptException;
+	void setDateTimeFormat(String format) throws ScriptException;
 
 	/**
 	 * Returns string format
-	 * 
+	 *
 	 * @return string format
 	 */
-	public String getStringFormat( );
+	String getStringFormat();
 
 	/**
 	 * Sets string format
-	 * 
+	 *
 	 * @param format
 	 * @throws ScriptException
 	 */
 
-	public void setStringFormat( String format )  throws ScriptException;
+	void setStringFormat(String format) throws ScriptException;
 
 	/**
 	 * Returns color
-	 * 
+	 *
 	 * @return color
 	 */
 
-	public String getColor( );
+	String getColor();
 
 	/**
 	 * Returns value1
-	 * 
+	 *
 	 * @return value1
 	 */
 
-	public String getValue1( );
+	String getValue1();
 
 	/**
 	 * Returns value2
-	 * 
+	 *
 	 * @return value2
 	 */
 
-	public String getValue2( );
+	String getValue2();
 
 	/**
 	 * Returns Operator
-	 * 
+	 *
 	 * @return operator
 	 */
 
-	public String getOperator( );
+	String getOperator();
 
 	/**
 	 * Returns backgroudcolor
-	 * 
+	 *
 	 * @return backgroudcolor
 	 */
 
-	public String getBackGroundColor( ) throws ScriptException;
+	String getBackGroundColor() throws ScriptException;
 
 	/**
 	 * Sets color
-	 * 
+	 *
 	 * @param color
 	 * @throws ScriptException
 	 */
 
-	public void setColor( String color ) throws ScriptException;
+	void setColor(String color) throws ScriptException;
 
 	/**
 	 * Sets Value1
-	 * 
+	 *
 	 * @param value1
 	 */
 
-	public void setValue1( String value1 ) throws ScriptException;
+	void setValue1(String value1) throws ScriptException;
 
 	/**
 	 * Sets Value2
-	 * 
+	 *
 	 * @param value2
 	 */
 
-	public void setValue2( String value2 ) throws ScriptException;
+	void setValue2(String value2) throws ScriptException;
 
 	/**
 	 * Sets Operator
-	 * 
+	 *
 	 * @param operator
 	 */
 
-	public void setOperator( String operator ) throws ScriptException;
+	void setOperator(String operator) throws ScriptException;
 
 	/**
 	 * Sets backgroudcolor
-	 * 
+	 *
 	 * @param color
 	 */
 
-	public void setBackGroundColor( String color ) throws ScriptException;
+	void setBackGroundColor(String color) throws ScriptException;
 
 	/**
 	 * Returns structure.
-	 * 
+	 *
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	IStructure getStructure();
 
 }

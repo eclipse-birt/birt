@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer" uid="org.eclipse.birt.designer" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="4.9.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer" uid="org.eclipse.birt.designer" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="4.13.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
       <programArgs>-product
-
 org.eclipse.epp.package.reporting.product
-
 --launcher.defaultAction
-
 openFile
-
---launcher.XXMaxPermSize
-
-256M
-
 -showsplash
-
 org.eclipse.platform
       </programArgs>
       <vmArgs>-Dosgi.requiredJavaVersion=1.8
-
 -Xms256m
-
 -Xmx1024m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
@@ -38,7 +27,6 @@ org.eclipse.platform
    <splash
       location="org.eclipse.platform" />
    <launcher>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -51,17 +39,17 @@ org.eclipse.platform
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt"/>
-      <feature id="org.eclipse.platform"/>
-      <feature id="org.eclipse.pde"/>
-      <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.birt" installMode="root"/>
+      <feature id="org.eclipse.platform" installMode="root"/>
+      <feature id="org.eclipse.pde" installMode="root"/>
+      <feature id="org.eclipse.rcp" installMode="root"/>
+      <feature id="org.eclipse.jdt" installMode="root"/>
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />

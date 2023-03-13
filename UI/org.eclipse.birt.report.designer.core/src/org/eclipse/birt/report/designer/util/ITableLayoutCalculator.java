@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,35 +18,34 @@ package org.eclipse.birt.report.designer.util;
  * Provide html style layout algorighm
  */
 
-public interface ITableLayoutCalculator
-{
+public interface ITableLayoutCalculator {
 
 	/**
 	 * Calculate column width
-	 * 
+	 *
 	 * @return array of colum width
 	 */
-	public float[] getFloatColWidth( ) throws NumberFormatException;
+	float[] getFloatColWidth() throws NumberFormatException;
 
 	/**
 	 * Calculate column width
-	 * 
+	 *
 	 * @return array of colum width
 	 */
-	public int[] getIntColWidth( );
+	int[] getIntColWidth();
 
 	/**
 	 * Calculate row height
-	 * 
+	 *
 	 * @return array of row height
 	 */
-	public float[] getFloatRowHeight( ) throws NumberFormatException;
+	float[] getFloatRowHeight() throws NumberFormatException;
 
 	/**
 	 * Calculate row height
-	 * 
+	 *
 	 * @return array of row height
 	 */
-	public float[] getIntRowHeight( );
+	float[] getIntRowHeight();
 
 }

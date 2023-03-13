@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,45 +19,36 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
-public class DataSource implements IDataSource
-{
+public class DataSource implements IDataSource {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSourceImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSourceImpl;
 
-    public DataSource( DataSourceHandle dataSource )
-    {
-        dataSourceImpl = SimpleElementFactory.getInstance().createDataSource(
-                dataSource );
-    }
+	public DataSource(DataSourceHandle dataSource) {
+		dataSourceImpl = SimpleElementFactory.getInstance().createDataSource(dataSource);
+	}
 
-    public DataSource(
-            org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSource )
-    {
-        dataSourceImpl = dataSource;
-    }
+	public DataSource(org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSource) {
+		dataSourceImpl = dataSource;
+	}
 
-    public String getExtensionID()
-    {
-        return dataSourceImpl.getExtensionID();
-    }
+	@Override
+	public String getExtensionID() {
+		return dataSourceImpl.getExtensionID();
+	}
 
-    public String getPrivateDriverProperty( String name )
-    {
-        return dataSourceImpl.getPrivateDriverProperty( name );
-    }
+	@Override
+	public String getPrivateDriverProperty(String name) {
+		return dataSourceImpl.getPrivateDriverProperty(name);
+	}
 
-    public void setPrivateDriverProperty( String name, String value )
-            throws ScriptException
-    {
-        try
-        {
-            dataSourceImpl.setPrivateDriverProperty( name, value );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
+	@Override
+	public void setPrivateDriverProperty(String name, String value) throws ScriptException {
+		try {
+			dataSourceImpl.setPrivateDriverProperty(name, value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
 
-    }
+	}
 
 }

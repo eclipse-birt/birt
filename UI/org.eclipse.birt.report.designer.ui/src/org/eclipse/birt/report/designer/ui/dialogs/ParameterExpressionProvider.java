@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,45 +34,38 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 /**
  * ParameterExpressionProvider
  */
-public class ParameterExpressionProvider extends ExpressionProvider
-{
+public class ParameterExpressionProvider extends ExpressionProvider {
 
 	private DataSetHandle dataSetHandle = null;
 
-	public ParameterExpressionProvider( DesignElementHandle handle,
-			String dataSetName )
-	{
-		super( handle );
-		if ( handle instanceof AbstractScalarParameterHandle )
-		{
-			dataSetHandle = ( (AbstractScalarParameterHandle) handle ).getModuleHandle( )
-					.findDataSet( dataSetName );
+	public ParameterExpressionProvider(DesignElementHandle handle, String dataSetName) {
+		super(handle);
+		if (handle instanceof AbstractScalarParameterHandle) {
+			dataSetHandle = ((AbstractScalarParameterHandle) handle).getModuleHandle().findDataSet(dataSetName);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getCategoryList()
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
+	 * getCategoryList()
 	 */
-	protected List getCategoryList( )
-	{
-		ArrayList<Object> categoryList = new ArrayList<Object>( 4 );
-		categoryList.add( NATIVE_OBJECTS );
-		categoryList.add( BIRT_OBJECTS );
-		categoryList.add( OPERATORS );
-		if ( dataSetHandle != null )
-		{
-			categoryList.add( DATASETS );
+	@Override
+	protected List getCategoryList() {
+		ArrayList<Object> categoryList = new ArrayList<>(4);
+		categoryList.add(NATIVE_OBJECTS);
+		categoryList.add(BIRT_OBJECTS);
+		categoryList.add(OPERATORS);
+		if (dataSetHandle != null) {
+			categoryList.add(DATASETS);
 		}
 
-		if ( adapterProvider != null )
-		{
-			Object[] cats = adapterProvider.getCategory( );
+		if (adapterProvider != null) {
+			Object[] cats = adapterProvider.getCategory();
 
-			if ( cats != null )
-			{
-				categoryList.addAll( Arrays.asList( cats ) );
+			if (cats != null) {
+				categoryList.addAll(Arrays.asList(cats));
 			}
 		}
 
@@ -78,55 +74,47 @@ public class ParameterExpressionProvider extends ExpressionProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getChildrenList(java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
+	 * getChildrenList(java.lang.Object)
 	 */
-	protected List getChildrenList( Object parent )
-	{
-		if ( DATASETS.equals( parent ) )
-		{
-			List dataSeList = new ArrayList( );
-			dataSeList.add( dataSetHandle );
+	@Override
+	protected List getChildrenList(Object parent) {
+		if (DATASETS.equals(parent)) {
+			List dataSeList = new ArrayList();
+			dataSeList.add(dataSetHandle);
 			return dataSeList;
 		}
-		if ( parent instanceof DataSetHandle )
-		{
-			try
-			{
-				List columnList = DataUtil.getColumnList( (DataSetHandle) parent );
-				List outputList = getOutputList( (DataSetHandle) parent );
-				columnList.addAll( outputList );
+		if (parent instanceof DataSetHandle) {
+			try {
+				List columnList = DataUtil.getColumnList((DataSetHandle) parent);
+				List outputList = getOutputList((DataSetHandle) parent);
+				columnList.addAll(outputList);
 				return columnList;
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
 				return Collections.EMPTY_LIST;
 			}
 		}
-		return super.getChildrenList( parent );
+		return super.getChildrenList(parent);
 	}
 
 	/**
 	 * Get output parameters if handle has.
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */
-	private List getOutputList( DataSetHandle handle )
-	{
-		List outputList = new ArrayList( );
-		PropertyHandle parameters = handle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-		Iterator iter = parameters.iterator( );
+	private List getOutputList(DataSetHandle handle) {
+		List outputList = new ArrayList();
+		PropertyHandle parameters = handle.getPropertyHandle(DataSetHandle.PARAMETERS_PROP);
+		Iterator iter = parameters.iterator();
 
-		if ( iter != null )
-		{
-			while ( iter.hasNext( ) )
-			{
-				Object dataSetParameter = iter.next( );
-				if ( ( (DataSetParameterHandle) dataSetParameter ).isOutput( ) == true )
-				{
-					outputList.add( dataSetParameter );
+		if (iter != null) {
+			while (iter.hasNext()) {
+				Object dataSetParameter = iter.next();
+				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
+					outputList.add(dataSetParameter);
 				}
 			}
 		}
@@ -135,38 +123,35 @@ public class ParameterExpressionProvider extends ExpressionProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText
+	 * (java.lang.Object)
 	 */
-	public String getDisplayText( Object element )
-	{
-		if ( element instanceof DataSetHandle )
-		{
-			return ( (DataSetHandle) element ).getName( );
+	@Override
+	public String getDisplayText(Object element) {
+		if (element instanceof DataSetHandle) {
+			return ((DataSetHandle) element).getName();
+		} else if (element instanceof ResultSetColumnHandle) {
+			return ((ResultSetColumnHandle) element).getColumnName();
+		} else if (element instanceof DataSetParameterHandle) {
+			return ((DataSetParameterHandle) element).getName();
 		}
-		else if ( element instanceof ResultSetColumnHandle )
-		{
-			return ( (ResultSetColumnHandle) element ).getColumnName( );
-		}
-		else if ( element instanceof DataSetParameterHandle )
-		{
-			return ( (DataSetParameterHandle) element ).getName( );
-		}
-		return super.getDisplayText( element );
+		return super.getDisplayText(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(
+	 * java.lang.Object)
 	 */
-	public String getInsertText( Object element )
-	{
-		if ( element instanceof ResultSetColumnHandle
-				|| element instanceof DataSetParameterHandle )
-		{
-			return DEUtil.getExpression( element );
+	@Override
+	public String getInsertText(Object element) {
+		if (element instanceof ResultSetColumnHandle || element instanceof DataSetParameterHandle) {
+			return DEUtil.getExpression(element);
 		}
-		return super.getInsertText( element );
+		return super.getInsertText(element);
 	}
 }

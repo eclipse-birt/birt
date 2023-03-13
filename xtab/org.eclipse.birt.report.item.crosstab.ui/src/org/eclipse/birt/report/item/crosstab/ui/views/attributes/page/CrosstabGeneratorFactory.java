@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,50 +28,39 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * 
+ *
  */
 
-public class CrosstabGeneratorFactory implements IAdapterFactory
-{
-	protected static final Logger logger = Logger.getLogger( CrosstabGeneratorFactory.class.getName( ) );
+public class CrosstabGeneratorFactory implements IAdapterFactory {
+	protected static final Logger logger = Logger.getLogger(CrosstabGeneratorFactory.class.getName());
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( !( adaptableObject instanceof ExtendedItemHandle ) )
-		{
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (!(adaptableObject instanceof ExtendedItemHandle)) {
 			return null;
 		}
 		ExtendedItemHandle item = (ExtendedItemHandle) adaptableObject;
 		IReportItem reportItem = null;
-		try
-		{
-			reportItem = item.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportItem = item.getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		if(reportItem == null)
-		{
+		if (reportItem == null) {
 			return null;
 		}
-		if ( reportItem instanceof CrosstabReportItemHandle)
-		{
-			return new CrosstabPageGenerator( );
-		}
-		else if (reportItem instanceof CrosstabCellHandle)
-		{
-			return new CrosstabCellPageGenerator( );
+		if (reportItem instanceof CrosstabReportItemHandle) {
+			return new CrosstabPageGenerator();
+		} else if (reportItem instanceof CrosstabCellHandle) {
+			return new CrosstabCellPageGenerator();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IPageGenerator.class
-		};
+	@Override
+	public Class[] getAdapterList() {
+		return new Class[] { IPageGenerator.class };
 	}
 
 }

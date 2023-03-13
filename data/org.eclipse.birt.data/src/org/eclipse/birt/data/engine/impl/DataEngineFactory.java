@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,31 +22,25 @@ import org.eclipse.birt.data.engine.api.IDataEngineFactory;
 /**
  * Factory pattern to create an instance of Data Engine
  */
-public class DataEngineFactory implements IDataEngineFactory
-{
-	
+public class DataEngineFactory implements IDataEngineFactory {
+
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IDataEngineFactory#createDataEngine(org.eclipse.birt.data.engine.api.DataEngineContext)
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IDataEngineFactory#createDataEngine(org.
+	 * eclipse.birt.data.engine.api.DataEngineContext)
 	 */
-	public DataEngine createDataEngine( DataEngineContext context ) throws BirtException
-	{
-		if ( context == null )
-		{
-			try
-			{
-				context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-						new ScriptContext( ),
-						null,
-						null,
-						null);
-			}
-			catch ( BirtException e )
-			{
+	@Override
+	public DataEngine createDataEngine(DataEngineContext context) throws BirtException {
+		if (context == null) {
+			try {
+				context = DataEngineContext.newInstance(DataEngineContext.DIRECT_PRESENTATION, new ScriptContext(),
+						null, null, null);
+			} catch (BirtException e) {
 				// impossible get here
 			}
 		}
 
-		return new DataEngineImpl( context );
+		return new DataEngineImpl(context);
 	}
 
 }

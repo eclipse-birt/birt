@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,70 +23,62 @@ import org.eclipse.jface.viewers.ISelectionProvider;
  * Extends MenuManager to allow populating the menu directly from the manager
  * itself. Using this class is no different than using a standalone
  * <code>MenuManager</code>, and adding a menuAboutToShow listener.
- * 
- *  
+ *
+ *
  */
 
-public abstract class ContextMenuProvider extends MenuManager implements
-		IMenuListener
-{
+public abstract class ContextMenuProvider extends MenuManager implements IMenuListener {
 
 	private ISelectionProvider viewer;
 
 	/**
 	 * Constructs a context menu for the specified EditPartViewer.
-	 * 
-	 * @param viewer
-	 *            the editpart viewer
+	 *
+	 * @param viewer the editpart viewer
 	 */
-	public ContextMenuProvider( ISelectionProvider viewer )
-	{
-		setViewer( viewer );
-		addMenuListener( this );
-		setRemoveAllWhenShown( true );
+	public ContextMenuProvider(ISelectionProvider viewer) {
+		setViewer(viewer);
+		addMenuListener(this);
+		setRemoveAllWhenShown(true);
 
 	}
 
 	/**
-	 * Called when the menu is about to show. Subclasses must implement this
-	 * method to populate the menu each time it is shown.
-	 * 
-	 * @param menuManager
-	 *            this parameter is actually <code>this</code> object
+	 * Called when the menu is about to show. Subclasses must implement this method
+	 * to populate the menu each time it is shown.
+	 *
+	 * @param menuManager this parameter is actually <code>this</code> object
 	 */
-	public abstract void buildContextMenu( IMenuManager menuManager );
+	public abstract void buildContextMenu(IMenuManager menuManager);
 
-	protected void registMenu( IMenuManager menuManager )
-	{
+	protected void registMenu(IMenuManager menuManager) {
 	}
 
 	/**
 	 * Returns the EditPartViewer
-	 * 
+	 *
 	 * @return the viewer
 	 */
-	protected ISelectionProvider getViewer( )
-	{
+	protected ISelectionProvider getViewer() {
 		return viewer;
 	}
 
 	/**
 	 * Called when the menu is about to show.
+	 *
 	 * @see IMenuListener#menuAboutToShow(IMenuManager)
 	 */
-	public void menuAboutToShow( IMenuManager menu )
-	{
-		buildContextMenu( menu );
+	@Override
+	public void menuAboutToShow(IMenuManager menu) {
+		buildContextMenu(menu);
 	}
 
 	/**
 	 * Sets the editpart viewer. Called during construction.
-	 * 
-	 * @param viewer
-	 *            the viewer
+	 *
+	 * @param viewer the viewer
 	 */
-	protected void setViewer( ISelectionProvider viewer )
-	{
+	protected void setViewer(ISelectionProvider viewer) {
 		this.viewer = viewer;
 	}
 

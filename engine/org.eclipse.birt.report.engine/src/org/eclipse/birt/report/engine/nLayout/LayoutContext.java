@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,12 +32,11 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.nLayout.area.impl.FixedLayoutPageHintGenerator;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
-public class LayoutContext
-{
+public class LayoutContext {
 	protected int maxWidth;
 
 	protected int maxHeight;
-	
+
 	protected int maxBP;
 
 	protected String format;
@@ -42,320 +44,262 @@ public class LayoutContext
 	protected IReportContent report;
 
 	protected IContent unresolvedContent;
-	
+
 	protected Locale locale;
-	
+
 	protected long totalPage = 0;
 	protected long pageCount = 0;
 	protected long pageNumber = 0;
-	
+
 	protected boolean autoPageBreak = true;
-	
+
 	private boolean sizeOverflowPageBreak = false;
-	
+
 	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;SVG"; //$NON-NLS-1$
-	
+
 	protected boolean finished = false;
-	
+
 	protected int engineTaskType = IEngineTask.TASK_RENDER;
 
 	protected boolean isFixedLayout = false;
-	
+
 	protected boolean isInHtmlRender = false;
 
 	protected HTMLLayoutContext htmlLayoutContext = null;
-	
-	protected HashMap<String, Long> bookmarkMap = new HashMap<String, Long>();
-	
+
+	protected HashMap<String, Long> bookmarkMap = new HashMap<>();
+
 	protected boolean displayNone = false;
-	
-	
-	public boolean isDisplayNone( )
-	{
+
+	public boolean isDisplayNone() {
 		return displayNone;
 	}
 
-	
-	public void setDisplayNone( boolean displayNone )
-	{
+	public void setDisplayNone(boolean displayNone) {
 		this.displayNone = displayNone;
 	}
 
-	public HTMLLayoutContext getHtmlLayoutContext( )
-	{
+	public HTMLLayoutContext getHtmlLayoutContext() {
 		return htmlLayoutContext;
 	}
-	
-	public void addBookmarkMap(long pageNumber, String bookmark)
-	{
-		if ( !bookmarkMap.containsKey( bookmark ) )
-		{
-			bookmarkMap.put( bookmark, pageNumber );
+
+	public void addBookmarkMap(long pageNumber, String bookmark) {
+		if (!bookmarkMap.containsKey(bookmark)) {
+			bookmarkMap.put(bookmark, pageNumber);
 		}
 	}
-	
-	public Map<String, Long> getBookmarkMap()
-	{
+
+	public Map<String, Long> getBookmarkMap() {
 		return bookmarkMap;
 	}
-	
-	public void setHtmlLayoutContext( HTMLLayoutContext htmlLayoutContext )
-	{
+
+	public void setHtmlLayoutContext(HTMLLayoutContext htmlLayoutContext) {
 		this.htmlLayoutContext = htmlLayoutContext;
 	}
 
-	public boolean isFinished( )
-	{
+	public boolean isFinished() {
 		return finished;
 	}
-	
-	public void setFinished( boolean finished )
-	{
+
+	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
 
-	public int getMaxBP( )
-	{
+	public int getMaxBP() {
 		return maxBP;
 	}
 
-	public void setMaxBP( int maxBP )
-	{
+	public void setMaxBP(int maxBP) {
 		this.maxBP = maxBP;
 	}
 
-	public void setAutoPageBreak(boolean autoPageBreak)
-	{
+	public void setAutoPageBreak(boolean autoPageBreak) {
 		this.autoPageBreak = autoPageBreak;
 	}
 
-	
-	public boolean isAutoPageBreak( )
-	{
+	public boolean isAutoPageBreak() {
 		return autoPageBreak;
 	}
 
-	public void addUnresolvedContent( IContent content )
-	{
+	public void addUnresolvedContent(IContent content) {
 		this.unresolvedContent = content;
 	}
 
-	public IContent getUnresolvedContent( )
-	{
+	public IContent getUnresolvedContent() {
 		return unresolvedContent;
 	}
 
-	public long getPageCount( )
-	{
+	public long getPageCount() {
 		return pageCount;
 	}
 
-	public void setPageCount( long pageCount )
-	{
+	public void setPageCount(long pageCount) {
 		this.pageCount = pageCount;
 	}
 
-	public long getPageNumber( )
-	{
+	public long getPageNumber() {
 		return pageNumber;
 	}
-	
-	public void setPageNumber( long pageNumber )
-	{
+
+	public void setPageNumber(long pageNumber) {
 		this.pageNumber = pageNumber;
 	}
 
-	public IReportContent getReport( )
-	{
+	public IReportContent getReport() {
 		return report;
 	}
 
-	public void setReport( IReportContent report )
-	{
+	public void setReport(IReportContent report) {
 		this.report = report;
 	}
 
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return this.format;
 	}
 
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
-	
-	public int getEngineTaskType( )
-	{
+
+	public int getEngineTaskType() {
 		return engineTaskType;
 	}
 
-	public void setEngineTaskType( int engineTaskType )
-	{
+	public void setEngineTaskType(int engineTaskType) {
 		this.engineTaskType = engineTaskType;
 	}
 
-	public int getMaxHeight( )
-	{
+	public int getMaxHeight() {
 		return maxHeight;
 	}
 
-	public int getMaxWidth( )
-	{
+	public int getMaxWidth() {
 		return maxWidth;
 	}
 
-	public void setMaxHeight( int height )
-	{
+	public void setMaxHeight(int height) {
 		this.maxHeight = height;
 	}
 
-	public void setMaxWidth( int width )
-	{
+	public void setMaxWidth(int width) {
 		this.maxWidth = width;
 	}
 
 	protected boolean fitToPage = false;
 
-	public void setFitToPage( boolean fitToPage )
-	{
+	public void setFitToPage(boolean fitToPage) {
 		this.fitToPage = fitToPage;
 	}
 
-	public boolean fitToPage( )
-	{
+	public boolean fitToPage() {
 		return this.fitToPage;
 	}
 
 	protected boolean pageBreakPaginationOnly = false;
 
-	public void setPagebreakPaginationOnly( boolean pageBreakPaginationOnly )
-	{
+	public void setPagebreakPaginationOnly(boolean pageBreakPaginationOnly) {
 		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
-		setAutoPageBreak( !pageBreakPaginationOnly );
+		setAutoPageBreak(!pageBreakPaginationOnly);
 	}
 
-	public boolean pagebreakPaginationOnly( )
-	{
+	public boolean pagebreakPaginationOnly() {
 		return this.pageBreakPaginationOnly;
 	}
 
 	protected int pageOverflow = IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES;
 
-	public int getPageOverflow( )
-	{
+	public int getPageOverflow() {
 		return this.pageOverflow;
 	}
 
-	public void setPageOverflow( int pageOverflow )
-	{
+	public void setPageOverflow(int pageOverflow) {
 		this.pageOverflow = pageOverflow;
-		if ( pageOverflow != IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
-		{
+		if (pageOverflow != IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES) {
 			autoPageBreak = false;
 		}
 	}
 
 	protected int preferenceWidth = 0;
 
-	public void setPreferenceWidth( int preferenceWidth )
-	{
+	public void setPreferenceWidth(int preferenceWidth) {
 		this.preferenceWidth = preferenceWidth;
 	}
 
-	public int getPreferenceWidth( )
-	{
+	public int getPreferenceWidth() {
 		return this.preferenceWidth;
 	}
-	
+
 	protected int pageLimit = -1;
-	
-	public void setPageLimit( int pageLimit )
-	{
+
+	public void setPageLimit(int pageLimit) {
 		this.pageLimit = pageLimit;
 	}
 
-	public int getPageLimit( )
-	{
+	public int getPageLimit() {
 		return this.pageLimit;
 	}
-	
-	public boolean exceedPageLimit()
-	{
-		if ( ( engineTaskType == IEngineTask.TASK_RENDER || engineTaskType == IEngineTask.TASK_RUNANDRENDER )
-				&& pageLimit > 0 && this.pageCount >= pageLimit )
-		{
+
+	public boolean exceedPageLimit() {
+		if ((engineTaskType == IEngineTask.TASK_RENDER || engineTaskType == IEngineTask.TASK_RUNANDRENDER)
+				&& pageLimit > 0 && this.pageCount >= pageLimit) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	protected boolean textWrapping = true;
 
-	public void setTextWrapping( boolean textWrapping )
-	{
+	public void setTextWrapping(boolean textWrapping) {
 		this.textWrapping = textWrapping;
 	}
 
-	public boolean getTextWrapping( )
-	{
+	public boolean getTextWrapping() {
 		return this.textWrapping;
 	}
 
 	protected boolean fontSubstitution = true;
 
-	public void setFontSubstitution( boolean fontSubstitution )
-	{
+	public void setFontSubstitution(boolean fontSubstitution) {
 		this.fontSubstitution = fontSubstitution;
 	}
 
-	public boolean getFontSubstitution( )
-	{
+	public boolean getFontSubstitution() {
 		return this.fontSubstitution;
 	}
 
 	protected boolean bidiProcessing = true;
 
-	public void setBidiProcessing( boolean bidiProcessing )
-	{
+	public void setBidiProcessing(boolean bidiProcessing) {
 		this.bidiProcessing = bidiProcessing;
 	}
 
-	public boolean getBidiProcessing( )
-	{
+	public boolean getBidiProcessing() {
 		return this.bidiProcessing;
 	}
-	
+
 	protected boolean enableWordbreak = false;
-	
-	public boolean isEnableWordbreak( )
-	{
+
+	public boolean isEnableWordbreak() {
 		return enableWordbreak;
 	}
-	
-	public void setEnableWordbreak( boolean enableWordbreak )
-	{
+
+	public void setEnableWordbreak(boolean enableWordbreak) {
 		this.enableWordbreak = enableWordbreak;
 	}
 
-	public Locale getLocale( )
-	{
+	public Locale getLocale() {
 		return locale;
 	}
 
-	public void setLocale( Locale locale )
-	{
+	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
 	private FontMappingManager fontManager;
 
-	public FontMappingManager getFontManager( )
-	{
-		if ( fontManager == null )
-		{
-			fontManager = FontMappingManagerFactory.getInstance( )
-					.getFontMappingManager( format, locale );
+	public FontMappingManager getFontManager() {
+		if (fontManager == null) {
+			fontManager = FontMappingManagerFactory.getInstance().getFontMappingManager(format, locale);
 		}
 		return fontManager;
 	}
@@ -363,221 +307,178 @@ public class LayoutContext
 	// the dpi used to calculate image size.
 	private int dpi = 0;
 
-	public int getDpi( )
-	{
+	public int getDpi() {
 		return dpi;
 	}
-	
-	public void setDpi( int dpi )
-	{
+
+	public void setDpi(int dpi) {
 		this.dpi = dpi;
 	}
-	
+
 	private Boolean reserveDocumentPageNumbers = null;
 
-	public boolean isReserveDocumentPageNumbers( )
-	{
-		if ( reserveDocumentPageNumbers == null )
-		{
-			if ( isFixedLayout )
-			{
+	public boolean isReserveDocumentPageNumbers() {
+		if (reserveDocumentPageNumbers == null) {
+			if (isFixedLayout) {
 				// by default, fixed layout will always create pageExecutor
 				// according to reporting's page number and page accordingly.
 				// When repaginateForPDF is on, pageExecutor will not be created
 				// and layout engine will re-paginate accordingly
-				Object repaginateForPDF = htmlLayoutContext.getLayoutEngine( )
-						.getOption( IPDFRenderOption.REPAGINATE_FOR_PDF );
-				if ( repaginateForPDF != null
-						&& ( (Boolean) repaginateForPDF ).booleanValue( ) )
-				{
+				Object repaginateForPDF = htmlLayoutContext.getLayoutEngine()
+						.getOption(IPDFRenderOption.REPAGINATE_FOR_PDF);
+				if (repaginateForPDF != null && ((Boolean) repaginateForPDF).booleanValue()) {
 					return false;
 				}
 				return true;
-			}
-			else
-			{
+			} else {
 				return false;
 			}
-		}
-		else
-		{
-			return reserveDocumentPageNumbers.booleanValue( );
+		} else {
+			return reserveDocumentPageNumbers.booleanValue();
 		}
 	}
 
-	public void setReserveDocumentPageNumbers(
-			boolean reserveDocumentPageNumbers )
-	{
-		this.reserveDocumentPageNumbers = Boolean
-				.valueOf( reserveDocumentPageNumbers );
+	public void setReserveDocumentPageNumbers(boolean reserveDocumentPageNumbers) {
+		this.reserveDocumentPageNumbers = reserveDocumentPageNumbers;
 	}
-	
+
 	private int totalPageTemplateWidth;
-	
-	public void setTotalPageTemplateWidth( int totalPageTemplateWidth )
-	{
+
+	public void setTotalPageTemplateWidth(int totalPageTemplateWidth) {
 		this.totalPageTemplateWidth = totalPageTemplateWidth;
 	}
-	
-	public int getTotalPageTemplateWidth()
-	{
+
+	public int getTotalPageTemplateWidth() {
 		return this.totalPageTemplateWidth;
 	}
-	
+
 	private HashMap cachedTableHeaders = null;
 	private HashMap cachedGroupHeaders = null;
-	
-	public void setCachedHeaderMap( HashMap tableHeaders, HashMap groupHeaders )
-	{
+
+	public void setCachedHeaderMap(HashMap tableHeaders, HashMap groupHeaders) {
 		this.cachedTableHeaders = tableHeaders;
 		this.cachedGroupHeaders = groupHeaders;
 	}
-	
-	protected ITableBandContent getWrappedTableHeader( InstanceID id )
-	{
-		if ( null != cachedTableHeaders )
-		{
-			Object cachedHeaders = cachedTableHeaders.get( id );
-			if ( cachedHeaders != null )
-			{
-				return (ITableBandContent)cachedHeaders;
+
+	protected ITableBandContent getWrappedTableHeader(InstanceID id) {
+		if (null != cachedTableHeaders) {
+			Object cachedHeaders = cachedTableHeaders.get(id);
+			if (cachedHeaders != null) {
+				return (ITableBandContent) cachedHeaders;
 			}
 		}
 		return null;
 	}
-	
-	protected ITableBandContent getWrappedGroupHeader( InstanceID id )
-	{
-		if ( null != cachedGroupHeaders )
-		{
-			Object cachedHeaders = cachedGroupHeaders.get( id );
-			if ( cachedHeaders != null )
-			{
-				return (ITableBandContent)cachedHeaders;
+
+	protected ITableBandContent getWrappedGroupHeader(InstanceID id) {
+		if (null != cachedGroupHeaders) {
+			Object cachedHeaders = cachedGroupHeaders.get(id);
+			if (cachedHeaders != null) {
+				return (ITableBandContent) cachedHeaders;
 			}
 		}
 		return null;
 	}
-	
-	public String getSupportedImageFormats( )
-	{
+
+	public String getSupportedImageFormats() {
 		return supportedImageFormats;
 	}
 
-	public void setSupportedImageFormats( String supportedImageFormats )
-	{
+	public void setSupportedImageFormats(String supportedImageFormats) {
 		this.supportedImageFormats = supportedImageFormats;
 	}
 
-	public boolean isFixedLayout( )
-	{
+	public boolean isFixedLayout() {
 		return isFixedLayout;
 	}
 
-	public void setFixedLayout( boolean isFixedLayout )
-	{
+	public void setFixedLayout(boolean isFixedLayout) {
 		this.isFixedLayout = isFixedLayout;
 	}
-	
+
 	// handle page hint.
 	protected FixedLayoutPageHintGenerator pageHintGenerator = null;
-	
-	public void createPageHintGenerator( )
-	{
-		if ( isFixedLayout )
-		{
-			this.pageHintGenerator = new FixedLayoutPageHintGenerator( this );
+
+	public void createPageHintGenerator() {
+		if (isFixedLayout) {
+			this.pageHintGenerator = new FixedLayoutPageHintGenerator(this);
 		}
 	}
 
-	public FixedLayoutPageHintGenerator getPageHintGenerator( )
-	{
+	public FixedLayoutPageHintGenerator getPageHintGenerator() {
 		return pageHintGenerator;
 	}
-	
-	public boolean isInHtmlRender( )
-	{
+
+	public boolean isInHtmlRender() {
 		return isInHtmlRender;
 	}
-	
-	public void setInHtmlRender( boolean isInHtmlRender )
-	{
+
+	public void setInHtmlRender(boolean isInHtmlRender) {
 		this.isInHtmlRender = isInHtmlRender;
 	}
-	
+
 	// The following methods are used in run task.
-	public String getMasterPage( )
-	{
-		return htmlLayoutContext.getMasterPage( );
+	public String getMasterPage() {
+		return htmlLayoutContext.getMasterPage();
 	}
-	
+
 	/**
 	 * Gets the common hints.
 	 */
-	public ArrayList getPageHint()
-	{
-		return pageHintGenerator.getPageHint( );
+	public ArrayList getPageHint() {
+		return pageHintGenerator.getPageHint();
 	}
-	
+
 	/**
 	 * Gets column hints.
 	 */
-	public List getTableColumnHints()
-	{
-		return htmlLayoutContext.getPageHintManager( ).getTableColumnHints( );
+	public List getTableColumnHints() {
+		return htmlLayoutContext.getPageHintManager().getTableColumnHints();
 	}
-	
+
 	/**
 	 * Gets unresolved hints.
+	 *
 	 * @return
 	 */
-	public List<UnresolvedRowHint> getUnresolvedRowHints( )
-	{
-		return pageHintGenerator.getUnresolvedRowHints( );
+	public List<UnresolvedRowHint> getUnresolvedRowHints() {
+		return pageHintGenerator.getUnresolvedRowHints();
 	}
-	
-	public void resetUnresolvedRowHints()
-	{
-		if ( pageHintGenerator != null )
-		{
-			pageHintGenerator.resetRowHint( );
+
+	public void resetUnresolvedRowHints() {
+		if (pageHintGenerator != null) {
+			pageHintGenerator.resetRowHint();
 		}
 	}
-	
-	public long getTotalPage( )
-	{
+
+	public long getTotalPage() {
 		return totalPage;
 	}
 
-	public void setTotalPage( long totalPage )
-	{
+	public void setTotalPage(long totalPage) {
 		this.totalPage = totalPage;
 	}
 
 	/**
-	 * Indicates if the page break is triggered by content size exceeding page
-	 * size.
-	 * 
-	 * @return true when the page break is triggered by content size exceeding
-	 *         page size
+	 * Indicates if the page break is triggered by content size exceeding page size.
+	 *
+	 * @return true when the page break is triggered by content size exceeding page
+	 *         size
 	 * @since 4.6
 	 */
-	public boolean isSizeOverflowPageBreak( )
-	{
+	public boolean isSizeOverflowPageBreak() {
 		return sizeOverflowPageBreak;
 	}
 
 	/**
-	 * Sets the state if the page break is triggered by content size exceeding
-	 * page size.
-	 * 
-	 * @param sizeOverflowPageBreak
-	 *            true when the page break is triggered by content size
-	 *            exceeding page size
+	 * Sets the state if the page break is triggered by content size exceeding page
+	 * size.
+	 *
+	 * @param sizeOverflowPageBreak true when the page break is triggered by content
+	 *                              size exceeding page size
 	 * @since 4.6
 	 */
-	public void setSizeOverflowPageBreak( boolean sizeOverflowPageBreak )
-	{
+	public void setSizeOverflowPageBreak(boolean sizeOverflowPageBreak) {
 		this.sizeOverflowPageBreak = sizeOverflowPageBreak;
 	}
 

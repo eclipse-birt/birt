@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -27,31 +30,29 @@ import org.eclipse.birt.chart.model.component.Label;
 /**
  * This class represents the SVG Displayer Server.
  */
-public class SVGDisplayServer extends SwingDisplayServer
-{
+public class SVGDisplayServer extends SwingDisplayServer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
-	public Object loadImage( URL url ) throws ChartException
-	{
-		URL urlFound = findResource( url );
-		Image image = (Image) super.loadImage( urlFound );
-		return new SVGImage( image, urlFound );
+	@Override
+	public Object loadImage(URL url) throws ChartException {
+		URL urlFound = findResource(url);
+		Image image = (Image) super.loadImage(urlFound);
+		return new SVGImage(image, urlFound);
 	}
-	
-	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
-	{
-		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
+
+	@Override
+	public ITextMetrics getTextMetrics(Label la, boolean autoReuse) {
+		ChartTextMetrics tm = new ChartTextMetrics(this, la, autoReuse);
 		return tm;
 	}
 
 	@Override
-	public ChartTextLayout createTextLayout( String value,
-			Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc )
-	{
-		return new SVGTextLayout( value, fontAttributes, frc );
+	public ChartTextLayout createTextLayout(String value, Map<? extends Attribute, ?> fontAttributes,
+			FontRenderContext frc) {
+		return new SVGTextLayout(value, fontAttributes, frc);
 	}
 }

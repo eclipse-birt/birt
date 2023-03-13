@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Build-in Aggregation Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.data.aggregation;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Version: 4.13.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: org.eclipse.birt.data.aggregation.plugin.AggregationPlugin
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.0,5.0.0)",
@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.0,5.0.0)",
 Export-Package: org.eclipse.birt.data.aggregation.api,
  org.eclipse.birt.data.aggregation.impl;x-friends:="org.eclipse.birt.data.tests,org.eclipse.birt.report.data.adapter",
  org.eclipse.birt.data.aggregation.impl.rank;x-friends:="org.eclipse.birt.data.tests"
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.data.aggregation

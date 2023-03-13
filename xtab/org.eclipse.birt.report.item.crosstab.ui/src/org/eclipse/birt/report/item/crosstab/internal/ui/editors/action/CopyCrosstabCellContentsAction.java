@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,55 +23,49 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 /**
- * 
+ *
  */
 
-public class CopyCrosstabCellContentsAction extends AbstractViewAction
-{
+public class CopyCrosstabCellContentsAction extends AbstractViewAction {
 
-	public static final String ID = CopyCrosstabCellContentsAction.class.getName( );
+	public static final String ID = CopyCrosstabCellContentsAction.class.getName();
 
-	public CopyCrosstabCellContentsAction( Object selectedObject )
-	{
-		super( selectedObject,
-				Messages.getString( "CopyCellContentsContextAction.actionText" ) ); //$NON-NLS-1$
-		setId( ID );
+	public CopyCrosstabCellContentsAction(Object selectedObject) {
+		super(selectedObject, Messages.getString("CopyCellContentsContextAction.actionText")); //$NON-NLS-1$
+		setId(ID);
 	}
 
-	public void run( )
-	{
+	@Override
+	public void run() {
 		Object cloneElements = null;
-		if ( getSelection( ) instanceof ExtendedItemHandle )
-		{
-			PropertyHandle container = ( (ExtendedItemHandle) getSelection( ) ).getPropertyHandle( "content" ); //$NON-NLS-1$
-			cloneElements = DNDUtil.cloneSource( container.getContents( )
-					.toArray( ) );
+		if (getSelection() instanceof ExtendedItemHandle) {
+			PropertyHandle container = ((ExtendedItemHandle) getSelection()).getPropertyHandle("content"); //$NON-NLS-1$
+			cloneElements = DNDUtil.cloneSource(container.getContents().toArray());
 		}
-		if ( getSelection( ) instanceof CrosstabCellHandle )
-		{
-			cloneElements = ( (CrosstabCellHandle) getSelection( ) ).getContents( )
-					.toArray( );
+		if (getSelection() instanceof CrosstabCellHandle) {
+			cloneElements = ((CrosstabCellHandle) getSelection()).getContents().toArray();
 		}
-		if ( cloneElements != null )
-		{
-			Clipboard.getDefault( ).setContents( cloneElements );
+		if (cloneElements != null) {
+			Clipboard.getDefault().setContents(cloneElements);
 		}
 	}
 
-	public boolean isEnabled( )
-	{
-		if ( canCopy( getSelection( ) ) )
-			return super.isEnabled( );
+	@Override
+	public boolean isEnabled() {
+		if (canCopy(getSelection())) {
+			return super.isEnabled();
+		}
 		return false;
 	}
 
-	private boolean canCopy( Object selection )
-	{
-		if ( selection instanceof ExtendedItemHandle )
-			return ( (ExtendedItemHandle) selection ).getPropertyHandle( "content" ) //$NON-NLS-1$
-					.getContentCount( ) > 0;
-		if ( selection instanceof CrosstabCellHandle )
-			return ( (CrosstabCellHandle) selection ).getContents( ).size( ) > 0;
+	private boolean canCopy(Object selection) {
+		if (selection instanceof ExtendedItemHandle) {
+			return ((ExtendedItemHandle) selection).getPropertyHandle("content") //$NON-NLS-1$
+					.getContentCount() > 0;
+		}
+		if (selection instanceof CrosstabCellHandle) {
+			return ((CrosstabCellHandle) selection).getContents().size() > 0;
+		}
 		return false;
 	}
 }

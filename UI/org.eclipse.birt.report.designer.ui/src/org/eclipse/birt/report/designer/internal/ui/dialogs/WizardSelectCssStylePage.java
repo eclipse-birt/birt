@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,8 +58,7 @@ import org.eclipse.ui.PlatformUI;
  * Wizard page for selecting CSS style to import to report design.
  */
 
-public class WizardSelectCssStylePage extends WizardPage
-{
+public class WizardSelectCssStylePage extends WizardPage {
 
 	private Text fileNameField;
 
@@ -70,11 +72,11 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	private CssStyleSheetHandle cssHandle;
 
-	private Map styleMap = new HashMap( );
+	private Map styleMap = new HashMap();
 
-	private List styleNames = new ArrayList( );
+	private List styleNames = new ArrayList();
 
-	private List unSupportedStyleNames = new ArrayList( );
+	private List unSupportedStyleNames = new ArrayList();
 
 	private Label title;
 
@@ -84,138 +86,125 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	private ReportItemThemeHandle theme;
 
-	public WizardSelectCssStylePage( String pageName )
-	{
-		super( pageName );
+	public WizardSelectCssStylePage(String pageName) {
+		super(pageName);
 	}
 
-	public void createControl( Composite parent )
-	{
-		initializeDialogUnits( parent );
+	@Override
+	public void createControl(Composite parent) {
+		initializeDialogUnits(parent);
 
-		Composite topComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
+		Composite topComposite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		topComposite.setLayout( layout );
-		topComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		topComposite.setLayout(layout);
+		topComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		createFileNameComposite( topComposite );
+		createFileNameComposite(topComposite);
 
-		createStyleComposite( topComposite );
+		createStyleComposite(topComposite);
 
-		setControl( topComposite );
+		setControl(topComposite);
 
-		setPageComplete( validateFileName( ) );
-		setErrorMessage( null );
-		setMessage( null );
+		setPageComplete(validateFileName());
+		setErrorMessage(null);
+		setMessage(null);
 
-		UIUtil.bindHelp( parent, IHelpContextIds.IMPORT_CSS_STYLE_WIZARD_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.IMPORT_CSS_STYLE_WIZARD_ID);
 	}
 
-	private void createFileNameComposite( Composite parent )
-	{
-		Composite nameComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( 3, false );
+	private void createFileNameComposite(Composite parent) {
+		Composite nameComposite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout(3, false);
 		layout.marginWidth = 0;
-		nameComposite.setLayout( layout );
-		nameComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		nameComposite.setLayout(layout);
+		nameComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label title = new Label( nameComposite, SWT.NULL );
-		title.setText( Messages.getString( "WizardSelectCssStylePage.label.fileName" ) ); //$NON-NLS-1$
+		Label title = new Label(nameComposite, SWT.NULL);
+		title.setText(Messages.getString("WizardSelectCssStylePage.label.fileName")); //$NON-NLS-1$
 
-		fileNameField = new Text( nameComposite, SWT.BORDER );
-		fileNameField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		fileNameField.addListener( SWT.Modify, new Listener( ) {
+		fileNameField = new Text(nameComposite, SWT.BORDER);
+		fileNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		fileNameField.addListener(SWT.Modify, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				setPageComplete( validateFileName( ) );
-				refresh( );
+			@Override
+			public void handleEvent(Event e) {
+				setPageComplete(validateFileName());
+				refresh();
 			}
-		} );
+		});
 
-		selectButton = new Button( nameComposite, SWT.PUSH );
-		selectButton.setText( Messages.getString( "WizardSelectCssStylePage.button.label.browse" ) ); //$NON-NLS-1$
+		selectButton = new Button(nameComposite, SWT.PUSH);
+		selectButton.setText(Messages.getString("WizardSelectCssStylePage.button.label.browse")); //$NON-NLS-1$
 
-		selectButton.addSelectionListener( new SelectionAdapter( ) {
+		selectButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				FileDialog fileSelector = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						SWT.NULL );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog fileSelector = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						SWT.NULL);
 
-				fileSelector.setFilterExtensions( new String[]{
-					"*.css;*.CSS"} );//$NON-NLS-1$ //$NON-NLS-2$
+				fileSelector.setFilterExtensions(new String[] { "*.css;*.CSS" });//$NON-NLS-1$
 
-				String fileName = fileSelector.open( );
-				if ( fileName != null )
-				{
+				String fileName = fileSelector.open();
+				if (fileName != null) {
 					// should check extensions in Linux enviroment
-					if ( checkExtensions( new String[]{
-							"*.css", "*.CSS"}, fileName ) == false ) //$NON-NLS-1$ //$NON-NLS-2$
+					if (!checkExtensions(new String[] { "*.css", "*.CSS" }, fileName)) //$NON-NLS-1$ //$NON-NLS-2$
 					{
-						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ), //$NON-NLS-1$
-								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) ); //$NON-NLS-1$
+						ExceptionHandler.openErrorMessageBox(
+								Messages.getString("WizardSelectCssStylePage.FileNameError.Title"), //$NON-NLS-1$
+								Messages.getString("WizardSelectCssStylePage.FileNameError.Message")); //$NON-NLS-1$
 
-					}
-					else
-					{
-						fileNameField.setText( fileName );
+					} else {
+						fileNameField.setText(fileName);
 					}
 
 				}
 			}
-		} );
+		});
 
-		setButtonLayoutData( selectButton );
+		setButtonLayoutData(selectButton);
 
 	}
 
-	private void createStyleComposite( Composite parent )
-	{
-		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( 2, false );
+	private void createStyleComposite(Composite parent) {
+		Composite styleComposite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		styleComposite.setLayout(layout);
+		styleComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		title = new Label( styleComposite, SWT.NULL );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		title = new Label(styleComposite, SWT.NULL);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
-		title.setLayoutData( data );
-		title.setText( "" ); //$NON-NLS-1$
+		title.setLayoutData(data);
+		title.setText(""); //$NON-NLS-1$
 
-		createStyleList( styleComposite );
+		createStyleList(styleComposite);
 
-		createButtons( styleComposite );
+		createButtons(styleComposite);
 	}
 
-	public void createStyleList( Composite parent )
-	{
-		Composite styleComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
+	public void createStyleList(Composite parent) {
+		Composite styleComposite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		styleComposite.setLayout( layout );
-		styleComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		styleComposite.setLayout(layout);
+		styleComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		stylesTable = new Table( styleComposite, SWT.SINGLE
-				| SWT.FULL_SELECTION
-				| SWT.BORDER
-				| SWT.CHECK );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		stylesTable = new Table(styleComposite, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER | SWT.CHECK);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.heightHint = 100;
-		stylesTable.setLayoutData( data );
-		stylesTable.addSelectionListener( new SelectionAdapter( ) {
+		stylesTable.setLayoutData(data);
+		stylesTable.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				refreshButtons( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshButtons();
 			}
-		} );
+		});
 
 		// stylesTable.addSelectionListener( new SelectionAdapter( ) {
 		//
@@ -244,220 +233,177 @@ public class WizardSelectCssStylePage extends WizardPage
 		// }
 		// } );
 
-		new Label( styleComposite, SWT.NULL ).setText( Messages.getString( "WizardSelectCssStylePage.label.notifications" ) ); //$NON-NLS-1$
+		new Label(styleComposite, SWT.NULL).setText(Messages.getString("WizardSelectCssStylePage.label.notifications")); //$NON-NLS-1$
 
-		notificationsTable = new Table( styleComposite, SWT.SINGLE
-				| SWT.FULL_SELECTION
-				| SWT.BORDER );
-		data = new GridData( GridData.FILL_BOTH );
+		notificationsTable = new Table(styleComposite, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
+		data = new GridData(GridData.FILL_BOTH);
 		data.minimumHeight = 60;
-		notificationsTable.setLayoutData( data );
+		notificationsTable.setLayoutData(data);
 
 	}
 
-	private void createButtons( Composite parent )
-	{
-		Composite buttonsComposite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
+	private void createButtons(Composite parent) {
+		Composite buttonsComposite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
-		buttonsComposite.setLayout( layout );
-		buttonsComposite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		buttonsComposite.setLayout(layout);
+		buttonsComposite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
-		selectAll = new Button( buttonsComposite, SWT.PUSH );
-		selectAll.setText( Messages.getString( "WizardSelectCssStylePage.button.label.selectAll" ) ); //$NON-NLS-1$
-		selectAll.addSelectionListener( new SelectionAdapter( ) {
+		selectAll = new Button(buttonsComposite, SWT.PUSH);
+		selectAll.setText(Messages.getString("WizardSelectCssStylePage.button.label.selectAll")); //$NON-NLS-1$
+		selectAll.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				TableItem[] ch = stylesTable.getItems( );
-				for ( int i = 0; i < ch.length; i++ )
-				{
-					ch[i].setChecked( true );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TableItem[] ch = stylesTable.getItems();
+				for (int i = 0; i < ch.length; i++) {
+					ch[i].setChecked(true);
 				}
-				refreshButtons( );
+				refreshButtons();
 			}
-		} );
+		});
 
-		setButtonLayoutData( selectAll );
+		setButtonLayoutData(selectAll);
 
-		deselectAll = new Button( buttonsComposite, SWT.PUSH );
-		deselectAll.setText( Messages.getString( "WizardSelectCssStylePage.button.label.deselectAll" ) ); //$NON-NLS-1$
-		deselectAll.addSelectionListener( new SelectionAdapter( ) {
+		deselectAll = new Button(buttonsComposite, SWT.PUSH);
+		deselectAll.setText(Messages.getString("WizardSelectCssStylePage.button.label.deselectAll")); //$NON-NLS-1$
+		deselectAll.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				TableItem[] ch = stylesTable.getItems( );
-				for ( int i = 0; i < ch.length; i++ )
-				{
-					ch[i].setChecked( false );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TableItem[] ch = stylesTable.getItems();
+				for (int i = 0; i < ch.length; i++) {
+					ch[i].setChecked(false);
 				}
-				refreshButtons( );
+				refreshButtons();
 			}
-		} );
-		setButtonLayoutData( deselectAll );
+		});
+		setButtonLayoutData(deselectAll);
 	}
 
-	public void refresh( )
-	{
-		String file = getFileName( );
+	public void refresh() {
+		String file = getFileName();
 
-		if ( file != null )
-		{
-			initiate( );
+		if (file != null) {
+			initiate();
 		}
 	}
 
-	public void initiate( )
-	{
-		styleMap.clear( );
-		styleNames.clear( );
-		unSupportedStyleNames.clear( );
+	public void initiate() {
+		styleMap.clear();
+		styleNames.clear();
+		unSupportedStyleNames.clear();
 		fileName = null;
 
-		TableItem[] ch = stylesTable.getItems( );
-		for ( int i = 0; i < ch.length; i++ )
-		{
-			ch[i].dispose( );
+		TableItem[] ch = stylesTable.getItems();
+		for (int i = 0; i < ch.length; i++) {
+			ch[i].dispose();
 		}
 
-		ch = notificationsTable.getItems( );
-		for ( int i = 0; i < ch.length; i++ )
-		{
-			ch[i].dispose( );
+		ch = notificationsTable.getItems();
+		for (int i = 0; i < ch.length; i++) {
+			ch[i].dispose();
 		}
 
-		title.setText( "" ); //$NON-NLS-1$
+		title.setText(""); //$NON-NLS-1$
 
-		if ( validateFileName( ) )
-		{
-			fileName = getFileName( );
-			title.setText( Messages.getString( "WizardSelectCssStylePage.label.selectStylesFrom" ) //$NON-NLS-1$
-					+ new File( this.fileName ).getName( )
-					+ Messages.getString( "WizardSelectCssStylePage.label.importToReportDesign" ) ); //$NON-NLS-1$
-			try
-			{
-				cssHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.openCssStyleSheet( fileName );
+		if (validateFileName()) {
+			fileName = getFileName();
+			title.setText(Messages.getString("WizardSelectCssStylePage.label.selectStylesFrom") //$NON-NLS-1$
+					+ new File(this.fileName).getName()
+					+ Messages.getString("WizardSelectCssStylePage.label.importToReportDesign")); //$NON-NLS-1$
+			try {
+				cssHandle = SessionHandleAdapter.getInstance().getReportDesignHandle().openCssStyleSheet(fileName);
 
 				CssErrDialog cssErrorDialg = null;
-				if ( !cssHandle.getParserFatalErrors( ).isEmpty( ) )
-				{
-					cssErrorDialg = new CssErrDialog( this.getShell( ),
-							cssHandle.getParserFatalErrors( ),
-							CssErrDialog.FATAL_ERROR );
-				}
-				else if ( !cssHandle.getParserErrors( ).isEmpty( ) )
-				{
-					cssErrorDialg = new CssErrDialog( this.getShell( ),
-							cssHandle.getParserErrors( ),
-							CssErrDialog.ERROR );
+				if (!cssHandle.getParserFatalErrors().isEmpty()) {
+					cssErrorDialg = new CssErrDialog(this.getShell(), cssHandle.getParserFatalErrors(),
+							CssErrDialog.FATAL_ERROR);
+				} else if (!cssHandle.getParserErrors().isEmpty()) {
+					cssErrorDialg = new CssErrDialog(this.getShell(), cssHandle.getParserErrors(), CssErrDialog.ERROR);
 
-				}
-				else if ( !cssHandle.getParserWarnings( ).isEmpty( ) )
-				{
-					cssErrorDialg = new CssErrDialog( this.getShell( ),
-							cssHandle.getParserWarnings( ),
-							CssErrDialog.WARNING );
+				} else if (!cssHandle.getParserWarnings().isEmpty()) {
+					cssErrorDialg = new CssErrDialog(this.getShell(), cssHandle.getParserWarnings(),
+							CssErrDialog.WARNING);
 				}
 
-				if ( cssErrorDialg != null )
-				{
-					cssErrorDialg.open( );
+				if (cssErrorDialg != null) {
+					cssErrorDialg.open();
 				}
 
 				List availableStyles = null;
-				if ( theme != null )
-				{
-					availableStyles = new ArrayList( );
-					availableStyles.addAll( Arrays.asList( getPredefinedStyleNames( theme.getType( ) ) ) );
+				if (theme != null) {
+					availableStyles = new ArrayList(Arrays.asList(getPredefinedStyleNames(theme.getType())));
 				}
 
-				List themeStyleNames = getThemeStyleNames( );
+				List themeStyleNames = getThemeStyleNames();
 
-				Iterator styleIter = cssHandle.getStyleIterator( );
-				while ( styleIter.hasNext( ) )
-				{
-					SharedStyleHandle styleHandle = (SharedStyleHandle) styleIter.next( );
+				Iterator styleIter = cssHandle.getStyleIterator();
+				while (styleIter.hasNext()) {
+					SharedStyleHandle styleHandle = (SharedStyleHandle) styleIter.next();
 
-					if ( theme != null )
-					{
-						if ( availableStyles.contains( styleHandle.getName( ) )
-								&& !themeStyleNames.contains( styleHandle.getName( ) ) )
-						{
-							styleMap.put( styleHandle.getName( ), styleHandle );
-							styleNames.add( styleHandle.getName( ) );
+					if (theme != null) {
+						if (availableStyles.contains(styleHandle.getName())
+								&& !themeStyleNames.contains(styleHandle.getName())) {
+							styleMap.put(styleHandle.getName(), styleHandle);
+							styleNames.add(styleHandle.getName());
+						} else {
+							unSupportedStyleNames.add(styleHandle.getName()
+									+ Messages.getString("WizardSelectCssStylePage.text.cannot.import.style")); //$NON-NLS-1$
 						}
-						else
-						{
-							unSupportedStyleNames.add( styleHandle.getName( )
-									+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
-						}
-					}
-					else
-					{
-						styleMap.put( styleHandle.getName( ), styleHandle );
-						styleNames.add( styleHandle.getName( ) );
+					} else {
+						styleMap.put(styleHandle.getName(), styleHandle);
+						styleNames.add(styleHandle.getName());
 					}
 				}
 
-				List unSupportedStyles = cssHandle.getUnsupportedStyles( );
-				for ( Iterator iter = unSupportedStyles.iterator( ); iter.hasNext( ); )
-				{
-					String name = (String) iter.next( );
-					unSupportedStyleNames.add( name
-							+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
+				List unSupportedStyles = cssHandle.getUnsupportedStyles();
+				for (Iterator iter = unSupportedStyles.iterator(); iter.hasNext();) {
+					String name = (String) iter.next();
+					unSupportedStyleNames
+							.add(name + Messages.getString("WizardSelectCssStylePage.text.cannot.import.style")); //$NON-NLS-1$
 				}
-			}
-			catch ( StyleSheetException e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (StyleSheetException e) {
+				ExceptionHandler.handle(e);
 			}
 
 			TableItem item;
-			for ( int i = 0; i < styleNames.size( ); i++ )
-			{
-				String sn = (String) styleNames.get( i );
-				item = new TableItem( stylesTable, SWT.NULL );
-				item.setText( sn );
-				item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
+			for (int i = 0; i < styleNames.size(); i++) {
+				String sn = (String) styleNames.get(i);
+				item = new TableItem(stylesTable, SWT.NULL);
+				item.setText(sn);
+				item.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_STYLE));
 			}
 
-			for ( int i = 0; i < unSupportedStyleNames.size( ); i++ )
-			{
-				String sn = (String) unSupportedStyleNames.get( i );
-				item = new TableItem( notificationsTable, SWT.NULL );
-				item.setText( sn );
-				item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
+			for (int i = 0; i < unSupportedStyleNames.size(); i++) {
+				String sn = (String) unSupportedStyleNames.get(i);
+				item = new TableItem(notificationsTable, SWT.NULL);
+				item.setText(sn);
+				item.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_STYLE));
 			}
 
-			refreshButtons( );
+			refreshButtons();
 		}
 	}
 
-	public CssStyleSheetHandle getCssHandle( )
-	{
+	public CssStyleSheetHandle getCssHandle() {
 		return cssHandle;
 	}
 
-	private void refreshButtons( )
-	{
-		deselectAll.setEnabled( getStyleList( ).size( ) > 0 );
+	private void refreshButtons() {
+		deselectAll.setEnabled(getStyleList().size() > 0);
 	}
 
-	public List getStyleList( )
-	{
-		List sl = new ArrayList( );
+	public List getStyleList() {
+		List sl = new ArrayList();
 
-		TableItem[] ch = stylesTable.getItems( );
+		TableItem[] ch = stylesTable.getItems();
 
-		for ( int i = 0; i < ch.length; i++ )
-		{
-			if ( ch[i].getChecked( ) )
-			{
-				SharedStyleHandle handle = (SharedStyleHandle) styleMap.get( ch[i].getText( ) );
-				sl.add( handle );
+		for (int i = 0; i < ch.length; i++) {
+			if (ch[i].getChecked()) {
+				SharedStyleHandle handle = (SharedStyleHandle) styleMap.get(ch[i].getText());
+				sl.add(handle);
 			}
 		}
 
@@ -465,23 +411,20 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	}
 
-	private String getFileName( )
-	{
-		return fileNameField.getText( );
+	private String getFileName() {
+		return fileNameField.getText();
 	}
 
-	private boolean validateFileName( )
-	{
-		if ( "".equals( getFileName( ) ) ) //$NON-NLS-1$
+	private boolean validateFileName() {
+		if ("".equals(getFileName())) //$NON-NLS-1$
 		{
-			setErrorMessage( null );
-			setMessage( Messages.getString( "WizardSelectCssStylePage.msg.FileNameEmpty" ) ); //$NON-NLS-1$
+			setErrorMessage(null);
+			setMessage(Messages.getString("WizardSelectCssStylePage.msg.FileNameEmpty")); //$NON-NLS-1$
 			return false;
 		}
-		File file = new File( getFileName( ));
-		if ( !file.exists( ) || !file.isFile( ))
-		{
-			setErrorMessage( Messages.getString( "WizardSelectCssStylePage.errorMsg.FileNotExist" ) ); //$NON-NLS-1$
+		File file = new File(getFileName());
+		if (!file.exists() || !file.isFile()) {
+			setErrorMessage(Messages.getString("WizardSelectCssStylePage.errorMsg.FileNotExist")); //$NON-NLS-1$
 			return false;
 		}
 
@@ -492,76 +435,59 @@ public class WizardSelectCssStylePage extends WizardPage
 		// return false;
 		// }
 
-		setErrorMessage( null );
-		setMessage( null );
+		setErrorMessage(null);
+		setMessage(null);
 		return true;
 	}
 
-	private boolean checkExtensions( String fileExt[], String fileName )
-	{
-		for ( int i = 0; i < fileExt.length; i++ )
-		{
-			String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
-			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
-			{
+	private boolean checkExtensions(String fileExt[], String fileName) {
+		for (int i = 0; i < fileExt.length; i++) {
+			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.'));
+			if (fileName.toLowerCase().endsWith(ext.toLowerCase())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private String[] getPredefinedStyleNames( String type )
-	{
+	private String[] getPredefinedStyleNames(String type) {
 		List preStyles = null;
-		if ( type == null )
-		{
-			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		if (type == null) {
+			preStyles = DEUtil.getMetaDataDictionary().getPredefinedStyles();
+		} else {
+			preStyles = DEUtil.getMetaDataDictionary().getPredefinedStyles(type);
 		}
-		else
-		{
-			preStyles = DEUtil.getMetaDataDictionary( )
-					.getPredefinedStyles( type );
+		if (preStyles == null) {
+			return new String[] {};
 		}
-		if ( preStyles == null )
-		{
-			return new String[]{};
+		String[] names = new String[preStyles.size()];
+		for (int i = 0; i < preStyles.size(); i++) {
+			names[i] = ((IPredefinedStyle) preStyles.get(i)).getName();
 		}
-		String[] names = new String[preStyles.size( )];
-		for ( int i = 0; i < preStyles.size( ); i++ )
-		{
-			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
-		}
-		Arrays.sort( names );
+		Arrays.sort(names);
 		return names;
 	}
 
-	private List getThemeStyleNames( )
-	{
-		List styleNames = new ArrayList( );
-		if ( theme != null )
-		{
-			getChildrenNameBySlotHandle( theme.getStyles( ), styleNames );
+	private List getThemeStyleNames() {
+		List styleNames = new ArrayList();
+		if (theme != null) {
+			getChildrenNameBySlotHandle(theme.getStyles(), styleNames);
 		}
 		return styleNames;
 	}
 
-	private void getChildrenNameBySlotHandle( SlotHandle slotHandle,
-			List styleNames )
-	{
-		Iterator itor = slotHandle.iterator( );
-		while ( itor.hasNext( ) )
-		{
-			Object obj = itor.next( );
-			if ( obj instanceof DesignElementHandle )
-			{
+	private void getChildrenNameBySlotHandle(SlotHandle slotHandle, List styleNames) {
+		Iterator itor = slotHandle.iterator();
+		while (itor.hasNext()) {
+			Object obj = itor.next();
+			if (obj instanceof DesignElementHandle) {
 				DesignElementHandle eleHandle = (DesignElementHandle) obj;
-				styleNames.add( eleHandle.getName( ) );
+				styleNames.add(eleHandle.getName());
 			}
 		}
 	}
 
-	public void setTheme( ReportItemThemeHandle theme )
-	{
+	public void setTheme(ReportItemThemeHandle theme) {
 		this.theme = theme;
 	}
 }

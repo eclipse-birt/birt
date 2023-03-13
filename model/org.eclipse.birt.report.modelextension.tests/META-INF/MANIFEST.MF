@@ -1,13 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.modelextension.tests;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse.org
-Require-Bundle: org.eclipse.birt.core,
- org.eclipse.birt.report.model,
- org.apache.commons.codec
+Bundle-Version: 4.13.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
+ org.eclipse.birt.report.model;bundle-version="4.13.0",
+ org.apache.commons.codec;bundle-version="1.14.0"
 Bundle-ClassPath: .
-Import-Package: com.ibm.icu.util;version="3.4.4"
 Automatic-Module-Name: org.eclipse.birt.report.modelextension.tests
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.eclipse.birt.report.model.tests.action;x-internal:=true,
+ org.eclipse.birt.report.model.tests.box;x-internal:=true,
+ org.eclipse.birt.report.model.tests.encryptionHelper;x-internal:=true,
+ org.eclipse.birt.report.model.tests.matrix;x-internal:=true,
+ org.eclipse.birt.report.model.tests.odaDataSource;x-internal:=true,
+ org.eclipse.birt.report.model.tests.table;x-internal:=true

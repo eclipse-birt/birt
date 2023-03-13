@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,76 +22,67 @@ import org.eclipse.jface.action.Action;
 /**
  * Abstract class for the cross tab action.
  */
-public abstract class AbstractCrosstabAction extends Action
-{
+public abstract class AbstractCrosstabAction extends Action {
 
 	private DesignElementHandle handle = null;
 
 	/**
 	 * Constructor
-	 * 
-	 * @param handle
-	 *            the element handle
+	 *
+	 * @param handle the element handle
 	 */
-	public AbstractCrosstabAction( DesignElementHandle handle )
-	{
-		super( );
+	public AbstractCrosstabAction(DesignElementHandle handle) {
+		super();
 		this.handle = handle;
 	}
 
 	/**
 	 * Star the trans for the special name.
-	 * 
-	 * @param name
-	 *            trans name
+	 *
+	 * @param name trans name
 	 */
-	public void transStar( String name )
-	{
-		CommandStack stack = handle.getModuleHandle( ).getCommandStack( );
+	public void transStar(String name) {
+		CommandStack stack = handle.getModuleHandle().getCommandStack();
 		// start trans
-		stack.startTrans( name );
+		stack.startTrans(name);
 	}
 
 	/**
 	 * Ends a transaction on the current activity stack
 	 */
-	public void transEnd( )
-	{
-		CommandStack stack = handle.getModuleHandle( ).getCommandStack( );
-		stack.commit( );
+	public void transEnd() {
+		CommandStack stack = handle.getModuleHandle().getCommandStack();
+		stack.commit();
 	}
 
 	/**
 	 * Gets the handle
-	 * 
+	 *
 	 * @return
 	 */
-	public DesignElementHandle getHandle( )
-	{
+	public DesignElementHandle getHandle() {
 		return handle;
 	}
 
 	/**
 	 * Sets the handle
-	 * 
+	 *
 	 * @param handle
 	 */
-	public void setHandle( DesignElementHandle handle )
-	{
+	public void setHandle(DesignElementHandle handle) {
 		this.handle = handle;
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	protected void rollBack( )
-	{
-		handle.getModuleHandle( ).getCommandStack( ).rollback( );
+	protected void rollBack() {
+		handle.getModuleHandle().getCommandStack().rollback();
 	}
 
-	public boolean isEnabled( )
-	{
-		return !DEUtil.isReferenceElement( handle );
+	@Override
+	public boolean isEnabled() {
+		return !DEUtil.isReferenceElement(handle);
 	}
 
 }

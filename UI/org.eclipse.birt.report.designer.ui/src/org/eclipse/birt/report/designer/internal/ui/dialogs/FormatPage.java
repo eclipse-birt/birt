@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,64 +21,62 @@ import com.ibm.icu.util.ULocale;
 /**
  * FormatPage
  */
-public abstract class FormatPage extends Composite implements IFormatPage
-{
+public abstract class FormatPage extends Composite implements IFormatPage {
 
 	protected FormatLayoutPeer layoutPeer;
 
-	public FormatPage( Composite parent, int style )
-	{
-		super( parent, style );
-	}
-	
-	public void addFormatChangeListener( IFormatChangeListener listener )
-	{
-		layoutPeer.addFormatChangeListener( listener );
-	}
-	
-	public String getCategory( )
-	{
-		return layoutPeer.getCategory( );
+	public FormatPage(Composite parent, int style) {
+		super(parent, style);
 	}
 
-	public String getFormatString( )
-	{
-		return layoutPeer.getFormatString( );
+	@Override
+	public void addFormatChangeListener(IFormatChangeListener listener) {
+		layoutPeer.addFormatChangeListener(listener);
 	}
 
-	public ULocale getLocale( )
-	{
-		return layoutPeer.getLocale( );
+	@Override
+	public String getCategory() {
+		return layoutPeer.getCategory();
 	}
 
-	public String getPattern( )
-	{
-		return layoutPeer.getPattern( );
+	@Override
+	public String getFormatString() {
+		return layoutPeer.getFormatString();
 	}
 
-	public boolean isDirty( )
-	{
-		return layoutPeer.isDirty( );
+	@Override
+	public ULocale getLocale() {
+		return layoutPeer.getLocale();
 	}
 
-	public boolean isFormatModified( )
-	{
-		return layoutPeer.isFormatModified( );
+	@Override
+	public String getPattern() {
+		return layoutPeer.getPattern();
 	}
 
-	public void setInput( String category, String pattern, ULocale formatLocale )
-	{
-		layoutPeer.setInput( category, pattern, formatLocale );
+	@Override
+	public boolean isDirty() {
+		return layoutPeer.isDirty();
 	}
 
-	public void setInput( String formatString )
-	{
-		layoutPeer.setInput( formatString );
+	@Override
+	public boolean isFormatModified() {
+		return layoutPeer.isFormatModified();
 	}
 
-	public void setPreviewText( String text )
-	{
-		layoutPeer.setPreviewText( text );
+	@Override
+	public void setInput(String category, String pattern, ULocale formatLocale) {
+		layoutPeer.setInput(category, pattern, formatLocale);
+	}
+
+	@Override
+	public void setInput(String formatString) {
+		layoutPeer.setInput(formatString);
+	}
+
+	@Override
+	public void setPreviewText(String text) {
+		layoutPeer.setPreviewText(text);
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -92,20 +95,16 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
- * 
+ *
  * Base multipage editor for report editors. Clients can subclass this class to
  * create customize report editors. Report editor pages can contributed through
  * Extendtion Point
  * org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor.
- * 
+ *
  * @see IReportEditorPage
  */
-public class MultiPageReportEditor extends AbstractMultiPageEditor implements
-		IPartListener,
-		IReportEditor,
-		IMediatorColleague,
-		IReportResourceChangeListener
-{
+public class MultiPageReportEditor extends AbstractMultiPageEditor
+		implements IPartListener, IReportEditor, IMediatorColleague, IReportResourceChangeListener {
 
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage"; //$NON-NLS-1$
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
@@ -122,11 +121,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private boolean fIsHandlingActivation;
 
-	private long fModificationStamp = -1;;
+	private long fModificationStamp = -1;
 
 	protected IReportProvider reportProvider;
 
-	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider( this );
+	private FormEditorSelectionProvider provider = new FormEditorSelectionProvider(this);
 	private boolean isChanging = false;
 	private ReportMultiBookPage attributePage;
 	private ITreeViewerBackup outlineBackup;
@@ -137,107 +136,89 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
 	// private IRelatedFileChangeResolve resolve;
-	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<IRelatedFileChangeResolve>( );
+	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<>();
 	private IPreferences prefs;
-	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener( ) {
+	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener() {
 
-		public void preferenceChange( PreferenceChangeEvent event )
-		{
-			if ( event.getKey( )
-					.equals( PreferenceChangeEvent.SPECIALTODEFAULT )
-					|| ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )
-			{
-				SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.setBirtResourcePath( ReportPlugin.getDefault( )
-								.getResourcePreference( ) );
+		@Override
+		public void preferenceChange(PreferenceChangeEvent event) {
+			if (event.getKey().equals(PreferenceChangeEvent.SPECIALTODEFAULT)
+					|| ReportPlugin.RESOURCE_PREFERENCE.equals(event.getKey())) {
+				SessionHandleAdapter.getInstance().getSessionHandle()
+						.setBirtResourcePath(ReportPlugin.getDefault().getResourcePreference());
 
-				UIUtil.processSessionResourceFolder( getEditorInput( ),
-						UIUtil.getProjectFromInput( getEditorInput( ) ),
-						getModel( ) );
+				UIUtil.processSessionResourceFolder(getEditorInput(), UIUtil.getProjectFromInput(getEditorInput()),
+						getModel());
 
-				refreshGraphicalEditor( );
+				refreshGraphicalEditor();
 			}
 		}
 	};
 
-	private IWindowListener windowListener = new IWindowListener( ) {
+	private IWindowListener windowListener = new IWindowListener() {
 
-		public void windowActivated( IWorkbenchWindow window )
-		{
-			if ( !( window == getEditorSite( ).getWorkbenchWindow( ) ) )
-			{
+		@Override
+		public void windowActivated(IWorkbenchWindow window) {
+			if (!(window == getEditorSite().getWorkbenchWindow()) || (fActivePart != MultiPageReportEditor.this)) {
 				return;
 			}
-			if ( fActivePart != MultiPageReportEditor.this )
-			{
-				return;
-			}
-			window.getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
+			window.getShell().getDisplay().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					confirmSave( );
+				@Override
+				public void run() {
+					confirmSave();
 				}
-			} );
+			});
 		}
 
-		public void windowClosed( IWorkbenchWindow window )
-		{
-
-		}
-
-		public void windowDeactivated( IWorkbenchWindow window )
-		{
+		@Override
+		public void windowClosed(IWorkbenchWindow window) {
 
 		}
 
-		public void windowOpened( IWorkbenchWindow window )
-		{
+		@Override
+		public void windowDeactivated(IWorkbenchWindow window) {
+
+		}
+
+		@Override
+		public void windowOpened(IWorkbenchWindow window) {
 
 		}
 
 	};
 
-	protected void confirmSave( )
-	{
+	protected void confirmSave() {
 
-		if ( fIsHandlingActivation )
+		if (fIsHandlingActivation) {
 			return;
-		if ( !isExistModelFile( ) && !isClose )
-		{
+		}
+		if (!isExistModelFile() && !isClose) {
 			// Thread.dumpStack( );
 			fIsHandlingActivation = true;
-			MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
-					Messages.getString( "MultiPageReportEditor.ConfirmTitle" ), //$NON-NLS-1$
-					null,
-					Messages.getString( "MultiPageReportEditor.SaveConfirmMessage" ), //$NON-NLS-1$
-					MessageDialog.QUESTION,
-					new String[]{
-							Messages.getString( "MultiPageReportEditor.SaveButton" ), Messages.getString( "MultiPageReportEditor.CloseButton" )}, 0 ); //$NON-NLS-1$ //$NON-NLS-2$
-			try
-			{
-				if ( dialog.open( ) == 0 )
-				{
-					doSave( null );
+			MessageDialog dialog = new MessageDialog(UIUtil.getDefaultShell(),
+					Messages.getString("MultiPageReportEditor.ConfirmTitle"), //$NON-NLS-1$
+					null, Messages.getString("MultiPageReportEditor.SaveConfirmMessage"), //$NON-NLS-1$
+					MessageDialog.QUESTION, new String[] { Messages.getString("MultiPageReportEditor.SaveButton"), //$NON-NLS-1$
+							Messages.getString("MultiPageReportEditor.CloseButton") }, //$NON-NLS-1$
+					0);
+			try {
+				if (dialog.open() == 0) {
+					doSave(null);
 					isClose = false;
-				}
-				else
-				{
-					Display display = getSite( ).getShell( ).getDisplay( );
-					display.asyncExec( new Runnable( ) {
+				} else {
+					Display display = getSite().getShell().getDisplay();
+					display.asyncExec(new Runnable() {
 
-						public void run( )
-						{
-							closeEditor( false );
+						@Override
+						public void run() {
+							closeEditor(false);
 						}
-					} );
+					});
 					isClose = true;
 
 				}
-			}
-			finally
-			{
+			} finally {
 				fIsHandlingActivation = false;
 				needReset = false;
 				needReload = false;
@@ -250,30 +231,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	// the getActivePage()
 	// return the correct current page index.we may delete this class
 	// TODO
-	private static class FormEditorSelectionProvider extends
-			MultiPageSelectionProvider
-	{
+	private static class FormEditorSelectionProvider extends MultiPageSelectionProvider {
 
 		private ISelection globalSelection;
 
 		/**
 		 * @param multiPageEditor
 		 */
-		public FormEditorSelectionProvider( FormEditor formEditor )
-		{
-			super( formEditor );
+		public FormEditorSelectionProvider(FormEditor formEditor) {
+			super(formEditor);
 		}
 
-		public ISelection getSelection( )
-		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
+		@Override
+		public ISelection getSelection() {
+			IEditorPart activeEditor = ((FormEditor) getMultiPageEditor()).getActivePageInstance();
 			// IEditorPart activeEditor = getActivePageInstance( );
-			if ( activeEditor != null )
-			{
-				ISelectionProvider selectionProvider = activeEditor.getSite( )
-						.getSelectionProvider( );
-				if ( selectionProvider != null )
-					return selectionProvider.getSelection( );
+			if (activeEditor != null) {
+				ISelectionProvider selectionProvider = activeEditor.getSite().getSelectionProvider();
+				if (selectionProvider != null) {
+					return selectionProvider.getSelection();
+				}
 			}
 			return globalSelection;
 		}
@@ -281,21 +258,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		/*
 		 * (non-Javadoc) Method declared on <code> ISelectionProvider </code> .
 		 */
-		public void setSelection( ISelection selection )
-		{
-			IEditorPart activeEditor = ( (FormEditor) getMultiPageEditor( ) ).getActivePageInstance( );
-			if ( activeEditor != null )
-			{
-				ISelectionProvider selectionProvider = activeEditor.getSite( )
-						.getSelectionProvider( );
-				if ( selectionProvider != null )
-					selectionProvider.setSelection( selection );
-			}
-			else
-			{
+		@Override
+		public void setSelection(ISelection selection) {
+			IEditorPart activeEditor = ((FormEditor) getMultiPageEditor()).getActivePageInstance();
+			if (activeEditor != null) {
+				ISelectionProvider selectionProvider = activeEditor.getSite().getSelectionProvider();
+				if (selectionProvider != null) {
+					selectionProvider.setSelection(selection);
+				}
+			} else {
 				this.globalSelection = selection;
-				fireSelectionChanged( new SelectionChangedEvent( this,
-						globalSelection ) );
+				fireSelectionChanged(new SelectionChangedEvent(this, globalSelection));
 			}
 		}
 	}
@@ -303,112 +276,93 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/**
 	 * Constructor
 	 */
-	public MultiPageReportEditor( )
-	{
-		super( );
-		outlineBackup = new TreeViewerBackup( );
-		dataBackup = new TreeViewerBackup( );
+	public MultiPageReportEditor() {
+		super();
+		outlineBackup = new TreeViewerBackup();
+		dataBackup = new TreeViewerBackup();
 
-		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-				.getResourceSynchronizerService( );
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
 
-		if ( synchronizer != null )
-		{
-			synchronizer.addListener( IReportResourceChangeEvent.LibraySaveChange
-					| IReportResourceChangeEvent.ImageResourceChange
-					| IReportResourceChangeEvent.DataDesignSaveChange,
-					this );
+		if (synchronizer != null) {
+			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange
+					| IReportResourceChangeEvent.ImageResourceChange | IReportResourceChangeEvent.DataDesignSaveChange,
+					this);
 		}
 
-		PlatformUI.getWorkbench( ).addWindowListener( windowListener );
+		PlatformUI.getWorkbench().addWindowListener(windowListener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
+	 *
+	 * @see org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.init( site, input );
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		super.init(site, input);
 
 		// getSite( ).getWorkbenchWindow( )
 		// .getPartService( )
 		// .addPartListener( this );
-		site.setSelectionProvider( provider );
+		site.setSelectionProvider(provider);
 
-		IReportProvider provider = getProvider( );
+		IReportProvider provider = getProvider();
 
-		if ( provider != null && provider.getInputPath( input ) != null )
-		{
-			setPartName( provider.getInputPath( input ).lastSegment( ) );
-			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
-		}
-		else
-		{
-			setPartName( input.getName( ) );
-			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
+		if (provider != null && provider.getInputPath(input) != null) {
+			setPartName(provider.getInputPath(input).lastSegment());
+			firePropertyChange(IWorkbenchPartConstants.PROP_PART_NAME);
+		} else {
+			setPartName(input.getName());
+			firePropertyChange(IWorkbenchPartConstants.PROP_PART_NAME);
 		}
 
 		// suport the mediator
-		MediatorManager.addGlobalColleague( this );
+		MediatorManager.addGlobalColleague(this);
 
-		IProject project = UIUtil.getProjectFromInput( input );
-		prefs = PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ), project );
-		prefs.addPreferenceChangeListener( preferenceChangeListener );
+		IProject project = UIUtil.getProjectFromInput(input);
+		prefs = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(), project);
+		prefs.addPreferenceChangeListener(preferenceChangeListener);
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		if ( reportProvider == null )
-		{
-			reportProvider = new FileReportProvider( );
+	protected IReportProvider getProvider() {
+		if (reportProvider == null) {
+			reportProvider = new FileReportProvider();
 		}
 		return reportProvider;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#addPages()
 	 */
-	protected void addPages( )
-	{
-		List formPageList = EditorContributorManager.getInstance( )
-				.getEditorContributor( getEditorSite( ).getId( ) ).formPageList;
+	@Override
+	protected void addPages() {
+		List formPageList = EditorContributorManager.getInstance()
+				.getEditorContributor(getEditorSite().getId()).formPageList;
 		boolean error = false;
 
 		// For back compatible only.
 		// Provide warning message to let user select if the auto convert needs
 		// See bugzilla bug 136536 for detail.
-		String fileName = getProvider( ).getInputPath( getEditorInput( ) )
-				.toOSString( );
-		List message = ModuleUtil.checkVersion( fileName );
-		if ( message.size( ) > 0 )
-		{
-			IVersionInfo info = (IVersionInfo) message.get( 0 );
+		String fileName = getProvider().getInputPath(getEditorInput()).toOSString();
+		List message = ModuleUtil.checkVersion(fileName);
+		if (message.size() > 0) {
+			IVersionInfo info = (IVersionInfo) message.get(0);
 
-			if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-					Messages.getString( "MultiPageReportEditor.CheckVersion.Dialog.Title" ), //$NON-NLS-1$
-					info.getLocalizedMessage( ) ) )
-			{
-				for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
-				{
-					FormPageDef pagedef = (FormPageDef) iter.next( );
-					if ( XMLSourcePage_ID.equals( pagedef.id ) )
+			if (!MessageDialog.openConfirm(UIUtil.getDefaultShell(),
+					Messages.getString("MultiPageReportEditor.CheckVersion.Dialog.Title"), //$NON-NLS-1$
+					info.getLocalizedMessage())) {
+				for (Iterator iter = formPageList.iterator(); iter.hasNext();) {
+					FormPageDef pagedef = (FormPageDef) iter.next();
+					if (XMLSourcePage_ID.equals(pagedef.id))
 
 					{
-						try
-						{
-							addPage( pagedef.createPage( ), pagedef.displayName );
+						try {
+							addPage(pagedef.createPage(), pagedef.displayName);
 							break;
-						}
-						catch ( Exception e )
-						{
+						} catch (Exception e) {
 
 						}
 					}
@@ -416,176 +370,148 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				return;
 			}
 		}
-		UIUtil.processSessionResourceFolder( getEditorInput( ),
-				UIUtil.getProjectFromInput( getEditorInput( ) ),
-				null );
+		UIUtil.processSessionResourceFolder(getEditorInput(), UIUtil.getProjectFromInput(getEditorInput()), null);
 		// load the model first here, so consequent pages can directly use it
 		// without reloading
-		getProvider( ).getReportModuleHandle( getEditorInput( ) );
+		getProvider().getReportModuleHandle(getEditorInput());
 
-		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
-		{
-			FormPageDef pagedef = (FormPageDef) iter.next( );
-			try
-			{
-				addPage( pagedef.createPage( ), pagedef.displayName );
-			}
-			catch ( Exception e )
-			{
+		for (Iterator iter = formPageList.iterator(); iter.hasNext();) {
+			FormPageDef pagedef = (FormPageDef) iter.next();
+			try {
+				addPage(pagedef.createPage(), pagedef.displayName);
+			} catch (Exception e) {
 				error = true;
 			}
 		}
 
-		if ( error )
-		{
-			setActivePage( XMLSourcePage_ID );
+		if (error) {
+			setActivePage(XMLSourcePage_ID);
 		}
 	}
 
 	/**
 	 * Add a IReportEditorPage to multipage editor.
-	 * 
+	 *
 	 * @param page
 	 * @param title
 	 * @return
 	 * @throws PartInitException
 	 */
-	public int addPage( IReportEditorPage page, String title )
-			throws PartInitException
-	{
-		int index = super.addPage( page );
-		if ( title != null )
-		{
-			setPageText( index, title );
+	public int addPage(IReportEditorPage page, String title) throws PartInitException {
+		int index = super.addPage(page);
+		if (title != null) {
+			setPageText(index, title);
 		}
-		try
-		{
-			page.initialize( this );
-			page.init( createSite( page ), getEditorInput( ) );
-		}
-		catch ( Exception e )
-		{
+		try {
+			page.initialize(this);
+			page.init(createSite(page), getEditorInput());
+		} catch (Exception e) {
 			// removePage( index );
-			throw new PartInitException( e.getMessage( ) );
+			throw new PartInitException(e.getMessage());
 		}
 		return index;
 	}
 
 	/**
 	 * Remove report editor page.
-	 * 
-	 * @param id
-	 *            the page id.
+	 *
+	 * @param id the page id.
 	 */
-	public void removePage( String id )
-	{
-		IFormPage page = findPage( id );
-		if ( page != null )
-		{
-			removePage( page.getIndex( ) );
+	public void removePage(String id) {
+		IFormPage page = findPage(id);
+		if (page != null) {
+			removePage(page.getIndex());
 		}
 	}
 
 	/**
 	 * Remove all report editor page.
 	 */
-	public void removeAllPages( )
-	{
-		for ( int i = pages.toArray( ).length - 1; i >= 0; i-- )
-		{
-			if ( pages.get( i ) != null )
-				this.removePage( ( (IFormPage) pages.get( i ) ).getId( ) );
+	public void removeAllPages() {
+		for (int i = pages.toArray().length - 1; i >= 0; i--) {
+			if (pages.get(i) != null) {
+				this.removePage(((IFormPage) pages.get(i)).getId());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
-	public void doSave( IProgressMonitor monitor )
-	{
+	@Override
+	public void doSave(IProgressMonitor monitor) {
 		boolean isReselect = false;
-		if ( getModel( ) != null
-				&& ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
-						getModel( ).getVersion( ) ) > 0 )
-		{
-			if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-					Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		if (getModel() != null
+				&& ModuleUtil.compareReportVersion(ModuleUtil.getReportVersion(), getModel().getVersion()) > 0) {
+			if (!MessageDialog.openConfirm(UIUtil.getDefaultShell(),
+					Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.Title"), //$NON-NLS-1$
+					Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.Message"))) //$NON-NLS-1$
 			{
 				return;
-			}
-			else
-			{
+			} else {
 				isReselect = true;
 			}
 		}
-		getCurrentPageInstance( ).doSave( monitor );
-		fireDesignFileChangeEvent( );
-		if ( isReselect )
-		{
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
+		getCurrentPageInstance().doSave(monitor);
+		fireDesignFileChangeEvent();
+		if (isReselect) {
+			Display.getCurrent().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-					{
-						if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( ) != null )
-						{
-							GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
-							GraphicalViewer view = editor.getGraphicalViewer( );
+				@Override
+				public void run() {
+					if (getActivePageInstance() instanceof GraphicalEditorWithFlyoutPalette) {
+						if (((GraphicalEditorWithFlyoutPalette) getActivePageInstance()).getGraphicalViewer() != null) {
+							GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance();
+							GraphicalViewer view = editor.getGraphicalViewer();
 
-							UIUtil.resetViewSelection( view, true );
+							UIUtil.resetViewSelection(view, true);
 						}
 
 					}
 
 				}
-			} );
+			});
 		}
 	}
 
-	private void fireDesignFileChangeEvent( )
-	{
-		UIUtil.doFinishSave( getModel( ) );
+	private void fireDesignFileChangeEvent() {
+		UIUtil.doFinishSave(getModel());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
-	public void doSaveAs( )
-	{
-		getActivePageInstance( ).doSaveAs( );
-		setInput( getActivePageInstance( ).getEditorInput( ) );
+	@Override
+	public void doSaveAs() {
+		getActivePageInstance().doSaveAs();
+		setInput(getActivePageInstance().getEditorInput());
 		// update site name
-		IReportProvider provider = getProvider( );
-		if ( provider != null )
-		{
-			setPartName( provider.getInputPath( getEditorInput( ) )
-					.lastSegment( ) );
-			firePropertyChange( IWorkbenchPartConstants.PROP_PART_NAME );
-			getProvider( ).getReportModuleHandle( getEditorInput( ) )
-					.setFileName( getProvider( ).getInputPath( getEditorInput( ) )
-							.toOSString( ) );
+		IReportProvider provider = getProvider();
+		if (provider != null) {
+			setPartName(provider.getInputPath(getEditorInput()).lastSegment());
+			firePropertyChange(IWorkbenchPartConstants.PROP_PART_NAME);
+			getProvider().getReportModuleHandle(getEditorInput())
+					.setFileName(getProvider().getInputPath(getEditorInput()).toOSString());
 		}
 
-		updateRelatedViews( );
-		fireDesignFileChangeEvent( );
+		updateRelatedViews();
+		fireDesignFileChangeEvent();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
-	public boolean isSaveAsAllowed( )
-	{
-		if ( getActivePageInstance( ) != null )
-		{
-			return getActivePageInstance( ).isSaveAsAllowed( );
+	@Override
+	public boolean isSaveAsAllowed() {
+		if (getActivePageInstance() != null) {
+			return getActivePageInstance().isSaveAsAllowed();
 		}
 		return false;
 	}
@@ -611,241 +537,183 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class type )
-	{
-		if ( type == IReportProvider.class )
-		{
-			if ( reportProvider == null )
-			{
-				reportProvider = new FileReportProvider( );
+	@Override
+	public Object getAdapter(Class type) {
+		if (type == IReportProvider.class) {
+			if (reportProvider == null) {
+				reportProvider = new FileReportProvider();
 			}
 			return reportProvider;
-		}
-		else if ( type == ILibraryProvider.class )
-		{
-			return new LibraryProvider( );
-		}
-		else if ( type == PalettePage.class )
-		{
-			Object adapter = getPalettePage( );
-			updatePaletteView( getActivePageInstance( ) );
+		} else if (type == ILibraryProvider.class) {
+			return new LibraryProvider();
+		} else if (type == PalettePage.class) {
+			Object adapter = getPalettePage();
+			updatePaletteView(getActivePageInstance());
 			return adapter;
-		}
-		else if ( type == IContentOutlinePage.class )
-		{
+		} else if (type == IContentOutlinePage.class) {
 			/*
 			 * Update the logic under eclipse 3.7, eclipse always call the
-			 * getAdapter(OutlinePage) when handle the ShellActive event. So we
-			 * don't need to call updateOutLineView every time, only call it
-			 * when new a outline page.
+			 * getAdapter(OutlinePage) when handle the ShellActive event. So we don't need
+			 * to call updateOutLineView every time, only call it when new a outline page.
 			 */
-			boolean update = outlinePage == null || outlinePage.isDisposed( );
-			Object adapter = getOutlinePage( );
-			if ( update )
-			{
-				updateOutLineView( getActivePageInstance( ) );
+			boolean update = outlinePage == null || outlinePage.isDisposed();
+			Object adapter = getOutlinePage();
+			if (update) {
+				updateOutLineView(getActivePageInstance());
 			}
 			return adapter;
-		}
-		else if ( type == IDataViewPage.class )
-		{
-			Object adapter = getDataPage( );
-			updateDateView( getActivePageInstance( ) );
+		} else if (type == IDataViewPage.class) {
+			Object adapter = getDataPage();
+			updateDateView(getActivePageInstance());
 			return adapter;
-		}
-		else if ( type == IAttributeViewPage.class )
-		{
-			Object adapter = getAttributePage( );
-			updateAttributeView( getActivePageInstance( ) );
+		} else if (type == IAttributeViewPage.class) {
+			Object adapter = getAttributePage();
+			updateAttributeView(getActivePageInstance());
 			return adapter;
-		}
-		else if ( getActivePageInstance( ) != null )
-		{
-			return getActivePageInstance( ).getAdapter( type );
+		} else if (getActivePageInstance() != null) {
+			return getActivePageInstance().getAdapter(type);
 		}
 
-		return super.getAdapter( type );
+		return super.getAdapter(type);
 	}
 
-	private void updateAttributeView( IFormPage activePageInstance )
-	{
-		if ( attributePage == null )
-		{
+	private void updateAttributeView(IFormPage activePageInstance) {
+		if (attributePage == null) {
 			return;
 		}
 
-		Object adapter = activePageInstance.getAdapter( IAttributeViewPage.class );
-		attributePage.setActivePage( (IPageBookViewPage) adapter );
+		Object adapter = activePageInstance.getAdapter(IAttributeViewPage.class);
+		attributePage.setActivePage((IPageBookViewPage) adapter);
 	}
 
-	private void updateDateView( IFormPage activePageInstance )
-	{
-		if ( dataPage == null )
-		{
+	private void updateDateView(IFormPage activePageInstance) {
+		if (dataPage == null) {
 			return;
 		}
 
-		Object adapter = activePageInstance.getAdapter( IDataViewPage.class );
-		if ( adapter instanceof DataViewTreeViewerPage )
-		{
-			( (DataViewTreeViewerPage) adapter ).setBackupState( dataBackup );
+		Object adapter = activePageInstance.getAdapter(IDataViewPage.class);
+		if (adapter instanceof DataViewTreeViewerPage) {
+			((DataViewTreeViewerPage) adapter).setBackupState(dataBackup);
 		}
-		dataPage.setActivePage( (IPageBookViewPage) adapter );
+		dataPage.setActivePage((IPageBookViewPage) adapter);
 	}
 
-	private void updateOutLineView( IFormPage activePageInstance )
-	{
-		if ( outlinePage == null )
-		{
+	private void updateOutLineView(IFormPage activePageInstance) {
+		if ((outlinePage == null) || reloadOutlinePage()) {
+			return;
+		}
+		Object designOutLinePage = activePageInstance.getAdapter(IContentOutlinePage.class);
+		if (designOutLinePage instanceof DesignerOutlinePage) {
+			((DesignerOutlinePage) designOutLinePage).setBackupState(outlineBackup);
+		}
+		outlinePage.setActivePage((IPageBookViewPage) designOutLinePage);
+	}
+
+	public void outlineSwitch() {
+		if (!getActivePageInstance().getId().equals(XMLSourcePage_ID) || outlinePage == null) {
 			return;
 		}
 
-		if ( reloadOutlinePage( ) )
-		{
-			return;
+		if (outlinePage.getCurrentPage() instanceof DesignerOutlinePage) {
+			outlinePage.setActivePage((IPageBookViewPage) getActivePageInstance().getAdapter(ContentOutlinePage.class));
+		} else {
+			outlinePage
+					.setActivePage((IPageBookViewPage) getActivePageInstance().getAdapter(IContentOutlinePage.class));
 		}
-		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
-		if ( designOutLinePage instanceof DesignerOutlinePage )
-		{
-			( (DesignerOutlinePage) designOutLinePage ).setBackupState( outlineBackup );
-		}
-		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
+		outlinePage.getSite().getActionBars().updateActionBars();
 	}
 
-	public void outlineSwitch( )
-	{
-		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
-				|| outlinePage == null )
-		{
-			return;
-		}
-
-		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage )
-		{
-			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
-		}
-		else
-		{
-			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
-		}
-		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
-	}
-
-	public boolean reloadOutlinePage( )
-	{
-		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
-				|| outlinePage == null
-				|| !getCurrentPageInstance( ).getId( )
-						.equals( XMLSourcePage_ID ) )
-		{
+	public boolean reloadOutlinePage() {
+		if (!getActivePageInstance().getId().equals(XMLSourcePage_ID) || outlinePage == null
+				|| !getCurrentPageInstance().getId().equals(XMLSourcePage_ID)) {
 			return false;
 		}
 
-		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage
-				|| outlinePage.getCurrentPage( ) == null
-				|| outlinePage.getCurrentPage( ) instanceof EmptyPage )
-		{
-			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
+		if (outlinePage.getCurrentPage() instanceof DesignerOutlinePage || outlinePage.getCurrentPage() == null
+				|| outlinePage.getCurrentPage() instanceof EmptyPage) {
+			outlinePage
+					.setActivePage((IPageBookViewPage) getActivePageInstance().getAdapter(IContentOutlinePage.class));
+		} else {
+			outlinePage.setActivePage((IPageBookViewPage) getActivePageInstance().getAdapter(ContentOutlinePage.class));
 		}
-		else
-		{
-			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
-		}
-		if ( outlinePage.getSite( ) != null )
-		{
-			outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+		if (outlinePage.getSite() != null) {
+			outlinePage.getSite().getActionBars().updateActionBars();
 		}
 		return true;
 	}
 
-	public Object getDataPage( )
-	{
-		if ( dataPage == null || dataPage.isDisposed( ) )
-		{
-			dataPage = new ReportMultiBookPage( );
+	public Object getDataPage() {
+		if (dataPage == null || dataPage.isDisposed()) {
+			dataPage = new ReportMultiBookPage();
 		}
 		return dataPage;
 	}
 
-	public Object getAttributePage( )
-	{
-		if ( attributePage == null || attributePage.isDisposed( ) )
-		{
-			attributePage = new ReportMultiBookPage( );
+	public Object getAttributePage() {
+		if (attributePage == null || attributePage.isDisposed()) {
+			attributePage = new ReportMultiBookPage();
 		}
 		return attributePage;
 	}
 
 	/**
-	 * If new a outline page, should call updateOutLineView(
-	 * getActivePageInstance( ) ) method at first.
-	 * 
+	 * If new a outline page, should call updateOutLineView( getActivePageInstance(
+	 * ) ) method at first.
+	 *
 	 * @Since 3.7.2
-	 * 
+	 *
 	 */
-	public Object getOutlinePage( )
-	{
-		if ( outlinePage == null || outlinePage.isDisposed( ) )
-		{
-			outlinePage = new ReportMultiBookPage( );
+	public Object getOutlinePage() {
+		if (outlinePage == null || outlinePage.isDisposed()) {
+			outlinePage = new ReportMultiBookPage();
 		}
 		return outlinePage;
 	}
 
-	public Object getPalettePage( )
-	{
-		if ( fPalettePage == null || fPalettePage.isDisposed( ) )
-		{
-			fPalettePage = new ReportMultiBookPage( );
+	public Object getPalettePage() {
+		if (fPalettePage == null || fPalettePage.isDisposed()) {
+			fPalettePage = new ReportMultiBookPage();
 		}
 		return fPalettePage;
 	}
 
-	private void updatePaletteView( IFormPage activePageInstance )
-	{
+	private void updatePaletteView(IFormPage activePageInstance) {
 
-		if ( fPalettePage == null )
-		{
+		if (fPalettePage == null) {
 			return;
 		}
 
-		Object palette = activePageInstance.getAdapter( PalettePage.class );
-		fPalettePage.setActivePage( (IPageBookViewPage) palette );
+		Object palette = activePageInstance.getAdapter(PalettePage.class);
+		fPalettePage.setActivePage((IPageBookViewPage) palette);
 	}
 
-	public void pageChange( String id )
-	{
-		IFormPage page = findPage( id );
-		if ( page != null )
-		{
-			pageChange( page.getIndex( ) );
+	public void pageChange(String id) {
+		IFormPage page = findPage(id);
+		if (page != null) {
+			pageChange(page.getIndex());
 		}
 	}
 
-	protected void pageChange( int newPageIndex )
-	{
-		int oldPageIndex = getCurrentPage( );
+	@Override
+	protected void pageChange(int newPageIndex) {
+		int oldPageIndex = getCurrentPage();
 
-		if ( oldPageIndex == newPageIndex )
-		{
+		if (oldPageIndex == newPageIndex) {
 			isChanging = false;
-			bingdingKey( oldPageIndex );
+			bingdingKey(oldPageIndex);
 			return;
 		}
 
-		if ( oldPageIndex != -1 )
-		{
-			Object oldPage = pages.get( oldPageIndex );
-			Object newPage = pages.get( newPageIndex );
+		if (oldPageIndex != -1) {
+			Object oldPage = pages.get(oldPageIndex);
+			Object newPage = pages.get(newPageIndex);
 
-			if ( oldPage instanceof IFormPage )
-			{
-				if ( !( (IFormPage) oldPage ).canLeaveThePage( ) )
-				{
-					setActivePage( oldPageIndex );
+			if (oldPage instanceof IFormPage) {
+				if (!((IFormPage) oldPage).canLeaveThePage()) {
+					setActivePage(oldPageIndex);
 					return;
 				}
 			}
@@ -853,91 +721,71 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// change to new page, must do it first, because must check old page
 			// is canleave.
 			isChanging = true;
-			super.pageChange( newPageIndex );
+			super.pageChange(newPageIndex);
 			// updateRelatedViews( );
 			// check new page status
-			if ( !prePageChanges( oldPage, newPage ) )
-			{
-				super.setActivePage( oldPageIndex );
-				updateRelatedViews( );
+			if (!prePageChanges(oldPage, newPage)) {
+				super.setActivePage(oldPageIndex);
+				updateRelatedViews();
 				return;
-			}
-			else if ( isChanging )
-			{
-				bingdingKey( newPageIndex );
+			} else if (isChanging) {
+				bingdingKey(newPageIndex);
 			}
 			isChanging = false;
+		} else {
+			super.pageChange(newPageIndex);
 		}
-		else
-		{
-			super.pageChange( newPageIndex );
-		}
-		updateRelatedViews( );
-		updateAttributeView(  getActivePageInstance( )  );
+		updateRelatedViews();
+		updateAttributeView(getActivePageInstance());
 	}
 
-	public void setFocus( )
-	{
-		if ( getActivePageInstance( ) != null
-				&& getActivePageInstance( ).getPartControl( ) != null
-				&& UIUtil.containsFocusControl( getActivePageInstance( ).getPartControl( ) ) )
-			return;
-		super.setFocus( );
-		if ( pages == null
-				|| getCurrentPage( ) < 0
-				|| getCurrentPage( ) > pages.size( ) - 1 )
-		{
+	@Override
+	public void setFocus() {
+		if (getActivePageInstance() != null && getActivePageInstance().getPartControl() != null
+				&& UIUtil.containsFocusControl(getActivePageInstance().getPartControl())) {
 			return;
 		}
-		bingdingKey( getCurrentPage( ) );
+		super.setFocus();
+		if (pages == null || getCurrentPage() < 0 || getCurrentPage() > pages.size() - 1) {
+			return;
+		}
+		bingdingKey(getCurrentPage());
 	}
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
 	// return the correct current page index.we may delete this method
 	// TODO
-	private void bingdingKey( int newPageIndex )
-	{
-		final IKeyBindingService service = getSite( ).getKeyBindingService( );
-		final IEditorPart editor = (IEditorPart) pages.get( newPageIndex );
-		if ( editor != null && editor.getEditorSite( ) != null )
-		{
-			editor.setFocus( );
+	private void bingdingKey(int newPageIndex) {
+		final IKeyBindingService service = getSite().getKeyBindingService();
+		final IEditorPart editor = (IEditorPart) pages.get(newPageIndex);
+		if (editor != null && editor.getEditorSite() != null) {
+			editor.setFocus();
 			// There is no selected page, so deactivate the active service.
-			if ( service instanceof INestableKeyBindingService )
-			{
+			if (service instanceof INestableKeyBindingService) {
 				final INestableKeyBindingService nestableService = (INestableKeyBindingService) service;
-				if ( editor != null )
-				{
-					nestableService.activateKeyBindingService( editor.getEditorSite( ) );
+				if (editor != null) {
+					nestableService.activateKeyBindingService(editor.getEditorSite());
+				} else {
+					nestableService.activateKeyBindingService(null);
 				}
-				else
-				{
-					nestableService.activateKeyBindingService( null );
-				}
-			}
-			else
-			{
+			} else {
 
 			}
 		}
 	}
 
-	public void updateRelatedViews( )
-	{
-		updatePaletteView( getCurrentPageInstance( ) );
-		updateOutLineView( getCurrentPageInstance( ) );
-		updateDateView( getCurrentPageInstance( ) );
+	public void updateRelatedViews() {
+		updatePaletteView(getCurrentPageInstance());
+		updateOutLineView(getCurrentPageInstance());
+		updateDateView(getCurrentPageInstance());
 	}
 
-	protected boolean prePageChanges( Object oldPage, Object newPage )
-	{
+	protected boolean prePageChanges(Object oldPage, Object newPage) {
 
 		boolean isNewPageValid = true;
-		if ( oldPage instanceof IReportEditorPage
-				&& newPage instanceof IReportEditorPage )
-		{
-			isNewPageValid = ( (IReportEditorPage) newPage ).onBroughtToTop( (IReportEditorPage) oldPage );
+		if (oldPage instanceof IReportEditorPage && newPage instanceof IReportEditorPage) {
+			isNewPageValid = ((IReportEditorPage) newPage).onBroughtToTop((IReportEditorPage) oldPage);
 			// TODO: HOW TO RESET MODEL?????????
 			// model = SessionHandleAdapter.getInstance(
 			// ).getReportDesignHandle( );
@@ -948,24 +796,21 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#editorDirtyStateChanged()
 	 */
-	public void editorDirtyStateChanged( )
-	{
-		super.editorDirtyStateChanged( );
-		markPageStale( );
+	@Override
+	public void editorDirtyStateChanged() {
+		super.editorDirtyStateChanged();
+		markPageStale();
 	}
 
-	private void markPageStale( )
-	{
+	private void markPageStale() {
 		// int currentIndex = getCurrentPage( );
 
-		IFormPage currentPage = getActivePageInstance( );
+		IFormPage currentPage = getActivePageInstance();
 
-		if ( !( currentPage instanceof IReportEditorPage ) )
-		{
-			return;
+		if (!(currentPage instanceof IReportEditorPage)) {
 		}
 
 		// if ( currentIndex != -1 )
@@ -988,14 +833,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/**
 	 * Get the current report ModuleHandle.
-	 * 
+	 *
 	 * @return
 	 */
-	public ModuleHandle getModel( )
-	{
-		if ( reportProvider != null )
-		{
-			return reportProvider.queryReportModuleHandle( );
+	public ModuleHandle getModel() {
+		if (reportProvider != null) {
+			return reportProvider.queryReportModuleHandle();
 		}
 
 		return null;
@@ -1003,111 +846,81 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partActivated( IWorkbenchPart part )
-	{
+	@Override
+	public void partActivated(IWorkbenchPart part) {
 		fActivePart = part;
 
-		if ( part != this )
-		{
-			if ( part instanceof PageBookView )
-			{
+		if (part != this) {
+			if (part instanceof PageBookView) {
 				PageBookView view = (PageBookView) part;
-				if ( view.getCurrentPage( ) instanceof DesignerOutlinePage )
-				{
-					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage( );
-					ReportRequest request = new ReportRequest( view.getCurrentPage( ) );
-					List list = new ArrayList( );
-					if ( provider.getSelection( ) instanceof IStructuredSelection )
-					{
-						list = ( (IStructuredSelection) provider.getSelection( ) ).toList( );
+				if (view.getCurrentPage() instanceof DesignerOutlinePage) {
+					ISelectionProvider provider = (ISelectionProvider) view.getCurrentPage();
+					ReportRequest request = new ReportRequest(view.getCurrentPage());
+					List list = new ArrayList();
+					if (provider.getSelection() instanceof IStructuredSelection) {
+						list = ((IStructuredSelection) provider.getSelection()).toList();
 					}
-					request.setSelectionObject( list );
-					request.setType( ReportRequest.SELECTION );
+					request.setSelectionObject(list);
+					request.setType(ReportRequest.SELECTION);
 					// no convert
 					// request.setRequestConvert(new
 					// EditorReportRequestConvert());
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.notifyRequest( request );
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.pushState( );
+					SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
+					SessionHandleAdapter.getInstance().getMediator().pushState();
 				}
 			}
-			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-			{
-				if ( ( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( )
-						.getEditDomain( )
-						.getPaletteViewer( ) != null )
-				{
-					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance( );
-					GraphicalViewer view = editor.getGraphicalViewer( );
-					view.getEditDomain( ).loadDefaultTool( );
+			if (getActivePageInstance() instanceof GraphicalEditorWithFlyoutPalette) {
+				if (((GraphicalEditorWithFlyoutPalette) getActivePageInstance()).getGraphicalViewer().getEditDomain()
+						.getPaletteViewer() != null) {
+					GraphicalEditorWithFlyoutPalette editor = (GraphicalEditorWithFlyoutPalette) getActivePageInstance();
+					GraphicalViewer view = editor.getGraphicalViewer();
+					view.getEditDomain().loadDefaultTool();
 				}
 
 			}
 			return;
 		}
 
-		if ( part == this )
-		{
-			confirmSave( );
-			final ModuleHandle oldHandle = getModel( );
+		if (part == this) {
+			confirmSave();
+			final ModuleHandle oldHandle = getModel();
 
-			if ( needReset )
-			{
-				if ( resolveList != null && resetList( resolveList ) )
-				{
-					getProvider( ).getReportModuleHandle( getEditorInput( ),
-							true );
-				}
-				else
-				{
+			if (needReset) {
+				if (resolveList != null && resetList(resolveList)) {
+					getProvider().getReportModuleHandle(getEditorInput(), true);
+				} else {
 					needReset = false;
 				}
 				needReload = false;
 
 			}
-			if ( needReload )
-			{
+			if (needReload) {
 
-				if ( resolveList != null && reloadList( resolveList ) )
-				{
+				if (resolveList != null && reloadList(resolveList)) {
 					// do nothing now
-				}
-				else
-				{
+				} else {
 					needReload = false;
 				}
 			}
 
-			if ( getEditorInput( ).exists( ) )
-			{
-				handleActivation( );
+			if (getEditorInput().exists()) {
+				handleActivation();
 
-				ModuleHandle currentModel = getModel( );
+				ModuleHandle currentModel = getModel();
 
-				SessionHandleAdapter.getInstance( )
-						.setReportDesignHandle( currentModel );
-				String str = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.getResourceFolder( );
-				UIUtil.processSessionResourceFolder( getEditorInput( ),
-						UIUtil.getProjectFromInput( getEditorInput( ) ),
-						currentModel );
+				SessionHandleAdapter.getInstance().setReportDesignHandle(currentModel);
+				String str = SessionHandleAdapter.getInstance().getSessionHandle().getResourceFolder();
+				UIUtil.processSessionResourceFolder(getEditorInput(), UIUtil.getProjectFromInput(getEditorInput()),
+						currentModel);
 
-				if ( !str.equals( SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.getResourceFolder( ) )
-						&& getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-				{
-					( (GraphicalEditorWithFlyoutPalette) getActivePageInstance( ) ).getGraphicalViewer( )
-							.getRootEditPart( );
-					refreshGraphicalEditor( );
+				if (!str.equals(SessionHandleAdapter.getInstance().getSessionHandle().getResourceFolder())
+						&& getActivePageInstance() instanceof GraphicalEditorWithFlyoutPalette) {
+					((GraphicalEditorWithFlyoutPalette) getActivePageInstance()).getGraphicalViewer().getRootEditPart();
+					refreshGraphicalEditor();
 				}
 
 			}
@@ -1115,68 +928,54 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			if ( // getActivePageInstance( ) instanceof
 					// GraphicalEditorWithFlyoutPalette
 					// &&
-			getActivePageInstance( ) instanceof IReportEditorPage )
-			{
+			getActivePageInstance() instanceof IReportEditorPage) {
 				boolean isDispatch = false;
-				if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette )
-				{
+				if (getActivePageInstance() instanceof GraphicalEditorWithFlyoutPalette) {
 					isDispatch = true;
-				}
-				else if ( needReload || needReset )
-				{
+				} else if (needReload || needReset) {
 					isDispatch = true;
 				}
 				final boolean tempDispatch = isDispatch;
-				Display.getCurrent( ).asyncExec( new Runnable( ) {
+				Display.getCurrent().asyncExec(new Runnable() {
 
-					public void run( )
-					{
-						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance( );
-						if ( needReload || needReset )
-						{
-							curPage.markPageStale( IPageStaleType.MODEL_RELOAD );
+					@Override
+					public void run() {
+						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance();
+						if (needReload || needReset) {
+							curPage.markPageStale(IPageStaleType.MODEL_RELOAD);
 
 						}
-						if ( getActivePageInstance( ) != null )
-						{
-							if ( curPage instanceof IAdvanceReportEditorPage )
-							{
-								if ( ( (IAdvanceReportEditorPage) curPage ).isSensitivePartChange( ) )
-								{
-									curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+						if (getActivePageInstance() != null) {
+							if (curPage instanceof IAdvanceReportEditorPage) {
+								if (((IAdvanceReportEditorPage) curPage).isSensitivePartChange()) {
+									curPage.onBroughtToTop((IReportEditorPage) getActivePageInstance());
 								}
-							}
-							else
-							{
-								curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+							} else {
+								curPage.onBroughtToTop((IReportEditorPage) getActivePageInstance());
 							}
 						}
-						if ( !tempDispatch )
-						{
+						if (!tempDispatch) {
 							return;
 						}
 
 						// UIUtil.resetViewSelection( view, true );
 
-						if ( needReload || needReset )
-						{
-							updateRelatedViews( );
+						if (needReload || needReset) {
+							updateRelatedViews();
 							// doSave( null );
-							UIUtil.refreshCurrentEditorMarkers( );
-							curPage.markPageStale( IPageStaleType.NONE );
+							UIUtil.refreshCurrentEditorMarkers();
+							curPage.markPageStale(IPageStaleType.NONE);
 
 						}
-						if ( needReset )
-						{
-							SessionHandleAdapter.getInstance( )
-									.resetReportDesign( oldHandle, getModel( ) );
-							oldHandle.close( );
+						if (needReset) {
+							SessionHandleAdapter.getInstance().resetReportDesign(oldHandle, getModel());
+							oldHandle.close();
 						}
 						needReload = false;
 						needReset = false;
-						resolveList.clear( );
+						resolveList.clear();
 					}
-				} );
+				});
 				// UIUtil.resetViewSelection( view, true );
 			}
 
@@ -1187,53 +986,41 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// }
 	}
 
-	private boolean reloadList( List<IRelatedFileChangeResolve> list )
-	{
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( !list.get( i ).reload( getModel( ) ) )
-			{
+	private boolean reloadList(List<IRelatedFileChangeResolve> list) {
+		for (int i = 0; i < list.size(); i++) {
+			if (!list.get(i).reload(getModel())) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private boolean resetList( List<IRelatedFileChangeResolve> list )
-	{
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( !list.get( i ).reset( ) )
-			{
+	private boolean resetList(List<IRelatedFileChangeResolve> list) {
+		for (int i = 0; i < list.size(); i++) {
+			if (!list.get(i).reset()) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private void refreshResourceEditPart( EditPart parent )
-	{
-		if ( parent instanceof IResourceEditPart )
-		{
-			( (IResourceEditPart) parent ).refreshResource( );
+	private void refreshResourceEditPart(EditPart parent) {
+		if (parent instanceof IResourceEditPart) {
+			((IResourceEditPart) parent).refreshResource();
 		}
-		List list = parent.getChildren( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			EditPart part = (EditPart) list.get( i );
-			refreshResourceEditPart( part );
+		List list = parent.getChildren();
+		for (int i = 0; i < list.size(); i++) {
+			EditPart part = (EditPart) list.get(i);
+			refreshResourceEditPart(part);
 		}
 	}
 
-	public boolean isExistModelFile( )
-	{
-		if ( getModel( ) == null )
-		{
+	public boolean isExistModelFile() {
+		if (getModel() == null) {
 			return true;
 		}
-		File file = new File( getModel( ).getFileName( ) );
-		if ( file.exists( ) && file.isFile( ) )
-		{
+		File file = new File(getModel().getFileName());
+		if (file.exists() && file.isFile()) {
 			return true;
 		}
 
@@ -1262,74 +1049,63 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart )
 	 */
-	public void partBroughtToTop( IWorkbenchPart part )
-	{
-		if ( part instanceof MultiPageReportEditor )
-		{
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		if (part instanceof MultiPageReportEditor) {
 			MultiPageReportEditor topEditor = (MultiPageReportEditor) part;
-			if ( topEditor.getModel( ) != null
-					&& topEditor.getModel( ) != SessionHandleAdapter.getInstance( )
-							.getModule( ) )
-			{
-				SessionHandleAdapter.getInstance( )
-						.setModule( topEditor.getModel( ) );
-				updateRelatedViews( );
+			if (topEditor.getModel() != null
+					&& topEditor.getModel() != SessionHandleAdapter.getInstance().getModule()) {
+				SessionHandleAdapter.getInstance().setModule(topEditor.getModel());
+				updateRelatedViews();
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+	 *
+	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partClosed( IWorkbenchPart part )
-	{
-		if ( part == this && getModel( ) != null )
-		{
-			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
-			if ( getModel( ) != null )
-			{
-				GlobalActionFactory.removeStackActions( getModel( ).getCommandStack( ) );
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		if (part == this && getModel() != null) {
+			SessionHandleAdapter.getInstance().clear(getModel());
+			if (getModel() != null) {
+				GlobalActionFactory.removeStackActions(getModel().getCommandStack());
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart )
 	 */
-	public void partDeactivated( IWorkbenchPart part )
-	{
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
 		fActivePart = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+	 *
+	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
-	public void partOpened( IWorkbenchPart part )
-	{
+	@Override
+	public void partOpened(IWorkbenchPart part) {
 
 	}
 
 	/**
 	 * Tell me, i am activated.
-	 * 
+	 *
 	 */
-	public void handleActivation( )
-	{
+	public void handleActivation() {
 		// if ( fIsHandlingActivation )
 		// return;
 		//
@@ -1347,24 +1123,21 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	/**
 	 * check the input is modify by file system.
-	 * 
+	 *
 	 * @param input
 	 */
-	protected void sanityCheckState( IEditorInput input )
-	{
-		if ( fModificationStamp == -1 )
-		{
-			fModificationStamp = getModificationStamp( input );
+	protected void sanityCheckState(IEditorInput input) {
+		if (fModificationStamp == -1) {
+			fModificationStamp = getModificationStamp(input);
 		}
 
-		long stamp = getModificationStamp( input );
-		if ( stamp != fModificationStamp )
-		{
+		long stamp = getModificationStamp(input);
+		if (stamp != fModificationStamp) {
 			// reset the stamp whether user choose sync or not to avoid endless
 			// snag window.
 			fModificationStamp = stamp;
 
-			handleEditorInputChanged( );
+			handleEditorInputChanged();
 		}
 	}
 
@@ -1372,22 +1145,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * Handles an external change of the editor's input element. Subclasses may
 	 * extend.
 	 */
-	protected void handleEditorInputChanged( )
-	{
+	protected void handleEditorInputChanged() {
 
-		String title = Messages.getString( "ReportEditor.error.activated.outofsync.title" ); //$NON-NLS-1$
-		String msg = Messages.getString( "ReportEditor.error.activated.outofsync.message" ); //$NON-NLS-1$
+		String title = Messages.getString("ReportEditor.error.activated.outofsync.title"); //$NON-NLS-1$
+		String msg = Messages.getString("ReportEditor.error.activated.outofsync.message"); //$NON-NLS-1$
 
-		if ( MessageDialog.openQuestion( getSite( ).getShell( ), title, msg ) )
-		{
-			IEditorInput input = getEditorInput( );
+		if (MessageDialog.openQuestion(getSite().getShell(), title, msg)) {
+			IEditorInput input = getEditorInput();
 
-			if ( input == null )
-			{
-				closeEditor( isSaveOnCloseNeeded( ) );
-			}
-			else
-			{
+			if (input == null) {
+				closeEditor(isSaveOnCloseNeeded());
+			} else {
 				// getInputContext( ).setInput( input );
 				// rebuildModel( );
 				// superSetInput( input );
@@ -1395,49 +1163,42 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 	}
 
-	public void closeEditor( boolean save )
-	{
-		getSite( ).getPage( ).closeEditor( this, save );
+	public void closeEditor(boolean save) {
+		getSite().getPage().closeEditor(this, save);
 	}
 
-	protected long getModificationStamp( Object element )
-	{
-		if ( element instanceof IEditorInput )
-		{
-			IReportProvider provider = getProvider( );
-			if ( provider != null )
-			{
-				return computeModificationStamp( provider.getInputPath( (IEditorInput) element ) );
+	protected long getModificationStamp(Object element) {
+		if (element instanceof IEditorInput) {
+			IReportProvider provider = getProvider();
+			if (provider != null) {
+				return computeModificationStamp(provider.getInputPath((IEditorInput) element));
 			}
 		}
 
 		return 0;
 	}
 
-	protected long computeModificationStamp( IPath path )
-	{
-		return path.toFile( ).lastModified( );
+	protected long computeModificationStamp(IPath path) {
+		return path.toFile().lastModified();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.FormEditor#dispose()
 	 */
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		// dispose page
-		outlineBackup.dispose( );
-		dataBackup.dispose( );
-		List list = new ArrayList( pages );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof IReportEditorPage )
-			{
-				( (IReportEditorPage) obj ).dispose( );
-				pages.remove( obj );
+		outlineBackup.dispose();
+		dataBackup.dispose();
+		List list = new ArrayList(pages);
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			Object obj = list.get(i);
+			if (obj instanceof IReportEditorPage) {
+				((IReportEditorPage) obj).dispose();
+				pages.remove(obj);
 			}
 		}
 
@@ -1445,102 +1206,82 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// .getPartService( )
 		// .removePartListener( this );
 
-		if ( fPalettePage != null )
-		{
-			fPalettePage.dispose( );
+		if (fPalettePage != null) {
+			fPalettePage.dispose();
 		}
-		if ( outlinePage != null )
-		{
-			outlinePage.dispose( );
+		if (outlinePage != null) {
+			outlinePage.dispose();
 		}
-		if ( dataPage != null )
-		{
-			dataPage.dispose( );
+		if (dataPage != null) {
+			dataPage.dispose();
 		}
-		getSite( ).setSelectionProvider( null );
+		getSite().setSelectionProvider(null);
 
 		// remove the mediator listener
-		MediatorManager.removeGlobalColleague( this );
+		MediatorManager.removeGlobalColleague(this);
 
-		if ( getModel( ) != null )
-		{
-			getModel( ).close( );
+		if (getModel() != null) {
+			getModel().close();
 		}
-		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-				.getResourceSynchronizerService( );
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
 
-		if ( synchronizer != null )
-		{
-			synchronizer.removeListener( IReportResourceChangeEvent.LibraySaveChange
-					| IReportResourceChangeEvent.ImageResourceChange
-					| IReportResourceChangeEvent.DataDesignSaveChange,
-					this );
+		if (synchronizer != null) {
+			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange
+					| IReportResourceChangeEvent.ImageResourceChange | IReportResourceChangeEvent.DataDesignSaveChange,
+					this);
 		}
 
-		PlatformUI.getWorkbench( ).removeWindowListener( windowListener );
-		if ( prefs != null )
-		{
-			prefs.removePreferenceChangeListener( preferenceChangeListener );
+		PlatformUI.getWorkbench().removeWindowListener(windowListener);
+		if (prefs != null) {
+			prefs.removePreferenceChangeListener(preferenceChangeListener);
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	protected void finalize( ) throws Throwable
-	{
-		if ( Policy.TRACING_PAGE_CLOSE )
-		{
-			System.out.println( "Report multi page finalized" ); //$NON-NLS-1$
+	@Override
+	protected void finalize() throws Throwable {
+		if (Policy.TRACING_PAGE_CLOSE) {
+			System.out.println("Report multi page finalized"); //$NON-NLS-1$
 		}
-		super.finalize( );
+		super.finalize();
 	}
 
-	public IEditorPart getEditorPart( )
-	{
+	@Override
+	public IEditorPart getEditorPart() {
 		return this;
 	}
 
-	public boolean isInterested( IMediatorRequest request )
-	{
+	@Override
+	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( IMediatorRequest request )
-	{
+	@Override
+	public void performRequest(IMediatorRequest request) {
 		ReportRequest rqt = (ReportRequest) request;
 
-		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( rqt.getSelectionModelList( ).size( ) == 1 ) )
-		{
-			if ( rqt.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
-			{
-				handleOpenMasterPage( rqt );
+		if (ReportRequest.OPEN_EDITOR.equals(request.getType()) && (rqt.getSelectionModelList().size() == 1)) {
+			if (rqt.getSelectionModelList().get(0) instanceof MasterPageHandle) {
+				handleOpenMasterPage(rqt);
 				return;
 			}
 
-			if ( rqt.getSelectionModelList( ).get( 0 ) instanceof ScriptObjectNode )
-			{
-				ScriptObjectNode node = (ScriptObjectNode) rqt.getSelectionModelList( )
-						.get( 0 );
-				if ( node.getParent( ) instanceof PropertyHandle )
-				{
-					PropertyHandle proHandle = (PropertyHandle) node.getParent( );
-					if ( proHandle.getElementHandle( )
-							.getModuleHandle( )
-							.equals( getModel( ) ) )
-					{
-						handleOpenScriptPage( rqt );
+			if (rqt.getSelectionModelList().get(0) instanceof ScriptObjectNode) {
+				ScriptObjectNode node = (ScriptObjectNode) rqt.getSelectionModelList().get(0);
+				if (node.getParent() instanceof PropertyHandle) {
+					PropertyHandle proHandle = (PropertyHandle) node.getParent();
+					if (proHandle.getElementHandle().getModuleHandle().equals(getModel())) {
+						handleOpenScriptPage(rqt);
 					}
 				}
-				// handleOpenScriptPage( request );
-				return;
 			}
 
 		}
@@ -1551,177 +1292,161 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/**
 	 * @param request
 	 */
-	protected void handleOpenScriptPage( final ReportRequest request )
-	{
-		if ( this.getContainer( ).isVisible( ) )
-		{
-			setActivePage( ScriptForm_ID );
+	protected void handleOpenScriptPage(final ReportRequest request) {
+		if (this.getContainer().isVisible()) {
+			setActivePage(ScriptForm_ID);
 
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
+			Display.getCurrent().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					ReportRequest r = new ReportRequest( );
-					r.setType( ReportRequest.SELECTION );
+				@Override
+				public void run() {
+					ReportRequest r = new ReportRequest();
+					r.setType(ReportRequest.SELECTION);
 
-					r.setSelectionObject( request.getSelectionModelList( ) );
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.notifyRequest( r );
+					r.setSelectionObject(request.getSelectionModelList());
+					SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 				}
-			} );
+			});
 		}
 	}
 
 	/**
 	 * @param request
 	 */
-	protected void handleOpenMasterPage( final ReportRequest request )
-	{
-		if ( this.getContainer( ).isVisible( ) )
-		{
-			setActivePage( LayoutMasterPage_ID );
+	protected void handleOpenMasterPage(final ReportRequest request) {
+		if (this.getContainer().isVisible()) {
+			setActivePage(LayoutMasterPage_ID);
 
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
+			Display.getCurrent().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					ReportRequest r = new ReportRequest( );
-					r.setType( ReportRequest.LOAD_MASTERPAGE );
+				@Override
+				public void run() {
+					ReportRequest r = new ReportRequest();
+					r.setType(ReportRequest.LOAD_MASTERPAGE);
 
-					r.setSelectionObject( request.getSelectionModelList( ) );
-					SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.notifyRequest( r );
+					r.setSelectionObject(request.getSelectionModelList());
+					SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 				}
-			} );
+			});
 		}
 	}
 
 	/**
-	 * Returns current page instance if the currently selected page index is not
-	 * -1, or <code>null</code> if it is.
-	 * 
-	 * @return active page instance if selected, or <code>null</code> if no page
-	 *         is currently active.
+	 * Returns current page instance if the currently selected page index is not -1,
+	 * or <code>null</code> if it is.
+	 *
+	 * @return active page instance if selected, or <code>null</code> if no page is
+	 *         currently active.
 	 */
 
-	public IFormPage getCurrentPageInstance( )
-	{
-		int index = getCurrentPage( );
-		if ( index != -1 )
-		{
-			Object page = pages.get( index );
-			if ( page instanceof IFormPage )
+	public IFormPage getCurrentPageInstance() {
+		int index = getCurrentPage();
+		if (index != -1) {
+			Object page = pages.get(index);
+			if (page instanceof IFormPage) {
 				return (IFormPage) page;
+			}
 		}
 		return null;
 	}
 
-	private void refreshGraphicalEditor( )
-	{
-		for ( int i = 0; i < pages.size( ); i++ )
-		{
-			Object page = pages.get( i );
-			if ( page instanceof IFormPage )
-			{
+	private void refreshGraphicalEditor() {
+		for (int i = 0; i < pages.size(); i++) {
+			Object page = pages.get(i);
+			if (page instanceof IFormPage) {
 
-				if ( isGraphicalEditor( page ) )
-				{
-					if ( ( (GraphicalEditorWithFlyoutPalette) page ).getGraphicalViewer( ) != null )
-					{
-						EditPart root = ( (GraphicalEditorWithFlyoutPalette) page ).getGraphicalViewer( )
-								.getRootEditPart( );
-						refreshResourceEditPart( root );
+				if (isGraphicalEditor(page)) {
+					if (((GraphicalEditorWithFlyoutPalette) page).getGraphicalViewer() != null) {
+						EditPart root = ((GraphicalEditorWithFlyoutPalette) page).getGraphicalViewer()
+								.getRootEditPart();
+						refreshResourceEditPart(root);
 					}
 				}
 			}
 		}
 	}
 
-	private boolean isGraphicalEditor( Object obj )
-	{
+	private boolean isGraphicalEditor(Object obj) {
 		return obj instanceof GraphicalEditorWithFlyoutPalette;
 		// return LayoutEditor_ID.equals( id ) || LayoutMasterPage_ID.equals( id
 		// );
 	}
 
-	protected void setActivePage( int pageIndex )
-	{
-		super.setActivePage( pageIndex );
+	@Override
+	protected void setActivePage(int pageIndex) {
+		super.setActivePage(pageIndex);
 		// setFocus( );
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				setFocus( );
+			@Override
+			public void run() {
+				setFocus();
 			}
-		} );
+		});
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener
 	 * #resourceChanged
 	 * (org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent)
 	 */
-	public void resourceChanged( IReportResourceChangeEvent event )
-	{
-		if ( ( event.getType( ) == IReportResourceChangeEvent.ImageResourceChange ) )
-		{
-			refreshGraphicalEditor( );
+	@Override
+	public void resourceChanged(IReportResourceChangeEvent event) {
+		if ((event.getType() == IReportResourceChangeEvent.ImageResourceChange)) {
+			refreshGraphicalEditor();
 			return;
 		}
-		if ( event.getSource( ).equals( getModel( ) ) )
-		{
+		if (event.getSource().equals(getModel())) {
 			return;
 		}
-		Object[] resolves = ElementAdapterManager.getAdapters( getModel( ),
-				IRelatedFileChangeResolve.class );
-		if ( resolves == null )
-		{
+		Object[] resolves = ElementAdapterManager.getAdapters(getModel(), IRelatedFileChangeResolve.class);
+		if (resolves == null) {
 			return;
 		}
-		Path targetPath=(Path)event.getData();
-		for ( int i = 0; i < resolves.length; i++ )
-		{
+		Path targetPath = (Path) event.getData();
+		for (int i = 0; i < resolves.length; i++) {
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
-			if ( find.acceptType( event.getType( ) ) )
-			{
+			if (find.acceptType(event.getType())) {
 				/**
-				 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
-				 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
-				 * This judgment call tries to prevent duplicate refresh action when several resources change happens.
+				 * Check whether the resolveList already contains the same type of the new
+				 * IRelatedFileChangeResolve. Add the new resolve to the resolveList only if the
+				 * list doesn't contain objects have the same type of the new resolve. This
+				 * judgment call tries to prevent duplicate refresh action when several
+				 * resources change happens.
 				 */
-				if(!checkResolveListContainsType(find)){
-					if(targetPath!=null ){
-						if(targetPath.toOSString().equals(getModel( ).getFileName())){
-							addToResolveList(event,find);
-						}				
-					}else{//if targetPath is null, follow the old logic
-							addToResolveList(event,find);
+				if (!checkResolveListContainsType(find)) {
+					if (targetPath != null) {
+						if (targetPath.toOSString().equals(getModel().getFileName())) {
+							addToResolveList(event, find);
+						}
+					} else {// if targetPath is null, follow the old logic
+						addToResolveList(event, find);
 					}
 				}
 				break;
 			}
 		}
 	}
-	private void addToResolveList(IReportResourceChangeEvent event,IRelatedFileChangeResolve find){
-		resolveList.add( find );
-		needReload = find.isReload( event, getModel( ) );
-		needReset = find.isReset( event, getModel( ) );
+
+	private void addToResolveList(IReportResourceChangeEvent event, IRelatedFileChangeResolve find) {
+		resolveList.add(find);
+		needReload = find.isReload(event, getModel());
+		needReset = find.isReset(event, getModel());
 	}
+
 	/**
-	 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+	 * Check whether the resolveList already contains the same type of the new
+	 * IRelatedFileChangeResolve.
+	 *
 	 * @param find
 	 * @return
 	 */
-	private boolean checkResolveListContainsType(IRelatedFileChangeResolve find){
-		for(int i=0;i<resolveList.size();i++){
-			IRelatedFileChangeResolve obj=resolveList.get(i);
-			if(find.getClass().equals(obj.getClass())){
+	private boolean checkResolveListContainsType(IRelatedFileChangeResolve find) {
+		for (int i = 0; i < resolveList.size(); i++) {
+			IRelatedFileChangeResolve obj = resolveList.get(i);
+			if (find.getClass().equals(obj.getClass())) {
 				return true;
 			}
 		}

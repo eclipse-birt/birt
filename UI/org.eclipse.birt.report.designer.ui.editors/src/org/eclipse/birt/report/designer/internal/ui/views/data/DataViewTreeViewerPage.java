@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -79,192 +81,155 @@ import org.eclipse.swt.widgets.Widget;
 
 /**
  * This class represents the tree view page of the data view
- * 
+ *
  */
-public class DataViewTreeViewerPage extends DataViewPage implements
-		IModelEventFactory,
-		IValidationListener,
-		IReportPageBookViewPage
-{
+public class DataViewTreeViewerPage extends DataViewPage
+		implements IModelEventFactory, IValidationListener, IReportPageBookViewPage {
 
-	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
+	private static final String LABEL_DOUBLE_CLICK = Messages
+			.getString("DataViewTreeViewerPage.tooltip.DoubleClickToEdit"); //$NON-NLS-1$
 
 	/**
 	 * constructor
-	 * 
-	 * @param model
-	 *            the handle of the report design
+	 *
+	 * @param model the handle of the report design
 	 */
-	public DataViewTreeViewerPage( ModuleHandle model )
-	{
-		super( );
-		setRoot( model );
+	public DataViewTreeViewerPage(ModuleHandle model) {
+		super();
+		setRoot(model);
 	}
 
 	/**
 	 * Creates the tree view
-	 * 
-	 * @param parent
-	 *            the parent
+	 *
+	 * @param parent the parent
 	 */
-	protected TreeViewer createTreeViewer( Composite parent )
-	{
-		TreeViewer treeViewer = new TreeViewer( parent, SWT.MULTI
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL );
+	@Override
+	protected TreeViewer createTreeViewer(Composite parent) {
+		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		return treeViewer;
 	}
 
 	/**
 	 * Initializes the data view page.
 	 */
-	protected void initPage( )
-	{
-		createContextMenus( );
+	@Override
+	protected void initPage() {
+		createContextMenus();
 
-		handleGlobalAction( );
+		handleGlobalAction();
 
 		// add inline renaming support
-		new RenameListener( getTreeViewer( ) ).apply( );
-		getTreeViewer( ).setSorter( new ItemSorter( ) );
-		getTreeViewer( ).getTree( )
-				.addMouseTrackListener( new MouseTrackAdapter( ) {
+		new RenameListener(getTreeViewer()).apply();
+		getTreeViewer().setSorter(new ItemSorter());
+		getTreeViewer().getTree().addMouseTrackListener(new MouseTrackAdapter() {
 
-					public void mouseHover( MouseEvent event )
-					{
-						Widget widget = event.widget;
-						if ( widget == getTreeViewer( ).getTree( ) )
-						{
-							Point pt = new Point( event.x, event.y );
-							TreeItem item = getTreeViewer( ).getTree( )
-									.getItem( pt );
-							getTreeViewer( ).getTree( )
-									.setToolTipText( getTooltip( item ) );
-						}
-					}
-				} );
-		getTreeViewer( ).getTree( )
-				.addSelectionListener( new SelectionListener( ) {
+			@Override
+			public void mouseHover(MouseEvent event) {
+				Widget widget = event.widget;
+				if (widget == getTreeViewer().getTree()) {
+					Point pt = new Point(event.x, event.y);
+					TreeItem item = getTreeViewer().getTree().getItem(pt);
+					getTreeViewer().getTree().setToolTipText(getTooltip(item));
+				}
+			}
+		});
+		getTreeViewer().getTree().addSelectionListener(new SelectionListener() {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						// Do nothing
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Do nothing
 
-					}
+			}
 
-					// Handle double click event
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
-						if ( getSelection( ) instanceof StructuredSelection )
-						{
+			// Handle double click event
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				if (getSelection() instanceof StructuredSelection) {
 
-							Object selectedObject = ( (StructuredSelection) getSelection( ) ).getFirstElement( );
+					Object selectedObject = ((StructuredSelection) getSelection()).getFirstElement();
 
-							try
-							{
-								Tree tree = (Tree) e.getSource( );
-								TreeItem[] selectedItems = tree.getSelection( );
-								if ( selectedItems.length > 0 )
-								{
-									if ( selectedItems[0].getExpanded( ) )
-									{
-										selectedItems[0].setExpanded( false );
-									}
-									else
-									{
-										getTreeViewer( ).expandToLevel( selectedObject,
-												selectedItems[0].getExpanded( ) ? 0
-														: 1 );
-									}
-								}
+					try {
+						Tree tree = (Tree) e.getSource();
+						TreeItem[] selectedItems = tree.getSelection();
+						if (selectedItems.length > 0) {
+							if (selectedItems[0].getExpanded()) {
+								selectedItems[0].setExpanded(false);
+							} else {
+								getTreeViewer().expandToLevel(selectedObject, selectedItems[0].getExpanded() ? 0 : 1);
 							}
-							catch ( Exception e2 )
-							{
-
-							}
-
 						}
+					} catch (Exception e2) {
+
 					}
 
-				} );
+				}
+			}
 
-		if ( backup != null )
-		{
-			backup.restoreBackup( getTreeViewer( ) );
-			getTreeViewer( ).getTree( ).addTreeListener( new TreeListener( ) {
+		});
 
-				public void treeCollapsed( TreeEvent e )
-				{
+		if (backup != null) {
+			backup.restoreBackup(getTreeViewer());
+			getTreeViewer().getTree().addTreeListener(new TreeListener() {
+
+				@Override
+				public void treeCollapsed(TreeEvent e) {
 					Item item = (Item) e.item;
-					backup.updateCollapsedStatus( getTreeViewer( ),
-							item.getData( ) );
+					backup.updateCollapsedStatus(getTreeViewer(), item.getData());
 
 				}
 
-				public void treeExpanded( TreeEvent e )
-				{
+				@Override
+				public void treeExpanded(TreeEvent e) {
 					Item item = (Item) e.item;
-					backup.updateExpandedStatus( getTreeViewer( ),
-							item.getData( ) );
+					backup.updateExpandedStatus(getTreeViewer(), item.getData());
 				}
 
-			} );
+			});
 		}
 
 	}
 
-	private String getTooltip( TreeItem item )
-	{
-		if ( item != null )
-		{
-			Object[] tooltipProviders = ElementAdapterManager.getAdapters( this,
-					IDataViewerTooltipProvider.class );
-			if ( tooltipProviders != null )
-			{
-				for ( int i = 0; i < tooltipProviders.length; i++ )
-				{
+	private String getTooltip(TreeItem item) {
+		if (item != null) {
+			Object[] tooltipProviders = ElementAdapterManager.getAdapters(this, IDataViewerTooltipProvider.class);
+			if (tooltipProviders != null) {
+				for (int i = 0; i < tooltipProviders.length; i++) {
 					IDataViewerTooltipProvider tooltipProvider = (IDataViewerTooltipProvider) tooltipProviders[i];
-					if ( tooltipProvider != null )
-					{
-						String tooltip = tooltipProvider.getNodeTooltip( item );
-						if ( tooltip != null )
+					if (tooltipProvider != null) {
+						String tooltip = tooltipProvider.getNodeTooltip(item);
+						if (tooltip != null) {
 							return tooltip;
+						}
 					}
 				}
 			}
-			Object object = item.getData( );
-			if ( object instanceof DataSourceHandle
-					|| object instanceof ParameterGroupHandle )
-			{
+			Object object = item.getData();
+			if (object instanceof DataSourceHandle || object instanceof ParameterGroupHandle) {
 				return LABEL_DOUBLE_CLICK;
 			}
-			StringBuffer tooltip = new StringBuffer( );
-			boolean canInsert = InsertInLayoutUtil.handleValidateInsertToLayout( object,
-					UIUtil.getCurrentEditPart( ) );
-			String text = "(" + item.getText( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-			if ( object instanceof DataSetHandle )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertDataSetColumns" ) //$NON-NLS-1$
-							+ text
-							+ "; " ); //$NON-NLS-1$
-				tooltip.append( LABEL_DOUBLE_CLICK );
+			StringBuilder tooltip = new StringBuilder();
+			boolean canInsert = InsertInLayoutUtil.handleValidateInsertToLayout(object, UIUtil.getCurrentEditPart());
+			String text = "(" + item.getText() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+			if (object instanceof DataSetHandle) {
+				if (canInsert) {
+					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertDataSetColumns") //$NON-NLS-1$
+							+ text + "; "); //$NON-NLS-1$
+				}
+				tooltip.append(LABEL_DOUBLE_CLICK);
 			}
-			if ( object instanceof DataSetItemModel
-					|| object instanceof ResultSetColumnHandle )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertColumn" ) + text ); //$NON-NLS-1$
+			if (object instanceof DataSetItemModel || object instanceof ResultSetColumnHandle) {
+				if (canInsert) {
+					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertColumn") + text); //$NON-NLS-1$
+				}
+			} else if (object instanceof ParameterHandle || object instanceof VariableElementHandle
+					|| object instanceof CubeHandle) {
+				if (canInsert) {
+					tooltip.append(Messages.getString("DataViewTreeViewerPage.tooltip.DragToInsertParameter")); //$NON-NLS-1$
+				}
+				tooltip.append(LABEL_DOUBLE_CLICK);
 			}
-			else if ( object instanceof ParameterHandle
-					|| object instanceof VariableElementHandle
-					|| object instanceof CubeHandle )
-			{
-				if ( canInsert )
-					tooltip.append( Messages.getString( "DataViewTreeViewerPage.tooltip.DragToInsertParameter" ) ); //$NON-NLS-1$
-				tooltip.append( LABEL_DOUBLE_CLICK );
-			}
-			return tooltip.toString( );
+			return tooltip.toString();
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -272,125 +237,110 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	/**
 	 * Creates the context menu
 	 */
-	private void createContextMenus( )
-	{
-		MenuManager menuManager = new ViewContextMenuProvider( getTreeViewer( ) );
+	private void createContextMenus() {
+		MenuManager menuManager = new ViewContextMenuProvider(getTreeViewer());
 
-		Menu menu = menuManager.createContextMenu( getTreeViewer( ).getControl( ) );
+		Menu menu = menuManager.createContextMenu(getTreeViewer().getControl());
 
-		getTreeViewer( ).getControl( ).setMenu( menu );
-		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );
+		getTreeViewer().getControl().setMenu(menu);
+		getSite().registerContextMenu("#Pop up", menuManager, //$NON-NLS-1$
+				getSite().getSelectionProvider());
 	}
 
 	/**
 	 * Configures the tree viewer.
 	 */
-	protected void configTreeViewer( )
-	{
+	@Override
+	protected void configTreeViewer() {
 
-		ViewsTreeProvider provider = new ViewsTreeProvider( );
-		getTreeViewer( ).setContentProvider( provider );
-		getTreeViewer( ).setLabelProvider( provider );
+		ViewsTreeProvider provider = new ViewsTreeProvider();
+		getTreeViewer().setContentProvider(provider);
+		getTreeViewer().setLabelProvider(provider);
 
-		initRoot( );
+		initRoot();
 
 		// add inline renaming support
 
-		addDragAndDropListener( );
+		addDragAndDropListener();
 	}
 
-	protected void addDragAndDropListener( )
-	{
+	protected void addDragAndDropListener() {
 		// Adds drag and drop support
 		int ops = DND.DROP_MOVE | DND.DROP_COPY;
-		Transfer[] transfers = new Transfer[]{
-			TemplateTransfer.getInstance( )
-		};
-		getTreeViewer( ).addDragSupport( ops,
-				transfers,
-				new DesignerDragListener( getTreeViewer( ) ) );
+		Transfer[] transfers = { TemplateTransfer.getInstance() };
+		getTreeViewer().addDragSupport(ops, transfers, new DesignerDragListener(getTreeViewer()));
 
-		transfers = new Transfer[]{
-			TemplateTransfer.getInstance( )
-		};
+		transfers = new Transfer[] { TemplateTransfer.getInstance() };
 		ops = DND.DROP_COPY | DND.DROP_MOVE;// Copy may cause duplicate name
 		// exception
 
-		DesignerDropListener dropListener = new DesignerDropListener( getTreeViewer( ) );
+		DesignerDropListener dropListener = new DesignerDropListener(getTreeViewer());
 
 		// nothing can drag into CascadingParameterGroupHandle
-		dropListener.addDropConstraint( CascadingParameterGroupHandle.class,
-				new IDropConstraint( ) {
+		dropListener.addDropConstraint(CascadingParameterGroupHandle.class, new IDropConstraint() {
 
-					public int validate( Object transfer, Object target )
-					{
-						return RESULT_NO;
-					}
-				} );
+			@Override
+			public int validate(Object transfer, Object target) {
+				return RESULT_NO;
+			}
+		});
 		// can't drag into slot as a CascadingParameterGroupHandle children
 		// sibling
-		dropListener.addDropConstraint( ScalarParameterHandle.class,
-				new IDropConstraint( ) {
+		dropListener.addDropConstraint(ScalarParameterHandle.class, new IDropConstraint() {
 
-					public int validate( Object transfer, Object target )
-					{
-						if ( target instanceof ScalarParameterHandle )
-						{
-							ScalarParameterHandle targetParameter = (ScalarParameterHandle) target;
-							if ( targetParameter.getContainer( ) instanceof CascadingParameterGroupHandle )
-								return RESULT_NO;
-						}
-						return RESULT_UNKNOW;
+			@Override
+			public int validate(Object transfer, Object target) {
+				if (target instanceof ScalarParameterHandle) {
+					ScalarParameterHandle targetParameter = (ScalarParameterHandle) target;
+					if (targetParameter.getContainer() instanceof CascadingParameterGroupHandle) {
+						return RESULT_NO;
 					}
-				} );
+				}
+				return RESULT_UNKNOW;
+			}
+		});
 
 		// CascadingParameterGroupHandle children can't drag into other slot.
-		IDropConstraint cascadingParameterGroupChildrenConstraint = new IDropConstraint( ) {
+		IDropConstraint cascadingParameterGroupChildrenConstraint = new IDropConstraint() {
 
-			public int validate( Object transfer, Object target )
-			{
-				if ( transfer instanceof Object[]
-						&& ( (Object[]) transfer ).length > 0
-						&& ( (Object[]) transfer )[0] instanceof ScalarParameterHandle )
-				{
-					ScalarParameterHandle transferParameter = (ScalarParameterHandle) ( (Object[]) transfer )[0];
-					if ( transferParameter.getContainer( ) instanceof CascadingParameterGroupHandle )
+			@Override
+			public int validate(Object transfer, Object target) {
+				if (transfer instanceof Object[] && ((Object[]) transfer).length > 0
+						&& ((Object[]) transfer)[0] instanceof ScalarParameterHandle) {
+					ScalarParameterHandle transferParameter = (ScalarParameterHandle) ((Object[]) transfer)[0];
+					if (transferParameter.getContainer() instanceof CascadingParameterGroupHandle) {
 						return RESULT_NO;
+					}
 				}
 				return RESULT_UNKNOW;
 			}
 		};
 
-		dropListener.addDropConstraint( ScalarParameterHandle.class,
-				cascadingParameterGroupChildrenConstraint );
-		dropListener.addDropConstraint( ParameterGroupHandle.class,
-				cascadingParameterGroupChildrenConstraint );
-		dropListener.addDropConstraint( SlotHandle.class,
-				cascadingParameterGroupChildrenConstraint );
+		dropListener.addDropConstraint(ScalarParameterHandle.class, cascadingParameterGroupChildrenConstraint);
+		dropListener.addDropConstraint(ParameterGroupHandle.class, cascadingParameterGroupChildrenConstraint);
+		dropListener.addDropConstraint(SlotHandle.class, cascadingParameterGroupChildrenConstraint);
 
-		getTreeViewer( ).addDropSupport( ops, transfers, dropListener );
+		getTreeViewer().addDropSupport(ops, transfers, dropListener);
 	}
 
 	/**
 	 * Initializes the root of the view
-	 * 
+	 *
 	 */
-	protected void initRoot( )
-	{
-		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
-		getRoot( ).addValidationListener( this );
+	protected void initRoot() {
+		getTreeViewer().setInput(new ReportDataHandle(getRoot()));
+		getRoot().addValidationListener(this);
 	}
 
 	/**
 	 * The <code>Page</code> implementation of this <code>IPage</code> method
-	 * disposes of this page's control (if it has one and it has not already
-	 * been disposed). Disposes the visitor of the element
+	 * disposes of this page's control (if it has one and it has not already been
+	 * disposed). Disposes the visitor of the element
 	 */
-	public void dispose( )
-	{
-		getRoot( ).removeValidationListener( this );
-		super.dispose( );
+	@Override
+	public void dispose() {
+		getRoot().removeValidationListener(this);
+		super.dispose();
 	}
 
 	// /**
@@ -434,165 +384,141 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	// }
 
 	/**
-	 * Deletes config variable when parameter is deleted. Config variable is
-	 * used to store default value in the dialogue when preview page
-	 * 
-	 * @param ev
-	 *            delete event
+	 * Deletes config variable when parameter is deleted. Config variable is used to
+	 * store default value in the dialogue when preview page
+	 *
+	 * @param ev delete event
 	 */
-	private void deleteConfigVariable( final Map args )
-	{
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+	private void deleteConfigVariable(final Map args) {
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				String variableName = null;
-				variableName = (String) args.get( DataViewEventProcessor.VARIABLE_NAME );
-				if ( variableName != null )
-				{
-					ConfigVariable cv = getRoot( ).findConfigVariable( variableName );
-					try
-					{
-						if ( cv != null )
-						{
-							getRoot( ).getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
-									.removeItem( cv );
+			@Override
+			public void run() {
+				String variableName;
+				variableName = (String) args.get(DataViewEventProcessor.VARIABLE_NAME);
+				if (variableName != null) {
+					ConfigVariable cv = getRoot().findConfigVariable(variableName);
+					try {
+						if (cv != null) {
+							getRoot().getPropertyHandle(ReportDesignHandle.CONFIG_VARS_PROP).removeItem(cv);
 						}
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionUtil.handle( e );
+					} catch (SemanticException e) {
+						ExceptionUtil.handle(e);
 					}
 				}
 			}
-		} );
+		});
 
 	}
 
-	protected boolean isDisposed( )
-	{
-		Control ctrl = getControl( );
-		return ( ctrl == null || ctrl.isDisposed( ) );
+	protected boolean isDisposed() {
+		Control ctrl = getControl();
+		return (ctrl == null || ctrl.isDisposed());
 	}
 
 	/**
 	 * Handles all global actions
 	 */
-	protected void handleGlobalAction( )
-	{
-		for ( int i = 0; i < GlobalActionFactory.GLOBAL_SELECTION_ACTIONS.length; i++ )
-		{
+	protected void handleGlobalAction() {
+		for (int i = 0; i < GlobalActionFactory.GLOBAL_SELECTION_ACTIONS.length; i++) {
 			String id = GlobalActionFactory.GLOBAL_SELECTION_ACTIONS[i];
-			getSite( ).getActionBars( ).setGlobalActionHandler( id,
-					GlobalActionFactory.createSelectionAction( id, this ) );
+			getSite().getActionBars().setGlobalActionHandler(id, GlobalActionFactory.createSelectionAction(id, this));
 		}
 
-		for ( int i = 0; i < GlobalActionFactory.GLOBAL_STACK_ACTIONS.length; i++ )
-		{
+		for (int i = 0; i < GlobalActionFactory.GLOBAL_STACK_ACTIONS.length; i++) {
 			String id = GlobalActionFactory.GLOBAL_STACK_ACTIONS[i];
-			getSite( ).getActionBars( ).setGlobalActionHandler( id,
-					GlobalActionFactory.createStackAction( id,
-							getRoot( ).getCommandStack( ) ) );
+			getSite().getActionBars().setGlobalActionHandler(id,
+					GlobalActionFactory.createStackAction(id, getRoot().getCommandStack()));
 		}
-		getSite( ).getActionBars( ).updateActionBars( );
+		getSite().getActionBars().updateActionBars();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
 	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
-	public void elementValidated( DesignElementHandle targetElement,
-			ValidationEvent ev )
-	{
-		getTreeViewer( ).refresh( );
+	@Override
+	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev) {
+		getTreeViewer().refresh();
 	}
 
 	private ITreeViewerBackup backup;
 
-	public void setBackupState( ITreeViewerBackup dataBackup )
-	{
+	public void setBackupState(ITreeViewerBackup dataBackup) {
 		this.backup = dataBackup;
 	}
 
-	public IModelEventProcessor getModelProcessor( )
-	{
-		return new DataViewEventProcessor( this );
+	public IModelEventProcessor getModelProcessor() {
+		return new DataViewEventProcessor(this);
 	}
 
-	public Runnable createModelEventRunnable( Object focus, final int type,
-			final Map args )
-	{
-		switch ( type )
-		{
-			case NotificationEvent.PROPERTY_EVENT :
-			case NotificationEvent.NAME_EVENT :
-			case NotificationEvent.CONTENT_EVENT :
-			{
-				return new ReportEventRunnable( focus, type, args ) {
+	@Override
+	public Runnable createModelEventRunnable(Object focus, final int type, final Map args) {
+		switch (type) {
+		case NotificationEvent.PROPERTY_EVENT:
+		case NotificationEvent.NAME_EVENT:
+		case NotificationEvent.CONTENT_EVENT: {
+			return new ReportEventRunnable(focus, type, args) {
 
-					public void run( )
-					{
-						if ( isDispose( ) )
-						{
-							return;
-						}
-						getTreeViewer( ).refresh( );
-						if ( type == NotificationEvent.CONTENT_EVENT )
-						{
-							Object obj = getArgs( ).get( DataViewEventProcessor.EVENT_CONTENT );
-							expandNodeAfterCreation( obj );
-						}
-						deleteConfigVariable( args );
+				@Override
+				public void run() {
+					if (isDispose()) {
+						return;
 					}
-				};
-			}
-
-			default :
-				return new ReportEventRunnable( focus, type, args ) {
-
-					public void run( )
-					{
-						if ( isDispose( ) )
-						{
-							return;
-						}
-						getTreeViewer( ).refresh( );
+					getTreeViewer().refresh();
+					if (type == NotificationEvent.CONTENT_EVENT) {
+						Object obj = getArgs().get(DataViewEventProcessor.EVENT_CONTENT);
+						expandNodeAfterCreation(obj);
 					}
-				};
+					deleteConfigVariable(args);
+				}
+			};
+		}
+
+		default:
+			return new ReportEventRunnable(focus, type, args) {
+
+				@Override
+				public void run() {
+					if (isDispose()) {
+						return;
+					}
+					getTreeViewer().refresh();
+				}
+			};
 		}
 	}
 
-	protected void expandNodeAfterCreation( Object obj )
-	{
-		if ( obj instanceof IDesignElement )
-		{
+	protected void expandNodeAfterCreation(Object obj) {
+		if (obj instanceof IDesignElement) {
 			IDesignElement element = (IDesignElement) obj;
-			getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
-					0 );
-			if ( backup != null )
-				backup.updateStatus( getTreeViewer( ) );
+			getTreeViewer().expandToLevel(element.getHandle(getRoot().getModule()), 0);
+			if (backup != null) {
+				backup.updateStatus(getTreeViewer());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.
 	 * DesignerOutlineEventProcessor.IFactConsumerFactory#isDispose()
 	 */
-	public boolean isDispose( )
-	{
-		if ( getTreeViewer( ) == null || getTreeViewer( ).getTree( ) == null )
+	@Override
+	public boolean isDispose() {
+		if (getTreeViewer() == null || getTreeViewer().getTree() == null) {
 			return true;
-		else
-			return getTreeViewer( ).getTree( ).isDisposed( );
+		} else {
+			return getTreeViewer().getTree().isDisposed();
+		}
 	}
 
-	public ISelectionProvider getSelectionProvider( )
-	{
-		return getTreeViewer( );
+	@Override
+	public ISelectionProvider getSelectionProvider() {
+		return getTreeViewer();
 	}
 }

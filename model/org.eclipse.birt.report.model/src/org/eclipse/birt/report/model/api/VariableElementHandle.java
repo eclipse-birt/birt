@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,80 +27,68 @@ import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
  * Represents a variable.
  */
 
-public class VariableElementHandle extends ContentElementHandle
-		implements
-			IVariableElementModel
-{
+public class VariableElementHandle extends ContentElementHandle implements IVariableElementModel {
 
 	/**
 	 * Constructs a variable handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
+	 *
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public VariableElementHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public VariableElementHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
 	 * Returns the name of the variable.
-	 * 
+	 *
 	 * @return the variable name
-	 * 
+	 *
 	 */
 
-	public String getVariableName( )
-	{
-		return getName( );
+	public String getVariableName() {
+		return getName();
 	}
 
 	/**
 	 * Sets the name of the variable.
-	 * 
-	 * @param name
-	 *            the name to set
-	 * 
+	 *
+	 * @param name the name to set
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @see #getVariableName()
 	 */
 
-	public void setVariableName( String name ) throws SemanticException
-	{
-		setName( name );
+	public void setVariableName(String name) throws SemanticException {
+		setName(name);
 	}
 
 	/**
 	 * Returns the value of the variable.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the variable value
 	 */
 
-	public String getValue( )
-	{
-		return getStringProperty( VALUE_PROP );
+	public String getValue() {
+		return getStringProperty(VALUE_PROP);
 	}
 
 	/**
 	 * Sets the value of the variable.
-	 * 
-	 * @param value
-	 *            the value to set
+	 *
+	 * @param value the value to set
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @Deprecated by getExpressionProperty(VALUE_PROP)
 	 */
 
-	public void setValue( String value ) throws SemanticException
-	{
-		setStringProperty( VALUE_PROP, value );
+	public void setValue(String value) throws SemanticException {
+		setStringProperty(VALUE_PROP, value);
 	}
 
 	/**
@@ -107,13 +98,12 @@ public class VariableElementHandle extends ContentElementHandle
 	 * <li><code>VARIABLE_TYPE_REPORT</code>
 	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the work mode property value.
 	 */
-	public String getType( )
-	{
-		return getStringProperty( TYPE_PROP );
+	public String getType() {
+		return getStringProperty(TYPE_PROP);
 	}
 
 	/**
@@ -123,46 +113,41 @@ public class VariableElementHandle extends ContentElementHandle
 	 * <li><code>VARIABLE_TYPE_REPORT</code>
 	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
-	 * 
-	 * @param workMode
-	 *            the work mode property value.
+	 *
+	 * @param workMode the work mode property value.
 	 * @throws SemanticException
 	 */
-	public void setType( String workMode ) throws SemanticException
-	{
-		setStringProperty( TYPE_PROP, workMode );
+	public void setType(String workMode) throws SemanticException {
+		setStringProperty(TYPE_PROP, workMode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ContentElementHandle#getName()
 	 */
-	public String getName( )
-	{
-		return element.getName( );
+	@Override
+	public String getName() {
+		return element.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.ContentElementHandle#setName(java.lang
+	 *
+	 * @see org.eclipse.birt.report.model.api.ContentElementHandle#setName(java.lang
 	 * .String)
 	 */
-	public void setName( String name ) throws NameException
-	{
-		//use valuecontainer's module so the variable element can make a local copy if its name is changed
-		ContentElementInfo valueContainer = ( (VariableElement)element ).getValueContainer( );
+	@Override
+	public void setName(String name) throws NameException {
+		// use valuecontainer's module so the variable element can make a local copy if
+		// its name is changed
+		ContentElementInfo valueContainer = ((VariableElement) element).getValueContainer();
 		NameCommand cmd = null;
-		if ( ( (VariableElement) element ).isLocal( ) )
-		{
-			cmd = new NameCommand(  module, getElement( ) );
+		if (((VariableElement) element).isLocal()) {
+			cmd = new NameCommand(module, getElement());
+		} else {
+			cmd = new NameCommand(valueContainer.getElement().getRoot(), getElement());
 		}
-		else
-		{
-			cmd = new NameCommand(  valueContainer.getElement( ).getRoot( ), getElement( ) );
-		}
-		cmd.setName( name );
+		cmd.setName(name);
 	}
 }

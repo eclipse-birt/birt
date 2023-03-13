@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,124 +29,109 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 /**
  * Represents a joint data set. A joint data set is a data set joined by several
  * data sets which can come from different data sources.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
-public class JointDataSet extends DataSet implements IJointDataSetModel
-{
+public class JointDataSet extends DataSet implements IJointDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public JointDataSet( )
-	{
-		super( );
+	public JointDataSet() {
+		super();
 	}
 
 	/**
 	 * Constructs this joint data set with a required name.
-	 * 
-	 * @param theName
-	 *            the required name
+	 *
+	 * @param theName the required name
 	 */
 
-	public JointDataSet( String theName )
-	{
-		super( theName );
+	public JointDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitJointDataSet( this );
+	@Override
+	public void apply(ElementVisitor visitor) {
+		visitor.visitJointDataSet(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	@Override
+	public String getElementName() {
 		return ReportDesignConstants.JOINT_DATA_SET;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	@Override
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the report design of the joint data set
-	 * 
+	 *
+	 * @param module the report design of the joint data set
+	 *
 	 * @return an API handle for this element
 	 */
 
-	public JointDataSetHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new JointDataSetHandle( module, this );
+	public JointDataSetHandle handle(Module module) {
+		if (handle == null) {
+			handle = new JointDataSetHandle(module, this);
 		}
 		return (JointDataSetHandle) handle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
 	 * .report.model.core.Module)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		return Collections.emptyList( );
+	@Override
+	public List<SemanticException> validate(Module module) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * Gets the names of the data sets in this joint data set.
-	 * 
-	 * @param module
-	 *            the root module of the element
-	 * 
+	 *
+	 * @param module the root module of the element
+	 *
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
-	public List<String> getDataSetNames( Module module )
-	{
-		List<Object> dataSetsReferences = getListProperty( module,
-				IJointDataSetModel.DATA_SETS_PROP );
-		if ( dataSetsReferences == null )
-		{
-			return Collections.emptyList( );
+	public List<String> getDataSetNames(Module module) {
+		List<Object> dataSetsReferences = getListProperty(module, IJointDataSetModel.DATA_SETS_PROP);
+		if (dataSetsReferences == null) {
+			return Collections.emptyList();
 		}
-		List<String> results = new ArrayList<String>( );
-		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
-		{
-			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
-					.getQualifiedReference( ) );
+		List<String> results = new ArrayList<>();
+		for (int i = 0; i < dataSetsReferences.size(); i++) {
+			results.add(((ElementRefValue) dataSetsReferences.get(i)).getQualifiedReference());
 		}
 		return results;
 	}

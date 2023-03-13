@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,11 +28,10 @@ import org.xml.sax.SAXException;
  * <p>
  * The compatible version is 1. This state translates "null" to "is-null",
  * "not-null" to "is-not-null", "true" to "is-ture" and "false" to "is-false".
- * 
+ *
  */
 
-class CompatibleOperatorState extends CompatiblePropertyState
-{
+class CompatibleOperatorState extends CompatiblePropertyState {
 
 	private static final String NULL_VALUE = "null"; //$NON-NLS-1$
 	private static final String NOT_NULL_VALUE = "not-null"; //$NON-NLS-1$
@@ -38,75 +40,62 @@ class CompatibleOperatorState extends CompatiblePropertyState
 
 	/**
 	 * Constructs a <code>CompatibleOperatorState</code>.
-	 * 
-	 * @param theHandler
-	 *            the design parser handle
-	 * @param element
-	 *            the element
-	 * @param propDefn
-	 *            the property definition
-	 * @param struct
-	 *            the structure
+	 *
+	 * @param theHandler the design parser handle
+	 * @param element    the element
+	 * @param propDefn   the property definition
+	 * @param struct     the structure
 	 */
 
-	public CompatibleOperatorState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	public CompatibleOperatorState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/**
 	 * Handles the special case to read obsolete operators.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
 
 		assert struct != null;
 
-		if ( NULL_VALUE.equalsIgnoreCase( value ) )
-		{
-			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+		if (NULL_VALUE.equalsIgnoreCase(value)) {
+			if (FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.FILTER_OPERATOR_NULL;
-			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+			} else if (StyleRule.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.MAP_OPERATOR_NULL;
+			}
 		}
 
-		if ( NOT_NULL_VALUE.equalsIgnoreCase( value ) )
-		{
-			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+		if (NOT_NULL_VALUE.equalsIgnoreCase(value)) {
+			if (FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL;
-			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+			} else if (StyleRule.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.MAP_OPERATOR_NOT_NULL;
+			}
 		}
 
-		if ( TRUE_VALUE.equalsIgnoreCase( value ) )
-		{
-			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+		if (TRUE_VALUE.equalsIgnoreCase(value)) {
+			if (FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.FILTER_OPERATOR_TRUE;
-			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+			} else if (StyleRule.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.MAP_OPERATOR_TRUE;
+			}
 		}
 
-		if ( FALSE_VALUE.equalsIgnoreCase( value ) )
-		{
-			if ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+		if (FALSE_VALUE.equalsIgnoreCase(value)) {
+			if (FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.FILTER_OPERATOR_FALSE;
-			else if ( StyleRule.OPERATOR_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
+			} else if (StyleRule.OPERATOR_MEMBER.equalsIgnoreCase(propDefn.getName())) {
 				value = DesignChoiceConstants.MAP_OPERATOR_FALSE;
+			}
 		}
 
-		setMember( struct, propDefn.getName( ), name, value );
+		setMember(struct, propDefn.getName(), name, value);
 	}
 }

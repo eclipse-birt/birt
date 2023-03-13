@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,11 +30,10 @@ import org.xml.sax.Attributes;
  * for a report item. Since both contexts use exactly the same XML (except for
  * the name and extends attributes), and both use the same property names,
  * having one state handle both contexts makes the parser simpler.
- * 
+ *
  */
 
-class StyleState extends ReportElementState
-{
+class StyleState extends ReportElementState {
 
 	/**
 	 * The element being built. Either a shared style or a report item.
@@ -66,46 +68,43 @@ class StyleState extends ReportElementState
 	/**
 	 * Constructs for creating a named shared style with the design file parser
 	 * handler.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 *
+	 * @param handler the design file parser handler
 	 */
 
-	StyleState( ModuleParserHandler handler, DesignElement container, int slotId )
-	{
-		super( handler, container, slotId );
+	StyleState(ModuleParserHandler handler, DesignElement container, int slotId) {
+		super(handler, container, slotId);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new Style( );
-		initElement( attrs, true );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new Style();
+		initElement(attrs, true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ReportElementState#isNameSpaceRequired
 	 * (org.eclipse.birt.report.model.core.DesignElement, int,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public DesignElement getElement( )
-	{
+	@Override
+	public DesignElement getElement() {
 		return element;
 	}
 
-	public void end( )
-	{
-		makeTestExpressionCompatible( );
+	@Override
+	public void end() {
+		makeTestExpressionCompatible();
 	}
 }

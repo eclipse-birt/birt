@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,11 +56,10 @@ import org.mozilla.javascript.WrappedException;
 /**
  * ReportDesign
  */
-public class ReportDesign extends ScriptableObject implements IReportDesign
-{
+public class ReportDesign extends ScriptableObject implements IReportDesign {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5768246404361271845L;
 
@@ -71,378 +73,347 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param report
 	 */
 
-	public ReportDesign( ReportDesignHandle report )
-	{
-		this.report = new InternalReportDesign( report );
-		initFunctions( );
+	public ReportDesign(ReportDesignHandle report) {
+		this.report = new InternalReportDesign(report);
+		initFunctions();
 	}
 
 	/**
 	 * Gets master page script instance.
-	 * 
+	 *
 	 * @param name
 	 * @return master page script instance
 	 */
 
-	public IMasterPage getMasterPage( String name )
-	{
-		return report.getMasterPage( name );
+	@Override
+	public IMasterPage getMasterPage(String name) {
+		return report.getMasterPage(name);
 	}
 
-	public IDataSet getDataSet( String name )
-	{
-		return report.getDataSet( name );
+	@Override
+	public IDataSet getDataSet(String name) {
+		return report.getDataSet(name);
 	}
 
-	public IDataSource getDataSource( String name )
-	{
-		return report.getDataSource( name );
+	@Override
+	public IDataSource getDataSource(String name) {
+		return report.getDataSource(name);
 	}
 
-	public IReportElement getReportElement( String name )
-	{
-		return report.getReportElement( name );
+	@Override
+	public IReportElement getReportElement(String name) {
+		return report.getReportElement(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * getReportElementByID(long)
 	 */
-	public IReportElement getReportElementByID( long id )
-	{
-		return report.getReportElementByID( id );
+	@Override
+	public IReportElement getReportElementByID(long id) {
+		return report.getReportElementByID(id);
 	}
 
-	public IDataItem getDataItem( String name )
-	{
-		return report.getDataItem( name );
+	@Override
+	public IDataItem getDataItem(String name) {
+		return report.getDataItem(name);
 	}
 
-	public IGrid getGrid( String name )
-	{
-		return report.getGrid( name );
+	@Override
+	public IGrid getGrid(String name) {
+		return report.getGrid(name);
 	}
 
-	public IImage getImage( String name )
-	{
-		return report.getImage( name );
+	@Override
+	public IImage getImage(String name) {
+		return report.getImage(name);
 	}
 
-	public ILabel getLabel( String name )
-	{
-		return report.getLabel( name );
+	@Override
+	public ILabel getLabel(String name) {
+		return report.getLabel(name);
 	}
 
-	public IList getList( String name )
-	{
-		return report.getList( name );
+	@Override
+	public IList getList(String name) {
+		return report.getList(name);
 	}
 
-	public ITable getTable( String name )
-	{
-		return report.getTable( name );
+	@Override
+	public ITable getTable(String name) {
+		return report.getTable(name);
 	}
 
-	public IDynamicText getDynamicText( String name )
-	{
-		return report.getDynamicText( name );
+	@Override
+	public IDynamicText getDynamicText(String name) {
+		return report.getDynamicText(name);
 	}
 
-	public ITextItem getTextItem( String name )
-	{
-		return report.getTextItem( name );
+	@Override
+	public ITextItem getTextItem(String name) {
+		return report.getTextItem(name);
 	}
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws SemanticException
-	{
-		report.setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP,
-				displayNameKey );
+	@Override
+	public void setDisplayNameKey(String displayNameKey) throws SemanticException {
+		report.setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey);
 	}
 
-	public String getDisplayNameKey( )
-	{
-		return report.getDisplayNameKey( );
+	@Override
+	public String getDisplayNameKey() {
+		return report.getDisplayNameKey();
 	}
 
-	public void setDisplayName( String displayName ) throws SemanticException
-	{
-		report.setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
+	@Override
+	public void setDisplayName(String displayName) throws SemanticException {
+		report.setProperty(IDesignElementModel.DISPLAY_NAME_PROP, displayName);
 
 	}
 
-	public String getDisplayName( )
-	{
-		return report.getDisplayName( );
+	@Override
+	public String getDisplayName() {
+		return report.getDisplayName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#save()
 	 */
 
-	public void save( ) throws IOException
-	{
-		report.save( );
+	@Override
+	public void save() throws IOException {
+		report.save();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
 	 * .lang.String)
 	 */
 
-	public void saveAs( String newName ) throws IOException
-	{
-		report.saveAs( newName );
+	@Override
+	public void saveAs(String newName) throws IOException {
+		report.saveAs(newName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#getTheme()
 	 */
-	public String getTheme( )
-	{
-		return report.getTheme( );
+	@Override
+	public String getTheme() {
+		return report.getTheme();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
 	 * .lang.String)
 	 */
 
-	public void setTheme( String theme ) throws SemanticException
-	{
-		report.setProperty( IModuleModel.THEME_PROP, theme );
+	@Override
+	public void setTheme(String theme) throws SemanticException {
+		report.setProperty(IModuleModel.THEME_PROP, theme);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getParent()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getParent()
 	 */
-	public IDesignElement getParent( )
-	{
-		return report.getParent( );
+	@Override
+	public IDesignElement getParent() {
+		return report.getParent();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getNamedExpression
 	 * (java.lang.String)
 	 */
-	public String getNamedExpression( String name )
-	{
-		return report.getNamedExpression( name );
+	@Override
+	public String getNamedExpression(String name) {
+		return report.getNamedExpression(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getQualifiedName
 	 * ()
 	 */
-	public String getQualifiedName( )
-	{
-		return report.getQualifiedName( );
+	@Override
+	public String getQualifiedName() {
+		return report.getQualifiedName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
 	 */
-	public IReportDesign getReport( )
-	{
+	@Override
+	public IReportDesign getReport() {
 		return report;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getStyle()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getStyle()
 	 */
-	public IStyle getStyle( )
-	{
-		return report.getStyle( );
+	@Override
+	public IStyle getStyle() {
+		return report.getStyle();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserProperty
 	 * (java.lang.String)
 	 */
-	public Object getUserProperty( String name )
-	{
-		return report.getUserProperty( name );
+	@Override
+	public Object getUserProperty(String name) {
+		return report.getUserProperty(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setNamedExpression
 	 * (java.lang.String, java.lang.String)
 	 */
-	public void setNamedExpression( String name, String exp )
-			throws SemanticException
-	{
-		report.setNamedExpression( name, exp );
+	@Override
+	public void setNamedExpression(String name, String exp) throws SemanticException {
+		report.setNamedExpression(name, exp);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty
 	 * (java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	public void setUserProperty( String name, Object value, String type )
-			throws SemanticException
-	{
-		report.setUserProperty( name, value, type );
+	@Override
+	public void setUserProperty(String name, Object value, String type) throws SemanticException {
+		report.setUserProperty(name, value, type);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty
 	 * (java.lang.String, java.lang.String)
 	 */
-	public void setUserProperty( String name, String value )
-			throws SemanticException
-	{
-		report.setUserProperty( name, value );
+	@Override
+	public void setUserProperty(String name, String value) throws SemanticException {
+		report.setUserProperty(name, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
 
-	public String getClassName( )
-	{
+	@Override
+	public String getClassName() {
 		return CLASS_NAME;
 	}
 
-	private void initFunctions( )
-	{
-		Method[] tmpMethods = this.getClass( ).getDeclaredMethods( );
-		HashMap<String, Method> methods = new LinkedHashMap<String, Method>( );
-		for ( int i = 0; i < tmpMethods.length; i++ )
-		{
+	private void initFunctions() {
+		Method[] tmpMethods = this.getClass().getDeclaredMethods();
+		HashMap<String, Method> methods = new LinkedHashMap<>();
+		for (int i = 0; i < tmpMethods.length; i++) {
 			Method tmpMethod = tmpMethods[i];
-			String methodName = tmpMethod.getName( );
+			String methodName = tmpMethod.getName();
 			// must handle special case with long parameter or polymiorphism
-			if ( "getReportElementByID".equals( methodName ) //$NON-NLS-1$
-					|| "setUserProperty".equals( methodName ) ) //$NON-NLS-1$
+			if ("getReportElementByID".equals(methodName) //$NON-NLS-1$
+					|| "setUserProperty".equals(methodName)) {
 				continue;
-			if ( ( tmpMethod.getModifiers( ) & Modifier.PUBLIC ) != 0 )
-				methods.put( methodName, tmpMethod );
+			}
+			if ((tmpMethod.getModifiers() & Modifier.PUBLIC) != 0) {
+				methods.put(methodName, tmpMethod);
+			}
 		}
 
-		Context.enter( );
-		try
-		{
-			for ( final Entry<String, Method> entry : methods.entrySet( ) )
-			{
-				this.defineProperty( entry.getKey( ), new BaseFunction( ) {
+		Context.enter();
+		try {
+			for (final Entry<String, Method> entry : methods.entrySet()) {
+				this.defineProperty(entry.getKey(), new BaseFunction() {
 
 					private static final long serialVersionUID = 1L;
 
-					public Object call( Context cx, Scriptable scope,
-							Scriptable thisObj, Object[] args )
-					{
-						Object[] convertedArgs = JavascriptEvalUtil
-								.convertToJavaObjects( args );
-						try
-						{
-							Method method = entry.getValue( );
-							return method.invoke( ReportDesign.this,
-									convertedArgs );
-						}
-						catch ( Exception e )
-						{
-							throw new WrappedException( e );
+					@Override
+					public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+						Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
+						try {
+							Method method = entry.getValue();
+							return method.invoke(ReportDesign.this, convertedArgs);
+						} catch (Exception e) {
+							throw new WrappedException(e);
 						}
 					}
 
-				}, DONTENUM );
+				}, DONTENUM);
 			}
-		}
-		finally
-		{
-			Context.exit( );
+		} finally {
+			Context.exit();
 		}
 
-		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
-				new Function_getReportElementByID( ), DONTENUM );
-		this.defineProperty( "setUserProperty", //$NON-NLS-1$
-				new Function_setUserProperty( ), DONTENUM );
+		this.defineProperty("getReportElementByID", //$NON-NLS-1$
+				new Function_getReportElementByID(), DONTENUM);
+		this.defineProperty("setUserProperty", //$NON-NLS-1$
+				new Function_setUserProperty(), DONTENUM);
 	}
 
-	private class Function_getReportElementByID extends BaseFunction
-	{
+	private class Function_getReportElementByID extends BaseFunction {
 
 		private static final long serialVersionUID = 1L;
 
-		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
-				java.lang.Object[] args )
-		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+		@Override
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
 
-			return report.getReportElementByID( (Integer) convertedArgs[0] );
+			return report.getReportElementByID((Integer) convertedArgs[0]);
 		}
 	}
 
-	private class Function_setUserProperty extends BaseFunction
-	{
+	private class Function_setUserProperty extends BaseFunction {
 
 		private static final long serialVersionUID = 1L;
 
-		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
-				java.lang.Object[] args )
-		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+		@Override
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
 
-			try
-			{
-				if ( convertedArgs.length == 2 )
-					report.setUserProperty( (String) convertedArgs[0],
-							(String) convertedArgs[1] );
-				else if ( convertedArgs.length == 3 )
-					report.setUserProperty( (String) convertedArgs[0],
-							convertedArgs[1], (String) convertedArgs[2] );
+			try {
+				if (convertedArgs.length == 2) {
+					report.setUserProperty((String) convertedArgs[0], (String) convertedArgs[1]);
+				} else if (convertedArgs.length == 3) {
+					report.setUserProperty((String) convertedArgs[0], convertedArgs[1], (String) convertedArgs[2]);
+				}
 
-			}
-			catch ( SemanticException e )
-			{
-				throw new WrappedException( e );
+			} catch (SemanticException e) {
+				throw new WrappedException(e);
 			}
 
 			return null;
@@ -451,82 +422,80 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IDesignElement#
 	 * getUserPropertyExpression(java.lang.String)
 	 */
-	public Object getUserPropertyExpression( String name )
-	{
-		return report.getUserPropertyExpression( name );
+	@Override
+	public Object getUserPropertyExpression(String name) {
+		return report.getUserPropertyExpression(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * createFilterCondition()
 	 */
-	public IFilterCondition createFilterCondition( )
-	{
-		return report.createFilterCondition( );
+	@Override
+	public IFilterCondition createFilterCondition() {
+		return report.createFilterCondition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
 	 * ()
 	 */
-	public IHideRule createHideRule( )
-	{
-		return report.createHideRule( );
+	@Override
+	public IHideRule createHideRule() {
+		return report.createHideRule();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule
 	 * ()
 	 */
-	public IHighlightRule createHighLightRule( )
-	{
-		return report.createHighLightRule( );
+	@Override
+	public IHighlightRule createHighLightRule() {
+		return report.createHighLightRule();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition
 	 * ()
 	 */
-	public ISortCondition createSortCondition( )
-	{
-		return report.createSortCondition( );
+	@Override
+	public ISortCondition createSortCondition() {
+		return report.createSortCondition();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
 	 */
-	public IAction createAction( )
-	{
-		return report.createAction( );
+	@Override
+	public IAction createAction() {
+		return report.createAction();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createDataBinding
 	 * ()
 	 */
-	public IDataBinding createDataBinding( )
-	{
-		return report.createDataBinding( );
+	@Override
+	public IDataBinding createDataBinding() {
+		return report.createDataBinding();
 	}
 }

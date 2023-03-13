@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -32,133 +35,129 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.Quartile aggregation.
  */
-public class TotalQuartile extends AggrFunction
-{
+public class TotalQuartile extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return IBuildInAggregation.TOTAL_QUARTILE_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	@Override
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	@Override
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-				new ParameterDefn( Constants.EXPRESSION_NAME,
-						Constants.EXPRESSION_DISPLAY_NAME,
-						false,
-						true,
-						SupportedDataTypes.CALCULATABLE,
-						"" ), //$NON-NLS-1$
-				new ParameterDefn( "quart", Messages.getString( "TotalQuartile.param.quart" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	@Override
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] {
+				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
+						SupportedDataTypes.CALCULATABLE, ""), //$NON-NLS-1$
+				new ParameterDefn("quart", Messages.getString("TotalQuartile.param.quart"), false, false, //$NON-NLS-1$ //$NON-NLS-2$
+						SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	@Override
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
-	private static class MyAccumulator extends PercentileAccumulator
-	{
-		MyAccumulator( ICalculator calc )
-		{
-			super( calc );
+	private static class MyAccumulator extends PercentileAccumulator {
+		MyAccumulator(ICalculator calc) {
+			super(calc);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.rank.PercentileAccumulator#getPctValue(java.lang.Double)
+		 *
+		 * @see org.eclipse.birt.data.engine.aggregation.rank.PercentileAccumulator#
+		 * getPctValue(java.lang.Double)
 		 */
-		protected double getPctValue( Double d ) throws DataException
-		{
-			validatePctValue( d );
-			int quar = d.intValue( );
+		@Override
+		protected double getPctValue(Double d) throws DataException {
+			validatePctValue(d);
+			int quar = d.intValue();
 			double result = 0;
-			if ( quar == 0 )
+			if (quar == 0) {
 				result = 0;
-			else if ( quar == 1 )
+			} else if (quar == 1) {
 				result = 0.25;
-			else if ( quar == 2 )
+			} else if (quar == 2) {
 				result = 0.5;
-			else if ( quar == 3 )
+			} else if (quar == 3) {
 				result = 0.75;
-			else if ( quar == 4 )
+			} else if (quar == 4) {
 				result = 1;
+			}
 
 			return result;
 		}
 
 		/**
-		 * 
+		 *
 		 * @param d
 		 * @throws DataException
 		 */
-		private void validatePctValue( Double d ) throws DataException
-		{
-			if ( d == null
-					|| d.isNaN( ) || d.doubleValue( ) < 0
-					|| d.doubleValue( ) > 4 )
-				throw DataException.wrap( new AggrException( ResourceConstants.INVALID_QUARTILE_ARGUMENT ) );
+		private void validatePctValue(Double d) throws DataException {
+			if (d == null || d.isNaN() || d.doubleValue() < 0 || d.doubleValue() > 4) {
+				throw DataException.wrap(new AggrException(ResourceConstants.INVALID_QUARTILE_ARGUMENT));
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalQuartile.description" ); //$NON-NLS-1$
+	@Override
+	public String getDescription() {
+		return Messages.getString("TotalQuartile.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalQuartile.displayName" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("TotalQuartile.displayName"); //$NON-NLS-1$
 	}
 }

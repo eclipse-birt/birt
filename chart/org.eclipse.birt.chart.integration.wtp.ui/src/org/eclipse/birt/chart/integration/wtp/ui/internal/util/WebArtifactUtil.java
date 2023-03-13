@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -45,202 +47,169 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 /**
  * Birt WebArtifact Utility
- * 
+ *
  */
-public class WebArtifactUtil implements IBirtWizardConstants
-{
+public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the web application general descriptions
-	 * 
+	 *
 	 * @param webApp
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureWebApp( WebAppBean webAppBean,
-			IProject project, IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureWebApp(WebAppBean webAppBean, IProject project, IOverwriteQuery query,
+			IProgressMonitor monitor) throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( webAppBean == null || project == null )
-		{
+		if (monitor.isCanceled() || webAppBean == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
-
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
-			webapp.setDescription( webAppBean.getDescription( ) );
-			webEdit.saveIfNecessary( monitor );
 		}
-		finally
-		{
-			webEdit.dispose( );
+
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
+			webapp.setDescription(webAppBean.getDescription());
+			webEdit.saveIfNecessary(monitor);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * Configure the context param settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureContextParam( Map map, IProject project,
-			IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureContextParam(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
+			throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( map == null || project == null )
-		{
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// handle context-param settings
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String name = DataUtil.getString( it.next( ), false );
-				ContextParamBean bean = (ContextParamBean) map.get( name );
-				if ( bean == null )
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String name = DataUtil.getString(it.next(), false);
+				ContextParamBean bean = (ContextParamBean) map.get(name);
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this param
 				List list = null;
-				if ( webapp.getVersionID( ) == 23 )
-				{
+				if (webapp.getVersionID() == 23) {
 					// for servlet 2.3
-					list = webapp.getContexts( );
-				}
-				else
-				{
+					list = webapp.getContexts();
+				} else {
 					// for servlet 2.4
-					list = webapp.getContextParams( );
+					list = webapp.getContextParams();
 				}
 
-				Object obj = getContextParamByName( list, name );
-				if ( obj != null )
-				{
-					String ret = query
-							.queryOverwrite( "Context-param '" + name + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+				Object obj = getContextParamByName(list, name);
+				if (obj != null) {
+					String ret = query.queryOverwrite("Context-param '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// check overwrite query result
-					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
-					{
+					if (IOverwriteQuery.NO.equalsIgnoreCase(ret)) {
 						continue;
 					}
-					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
-					{
-						monitor.setCanceled( true );
+					if (IOverwriteQuery.CANCEL.equalsIgnoreCase(ret)) {
+						monitor.setCanceled(true);
 						return;
 					}
 
 					// remove old item
-					webapp.getContextParams( ).remove( obj );
+					webapp.getContextParams().remove(obj);
 				}
 
-				String value = bean.getValue( );
-				String description = bean.getDescription( );
+				String value = bean.getValue();
+				String description = bean.getDescription();
 
-				if ( webapp.getVersionID( ) == 23 )
-				{
+				if (webapp.getVersionID() == 23) {
 					// create context-param object
-					ContextParam param = WebapplicationFactory.eINSTANCE
-							.createContextParam( );
-					param.setParamName( name );
-					param.setParamValue( value );
-					if ( description != null )
-						param.setDescription( description );
+					ContextParam param = WebapplicationFactory.eINSTANCE.createContextParam();
+					param.setParamName(name);
+					param.setParamValue(value);
+					if (description != null) {
+						param.setDescription(description);
+					}
 
-					param.setWebApp( webapp );
-				}
-				else
-				{
+					param.setWebApp(webapp);
+				} else {
 					// create ParamValue object for servlet 2.4
-					ParamValue param = CommonFactory.eINSTANCE
-							.createParamValue( );
-					param.setName( name );
-					param.setValue( value );
-					if ( description != null )
-					{
-						Description descriptionObj = CommonFactory.eINSTANCE
-								.createDescription( );
-						descriptionObj.setValue( description );
-						param.getDescriptions( ).add( descriptionObj );
-						param.setDescription( description );
+					ParamValue param = CommonFactory.eINSTANCE.createParamValue();
+					param.setName(name);
+					param.setValue(value);
+					if (description != null) {
+						Description descriptionObj = CommonFactory.eINSTANCE.createDescription();
+						descriptionObj.setValue(description);
+						param.getDescriptions().add(descriptionObj);
+						param.setDescription(description);
 					}
 
 					// add into list
-					webapp.getContextParams( ).add( param );
+					webapp.getContextParams().add(param);
 				}
 			}
 
-			webEdit.saveIfNecessary( monitor );
-		}
-		finally
-		{
-			webEdit.dispose( );
+			webEdit.saveIfNecessary(monitor);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * get context-param from list by name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
-	public static Object getContextParamByName( List list, String name )
-	{
-		if ( list == null || name == null )
+	public static Object getContextParamByName(List list, String name) {
+		if (list == null || name == null) {
 			return null;
+		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get param object
-			Object paramObj = it.next( );
+			Object paramObj = it.next();
 
 			// for servlet 2.3
-			if ( paramObj instanceof ContextParam )
-			{
+			if (paramObj instanceof ContextParam) {
 				ContextParam param = (ContextParam) paramObj;
-				if ( name.equals( param.getParamName( ) ) )
+				if (name.equals(param.getParamName())) {
 					return param;
+				}
 			}
 
 			// for servlet 2.4
-			if ( paramObj instanceof ParamValue )
-			{
+			if (paramObj instanceof ParamValue) {
 				ParamValue param = (ParamValue) paramObj;
-				if ( name.equals( param.getName( ) ) )
+				if (name.equals(param.getName())) {
 					return param;
+				}
 			}
 		}
 
@@ -249,92 +218,81 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 	/**
 	 * Configure the listener settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureListener( Map map, IProject project,
-			IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureListener(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
+			throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( map == null || project == null )
-		{
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// handle listeners settings
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String name = DataUtil.getString( it.next( ), false );
-				ListenerBean bean = (ListenerBean) map.get( name );
-				if ( bean == null )
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String name = DataUtil.getString(it.next(), false);
+				ListenerBean bean = (ListenerBean) map.get(name);
+				if (bean == null) {
 					continue;
+				}
 
-				String className = bean.getClassName( );
-				String description = bean.getDescription( );
+				String className = bean.getClassName();
+				String description = bean.getDescription();
 
 				// if listener existed in web.xml, skip it
-				Object obj = getListenerByClassName( webapp.getListeners( ),
-						className );
-				if ( obj != null )
+				Object obj = getListenerByClassName(webapp.getListeners(), className);
+				if (obj != null) {
 					continue;
+				}
 
 				// create Listener object
-				Listener listener = CommonFactory.eINSTANCE.createListener( );
-				listener.setListenerClassName( className );
-				if ( description != null )
-					listener.setDescription( description );
+				Listener listener = CommonFactory.eINSTANCE.createListener();
+				listener.setListenerClassName(className);
+				if (description != null) {
+					listener.setDescription(description);
+				}
 
-				webapp.getListeners( ).remove( listener );
-				webapp.getListeners( ).add( listener );
+				webapp.getListeners().remove(listener);
+				webapp.getListeners().add(listener);
 			}
 
-			webEdit.saveIfNecessary( monitor );
-		}
-		finally
-		{
-			webEdit.dispose( );
+			webEdit.saveIfNecessary(monitor);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * get listener from list by class name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
-	public static Object getListenerByClassName( List list, String className )
-	{
-		if ( list == null || className == null )
+	public static Object getListenerByClassName(List list, String className) {
+		if (list == null || className == null) {
 			return null;
+		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get listener object
-			Listener listener = (Listener) it.next( );
-			if ( listener != null
-					&& className.equals( listener.getListenerClassName( ) ) )
-			{
+			Listener listener = (Listener) it.next();
+			if (listener != null && className.equals(listener.getListenerClassName())) {
 				return listener;
 			}
 		}
@@ -344,115 +302,99 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 	/**
 	 * Configure the servlet settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureServlet( Map map, IProject project,
-			IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureServlet(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
+			throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( map == null || project == null )
-		{
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// handle servlet settings
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String name = DataUtil.getString( it.next( ), false );
-				ServletBean bean = (ServletBean) map.get( name );
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String name = DataUtil.getString(it.next(), false);
+				ServletBean bean = (ServletBean) map.get(name);
 
-				if ( bean == null )
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this servlet
-				Object obj = getServletByName( webapp.getServlets( ), name );
-				if ( obj != null )
-				{
-					String ret = query
-							.queryOverwrite( "Servlet '" + name + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+				Object obj = getServletByName(webapp.getServlets(), name);
+				if (obj != null) {
+					String ret = query.queryOverwrite("Servlet '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// check overwrite query result
-					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
-					{
+					if (IOverwriteQuery.NO.equalsIgnoreCase(ret)) {
 						continue;
 					}
-					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
-					{
-						monitor.setCanceled( true );
+					if (IOverwriteQuery.CANCEL.equalsIgnoreCase(ret)) {
+						monitor.setCanceled(true);
 						return;
 					}
 
 					// remove old item
-					webapp.getServlets( ).remove( obj );
+					webapp.getServlets().remove(obj);
 				}
 
-				String className = bean.getClassName( );
-				String description = bean.getDescription( );
+				String className = bean.getClassName();
+				String description = bean.getDescription();
 
 				// create Servlet Type object
-				ServletType servletType = WebapplicationFactory.eINSTANCE
-						.createServletType( );
-				servletType.setClassName( className );
+				ServletType servletType = WebapplicationFactory.eINSTANCE.createServletType();
+				servletType.setClassName(className);
 
 				// create Servlet object
-				Servlet servlet = WebapplicationFactory.eINSTANCE
-						.createServlet( );
-				servlet.setServletName( name );
-				if ( description != null )
-					servlet.setDescription( description );
+				Servlet servlet = WebapplicationFactory.eINSTANCE.createServlet();
+				servlet.setServletName(name);
+				if (description != null) {
+					servlet.setDescription(description);
+				}
 
-				servlet.setWebType( servletType );
+				servlet.setWebType(servletType);
 
-				servlet.setWebApp( webapp );
+				servlet.setWebApp(webapp);
 			}
 
-			webEdit.saveIfNecessary( monitor );
-		}
-		finally
-		{
-			webEdit.dispose( );
+			webEdit.saveIfNecessary(monitor);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * get servlet from list by name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
-	public static Object getServletByName( List list, String name )
-	{
-		if ( list == null || name == null )
+	public static Object getServletByName(List list, String name) {
+		if (list == null || name == null) {
 			return null;
+		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get servlet object
-			Servlet servlet = (Servlet) it.next( );
-			if ( servlet != null && name.equals( servlet.getServletName( ) ) )
-			{
+			Servlet servlet = (Servlet) it.next();
+			if (servlet != null && name.equals(servlet.getServletName())) {
 				return servlet;
 			}
 		}
@@ -462,114 +404,95 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 	/**
 	 * Configure the servlet-mapping settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureServletMapping( Map map, IProject project,
-			IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureServletMapping(Map map, IProject project, IOverwriteQuery query,
+			IProgressMonitor monitor) throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( map == null || project == null )
-		{
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// handle servlet-mapping settings
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String uri = DataUtil.getString( it.next( ), false );
-				ServletMappingBean bean = (ServletMappingBean) map.get( uri );
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String uri = DataUtil.getString(it.next(), false);
+				ServletMappingBean bean = (ServletMappingBean) map.get(uri);
 
-				if ( bean == null )
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this servlet-mapping
-				Object obj = getServletMappingByUri( webapp
-						.getServletMappings( ), uri );
-				if ( obj != null )
-				{
-					String ret = query
-							.queryOverwrite( "Servlet-mapping '" + uri + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+				Object obj = getServletMappingByUri(webapp.getServletMappings(), uri);
+				if (obj != null) {
+					String ret = query.queryOverwrite("Servlet-mapping '" + uri + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// check overwrite query result
-					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
-					{
+					if (IOverwriteQuery.NO.equalsIgnoreCase(ret)) {
 						continue;
 					}
-					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
-					{
-						monitor.setCanceled( true );
+					if (IOverwriteQuery.CANCEL.equalsIgnoreCase(ret)) {
+						monitor.setCanceled(true);
 						return;
 					}
 
 					// remove old item
-					webapp.getServletMappings( ).remove( obj );
+					webapp.getServletMappings().remove(obj);
 				}
 
 				// servlet name
-				String name = bean.getName( );
+				String name = bean.getName();
 
 				// create ServletMapping object
-				ServletMapping mapping = WebapplicationFactory.eINSTANCE
-						.createServletMapping( );
+				ServletMapping mapping = WebapplicationFactory.eINSTANCE.createServletMapping();
 
 				// get servlet by name
-				Servlet servlet = webapp.getServletNamed( name );
-				if ( servlet != null )
-				{
-					mapping.setServlet( servlet );
-					mapping.setUrlPattern( uri );
-					mapping.setWebApp( webapp );
+				Servlet servlet = webapp.getServletNamed(name);
+				if (servlet != null) {
+					mapping.setServlet(servlet);
+					mapping.setUrlPattern(uri);
+					mapping.setWebApp(webapp);
 				}
 			}
 
-			webEdit.saveIfNecessary( monitor );
-		}
-		finally
-		{
-			webEdit.dispose( );
+			webEdit.saveIfNecessary(monitor);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * get servlet mapping from list by uri
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
-	public static Object getServletMappingByUri( List list, String uri )
-	{
-		if ( list == null || uri == null )
+	public static Object getServletMappingByUri(List list, String uri) {
+		if (list == null || uri == null) {
 			return null;
+		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get servlet-mapping object
-			ServletMapping servletMapping = (ServletMapping) it.next( );
-			if ( servletMapping != null
-					&& uri.equals( servletMapping.getUrlPattern( ) ) )
-			{
+			ServletMapping servletMapping = (ServletMapping) it.next();
+			if (servletMapping != null && uri.equals(servletMapping.getUrlPattern())) {
 				return servletMapping;
 			}
 		}
@@ -579,154 +502,128 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 	/**
 	 * Configure the taglib settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	public static void configureTaglib( Map map, IProject project,
-			IOverwriteQuery query, IProgressMonitor monitor )
-			throws CoreException
-	{
+	public static void configureTaglib(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
+			throws CoreException {
 		// cancel progress
-		if ( monitor.isCanceled( ) )
-			return;
-
-		if ( map == null || project == null )
-		{
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+		try {
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// handle taglib settings
-			Iterator it = map.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String uri = DataUtil.getString( it.next( ), false );
-				TagLibBean bean = (TagLibBean) map.get( uri );
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String uri = DataUtil.getString(it.next(), false);
+				TagLibBean bean = (TagLibBean) map.get(uri);
 
-				if ( bean == null )
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this taglib
-				Object obj = getTagLibByUri( webapp, uri );
-				if ( obj != null )
-				{
-					String ret = query.queryOverwrite( "Taglib '" + uri + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+				Object obj = getTagLibByUri(webapp, uri);
+				if (obj != null) {
+					String ret = query.queryOverwrite("Taglib '" + uri + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 					// check overwrite query result
-					if ( IOverwriteQuery.NO.equalsIgnoreCase( ret ) )
-					{
+					if (IOverwriteQuery.NO.equalsIgnoreCase(ret)) {
 						continue;
 					}
-					if ( IOverwriteQuery.CANCEL.equalsIgnoreCase( ret ) )
-					{
-						monitor.setCanceled( true );
+					if (IOverwriteQuery.CANCEL.equalsIgnoreCase(ret)) {
+						monitor.setCanceled(true);
 						return;
 					}
 
 					// remove old item
-					if ( obj instanceof TagLibRefType
-							&& webapp.getJspConfig( ) != null )
-					{
-						webapp.getJspConfig( ).getTagLibs( ).remove( obj );
-					}
-					else
-					{
-						webapp.getTagLibs( ).remove( obj );
+					if (obj instanceof TagLibRefType && webapp.getJspConfig() != null) {
+						webapp.getJspConfig().getTagLibs().remove(obj);
+					} else {
+						webapp.getTagLibs().remove(obj);
 					}
 
 				}
 
-				String location = bean.getLocation( );
+				String location = bean.getLocation();
 
-				if ( webapp.getVersionID( ) == 23 )
-				{
+				if (webapp.getVersionID() == 23) {
 					// create TaglibRef object for servlet 2.3
-					TagLibRef taglib = WebapplicationFactory.eINSTANCE
-							.createTagLibRef( );
-					taglib.setTaglibURI( uri );
-					taglib.setTaglibLocation( location );
-					webapp.getTagLibs( ).add( taglib );
-				}
-				else
-				{
+					TagLibRef taglib = WebapplicationFactory.eINSTANCE.createTagLibRef();
+					taglib.setTaglibURI(uri);
+					taglib.setTaglibLocation(location);
+					webapp.getTagLibs().add(taglib);
+				} else {
 					// for servlet 2.4
-					JSPConfig jspConfig = JspFactory.eINSTANCE
-							.createJSPConfig( );
-					TagLibRefType ref = JspFactory.eINSTANCE
-							.createTagLibRefType( );
-					ref.setTaglibURI( uri );
-					ref.setTaglibLocation( location );
-					jspConfig.getTagLibs( ).add( ref );
-					webapp.setJspConfig( jspConfig );
+					JSPConfig jspConfig = JspFactory.eINSTANCE.createJSPConfig();
+					TagLibRefType ref = JspFactory.eINSTANCE.createTagLibRefType();
+					ref.setTaglibURI(uri);
+					ref.setTaglibLocation(location);
+					jspConfig.getTagLibs().add(ref);
+					webapp.setJspConfig(jspConfig);
 				}
 			}
 
-			webEdit.saveIfNecessary( monitor );
+			webEdit.saveIfNecessary(monitor);
 
-		}
-		finally
-		{
-			webEdit.dispose( );
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * get servlet mapping from webapp by uri
-	 * 
+	 *
 	 * @param webapp
 	 * @param name
 	 * @return
 	 */
-	public static Object getTagLibByUri( WebApp webapp, String uri )
-	{
-		if ( webapp == null || uri == null )
+	public static Object getTagLibByUri(WebApp webapp, String uri) {
+		if (webapp == null || uri == null) {
 			return null;
+		}
 
 		List list = null;
 
-		JSPConfig config = webapp.getJspConfig( );
-		if ( config != null )
-		{
+		JSPConfig config = webapp.getJspConfig();
+		if (config != null) {
 			// for servlet 2.4
-			list = config.getTagLibs( );
-		}
-		else
-		{
-			list = webapp.getTagLibs( );
+			list = config.getTagLibs();
+		} else {
+			list = webapp.getTagLibs();
 		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
-			Object obj = it.next( );
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			Object obj = it.next();
 
 			// for servlet 2.3
-			if ( obj instanceof TagLibRef )
-			{
+			if (obj instanceof TagLibRef) {
 				TagLibRef ref = (TagLibRef) obj;
-				if ( uri.equals( ref.getTaglibURI( ) ) )
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 
 			// for servlet 2.4
-			if ( obj instanceof TagLibRefType )
-			{
+			if (obj instanceof TagLibRefType) {
 				TagLibRefType ref = (TagLibRefType) obj;
-				if ( uri.equals( ref.getTaglibURI( ) ) )
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 		}
 
@@ -735,149 +632,142 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 	/**
 	 * returns context-param value
-	 * 
+	 *
 	 * @param map
 	 * @param name
 	 * @return
 	 */
-	public static String getContextParamValue( Map map, String name )
-	{
-		if ( map == null || name == null )
+	public static String getContextParamValue(Map map, String name) {
+		if (map == null || name == null) {
 			return null;
+		}
 
-		ContextParamBean bean = (ContextParamBean) map.get( name );
-		if ( bean == null )
+		ContextParamBean bean = (ContextParamBean) map.get(name);
+		if (bean == null) {
 			return null;
+		}
 
-		return bean.getValue( );
+		return bean.getValue();
 	}
 
 	/**
 	 * set param value
-	 * 
+	 *
 	 * @param map
 	 * @param name
 	 * @param value
 	 */
-	public static void setContextParamValue( Map map, String name, String value )
-	{
-		if ( name == null )
-			return;
-
-		if ( map == null )
-			map = new HashMap( );
-
-		// get context-param bean
-		ContextParamBean bean = (ContextParamBean) map.get( name );
-		if ( bean == null )
-		{
-			bean = new ContextParamBean( name, value );
-			map.put( name, bean );
+	public static void setContextParamValue(Map map, String name, String value) {
+		if (name == null) {
 			return;
 		}
 
-		bean.setValue( value );
+		if (map == null) {
+			map = new HashMap();
+		}
+
+		// get context-param bean
+		ContextParamBean bean = (ContextParamBean) map.get(name);
+		if (bean == null) {
+			bean = new ContextParamBean(name, value);
+			map.put(name, bean);
+			return;
+		}
+
+		bean.setValue(value);
 	}
 
 	/**
 	 * Initialize web settings from existed web.xml file
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 */
-	public static void initializeWebapp( Map map, IProject project )
-	{
-		if ( project == null )
+	public static void initializeWebapp(Map map, IProject project) {
+		if (project == null) {
 			return;
+		}
 
-		if ( map == null )
-			map = new HashMap( );
+		if (map == null) {
+			map = new HashMap();
+		}
 
 		// create WebArtifact
-		WebArtifactEdit webEdit = WebArtifactEdit
-				.getWebArtifactEditForWrite( project );
-		if ( webEdit == null )
+		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
+		if (webEdit == null) {
 			return;
+		}
 
-		try
-		{
+		try {
 			// get webapp
-			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
 
 			// context-param
-			initializeContextParam( map, webapp );
-		}
-		finally
-		{
-			webEdit.dispose( );
+			initializeContextParam(map, webapp);
+		} finally {
+			webEdit.dispose();
 		}
 	}
 
 	/**
 	 * Initialize context-param
-	 * 
+	 *
 	 * @param map
 	 * @param webapp
 	 */
-	protected static void initializeContextParam( Map map, WebApp webapp )
-	{
-		if ( webapp == null )
+	protected static void initializeContextParam(Map map, WebApp webapp) {
+		if (webapp == null) {
 			return;
+		}
 
 		// get context-param map
-		Map son = (Map) map.get( EXT_CONTEXT_PARAM );
-		if ( son == null )
+		Map son = (Map) map.get(EXT_CONTEXT_PARAM);
+		if (son == null) {
 			return;
+		}
 
 		// get param list
 		List list = null;
-		if ( webapp.getVersionID( ) == 23 )
-		{
+		if (webapp.getVersionID() == 23) {
 			// for servlet 2.3
-			list = webapp.getContexts( );
-		}
-		else
-		{
+			list = webapp.getContexts();
+		} else {
 			// for servlet 2.4
-			list = webapp.getContextParams( );
+			list = webapp.getContextParams();
 		}
 
 		// initialzie context-param from web.xml
-		Iterator it = son.keySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			String name = (String) it.next( );
-			Object obj = getContextParamByName( list, name );
-			if ( obj == null )
+		Iterator it = son.keySet().iterator();
+		while (it.hasNext()) {
+			String name = (String) it.next();
+			Object obj = getContextParamByName(list, name);
+			if (obj == null) {
 				continue;
+			}
 
 			String value = null;
 			String description = null;
 
-			if ( obj instanceof ContextParam )
-			{
+			if (obj instanceof ContextParam) {
 				// for servlet 2.3
 				ContextParam param = (ContextParam) obj;
-				name = param.getParamName( );
-				value = param.getParamValue( );
-				description = param.getDescription( );
-			}
-			else if ( obj instanceof ParamValue )
-			{
+				name = param.getParamName();
+				value = param.getParamValue();
+				description = param.getDescription();
+			} else if (obj instanceof ParamValue) {
 				// for servlet 2.4
 				ParamValue param = (ParamValue) obj;
-				name = param.getName( );
-				value = param.getValue( );
-				description = param.getDescription( );
+				name = param.getName();
+				value = param.getValue();
+				description = param.getDescription();
 			}
 
 			// push into map
-			if ( value != null )
-			{
-				ContextParamBean bean = new ContextParamBean( name, value );
-				bean.setDescription( description );
+			if (value != null) {
+				ContextParamBean bean = new ContextParamBean(name, value);
+				bean.setDescription(description);
 
-				son.put( name, bean );
+				son.put(name, bean);
 			}
 		}
 	}

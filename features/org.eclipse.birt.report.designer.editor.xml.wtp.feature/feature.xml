@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.13.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
       image="eclipse_update_120.jpg">
@@ -20,8 +34,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
@@ -127,10 +141,10 @@
          unpack="false"/>
 
    <plugin
-         id="com.lowagie.text"
+         id="com.github.librepdf.openpdf"
          download-size="0"
          install-size="0"
-         version="2.1.7.qualifier"
+         version="1.3.26"
          unpack="false"/>
 
    <plugin
@@ -142,6 +156,13 @@
 
    <plugin
          id="org.apache.batik.css"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.codec"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -183,14 +204,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.util.gui"
+         id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.xml"
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"

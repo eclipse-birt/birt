@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -13,23 +16,30 @@ package org.eclipse.birt.report.engine.nLayout.area.style;
 
 import java.awt.Color;
 
-public class BoxStyle  extends AreaConstants
-{
-	
+/**
+ * Define class of box style
+ *
+ * @since 3.3
+ *
+ */
+public class BoxStyle extends AreaConstants {
+
 	/**
-	 *  represents a default box style , it is immutable.
-	 *  <pre>
-	 *  BoxStyle style=BoxStyle.DEFAULT;
-	 *  // this is wrong.
-	 *  style.setBakgroundColor(color);
-	 *  // do like this when you want to use setter().
-	 *  // create a new instance.this is OK.
-	 *  style = new BoxStyle();
-	 *  style.setBakgroundColor(color);
-	 *  </pre>
-	 *  use this code be careful !
+	 * represents a default box style , it is immutable.
+	 *
+	 * <pre>
+	 * BoxStyle style = BoxStyle.DEFAULT;
+	 * // this is wrong.
+	 * style.setBakgroundColor(color);
+	 * // do like this when you want to use setter().
+	 * // create a new instance.this is OK.
+	 * style = new BoxStyle();
+	 * style.setBakgroundColor(color);
+	 * </pre>
+	 *
+	 * use this code be careful !
 	 */
-	public final static BoxStyle DEFAULT = new ImmutableBoxStyle( );
+	public final static BoxStyle DEFAULT = new ImmutableBoxStyle();
 
 	protected Color backgroundColor = null;
 
@@ -43,252 +53,328 @@ public class BoxStyle  extends AreaConstants
 
 	protected BorderInfo bottomBorder = null;
 
-	public Color getBackgroundColor( )
-	{
+	/**
+	 * Get Background color
+	 *
+	 * @return Return the background color
+	 */
+	public Color getBackgroundColor() {
 		return backgroundColor;
 	}
-	
-	public BoxStyle()
-	{
-		
+
+	/**
+	 * Constructor
+	 */
+	public BoxStyle() {
+
 	}
 
-	private static class ImmutableBoxStyle extends BoxStyle
-	{
+	private static class ImmutableBoxStyle extends BoxStyle {
 		@Override
-		public void setBackgroundColor( Color backgroundColor )
-		{
-			throw new  UnsupportedOperationException();
+		public void setBackgroundColor(Color backgroundColor) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setBottomBorder( BorderInfo bottomBorder )
-		{
-			throw new UnsupportedOperationException( );
+		public void setBottomBorder(BorderInfo bottomBorder) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setBackgroundImage( BackgroundImageInfo backgroundImage )
-		{
-			throw new UnsupportedOperationException( );
+		public void setBackgroundImage(BackgroundImageInfo backgroundImage) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setLeftBorder( BorderInfo leftBorder )
-		{
-			throw new UnsupportedOperationException( );
+		public void setLeftBorder(BorderInfo leftBorder) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setRightBorder( BorderInfo rightBorder )
-		{
-			throw new UnsupportedOperationException( );
+		public void setRightBorder(BorderInfo rightBorder) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void setTopBorder( BorderInfo topBorder )
-		{
-			throw new UnsupportedOperationException( );
+		public void setTopBorder(BorderInfo topBorder) {
+			throw new UnsupportedOperationException();
 		}
 	}
-	
-	public BoxStyle( BoxStyle bs )
-	{
+
+	/**
+	 * Constructor with box style (border info)
+	 *
+	 * @param bs
+	 */
+	public BoxStyle(BoxStyle bs) {
 		this.backgroundColor = bs.backgroundColor;
-		if ( bs.topBorder != null )
-		{
-			this.topBorder = new BorderInfo( bs.topBorder );
+		if (bs.topBorder != null) {
+			this.topBorder = new BorderInfo(bs.topBorder);
 		}
-		if ( bs.leftBorder != null )
-		{
-			this.leftBorder = new BorderInfo( bs.leftBorder );
+		if (bs.leftBorder != null) {
+			this.leftBorder = new BorderInfo(bs.leftBorder);
 		}
-		if ( bs.rightBorder != null )
-		{
-			this.rightBorder = new BorderInfo( bs.rightBorder );
+		if (bs.rightBorder != null) {
+			this.rightBorder = new BorderInfo(bs.rightBorder);
 		}
-		if ( bs.bottomBorder != null )
-		{
-			this.bottomBorder = new BorderInfo( bs.bottomBorder );
+		if (bs.bottomBorder != null) {
+			this.bottomBorder = new BorderInfo(bs.bottomBorder);
 		}
-		if ( bs.backgroundImage != null )
-		{
-			this.backgroundImage = new BackgroundImageInfo( bs.backgroundImage );
+		if (bs.backgroundImage != null) {
+			this.backgroundImage = new BackgroundImageInfo(bs.backgroundImage);
 		}
 	}
-	
-	public void clearBorder()
-	{
+
+	/**
+	 * CLear the border
+	 */
+	public void clearBorder() {
 		topBorder = null;
 		leftBorder = null;
 		rightBorder = null;
 		bottomBorder = null;
 	}
-	
-	public BackgroundImageInfo getBackgroundImage( )
-	{
+
+	/**
+	 * Get the background image info
+	 *
+	 * @return Return the background image info
+	 */
+	public BackgroundImageInfo getBackgroundImage() {
 		return backgroundImage;
 	}
 
-	public BorderInfo getTopBorder( )
-	{
+	/**
+	 * Get the top border info
+	 *
+	 * @return Return the top border info
+	 */
+	public BorderInfo getTopBorder() {
 		return topBorder;
 	}
 
-	public BorderInfo getLeftBorder( )
-	{
+	/**
+	 * Get the left border info
+	 *
+	 * @return Return the left border info
+	 */
+	public BorderInfo getLeftBorder() {
 		return leftBorder;
 	}
 
-	public BorderInfo getRightBorder( )
-	{
+	/**
+	 * Get the right border info
+	 *
+	 * @return Return the right border info
+	 */
+	public BorderInfo getRightBorder() {
 		return rightBorder;
 	}
 
-	public BorderInfo getBottomBorder( )
-	{
+	/**
+	 * Get the bottom border info
+	 *
+	 * @return Return the bottm border info
+	 */
+	public BorderInfo getBottomBorder() {
 		return bottomBorder;
 	}
 
-	public int getLeftBorderWidth( )
-	{
-		if ( leftBorder != null )
-		{
-			return leftBorder.getWidth( );
+	/**
+	 * Get the left border width
+	 *
+	 * @return Return the left border width
+	 */
+	public int getLeftBorderWidth() {
+		if (leftBorder != null) {
+			return leftBorder.getWidth();
 		}
 		return 0;
 	}
 
-	public int getRightBorderWidth( )
-	{
-		if ( rightBorder != null )
-		{
-			return rightBorder.getWidth( );
+	/**
+	 * Get the right border width
+	 *
+	 * @return Return the right border width
+	 */
+	public int getRightBorderWidth() {
+		if (rightBorder != null) {
+			return rightBorder.getWidth();
 		}
 		return 0;
 	}
 
-	public int getTopBorderWidth( )
-	{
-		if ( topBorder != null )
-		{
-			return topBorder.getWidth( );
+	/**
+	 * Get the top border width
+	 *
+	 * @return Return the top border width
+	 */
+	public int getTopBorderWidth() {
+		if (topBorder != null) {
+			return topBorder.getWidth();
 		}
 		return 0;
 	}
 
-	public int getBottomBorderWidth( )
-	{
-		if ( bottomBorder != null )
-		{
-			return bottomBorder.getWidth( );
+	/**
+	 * Get the bottom border width
+	 *
+	 * @return Return the bottom border width
+	 */
+	public int getBottomBorderWidth() {
+		if (bottomBorder != null) {
+			return bottomBorder.getWidth();
 		}
 		return 0;
 	}
 
-	public Color getLeftBorderColor( )
-	{
-		if ( leftBorder != null )
-		{
-			return leftBorder.getColor( );
+	/**
+	 * Get the left border color
+	 *
+	 * @return Return the left border color
+	 */
+	public Color getLeftBorderColor() {
+		if (leftBorder != null) {
+			return leftBorder.getColor();
 		}
 		return null;
 	}
 
-	public Color getRightBorderColor( )
-	{
-		if ( rightBorder != null )
-		{
-			return rightBorder.getColor( );
+	/**
+	 * Get the right border color
+	 *
+	 * @return Return the right border color
+	 */
+	public Color getRightBorderColor() {
+		if (rightBorder != null) {
+			return rightBorder.getColor();
 		}
 		return null;
 	}
 
-	public Color getTopBorderColor( )
-	{
-		if ( topBorder != null )
-		{
-			return topBorder.getColor( );
+	/**
+	 * Get the top border color
+	 *
+	 * @return Return the top border color
+	 */
+	public Color getTopBorderColor() {
+		if (topBorder != null) {
+			return topBorder.getColor();
 		}
 		return null;
 	}
 
-	public Color getBottomBorderColor( )
-	{
-		if ( bottomBorder != null )
-		{
-			return bottomBorder.getColor( );
+	/**
+	 * Get the bottom border color
+	 *
+	 * @return Return the bottom border color
+	 */
+	public Color getBottomBorderColor() {
+		if (bottomBorder != null) {
+			return bottomBorder.getColor();
 		}
 		return null;
 	}
 
-	public int getLeftBorderStyle( )
-	{
-		if ( leftBorder != null )
-		{
-			return leftBorder.getStyle( );
+	/**
+	 * Get the left border style
+	 *
+	 * @return Return the left border style
+	 */
+	public int getLeftBorderStyle() {
+		if (leftBorder != null) {
+			return leftBorder.getStyle();
 		}
 		return 0;
 	}
 
-	public int getRightBorderStyle( )
-	{
-		if ( rightBorder != null )
-		{
-			return rightBorder.getStyle( );
+	/**
+	 * Get the right border style
+	 *
+	 * @return Return the right border style
+	 */
+	public int getRightBorderStyle() {
+		if (rightBorder != null) {
+			return rightBorder.getStyle();
 		}
 		return 0;
 	}
 
-	public int getTopBorderStyle( )
-	{
-		if ( topBorder != null )
-		{
-			return topBorder.getStyle( );
+	/**
+	 * Get the top border style
+	 *
+	 * @return Return the top border style
+	 */
+	public int getTopBorderStyle() {
+		if (topBorder != null) {
+			return topBorder.getStyle();
 		}
 		return 0;
 	}
 
-	public int getBottomBorderStyle( )
-	{
-		if ( bottomBorder != null )
-		{
-			return bottomBorder.getStyle( );
+	/**
+	 * Get the bottom border style
+	 *
+	 * @return Return the bottom border style
+	 */
+	public int getBottomBorderStyle() {
+		if (bottomBorder != null) {
+			return bottomBorder.getStyle();
 		}
 		return 0;
 	}
-	public void setBackgroundColor( Color backgroundColor )
-	{
+
+	/**
+	 * Set the background color
+	 *
+	 * @param backgroundColor
+	 */
+	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
-	
-	public void setBackgroundImage( BackgroundImageInfo backgroundImage )
-	{
+	/**
+	 * Set the background image
+	 *
+	 * @param backgroundImage
+	 */
+	public void setBackgroundImage(BackgroundImageInfo backgroundImage) {
 		this.backgroundImage = backgroundImage;
 	}
 
-	
-	public void setTopBorder( BorderInfo topBorder )
-	{
+	/**
+	 * Set the top border
+	 *
+	 * @param topBorder
+	 */
+	public void setTopBorder(BorderInfo topBorder) {
 		this.topBorder = topBorder;
 	}
 
-	
-	public void setLeftBorder( BorderInfo leftBorder )
-	{
+	/**
+	 * Set the left border
+	 *
+	 * @param leftBorder
+	 */
+	public void setLeftBorder(BorderInfo leftBorder) {
 		this.leftBorder = leftBorder;
 	}
 
-	
-	public void setRightBorder( BorderInfo rightBorder )
-	{
+	/**
+	 * Set the right border
+	 *
+	 * @param rightBorder
+	 */
+	public void setRightBorder(BorderInfo rightBorder) {
 		this.rightBorder = rightBorder;
 	}
 
-	
-	public void setBottomBorder( BorderInfo bottomBorder )
-	{
+	/**
+	 * Set the bottom border
+	 *
+	 * @param bottomBorder
+	 */
+	public void setBottomBorder(BorderInfo bottomBorder) {
 		this.bottomBorder = bottomBorder;
 	}
 

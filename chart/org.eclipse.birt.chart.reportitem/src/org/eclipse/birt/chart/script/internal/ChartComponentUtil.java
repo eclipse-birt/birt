@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,237 +52,184 @@ import org.eclipse.emf.common.util.EList;
  * Utility class for internal use.
  */
 
-public class ChartComponentUtil
-{
+public class ChartComponentUtil {
 
-	public static ColorDefinition createEMFColor( )
-	{
-		ColorDefinition cd = ColorDefinitionImpl.BLACK( );
+	public static ColorDefinition createEMFColor() {
+		ColorDefinition cd = ColorDefinitionImpl.BLACK();
 		return cd;
 	}
 
-	public static FontDefinition createEMFFont( )
-	{
-		FontDefinition fd = FontDefinitionImpl.createEmpty( );
+	public static FontDefinition createEMFFont() {
+		FontDefinition fd = FontDefinitionImpl.createEmpty();
 		return fd;
 	}
 
-	public static Text createEMFText( )
-	{
-		Text desc = TextImpl.create( "" ); //$NON-NLS-1$
-		desc.setColor( createEMFColor( ) );
-		desc.setFont( createEMFFont( ) );
+	public static Text createEMFText() {
+		Text desc = TextImpl.create(""); //$NON-NLS-1$
+		desc.setColor(createEMFColor());
+		desc.setFont(createEMFFont());
 		return desc;
 	}
 
-	public static Label createEMFLabel( )
-	{
-		Label label = LabelImpl.create( );
-		label.setCaption( createEMFText( ) );
-		label.setVisible( true );
+	public static Label createEMFLabel() {
+		Label label = LabelImpl.create();
+		label.setCaption(createEMFText());
+		label.setVisible(true);
 		return label;
 	}
 
 	/**
 	 * Converts DataElement from chart model to simple api
-	 * 
-	 * @param data
-	 *            DataElement in chart model
+	 *
+	 * @param data DataElement in chart model
 	 * @return DataElement in simple api
 	 */
-	public static IDataElement convertDataElement( DataElement data )
-	{
-		if ( data instanceof NumberDataElement )
-		{
-			return new NumberElementImpl( (NumberDataElement) data );
+	public static IDataElement convertDataElement(DataElement data) {
+		if (data instanceof NumberDataElement) {
+			return new NumberElementImpl((NumberDataElement) data);
 		}
-		if ( data instanceof DateTimeDataElement )
-		{
-			return new DateTimeElementImpl( (DateTimeDataElement) data );
+		if (data instanceof DateTimeDataElement) {
+			return new DateTimeElementImpl((DateTimeDataElement) data);
 		}
 		return null;
 	}
 
 	/**
 	 * Converts DataElement from simple api to chart model
-	 * 
-	 * @param data
-	 *            DataElement in simple api
+	 *
+	 * @param data DataElement in simple api
 	 * @return DataElement in chart model
 	 */
-	public static DataElement convertIDataElement( IDataElement data )
-	{
-		if ( data instanceof INumberDataElement )
-		{
-			return NumberDataElementImpl.create( ( (INumberDataElement) data ).getValue( ) );
+	public static DataElement convertIDataElement(IDataElement data) {
+		if (data instanceof INumberDataElement) {
+			return NumberDataElementImpl.create(((INumberDataElement) data).getValue());
 		}
-		if ( data instanceof IDateTimeDataElement )
-		{
-			return DateTimeDataElementImpl.create( ( (IDateTimeDataElement) data ).getValue( ) );
+		if (data instanceof IDateTimeDataElement) {
+			return DateTimeDataElementImpl.create(((IDateTimeDataElement) data).getValue());
 		}
 		return null;
 	}
 
 	/**
 	 * Converts Text from chart model to simple api
-	 * 
-	 * @param text
-	 *            Text in chart model. If it's null, create a new Text with
-	 *            blank value.
+	 *
+	 * @param text Text in chart model. If it's null, create a new Text with blank
+	 *             value.
 	 * @return Text in simple api
 	 */
-	public static IText convertText( Text text )
-	{
-		if ( text == null )
-		{
-			text = createEMFText( );
+	public static IText convertText(Text text) {
+		if (text == null) {
+			text = createEMFText();
 		}
-		return new org.eclipse.birt.chart.script.internal.attribute.TextImpl( text );
+		return new org.eclipse.birt.chart.script.internal.attribute.TextImpl(text);
 	}
 
 	/**
 	 * Converts Text from simple api to chart model
-	 * 
-	 * @param itext
-	 *            Text in simple api
+	 *
+	 * @param itext Text in simple api
 	 * @return Text in chart model
 	 */
-	public static Text convertIText( IText itext )
-	{
-		return org.eclipse.birt.chart.model.attribute.impl.TextImpl.create( itext.getValue( ) );
+	public static Text convertIText(IText itext) {
+		return org.eclipse.birt.chart.model.attribute.impl.TextImpl.create(itext.getValue());
 	}
 
 	/**
 	 * Converts Label from chart model to simple api
-	 * 
-	 * @param label
-	 *            Label in chart model. If it's null, create a blank Label.
+	 *
+	 * @param label Label in chart model. If it's null, create a blank Label.
 	 * @return Label in simple api
 	 */
-	public static ILabel convertLabel( Label label )
-	{
-		if ( label == null )
-		{
-			label = createEMFLabel( );
+	public static ILabel convertLabel(Label label) {
+		if (label == null) {
+			label = createEMFLabel();
 		}
-		return new org.eclipse.birt.chart.script.internal.attribute.LabelImpl( label );
+		return new org.eclipse.birt.chart.script.internal.attribute.LabelImpl(label);
 	}
 
 	/**
 	 * Converts Label from simple api to chart model
-	 * 
-	 * @param ilabel
-	 *            Label in simple api
+	 *
+	 * @param ilabel Label in simple api
 	 * @return Label in chart model
 	 */
-	public static Label convertILabel( ILabel ilabel )
-	{
-		Label label = org.eclipse.birt.chart.model.component.impl.LabelImpl.create( );
-		label.setVisible( ilabel.isVisible( ) );
-		label.setCaption( convertIText( ilabel.getCaption( ) ) );
+	public static Label convertILabel(ILabel ilabel) {
+		Label label = org.eclipse.birt.chart.model.component.impl.LabelImpl.create();
+		label.setVisible(ilabel.isVisible());
+		label.setCaption(convertIText(ilabel.getCaption()));
 		return label;
 	}
 
 	/**
 	 * Converts Font from chart model to simple api
-	 * 
-	 * @param fd
-	 *            Font in chart model. If it's null, create a empty font
-	 *            instance.
+	 *
+	 * @param fd Font in chart model. If it's null, create a empty font instance.
 	 * @return Font in simple api
 	 */
-	public static IFont convertFont( FontDefinition fd )
-	{
-		if ( fd == null )
-		{
-			fd = createEMFFont( );
+	public static IFont convertFont(FontDefinition fd) {
+		if (fd == null) {
+			fd = createEMFFont();
 		}
-		return new FontImpl( fd );
+		return new FontImpl(fd);
 	}
 
 	/**
 	 * Converts Font from simple api to chart model
-	 * 
-	 * @param font
-	 *            Font in simple api
+	 *
+	 * @param font Font in simple api
 	 * @return Font in chart model
 	 */
-	public static FontDefinition convertIFont( IFont font )
-	{
-		return FontDefinitionImpl.create( font.getName( ),
-				font.getSize( ),
-				font.isBold( ),
-				font.isItalic( ),
-				font.isUnderline( ),
-				font.isStrikeThrough( ),
-				false,
-				0,
-				null );
+	public static FontDefinition convertIFont(IFont font) {
+		return FontDefinitionImpl.create(font.getName(), font.getSize(), font.isBold(), font.isItalic(),
+				font.isUnderline(), font.isStrikeThrough(), false, 0, null);
 	}
 
 	/**
 	 * Converts Color from chart model to simple api
-	 * 
-	 * @param cd
-	 *            Color in chart model. If it's blank, create a black color by
-	 *            default.
+	 *
+	 * @param cd Color in chart model. If it's blank, create a black color by
+	 *           default.
 	 * @return Color in simple api
 	 */
-	public static IColor convertColor( ColorDefinition cd )
-	{
-		if ( cd == null )
-		{
-			cd = createEMFColor( );
+	public static IColor convertColor(ColorDefinition cd) {
+		if (cd == null) {
+			cd = createEMFColor();
 		}
-		return new ColorImpl( cd );
+		return new ColorImpl(cd);
 	}
 
 	/**
 	 * Converts Color from simple api to chart model
-	 * 
-	 * @param color
-	 *            Color in simple api
+	 *
+	 * @param color Color in simple api
 	 * @return Color in chart model
 	 */
-	public static ColorDefinition convertIColor( IColor color )
-	{
-		ColorDefinition cd = ColorDefinitionImpl.create( color.getRed( ),
-				color.getGreen( ),
-				color.getBlue( ) );
-		cd.setTransparency( color.getTransparency( ) );
+	public static ColorDefinition convertIColor(IColor color) {
+		ColorDefinition cd = ColorDefinitionImpl.create(color.getRed(), color.getGreen(), color.getBlue());
+		cd.setTransparency(color.getTransparency());
 		return cd;
 	}
 
 	/**
 	 * Return series definitions of specified axis index.
-	 * 
-	 * @param chart
-	 *            chart
-	 * @param axisIndex
-	 *            If chart is without axis type, it always return all orthogonal
-	 *            series definition. -1 to return all
+	 *
+	 * @param chart     chart
+	 * @param axisIndex If chart is without axis type, it always return all
+	 *                  orthogonal series definition. -1 to return all
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static List getOrthogonalSeriesDefinitions( Chart chart,
-			int axisIndex )
-	{
-		List seriesList = new ArrayList( );
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
-			for ( int i = 0; i < axisList.size( ); i++ )
-			{
-				if ( axisIndex < 0 || axisIndex == i )
-				{
-					seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+	public static List getOrthogonalSeriesDefinitions(Chart chart, int axisIndex) {
+		List seriesList = new ArrayList();
+		if (chart instanceof ChartWithAxes) {
+			EList axisList = ((Axis) ((ChartWithAxes) chart).getAxes().get(0)).getAssociatedAxes();
+			for (int i = 0; i < axisList.size(); i++) {
+				if (axisIndex < 0 || axisIndex == i) {
+					seriesList.addAll(((Axis) axisList.get(i)).getSeriesDefinitions());
 				}
 			}
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ) );
+		} else if (chart instanceof ChartWithoutAxes) {
+			seriesList.addAll(((SeriesDefinition) ((ChartWithoutAxes) chart).getSeriesDefinitions().get(0))
+					.getSeriesDefinitions());
 		}
 		return seriesList;
 	}

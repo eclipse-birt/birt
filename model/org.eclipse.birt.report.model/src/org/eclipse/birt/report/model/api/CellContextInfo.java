@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -11,8 +23,7 @@ import org.eclipse.birt.report.model.elements.Cell;
  * slot.
  */
 
-class CellContextInfo implements Cloneable
-{
+class CellContextInfo implements Cloneable {
 
 	/**
 	 * The cell instance.
@@ -64,19 +75,14 @@ class CellContextInfo implements Cloneable
 
 	/**
 	 * Constructs a <code>CellContextInfo</code>.
-	 * 
-	 * @param cell
-	 *            the cell element
-	 * @param rowSpan
-	 *            the row span of the cell
-	 * @param colSpan
-	 *            the column span of the cell
-	 * @param drop
-	 *            the drop property of the cell.
+	 *
+	 * @param cell    the cell element
+	 * @param rowSpan the row span of the cell
+	 * @param colSpan the column span of the cell
+	 * @param drop    the drop property of the cell.
 	 */
 
-	CellContextInfo( Cell cell, int rowSpan, int colSpan, String drop )
-	{
+	CellContextInfo(Cell cell, int rowSpan, int colSpan, String drop) {
 		this.cell = cell;
 		this.rowSpan = rowSpan;
 		this.colSpan = colSpan;
@@ -86,154 +92,137 @@ class CellContextInfo implements Cloneable
 	/**
 	 * Returns the definition name of the container of the row where the cell
 	 * resides.
-	 * 
+	 *
 	 * @return the definition name of the container of the row
 	 */
 
-	protected String getContainerDefnName( )
-	{
+	protected String getContainerDefnName() {
 		return containerDefnNameOfRow;
 	}
 
 	/**
 	 * Returns the index of the row where the cell resides.
-	 * 
+	 *
 	 * @return the 0-based index of the row
 	 */
 
-	protected int getRowIndex( )
-	{
+	protected int getRowIndex() {
 		return rowIndex;
 	}
 
 	/**
-	 * Sets the definition name of the container of the row where the cell
-	 * resides.
-	 * 
-	 * @param parent
-	 *            the definition name of the container of the row
+	 * Sets the definition name of the container of the row where the cell resides.
+	 *
+	 * @param parent the definition name of the container of the row
 	 */
 
-	protected void setContainerDefnName( String parent )
-	{
+	protected void setContainerDefnName(String parent) {
 		this.containerDefnNameOfRow = parent;
 	}
 
 	/**
 	 * Returns the slot id where the cell resides.
-	 * 
+	 *
 	 * @return the slot id
 	 */
 
-	protected int getSlotId( )
-	{
+	protected int getSlotId() {
 		return slotId;
 	}
 
 	/**
 	 * Sets the slot id where the cell resides.
-	 * 
-	 * @param slotId
-	 *            the slot id
+	 *
+	 * @param slotId the slot id
 	 */
 
-	protected void setSlotId( int slotId )
-	{
+	protected void setSlotId(int slotId) {
 		this.slotId = slotId;
 	}
 
 	/**
 	 * Sets the index of the row where the cell resides.
-	 * 
-	 * @param rowNumber
-	 *            the 0-based index of the row
+	 *
+	 * @param rowNumber the 0-based index of the row
 	 */
 
-	protected void setRowIndex( int rowNumber )
-	{
+	protected void setRowIndex(int rowNumber) {
 		assert rowNumber != -1;
 		this.rowIndex = rowNumber;
 	}
 
 	/**
-	 * Return the cell element that this <code>CellContextInfo</code>
-	 * corresponds to.
-	 * 
+	 * Return the cell element that this <code>CellContextInfo</code> corresponds
+	 * to.
+	 *
 	 * @return the cell element
 	 */
 
-	protected Cell getCell( )
-	{
+	protected Cell getCell() {
 		return cell;
 	}
 
 	/**
 	 * Returns the group index where the cell resides.
-	 * 
+	 *
 	 * @return the 0-based group index
 	 */
 
-	protected int getGroupId( )
-	{
+	protected int getGroupId() {
 		return groupId;
 	}
 
 	/**
 	 * Sets the group index where the cell resides.
-	 * 
-	 * @param groupId
-	 *            the 0-based group index
+	 *
+	 * @param groupId the 0-based group index
 	 */
 
-	protected void setGroupId( int groupId )
-	{
+	protected void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 
 	/**
 	 * Returns the row span of the cell.
-	 * 
+	 *
 	 * @return the row span of the cell
 	 */
 
-	protected int getRowSpan( )
-	{
+	protected int getRowSpan() {
 		return rowSpan;
 	}
 
 	/**
 	 * Returns the column span of the cell.
-	 * 
+	 *
 	 * @return the column span of the cell
 	 */
 
-	protected int getColumnSpan( )
-	{
+	protected int getColumnSpan() {
 		return colSpan;
 	}
 
 	/**
 	 * Returns the value of the drop property of the cell.
-	 * 
+	 *
 	 * @return the value of the drop property
 	 */
 
-	protected String getDrop( )
-	{
+	protected String getDrop() {
 		return drop;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		CellContextInfo clonedContext = (CellContextInfo) super.clone( );
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		CellContextInfo clonedContext = (CellContextInfo) super.clone();
 
-		Cell clonedCell = (Cell) cell.clone( );
+		Cell clonedCell = (Cell) cell.clone();
 		clonedContext.cell = clonedCell;
 
 		return clonedContext;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * Notification event to send when a property changes. The listener can find out
  * which property changed by calling {@link #getPropertyName}( ). The listener
  * can get the new property value from the focus object.
- * 
+ *
  */
 
-public class PropertyEvent extends NotificationEvent
-{
+public class PropertyEvent extends NotificationEvent {
 
 	/**
 	 * The name of the property that has changed.
@@ -32,69 +34,65 @@ public class PropertyEvent extends NotificationEvent
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param target
-	 *            the target element.
-	 * @param propName
-	 *            the name of the changed property.
+	 *
+	 * @param target   the target element.
+	 * @param propName the name of the changed property.
 	 */
 
-	public PropertyEvent( DesignElement target, String propName )
-	{
-		super( target );
+	public PropertyEvent(DesignElement target, String propName) {
+		super(target);
 		propertyName = propName;
 	}
 
 	/**
 	 * Returns the name of the property that changed. The name is the internal,
 	 * non-localized property id.
-	 * 
+	 *
 	 * @return the property name.
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
 	/**
-	 * Sets the property name. Should be called only by the command that created
-	 * the event.
-	 * 
-	 * @param propName
-	 *            the propertyName to set.
+	 * Sets the property name. Should be called only by the command that created the
+	 * event.
+	 *
+	 * @param propName the propertyName to set.
 	 */
 
-	public void setPropertyName( String propName )
-	{
+	public void setPropertyName(String propName) {
 		propertyName = propName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return PROPERTY_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 *
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	@Override
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event)) {
 			return false;
+		}
 		PropertyEvent propEvent = (PropertyEvent) event;
-		if ( propertyName != null
-				&& !propertyName.equals( propEvent.getPropertyName( ) ) )
+		if ((propertyName != null && !propertyName.equals(propEvent.getPropertyName())) || (propertyName == null && propEvent.getPropertyName() != null)) {
 			return false;
-		if ( propertyName == null && propEvent.getPropertyName( ) != null )
-			return false;
+		}
 		return true;
 	}
 

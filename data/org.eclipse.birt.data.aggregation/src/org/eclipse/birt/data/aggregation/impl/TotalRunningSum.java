@@ -1,14 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -24,106 +27,98 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  * Implements the built-in Total.movingAva aggregation
  */
-public class TotalRunningSum extends AggrFunction
-{
+public class TotalRunningSum extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	@Override
+	public int getType() {
 		return RUNNING_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	@Override
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-			new ParameterDefn( Constants.EXPRESSION_NAME,
-					Constants.EXPRESSION_DISPLAY_NAME,
-					false,
-					true,
-					SupportedDataTypes.CALCULATABLE,
-					"" ) //$NON-NLS-1$
+	@Override
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
+				false, true, SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	@Override
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
-	private static class MyAccumulator extends RunningAccumulator
-	{
+	private static class MyAccumulator extends RunningAccumulator {
 
 		private boolean isRowAvailable = false;
 
 		private Number sum = null;
 
-		MyAccumulator( ICalculator calc )
-		{
-			super( calc );
+		MyAccumulator(ICalculator calc) {
+			super(calc);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.aggregation.RunningAccumulator#start()
 		 */
-		public void start( ) throws DataException
-		{
-			super.start( );
+		@Override
+		public void start() throws DataException {
+			super.start();
 			sum = null;
 			isRowAvailable = false;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
+		 * )
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args.length > 0 );
-			if ( args[0] != null )
-			{
-				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
-				if ( !isRowAvailable )
-				{
+		@Override
+		public void onRow(Object[] args) throws DataException {
+			assert (args.length > 0);
+			if (args[0] != null) {
+				sum = calculator.add(sum, calculator.getTypedObject(args[0]));
+				if (!isRowAvailable) {
 					isRowAvailable = true;
 				}
 			}
@@ -131,33 +126,35 @@ public class TotalRunningSum extends AggrFunction
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
 		 */
-		public Object getValue( )
-		{
-			return ( isRowAvailable ? sum : null );
+		@Override
+		public Object getValue() {
+			return (isRowAvailable ? sum : null);
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalRunningSum.description" ); //$NON-NLS-1$
+	@Override
+	public String getDescription() {
+		return Messages.getString("TotalRunningSum.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalRunningSum.displayName" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("TotalRunningSum.displayName"); //$NON-NLS-1$
 	}
 }

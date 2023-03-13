@@ -1,6 +1,12 @@
 /*******************************************************************************
  * Cmpyright (c) 2013 Actuate Corporation.
- * All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
@@ -15,35 +21,34 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
- * 
+ *
  */
 
-public interface IMeasureDialogHelper
-{
+public interface IMeasureDialogHelper {
 
-    CubeMeasureExpressionProvider getExpressionProvider( MeasureHandle handle );
+	CubeMeasureExpressionProvider getExpressionProvider(MeasureHandle handle);
 
-    IAggrFunction[] getAggregationFunctions( MeasureHandle handle );
+	IAggrFunction[] getAggregationFunctions(MeasureHandle handle);
 
-    ComputedColumnHandle[] getBindings( MeasureHandle handle );
+	ComputedColumnHandle[] getBindings(MeasureHandle handle);
 
-    MeasureHandle createMeasure( String name ) throws SemanticException;
+	MeasureHandle createMeasure(String name) throws SemanticException;
 
-    boolean hasFilter( MeasureHandle handle );
+	boolean hasFilter(MeasureHandle handle);
 
-    Expression getFilter( MeasureHandle handle );
+	Expression getFilter(MeasureHandle handle);
 
-    void setFilter( MeasureHandle handle, Expression expr ) throws SemanticException;
+	void setFilter(MeasureHandle handle, Expression expr) throws SemanticException;
 
-    Map<String, Expression> getArguments( MeasureHandle handle );
+	Map<String, Expression> getArguments(MeasureHandle handle);
 
-    void setArguments( MeasureHandle measure, Map<String, Expression> arguments ) throws SemanticException;
+	void setArguments(MeasureHandle measure, Map<String, Expression> arguments) throws SemanticException;
 
-    boolean hideSecurityPart( );
+	boolean hideSecurityPart();
 
-    boolean hideHyperLinkPart( );
+	boolean hideHyperLinkPart();
 
-    boolean hideFormatPart( );
+	boolean hideFormatPart();
 
-    boolean hideAlignmentPart( );
+	boolean hideAlignmentPart();
 }

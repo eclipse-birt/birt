@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * 
  */
@@ -8,70 +20,66 @@ import org.eclipse.birt.report.designer.ui.dialogs.ProjectFileDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.FileDialog;
 
-
 /**
  * @author cthronson
  *
  */
-public class DefaultProjectFileServiceHelper implements
-		IProjectFileServiceHelper {
+public class DefaultProjectFileServiceHelper implements IProjectFileServiceHelper {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IProjectFileServiceHelper#getLocation(boolean, java.lang.String, boolean, boolean, java.lang.String[], java.lang.String, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.
+	 * IProjectFileServiceHelper#getLocation(boolean, java.lang.String, boolean,
+	 * boolean, java.lang.String[], java.lang.String, boolean)
 	 */
 	@Override
-	public String getUserSelection(final boolean isIDE, final String projectFolder,
-			final boolean needFilter, final boolean projectMode, final String[] fileExt,
-			final String selectedType, final boolean isRelativeToProjectRoot)
-	{
+	public String getUserSelection(final boolean isIDE, final String projectFolder, final boolean needFilter,
+			final boolean projectMode, final String[] fileExt, final String selectedType,
+			final boolean isRelativeToProjectRoot) {
 		String filename = null;
-		if ( !isIDE || projectFolder == null )
-		{
-			FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
-			if ( needFilter )
-			{
-				dialog.setFilterExtensions( fileExt );
+		if (!isIDE || projectFolder == null) {
+			FileDialog dialog = new FileDialog(UIUtil.getDefaultShell());
+			if (needFilter) {
+				dialog.setFilterExtensions(fileExt);
 			}
-			filename = dialog.open( );
-		}
-		else
-		{
-			
+			filename = dialog.open();
+		} else {
+
 			ProjectFileDialog dialog;
-			if ( needFilter )
-			{
-				dialog = new ProjectFileDialog( projectFolder,
-						fileExt, selectedType, isRelativeToProjectRoot );
-			}
-			else
-			{
-				dialog = new ProjectFileDialog( projectFolder, selectedType, isRelativeToProjectRoot );
+			if (needFilter) {
+				dialog = new ProjectFileDialog(projectFolder, fileExt, selectedType, isRelativeToProjectRoot);
+			} else {
+				dialog = new ProjectFileDialog(projectFolder, selectedType, isRelativeToProjectRoot);
 			}
 
-			if ( dialog.open( ) == Window.OK )
-			{
-				filename = dialog.getPath( );
+			if (dialog.open() == Window.OK) {
+				filename = dialog.getPath();
 			}
 		}
 		return filename;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IProjectFileServiceHelper#getFilePath(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.
+	 * IProjectFileServiceHelper#getFilePath(java.lang.String)
 	 */
 	@Override
-	public String getFilePath(String userSelection)
-	{
+	public String getFilePath(String userSelection) {
 		return userSelection;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IProjectFileServiceHelper#getTargetReportLocation(java.lang.String, java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.helper.
+	 * IProjectFileServiceHelper#getTargetReportLocation(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public String getTargetReportLocation(String filename, String userSelection)
-	{
+	public String getTargetReportLocation(String filename, String userSelection) {
 		return filename;
 	}
 

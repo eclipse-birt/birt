@@ -1,63 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.viewer</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<profiles>
-        <profile>
-       	    <id>mars</id>
-            <!-- Jetty server connector property 'jetty.host' and 'jetty.port' was replaced by 'jetty.http.host' and 'jetty.http.port' in Jetty 9.3+ -->
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-resources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <replace token="jetty.http.host" value="jetty.host" file="jettyhome/etc/jetty-selector.xml"/>
-                                        <replace token="jetty.http.port" value="jetty.port" file="jettyhome/etc/jetty-selector.xml"/>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-	</profiles>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-jspc-maven-plugin</artifactId>
-				<version>9.0.2.v20130417</version>
+				<version>${jetty.version}</version>
 				<executions>
 					<execution>
 						<id>pre-compile-jsp</id>
-						<phase>process-resources</phase>
+						<phase>process-classes</phase>
 						<goals>
 							<goal>jspc</goal>
 						</goals>
 						<configuration>
+							<sourceVersion>11</sourceVersion>
+							<targetVersion>11</targetVersion>
+							<classesDirectory>${project.build.directory}/birt/WEB-INF/lib/viewservlets.jar-classes</classesDirectory>
 							<webAppSourceDirectory>${project.basedir}/birt/</webAppSourceDirectory>
 							<webXml>${project.basedir}/birt/WEB-INF/web-viewer.xml</webXml>
 							<generatedClasses>${project.build.directory}/jsp/classes</generatedClasses>
 							<useProvidedScope>true</useProvidedScope>
 							<keepSources>true</keepSources>
-							<!--	
-							<ignoreJspFragmentErrors>true</ignoreJspFragmentErrors>
-							-->
+							<!-- <ignoreJspFragmentErrors>true</ignoreJspFragmentErrors> -->
 						</configuration>
 					</execution>
 				</executions>
@@ -65,16 +53,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<version>${antrun.version}</version>
 				<executions>
 					<execution>
 						<id>jar-pre-compile-jsp</id>
-						<phase>process-resources</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<target>
-								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar"
-								     basedir="${project.build.directory}/jsp/classes" />
-								<copy file="${project.build.directory}/web.xml" todir="${project.basedir}/birt/WEB-INF"/>
+								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar" basedir="${project.build.directory}/jsp/classes" />
+								<copy file="${project.build.directory}/web.xml" todir="${project.basedir}/birt/WEB-INF" />
 							</target>
 						</configuration>
 						<goals>

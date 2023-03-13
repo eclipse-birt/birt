@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,13 +37,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class SimpleCubeBuilder extends TitleAreaDialog
-{
+public class SimpleCubeBuilder extends TitleAreaDialog {
 
-	public SimpleCubeBuilder( Shell parentShell )
-	{
-		super( parentShell );
-		setHelpAvailable( false );
+	public SimpleCubeBuilder(Shell parentShell) {
+		super(parentShell);
+		setHelpAvailable(false);
 	}
 
 	private TabularCubeHandle cube;
@@ -48,137 +49,121 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 	private Text nameText;
 	private CubeGroupContent group;
 
-	public void setInput( TabularCubeHandle cube, DataSetHandle dataset )
-	{
+	public void setInput(TabularCubeHandle cube, DataSetHandle dataset) {
 		this.cube = cube;
 		this.dataset = dataset;
-		try
-		{
-			cube.setDataSet( dataset );
+		try {
+			cube.setDataSet(dataset);
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-	};
+	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite area = (Composite) super.createDialogArea( parent );
-		Composite container = new Composite( area, SWT.NONE );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		container.setLayout( new GridLayout( ) );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite area = (Composite) super.createDialogArea(parent);
+		Composite container = new Composite(area, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+		container.setLayout(new GridLayout());
 
-		this.setTitle( Messages.getString( "SimpleCubeBuilder.Title.Title" ) ); //$NON-NLS-1$
-		this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) ); //$NON-NLS-1$
+		this.setTitle(Messages.getString("SimpleCubeBuilder.Title.Title")); //$NON-NLS-1$
+		this.setMessage(Messages.getString("SimpleCubeBuilder.Title.Message")); //$NON-NLS-1$
 
-		createNameArea( container );
-		group = getCubeGroupContent( container );
-		group.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		createNameArea(container);
+		group = getCubeGroupContent(container);
+		group.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		initDialog( );
+		initDialog();
 
-		UIUtil.bindHelp( parent, IHelpContextIds.SIMPLE_CUBE_BUILDER_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.SIMPLE_CUBE_BUILDER_ID);
 		return area;
 	}
 
-	protected CubeGroupContent getCubeGroupContent( Composite parent )
-	{
-		Object[] contentProviders = ElementAdapterManager.getAdapters( cube,
-				ICubeGroupContentProvider.class );
-		if ( contentProviders != null )
-		{
-			for ( int i = 0; i < contentProviders.length; i++ )
-			{
+	protected CubeGroupContent getCubeGroupContent(Composite parent) {
+		Object[] contentProviders = ElementAdapterManager.getAdapters(cube, ICubeGroupContentProvider.class);
+		if (contentProviders != null) {
+			for (int i = 0; i < contentProviders.length; i++) {
 				ICubeGroupContentProvider contentProvider = (ICubeGroupContentProvider) contentProviders[i];
-				if ( contentProvider != null )
-				{
-					return contentProvider.createGroupContent( parent, SWT.NONE );
+				if (contentProvider != null) {
+					return contentProvider.createGroupContent(parent, SWT.NONE);
 				}
 			}
 		}
-		return new CubeGroupContent( parent, SWT.NONE );
+		return new CubeGroupContent(parent, SWT.NONE);
 	}
 
-	private void initDialog( )
-	{
-		if ( cube != null )
-		{
-			nameText.setText( cube.getName( ) == null ? "" : cube.getName( ) ); //$NON-NLS-1$
-			group.setInput( cube, dataset );
-			group.load( );
+	private void initDialog() {
+		if (cube != null) {
+			nameText.setText(cube.getName() == null ? "" : cube.getName()); //$NON-NLS-1$
+			group.setInput(cube, dataset);
+			group.load();
 		}
 
 	}
 
-	protected void createNameArea( Composite parent )
-	{
+	protected void createNameArea(Composite parent) {
 
-		Composite nameArea = new Composite( parent, SWT.NONE );
-		nameArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Composite nameArea = new Composite(parent, SWT.NONE);
+		nameArea.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		GridLayout layout = new GridLayout( 3, false );
+		GridLayout layout = new GridLayout(3, false);
 		layout.marginWidth = 10;
-		nameArea.setLayout( layout );
+		nameArea.setLayout(layout);
 
-		Label nameLabel = new Label( nameArea, SWT.NONE );
-		nameLabel.setText( Messages.getString( "SimpleCubeBuilder.Label.Name" ) ); //$NON-NLS-1$
+		Label nameLabel = new Label(nameArea, SWT.NONE);
+		nameLabel.setText(Messages.getString("SimpleCubeBuilder.Label.Name")); //$NON-NLS-1$
 
-		nameText = new Text( nameArea, SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		nameText = new Text(nameArea, SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.grabExcessHorizontalSpace = true;
-		nameText.setLayoutData( gd );
-		nameText.addModifyListener( new ModifyListener( ) {
+		nameText.setLayoutData(gd);
+		nameText.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				Button finishButton = getButton( IDialogConstants.OK_ID );
-				if ( !nameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+			@Override
+			public void modifyText(ModifyEvent e) {
+				Button finishButton = getButton(IDialogConstants.OK_ID);
+				if (!nameText.getText().trim().equals("")) //$NON-NLS-1$
 				{
-					String name = nameText.getText( ).trim( );
-					try
-					{
-						cube.setName( name );
-						if ( finishButton != null )
-							finishButton.setEnabled( true );
-						SimpleCubeBuilder.this.setErrorMessage( null );
-						SimpleCubeBuilder.this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) ); //$NON-NLS-1$
+					String name = nameText.getText().trim();
+					try {
+						cube.setName(name);
+						if (finishButton != null) {
+							finishButton.setEnabled(true);
+						}
+						SimpleCubeBuilder.this.setErrorMessage(null);
+						SimpleCubeBuilder.this.setMessage(Messages.getString("SimpleCubeBuilder.Title.Message")); //$NON-NLS-1$
+					} catch (NameException e1) {
+						SimpleCubeBuilder.this.setErrorMessage(e1.getMessage());
+						if (finishButton != null) {
+							finishButton.setEnabled(false);
+						}
 					}
-					catch ( NameException e1 )
-					{
-						SimpleCubeBuilder.this.setErrorMessage( e1.getMessage( ) );
-						if ( finishButton != null )
-							finishButton.setEnabled( false );
-					}
-					group.refresh( );
+					group.refresh();
 
-				}
-				else
-				{
-					if ( finishButton != null )
-						finishButton.setEnabled( false );
+				} else if (finishButton != null) {
+					finishButton.setEnabled(false);
 				}
 			}
 
-		} );
+		});
 
-		Label space = new Label( nameArea, SWT.NONE );
-		gd = new GridData( );
+		Label space = new Label(nameArea, SWT.NONE);
+		gd = new GridData();
 		gd.widthHint = 70;
-		space.setLayoutData( gd );
+		space.setLayoutData(gd);
 
 	}
 
-	protected void createButtonsForButtonBar( Composite parent )
-	{
-		super.createButtonsForButtonBar( parent );
-		getButton( IDialogConstants.OK_ID ).setText( IDialogConstants.FINISH_LABEL );
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		getButton(IDialogConstants.OK_ID).setText(IDialogConstants.FINISH_LABEL);
 	}
 
-	protected void configureShell( Shell shell )
-	{
-		super.configureShell( shell );
-		shell.setText( Messages.getString( "SimpleCubeBuilder.Title" ) ); //$NON-NLS-1$
+	@Override
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		shell.setText(Messages.getString("SimpleCubeBuilder.Title")); //$NON-NLS-1$
 	}
 
 }

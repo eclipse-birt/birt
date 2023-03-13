@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,89 +25,80 @@ import org.eclipse.jface.action.IMenuManager;
 /**
  * Represents the script method node of a report element
  */
-public class ScriptObjectNode implements IScriptTreeNode, IMenuListener
-{
+public class ScriptObjectNode implements IScriptTreeNode, IMenuListener {
 	private static final String ACTION_TEXT = Messages.getString("ScriptObjectNode_0"); //$NON-NLS-1$
 	private PropertyHandle parent;
 
-	public ScriptObjectNode( PropertyHandle parent )
-	{
+	public ScriptObjectNode(PropertyHandle parent) {
 		this.parent = parent;
 	}
 
-	public Object[] getChildren( )
-	{
+	@Override
+	public Object[] getChildren() {
 		// TODO Auto-generated method stub
 		return new Object[0];
 	}
 
-	public Object getParent( )
-	{
+	@Override
+	public Object getParent() {
 		return this.parent;
 	}
 
-	public String getText( )
-	{
-		return parent.getPropertyDefn( ).getName( );
+	public String getText() {
+		return parent.getPropertyDefn().getName();
 	}
 
-	public void menuAboutToShow( IMenuManager manager )
-	{
-		manager.add( new ResetScriptAction(  ) );
+	@Override
+	public void menuAboutToShow(IMenuManager manager) {
+		manager.add(new ResetScriptAction());
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object arg0 )
-	{
-		if ( arg0 == this )
-		{
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 == this) {
 			return true;
 		}
-		if ( arg0 instanceof ScriptObjectNode )
-		{
-			return parent == null ? ( ( (ScriptObjectNode) arg0 ).parent == null )
-					: parent.equals( ( (ScriptObjectNode) arg0 ).parent );
+		if (arg0 instanceof ScriptObjectNode) {
+			return parent == null ? (((ScriptObjectNode) arg0).parent == null)
+					: parent.equals(((ScriptObjectNode) arg0).parent);
 		}
 		return false;
 	}
 
-	public int hashCode( )
-	{
+	@Override
+	public int hashCode() {
 		int hashCode = 13;
-		if ( parent != null )
-			hashCode += parent.hashCode( ) * 7;
+		if (parent != null) {
+			hashCode += parent.hashCode() * 7;
+		}
 		return hashCode;
 	}
-	
-	class ResetScriptAction extends Action
-	{	
-		ResetScriptAction()
-		{
+
+	class ResetScriptAction extends Action {
+		ResetScriptAction() {
 			super(ACTION_TEXT);
 		}
-		
-		public void run( )
-		{
-			CommandStack commandStack = parent.getElementHandle( ).getModuleHandle( ).getCommandStack( );
-			commandStack.startPersistentTrans( ACTION_TEXT );
-			try
-			{
+
+		@Override
+		public void run() {
+			CommandStack commandStack = parent.getElementHandle().getModuleHandle().getCommandStack();
+			commandStack.startPersistentTrans(ACTION_TEXT);
+			try {
 				reset();
-			}
-			catch ( SemanticException e )
-			{
-				commandStack.rollbackAll( );
+			} catch (SemanticException e) {
+				commandStack.rollbackAll();
 				return;
 			}
-			commandStack.commit( );
+			commandStack.commit();
 		}
 	}
-	
-	public void reset()throws SemanticException
-	{
-		parent.setValue( null );
+
+	public void reset() throws SemanticException {
+		parent.setValue(null);
 	}
 }

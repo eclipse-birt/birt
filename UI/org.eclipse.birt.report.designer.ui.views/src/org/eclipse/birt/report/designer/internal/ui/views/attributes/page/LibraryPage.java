@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,30 +25,25 @@ import org.eclipse.swt.widgets.Composite;
  * The general attribute page of Library element.
  */
 
-public class LibraryPage extends ModulePage
-{
+public class LibraryPage extends ModulePage {
 
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		
-		SeperatorSection seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.LIBRARY_SEPERATOR, seperatorSection );
-		
-		LibraryNameSpaceDescriptorProvider libraryProvider = new LibraryNameSpaceDescriptorProvider(  );
-		TextSection librarySection = new TextSection( libraryProvider.getDisplayName( ),
-				container,
-				true );
-		librarySection.setProvider( libraryProvider );
-		librarySection.setWidth( 500 );
-		librarySection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.LIBRARY_LIBRARY, librarySection );
-		
-		createSections( );
-		layoutSections( );
-		
+		SeperatorSection seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.LIBRARY_SEPERATOR, seperatorSection);
+
+		LibraryNameSpaceDescriptorProvider libraryProvider = new LibraryNameSpaceDescriptorProvider();
+		TextSection librarySection = new TextSection(libraryProvider.getDisplayName(), container, true);
+		librarySection.setProvider(libraryProvider);
+		librarySection.setWidth(500);
+		librarySection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.LIBRARY_LIBRARY, librarySection);
+
+		createSections();
+		layoutSections();
+
 //		labels = new Label[3];
 //		labels[0]=WidgetUtil.createHorizontalLine( this, 5 );
 //
@@ -60,8 +58,8 @@ public class LibraryPage extends ModulePage
 //		labels[2]=WidgetUtil.createGridPlaceholder( this, 1, true );
 	}
 
-	public String getElementType( )
-	{
+	@Override
+	public String getElementType() {
 		return ReportDesignConstants.LIBRARY_ELEMENT;
 	}
 

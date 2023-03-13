@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,19 +19,18 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * 
+ *
  * the structure of the node is:
- * 
+ *
  * <pre>
  * NEXT_BLOCK_ID	INT		next block id
  * NODE_TYPE		INT		the node type, can be one of the LEAF/INDEX/VALUE/EXTRA
  * </pre>
- * 
+ *
  * @param <K>
  * @param <V>
  */
-abstract public class BTreeNode<K, V> implements BTreeConstants
-{
+abstract public class BTreeNode<K, V> implements BTreeConstants {
 
 	protected BTree<K, V> btree;
 
@@ -39,8 +41,7 @@ abstract public class BTreeNode<K, V> implements BTreeConstants
 	protected int lockCount;
 	protected boolean dirty;
 
-	BTreeNode( BTree<K, V> tree, int type, int id )
-	{
+	BTreeNode(BTree<K, V> tree, int type, int id) {
 		this.btree = tree;
 
 		this.nodeType = type;
@@ -48,60 +49,51 @@ abstract public class BTreeNode<K, V> implements BTreeConstants
 
 		this.dirty = true;
 		this.lockCount = 0;
-		this.usedBlocks = new int[]{id};
+		this.usedBlocks = new int[] { id };
 	}
 
-	public int getNodeId( )
-	{
+	public int getNodeId() {
 		return nodeId;
 	}
 
-	public int getNodeType( )
-	{
+	public int getNodeType() {
 		return nodeType;
 	}
 
-	public boolean isDirty( )
-	{
+	public boolean isDirty() {
 		return dirty;
 	}
 
-	public void setDirty( boolean dirty )
-	{
+	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
 
-	abstract void read( DataInput in ) throws IOException;
+	abstract void read(DataInput in) throws IOException;
 
-	abstract void write( DataOutput out ) throws IOException;
+	abstract void write(DataOutput out) throws IOException;
 
-	public void lock( )
-	{
+	public void lock() {
 		lockCount++;
 	}
 
-	public void unlock( )
-	{
+	public void unlock() {
 		lockCount--;
 	}
 
-	public boolean isLocked( )
-	{
+	public boolean isLocked() {
 		return lockCount != 0;
 	}
 
-	public void setUsedBlocks( int[] usedBlocks )
-	{
+	public void setUsedBlocks(int[] usedBlocks) {
 		this.usedBlocks = usedBlocks;
 	}
 
-	public int[] getUsedBlocks( )
-	{
+	public int[] getUsedBlocks() {
 		return this.usedBlocks;
 	}
 
-	abstract void dumpAll( ) throws IOException;
+	abstract void dumpAll() throws IOException;
 
-	abstract void dumpNode( ) throws IOException;
+	abstract void dumpNode() throws IOException;
 
 }

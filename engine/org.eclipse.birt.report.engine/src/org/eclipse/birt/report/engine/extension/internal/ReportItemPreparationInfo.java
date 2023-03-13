@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,27 +18,24 @@ import org.eclipse.birt.report.engine.extension.IPreparationContext;
 import org.eclipse.birt.report.engine.extension.IReportItemPreparationInfo;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public class ReportItemPreparationInfo implements IReportItemPreparationInfo
-{
+public class ReportItemPreparationInfo implements IReportItemPreparationInfo {
 
 	DesignElementHandle handle;
 
 	IPreparationContext context;
 
-	public ReportItemPreparationInfo( DesignElementHandle handle,
-			IPreparationContext context )
-	{
+	public ReportItemPreparationInfo(DesignElementHandle handle, IPreparationContext context) {
 		this.handle = handle;
 		this.context = context;
 	}
 
-	public DesignElementHandle getModelObject( )
-	{
+	@Override
+	public DesignElementHandle getModelObject() {
 		return handle;
 	}
 
-	public IPreparationContext getPreparationContext( )
-	{
+	@Override
+	public IPreparationContext getPreparationContext() {
 		return context;
 	}
 }

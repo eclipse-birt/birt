@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,10 +57,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class DatasetSelectionPage extends AbstractCubePropertyPage
-{
+public class DatasetSelectionPage extends AbstractCubePropertyPage {
 
-	private static final String NEW_DATA_SET = Messages.getString( "DatasetSelectionPage.Combo.NewDataSet0" ); //$NON-NLS-1$
+	private static final String NEW_DATA_SET = Messages.getString("DatasetSelectionPage.Combo.NewDataSet0"); //$NON-NLS-1$
 	private CubeHandle input;
 	private Combo dataSetCombo;
 	private Text nameText;
@@ -66,291 +68,255 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 	private Button primaryKeyButton;
 	private Label primaryKeyLabel, primaryKeyHint;
 
-	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
-	{
+	public DatasetSelectionPage(CubeBuilder builder, CubeHandle model) {
 		input = model;
 		this.builder = builder;
 	}
 
-	public Control createContents( Composite parent )
-	{
-		Composite container = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	@Override
+	public Control createContents(Composite parent) {
+		Composite container = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		layout.marginRight = 20;
-		container.setLayout( layout );
+		container.setLayout(layout);
 
-		Label nameLabel = new Label( container, SWT.NONE );
-		nameLabel.setText( Messages.getString( "DatasetPage.Label.Name" ) ); //$NON-NLS-1$
-		nameText = new Text( container, SWT.BORDER );
-		nameText.addModifyListener( new ModifyListener( ) {
+		Label nameLabel = new Label(container, SWT.NONE);
+		nameLabel.setText(Messages.getString("DatasetPage.Label.Name")); //$NON-NLS-1$
+		nameText = new Text(container, SWT.BORDER);
+		nameText.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				try
-				{
-					input.setName( nameText.getText( ) );
-					builder.setErrorMessage( null );
-					builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) ); //$NON-NLS-1$
-				}
-				catch ( NameException e1 )
-				{
-					if ( nameText.getText( ).trim( ).length( ) == 0 )
-						builder.setErrorMessage( Messages.getString( "DatasePage.EmptyName.ErrorMessage" ) ); //$NON-NLS-1$
-					else
-						builder.setErrorMessage( e1.getLocalizedMessage( ) );
+			@Override
+			public void modifyText(ModifyEvent e) {
+				try {
+					input.setName(nameText.getText());
+					builder.setErrorMessage(null);
+					builder.setTitleMessage(Messages.getString("DatasetPage.Title.Message")); //$NON-NLS-1$
+				} catch (NameException e1) {
+					if (nameText.getText().trim().length() == 0) {
+						builder.setErrorMessage(Messages.getString("DatasePage.EmptyName.ErrorMessage")); //$NON-NLS-1$
+					} else {
+						builder.setErrorMessage(e1.getLocalizedMessage());
+					}
 				}
 			}
 
-		} );
+		});
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
-		nameText.setLayoutData( data );
+		nameText.setLayoutData(data);
 
-		Label dateSetLabel = new Label( container, SWT.NONE );
-		dateSetLabel.setText( Messages.getString( "DatasetPage.Label.PrimaryDataset" ) ); //$NON-NLS-1$
-		dataSetCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		Label dateSetLabel = new Label(container, SWT.NONE);
+		dateSetLabel.setText(Messages.getString("DatasetPage.Label.PrimaryDataset")); //$NON-NLS-1$
+		dataSetCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
-		dataSetCombo.setLayoutData( data );
-		dataSetCombo.setVisibleItemCount( 30 );
-		dataSetCombo.addSelectionListener( new SelectionAdapter( ) {
+		dataSetCombo.setLayoutData(data);
+		dataSetCombo.setVisibleItemCount(30);
+		dataSetCombo.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleDatasetComboSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleDatasetComboSelectedEvent();
 			}
 
-		} );
+		});
 
-		filterButton = new Button( container, SWT.PUSH );
-		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) ); //$NON-NLS-1$
-		data = new GridData( );
-		data.widthHint = Math.max( 60,
-				filterButton.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x );
-		filterButton.setLayoutData( data );
-		filterButton.addSelectionListener( new SelectionAdapter( ) {
+		filterButton = new Button(container, SWT.PUSH);
+		filterButton.setText(Messages.getString("DatasetPage.Button.Filter")); //$NON-NLS-1$
+		data = new GridData();
+		data.widthHint = Math.max(60, filterButton.computeSize(SWT.DEFAULT, SWT.DEFAULT).x);
+		filterButton.setLayoutData(data);
+		filterButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				CommandStack stack = SessionHandleAdapter.getInstance( )
-						.getCommandStack( );
-				stack.startTrans( "" ); //$NON-NLS-1$
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+				stack.startTrans(""); //$NON-NLS-1$
 
-				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter( builder,
-						FilterHandleProvider.class );
-				if ( provider == null )
-					provider = new FilterHandleProvider( );
-
-				FilterListDialog dialog = new FilterListDialog( provider );
-				dialog.setInput( input );
-				if ( dialog.open( ) == Window.OK )
-				{
-					stack.commit( );
+				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter(builder,
+						FilterHandleProvider.class);
+				if (provider == null) {
+					provider = new FilterHandleProvider();
 				}
-				else
-					stack.rollback( );
-			}
 
-		} );
-
-		filterButton.setEnabled( false );
-
-		new Label( container, SWT.NONE );
-
-		primaryKeyButton = new Button( container, SWT.CHECK );
-		primaryKeyButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				try
-				{
-					( (TabularCubeHandle) input ).setAutoPrimaryKey( primaryKeyButton.getSelection( ) );
-				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
+				FilterListDialog dialog = new FilterListDialog(provider);
+				dialog.setInput(input);
+				if (dialog.open() == Window.OK) {
+					stack.commit();
+				} else {
+					stack.rollback();
 				}
 			}
 
-		} );
+		});
 
-		primaryKeyLabel = new Label( container, SWT.WRAP );
-		data = new GridData( SWT.FILL, SWT.NONE, false, false );
+		filterButton.setEnabled(false);
+
+		new Label(container, SWT.NONE);
+
+		primaryKeyButton = new Button(container, SWT.CHECK);
+		primaryKeyButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					((TabularCubeHandle) input).setAutoPrimaryKey(primaryKeyButton.getSelection());
+				} catch (SemanticException e1) {
+					ExceptionHandler.handle(e1);
+				}
+			}
+
+		});
+
+		primaryKeyLabel = new Label(container, SWT.WRAP);
+		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 2;
 		data.widthHint = 400;
-		primaryKeyLabel.setLayoutData( data );
-		primaryKeyLabel.setText( Messages.getString( "DatasetSelectionPage.Label.Auto.Primary.Key" ) ); //$NON-NLS-1$
+		primaryKeyLabel.setLayoutData(data);
+		primaryKeyLabel.setText(Messages.getString("DatasetSelectionPage.Label.Auto.Primary.Key")); //$NON-NLS-1$
 
-		primaryKeyLabel.addTraverseListener( new TraverseListener( ) {
+		primaryKeyLabel.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
-				{
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
-					primaryKeyButton.setSelection( !primaryKeyButton.getSelection( ) );
+					primaryKeyButton.setSelection(!primaryKeyButton.getSelection());
 				}
 			}
-		} );
+		});
 
-		new Label( container, SWT.NONE );
+		new Label(container, SWT.NONE);
 
-		primaryKeyHint = new Label( container, SWT.WRAP );
-		data = new GridData( SWT.FILL, SWT.NONE, false, false );
+		primaryKeyHint = new Label(container, SWT.WRAP);
+		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 3;
 		data.widthHint = 400;
-		primaryKeyHint.setLayoutData( data );
-		primaryKeyHint.setText( Messages.getString( "DatasetSelectionPage.Text.Auto.Primary.Key" ) ); //$NON-NLS-1$
-		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );
+		primaryKeyHint.setLayoutData(data);
+		primaryKeyHint.setText(Messages.getString("DatasetSelectionPage.Text.Auto.Primary.Key")); //$NON-NLS-1$
+		primaryKeyHint.setForeground(ColorManager.getColor(128, 128, 128));
 
-		FontData fontData = primaryKeyHint.getFont( ).getFontData( )[0];
-		Font font = new Font( parent.getDisplay( ),
-				new FontData( fontData.getName( ),
-						fontData.getHeight( ),
-						SWT.ITALIC ) );
-		primaryKeyHint.setFont( font );
+		FontData fontData = primaryKeyHint.getFont().getFontData()[0];
+		Font font = new Font(parent.getDisplay(), new FontData(fontData.getName(), fontData.getHeight(), SWT.ITALIC));
+		primaryKeyHint.setFont(font);
 
 		return container;
 	}
 
-	public void pageActivated( )
-	{
-		UIUtil.bindHelp( builder.getShell( ),
-				IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE );
-		getContainer( ).setMessage( Messages.getString( "DatasetPage.Container.Title.Message" ),//$NON-NLS-1$
-				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) ); //$NON-NLS-1$
-		builder.setErrorMessage( null );
-		builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) ); //$NON-NLS-1$
-		load( );
+	@Override
+	public void pageActivated() {
+		UIUtil.bindHelp(builder.getShell(), IHelpContextIds.CUBE_BUILDER_DATASET_SELECTION_PAGE);
+		getContainer().setMessage(Messages.getString("DatasetPage.Container.Title.Message"), //$NON-NLS-1$
+				IMessageProvider.NONE);
+		builder.setTitleTitle(Messages.getString("DatasetPage.Title.Title")); //$NON-NLS-1$
+		builder.setErrorMessage(null);
+		builder.setTitleMessage(Messages.getString("DatasetPage.Title.Message")); //$NON-NLS-1$
+		load();
 	}
 
-	private void refresh( )
-	{
+	private void refresh() {
 		// dataSetCombo.setItems( input.getAvailableDatasetsName( ) );
 		// dataSetCombo.select( input.getIndexOfPrimaryDataset( ) );
-		if ( dataSetCombo != null && !dataSetCombo.isDisposed( ) )
-		{
-			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
-			dataSetCombo.add( NEW_DATA_SET );
-			if ( ( (TabularCubeHandle) input ).getDataSet( ) != null )
-			{
-				String datasetName = ( (TabularCubeHandle) input ).getDataSet( )
-						.getQualifiedName( );
-				if ( dataSetCombo.indexOf( datasetName ) == -1 )
-				{
-					dataSetCombo.add( datasetName, 0 );
+		if (dataSetCombo != null && !dataSetCombo.isDisposed()) {
+			dataSetCombo.setItems(OlapUtil.getAvailableDatasetNames());
+			dataSetCombo.add(NEW_DATA_SET);
+			if (((TabularCubeHandle) input).getDataSet() != null) {
+				String datasetName = ((TabularCubeHandle) input).getDataSet().getQualifiedName();
+				if (dataSetCombo.indexOf(datasetName) == -1) {
+					dataSetCombo.add(datasetName, 0);
 				}
-				dataSetCombo.setText( datasetName );
+				dataSetCombo.setText(datasetName);
 			}
-			if ( dataSetCombo.getSelectionIndex( ) == -1 )
-			{
-				if ( dataSetCombo.getItemCount( ) == 2 )
-				{
-					dataSetCombo.select( 0 );
-					if ( ( (TabularCubeHandle) input ).getDataSet( ) == null )
-					{
-						handleDatasetComboSelectedEvent( );
+			if (dataSetCombo.getSelectionIndex() == -1) {
+				if (dataSetCombo.getItemCount() == 2) {
+					dataSetCombo.select(0);
+					if (((TabularCubeHandle) input).getDataSet() == null) {
+						handleDatasetComboSelectedEvent();
 					}
 				}
 			}
-			if ( dataSetCombo.getSelectionIndex( ) == -1 )
-			{
-				builder.setOKEnable( false );
-				filterButton.setEnabled( false );
-			}
-			else
-			{
-				builder.setOKEnable( true );
-				filterButton.setEnabled( true );
+			if (dataSetCombo.getSelectionIndex() == -1) {
+				builder.setOKEnable(false);
+				filterButton.setEnabled(false);
+			} else {
+				builder.setOKEnable(true);
+				filterButton.setEnabled(true);
 			}
 		}
-		primaryKeyButton.setSelection( ( (TabularCubeHandle) input ).autoPrimaryKey( ) );
+		primaryKeyButton.setSelection(((TabularCubeHandle) input).autoPrimaryKey());
 	}
 
-	private void load( )
-	{
-		if ( input != null )
-		{
-			if ( input.getName( ) != null )
-				nameText.setText( input.getName( ) );
-			refresh( );
+	private void load() {
+		if (input != null) {
+			if (input.getName() != null) {
+				nameText.setText(input.getName());
+			}
+			refresh();
 		}
 	}
 
-	private void setDataset( String datasetName )
-	{
-		if ( dataSetCombo.getSelectionIndex( ) == -1 )
-		{
-			builder.setOKEnable( false );
-			filterButton.setEnabled( false );
-		}
-		else
-		{
-			try
-			{
-				( (TabularCubeHandle) input ).setDataSet( OlapUtil.getDataset( datasetName ) );
+	private void setDataset(String datasetName) {
+		if (dataSetCombo.getSelectionIndex() == -1) {
+			builder.setOKEnable(false);
+			filterButton.setEnabled(false);
+		} else {
+			try {
+				((TabularCubeHandle) input).setDataSet(OlapUtil.getDataset(datasetName));
+			} catch (SemanticException e1) {
+				ExceptionUtil.handle(e1);
 			}
-			catch ( SemanticException e1 )
-			{
-				ExceptionUtil.handle( e1 );
-			}
-			builder.setOKEnable( true );
-			filterButton.setEnabled( true );
+			builder.setOKEnable(true);
+			filterButton.setEnabled(true);
 		}
 	}
 
-	private void handleRequest( ReportRequest request )
-	{
-		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
-		{
-			Object obj = DEUtil.getInputFirstElement( request.getSelectionObject( ) );
-			if ( obj instanceof DataSetHandle )
-			{
-				dataSetCombo.removeAll( );
-				refresh( );
-				dataSetCombo.setText( ( (DataSetHandle) obj ).getQualifiedName( ) );
-				setDataset( dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ) );
+	private void handleRequest(ReportRequest request) {
+		if (ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+			Object obj = DEUtil.getInputFirstElement(request.getSelectionObject());
+			if (obj instanceof DataSetHandle) {
+				dataSetCombo.removeAll();
+				refresh();
+				dataSetCombo.setText(((DataSetHandle) obj).getQualifiedName());
+				setDataset(dataSetCombo.getItem(dataSetCombo.getSelectionIndex()));
 			}
 		}
 	}
 
-	private void handleDatasetComboSelectedEvent( )
-	{
-		if ( dataSetCombo.getItemCount( ) == 0 )
+	private void handleDatasetComboSelectedEvent() {
+		if (dataSetCombo.getItemCount() == 0) {
 			return;
-		String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
-		if ( NEW_DATA_SET.equals( datasetName ) )
-		{
+		}
+		String datasetName = dataSetCombo.getItem(dataSetCombo.getSelectionIndex());
+		if (NEW_DATA_SET.equals(datasetName)) {
 
-			IMediatorColleague colleague = new IMediatorColleague( ) {
+			IMediatorColleague colleague = new IMediatorColleague() {
 
-				public boolean isInterested( IMediatorRequest request )
-				{
+				@Override
+				public boolean isInterested(IMediatorRequest request) {
 					return request instanceof ReportRequest;
 				}
 
-				public void performRequest( IMediatorRequest request )
-				{
-					handleRequest( (ReportRequest) request );
+				@Override
+				public void performRequest(IMediatorRequest request) {
+					handleRequest((ReportRequest) request);
 				}
 
 			};
 
-			MediatorManager.addGlobalColleague( colleague );
+			MediatorManager.addGlobalColleague(colleague);
 
-			dataSetCombo.removeAll( );
-			refresh( );
+			dataSetCombo.removeAll();
+			refresh();
 
-			DataService.getInstance( ).createDataSet( );
+			DataService.getInstance().createDataSet();
 
-			MediatorManager.removeGlobalColleague( colleague );
+			MediatorManager.removeGlobalColleague(colleague);
 
 			return;
 		}
-		setDataset( datasetName );
+		setDataset(datasetName);
 	}
 
 }

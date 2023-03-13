@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,70 +18,59 @@ import java.util.Map;
 
 /**
  * Manager for master pages.
- * 
+ *
  * For each page in the output, an instance of the master page must be created.
  * This class keeps track of the number of instances for each master page and
  * generates their names accordingly.
  */
-public class MasterPageManager
-{
+public class MasterPageManager {
 	private static final String BASE_NAME = "Mp"; //$NON-NLS-1$
-	
+
 	private int masterPageCount;
-	
-	private String generateName( String baseName, int num )
-	{
-		if ( num > 0 )
-		{
+
+	private String generateName(String baseName, int num) {
+		if (num > 0) {
 			baseName += "-" + masterPageCount + "-" + num; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return baseName;			
+		return baseName;
 	}
-	
+
 	/**
 	 * Map from design's master page name to master page info
 	 */
-	private Map<String,Integer> masterPages;
+	private Map<String, Integer> masterPages;
 	private int currentInstanceCount;
 	private String currentMasterPage;
-	
-	public MasterPageManager()
-	{
-		masterPages = new HashMap<String,Integer>();
+
+	public MasterPageManager() {
+		masterPages = new HashMap<>();
 		currentInstanceCount = 0;
 		masterPageCount = 0;
 		currentMasterPage = null;
 	}
-	
-	public void newPage( String masterPageName )
-	{
-		Integer info = masterPages.get( masterPageName );
-		if ( info == null )
-		{
+
+	public void newPage(String masterPageName) {
+		Integer info = masterPages.get(masterPageName);
+		if (info == null) {
 			currentInstanceCount = 0;
 			masterPageCount++;
+		} else {
+			currentInstanceCount = info.intValue();
 		}
-		else
-		{
-			currentInstanceCount = info.intValue( );
-		}
-		
+
 		currentInstanceCount++;
-		masterPages.put( masterPageName, currentInstanceCount );
+		masterPages.put(masterPageName, currentInstanceCount);
 		currentMasterPage = masterPageName;
 	}
-	
-	public String getCurrentMasterPage()
-	{
-		if ( currentMasterPage != null )
-		{
-			return generateName( BASE_NAME, currentInstanceCount );
+
+	public String getCurrentMasterPage() {
+		if (currentMasterPage != null) {
+			return generateName(BASE_NAME, currentInstanceCount);
 		}
 		return null;
 	}
-	
-	public int getInstanceNumber()
-	{
+
+	public int getInstanceNumber() {
 		return currentInstanceCount;
 	}
 

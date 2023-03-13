@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,29 +18,27 @@ import org.eclipse.birt.report.engine.content.IContent;
 
 /**
  * the labelItem excutor
- * 
+ *
  */
-public class LabelItemExecutor extends ReportItemExecutor
-{
+public class LabelItemExecutor extends ReportItemExecutor {
 
-	public LabelItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.LABELITEM );
+	public LabelItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.LABELITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
-		return report.createLabelContent( );
+	@Override
+	protected IContent doCreateContent() {
+		return report.createLabelContent();
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
+	@Override
+	protected void doExecute() throws Exception {
+		executeQuery();
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	@Override
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 }

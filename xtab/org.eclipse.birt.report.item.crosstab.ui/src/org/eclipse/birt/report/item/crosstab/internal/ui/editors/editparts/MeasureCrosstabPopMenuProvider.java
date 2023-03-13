@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,125 +38,109 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 
 /**
- * 
+ *
  */
 
-public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
-{
+public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param viewer
 	 */
-	public MeasureCrosstabPopMenuProvider( EditPartViewer viewer )
-	{
-		super( viewer );
+	public MeasureCrosstabPopMenuProvider(EditPartViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+	 *
+	 * @see
+	 * org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action
+	 * .IMenuManager)
 	 */
-	public void buildContextMenu( IMenuManager menu )
-	{
-		if ( getElements( ).size( ) != 1 )
-		{
+	@Override
+	public void buildContextMenu(IMenuManager menu) {
+		if (getElements().size() != 1) {
 			return;
 		}
-		Object firstSelectedElement = getFirstElement( );
+		Object firstSelectedElement = getFirstElement();
 		DesignElementHandle element = null;
-		if ( firstSelectedElement instanceof DesignElementHandle )
-		{
+		if (firstSelectedElement instanceof DesignElementHandle) {
 			element = (DesignElementHandle) firstSelectedElement;
+		} else if (firstSelectedElement instanceof CrosstabCellAdapter) {
+			element = ((CrosstabCellAdapter) firstSelectedElement).getDesignElementHandle();
 		}
-		else if ( firstSelectedElement instanceof CrosstabCellAdapter )
+
+		buildShowMenu(menu, element);
+
+		IAction action = new AddRelativeTimePeriodAction(element);
+		// if (action.isEnabled( ))
 		{
-			element = ( (CrosstabCellAdapter) firstSelectedElement ).getDesignElementHandle( );
+			menu.add(action);
 		}
+		action = new AddComputedMeasureAction(element);
+		menu.add(action);
 
-		buildShowMenu( menu, element );
+		action = new AddMeasureViewHandleAction(element);
+		menu.add(action);
 
-		IAction action = new AddRelativeTimePeriodAction( element );
-		//if (action.isEnabled( ))
-		{
-			menu.add( action );
-		}
-		action = new AddComputedMeasureAction( element );
-		menu.add( action );
+		action = new DeleteMeasureHandleAction(element);
+		menu.add(action);
 
-		action = new AddMeasureViewHandleAction( element );
-		menu.add( action );
-
-		action = new DeleteMeasureHandleAction( element );
-		menu.add( action );
-
-	
 	}
 
-	protected void buildShowMenu( IMenuManager menu, DesignElementHandle element )
-	{
+	protected void buildShowMenu(IMenuManager menu, DesignElementHandle element) {
 
-		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
-		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		if ( measureViewHandle == null
-				|| measureViewHandle instanceof ComputedMeasureViewHandle
-				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated()))
-		{
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle(element);
+		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle(extendedHandle);
+		if (measureViewHandle == null || measureViewHandle instanceof ComputedMeasureViewHandle
+				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated())) {
 			return;
 		}
-		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
-		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
+		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(
+				measureViewHandle.getCrosstab());
+		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders();
 		int count = 1;
-		for ( int i = 0; i < providers.length; i++ )
-		{
+		for (int i = 0; i < providers.length; i++) {
 			IAggregationCellViewProvider provider = providers[i];
-			if ( provider == null )
-			{
+			if (provider == null) {
 				continue;
 			}
-			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element,
-					provider.getViewName( ),
-					count );
+			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction(element, provider.getViewName(), count);
 			count++;
-			menu.add( showAsViewAction );
+			menu.add(showAsViewAction);
 		}
-		menu.add( new Separator( ) );
+		menu.add(new Separator());
 
 	}
 
 	/**
 	 * Gets the current selection.
-	 * 
+	 *
 	 * @return The current selection
 	 */
-	protected ISelection getSelection( )
-	{
-		return getViewer( ).getSelection( );
+	protected ISelection getSelection() {
+		return getViewer().getSelection();
 	}
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
-	protected List getElements( )
-	{
-		return InsertInLayoutUtil.editPart2Model( getSelection( ) ).toList( );
+	protected List getElements() {
+		return InsertInLayoutUtil.editPart2Model(getSelection()).toList();
 	}
 
 	/**
 	 * Gets the current selected object.
-	 * 
-	 * @return The current selected object array. If length is one, return the
-	 *         first
+	 *
+	 * @return The current selected object array. If length is one, return the first
 	 */
-	protected Object getSelectedElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length == 1 )
-		{
+	protected Object getSelectedElement() {
+		Object[] array = getElements().toArray();
+		if (array.length == 1) {
 			return array[0];
 		}
 		return array;
@@ -161,14 +148,12 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
-	protected Object getFirstElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length > 0 )
-		{
+	protected Object getFirstElement() {
+		Object[] array = getElements().toArray();
+		if (array.length > 0) {
 			return array[0];
 		}
 		return null;

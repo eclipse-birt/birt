@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,8 +40,7 @@ import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentRe
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 
-abstract public class AbstractReportExecutor implements IReportExecutor
-{
+abstract public class AbstractReportExecutor implements IReportExecutor {
 
 	protected ExecutionContext context;
 	protected IDataEngine dataEngine;
@@ -63,133 +65,108 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 
 	protected ExecutorManager manager;
 
-	protected AbstractReportExecutor( )
-	{
-		
+	protected AbstractReportExecutor() {
+
 	}
 
-	protected AbstractReportExecutor( ExecutionContext context ) throws IOException, BirtException
-	{
-		assert context.getDesign( ) != null;
-		assert context.getReportDocument( ) != null;
+	protected AbstractReportExecutor(ExecutionContext context) throws IOException, BirtException {
+		assert context.getDesign() != null;
+		assert context.getReportDocument() != null;
 
-		this.manager = new ExecutorManager( this );
+		this.manager = new ExecutorManager(this);
 
 		this.context = context;
 
-		report = context.getReport( );
+		report = context.getReport();
 
-		reportContent = (ReportContent) ContentFactory
-				.createReportContent( report );
-		reportContent.setExecutionContext( context );
-		context.setReportContent( reportContent );
+		reportContent = (ReportContent) ContentFactory.createReportContent(report);
+		reportContent.setExecutionContext(context);
+		context.setReportContent(reportContent);
 
-		IEngineTask engineTask = context.getEngineTask( );
-		if ( engineTask instanceof RenderTask )
-		{
+		IEngineTask engineTask = context.getEngineTask();
+		if (engineTask instanceof RenderTask) {
 			RenderTask renderTask = (RenderTask) engineTask;
-			reportContent.setTOCTree( renderTask.getRawTOCTree( ) );
+			reportContent.setTOCTree(renderTask.getRawTOCTree());
 		}
 
-		IReportDocument reportDoc = context.getReportDocument( );
-		long totalPage = reportDoc.getPageCount( );
-		context.setTotalPage( totalPage );
-		reportContent.setTotalPage( totalPage );
+		IReportDocument reportDoc = context.getReportDocument();
+		long totalPage = reportDoc.getPageCount();
+		context.setTotalPage(totalPage);
+		reportContent.setTotalPage(totalPage);
 
-		dataEngine = context.getDataEngine( );
-		dataEngine.prepare( report, context.getAppContext( ) );
+		dataEngine = context.getDataEngine();
+		dataEngine.prepare(report, context.getAppContext());
 
-		try
-		{
-			IDocArchiveReader archive = reportDoc.getArchive( );
-			RAInputStream in = archive
-					.getStream( ReportDocumentConstants.CONTENT_STREAM );
-			reader = new CachedReportContentReaderV3( reportContent, in,
-					context );
-			in = archive.getStream( ReportDocumentConstants.PAGE_STREAM );
-			pageReader = new CachedReportContentReaderV3( reportContent, in,
-					context );
-			hintsReader = new PageHintReader( reportDoc );
-		}
-		catch ( IOException ex )
-		{
-			close( );
+		try {
+			IDocArchiveReader archive = reportDoc.getArchive();
+			RAInputStream in = archive.getStream(ReportDocumentConstants.CONTENT_STREAM);
+			reader = new CachedReportContentReaderV3(reportContent, in, context);
+			in = archive.getStream(ReportDocumentConstants.PAGE_STREAM);
+			pageReader = new CachedReportContentReaderV3(reportContent, in, context);
+			hintsReader = new PageHintReader(reportDoc);
+		} catch (IOException ex) {
+			close();
 			throw ex;
 		}
 	}
-	
-	public PageHintReader getPageHintReader()
-	{
+
+	public PageHintReader getPageHintReader() {
 		return this.hintsReader;
 	}
 
-	public void close( )
-	{
-		if ( reader != null )
-		{
-			reader.close( );
+	@Override
+	public void close() {
+		if (reader != null) {
+			reader.close();
 			reader = null;
 		}
-		if ( pageReader != null )
-		{
-			pageReader.close( );
+		if (pageReader != null) {
+			pageReader.close();
 			pageReader = null;
 		}
 
-		if ( hintsReader != null )
-		{
-			hintsReader.close( );
+		if (hintsReader != null) {
+			hintsReader.close();
 			hintsReader = null;
 		}
 	}
 
-	public IReportContent execute( )
-	{
+	@Override
+	public IReportContent execute() {
 		return reportContent;
 	}
 
-	protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter ) throws BirtException
-	{
-		while ( executor.hasNextChild( ) )
-		{
-			if ( context.isCanceled( ) )
-			{
+	protected void executeAll(IReportItemExecutor executor, IContentEmitter emitter) throws BirtException {
+		while (executor.hasNextChild()) {
+			if (context.isCanceled()) {
 				break;
 			}
-			IReportItemExecutor childExecutor = executor.getNextChild( );
-			if ( childExecutor != null )
-			{
-				IContent content = childExecutor.execute( );
-				if ( content != null )
-				{
-					ContentEmitterUtil.startContent( content, emitter );
+			IReportItemExecutor childExecutor = executor.getNextChild();
+			if (childExecutor != null) {
+				IContent content = childExecutor.execute();
+				if (content != null) {
+					ContentEmitterUtil.startContent(content, emitter);
 				}
-				executeAll( childExecutor, emitter );
-				if ( content != null )
-				{
-					ContentEmitterUtil.endContent( content, emitter );
+				executeAll(childExecutor, emitter);
+				if (content != null) {
+					ContentEmitterUtil.endContent(content, emitter);
 				}
-				childExecutor.close( );
+				childExecutor.close();
 			}
 		}
 	}
 
-	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign ) throws BirtException
-	{
-		return new MasterPageExecutor( manager, pageNumber, pageDesign );
+	@Override
+	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
+		return new MasterPageExecutor(manager, pageNumber, pageDesign);
 	}
 
-	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
-			throws BirtException
-	{
-		IReportItemExecutor pageExecutor = createPageExecutor( pageNumber,
-				pageDesign );
-		IPageContent pageContent = (IPageContent) pageExecutor.execute( );
-		IContentEmitter domEmitter = new DOMBuilderEmitter( pageContent );
-		executeAll( pageExecutor, domEmitter );
-		pageExecutor.close( );
+	public IPageContent createPage(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
+		IReportItemExecutor pageExecutor = createPageExecutor(pageNumber, pageDesign);
+		IPageContent pageContent = (IPageContent) pageExecutor.execute();
+		IContentEmitter domEmitter = new DOMBuilderEmitter(pageContent);
+		executeAll(pageExecutor, domEmitter);
+		pageExecutor.close();
 		return pageContent;
 	}
 

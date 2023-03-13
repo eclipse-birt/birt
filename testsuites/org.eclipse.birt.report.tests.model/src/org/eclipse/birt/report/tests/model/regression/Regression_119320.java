@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,44 +31,42 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_119320 extends BaseTestCase
-{
+public class Regression_119320 extends BaseTestCase {
 
 	private String filename = "Regression_119320.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
-		
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_119320( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		
-		//Use group key as the default toc expression
-		
-		TableGroupHandle group = designHandle.getElementFactory( ).newTableGroup( );
-		group.setKeyExpr( "row['a']" ); //$NON-NLS-1$
-		TableHandle table = (TableHandle)designHandle.findElement( "table" ); //$NON-NLS-1$
-		table.getGroups( ).add( group );
-		
-		assertEquals("row['a']", group.getTocExpression( ) ); //$NON-NLS-1$
-		
-		
+
+	public void test_regression_119320() throws DesignFileException, SemanticException {
+		openDesign(filename);
+
+		// Use group key as the default toc expression
+
+		TableGroupHandle group = designHandle.getElementFactory().newTableGroup();
+		group.setKeyExpr("row['a']"); //$NON-NLS-1$
+		TableHandle table = (TableHandle) designHandle.findElement("table"); //$NON-NLS-1$
+		table.getGroups().add(group);
+
+		assertEquals("row['a']", group.getTocExpression()); //$NON-NLS-1$
+
 		// Change toc expression and group key
-	
-		group.setTocExpression( "row['c']" ); //$NON-NLS-1$
-		group.setKeyExpr( "row['b']" ); //$NON-NLS-1$
-		assertEquals("row['c']", group.getTocExpression( )); //$NON-NLS-1$
-		
+
+		group.setTocExpression("row['c']"); //$NON-NLS-1$
+		group.setKeyExpr("row['b']"); //$NON-NLS-1$
+		assertEquals("row['c']", group.getTocExpression()); //$NON-NLS-1$
+
 	}
 }

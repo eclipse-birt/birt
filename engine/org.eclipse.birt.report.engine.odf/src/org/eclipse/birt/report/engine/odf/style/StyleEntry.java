@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,230 +22,184 @@ import org.eclipse.birt.report.engine.content.IStyle;
  * Style entry.
  *
  */
-public class StyleEntry implements StyleConstant,Serializable,Cloneable
-{
+public class StyleEntry implements StyleConstant, Serializable, Cloneable {
 	private static final long serialVersionUID = 6959747237392429540L;
-	
+
 	public static final String ENTRYNAME_HYPERLINK = "Hyperlink"; //$NON-NLS-1$
 
 	private int type;
-	
+
 	private transient IStyle originalStyle;
 
 	private String name = null;
 	private Object[] props = null;
 	private Integer hashCode;
-	
-	StyleEntry( StyleEntry entry )
-	{
-		this( entry.getType() );
 
-		for ( int i = 0; i < props.length; i++ )
-		{
+	StyleEntry(StyleEntry entry) {
+		this(entry.getType());
+
+		for (int i = 0; i < props.length; i++) {
 			props[i] = entry.props[i];
 		}
-		if ( entry.hashCode != null )
-		{
-			hashCode = new Integer( entry.hashCode );
+		if (entry.hashCode != null) {
+			hashCode = new Integer(entry.hashCode);
 		}
 		name = entry.name;
 	}
 
-	StyleEntry( IStyle originalStyle, int  type )
-	{
+	StyleEntry(IStyle originalStyle, int type) {
 		this.originalStyle = originalStyle;
 		this.type = type;
 		props = new Object[StyleConstant.COUNT];
 		name = null;
 	}
-	
-	StyleEntry( int type )
-	{
-		this( null, type );
+
+	StyleEntry(int type) {
+		this(null, type);
 	}
 
 	/**
 	 * @deprecated use getProperty() instead
 	 * @return
 	 */
-	public IStyle getStyle()
-	{
+	@Deprecated
+	public IStyle getStyle() {
 		return originalStyle;
 	}
-	
-	public void setProperty( int id, Object value )
-	{
+
+	public void setProperty(int id, Object value) {
 		props[id] = value;
 		hashCode = null;
 	}
 
-	public Object getProperty( int id )
-	{
+	public Object getProperty(int id) {
 		return props[id];
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
-		{
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
 			return true;
 		}
 
-		if ( !( obj instanceof StyleEntry ) )
-		{
+		if (!(obj instanceof StyleEntry)) {
 			return false;
 		}
 
 		StyleEntry tar = (StyleEntry) obj;
 
 		/*
-		if ( tar.type != this.type )
-		{
-			return false;
-		}
-		
-		for ( int i = 0; i < StyleConstant.COUNT; i++ )
-		{
-			if ( props[i] != null )
-			{
-				if ( !props[i].equals( tar.getProperty( i ) ) )
-				{
-					return false;
-				}
-			}
-			else
-			{
-				if ( props[i] != tar.getProperty( i ) )
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-		*/
-		return tar.hashCode( ) == this.hashCode( );
+		 * if ( tar.type != this.type ) { return false; }
+		 *
+		 * for ( int i = 0; i < StyleConstant.COUNT; i++ ) { if ( props[i] != null ) {
+		 * if ( !props[i].equals( tar.getProperty( i ) ) ) { return false; } } else { if
+		 * ( props[i] != tar.getProperty( i ) ) { return false; } } } return true;
+		 */
+		return tar.hashCode() == this.hashCode();
 	}
-	
-	public int hashCode( )
-	{
-		if ( hashCode == null )
-		{
+
+	@Override
+	public int hashCode() {
+		if (hashCode == null) {
 			int code = 0;
 
-			code += Integer.valueOf( type ).hashCode( ) * 2 + 1;			
-		
+			code += Integer.valueOf(type).hashCode() * 2 + 1;
+
 			/*
-			for ( int i = 0; i < StyleConstant.COUNT; i++ )
-			{
-				int hashCode = props[i] == null ? 0 : props[i].hashCode( );
-				code += hashCode * 2 + 1;
-			}
-			*/
-			
-			code += Arrays.deepHashCode( props );
-			
-			hashCode = Integer.valueOf( code );
+			 * for ( int i = 0; i < StyleConstant.COUNT; i++ ) { int hashCode = props[i] ==
+			 * null ? 0 : props[i].hashCode( ); code += hashCode * 2 + 1; }
+			 */
+
+			code += Arrays.deepHashCode(props);
+
+			hashCode = code;
 		}
-		return hashCode.intValue( );
+		return hashCode.intValue();
 	}
 
-	public static boolean isNull( Object value )
-	{
-		if ( value == null )
+	public static boolean isNull(Object value) {
+		if (value == null) {
 			return true;
-		if ( value instanceof String )
-			return StyleConstant.NULL.equalsIgnoreCase( (String) value );
+		}
+		if (value instanceof String) {
+			return StyleConstant.NULL.equalsIgnoreCase((String) value);
+		}
 		return false;
 	}
 
-	public Object clone( ) 
-	{
+	@Override
+	public Object clone() {
 		StyleEntry o = null;
-        try{
-            o = (StyleEntry)super.clone();
-        }catch(CloneNotSupportedException e){
-           
-        }
-        
-        for(int i = 0; i < props.length; i++) {
-        	o.setProperty( i, getProperty(i) );
-        }
-        
-        return o;        
+		try {
+			o = (StyleEntry) super.clone();
+		} catch (CloneNotSupportedException e) {
+
+		}
+
+		for (int i = 0; i < props.length; i++) {
+			o.setProperty(i, getProperty(i));
+		}
+
+		return o;
 	}
 
-
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
-	
-	public Double getDoubleProperty( int index )
-	{
-		Object o = getProperty( index );
-		if ( o instanceof Double )
-		{
-			return (Double)o;
-		}
-		else if ( o instanceof Integer )
-		{
-			return Double.valueOf( (Integer)o );
+
+	public Double getDoubleProperty(int index) {
+		Object o = getProperty(index);
+		if (o instanceof Double) {
+			return (Double) o;
+		} else if (o instanceof Integer) {
+			return (double) (Integer) o;
 		}
 		return null;
 	}
 
-	public Integer getIntegerProperty( int index )
-	{
-		Object o = getProperty( index );
-		if ( o instanceof Integer )
-		{
-			return (Integer)o;
+	public Integer getIntegerProperty(int index) {
+		Object o = getProperty(index);
+		if (o instanceof Integer) {
+			return (Integer) o;
 		}
 		return null;
 	}
-	
-	public String getStringProperty( int index )
-	{
-		Object o = getProperty( index );
-		if ( o instanceof String )
-		{
-			return (String)o;
+
+	public String getStringProperty(int index) {
+		Object o = getProperty(index);
+		if (o instanceof String) {
+			return (String) o;
 		}
 		return null;
 	}
-	
-	public Boolean getBoolProperty( int index )
-	{
-		Object o = getProperty( index );
-		if ( o instanceof Boolean )
-		{
-			return (Boolean)o;
+
+	public Boolean getBoolProperty(int index) {
+		Object o = getProperty(index);
+		if (o instanceof Boolean) {
+			return (Boolean) o;
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * Returns the style type
+	 *
 	 * @return
 	 */
-	public int getType()
-	{
+	public int getType() {
 		return type;
 	}
 
 	/**
-	 * Returns whether this style entry has been added to
-	 * the style manager.
+	 * Returns whether this style entry has been added to the style manager.
+	 *
 	 * @return
 	 */
-	public boolean isAdded()
-	{
+	public boolean isAdded() {
 		return name != null;
 	}
 }

@@ -1,13 +1,13 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
@@ -19,109 +19,112 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Abstract test case for PropertyType.
- * 
+ *
  */
-public abstract class PropertyTypeTestCase extends BaseTestCase
-{
+public abstract class PropertyTypeTestCase extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		ThreadResources.setLocale( ULocale.ENGLISH );
+		ThreadResources.setLocale(ULocale.ENGLISH);
 
-		createDesign( ULocale.ENGLISH  );
-		assertNotNull( design );
+		createDesign(ULocale.ENGLISH);
+		assertNotNull(design);
 	}
 
-    /**
-     * Test getTypeCode() method.
-     */
-    
-	public abstract void testGetTypeCode( );
+	/**
+	 * Test getTypeCode() method.
+	 */
 
-    /**
-     * Test getName() method.
-     */
-    
-	public abstract void testGetName( );
+	public abstract void testGetTypeCode();
 
-    /**
-     * Test validateValue() method.
-     * @throws PropertyValueException
-     */
-    
-	public abstract void testValidateValue( ) throws PropertyValueException;
+	/**
+	 * Test getName() method.
+	 */
 
-    /**
-     * Test validateInputString() method.
-     * @throws PropertyValueException
-     */
-    
-	public abstract void testValidateInputString( )
-			throws PropertyValueException;
+	public abstract void testGetName();
 
-    /**
-     * Test validateXml() method.
-     * @throws PropertyValueException
-     */
-    
-	public abstract void testValidateXml( ) throws PropertyValueException;
+	/**
+	 * Test validateValue() method.
+	 *
+	 * @throws PropertyValueException
+	 */
 
-    /**
-     * Test toDouble() method.
-     * @throws PropertyValueException
-     *
-     */
-    
-	public abstract void testToDouble( ) throws PropertyValueException;
+	public abstract void testValidateValue() throws PropertyValueException;
 
-    /**
-     * Test toInteger() method.
-     *
-     */
-    
-	public abstract void testToInteger( );
+	/**
+	 * Test validateInputString() method.
+	 *
+	 * @throws PropertyValueException
+	 */
 
-    /**
-     * Test toXml() method.
-     *
-     */
-    
-	public abstract void testToXml( );
+	public abstract void testValidateInputString() throws PropertyValueException;
 
-    /**
-     * Test toString() method.
-     *
-     */
-    
-	public abstract void testToString( );
+	/**
+	 * Test validateXml() method.
+	 *
+	 * @throws PropertyValueException
+	 */
 
-    /**
-     * Test toDisplayString() method.
-     * @throws PropertyValueException
-     *
-     */
-    
-	public abstract void testToDisplayString( ) throws PropertyValueException;
+	public abstract void testValidateXml() throws PropertyValueException;
 
-    /**
-     * Test toNumber() method. 
-     * @throws PropertyValueException
-     *
-     */
-    
-	public abstract void testToNumber( ) throws PropertyValueException;
+	/**
+	 * Test toDouble() method.
+	 *
+	 * @throws PropertyValueException
+	 *
+	 */
 
-    /**
-     * Test toBoolean() method.
-     *
-     */
-    
-	public abstract void testToBoolean( );
+	public abstract void testToDouble() throws PropertyValueException;
+
+	/**
+	 * Test toInteger() method.
+	 *
+	 */
+
+	public abstract void testToInteger();
+
+	/**
+	 * Test toXml() method.
+	 *
+	 */
+
+	public abstract void testToXml();
+
+	/**
+	 * Test toString() method.
+	 *
+	 */
+
+	public abstract void testToString();
+
+	/**
+	 * Test toDisplayString() method.
+	 *
+	 * @throws PropertyValueException
+	 *
+	 */
+
+	public abstract void testToDisplayString() throws PropertyValueException;
+
+	/**
+	 * Test toNumber() method.
+	 *
+	 * @throws PropertyValueException
+	 *
+	 */
+
+	public abstract void testToNumber() throws PropertyValueException;
+
+	/**
+	 * Test toBoolean() method.
+	 *
+	 */
+
+	public abstract void testToBoolean();
 
 }
-

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,153 +49,113 @@ import com.ibm.icu.util.Calendar;
  * Capable of processing data sets that contain simple data elements that wrap a
  * single value (e.g. double, datetime, etc)
  */
-public class DataSetProcessorImpl extends DataSetAdapter
-{
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/datafeed" ); //$NON-NLS-1$
+public class DataSetProcessorImpl extends DataSetAdapter {
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine.extension/datafeed"); //$NON-NLS-1$
 
 	/**
 	 * A default constructor provided for successful creation
 	 */
-	public DataSetProcessorImpl( )
-	{
-		super( );
+	public DataSetProcessorImpl() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
+	 * .chart.model.data.DataSet)
 	 */
-	public Object getMaximum( DataSet ds ) throws ChartException
-	{
+	@Override
+	public Object getMaximum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
-		try
-		{
-			dsi = new DataSetIterator( ds );
-			dsi.reset( );
+		try {
+			dsi = new DataSetIterator(ds);
+			dsi.reset();
+		} catch (IllegalArgumentException uiex) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET, uiex);
 		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
-					uiex );
-		}
-		if ( dsi.size( ) == 0 )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
-					"exception.empty.dataset", //$NON-NLS-1$ 
-					Messages.getResourceBundle( getULocale( ) ) );
+		if (dsi.size() == 0) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET, "exception.empty.dataset", //$NON-NLS-1$
+					Messages.getResourceBundle(getULocale()));
 		}
 
-		if ( ds instanceof NumberDataSet )
-		{
+		if (ds instanceof NumberDataSet) {
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMax = 0;
 			Number bnMax = null;
-			
-			while ( dsi.hasNext( ) )
-			{
-				o = dsi.next( );
-				if ( o == null ) // NOT SET = NULL
+
+			while (dsi.hasNext()) {
+				o = dsi.next();
+				if (o == null) // NOT SET = NULL
 				{
 					continue;
 				}
 
-				if ( NumberUtil.isBigNumber( o ) )
-				{
-					if ( !bAnyNonNull )
-					{
+				if (NumberUtil.isBigNumber(o)) {
+					if (!bAnyNonNull) {
 						bnMax = (BigNumber) o;
 						bAnyNonNull = true;
+					} else {
+						bnMax = ((BigNumber) bnMax).max((BigNumber) o);
 					}
-					else
-					{
-						bnMax = ((BigNumber)bnMax).max( (BigNumber) o );
-					}
-				}
-				else if ( o instanceof BigDecimal )
-				{
-					if ( !bAnyNonNull )
-					{
+				} else if (o instanceof BigDecimal) {
+					if (!bAnyNonNull) {
 						bnMax = (BigDecimal) o;
 						bAnyNonNull = true;
+					} else {
+						bnMax = ((BigDecimal) bnMax).max((BigDecimal) o);
 					}
-					else
-					{
-						bnMax = ((BigDecimal)bnMax).max( (BigDecimal) o );
-					}
-				}
-				else if ( o instanceof java.math.BigDecimal )
-				{
-					if ( !bAnyNonNull )
-					{
+				} else if (o instanceof java.math.BigDecimal) {
+					if (!bAnyNonNull) {
 						bnMax = (java.math.BigDecimal) o;
 						bAnyNonNull = true;
+					} else {
+						bnMax = ((java.math.BigDecimal) bnMax).max((java.math.BigDecimal) o);
 					}
-					else
-					{
-						bnMax = ((java.math.BigDecimal)bnMax).max( (java.math.BigDecimal) o );
-					}
-				}
-				else
-				{
-					d = ( (Number) o ).doubleValue( );
-					if ( Double.isNaN( d ) || Double.isInfinite( dMax ) )
-					{
+				} else {
+					d = ((Number) o).doubleValue();
+					if (Double.isNaN(d) || Double.isInfinite(dMax)) {
 						continue;
 					}
-					if ( !bAnyNonNull )
-					{
+					if (!bAnyNonNull) {
 						dMax = d;
 						bAnyNonNull = true;
-					}
-					else if ( dMax < d )
-					{
+					} else if (dMax < d) {
 						dMax = d;
 					}
 				}
 			}
 
-			if ( !bAnyNonNull )
-			{
-				logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.ALL_NULL_DATASET,
+			if (!bAnyNonNull) {
+				logger.log(new ChartException(ChartEngineExtensionPlugin.ID, ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) ) );
+						Messages.getResourceBundle(getULocale())));
 				return null;
 			}
-			return ( bnMax == null ) ? new Double( dMax ) : bnMax;
-		}
-		else if ( ds instanceof DateTimeDataSet )
-		{
+			return (bnMax == null) ? new Double(dMax) : bnMax;
+		} else if (ds instanceof DateTimeDataSet) {
 			boolean bAnyNonNull = false;
 			Calendar cal = null;
-			Calendar calMax = Calendar.getInstance( getULocale( ) );
-			while ( dsi.hasNext( ) )
-			{
-				cal = (Calendar) dsi.next( );
-				if ( cal == null ) // NOT SET = NULL
+			Calendar calMax = Calendar.getInstance(getULocale());
+			while (dsi.hasNext()) {
+				cal = (Calendar) dsi.next();
+				if (cal == null) // NOT SET = NULL
 				{
 					continue;
 				}
-				if ( !bAnyNonNull )
-				{
+				if (!bAnyNonNull) {
 					calMax = cal;
 					bAnyNonNull = true;
-				}
-				else if ( calMax.before( cal ) )
-				{
+				} else if (calMax.before(cal)) {
 					calMax = cal;
 				}
 			}
-			if ( !bAnyNonNull )
-			{
-				logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.ALL_NULL_DATASET,
+			if (!bAnyNonNull) {
+				logger.log(new ChartException(ChartEngineExtensionPlugin.ID, ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) ) );
+						Messages.getResourceBundle(getULocale())));
 			}
 
 			return calMax;
@@ -203,136 +166,98 @@ public class DataSetProcessorImpl extends DataSetAdapter
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
+	 * .chart.model.data.DataSet)
 	 */
-	public Object getMinimum( DataSet ds ) throws ChartException
-	{
+	@Override
+	public Object getMinimum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
-		try
-		{
-			dsi = new DataSetIterator( ds );
-			dsi.reset( );
+		try {
+			dsi = new DataSetIterator(ds);
+			dsi.reset();
+		} catch (IllegalArgumentException uiex) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET, uiex);
 		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
-					uiex );
-		}
-		if ( dsi.size( ) == 0 )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
-					"exception.empty.dataset", //$NON-NLS-1$
-					Messages.getResourceBundle( getULocale( ) ) );
+		if (dsi.size() == 0) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET, "exception.empty.dataset", //$NON-NLS-1$
+					Messages.getResourceBundle(getULocale()));
 		}
 
-		if ( ds instanceof NumberDataSet )
-		{
+		if (ds instanceof NumberDataSet) {
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMin = 0;
 			Number bnMin = null;
-			while ( dsi.hasNext( ) )
-			{
-				o = dsi.next( );
-				if ( o == null ) // NOT SET = NULL
+			while (dsi.hasNext()) {
+				o = dsi.next();
+				if (o == null) // NOT SET = NULL
 				{
 					continue;
 				}
-				if ( NumberUtil.isBigNumber( o ) )
-				{
-					if ( !bAnyNonNull )
-					{
+				if (NumberUtil.isBigNumber(o)) {
+					if (!bAnyNonNull) {
 						bnMin = (BigNumber) o;
 						bAnyNonNull = true;
+					} else {
+						bnMin = ((BigNumber) bnMin).min((BigNumber) o);
 					}
-					else
-					{
-						bnMin = ((BigNumber)bnMin).min( (BigNumber) o );
-					}
-				}
-				else if ( o instanceof BigDecimal )
-				{
-					if ( !bAnyNonNull )
-					{
+				} else if (o instanceof BigDecimal) {
+					if (!bAnyNonNull) {
 						bnMin = (BigDecimal) o;
 						bAnyNonNull = true;
+					} else {
+						bnMin = ((BigDecimal) bnMin).min((BigDecimal) o);
 					}
-					else
-					{
-						bnMin = ((BigDecimal)bnMin).min( (BigDecimal) o );
-					}
-				}
-				else if ( o instanceof java.math.BigDecimal )
-				{
-					if ( !bAnyNonNull )
-					{
+				} else if (o instanceof java.math.BigDecimal) {
+					if (!bAnyNonNull) {
 						bnMin = (java.math.BigDecimal) o;
 						bAnyNonNull = true;
+					} else {
+						bnMin = ((java.math.BigDecimal) bnMin).min((java.math.BigDecimal) o);
 					}
-					else
-					{
-						bnMin = ((java.math.BigDecimal)bnMin).min( (java.math.BigDecimal) o );
-					}
-				}
-				else
-				{
-					d = ( (Number) o ).doubleValue( );
-					if ( Double.isNaN( d ) || Double.isInfinite( d ) )
-					{
+				} else {
+					d = ((Number) o).doubleValue();
+					if (Double.isNaN(d) || Double.isInfinite(d)) {
 						continue;
 					}
-					if ( !bAnyNonNull )
-					{
+					if (!bAnyNonNull) {
 						dMin = d;
 						bAnyNonNull = true;
-					}
-					else if ( dMin > d )
-					{
+					} else if (dMin > d) {
 						dMin = d;
 					}
 				}
 			}
-			if ( !bAnyNonNull )
-			{
-				logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.ALL_NULL_DATASET,
+			if (!bAnyNonNull) {
+				logger.log(new ChartException(ChartEngineExtensionPlugin.ID, ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) ) );
+						Messages.getResourceBundle(getULocale())));
 				return null;
 			}
-			return ( bnMin == null ) ? new Double( dMin ) : bnMin;
-		}
-		else if ( ds instanceof DateTimeDataSet )
-		{
+			return (bnMin == null) ? new Double(dMin) : bnMin;
+		} else if (ds instanceof DateTimeDataSet) {
 			boolean bAnyNonNull = false;
 			Calendar cal = null;
-			Calendar calMin = Calendar.getInstance( getULocale( ) );
-			while ( dsi.hasNext( ) )
-			{
-				cal = (Calendar) dsi.next( );
-				if ( cal == null ) // NOT SET = NULL
+			Calendar calMin = Calendar.getInstance(getULocale());
+			while (dsi.hasNext()) {
+				cal = (Calendar) dsi.next();
+				if (cal == null) // NOT SET = NULL
 				{
 					continue;
 				}
-				if ( !bAnyNonNull )
-				{
+				if (!bAnyNonNull) {
 					calMin = cal;
 					bAnyNonNull = true;
-				}
-				else if ( calMin.after( cal ) )
-				{
+				} else if (calMin.after(cal)) {
 					calMin = cal;
 				}
 			}
-			if ( !bAnyNonNull )
-			{
-				logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.ALL_NULL_DATASET,
+			if (!bAnyNonNull) {
+				logger.log(new ChartException(ChartEngineExtensionPlugin.ID, ChartException.ALL_NULL_DATASET,
 						"exception.null.values", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) ) );
+						Messages.getResourceBundle(getULocale())));
 			}
 
 			return calMin;
@@ -343,296 +268,239 @@ public class DataSetProcessorImpl extends DataSetAdapter
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.data.IDataSetProcessor#populate(java.lang.Object,
-	 *      org.eclipse.birt.chart.model.data.DataSet)
+	 *
+	 * @see org.eclipse.birt.chart.model.data.IDataSetProcessor#populate(java.lang.
+	 * Object, org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	public DataSet populate( Object oResultSetDef, DataSet ds )
-			throws ChartException
-	{
-		if ( oResultSetDef instanceof IResultSetDataSet )
-		{
+	@Override
+	public DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
+		if (oResultSetDef instanceof IResultSetDataSet) {
 			final IResultSetDataSet rsds = (IResultSetDataSet) oResultSetDef;
-			final long lRowCount = rsds.getSize( );
+			final long lRowCount = rsds.getSize();
 
-			if ( lRowCount <= 0 )
-			{
-				throw new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.ZERO_DATASET,
-						"exception.empty.dataset",//$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) );
+			if (lRowCount <= 0) {
+				throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.ZERO_DATASET,
+						"exception.empty.dataset", //$NON-NLS-1$
+						Messages.getResourceBundle(getULocale()));
 			}
 
 			int i = 0;
 
-			switch ( rsds.getDataType( ) )
-			{
-				case IConstants.TEXT :
-					final String[] saDataSet = new String[(int) lRowCount];
-					while ( rsds.hasNext( ) )
-					{
-						Object o = rsds.next( )[0];
-						saDataSet[i++] = (String) ( o );
-					}
-					if ( ds == null )
-					{
-						ds = TextDataSetImpl.create( saDataSet );
-					}
-					else
-					{
-						ds.setValues( saDataSet );
-					}
-					break;
+			switch (rsds.getDataType()) {
+			case IConstants.TEXT:
+				final String[] saDataSet = new String[(int) lRowCount];
+				while (rsds.hasNext()) {
+					Object o = rsds.next()[0];
+					saDataSet[i++] = (String) (o);
+				}
+				if (ds == null) {
+					ds = TextDataSetImpl.create(saDataSet);
+				} else {
+					ds.setValues(saDataSet);
+				}
+				break;
 
-				case IConstants.NUMERICAL :
-					// Checks the big decimal case.
-					boolean isBigDecimal = false;
-					Number[] doaDataSet = new Number[(int) lRowCount];
-					while ( rsds.hasNext( ) )
-					{
-						Object next = rsds.next( )[0];
-						if ( next instanceof Number || next == null)
-						{
-							doaDataSet[i] = NumberUtil.convertNumber( next );
-							if ( !isBigDecimal && NumberUtil.isBigDecimal( doaDataSet[i] ) )
-							{
-								isBigDecimal = true;
-							}
-							i++;
+			case IConstants.NUMERICAL:
+				// Checks the big decimal case.
+				boolean isBigDecimal = false;
+				Number[] doaDataSet = new Number[(int) lRowCount];
+				while (rsds.hasNext()) {
+					Object next = rsds.next()[0];
+					if (next instanceof Number || next == null) {
+						doaDataSet[i] = NumberUtil.convertNumber(next);
+						if (!isBigDecimal && NumberUtil.isBigDecimal(doaDataSet[i])) {
+							isBigDecimal = true;
 						}
-						else {
-							throw new ChartException( ChartEngineExtensionPlugin.ID,
-									ChartException.INVALID_DATA_TYPE,
-									Messages.getString("DataSetProcessorImpl_exception.dataset.receivednumeric"), //$NON-NLS-1$
-									Messages.getResourceBundle( getULocale( ) ) );
-						}
+						i++;
+					} else {
+						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.INVALID_DATA_TYPE,
+								Messages.getString("DataSetProcessorImpl_exception.dataset.receivednumeric"), //$NON-NLS-1$
+								Messages.getResourceBundle(getULocale()));
 					}
-					
-					if ( ds == null )
-					{
-						ds = NumberDataSetImpl.create( doaDataSet );
-					}
-					else
-					{
-						ds.setValues( doaDataSet );
-					}
-					
-					((DataSetImpl)ds).setIsBigNumber( isBigDecimal );
-					
-					break;
+				}
 
-				case IConstants.DATE_TIME :
-					final Calendar[] caDataSet = new Calendar[(int) lRowCount];
-					while ( rsds.hasNext( ) )
-					{
-						caDataSet[i++] = Methods.asDateTime( rsds.next( )[0] );
-					}
-					if ( ds == null )
-					{
-						ds = DateTimeDataSetImpl.create( caDataSet );
-					}
-					else
-					{
-						ds.setValues( caDataSet );
-					}
-					break;
+				if (ds == null) {
+					ds = NumberDataSetImpl.create(doaDataSet);
+				} else {
+					ds.setValues(doaDataSet);
+				}
 
-				default :
-					boolean allNullValues = true;
-					while ( rsds.hasNext( ) )
-					{
-						if ( rsds.next( )[0] != null )
-						{
-							allNullValues = false;
-							break;
-						}
+				((DataSetImpl) ds).setIsBigNumber(isBigDecimal);
+
+				break;
+
+			case IConstants.DATE_TIME:
+				final Calendar[] caDataSet = new Calendar[(int) lRowCount];
+				while (rsds.hasNext()) {
+					caDataSet[i++] = Methods.asDateTime(rsds.next()[0]);
+				}
+				if (ds == null) {
+					ds = DateTimeDataSetImpl.create(caDataSet);
+				} else {
+					ds.setValues(caDataSet);
+				}
+				break;
+
+			default:
+				boolean allNullValues = true;
+				while (rsds.hasNext()) {
+					if (rsds.next()[0] != null) {
+						allNullValues = false;
+						break;
 					}
-					if ( !allNullValues )
-					{
-						if ( rsds.getDataType( ) == IConstants.BOOLEAN )
-						{
-							throw new ChartException( ChartEngineExtensionPlugin.ID,
-									ChartException.DATA_SET,
-									"exception.dataset.booleantype",//$NON-NLS-1$
-									Messages.getResourceBundle( getULocale( ) ) );
-						}
-						// if can't determine applicable data type
-						throw new ChartException( ChartEngineExtensionPlugin.ID,
-								ChartException.DATA_SET,
-								"exception.unknown.datatype",//$NON-NLS-1$
-								Messages.getResourceBundle( getULocale( ) ) );
+				}
+				if (!allNullValues) {
+					if (rsds.getDataType() == IConstants.BOOLEAN) {
+						throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
+								"exception.dataset.booleantype", //$NON-NLS-1$
+								Messages.getResourceBundle(getULocale()));
 					}
-					else
-					{
-						// create a dummy dataset which represents null
-						ds = NullDataSetImpl.create( (int)lRowCount );
-					}
+					// if can't determine applicable data type
+					throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
+							"exception.unknown.datatype", //$NON-NLS-1$
+							Messages.getResourceBundle(getULocale()));
+				} else {
+					// create a dummy dataset which represents null
+					ds = NullDataSetImpl.create((int) lRowCount);
+				}
 			}
-		}
-		else
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
+		} else {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
 					"exception.unknown.custom.dataset", //$NON-NLS-1$
-					Messages.getResourceBundle( getULocale( ) ) );
+					Messages.getResourceBundle(getULocale()));
 		}
 		return ds;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.datafeed.DataSetProcessor#fromString(java.lang.String,
-	 *      org.eclipse.birt.chart.model.data.DataSet)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#fromString(java.lang.String,
+	 * org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	public DataSet fromString( String sDataSetRepresentation, DataSet ds )
-			throws ChartException
-	{
+	@Override
+	public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
 		// Do NOT create a DataSet if the content string is null
-		if ( sDataSetRepresentation == null )
-		{
+		if (sDataSetRepresentation == null) {
 			return ds;
 		}
-		List vData = new ArrayList( );
-		String[] strTok = getStringTokens( sDataSetRepresentation );
+		List vData = new ArrayList();
+		String[] strTok = getStringTokens(sDataSetRepresentation);
 		int iType = 0;
-		for ( int i = 0; i < strTok.length; i++ )
-		{
+		for (int i = 0; i < strTok.length; i++) {
 			String strDataElement = strTok[i];
-			if ( strDataElement.startsWith( "'" ) ) //$NON-NLS-1$
+			if (strDataElement.startsWith("'")) //$NON-NLS-1$
 			{
 				iType = 3;
 			}
 			// Try to deduce the data type of the element
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-			NumberFormat nf = NumberFormat.getNumberInstance( );
-			switch ( iType )
-			{
-				case 0 :
-					try
-					{
-						// First try Date
-						Date dateElement = sdf.parse( strDataElement );
-						Calendar cal = Calendar.getInstance( );
-						cal.setTime( dateElement );
-						ds = DateTimeDataSetImpl.create( null );
-						vData.add( cal );
-						iType = 1;
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
+			NumberFormat nf = NumberFormat.getNumberInstance();
+			switch (iType) {
+			case 0:
+				try {
+					// First try Date
+					Date dateElement = sdf.parse(strDataElement);
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(dateElement);
+					ds = DateTimeDataSetImpl.create(null);
+					vData.add(cal);
+					iType = 1;
+				} catch (ParseException e) {
+					// Next try double
+					try {
+						Number numberElement = nf.parse(strDataElement);
+						ds = NumberDataSetImpl.create(null);
+						vData.add(new Double(numberElement.doubleValue()));
+						iType = 2;
+					} catch (ParseException e1) {
+						ds = TextDataSetImpl.create(null);
+						vData.add(strDataElement);
+						iType = 3;
 					}
-					catch ( ParseException e )
-					{
-						// Next try double
-						try
-						{
-							Number numberElement = nf.parse( strDataElement );
-							ds = NumberDataSetImpl.create( null );
-							vData.add( new Double( numberElement.doubleValue( ) ) );
-							iType = 2;
-						}
-						catch ( ParseException e1 )
-						{
-							ds = TextDataSetImpl.create( null );
-							vData.add( strDataElement );
-							iType = 3;
-						}
-					}
-					break;
-				case 1 :
-					if ( ds == null )
-					{
-						ds = DateTimeDataSetImpl.create( null );
-					}
-					Date dateElement = null;
-					try
-					{
-						dateElement = sdf.parse( strDataElement );
-					}
-					catch ( ParseException e1 )
-					{
-						dateElement = new Date( );
-					}
-					Calendar cal = Calendar.getInstance( );
-					cal.setTime( dateElement );
-					vData.add( cal );
-					break;
-				case 2 :
-					if ( ds == null )
-					{
-						ds = NumberDataSetImpl.create( null );
-					}
-					Number numberElement = null;
-					try
-					{
-						numberElement = nf.parse( strDataElement );
-					}
-					catch ( ParseException e2 )
-					{
-						numberElement = null;// new Double( 0.0 );
-					}
-					vData.add( numberElement == null ? null
-							: new Double( numberElement.doubleValue( ) ) );
-					break;
-				case 3 :
-					if ( ds == null )
-					{
-						ds = TextDataSetImpl.create( null );
-					}
-					if ( strDataElement.startsWith( "'" ) ) //$NON-NLS-1$
-					{
-						strDataElement = strDataElement.substring( 1,
-								strDataElement.length( ) - 1 );
-					}
-					vData.add( strDataElement );
-					break;
+				}
+				break;
+			case 1:
+				if (ds == null) {
+					ds = DateTimeDataSetImpl.create(null);
+				}
+				Date dateElement = null;
+				try {
+					dateElement = sdf.parse(strDataElement);
+				} catch (ParseException e1) {
+					dateElement = new Date();
+				}
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dateElement);
+				vData.add(cal);
+				break;
+			case 2:
+				if (ds == null) {
+					ds = NumberDataSetImpl.create(null);
+				}
+				Number numberElement = null;
+				try {
+					numberElement = nf.parse(strDataElement);
+				} catch (ParseException e2) {
+					numberElement = null;// new Double( 0.0 );
+				}
+				vData.add(numberElement == null ? null : new Double(numberElement.doubleValue()));
+				break;
+			case 3:
+				if (ds == null) {
+					ds = TextDataSetImpl.create(null);
+				}
+				if (strDataElement.startsWith("'")) //$NON-NLS-1$
+				{
+					strDataElement = strDataElement.substring(1, strDataElement.length() - 1);
+				}
+				vData.add(strDataElement);
+				break;
 			}
 		}
-		if ( ds == null ) // IF EMPTY
+		if (ds == null) // IF EMPTY
 		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.DATA_SET,
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.DATA_SET,
 					"exception.cannot.parse.sample", //$NON-NLS-1$
-					Messages.getResourceBundle( getULocale( ) ) );
+					Messages.getResourceBundle(getULocale()));
 		}
-		ds.setValues( vData );
+		ds.setValues(vData);
 		return ds;
 	}
 
-	protected String[] getStringTokens( String str )
-	{
+	protected String[] getStringTokens(String str) {
 		// No ESC, return API results
-		if ( str.indexOf( "\\," ) < 0 ) //$NON-NLS-1$
+		if (str.indexOf("\\,") < 0) //$NON-NLS-1$
 		{
-			return str.split( DELIMITER );
+			return str.split(DELIMITER);
 		}
 
-		ArrayList list = new ArrayList( );
-		char[] charArray = ( str + DELIMITER ).toCharArray( );
+		ArrayList list = new ArrayList();
+		char[] charArray = (str + DELIMITER).toCharArray();
 		int startIndex = 0;
-		for ( int i = 0; i < charArray.length; i++ )
-		{
+		for (int i = 0; i < charArray.length; i++) {
 			char c = charArray[i];
-			if ( c == ',' )
-			{
-				if ( charArray[i - 1] != '\\' && i > 0 )
-				{
-					list.add( str.substring( startIndex, i )
-							.replaceAll( "\\\\,", DELIMITER ) //$NON-NLS-1$
-							.trim( ) );
+			if (c == ',') {
+				if (charArray[i - 1] != '\\' && i > 0) {
+					list.add(str.substring(startIndex, i).replace("\\,", DELIMITER) //$NON-NLS-1$
+							.trim());
 					startIndex = i + 1;
 				}
 			}
 		}
-		return (String[]) list.toArray( new String[list.size( )] );
+		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
 	 */
-	public String getExpectedStringFormat( )
-	{
-		return Messages.getString( "info.sample.formats", getULocale( ) ); //$NON-NLS-1$
+	@Override
+	public String getExpectedStringFormat() {
+		return Messages.getString("info.sample.formats", getULocale()); //$NON-NLS-1$
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,8 +34,7 @@ import com.ibm.icu.util.Calendar;
 /**
  * The Spinner component base on SWT,Fetch and setting the day value
  */
-public class SpinnerTable extends Composite
-{
+public class SpinnerTable extends Composite {
 
 	private Table table = null;
 
@@ -44,249 +46,213 @@ public class SpinnerTable extends Composite
 
 	private Calendar cale = null;
 
-	private ArrayList listenerList = new ArrayList( );
+	private ArrayList listenerList = new ArrayList();
 
-	private static final String SUN = Messages.getString( "Commom.ShortDateTime.Sun" ); //$NON-NLS-1$
+	private static final String SUN = Messages.getString("Commom.ShortDateTime.Sun"); //$NON-NLS-1$
 
-	private static final String MON = Messages.getString( "Commom.ShortDateTime.Mon" ); //$NON-NLS-1$
+	private static final String MON = Messages.getString("Commom.ShortDateTime.Mon"); //$NON-NLS-1$
 
-	private static final String TUE = Messages.getString( "Commom.ShortDateTime.Tue" ); //$NON-NLS-1$
+	private static final String TUE = Messages.getString("Commom.ShortDateTime.Tue"); //$NON-NLS-1$
 
-	private static final String WED = Messages.getString( "Commom.ShortDateTime.Wed" ); //$NON-NLS-1$
+	private static final String WED = Messages.getString("Commom.ShortDateTime.Wed"); //$NON-NLS-1$
 
-	private static final String THU = Messages.getString( "Commom.ShortDateTime.Thu" ); //$NON-NLS-1$
+	private static final String THU = Messages.getString("Commom.ShortDateTime.Thu"); //$NON-NLS-1$
 
-	private static final String FRI = Messages.getString( "Commom.ShortDateTime.Fri" ); //$NON-NLS-1$
+	private static final String FRI = Messages.getString("Commom.ShortDateTime.Fri"); //$NON-NLS-1$
 
-	private static final String SAT = Messages.getString( "Commom.ShortDateTime.Sat" ); //$NON-NLS-1$
+	private static final String SAT = Messages.getString("Commom.ShortDateTime.Sat"); //$NON-NLS-1$
 
 	/**
 	 * sets the calendar
-	 * 
+	 *
 	 * @param calendar
 	 */
-	public void setCalendar( Calendar calendar )
-	{
-		this.cale = (Calendar) calendar.clone( );
-		Calendar tempcalendar = getOriCalendar( calendar );
-		int dayCount = tempcalendar.getActualMaximum( Calendar.DAY_OF_MONTH );
-		int moreDayCount = tempcalendar.get( Calendar.DAY_OF_WEEK ) - 1;
+	public void setCalendar(Calendar calendar) {
+		this.cale = (Calendar) calendar.clone();
+		Calendar tempcalendar = getOriCalendar(calendar);
+		int dayCount = tempcalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int moreDayCount = tempcalendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-		//int count = table.getItemCount();
+		// int count = table.getItemCount();
 
-		for ( int i = 0; i < ROW_COUNT; i++ )
-		{
-			TableItem item = table.getItem( i );
-			if ( i == 0 )
-			{
+		for (int i = 0; i < ROW_COUNT; i++) {
+			TableItem item = table.getItem(i);
+			if (i == 0) {
 				continue;
 			}
 
 			String[] values = new String[7];
-			for ( int j = 0; j < DAY_WEEK_COUNT; j++ )
-			{
-				int index = ( i - 1 ) * DAY_WEEK_COUNT + j;
+			for (int j = 0; j < DAY_WEEK_COUNT; j++) {
+				int index = (i - 1) * DAY_WEEK_COUNT + j;
 				int dayIndex = index - moreDayCount + 1;
-				if ( index < moreDayCount || dayIndex > dayCount )
-				{
+				if (index < moreDayCount || dayIndex > dayCount) {
 					values[j] = ""; //$NON-NLS-1$
-				}
-				else
-				{
-					values[j] = String.valueOf( dayIndex );
+				} else {
+					values[j] = String.valueOf(dayIndex);
 				}
 			}
-			item.setText( values );
+			item.setText(values);
 
 		}
 
-		TableColumn[] cols = table.getColumns( );
+		TableColumn[] cols = table.getColumns();
 		int size = cols.length;
-		for ( int i = 0; i < size; i++ )
-		{
-			cols[i].pack( );
+		for (int i = 0; i < size; i++) {
+			cols[i].pack();
 		}
-		table.pack( );
+		table.pack();
 
-		setOriValue( );
+		setOriValue();
 	}
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
-	 * 
+	 *
 	 * @param composite
 	 * @param style
 	 */
-	public SpinnerTable( Composite composite, int style )
-	{
-		this( composite, style, Calendar.getInstance( ) );
+	public SpinnerTable(Composite composite, int style) {
+		this(composite, style, Calendar.getInstance());
 	}
 
 	/**
 	 * Constructs a new instance of this class given its parent , a style and a
 	 * calendar
-	 * 
+	 *
 	 * @param composite
 	 * @param style
 	 * @param calendar
 	 */
-	public SpinnerTable( Composite composite, int style, Calendar calendar )
-	{
-		super( composite, style );
-		table = new TimeTable( this, SWT.HIDE_SELECTION | style | SWT.BORDER );
+	public SpinnerTable(Composite composite, int style, Calendar calendar) {
+		super(composite, style);
+		table = new TimeTable(this, SWT.HIDE_SELECTION | style | SWT.BORDER);
 
-		createColumn( table );
+		createColumn(table);
 
-		cursor = new TimeTableCursor( table, SWT.NONE );
-		cursor.setBackground( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_BLUE ) );
-		cursor.setForeground( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WHITE ) );
-		cursor.addSelectionListener( new SelectionAdapter( ) {
+		cursor = new TimeTableCursor(table, SWT.NONE);
+		cursor.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+		cursor.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		cursor.addSelectionListener(new SelectionAdapter() {
 
 			// when the TableEditor is over a cell, select the corresponding
 			// row in
 			// the table
-			public void widgetSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetSelected(SelectionEvent e) {
 
-				TableItem row = cursor.getRow( );
-				String value = row.getText( cursor.getColumn( ) );
+				TableItem row = cursor.getRow();
+				String value = row.getText(cursor.getColumn());
 				int strValue = 0;
-				try
-				{
-					strValue = Integer.parseInt( value );
-				}
-				catch ( Exception ee )
-				{
+				try {
+					strValue = Integer.parseInt(value);
+				} catch (Exception ee) {
 
-					setOriValue( );
+					setOriValue();
 					return;
 				}
 
-				int oldValue = cale.get( Calendar.DAY_OF_MONTH );
-				cale.set( Calendar.DAY_OF_MONTH, strValue );
+				int oldValue = cale.get(Calendar.DAY_OF_MONTH);
+				cale.set(Calendar.DAY_OF_MONTH, strValue);
 
-				//source I think is a Object
-				firePropertyListener( new PropertyChangeEvent( new Object( ),
-						"daychange", //$NON-NLS-1$
-						Integer.valueOf( oldValue ),
-						Integer.valueOf( strValue ) ) );
+				// source I think is a Object
+				firePropertyListener(new PropertyChangeEvent(new Object(), "daychange", //$NON-NLS-1$
+						Integer.valueOf(oldValue), Integer.valueOf(strValue)));
 
 			}
-		} );
+		});
 
-		createItems( );
-		setCalendar( calendar );
-
-	}
-
-	private void createColumn( Table table )
-	{
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
-		new TimeTableColumn( table, SWT.NONE );
+		createItems();
+		setCalendar(calendar);
 
 	}
 
-	private Calendar getOriCalendar( Calendar calendar )
-	{
-		Calendar retValue = (Calendar) calendar.clone( );
-		retValue.set( Calendar.DAY_OF_MONTH, 1 );
+	private void createColumn(Table table) {
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+		new TimeTableColumn(table, SWT.NONE);
+
+	}
+
+	private Calendar getOriCalendar(Calendar calendar) {
+		Calendar retValue = (Calendar) calendar.clone();
+		retValue.set(Calendar.DAY_OF_MONTH, 1);
 		return retValue;
 	}
 
-	private void setOriValue( )
-	{
-		Calendar tempcalendar = getOriCalendar( cale );
-		//		int dayCount = tempcalendar.getActualMaximum( Calendar.DAY_OF_MONTH
+	private void setOriValue() {
+		Calendar tempcalendar = getOriCalendar(cale);
+		// int dayCount = tempcalendar.getActualMaximum( Calendar.DAY_OF_MONTH
 		// );
-		int moreDayCount = tempcalendar.get( Calendar.DAY_OF_WEEK ) - 1;
+		int moreDayCount = tempcalendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-		int selectDay = cale.get( Calendar.DAY_OF_MONTH )
-				+ moreDayCount
-				+ DAY_WEEK_COUNT;
+		int selectDay = cale.get(Calendar.DAY_OF_MONTH) + moreDayCount + DAY_WEEK_COUNT;
 
-		int week = selectDay
-				- ( ( selectDay / DAY_WEEK_COUNT ) * DAY_WEEK_COUNT )
-				- 1;
+		int week = selectDay - ((selectDay / DAY_WEEK_COUNT) * DAY_WEEK_COUNT) - 1;
 		int row = selectDay / DAY_WEEK_COUNT;
-		if ( week == -1 )
-		{
+		if (week == -1) {
 			week = 6;
 			row = row - 1;
 		}
 
-		cursor.setSelection( row, week );
+		cursor.setSelection(row, week);
 	}
 
 	/**
-	 * Adds the listener to the collection of listeners who will be notified
-	 * when the year value change, by sending it one of the messages defined in
-	 * the IPropertyChangeListener interface.
-	 * 
+	 * Adds the listener to the collection of listeners who will be notified when
+	 * the year value change, by sending it one of the messages defined in the
+	 * IPropertyChangeListener interface.
+	 *
 	 * @param listener
 	 */
-	public void addPropertyChangeListener( IPropertyChangeListener listener )
-	{
-		listenerList.add( listener );
+	public void addPropertyChangeListener(IPropertyChangeListener listener) {
+		listenerList.add(listener);
 
 	}
 
 	/**
-	 * Removes the listener from the collection of listeners who will be
-	 * notified when the year value change
-	 * 
+	 * Removes the listener from the collection of listeners who will be notified
+	 * when the year value change
+	 *
 	 * @param listener
 	 */
-	public void removePropertyChangeListener( IPropertyChangeListener listener )
-	{
-		listenerList.remove( listener );
+	public void removePropertyChangeListener(IPropertyChangeListener listener) {
+		listenerList.remove(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Widget#checkWidget()
 	 */
-	protected void checkWidget( )
-	{
+	@Override
+	protected void checkWidget() {
 
 	}
 
 	/**
 	 * Fire the event when the year value change
-	 * 
+	 *
 	 * @param e
 	 */
-	public void firePropertyListener( PropertyChangeEvent e )
-	{
-		int size = listenerList.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			IPropertyChangeListener listener = (IPropertyChangeListener) listenerList.get( i );
-			listener.propertyChange( e );
+	public void firePropertyListener(PropertyChangeEvent e) {
+		int size = listenerList.size();
+		for (int i = 0; i < size; i++) {
+			IPropertyChangeListener listener = (IPropertyChangeListener) listenerList.get(i);
+			listener.propertyChange(e);
 		}
 	}
 
-	private void createItems( )
-	{
-		for ( int i = 0; i < ROW_COUNT; i++ )
-		{
-			TableItem item = new TimeTableItem( table, SWT.NONE );
-			if ( i == 0 )
-			{
-				item.setText( new String[]{
-						SUN, MON, TUE, WED, THU, FRI, SAT
-				} );
-				item.setBackground( Display.getCurrent( )
-						.getSystemColor( SWT.COLOR_BLUE ) );
-				item.setForeground( Display.getCurrent( )
-						.getSystemColor( SWT.COLOR_WHITE ) );
+	private void createItems() {
+		for (int i = 0; i < ROW_COUNT; i++) {
+			TableItem item = new TimeTableItem(table, SWT.NONE);
+			if (i == 0) {
+				item.setText(new String[] { SUN, MON, TUE, WED, THU, FRI, SAT });
+				item.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+				item.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 
 		}
@@ -294,88 +260,79 @@ public class SpinnerTable extends Composite
 
 	/**
 	 * Gets the day value
-	 * 
+	 *
 	 * @return day value
 	 */
-	public int getDay( )
-	{
-		return cale.get( Calendar.DAY_OF_MONTH );
+	public int getDay() {
+		return cale.get(Calendar.DAY_OF_MONTH);
 	}
-	//dispose not finish
+	// dispose not finish
 }
 
-class TimeTable extends Table
-{
+class TimeTable extends Table {
 
-	public TimeTable( Composite composite, int style )
-	{
-		super( composite, style );
+	public TimeTable(Composite composite, int style) {
+		super(composite, style);
 	}
 
-	protected void checkWidget( )
-	{
+	@Override
+	protected void checkWidget() {
 
 	}
 
-	protected void checkSubclass( )
-	{
+	@Override
+	protected void checkSubclass() {
 
 	}
 }
 
-class TimeTableItem extends TableItem
-{
+class TimeTableItem extends TableItem {
 
-	public TimeTableItem( Table parent, int style )
-	{
-		super( parent, style );
+	public TimeTableItem(Table parent, int style) {
+		super(parent, style);
 	}
 
-	protected void checkWidget( )
-	{
+	@Override
+	protected void checkWidget() {
 
 	}
 
-	protected void checkSubclass( )
-	{
+	@Override
+	protected void checkSubclass() {
 
 	}
 }
 
-class TimeTableColumn extends TableColumn
-{
+class TimeTableColumn extends TableColumn {
 
-	public TimeTableColumn( Table parent, int style )
-	{
-		super( parent, style );
+	public TimeTableColumn(Table parent, int style) {
+		super(parent, style);
 	}
 
-	protected void checkWidget( )
-	{
+	@Override
+	protected void checkWidget() {
 
 	}
 
-	protected void checkSubclass( )
-	{
+	@Override
+	protected void checkSubclass() {
 
 	}
 }
 
-class TimeTableCursor extends TableCursor
-{
+class TimeTableCursor extends TableCursor {
 
-	public TimeTableCursor( Table parent, int style )
-	{
-		super( parent, style );
+	public TimeTableCursor(Table parent, int style) {
+		super(parent, style);
 	}
 
-	protected void checkWidget( )
-	{
+	@Override
+	protected void checkWidget() {
 
 	}
 
-	protected void checkSubclass( )
-	{
+	@Override
+	protected void checkSubclass() {
 
 	}
 }

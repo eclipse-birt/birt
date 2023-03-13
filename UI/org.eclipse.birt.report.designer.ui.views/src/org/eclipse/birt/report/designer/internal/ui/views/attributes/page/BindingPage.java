@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,8 +37,7 @@ import org.eclipse.swt.widgets.Composite;
  * The Binding attribute page of DE element. Note: Binding Not support
  * multi-selection.
  */
-public class BindingPage extends AttributePage
-{
+public class BindingPage extends AttributePage {
 	// private ComboAndButtonSection dataSetSection;
 
 	private DataSetColumnBindingsFormHandleProvider dataSetFormProvider;
@@ -48,121 +50,114 @@ public class BindingPage extends AttributePage
 
 	private BindingGroupDescriptorProvider bindingProvider;
 
-	public void setDataSetSectionVisible( boolean bool )
-	{
+	public void setDataSetSectionVisible(boolean bool) {
 		dataSetSectionVisible = bool;
 	}
 
-	protected Composite getSectionContainer( )
-	{
+	protected Composite getSectionContainer() {
 		return composite;
 	}
 
-	public void buildUI( Composite parent )
-	{
-		container = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		( (ScrolledComposite) container ).setExpandHorizontal( true );
-		( (ScrolledComposite) container ).setExpandVertical( true );
-		container.addControlListener( new ControlAdapter( ) {
+	@Override
+	public void buildUI(Composite parent) {
+		container = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+		((ScrolledComposite) container).setExpandHorizontal(true);
+		((ScrolledComposite) container).setExpandVertical(true);
+		container.addControlListener(new ControlAdapter() {
 
-			public void controlResized( ControlEvent e )
-			{
-				computeSize( );
+			@Override
+			public void controlResized(ControlEvent e) {
+				computeSize();
 			}
-		} );
+		});
 
-		container.addDisposeListener( new DisposeListener( ) {
+		container.addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				deRegisterEventManager( );
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				deRegisterEventManager();
 			}
-		} );
+		});
 
-		composite = new Composite( container, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite = new Composite(container, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if ( sections == null )
-			sections = new SortMap( );
+		if (sections == null) {
+			sections = new SortMap();
+		}
 
-		composite.setLayout( WidgetUtil.createGridLayout( 6 ) );
+		composite.setLayout(WidgetUtil.createGridLayout(6));
 
-		if ( dataSetSectionVisible )
-		{
-			BindingGroupSection bindingGroupSection = new BindingGroupSection( composite,
-					true );
-			bindingProvider = new BindingGroupDescriptorProvider( );
-			bindingProvider.setRefrenceSection( bindingGroupSection );
-			bindingGroupSection.setProvider( bindingProvider );
-			bindingGroupSection.setGridPlaceholder( 2, true );
+		if (dataSetSectionVisible) {
+			BindingGroupSection bindingGroupSection = new BindingGroupSection(composite, true);
+			bindingProvider = new BindingGroupDescriptorProvider();
+			bindingProvider.setRefrenceSection(bindingGroupSection);
+			bindingGroupSection.setProvider(bindingProvider);
+			bindingGroupSection.setGridPlaceholder(2, true);
 //			bindingGroupSection.setWidth( 550 );
-			addSection( PageSectionId.BINDING_GROUP, bindingGroupSection );
+			addSection(PageSectionId.BINDING_GROUP, bindingGroupSection);
 		}
 
-		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
-		dataSetFormSection = new SortingFormSection( dataSetFormProvider.getDisplayName( ),
-				composite,
-				true );
-		dataSetFormSection.setCustomForm( new DataSetColumnBindingsFormDescriptor( true ) );
-		dataSetFormSection.setProvider( dataSetFormProvider );
-		dataSetFormSection.showDisplayLabel( true );
-		dataSetFormSection.setButtonWithDialog( true );
-		dataSetFormSection.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
-		dataSetFormSection.setHeight( 0 );
-		dataSetFormSection.setFillForm( true );
-		dataSetFormSection.setGridPlaceholder( 1, true );
-		addSection( PageSectionId.BINDING_DATASET_FORM, dataSetFormSection );
+		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider();
+		dataSetFormSection = new SortingFormSection(dataSetFormProvider.getDisplayName(), composite, true);
+		dataSetFormSection.setCustomForm(new DataSetColumnBindingsFormDescriptor(true));
+		dataSetFormSection.setProvider(dataSetFormProvider);
+		dataSetFormSection.showDisplayLabel(true);
+		dataSetFormSection.setButtonWithDialog(true);
+		dataSetFormSection.setStyle(FormPropertyDescriptor.FULL_FUNCTION);
+		dataSetFormSection.setHeight(0);
+		dataSetFormSection.setFillForm(true);
+		dataSetFormSection.setGridPlaceholder(1, true);
+		addSection(PageSectionId.BINDING_DATASET_FORM, dataSetFormSection);
 
-		if ( bindingProvider != null )
-		{
-			bindingProvider.setDependedProvider( dataSetFormProvider );
+		if (bindingProvider != null) {
+			bindingProvider.setDependedProvider(dataSetFormProvider);
 		}
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 
-		( (ScrolledComposite) container ).setContent( composite );
+		((ScrolledComposite) container).setContent(composite);
 	}
 
-	private void computeSize( )
-	{
-		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		( (ScrolledComposite) container ).setMinSize( size.x, size.y + 10 );
-		container.layout( );
-
-	}
-
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( checkControl( dataSetFormSection ) )
-			dataSetFormSection.getFormControl( ).addElementEvent( focus, ev );
-	}
-
-	public void clear( )
-	{
-		if ( checkControl( dataSetFormSection ) )
-			dataSetFormSection.getFormControl( ).clear( );
-	}
-
-	public void postElementEvent( )
-	{
-
-		if ( checkControl( dataSetFormSection ) )
-			dataSetFormSection.getFormControl( ).postElementEvent( );
+	private void computeSize() {
+		Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		((ScrolledComposite) container).setMinSize(size.x, size.y + 10);
+		container.layout();
 
 	}
 
-	public void setInput( Object input )
-	{
-		super.setInput( input );
+	@Override
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
+		if (checkControl(dataSetFormSection)) {
+			dataSetFormSection.getFormControl().addElementEvent(focus, ev);
+		}
 	}
 
-	private boolean checkControl( SortingFormSection form )
-	{
-		return form != null
-				&& form.getFormControl( ) != null
-				&& !form.getFormControl( ).getControl( ).isDisposed( );
+	@Override
+	public void clear() {
+		if (checkControl(dataSetFormSection)) {
+			dataSetFormSection.getFormControl().clear();
+		}
+	}
+
+	@Override
+	public void postElementEvent() {
+
+		if (checkControl(dataSetFormSection)) {
+			dataSetFormSection.getFormControl().postElementEvent();
+		}
+
+	}
+
+	@Override
+	public void setInput(Object input) {
+		super.setInput(input);
+	}
+
+	private boolean checkControl(SortingFormSection form) {
+		return form != null && form.getFormControl() != null && !form.getFormControl().getControl().isDisposed();
 	}
 
 }

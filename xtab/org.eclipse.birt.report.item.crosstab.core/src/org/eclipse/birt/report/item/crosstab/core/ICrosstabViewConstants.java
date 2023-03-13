@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,14 +15,13 @@
 package org.eclipse.birt.report.item.crosstab.core;
 
 /**
- * 
+ *
  */
-public interface ICrosstabViewConstants
-{
+public interface ICrosstabViewConstants {
 
 	/**
-	 * Name of the property that holds the grand total header cell for this
-	 * crosstab view.
+	 * Name of the property that holds the grand total header cell for this crosstab
+	 * view.
 	 */
 	String GRAND_TOTAL_PROP = "grandTotal"; //$NON-NLS-1$
 
@@ -34,8 +36,8 @@ public interface ICrosstabViewConstants
 	String MEMBERS_PROP = "members"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that specifies if start from which level this view
-	 * is mirrored.
+	 * Name of the property that specifies if start from which level this view is
+	 * mirrored.
 	 */
 	String MIRROR_STARTING_LEVEL_PROP = "mirrorStartingLevel"; //$NON-NLS-1$
 

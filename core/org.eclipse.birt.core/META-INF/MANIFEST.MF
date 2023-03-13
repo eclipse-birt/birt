@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Core Package
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.archive.cache,
@@ -20,6 +20,15 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.framework.parser,
  org.eclipse.birt.core.fs,
  org.eclipse.birt.core.i18n,
+ org.eclipse.birt.core.internal.util;
+  x-friends:="uk.co.spudsoft.birt.emitters.excel,
+   org.eclipse.birt.report.viewer,
+   org.eclipse.birt.report.engine,
+   org.eclipse.birt.report.designer.core,
+   org.eclipse.birt.report.designer.ui,
+   org.eclipse.birt.chart.examples,
+   org.eclipse.birt.report.model,
+   org.eclipse.birt.chart.viewer",
  org.eclipse.birt.core.plugin,
  org.eclipse.birt.core.preference,
  org.eclipse.birt.core.script,
@@ -29,8 +38,8 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.mozilla.javascript;bundle-version="1.7.4";visibility:=reexport,
- com.ibm.icu;bundle-version="3.4.4";visibility:=reexport
+ com.ibm.icu;bundle-version="70.1.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.servlet

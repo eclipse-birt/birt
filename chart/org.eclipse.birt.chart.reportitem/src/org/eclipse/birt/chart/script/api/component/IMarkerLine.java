@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,21 +20,19 @@ import org.eclipse.birt.chart.script.api.data.IDataElement;
  * Represents the Marker Line of Axis in the scripting environment
  */
 
-public interface IMarkerLine extends IChartComponent
-{
+public interface IMarkerLine extends IChartComponent {
 
 	/**
 	 * Gets the value for defining where the line will be positioned
-	 * 
+	 *
 	 * @return value
 	 */
-	IDataElement getValue( );
+	IDataElement getValue();
 
 	/**
 	 * Sets the value for defining where the line will be positioned
-	 * 
-	 * @param value
-	 *            value
+	 *
+	 * @param value value
 	 */
-	void setValue( IDataElement value );
+	void setValue(IDataElement value);
 }

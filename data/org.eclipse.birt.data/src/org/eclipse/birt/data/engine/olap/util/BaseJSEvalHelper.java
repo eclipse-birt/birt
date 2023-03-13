@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +29,10 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
-public abstract class BaseJSEvalHelper
-{
+public abstract class BaseJSEvalHelper {
 
 	protected Scriptable scope;
 	protected ICubeQueryDefinition queryDefn;
@@ -38,79 +40,69 @@ public abstract class BaseJSEvalHelper
 	protected IBaseQueryResults outResults;
 	private List jsObjectPopulators;
 	protected ScriptContext cx;
+
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param cx
 	 * @param expr
 	 * @throws DataException
 	 */
-	protected void init( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ScriptContext cx, IBaseExpression expr )
-			throws DataException
-	{
-		try
-		{
-			this.scope = ( ( IDataScriptEngine )( cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ) ).getJSContext( cx ).initStandardObjects( );
+	protected void init(IBaseQueryResults outResults, Scriptable parentScope, ICubeQueryDefinition queryDefn,
+			ScriptContext cx, IBaseExpression expr) throws DataException {
+		try {
+			this.scope = ((IDataScriptEngine) (cx.getScriptEngine(IDataScriptEngine.ENGINE_NAME))).getJSContext(cx)
+					.initStandardObjects();
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
-		catch (BirtException e)
-		{
-			throw DataException.wrap( e );
-		}
-		this.scope.setParentScope( parentScope );
+		this.scope.setParentScope(parentScope);
 		this.queryDefn = queryDefn;
 		this.expr = expr;
 		this.outResults = outResults;
 		this.cx = cx;
-		this.jsObjectPopulators = new ArrayList( );
-		registerJSObjectPopulators( );
-		OLAPExpressionCompiler.compile( cx.newContext(this.scope), this.expr );
+		this.jsObjectPopulators = new ArrayList();
+		registerJSObjectPopulators();
+		OLAPExpressionCompiler.compile(cx.newContext(this.scope), this.expr);
 	}
 
 	/**
-	 * Overwrite this method if other Javascript objects are needed to
-	 * registered. By default, the dimension Javascript object will be
-	 * registered.
-	 * 
+	 * Overwrite this method if other Javascript objects are needed to registered.
+	 * By default, the dimension Javascript object will be registered.
+	 *
 	 * @throws DataException
 	 */
-	protected abstract void registerJSObjectPopulators( ) throws DataException;
+	protected abstract void registerJSObjectPopulators() throws DataException;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @throws DataException
 	 */
-	protected void register( IJSObjectPopulator populator )
-			throws DataException
-	{
-		populator.doInit( );
-		this.jsObjectPopulators.add( populator );
+	protected void register(IJSObjectPopulator populator) throws DataException {
+		populator.doInit();
+		this.jsObjectPopulators.add(populator);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultRow
 	 */
-	protected void setData( Object resultRow )
-	{
-		for ( Iterator i = jsObjectPopulators.iterator( ); i.hasNext( ); )
-		{
-			IJSObjectPopulator populator = (IJSObjectPopulator) i.next( );
-			populator.setData( resultRow );
+	protected void setData(Object resultRow) {
+		for (Iterator i = jsObjectPopulators.iterator(); i.hasNext();) {
+			IJSObjectPopulator populator = (IJSObjectPopulator) i.next();
+			populator.setData(resultRow);
 		}
 	}
 
 	/**
 	 * clear all initialized javascript objects from the scope.
 	 */
-	public void close( )
-	{
-		for ( Iterator i = jsObjectPopulators.iterator( ); i.hasNext( ); )
-		{
-			IJSObjectPopulator populator = (IJSObjectPopulator) i.next( );
-			populator.cleanUp( );
+	public void close() {
+		for (Iterator i = jsObjectPopulators.iterator(); i.hasNext();) {
+			IJSObjectPopulator populator = (IJSObjectPopulator) i.next();
+			populator.cleanUp();
 		}
 		jsObjectPopulators = null;
 	}

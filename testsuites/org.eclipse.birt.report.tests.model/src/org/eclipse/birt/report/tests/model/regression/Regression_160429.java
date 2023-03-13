@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -42,26 +45,22 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Create four datasource and change them positions<br>
  * <p>
  */
-public class Regression_160429 extends BaseTestCase
-{
+public class Regression_160429 extends BaseTestCase {
 
 	public final static String REPORT = "regression_160429.xml";
 
-	public void test_regression_160429( ) throws Exception
-	{
+	public void test_regression_160429() throws Exception {
 		// open the report design
-		openDesign( REPORT );
+		openDesign(REPORT);
 
 		// find the position of datasource
-		OdaDataSourceHandle ds1 = (OdaDataSourceHandle) designHandle
-				.findDataSource( "d1" );
-		OdaDataSourceHandle ds2 = (OdaDataSourceHandle) designHandle
-				.findDataSource( "d2" );
-		assertNotNull( ds1 );
-		
-		System.out.println( ds1.getIndex( ) );
-		System.out.println( ds2.getIndex( ) );
-		System.out.println( designHandle.findContentSlot( ds2 ) );
+		OdaDataSourceHandle ds1 = (OdaDataSourceHandle) designHandle.findDataSource("d1");
+		OdaDataSourceHandle ds2 = (OdaDataSourceHandle) designHandle.findDataSource("d2");
+		assertNotNull(ds1);
+
+		System.out.println(ds1.getIndex());
+		System.out.println(ds2.getIndex());
+		System.out.println(designHandle.findContentSlot(ds2));
 
 	}
 }

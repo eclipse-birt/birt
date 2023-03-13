@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,304 +41,255 @@ import org.eclipse.birt.report.engine.content.ITextContent;
  * Emitter the input to mutiple outputs.
  *
  */
-public class CompositeContentEmitter extends ContentEmitterAdapter
-{
+public class CompositeContentEmitter extends ContentEmitterAdapter {
 	protected ArrayList emitters = new ArrayList();
 
 	protected String format = "html";
-	
-	public CompositeContentEmitter()
-	{
+
+	public CompositeContentEmitter() {
 	}
-	
-	public CompositeContentEmitter(String format)
-	{
+
+	public CompositeContentEmitter(String format) {
 		this.format = format;
 	}
-	
-	public void addEmitter(IContentEmitter emitter)
-	{
+
+	public void addEmitter(IContentEmitter emitter) {
 		emitters.add(emitter);
 	}
 
-	public void end( IReportContent report ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).end(report);
+	@Override
+	public void end(IReportContent report) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).end(report);
 		}
 	}
 
-	public void endGroup( IGroupContent group ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size( ); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endGroup(group);
+	@Override
+	public void endGroup(IGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endGroup(group);
 		}
 	}
 
-
-	public void endList( IListContent list ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).endList( list );
+	@Override
+	public void endList(IListContent list) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endList(list);
 		}
 	}
 
-
-	public void endListGroup( IListGroupContent group ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).endListGroup( group );
+	@Override
+	public void endListGroup(IListGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endListGroup(group);
 		}
 	}
 
-
-	public void endTableGroup( ITableGroupContent group ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).endTableGroup( group );
+	@Override
+	public void endTableGroup(ITableGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endTableGroup(group);
 		}
 	}
 
-
-	public void startAutoText( IAutoTextContent autoText ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).startAutoText( autoText );
+	@Override
+	public void startAutoText(IAutoTextContent autoText) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startAutoText(autoText);
 		}
 	}
 
-
-	public void startGroup( IGroupContent group ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).startGroup( group );
+	@Override
+	public void startGroup(IGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startGroup(group);
 		}
 	}
 
-
-	public void startListGroup( IListGroupContent group ) throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).startListGroup( group );
+	@Override
+	public void startListGroup(IListGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startListGroup(group);
 		}
 	}
 
-
-	public void startTableGroup( ITableGroupContent group )
-			throws BirtException
-	{
-		for ( int i = 0; i < emitters.size( ); i++ )
-		{
-			( (IContentEmitter) emitters.get( i ) ).startTableGroup( group );
+	@Override
+	public void startTableGroup(ITableGroupContent group) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startTableGroup(group);
 		}
 	}
 
-
-	public void endCell( ICellContent cell ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endCell(cell);
+	@Override
+	public void endCell(ICellContent cell) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endCell(cell);
 		}
 	}
 
-	public void endContainer( IContainerContent container )
-			throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endContainer(container);
+	@Override
+	public void endContainer(IContainerContent container) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endContainer(container);
 		}
 	}
 
-	public void endContent( IContent content ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endContent(content);
+	@Override
+	public void endContent(IContent content) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endContent(content);
 		}
 	}
 
-	public void endPage( IPageContent page ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endPage(page);
+	@Override
+	public void endPage(IPageContent page) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endPage(page);
 		}
 	}
 
-	public void endRow( IRowContent row ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endRow(row);
+	@Override
+	public void endRow(IRowContent row) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endRow(row);
 		}
 	}
 
-	public void startTableBand( ITableBandContent band ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startTableBand(band);
-		}
-	}
-	
-	public void endTableBand( ITableBandContent band ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endTableBand(band);
+	@Override
+	public void startTableBand(ITableBandContent band) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startTableBand(band);
 		}
 	}
 
-	public void endTable( ITableContent table ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endTable(table);
+	@Override
+	public void endTableBand(ITableBandContent band) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endTableBand(band);
 		}
 	}
-	
 
-	public String getOutputFormat( )
-	{
+	@Override
+	public void endTable(ITableContent table) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endTable(table);
+		}
+	}
+
+	@Override
+	public String getOutputFormat() {
 		return format;
 	}
 
-	public void initialize( IEmitterServices service ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).initialize(service);
+	@Override
+	public void initialize(IEmitterServices service) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).initialize(service);
 		}
 	}
 
-	public void start( IReportContent report ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).start(report);
+	@Override
+	public void start(IReportContent report) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).start(report);
 		}
 	}
 
-	public void startCell( ICellContent cell ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startCell(cell);
+	@Override
+	public void startCell(ICellContent cell) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startCell(cell);
 		}
 	}
 
-	public void startContainer( IContainerContent container )
-			throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startContainer(container);
+	@Override
+	public void startContainer(IContainerContent container) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startContainer(container);
 		}
 	}
 
-	public void startContent( IContent content ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startContent(content);
+	@Override
+	public void startContent(IContent content) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startContent(content);
 		}
 	}
 
-	public void startData( IDataContent data ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startData(data);
+	@Override
+	public void startData(IDataContent data) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startData(data);
 		}
 	}
 
-	public void startForeign( IForeignContent foreign ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startForeign(foreign);
+	@Override
+	public void startForeign(IForeignContent foreign) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startForeign(foreign);
 		}
 	}
 
-	public void startImage( IImageContent image ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startImage(image);
+	@Override
+	public void startImage(IImageContent image) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startImage(image);
 		}
 	}
 
-	public void startLabel( ILabelContent label ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startLabel(label);
+	@Override
+	public void startLabel(ILabelContent label) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startLabel(label);
 		}
 	}
 
-	public void startPage( IPageContent page ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startPage(page);
+	@Override
+	public void startPage(IPageContent page) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startPage(page);
 		}
 	}
 
-	public void startRow( IRowContent row ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startRow(row);
+	@Override
+	public void startRow(IRowContent row) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startRow(row);
 		}
 	}
 
-	public void startTable( ITableContent table ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startTable(table);
+	@Override
+	public void startTable(ITableContent table) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startTable(table);
 		}
 	}
 
-	public void startListBand( IListBandContent band ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startListBand(band);
+	@Override
+	public void startListBand(IListBandContent band) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startListBand(band);
 		}
 	}
 
-	public void endListBand( IListBandContent band ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).endListBand(band);
+	@Override
+	public void endListBand(IListBandContent band) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).endListBand(band);
 		}
 	}
 
-	public void startList( IListContent list ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startList(list);
+	@Override
+	public void startList(IListContent list) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startList(list);
 		}
 	}
 
-	public void startText( ITextContent text ) throws BirtException
-	{
-		for (int i = 0; i < emitters.size(); i++)
-		{
-			((IContentEmitter)emitters.get(i)).startText(text);
+	@Override
+	public void startText(ITextContent text) throws BirtException {
+		for (int i = 0; i < emitters.size(); i++) {
+			((IContentEmitter) emitters.get(i)).startText(text);
 		}
 	}
 

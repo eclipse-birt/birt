@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,26 +19,23 @@ package org.eclipse.birt.report.model.api.extension;
  * encryption and decryption.
  */
 
-public interface IEncryptionHelper
-{
+public interface IEncryptionHelper {
 
 	/**
 	 * Encrypts the given string, and returns the encrypted string.
-	 * 
-	 * @param string
-	 *            the string to encrypt
+	 *
+	 * @param string the string to encrypt
 	 * @return the encrypted string
 	 */
 
-	public String encrypt( String string );
+	String encrypt(String string);
 
 	/**
 	 * Decrypts the given encrypted string, and returns the original string.
-	 * 
-	 * @param string
-	 *            the string to decrypt
+	 *
+	 * @param string the string to decrypt
 	 * @return the original string
 	 */
 
-	public String decrypt( String string );
+	String decrypt(String string);
 }

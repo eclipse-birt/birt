@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005, 2006 IBM Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -20,26 +23,24 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
  * PDF output. Note this class disables any interactivity since PDF is a static
  * device renderer
  */
-public class PDFInteractiveRenderer extends SVGInteractiveRenderer
-{
+public class PDFInteractiveRenderer extends SVGInteractiveRenderer {
 
-	public PDFInteractiveRenderer( IDeviceRenderer device )
-	{
-		super( device );
+	public PDFInteractiveRenderer(IDeviceRenderer device) {
+		super(device);
 	}
 
-	public void addInteractivity( )
-	{
+	@Override
+	public void addInteractivity() {
 		// no interactions since we are rendering a static image
 	}
 
-	protected void groupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
-	{
+	@Override
+	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		// no interactions since we are rendering a static image
 	}
 
-	protected void ungroupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
-	{
+	@Override
+	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		// no interactions since we are rendering a static image
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,11 +24,10 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * 
+ *
  */
 
-public class InsertGroupMenuAction extends SelectionAction
-{
+public class InsertGroupMenuAction extends SelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertGroupMenuAction"; //$NON-NLS-1$
 
@@ -36,57 +38,50 @@ public class InsertGroupMenuAction extends SelectionAction
 	/**
 	 * @param part
 	 */
-	public InsertGroupMenuAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
+	public InsertGroupMenuAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
 	}
 
 	/**
 	 * Updates then current menu.
-	 * 
-	 * @param menu
-	 *            the current menu
+	 *
+	 * @param menu the current menu
 	 */
-	public void updateMenu( MenuManager menu )
-	{
+	public void updateMenu(MenuManager menu) {
 		this.menu = menu;
-		run( );
+		run();
 	}
 
-	protected boolean calculateEnabled( )
-	{
+	@Override
+	protected boolean calculateEnabled() {
 		return true;
 
 	}
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
-	public void run( )
-	{
-		menu.removeAll( );
-		menu.update( true );
-		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
-		for ( int i = 0; i < actions.length; i++ )
-		{
-			menu.add( actions[i] );
+	@Override
+	public void run() {
+		menu.removeAll();
+		menu.update(true);
+		Action[] actions = InsertGroupActionFactory.getInsertGroupActions(getSelectedObjects());
+		for (int i = 0; i < actions.length; i++) {
+			menu.add(actions[i]);
 		}
-		menu.update( true );
-		return;
+		menu.update(true);
 	}
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
-	protected Object getFirstElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length > 0 )
-		{
+	protected Object getFirstElement() {
+		Object[] array = getElements().toArray();
+		if (array.length > 0) {
 			return array[0];
 		}
 		return null;
@@ -94,12 +89,11 @@ public class InsertGroupMenuAction extends SelectionAction
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
-	protected List getElements( )
-	{
-		return InsertInLayoutUtil.editPart2Model( getSelection( ) ).toList( );
+	protected List getElements() {
+		return InsertInLayoutUtil.editPart2Model(getSelection()).toList();
 	}
 
 }

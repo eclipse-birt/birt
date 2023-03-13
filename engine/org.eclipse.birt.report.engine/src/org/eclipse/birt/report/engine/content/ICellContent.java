@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,92 +18,92 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * Provides the interfaces for Cell Content
- * 
+ *
  */
-public interface ICellContent extends IContainerContent
-{
+public interface ICellContent extends IContainerContent {
 
 	/**
-	 * 
+	 *
 	 * @return the column span
 	 */
-	public int getColSpan( );
+	int getColSpan();
 
 	/**
 	 * @return Returns the rowSpan.
 	 */
-	public int getRowSpan( );
+	int getRowSpan();
 
 	/**
-	 * 
+	 *
 	 * @return the column number
 	 */
-	public int getColumn( );
+	int getColumn();
 
 	/**
 	 * @return the column content.
 	 */
-	public IColumn getColumnInstance( );
+	IColumn getColumnInstance();
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getRow( );
+	int getRow();
 
-	public void setColumn( int column );
+	void setColumn(int column);
 
-	public void setRowSpan( int rowSpan );
+	void setRowSpan(int rowSpan);
 
-	public void setColSpan( int colSpan );
+	void setColSpan(int colSpan);
 
-	public void setDisplayGroupIcon( boolean displayGroupIcon );
-	
-	public boolean getDisplayGroupIcon( );
-	
-	public boolean hasDiagonalLine( );
+	void setDisplayGroupIcon(boolean displayGroupIcon);
 
-	public int getDiagonalNumber( );
+	boolean getDisplayGroupIcon();
 
-	public void setDiagonalNumber( int diagonalNumber );
+	boolean hasDiagonalLine();
 
-	public String getDiagonalStyle( );
+	int getDiagonalNumber();
 
-	public void setDiagonalStyle( String diagonalStyle );
+	void setDiagonalNumber(int diagonalNumber);
 
-	public DimensionType getDiagonalWidth( );
+	String getDiagonalStyle();
 
-	public void setDiagonalWidth( DimensionType diagonalWidth );
+	void setDiagonalStyle(String diagonalStyle);
 
-	public String getDiagonalColor( );
+	DimensionType getDiagonalWidth();
 
-	public void setDiagonalColor( String diagonalColor );
+	void setDiagonalWidth(DimensionType diagonalWidth);
 
-	public int getAntidiagonalNumber( );
+	String getDiagonalColor();
 
-	public void setAntidiagonalNumber( int antidiagonalNumber );
+	void setDiagonalColor(String diagonalColor);
 
-	public String getAntidiagonalStyle( );
+	int getAntidiagonalNumber();
 
-	public void setAntidiagonalStyle( String antidiagonalStyle );
+	void setAntidiagonalNumber(int antidiagonalNumber);
 
-	public DimensionType getAntidiagonalWidth( );
+	String getAntidiagonalStyle();
 
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth );
+	void setAntidiagonalStyle(String antidiagonalStyle);
 
-	public String getAntidiagonalColor( );
+	DimensionType getAntidiagonalWidth();
 
-	public void setAntidiagonalColor( String antidiagonalColor );
+	void setAntidiagonalWidth(DimensionType antidiagonalWidth);
 
-	public String getHeaders( );
+	String getAntidiagonalColor();
 
-	public void setHeaders( String headers );
+	void setAntidiagonalColor(String antidiagonalColor);
 
-	public String getScope( );
+	String getHeaders();
 
-	public void setScope( String scope );
-	
-	public boolean repeatContent();
-	
-	public void setRepeatContent(boolean repeatContent);
+	void setHeaders(String headers);
+
+	String getScope();
+
+	void setScope(String scope);
+
+	boolean repeatContent();
+
+	void setRepeatContent(boolean repeatContent);
 
 }

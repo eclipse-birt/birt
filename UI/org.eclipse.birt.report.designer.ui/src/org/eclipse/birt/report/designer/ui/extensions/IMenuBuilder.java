@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,16 +22,13 @@ import org.eclipse.jface.action.IMenuManager;
  * The interface used to extend context menu in the layout editeor
  */
 
-public interface IMenuBuilder
-{
+public interface IMenuBuilder {
 
 	/**
 	 * Build extended menu for the given menu manager by the selection
-	 * 
-	 * @param menu
-	 *            the menu manager to extend
-	 * @param selectedList
-	 *            the selection list
+	 *
+	 * @param menu         the menu manager to extend
+	 * @param selectedList the selection list
 	 */
-	public void buildMenu( IMenuManager menu, List selectedList );
+	void buildMenu(IMenuManager menu, List selectedList);
 }

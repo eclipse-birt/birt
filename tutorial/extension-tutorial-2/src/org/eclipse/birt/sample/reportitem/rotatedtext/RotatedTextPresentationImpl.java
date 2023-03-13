@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,79 +35,64 @@ import org.eclipse.birt.sample.reportitem.rotatedtext.util.SwingGraphicsUtil;
 /**
  * RotatedTextPresentationImpl
  */
-public class RotatedTextPresentationImpl extends ReportItemPresentationBase
-{
+public class RotatedTextPresentationImpl extends ReportItemPresentationBase {
 
 	private RotatedTextItem textItem;
 
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
-		try
-		{
-			textItem = (RotatedTextItem) modelHandle.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
+	@Override
+	public void setModelObject(ExtendedItemHandle modelHandle) {
+		try {
+			textItem = (RotatedTextItem) modelHandle.getReportItem();
+		} catch (ExtendedElementException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public int getOutputType( )
-	{
+	@Override
+	public int getOutputType() {
 		return OUTPUT_AS_IMAGE;
 	}
 
-	public Object onRowSets( IBaseResultSet[] results ) throws BirtException
-	{
-		if ( textItem == null )
-		{
+	@Override
+	public Object onRowSets(IBaseResultSet[] results) throws BirtException {
+		if (textItem == null) {
 			return null;
 		}
 
-		int angle = textItem.getRotationAngle( );
-		String text = textItem.getText( );
+		int angle = textItem.getRotationAngle();
+		String text = textItem.getText();
 
 		// XXX Uncomment this block for expression support
 		// /*
-		if ( results != null && results.length > 0 )
-		{
-			if ( results[0] instanceof IQueryResultSet
-					&& ( (IQueryResultSet) results[0] ).isBeforeFirst( ) )
-			{
-				( (IQueryResultSet) results[0] ).next( );
+		if (results != null && results.length > 0) {
+			if (results[0] instanceof IQueryResultSet && ((IQueryResultSet) results[0]).isBeforeFirst()) {
+				((IQueryResultSet) results[0]).next();
 			}
 
-			text = String.valueOf( results[0].evaluate( text ) );
-		}
-		else
-		{
-			text = String.valueOf( context.evaluate( text ) );
+			text = String.valueOf(results[0].evaluate(text));
+		} else {
+			text = String.valueOf(context.evaluate(text));
 		}
 		// */
 
-		BufferedImage rotatedImage = SwingGraphicsUtil.createRotatedTextImage( text,
-				angle,
-				new Font( "Default", 0, 12 ) ); //$NON-NLS-1$
+		BufferedImage rotatedImage = SwingGraphicsUtil.createRotatedTextImage(text, angle, new Font("Default", 0, 12)); //$NON-NLS-1$
 
 		ByteArrayInputStream bis = null;
 
-		try
-		{
-			ImageIO.setUseCache( false );
+		try {
+			ImageIO.setUseCache(false);
 
-			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			ImageOutputStream ios = ImageIO.createImageOutputStream( baos );
+			ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
 
-			ImageIO.write( rotatedImage, "png", ios ); //$NON-NLS-1$
-			ios.flush( );
-			ios.close( );
+			ImageIO.write(rotatedImage, "png", ios); //$NON-NLS-1$
+			ios.flush();
+			ios.close();
 
-			bis = new ByteArrayInputStream( baos.toByteArray( ) );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
+			bis = new ByteArrayInputStream(baos.toByteArray());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return bis;

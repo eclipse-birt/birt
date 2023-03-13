@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,11 +35,10 @@ import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Records setting the value of a structure member.
- * 
+ *
  */
 
-public class MemberRecord extends SimpleRecord
-{
+public class MemberRecord extends SimpleRecord {
 
 	/**
 	 * The design element that contains the property that contains the structure
@@ -77,136 +79,112 @@ public class MemberRecord extends SimpleRecord
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param obj
-	 *            the element that contains the property that contains the
-	 *            structure that contains the member.
-	 * @param ref
-	 *            reference to the member to be changed
-	 * @param value
-	 *            new value for the member
+	 *
+	 * @param module the module
+	 * @param obj    the element that contains the property that contains the
+	 *               structure that contains the member.
+	 * @param ref    reference to the member to be changed
+	 * @param value  new value for the member
 	 */
 
-	public MemberRecord( Module module, DesignElement obj,
-			StructureContext ref, Object value )
-	{
+	public MemberRecord(Module module, DesignElement obj, StructureContext ref, Object value) {
 		element = obj;
 		memberRef = ref;
 		newValue = value;
 		assert module != null;
-		
-		assert obj == ref.getElement( );
-		
-		this.module = module;
-		structure = memberRef.getStructure( );
-		oldValue = memberRef.getLocalValue( module );
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE,
-				new String[]{memberRef.getPropDefn( ).getDisplayName( )} );
+		assert obj == ref.getElement();
+
+		this.module = module;
+		structure = memberRef.getStructure();
+		oldValue = memberRef.getLocalValue(module);
+
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { memberRef.getPropDefn().getDisplayName() });
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 *
+	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		PropertyDefn prop = memberRef.getPropDefn( );
-		if ( structure != null )
-		{
+	@Override
+	protected void perform(boolean undo) {
+		PropertyDefn prop = memberRef.getPropDefn();
+		if (structure != null) {
 			Object value = null;
 			Object tmpOldValue = null;
 
-			if ( !undo )
-			{
+			if (!undo) {
 				value = newValue;
 				tmpOldValue = oldValue;
-			}
-			else
-			{
+			} else {
 				value = oldValue;
 				tmpOldValue = newValue;
 			}
 
-			StructureContext context = new StructureContext( structure, prop, null );
+			StructureContext context = new StructureContext(structure, prop, null);
 
-			if ( tmpOldValue instanceof Structure )
-				context.remove( (Structure) tmpOldValue );
+			if (tmpOldValue instanceof Structure) {
+				context.remove((Structure) tmpOldValue);
+			}
 
-			if ( value instanceof Structure )
-				context.add( (Structure) value );
-			else
-			{
-				if ( structure instanceof PropertyBinding
-						&& value != null
-						&& PropertyBinding.VALUE_MEMBER
-								.equals( prop.getName( ) ) )
-				{
+			if (value instanceof Structure) {
+				context.add((Structure) value);
+			} else if (structure instanceof PropertyBinding && value != null
+					&& PropertyBinding.VALUE_MEMBER.equals(prop.getName())) {
 
-					EncryptionUtil.setEncryptionBindingValue( module,
-							structure, prop, value );
-				}
-				else
-					structure.setProperty( prop, value );
+				EncryptionUtil.setEncryptionBindingValue(module, structure, prop, value);
+			} else {
+				structure.setProperty(prop, value);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 *
+	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	@Override
+	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 *
+	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
+	@Override
+	public NotificationEvent getEvent() {
 		// Use the same notification for the done/redone and undone states.
 
-		return new PropertyEvent( element, memberRef.getPropDefn( ).getName( ) );
+		return new PropertyEvent(element, memberRef.getPropDefn().getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 *
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		List<RecordTask> retList = new ArrayList<RecordTask>( );
-		retList.addAll( super.getPostTasks( ) );
+	@Override
+	protected List<RecordTask> getPostTasks() {
+		List<RecordTask> retList = new ArrayList<>(super.getPostTasks());
+		NotificationEvent ev = getEvent();
 
-		NotificationEvent ev = getEvent( );
-
-		retList.add( new NotificationRecordTask( element, ev ) );
-		if ( structure != null && structure.isReferencable( ) )
-		{
+		retList.add(new NotificationRecordTask(element, ev));
+		if (structure != null && structure.isReferencable()) {
 			ReferencableStructure refValue = (ReferencableStructure) structure;
-			retList.add( new NotificationRecordTask( refValue, ev ) );
+			retList.add(new NotificationRecordTask(refValue, ev));
 		}
 
 		return retList;

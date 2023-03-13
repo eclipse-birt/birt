@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts;
 
@@ -27,9 +39,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
-public class HierarchyColumnEditPart extends NodeEditPartHelper implements
-		Listener
-{
+public class HierarchyColumnEditPart extends NodeEditPartHelper implements Listener {
 
 	protected Label label;
 
@@ -37,116 +47,102 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements
 	 * @param context
 	 * @param column
 	 */
-	public HierarchyColumnEditPart( EditPart parent,
-			ResultSetColumnHandle column )
-	{
-		setParent( parent );
-		setModel( column );
-		this.cube = ( (HierarchyNodeEditPart) getParent( ) ).getCube( );
+	public HierarchyColumnEditPart(EditPart parent, ResultSetColumnHandle column) {
+		setParent(parent);
+		setModel(column);
+		this.cube = ((HierarchyNodeEditPart) getParent()).getCube();
 	}
 
 	private TabularCubeHandle cube;
 
-	public TabularCubeHandle getCube( )
-	{
+	public TabularCubeHandle getCube() {
 		return cube;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		ColumnFigure columnFigure = null;
-		columnFigure = new ColumnFigure( );
-		FlowLayout layout = new FlowLayout( );
-		layout.setMinorSpacing( 2 );
-		columnFigure.setLayoutManager( layout );
-		columnFigure.setOpaque( true );
-		String name = OlapUtil.getDataFieldDisplayName( getColumn( ) );
-		label = new Label( name );
-		columnFigure.add( label );
+	@Override
+	protected IFigure createFigure() {
+		ColumnFigure columnFigure;
+		columnFigure = new ColumnFigure();
+		FlowLayout layout = new FlowLayout();
+		layout.setMinorSpacing(2);
+		columnFigure.setLayoutManager(layout);
+		columnFigure.setOpaque(true);
+		String name = OlapUtil.getDataFieldDisplayName(getColumn());
+		label = new Label(name);
+		columnFigure.add(label);
 		return columnFigure;
 	}
 
 	/**
 	 * @return Gets the Model object represented by this Edit Part
 	 */
-	private ResultSetColumnHandle getColumn( )
-	{
+	private ResultSetColumnHandle getColumn() {
 		// TODO Auto-generated method stub
-		return (ResultSetColumnHandle) getModel( );
+		return (ResultSetColumnHandle) getModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy( );
-		this.installEditPolicy( "Selection Policy", colEditPol ); //$NON-NLS-1$
-		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ConnectionCreationEditPolicy( ) );
+	@Override
+	protected void createEditPolicies() {
+		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
+		this.installEditPolicy("Selection Policy", colEditPol); //$NON-NLS-1$
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ConnectionCreationEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
-	public DragTracker getDragTracker( Request request )
-	{
-		List connectionList = getModelSourceConnections( );
-		for ( int i = 0; i < connectionList.size( ); i++ )
-		{
-			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get( i );
-			if ( joinCondition.getHierarchyKey( )
-					.equals( getColumn( ).getColumnName( ) ) )
-				return super.getDragTracker( request );
+	@Override
+	public DragTracker getDragTracker(Request request) {
+		List connectionList = getModelSourceConnections();
+		for (int i = 0; i < connectionList.size(); i++) {
+			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get(i);
+			if (joinCondition.getHierarchyKey().equals(getColumn().getColumnName())) {
+				return super.getDragTracker(request);
+			}
 		}
-		ConnectionCreation connection = new ConnectionCreation( this );
+		ConnectionCreation connection = new ConnectionCreation(this);
 		return connection;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
+	 *
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
-	public IFigure getChopFigure( )
-	{
-		return ( (AbstractGraphicalEditPart) this.getParent( ) ).getFigure( );
+	@Override
+	public IFigure getChopFigure() {
+		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
-	protected List getModelSourceConnections( )
-	{
-		List sourcejoins = new ArrayList( );
-		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent( );
-		Iterator iter = hierarchyEditpart.getCube( ).joinConditionsIterator( );
-		while ( iter.hasNext( ) )
-		{
-			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-			HierarchyHandle conditionHierarchy = condition.getHierarchy( );
-			if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
-					(HierarchyHandle) hierarchyEditpart.getModel( ) ) )
-			{
-				Iterator conditionIter = condition.getJoinConditions( )
-						.iterator( );
-				while ( conditionIter.hasNext( ) )
-				{
-					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-					if ( joinCondition.getHierarchyKey( )
-							.equals( getColumn( ).getColumnName( ) )
-							&& OlapUtil.getDataField( cube.getDataSet( ),
-									joinCondition.getCubeKey( ) ) != null )
-					{
-						sourcejoins.add( joinCondition );
+	@Override
+	protected List getModelSourceConnections() {
+		List sourcejoins = new ArrayList();
+		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent();
+		Iterator iter = hierarchyEditpart.getCube().joinConditionsIterator();
+		while (iter.hasNext()) {
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
+			HierarchyHandle conditionHierarchy = condition.getHierarchy();
+			if (ModuleUtil.isEqualHierarchiesForJointCondition(conditionHierarchy,
+					(HierarchyHandle) hierarchyEditpart.getModel())) {
+				Iterator conditionIter = condition.getJoinConditions().iterator();
+				while (conditionIter.hasNext()) {
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next();
+					if (joinCondition.getHierarchyKey().equals(getColumn().getColumnName())
+							&& OlapUtil.getDataField(cube.getDataSet(), joinCondition.getCubeKey()) != null) {
+						sourcejoins.add(joinCondition);
 					}
 				}
 			}
@@ -154,28 +150,26 @@ public class HierarchyColumnEditPart extends NodeEditPartHelper implements
 		return sourcejoins;
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( isActive( ) && !isDelete( ) )
-		{
-			refreshSourceConnections( );
+	@Override
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (isActive() && !isDelete()) {
+			refreshSourceConnections();
 		}
 	}
 
-	public void deactivate( )
-	{
-		super.deactivate( );
-		cube.removeListener( this );
+	@Override
+	public void deactivate() {
+		super.deactivate();
+		cube.removeListener(this);
 	}
 
-	public void activate( )
-	{
-		super.activate( );
-		cube.addListener( this );
+	@Override
+	public void activate() {
+		super.activate();
+		cube.addListener(this);
 	}
 
-	public String getColumnName( )
-	{
-		return getColumn( ).getColumnName( );
+	public String getColumnName() {
+		return getColumn().getColumnName();
 	}
 }

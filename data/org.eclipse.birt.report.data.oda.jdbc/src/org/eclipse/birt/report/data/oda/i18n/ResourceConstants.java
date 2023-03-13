@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +18,7 @@ package org.eclipse.birt.report.data.oda.i18n;
  * Define resource key constants for need be localized resource.
  */
 
-public class ResourceConstants
-{
+public class ResourceConstants {
 	/** Base error code for JDBCException error codes. */
 	private final static int ERROR_BASE = 110;
 
@@ -40,7 +42,7 @@ public class ResourceConstants
 
 	/** Error: Statement is null. */
 	public final static int ERROR_NO_STATEMENT = ERROR_BASE + 7;
-	
+
 	/** Error: Statement is invalid. */
 	public final static int ERROR_INVALID_STATEMENT = ERROR_BASE + 8;
 
@@ -50,7 +52,7 @@ public class ResourceConstants
 	public final static String CONN_CANNOT_GET_METADATA = "odajdbc.CannotGetConnMetaData";
 	public final static String CONN_CANNOT_GET = "odajdbc.CannotGetConn";
 	public final static String CONN_ROLLBACK_ERROR = "odajdbc.ConnRollbackError";
-	
+
 	public final static String CONN_GET_ERROR = "odajdbc.GetConnectionError";
 
 	public final static String MAX_STATEMENTS_CANNOT_GET = "odajdbc.CannotGetMaxStatements";
@@ -126,17 +128,17 @@ public class ResourceConstants
 	public final static String DRIVER_NO_RESULTSETMETADATA = "odajdbc.driver.ResultSetMetadataCannotNull";
 	public final static String DRIVER_NO_STATEMENT = "odajdbc.driver.StatementCannotNull";
 
-	public final static String CANNOT_GET_MAXQUERIES="odajdbc.CannotGetMaxQuerie";
-	public final static String CANNOT_SET_QUERY_TIMEOUT="odajdbc.CannotSetQueryTimeout";
-	public final static String BAD_QUERY_PROPERTY="odajdbc.BadQueryProperty";
-	public final static String CANNOT_LOAD_DRIVER="odajdbc.CannotLoadDriverClass";
-	public final static String CANNOT_PARSE_URL="odajdbc.CannotParseURL";
-	public final static String CANNOT_PARSE_JNDI="odajdbc.CannotParseJNDI";
-	public final static String NO_SUITABLE_DRIVER="odajdbc.NoSuitableDriver";
-	
-	public final static String CANNOT_INSTANTIATE_DRIVER="odajdbc.CannotInstantiateDriverClass";
-	public final static String CANNOT_INSTANTIATE_FACTORY="odajdbc.CannotInstantiateFactory";
-    
-    public final static String JNDI_INVALID_RESOURCE="odajdbc.jndi.InvalidJndiResource";
-    public final static String TEST_CONNECTION_FAIL="odajdbc.testfail";
+	public final static String CANNOT_GET_MAXQUERIES = "odajdbc.CannotGetMaxQuerie";
+	public final static String CANNOT_SET_QUERY_TIMEOUT = "odajdbc.CannotSetQueryTimeout";
+	public final static String BAD_QUERY_PROPERTY = "odajdbc.BadQueryProperty";
+	public final static String CANNOT_LOAD_DRIVER = "odajdbc.CannotLoadDriverClass";
+	public final static String CANNOT_PARSE_URL = "odajdbc.CannotParseURL";
+	public final static String CANNOT_PARSE_JNDI = "odajdbc.CannotParseJNDI";
+	public final static String NO_SUITABLE_DRIVER = "odajdbc.NoSuitableDriver";
+
+	public final static String CANNOT_INSTANTIATE_DRIVER = "odajdbc.CannotInstantiateDriverClass";
+	public final static String CANNOT_INSTANTIATE_FACTORY = "odajdbc.CannotInstantiateFactory";
+
+	public final static String JNDI_INVALID_RESOURCE = "odajdbc.jndi.InvalidJndiResource";
+	public final static String TEST_CONNECTION_FAIL = "odajdbc.testfail";
 }

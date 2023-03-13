@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,10 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * Time interval structure.
- * 
+ *
  */
 
-public class TimeInterval extends Structure
-{
+public class TimeInterval extends Structure {
 
 	/**
 	 * Name of the structure.
@@ -54,29 +56,29 @@ public class TimeInterval extends Structure
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	@Override
+	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( MEASURE_MEMBER.equals( propName ) )
+	@Override
+	protected Object getIntrinsicProperty(String propName) {
+		if (MEASURE_MEMBER.equals(propName)) {
 			return measure;
-		else if ( UNIT_MEMBER.equals( propName ) )
+		} else if (UNIT_MEMBER.equals(propName)) {
 			return unit;
+		}
 
 		assert false;
 		return null;
@@ -84,104 +86,95 @@ public class TimeInterval extends Structure
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( MEASURE_MEMBER.equals( propName ) )
-			measure = ( (Integer) value ).intValue( );
-		else if ( UNIT_MEMBER.equals( propName ) )
+	@Override
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (MEASURE_MEMBER.equals(propName)) {
+			measure = ((Integer) value).intValue();
+		} else if (UNIT_MEMBER.equals(propName)) {
 			unit = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	@Override
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new TimeIntervalHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	@Override
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new TimeIntervalHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/**
 	 * Sets the measure value.
-	 * 
-	 * @param measure
-	 *            the measure value to set
+	 *
+	 * @param measure the measure value to set
 	 */
 
-	public void setMeasure( int measure )
-	{
-		setProperty( MEASURE_MEMBER, measure );
+	public void setMeasure(int measure) {
+		setProperty(MEASURE_MEMBER, measure);
 	}
 
 	/**
 	 * Returns the measure value.
-	 * 
+	 *
 	 * @return the measure value
 	 */
 
-	public int getMeasure( )
-	{
-		return (Integer) getProperty( null, MEASURE_MEMBER );
+	public int getMeasure() {
+		return (Integer) getProperty(null, MEASURE_MEMBER);
 	}
 
 	/**
-	 * Sets the unit of the time interval. The value can one of the following
-	 * value defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 * Sets the unit of the time interval. The value can one of the following value
+	 * defined in <code>DesignChoiceConstants</code>:
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 * 
-	 * @param unit
-	 *            the unit to set
+	 *
+	 * @param unit the unit to set
 	 */
-	public void setUnit( String unit )
-	{
-		setProperty( UNIT_MEMBER, unit );
+	public void setUnit(String unit) {
+		setProperty(UNIT_MEMBER, unit);
 	}
 
 	/**
-	 * Returns the unit of the time interval. The value can be one of the
-	 * following value defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 * Returns the unit of the time interval. The value can be one of the following
+	 * value defined in <code>DesignChoiceConstants</code>:
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the unit
 	 */
-	public String getUnit( )
-	{
-		return (String) getProperty( null, UNIT_MEMBER );
+	public String getUnit() {
+		return (String) getProperty(null, UNIT_MEMBER);
 	}
 
 }

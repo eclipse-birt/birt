@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,71 +25,63 @@ import org.eclipse.ui.IWorkbenchPart;
  * Wrapper class of action handler.
  */
 
-public abstract class WrapperSelectionAction extends SelectionAction
-{
+public abstract class WrapperSelectionAction extends SelectionAction {
 
 	protected IAction actionHandler;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param part
 	 */
-	public WrapperSelectionAction( IWorkbenchPart part )
-	{
-		super( part );
+	public WrapperSelectionAction(IWorkbenchPart part) {
+		super(part);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		if ( actionHandler == null )
-		{
+	@Override
+	protected boolean calculateEnabled() {
+		if (actionHandler == null) {
 			return false;
 		}
-		return actionHandler.isEnabled( );
+		return actionHandler.isEnabled();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		actionHandler.run( );
+	@Override
+	public void run() {
+		actionHandler.run();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#handleSelectionChanged()
 	 */
-	protected void handleSelectionChanged( )
-	{
-		ISelection model = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) );
-		if ( model.isEmpty( ) )
-		{
+	@Override
+	protected void handleSelectionChanged() {
+		ISelection model = InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection()));
+		if (model.isEmpty()) {
 			actionHandler = null;
+		} else {
+			actionHandler = createActionHandler(model);
 		}
-		else
-		{
-			actionHandler = createActionHandler( model );
-		}
-		super.handleSelectionChanged( );
+		super.handleSelectionChanged();
 	}
 
 	/**
-	 * Creates action handler. All action operation will use this action
-	 * handler.
-	 * 
-	 * @param model
-	 *            operation handler
+	 * Creates action handler. All action operation will use this action handler.
+	 *
+	 * @param model operation handler
 	 * @return action handler
 	 */
-	abstract protected IAction createActionHandler( ISelection model );
+	abstract protected IAction createActionHandler(ISelection model);
 }

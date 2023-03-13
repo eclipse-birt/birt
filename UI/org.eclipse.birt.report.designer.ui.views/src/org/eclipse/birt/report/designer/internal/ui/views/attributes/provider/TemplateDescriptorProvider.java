@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -11,109 +23,97 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class TemplateDescriptorProvider extends AbstractDescriptorProvider implements
-		IResourceKeyDescriptorProvider
-{
+public class TemplateDescriptorProvider extends AbstractDescriptorProvider implements IResourceKeyDescriptorProvider {
 
-	public String getBrowseText( )
-	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Browse" ); //$NON-NLS-1$
+	@Override
+	public String getBrowseText() {
+		return Messages.getString("ResourceKeyDescriptor.text.Browse"); //$NON-NLS-1$
 	}
 
-	public String getResetText( )
-	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Reset" ); //$NON-NLS-1$
+	@Override
+	public String getResetText() {
+		return Messages.getString("ResourceKeyDescriptor.text.Reset"); //$NON-NLS-1$
 	}
 
-	public boolean isEnable( )
-	{
-		return !( DEUtil.getInputSize( input ) > 1 );
+	@Override
+	public boolean isEnable() {
+		return !(DEUtil.getInputSize(input) > 1);
 	}
 
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TemplateReportItemPageGenerator.List.TextKey" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("TemplateReportItemPageGenerator.List.TextKey"); //$NON-NLS-1$
 	}
 
-	public Object load( )
-	{
+	@Override
+	public Object load() {
 		String key = ""; //$NON-NLS-1$
-		if ( DEUtil.getInputSize( input ) == 1
-				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
-		{
-			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
-			key = ( handle.getDescriptionKey( ) == null ) ? "" //$NON-NLS-1$
-					: handle.getDescriptionKey( ).trim( );
+		if (DEUtil.getInputSize(input) == 1 && DEUtil.getInputFirstElement(input) instanceof TemplateReportItemHandle) {
+			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement(input);
+			key = (handle.getDescriptionKey() == null) ? "" //$NON-NLS-1$
+					: handle.getDescriptionKey().trim();
 		}
 		return key;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		if ( DEUtil.getInputSize( input ) == 1
-				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
-		{
-			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
-			if ( handle != null )
-			{
+	@Override
+	public void save(Object value) throws SemanticException {
+		if (DEUtil.getInputSize(input) == 1 && DEUtil.getInputFirstElement(input) instanceof TemplateReportItemHandle) {
+			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement(input);
+			if (handle != null) {
 				String key = null;
-				if ( value instanceof String )
-					key = value.toString( );
+				if (value instanceof String) {
+					key = value.toString();
+				}
 
-				if ( handle.getDescriptionKey( ) != null
-						&& handle.getDescriptionKey( ).equals( value ) )
-				{
+				if (handle.getDescriptionKey() != null && handle.getDescriptionKey().equals(value)) {
 					return;
 				}
 
-				handle.setDescriptionKey( key );
+				handle.setDescriptionKey(key);
 			}
 		}
 
 	}
+
 	private Object input;
 
-	public void setInput( Object input )
-	{
+	@Override
+	public void setInput(Object input) {
 		this.input = input;
 	}
 
-	public String getBrowseTooltipText( )
-	{
-		return Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ); //$NON-NLS-1$
+	@Override
+	public String getBrowseTooltipText() {
+		return Messages.getString("ResourceKeyDescriptor.button.browse.tooltip"); //$NON-NLS-1$
 	}
 
-	public String getResetTooltipText( )
-	{
+	@Override
+	public String getResetTooltipText() {
 
-		return Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ); //$NON-NLS-1$
+		return Messages.getString("ResourceKeyDescriptor.button.reset.tooltip"); //$NON-NLS-1$
 	}
 
-	public String[] getBaseNames( )
-	{
-		List<String> resources = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getIncludeResources( );
-		if ( resources == null )
+	@Override
+	public String[] getBaseNames() {
+		List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
+		if (resources == null) {
 			return null;
-		else
-			return resources.toArray( new String[0] );
+		} else {
+			return resources.toArray(new String[0]);
+		}
 	}
 
-	public URL[] getResourceURLs( )
-	{
-		String[] baseNames = getBaseNames( );
-		if ( baseNames == null )
+	@Override
+	public URL[] getResourceURLs() {
+		String[] baseNames = getBaseNames();
+		if (baseNames == null) {
 			return null;
-		else
-		{
+		} else {
 			URL[] urls = new URL[baseNames.length];
-			for ( int i = 0; i < baseNames.length; i++ )
-			{
-				urls[i] = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findResource( baseNames[i],
-								IResourceLocator.MESSAGE_FILE );
+			for (int i = 0; i < baseNames.length; i++) {
+				urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
+						IResourceLocator.MESSAGE_FILE);
 			}
 			return urls;
 		}

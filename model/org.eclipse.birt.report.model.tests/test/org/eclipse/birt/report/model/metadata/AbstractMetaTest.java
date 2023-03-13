@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,21 +22,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * The test cases to for custom-load ROM cases.
  */
 
-abstract public class AbstractMetaTest extends BaseTestCase
-{
+abstract public class AbstractMetaTest extends BaseTestCase {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.BaseTestCase#tearDown()
-	 */
-	protected void tearDown( ) throws Exception
-	{
-		MetaDataDictionary.reset( );
-
+	@Override
+	protected void tearDown() throws Exception {
+		MetaDataDictionary.reset();
 		engine = null;
-
-		super.tearDown( );
+		super.tearDown();
 	}
 
 	/**
@@ -41,13 +36,9 @@ abstract public class AbstractMetaTest extends BaseTestCase
 	 * @throws MetaDataParserException
 	 */
 
-	protected final void loadMetaData( InputStream is )
-			throws MetaDataParserException
-	{
-		MetaDataDictionary.reset( );
-		
-		MetadataTestUtil.readRom( is);
+	protected final void loadMetaData(InputStream is) throws MetaDataParserException {
+		MetaDataDictionary.reset();
+		MetadataTestUtil.readRom(is);
 	}
-
 
 }

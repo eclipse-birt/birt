@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,13 +78,11 @@ import org.eclipse.gef.editparts.GuideLayer;
  * Crosstab item editpart.The modle is extended handle.
  */
 
-public class CrosstabTableEditPart extends AbstractTableEditPart implements
-		PropertyChangeListener
-{
+public class CrosstabTableEditPart extends AbstractTableEditPart implements PropertyChangeListener {
 
 	public static final String CELL_HANDLE_LAYER = "Cell handles layer"; //$NON-NLS-1$
 	// private static final String GUIDEHANDLE_TEXT = "Cross Tab";
-	private static final String GUIDEHANDLE_TEXT = Messages.getString( "CrosstabTableEditPart.GuideText" );//$NON-NLS-1$
+	private static final String GUIDEHANDLE_TEXT = Messages.getString("CrosstabTableEditPart.GuideText");//$NON-NLS-1$
 
 	protected static final String AGGREGATE_ON_ROW = "Aggregate On Row"; //$NON-NLS-1$
 	protected static final String AGGREGATE_ON_COLUMN = "Aggregate On Column"; //$NON-NLS-1$
@@ -100,238 +101,217 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	/**
 	 * Constructor
 	 */
-	public CrosstabTableEditPart( )
-	{
-		super( null );
+	public CrosstabTableEditPart() {
+		super(null);
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
-	public CrosstabTableEditPart( Object model )
-	{
-		super( model );
+	public CrosstabTableEditPart(Object model) {
+		super(model);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#activate()
 	 */
-	public void activate( )
-	{
-		getViewer( ).addPropertyChangeListener( this );
-		super.activate( );
+	@Override
+	public void activate() {
+		getViewer().addPropertyChangeListener(this);
+		super.activate();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#deactivate()
 	 */
-	public void deactivate( )
-	{
-		getViewer( ).removePropertyChangeListener( this );
-		super.deactivate( );
+	@Override
+	public void deactivate() {
+		getViewer().removePropertyChangeListener(this);
+		super.deactivate();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#setModel(java.lang.Object)
 	 */
-	public void setModel( Object model )
-	{
-		super.setModel( model );
-		if ( model != null )
-		{
-			try
-			{
-				adapter = new CrosstabHandleAdapter( (CrosstabReportItemHandle) ( (ExtendedItemHandle) model ).getReportItem( ) );
-			}
-			catch ( ExtendedElementException e )
-			{
-				throw new RuntimeException( "load extended item error" ); //$NON-NLS-1$
+	@Override
+	public void setModel(Object model) {
+		super.setModel(model);
+		if (model != null) {
+			try {
+				adapter = new CrosstabHandleAdapter(
+						(CrosstabReportItemHandle) ((ExtendedItemHandle) model).getReportItem());
+			} catch (ExtendedElementException e) {
+				throw new RuntimeException("load extended item error"); //$NON-NLS-1$
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createGuideHandle()
 	 */
-	protected AbstractGuideHandle createGuideHandle( )
-	{
-		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( getGuideLabel( ) );
+	@Override
+	protected AbstractGuideHandle createGuideHandle() {
+		TableGuideHandle handle = new TableGuideHandle(this);
+		handle.setIndicatorLabel(getGuideLabel());
 
-		INodeProvider provider = ProviderFactory.createProvider( getModel( ) );
+		INodeProvider provider = ProviderFactory.createProvider(getModel());
 
-		handle.setIndicatorIcon( provider.getNodeIcon( getModel( ) ) );
-		handle.setToolTip( ReportFigureUtilities.createToolTipFigure( provider.getNodeTooltip( getModel( ) ),
-				DesignChoiceConstants.BIDI_DIRECTION_LTR,
-				DesignChoiceConstants.TEXT_ALIGN_LEFT ) );
+		handle.setIndicatorIcon(provider.getNodeIcon(getModel()));
+		handle.setToolTip(ReportFigureUtilities.createToolTipFigure(provider.getNodeTooltip(getModel()),
+				DesignChoiceConstants.BIDI_DIRECTION_LTR, DesignChoiceConstants.TEXT_ALIGN_LEFT));
 
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getGuideLabel()
 	 */
-	public String getGuideLabel( )
-	{
+	@Override
+	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) {
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
-					public boolean understandsRequest( Request request )
-					{
-						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) )
-								|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
-							return true;
-						return super.understandsRequest( request );
-					}
-				} );
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy( ) );
+			@Override
+			public boolean understandsRequest(Request request) {
+				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
+						|| RequestConstants.REQ_OPEN.equals(request.getType())
+						|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+					return true;
+				}
+				return super.understandsRequest(request);
+			}
+		});
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new CrosstabXYLayoutEditPolicy( (XYLayout) getContentPane( ).getLayoutManager( ) ) );
+		installEditPolicy(EditPolicy.LAYOUT_ROLE,
+				new CrosstabXYLayoutEditPolicy((XYLayout) getContentPane().getLayoutManager()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		refreshBorder( getCrosstabHandleAdapter( ).getDesignElementHandle( ),
-				(BaseBorder) getFigure( ).getBorder( ) );
-		refreshBackground( getCrosstabHandleAdapter( ).getDesignElementHandle( ) );
+	@Override
+	public void refreshFigure() {
+		refreshBorder(getCrosstabHandleAdapter().getDesignElementHandle(), (BaseBorder) getFigure().getBorder());
+		refreshBackground(getCrosstabHandleAdapter().getDesignElementHandle());
 		// support the margin
-		refreshMargin( );
+		refreshMargin();
 
-		( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
+		((TableLayout) getContentPane().getLayoutManager()).markDirty();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		TableFigure viewport = new TableFigure( );
-		viewport.setOpaque( false );
+	@Override
+	protected IFigure createFigure() {
+		TableFigure viewport = new TableFigure();
+		viewport.setOpaque(false);
 
-		innerLayers = new FreeformLayeredPane( );
-		createLayers( innerLayers );
-		viewport.setContents( innerLayers );
+		innerLayers = new FreeformLayeredPane();
+		createLayers(innerLayers);
+		viewport.setContents(innerLayers);
 		return viewport;
 	}
 
 	/**
 	 * Creates the top-most set of layers on the given layered pane.
-	 * 
-	 * @param layeredPane
-	 *            the parent for the created layers
+	 *
+	 * @param layeredPane the parent for the created layers
 	 */
-	protected void createLayers( LayeredPane layeredPane )
-	{
-		Figure figure = new FreeformLayer( );
-		figure.setOpaque( false );
-		layeredPane.add( figure, CELL_HANDLE_LAYER );
-		layeredPane.add( getPrintableLayers( ), PRINTABLE_LAYERS );
-		layeredPane.add( new FreeformLayer( ), HANDLE_LAYER );
-		layeredPane.add( new GuideLayer( ), GUIDE_LAYER );
+	protected void createLayers(LayeredPane layeredPane) {
+		Figure figure = new FreeformLayer();
+		figure.setOpaque(false);
+		layeredPane.add(figure, CELL_HANDLE_LAYER);
+		layeredPane.add(getPrintableLayers(), PRINTABLE_LAYERS);
+		layeredPane.add(new FreeformLayer(), HANDLE_LAYER);
+		layeredPane.add(new GuideLayer(), GUIDE_LAYER);
 	}
 
 	/**
 	 * this layer may be a un-useful layer.
-	 * 
+	 *
 	 * @return the layered pane containing all printable content
 	 */
-	protected LayeredPane getPrintableLayers( )
-	{
-		if ( printableLayers == null )
-			printableLayers = createPrintableLayers( );
+	@Override
+	protected LayeredPane getPrintableLayers() {
+		if (printableLayers == null) {
+			printableLayers = createPrintableLayers();
+		}
 		return printableLayers;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		List retValue = getCrosstabHandleAdapter( ).getModelList( );
+	@Override
+	protected List getModelChildren() {
+		List retValue = getCrosstabHandleAdapter().getModelList();
 		return retValue;
 	}
 
 	/**
 	 * @return select bounds
 	 */
-	public Rectangle getSelectBounds( )
-	{
-		List list = TableUtil.getSelectionCells( this );
-		int size = list.size( );
+	public Rectangle getSelectBounds() {
+		List list = TableUtil.getSelectionCells(this);
+		int size = list.size();
 		ITableLayoutCell[] parts = new ITableLayoutCell[size];
-		list.toArray( parts );
+		list.toArray(parts);
 
-		ITableLayoutCell[] caleNumber = getMinAndMaxNumber( parts );
+		ITableLayoutCell[] caleNumber = getMinAndMaxNumber(parts);
 		ITableLayoutCell minRow = caleNumber[0];
 		ITableLayoutCell maxColumn = caleNumber[3];
 
-		Rectangle min = ( (CrosstabCellEditPart) minRow ).getBounds( )
-				.getCopy( );
-		Rectangle max = ( (CrosstabCellEditPart) maxColumn ).getBounds( )
-				.getCopy( );
+		Rectangle min = ((CrosstabCellEditPart) minRow).getBounds().getCopy();
+		Rectangle max = ((CrosstabCellEditPart) maxColumn).getBounds().getCopy();
 
-		return min.union( max );
+		return min.union(max);
 	}
 
 	/**
 	 * Gets the top, left, right, bottom of edit part.
-	 * 
+	 *
 	 * @param parts
 	 * @return cell edit parts.
 	 */
-	public ITableLayoutCell[] getMinAndMaxNumber( ITableLayoutCell[] parts )
-	{
-		if ( parts == null || parts.length == 0 )
-		{
+	public ITableLayoutCell[] getMinAndMaxNumber(ITableLayoutCell[] parts) {
+		if (parts == null || parts.length == 0) {
 			return null;
 		}
 		int size = parts.length;
@@ -340,131 +320,103 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 		ITableLayoutCell rightBottomPart = parts[0];
 		ITableLayoutCell rightTopPart = parts[0];
-		for ( int i = 1; i < size; i++ )
-		{
+		for (int i = 1; i < size; i++) {
 			ITableLayoutCell part = parts[i];
-			if ( part == null )
-			{
+			if (part == null) {
 				continue;
 			}
 
-			if ( part.getRowNumber( ) <= leftTopPart.getRowNumber( )
-					&& part.getColumnNumber( ) <= leftTopPart.getColumnNumber( ) )
-			{
+			if (part.getRowNumber() <= leftTopPart.getRowNumber()
+					&& part.getColumnNumber() <= leftTopPart.getColumnNumber()) {
 				leftTopPart = part;
 			}
 
-			if ( part.getRowNumber( ) <= rightTopPart.getRowNumber( )
-					&& part.getColumnNumber( ) + part.getColSpan( ) - 1 >= leftTopPart.getColumnNumber( ) )
-			{
+			if (part.getRowNumber() <= rightTopPart.getRowNumber()
+					&& part.getColumnNumber() + part.getColSpan() - 1 >= leftTopPart.getColumnNumber()) {
 				rightTopPart = part;
 			}
 
-			if ( part.getColumnNumber( ) <= leftBottomPart.getColumnNumber( )
-					&& part.getRowNumber( ) + part.getRowSpan( ) - 1 >= leftBottomPart.getRowNumber( ) )
-			{
+			if (part.getColumnNumber() <= leftBottomPart.getColumnNumber()
+					&& part.getRowNumber() + part.getRowSpan() - 1 >= leftBottomPart.getRowNumber()) {
 				leftBottomPart = part;
 			}
 
-			if ( part.getRowNumber( ) + part.getRowSpan( ) - 1 >= rightBottomPart.getRowNumber( )
-					&& part.getColumnNumber( ) + part.getColSpan( ) - 1 >= rightBottomPart.getColumnNumber( ) )
-			{
+			if (part.getRowNumber() + part.getRowSpan() - 1 >= rightBottomPart.getRowNumber()
+					&& part.getColumnNumber() + part.getColSpan() - 1 >= rightBottomPart.getColumnNumber()) {
 				rightBottomPart = part;
 			}
 		}
-		return new ITableLayoutCell[]{
-				leftTopPart, rightTopPart, leftBottomPart, rightBottomPart
-		};
+		return new ITableLayoutCell[] { leftTopPart, rightTopPart, leftBottomPart, rightBottomPart };
 	}
 
 	/**
 	 * @return
 	 */
-	public CrosstabHandleAdapter getCrosstabHandleAdapter( )
-	{
+	public CrosstabHandleAdapter getCrosstabHandleAdapter() {
 		return adapter;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnCount()
 	 */
-	public int getColumnCount( )
-	{
-		return getCrosstabHandleAdapter( ).getColumnCount( );
+	@Override
+	public int getColumnCount() {
+		return getCrosstabHandleAdapter().getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidth(int)
 	 */
-	public ITableLayoutOwner.DimensionInfomation getColumnWidth(
-			final int number )
-	{
+	@Override
+	public ITableLayoutOwner.DimensionInfomation getColumnWidth(final int number) {
 		// return getCrosstabHandleAdapter( ).getColumnWidth( number );
-		DimensionHandle handle = getCrosstabHandleAdapter( ).getColumnWidth( number );
-		if ( handle == null )// all is virtual editpat
+		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(number);
+		if (handle == null)// all is virtual editpat
 		{
-			if ( number > 1
-					&& getCrosstabHandleAdapter( ).getColumnWidth( number - 1 ) != null )
-			{
-				return new ITableLayoutOwner.DimensionInfomation( 0, null );
+			if ((number > 1 && getCrosstabHandleAdapter().getColumnWidth(number - 1) != null) || (number < getColumnCount() && getCrosstabHandleAdapter().getColumnWidth(number + 1) != null)) {
+				return new ITableLayoutOwner.DimensionInfomation(0, null);
 			}
-			if ( number < getColumnCount( )
-					&& getCrosstabHandleAdapter( ).getColumnWidth( number + 1 ) != null )
-			{
-				return new ITableLayoutOwner.DimensionInfomation( 0, null );
-			}
-			return getVirtualDimension( new Conditional( ) {
+			return getVirtualDimension(new Conditional() {
 
-				public boolean evaluate( EditPart editpart )
-				{
-					Object obj = editpart.getModel( );
-					if ( obj instanceof VirtualCrosstabCellAdapter )
-					{
-						return number == ( (VirtualCrosstabCellAdapter) obj ).getColumnNumber( );
+				@Override
+				public boolean evaluate(EditPart editpart) {
+					Object obj = editpart.getModel();
+					if (obj instanceof VirtualCrosstabCellAdapter) {
+						return number == ((VirtualCrosstabCellAdapter) obj).getColumnNumber();
 					}
-					return super.evaluate( editpart );
+					return super.evaluate(editpart);
 				}
-			} );
+			});
 		}
-		double value = handle.getMeasure( );
-		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
+		double value = handle.getMeasure();
+		if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(handle.getUnits())) {
 			value = 0.0d;
 		}
-		return new ITableLayoutOwner.DimensionInfomation( value,
-				handle.getUnits( ),
-				handle.isSet( ) );
+		return new ITableLayoutOwner.DimensionInfomation(value, handle.getUnits(), handle.isSet());
 	}
 
 	/**
 	 * @param condion
 	 * @return
 	 */
-	private ITableLayoutOwner.DimensionInfomation getVirtualDimension(
-			Conditional condion )
-	{
-		List parts = getChildren( );
-		int size = parts.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			EditPart part = (EditPart) parts.get( i );
+	private ITableLayoutOwner.DimensionInfomation getVirtualDimension(Conditional condion) {
+		List parts = getChildren();
+		int size = parts.size();
+		for (int i = 0; i < size; i++) {
+			EditPart part = (EditPart) parts.get(i);
 			// Object obj = ((EditPart)parts.get( i )).getModel( );
-			if ( condion.evaluate( part )
-					&& part.getModel( ) instanceof VirtualCrosstabCellAdapter )
-			{
-				int area = ( (VirtualCrosstabCellAdapter) part.getModel( ) ).getType( );
+			if (condion.evaluate(part) && part.getModel() instanceof VirtualCrosstabCellAdapter) {
+				int area = ((VirtualCrosstabCellAdapter) part.getModel()).getType();
 				// if (number ==
 				// ((VirtualCrosstabCellAdapter)obj).getColumnNumber( ))
 				{
-					return getDimensionInfomation( area );
+					return getDimensionInfomation(area);
 				}
 			}
 		}
@@ -475,37 +427,28 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	 * @param condion
 	 * @return
 	 */
-	private int getRowHeight( Conditional condion )
-	{
-		List parts = getChildren( );
-		int size = parts.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			EditPart part = (EditPart) parts.get( i );
+	private int getRowHeight(Conditional condion) {
+		List parts = getChildren();
+		int size = parts.size();
+		for (int i = 0; i < size; i++) {
+			EditPart part = (EditPart) parts.get(i);
 			// Object obj = ((EditPart)parts.get( i )).getModel( );
-			if ( condion.evaluate( part )
-					&& part.getModel( ) instanceof VirtualCrosstabCellAdapter )
-			{
-				int area = ( (VirtualCrosstabCellAdapter) part.getModel( ) ).getType( );
-				switch ( area )
-				{
-					case VirtualCrosstabCellAdapter.IMMACULATE_TYPE :
-					case VirtualCrosstabCellAdapter.COLUMN_TYPE :
-						return DEFAULT_HEIGHT;
-					case VirtualCrosstabCellAdapter.ROW_TYPE :
-					case VirtualCrosstabCellAdapter.MEASURE_TYPE :
-					{
-						if ( isFixLayout( ) )
-						{
-							return BIG_FIX_DEFAULT_HEIGHT;
-						}
-						else
-						{
-							return BIG_DEFAULT_HEIGHT;
-						}
+			if (condion.evaluate(part) && part.getModel() instanceof VirtualCrosstabCellAdapter) {
+				int area = ((VirtualCrosstabCellAdapter) part.getModel()).getType();
+				switch (area) {
+				case VirtualCrosstabCellAdapter.IMMACULATE_TYPE:
+				case VirtualCrosstabCellAdapter.COLUMN_TYPE:
+					return DEFAULT_HEIGHT;
+				case VirtualCrosstabCellAdapter.ROW_TYPE:
+				case VirtualCrosstabCellAdapter.MEASURE_TYPE: {
+					if (isFixLayout()) {
+						return BIG_FIX_DEFAULT_HEIGHT;
+					} else {
+						return BIG_DEFAULT_HEIGHT;
 					}
-					default :
-						return DEFAULT_HEIGHT;
+				}
+				default:
+					return DEFAULT_HEIGHT;
 				}
 			}
 		}
@@ -516,64 +459,50 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	 * @param area
 	 * @return
 	 */
-	private ITableLayoutOwner.DimensionInfomation getDimensionInfomation(
-			int area )
-	{
-		switch ( area )
-		{
-			case VirtualCrosstabCellAdapter.IMMACULATE_TYPE :
-			case VirtualCrosstabCellAdapter.ROW_TYPE :
-				return new ITableLayoutOwner.DimensionInfomation( LEFT,
-						DesignChoiceConstants.UNITS_PERCENTAGE );
-			case VirtualCrosstabCellAdapter.COLUMN_TYPE :
-			case VirtualCrosstabCellAdapter.MEASURE_TYPE :
-				return new ITableLayoutOwner.DimensionInfomation( RIGHT,
-						DesignChoiceConstants.UNITS_PERCENTAGE );
-			default :
-				return null;
+	private ITableLayoutOwner.DimensionInfomation getDimensionInfomation(int area) {
+		switch (area) {
+		case VirtualCrosstabCellAdapter.IMMACULATE_TYPE:
+		case VirtualCrosstabCellAdapter.ROW_TYPE:
+			return new ITableLayoutOwner.DimensionInfomation(LEFT, DesignChoiceConstants.UNITS_PERCENTAGE);
+		case VirtualCrosstabCellAdapter.COLUMN_TYPE:
+		case VirtualCrosstabCellAdapter.MEASURE_TYPE:
+			return new ITableLayoutOwner.DimensionInfomation(RIGHT, DesignChoiceConstants.UNITS_PERCENTAGE);
+		default:
+			return null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getColumnWidthValue(int)
 	 */
-	public int getColumnWidthValue( int number )
-	{
-		DimensionHandle handle = getCrosstabHandleAdapter( ).getColumnWidth( number );
-		if ( handle == null )
-		{
-			return getDefaultWidth( number );
+	@Override
+	public int getColumnWidthValue(int number) {
+		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(number);
+		if (handle == null) {
+			return getDefaultWidth(number);
 		}
-		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
-			ModuleHandle moduleHandle = getCrosstabHandleAdapter( ).getDesignElementHandle( )
-					.getModuleHandle( );
-			if ( moduleHandle instanceof ReportDesignHandle )
-			{
-				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle) moduleHandle ).getLayoutPreference( ) ) )
-				{
-					return getDefaultWidth( number );
+		if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(handle.getUnits())) {
+			ModuleHandle moduleHandle = getCrosstabHandleAdapter().getDesignElementHandle().getModuleHandle();
+			if (moduleHandle instanceof ReportDesignHandle) {
+				if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+						.equals(((ReportDesignHandle) moduleHandle).getLayoutPreference())) {
+					return getDefaultWidth(number);
 				}
 			}
-			Dimension dim = getFigure( ).getParent( )
-					.getClientArea( )
-					.getSize( );
+			Dimension dim = getFigure().getParent().getClientArea().getSize();
 			int containerWidth = dim.width;
-			return (int) ( handle.getMeasure( ) * containerWidth / 100 );
+			return (int) (handle.getMeasure() * containerWidth / 100);
 
 		}
-		int px = (int) DEUtil.convertoToPixel( handle );
-		if ( isFixLayout( ) && handle.isSet( ) && px <= 0 )
-		{
+		int px = (int) DEUtil.convertoToPixel(handle);
+		if (isFixLayout() && handle.isSet() && px <= 0) {
 			px = 1;
 		}
-		if ( px <= 0 )
-		{
-			return getDefaultWidth( number );
+		if (px <= 0) {
+			return getDefaultWidth(number);
 		}
 
 		return px;
@@ -581,23 +510,19 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.core.model.IModelAdaptHelper#
 	 * getPreferredSize()
 	 */
-	public Dimension getPreferredSize( )
-	{
-		Dimension retValue = getFigure( ).getParent( )
-				.getClientArea( )
-				.getSize( );
-		Rectangle rect = getBounds( );
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension retValue = getFigure().getParent().getClientArea().getSize();
+		Rectangle rect = getBounds();
 
-		if ( rect.width > 0 )
-		{
+		if (rect.width > 0) {
 			retValue.width = rect.width;
 		}
-		if ( rect.height > 0 )
-		{
+		if (rect.height > 0) {
 			retValue.height = rect.height;
 		}
 		return retValue;
@@ -605,244 +530,196 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 	/**
 	 * Get the default width.
-	 * 
-	 * @param colNumber
-	 *            The column number.
+	 *
+	 * @param colNumber The column number.
 	 * @return The default width.
 	 */
-	public int getDefaultWidth( int colNumber )
-	{
-		Dimension size = getPreferredSize( ).shrink( getFigure( ).getInsets( )
-				.getWidth( ),
-				getFigure( ).getInsets( ).getHeight( ) );;
-		if ( getRowCount( ) == 0 )
-		{
+	public int getDefaultWidth(int colNumber) {
+		Dimension size = getPreferredSize().shrink(getFigure().getInsets().getWidth(),
+				getFigure().getInsets().getHeight());
+
+		if (getRowCount() == 0) {
 			return size.width;
 		}
 
-		int allNumbers = getColumnCount( );
-		if ( allNumbers <= 0 )
-		{
-			return size.width;
-		}
-		if ( colNumber <= 0 )
-		{
+		int allNumbers = getColumnCount();
+		if ((allNumbers <= 0) || (colNumber <= 0)) {
 			return size.width;
 		}
 		int width = size.width;
 		int columnNumber = allNumbers;
-		for ( int i = 1; i < columnNumber + 1; i++ )
-		{
-			DimensionHandle dimHandle = getCrosstabHandleAdapter( ).getColumnWidth( colNumber );
-			boolean bool = isFixLayout( )
-					&& dimHandle != null
-					&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHandle.getUnits( ) );
-			if ( dimHandle != null && DEUtil.convertoToPixel( dimHandle ) > 1 && !bool )
-			{
+		for (int i = 1; i < columnNumber + 1; i++) {
+			DimensionHandle dimHandle = getCrosstabHandleAdapter().getColumnWidth(colNumber);
+			boolean bool = isFixLayout() && dimHandle != null
+					&& DesignChoiceConstants.UNITS_PERCENTAGE.equals(dimHandle.getUnits());
+			if (dimHandle != null && DEUtil.convertoToPixel(dimHandle) > 1 && !bool) {
 				allNumbers = allNumbers - 1;
-				width = width - getColumnWidthValue( colNumber );
-			}
-			else if ( dimHandle == null )
-			{
-				ITableLayoutOwner.DimensionInfomation info = getColumnWidth( colNumber );
-				if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( info.getUnits( ) ) )
-				{
-					Dimension dim = getFigure( ).getParent( )
-							.getClientArea( )
-							.getSize( );
+				width = width - getColumnWidthValue(colNumber);
+			} else if (dimHandle == null) {
+				ITableLayoutOwner.DimensionInfomation info = getColumnWidth(colNumber);
+				if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(info.getUnits())) {
+					Dimension dim = getFigure().getParent().getClientArea().getSize();
 					int containerWidth = dim.width;
 					// return (int) ( info.getMeasure( ) * containerWidth / 100
 					// );
-					width = width
-							- ( (int) ( info.getMeasure( ) * containerWidth / 100 ) );
+					width = width - ((int) (info.getMeasure() * containerWidth / 100));
 				}
 			}
 		}
 
-		if ( colNumber == allNumbers )
-		{
+		if (colNumber == allNumbers) {
 			return width / allNumbers + width % allNumbers;
 		}
-		return ( width / allNumbers );
+		return (width / allNumbers);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getDefinedWidth()
 	 */
-	public String getDefinedWidth( )
-	{
-		return getCrosstabHandleAdapter( ).getDefinedWidth( );
+	@Override
+	public String getDefinedWidth() {
+		return getCrosstabHandleAdapter().getDefinedWidth();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #isForceWidth()
 	 */
-	public boolean isForceWidth( )
-	{
+	@Override
+	public boolean isForceWidth() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRawWidth(int)
 	 */
-	public String getRawWidth( int columNumber )
-	{
-		DimensionHandle handle = getCrosstabHandleAdapter( ).getColumnWidth( columNumber );
-		if ( handle == null )
-		{
-			ITableLayoutOwner.DimensionInfomation info = getColumnWidth( columNumber );
-			if ( info.getUnits( ) == null )
-			{
+	@Override
+	public String getRawWidth(int columNumber) {
+		DimensionHandle handle = getCrosstabHandleAdapter().getColumnWidth(columNumber);
+		if (handle == null) {
+			ITableLayoutOwner.DimensionInfomation info = getColumnWidth(columNumber);
+			if (info.getUnits() == null) {
 				return ""; //$NON-NLS-1$
 			}
-			return String.valueOf( info.getMeasure( ) ) + info.getUnits( );
+			return String.valueOf(info.getMeasure()) + info.getUnits();
 		}
-		String unit = handle.getUnits( );
+		String unit = handle.getUnits();
 
-		if ( unit == null || unit.length( ) == 0 )
-		{
+		if (unit == null || unit.length() == 0) {
 			return ""; //$NON-NLS-1$
-		}
-		else if ( unit.equals( DesignChoiceConstants.UNITS_PERCENTAGE ) )
-		{
-			return String.valueOf( handle.getMeasure( ) ) + unit;
-		}
-		else
-		{
-			int px = (int) DEUtil.convertoToPixel( handle );
+		} else if (unit.equals(DesignChoiceConstants.UNITS_PERCENTAGE)) {
+			return String.valueOf(handle.getMeasure()) + unit;
+		} else {
+			int px = (int) DEUtil.convertoToPixel(handle);
 
-			if ( px <= 0 )
-			{
-				return String.valueOf( getDefaultWidth( columNumber ) );
+			if (px <= 0) {
+				return String.valueOf(getDefaultWidth(columNumber));
 			}
 
-			return String.valueOf( px );
+			return String.valueOf(px);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowCount()
 	 */
-	public int getRowCount( )
-	{
-		return getCrosstabHandleAdapter( ).getRowCount( );
+	@Override
+	public int getRowCount() {
+		return getCrosstabHandleAdapter().getRowCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeight(int)
 	 */
-	public ITableLayoutOwner.DimensionInfomation getRowHeight( final int number )
-	{
-		DimensionHandle handle = getCrosstabHandleAdapter( ).getRowHeight( number );
-		if ( handle == null )// all is virtual editpat
+	@Override
+	public ITableLayoutOwner.DimensionInfomation getRowHeight(final int number) {
+		DimensionHandle handle = getCrosstabHandleAdapter().getRowHeight(number);
+		if (handle == null)// all is virtual editpat
 		{
-			return getVirtualDimension( new Conditional( ) {
+			return getVirtualDimension(new Conditional() {
 
-				public boolean evaluate( EditPart editpart )
-				{
-					Object obj = editpart.getModel( );
-					if ( obj instanceof VirtualCrosstabCellAdapter )
-					{
-						return number == ( (VirtualCrosstabCellAdapter) obj ).getRowNumber( );
+				@Override
+				public boolean evaluate(EditPart editpart) {
+					Object obj = editpart.getModel();
+					if (obj instanceof VirtualCrosstabCellAdapter) {
+						return number == ((VirtualCrosstabCellAdapter) obj).getRowNumber();
 					}
-					return super.evaluate( editpart );
+					return super.evaluate(editpart);
 				}
-			} );
+			});
 		}
-		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ),
-				handle.isSet( ) );
+		return new ITableLayoutOwner.DimensionInfomation(handle.getMeasure(), handle.getUnits(), handle.isSet());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getRowHeightValue(int)
 	 */
-	public int getRowHeightValue( final int number )
-	{
-		DimensionHandle handle = getCrosstabHandleAdapter( ).getRowHeight( number );
-		if ( handle == null )
-		{
-			return getRowHeight( new Conditional( ) {
+	@Override
+	public int getRowHeightValue(final int number) {
+		DimensionHandle handle = getCrosstabHandleAdapter().getRowHeight(number);
+		if (handle == null) {
+			return getRowHeight(new Conditional() {
 
-				public boolean evaluate( EditPart editpart )
-				{
-					if ( editpart instanceof VirtualCellEditPart
-							&& ( (VirtualCellEditPart) editpart ).getRowNumber( ) == number )
-					{
+				@Override
+				public boolean evaluate(EditPart editpart) {
+					if (editpart instanceof VirtualCellEditPart
+							&& ((VirtualCellEditPart) editpart).getRowNumber() == number) {
 						return true;
 					}
-					return super.evaluate( editpart );
+					return super.evaluate(editpart);
 				}
-			} );
+			});
 		}
-		int px = (int) DEUtil.convertoToPixel( handle );
-		if ( isFixLayout( ) && handle.isSet( ) && px <= 0 )
-		{
+		int px = (int) DEUtil.convertoToPixel(handle);
+		if (isFixLayout() && handle.isSet() && px <= 0) {
 			px = 1;
 		}
-		if ( px <= 0 )
-		{
-			if ( isFixLayout( ) )
-			{
+		if (px <= 0) {
+			if (isFixLayout()) {
 				px = FixTableLayout.DEFAULT_ROW_HEIGHT;
-			}
-			else
-			{
+			} else {
 				px = DEFAULT_HEIGHT;
 			}
 		}
 		return px;
 	}
 
-	private void layoutManagerLayout( )
-	{
-		( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
+	private void layoutManagerLayout() {
+		((TableLayout) getContentPane().getLayoutManager()).markDirty();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .AbstractTableEditPart#getCell(int, int)
 	 */
-	public AbstractCellEditPart getCell( int rowNumber, int columnNumber )
-	{
-		List list = getChildren( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			AbstractCellEditPart part = (AbstractCellEditPart) list.get( i );
-			if ( rowNumber >= part.getRowNumber( )
-					&& rowNumber < part.getRowNumber( ) + part.getRowSpan( )
-					&& columnNumber >= part.getColumnNumber( )
-					&& columnNumber < part.getColumnNumber( )
-							+ part.getColSpan( ) )
-			{
+	@Override
+	public AbstractCellEditPart getCell(int rowNumber, int columnNumber) {
+		List list = getChildren();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			AbstractCellEditPart part = (AbstractCellEditPart) list.get(i);
+			if (rowNumber >= part.getRowNumber() && rowNumber < part.getRowNumber() + part.getRowSpan()
+					&& columnNumber >= part.getColumnNumber()
+					&& columnNumber < part.getColumnNumber() + part.getColSpan()) {
 				return part;
 			}
 		}
@@ -851,128 +728,112 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
 	 */
-	protected EditPart createChild( Object model )
-	{
-		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart( this,
-				model );
-		if ( part != null )
-		{
+	@Override
+	protected EditPart createChild(Object model) {
+		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart(this, model);
+		if (part != null) {
 			return part;
 		}
-		return super.createChild( model );
+		return super.createChild(model);
 	}
 
-	private static class Conditional
-	{
+	private static class Conditional {
 
-		public boolean evaluate( EditPart editpart )
-		{
+		public boolean evaluate(EditPart editpart) {
 			return false;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
-	public void refreshChildren( )
-	{
-		super.refreshChildren( );
-		List list = getChildren( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			( (ReportElementEditPart) list.get( i ) ).refreshChildren( );
+	@Override
+	public void refreshChildren() {
+		super.refreshChildren();
+		List list = getChildren();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			((ReportElementEditPart) list.get(i)).refreshChildren();
 		}
-		if (!adapter.layoutCheck( ))
-		{
-			EditPart part = getParent( );
-			removeGuideFeedBack( );
-			((ReportElementEditPart)part).removeChild( this );
-			part.refresh( );
+		if (!adapter.layoutCheck()) {
+			EditPart part = getParent();
+			removeGuideFeedBack();
+			((ReportElementEditPart) part).removeChild(this);
+			part.refresh();
 //			getViewer( ).getControl( ).getDisplay( ).asyncExec( new Runnable()
 //			{
 //				public void run( )
 //				{
-//					
-//					
+//
+//
 //					//((GraphicalEditPart)part).getFigure( ).repaint( );
 //				}
-//				
+//
 //			});
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#notifyModelChange()
 	 */
-	public void notifyModelChange( )
-	{
-		super.notifyModelChange( );
-		layoutManagerLayout( );
+	@Override
+	public void notifyModelChange() {
+		super.notifyModelChange();
+		layoutManagerLayout();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	public boolean isinterest( Object model )
-	{
-		if ( !( model instanceof DesignElementHandle ) )
-		{
+	@Override
+	public boolean isinterest(Object model) {
+		if (!(model instanceof DesignElementHandle)) {
 			return false;
 		}
 		DesignElementHandle handle = (DesignElementHandle) model;
-		while ( handle != null )
-		{
-			if ( getModel( ).equals( handle ) )
-			{
+		while (handle != null) {
+			if (getModel().equals(handle)) {
 				return true;
 			}
-			handle = handle.getContainer( );
+			handle = handle.getContainer();
 		}
-		return super.isinterest( model );
+		return super.isinterest(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
 	 */
-	public void refresh( )
-	{
-		if ( !isReload )
-		{
-			super.refresh( );
+	@Override
+	public void refresh() {
+		if (!isReload) {
+			super.refresh();
 			isReload = true;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seejava.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
-	public void propertyChange( PropertyChangeEvent evt )
-	{
-		if ( evt.getPropertyName( )
-				.equals( AbstractReportEditPart.MODEL_EVENT_DISPATCH ) )
-		{
-			if ( AbstractReportEditPart.START.equals( evt.getNewValue( ) ) )
-			{
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(AbstractReportEditPart.MODEL_EVENT_DISPATCH)) {
+			if (AbstractReportEditPart.START.equals(evt.getNewValue())) {
 				isReload = false;
 			}
 		}
@@ -980,80 +841,76 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#propertyChange(java.util.Map)
 	 */
-	protected void propertyChange( Map info )
-	{
-		Set set = info.keySet( );
-		Iterator itor = set.iterator( );
+	@Override
+	protected void propertyChange(Map info) {
+		Set set = info.keySet();
+		Iterator itor = set.iterator();
 
-		while ( itor.hasNext( ) )
-		{
-			Object obj = itor.next( );
-			if ( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( obj )
-					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals( obj )
-					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj )
-					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj )
-					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj )
-					|| ICrosstabReportItemConstants.HEADER_PROP.equals( obj ))
-			{
-				refresh( );
+		while (itor.hasNext()) {
+			Object obj = itor.next();
+			if (ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals(obj)
+					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals(obj)
+					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals(obj)
+					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals(obj)
+					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals(obj)
+					|| ICrosstabReportItemConstants.HEADER_PROP.equals(obj)) {
+				refresh();
 				return;
 			}
 		}
-		super.propertyChange( info );
+		super.propertyChange(info);
 	}
 
 	/**
 	 * @param parentPolice
 	 * @return
 	 */
-	public EditPolicy getResizePolice( EditPolicy parentPolice )
-	{
-		return new ReportElementNonResizablePolicy( );
+	@Override
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		return new ReportElementNonResizablePolicy();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
 	 * #getDefinedHeight()
 	 */
-	public String getDefinedHeight( )
-	{
+	@Override
+	public String getDefinedHeight() {
 		// Crotab don't support the table height
 		return null;
 	}
 
-	public Object getAdapter( Class key )
-	{
-		if ( key == IBreadcrumbNodeProvider.class )
-		{
-			return new CrosstabBreadcrumbNodeProvider( );
+	@Override
+	public Object getAdapter(Class key) {
+		if (key == IBreadcrumbNodeProvider.class) {
+			return new CrosstabBreadcrumbNodeProvider();
 		}
-		return super.getAdapter( key );
+		return super.getAdapter(key);
 	}
 
 	@Override
-	public boolean isinterestSelection( Object object )
-	{
-		if ( Arrays.asList( ProviderFactory.createProvider( getModel( ) )
-				.getChildren( getModel( ) ) ).contains( object ) )
-		{
+	public boolean isinterestSelection(Object object) {
+		if (Arrays.asList(ProviderFactory.createProvider(getModel()).getChildren(getModel())).contains(object)) {
 			return true;
 		}
-		return super.isinterestSelection( object );
+		return super.isinterestSelection(object);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart#getFixAllowMinRowHight()
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * AbstractTableEditPart#getFixAllowMinRowHight()
 	 */
-	public int getFixAllowMinRowHight()
-	{
+	@Override
+	public int getFixAllowMinRowHight() {
 		return 18;
 	}
 }

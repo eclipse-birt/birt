@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,66 +31,48 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
  * The loader for ODA meta information.
  */
 
-public class OdaExtensionLoader
-{
+public class OdaExtensionLoader {
 
-	public static void load( )
-	{
-		loadDataSources( );
+	public static void load() {
+		loadDataSources();
 	}
 
-	private static void loadDataSources( )
-	{
-		ExtensionManifest[] dataSources = ManifestExplorer.getInstance( )
-				.getExtensionManifests( );
-		if ( dataSources != null )
-		{
-			for ( int i = 0; i < dataSources.length; i++ )
-			{
+	private static void loadDataSources() {
+		ExtensionManifest[] dataSources = ManifestExplorer.getInstance().getExtensionManifests();
+		if (dataSources != null) {
+			for (int i = 0; i < dataSources.length; i++) {
 				ExtensionManifest manifest = dataSources[i];
 				ExtensionElementDefn cachedExtDefn = new ODAExtensionElementDefn(
-						MetaDataDictionary.getInstance( ).getElement(
-								ReportDesignConstants.ODA_DATA_SOURCE ) );
+						MetaDataDictionary.getInstance().getElement(ReportDesignConstants.ODA_DATA_SOURCE));
 
-				try
-				{
-					Property[] properties = null;
-					Properties visibilities = null;
+				try {
+					Property[] properties;
+					Properties visibilities;
 
-					properties = manifest.getProperties( );
-					visibilities = manifest.getPropertiesVisibility( );
+					properties = manifest.getProperties();
+					visibilities = manifest.getPropertiesVisibility();
 
-					if ( properties != null )
-					{
-						for ( int j = 0; j < properties.length; j++ )
-						{
-							ODAPropertyDefn propDefn = new ODAPropertyDefn(
-									properties[j] );
+					if (properties != null) {
+						for (int j = 0; j < properties.length; j++) {
+							ODAPropertyDefn propDefn = new ODAPropertyDefn(properties[j]);
 
-							cachedExtDefn.addProperty( propDefn );
+							cachedExtDefn.addProperty(propDefn);
 						}
 
-						if ( visibilities != null )
-						{
-							for ( Iterator<Object> iter = visibilities.keySet( )
-									.iterator( ); iter.hasNext( ); )
-							{
-								String key = (String) iter.next( );
-								cachedExtDefn.addPropertyVisibility( key,
-										visibilities.getProperty( key ) );
+						if (visibilities != null) {
+							for (Iterator<Object> iter = visibilities.keySet().iterator(); iter.hasNext();) {
+								String key = (String) iter.next();
+								cachedExtDefn.addPropertyVisibility(key, visibilities.getProperty(key));
 							}
 						}
 					}
 
-					MetaDataDictionary.getInstance( ).cacheOdaExtension(
-							manifest.getExtensionID( ), cachedExtDefn );
+					MetaDataDictionary.getInstance().cacheOdaExtension(manifest.getExtensionID(), cachedExtDefn);
 
 					// load the data sets
-					loadDataSets( manifest );
+					loadDataSets(manifest);
 
-				}
-				catch ( MetaDataException e )
-				{
+				} catch (MetaDataException e) {
 					// do nothing
 					assert false;
 				}
@@ -96,54 +81,39 @@ public class OdaExtensionLoader
 
 	}
 
-	private static void loadDataSets( ExtensionManifest dataSource )
-	{
+	private static void loadDataSets(ExtensionManifest dataSource) {
 		assert dataSource != null;
-		DataSetType[] dataSets = dataSource.getDataSetTypes( );
-		if ( dataSets != null )
-		{
-			for ( int i = 0; i < dataSets.length; i++ )
-			{
+		DataSetType[] dataSets = dataSource.getDataSetTypes();
+		if (dataSets != null) {
+			for (int i = 0; i < dataSets.length; i++) {
 				DataSetType type = dataSets[i];
 				ExtensionElementDefn cachedExtDefn = new ODAExtensionElementDefn(
-						MetaDataDictionary.getInstance( ).getElement(
-								ReportDesignConstants.ODA_DATA_SET ) );
-				try
-				{
-					Property[] properties = null;
-					Properties visibilities = null;
+						MetaDataDictionary.getInstance().getElement(ReportDesignConstants.ODA_DATA_SET));
+				try {
+					Property[] properties;
+					Properties visibilities;
 
-					properties = type.getProperties( );
-					visibilities = type.getPropertiesVisibility( );
+					properties = type.getProperties();
+					visibilities = type.getPropertiesVisibility();
 
-					if ( properties != null )
-					{
-						for ( int j = 0; j < properties.length; j++ )
-						{
-							ODAPropertyDefn propDefn = new ODAPropertyDefn(
-									properties[j] );
+					if (properties != null) {
+						for (int j = 0; j < properties.length; j++) {
+							ODAPropertyDefn propDefn = new ODAPropertyDefn(properties[j]);
 
-							cachedExtDefn.addProperty( propDefn );
+							cachedExtDefn.addProperty(propDefn);
 						}
 
-						if ( visibilities != null )
-						{
-							for ( Iterator<Object> iter = visibilities.keySet( )
-									.iterator( ); iter.hasNext( ); )
-							{
-								String key = (String) iter.next( );
-								cachedExtDefn.addPropertyVisibility( key,
-										visibilities.getProperty( key ) );
+						if (visibilities != null) {
+							for (Iterator<Object> iter = visibilities.keySet().iterator(); iter.hasNext();) {
+								String key = (String) iter.next();
+								cachedExtDefn.addPropertyVisibility(key, visibilities.getProperty(key));
 							}
 						}
 					}
 
-					MetaDataDictionary.getInstance( ).cacheOdaExtension(
-							type.getID( ), cachedExtDefn );
+					MetaDataDictionary.getInstance().cacheOdaExtension(type.getID(), cachedExtDefn);
 
-				}
-				catch ( MetaDataException e )
-				{
+				} catch (MetaDataException e) {
 					// do nothing
 					assert false;
 				}

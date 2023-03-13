@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,349 +78,297 @@ import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 /**
  * This class defines chart element instances with default values, the 'isSet'
  * flag of chart element is initialized.
- * 
+ *
  * @since 3.7
  */
 
-public class DefaultValueProvider
-{
+public class DefaultValueProvider {
 
 	/**
-	 * 
-	 * @return default instance of chart with axes. 
+	 *
+	 * @return default instance of chart with axes.
 	 */
-	public static ChartWithAxes defChartWithAxes( )
-	{
+	public static ChartWithAxes defChartWithAxes() {
 		return defChartWithAxes;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of chart without axes.
 	 */
-	public static ChartWithoutAxes defChartWithoutAxes( )
-	{
+	public static ChartWithoutAxes defChartWithoutAxes() {
 		return defChartWithoutAxes;
 	}
 
 	/**
-	 * 
-	 * @return default instance of  dial chart.
+	 *
+	 * @return default instance of dial chart.
 	 */
-	public static DialChart defDialChart( )
-	{
+	public static DialChart defDialChart() {
 		return defDialChart;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of title
 	 */
-	public static TitleBlock defTitleBlock( )
-	{
+	public static TitleBlock defTitleBlock() {
 		return defTitleBlock;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of plot.
 	 */
-	public static Plot defPlot( )
-	{
+	public static Plot defPlot() {
 		return defPlot;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of legend.
 	 */
-	public static Legend defLegend( )
-	{
+	public static Legend defLegend() {
 		return defLegend;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of series definition.
 	 */
-	public static SeriesDefinition defSeriesDefinition( int id )
-	{
-		return defSeriesDefinitions.get( id );
+	public static SeriesDefinition defSeriesDefinition(int id) {
+		return defSeriesDefinitions.get(id);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of series.
 	 */
-	public static Series defSeries( )
-	{
+	public static Series defSeries() {
 		return defSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of x/category axis.
 	 */
-	public static Axis defBaseAxis( )
-	{
+	public static Axis defBaseAxis() {
 		return defBaseAxis;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of y axis or value axis.
 	 */
-	public static Axis defOrthogonalAxis( )
-	{
+	public static Axis defOrthogonalAxis() {
 		return defOrthAxis;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of z axis.
 	 */
-	public static Axis defAncillaryAxis( )
-	{
+	public static Axis defAncillaryAxis() {
 		return defAncillaryAxis;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return default instance of gantt series.
 	 */
-	public static GanttSeries defGanttSeries( )
-	{
+	public static GanttSeries defGanttSeries() {
 		return defGanttSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of scatter series.
 	 */
-	public static ScatterSeries defScatterSeries( )
-	{
+	public static ScatterSeries defScatterSeries() {
 		return defScatterSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of dial series.
 	 */
-	public static DialSeries defDialSeries( )
-	{
+	public static DialSeries defDialSeries() {
 		return defDialSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of pie series.
 	 */
-	public static PieSeries defPieSeries( )
-	{
+	public static PieSeries defPieSeries() {
 		return defPieSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of different series.
 	 */
-	public static DifferenceSeries defDifferenceSeries( )
-	{
+	public static DifferenceSeries defDifferenceSeries() {
 		return defDifferenceSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of stock series.
 	 */
-	public static StockSeries defStockSeries( )
-	{
+	public static StockSeries defStockSeries() {
 		return defStockSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of line series.
 	 */
-	public static LineSeries defLineSeries( )
-	{
+	public static LineSeries defLineSeries() {
 		return defLineSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of area series.
 	 */
-	public static AreaSeries defAreaSeries( )
-	{
+	public static AreaSeries defAreaSeries() {
 		return defAreaSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of bar series.
 	 */
-	public static BarSeries defBarSeries( )
-	{
+	public static BarSeries defBarSeries() {
 		return defBarSeries;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default instance of bubble series.
 	 */
-	public static BubbleSeries defBubbleSeries( )
-	{
+	public static BubbleSeries defBubbleSeries() {
 		return defBubbleSeries;
 	}
 
-	private static final ChartWithAxes defChartWithAxes = createChartWithAxes( );
+	private static final ChartWithAxes defChartWithAxes = createChartWithAxes();
 
-	private static ChartWithAxes createChartWithAxes( )
-	{
+	private static ChartWithAxes createChartWithAxes() {
 
-		ChartWithAxes newChart = ChartWithAxesImpl.create( );
-		newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-		newChart.setOrientation( Orientation.VERTICAL_LITERAL );
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("DefaultValueProvider_ChartTitle") ); //$NON-NLS-1$
+		ChartWithAxes newChart = ChartWithAxesImpl.create();
+		newChart.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
+		newChart.setOrientation(Orientation.VERTICAL_LITERAL);
+		newChart.getTitle().getLabel().getCaption().setValue(Messages.getString("DefaultValueProvider_ChartTitle")); //$NON-NLS-1$
 
-		Axis axBase = newChart.getAxes( ).get( 0 );
-		axBase.getMarkerLines( ).add( MarkerLineImpl.create( axBase, null ) );
-		axBase.getMarkerRanges( ).add( MarkerRangeImpl.create( axBase,
-				null,
-				null,
-				ColorDefinitionImpl.TRANSPARENT( ),
-				ColorDefinitionImpl.RED( ) ) );
-		axBase.setCategoryAxis( true );
-		axBase.getSeriesDefinitions( ).add( createSeriesDefinition( 0 ) );
-		axBase.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
+		Axis axBase = newChart.getAxes().get(0);
+		axBase.getMarkerLines().add(MarkerLineImpl.create(axBase, null));
+		axBase.getMarkerRanges().add(MarkerRangeImpl.create(axBase, null, null, ColorDefinitionImpl.TRANSPARENT(),
+				ColorDefinitionImpl.RED()));
+		axBase.setCategoryAxis(true);
+		axBase.getSeriesDefinitions().add(createSeriesDefinition(0));
+		axBase.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
 
-		Axis axOrth = axBase.getAssociatedAxes( ).get( 0 );
-		axOrth.getMarkerLines( ).add( MarkerLineImpl.create( axOrth, null ) );
-		axOrth.getMarkerRanges( ).add( MarkerRangeImpl.create( axOrth,
-				null,
-				null,
-				ColorDefinitionImpl.TRANSPARENT( ),
-				ColorDefinitionImpl.RED( ) ) );
-		axOrth.getSeriesDefinitions( ).add( createSeriesDefinition( 0 ) );
-		axOrth.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
-		createAncillaryAxis( newChart );
+		Axis axOrth = axBase.getAssociatedAxes().get(0);
+		axOrth.getMarkerLines().add(MarkerLineImpl.create(axOrth, null));
+		axOrth.getMarkerRanges().add(MarkerRangeImpl.create(axOrth, null, null, ColorDefinitionImpl.TRANSPARENT(),
+				ColorDefinitionImpl.RED()));
+		axOrth.getSeriesDefinitions().add(createSeriesDefinition(0));
+		axOrth.getLineAttributes().setColor(ColorDefinitionImpl.BLACK());
+		createAncillaryAxis(newChart);
 		return newChart;
 	}
 
-	private static Axis createAncillaryAxis( ChartWithAxes chart )
-	{
-		chart.setRotation( Rotation3DImpl.create( new Angle3D[]{
-			Angle3DImpl.create( -20, 45, 0 )
-		} ) );
+	private static Axis createAncillaryAxis(ChartWithAxes chart) {
+		chart.setRotation(Rotation3DImpl.create(new Angle3D[] { Angle3DImpl.create(-20, 45, 0) }));
 
-		chart.setUnitSpacing( 50 );
+		chart.setUnitSpacing(50);
 
-		Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-		zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
-		zAxisAncillary.getTitle( )
-				.getCaption( )
-				.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-		zAxisAncillary.getTitle( ).setVisible( false );
-		zAxisAncillary.setPrimaryAxis( true );
-		zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
-		zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
-		zAxisAncillary.getOrigin( )
-				.setValue( NumberDataElementImpl.create( 0 ) );
-		zAxisAncillary.setType( AxisType.TEXT_LITERAL );
-		chart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).add( zAxisAncillary );
+		Axis zAxisAncillary = AxisImpl.create(Axis.ANCILLARY_BASE);
+		zAxisAncillary.setTitlePosition(Position.BELOW_LITERAL);
+		zAxisAncillary.getTitle().getCaption().setValue(Messages.getString("ChartWithAxesImpl.Z_Axis.title")); //$NON-NLS-1$
+		zAxisAncillary.getTitle().setVisible(false);
+		zAxisAncillary.setPrimaryAxis(true);
+		zAxisAncillary.setLabelPosition(Position.BELOW_LITERAL);
+		zAxisAncillary.setOrientation(Orientation.HORIZONTAL_LITERAL);
+		zAxisAncillary.getOrigin().setType(IntersectionType.MIN_LITERAL);
+		zAxisAncillary.getOrigin().setValue(NumberDataElementImpl.create(0));
+		zAxisAncillary.setType(AxisType.TEXT_LITERAL);
+		chart.getPrimaryBaseAxes()[0].getAncillaryAxes().add(zAxisAncillary);
 
-		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-		sdZ.getSeriesPalette( ).shift( 0 );
-		sdZ.getSeries( ).add( SeriesImpl.create( ) );
-		zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
+		SeriesDefinition sdZ = SeriesDefinitionImpl.create();
+		sdZ.getSeriesPalette().shift(0);
+		sdZ.getSeries().add(SeriesImpl.create());
+		zAxisAncillary.getSeriesDefinitions().add(sdZ);
 
 		return zAxisAncillary;
 	}
-	
-	private static final TitleBlock defTitleBlock = getTitleBlock( defChartWithAxes );
-	private static final Plot defPlot = getPlot( defChartWithAxes );
-	private static final Legend defLegend = getLegend( defChartWithAxes );
-	private static final Series defSeries = SeriesImpl.create( );
-	private static final GanttSeries defGanttSeries = (GanttSeries) GanttSeriesImpl.create( );
-	private static final ScatterSeries defScatterSeries = (ScatterSeries) ScatterSeriesImpl.create( );
-	private static final DialSeries defDialSeries = (DialSeries) DialSeriesImpl.create( );
-	static
-	{
-		defDialSeries.getDial( ).getDialRegions( ).add( DialRegionImpl.create( ) );
-	}
-	private static final PieSeries defPieSeries = (PieSeries) PieSeriesImpl.create( );
-	private static final DifferenceSeries defDifferenceSeries = (DifferenceSeries) DifferenceSeriesImpl.create( );
-	private static final StockSeries defStockSeries = (StockSeries) StockSeriesImpl.create( );
-	private static final LineSeries defLineSeries = (LineSeries) LineSeriesImpl.create( );
-	private static final AreaSeries defAreaSeries = (AreaSeries) AreaSeriesImpl.create( );
-	private static final BarSeries defBarSeries = (BarSeries) BarSeriesImpl.create( );
-	private static final BubbleSeries defBubbleSeries = (BubbleSeries) BubbleSeriesImpl.create( );
-	static
-	{
-		defSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defGanttSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defScatterSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defStockSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defLineSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defAreaSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defBarSeries.setCurveFitting( CurveFittingImpl.create( ) );
-		defBubbleSeries.setCurveFitting( CurveFittingImpl.create( ) );
-	}
-	private static final Axis defBaseAxis = defChartWithAxes.getAxes( ).get( 0 );
-	private static final Axis defOrthAxis = defBaseAxis.getAssociatedAxes( )
-			.get( 0 );
-	private static final Axis defAncillaryAxis = defBaseAxis.getAncillaryAxes( ).get( 0 );
 
-	public static Insets defLabelInsets( )
-	{
+	private static final TitleBlock defTitleBlock = getTitleBlock(defChartWithAxes);
+	private static final Plot defPlot = getPlot(defChartWithAxes);
+	private static final Legend defLegend = getLegend(defChartWithAxes);
+	private static final Series defSeries = SeriesImpl.create();
+	private static final GanttSeries defGanttSeries = (GanttSeries) GanttSeriesImpl.create();
+	private static final ScatterSeries defScatterSeries = (ScatterSeries) ScatterSeriesImpl.create();
+	private static final DialSeries defDialSeries = (DialSeries) DialSeriesImpl.create();
+	static {
+		defDialSeries.getDial().getDialRegions().add(DialRegionImpl.create());
+	}
+	private static final PieSeries defPieSeries = (PieSeries) PieSeriesImpl.create();
+	private static final DifferenceSeries defDifferenceSeries = (DifferenceSeries) DifferenceSeriesImpl.create();
+	private static final StockSeries defStockSeries = (StockSeries) StockSeriesImpl.create();
+	private static final LineSeries defLineSeries = (LineSeries) LineSeriesImpl.create();
+	private static final AreaSeries defAreaSeries = (AreaSeries) AreaSeriesImpl.create();
+	private static final BarSeries defBarSeries = (BarSeries) BarSeriesImpl.create();
+	private static final BubbleSeries defBubbleSeries = (BubbleSeries) BubbleSeriesImpl.create();
+	static {
+		defSeries.setCurveFitting(CurveFittingImpl.create());
+		defGanttSeries.setCurveFitting(CurveFittingImpl.create());
+		defScatterSeries.setCurveFitting(CurveFittingImpl.create());
+		defStockSeries.setCurveFitting(CurveFittingImpl.create());
+		defLineSeries.setCurveFitting(CurveFittingImpl.create());
+		defAreaSeries.setCurveFitting(CurveFittingImpl.create());
+		defBarSeries.setCurveFitting(CurveFittingImpl.create());
+		defBubbleSeries.setCurveFitting(CurveFittingImpl.create());
+	}
+	private static final Axis defBaseAxis = defChartWithAxes.getAxes().get(0);
+	private static final Axis defOrthAxis = defBaseAxis.getAssociatedAxes().get(0);
+	private static final Axis defAncillaryAxis = defBaseAxis.getAncillaryAxes().get(0);
+
+	public static Insets defLabelInsets() {
 		return defLabelInsets;
 	}
-	
-	private static final Insets defLabelInsets = InsetsImpl.create( 0, 2, 0, 3 );
-	
-	public static Label defLabel( )
-	{
+
+	private static final Insets defLabelInsets = InsetsImpl.create(0, 2, 0, 3);
+
+	public static Label defLabel() {
 		return defLabel;
 	}
-	
-	private static final Label defLabel = LabelImpl.create( );
-	
-	private static final DefSeriesDefinitionPool defSeriesDefinitions = new DefSeriesDefinitionPool( );
 
-	public static class DefSeriesDefinitionPool
-	{
+	private static final Label defLabel = LabelImpl.create();
+
+	private static final DefSeriesDefinitionPool defSeriesDefinitions = new DefSeriesDefinitionPool();
+
+	public static class DefSeriesDefinitionPool {
 
 		protected int size = 8;
 		protected SeriesDefinition[] pool = null;
 
-		public DefSeriesDefinitionPool( )
-		{
-			pool = new SeriesDefinition[]{
-					createSeriesDefinition( 0 ),
-					createSeriesDefinition( -1 ),
-					createSeriesDefinition( -2 ),
-					createSeriesDefinition( -3 ),
-					createSeriesDefinition( -4 ),
-					createSeriesDefinition( -5 ),
-					createSeriesDefinition( -6 ),
-					createSeriesDefinition( -7 ),
-			};
+		public DefSeriesDefinitionPool() {
+			pool = new SeriesDefinition[] { createSeriesDefinition(0), createSeriesDefinition(-1),
+					createSeriesDefinition(-2), createSeriesDefinition(-3), createSeriesDefinition(-4),
+					createSeriesDefinition(-5), createSeriesDefinition(-6), createSeriesDefinition(-7), };
 		}
 
-		public SeriesDefinition get( int id )
-		{
-			if ( id >= size )
-			{
-				int sizeNew = ( id / 4 + 1 ) * 4;
+		public SeriesDefinition get(int id) {
+			if (id >= size) {
+				int sizeNew = (id / 4 + 1) * 4;
 
 				SeriesDefinition[] poolNew = new SeriesDefinition[sizeNew];
-				System.arraycopy( pool, 0, poolNew, 0, size );
+				System.arraycopy(pool, 0, poolNew, 0, size);
 
-				for ( int i = size; i < sizeNew; i++ )
-				{
-					poolNew[i] = createSeriesDefinition( -i );
+				for (int i = size; i < sizeNew; i++) {
+					poolNew[i] = createSeriesDefinition(-i);
 				}
 
 				pool = poolNew;
@@ -428,92 +379,79 @@ public class DefaultValueProvider
 
 	}
 
-	private static ChartWithoutAxes defChartWithoutAxes = createChartWithoutAxes( );
+	private static ChartWithoutAxes defChartWithoutAxes = createChartWithoutAxes();
 
-	private static ChartWithoutAxes createChartWithoutAxes( )
-	{
-		ChartWithoutAxes newChart = ChartWithoutAxesImpl.create( );
-		newChart.setSubType( Messages.getString("DefaultValueProvider_ChartSubType.Standard") ); //$NON-NLS-1$
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("DefaultValueProvider_ChartTitle") ); //$NON-NLS-1$
-		
-		SeriesDefinition sdX = createSeriesDefinition( 0 );
-		sdX.getQuery( ).setDefinition( Messages.getString("DefaultValueProvider_BaseSeries") ); //$NON-NLS-1$
+	private static ChartWithoutAxes createChartWithoutAxes() {
+		ChartWithoutAxes newChart = ChartWithoutAxesImpl.create();
+		newChart.setSubType(Messages.getString("DefaultValueProvider_ChartSubType.Standard")); //$NON-NLS-1$
+		newChart.getTitle().getLabel().getCaption().setValue(Messages.getString("DefaultValueProvider_ChartTitle")); //$NON-NLS-1$
 
-		SeriesDefinition sdY = createSeriesDefinition( 0 );
-		sdX.getSeriesDefinitions( ).add( sdY );
-		newChart.getSeriesDefinitions( ).add( sdX );
+		SeriesDefinition sdX = createSeriesDefinition(0);
+		sdX.getQuery().setDefinition(Messages.getString("DefaultValueProvider_BaseSeries")); //$NON-NLS-1$
 
-		return newChart;
-	}
-
-	private static DialChart defDialChart = createDialChart( );
-
-	private static DialChart createDialChart( )
-	{
-		DialChart newChart = (DialChart) DialChartImpl.create( );
-		newChart.setSubType( Messages.getString("DefaultValueProvider_ChartSubType.StandardMeterChart") );  //$NON-NLS-1$
-		newChart.setUnits( Messages.getString("DefaultValueProvider_ChartUnits.Points") ); //$NON-NLS-1$
-		newChart.setDialSuperimposition( false );
-		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
-
-		SeriesDefinition sdX = createSeriesDefinition( 0 );
-		sdX.getQuery( ).setDefinition( Messages.getString("DefaultValueProvider_BaseSeries") ); //$NON-NLS-1$
-
-		SeriesDefinition sdY = createSeriesDefinition( 0 );
-		sdX.getSeriesDefinitions( ).add( sdY );
-
-		newChart.getSeriesDefinitions( ).add( sdX );
+		SeriesDefinition sdY = createSeriesDefinition(0);
+		sdX.getSeriesDefinitions().add(sdY);
+		newChart.getSeriesDefinitions().add(sdX);
 
 		return newChart;
 	}
 
-	private static TitleBlock getTitleBlock( Chart chart )
-	{
-		for ( Block b : chart.getBlock( ).getChildren( ) )
-		{
-			if ( b instanceof TitleBlock )
-			{
+	private static DialChart defDialChart = createDialChart();
+
+	private static DialChart createDialChart() {
+		DialChart newChart = (DialChart) DialChartImpl.create();
+		newChart.setSubType(Messages.getString("DefaultValueProvider_ChartSubType.StandardMeterChart")); //$NON-NLS-1$
+		newChart.setUnits(Messages.getString("DefaultValueProvider_ChartUnits.Points")); //$NON-NLS-1$
+		newChart.setDialSuperimposition(false);
+		newChart.getLegend().setItemType(LegendItemType.SERIES_LITERAL);
+
+		SeriesDefinition sdX = createSeriesDefinition(0);
+		sdX.getQuery().setDefinition(Messages.getString("DefaultValueProvider_BaseSeries")); //$NON-NLS-1$
+
+		SeriesDefinition sdY = createSeriesDefinition(0);
+		sdX.getSeriesDefinitions().add(sdY);
+
+		newChart.getSeriesDefinitions().add(sdX);
+
+		return newChart;
+	}
+
+	private static TitleBlock getTitleBlock(Chart chart) {
+		for (Block b : chart.getBlock().getChildren()) {
+			if (b instanceof TitleBlock) {
 				return (TitleBlock) b;
 			}
 		}
 		return null;
 	}
 
-	private static Plot getPlot( Chart chart )
-	{
-		for ( Block b : chart.getBlock( ).getChildren( ) )
-		{
-			if ( b instanceof Plot )
-			{
+	private static Plot getPlot(Chart chart) {
+		for (Block b : chart.getBlock().getChildren()) {
+			if (b instanceof Plot) {
 				return (Plot) b;
 			}
 		}
 		return null;
 	}
 
-	private static Legend getLegend( Chart chart )
-	{
-		for ( Block b : chart.getBlock( ).getChildren( ) )
-		{
-			if ( b instanceof Legend )
-			{
+	private static Legend getLegend(Chart chart) {
+		for (Block b : chart.getBlock().getChildren()) {
+			if (b instanceof Legend) {
 				return (Legend) b;
 			}
 		}
 		return null;
 	}
 
-	protected static SeriesDefinition createSeriesDefinition(
-			int paletteShift )
-	{
-		SeriesDefinition sd = SeriesDefinitionImpl.create( );
-		sd.getSeries( ).add( SeriesImpl.create( ) );
-		sd.getSeriesPalette( ).shift( paletteShift );
+	protected static SeriesDefinition createSeriesDefinition(int paletteShift) {
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		sd.getSeries().add(SeriesImpl.create());
+		sd.getSeriesPalette().shift(paletteShift);
 		return sd;
 	}
 
-	private static JavaNumberFormatSpecifier percentileValueFS = JavaNumberFormatSpecifierImpl.create( "##.##%" ); //$NON-NLS-1$
-	
+	private static JavaNumberFormatSpecifier percentileValueFS = JavaNumberFormatSpecifierImpl.create("##.##%"); //$NON-NLS-1$
+
 	/**
 	 * @return default format specifier for percentile value.
 	 */

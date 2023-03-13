@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,10 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error while setting the style of an element.
- * 
+ *
  */
 
-public class ThemeException extends SemanticException
-{
+public class ThemeException extends SemanticException {
 
 	/**
 	 * The serial version UID
@@ -50,46 +52,38 @@ public class ThemeException extends SemanticException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param str
-	 *            the name of the style.
-	 * @param errCode
-	 *            the error code.
+	 *
+	 * @param obj     the element being changed.
+	 * @param str     the name of the style.
+	 * @param errCode the error code.
 	 */
 
-	public ThemeException( DesignElement obj, String str, String errCode )
-	{
-		super( obj, errCode );
+	public ThemeException(DesignElement obj, String str, String errCode) {
+		super(obj, errCode);
 		themeName = str;
 	}
 
 	/**
 	 * Returns the name of the style being set.
-	 * 
+	 *
 	 * @return the style name.
 	 */
 
-	public Object getTheme( )
-	{
+	public Object getTheme() {
 		return themeName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					themeName, getElementName( element )} );
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { themeName, getElementName(element) });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

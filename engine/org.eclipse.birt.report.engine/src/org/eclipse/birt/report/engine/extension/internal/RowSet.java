@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,103 +24,87 @@ import org.eclipse.birt.report.engine.extension.IRowMetaData;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
- * 
- * 
+ *
+ *
  */
-public class RowSet implements IRowSet
-{
+public class RowSet implements IRowSet {
 	protected IQueryResultSet rset;
 	protected IRowMetaData metaData;
 	protected ExecutionContext context;
 
-	public RowSet( IQueryResultSet rset ) throws BirtException
-	{
-		this.context = ( (QueryResultSet) rset ).getExecutionContext( );
-		
-		this.rset = rset;
-		metaData = new IRowMetaData( ) {
+	public RowSet(IQueryResultSet rset) throws BirtException {
+		this.context = ((QueryResultSet) rset).getExecutionContext();
 
-			public int getColumnCount( )
-			{
+		this.rset = rset;
+		metaData = new IRowMetaData() {
+
+			@Override
+			public int getColumnCount() {
 				return 0;
 			}
 
-			public String getColumnName( int index ) throws BirtException
-			{
+			@Override
+			public String getColumnName(int index) throws BirtException {
 				return null;
 			}
 
-			public int getColumnType( int index ) throws BirtException
-			{
+			@Override
+			public int getColumnType(int index) throws BirtException {
 				return -1;
 			}
 		};
-		if ( rset != null )
-		{
-			metaData = new RowMetaData( rset.getResultMetaData( ) );
+		if (rset != null) {
+			metaData = new RowMetaData(rset.getResultMetaData());
 		}
 	}
 
-	public DataSetID getID( )
-	{
-		return rset.getID( );
+	public DataSetID getID() {
+		return rset.getID();
 	}
 
 	/**
 	 * returns the definition for the data row
-	 * 
+	 *
 	 * @return the definition for the data row
 	 */
-	public IRowMetaData getMetaData( )
-	{
+	@Override
+	public IRowMetaData getMetaData() {
 		return metaData;
 	}
 
-	public boolean next( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.next( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	@Override
+	public boolean next() {
+		if (rset != null) {
+			try {
+				return rset.next();
+			} catch (BirtException ex) {
+				context.addException(ex);
 				return false;
 			}
 		}
 		return false;
 	}
 
-	public Object evaluate( String expr )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.evaluate( expr );
+	@Override
+	public Object evaluate(String expr) {
+		try {
+			if (rset != null) {
+				return rset.evaluate(expr);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
 
-	public Object evaluate( IBaseExpression expr )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.evaluate( expr );
+	@Override
+	public Object evaluate(IBaseExpression expr) {
+		try {
+			if (rset != null) {
+				return rset.evaluate(expr);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
@@ -125,55 +112,44 @@ public class RowSet implements IRowSet
 	/**
 	 * Returns the value of a bound column by column index. So far it's a dummy
 	 * implementation.
-	 * 
+	 *
 	 * @param columnIndex
 	 * @return
 	 */
-	public Object getValue( int columnIndex )
-	{
-		throw new UnsupportedOperationException( );
+	public Object getValue(int columnIndex) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * Returns the value of a bound column by column name.
-	 * 
-	 * @param name
-	 *            of bound column
+	 *
+	 * @param name of bound column
 	 * @return value of bound column
 	 * @throws BirtException
 	 */
-	public Object getValue( String columnName )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.getValue( columnName );
+	public Object getValue(String columnName) {
+		try {
+			if (rset != null) {
+				return rset.getValue(columnName);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getEndingGroupLevel()
 	 */
-	public int getEndingGroupLevel( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.getEndingGroupLevel( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	@Override
+	public int getEndingGroupLevel() {
+		if (rset != null) {
+			try {
+				return rset.getEndingGroupLevel();
+			} catch (BirtException ex) {
+				context.addException(ex);
 			}
 		}
 		return 0;
@@ -181,37 +157,31 @@ public class RowSet implements IRowSet
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getStartingGroupLevel()
 	 */
-	public int getStartingGroupLevel( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.getStartingGroupLevel( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	@Override
+	public int getStartingGroupLevel() {
+		if (rset != null) {
+			try {
+				return rset.getStartingGroupLevel();
+			} catch (BirtException ex) {
+				context.addException(ex);
 
 			}
 		}
 		return 0;
 	}
 
-	public void close( )
-	{
-		return;
+	@Override
+	public void close() {
 	}
 
-	public boolean isEmpty( ) throws BirtException
-	{
-		if ( rset == null )
-		{
+	@Override
+	public boolean isEmpty() throws BirtException {
+		if (rset == null) {
 			return true;
 		}
-		return rset.isEmpty( );
+		return rset.isEmpty();
 	}
 }

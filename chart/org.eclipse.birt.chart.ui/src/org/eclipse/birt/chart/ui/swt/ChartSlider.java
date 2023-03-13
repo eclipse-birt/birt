@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,89 +25,74 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Slider;
 
-
 /**
  * ChartSlider
  */
 
-public class ChartSlider extends Composite implements SelectionListener
-{
+public class ChartSlider extends Composite implements SelectionListener {
 	protected Slider slider;
-	
-	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>( );
-	
-	public ChartSlider( Composite parent, int style )
-	{
-		super( parent, SWT.NONE );
-		placeComponents( style );
+
+	protected Vector<SelectionListener> vListeners = new Vector<>();
+
+	public ChartSlider(Composite parent, int style) {
+		super(parent, SWT.NONE);
+		placeComponents(style);
 	}
 
-	protected void placeComponents( int style )
-	{
-		GridLayout gl = new GridLayout( 1, false );
+	protected void placeComponents(int style) {
+		GridLayout gl = new GridLayout(1, false);
 		gl.marginBottom = 0;
 		gl.marginHeight = 0;
 		gl.marginLeft = 0;
 		gl.marginRight = 0;
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
-		this.setLayout( gl );
-		
-		slider = new Slider( this, style );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		slider.setLayoutData( gd );
+		this.setLayout(gl);
+
+		slider = new Slider(this, style);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		slider.setLayoutData(gd);
 	}
 
-	public Slider getWidget( )
-	{
+	public Slider getWidget() {
 		return this.slider;
 	}
-	
-	public void setValues(int selection,
-            int minimum,
-            int maximum,
-            int thumb,
-            int increment,
-            int pageIncrement,
-            double dRatio )
-	{
-		slider.setValues( selection, minimum, maximum, thumb, increment, pageIncrement );
-	}
-	
-	public int getSelection( )
-	{
-		return slider.getSelection( );
-	}
-	
-	public void addSelectionListener( SelectionListener listener )
-	{
-		vListeners.add( listener );
-		slider.addSelectionListener( this );
+
+	public void setValues(int selection, int minimum, int maximum, int thumb, int increment, int pageIncrement,
+			double dRatio) {
+		slider.setValues(selection, minimum, maximum, thumb, increment, pageIncrement);
 	}
 
-	public void setEnabled( boolean enabled )
-	{
-		super.setEnabled( enabled );
-		slider.setEnabled( enabled );
+	public int getSelection() {
+		return slider.getSelection();
 	}
-	
+
+	public void addSelectionListener(SelectionListener listener) {
+		vListeners.add(listener);
+		slider.addSelectionListener(this);
+	}
+
 	@Override
-	public void setToolTipText( String tooltip )
-	{
-		slider.setToolTipText( tooltip );
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		slider.setEnabled(enabled);
 	}
-	
-	public void widgetDefaultSelected( SelectionEvent arg0 )
-	{
+
+	@Override
+	public void setToolTipText(String tooltip) {
+		slider.setToolTipText(tooltip);
+	}
+
+	@Override
+	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public void widgetSelected( SelectionEvent event )
-	{
-		if ( event.widget == slider )
-		{
-			Event e = new Event( );
+
+	@Override
+	public void widgetSelected(SelectionEvent event) {
+		if (event.widget == slider) {
+			Event e = new Event();
 			e.detail = event.detail;
 			e.data = event.data;
 			e.display = event.display;
@@ -118,13 +106,12 @@ public class ChartSlider extends Composite implements SelectionListener
 			e.widget = this;
 			e.x = event.x;
 			e.y = event.y;
-			SelectionEvent se = new SelectionEvent( e );
+			SelectionEvent se = new SelectionEvent(e);
 
-			for ( int i = ( vListeners.size( ) - 1 ); i >= 0; i-- )
-			{
-				vListeners.get( i ).widgetSelected( se );
+			for (int i = (vListeners.size() - 1); i >= 0; i--) {
+				vListeners.get(i).widgetSelected(se);
 			}
 		}
-		
+
 	}
 }

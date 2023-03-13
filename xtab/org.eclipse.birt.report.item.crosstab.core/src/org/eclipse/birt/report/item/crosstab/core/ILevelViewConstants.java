@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +18,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for LevelViewHandle.
  */
 
-public interface ILevelViewConstants
-{
+public interface ILevelViewConstants {
 
 	/**
 	 * Name of the property that refers a OLAP level element.
@@ -40,8 +42,8 @@ public interface ILevelViewConstants
 	String SORT_DIRECTION_PROP = "sortDirection"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates the sort expression and direction of
-	 * this level.
+	 * Name of the property that indicates the sort expression and direction of this
+	 * level.
 	 */
 	String SORT_PROP = "sort"; //$NON-NLS-1$
 
@@ -54,7 +56,7 @@ public interface ILevelViewConstants
 	 * Name of the property that defines the page break status.
 	 */
 	String PAGE_BREAK_AFTER_PROP = "pageBreakAfter"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that defines the page break insdie status.
 	 */
@@ -72,14 +74,14 @@ public interface ILevelViewConstants
 	String AGGREGATION_HEADER_LOCATION_PROP = "aggregationHeaderLocation"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that holds single crosstab cell to descript the
-	 * contents for this level.
+	 * Name of the property that holds single crosstab cell to descript the contents
+	 * for this level.
 	 */
 	String MEMBER_PROP = "member"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that holds single crosstav cell to show the
-	 * aggregations header.
+	 * Name of the property that holds single crosstav cell to show the aggregations
+	 * header.
 	 */
 	String AGGREGATION_HEADER_PROP = "aggregationHeader"; //$NON-NLS-1$
 

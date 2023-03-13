@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,7 @@ import org.eclipse.birt.report.model.core.Module;
  * scripting engine.
  */
 
-public class ScriptPropertyType extends TextualPropertyType
-{
+public class ScriptPropertyType extends TextualPropertyType {
 
 	/**
 	 * Display name key.
@@ -32,41 +34,39 @@ public class ScriptPropertyType extends TextualPropertyType
 	 * Constructor.
 	 */
 
-	public ScriptPropertyType( )
-	{
-		super( DISPLAY_NAME_KEY );
+	public ScriptPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getTypeCode()
 	 */
-	public int getTypeCode( )
-	{
+	@Override
+	public int getTypeCode() {
 		return SCRIPT_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return SCRIPT_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
+	 *
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
 	 * .lang.Object)
 	 */
 
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
+	@Override
+	public String toString(Module module, PropertyDefn defn, Object value) {
 		return (String) value;
 	}
 

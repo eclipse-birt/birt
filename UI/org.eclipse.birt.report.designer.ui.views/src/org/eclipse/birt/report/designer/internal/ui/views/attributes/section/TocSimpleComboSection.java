@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,33 +27,28 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class TocSimpleComboSection extends SimpleComboSection {
 
-	public TocSimpleComboSection(String labelText, Composite parent,
-			boolean isFormStyle) {
+	public TocSimpleComboSection(String labelText, Composite parent, boolean isFormStyle) {
 		super(labelText, parent, isFormStyle);
-	}	
+	}
 
-	protected SimpleComboPropertyDescriptor getSimpleComboControl(
-			Composite parent )
-	{
-		if ( simpleCombo == null )
-		{
-			simpleCombo = DescriptorToolkit.createTocSimpleComboPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				simpleCombo.setDescriptorProvider( getProvider( ) );
-			simpleCombo.createControl( parent );
-			simpleCombo.getControl( ).setLayoutData( new GridData( ) );
-			simpleCombo.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
+	@Override
+	protected SimpleComboPropertyDescriptor getSimpleComboControl(Composite parent) {
+		if (simpleCombo == null) {
+			simpleCombo = DescriptorToolkit.createTocSimpleComboPropertyDescriptor(true);
+			if (getProvider() != null) {
+				simpleCombo.setDescriptorProvider(getProvider());
+			}
+			simpleCombo.createControl(parent);
+			simpleCombo.getControl().setLayoutData(new GridData());
+			simpleCombo.getControl().addDisposeListener(new DisposeListener() {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							simpleCombo = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( simpleCombo.getControl( ), parent );
+				@Override
+				public void widgetDisposed(DisposeEvent event) {
+					simpleCombo = null;
+				}
+			});
+		} else {
+			checkParent(simpleCombo.getControl(), parent);
 		}
 		return simpleCombo;
 	}

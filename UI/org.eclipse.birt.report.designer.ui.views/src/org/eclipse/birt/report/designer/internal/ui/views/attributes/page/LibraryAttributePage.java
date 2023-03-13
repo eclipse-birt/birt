@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,52 +24,46 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
- * 
+ *
  */
 
-public class LibraryAttributePage extends AttributePage
-{
+public class LibraryAttributePage extends AttributePage {
 
-	public void refresh( )
-	{
-		Section[] sectionArray = getSections( );
-		for ( int i = 0; i < sectionArray.length; i++ )
-		{
+	@Override
+	public void refresh() {
+		Section[] sectionArray = getSections();
+		for (int i = 0; i < sectionArray.length; i++) {
 			Section section = (Section) sectionArray[i];
-			section.setInput( input );
-			if ( checkLibraryReadOnly )
-				section.setReadOnly( isLibraryReadOnly( ) );
-			section.load( );
+			section.setInput(input);
+			if (checkLibraryReadOnly) {
+				section.setReadOnly(isLibraryReadOnly());
+			}
+			section.load();
 		}
-		FormWidgetFactory.getInstance( ).paintFormStyle( container );
-		FormWidgetFactory.getInstance( ).adapt( container );
+		FormWidgetFactory.getInstance().paintFormStyle(container);
+		FormWidgetFactory.getInstance().adapt(container);
 	}
 
-	protected boolean isLibraryReadOnly( )
-	{
+	protected boolean isLibraryReadOnly() {
 		GroupElementHandle elementHandle = null;
-		if ( input instanceof GroupElementHandle )
-		{
-			elementHandle = ( (GroupElementHandle) input );
+		if (input instanceof GroupElementHandle) {
+			elementHandle = ((GroupElementHandle) input);
 
+		} else if (input instanceof List) {
+			elementHandle = DEUtil.getGroupElementHandle((List) input);
 		}
-		else if ( input instanceof List )
-		{
-			elementHandle = DEUtil.getGroupElementHandle( (List) input );
-		}
-		if ( elementHandle != null )
-		{
-			if ( elementHandle.getModuleHandle( ) instanceof ReportDesignHandle
-					&& DEUtil.getInputFirstElement( elementHandle ) instanceof LibraryHandle )
+		if (elementHandle != null) {
+			if (elementHandle.getModuleHandle() instanceof ReportDesignHandle
+					&& DEUtil.getInputFirstElement(elementHandle) instanceof LibraryHandle) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	private boolean checkLibraryReadOnly = false;
 
-	protected void needCheckLibraryReadOnly( boolean readOnley )
-	{
+	protected void needCheckLibraryReadOnly(boolean readOnley) {
 		this.checkLibraryReadOnly = readOnley;
 	}
 }

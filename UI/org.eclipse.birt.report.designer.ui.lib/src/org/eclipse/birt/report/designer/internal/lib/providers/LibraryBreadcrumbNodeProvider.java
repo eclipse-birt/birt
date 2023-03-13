@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,103 +28,89 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
-public class LibraryBreadcrumbNodeProvider extends
-		DesignerBreadcrumbNodeProvider
-{
+public class LibraryBreadcrumbNodeProvider extends DesignerBreadcrumbNodeProvider {
 
-	public boolean validate( Object element )
-	{
-		if ( getEditPart( element ) == null
+	@Override
+	public boolean validate(Object element) {
+		if (getEditPart(element) == null
 		// || getEditPart( element ) instanceof EmptyEditPart
-		)
+		) {
 			return false;
+		}
 		return true;
 	}
 
-	public EditPart getEditPart( Object element )
-	{
+	@Override
+	public EditPart getEditPart(Object element) {
 		// EditPart editPart = super.getEditPart( element );
 		// if ( editPart == null || editPart instanceof EmptyEditPart )
 		// return null;
-		return super.getEditPart( element );
+		return super.getEditPart(element);
 	}
 
 	@Override
-	public Object[] getChildren( Object element )
-	{
-		if ( getRealModel( element ) instanceof LibraryHandle )
-		{
-			return ( (LibraryHandle) getRealModel( element ) ).getComponents( )
-					.getContents( )
-					.toArray( );
+	public Object[] getChildren(Object element) {
+		if (getRealModel(element) instanceof LibraryHandle) {
+			return ((LibraryHandle) getRealModel(element)).getComponents().getContents().toArray();
 		}
-		List children = new ArrayList( );
-		children.addAll( Arrays.asList( super.getChildren( element ) ) );
-		for ( int i = 0; i < children.size( ); i++ )
-		{
-			if ( children.get( i ) instanceof EmptyEditPart )
-			{
-				children.remove( i );
+		List children = new ArrayList(Arrays.asList(super.getChildren(element)));
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i) instanceof EmptyEditPart) {
+				children.remove(i);
 				i--;
 			}
 		}
-		return children.toArray( );
+		return children.toArray();
 	}
 
 	@Override
-	public String getText( Object element )
-	{
-		Object object = getRealModel( element );
-		if ( getEditPart( object ) == null )
-		{
-			if ( object instanceof DesignElementHandle
-					&& ( (DesignElementHandle) object ).getContainer( ) instanceof LibraryHandle )
-			{
-				INodeProvider provider = ProviderFactory.createProvider( object );
-				if ( provider == null )
-					return object.toString( );
-				return provider.getNodeDisplayName( object );
+	public String getText(Object element) {
+		Object object = getRealModel(element);
+		if (getEditPart(object) == null) {
+			if (object instanceof DesignElementHandle
+					&& ((DesignElementHandle) object).getContainer() instanceof LibraryHandle) {
+				INodeProvider provider = ProviderFactory.createProvider(object);
+				if (provider == null) {
+					return object.toString();
+				}
+				return provider.getNodeDisplayName(object);
 			}
 		}
-		return super.getText( element );
+		return super.getText(element);
 	}
 
 	@Override
-	public Image getImage( Object element )
-	{
-		Object object = getRealModel( element );
-		if ( getEditPart( object ) == null )
-		{
-			if ( object instanceof DesignElementHandle
-					&& ( (DesignElementHandle) object ).getContainer( ) instanceof LibraryHandle )
-			{
-				INodeProvider provider = ProviderFactory.createProvider( object );
-				if ( provider == null )
+	public Image getImage(Object element) {
+		Object object = getRealModel(element);
+		if (getEditPart(object) == null) {
+			if (object instanceof DesignElementHandle
+					&& ((DesignElementHandle) object).getContainer() instanceof LibraryHandle) {
+				INodeProvider provider = ProviderFactory.createProvider(object);
+				if (provider == null) {
 					return null;
-				return provider.getNodeIcon( object );
+				}
+				return provider.getNodeIcon(object);
 			}
 		}
-		return super.getImage( element );
+		return super.getImage(element);
 	}
 
 	@Override
-	public String getTooltipText( Object element )
-	{
-		Object object = getRealModel( element );
-		if ( getEditPart( object ) == null )
-		{
-			if ( object instanceof DesignElementHandle
-					&& ( (DesignElementHandle) object ).getContainer( ) instanceof LibraryHandle )
-			{
-				INodeProvider provider = ProviderFactory.createProvider( object );
-				if ( provider == null )
-					return object.toString( );
-				return provider.getNodeTooltip( object );
+	public String getTooltipText(Object element) {
+		Object object = getRealModel(element);
+		if (getEditPart(object) == null) {
+			if (object instanceof DesignElementHandle
+					&& ((DesignElementHandle) object).getContainer() instanceof LibraryHandle) {
+				INodeProvider provider = ProviderFactory.createProvider(object);
+				if (provider == null) {
+					return object.toString();
+				}
+				return provider.getNodeTooltip(object);
 			}
 		}
-		return super.getTooltipText( element );
+		return super.getTooltipText(element);
 	}
 }

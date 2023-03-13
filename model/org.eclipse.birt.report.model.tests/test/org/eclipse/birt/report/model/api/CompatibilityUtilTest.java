@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,171 +31,150 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Test cases for CompatibiltyUtil.
  */
 
-public class CompatibilityUtilTest extends BaseTestCase
-{
+public class CompatibilityUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases to add result set columns to cached metadata.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testUpdateCachedMetaDataResultSet( ) throws Exception
-	{
-		createDesign( );
+	public void testUpdateCachedMetaDataResultSet() throws Exception {
+		createDesign();
 
-		ScriptDataSetHandle setHandle = designHandle.getElementFactory( )
-				.newScriptDataSet( "dataset1" ); //$NON-NLS-1$
+		ScriptDataSetHandle setHandle = designHandle.getElementFactory().newScriptDataSet("dataset1"); //$NON-NLS-1$
 
 		// no cached meta data.
 
-		List columns = createResultColumns( );
+		List columns = createResultColumns();
 
-		CompatibilityUtil.updateResultSetinCachedMetaData( setHandle, columns );
+		CompatibilityUtil.updateResultSetinCachedMetaData(setHandle, columns);
 
-		CachedMetaDataHandle cachedMeta = setHandle.getCachedMetaDataHandle( );
-		assertNotNull( cachedMeta );
+		CachedMetaDataHandle cachedMeta = setHandle.getCachedMetaDataHandle();
+		assertNotNull(cachedMeta);
 
-		List newColumns = (List) cachedMeta.getResultSet( ).getValue( );
-		assertEquals( 2, newColumns.size( ) );
+		List newColumns = (List) cachedMeta.getResultSet().getValue();
+		assertEquals(2, newColumns.size());
 
 		// try failed cases.
 
-		columns.clear( );
+		columns.clear();
 
-		columns.add( StructureFactory.createColumnHint( ) );
-		try
-		{
-			CompatibilityUtil.updateResultSetinCachedMetaData( setHandle,
-					columns );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE, e
-							.getErrorCode( ) );
+		columns.add(StructureFactory.createColumnHint());
+		try {
+			CompatibilityUtil.updateResultSetinCachedMetaData(setHandle, columns);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE, e.getErrorCode());
 		}
 
-		columns.clear( );
+		columns.clear();
 
-		columns.add( StructureFactory.createResultSetColumn( ) );
-		try
-		{
-			CompatibilityUtil.updateResultSetinCachedMetaData( setHandle,
-					columns );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e
-							.getErrorCode( ) );
+		columns.add(StructureFactory.createResultSetColumn());
+		try {
+			CompatibilityUtil.updateResultSetinCachedMetaData(setHandle, columns);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e.getErrorCode());
 		}
 
 		// has cached metadata already.
 
-		cachedMeta.setProperty( CachedMetaData.RESULT_SET_MEMBER, null );
+		cachedMeta.setProperty(CachedMetaData.RESULT_SET_MEMBER, null);
 
-		columns = createResultColumns( );
-		CompatibilityUtil.updateResultSetinCachedMetaData( setHandle, columns );
+		columns = createResultColumns();
+		CompatibilityUtil.updateResultSetinCachedMetaData(setHandle, columns);
 
-		newColumns = (List) cachedMeta.getResultSet( ).getValue( );
-		assertEquals( 2, newColumns.size( ) );
+		newColumns = (List) cachedMeta.getResultSet().getValue();
+		assertEquals(2, newColumns.size());
 
 	}
 
-	private List createResultColumns( )
-	{
-		List columns = new ArrayList( );
-		ResultSetColumn column = StructureFactory.createResultSetColumn( );
-		column.setColumnName( "column1" );
-		column.setPosition( new Integer( 1 ) );
-		columns.add( column );
+	private List createResultColumns() {
+		List columns = new ArrayList();
+		ResultSetColumn column = StructureFactory.createResultSetColumn();
+		column.setColumnName("column1");
+		column.setPosition(new Integer(1));
+		columns.add(column);
 
-		column = StructureFactory.createResultSetColumn( );
-		column.setColumnName( "column2" );
-		column.setPosition( new Integer( 2 ) );
-		columns.add( column );
+		column = StructureFactory.createResultSetColumn();
+		column.setColumnName("column2");
+		column.setPosition(new Integer(2));
+		columns.add(column);
 
 		return columns;
 	}
 
 	/**
 	 * Tests addResultSetColumn method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testAddResultSetColumn( ) throws Exception
-	{
-		createDesign( );
+	public void testAddResultSetColumn() throws Exception {
+		createDesign();
 
-		OdaDataSetHandle dsHandle = designHandle.getElementFactory( )
-				.newOdaDataSet( "newDataSet", null ); //$NON-NLS-1$
-		designHandle.getDataSets( ).add( dsHandle );
+		OdaDataSetHandle dsHandle = designHandle.getElementFactory().newOdaDataSet("newDataSet", null); //$NON-NLS-1$
+		designHandle.getDataSets().add(dsHandle);
 
-		OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
+		OdaResultSetColumn rsColumn = new OdaResultSetColumn();
 
-		rsColumn.setColumnName( "columnName" );//$NON-NLS-1$
-		rsColumn.setDataType( "string" );//$NON-NLS-1$
-		rsColumn.setPosition( new Integer( 1 ) );
+		rsColumn.setColumnName("columnName");//$NON-NLS-1$
+		rsColumn.setDataType("string");//$NON-NLS-1$
+		rsColumn.setPosition(new Integer(1));
 
-		List list = new ArrayList( );
-		list.add( rsColumn );
+		List list = new ArrayList();
+		list.add(rsColumn);
 
-		MockListener listener = new MockListener( );
-		dsHandle.addListener( listener );
+		MockListener listener = new MockListener();
+		dsHandle.addListener(listener);
 
-		MockListener listener2 = new MockListener( );
-		designHandle.addListener( listener2 );
+		MockListener listener2 = new MockListener();
+		designHandle.addListener(listener2);
 
-		CompatibilityUtil.addResultSetColumn( dsHandle, list );
+		CompatibilityUtil.addResultSetColumn(dsHandle, list);
 
-		assertEquals( 0, listener.getCount( ) );
-		assertEquals( 0, listener2.getCount( ) );
+		assertEquals(0, listener.getCount());
+		assertEquals(0, listener2.getCount());
 
-		PropertyHandle resultSetColumnHandle = dsHandle
-				.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+		PropertyHandle resultSetColumnHandle = dsHandle.getPropertyHandle(DataSetHandle.RESULT_SET_PROP);
 
-		OdaResultSetColumnHandle setHandle = (OdaResultSetColumnHandle) resultSetColumnHandle
-				.getAt( 0 );
-		assertEquals( "columnName", setHandle.getColumnName( ) );//$NON-NLS-1$
-		assertEquals( "string", setHandle.getDataType( ) );//$NON-NLS-1$
-		assertEquals( 1, setHandle.getPosition( ).intValue( ) );
+		OdaResultSetColumnHandle setHandle = (OdaResultSetColumnHandle) resultSetColumnHandle.getAt(0);
+		assertEquals("columnName", setHandle.getColumnName());//$NON-NLS-1$
+		assertEquals("string", setHandle.getDataType());//$NON-NLS-1$
+		assertEquals(1, setHandle.getPosition().intValue());
 	}
 
 	/**
 	 * Mock listener
-	 * 
+	 *
 	 */
 
-	private class MockListener implements Listener
-	{
+	private class MockListener implements Listener {
 
 		private int count = 0;
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 *
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.
+		 * birt.report.model.api.DesignElementHandle,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			++count;
 		}
 
 		/**
 		 * Gets event count.
-		 * 
+		 *
 		 * @return event count.
 		 */
 
-		public int getCount( )
-		{
+		public int getCount() {
 			return count;
 		}
 

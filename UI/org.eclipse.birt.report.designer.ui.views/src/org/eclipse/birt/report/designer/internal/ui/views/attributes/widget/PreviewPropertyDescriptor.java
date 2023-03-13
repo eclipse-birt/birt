@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
@@ -32,13 +44,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-public class PreviewPropertyDescriptor extends PropertyDescriptor implements
-		IFastConsumerProcessor
-{
+public class PreviewPropertyDescriptor extends PropertyDescriptor implements IFastConsumerProcessor {
 
-	public PreviewPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( true );
+	public PreviewPropertyDescriptor(boolean formStyle) {
+		setFormStyle(true);
 	}
 
 	protected TableViewer fTableViewer;
@@ -53,386 +62,332 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 
 	protected PreviewLabel previewLabel;
 
-	public Control createControl( Composite parent )
-	{
+	@Override
+	public Control createControl(Composite parent) {
 
-		content = new Composite( parent, SWT.NONE );
-		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( 2, false );
+		content = new Composite(parent, SWT.NONE);
+		GridLayout layout = UIUtil.createGridLayoutWithoutMargin(2, false);
 		layout.marginHeight = 1;
 		layout.marginWidth = 1;
 		layout.horizontalSpacing = 10;
-		content.setLayout( layout );
-		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		content.setLayout(layout);
+		content.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite buttons = new Composite( content, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		Composite buttons = new Composite(content, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		// data.heightHint = QUICK_BUTTON_HEIGHT;
-		buttons.setLayoutData( data );
-		layout = new GridLayout( );
+		buttons.setLayoutData(data);
+		layout = new GridLayout();
 		layout.numColumns = 6;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		buttons.setLayout( layout );
+		buttons.setLayout(layout);
 
-		Label lb = FormWidgetFactory.getInstance( ).createLabel( buttons,
-				isFormStyle( ) );
-		lb.setText( provider.getText( -1 ) ); //$NON-NLS-1$
-		lb.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.FILL_HORIZONTAL ) );
+		Label lb = FormWidgetFactory.getInstance().createLabel(buttons, isFormStyle());
+		lb.setText(provider.getText(-1)); // $NON-NLS-1$
+		lb.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
 
-		fAddButton = FormWidgetFactory.getInstance( ).createButton( buttons,
-				SWT.PUSH,
-				isFormStyle( ) );
-		fAddButton.setText( provider.getText( 1 ) ); //$NON-NLS-1$
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60,
-				fAddButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		fAddButton = FormWidgetFactory.getInstance().createButton(buttons, SWT.PUSH, isFormStyle());
+		fAddButton.setText(provider.getText(1)); // $NON-NLS-1$
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = Math.max(60, fAddButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
-		fAddButton.setLayoutData( data );
-		fAddButton.addSelectionListener( new SelectionAdapter( ) {
+		fAddButton.setLayoutData(data);
+		fAddButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleAddSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleAddSelectedEvent();
 			}
-		} );
+		});
 
-		fDeleteButton = FormWidgetFactory.getInstance( ).createButton( buttons,
-				SWT.PUSH,
-				isFormStyle( ) );
-		fDeleteButton.setText( provider.getText( 2 ) ); //$NON-NLS-1$
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		fDeleteButton = FormWidgetFactory.getInstance().createButton(buttons, SWT.PUSH, isFormStyle());
+		fDeleteButton.setText(provider.getText(2)); // $NON-NLS-1$
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
 
-		data.widthHint = Math.max( 60,
-				fDeleteButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		data.widthHint = Math.max(60, fDeleteButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
-		fDeleteButton.setLayoutData( data );
-		fDeleteButton.addSelectionListener( new SelectionAdapter( ) {
+		fDeleteButton.setLayoutData(data);
+		fDeleteButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleDeleteSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleDeleteSelectedEvent();
 			}
-		} );
+		});
 
-		fMoveUpButton = FormWidgetFactory.getInstance( ).createButton( buttons,
-				SWT.PUSH,
-				isFormStyle( ) );
-		fMoveUpButton.setText( provider.getText( 3 ) ); //$NON-NLS-1$
-		fMoveUpButton.setToolTipText( provider.getText( 4 ) ); //$NON-NLS-1$
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60,
-				fMoveUpButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		fMoveUpButton = FormWidgetFactory.getInstance().createButton(buttons, SWT.PUSH, isFormStyle());
+		fMoveUpButton.setText(provider.getText(3)); // $NON-NLS-1$
+		fMoveUpButton.setToolTipText(provider.getText(4)); // $NON-NLS-1$
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = Math.max(60, fMoveUpButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
-		fMoveUpButton.setLayoutData( data );
-		fMoveUpButton.addSelectionListener( new SelectionAdapter( ) {
+		fMoveUpButton.setLayoutData(data);
+		fMoveUpButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleMoveUpSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleMoveUpSelectedEvent();
 			}
-		} );
+		});
 
-		fMoveDownButton = FormWidgetFactory.getInstance( )
-				.createButton( buttons, SWT.PUSH, isFormStyle( ) );
-		fMoveDownButton.setText( provider.getText( 5 ) ); //$NON-NLS-1$
-		fMoveDownButton.setToolTipText( provider.getText( 6 ) ); //$NON-NLS-1$
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60,
-				fMoveDownButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		fMoveDownButton = FormWidgetFactory.getInstance().createButton(buttons, SWT.PUSH, isFormStyle());
+		fMoveDownButton.setText(provider.getText(5)); // $NON-NLS-1$
+		fMoveDownButton.setToolTipText(provider.getText(6)); // $NON-NLS-1$
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = Math.max(60, fMoveDownButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
-		fMoveDownButton.setLayoutData( data );
-		fMoveDownButton.addSelectionListener( new SelectionAdapter( ) {
+		fMoveDownButton.setLayoutData(data);
+		fMoveDownButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleMoveDownSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleMoveDownSelectedEvent();
 			}
-		} );
+		});
 
-		fDuplicateButton = FormWidgetFactory.getInstance( )
-				.createButton( buttons, SWT.PUSH, isFormStyle( ) );
-		fDuplicateButton.setText( provider.getText( 10 ) ); //$NON-NLS-1$
-		fDuplicateButton.setToolTipText( provider.getText( 11 ) ); //$NON-NLS-1$
-		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60,
-				fDuplicateButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		fDuplicateButton = FormWidgetFactory.getInstance().createButton(buttons, SWT.PUSH, isFormStyle());
+		fDuplicateButton.setText(provider.getText(10)); // $NON-NLS-1$
+		fDuplicateButton.setToolTipText(provider.getText(11)); // $NON-NLS-1$
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = Math.max(60, fDuplicateButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
-		fDuplicateButton.setLayoutData( data );
-		fDuplicateButton.addSelectionListener( new SelectionAdapter( ) {
+		fDuplicateButton.setLayoutData(data);
+		fDuplicateButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleDuplicateButtonSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleDuplicateButtonSelectedEvent();
 			}
-		} );
+		});
 
-		FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) )
-				.setText( provider.getText( 7 ) ); //$NON-NLS-1$
+		FormWidgetFactory.getInstance().createLabel(content, isFormStyle()).setText(provider.getText(7)); // $NON-NLS-1$
 
 		int style = SWT.FULL_SELECTION;
-		if ( !isFormStyle( ) )
+		if (!isFormStyle()) {
 			style |= SWT.BORDER;
-		Table table = FormWidgetFactory.getInstance( ).createTable( content,
-				style );
-		TableColumn column = new TableColumn( table, SWT.LEFT );
-		column.setText( provider.getText( 8 ) );
-		column.setWidth( 400 );
-		table.setHeaderVisible( true );
-		table.setLinesVisible( true );
-		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		Table table = FormWidgetFactory.getInstance().createTable(content, style);
+		TableColumn column = new TableColumn(table, SWT.LEFT);
+		column.setText(provider.getText(8));
+		column.setWidth(400);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		fTableViewer = new TableViewer( table );
-		fTableViewer.setLabelProvider( provider.getLabelProvider( ) );
-		fTableViewer.setContentProvider( provider.getContentProvider( this ) );
-		fTableViewer.setSorter( null );
+		fTableViewer = new TableViewer(table);
+		fTableViewer.setLabelProvider(provider.getLabelProvider());
+		fTableViewer.setContentProvider(provider.getContentProvider(this));
+		fTableViewer.setSorter(null);
 
-		fTableViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				updateButtons( );
-				refreshTableItemView( );
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateButtons();
+				refreshTableItemView();
 			}
-		} );
+		});
 
-		fTableViewer.addDoubleClickListener( new IDoubleClickListener( ) {
+		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			public void doubleClick( DoubleClickEvent event )
-			{
-				handleEditEvent( );
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				handleEditEvent();
 			}
-		} );
+		});
 
-		fTableViewer.getTable( ).addKeyListener( new KeyAdapter( ) {
+		fTableViewer.getTable().addKeyListener(new KeyAdapter() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				if ( e.keyCode == SWT.DEL )
-				{
-					handleDeleteSelectedEvent( );
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == SWT.DEL) {
+					handleDeleteSelectedEvent();
 				}
 			}
 
-		} );
+		});
 
 		style = SWT.BORDER;
-		if ( isFormStyle( ) )
+		if (isFormStyle()) {
 			style = SWT.NONE;
-		previewLabel = new PreviewLabel( content, style );
-		previewLabel.setText( provider.getText( 9 ) ); //$NON-NLS-1$	
-		GridData gd = new GridData( GridData.FILL_VERTICAL );
+		}
+		previewLabel = new PreviewLabel(content, style);
+		previewLabel.setText(provider.getText(9)); // $NON-NLS-1$
+		GridData gd = new GridData(GridData.FILL_VERTICAL);
 		gd.widthHint = 300;
-		previewLabel.setLayoutData( gd );
-		FormWidgetFactory.getInstance( ).adapt( previewLabel );
-		updateButtons( );
+		previewLabel.setLayoutData(gd);
+		FormWidgetFactory.getInstance().adapt(previewLabel);
+		updateButtons();
 
 		return content;
 
 	}
 
-	protected void handleDuplicateButtonSelectedEvent( )
-	{
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) )
-		{
-			int idx = fTableViewer.getTable( ).getSelectionIndex( );
-			if ( provider.duplicate( idx ) )
-			{
-				int itemCount = fTableViewer.getTable( ).getItemCount( );
-				fTableViewer.getTable( ).deselectAll( );
-				fTableViewer.getTable( ).select( itemCount - 1 );
-				fTableViewer.getTable( ).setFocus( );
-			};
-			updateButtons( );
-			refreshTableItemView( );
+	protected void handleDuplicateButtonSelectedEvent() {
+		if (fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount()) {
+			int idx = fTableViewer.getTable().getSelectionIndex();
+			if (provider.duplicate(idx)) {
+				int itemCount = fTableViewer.getTable().getItemCount();
+				fTableViewer.getTable().deselectAll();
+				fTableViewer.getTable().select(itemCount - 1);
+				fTableViewer.getTable().setFocus();
+			}
+			updateButtons();
+			refreshTableItemView();
 		}
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return content;
 	}
 
-	protected void handleEditEvent( )
-	{
+	protected void handleEditEvent() {
 
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) )
-		{
-			int idx = fTableViewer.getTable( ).getSelectionIndex( );
+		if (fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount()) {
+			int idx = fTableViewer.getTable().getSelectionIndex();
 
-			fTableViewer.getTable( ).setFocus( );
-			if ( provider.edit( fTableViewer.getTable( )
-					.getItem( fTableViewer.getTable( ).getSelectionIndex( ) )
-					.getData( ),
-					fTableViewer.getTable( ).getItemCount( ) ) )
-			{
-				fTableViewer.getTable( ).select( idx );
-				fTableViewer.getTable( ).setFocus( );
-				updateButtons( );
-				refreshTableItemView( );
+			fTableViewer.getTable().setFocus();
+			if (provider.edit(fTableViewer.getTable().getItem(fTableViewer.getTable().getSelectionIndex()).getData(),
+					fTableViewer.getTable().getItemCount())) {
+				fTableViewer.getTable().select(idx);
+				fTableViewer.getTable().setFocus();
+				updateButtons();
+				refreshTableItemView();
 			}
 		}
 	}
 
-	protected void handleMoveDownSelectedEvent( )
-	{
-		int index = fTableViewer.getTable( ).getSelectionIndex( );
-		if ( provider.moveDown( index ) )
-		{
-			fTableViewer.getTable( ).select( index + 1 );
-			fTableViewer.getTable( ).setFocus( );
+	protected void handleMoveDownSelectedEvent() {
+		int index = fTableViewer.getTable().getSelectionIndex();
+		if (provider.moveDown(index)) {
+			fTableViewer.getTable().select(index + 1);
+			fTableViewer.getTable().setFocus();
 		}
-		updateButtons( );
-		refreshTableItemView( );
+		updateButtons();
+		refreshTableItemView();
 	}
 
-	protected void handleMoveUpSelectedEvent( )
-	{
+	protected void handleMoveUpSelectedEvent() {
 
-		int index = fTableViewer.getTable( ).getSelectionIndex( );
-		if ( provider.moveUp( index ) )
-		{
-			fTableViewer.getTable( ).select( index - 1 );
-			fTableViewer.getTable( ).setFocus( );
+		int index = fTableViewer.getTable().getSelectionIndex();
+		if (provider.moveUp(index)) {
+			fTableViewer.getTable().select(index - 1);
+			fTableViewer.getTable().setFocus();
 		}
 
-		updateButtons( );
-		refreshTableItemView( );
+		updateButtons();
+		refreshTableItemView();
 	}
 
-	protected void handleDeleteSelectedEvent( )
-	{
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) )
-		{
-			int idx = fTableViewer.getTable( ).getSelectionIndex( );
+	protected void handleDeleteSelectedEvent() {
+		if (fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount()) {
+			int idx = fTableViewer.getTable().getSelectionIndex();
 
-			if ( provider.delete( idx ) )
-			{
-				if ( idx >= fTableViewer.getTable( ).getItemCount( ) )
-				{
+			if (provider.delete(idx)) {
+				if (idx >= fTableViewer.getTable().getItemCount()) {
 					idx--;
 				}
-				fTableViewer.getTable( ).select( idx );
-				fTableViewer.getTable( ).setFocus( );
+				fTableViewer.getTable().select(idx);
+				fTableViewer.getTable().setFocus();
 			}
 		}
-		updateButtons( );
-		refreshTableItemView( );
+		updateButtons();
+		refreshTableItemView();
 	}
 
-	protected void handleAddSelectedEvent( )
-	{
-		int itemCount = fTableViewer.getTable( ).getItemCount( );
-		if ( provider.add( itemCount ) )
-		{
-			itemCount = fTableViewer.getTable( ).getItemCount( );
-			fTableViewer.getTable( ).deselectAll( );
-			fTableViewer.getTable( ).select( itemCount - 1 );
-			fTableViewer.getTable( ).setFocus( );
-		};
-		updateButtons( );
-		refreshTableItemView( );
+	protected void handleAddSelectedEvent() {
+		int itemCount = fTableViewer.getTable().getItemCount();
+		if (provider.add(itemCount)) {
+			itemCount = fTableViewer.getTable().getItemCount();
+			fTableViewer.getTable().deselectAll();
+			fTableViewer.getTable().select(itemCount - 1);
+			fTableViewer.getTable().setFocus();
+		}
+		updateButtons();
+		refreshTableItemView();
 	}
 
-	protected void updateButtons( )
-	{
-		if ( fTableViewer.getTable( ).isDisposed( ) )
+	protected void updateButtons() {
+		if (fTableViewer.getTable().isDisposed()) {
 			return;
+		}
 
-		fDeleteButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+		fDeleteButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
 
-		fMoveUpButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) > 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+		fMoveUpButton.setEnabled(fTableViewer.getTable().getSelectionIndex() > 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
 
-		fMoveDownButton.setEnabled( fTableViewer.getTable( )
-				.getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) - 1 );
+		fMoveDownButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount() - 1);
 
-		fDuplicateButton.setEnabled( fTableViewer.getTable( )
-				.getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+		fDuplicateButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
 	}
 
-	protected void refreshTableItemView( )
-	{
-		if ( fTableViewer.getTable( ).isDisposed( ) )
+	protected void refreshTableItemView() {
+		if (fTableViewer.getTable().isDisposed()) {
 			return;
-
-		for ( int i = 0; i < fTableViewer.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem ti = fTableViewer.getTable( ).getItem( i );
-			ti.setText( 0, provider.getColumnText( ti.getData( ), 1 ) );
 		}
 
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0 )
-		{
-			updatePreview( fTableViewer.getTable( )
-					.getItem( fTableViewer.getTable( ).getSelectionIndex( ) )
-					.getData( ) );
+		for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
+			TableItem ti = fTableViewer.getTable().getItem(i);
+			ti.setText(0, provider.getColumnText(ti.getData(), 1));
 		}
-		else
-		{
-			updatePreview( null );
+
+		if (fTableViewer.getTable().getSelectionIndex() >= 0) {
+			updatePreview(fTableViewer.getTable().getItem(fTableViewer.getTable().getSelectionIndex()).getData());
+		} else {
+			updatePreview(null);
 		}
 	}
 
-	protected void updatePreview( Object handle )
-	{
+	protected void updatePreview(Object handle) {
 
 	}
 
-	protected void enableUI( boolean enabled )
-	{
-		if ( fTableViewer != null )
-		{
-			fAddButton.setEnabled( enabled );
-			fDeleteButton.setEnabled( enabled );
-			fMoveUpButton.setEnabled( enabled );
-			fMoveDownButton.setEnabled( enabled );
-			fDeleteButton.setEnabled( enabled );
-			fTableViewer.getTable( ).setEnabled( enabled );
+	protected void enableUI(boolean enabled) {
+		if (fTableViewer != null) {
+			fAddButton.setEnabled(enabled);
+			fDeleteButton.setEnabled(enabled);
+			fMoveUpButton.setEnabled(enabled);
+			fMoveDownButton.setEnabled(enabled);
+			fDeleteButton.setEnabled(enabled);
+			fTableViewer.getTable().setEnabled(enabled);
 
-			if ( enabled )
-			{
-				updateButtons( );
+			if (enabled) {
+				updateButtons();
 			}
 		}
 	}
 
-	public void load( )
-	{
-		if ( DEUtil.getInputSize( input ) != 1 )
-		{
-			enableUI( false );
+	@Override
+	public void load() {
+		if (DEUtil.getInputSize(input) != 1) {
+			enableUI(false);
 			return;
 		}
-		enableUI( true );
-		fTableViewer.setInput( DEUtil.getInputElements( input ) );
-		refreshTableItemView( );;
+		enableUI(true);
+		fTableViewer.setInput(DEUtil.getInputElements(input));
+		refreshTableItemView();
+
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
+	@Override
+	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setInput( Object input )
-	{
+	@Override
+	public void setInput(Object input) {
 		this.input = input;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	protected PreviewPropertyDescriptorProvider provider;
@@ -441,69 +396,61 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 
 	private Button fDuplicateButton;
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
-		if ( provider instanceof PreviewPropertyDescriptorProvider )
+	@Override
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
+		if (provider instanceof PreviewPropertyDescriptorProvider) {
 			this.provider = (PreviewPropertyDescriptorProvider) provider;
+		}
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( fTableViewer != null )
-		{
-			if ( fTableViewer.getContentProvider( ) == null )
-			{
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (fTableViewer != null) {
+			if (fTableViewer.getContentProvider() == null) {
 				return;
 			}
-			fTableViewer.setInput( input );
-			refreshTableItemView( );
+			fTableViewer.setInput(input);
+			refreshTableItemView();
 		}
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( content, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(content, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		content.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		content.setVisible(isVisible);
 	}
 
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
-
-	}
-
-	public void clear( )
-	{
+	@Override
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
-	public boolean isOverdued( )
-	{
-		return fTableViewer == null
-				|| fTableViewer.getContentProvider( ) == null
-				|| fTableViewer.getControl( ) == null
-				|| fTableViewer.getControl( ).isDisposed( );
+	@Override
+	public void clear() {
+
 	}
 
-	public void postElementEvent( )
-	{
-		if ( fTableViewer == null || fTableViewer.getContentProvider( ) == null )
-		{
+	@Override
+	public boolean isOverdued() {
+		return fTableViewer == null || fTableViewer.getContentProvider() == null || fTableViewer.getControl() == null
+				|| fTableViewer.getControl().isDisposed();
+	}
+
+	@Override
+	public void postElementEvent() {
+		if (fTableViewer == null || fTableViewer.getContentProvider() == null) {
 			return;
 		}
-		if ( fTableViewer != null )
-		{
-			fTableViewer.setInput( input );
-			refreshTableItemView( );
+		if (fTableViewer != null) {
+			fTableViewer.setInput(input);
+			refreshTableItemView();
 		}
 	}
 
-	public Object getAdapter( Class adapter )
-	{
+	@Override
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 }

@@ -1,3 +1,17 @@
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <!-- ===================================================================== -->
 <!-- Custom targets called from a project's generated build.xml            -->
 <!-- Set customBuildCallbacks=<path/to/this/file> in your build.properties.-->
@@ -82,7 +96,7 @@
 		</copy>
 
 		
-		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.6" target="1.6" executable="${jvm16_home}/bin/javac" fork="yes" debug="true">
+		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.8" target="1.8" executable="${jvm16_home}/bin/javac" fork="yes" debug="true">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
 					<include name="javax.servlet*.jar" />

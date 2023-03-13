@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,597 +47,469 @@ import org.eclipse.emf.common.util.Enumerator;
  * This class helps to get the localized formats for enumerator attributes in
  * chart model.
  */
-public class LiteralHelper
-{
+public class LiteralHelper {
 
 	/**
 	 * Comment for <code>actionTypeSet</code>
 	 */
-	public static final NameSet actionTypeSet = getActionTypeSet( );
+	public static final NameSet actionTypeSet = getActionTypeSet();
 	/**
 	 * Comment for <code>axisTypeSet</code>
 	 */
-	public static final NameSet axisTypeSet = getAxisTypeSet( );
+	public static final NameSet axisTypeSet = getAxisTypeSet();
 	/**
 	 * Comment for <code>dataPointComponentTypeSet</code>
 	 */
-	public static final NameSet dataPointComponentTypeSet = getDataPointComponentTypeSet( );
+	public static final NameSet dataPointComponentTypeSet = getDataPointComponentTypeSet();
 	/**
 	 * Comment for <code>dataTypeSet</code>
 	 */
-	public static final NameSet dataTypeSet = getDataTypeSet( );
+	public static final NameSet dataTypeSet = getDataTypeSet();
 	/**
 	 * Comment for <code>directionSet</code>
 	 */
-	public static final NameSet directionSet = getDirectionSet( );
+	public static final NameSet directionSet = getDirectionSet();
 	/**
 	 * Comment for <code>groupingUnitTypeSet</code>
 	 */
-	public static final NameSet groupingUnitTypeSet = getGroupingUnitTypeSet( );
+	public static final NameSet groupingUnitTypeSet = getGroupingUnitTypeSet();
 	/**
 	 * Comment for <code>intersectionTypeSet</code>
 	 */
-	public static final NameSet intersectionTypeSet = getIntersectionTypeSet( );
+	public static final NameSet intersectionTypeSet = getIntersectionTypeSet();
 	/**
 	 * Comment for <code>legendItemTypeSet</code>
 	 */
-	public static final NameSet legendItemTypeSet = getLegendItemTypeSet( );
+	public static final NameSet legendItemTypeSet = getLegendItemTypeSet();
 	/**
 	 * Comment for <code>markerTypeSet</code>
 	 */
-	public static final NameSet markerTypeSet = getMarkerTypeSet( );
+	public static final NameSet markerTypeSet = getMarkerTypeSet();
 	/**
 	 * Comment for <code>orientationSet</code>
 	 */
-	public static final NameSet orientationSet = getOrientationSet( );
+	public static final NameSet orientationSet = getOrientationSet();
 	/**
 	 * Comment for <code>riserTypeSet</code>
 	 */
-	public static final NameSet riserTypeSet = getRiserTypeSet( );
+	public static final NameSet riserTypeSet = getRiserTypeSet();
 	/**
 	 * Comment for <code>scaleUnitTypeSet</code>
 	 */
-	public static final NameSet scaleUnitTypeSet = getScaleUnitTypeSet( );
+	public static final NameSet scaleUnitTypeSet = getScaleUnitTypeSet();
 	/**
 	 * Comment for <code>sortOptionSet</code>
 	 */
-	public static final NameSet sortOptionSet = getSortOptionSet( );
+	public static final NameSet sortOptionSet = getSortOptionSet();
 	/**
 	 * Comment for <code>stretchSet</code>
 	 */
-	public static final NameSet stretchSet = getStretchSet( );
+	public static final NameSet stretchSet = getStretchSet();
 	/**
 	 * Comment for <code>triggerConditionSet</code>
 	 */
-	public static final NameSet triggerConditionSet = getTriggerConditionSet( );
+	public static final NameSet triggerConditionSet = getTriggerConditionSet();
 	/**
 	 * Comment for <code>unitsOfMeasurementSet</code>
 	 */
-	public static final NameSet unitsOfMeasurementSet = getUnitsOfMeasurementSet( );
+	public static final NameSet unitsOfMeasurementSet = getUnitsOfMeasurementSet();
 	/**
 	 * Comment for <code>leaderLineStyleSet</code>
 	 */
-	public static final NameSet leaderLineStyleSet = getLeaderLineStyleSet( );
+	public static final NameSet leaderLineStyleSet = getLeaderLineStyleSet();
 	/**
 	 * Comment for <code>anchorSet</code>
 	 */
-	public static final NameSet anchorSet = getAnchorSet( );
+	public static final NameSet anchorSet = getAnchorSet();
 	/**
 	 * Comment for <code>verticalAnchorSet</code>
 	 */
-	public static final NameSet verticalAnchorSet = getVerticalAnchorSet( );
+	public static final NameSet verticalAnchorSet = getVerticalAnchorSet();
 	/**
 	 * Comment for <code>horizontalAnchorSet</code>
 	 */
-	public static final NameSet horizontalAnchorSet = getHorizontalAnchorSet( );
+	public static final NameSet horizontalAnchorSet = getHorizontalAnchorSet();
 	/**
 	 * Comment for <code>dateFormatDetailSet</code>
 	 */
-	public static final NameSet dateFormatDetailSet = getDateFormatDetailSet( );
+	public static final NameSet dateFormatDetailSet = getDateFormatDetailSet();
 	/**
 	 * Comment for <code>dateFormatTypeSet</code>
 	 */
-	public static final NameSet dateFormatTypeSet = getDateFormatTypeSet( );
+	public static final NameSet dateFormatTypeSet = getDateFormatTypeSet();
 
 	/**
 	 * Comment for <code>verticalTickStyleSet</code>
 	 */
-	public static final NameSet verticalTickStyleSet = getVerticalTickStyleSet( );
+	public static final NameSet verticalTickStyleSet = getVerticalTickStyleSet();
 	/**
 	 * Comment for <code>horizontalTickStyleSet</code>
 	 */
-	public static final NameSet horizontalTickStyleSet = getHorizontalTickStyleSet( );
+	public static final NameSet horizontalTickStyleSet = getHorizontalTickStyleSet();
 	/**
 	 * Comment for <code>fullTickStyleSet</code>
 	 */
-	public static final NameSet fullTickStyleSet = getFullTickStyleSet( );
+	public static final NameSet fullTickStyleSet = getFullTickStyleSet();
 
 	/**
 	 * Left and Right positions
 	 */
-	public static final NameSet horizontalPositionSet = getHorizontalPositionSet( );
+	public static final NameSet horizontalPositionSet = getHorizontalPositionSet();
 	/**
 	 * Above and Below positions
 	 */
-	public static final NameSet verticalPositionSet = getVerticalPositionSet( );
+	public static final NameSet verticalPositionSet = getVerticalPositionSet();
 	/**
 	 * Horizontal and Vertical positions
 	 */
-	public static final NameSet directionPositionSet = getDirectionPositionSet( );
+	public static final NameSet directionPositionSet = getDirectionPositionSet();
 	/**
 	 * Inside and Outside positions
 	 */
-	public static final NameSet inoutPositionSet = getInoutPositionSet( );
+	public static final NameSet inoutPositionSet = getInoutPositionSet();
 	/**
 	 * Inside and Directions positions
 	 */
-	public static final NameSet notOutPositionSet = getNotOutPositionSet( );
+	public static final NameSet notOutPositionSet = getNotOutPositionSet();
 	/**
 	 * Outside position
 	 */
-	public static final NameSet outPositionSet = getOutPositionSet( );
+	public static final NameSet outPositionSet = getOutPositionSet();
 	/**
 	 * Full positions
 	 */
-	public static final NameSet fullPositionSet = getFullPositionSet( );
+	public static final NameSet fullPositionSet = getFullPositionSet();
 	/**
 	 * Comment for <code>legendBehaviorTypeSet</code>
 	 */
-	public static final NameSet legendBehaviorTypeSet = getLegendBehaviorTypeSet( );
+	public static final NameSet legendBehaviorTypeSet = getLegendBehaviorTypeSet();
 	/**
 	 * Comment for <code>titleAnchorSet</code>
 	 */
-	public static final NameSet titleAnchorSet = getTitleAnchorSet( );
+	public static final NameSet titleAnchorSet = getTitleAnchorSet();
 
 	/**
 	 * The set contains all available cursor names and display names.
 	 */
-	public static final NameSet cursorSet = getCursorSet( );
-	
-	private LiteralHelper( )
-	{
+	public static final NameSet cursorSet = getCursorSet();
+
+	private LiteralHelper() {
 		// no instance.
 	}
 
-	private static NameSet getAxisTypeSet( )
-	{
+	private static NameSet getAxisTypeSet() {
 		String prefix = "AxisType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, toStringNameArray( AxisType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(AxisType.VALUES));
 	}
 
-	private static NameSet getIntersectionTypeSet( )
-	{
+	private static NameSet getIntersectionTypeSet() {
 		String prefix = "IntersectionType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( IntersectionType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(IntersectionType.VALUES));
 	}
 
-	private static NameSet getScaleUnitTypeSet( )
-	{
+	private static NameSet getScaleUnitTypeSet() {
 		String prefix = "ScaleUnitType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( ScaleUnitType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(ScaleUnitType.VALUES));
 	}
 
-	private static NameSet getSortOptionSet( )
-	{
+	private static NameSet getSortOptionSet() {
 		String prefix = "SortOption."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( SortOption.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(SortOption.VALUES));
 	}
 
-	private static NameSet getDataTypeSet( )
-	{
+	private static NameSet getDataTypeSet() {
 		String prefix = "DataType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, toStringNameArray( DataType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(DataType.VALUES));
 	}
 
-	private static NameSet getGroupingUnitTypeSet( )
-	{
+	private static NameSet getGroupingUnitTypeSet() {
 		String prefix = "GroupingUnitType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( GroupingUnitType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(GroupingUnitType.VALUES));
 	}
 
 	/**
 	 * Returns grouping unit types of specified data type.
-	 * 
+	 *
 	 * @param dataType
 	 * @return grouping unit types
 	 * @since BIRT 2.3
 	 */
-	public static NameSet getGroupingUnitTypeSet( DataType dataType )
-	{
+	public static NameSet getGroupingUnitTypeSet(DataType dataType) {
 		String prefix = "GroupingUnitType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		if ( dataType == DataType.NUMERIC_LITERAL )
-		{
+		if (dataType == DataType.NUMERIC_LITERAL) {
 			return null;
-		}
-		else if ( dataType == DataType.DATE_TIME_LITERAL ||
-				dataType == DataType.TEXT_LITERAL )
-		{
-			return new NameSet( prefix,
-					suffix,
-					toStringNameArray( GroupingUnitType.getGroupingUnits( dataType ) ) );
+		} else if (dataType == DataType.DATE_TIME_LITERAL || dataType == DataType.TEXT_LITERAL) {
+			return new NameSet(prefix, suffix, toStringNameArray(GroupingUnitType.getGroupingUnits(dataType)));
 		}
 
 		return null;
 	}
-	
-	private static NameSet getTriggerConditionSet( )
-	{
+
+	private static NameSet getTriggerConditionSet() {
 		String prefix = "TriggerCondition."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				TriggerCondition.ONCLICK_LITERAL.getName( ),
-				TriggerCondition.ONDBLCLICK_LITERAL.getName( ),
-				TriggerCondition.ONMOUSEDOWN_LITERAL.getName( ),
-				TriggerCondition.ONMOUSEUP_LITERAL.getName( ),
-				TriggerCondition.ONMOUSEOVER_LITERAL.getName( ),
-				TriggerCondition.ONMOUSEMOVE_LITERAL.getName( ),
-				TriggerCondition.ONMOUSEOUT_LITERAL.getName( ),
-				TriggerCondition.ONFOCUS_LITERAL.getName( ),
-				TriggerCondition.ONBLUR_LITERAL.getName( ),
-				TriggerCondition.ONKEYDOWN_LITERAL.getName( ),
-				TriggerCondition.ONKEYPRESS_LITERAL.getName( ),
-				TriggerCondition.ONKEYUP_LITERAL.getName( ),
-				TriggerCondition.ONLOAD_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix,
+				new String[] { TriggerCondition.ONCLICK_LITERAL.getName(),
+						TriggerCondition.ONDBLCLICK_LITERAL.getName(), TriggerCondition.ONMOUSEDOWN_LITERAL.getName(),
+						TriggerCondition.ONMOUSEUP_LITERAL.getName(), TriggerCondition.ONMOUSEOVER_LITERAL.getName(),
+						TriggerCondition.ONMOUSEMOVE_LITERAL.getName(), TriggerCondition.ONMOUSEOUT_LITERAL.getName(),
+						TriggerCondition.ONFOCUS_LITERAL.getName(), TriggerCondition.ONBLUR_LITERAL.getName(),
+						TriggerCondition.ONKEYDOWN_LITERAL.getName(), TriggerCondition.ONKEYPRESS_LITERAL.getName(),
+						TriggerCondition.ONKEYUP_LITERAL.getName(), TriggerCondition.ONLOAD_LITERAL.getName(), });
 	}
 
-	private static NameSet getActionTypeSet( )
-	{
+	private static NameSet getActionTypeSet() {
 		String prefix = "ActionType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( ActionType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(ActionType.VALUES));
 	}
 
-	private static NameSet getUnitsOfMeasurementSet( )
-	{
+	private static NameSet getUnitsOfMeasurementSet() {
 		String prefix = "UnitsOfMeasurement."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( UnitsOfMeasurement.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(UnitsOfMeasurement.VALUES));
 	}
 
-	private static NameSet getRiserTypeSet( )
-	{
+	private static NameSet getRiserTypeSet() {
 		String prefix = "RiserType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( RiserType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(RiserType.VALUES));
 	}
 
-	private static NameSet getMarkerTypeSet( )
-	{
+	private static NameSet getMarkerTypeSet() {
 		String prefix = "MarkerType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( MarkerType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(MarkerType.VALUES));
 	}
 
-	private static NameSet getDataPointComponentTypeSet( )
-	{
+	private static NameSet getDataPointComponentTypeSet() {
 		String prefix = "DataPointComponentType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( DataPointComponentType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(DataPointComponentType.VALUES));
 	}
 
-	private static NameSet getStretchSet( )
-	{
+	private static NameSet getStretchSet() {
 		String prefix = "Stretch."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, toStringNameArray( Stretch.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(Stretch.VALUES));
 	}
 
-	private static NameSet getOrientationSet( )
-	{
+	private static NameSet getOrientationSet() {
 		String prefix = "Orientation."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( Orientation.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(Orientation.VALUES));
 	}
 
-	private static NameSet getDirectionSet( )
-	{
+	private static NameSet getDirectionSet() {
 		String prefix = "Direction."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( Direction.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(Direction.VALUES));
 	}
 
-	private static NameSet getLegendItemTypeSet( )
-	{
+	private static NameSet getLegendItemTypeSet() {
 		String prefix = "LegendItemType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( LegendItemType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(LegendItemType.VALUES));
 	}
 
-	private static NameSet getVerticalTickStyleSet( )
-	{
+	private static NameSet getVerticalTickStyleSet() {
 		String prefix = "TickStyle."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				TickStyle.ACROSS_LITERAL.getName( ),
-				TickStyle.LEFT_LITERAL.getName( ),
-				TickStyle.RIGHT_LITERAL.getName( )
-		} );
+		return new NameSet(prefix, suffix, new String[] { TickStyle.ACROSS_LITERAL.getName(),
+				TickStyle.LEFT_LITERAL.getName(), TickStyle.RIGHT_LITERAL.getName() });
 	}
 
-	private static NameSet getHorizontalTickStyleSet( )
-	{
+	private static NameSet getHorizontalTickStyleSet() {
 		String prefix = "TickStyle."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				TickStyle.ACROSS_LITERAL.getName( ),
-				TickStyle.ABOVE_LITERAL.getName( ),
-				TickStyle.BELOW_LITERAL.getName( )
-		} );
+		return new NameSet(prefix, suffix, new String[] { TickStyle.ACROSS_LITERAL.getName(),
+				TickStyle.ABOVE_LITERAL.getName(), TickStyle.BELOW_LITERAL.getName() });
 	}
 
-	private static NameSet getFullTickStyleSet( )
-	{
+	private static NameSet getFullTickStyleSet() {
 		String prefix = "TickStyle."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( TickStyle.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(TickStyle.VALUES));
 	}
 
-	private static NameSet getLeaderLineStyleSet( )
-	{
+	private static NameSet getLeaderLineStyleSet() {
 		String prefix = "LeaderLineStyle."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( LeaderLineStyle.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(LeaderLineStyle.VALUES));
 	}
 
-	private static NameSet getAnchorSet( )
-	{
+	private static NameSet getAnchorSet() {
 		String prefix = "Anchor."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, toStringNameArray( Anchor.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(Anchor.VALUES));
 	}
-	
-	private static NameSet getVerticalAnchorSet( )
-	{
+
+	private static NameSet getVerticalAnchorSet() {
 		String prefix = "AnchorVertical."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]
-		                                               {
-				Anchor.WEST_LITERAL.getName( ), 
-				Anchor.NORTH_LITERAL.getName( ), 
-				Anchor.SOUTH_LITERAL.getName( ), 	
-		                                               });
+		return new NameSet(prefix, suffix, new String[] { Anchor.WEST_LITERAL.getName(), Anchor.NORTH_LITERAL.getName(),
+				Anchor.SOUTH_LITERAL.getName(), });
 	}
-	
-	private static NameSet getHorizontalAnchorSet( )
-	{
+
+	private static NameSet getHorizontalAnchorSet() {
 		String prefix = "AnchorHorizontal."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Anchor.SOUTH_LITERAL.getName( ),
-				Anchor.WEST_LITERAL.getName( ),
-				Anchor.EAST_LITERAL.getName( ),				
-		} );
+		return new NameSet(prefix, suffix, new String[] { Anchor.SOUTH_LITERAL.getName(), Anchor.WEST_LITERAL.getName(),
+				Anchor.EAST_LITERAL.getName(), });
 	}
 
-	private static NameSet getHorizontalPositionSet( )
-	{
+	private static NameSet getHorizontalPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Position.LEFT_LITERAL.getName( ),
-				Position.RIGHT_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix,
+				new String[] { Position.LEFT_LITERAL.getName(), Position.RIGHT_LITERAL.getName(), });
 	}
 
-	private static NameSet getVerticalPositionSet( )
-	{
+	private static NameSet getVerticalPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Position.ABOVE_LITERAL.getName( ),
-				Position.BELOW_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix,
+				new String[] { Position.ABOVE_LITERAL.getName(), Position.BELOW_LITERAL.getName(), });
 	}
-	
-	private static NameSet getDirectionPositionSet( )
-	{
+
+	private static NameSet getDirectionPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Position.ABOVE_LITERAL.getName( ),
-				Position.BELOW_LITERAL.getName( ),
-				Position.LEFT_LITERAL.getName( ),
-				Position.RIGHT_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix, new String[] { Position.ABOVE_LITERAL.getName(),
+				Position.BELOW_LITERAL.getName(), Position.LEFT_LITERAL.getName(), Position.RIGHT_LITERAL.getName(), });
 	}
 
-	private static NameSet getInoutPositionSet( )
-	{
+	private static NameSet getInoutPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Position.INSIDE_LITERAL.getName( ),
-				Position.OUTSIDE_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix,
+				new String[] { Position.INSIDE_LITERAL.getName(), Position.OUTSIDE_LITERAL.getName(), });
 	}
-	
-	private static NameSet getOutPositionSet( )
-	{
+
+	private static NameSet getOutPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-			Position.OUTSIDE_LITERAL.getName( )
-		} );
+		return new NameSet(prefix, suffix, new String[] { Position.OUTSIDE_LITERAL.getName() });
 	}
-	
-	private static NameSet getNotOutPositionSet( )
-	{
+
+	private static NameSet getNotOutPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, new String[]{
-				Position.ABOVE_LITERAL.getName( ),
-				Position.BELOW_LITERAL.getName( ),
-				Position.INSIDE_LITERAL.getName( ),
-				Position.LEFT_LITERAL.getName( ),
-				Position.RIGHT_LITERAL.getName( ),
-		} );
+		return new NameSet(prefix, suffix,
+				new String[] { Position.ABOVE_LITERAL.getName(), Position.BELOW_LITERAL.getName(),
+						Position.INSIDE_LITERAL.getName(), Position.LEFT_LITERAL.getName(),
+						Position.RIGHT_LITERAL.getName(), });
 	}
 
-	private static NameSet getFullPositionSet( )
-	{
+	private static NameSet getFullPositionSet() {
 		String prefix = "Position."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix, suffix, toStringNameArray( Position.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(Position.VALUES));
 	}
 
-	private static NameSet getDateFormatDetailSet( )
-	{
+	private static NameSet getDateFormatDetailSet() {
 		String prefix = "DateFormatDetail."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( DateFormatDetail.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(DateFormatDetail.VALUES));
 	}
 
-	private static NameSet getDateFormatTypeSet( )
-	{
+	private static NameSet getDateFormatTypeSet() {
 		String prefix = "DateFormatType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( DateFormatType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(DateFormatType.VALUES));
 	}
 
-	private static NameSet getLegendBehaviorTypeSet( )
-	{
+	private static NameSet getLegendBehaviorTypeSet() {
 		String prefix = "LegendBehaviorType."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet( prefix,
-				suffix,
-				toStringNameArray( LegendBehaviorType.VALUES ) );
+		return new NameSet(prefix, suffix, toStringNameArray(LegendBehaviorType.VALUES));
 	}
-	
+
 	private static NameSet getTitleAnchorSet() {
 		String prefix = "Anchor."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
 
-		return new NameSet(prefix, suffix, new String[] {
-				Anchor.EAST_LITERAL.getName(), Anchor.NORTH_LITERAL.getName(),
-				Anchor.NORTH_WEST_LITERAL.getName( ), Anchor.NORTH_EAST_LITERAL.getName( ),
-				Anchor.WEST_LITERAL.getName(), Anchor.SOUTH_LITERAL.getName(),
-				Anchor.SOUTH_WEST_LITERAL.getName( ), Anchor.SOUTH_EAST_LITERAL.getName( )});
+		return new NameSet(prefix, suffix,
+				new String[] { Anchor.EAST_LITERAL.getName(), Anchor.NORTH_LITERAL.getName(),
+						Anchor.NORTH_WEST_LITERAL.getName(), Anchor.NORTH_EAST_LITERAL.getName(),
+						Anchor.WEST_LITERAL.getName(), Anchor.SOUTH_LITERAL.getName(),
+						Anchor.SOUTH_WEST_LITERAL.getName(), Anchor.SOUTH_EAST_LITERAL.getName() });
 	}
 
 	/**
 	 * Returns available cursor names and display names.
-	 * 
+	 *
 	 * @return
 	 */
-	private static NameSet getCursorSet( ) {
+	private static NameSet getCursorSet() {
 		String prefix = "Cursor."; //$NON-NLS-1$
 		String suffix = ".displayName"; //$NON-NLS-1$
-	
-		return new NameSet( prefix, suffix, new String[]{
-				CursorType.AUTO.getName( ),
-				CursorType.CROSSHAIR.getName( ),
-				CursorType.DEFAULT.getName( ),
-				CursorType.POINTER.getName( ),
-				CursorType.MOVE.getName( ),
-				CursorType.TEXT.getName( ),
-				CursorType.WAIT.getName( ),
-				CursorType.ERESIZE.getName( ),
-				CursorType.NE_RESIZE.getName( ),
-				CursorType.NW_RESIZE.getName( ),
-				CursorType.NRESIZE.getName( ),
-				CursorType.SE_RESIZE.getName( ),
-				CursorType.SW_RESIZE.getName( ),
-				CursorType.SRESIZE.getName( ),
-				CursorType.WRESIZE.getName( ),
-				CursorType.CUSTOM.getName( )
-		} );
+
+		return new NameSet(prefix, suffix,
+				new String[] { CursorType.AUTO.getName(), CursorType.CROSSHAIR.getName(), CursorType.DEFAULT.getName(),
+						CursorType.POINTER.getName(), CursorType.MOVE.getName(), CursorType.TEXT.getName(),
+						CursorType.WAIT.getName(), CursorType.ERESIZE.getName(), CursorType.NE_RESIZE.getName(),
+						CursorType.NW_RESIZE.getName(), CursorType.NRESIZE.getName(), CursorType.SE_RESIZE.getName(),
+						CursorType.SW_RESIZE.getName(), CursorType.SRESIZE.getName(), CursorType.WRESIZE.getName(),
+						CursorType.CUSTOM.getName() });
 	}
-	
-	private static String[] toStringNameArray( List<?> objList )
-	{
-		if ( objList == null )
-		{
+
+	private static String[] toStringNameArray(List<?> objList) {
+		if (objList == null) {
 			return null;
 		}
 
-		String[] rt = new String[objList.size( )];
+		String[] rt = new String[objList.size()];
 		int i = 0;
 
-		for ( Iterator<?> itr = objList.iterator( ); itr.hasNext( ); )
-		{
-			Object obj = itr.next( );
+		for (Iterator<?> itr = objList.iterator(); itr.hasNext();) {
+			Object obj = itr.next();
 
-			if ( obj instanceof Enumerator )
-			{
-				rt[i++] = ( (Enumerator) obj ).getName( );
-			}
-			else
-			{
-				rt[i++] = String.valueOf( obj );
+			if (obj instanceof Enumerator) {
+				rt[i++] = ((Enumerator) obj).getName();
+			} else {
+				rt[i++] = String.valueOf(obj);
 			}
 		}
 

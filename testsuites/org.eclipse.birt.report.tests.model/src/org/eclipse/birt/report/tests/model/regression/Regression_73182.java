@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,48 +27,43 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * Test description:
  * <p>
- * Add two groups with the same name to the table, NameException should be thrown out
+ * Add two groups with the same name to the table, NameException should be
+ * thrown out
  * </p>
  */
 
-public class Regression_73182 extends BaseTestCase
-{
+public class Regression_73182 extends BaseTestCase {
 
 	private final static String INPUT = "Regression_73182.xml"; //$NON-NLS-1$
+
 	/**
 	 * @throws Exception
 	 */
 
-	protected void setUp( ) throws Exception
-	{
+	@Override
+	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(INPUT, INPUT);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
+	public void test_regression_73182() throws Exception {
+		openDesign(INPUT);
 
-	
-	public void test_regression_73182( ) throws Exception
-	{
-		openDesign( INPUT );
-
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableGroupHandle group1 = factory.newTableGroup( );
-		group1.setName( "group1" ); //$NON-NLS-1$
-		TableGroupHandle group2 = factory.newTableGroup( );
-		table.getGroups( ).add( group1 );
-		table.getGroups( ).add( group2 );
-		try
-		{
-			group2.setName( "group1" ); //$NON-NLS-1$
-			table.getGroups( ).add( group2 );
-			fail( );
-		}
-		catch ( NameException e )
-		{
-			assertNotNull( e );
+		TableHandle table = (TableHandle) designHandle.findElement("table"); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		TableGroupHandle group1 = factory.newTableGroup();
+		group1.setName("group1"); //$NON-NLS-1$
+		TableGroupHandle group2 = factory.newTableGroup();
+		table.getGroups().add(group1);
+		table.getGroups().add(group2);
+		try {
+			group2.setName("group1"); //$NON-NLS-1$
+			table.getGroups().add(group2);
+			fail();
+		} catch (NameException e) {
+			assertNotNull(e);
 		}
 	}
 }

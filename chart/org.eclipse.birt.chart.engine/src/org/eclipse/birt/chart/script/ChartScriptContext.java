@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,8 +19,7 @@ import org.eclipse.birt.chart.model.Chart;
 /**
  * An internal implementation for IChartScriptContext
  */
-public class ChartScriptContext extends AbstractScriptContext implements IChartScriptContext
-{
+public class ChartScriptContext extends AbstractScriptContext implements IChartScriptContext {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,73 +28,47 @@ public class ChartScriptContext extends AbstractScriptContext implements IChartS
 	/**
 	 * The constructor.
 	 */
-	public ChartScriptContext( )
-	{
-		super( );
+	public ChartScriptContext() {
+		super();
 	}
 
-	/*private void writeObject( java.io.ObjectOutputStream out )
-			throws IOException
-	{
-		out.defaultWriteObject( );
-
-		ByteArrayOutputStream bao = null;
-
-		try
-		{
-			bao = SerializerImpl.instance( ).asXml( cm, true );
-		}
-		catch ( Exception e )
-		{
-			if ( logger != null )
-			{
-				logger.log( e );
-			}
-			bao = new ByteArrayOutputStream( );
-		}
-
-		out.writeObject( bao.toByteArray( ) );
-	}
-
-	private void readObject( java.io.ObjectInputStream in ) throws IOException,
-			ClassNotFoundException
-	{
-		in.defaultReadObject( );
-
-		ByteArrayInputStream bai = new ByteArrayInputStream( (byte[]) in.readObject( ) );
-
-		try
-		{
-			cm = SerializerImpl.instance( ).fromXml( bai, true );
-		}
-		catch ( IOException e )
-		{
-			if ( logger != null )
-			{
-				logger.log( e );
-			}
-			cm = null;
-		}
-	}
-*/
+	/*
+	 * private void writeObject( java.io.ObjectOutputStream out ) throws IOException
+	 * { out.defaultWriteObject( );
+	 *
+	 * ByteArrayOutputStream bao = null;
+	 *
+	 * try { bao = SerializerImpl.instance( ).asXml( cm, true ); } catch ( Exception
+	 * e ) { if ( logger != null ) { logger.log( e ); } bao = new
+	 * ByteArrayOutputStream( ); }
+	 *
+	 * out.writeObject( bao.toByteArray( ) ); }
+	 *
+	 * private void readObject( java.io.ObjectInputStream in ) throws IOException,
+	 * ClassNotFoundException { in.defaultReadObject( );
+	 *
+	 * ByteArrayInputStream bai = new ByteArrayInputStream( (byte[]) in.readObject(
+	 * ) );
+	 *
+	 * try { cm = SerializerImpl.instance( ).fromXml( bai, true ); } catch (
+	 * IOException e ) { if ( logger != null ) { logger.log( e ); } cm = null; } }
+	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IChartScriptContext#getChartInstance()
 	 */
-	public Chart getChartInstance( )
-	{
+	@Override
+	public Chart getChartInstance() {
 		return cm;
 	}
 
 	/**
 	 * Binding the script context with the chart instance
-	 * 
-	 * @param cm
-	 *            Chart
+	 *
+	 * @param cm Chart
 	 */
-	public void setChartInstance( Chart cm )
-	{
+	public void setChartInstance(Chart cm) {
 		this.cm = cm;
 	}
 }

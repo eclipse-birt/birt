@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
 
      <!-- Engine Framework Extension Points -->
@@ -8,13 +22,13 @@
    		Use this to register a custom Model Renderer.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
    -->
-   <extension-point id="modelrenderers" name="Contains definition of chart model renderers" schema="schema/modelrenderers.exsd"/>
+   <extension-point id="modelrenderers" name="%extension-point.name" schema="schema/modelrenderers.exsd"/>
    <!--
    		DataSet Processor Extension Point.
    		Use this extension point to register data set processors for series that use custom data elements.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
    -->
-   <extension-point id="datasetprocessors" name="Contains definition of chart data set processors" schema="schema/datasetprocessors.exsd"/>
+   <extension-point id="datasetprocessors" name="%extension-point.name.0" schema="schema/datasetprocessors.exsd"/>
    
    <!-- Device related Extension Points -->
    <!-- 
@@ -22,14 +36,14 @@
    		Use this extension point to register a custom Display Server.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
    -->
-   <extension-point id="displayservers" name="Contains definition of chart display servers" schema="schema/displayservers.exsd"/>
+   <extension-point id="displayservers" name="%extension-point.name.1" schema="schema/displayservers.exsd"/>
    <!-- 
    		Device Renderer Extension Point.
    		Use this extension point to register a custom Device Renderer.
    		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
    -->
-   <extension-point id="devicerenderers" name="Contains definition of chart device renderers" schema="schema/devicerenderers.exsd"/>
-   <extension-point id="aggregatefunctions" name="Contains definition of chart aggregate functions" schema="schema/aggregatefunctions.exsd"/>
-   <extension-point id="datapointdefinitions" name="Contains definitions of data point display" schema="schema/datapointdefinitions.exsd"/>
-   <extension-point id="charttypes" name="charttypes" schema="schema/charttypes.exsd"/>
+   <extension-point id="devicerenderers" name="%extension-point.name.2" schema="schema/devicerenderers.exsd"/>
+   <extension-point id="aggregatefunctions" name="%extension-point.name.3" schema="schema/aggregatefunctions.exsd"/>
+   <extension-point id="datapointdefinitions" name="%extension-point.name.4" schema="schema/datapointdefinitions.exsd"/>
+   <extension-point id="charttypes" name="%extension-point.name.5" schema="schema/charttypes.exsd"/>
 </plugin>

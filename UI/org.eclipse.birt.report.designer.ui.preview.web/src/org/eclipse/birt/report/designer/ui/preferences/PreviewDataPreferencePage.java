@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,17 +40,14 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * PreviewDataPreferencePage
  */
-public class PreviewDataPreferencePage extends PreferencePage
-		implements
-			IWorkbenchPreferencePage
-{
+public class PreviewDataPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	public static final int MAX_DATASET_ROW_DEFAULT = ViewerPlugin.DEFAULT_MAX_ROWS;
 
 //	public static final int MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBEROWLEVELS;
 
 //	public static final int MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBECOLUMNLEVELS;
-	
+
 	public static final int MAX_IN_MEMORY_CUBE_SIZE_DEFAULT = ViewerPlugin.DEFAULT_MAX_IN_MEMORY_CUBE_SIZE;
 
 	public static final int DATASET_DISPLAY_ALL_ROW = 0;
@@ -71,21 +71,20 @@ public class PreviewDataPreferencePage extends PreferencePage
 
 	private transient Button noLimitBtn;
 
-	protected Control createContents( Composite parent )
-	{
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.PREFERENCE_BIRT_PREVIEW_DATA_ID );
+	@Override
+	protected Control createContents(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_PREVIEW_DATA_ID);
 
-		Composite cmpTop = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 1, false );
-		cmpTop.setLayout( layout );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		cmpTop.setLayoutData( gd );
+		Composite cmpTop = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(1, false);
+		cmpTop.setLayout(layout);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmpTop.setLayoutData(gd);
 
-		createDispalyRowLimitGroup( cmpTop );
+		createDispalyRowLimitGroup(cmpTop);
 
 //		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
-//				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$
 //		txtMaxRowLevelMember.setPage( this );
 //		txtMaxRowLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 //		txtMaxRowLevelMember.setEmptyStringAllowed( false );
@@ -97,9 +96,9 @@ public class PreviewDataPreferencePage extends PreferencePage
 //					setValid( txtMaxRowLevelMember.isValid( ) );
 //			}
 //		} );
-//		
+//
 //		txtMaxColumnLevelMember = new IntegerFieldEditor( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
-//				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$
 //		txtMaxColumnLevelMember.setPage( this );
 //		txtMaxColumnLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 //		txtMaxColumnLevelMember.setEmptyStringAllowed( false );
@@ -112,97 +111,91 @@ public class PreviewDataPreferencePage extends PreferencePage
 //			}
 //		} );
 
-		txtMaxInMemoryCubeSize = new IntegerFieldEditor( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
-				Messages.getString( "designer.preview.preference.resultset.maxinmemorycubesize.description" ), cmpTop ); //$NON-NLS-1$ 
-		txtMaxInMemoryCubeSize.setPage( this );
-		txtMaxInMemoryCubeSize.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxInMemoryCubeSize.setEmptyStringAllowed( false );
-		txtMaxInMemoryCubeSize.setPropertyChangeListener( new IPropertyChangeListener( ) {
+		txtMaxInMemoryCubeSize = new IntegerFieldEditor(PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
+				Messages.getString("designer.preview.preference.resultset.maxinmemorycubesize.description"), cmpTop); //$NON-NLS-1$
+		txtMaxInMemoryCubeSize.setPage(this);
+		txtMaxInMemoryCubeSize.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
+		txtMaxInMemoryCubeSize.setEmptyStringAllowed(false);
+		txtMaxInMemoryCubeSize.setPropertyChangeListener(new IPropertyChangeListener() {
 
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( txtMaxInMemoryCubeSize.isValid( ) );
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
+					setValid(txtMaxInMemoryCubeSize.isValid());
+				}
 			}
-		} );
+		});
 
-		initControlValues( );
+		initControlValues();
 
 		return cmpTop;
 	}
 
-	private void createDispalyRowLimitGroup( Composite cmpTop )
-	{
-		Group dispalyRowLimitGroup = new Group( cmpTop, SWT.NONE );
-		dispalyRowLimitGroup.setText( Messages.getString( "designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting" ) );
-		GridLayout layout = new GridLayout( );
+	private void createDispalyRowLimitGroup(Composite cmpTop) {
+		Group dispalyRowLimitGroup = new Group(cmpTop, SWT.NONE);
+		dispalyRowLimitGroup.setText(
+				Messages.getString("designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting"));
+		GridLayout layout = new GridLayout();
 		layout.makeColumnsEqualWidth = true;
 		layout.marginWidth = layout.marginHeight = 6;
-		dispalyRowLimitGroup.setLayout( layout );
-		GridData groupData = new GridData( GridData.FILL_HORIZONTAL );
+		dispalyRowLimitGroup.setLayout(layout);
+		GridData groupData = new GridData(GridData.FILL_HORIZONTAL);
 		groupData.horizontalSpan = 2;
-		dispalyRowLimitGroup.setLayoutData( groupData );
+		dispalyRowLimitGroup.setLayoutData(groupData);
 
-		Composite container = new Composite( dispalyRowLimitGroup, SWT.NONE );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Composite container = new Composite(dispalyRowLimitGroup, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		noLimitBtn = new Button( container, SWT.CHECK );
-		GridData noLimitBtnData = new GridData( GridData.FILL_HORIZONTAL );
+		noLimitBtn = new Button(container, SWT.CHECK);
+		GridData noLimitBtnData = new GridData(GridData.FILL_HORIZONTAL);
 		noLimitBtnData.horizontalSpan = 2;
-		noLimitBtn.setText( Messages.getString( "designer.preview.preference.resultset.NoLimitOfDispalyRow" ) );
-		noLimitBtn.setLayoutData( noLimitBtnData );
-		noLimitBtn.addSelectionListener( new SelectionAdapter( ) {
+		noLimitBtn.setText(Messages.getString("designer.preview.preference.resultset.NoLimitOfDispalyRow"));
+		noLimitBtn.setLayoutData(noLimitBtnData);
+		noLimitBtn.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				txtMaxDataSetRow.setEnabled( !noLimitBtn.getSelection( ),
-						noLimitBtn.getParent( ) );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				txtMaxDataSetRow.setEnabled(!noLimitBtn.getSelection(), noLimitBtn.getParent());
 
-				if ( !noLimitBtn.getSelection( ) )
-				{
-					txtMaxDataSetRow.setFocus( );
+				if (!noLimitBtn.getSelection()) {
+					txtMaxDataSetRow.setFocus();
 				}
-				if ( txtMaxDataSetRow.checkState( ) )
-				{
+				if (txtMaxDataSetRow.checkState()) {
 				}
 			}
 
-		} );
+		});
 
-		txtMaxDataSetRow = new DisplayNumberFieldEditor( PREVIEW_MAXROW,
-				Messages.getString( "designer.preview.preference.resultset.maxrow.description" ), //$NON-NLS-1$
-				container );
-		txtMaxDataSetRow.setPage( this );
-		txtMaxDataSetRow.setValidRange( 1, Integer.MAX_VALUE );
-		txtMaxDataSetRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxDataSetRow.setEmptyStringAllowed( false );
-		txtMaxDataSetRow.setPropertyChangeListener( new IPropertyChangeListener( ) {
+		txtMaxDataSetRow = new DisplayNumberFieldEditor(PREVIEW_MAXROW,
+				Messages.getString("designer.preview.preference.resultset.maxrow.description"), //$NON-NLS-1$
+				container);
+		txtMaxDataSetRow.setPage(this);
+		txtMaxDataSetRow.setValidRange(1, Integer.MAX_VALUE);
+		txtMaxDataSetRow.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
+		txtMaxDataSetRow.setEmptyStringAllowed(false);
+		txtMaxDataSetRow.setPropertyChangeListener(new IPropertyChangeListener() {
 
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( txtMaxDataSetRow.isValid( ) );
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
+					setValid(txtMaxDataSetRow.isValid());
+				}
 			}
-		} );
+		});
 	}
 
-	private void initControlValues( )
-	{
-		String defaultMaxRow = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( PREVIEW_MAXROW );
+	private void initControlValues() {
+		String defaultMaxRow = ViewerPlugin.getDefault().getPluginPreferences().getString(PREVIEW_MAXROW);
 
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( MAX_DATASET_ROW_DEFAULT );
+		if (defaultMaxRow == null || defaultMaxRow.trim().length() <= 0) {
+			defaultMaxRow = String.valueOf(MAX_DATASET_ROW_DEFAULT);
 		}
 
-		boolean previewAllRows = String.valueOf( DATASET_DISPLAY_ALL_ROW )
-				.equals( defaultMaxRow.trim( ) );
-		noLimitBtn.setSelection( previewAllRows );
-		txtMaxDataSetRow.setEnabled( !previewAllRows, noLimitBtn.getParent( ) );
+		boolean previewAllRows = String.valueOf(DATASET_DISPLAY_ALL_ROW).equals(defaultMaxRow.trim());
+		noLimitBtn.setSelection(previewAllRows);
+		txtMaxDataSetRow.setEnabled(!previewAllRows, noLimitBtn.getParent());
 
-		txtMaxDataSetRow.setStringValue( previewAllRows ? "" : defaultMaxRow );
+		txtMaxDataSetRow.setStringValue(previewAllRows ? "" : defaultMaxRow);
 
 //		defaultMaxRow = ViewerPlugin.getDefault( )
 //				.getPluginPreferences( )
@@ -224,40 +217,34 @@ public class PreviewDataPreferencePage extends PreferencePage
 //		}
 //		txtMaxColumnLevelMember.setStringValue( defaultMaxRow );
 
-		defaultMaxRow = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE );
+		defaultMaxRow = ViewerPlugin.getDefault().getPluginPreferences().getString(PREVIEW_MAX_IN_MEMORY_CUBE_SIZE);
 
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( MAX_IN_MEMORY_CUBE_SIZE_DEFAULT );
+		if (defaultMaxRow == null || defaultMaxRow.trim().length() <= 0) {
+			defaultMaxRow = String.valueOf(MAX_IN_MEMORY_CUBE_SIZE_DEFAULT);
 		}
-		txtMaxInMemoryCubeSize.setStringValue( defaultMaxRow );
+		txtMaxInMemoryCubeSize.setStringValue(defaultMaxRow);
 
 	}
 
-	public void init( IWorkbench workbench )
-	{
+	@Override
+	public void init(IWorkbench workbench) {
 
 	}
 
-	protected void performDefaults( )
-	{
-		txtMaxDataSetRow.setStringValue( String.valueOf( MAX_DATASET_ROW_DEFAULT ) );
+	@Override
+	protected void performDefaults() {
+		txtMaxDataSetRow.setStringValue(String.valueOf(MAX_DATASET_ROW_DEFAULT));
 //		txtMaxRowLevelMember.setStringValue( String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT ) );
 //		txtMaxColumnLevelMember.setStringValue( String.valueOf( MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT ) );
-		txtMaxInMemoryCubeSize.setStringValue( String.valueOf( MAX_IN_MEMORY_CUBE_SIZE_DEFAULT ) );
+		txtMaxInMemoryCubeSize.setStringValue(String.valueOf(MAX_IN_MEMORY_CUBE_SIZE_DEFAULT));
 
-		super.performDefaults( );
+		super.performDefaults();
 	}
 
-	public boolean performOk( )
-	{
-		int maxRowValue = noLimitBtn.getSelection( ) ? DATASET_DISPLAY_ALL_ROW
-				: txtMaxDataSetRow.getIntValue( );
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( PREVIEW_MAXROW, maxRowValue );
+	@Override
+	public boolean performOk() {
+		int maxRowValue = noLimitBtn.getSelection() ? DATASET_DISPLAY_ALL_ROW : txtMaxDataSetRow.getIntValue();
+		ViewerPlugin.getDefault().getPluginPreferences().setValue(PREVIEW_MAXROW, maxRowValue);
 
 //		ViewerPlugin.getDefault( )
 //				.getPluginPreferences( )
@@ -269,38 +256,32 @@ public class PreviewDataPreferencePage extends PreferencePage
 //				.setValue( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
 //						txtMaxColumnLevelMember.getIntValue( ) );
 
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
-						txtMaxInMemoryCubeSize.getIntValue( ) );
+		ViewerPlugin.getDefault().getPluginPreferences().setValue(PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
+				txtMaxInMemoryCubeSize.getIntValue());
 
-		ViewerPlugin.getDefault( ).savePluginPreferences( );
+		ViewerPlugin.getDefault().savePluginPreferences();
 
-		return super.performOk( );
+		return super.performOk();
 	}
 
-	class DisplayNumberFieldEditor extends IntegerFieldEditor
-	{
+	class DisplayNumberFieldEditor extends IntegerFieldEditor {
 
-		public DisplayNumberFieldEditor( String s1, String s2, Composite parent )
-		{
-			super( s1, s2, parent );
+		public DisplayNumberFieldEditor(String s1, String s2, Composite parent) {
+			super(s1, s2, parent);
 		}
 
-		public boolean checkState( )
-		{
-			if ( noLimitBtn.getSelection( ) )
-			{
-				setValid( true );
-				if ( !super.checkState( ) )
-					clearErrorMessage( );
+		@Override
+		public boolean checkState() {
+			if (noLimitBtn.getSelection()) {
+				setValid(true);
+				if (!super.checkState()) {
+					clearErrorMessage();
+				}
 				return true;
+			} else {
+				setValid(isValid());
 			}
-			else
-			{
-				setValid( isValid( ) );
-			}
-			return super.checkState( );
+			return super.checkState();
 		}
-	};
+	}
 }

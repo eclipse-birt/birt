@@ -1,13 +1,15 @@
 /*******************************************************************************
  * Copyright (c) 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *     Actuate Corporation - Copy and change to fit BIRT requirement 
+ *     Actuate Corporation - Copy and change to fit BIRT requirement
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
@@ -29,10 +31,7 @@ import org.eclipse.ui.part.Page;
  * The default page for the PaletteView that works in conjunction with a
  * PaletteViewerProvider.
  */
-public class TreeViewPalettePage extends Page implements
-		PalettePage,
-		IAdaptable
-{
+public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable {
 
 	/** Tool tip separator between Usage and Description */
 	// private static final String TOOL_TIP_SEP = ": "; //$NON-NLS-1$
@@ -47,52 +46,51 @@ public class TreeViewPalettePage extends Page implements
 	protected Tree tree;
 
 	private ExpressionTreeSupport treeCommon;
-	
+
 	private SourceViewer targetViewer;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
-	public TreeViewPalettePage( )
-	{
-		treeCommon = new ExpressionTreeSupport( );
+	public TreeViewPalettePage() {
+		treeCommon = new ExpressionTreeSupport();
 	}
 
 	/**
 	 * Creates the palette viewer and its control.
-	 * 
+	 *
 	 * @see Page#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		tree = new Tree( parent, SWT.NONE );
-		treeCommon.setTree( tree );
-		treeCommon.setExpressionViewer( targetViewer );
+	@Override
+	public void createControl(Composite parent) {
+		tree = new Tree(parent, SWT.NONE);
+		treeCommon.setTree(tree);
+		treeCommon.setExpressionViewer(targetViewer);
 
-		treeCommon.createDefaultExpressionTree( );
+		treeCommon.createDefaultExpressionTree();
 
-		treeCommon.addMouseTrackListener( );
-		treeCommon.addMouseListener( );
-		treeCommon.addDragSupportToTree( );
-		treeCommon.addDropSupportToViewer( );
+		treeCommon.addMouseTrackListener();
+		treeCommon.addMouseListener();
+		treeCommon.addDragSupportToTree();
+		treeCommon.addDropSupportToViewer();
 
 		// Add tool tips
-		tree.setToolTipText( "" ); //$NON-NLS-1$
+		tree.setToolTipText(""); //$NON-NLS-1$
 
-		tree.addDisposeListener( new DisposeListener( ) {
+		tree.addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				treeCommon.removeDropSupportToViewer( );
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				treeCommon.removeDropSupportToViewer();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * get tool tip text from a string array that contains the text, usage and
 	 * description
-	 * 
+	 *
 	 * @param tuple
 	 * @return
 	 */
@@ -102,20 +100,20 @@ public class TreeViewPalettePage extends Page implements
 	// }
 	/**
 	 * Releases the palette viewer from the edit domain
-	 * 
+	 *
 	 * @see Page#dispose()
 	 */
-	public void dispose( )
-	{
-		tree.dispose( );
-		super.dispose( );
+	@Override
+	public void dispose() {
+		tree.dispose();
+		super.dispose();
 	}
 
 	/**
 	 * @see IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
+	@Override
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
@@ -123,29 +121,27 @@ public class TreeViewPalettePage extends Page implements
 	 * @return the palette viewer's control
 	 * @see Page#getControl()
 	 */
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return tree;
 	}
 
 	/**
 	 * Sets focus on the palette's control
-	 * 
+	 *
 	 * @see Page#setFocus()
 	 */
-	public void setFocus( )
-	{
-		tree.setFocus( );
-		treeCommon.updateParametersTree( );
+	@Override
+	public void setFocus() {
+		tree.setFocus();
+		treeCommon.updateParametersTree();
 	}
 
-	public ExpressionTreeSupport getSupport( )
-	{
+	public ExpressionTreeSupport getSupport() {
 		return this.treeCommon;
 	}
-	
-	void setViewer( SourceViewer viewer )
-	{
+
+	void setViewer(SourceViewer viewer) {
 		targetViewer = viewer;
 	}
 

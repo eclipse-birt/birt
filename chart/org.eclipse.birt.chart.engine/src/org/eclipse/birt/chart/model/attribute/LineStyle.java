@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,66 +22,65 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
- * <em><b>Line Style</b></em>', and utility methods for working with them.
- * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ * <em><b>Line Style</b></em>', and utility methods for working with them. <!--
+ * end-user-doc --> <!-- begin-model-doc -->
+ *
  * This type represents the possible values for line styles.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineStyle()
  * @model
  * @generated
  */
 public enum LineStyle implements Enumerator {
 	/**
-	 * The '<em><b>Solid</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Solid</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Solid</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Solid</b></em>' literal object isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @see #SOLID
 	 * @generated
 	 * @ordered
 	 */
 	SOLID_LITERAL(0, "Solid", "Solid"),
 	/**
-	 * The '<em><b>Dashed</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Dashed</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Dashed</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Dashed</b></em>' literal object isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @see #DASHED
 	 * @generated
 	 * @ordered
 	 */
 	DASHED_LITERAL(1, "Dashed", "Dashed"),
 	/**
-	 * The '<em><b>Dotted</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Dotted</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Dotted</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Dotted</b></em>' literal object isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @see #DOTTED
 	 * @generated
 	 * @ordered
 	 */
 	DOTTED_LITERAL(2, "Dotted", "Dotted"),
 	/**
-	 * The '<em><b>Dash Dotted</b></em>' literal object. <!--
-	 * begin-user-doc -->
+	 * The '<em><b>Dash Dotted</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Dash Dotted</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Dash Dotted</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DASH_DOTTED
 	 * @generated
 	 * @ordered
@@ -86,9 +88,9 @@ public enum LineStyle implements Enumerator {
 	DASH_DOTTED_LITERAL(3, "DashDotted", "Dash_Dotted");
 
 	/**
-	 * The '<em><b>Solid</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>Solid</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #SOLID_LITERAL
 	 * @model name="Solid"
 	 * @generated
@@ -97,9 +99,9 @@ public enum LineStyle implements Enumerator {
 	public static final int SOLID = 0;
 
 	/**
-	 * The '<em><b>Dashed</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>Dashed</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #DASHED_LITERAL
 	 * @model name="Dashed"
 	 * @generated
@@ -108,9 +110,9 @@ public enum LineStyle implements Enumerator {
 	public static final int DASHED = 1;
 
 	/**
-	 * The '<em><b>Dotted</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>Dotted</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #DOTTED_LITERAL
 	 * @model name="Dotted"
 	 * @generated
@@ -119,9 +121,9 @@ public enum LineStyle implements Enumerator {
 	public static final int DOTTED = 2;
 
 	/**
-	 * The '<em><b>Dash Dotted</b></em>' literal value.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The '<em><b>Dash Dotted</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #DASH_DOTTED_LITERAL
 	 * @model name="DashDotted" literal="Dash_Dotted"
 	 * @generated
@@ -132,32 +134,30 @@ public enum LineStyle implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Line Style</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final LineStyle[] VALUES_ARRAY = new LineStyle[]{
-			SOLID_LITERAL, DASHED_LITERAL, DOTTED_LITERAL, DASH_DOTTED_LITERAL,
-	};
+	private static final LineStyle[] VALUES_ARRAY = { SOLID_LITERAL, DASHED_LITERAL, DOTTED_LITERAL,
+			DASH_DOTTED_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Line Style</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static final List<LineStyle> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<LineStyle> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Line Style</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Line Style</b></em>' literal with the specified literal
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LineStyle get( String literal )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static LineStyle get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			LineStyle result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( literal ) )
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -166,17 +166,14 @@ public enum LineStyle implements Enumerator {
 
 	/**
 	 * Returns the '<em><b>Line Style</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LineStyle getByName( String name )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static LineStyle getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			LineStyle result = VALUES_ARRAY[i];
-			if ( result.getName( ).equals( name ) )
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -184,99 +181,96 @@ public enum LineStyle implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Line Style</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Line Style</b></em>' literal with the specified integer
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LineStyle get( int value )
-	{
-		switch ( value )
-		{
-			case SOLID :
-				return SOLID_LITERAL;
-			case DASHED :
-				return DASHED_LITERAL;
-			case DOTTED :
-				return DOTTED_LITERAL;
-			case DASH_DOTTED :
-				return DASH_DOTTED_LITERAL;
+	public static LineStyle get(int value) {
+		switch (value) {
+		case SOLID:
+			return SOLID_LITERAL;
+		case DASHED:
+			return DASHED_LITERAL;
+		case DOTTED:
+			return DOTTED_LITERAL;
+		case DASH_DOTTED:
+			return DASH_DOTTED_LITERAL;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @generated
 	 */
-	private LineStyle( int value, String name, String literal )
-	{
+	LineStyle(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public int getValue( )
-	{
+	@Override
+	public int getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getLiteral( )
-	{
+	@Override
+	public String getLiteral() {
 		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
+	public String toString() {
 		return literal;
 	}
 }

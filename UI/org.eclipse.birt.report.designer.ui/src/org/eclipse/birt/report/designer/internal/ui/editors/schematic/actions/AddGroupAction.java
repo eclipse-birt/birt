@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,91 +36,82 @@ import org.eclipse.ui.IWorkbenchPart;
  * Add group action
  */
 
-public class AddGroupAction extends SelectionAction
-{
+public class AddGroupAction extends SelectionAction {
 
 //	private static final String STACK_MSG_ADD_GROUP = Messages
 //			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
 
-	private static final String ACTION_MSG_ADD_GROUP = Messages
-			.getString( "AddGroupAction.actionMsg.addGroup" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_ADD_GROUP = Messages.getString("AddGroupAction.actionMsg.addGroup"); //$NON-NLS-1$
 
 	public static final String ID = "AddGroupAction"; //$NON-NLS-1$
 
 	private Action action = null;
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param part
 	 */
-	public AddGroupAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_ADD_GROUP );
+	public AddGroupAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_ADD_GROUP);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		//	return  getTableEditPart( ) != null ^ getListEditPart( ) != null;
-		action = getAction( );
-		if ( action != null )
-		{
-			return action.isEnabled( );
+	@Override
+	protected boolean calculateEnabled() {
+		// return getTableEditPart( ) != null ^ getListEditPart( ) != null;
+		action = getAction();
+		if (action != null) {
+			return action.isEnabled();
 		}
 		return false;
 	}
 
 	/**
 	 * Runs action.
-	 *  
+	 *
 	 */
-	public void run( )
-	{
-		if(action != null)
-		{
-			action.run( );
+	@Override
+	public void run() {
+		if (action != null) {
+			action.run();
 		}
 	}
 
 	/**
 	 * Gets table edit part.
-	 * 
-	 * @return The current selected table edit part, null if no table edit part
-	 *         is selected.
+	 *
+	 * @return The current selected table edit part, null if no table edit part is
+	 *         selected.
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		return UIUtil.getTableEditPart( getSelectedObjects( ) );
+	protected TableEditPart getTableEditPart() {
+		return UIUtil.getTableEditPart(getSelectedObjects());
 	}
 
 	/**
 	 * Gets list edit part.
-	 * 
+	 *
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	protected ListEditPart getListEditPart( )
-	{
-		return UIUtil.getListEditPart( getSelectedObjects( ) );
+	protected ListEditPart getListEditPart() {
+		return UIUtil.getListEditPart(getSelectedObjects());
 	}
-
 
 	/**
 	 * Gets the first selected object.
-	 * 
+	 *
 	 * @return The first selected object
 	 */
-	protected Object getFirstElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length > 0 )
-		{
+	protected Object getFirstElement() {
+		Object[] array = getElements().toArray();
+		if (array.length > 0) {
 			return array[0];
 		}
 		return null;
@@ -125,51 +119,39 @@ public class AddGroupAction extends SelectionAction
 
 	/**
 	 * Gets element handles.
-	 * 
+	 *
 	 * @return element handles
 	 */
-	protected List getElements( )
-	{
-		return InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) )).toList( );
+	protected List getElements() {
+		return InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection())).toList();
 	}
-	
-	private Action getAction( )
-	{
+
+	private Action getAction() {
 		Action action = null;
-		if ( getFirstElement( ) instanceof CellHandle
-				|| getFirstElement( ) instanceof RowHandle )
-		{
+		if (getFirstElement() instanceof CellHandle || getFirstElement() instanceof RowHandle) {
 			RowHandle row;
-			if ( getFirstElement( ) instanceof CellHandle )
-			{
-				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
+			if (getFirstElement() instanceof CellHandle) {
+				row = (RowHandle) ((CellHandle) getFirstElement()).getContainer();
+			} else {
+				row = (RowHandle) getFirstElement();
 			}
-			else
-			{
-				row = (RowHandle) getFirstElement( );
-			}
-			if ( !( row.getContainer( ) instanceof TableGroupHandle ) )
-			{
-				int slotID = row.getContainerSlotHandle( ).getSlotID( );
-				action = ( InsertGroupActionFactory.createInsertGroupAction( slotID,
-						getSelectedObjects( ) ) );
+			if (!(row.getContainer() instanceof TableGroupHandle)) {
+				int slotID = row.getContainerSlotHandle().getSlotID();
+				action = (InsertGroupActionFactory.createInsertGroupAction(slotID, getSelectedObjects()));
 				return action;
 			}
 
 		}
 
-		if ( getFirstElement( ) instanceof SlotHandle )
-		{
-			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
-			if ( !( container instanceof ListGroupHandle ) )
-			{
-				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
-				action = InsertGroupActionFactory.createInsertGroupAction( slotID,
-						getSelectedObjects( ) );
+		if (getFirstElement() instanceof SlotHandle) {
+			DesignElementHandle container = ((SlotHandle) getFirstElement()).getElementHandle();
+			if (!(container instanceof ListGroupHandle)) {
+				int slotID = ((SlotHandle) getFirstElement()).getSlotID();
+				action = InsertGroupActionFactory.createInsertGroupAction(slotID, getSelectedObjects());
 				return action;
 			}
 		}
 		return action;
 	}
-	
+
 }

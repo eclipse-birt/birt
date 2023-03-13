@@ -1,15 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -21,33 +25,31 @@ import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 
 public class BorderColorManager extends ColorManager {
-    /**
-     * The identifier values.
-     */
-    protected final static StringMap values = new StringMap();
-    static {
-    	AbstractColorManager.addColorIndent( values );
-    	values.put(CSSConstants.CSS_TRANSPARENT_VALUE,
-                   CSSValueConstants.TRANSPARENT_VALUE);
-    }
+	/**
+	 * The identifier values.
+	 */
+	protected final static StringMap values = new StringMap();
+	static {
+		AbstractColorManager.addColorIndent(values);
+		values.put(CSSConstants.CSS_TRANSPARENT_VALUE, CSSValueConstants.TRANSPARENT_VALUE);
+	}
 
+	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}
 
-	public BorderColorManager (String propertyName)
-	{
-		super( propertyName, false, CSSValueConstants.BLACK_RGB_VALUE );
+	public BorderColorManager(String propertyName) {
+		super(propertyName, false, CSSValueConstants.BLACK_RGB_VALUE);
 	}
-	
+
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_IDENT) {
-			if( CSSConstants.CSS_TRANSPARENT_VALUE.equals( lu.getStringValue() ) )
-			{
+			if (CSSConstants.CSS_TRANSPARENT_VALUE.equals(lu.getStringValue())) {
 				return CSSValueConstants.TRANSPARENT_VALUE;
 			}
 		}
@@ -55,20 +57,19 @@ public class BorderColorManager extends ColorManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
+	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
-		if ( value == null  )
-		{
-			return (Value)elt.getComputedStyle().getProperty( IStyle.STYLE_COLOR );
+		if (value == null) {
+			return (Value) elt.getComputedStyle().getProperty(IStyle.STYLE_COLOR);
 		}
-		
-		if( CSSValueConstants.TRANSPARENT_VALUE == value )
-		{
+
+		if (CSSValueConstants.TRANSPARENT_VALUE == value) {
 			return value;
 		}
-			
+
 		return super.computeValue(elt, engine, idx, value);
 	}
 

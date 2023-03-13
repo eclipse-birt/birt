@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,13 +28,11 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
-
 /**
- * 
+ *
  */
 
-public class CachedAggregationResultSet implements IAggregationResultSet
-{
+public class CachedAggregationResultSet implements IAggregationResultSet {
 	private AggregationDefinition ad;
 	private int currentPosition;
 	private int length;
@@ -46,29 +47,14 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private AggregationResultRow resultObject;
 	private int[] sortType;
 	private String[] aggregationNames;
-	private static Logger logger = Logger.getLogger( CachedAggregationResultSet.class.getName( ) );
+	private static Logger logger = Logger.getLogger(CachedAggregationResultSet.class.getName());
 
-	CachedAggregationResultSet( DataInputStream inputStream, int length,
-			DimLevel[] levels, int[] sortTypes, String[][] keyNames,
-			String[][] attributeNames, int[][] keyDataTypes,
-			int[][] attributeDataTypes, String[] aggregationNames,
-			int[] aggregationDataType, int bufferSize ) throws IOException
-	{
-		Object[] params = {
-				inputStream,
-				Integer.valueOf( length ),
-				levels,
-				sortTypes,
-				keyNames,
-				attributeNames,
-				keyDataTypes,
-				attributeDataTypes,
-				aggregationNames,
-				aggregationDataType
-		};
-		logger.entering( CachedAggregationResultSet.class.getName( ),
-				"CachedAggregationResultSet",
-				params );
+	CachedAggregationResultSet(DataInputStream inputStream, int length, DimLevel[] levels, int[] sortTypes,
+			String[][] keyNames, String[][] attributeNames, int[][] keyDataTypes, int[][] attributeDataTypes,
+			String[] aggregationNames, int[] aggregationDataType, int bufferSize) throws IOException {
+		Object[] params = { inputStream, Integer.valueOf(length), levels, sortTypes, keyNames, attributeNames,
+				keyDataTypes, attributeDataTypes, aggregationNames, aggregationDataType };
+		logger.entering(CachedAggregationResultSet.class.getName(), "CachedAggregationResultSet", params);
 		this.currentPosition = 0;
 		this.length = length;
 		this.levels = levels;
@@ -78,62 +64,61 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		this.keyDataTypes = keyDataTypes;
 		this.attributeDataTypes = attributeDataTypes;
 		this.aggregationDataType = aggregationDataType;
-		this.aggregationResultNameMap = new HashMap( );
-		if ( aggregationNames != null )
-		{
+		this.aggregationResultNameMap = new HashMap();
+		if (aggregationNames != null) {
 			this.aggregationNames = new String[aggregationNames.length];
-			for ( int i = 0; i < aggregationNames.length; i++ )
-			{
+			for (int i = 0; i < aggregationNames.length; i++) {
 				this.aggregationNames[i] = aggregationNames[i];
-				aggregationResultNameMap.put( aggregationNames[i],
-						Integer.valueOf( i ) );
+				aggregationResultNameMap.put(aggregationNames[i], Integer.valueOf(i));
 			}
 		}
-		if( bufferSize != 0 )
-			aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), bufferSize );
-		else
-		{
-			aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), 1000 );
-			( ( BufferedStructureArray )aggregationResultRow ).setUseMemoryOnly( true );
+		if (bufferSize != 0) {
+			aggregationResultRow = new BufferedStructureArray(AggregationResultRow.getCreator(), bufferSize);
+		} else {
+			aggregationResultRow = new BufferedStructureArray(AggregationResultRow.getCreator(), 1000);
+			((BufferedStructureArray) aggregationResultRow).setUseMemoryOnly(true);
 		}
-		for ( int i = 0; i < length; i++ )
-		{
-			aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );
+		for (int i = 0; i < length; i++) {
+			aggregationResultRow.add(AggregationResultSetSaveUtil.loadAggregationRow(inputStream));
 		}
-		if ( this.length > 0 )
-			seek( 0 );
-		logger.exiting( CachedAggregationResultSet.class.getName( ),
-				"CachedAggregationResultSet" );
+		if (this.length > 0) {
+			seek(0);
+		}
+		logger.exiting(CachedAggregationResultSet.class.getName(), "CachedAggregationResultSet");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAggregationDataType(int)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getAggregationDataType(int)
 	 */
-	public int getAggregationDataType( int aggregationIndex )
-			throws IOException
-	{
-		if ( aggregationDataType == null || aggregationIndex < 0 || aggregationIndex >= aggregationDataType.length )
+	@Override
+	public int getAggregationDataType(int aggregationIndex) throws IOException {
+		if (aggregationDataType == null || aggregationIndex < 0 || aggregationIndex >= aggregationDataType.length) {
 			return DataType.UNKNOWN_TYPE;
+		}
 		return aggregationDataType[aggregationIndex];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAggregationIndex(java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#
+	 * getAggregationIndex(java.lang.String)
 	 */
-	public int getAggregationIndex( String name ) throws IOException
-	{
-		Object index = aggregationResultNameMap.get( name );
-		if( index == null )
-		{
+	@Override
+	public int getAggregationIndex(String name) throws IOException {
+		Object index = aggregationResultNameMap.get(name);
+		if (index == null) {
 			return -1;
 		}
-		return ((Integer)index).intValue( );
+		return ((Integer) index).intValue();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
 //	protected void finalize() throws Throwable
@@ -141,27 +126,32 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 //		inputStream.close( );
 //		super.finalize();
 //	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAggregationValue(int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAggregationValue
+	 * (int)
 	 */
-	public Object getAggregationValue( int aggregationIndex )
-			throws IOException
-	{
-		if ( resultObject.getAggregationValues() == null || aggregationIndex < 0 )
+	@Override
+	public Object getAggregationValue(int aggregationIndex) throws IOException {
+		if (resultObject.getAggregationValues() == null || aggregationIndex < 0) {
 			return null;
+		}
 		return resultObject.getAggregationValues()[aggregationIndex];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAllAttributes(int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAllAttributes(
+	 * int)
 	 */
-	public String[] getLevelAttributes( int levelIndex )
-	{
-		if ( attributeNames == null )
-		{
+	@Override
+	public String[] getLevelAttributes(int levelIndex) {
+		if (attributeNames == null) {
 			return null;
 		}
 		return attributeNames[levelIndex];
@@ -169,22 +159,27 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAllLevels()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAllLevels
+	 * ()
 	 */
-	public DimLevel[] getAllLevels( )
-	{
+	@Override
+	public DimLevel[] getAllLevels() {
 		return levels;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttribute(int, int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttribute(
+	 * int, int)
 	 */
-	public Object getLevelAttribute( int levelIndex, int attributeIndex )
-	{
-		if ( resultObject.getLevelMembers() == null || levelIndex < 0
-				|| resultObject.getLevelMembers()[levelIndex].getAttributes() == null )
-		{
+	@Override
+	public Object getLevelAttribute(int levelIndex, int attributeIndex) {
+		if (resultObject.getLevelMembers() == null || levelIndex < 0
+				|| resultObject.getLevelMembers()[levelIndex].getAttributes() == null) {
 			return null;
 		}
 		return resultObject.getLevelMembers()[levelIndex].getAttributes()[attributeIndex];
@@ -192,64 +187,64 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeColCount(int)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getLevelAttributeColCount(int)
 	 */
-	public int getLevelAttributeColCount( int levelIndex )
-	{
-		if ( attributeNames == null || attributeNames[levelIndex] == null )
+	@Override
+	public int getLevelAttributeColCount(int levelIndex) {
+		if (attributeNames == null || attributeNames[levelIndex] == null) {
 			return 0;
+		}
 		return attributeNames[levelIndex].length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeDataType(java.lang.String, java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getLevelAttributeDataType(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeDataType( DimLevel level, String attributeName )
-	{
-		int levelIndex = getLevelIndex( level );
-		if ( attributeDataTypes == null || attributeDataTypes[levelIndex] == null )
-		{
+	@Override
+	public int getLevelAttributeDataType(DimLevel level, String attributeName) {
+		int levelIndex = getLevelIndex(level);
+		if (attributeDataTypes == null || attributeDataTypes[levelIndex] == null) {
 			return DataType.UNKNOWN_TYPE;
 		}
-		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( level,
-				attributeName )];
+		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex(level, attributeName)];
 	}
-	
-	public void setLength( int length)
-	{
+
+	public void setLength(int length) {
 		this.length = length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeDataType(int, java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getLevelAttributeDataType(int, java.lang.String)
 	 */
-	public int getLevelAttributeDataType( int levelIndex, String attributeName )
-	{
-		if ( attributeDataTypes == null
-				|| levelIndex < 0 || attributeDataTypes[levelIndex] == null )
-		{
+	@Override
+	public int getLevelAttributeDataType(int levelIndex, String attributeName) {
+		if (attributeDataTypes == null || levelIndex < 0 || attributeDataTypes[levelIndex] == null) {
 			return DataType.UNKNOWN_TYPE;
 		}
-		return attributeDataTypes[levelIndex][getLevelAttributeIndex( levelIndex,
-				attributeName )];
+		return attributeDataTypes[levelIndex][getLevelAttributeIndex(levelIndex, attributeName)];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeIndex(int, java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getLevelAttributeIndex(int, java.lang.String)
 	 */
-	public int getLevelAttributeIndex( int levelIndex, String attributeName )
-	{
-		if ( attributeNames == null || levelIndex < 0 || attributeNames[levelIndex] == null )
-		{
+	@Override
+	public int getLevelAttributeIndex(int levelIndex, String attributeName) {
+		if (attributeNames == null || levelIndex < 0 || attributeNames[levelIndex] == null) {
 			return -1;
 		}
-		for ( int i = 0; i < attributeNames[levelIndex].length; i++ )
-		{
-			if ( attributeNames[levelIndex][i].equals( attributeName ) )
-			{
+		for (int i = 0; i < attributeNames[levelIndex].length; i++) {
+			if (attributeNames[levelIndex][i].equals(attributeName)) {
 				return i;
 			}
 		}
@@ -258,19 +253,18 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelAttributeIndex(java.lang.String, java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#
+	 * getLevelAttributeIndex(java.lang.String, java.lang.String)
 	 */
-	public int getLevelAttributeIndex( DimLevel level, String attributeName )
-	{
-		int levelIndex = getLevelIndex( level );
-		if ( attributeNames == null || attributeNames[levelIndex] == null )
-		{
+	@Override
+	public int getLevelAttributeIndex(DimLevel level, String attributeName) {
+		int levelIndex = getLevelIndex(level);
+		if (attributeNames == null || attributeNames[levelIndex] == null) {
 			return -1;
 		}
-		for ( int i = 0; i < attributeNames[levelIndex].length; i++ )
-		{
-			if ( attributeNames[levelIndex][i].equals( attributeName ) )
-			{
+		for (int i = 0; i < attributeNames[levelIndex].length; i++) {
+			if (attributeNames[levelIndex][i].equals(attributeName)) {
 				return i;
 			}
 		}
@@ -279,29 +273,32 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelCount()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelCount()
 	 */
-	public int getLevelCount( )
-	{
-		if ( keyNames == null )
+	@Override
+	public int getLevelCount() {
+		if (keyNames == null) {
 			return 0;
+		}
 		return keyNames.length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelIndex(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelIndex(java.
+	 * lang.String)
 	 */
-	public int getLevelIndex( DimLevel level )
-	{
-		if ( levels == null )
-		{
+	@Override
+	public int getLevelIndex(DimLevel level) {
+		if (levels == null) {
 			return -1;
 		}
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			if ( levels[i].equals( level ) )
-			{
+		for (int i = 0; i < levels.length; i++) {
+			if (levels[i].equals(level)) {
 				return i;
 			}
 		}
@@ -310,56 +307,63 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyColCount(int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyColCount
+	 * (int)
 	 */
-	public int getLevelKeyColCount( int levelIndex )
-	{
-		if ( keyNames == null || keyNames[levelIndex] == null )
+	@Override
+	public int getLevelKeyColCount(int levelIndex) {
+		if (keyNames == null || keyNames[levelIndex] == null) {
 			return 0;
+		}
 		return keyNames[levelIndex].length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType(java.lang.String, java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType
+	 * (java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyDataType( DimLevel level, String keyName )
-	{
-		if ( keyDataTypes == null )
-		{
+	@Override
+	public int getLevelKeyDataType(DimLevel level, String keyName) {
+		if (keyDataTypes == null) {
 			return DataType.UNKNOWN_TYPE;
 		}
-		return getLevelKeyDataType( getLevelIndex( level ), keyName );
+		return getLevelKeyDataType(getLevelIndex(level), keyName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType(int, java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyDataType
+	 * (int, java.lang.String)
 	 */
-	public int getLevelKeyDataType( int levelIndex, String keyName )
-	{
-		if ( keyDataTypes == null
-				|| levelIndex < 0 || keyDataTypes[levelIndex] == null )
-		{
+	@Override
+	public int getLevelKeyDataType(int levelIndex, String keyName) {
+		if (keyDataTypes == null || levelIndex < 0 || keyDataTypes[levelIndex] == null) {
 			return DataType.UNKNOWN_TYPE;
 		}
-		return keyDataTypes[levelIndex][getLevelKeyIndex( levelIndex, keyName )];
+		return keyDataTypes[levelIndex][getLevelKeyIndex(levelIndex, keyName)];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(int, java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(
+	 * int, java.lang.String)
 	 */
-	public int getLevelKeyIndex( int levelIndex, String keyName )
-	{
-		if ( keyNames == null || levelIndex < 0 || keyNames[levelIndex] == null )
-		{
+	@Override
+	public int getLevelKeyIndex(int levelIndex, String keyName) {
+		if (keyNames == null || levelIndex < 0 || keyNames[levelIndex] == null) {
 			return DataType.UNKNOWN_TYPE;
 		}
-		for ( int i = 0; i < keyNames[levelIndex].length; i++ )
-		{
-			if ( keyNames[levelIndex][i].equals( keyName ) )
-			{
+		for (int i = 0; i < keyNames[levelIndex].length; i++) {
+			if (keyNames[levelIndex][i].equals(keyName)) {
 				return i;
 			}
 		}
@@ -368,27 +372,30 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(java.lang.String, java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyIndex(
+	 * java.lang.String, java.lang.String)
 	 */
-	public int getLevelKeyIndex( DimLevel level, String keyName )
-	{
-		if ( keyNames == null )
-		{
+	@Override
+	public int getLevelKeyIndex(DimLevel level, String keyName) {
+		if (keyNames == null) {
 			return -1;
 		}
-		return getLevelKeyIndex( getLevelIndex( level ), keyName );
+		return getLevelKeyIndex(getLevelIndex(level), keyName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyValue(int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelKeyValue(
+	 * int)
 	 */
-	public Object[] getLevelKeyValue( int levelIndex )
-	{
-		if ( resultObject.getLevelMembers( ) == null
-				|| levelIndex < 0
-				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
-		{
+	@Override
+	public Object[] getLevelKeyValue(int levelIndex) {
+		if (resultObject.getLevelMembers() == null || levelIndex < 0
+				|| levelIndex > resultObject.getLevelMembers().length - 1) {
 			return null;
 		}
 		return resultObject.getLevelMembers()[levelIndex].getKeyValues();
@@ -396,163 +403,162 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getSortType(int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getSortType(int)
 	 */
-	public int getSortType( int levelIndex )
-	{
-		if ( sortType == null || sortType.length < levelIndex )
-		{
+	@Override
+	public int getSortType(int levelIndex) {
+		if (sortType == null || sortType.length < levelIndex) {
 			return -100;
 		}
 		return sortType[levelIndex];
 	}
 
-	public int length( )
-	{
+	@Override
+	public int length() {
 		return length;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#seek(int)
 	 */
-	public void seek( int index ) throws IOException
-	{
-		if ( index >= length )
-		{
-			throw new IndexOutOfBoundsException( "Index: "
-					+ index + ", Size: " + length );
+	@Override
+	public void seek(int index) throws IOException {
+		if (index >= length) {
+			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
 		}
-		
+
 		currentPosition = index;
-		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
+		resultObject = (AggregationResultRow) aggregationResultRow.get(index);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getPosition()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getPosition(
+	 * )
 	 */
-	public int getPosition( )
-	{
+	@Override
+	public int getPosition() {
 		return currentPosition;
 	}
 
-	public String[][] getAttributeNames( )
-	{
+	@Override
+	public String[][] getAttributeNames() {
 		return this.attributeNames;
 	}
 
-	public IAggregationResultRow getCurrentRow( ) throws IOException
-	{
+	@Override
+	public IAggregationResultRow getCurrentRow() throws IOException {
 		return this.resultObject;
 	}
 
-	public String[][] getKeyNames( )
-	{
+	@Override
+	public String[][] getKeyNames() {
 		return this.keyNames;
 	}
 
-	public String getLevelKeyName( int levelIndex, int keyIndex )
-	{
+	@Override
+	public String getLevelKeyName(int levelIndex, int keyIndex) {
 		return this.keyNames[levelIndex][keyIndex];
 	}
 
-	public DimLevel getLevel( int levelIndex )
-	{
+	@Override
+	public DimLevel getLevel(int levelIndex) {
 		return this.levels[levelIndex];
 	}
 
-	public AggregationDefinition getAggregationDefinition( )
-	{
+	@Override
+	public AggregationDefinition getAggregationDefinition() {
 		return ad;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#close()
 	 */
-	public void close( ) throws IOException
-	{
-		aggregationResultRow.close( );
+	@Override
+	public void close() throws IOException {
+		aggregationResultRow.close();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#clear()
 	 */
-	public void clear( ) throws IOException
-	{
-		aggregationResultRow.clear( );
+	@Override
+	public void clear() throws IOException {
+		aggregationResultRow.clear();
 		length = 0;
 	}
 
-	public int getAggregationCount( )
-	{
-		return aggregationResultNameMap.size( ); 
+	@Override
+	public int getAggregationCount() {
+		return aggregationResultNameMap.size();
 	}
 
-	public String getAggregationName( int index )
-	{
-		if (this.aggregationNames != null)
-		{
+	@Override
+	public String getAggregationName(int index) {
+		if (this.aggregationNames != null) {
 			return aggregationNames[index];
 		}
 		return null;
 	}
 
-	public int[] getAggregationDataType( )
-	{
+	@Override
+	public int[] getAggregationDataType() {
 		return this.aggregationDataType;
 	}
 
-	public int[][] getLevelAttributeDataType( )
-	{
+	@Override
+	public int[][] getLevelAttributeDataType() {
 		return this.attributeDataTypes;
 	}
 
-	public String[][] getLevelAttributes( )
-	{
+	@Override
+	public String[][] getLevelAttributes() {
 		return this.attributeNames;
 	}
 
-	public int[][] getLevelKeyDataType( )
-	{
+	@Override
+	public int[][] getLevelKeyDataType() {
 		return keyDataTypes;
 	}
 
-	public String[][] getLevelKeys( )
-	{
+	@Override
+	public String[][] getLevelKeys() {
 		return keyNames;
 	}
 
-	public int[] getSortType( )
-	{
+	@Override
+	public int[] getSortType() {
 		return this.sortType;
 	}
 
-	public Object[] getLevelAttributesValue( int levelIndex )
-	{
-		if ( resultObject.getLevelMembers( ) == null
-				|| levelIndex < 0
-				|| resultObject.getLevelMembers( )[levelIndex].getAttributes( ) == null )
-		{
+	@Override
+	public Object[] getLevelAttributesValue(int levelIndex) {
+		if (resultObject.getLevelMembers() == null || levelIndex < 0
+				|| resultObject.getLevelMembers()[levelIndex].getAttributes() == null) {
 			return null;
 		}
-		return resultObject.getLevelMembers( )[levelIndex].getAttributes( );
+		return resultObject.getLevelMembers()[levelIndex].getAttributes();
 	}
-	
-	public void setAggregationDefinition( AggregationDefinition ad )
-	{
+
+	public void setAggregationDefinition(AggregationDefinition ad) {
 		this.ad = ad;
 	}
-	
-	public IDiskArray getAggregationResultRows( )
-	{
+
+	public IDiskArray getAggregationResultRows() {
 		return this.aggregationResultRow;
 	}
-	
-	public void setAggregationResultRows( IDiskArray rows)
-	{
+
+	public void setAggregationResultRows(IDiskArray rows) {
 		this.aggregationResultRow = rows;
 	}
 }

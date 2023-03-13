@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
-     <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/aggregation.exsd"/>
+     <extension-point id="aggregation" name="%extension-point.name" schema="schema/aggregation.exsd"/>
      
      <extension
          id="DataEngineFactory"
-         name="DataEngineFactory"
+         name="%extension.name"
          point="org.eclipse.birt.core.FactoryService">
    		<factory class="org.eclipse.birt.data.engine.impl.DataEngineFactory"/>
 	 </extension>
 	 
 	 <extension
          id="TimeFunctionCreatorFactory"
-         name="TimeFunctionCreatorFactory"
+         name="%extension.name.0"
          point="org.eclipse.birt.core.FactoryService">
    		<factory class="org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionCreatorFactory"/>
 	 </extension>

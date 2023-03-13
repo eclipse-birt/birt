@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +18,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for CrosstabReportItemHandle.
  */
 
-public interface ICrosstabReportItemConstants
-{
+public interface ICrosstabReportItemConstants {
 
 	/**
 	 * Name of the property which given the caption output.
@@ -34,8 +36,8 @@ public interface ICrosstabReportItemConstants
 	String SUMMARY_PROP = "summary"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates whether the measure is horizontal
-	 * level or vertical level.
+	 * Name of the property that indicates whether the measure is horizontal level
+	 * or vertical level.
 	 */
 	String MEASURE_DIRECTION_PROP = "measureDirection"; //$NON-NLS-1$
 
@@ -45,8 +47,7 @@ public interface ICrosstabReportItemConstants
 	String PAGE_LAYOUT_PROP = "pageLayout"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that specifies if repeat the row header for each
-	 * page.
+	 * Name of the property that specifies if repeat the row header for each page.
 	 */
 	String REPEAT_ROW_HEADER_PROP = "repeatRowHeader"; //$NON-NLS-1$
 
@@ -62,8 +63,8 @@ public interface ICrosstabReportItemConstants
 	String HIDE_MEASURE_HEADER_PROP = "hideMeasureHeader"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that gives the value shown when the cell is empty in
-	 * the crosstab.
+	 * Name of the property that gives the value shown when the cell is empty in the
+	 * crosstab.
 	 */
 	String EMPTY_CELL_VALUE_PROP = "emptyCellValue"; //$NON-NLS-1$
 
@@ -84,7 +85,7 @@ public interface ICrosstabReportItemConstants
 
 	/**
 	 * Name of the property that contains the crosstab header cell.
-	 * 
+	 *
 	 * @since 2.3
 	 */
 	String HEADER_PROP = "header"; //$NON-NLS-1$
@@ -107,7 +108,7 @@ public interface ICrosstabReportItemConstants
 	/**
 	 * Name of the onPageBreak method
 	 */
-	//String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
+	// String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that defines some filter conditions.

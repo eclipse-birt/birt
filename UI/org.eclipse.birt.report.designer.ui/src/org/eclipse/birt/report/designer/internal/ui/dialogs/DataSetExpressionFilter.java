@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,27 +22,25 @@ import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
  * invoking the expressiong builder.
  */
 
-public class DataSetExpressionFilter extends ExpressionFilter
-{
+public class DataSetExpressionFilter extends ExpressionFilter {
 
 	/**
 	 * Creates a new instance.
 	 */
-	public DataSetExpressionFilter( )
-	{
-		super( );
+	public DataSetExpressionFilter() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter#select(java.lang.Object,
-	 *      java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter#select(
+	 * java.lang.Object, java.lang.Object)
 	 */
-	public boolean select( Object parentElement, Object element )
-	{
-		if ( ExpressionProvider.PARAMETERS.equals( element ) )
-		{
+	@Override
+	public boolean select(Object parentElement, Object element) {
+		if (ExpressionProvider.PARAMETERS.equals(element)) {
 			return false;
 		}
 		return true;

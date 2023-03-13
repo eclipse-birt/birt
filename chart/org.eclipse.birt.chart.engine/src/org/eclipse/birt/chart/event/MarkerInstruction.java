@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,7 @@ import org.eclipse.birt.chart.render.DeferredCache;
  * This class wraps a rendering event for Marker
  */
 
-public class MarkerInstruction implements IRenderInstruction
-{
+public class MarkerInstruction implements IRenderInstruction {
 
 	private final DeferredCache dc;
 
@@ -35,9 +37,8 @@ public class MarkerInstruction implements IRenderInstruction
 
 	private final PrimitiveRenderEvent pre;
 
-	public MarkerInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
-			int iInstruction, double iMarkerSize, int zOrder )
-	{
+	public MarkerInstruction(DeferredCache dc, PrimitiveRenderEvent pre, int iInstruction, double iMarkerSize,
+			int zOrder) {
 		this.dc = dc;
 		this.pre = pre;
 		this.iInstruction = iInstruction;
@@ -45,111 +46,97 @@ public class MarkerInstruction implements IRenderInstruction
 		this.zOrder = zOrder;
 	}
 
-	public int compareTo( Object o )
-	{
-		if ( o instanceof MarkerInstruction )
-		{
-			if (( (MarkerInstruction) o ).zOrder != zOrder)
-			{
-				return ( zOrder - ( (MarkerInstruction) o ).zOrder );
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof MarkerInstruction) {
+			if (((MarkerInstruction) o).zOrder != zOrder) {
+				return (zOrder - ((MarkerInstruction) o).zOrder);
 			}
 			// Descending order
-			return (int) ( ( (MarkerInstruction) o ).getMarkerSize( ) - iMarkerSize );
+			return (int) (((MarkerInstruction) o).getMarkerSize() - iMarkerSize);
 		}
 		Bounds bo = null;
 
-		if ( o instanceof PrimitiveRenderEvent )
-		{
-			try
-			{
-				bo = ( (PrimitiveRenderEvent) o ).getBounds( );
-			}
-			catch ( ChartException e )
-			{
+		if (o instanceof PrimitiveRenderEvent) {
+			try {
+				bo = ((PrimitiveRenderEvent) o).getBounds();
+			} catch (ChartException e) {
 				assert false;
 				return -1;
 			}
-		}
-		else if ( o instanceof WrappedInstruction )
-		{
-			bo = ( (WrappedInstruction) o ).getBounds( );
+		} else if (o instanceof WrappedInstruction) {
+			bo = ((WrappedInstruction) o).getBounds();
 		}
 
-		return ( dc != null && dc.isTransposed( ) )
-				? ( bo == null ?  1 : PrimitiveRenderEvent.compareTransposed( getBounds( ), bo ) )
-				: ( bo == null ? 1: PrimitiveRenderEvent.compareRegular( getBounds( ), bo ) );
+		return (dc != null && dc.isTransposed())
+				? (bo == null ? 1 : PrimitiveRenderEvent.compareTransposed(getBounds(), bo))
+				: (bo == null ? 1 : PrimitiveRenderEvent.compareRegular(getBounds(), bo));
 
 	}
 
 	/**
 	 * Returns the associated event.
-	 * 
+	 *
 	 * @return Render Event
 	 */
-	public final PrimitiveRenderEvent getEvent( )
-	{
+	@Override
+	public final PrimitiveRenderEvent getEvent() {
 		return pre;
 	}
 
 	/**
-	 * @return Returns the associated instruction. The value could be one of
-	 *         these:
+	 * @return Returns the associated instruction. The value could be one of these:
 	 *         <ul>
 	 *         <li>PrimitiveRenderEvent.DRAW
 	 *         <li>PrimitiveRenderEvent.FILL
 	 *         </ul>
 	 */
-	public final int getInstruction( )
-	{
+	@Override
+	public final int getInstruction() {
 		return iInstruction;
 	}
 
 	/**
 	 * Returns the size of marker
-	 * 
+	 *
 	 * @return marker size
 	 */
-	public final double getMarkerSize( )
-	{
+	public final double getMarkerSize() {
 		return iMarkerSize;
 	}
 
 	/**
-	 * @return Returns the minimum bounds required to contain the rendering area
-	 *         of associated rendering event.
+	 * @return Returns the minimum bounds required to contain the rendering area of
+	 *         associated rendering event.
 	 */
-	public final Bounds getBounds( )
-	{
-		try
-		{
-			return pre.getBounds( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
+	@Override
+	public final Bounds getBounds() {
+		try {
+			return pre.getBounds();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
-	public List getModel( )
-	{
+	public List getModel() {
 		return Collections.EMPTY_LIST;
 	}
 
-	public boolean isModel( )
-	{
+	@Override
+	public boolean isModel() {
 		// Always single event
 		return false;
 	}
-	
+
 	/**
 	 * Returns the zOrder of marker
-	 * 
+	 *
 	 * @return marker zOrder
 	 */
-	public final int getMarkerZOrder( )
-	{
+	public final int getMarkerZOrder() {
 		return zOrder;
 	}
 

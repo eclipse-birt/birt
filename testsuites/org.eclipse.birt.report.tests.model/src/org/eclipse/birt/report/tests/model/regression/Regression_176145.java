@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -15,24 +27,18 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_176145 extends BaseTestCase
-{
+public class Regression_176145 extends BaseTestCase {
 
-	public void test_Regression_176145( ) throws Exception
-	{
+	public void test_Regression_176145() throws Exception {
 
-		openDesign( "regression_176145.xml" );
+		openDesign("regression_176145.xml");
 
-		try
-		{
-			ScalarParameterHandle param = (ScalarParameterHandle) designHandle
-					.getParameters( ).get( 0 );
-			param.setControlType( "text-box" );
-			param.setControlType( "list-box" );
-		}
-		catch ( Exception e )
-		{
-			fail( );
+		try {
+			ScalarParameterHandle param = (ScalarParameterHandle) designHandle.getParameters().get(0);
+			param.setControlType("text-box");
+			param.setControlType("list-box");
+		} catch (Exception e) {
+			fail();
 		}
 
 	}

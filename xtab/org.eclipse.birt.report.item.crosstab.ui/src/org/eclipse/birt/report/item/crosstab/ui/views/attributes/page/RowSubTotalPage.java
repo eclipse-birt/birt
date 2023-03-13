@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,78 +29,69 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
-public class RowSubTotalPage extends LibraryAttributePage
-{
+public class RowSubTotalPage extends LibraryAttributePage {
 
 	private FormSection subTotalSection;
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		needCheckLibraryReadOnly( true );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		final SubTotalProvider subTotalProvider = new SubTotalProvider( );
-		subTotalProvider.setAxis( ICrosstabConstants.ROW_AXIS_TYPE );
-		subTotalSection = new FormSection( subTotalProvider.getDisplayName( ),
-				container,
-				true );
-		subTotalSection.setProvider( subTotalProvider );
-		subTotalSection.setButtonWithDialog( true );
-		subTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
-		subTotalSection.setFillForm( true );
-		subTotalSection.setHeight( 170 );
-		addSection( CrosstabPageSectionId.ROW_SUB_TOTALS, subTotalSection );
-		createSections( );
-		layoutSections( );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		needCheckLibraryReadOnly(true);
+		container.setLayout(WidgetUtil.createGridLayout(1));
+		final SubTotalProvider subTotalProvider = new SubTotalProvider();
+		subTotalProvider.setAxis(ICrosstabConstants.ROW_AXIS_TYPE);
+		subTotalSection = new FormSection(subTotalProvider.getDisplayName(), container, true);
+		subTotalSection.setProvider(subTotalProvider);
+		subTotalSection.setButtonWithDialog(true);
+		subTotalSection.setStyle(FormPropertyDescriptor.NO_UP_DOWN);
+		subTotalSection.setFillForm(true);
+		subTotalSection.setHeight(170);
+		addSection(CrosstabPageSectionId.ROW_SUB_TOTALS, subTotalSection);
+		createSections();
+		layoutSections();
 	}
 
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( checkControl( subTotalSection ) )
-			subTotalSection.getFormControl( ).addElementEvent( focus, ev );
+	@Override
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
+		if (checkControl(subTotalSection)) {
+			subTotalSection.getFormControl().addElementEvent(focus, ev);
+		}
 	}
 
-	public void clear( )
-	{
-		if ( checkControl( subTotalSection ) )
-			subTotalSection.getFormControl( ).clear( );
+	@Override
+	public void clear() {
+		if (checkControl(subTotalSection)) {
+			subTotalSection.getFormControl().clear();
+		}
 	}
 
-	public void postElementEvent( )
-	{
+	@Override
+	public void postElementEvent() {
 
-		if ( checkControl( subTotalSection ) )
-			subTotalSection.getFormControl( ).postElementEvent( );
+		if (checkControl(subTotalSection)) {
+			subTotalSection.getFormControl().postElementEvent();
+		}
 
 	}
-	
-	private boolean checkControl( FormSection form )
-	{
-		return form != null
-				&& form.getFormControl( ) != null
-				&& !form.getFormControl( ).getControl( ).isDisposed( );
+
+	private boolean checkControl(FormSection form) {
+		return form != null && form.getFormControl() != null && !form.getFormControl().getControl().isDisposed();
 	}
 
-	protected boolean isLibraryReadOnly( )
-	{
+	@Override
+	protected boolean isLibraryReadOnly() {
 		GroupElementHandle elementHandle = null;
-		if ( input instanceof GroupElementHandle )
-		{
-			elementHandle = ( (GroupElementHandle) input );
+		if (input instanceof GroupElementHandle) {
+			elementHandle = ((GroupElementHandle) input);
 
+		} else if (input instanceof List) {
+			elementHandle = DEUtil.getGroupElementHandle((List) input);
 		}
-		else if ( input instanceof List )
-		{
-			elementHandle = DEUtil.getGroupElementHandle( (List) input );
-		}
-		if ( elementHandle != null )
-		{
-			if ( DEUtil.getMultiSelectionHandle( DEUtil.getInputElements( elementHandle ) )
-					.isExtendedElements( ) )
-			{
+		if (elementHandle != null) {
+			if (DEUtil.getMultiSelectionHandle(DEUtil.getInputElements(elementHandle)).isExtendedElements()) {
 				return true;
 			}
 		}

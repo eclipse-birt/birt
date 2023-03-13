@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,11 +16,10 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 
 /**
  * Constant definitions for field assist preferences
- * 
+ *
  * @since 2.5
  */
-public class PreferenceConstants
-{
+public class PreferenceConstants {
 
 	public static final String PREF_DECORATOR_VERTICALLOCATION = "prefDecoratorVerticalLocation"; //$NON-NLS-1$
 	public static final String PREF_DECORATOR_VERTICALLOCATION_TOP = "prefDecoratorVerticalTop"; //$NON-NLS-1$
@@ -47,6 +49,6 @@ public class PreferenceConstants
 	public static final String PREF_CONTENTASSISTFILTER_CUMULATIVE = "cumulative filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_CHAR = "character filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_NONE = "none"; //$NON-NLS-1$
-	
+
 	public static final String PREF_SHOWREQUIREDFIELDLABELINDICATOR = "prefShowRequiredFieldLabelIndicator"; //$NON-NLS-1$
 }

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -11,163 +23,154 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class CheckSection extends Section
-{
+public class CheckSection extends Section {
 
-	public CheckSection( Composite parent, boolean isFormStyle )
-	{
-		super( " ", parent, isFormStyle ); //$NON-NLS-1$
+	public CheckSection(Composite parent, boolean isFormStyle) {
+		super(" ", parent, isFormStyle); //$NON-NLS-1$
 	}
 
-	public CheckSection( Composite parent, String title, boolean isFormStyle )
-	{
-		super( title, parent, isFormStyle );
+	public CheckSection(Composite parent, String title, boolean isFormStyle) {
+		super(title, parent, isFormStyle);
 	}
 
 	protected CheckPropertyDescriptor check;
 
 	private boolean showDisplayLabel;
 
-	public boolean isShowDisplayLabel( )
-	{
+	public boolean isShowDisplayLabel() {
 		return showDisplayLabel;
 	}
 
-	public void setShowDisplayLabel( boolean showDisplayLabel )
-	{
+	public void setShowDisplayLabel(boolean showDisplayLabel) {
 		this.showDisplayLabel = showDisplayLabel;
 	}
 
-	public void createSection( )
-	{
-		if ( !getLabelText( ).trim( ).equals( "" ) || showDisplayLabel ) //$NON-NLS-1$
-			getLabelControl( parent );
-		getCheckControl( parent );
-		getGridPlaceholder( parent );
+	@Override
+	public void createSection() {
+		if (!getLabelText().trim().equals("") || showDisplayLabel) { //$NON-NLS-1$
+			getLabelControl(parent);
+		}
+		getCheckControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	protected CheckPropertyDescriptor getCheckControl( Composite parent )
-	{
-		if ( check == null )
-		{
-			check = DescriptorToolkit.createCheckPropertyDescriptor( isFormStyle );
-			check.setDescriptorProvider( getProvider( ) );
-			check.createControl( parent );
-			check.getControl( ).setLayoutData( new GridData( ) );
-			check.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected CheckPropertyDescriptor getCheckControl(Composite parent) {
+		if (check == null) {
+			check = DescriptorToolkit.createCheckPropertyDescriptor(isFormStyle);
+			check.setDescriptorProvider(getProvider());
+			check.createControl(parent);
+			check.getControl().setLayoutData(new GridData());
+			check.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				@Override
+				public void widgetDisposed(DisposeEvent event) {
 					check = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( check.getControl( ), parent );
+			});
+		} else {
+			checkParent(check.getControl(), parent);
 		}
 		return check;
 	}
 
-	public CheckPropertyDescriptor getCheckControl( )
-	{
+	public CheckPropertyDescriptor getCheckControl() {
 		return check;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) check.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
-		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
-		if ( getLabelControl( ) != null )
+	@Override
+	public void layout() {
+		GridData gd = (GridData) check.getControl().getLayoutData();
+		if (getLayoutNum() > 0) {
+			gd.horizontalSpan = getLayoutNum() - placeholder;
+		} else {
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
+		if (getLabelControl() != null) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
+		}
 		gd.horizontalAlignment = GridData.FILL;
-		if ( width > -1 )
-		{
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else {
 			gd.grabExcessHorizontalSpace = fillCheck;
+		}
 
 	}
 
-	public void load( )
-	{
-		if ( check != null && !check.getControl( ).isDisposed( ) )
-			check.load( );
-	}
-
-	public void reset( )
-	{
-		if ( check != null && !check.getControl( ).isDisposed( ) )
-		{
-			check.reset( );
+	@Override
+	public void load() {
+		if (check != null && !check.getControl().isDisposed()) {
+			check.load();
 		}
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		check.setInput( input );
+	@Override
+	public void reset() {
+		if (check != null && !check.getControl().isDisposed()) {
+			check.reset();
+		}
+	}
+
+	@Override
+	public void setInput(Object input) {
+		assert (input != null);
+		check.setInput(input);
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	private boolean fillCheck = false;
 
-	public boolean isFillCheck( )
-	{
+	public boolean isFillCheck() {
 		return fillCheck;
 	}
 
-	public void setFillCheck( boolean fillCheck )
-	{
+	public void setFillCheck(boolean fillCheck) {
 		this.fillCheck = fillCheck;
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( check != null )
-			check.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	@Override
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null) {
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		}
+		if (check != null) {
+			check.setHidden(isHidden);
+		}
+		if (placeholderLabel != null) {
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( check != null )
-			check.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	@Override
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null) {
+			displayLabel.setVisible(isVisible);
+		}
+		if (check != null) {
+			check.setVisible(isVisible);
+		}
+		if (placeholderLabel != null) {
+			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
 	}
 

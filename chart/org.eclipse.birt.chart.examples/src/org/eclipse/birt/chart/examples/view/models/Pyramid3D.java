@@ -1,13 +1,13 @@
 /*******************************************************************************
 * Copyright (c) 2007 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.examples.view.models;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -43,116 +43,105 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 
 /**
- * 
+ *
  */
 
-public class Pyramid3D
-{
-	public static final Chart createPyramid3D( )
-	{
-		ChartWithAxes cwaPyramid = ChartWithAxesImpl.create( );
-		cwaPyramid.setDimension( ChartDimension.THREE_DIMENSIONAL_LITERAL );
-		cwaPyramid.setType( "Pyramid Chart" ); //$NON-NLS-1$
-		cwaPyramid.setSubType( "Side-by-side" ); //$NON-NLS-1$
+public class Pyramid3D {
+	public static final Chart createPyramid3D() {
+		ChartWithAxes cwaPyramid = ChartWithAxesImpl.create();
+		cwaPyramid.setDimension(ChartDimension.THREE_DIMENSIONAL_LITERAL);
+		cwaPyramid.setType("Pyramid Chart"); //$NON-NLS-1$
+		cwaPyramid.setSubType("Side-by-side"); //$NON-NLS-1$
 
 		// Plot
-		cwaPyramid.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaPyramid.getBlock( ).getOutline( ).setVisible( true );
+		cwaPyramid.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaPyramid.getBlock().getOutline().setVisible(true);
 
 		// Title
-		cwaPyramid.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "3D Pyramid Chart" );//$NON-NLS-1$
+		cwaPyramid.getTitle().getLabel().getCaption().setValue("3D Pyramid Chart");//$NON-NLS-1$
 
 		// Legend
-		cwaPyramid.getLegend( ).setItemType( LegendItemType.CATEGORIES_LITERAL );
+		cwaPyramid.getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaPyramid.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		Axis xAxisPrimary = cwaPyramid.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaPyramid.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaPyramid.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Z-Axis
-		Axis zAxis = AxisImpl.create( Axis.ANCILLARY_BASE );
-		zAxis.setType( AxisType.TEXT_LITERAL );
-		zAxis.setLabelPosition( Position.BELOW_LITERAL );
-		zAxis.setTitlePosition( Position.BELOW_LITERAL );
-		zAxis.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		zAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxisPrimary.getAncillaryAxes( ).add( zAxis );
+		Axis zAxis = AxisImpl.create(Axis.ANCILLARY_BASE);
+		zAxis.setType(AxisType.TEXT_LITERAL);
+		zAxis.setLabelPosition(Position.BELOW_LITERAL);
+		zAxis.setTitlePosition(Position.BELOW_LITERAL);
+		zAxis.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		zAxis.setOrientation(Orientation.HORIZONTAL_LITERAL);
+		xAxisPrimary.getAncillaryAxes().add(zAxis);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		NumberDataSet orthoValues1 = NumberDataSetImpl.create( new double[]{
-				25, 35, 10, 25, 20
-		} );
-		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
-				5, 15, 5, 10, 5
-		} );
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create(new double[] { 25, 35, 10, 25, 20 });
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create(new double[] { 5, 15, 5, 10, 5 });
 
-		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sd.getBaseSampleData( ).add( sdBase );
+		SampleData sd = DataFactory.eINSTANCE.createSampleData();
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sdBase.setDataSetRepresentation("");//$NON-NLS-1$
+		sd.getBaseSampleData().add(sdBase);
 
-		OrthogonalSampleData sdOrthogonal1 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sdOrthogonal1.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdOrthogonal1.setSeriesDefinitionIndex( 0 );
-		sd.getOrthogonalSampleData( ).add( sdOrthogonal1 );
+		OrthogonalSampleData sdOrthogonal1 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sdOrthogonal1.setDataSetRepresentation("");//$NON-NLS-1$
+		sdOrthogonal1.setSeriesDefinitionIndex(0);
+		sd.getOrthogonalSampleData().add(sdOrthogonal1);
 
-		OrthogonalSampleData sdOrthogonal2 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sdOrthogonal2.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdOrthogonal2.setSeriesDefinitionIndex( 1 );
-		sd.getOrthogonalSampleData( ).add( sdOrthogonal2 );
+		OrthogonalSampleData sdOrthogonal2 = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sdOrthogonal2.setDataSetRepresentation("");//$NON-NLS-1$
+		sdOrthogonal2.setSeriesDefinitionIndex(1);
+		sd.getOrthogonalSampleData().add(sdOrthogonal2);
 
-		cwaPyramid.setSampleData( sd );
+		cwaPyramid.setSampleData(sd);
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series (1)
-		BarSeries bs1 = (BarSeries) BarSeriesImpl.create( );
-		bs1.setRiser( RiserType.TRIANGLE_LITERAL );
-		bs1.setDataSet( orthoValues1 );
-		bs1.getLabel( ).setVisible( true );
-		bs1.setLabelPosition( Position.OUTSIDE_LITERAL );
+		BarSeries bs1 = (BarSeries) BarSeriesImpl.create();
+		bs1.setRiser(RiserType.TRIANGLE_LITERAL);
+		bs1.setDataSet(orthoValues1);
+		bs1.getLabel().setVisible(true);
+		bs1.setLabelPosition(Position.OUTSIDE_LITERAL);
 
 		// Y-Series (2)
-		BarSeries bs2 = (BarSeries) BarSeriesImpl.create( );
-		bs2.setRiser( RiserType.TRIANGLE_LITERAL );
-		bs2.setDataSet( orthoValues2 );
-		bs2.getLabel( ).setVisible( true );
-		bs2.setLabelPosition( Position.OUTSIDE_LITERAL );
+		BarSeries bs2 = (BarSeries) BarSeriesImpl.create();
+		bs2.setRiser(RiserType.TRIANGLE_LITERAL);
+		bs2.setDataSet(orthoValues2);
+		bs2.getLabel().setVisible(true);
+		bs2.setLabelPosition(Position.OUTSIDE_LITERAL);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( -1 );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs1 );
-		sdY.getSeries( ).add( bs2 );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().shift(-1);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs1);
+		sdY.getSeries().add(bs2);
 
 		// Z-Series
-		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-		zAxis.getSeriesDefinitions( ).add( sdZ );
+		SeriesDefinition sdZ = SeriesDefinitionImpl.create();
+		zAxis.getSeriesDefinitions().add(sdZ);
 
 		// Rotate the chart
-		cwaPyramid.setRotation( Rotation3DImpl.create( new Angle3D[]{
-			Angle3DImpl.create( -10, 25, 0 )
-		} ) );
+		cwaPyramid.setRotation(Rotation3DImpl.create(new Angle3D[] { Angle3DImpl.create(-10, 25, 0) }));
 
 		return cwaPyramid;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,8 +40,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
-public class ProjectSelectionDialog extends SelectionStatusDialog
-{
+public class ProjectSelectionDialog extends SelectionStatusDialog {
 
 	// the visual selection widget group
 	private TableViewer fTableViewer;
@@ -52,23 +54,21 @@ public class ProjectSelectionDialog extends SelectionStatusDialog
 
 	private ViewerFilter fFilter;
 
-	public ProjectSelectionDialog( Shell parentShell, Set projectsWithSpecifics )
-	{
-		super( parentShell );
-		setHelpAvailable( false );
-		setTitle( Messages.getString("ProjectSelectionDialog.Title") ); //$NON-NLS-1$
-		setMessage( Messages.getString("ProjectSelectionDialog.Message") ); //$NON-NLS-1$
+	public ProjectSelectionDialog(Shell parentShell, Set projectsWithSpecifics) {
+		super(parentShell);
+		setHelpAvailable(false);
+		setTitle(Messages.getString("ProjectSelectionDialog.Title")); //$NON-NLS-1$
+		setMessage(Messages.getString("ProjectSelectionDialog.Message")); //$NON-NLS-1$
 		fProjectsWithSpecifics = projectsWithSpecifics;
 
-		int shellStyle = getShellStyle( );
-		setShellStyle( shellStyle | SWT.MAX | SWT.RESIZE );
+		int shellStyle = getShellStyle();
+		setShellStyle(shellStyle | SWT.MAX | SWT.RESIZE);
 
-		fFilter = new ViewerFilter( ) {
+		fFilter = new ViewerFilter() {
 
-			public boolean select( Viewer viewer, Object parentElement,
-					Object element )
-			{
-				return fProjectsWithSpecifics.contains( element );
+			@Override
+			public boolean select(Viewer viewer, Object parentElement, Object element) {
+				return fProjectsWithSpecifics.contains(element);
 			}
 		};
 
@@ -77,111 +77,94 @@ public class ProjectSelectionDialog extends SelectionStatusDialog
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
+	@Override
+	protected Control createDialogArea(Composite parent) {
 		// page group
-		Composite composite = (Composite) super.createDialogArea( parent );
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		Font font = parent.getFont( );
-		composite.setFont( font );
+		Font font = parent.getFont();
+		composite.setFont(font);
 
-		createMessageArea( composite );
+		createMessageArea(composite);
 
-		fTableViewer = new TableViewer( composite, SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.BORDER );
-		fTableViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		fTableViewer = new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				doSelectionChanged( ( (IStructuredSelection) event.getSelection( ) ).toArray( ) );
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				doSelectionChanged(((IStructuredSelection) event.getSelection()).toArray());
 			}
-		} );
-		fTableViewer.addDoubleClickListener( new IDoubleClickListener( ) {
+		});
+		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			public void doubleClick( DoubleClickEvent event )
-			{
-				okPressed( );
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				okPressed();
 			}
-		} );
-		GridData data = new GridData( SWT.FILL, SWT.FILL, true, true );
+		});
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.heightHint = SIZING_SELECTION_WIDGET_HEIGHT;
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
-		fTableViewer.getTable( ).setLayoutData( data );
+		fTableViewer.getTable().setLayoutData(data);
 
-		ReportProjectsProvider provider = new ReportProjectsProvider( );
-		fTableViewer.setLabelProvider( provider );
-		fTableViewer.setContentProvider( provider );
-		fTableViewer.getControl( ).setFont( font );
+		ReportProjectsProvider provider = new ReportProjectsProvider();
+		fTableViewer.setLabelProvider(provider);
+		fTableViewer.setContentProvider(provider);
+		fTableViewer.getControl().setFont(font);
 
-		Button checkbox = new Button( composite, SWT.CHECK );
-		checkbox.setText( Messages.getString("ProjectSelectionDialog.Text.SpecialSettings") ); //$NON-NLS-1$
-		checkbox.setLayoutData( new GridData( SWT.BEGINNING,
-				SWT.CENTER,
-				true,
-				false ) );
-		checkbox.addSelectionListener( new SelectionListener( ) {
+		Button checkbox = new Button(composite, SWT.CHECK);
+		checkbox.setText(Messages.getString("ProjectSelectionDialog.Text.SpecialSettings")); //$NON-NLS-1$
+		checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
+		checkbox.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				updateFilter( ( (Button) e.widget ).getSelection( ) );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateFilter(((Button) e.widget).getSelection());
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				updateFilter( ( (Button) e.widget ).getSelection( ) );
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				updateFilter(((Button) e.widget).getSelection());
 			}
-		} );
-		IDialogSettings dialogSettings = ReportPlugin.getDefault( )
-				.getDialogSettings( );
-		boolean doFilter = !dialogSettings.getBoolean( DIALOG_SETTINGS_SHOW_ALL )
-				&& !fProjectsWithSpecifics.isEmpty( );
-		checkbox.setSelection( doFilter );
-		updateFilter( doFilter );
+		});
+		IDialogSettings dialogSettings = ReportPlugin.getDefault().getDialogSettings();
+		boolean doFilter = !dialogSettings.getBoolean(DIALOG_SETTINGS_SHOW_ALL) && !fProjectsWithSpecifics.isEmpty();
+		checkbox.setSelection(doFilter);
+		updateFilter(doFilter);
 		// IJavaModel input=
 		// JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
-		fTableViewer.setInput( ReportPlugin.getWorkspace( ).getRoot( ) );
+		fTableViewer.setInput(ReportPlugin.getWorkspace().getRoot());
 
-		doSelectionChanged( new Object[0] );
-		Dialog.applyDialogFont( composite );
+		doSelectionChanged(new Object[0]);
+		Dialog.applyDialogFont(composite);
 		return composite;
 	}
 
-	protected void updateFilter( boolean selected )
-	{
-		if ( selected )
-		{
-			fTableViewer.addFilter( fFilter );
+	protected void updateFilter(boolean selected) {
+		if (selected) {
+			fTableViewer.addFilter(fFilter);
+		} else {
+			fTableViewer.removeFilter(fFilter);
 		}
-		else
-		{
-			fTableViewer.removeFilter( fFilter );
-		}
-		ReportPlugin.getDefault( )
-				.getDialogSettings( )
-				.put( DIALOG_SETTINGS_SHOW_ALL, !selected );
+		ReportPlugin.getDefault().getDialogSettings().put(DIALOG_SETTINGS_SHOW_ALL, !selected);
 	}
 
-	private void doSelectionChanged( Object[] objects )
-	{
-		if ( objects.length != 1 )
-		{
-			updateStatus( new StatusInfo( IStatus.ERROR, "" ) ); //$NON-NLS-1$
-			setSelectionResult( null );
-		}
-		else
-		{
-			updateStatus( new StatusInfo( ) );
-			setSelectionResult( objects );
+	private void doSelectionChanged(Object[] objects) {
+		if (objects.length != 1) {
+			updateStatus(new StatusInfo(IStatus.ERROR, "")); //$NON-NLS-1$
+			setSelectionResult(null);
+		} else {
+			updateStatus(new StatusInfo());
+			setSelectionResult(objects);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
-	protected void computeResult( )
-	{
+	@Override
+	protected void computeResult() {
 	}
 }

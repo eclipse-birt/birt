@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,16 +64,14 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Expression value cell editor
- * 
+ *
  * @version $Revision: 1.24 $ $Date: 2010/08/02 09:22:22 $
  */
-public class ExpressionValueCellEditor extends CellEditor
-{
+public class ExpressionValueCellEditor extends CellEditor {
 
-	protected static final Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(ExpressionValueCellEditor.class.getName());
 
-	private static String[] actions = new String[]{
-		Messages.getString( "ExpressionValueCellEditor.selectValueAction" ) //$NON-NLS-1$
+	private static String[] actions = { Messages.getString("ExpressionValueCellEditor.selectValueAction") //$NON-NLS-1$
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -81,150 +82,129 @@ public class ExpressionValueCellEditor extends CellEditor
 	private transient String[] popupItems = null;
 	private transient boolean refreshItems = true;
 	private List referencedLevelList;
-	private static String[] EMPTY_ARRAY = new String[]{};
+	private static String[] EMPTY_ARRAY = {};
 
-	public void setMemberValue( MemberValueHandle memberValue )
-	{
+	public void setMemberValue(MemberValueHandle memberValue) {
 		this.memberValue = memberValue;
 	}
 
-	private class ExpressionCellLayout extends Layout
-	{
+	private class ExpressionCellLayout extends Layout {
 
-		public void layout( Composite editor, boolean force )
-		{
-			Rectangle bounds = editor.getClientArea( );
-			Point size = btnPopup.computeSize( SWT.DEFAULT, SWT.DEFAULT, force );
-			expressionText.setBounds( 0,
-					0,
-					bounds.width - size.x,
-					bounds.height );
-			btnPopup.setBounds( bounds.width - size.x, 0, size.x, bounds.height );
+		@Override
+		public void layout(Composite editor, boolean force) {
+			Rectangle bounds = editor.getClientArea();
+			Point size = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			expressionText.setBounds(0, 0, bounds.width - size.x, bounds.height);
+			btnPopup.setBounds(bounds.width - size.x, 0, size.x, bounds.height);
 		}
 
-		public Point computeSize( Composite editor, int wHint, int hHint,
-				boolean force )
-		{
-			if ( wHint != SWT.DEFAULT && hHint != SWT.DEFAULT )
-				return new Point( wHint, hHint );
-			Point contentsSize = expressionText.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT,
-					force );
-			Point buttonSize = btnPopup.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT,
-					force );
+		@Override
+		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
+			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
+				return new Point(wHint, hHint);
+			}
+			Point contentsSize = expressionText.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point buttonSize = btnPopup.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 			// Just return the button width to ensure the button is not clipped
 			// if the label is long.
 			// The label will just use whatever extra width there is
-			Point result = new Point( buttonSize.x, Math.max( contentsSize.y,
-					buttonSize.y ) );
+			Point result = new Point(buttonSize.x, Math.max(contentsSize.y, buttonSize.y));
 			return result;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public ExpressionValueCellEditor( )
-	{
-		super( );
+	public ExpressionValueCellEditor() {
+		super();
 	}
 
 	/**
 	 * @param parent
 	 */
-	public ExpressionValueCellEditor( Composite parent )
-	{
-		super( parent );
+	public ExpressionValueCellEditor(Composite parent) {
+		super(parent);
 	}
 
-	public ExpressionValueCellEditor( Composite parent, boolean useDataSetFilter )
-	{
-		super( parent );
+	public ExpressionValueCellEditor(Composite parent, boolean useDataSetFilter) {
+		super(parent);
 	}
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public ExpressionValueCellEditor( Composite parent, int style )
-	{
-		super( parent, style );
+	public ExpressionValueCellEditor(Composite parent, int style) {
+		super(parent, style);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.CellEditor#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createControl( Composite parent )
-	{
-		Composite editorComposite = new Composite( parent, getStyle( ) );
-		editorComposite.setLayout( new ExpressionCellLayout( ) );
-		expressionText = new Text( editorComposite, SWT.NONE );
-		expressionText.addKeyListener( new KeyAdapter( ) {
+	@Override
+	protected Control createControl(Composite parent) {
+		Composite editorComposite = new Composite(parent, getStyle());
+		editorComposite.setLayout(new ExpressionCellLayout());
+		expressionText = new Text(editorComposite, SWT.NONE);
+		expressionText.addKeyListener(new KeyAdapter() {
 
-			public void keyReleased( KeyEvent e )
-			{
-				keyReleaseOccured( e );
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyReleaseOccured(e);
 			}
-		} );
-		expressionText.addSelectionListener( new SelectionAdapter( ) {
+		});
+		expressionText.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 				// fireApplyEditorValue();
 				// deactivate();
 			}
-		} );
-		expressionText.addTraverseListener( new TraverseListener( ) {
+		});
+		expressionText.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_ESCAPE
-						|| e.detail == SWT.TRAVERSE_RETURN )
-				{
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
 				}
 			}
-		} );
-		expressionText.addFocusListener( new FocusAdapter( ) {
+		});
+		expressionText.addFocusListener(new FocusAdapter() {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
+			 *
+			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
 			 * .events.FocusEvent)
 			 */
-			public void focusLost( FocusEvent e )
-			{
-				ExpressionValueCellEditor.this.focusLost( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				ExpressionValueCellEditor.this.focusLost();
 			}
 
-		} );
-		btnPopup = new Button( editorComposite, SWT.ARROW | SWT.DOWN );
-		btnPopup.addSelectionListener( new SelectionListener( ) {
+		});
+		btnPopup = new Button(editorComposite, SWT.ARROW | SWT.DOWN);
+		btnPopup.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				refreshList( );
-				Rectangle textBounds = expressionText.getBounds( );
-				Point pt = expressionText.toDisplay( textBounds.x, textBounds.y );
-				Rectangle rect = new Rectangle( pt.x,
-						pt.y,
-						expressionText.getParent( ).getBounds( ).width,
-						textBounds.height );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshList();
+				Rectangle textBounds = expressionText.getBounds();
+				Point pt = expressionText.toDisplay(textBounds.x, textBounds.y);
+				Rectangle rect = new Rectangle(pt.x, pt.y, expressionText.getParent().getBounds().width,
+						textBounds.height);
 
-				PopupSelectionList popup = new PopupSelectionList( expressionText.getParent( )
-						.getShell( ) );
-				popup.setItems( popupItems );
-				String value = popup.open( rect );
-				int selectionIndex = popup.getSelectionIndex( );
-				if ( value != null )
-				{
+				PopupSelectionList popup = new PopupSelectionList(expressionText.getParent().getShell());
+				popup.setItems(popupItems);
+				String value = popup.open(rect);
+				int selectionIndex = popup.getSelectionIndex();
+				if (value != null) {
 					String newValue = null;
 					// only the column reference can be retrieved from select
 					// value list. Use the regular filter get expression like
@@ -232,323 +212,260 @@ public class ExpressionValueCellEditor extends CellEditor
 					// that may be retreived the select values. If there is
 					// Exception throw when retrieving, the waring message will
 					// show.
-					if ( value.equals( ( actions[0] ) ) )
-					{
+					if (value.equals((actions[0]))) {
 						// This action will update later.
-						List valueList = getSelectMemberValueList( );
-						if ( valueList == null || valueList.size( ) == 0 )
-						{
-							MessageDialog.openInformation( null,
-									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
-						}
-						else
-						{
-							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-									.getDisplay( )
-									.getActiveShell( ),
-									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-							dialog.setSelectedValueList( valueList );
+						List valueList = getSelectMemberValueList();
+						if (valueList == null || valueList.size() == 0) {
+							MessageDialog.openInformation(null, Messages.getString("SelectValueDialog.selectValue"), //$NON-NLS-1$
+									Messages.getString("SelectValueDialog.messages.info.selectVauleUnavailable")); //$NON-NLS-1$
+						} else {
+							SelectValueDialog dialog = new SelectValueDialog(
+									PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+									Messages.getString("ExpressionValueCellEditor.title")); //$NON-NLS-1$
+							dialog.setSelectedValueList(valueList);
 
-							if ( dialog.open( ) == IDialogConstants.OK_ID )
-							{
-								newValue = DEUtil.removeQuote( dialog.getSelectedExprValue( ) );
+							if (dialog.open() == IDialogConstants.OK_ID) {
+								newValue = DEUtil.removeQuote(dialog.getSelectedExprValue());
 							}
 						}
-					}
-					else if ( selectionIndex > 3 )
-					{
+					} else if (selectionIndex > 3) {
 						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$
 						// //$NON-NLS-2$
-						newValue = ExpressionUtil.createJSParameterValueExpression( value );
+						newValue = ExpressionUtil.createJSParameterValueExpression(value);
 					}
-					if ( newValue != null )
-					{
-						setValue( newValue );
+					if (newValue != null) {
+						setValue(newValue);
 					}
-					expressionText.setFocus( );
+					expressionText.setFocus();
 				}
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-		} );
-		setValueValid( true );
+		});
+		setValueValid(true);
 
 		return editorComposite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#focusLost()
 	 */
-	protected void focusLost( )
-	{
-		if ( btnPopup != null
-				&& !btnPopup.isFocusControl( )
-				&& Display.getCurrent( ).getCursorControl( ) != btnPopup )
-		{
-			super.focusLost( );
+	@Override
+	protected void focusLost() {
+		if (btnPopup != null && !btnPopup.isFocusControl() && Display.getCurrent().getCursorControl() != btnPopup) {
+			super.focusLost();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	protected Object doGetValue( )
-	{
-		if ( expressionText != null )
-		{
-			return expressionText.getText( );
+	@Override
+	protected Object doGetValue() {
+		if (expressionText != null) {
+			return expressionText.getText();
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		if ( expressionText != null && expressionText.isVisible( ) )
-		{
-			expressionText.setFocus( );
+	@Override
+	protected void doSetFocus() {
+		if (expressionText != null && expressionText.isVisible()) {
+			expressionText.setFocus();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetValue(java.lang.Object)
 	 */
-	protected void doSetValue( Object value )
-	{
-		if ( value != null && expressionText != null )
-		{
-			expressionText.setText( value.toString( ) );
+	@Override
+	protected void doSetValue(Object value) {
+		if (value != null && expressionText != null) {
+			expressionText.setText(value.toString());
 		}
 	}
 
 	/**
 	 * @return Returns the bindingParams.
 	 */
-	public ParamBindingHandle[] getBindingParams( )
-	{
+	public ParamBindingHandle[] getBindingParams() {
 		return bindingParams;
 	}
 
 	/**
-	 * @param bindingParams
-	 *            The bindingParams to set.
+	 * @param bindingParams The bindingParams to set.
 	 */
-	public void setBindingParams( ParamBindingHandle[] bindingParams )
-	{
+	public void setBindingParams(ParamBindingHandle[] bindingParams) {
 		this.bindingParams = bindingParams;
 	}
 
 	/**
-	 * @param bindingName
-	 *            The selectValueExpression to set.
+	 * @param bindingName The selectValueExpression to set.
 	 */
-	public void setBindingName( String bindingName )
-	{
+	public void setBindingName(String bindingName) {
 	}
 
-	public void setReportElement( ExtendedItemHandle reportItem )
-	{
+	public void setReportElement(ExtendedItemHandle reportItem) {
 		currentItem = reportItem;
 	}
 
-	private void refreshList( )
-	{
-		if ( refreshItems )
-		{
-			ArrayList finalItems = new ArrayList( 10 );
-			for ( int n = 0; n < actions.length; n++ )
-			{
-				finalItems.add( actions[n] );
+	private void refreshList() {
+		if (refreshItems) {
+			ArrayList finalItems = new ArrayList(10);
+			for (int n = 0; n < actions.length; n++) {
+				finalItems.add(actions[n]);
 			}
 
-			if ( currentItem != null )
-			{
+			if (currentItem != null) {
 				// addParamterItems( finalItems );
 			}
-			popupItems = (String[]) finalItems.toArray( EMPTY_ARRAY );
+			popupItems = (String[]) finalItems.toArray(EMPTY_ARRAY);
 		}
 		refreshItems = false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#activate()
 	 */
-	public void activate( )
-	{
+	@Override
+	public void activate() {
 		refreshItems = true;
-		super.activate( );
+		super.activate();
 	}
 
-	public void setExpressionProvider( IExpressionProvider provider )
-	{
+	public void setExpressionProvider(IExpressionProvider provider) {
 
 	}
 
-	public void setReferencedLevelList( List referencedLevelList )
-	{
+	public void setReferencedLevelList(List referencedLevelList) {
 		this.referencedLevelList = referencedLevelList;
 	}
 
-	private CubeHandle getCubeHandle( )
-	{
+	private CubeHandle getCubeHandle() {
 		CrosstabReportItemHandle crosstab = null;
-		if ( currentItem != null )
-		{
-			try
-			{
-				crosstab = (CrosstabReportItemHandle) currentItem.getReportItem( );
-				return crosstab.getCube( );
-			}
-			catch ( Exception e )
-			{
+		if (currentItem != null) {
+			try {
+				crosstab = (CrosstabReportItemHandle) currentItem.getReportItem();
+				return crosstab.getCube();
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return null;
 	}
 
-	private List getExistValueList( )
-	{
-		List valueList = new ArrayList( );
+	private List getExistValueList() {
+		List valueList = new ArrayList();
 		MemberValueHandle tmpMemberValue = memberValue;
-		while ( true )
-		{
-			Object container = tmpMemberValue.getContainer( );
-			if ( container == null
-					|| ( !( container instanceof MemberValueHandle ) ) )
-			{
+		while (true) {
+			Object container = tmpMemberValue.getContainer();
+			if (container == null || (!(container instanceof MemberValueHandle))) {
 				break;
 			}
 			tmpMemberValue = (MemberValueHandle) container;
-			valueList.add( 0, tmpMemberValue );
+			valueList.add(0, tmpMemberValue);
 		}
 
 		return valueList;
 	}
 
-	private List getSelectMemberValueList( )
-	{
+	private List getSelectMemberValueList() {
 		// get CubeHandle
-		CubeHandle cube = getCubeHandle( );
+		CubeHandle cube = getCubeHandle();
 
 		// getValueList
-		List valueList = new ArrayList( );
-		List extValueList = getExistValueList( );
-		for ( int i = 0; i < extValueList.size( ); i++ )
-		{
-			MemberValueHandle tmpMemberValue = (MemberValueHandle) extValueList.get( i );
-			String value = tmpMemberValue.getValue( );
-			if ( value == null || value.length( ) == 0 )
-			{
+		List valueList = new ArrayList();
+		List extValueList = getExistValueList();
+		for (int i = 0; i < extValueList.size(); i++) {
+			MemberValueHandle tmpMemberValue = (MemberValueHandle) extValueList.get(i);
+			String value = tmpMemberValue.getValue();
+			if (value == null || value.length() == 0) {
 				// assert all the parent have values.
-				return new ArrayList( );
+				return new ArrayList();
 			}
 
-			valueList.add( value );
+			valueList.add(value);
 		}
-		Object[] values = valueList.toArray( new Object[valueList.size( )] );
-		if ( values.length == 0 )
-		{
+		Object[] values = valueList.toArray(new Object[valueList.size()]);
+		if (values.length == 0) {
 			values = null;
 		}
 
 		// get List of ILevelDefinition
 		DimensionLevel levelDens[] = null;
-		if ( values != null )
-		{
+		if (values != null) {
 			levelDens = new DimensionLevel[values.length];
-			for ( int i = 0; i < values.length; i++ )
-			{
-				Object obj = referencedLevelList.get( i );
-				if ( obj == null || ( !( obj instanceof DimensionLevel ) ) )
-				{
-					return new ArrayList( );
+			for (int i = 0; i < values.length; i++) {
+				Object obj = referencedLevelList.get(i);
+				if (obj == null || (!(obj instanceof DimensionLevel))) {
+					return new ArrayList();
 				}
 				levelDens[i] = (DimensionLevel) obj;
 			}
-		}
-		else
-		{
+		} else {
 			levelDens = null;
 		}
 
 		// get Level;
-		String targetLevel = null;
+		String targetLevel;
 		int index = 0;
-		if ( values != null
-				&& values.length > 0
-				&& values.length + 1 <= referencedLevelList.size( ) )
-		{
+		if (values != null && values.length > 0 && values.length + 1 <= referencedLevelList.size()) {
 			index = values.length;
 		}
 
-		DimensionLevel levelDefn = (DimensionLevel) referencedLevelList.get( index );
+		DimensionLevel levelDefn = (DimensionLevel) referencedLevelList.get(index);
 
-		String levelName = levelDefn.getLevelName( );
-		String dimensionName = levelDefn.getDimensionName( );
-		targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionName,
-				levelName );
+		String levelName = levelDefn.getLevelName();
+		String dimensionName = levelDefn.getDimensionName();
+		targetLevel = ExpressionUtil.createJSDimensionExpression(dimensionName, levelName);
 
 		// validate value
-		if ( cube == null
-				|| ( targetLevel == null || targetLevel.length( ) == 0 ) )
-		{
-			return new ArrayList( );
+		if (cube == null || (targetLevel == null || targetLevel.length() == 0)) {
+			return new ArrayList();
 		}
 
 		// get value iterator
 		Iterator iter = null;
 		DataRequestSession session = null;
-		try
-		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			DataService.getInstance( ).registerSession( cube, session );
-			iter = CubeValueSelector.getMemberValueIterator( session,
-					cube,
-					targetLevel,
-					levelDens,
-					values );
-		}
-		catch ( Exception e )
-		{
+		try {
+			session = DataRequestSession
+					.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
+			DataService.getInstance().registerSession(cube, session);
+			iter = CubeValueSelector.getMemberValueIterator(session, cube, targetLevel, levelDens, values);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		// iterator to list
-		List retList = new ArrayList( );
+		List retList = new ArrayList();
 		int count = 0;
-		int MAX_COUNT = PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ),
-						UIUtil.getCurrentProject( ) )
-				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
-		while ( iter != null && iter.hasNext( ) )
-		{
-			Object obj = iter.next( );
-			if ( obj != null )
-			{
-				if ( retList.indexOf( obj ) < 0 )
-				{
-					retList.add( obj );
-					if ( ++count >= MAX_COUNT )
-					{
+		int MAX_COUNT = PreferenceFactory.getInstance()
+				.getPreferences(CrosstabPlugin.getDefault(), UIUtil.getCurrentProject())
+				.getInt(CrosstabPlugin.PREFERENCE_FILTER_LIMIT);
+		while (iter != null && iter.hasNext()) {
+			Object obj = iter.next();
+			if (obj != null) {
+				if (retList.indexOf(obj) < 0) {
+					retList.add(obj);
+					if (++count >= MAX_COUNT) {
 						break;
 					}
 				}
@@ -556,9 +473,8 @@ public class ExpressionValueCellEditor extends CellEditor
 			}
 
 		}
-		if ( session != null )
-		{
-			session.shutdown( );
+		if (session != null) {
+			session.shutdown();
 		}
 		return retList;
 	}

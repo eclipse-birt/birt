@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,59 +34,50 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
- * 
+ *
  */
 
-public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
-{
+public class PublishLibraryAction implements IWorkbenchWindowActionDelegate {
 
 	private IFile libFile = null;
 	private boolean selectLibrary = false;
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void init( IWorkbenchWindow window )
-	{
+	@Override
+	public void init(IWorkbenchWindow window) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
+	@Override
+	public void run(IAction action) {
 		String fileName = null;
 		LibraryHandle libHandle = null;
-		if ( editLibrary( ) == false && selectLibrary == false )
-		{
+		if (!editLibrary() && !selectLibrary) {
 			return;
 		}
 
-		if ( editLibrary( ) )
-		{
-			ModuleHandle module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
+		if (editLibrary()) {
+			ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-			String filePath = module.getFileName( );
-			fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+			String filePath = module.getFileName();
+			fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 			libHandle = (LibraryHandle) module;
-		}
-		else if ( libFile != null
-				&& libFile.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
+		} else if (libFile != null && libFile.getFileExtension().equals("rptlibrary")) //$NON-NLS-1$
 		{
-			String url = libFile.getLocation( ).toOSString( );
+			String url = libFile.getLocation().toOSString();
 			ModuleHandle handle = null;
-			try
-			{
-				handle = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.openLibrary( url );
+			try {
+				handle = SessionHandleAdapter.getInstance().getSessionHandle().openLibrary(url);
 
 //				if ( !( handle instanceof LibraryHandle ) )
 //				{
@@ -91,72 +85,56 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 //					return;
 //				}
 
-				String filePath = handle.getFileName( );
-				if ( filePath != null && filePath.length( ) != 0 )
-				{
-					fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+				String filePath = handle.getFileName();
+				if (filePath != null && filePath.length() != 0) {
+					fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 				}
 				libHandle = (LibraryHandle) handle;
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (Exception e) {
+				ExceptionHandler.handle(e);
 				return;
-			}
-			finally
-			{
-				if ( handle != null )
-				{
-					handle.close( );
+			} finally {
+				if (handle != null) {
+					handle.close();
 				}
 			}
 		}
 
-		if( fileName != null && libHandle != null )
-		{
-			PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
-					fileName,
-					ReportPlugin.getDefault( ).getResourceFolder( ) );
+		if (fileName != null && libHandle != null) {
+			PublishLibraryWizard publishLibrary = new PublishLibraryWizard(libHandle, fileName,
+					ReportPlugin.getDefault().getResourceFolder());
 
-			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-					publishLibrary );
+			WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), publishLibrary);
 
-			dialog.setPageSize( 500, 250 );
-			dialog.open( );
+			dialog.setPageSize(500, 250);
+			dialog.open();
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 *
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		if ( selection instanceof TreeSelection )
-		{
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof TreeSelection) {
 			IFile file = null;
-			if ( ( (TreeSelection) selection ).getFirstElement( ) instanceof IFile )
-			{
-				file = (IFile) ( (TreeSelection) selection ).getFirstElement( );
+			if (((TreeSelection) selection).getFirstElement() instanceof IFile) {
+				file = (IFile) ((TreeSelection) selection).getFirstElement();
 			}
-			if ( file != null )
-			{
-				if ( file.getFileExtension( ) != null
-						&& file.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
+			if (file != null) {
+				if (file.getFileExtension() != null && file.getFileExtension().equals("rptlibrary")) //$NON-NLS-1$
 				{
 					libFile = file;
 					selectLibrary = true;
-					action.setEnabled( true );
-				}
-				else
-				{
+					action.setEnabled(true);
+				} else {
 					libFile = null;
 					selectLibrary = false;
-					action.setEnabled( false );
+					action.setEnabled(false);
 				}
 
 				return;
@@ -165,21 +143,18 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 
 		libFile = null;
 		selectLibrary = false;
-		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
+		action.setEnabled(isEnable()); // $NON-NLS-1$
 
 	}
 
-	private boolean isEnable( )
-	{
-		return editLibrary( );
+	private boolean isEnable() {
+		return editLibrary();
 	}
 
-	private boolean editLibrary( )
-	{
-		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
-		{
-			return ( editor.getEditorInput( ).getName( ).endsWith( ".rptlibrary" ) ); //$NON-NLS-1$
+	private boolean editLibrary() {
+		IEditorPart editor = UIUtil.getActiveEditor(true);
+		if (editor != null) {
+			return (editor.getEditorInput().getName().endsWith(".rptlibrary")); //$NON-NLS-1$
 		}
 		return false;
 	}

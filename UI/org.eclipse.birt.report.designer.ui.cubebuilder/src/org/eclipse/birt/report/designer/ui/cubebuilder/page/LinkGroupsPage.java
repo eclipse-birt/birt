@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,124 +50,115 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class LinkGroupsPage extends AbstractCubePropertyPage
-{
+public class LinkGroupsPage extends AbstractCubePropertyPage {
 
 	private CubeHandle input;
 	private CubeBuilder builder;
 
-	public LinkGroupsPage( CubeBuilder builder, CubeHandle model )
-	{
+	public LinkGroupsPage(CubeBuilder builder, CubeHandle model) {
 		input = model;
 		this.builder = builder;
 	}
 
-	public Control createContents( Composite parent )
-	{
-		Composite contents = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	@Override
+	public Control createContents(Composite parent) {
+		Composite contents = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.verticalSpacing = 0;
 		layout.marginWidth = 10;
 		layout.marginTop = 10;
 		layout.numColumns = 2;
-		contents.setLayout( layout );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		contents.setLayoutData( data );
+		contents.setLayout(layout);
+		GridData data = new GridData(GridData.FILL_BOTH);
+		contents.setLayoutData(data);
 
-		createCubeArea( contents );
+		createCubeArea(contents);
 
-		filterButton = new Button( contents, SWT.PUSH );
-		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
-		gd.widthHint = Math.max( 60, filterButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x );
+		filterButton = new Button(contents, SWT.PUSH);
+		filterButton.setText(Messages.getString("DatasetPage.Button.Filter")); //$NON-NLS-1$
+		GridData gd = new GridData();
+		gd.widthHint = Math.max(60, filterButton.computeSize(SWT.DEFAULT, SWT.DEFAULT).x);
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-		filterButton.setLayoutData( gd );
-		filterButton.setEnabled( false );
-		filterButton.addSelectionListener( new SelectionAdapter( ) {
+		filterButton.setLayoutData(gd);
+		filterButton.setEnabled(false);
+		filterButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				EditPart editPart = (EditPart) viewer.getSelectedEditParts( )
-						.get( 0 );
-				CommandStack stack = SessionHandleAdapter.getInstance( )
-						.getCommandStack( );
-				stack.startTrans( "" ); //$NON-NLS-1$
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EditPart editPart = (EditPart) viewer.getSelectedEditParts().get(0);
+				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+				stack.startTrans(""); //$NON-NLS-1$
 
-				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter( builder,
-						FilterHandleProvider.class );
-				if ( provider == null )
-					provider = new FilterHandleProvider( );
-
-				FilterListDialog dialog = new FilterListDialog( provider );
-				if ( editPart instanceof DatasetNodeEditPart )
-					dialog.setInput( (ReportElementHandle) ( editPart.getParent( ).getModel( ) ) );
-				else if ( editPart instanceof HierarchyNodeEditPart )
-					dialog.setInput( (ReportElementHandle) ( editPart.getModel( ) ) );
-				if ( dialog.open( ) == Window.OK )
-				{
-					stack.commit( );
+				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter(builder,
+						FilterHandleProvider.class);
+				if (provider == null) {
+					provider = new FilterHandleProvider();
 				}
-				else
-					stack.rollback( );
+
+				FilterListDialog dialog = new FilterListDialog(provider);
+				if (editPart instanceof DatasetNodeEditPart) {
+					dialog.setInput((ReportElementHandle) (editPart.getParent().getModel()));
+				} else if (editPart instanceof HierarchyNodeEditPart) {
+					dialog.setInput((ReportElementHandle) (editPart.getModel()));
+				}
+				if (dialog.open() == Window.OK) {
+					stack.commit();
+				} else {
+					stack.rollback();
+				}
 			}
 
-		} );
+		});
 		return contents;
 	}
 
-	private Composite createCubeArea( Composite parent )
-	{
-		Composite viewerContent = new Composite( parent, SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+	private Composite createCubeArea(Composite parent) {
+		Composite viewerContent = new Composite(parent, SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 500;
 		gd.heightHint = 300;
-		viewerContent.setLayoutData( gd );
-		viewerContent.setLayout( new FillLayout( ) );
-		viewer = new ScrollingGraphicalViewer( );
-		EditDomain editDomain = new EditDomain( );
-		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart( );
-		viewer.setRootEditPart( root );
-		viewer.setEditDomain( editDomain );
-		viewer.createControl( viewerContent );
-		viewer.getControl( ).setBackground( ColorConstants.listBackground );
-		factory = new GraphicalEditPartsFactory( );
-		viewer.setEditPartFactory( factory );
-		viewer.setKeyHandler( new GraphicalViewerKeyHandler( viewer ) );
-		viewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		viewerContent.setLayoutData(gd);
+		viewerContent.setLayout(new FillLayout());
+		viewer = new ScrollingGraphicalViewer();
+		EditDomain editDomain = new EditDomain();
+		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart();
+		viewer.setRootEditPart(root);
+		viewer.setEditDomain(editDomain);
+		viewer.createControl(viewerContent);
+		viewer.getControl().setBackground(ColorConstants.listBackground);
+		factory = new GraphicalEditPartsFactory();
+		viewer.setEditPartFactory(factory);
+		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				if ( event.getSelection( ) != null )
-				{
-					StructuredSelection selection = (StructuredSelection) event.getSelection( );
-					if ( selection.getFirstElement( ) instanceof HierarchyNodeEditPart
-							|| selection.getFirstElement( ) instanceof DatasetNodeEditPart )
-					{
-						Object obj = selection.getFirstElement( );
-						if ( obj instanceof HierarchyNodeEditPart )
-						{
-							TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) obj ).getModel( );
-							if ( hierarchy.getPrimaryKeys( ) != null
-									&& hierarchy.getPrimaryKeys( ).size( ) > 0 )
-							{
-								filterButton.setEnabled( false );
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() != null) {
+					StructuredSelection selection = (StructuredSelection) event.getSelection();
+					if (selection.getFirstElement() instanceof HierarchyNodeEditPart
+							|| selection.getFirstElement() instanceof DatasetNodeEditPart) {
+						Object obj = selection.getFirstElement();
+						if (obj instanceof HierarchyNodeEditPart) {
+							TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ((HierarchyNodeEditPart) obj)
+									.getModel();
+							if (hierarchy.getPrimaryKeys() != null && hierarchy.getPrimaryKeys().size() > 0) {
+								filterButton.setEnabled(false);
+							} else {
+								filterButton.setEnabled(true);
 							}
-							else
-								filterButton.setEnabled( true );
+						} else {
+							filterButton.setEnabled(true);
 						}
-						else
-							filterButton.setEnabled( true );
+					} else {
+						filterButton.setEnabled(false);
 					}
-					else
-						filterButton.setEnabled( false );
+				} else {
+					filterButton.setEnabled(false);
 				}
-				else
-					filterButton.setEnabled( false );
 			}
-		} );
-		load( );
+		});
+		load();
 		return viewerContent;
 	}
 
@@ -172,24 +166,20 @@ public class LinkGroupsPage extends AbstractCubePropertyPage
 	private GraphicalEditPartsFactory factory;
 	private Button filterButton;
 
-	public void pageActivated( )
-	{
-		UIUtil.bindHelp( builder.getShell( ),
-				IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE );
-		getContainer( ).setMessage( Messages.getString( "LinkGroupsPage.Container.Title.Message" ),//$NON-NLS-1$
-				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "LinkGroupsPage.Title.Title" ) ); //$NON-NLS-1$
-		builder.setErrorMessage( null );
-		builder.setTitleMessage( Messages.getString( "LinkGroupsPage.Title.Message" ) ); //$NON-NLS-1$
-		load( );
+	@Override
+	public void pageActivated() {
+		UIUtil.bindHelp(builder.getShell(), IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE);
+		getContainer().setMessage(Messages.getString("LinkGroupsPage.Container.Title.Message"), //$NON-NLS-1$
+				IMessageProvider.NONE);
+		builder.setTitleTitle(Messages.getString("LinkGroupsPage.Title.Title")); //$NON-NLS-1$
+		builder.setErrorMessage(null);
+		builder.setTitleMessage(Messages.getString("LinkGroupsPage.Title.Message")); //$NON-NLS-1$
+		load();
 	}
 
-	private void load( )
-	{
-		if ( input != null
-				&& ( (TabularCubeHandle) input ).getDataSet( ) != null )
-		{
-			viewer.setContents( input );
+	private void load() {
+		if (input != null && ((TabularCubeHandle) input).getDataSet() != null) {
+			viewer.setContents(input);
 		}
 	}
 

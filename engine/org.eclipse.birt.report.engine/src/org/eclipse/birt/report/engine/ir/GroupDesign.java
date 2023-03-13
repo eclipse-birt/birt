@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,40 +14,38 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Group type.
- * 
+ *
  * used by ListItem and TableItem.
- * 
+ *
  */
-public abstract class GroupDesign extends ReportItemDesign
-{
+public abstract class GroupDesign extends ReportItemDesign {
 	/**
 	 * group level, start from 0
 	 */
 	protected int groupLevel;
 
 	/**
-	 * the page break before property 
+	 * the page break before property
 	 */
 	protected String pageBreakBefore;
-	
+
 	/**
 	 * the page break after property
 	 */
 	protected String pageBreakAfter;
-	
+
 	/**
 	 * the page break inside property
 	 */
 	protected String pageBreakInside;
-	
+
 	/**
 	 * group hideDetail
 	 */
 	protected boolean hideDetail;
-	
+
 	/**
 	 * does the header need to be repeated in each page.
 	 */
@@ -59,112 +60,90 @@ public abstract class GroupDesign extends ReportItemDesign
 	 */
 	protected BandDesign footer;
 
-	
 	/**
-	 * @param hide
-	 *            The hideDetail to set.
+	 * @param hide The hideDetail to set.
 	 */
-	public void setHideDetail( boolean hide )
-	{
+	public void setHideDetail(boolean hide) {
 		hideDetail = hide;
 	}
-	
+
 	/**
 	 * @return Returns the hideDetail.
 	 */
-	public boolean getHideDetail( )
-	{
+	public boolean getHideDetail() {
 		return hideDetail;
 	}
-	
-	public String getPageBreakBefore()
-	{
+
+	public String getPageBreakBefore() {
 		return pageBreakBefore;
 	}
-	
-	public void setPageBreakBefore(String pageBreak)
-	{
+
+	public void setPageBreakBefore(String pageBreak) {
 		pageBreakBefore = pageBreak;
 	}
-	
-	public String getPageBreakAfter()
-	{
+
+	public String getPageBreakAfter() {
 		return pageBreakAfter;
 	}
-	
-	public void setPageBreakAfter(String pageBreak)
-	{
+
+	public void setPageBreakAfter(String pageBreak) {
 		pageBreakAfter = pageBreak;
 	}
-	
-	public int getGroupLevel()
-	{
+
+	public int getGroupLevel() {
 		return groupLevel;
 	}
-	
-	public void setGroupLevel(int groupLevel)
-	{
+
+	public void setGroupLevel(int groupLevel) {
 		this.groupLevel = groupLevel;
 	}
 
 	/**
 	 * @return Returns the footer.
 	 */
-	public BandDesign getFooter( )
-	{
+	public BandDesign getFooter() {
 		return footer;
 	}
 
 	/**
-	 * @param footer
-	 *            The footer to set.
+	 * @param footer The footer to set.
 	 */
-	public void setFooter( BandDesign footer )
-	{
+	public void setFooter(BandDesign footer) {
 		this.footer = footer;
 	}
 
 	/**
 	 * @return Returns the header.
 	 */
-	public BandDesign getHeader( )
-	{
+	public BandDesign getHeader() {
 		return header;
 	}
 
 	/**
-	 * @param header
-	 *            The header to set.
+	 * @param header The header to set.
 	 */
-	public void setHeader( BandDesign header )
-	{
+	public void setHeader(BandDesign header) {
 		this.header = header;
 	}
-	
-	public boolean isHeaderRepeat()
-	{
+
+	public boolean isHeaderRepeat() {
 		return headerRepeat;
 	}
-	
-	public void setHeaderRepeat(boolean repeat)
-	{
+
+	public void setHeaderRepeat(boolean repeat) {
 		headerRepeat = repeat;
 	}
-	
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
+
+	@Override
+	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitGroup(this, value);
 	}
 
-	
-	public String getPageBreakInside( )
-	{
+	public String getPageBreakInside() {
 		return pageBreakInside;
 	}
 
-	
-	public void setPageBreakInside( String pageBreakInside )
-	{
+	public void setPageBreakInside(String pageBreakInside) {
 		this.pageBreakInside = pageBreakInside;
 	}
 }

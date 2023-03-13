@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,11 +43,7 @@ import com.ibm.icu.util.ULocale;
  * Input for the DebugJSEditor
  */
 
-public class DebugJsInput implements
-		IStorageEditorInput,
-		IPathEditorInput,
-		IPersistableElement
-{
+public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPersistableElement {
 
 	private static final String ERRORMSG = "There is no script available."; //$NON-NLS-1$
 	private ModuleHandle handle;
@@ -53,244 +52,225 @@ public class DebugJsInput implements
 
 	/**
 	 * Contructor
-	 * 
+	 *
 	 * @param storage
 	 * @param id
 	 */
-	public DebugJsInput( File storage, String id )
-	{
+	public DebugJsInput(File storage, String id) {
 		this.storage = storage;
 		this.id = id;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#getStorage()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#
+	 * getStorage()
 	 */
-	public IStorage getStorage( ) throws CoreException
-	{
-		return new ScriptStorage( );
+	@Override
+	public IStorage getStorage() throws CoreException {
+		return new ScriptStorage();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
-	public boolean exists( )
-	{
-		return storage.exists( );
+	@Override
+	public boolean exists() {
+		return storage.exists();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
-	public ImageDescriptor getImageDescriptor( )
-	{
+	@Override
+	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
-	public String getName( )
-	{
-		return storage.getName( );
+	@Override
+	public String getName() {
+		return storage.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
-	public IPersistableElement getPersistable( )
-	{
+	@Override
+	public IPersistableElement getPersistable() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
-	public String getToolTipText( )
-	{
-		return storage.getAbsolutePath( );
+	@Override
+	public String getToolTipText() {
+		return storage.getAbsolutePath();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		return Platform.getAdapterManager( ).getAdapter( this, adapter );
+	@Override
+	public Object getAdapter(Class adapter) {
+		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPathEditorInput#getPath()
 	 */
-	public IPath getPath( )
-	{
-		return new Path( storage.getAbsolutePath( ) );
+	@Override
+	public IPath getPath() {
+		return new Path(storage.getAbsolutePath());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPersistableElement#getFactoryId()
 	 */
-	public String getFactoryId( )
-	{
+	@Override
+	public String getFactoryId() {
 		return ScriptEditorInputFactory.ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
-	public void saveState( IMemento memento )
-	{
-		ScriptEditorInputFactory.saveState( memento, this );
+	@Override
+	public void saveState(IMemento memento) {
+		ScriptEditorInputFactory.saveState(memento, this);
 	}
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return
 	 */
-	public String getId( )
-	{
+	public String getId() {
 		return id;
 	}
 
 	/**
 	 * Sets the id.
-	 * 
+	 *
 	 * @param id
 	 */
-	public void setId( String id )
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
 	 * Gets the file.
-	 * 
+	 *
 	 * @return
 	 */
-	public File getFile( )
-	{
+	public File getFile() {
 		return storage;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
-		{
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
 			return true;
 		}
-		if ( obj instanceof DebugJsInput )
-		{
-			return ( (DebugJsInput) obj ).id.equals( id )
-					&& ( (DebugJsInput) obj ).storage.getAbsolutePath( )
-							.equals( storage.getAbsolutePath( ) );
+		if (obj instanceof DebugJsInput) {
+			return ((DebugJsInput) obj).id.equals(id)
+					&& ((DebugJsInput) obj).storage.getAbsolutePath().equals(storage.getAbsolutePath());
 		}
-		return super.equals( obj );
+		return super.equals(obj);
 	}
 
 	/**
 	 * Gets the module handle
-	 * 
+	 *
 	 * @return
 	 */
-	public ModuleHandle getModuleHandle( )
-	{
-		if ( handle == null )
-		{
-			try
-			{
-				handle = getSessionHandle( ).openModule( getFile( ).getAbsolutePath( ),
+	public ModuleHandle getModuleHandle() {
+		if (handle == null) {
+			try {
+				handle = getSessionHandle().openModule(getFile().getAbsolutePath(),
 						// No need to close the stream here, the report
 						// design parser will automaically close it.
-						new FileInputStream( getFile( ) ) );
-			}
-			catch ( DesignFileException e )
-			{
-
-			}
-			catch ( FileNotFoundException e )
-			{
+						new FileInputStream(getFile()));
+			} catch (DesignFileException | FileNotFoundException e) {
 			}
 		}
 		return handle;
 	}
 
-	private SessionHandle getSessionHandle( )
-	{
-		return new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
+	private SessionHandle getSessionHandle() {
+		return new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.getDefault());
 	}
 
-	private String getDisplayText( )
-	{
-		String str = ModuleUtil.getScript( getModuleHandle( ), getId( ) );
-		if ( str == null )
-		{
+	private String getDisplayText() {
+		String str = ModuleUtil.getScript(getModuleHandle(), getId());
+		if (str == null) {
 			str = ERRORMSG;
 		}
 		return str;
 	}
 
-	public boolean sourceAvailable( )
-	{
-		return !ERRORMSG.equals( getDisplayText( ) );
+	public boolean sourceAvailable() {
+		return !ERRORMSG.equals(getDisplayText());
 	}
 
 	/**
 	 * ScriptStorage
 	 */
-	private class ScriptStorage implements IStorage
-	{
+	private class ScriptStorage implements IStorage {
 
-		public InputStream getContents( ) throws CoreException
-		{
-			String str = getDisplayText( );
-			InputStream input = new ByteArrayInputStream( str.getBytes( ) );
+		@Override
+		public InputStream getContents() throws CoreException {
+			String str = getDisplayText();
+			InputStream input = new ByteArrayInputStream(str.getBytes());
 			return input;
 		}
 
-		public IPath getFullPath( )
-		{
-			return DebugJsInput.this.getPath( );
+		@Override
+		public IPath getFullPath() {
+			return DebugJsInput.this.getPath();
 		}
 
-		public String getName( )
-		{
-			return DebugJsInput.this.getName( );
+		@Override
+		public String getName() {
+			return DebugJsInput.this.getName();
 		}
 
-		public boolean isReadOnly( )
-		{
+		@Override
+		public boolean isReadOnly() {
 			return true;
 		}
 
-		public Object getAdapter( Class adapter )
-		{
-			return DebugJsInput.this.getAdapter( adapter );
+		@Override
+		public Object getAdapter(Class adapter) {
+			return DebugJsInput.this.getAdapter(adapter);
 		}
 
 	}

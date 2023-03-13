@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Engine
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-ClassPath: enginetesthelper.jar,
  .,
  lib/Tidy.jar,
  lib/commons-cli-1.0.jar
 Bundle-Activator: org.eclipse.birt.report.engine.plugin.EnginePlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.api,
  org.eclipse.birt.report.engine.api.impl,
@@ -79,14 +79,17 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:
  org.eclipse.birt.report.model;bundle-version="[2.1.0,5.0.0)";visibility:=reexport,
  org.eclipse.birt.data;bundle-version="[2.1.0,5.0.0)",
  org.w3c.css.sac;bundle-version="1.3.1",
- com.lowagie.text;bundle-version="[1.3.0,3.0.0)";resolution:=optional,
+ com.github.librepdf.openpdf;bundle-version="[1.3.0,3.0.0)";resolution:=optional,
  org.eclipse.birt.report.engine.fonts;bundle-version="[2.1.0,5.0.0)";resolution:=optional,
- org.eclipse.birt.report.data.adapter,
- org.apache.batik.transcoder;bundle-version="[1.7.0,2.0.0)",
- org.apache.batik.css;bundle-version="[1.7.0,2.0.0)",
- org.apache.batik.util;bundle-version="[1.7.0,2.0.0)",
- org.apache.batik.i18n;bundle-version="[1.9.1,2.0.0)";resolution:=optional
+ org.eclipse.birt.report.data.adapter;bundle-version="4.13.0",
+ org.apache.batik.util;bundle-version="1.14.0"
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.engine
+Import-Package: org.apache.batik.css.engine;version="1.14.0",
+ org.apache.batik.css.engine.value;version="1.14.0",
+ org.apache.batik.css.parser;version="1.14.0",
+ org.apache.batik.i18n;version="1.14.0",
+ org.apache.batik.transcoder;version="1.14.0",
+ org.apache.batik.transcoder.image;version="1.14.0"

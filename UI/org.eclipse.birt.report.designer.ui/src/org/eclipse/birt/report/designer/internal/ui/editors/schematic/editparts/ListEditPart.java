@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,367 +53,316 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * List element edit part.
- * 
+ *
  */
-public class ListEditPart extends ReportElementEditPart
-{
+public class ListEditPart extends ReportElementEditPart {
 
-	private static final String GUIDEHANDLE_TEXT = Messages.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+	private static final String GUIDEHANDLE_TEXT = Messages.getString("ListEditPart.GUIDEHANDLE_TEXT"); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj
 	 */
-	public ListEditPart( Object obj )
-	{
-		super( obj );
+	public ListEditPart(Object obj) {
+		super(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createGuideHandle()
 	 */
-	protected AbstractGuideHandle createGuideHandle( )
-	{
-		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( getGuideLabel( ) );
+	@Override
+	protected AbstractGuideHandle createGuideHandle() {
+		TableGuideHandle handle = new TableGuideHandle(this);
+		handle.setIndicatorLabel(getGuideLabel());
 
-		INodeProvider provider = ProviderFactory.createProvider( getModel( ) );
+		INodeProvider provider = ProviderFactory.createProvider(getModel());
 
-		handle.setIndicatorIcon( provider.getNodeIcon( getModel( ) ) );
-		handle.setToolTip( ReportFigureUtilities.createToolTipFigure( provider.getNodeTooltip( getModel( ) ),
-				DesignChoiceConstants.BIDI_DIRECTION_LTR,
-				DesignChoiceConstants.TEXT_ALIGN_LEFT ) );
-		
+		handle.setIndicatorIcon(provider.getNodeIcon(getModel()));
+		handle.setToolTip(ReportFigureUtilities.createToolTipFigure(provider.getNodeTooltip(getModel()),
+				DesignChoiceConstants.BIDI_DIRECTION_LTR, DesignChoiceConstants.TEXT_ALIGN_LEFT));
+
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getGuideLabel()
 	 */
-	public String getGuideLabel( )
-	{
+	@Override
+	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy( ) );
-		installEditPolicy( EditPolicy.LAYOUT_ROLE, new ListLayoutEditPolicy( ) );
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ListLayoutEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		refreshBorder( getListHandleAdapt( ).getHandle( ),
-				(BaseBorder) getFigure( ).getBorder( ) );
-		( (ListFigure) getFigure( ) ).setRecommendSize( getListHandleAdapt( ).getSize( ) );
-		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
+	@Override
+	public void refreshFigure() {
+		refreshBorder(getListHandleAdapt().getHandle(), (BaseBorder) getFigure().getBorder());
+		((ListFigure) getFigure()).setRecommendSize(getListHandleAdapt().getSize());
+		((SectionBorder) (getFigure().getBorder()))
+				.setPaddingInsets(getListHandleAdapt().getPadding(getFigure().getInsets()));
 
-		refreshMargin( );
+		refreshMargin();
 
-		refreshBackground( (DesignElementHandle) getModel( ) );
-		
-		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				getConstraint( ) );
-		
-		markDirty( );
+		refreshBackground((DesignElementHandle) getModel());
+
+		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
+
+		markDirty();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#notifyModelChange()
 	 */
-	public void notifyModelChange( )
-	{
-		super.notifyModelChange( );
-		markDirty( );
+	@Override
+	public void notifyModelChange() {
+		super.notifyModelChange();
+		markDirty();
 	}
 
 	/**
 	 * Mark dirty flag to trigger re-layout.
 	 */
-	private void markDirty( )
-	{
-		IFigure figure = getContentPane( );
+	private void markDirty() {
+		IFigure figure = getContentPane();
 
-		if ( figure instanceof ListFigure )
-		{
-			( (ListFigure) figure ).markDirtyTree( true );
+		if (figure instanceof ListFigure) {
+			((ListFigure) figure).markDirtyTree(true);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
-	public void refreshChildren( )
-	{
-		super.refreshChildren( );
-		List list = getChildren( );
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			( (ListBandEditPart) list.get( i ) ).refreshChildren( );
+	@Override
+	public void refreshChildren() {
+		super.refreshChildren();
+		List list = getChildren();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			((ListBandEditPart) list.get(i)).refreshChildren();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		ListFigure figure = new ListFigure( );
-		figure.setOpaque( false );
+	@Override
+	protected IFigure createFigure() {
+		ListFigure figure = new ListFigure();
+		figure.setOpaque(false);
 
 		return figure;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		return getListHandleAdapt( ).getChildren( );
+	@Override
+	protected List getModelChildren() {
+		return getListHandleAdapt().getChildren();
 	}
 
-	private ListHandleAdapter getListHandleAdapt( )
-	{
-		return (ListHandleAdapter) getModelAdapter( );
+	private ListHandleAdapter getListHandleAdapt() {
+		return (ListHandleAdapter) getModelAdapter();
 	}
 
 	/**
 	 * Insert group in list element
 	 */
-	public boolean insertGroup( )
-	{
-		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ) );
+	public boolean insertGroup() {
+		return UIUtil.createGroup(getListHandleAdapt().getHandle());
 	}
 
 	/**
 	 * Insert group in list element
-	 * 
-	 * @param position
-	 *            insert position
+	 *
+	 * @param position insert position
 	 */
-	public boolean insertGroup( int position )
-	{
-		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ), position );
+	public boolean insertGroup(int position) {
+		return UIUtil.createGroup(getListHandleAdapt().getHandle(), position);
 	}
 
 	/**
 	 * Remove group
-	 * 
+	 *
 	 * @param group
 	 */
-	public void removeGroup( Object group )
-	{
-		try
-		{
-			getListHandleAdapt( ).removeGroup( group );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+	public void removeGroup(Object group) {
+		try {
+			getListHandleAdapt().removeGroup(group);
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
 	}
 
 	/**
 	 * Check if inlucde header/footer
-	 * 
+	 *
 	 * @param bool
 	 * @param id
 	 */
-	public void includeSlotHandle( boolean bool, int id )
-	{
-		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
-				.get( model );
-		if ( part == null )
-		{
+	public void includeSlotHandle(boolean bool, int id) {
+		Object model = getListHandleAdapt().getChild(id);
+		ListBandEditPart part = (ListBandEditPart) getViewer().getEditPartRegistry().get(model);
+		if (part == null) {
 			return;
 		}
-		part.setRenderVisile( bool );
+		part.setRenderVisile(bool);
 	}
 
 	/**
 	 * Check if inlucde header/footer
-	 * 
+	 *
 	 * @param id
 	 */
-	public boolean isIncludeSlotHandle( int id )
-	{
-		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
-				.get( model );
-		if ( part == null )
-		{
+	public boolean isIncludeSlotHandle(int id) {
+		Object model = getListHandleAdapt().getChild(id);
+		ListBandEditPart part = (ListBandEditPart) getViewer().getEditPartRegistry().get(model);
+		if (part == null) {
 			return false;
 		}
-		return part.isRenderVisile( );
+		return part.isRenderVisile();
 	}
 
-	public void showTargetFeedback( Request request )
-	{
-		if ( this.getSelected( ) == 0
-				&& isActive( )
-				&& request.getType( ) == RequestConstants.REQ_SELECTION )
-		{
-			if ( isFigureLeft( request ) )
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getLeftCellCursor( ) );
-			}
-			else
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getRightCellCursor( ) );
+	@Override
+	public void showTargetFeedback(Request request) {
+		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
+			if (isFigureLeft(request)) {
+				this.getViewer().setCursor(ReportPlugin.getDefault().getLeftCellCursor());
+			} else {
+				this.getViewer().setCursor(ReportPlugin.getDefault().getRightCellCursor());
 			}
 		}
-		super.showTargetFeedback( request );
+		super.showTargetFeedback(request);
 	}
 
-	public void eraseTargetFeedback( Request request )
-	{
-		if ( isActive( ) )
-		{
-			this.getViewer( ).setCursor( null );
+	@Override
+	public void eraseTargetFeedback(Request request) {
+		if (isActive()) {
+			this.getViewer().setCursor(null);
 		}
-		super.eraseTargetFeedback( request );
+		super.eraseTargetFeedback(request);
 	}
 
-	protected void addChildVisual( EditPart part, int index )
-	{
+	@Override
+	protected void addChildVisual(EditPart part, int index) {
 		// make sure we don't keep a select cell cursor after new contents
 		// are added
-		this.getViewer( ).setCursor( null );
-		super.addChildVisual( part, index );
+		this.getViewer().setCursor(null);
+		super.addChildVisual(part, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	public boolean isinterest( Object model )
-	{
-		if ( model instanceof ListGroupHandle )
-		{
-			if ( getModelAdapter( ).isChildren( (DesignElementHandle) model ) )
-			{
+	@Override
+	public boolean isinterest(Object model) {
+		if (model instanceof ListGroupHandle) {
+			if (getModelAdapter().isChildren((DesignElementHandle) model)) {
 				return true;
 			}
 		}
-		return super.isinterest( model );
+		return super.isinterest(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#contentChange(java.util.Map)
 	 */
-	protected void contentChange( Map info )
-	{
-		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if ( action instanceof Integer )
-		{
-			int intValue = ( (Integer) action ).intValue( );
-			if ( intValue == ContentEvent.REMOVE )
-			{
-				List list = (List) info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
-				int size = list.size( );
-				for ( int i = 0; i < size; i++ )
-				{
-					Object obj = list.get( i );
-					if ( obj instanceof DesignElementHandle )
-					{
-						getListHandleAdapt( ).remove( obj );
+	@Override
+	protected void contentChange(Map info) {
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
+		if (action instanceof Integer) {
+			int intValue = ((Integer) action).intValue();
+			if (intValue == ContentEvent.REMOVE) {
+				List list = (List) info.get(GraphicsViewModelEventProcessor.EVENT_CONTENTS);
+				int size = list.size();
+				for (int i = 0; i < size; i++) {
+					Object obj = list.get(i);
+					if (obj instanceof DesignElementHandle) {
+						getListHandleAdapt().remove(obj);
 					}
 				}
 			}
 		}
 
-		super.contentChange( info );
+		super.contentChange(info);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice( EditPolicy parentPolice )
-	{
-		return new ReportElementNonResizablePolicy( );
+	@Override
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		return new ReportElementNonResizablePolicy();
 	}
-	
-	protected Object getConstraint( )
-	{
-		ReportItemHandle handle = (ReportItemHandle) getModel( );
-		ReportItemConstraint constraint = new ReportItemConstraint( );
 
-		//constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
-		
-		DimensionHandle value = handle.getWidth( );
-		constraint.setMeasure( value.getMeasure( ) );
-		constraint.setUnits( value.getUnits( ) );
-		constraint.setFitTable( true );
+	protected Object getConstraint() {
+		ReportItemHandle handle = (ReportItemHandle) getModel();
+		ReportItemConstraint constraint = new ReportItemConstraint();
+
+		// constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+
+		DimensionHandle value = handle.getWidth();
+		constraint.setMeasure(value.getMeasure());
+		constraint.setUnits(value.getUnits());
+		constraint.setFitTable(true);
 		return constraint;
 	}
-	
+
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		super.updateLayoutPreference( );
-		
-		if (!(((DesignElementHandle)getModel()).getModuleHandle( ) instanceof ReportDesignHandle))
-		{
-			return ;
+	protected void updateLayoutPreference() {
+		super.updateLayoutPreference();
+
+		if (!(((DesignElementHandle) getModel()).getModuleHandle() instanceof ReportDesignHandle)) {
+			return;
 		}
-		
-		ReportDesignHandle handle = (ReportDesignHandle)((DesignElementHandle)getModel()).getModuleHandle( );
-		String str = handle.getLayoutPreference( );
-		
-		((ListLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( str );
+
+		ReportDesignHandle handle = (ReportDesignHandle) ((DesignElementHandle) getModel()).getModuleHandle();
+		String str = handle.getLayoutPreference();
+
+		((ListLayout) getContentPane().getLayoutManager()).setLayoutPreference(str);
 	}
 }

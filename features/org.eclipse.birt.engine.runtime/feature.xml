@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <feature
       id="org.eclipse.birt.engine.runtime"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.13.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -19,8 +33,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
@@ -61,7 +75,6 @@
       <import plugin="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.mysql"/>
       <import plugin="org.eclipse.datatools.enablement.oda.ws"/>
-      <import plugin="org.eclipse.datatools.enablement.oda.xml"/>
       <import plugin="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.oracle"/>
       <import plugin="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
@@ -230,7 +243,7 @@
          unpack="false"/>
 
    <plugin
-         id="com.lowagie.text"
+         id="com.github.librepdf.openpdf"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -283,6 +296,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.apache.batik.codec"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
@@ -291,13 +311,6 @@
 
    <plugin
          id="org.apache.batik.dom.svg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -325,14 +338,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.util.gui"
+         id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.xml"
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -656,6 +669,14 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi.compatibility.state"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>

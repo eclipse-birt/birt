@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -88,11 +91,9 @@ import org.eclipse.ui.PlatformUI;
  * Dialog to build the image element.
  */
 
-public class ImageBuilder extends BaseDialog
-{
+public class ImageBuilder extends BaseDialog {
 
-	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -105,39 +106,40 @@ public class ImageBuilder extends BaseDialog
 			".svg" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_FILEFILTERS = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
+	private static final String[] IMAGE_FILEFILTERS = {
+			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
-	public static final String DLG_TITLE_NEW = Messages.getString( "ImageBuilder.DialogTitle.New" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_NEW = Messages.getString("ImageBuilder.DialogTitle.New"); //$NON-NLS-1$
 
-	public static final String DLG_TITLE_EDIT = Messages.getString( "ImageBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString("ImageBuilder.DialogTitle.Edit"); //$NON-NLS-1$
 
-	private static final String BUTTON_BROWSE_TOOLTIP = Messages.getString( "ImageBuilder.Button.Browser.Tooltip" ); //$NON-NLS-1$
+	private static final String BUTTON_BROWSE_TOOLTIP = Messages.getString("ImageBuilder.Button.Browser.Tooltip"); //$NON-NLS-1$
 
-	private static final String BUTTON_IMPORT = Messages.getString( "ImageBuilder.Button.Import" ); //$NON-NLS-1$
+	private static final String BUTTON_IMPORT = Messages.getString("ImageBuilder.Button.Import"); //$NON-NLS-1$
 
-	private static final String BUTTON_SELECT_IMAGE_DATA = Messages.getString( "ImageBuilder.Button.SelectImageData" ); //$NON-NLS-1$
+	private static final String BUTTON_SELECT_IMAGE_DATA = Messages.getString("ImageBuilder.Button.SelectImageData"); //$NON-NLS-1$
 
-	private static final String TYPE_URI = Messages.getString( "ImageBuilder.Type.URI" ); //$NON-NLS-1$
+	private static final String TYPE_URI = Messages.getString("ImageBuilder.Type.URI"); //$NON-NLS-1$
 
-	private static final String TYPE_RESOURCE_FILE = Messages.getString( "ImageBuilder.Type.ResourceFile" ); //$NON-NLS-1$
+	private static final String TYPE_RESOURCE_FILE = Messages.getString("ImageBuilder.Type.ResourceFile"); //$NON-NLS-1$
 
-	private static final String TYPE_EMBEDDED_IMAGE = Messages.getString( "ImageBuilder.Type.EmbededImage" ); //$NON-NLS-1$
+	private static final String TYPE_EMBEDDED_IMAGE = Messages.getString("ImageBuilder.Type.EmbededImage"); //$NON-NLS-1$
 
-	private static final String TYPE_DYNAMIC_IMAGE = Messages.getString( "ImageBuilder.Type.DynamicImage" ); //$NON-NLS-1$
+	private static final String TYPE_DYNAMIC_IMAGE = Messages.getString("ImageBuilder.Type.DynamicImage"); //$NON-NLS-1$
 
-	private static final String DLG_SELECT_PICTURE_LABEL = Messages.getString( "ImageBuilder.Label.SelectFrom" ); //$NON-NLS-1$
+	private static final String DLG_SELECT_PICTURE_LABEL = Messages.getString("ImageBuilder.Label.SelectFrom"); //$NON-NLS-1$
 
-	private static final String DLG_INSERT_BUTTON_MSG = Messages.getString( "ImageBuilder.Button.Insert" ); //$NON-NLS-1$
+	private static final String DLG_INSERT_BUTTON_MSG = Messages.getString("ImageBuilder.Button.Insert"); //$NON-NLS-1$
 
-	private static final String DLG_TITLE_IMPORT_FAIL = Messages.getString( "ImageBuilder.DialogTitle.ImportFailed" ); //$NON-NLS-1$;
+	private static final String DLG_TITLE_IMPORT_FAIL = Messages.getString("ImageBuilder.DialogTitle.ImportFailed"); //$NON-NLS-1$ ;
 
-	private static final String DLG_TITLE_LOADING_FAIL = Messages.getString( "ImageBuilder.DialogTitle.LoadingFailed" ); //$NON-NLS-1$;
+	private static final String DLG_TITLE_LOADING_FAIL = Messages.getString("ImageBuilder.DialogTitle.LoadingFailed"); //$NON-NLS-1$ ;
 
-	private static final String DLG_ERROR_MSG_LOADING_FAIL = Messages.getString( "ImageBuilder.ErrorMessage.LoadingFailed" ); //$NON-NLS-1$;
+	private static final String DLG_ERROR_MSG_LOADING_FAIL = Messages
+			.getString("ImageBuilder.ErrorMessage.LoadingFailed"); //$NON-NLS-1$ ;
 
-	private static final String DLG_ERROR_MSG_FILE_EXISTS = Messages.getString( "ImageBuilder.ErrorMessage.FileLoaded" ); //$NON-NLS-1$
+	private static final String DLG_ERROR_MSG_FILE_EXISTS = Messages.getString("ImageBuilder.ErrorMessage.FileLoaded"); //$NON-NLS-1$
 
 	private ImageHandle inputImage;
 
@@ -161,729 +163,582 @@ public class ImageBuilder extends BaseDialog
 
 	private static final int BLOB_TYPE = 3;
 
-	private static final Map<Integer, String> descriptionMap = new HashMap<Integer, String>( );
+	private static final Map<Integer, String> descriptionMap = new HashMap<>();
 
-	static
-	{
-		descriptionMap.put( Integer.valueOf( URI_TYPE ),
-				Messages.getString( "ImageBuilder.Description.URI" ) ); //$NON-NLS-1$
-		descriptionMap.put( Integer.valueOf( FILE_TYPE ),
-				Messages.getString( "ImageBuilder.Description.ResourceFile" ) ); //$NON-NLS-1$
-		descriptionMap.put( Integer.valueOf( EMBEDDED_TYPE ),
-				Messages.getString( "ImageBuilder.Description.Embedded" ) ); //$NON-NLS-1$
-		descriptionMap.put( Integer.valueOf( BLOB_TYPE ),
-				Messages.getString( "ImageBuilder.Description.Dynamic" ) ); //$NON-NLS-1$
+	static {
+		descriptionMap.put(URI_TYPE, Messages.getString("ImageBuilder.Description.URI")); //$NON-NLS-1$
+		descriptionMap.put(FILE_TYPE, Messages.getString("ImageBuilder.Description.ResourceFile")); //$NON-NLS-1$
+		descriptionMap.put(EMBEDDED_TYPE, Messages.getString("ImageBuilder.Description.Embedded")); //$NON-NLS-1$
+		descriptionMap.put(BLOB_TYPE, Messages.getString("ImageBuilder.Description.Dynamic")); //$NON-NLS-1$
 	}
 
-	private static final Map<Integer, String> uriEditorLabelMap = new HashMap<Integer, String>( );
+	private static final Map<Integer, String> uriEditorLabelMap = new HashMap<>();
 
-	static
-	{
-		uriEditorLabelMap.put( Integer.valueOf( URI_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterURI" ) ); //$NON-NLS-1$
-		uriEditorLabelMap.put( Integer.valueOf( FILE_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterResourceFile" ) ); //$NON-NLS-1$
-		uriEditorLabelMap.put( Integer.valueOf( BLOB_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterExpr" ) ); //$NON-NLS-1$
+	static {
+		uriEditorLabelMap.put(URI_TYPE, Messages.getString("ImageBuilder.Label.EnterURI")); //$NON-NLS-1$
+		uriEditorLabelMap.put(FILE_TYPE, Messages.getString("ImageBuilder.Label.EnterResourceFile")); //$NON-NLS-1$
+		uriEditorLabelMap.put(BLOB_TYPE, Messages.getString("ImageBuilder.Label.EnterExpr")); //$NON-NLS-1$
 	}
 
 	private int selectedType = -1;
 
-	private java.util.List dataSetList = new ArrayList( );
+	private java.util.List dataSetList = new ArrayList();
 
-	private java.util.List inputDataSetList = new ArrayList( );
+	private java.util.List inputDataSetList = new ArrayList();
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
-	public ImageBuilder( Shell parentShell, String title )
-	{
-		super( parentShell, title );
+	public ImageBuilder(Shell parentShell, String title) {
+		super(parentShell, title);
 	}
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
-	public ImageBuilder( Shell parentShell, String title,
-			java.util.List dataSetList )
-	{
-		super( parentShell, title );
+	public ImageBuilder(Shell parentShell, String title, java.util.List dataSetList) {
+		super(parentShell, title);
 		this.inputDataSetList = dataSetList;
-		this.dataSetList = new ArrayList( inputDataSetList );
+		this.dataSetList = new ArrayList(inputDataSetList);
 	}
 
-	private ModuleHandle getModuleHandle( )
-	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	private ModuleHandle getModuleHandle() {
+		return SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		if ( inputImage == null )
-		{
-			inputImage = DesignElementFactory.getInstance( getModuleHandle( ) )
-					.newImage( null );
-			setOkButtonText( DLG_INSERT_BUTTON_MSG );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		if (inputImage == null) {
+			inputImage = DesignElementFactory.getInstance(getModuleHandle()).newImage(null);
+			setOkButtonText(DLG_INSERT_BUTTON_MSG);
 		}
 
-		Composite topCompostie = (Composite) super.createDialogArea( parent );
+		Composite topCompostie = (Composite) super.createDialogArea(parent);
 
-		createSelectionArea( topCompostie );
+		createSelectionArea(topCompostie);
 
-		GridData topGd = new GridData( GridData.FILL_BOTH );
-		int width = topCompostie.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		GridData topGd = new GridData(GridData.FILL_BOTH);
+		int width = topCompostie.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 		topGd.widthHint = width > 432 ? width : 432;
-		topCompostie.setLayoutData( topGd );
+		topCompostie.setLayoutData(topGd);
 
-		new Label( topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label(topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Composite composite = new Composite( topCompostie, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		composite.setLayout( new GridLayout( ) );
+		Composite composite = new Composite(topCompostie, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		composite.setLayout(new GridLayout());
 
-		description = new Label( composite, SWT.NONE );
-		description.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		description = new Label(composite, SWT.NONE);
+		description.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		createInputArea( composite );
-		createPreviewArea( composite );
+		createInputArea(composite);
+		createPreviewArea(composite);
 
-		new Label( topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label(topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		UIUtil.bindHelp( parent, IHelpContextIds.IMAGE_BUIDLER_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.IMAGE_BUIDLER_ID);
 		return topCompostie;
 	}
 
-	private void createSelectionArea( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayout( new GridLayout( 2, false ) );
-		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+	private void createSelectionArea(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label label = new Label( composite, SWT.NONE );
-		label.setText( DLG_SELECT_PICTURE_LABEL );
-		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		Label label = new Label(composite, SWT.NONE);
+		label.setText(DLG_SELECT_PICTURE_LABEL);
+		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
-		Composite selectionArea = new Composite( composite, SWT.NONE );
-		selectionArea.setLayout( new FillLayout( SWT.VERTICAL ) );
+		Composite selectionArea = new Composite(composite, SWT.NONE);
+		selectionArea.setLayout(new FillLayout(SWT.VERTICAL));
 
-		uri = new Button( selectionArea, SWT.RADIO );
-		uri.setText( TYPE_URI );
-		uri.addSelectionListener( new SelectionAdapter( ) {
+		uri = new Button(selectionArea, SWT.RADIO);
+		uri.setText(TYPE_URI);
+		uri.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchTo( URI_TYPE );
-				modifyDialogContent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switchTo(URI_TYPE);
+				modifyDialogContent();
 			}
-		} );
+		});
 
-		resource = new Button( selectionArea, SWT.RADIO );
-		resource.setText( TYPE_RESOURCE_FILE );
-		resource.addSelectionListener( new SelectionAdapter( ) {
+		resource = new Button(selectionArea, SWT.RADIO);
+		resource.setText(TYPE_RESOURCE_FILE);
+		resource.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchTo( FILE_TYPE );
-				modifyDialogContent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switchTo(FILE_TYPE);
+				modifyDialogContent();
 			}
-		} );
+		});
 
-		embedded = new Button( selectionArea, SWT.RADIO );
-		embedded.setText( TYPE_EMBEDDED_IMAGE );
-		embedded.addSelectionListener( new SelectionAdapter( ) {
+		embedded = new Button(selectionArea, SWT.RADIO);
+		embedded.setText(TYPE_EMBEDDED_IMAGE);
+		embedded.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchTo( EMBEDDED_TYPE );
-				modifyDialogContent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switchTo(EMBEDDED_TYPE);
+				modifyDialogContent();
 			}
-		} );
+		});
 
-		dynamic = new Button( selectionArea, SWT.RADIO );
-		dynamic.setText( TYPE_DYNAMIC_IMAGE );
-		dynamic.addSelectionListener( new SelectionAdapter( ) {
+		dynamic = new Button(selectionArea, SWT.RADIO);
+		dynamic.setText(TYPE_DYNAMIC_IMAGE);
+		dynamic.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchTo( BLOB_TYPE );
-				modifyDialogContent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switchTo(BLOB_TYPE);
+				modifyDialogContent();
 			}
-		} );
+		});
 	}
 
-	private void createInputArea( Composite parent )
-	{
-		inputArea = new Composite( parent, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	private void createInputArea(Composite parent) {
+		inputArea = new Composite(parent, SWT.NONE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.heightHint = 80;
-		inputArea.setLayoutData( gd );
-		inputArea.setLayout( new GridLayout( 3, false ) );
+		inputArea.setLayoutData(gd);
+		inputArea.setLayout(new GridLayout(3, false));
 	}
 
-	private void createPreviewArea( Composite composite )
-	{
-		Composite previewArea = new Composite( composite, SWT.BORDER );
-		GridData gd = new GridData( );
+	private void createPreviewArea(Composite composite) {
+		Composite previewArea = new Composite(composite, SWT.BORDER);
+		GridData gd = new GridData();
 		gd.heightHint = 240;
 		gd.widthHint = 315;
-		previewArea.setLayoutData( gd );
-		previewArea.setLayout( new FillLayout( ) );
+		previewArea.setLayoutData(gd);
+		previewArea.setLayout(new FillLayout());
 
-		previewCanvas = new ImageCanvas( previewArea );
+		previewCanvas = new ImageCanvas(previewArea);
 	}
 
-	private void switchTo( int type )
-	{
-		if ( type == selectedType )
-		{ // the same type,nothing needed to do
+	private void switchTo(int type) {
+		if (type == selectedType) { // the same type,nothing needed to do
 			return;
 		}
 		selectedType = type;
 
-		clearPreview( );
-		description.setText( descriptionMap.get( Integer.valueOf( type ) ) );
+		clearPreview();
+		description.setText(descriptionMap.get(Integer.valueOf(type)));
 
-		Control[] controls = inputArea.getChildren( );
-		for ( int i = 0; i < controls.length; i++ )
-		{
-			controls[i].dispose( );
+		Control[] controls = inputArea.getChildren();
+		for (int i = 0; i < controls.length; i++) {
+			controls[i].dispose();
 		}
-		buildInputAreaUI( type );
-		inputArea.layout( );
+		buildInputAreaUI(type);
+		inputArea.layout();
 	}
 
-	private void buildInputAreaUI( int type )
-	{
+	private void buildInputAreaUI(int type) {
 		// Text editor
-		if ( type == EMBEDDED_TYPE )
-		{
-			buildEmbeddedImageList( );
-			buildInputAreaButton( type );
-		}
-		else
-		{
-			buildURIEditor( type );
-			buildInputAreaButton( type );
-			initURIEditor( );
+		if (type == EMBEDDED_TYPE) {
+			buildEmbeddedImageList();
+			buildInputAreaButton(type);
+		} else {
+			buildURIEditor(type);
+			buildInputAreaButton(type);
+			initURIEditor();
 		}
 	}
 
-	private void buildURIEditor( int type )
-	{
+	private void buildURIEditor(int type) {
 		// Indication Label
-		Label uriEditorLabel = new Label( inputArea, SWT.NONE );
-		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
+		Label uriEditorLabel = new Label(inputArea, SWT.NONE);
+		GridData labelGd = new GridData(GridData.FILL_HORIZONTAL);
 		labelGd.horizontalSpan = 3;
-		uriEditorLabel.setLayoutData( labelGd );
-		uriEditorLabel.setText( uriEditorLabelMap.get( Integer.valueOf( type ) ) );
+		uriEditorLabel.setLayoutData(labelGd);
+		uriEditorLabel.setText(uriEditorLabelMap.get(Integer.valueOf(type)));
 
-		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
-		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
-				| GridData.FILL_HORIZONTAL );
+		uriEditor = new Text(inputArea, SWT.SINGLE | SWT.BORDER);
+		GridData textGd = new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL);
 		// textGd.widthHint = 308;
 		// if ( type == BLOB_TYPE )
 		// {
 		// textGd.widthHint = 270;
 		// textGd.grabExcessHorizontalSpace = true;
 		// }
-		uriEditor.setLayoutData( textGd );
-		uriEditor.addModifyListener( new ModifyListener( ) {
+		uriEditor.setLayoutData(textGd);
+		uriEditor.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				modifyDialogContent( );
-				updateButtons( );
+			@Override
+			public void modifyText(ModifyEvent e) {
+				modifyDialogContent();
+				updateButtons();
 			}
-		} );
-		uriEditor.addFocusListener( new FocusListener( ) {
+		});
+		uriEditor.addFocusListener(new FocusListener() {
 
-			public void focusGained( FocusEvent e )
-			{
+			@Override
+			public void focusGained(FocusEvent e) {
 			}
 
-			public void focusLost( FocusEvent e )
-			{
-				previewTextEditor( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				previewTextEditor();
 			}
-		} );
+		});
 	}
 
-	private void previewTextEditor( )
-	{
-		preview( getPreviewString( ) );
+	private void previewTextEditor() {
+		preview(getPreviewString());
 	}
 
-	private String getPreviewString( )
-	{
-		String str = uriEditor.getText( ).trim( );
-		String type = (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE );
-		if ( !ExpressionType.CONSTANT.equals( type ) )
-		{
-			str = DEUtil.removeQuote( str );
+	private String getPreviewString() {
+		String str = uriEditor.getText().trim();
+		String type = (String) uriEditor.getData(ExpressionButtonUtil.EXPR_TYPE);
+		if (!ExpressionType.CONSTANT.equals(type)) {
+			str = DEUtil.removeQuote(str);
 		}
 
 		return str;
 	}
 
-	private void buildEmbeddedImageList( )
-	{
-		embeddedImageList = new List( inputArea, SWT.NONE
-				| SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL );
-		embeddedImageList.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		embeddedImageList.addSelectionListener( new SelectionAdapter( ) {
+	private void buildEmbeddedImageList() {
+		embeddedImageList = new List(inputArea, SWT.NONE | SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		embeddedImageList.setLayoutData(new GridData(GridData.FILL_BOTH));
+		embeddedImageList.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				preview( );
-				modifyDialogContent( );
-				updateButtons( );
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				preview();
+				modifyDialogContent();
+				updateButtons();
 			}
-		} );
+		});
 
-		initList( );
+		initList();
 	}
 
-	public void setOpenFileButtonImage( Button button )
-	{
+	public void setOpenFileButtonImage(Button button) {
 		String imageName = IReportGraphicConstants.ICON_OPEN_FILE;
-		Image image = ReportPlatformUIImages.getImage( imageName );
-		setButtonImage( button, image );
+		Image image = ReportPlatformUIImages.getImage(imageName);
+		setButtonImage(button, image);
 	}
 
-	private void setButtonImage( Button button, Image image )
-	{
-		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
-		{
+	private void setButtonImage(Button button, Image image) {
+		GridData gd = new GridData();
+		if (!Platform.getOS().equals(Platform.OS_MACOSX)) {
 			gd.widthHint = 20;
 			gd.heightHint = 20;
 		}
-		button.setLayoutData( gd );
+		button.setLayoutData(gd);
 
-		button.setImage( image );
-		if ( button.getImage( ) != null )
-		{
-			button.getImage( ).setBackground( button.getBackground( ) );
+		button.setImage(image);
+		if (button.getImage() != null) {
+			button.getImage().setBackground(button.getBackground());
 		}
 	}
 
-	private void buildInputAreaButton( int type )
-	{
-		Listener listener = new Listener( ) {
+	private void buildInputAreaButton(int type) {
+		Listener listener = new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				modifyDialogContent( );
-				if ( event.data instanceof String[] )
-				{
-					preview( DEUtil.removeQuote( ( (String[]) event.data )[1] ) );
+			@Override
+			public void handleEvent(Event event) {
+				modifyDialogContent();
+				if (event.data instanceof String[]) {
+					preview(DEUtil.removeQuote(((String[]) event.data)[1]));
 				}
 			}
 
 		};
 
-		if ( type == URI_TYPE )
-		{
-			ExpressionButtonUtil.createExpressionButton( inputArea,
-					uriEditor,
-					new ExpressionProvider( inputImage ),
-					inputImage,
-					listener,
-					true,
-					SWT.PUSH );
-			new Label( inputArea, SWT.NONE );
-		}
-		else if ( type == FILE_TYPE )
-		{
-			inputButton = new Button( inputArea, SWT.PUSH );
+		if (type == URI_TYPE) {
+			ExpressionButtonUtil.createExpressionButton(inputArea, uriEditor, new ExpressionProvider(inputImage),
+					inputImage, listener, true, SWT.PUSH);
+			new Label(inputArea, SWT.NONE);
+		} else if (type == FILE_TYPE) {
+			inputButton = new Button(inputArea, SWT.PUSH);
 			// inputButton.setText( BUTTON_BROWSE ); //$NON-NLS-1$
-			setOpenFileButtonImage( inputButton );
-			inputButton.addSelectionListener( new SelectionAdapter( ) {
+			setOpenFileButtonImage(inputButton);
+			inputButton.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent event )
-				{
-					openResourceBrowser( );
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					openResourceBrowser();
 				}
-			} );
-			inputButton.setToolTipText( BUTTON_BROWSE_TOOLTIP );
+			});
+			inputButton.setToolTipText(BUTTON_BROWSE_TOOLTIP);
 
-			ExpressionButtonUtil.createExpressionButton( inputArea,
-					uriEditor,
-					new ExpressionProvider( inputImage ),
-					inputImage,
-					listener,
-					true,
-					SWT.PUSH );
-		}
-		else if ( type == EMBEDDED_TYPE )
-		{
-			importButton = new Button( inputArea, SWT.PUSH );
-			importButton.setText( BUTTON_IMPORT );
-			importButton.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
-			importButton.addSelectionListener( new SelectionAdapter( ) {
+			ExpressionButtonUtil.createExpressionButton(inputArea, uriEditor, new ExpressionProvider(inputImage),
+					inputImage, listener, true, SWT.PUSH);
+		} else if (type == EMBEDDED_TYPE) {
+			importButton = new Button(inputArea, SWT.PUSH);
+			importButton.setText(BUTTON_IMPORT);
+			importButton.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_END));
+			importButton.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent event )
-				{
-					FileDialog fileChooser = new FileDialog( getShell( ),
-							SWT.OPEN );
-					fileChooser.setText( Messages.getString( "ImageBuilder.Chooser.Title" ) ); //$NON-NLS-1$
-					fileChooser.setFilterExtensions( IMAGE_FILEFILTERS );
-					try
-					{
-						String fullPath = fileChooser.open( );
-						if ( fullPath != null )
-						{
-							String fileName = fileChooser.getFileName( );
-							if ( fileName != null )
-							{
-								if ( embeddedImageList.indexOf( fileName ) != -1 )
-								{
-									ExceptionHandler.openMessageBox( DLG_TITLE_IMPORT_FAIL,
-											DLG_ERROR_MSG_FILE_EXISTS,
-											SWT.ICON_WARNING );
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					FileDialog fileChooser = new FileDialog(getShell(), SWT.OPEN);
+					fileChooser.setText(Messages.getString("ImageBuilder.Chooser.Title")); //$NON-NLS-1$
+					fileChooser.setFilterExtensions(IMAGE_FILEFILTERS);
+					try {
+						String fullPath = fileChooser.open();
+						if (fullPath != null) {
+							String fileName = fileChooser.getFileName();
+							if (fileName != null) {
+								if (embeddedImageList.indexOf(fileName) != -1) {
+									ExceptionHandler.openMessageBox(DLG_TITLE_IMPORT_FAIL, DLG_ERROR_MSG_FILE_EXISTS,
+											SWT.ICON_WARNING);
 									return;
 								}
 
-								if ( checkExtensions( fileName ) == false )
-								{
-									ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
-											Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
+								if (!checkExtensions(fileName)) {
+									ExceptionHandler.openErrorMessageBox(
+											Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
+											Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
 									return;
 								}
 
-								previewCanvas.loadImage( ImageManager.getInstance( )
-										.loadImage( inputImage.getModuleHandle( ),
-												fullPath ) );
-								BirtImageLoader imageLoader = new BirtImageLoader( );
-								EmbeddedImage image = imageLoader.save( getModuleHandle( ),
-										fullPath,
-										fileName );
-								embeddedImageList.add( image.getName( ) );
-								embeddedImageList.select( embeddedImageList.indexOf( image.getName( ) ) );
+								previewCanvas.loadImage(
+										ImageManager.getInstance().loadImage(inputImage.getModuleHandle(), fullPath));
+								BirtImageLoader imageLoader = new BirtImageLoader();
+								EmbeddedImage image = imageLoader.save(getModuleHandle(), fullPath, fileName);
+								embeddedImageList.add(image.getName());
+								embeddedImageList.select(embeddedImageList.indexOf(image.getName()));
 
 								hasModified = true;
-								updateButtons( );
+								updateButtons();
 							}
 						}
-					}
-					catch ( Throwable e )
-					{
-						preview( );
-						if ( e instanceof OutOfMemoryError )
-						{
-							e = GUIException.createGUIException( ReportPlugin.REPORT_UI,
-									e );
+					} catch (Throwable e) {
+						preview();
+						if (e instanceof OutOfMemoryError) {
+							e = GUIException.createGUIException(ReportPlugin.REPORT_UI, e);
 						}
-						ExceptionHandler.handle( e,
-								DLG_TITLE_LOADING_FAIL,
-								DLG_ERROR_MSG_LOADING_FAIL );
+						ExceptionHandler.handle(e, DLG_TITLE_LOADING_FAIL, DLG_ERROR_MSG_LOADING_FAIL);
 
 					}
 				}
-			} );
+			});
 
-			new Label( inputArea, SWT.NONE );
-			new Label( inputArea, SWT.NONE );
-		}
-		else if ( type == BLOB_TYPE )
-		{
-			inputButton = new Button( inputArea, SWT.PUSH );
-			inputButton.setText( BUTTON_SELECT_IMAGE_DATA );
-			// inputButton.setEnabled( !getModuleHandle( ).getVisibleDataSets( ).isEmpty( ) );
-			inputButton.addSelectionListener( new SelectionAdapter( ) {
+			new Label(inputArea, SWT.NONE);
+			new Label(inputArea, SWT.NONE);
+		} else if (type == BLOB_TYPE) {
+			inputButton = new Button(inputArea, SWT.PUSH);
+			inputButton.setText(BUTTON_SELECT_IMAGE_DATA);
+			// inputButton.setEnabled( !getModuleHandle( ).getVisibleDataSets( ).isEmpty( )
+			// );
+			inputButton.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent event )
-				{
-					openBidingDialog( );
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					openBidingDialog();
 				}
-			} );
-			new Label( inputArea, SWT.NONE );
-			new Label( inputArea, SWT.NONE );
+			});
+			new Label(inputArea, SWT.NONE);
+			new Label(inputArea, SWT.NONE);
 		}
 	}
 
-	protected void openResourceBrowser( )
-	{
+	protected void openResourceBrowser() {
 
-		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
+		ResourceSelectionValidator validator = new ResourceSelectionValidator(IMAGE_TYPES);
 
-		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
-				true,
-				IMAGE_FILEFILTERS );
-		dialog.setAllowImportFile( true );
-		dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
-		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
-		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
-		dialog.setValidator( validator );
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(true, true, IMAGE_FILEFILTERS);
+		dialog.setAllowImportFile(true);
+		dialog.setEmptyFolderShowStatus(IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER);
+		dialog.setTitle(Messages.getString("ImageBuilder.BrowserResourceDialog.Title")); //$NON-NLS-1$
+		dialog.setMessage(Messages.getString("ImageBuilder.BrowserResourceDialog.Message")); //$NON-NLS-1$
+		dialog.setValidator(validator);
 		// dialog.setInput( ReportPlugin.getDefault( ).getResourcePreference( )
 
-		if ( dialog.open( ) == Window.OK )
-		{
-			uriEditor.setText( dialog.getPath( ) );
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
-					ExpressionType.CONSTANT );
-			( (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).refresh( );
-			uriEditor.setFocus( );
-			preview( dialog.getPath( ) );
+		if (dialog.open() == Window.OK) {
+			uriEditor.setText(dialog.getPath());
+			uriEditor.setData(ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT);
+			((ExpressionButton) uriEditor.getData(ExpressionButtonUtil.EXPR_BUTTON)).refresh();
+			uriEditor.setFocus();
+			preview(dialog.getPath());
 		}
 	}
 
-	private void preview( String uri )
-	{
-		if ( uri == null || uri.trim( ).length( ) == 0 )
-		{
-			clearPreview( );
+	private void preview(String uri) {
+		if (uri == null || uri.trim().length() == 0) {
+			clearPreview();
 			return;
 		}
 
-		try
-		{
+		try {
 			Image image;
-			if ( selectedType == URI_TYPE )
-			{
-				image = ImageManager.getInstance( )
-						.getURIImage( inputImage.getModuleHandle( ), uri );
+			if (selectedType == URI_TYPE) {
+				image = ImageManager.getInstance().getURIImage(inputImage.getModuleHandle(), uri);
+			} else {
+				image = ImageManager.getInstance().loadImage(inputImage.getModuleHandle(), uri);
 			}
-			else
-			{
-				image = ImageManager.getInstance( )
-						.loadImage( inputImage.getModuleHandle( ), uri );
-			}
-			previewCanvas.loadImage( image );
-		}
-		catch ( Exception e )
-		{
-			clearPreview( );
-			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			previewCanvas.loadImage(image);
+		} catch (Exception e) {
+			clearPreview();
+			logger.log(Level.WARNING, e.getLocalizedMessage());
 		}
 	}
 
-	private void preview( )
-	{
-		if ( embeddedImageList.getSelectionCount( ) > 0 )
-		{
-			Image image = ImageManager.getInstance( )
-					.getEmbeddedImage( inputImage.getModuleHandle( ),
-							embeddedImageList.getSelection( )[0] );
-			try
-			{
-				previewCanvas.loadImage( image );
+	private void preview() {
+		if (embeddedImageList.getSelectionCount() > 0) {
+			Image image = ImageManager.getInstance().getEmbeddedImage(inputImage.getModuleHandle(),
+					embeddedImageList.getSelection()[0]);
+			try {
+				previewCanvas.loadImage(image);
 				return;
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e,
-						DLG_TITLE_LOADING_FAIL,
-						DLG_ERROR_MSG_LOADING_FAIL );
+			} catch (Exception e) {
+				ExceptionHandler.handle(e, DLG_TITLE_LOADING_FAIL, DLG_ERROR_MSG_LOADING_FAIL);
 			}
 		}
-		clearPreview( );
+		clearPreview();
 	}
 
-	private void clearPreview( )
-	{
-		previewCanvas.clear( );
+	private void clearPreview() {
+		previewCanvas.clear();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		try
-		{
-			switch ( selectedType )
-			{
-				case FILE_TYPE :
-					inputImage.setFile( new Expression( uriEditor.getText( )
-							.trim( ),
-							(String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
-					break;
-				case URI_TYPE :
-					inputImage.setURL( new Expression( uriEditor.getText( )
-							.trim( ),
-							(String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
-					break;
-				case EMBEDDED_TYPE :
-					inputImage.setImageName( embeddedImageList.getSelection( )[0] );
-					break;
-				case BLOB_TYPE :
-					inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
+	@Override
+	protected void okPressed() {
+		try {
+			switch (selectedType) {
+			case FILE_TYPE:
+				inputImage.setFile(new Expression(uriEditor.getText().trim(),
+						(String) uriEditor.getData(ExpressionButtonUtil.EXPR_TYPE)));
+				break;
+			case URI_TYPE:
+				inputImage.setURL(new Expression(uriEditor.getText().trim(),
+						(String) uriEditor.getData(ExpressionButtonUtil.EXPR_TYPE)));
+				break;
+			case EMBEDDED_TYPE:
+				inputImage.setImageName(embeddedImageList.getSelection()[0]);
+				break;
+			case BLOB_TYPE:
+				inputImage.setValueExpression(uriEditor.getText().trim());
 			}
 
 			// bug 236564
-			Image image = previewCanvas.getSourceImage( );
-			if ( image != null )
-			{
+			Image image = previewCanvas.getSourceImage();
+			if (image != null) {
 
-				if ( DEUtil.isFixLayout( getModuleHandle( ) ) )
-				{
-					String defaultUnit = getModuleHandle( ).getDefaultUnits( );
+				if (DEUtil.isFixLayout(getModuleHandle())) {
+					String defaultUnit = getModuleHandle().getDefaultUnits();
 					InputStream in = null;
-					if ( selectedType == EMBEDDED_TYPE )
-					{
-						EmbeddedImage embeddedImage = getModuleHandle( ).findImage( embeddedImageList.getSelection( )[0] );
-						in = new ByteArrayInputStream( embeddedImage.getData( getModuleHandle( ).getModule( ) ) );
-					}
-					else if ( selectedType == URI_TYPE )
-					{
-						URL url = ImageManager.getInstance( )
-								.createURIURL( getPreviewString( ) );
-						if ( url != null )
-						{
-							try
-							{
-								in = url.openStream( );
-							}
-							catch ( IOException e )
-							{
+					if (selectedType == EMBEDDED_TYPE) {
+						EmbeddedImage embeddedImage = getModuleHandle().findImage(embeddedImageList.getSelection()[0]);
+						in = new ByteArrayInputStream(embeddedImage.getData(getModuleHandle().getModule()));
+					} else if (selectedType == URI_TYPE) {
+						URL url = ImageManager.getInstance().createURIURL(getPreviewString());
+						if (url != null) {
+							try {
+								in = url.openStream();
+							} catch (IOException e) {
 								// do nothing;
 							}
 						}
-					}
-					else if ( selectedType == FILE_TYPE )
-					{
+					} else if (selectedType == FILE_TYPE) {
 						URL url;
-						try
-						{
-							url = ImageManager.getInstance( )
-									.generateURL( getModuleHandle( ),
-											getPreviewString( ) );
-						}
-						catch ( MalformedURLException e1 )
-						{
+						try {
+							url = ImageManager.getInstance().generateURL(getModuleHandle(), getPreviewString());
+						} catch (MalformedURLException e1) {
 							url = null;
 						}
-						if ( url != null )
-						{
-							try
-							{
-								in = url.openStream( );
-							}
-							catch ( IOException e )
-							{
+						if (url != null) {
+							try {
+								in = url.openStream();
+							} catch (IOException e) {
 								// do nothing;
 							}
 						}
 					}
 
-					int dpi = UIUtil.getImageResolution( in )[0];
-					if ( dpi == 0 )
-					{
-						if ( getModuleHandle( ) instanceof ReportDesignHandle )
-						{
-							dpi = ( (ReportDesignHandle) getModuleHandle( ) ).getImageDPI( );
+					int dpi = UIUtil.getImageResolution(in)[0];
+					if (dpi == 0) {
+						if (getModuleHandle() instanceof ReportDesignHandle) {
+							dpi = ((ReportDesignHandle) getModuleHandle()).getImageDPI();
 						}
 					}
-					if ( dpi == 0 )
-					{
-						dpi = UIUtil.getScreenResolution( )[0];
+					if (dpi == 0) {
+						dpi = UIUtil.getScreenResolution()[0];
 					}
 
-					int width = image.getBounds( ).width;
-					double inch = ( (double) width ) / dpi;
+					int width = image.getBounds().width;
+					double inch = ((double) width) / dpi;
 
-					DimensionValue value = DimensionUtil.convertTo( inch,
-							DesignChoiceConstants.UNITS_IN,
-							defaultUnit );
-					inputImage.getWidth( ).setValue( value );
+					DimensionValue value = DimensionUtil.convertTo(inch, DesignChoiceConstants.UNITS_IN, defaultUnit);
+					inputImage.getWidth().setValue(value);
 
-					int height = image.getBounds( ).height;
-					inch = ( (double) height ) / dpi;
-					value = DimensionUtil.convertTo( inch,
-							DesignChoiceConstants.UNITS_IN,
-							defaultUnit );
-					inputImage.getHeight( ).setValue( value );
+					int height = image.getBounds().height;
+					inch = ((double) height) / dpi;
+					value = DimensionUtil.convertTo(inch, DesignChoiceConstants.UNITS_IN, defaultUnit);
+					inputImage.getHeight().setValue(value);
 
 					// setResult( inputImage );
-					if ( in != null )
-					{
-						try
-						{
-							in.close( );
-						}
-						catch ( IOException e )
-						{
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
 							// do nothing
 						}
 					}
-				}
-				else
-				{
-					inputImage.setWidth( image.getBounds( ).width
-							+ DesignChoiceConstants.UNITS_PX );
-					inputImage.setHeight( image.getBounds( ).height
-							+ DesignChoiceConstants.UNITS_PX );
+				} else {
+					inputImage.setWidth(image.getBounds().width + DesignChoiceConstants.UNITS_PX);
+					inputImage.setHeight(image.getBounds().height + DesignChoiceConstants.UNITS_PX);
 				}
 			}
-			setResult( inputImage );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+			setResult(inputImage);
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
 
-		super.okPressed( );
+		super.okPressed();
 	}
 
 	/**
 	 * Sets the model input.
-	 * 
+	 *
 	 * @param input
 	 */
-	public void setInput( Object input )
-	{
+	public void setInput(Object input) {
 		assert input instanceof ImageHandle;
 
 		inputImage = (ImageHandle) input;
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_NONE.equals( inputImage.getSource( ) ) )
-		{
-			setOkButtonText( DLG_INSERT_BUTTON_MSG );
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_NONE.equals(inputImage.getSource())) {
+			setOkButtonText(DLG_INSERT_BUTTON_MSG);
 		}
 	}
 
 	private boolean hasInitDialog = false;
 
-	protected boolean initDialog( )
-	{
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( inputImage.getSource( ) ) )
-		{
-			embedded.setSelection( true );
-			switchTo( EMBEDDED_TYPE );
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equals( inputImage.getSource( ) ) )
-		{
-			dynamic.setSelection( true );
-			switchTo( BLOB_TYPE );
-			initURIEditor( );
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( inputImage.getSource( ) ) )
-		{
-			resource.setSelection( true );
-			switchTo( FILE_TYPE );
-			initURIEditor( );
-		}
-		else
-		{// initialize as URI mode by default
-			uri.setSelection( true );
-			switchTo( URI_TYPE );
-			initURIEditor( );
+	@Override
+	protected boolean initDialog() {
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals(inputImage.getSource())) {
+			embedded.setSelection(true);
+			switchTo(EMBEDDED_TYPE);
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equals(inputImage.getSource())) {
+			dynamic.setSelection(true);
+			switchTo(BLOB_TYPE);
+			initURIEditor();
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals(inputImage.getSource())) {
+			resource.setSelection(true);
+			switchTo(FILE_TYPE);
+			initURIEditor();
+		} else {// initialize as URI mode by default
+			uri.setSelection(true);
+			switchTo(URI_TYPE);
+			initURIEditor();
 		}
 
 		hasInitDialog = true;
@@ -891,173 +746,127 @@ public class ImageBuilder extends BaseDialog
 		return true;
 	}
 
-	public ExpressionHandle getURI( )
-	{
-		return inputImage.getExpressionProperty( IImageItemModel.URI_PROP );
+	public ExpressionHandle getURI() {
+		return inputImage.getExpressionProperty(IImageItemModel.URI_PROP);
 	}
 
-	private void initURIEditor( )
-	{
+	private void initURIEditor() {
 
-		if ( getURI( ) != null && selectedType == URI_TYPE )
-		{
-			setURIEditor( );
+		if (getURI() != null && selectedType == URI_TYPE) {
+			setURIEditor();
 		}
 
-		if ( getURI( ) != null && selectedType == FILE_TYPE )
-		{
-			setURIEditor( );
-		};
+		if (getURI() != null && selectedType == FILE_TYPE) {
+			setURIEditor();
+		}
 
-		if ( selectedType == BLOB_TYPE )
-		{
-			if ( inputImage.getValueExpression( ) != null )
-			{
-				uriEditor.setText( inputImage.getValueExpression( ) );
+		if (selectedType == BLOB_TYPE) {
+			if (inputImage.getValueExpression() != null) {
+				uriEditor.setText(inputImage.getValueExpression());
 			}
 		}
-		uriEditor.setFocus( );
+		uriEditor.setFocus();
 		// Listener will be called automatically
-		clearPreview( );
-		if ( !uriEditor.getText( ).equals( "" ) && selectedType != BLOB_TYPE ) //$NON-NLS-1$
+		clearPreview();
+		if (!uriEditor.getText().equals("") && selectedType != BLOB_TYPE) //$NON-NLS-1$
 		{
 			// preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
-			previewTextEditor( );
+			previewTextEditor();
 		}
 	}
 
-	private void setURIEditor( )
-	{
-		PropertyHandle uriPropertyHandle = inputImage.getPropertyHandle( IImageItemModel.URI_PROP );
-		ExpressionHandle uri = getURI( );
-		if ( uri != null )
-		{
-			uriEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
+	private void setURIEditor() {
+		PropertyHandle uriPropertyHandle = inputImage.getPropertyHandle(IImageItemModel.URI_PROP);
+		ExpressionHandle uri = getURI();
+		if (uri != null) {
+			uriEditor.setText(uri == null || uri.getExpression() == null ? "" : (String) uri.getExpression()); //$NON-NLS-1$
 		}
-		if ( uriPropertyHandle != null && uriPropertyHandle.isLocal( ) )
-		{
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, uri == null
-					|| uri.getType( ) == null ? ExpressionType.CONSTANT
-					: (String) uri.getType( ) );
+		if (uriPropertyHandle != null && uriPropertyHandle.isLocal()) {
+			uriEditor.setData(ExpressionButtonUtil.EXPR_TYPE,
+					uri == null || uri.getType() == null ? ExpressionType.CONSTANT : (String) uri.getType());
+		} else {
+			uriEditor.setData(ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT);
 		}
-		else
-		{
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
-					ExpressionType.CONSTANT );
+		ExpressionButton button = (ExpressionButton) uriEditor.getData(ExpressionButtonUtil.EXPR_BUTTON);
+		if (button != null) {
+			button.refresh();
 		}
-		ExpressionButton button = (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
-		if ( button != null )
-			button.refresh( );
 	}
 
-	private void initList( )
-	{
-		for ( Iterator itor = getModuleHandle( ).getVisibleImages( ).iterator( ); itor.hasNext( ); )
-		{
-			EmbeddedImageHandle handle = (EmbeddedImageHandle) itor.next( );
-			embeddedImageList.add( handle.getQualifiedName( ) );
+	private void initList() {
+		for (Iterator itor = getModuleHandle().getVisibleImages().iterator(); itor.hasNext();) {
+			EmbeddedImageHandle handle = (EmbeddedImageHandle) itor.next();
+			embeddedImageList.add(handle.getQualifiedName());
 		}
 		int index = -1;
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( inputImage.getSource( ) ) )
-		{
-			String imageName = inputImage.getImageName( );
-			if ( imageName != null )
-			{
-				index = embeddedImageList.indexOf( imageName );
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals(inputImage.getSource())) {
+			String imageName = inputImage.getImageName();
+			if (imageName != null) {
+				index = embeddedImageList.indexOf(imageName);
 			}
 		}
-		if ( index != -1 )
-		{
-			embeddedImageList.select( index );
-			preview( );
+		if (index != -1) {
+			embeddedImageList.select(index);
+			preview();
+		} else {// the original image cannot be resolved
+			clearPreview();
 		}
-		else
-		{// the original image cannot be resolved
-			clearPreview( );
-		}
-		updateButtons( );
+		updateButtons();
 	}
 
-	private void updateButtons( )
-	{
+	private void updateButtons() {
 		boolean complete = false;
-		switch ( selectedType )
-		{
-			case BLOB_TYPE :
-				complete = !StringUtil.isBlank( uriEditor.getText( ) );
-				break;
-			case URI_TYPE :
-				complete = !StringUtil.isBlank( uriEditor.getText( ) );
-				break;
-			case EMBEDDED_TYPE :
-				complete = ( embeddedImageList.getSelectionIndex( ) != -1 );
-				break;
-			case FILE_TYPE :
-				complete = !StringUtil.isBlank( uriEditor.getText( ) );
-				break;
+		switch (selectedType) {
+		case BLOB_TYPE:
+			complete = !StringUtil.isBlank(uriEditor.getText());
+			break;
+		case URI_TYPE:
+			complete = !StringUtil.isBlank(uriEditor.getText());
+			break;
+		case EMBEDDED_TYPE:
+			complete = (embeddedImageList.getSelectionIndex() != -1);
+			break;
+		case FILE_TYPE:
+			complete = !StringUtil.isBlank(uriEditor.getText());
+			break;
 		}
-		if ( complete )
-		{
-			if ( !hasModified && isEditModal( ) )
+		if (complete) {
+			if (!hasModified && isEditModal()) {
 				complete = false;
+			}
 		}
-		getOkButton( ).setEnabled( complete );
+		getOkButton().setEnabled(complete);
 	}
 
-	private void openBidingDialog( )
-	{
+	private void openBidingDialog() {
 		ReportItemHandle handle = inputImage;
-		ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
-				PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
-				true );
-		if ( dialog.open( ) == Dialog.OK )
-		{
+		ColumnBindingDialog dialog = new ColumnBindingDialog(handle,
+				PlatformUI.getWorkbench().getDisplay().getActiveShell(), true);
+		if (dialog.open() == Dialog.OK) {
 			String columnExpr;
-			Object obj = DEUtil.getFirstDataSource( handle );
-			if ( obj != null && obj instanceof CubeHandle )
-				columnExpr = DEUtil.getDataExpression( (String) dialog.getResult( ) );
-			else
-				columnExpr = DEUtil.getColumnExpression( (String) dialog.getResult( ) );
-			uriEditor.setText( columnExpr );
-			try
-			{
-				inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
+			Object obj = DEUtil.getFirstDataSource(handle);
+			if (obj instanceof CubeHandle) {
+				columnExpr = DEUtil.getDataExpression((String) dialog.getResult());
+			} else {
+				columnExpr = DEUtil.getColumnExpression((String) dialog.getResult());
 			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
+			uriEditor.setText(columnExpr);
+			try {
+				inputImage.setValueExpression(uriEditor.getText().trim());
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
 			}
 		}
 		/*
-		 * I don't understand the downward code, the dialog cancels then we
-		 * don't should do anything. The author hlin had left company now.
-		 * Comments it. / / else { if ( inputImage.getDataSet( ) == null ) {
-		 * uriEditor.setText( "" ); } }
+		 * I don't understand the downward code, the dialog cancels then we don't should
+		 * do anything. The author hlin had left company now. Comments it. / / else { if
+		 * ( inputImage.getDataSet( ) == null ) { uriEditor.setText( "" ); } }
 		 */
 	}
 
-	private java.util.List unionDataSets( )
-	{
-		dataSetList = new ArrayList( inputDataSetList );
-		if ( inputImage == null || inputImage.getDataSet( ) == null )
-		{
-			return dataSetList;
-		}
-		int i = inputDataSetList.indexOf( inputImage.getDataSet( ) );
-		if ( i == -1 )
-		{
-			dataSetList.add( inputImage.getDataSet( ) );
-		}
-
-		return dataSetList;
-	}
-
-	private boolean checkExtensions( String fileName )
-	{
-		for ( int i = 0; i < IMAGE_TYPES.length; i++ )
-		{
-			if ( fileName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )
-			{
+	private boolean checkExtensions(String fileName) {
+		for (int i = 0; i < IMAGE_TYPES.length; i++) {
+			if (fileName.toLowerCase().endsWith(IMAGE_TYPES[i])) {
 				return true;
 			}
 		}
@@ -1066,38 +875,35 @@ public class ImageBuilder extends BaseDialog
 
 	private boolean isEditModel = false;
 
-	public void setEditModal( boolean isEditModel )
-	{
+	public void setEditModal(boolean isEditModel) {
 		this.isEditModel = isEditModel;
 	}
 
-	public boolean isEditModal( )
-	{
+	public boolean isEditModal() {
 		return isEditModel;
 	}
 
-	protected void resetOkButtonStatus( boolean enabled )
-	{
-		Button okButton = getButton( OK );
-		if ( okButton != null && okButton.isEnabled( ) != enabled )
-			okButton.setEnabled( enabled );
+	protected void resetOkButtonStatus(boolean enabled) {
+		Button okButton = getButton(OK);
+		if (okButton != null && okButton.isEnabled() != enabled) {
+			okButton.setEnabled(enabled);
+		}
 	}
 
-	protected void createButtonsForButtonBar( Composite parent )
-	{
-		super.createButtonsForButtonBar( parent );
-		if ( isEditModal( ) )
-			resetOkButtonStatus( false );
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		if (isEditModal()) {
+			resetOkButtonStatus(false);
+		}
 	}
 
 	private boolean hasModified = false;
 
-	private void modifyDialogContent( )
-	{
-		if ( hasInitDialog && isEditModal( ) && hasModified == false )
-		{
+	private void modifyDialogContent() {
+		if (hasInitDialog && isEditModal() && !hasModified) {
 			hasModified = true;
-			updateButtons( );
+			updateButtons();
 		}
 	}
 }

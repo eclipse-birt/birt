@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,130 +29,118 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
-public class UserPropertiesHandleProvier extends AbstractFormHandleProvider
-{
+public class UserPropertiesHandleProvier extends AbstractFormHandleProvider {
 
-	private static final int[] COLUMN_WIDTHS = new int[]{
-			250, 250
+	private static final int[] COLUMN_WIDTHS = { 250, 250 };
+	private static final String[] COLUMNS = { Messages.getString("UserPropertiesHandleProvier.Column.Name"), //$NON-NLS-1$
+			Messages.getString("UserPropertiesHandleProvier.Column.Type") //$NON-NLS-1$
 	};
-	private static final String[] COLUMNS = new String[]{
-			Messages.getString( "UserPropertiesHandleProvier.Column.Name" ), Messages.getString( "UserPropertiesHandleProvier.Column.Type" ) //$NON-NLS-1$ //$NON-NLS-2$
-	};
-	private static final String TITLE = Messages.getString( "ReportPageGenerator.List.UserProperties" ); //$NON-NLS-1$
+	private static final String TITLE = Messages.getString("ReportPageGenerator.List.UserProperties"); //$NON-NLS-1$
 
 	private DesignElementHandle inputElement;
 
-	public String[] getColumnNames( )
-	{
+	@Override
+	public String[] getColumnNames() {
 		return COLUMNS;
 	}
 
-	public int[] getColumnWidths( )
-	{
+	@Override
+	public int[] getColumnWidths() {
 		return COLUMN_WIDTHS;
 	}
 
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		return TITLE;
 	}
 
-	public CellEditor[] getEditors( Table table )
-	{
+	@Override
+	public CellEditor[] getEditors(Table table) {
 		return null;
 	}
 
-	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
-	{
+	@Override
+	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		return false;
 	}
 
-	public boolean doDeleteItem( int pos ) throws Exception
-	{
-		inputElement.dropUserPropertyDefn( ( (UserPropertyDefn) getElements( inputElement )[pos] ).getName( ) );
+	@Override
+	public boolean doDeleteItem(int pos) throws Exception {
+		inputElement.dropUserPropertyDefn(((UserPropertyDefn) getElements(inputElement)[pos]).getName());
 		return true;
 	}
 
-	public boolean doAddItem( int pos ) throws Exception
-	{
-		UserPropertyBuilder builder = new UserPropertyBuilder( UserPropertyBuilder.USER_PROPERTY );
-		builder.setInput( inputElement );
-		if ( builder.open( ) == Dialog.OK )
-		{
-			inputElement.addUserPropertyDefn( (UserPropertyDefn) builder.getResult( ) );
+	@Override
+	public boolean doAddItem(int pos) throws Exception {
+		UserPropertyBuilder builder = new UserPropertyBuilder(UserPropertyBuilder.USER_PROPERTY);
+		builder.setInput(inputElement);
+		if (builder.open() == Dialog.OK) {
+			inputElement.addUserPropertyDefn((UserPropertyDefn) builder.getResult());
 			return true;
 		}
 		return false;
 	}
 
-	public boolean doEditItem( int pos )
-	{
+	@Override
+	public boolean doEditItem(int pos) {
 		return false;
 	}
 
-	public String getColumnText( Object element, int columnIndex )
-	{
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
 		UserPropertyDefn def = (UserPropertyDefn) element;
-		if ( columnIndex == 0 )
-		{
-			return def.getName( );
+		if (columnIndex == 0) {
+			return def.getName();
 		}
-		return def.getType( ).getDisplayName( );
+		return def.getType().getDisplayName();
 	}
 
-	public Image getImage( Object element, int columnIndex )
-	{
+	@Override
+	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-		{
-			inputElement = ( (List) inputElement ).get( 0 );
+	@Override
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List) {
+			inputElement = ((List) inputElement).get(0);
 		}
-		if ( inputElement instanceof DesignElementHandle )
-		{
+		if (inputElement instanceof DesignElementHandle) {
 			this.inputElement = (DesignElementHandle) inputElement;
-			List userProperties = new ArrayList( );
-			userProperties.addAll( ( (DesignElementHandle) inputElement ).getUserProperties( ) );
-			for ( int i = 0; i < userProperties.size( ); i++ )
-			{
-				UserPropertyDefn defn = (UserPropertyDefn) userProperties.get( i );
-				if ( !defn.isVisible( ) )
-				{
-					userProperties.remove( i );
+			List userProperties = new ArrayList(((DesignElementHandle) inputElement).getUserProperties());
+			for (int i = 0; i < userProperties.size(); i++) {
+				UserPropertyDefn defn = (UserPropertyDefn) userProperties.get(i);
+				if (!defn.isVisible()) {
+					userProperties.remove(i);
 					i--;
 				}
 			}
-			return userProperties.toArray( );
+			return userProperties.toArray();
 		}
 		return null;
 	}
 
-	public boolean canModify( Object element, String property )
-	{
+	@Override
+	public boolean canModify(Object element, String property) {
 		return true;
 	}
 
-	public Object getValue( Object element, String property )
-	{
+	@Override
+	public Object getValue(Object element, String property) {
 		return null;
 	}
 
-	public boolean modify( Object data, String property, Object value )
-			throws Exception
-	{
+	@Override
+	public boolean modify(Object data, String property, Object value) throws Exception {
 		return false;
 	}
 
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof UserPropertyEvent )
-		{
+	@Override
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof UserPropertyEvent) {
 			return true;
 		}
 		return false;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +28,9 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 /**
  * CrosstabCornerHeaderRowExecutor
  */
-public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
-{
+public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor {
 
-	private static Logger logger = Logger.getLogger( CrosstabCornerHeaderRowExecutor.class.getName( ) );
+	private static Logger logger = Logger.getLogger(CrosstabCornerHeaderRowExecutor.class.getName());
 
 	private int rowSpan, colSpan;
 	private int currentChangeType;
@@ -40,26 +42,24 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 	private boolean emptyStarted;
 	private boolean hasLast;
 
-	public CrosstabCornerHeaderRowExecutor( BaseCrosstabExecutor parent )
-	{
-		super( parent );
+	public CrosstabCornerHeaderRowExecutor(BaseCrosstabExecutor parent) {
+		super(parent);
 	}
 
-	public IContent execute( )
-	{
-		IRowContent content = context.getReportContent( ).createRowContent( );
+	@Override
+	public IContent execute() {
+		IRowContent content = context.getReportContent().createRowContent();
 
-		initializeContent( content, null );
+		initializeContent(content, null);
 
-		processRowHeight( crosstabItem.getHeader( ) );
+		processRowHeight(crosstabItem.getHeader());
 
-		prepareChildren( );
+		prepareChildren();
 
 		return content;
 	}
 
-	private void prepareChildren( )
-	{
+	private void prepareChildren() {
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
 
@@ -73,67 +73,54 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 
 		hasLast = false;
 
-		walker.reload( );
+		walker.reload();
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
+	@Override
+	public IReportItemExecutor getNextChild() {
 		IReportItemExecutor nextExecutor = null;
 
-		try
-		{
-			while ( walker.hasNext( ) )
-			{
-				ColumnEvent ev = walker.next( );
+		try {
+			while (walker.hasNext()) {
+				ColumnEvent ev = walker.next();
 
-				switch ( currentChangeType )
-				{
-					case ColumnEvent.ROW_EDGE_CHANGE :
-					case ColumnEvent.MEASURE_HEADER_CHANGE :
+				switch (currentChangeType) {
+				case ColumnEvent.ROW_EDGE_CHANGE:
+				case ColumnEvent.MEASURE_HEADER_CHANGE:
 
-						if ( blankStarted )
-						{
-							int headerCount = crosstabItem.getHeaderCount( );
+					if (blankStarted) {
+						int headerCount = crosstabItem.getHeaderCount();
 
-							if ( headerCount > 1
-									|| ( ev.type != ColumnEvent.ROW_EDGE_CHANGE && ev.type != ColumnEvent.MEASURE_HEADER_CHANGE ) )
-							{
-								CrosstabCellHandle headerCell = null;
-								
-								int colIndex = currentColIndex - colSpan + 1;
+						if (headerCount > 1 || (ev.type != ColumnEvent.ROW_EDGE_CHANGE
+								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE)) {
+							CrosstabCellHandle headerCell = null;
 
-								if ( colIndex < headerCount )
-								{
-									headerCell = crosstabItem.getHeader( colIndex );
-								}
+							int colIndex = currentColIndex - colSpan + 1;
 
-								nextExecutor = new CrosstabCellExecutor( this,
-										headerCell,
-										rowSpan,
-										colSpan,
-										currentColIndex - colSpan + 1 );
-
-								( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-
-								blankStarted = false;
-								hasLast = false;
+							if (colIndex < headerCount) {
+								headerCell = crosstabItem.getHeader(colIndex);
 							}
+
+							nextExecutor = new CrosstabCellExecutor(this, headerCell, rowSpan, colSpan,
+									currentColIndex - colSpan + 1);
+
+							((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
+
+							blankStarted = false;
+							hasLast = false;
 						}
-						break;
+					}
+					break;
 				}
 
-				if ( !blankStarted
-						&& ( ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE ) )
-				{
+				if (!blankStarted
+						&& (ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE)) {
 					blankStarted = true;
 					rowSpan = 1;
 					colSpan = 0;
 					hasLast = true;
-				}
-				else if ( !emptyStarted
-						&& ev.type != ColumnEvent.ROW_EDGE_CHANGE
-						&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
-				{
+				} else if (!emptyStarted && ev.type != ColumnEvent.ROW_EDGE_CHANGE
+						&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE) {
 					emptyStarted = true;
 					rowSpan = 1;
 					colSpan = 0;
@@ -146,55 +133,40 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 				colSpan++;
 				currentColIndex++;
 
-				if ( nextExecutor != null )
-				{
+				if (nextExecutor != null) {
 					return nextExecutor;
 				}
 			}
 
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabMeasureHeaderRowExecutor.error.generate.child.executor" ), //$NON-NLS-1$
-					e );
+		} catch (OLAPException e) {
+			logger.log(Level.SEVERE,
+					Messages.getString("CrosstabMeasureHeaderRowExecutor.error.generate.child.executor"), //$NON-NLS-1$
+					e);
 		}
 
-		if ( hasLast )
-		{
+		if (hasLast) {
 			hasLast = false;
 
 			// handle last column
-			if ( blankStarted )
-			{
+			if (blankStarted) {
 				CrosstabCellHandle headerCell = null;
 
 				int colIndex = currentColIndex - colSpan + 1;
 
-				if ( colIndex < crosstabItem.getHeaderCount( ) )
-				{
-					headerCell = crosstabItem.getHeader( colIndex );
+				if (colIndex < crosstabItem.getHeaderCount()) {
+					headerCell = crosstabItem.getHeader(colIndex);
 				}
 
-				nextExecutor = new CrosstabCellExecutor( this,
-						headerCell,
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+				nextExecutor = new CrosstabCellExecutor(this, headerCell, rowSpan, colSpan,
+						currentColIndex - colSpan + 1);
 
-				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
 				blankStarted = false;
-			}
-			else if ( emptyStarted )
-			{
-				nextExecutor = new CrosstabCellExecutor( this,
-						null,
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+			} else if (emptyStarted) {
+				nextExecutor = new CrosstabCellExecutor(this, null, rowSpan, colSpan, currentColIndex - colSpan + 1);
 
-				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
 				emptyStarted = false;
 			}
@@ -203,17 +175,13 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 		return nextExecutor;
 	}
 
-	public boolean hasNextChild( )
-	{
-		try
-		{
-			return walker.hasNext( ) || hasLast;
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabMeasureHeaderRowExecutor.error.check.child.executor" ), //$NON-NLS-1$
-					e );
+	@Override
+	public boolean hasNextChild() {
+		try {
+			return walker.hasNext() || hasLast;
+		} catch (OLAPException e) {
+			logger.log(Level.SEVERE, Messages.getString("CrosstabMeasureHeaderRowExecutor.error.check.child.executor"), //$NON-NLS-1$
+					e);
 		}
 		return false;
 	}

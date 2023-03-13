@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,33 +19,35 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 
 /**
- * 
+ *
  */
 
-public interface IHierarchy
-{
+public interface IHierarchy {
 	/**
 	 * Get hierarchy name
+	 *
 	 * @return
 	 */
-	public String getName( );
-	
+	String getName();
+
 	/**
 	 * Get all levels of this hierarchy
+	 *
 	 * @return
 	 */
-	public ILevel[] getLevels( );
-	
+	ILevel[] getLevels();
+
 	/**
 	 * Get the member size of the lowest level.
+	 *
 	 * @return
 	 */
-	public int size( );
-	
+	int size();
+
 	/**
 	 * Closes this hierarchy and safely releases the associated resources .
-	 * 
+	 *
 	 * @throws IOException
 	 */
-	public void close( ) throws IOException;
+	void close() throws IOException;
 }

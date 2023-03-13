@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,11 +25,10 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 
 /**
  * Converts values between a report parameter and ODA Design Session Request.
- * 
+ *
  */
 
-public class ReportParameterAdapter implements IReportParameterAdapter
-{
+public class ReportParameterAdapter implements IReportParameterAdapter {
 
 	private IReportParameterAdapter adapter;
 
@@ -34,40 +36,31 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * The logger for errors.
 	 */
 
-	protected static final Logger errorLogger = Logger
-			.getLogger( ReportParameterAdapter.class.getName( ) );
+	protected static final Logger errorLogger = Logger.getLogger(ReportParameterAdapter.class.getName());
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ReportParameterAdapter( )
-	{
-		Object factory = Platform
-				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
-		if ( factory instanceof IAdapterFactory )
-		{
-			adapter = ( (IAdapterFactory) factory )
-					.createReportParameterAdapter( );
+	public ReportParameterAdapter() {
+		Object factory = Platform.createFactoryObject(IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY);
+		if (factory instanceof IAdapterFactory) {
+			adapter = ((IAdapterFactory) factory).createReportParameterAdapter();
 		}
-		if ( adapter == null )
-		{
-			errorLogger.log( Level.INFO,
-					"Can not start the model adapter oda factory." ); //$NON-NLS-1$
+		if (adapter == null) {
+			errorLogger.log(Level.INFO, "Can not start the model adapter oda factory."); //$NON-NLS-1$
 		}
 	}
 
-	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam, DataSetDesign dataSetDesign )
-			throws SemanticException
-	{
-		adapter.updateLinkedReportParameter( reportParam, dataSetParam,
-				dataSetDesign );
+	@Override
+	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam,
+			DataSetDesign dataSetDesign) throws SemanticException {
+		adapter.updateLinkedReportParameter(reportParam, dataSetParam, dataSetDesign);
 	}
 
-	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam ) throws SemanticException
-	{
-		adapter.updateLinkedReportParameter( reportParam, dataSetParam );
+	@Override
+	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam)
+			throws SemanticException {
+		adapter.updateLinkedReportParameter(reportParam, dataSetParam);
 	}
 }

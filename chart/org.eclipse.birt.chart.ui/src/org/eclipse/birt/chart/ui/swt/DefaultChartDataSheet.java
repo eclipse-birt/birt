@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,87 +30,81 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ *
  */
 
-public class DefaultChartDataSheet implements IChartDataSheet
-{
+public class DefaultChartDataSheet implements IChartDataSheet {
 
-	private List<Listener> listeners = new ArrayList<Listener>( 2 );
+	private List<Listener> listeners = new ArrayList<>(2);
 	private Chart cm;
 	protected ChartWizardContext context;
 
-	public void addListener( Listener listener )
-	{
-		if ( !listeners.contains( listener ) )
-		{
-			listeners.add( listener );
+	@Override
+	public void addListener(Listener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
 		}
 	}
 
-	public Composite createActionButtons( Composite parent )
-	{
-		return new Composite( parent, SWT.NONE );
+	@Override
+	public Composite createActionButtons(Composite parent) {
+		return new Composite(parent, SWT.NONE);
 	}
 
-	public Composite createDataDragSource( Composite parent )
-	{
-		return new Composite( parent, SWT.NONE );
+	@Override
+	public Composite createDataDragSource(Composite parent) {
+		return new Composite(parent, SWT.NONE);
 	}
 
-	public Composite createDataSelector( Composite parent )
-	{
-		return new Composite( parent, SWT.NONE );
+	@Override
+	public Composite createDataSelector(Composite parent) {
+		return new Composite(parent, SWT.NONE);
 	}
 
-	public void removeListener( Listener listener )
-	{
-		listeners.remove( listener );
+	@Override
+	public void removeListener(Listener listener) {
+		listeners.remove(listener);
 	}
 
-	public void notifyListeners( Event event )
-	{
-		for ( Iterator<Listener> iterator = listeners.iterator( ); iterator.hasNext( ); )
-		{
-			iterator.next( ).handleEvent( event );
+	@Override
+	public void notifyListeners(Event event) {
+		for (Iterator<Listener> iterator = listeners.iterator(); iterator.hasNext();) {
+			iterator.next().handleEvent(event);
 		}
 	}
 
-	public void dispose( )
-	{
-		listeners.clear( );
+	@Override
+	public void dispose() {
+		listeners.clear();
 	}
 
-	public void setChartModel( Chart cm )
-	{
+	@Override
+	public void setChartModel(Chart cm) {
 		this.cm = cm;
 
 	}
 
-	protected Chart getChartModel( )
-	{
+	protected Chart getChartModel() {
 		return this.cm;
 	}
 
-	public void setContext( IWizardContext context )
-	{
+	@Override
+	public void setContext(IWizardContext context) {
 		assert context instanceof ChartWizardContext;
 		this.context = (ChartWizardContext) context;
 	}
 
-	protected ChartWizardContext getContext( )
-	{
+	protected ChartWizardContext getContext() {
 		return this.context;
 	}
 
-	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
-	{
+	@Override
+	public ISelectDataCustomizeUI createCustomizeUI(ITask task) {
 		return null;
 	}
 
-	public List<String> getAllValueDefinitions( )
-	{
-		return new ArrayList<String>( 2 );
+	public List<String> getAllValueDefinitions() {
+		return new ArrayList<>(2);
 	}
 
 }

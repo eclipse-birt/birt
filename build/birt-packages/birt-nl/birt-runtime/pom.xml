@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build.package.nl</groupId>
 		<artifactId>org.eclipse.birt.build.package.nl-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt.nl</groupId>
@@ -17,99 +29,97 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${antrun.version}</version>
 				<executions>
 					<execution>
-						<id>blah</id>
 						<phase>package</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<tasks>
-                                                            <unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip"
-									dest="${project.build.directory}/p2updatesite"/>
-                                                                    <copy todir="${project.build.directory}/content/birt-runtime-{birt.version}\ReportEngine\plugins">
+							<target>
+								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip" dest="${project.build.directory}/p2updatesite" />
+								<copy todir="${project.build.directory}/content/birt-runtime-{birt.version}\ReportEngine\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
-										<include name="org.eclipse.birt.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.model.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.viewers.nl1_*.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar"/>
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+										<include name="org.eclipse.birt.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar" />
 									</fileset>
 								</copy>
-                                                                <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\lib">
+								<copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\lib">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
-										<include name="org.eclipse.birt.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.aggregation.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.adapter.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.dataextraction.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.model.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.viewers.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+										<include name="org.eclipse.birt.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.aggregation.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.adapter.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.dataextraction.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
 									</fileset>
 								</copy>
-                                                                <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\platform\plugins">
+								<copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\platform\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
-										<include name="org.eclipse.birt.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.model.nl1_*.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar"/>
-										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar"/>
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+										<include name="org.eclipse.birt.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar" />
 									</fileset>
 								</copy>
-								<zip destfile="target/NLpack1-birt-runtime.zip"
-									basedir="target/content"/>
-							</tasks>
+								<zip destfile="target/NLpack1-birt-runtime.zip" basedir="target/content" />
+							</target>
 						</configuration>
 					</execution>
 				</executions>

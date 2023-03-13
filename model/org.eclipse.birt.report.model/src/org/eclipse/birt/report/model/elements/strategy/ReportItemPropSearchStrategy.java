@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +37,9 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * especially about how to apply CSS rules on <code>ReportItem</code>.
  */
 
-public class ReportItemPropSearchStrategy extends PropertySearchStrategy
-{
+public class ReportItemPropSearchStrategy extends PropertySearchStrategy {
 
-	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy( );
+	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy();
 
 	/**
 	 * Data binding properties for the listing elements.
@@ -75,72 +77,53 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 	protected static Set<Integer> reportItemDataBindingPropsNameHash;
 
-	static
-	{
-		Set<String> tmpSet = new HashSet<String>( );
-		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
-		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		tmpSet.add( IReportItemModel.DATA_SET_PROP );
-		tmpSet.add( IReportItemModel.CUBE_PROP );
-		tmpSet.add( IListingElementModel.FILTER_PROP );
-		tmpSet.add( IListingElementModel.SORT_PROP );
+	static {
+		Set<String> tmpSet = new HashSet<>();
+		tmpSet.add(IReportItemModel.PARAM_BINDINGS_PROP);
+		tmpSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+		tmpSet.add(IReportItemModel.DATA_SET_PROP);
+		tmpSet.add(IReportItemModel.CUBE_PROP);
+		tmpSet.add(IListingElementModel.FILTER_PROP);
+		tmpSet.add(IListingElementModel.SORT_PROP);
 		listingElementDataBindingProps = tmpSet;
 
-		Set<Integer> tmpIntegerSet = new HashSet<Integer>( );
-		tmpIntegerSet.add( Integer
-				.valueOf( IReportItemModel.PARAM_BINDINGS_PROP.hashCode( ) ) );
-		tmpIntegerSet
-				.add( Integer.valueOf( IReportItemModel.BOUND_DATA_COLUMNS_PROP
-						.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.DATA_SET_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.CUBE_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IListingElementModel.FILTER_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IListingElementModel.SORT_PROP
-				.hashCode( ) ) );
+		Set<Integer> tmpIntegerSet = new HashSet<>();
+		tmpIntegerSet.add(IReportItemModel.PARAM_BINDINGS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.DATA_SET_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.CUBE_PROP.hashCode());
+		tmpIntegerSet.add(IListingElementModel.FILTER_PROP.hashCode());
+		tmpIntegerSet.add(IListingElementModel.SORT_PROP.hashCode());
 		listingElementDataBindingPropsNameHash = tmpIntegerSet;
 
-		tmpSet = new HashSet<String>( );
-		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
-		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		tmpSet.add( IReportItemModel.DATA_SET_PROP );
-		tmpSet.add( IReportItemModel.CUBE_PROP );
-		tmpSet.add( IExtendedItemModel.FILTER_PROP );
-		extendedItemDataBindingProps =  tmpSet;
+		tmpSet = new HashSet<>();
+		tmpSet.add(IReportItemModel.PARAM_BINDINGS_PROP);
+		tmpSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+		tmpSet.add(IReportItemModel.DATA_SET_PROP);
+		tmpSet.add(IReportItemModel.CUBE_PROP);
+		tmpSet.add(IExtendedItemModel.FILTER_PROP);
+		extendedItemDataBindingProps = tmpSet;
 
-		tmpIntegerSet = new HashSet<Integer>( );
-		tmpIntegerSet.add( Integer
-				.valueOf( IReportItemModel.PARAM_BINDINGS_PROP.hashCode( ) ) );
-		tmpIntegerSet
-				.add( Integer.valueOf( IReportItemModel.BOUND_DATA_COLUMNS_PROP
-						.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.DATA_SET_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.CUBE_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IExtendedItemModel.FILTER_PROP
-				.hashCode( ) ) );
+		tmpIntegerSet = new HashSet<>();
+		tmpIntegerSet.add(IReportItemModel.PARAM_BINDINGS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.DATA_SET_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.CUBE_PROP.hashCode());
+		tmpIntegerSet.add(IExtendedItemModel.FILTER_PROP.hashCode());
 		extendedItemDataBindingPropsNameHash = tmpIntegerSet;
 
-		tmpSet = new HashSet<String>( );
-		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
-		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		tmpSet.add( IReportItemModel.DATA_SET_PROP );
-		tmpSet.add( IReportItemModel.CUBE_PROP );
+		tmpSet = new HashSet<>();
+		tmpSet.add(IReportItemModel.PARAM_BINDINGS_PROP);
+		tmpSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+		tmpSet.add(IReportItemModel.DATA_SET_PROP);
+		tmpSet.add(IReportItemModel.CUBE_PROP);
 		reportItemDataBindingProps = tmpSet;
 
-		tmpIntegerSet = new HashSet<Integer>( );
-		tmpIntegerSet.add( Integer
-				.valueOf( IReportItemModel.PARAM_BINDINGS_PROP.hashCode( ) ) );
-		tmpIntegerSet
-				.add( Integer.valueOf( IReportItemModel.BOUND_DATA_COLUMNS_PROP
-						.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.DATA_SET_PROP
-				.hashCode( ) ) );
-		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.CUBE_PROP
-				.hashCode( ) ) );
+		tmpIntegerSet = new HashSet<>();
+		tmpIntegerSet.add(IReportItemModel.PARAM_BINDINGS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.BOUND_DATA_COLUMNS_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.DATA_SET_PROP.hashCode());
+		tmpIntegerSet.add(IReportItemModel.CUBE_PROP.hashCode());
 		reportItemDataBindingPropsNameHash = tmpIntegerSet;
 	}
 
@@ -148,26 +131,23 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	 * Protected constructor.
 	 */
 
-	protected ReportItemPropSearchStrategy( )
-	{
+	protected ReportItemPropSearchStrategy() {
 	}
 
 	/**
 	 * Returns the instance of <code>ReportItemPropSearchStrategy</code> which
-	 * provide the specific property searching route for <code>ReportItem</code>
-	 * .
-	 * 
+	 * provide the specific property searching route for <code>ReportItem</code> .
+	 *
 	 * @return the instance of <code>ReportItemPropSearchStrategy</code>
 	 */
 
-	public static PropertySearchStrategy getInstance( )
-	{
+	public static PropertySearchStrategy getInstance() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf
 	 * (org.eclipse.birt.report.model.core.Module,
@@ -175,152 +155,130 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	protected Object getPropertyFromSelf( Module module, DesignElement element,
-			ElementPropertyDefn prop )
-	{
-		String propName = prop.getName( );
-		if ( !isDataBindingProperty( element, propName ) )
-			return super.getPropertyFromSelf( module, element, prop );
+	@Override
+	protected Object getPropertyFromSelf(Module module, DesignElement element, ElementPropertyDefn prop) {
+		String propName = prop.getName();
+		if (!isDataBindingProperty(element, propName)) {
+			return super.getPropertyFromSelf(module, element, prop);
+		}
 
 		// the data binding reference property has high priority than local
 		// properties.
 
-		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty( module,
-				IReportItemModel.DATA_BINDING_REF_PROP );
-		if ( refValue == null || !refValue.isResolved( ) )
-			return super.getPropertyFromSelf( module, element, prop );
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(module,
+				IReportItemModel.DATA_BINDING_REF_PROP);
+		if (refValue == null || !refValue.isResolved()) {
+			return super.getPropertyFromSelf(module, element, prop);
+		}
 
-		DesignElement refElement = refValue.getElement( );
-		ElementPropertyDefn refPropDefn = refElement.getPropertyDefn( propName );
+		DesignElement refElement = refValue.getElement();
+		ElementPropertyDefn refPropDefn = refElement.getPropertyDefn(propName);
 
 		// if definition in the referred element is not found, return null: table refers
 		// data, data not define filter/sort
-		if ( refPropDefn == null )
+		if ((refPropDefn == null) || prop.getTypeCode() != refPropDefn.getTypeCode() || prop.getStructDefn() != refPropDefn.getStructDefn()
+				|| prop.getTargetElementType() != refPropDefn.getTargetElementType()) {
 			return null;
-		if ( prop.getTypeCode( ) != refPropDefn.getTypeCode( )
-				|| prop.getStructDefn( ) != refPropDefn.getStructDefn( )
-				|| prop.getTargetElementType( ) != refPropDefn.getTargetElementType( ) )
-			return null;
+		}
 
-		return refElement.getProperty( module, prop );
+		return refElement.getProperty(module, prop);
 	}
 
 	/**
 	 * Returns properties that are bound to data related values.
-	 * 
-	 * @param tmpElement
-	 *            the design element
+	 *
+	 * @param tmpElement the design element
 	 * @return a set containing property names in string
 	 */
 
-	public static Set<String> getDataBindingProperties( DesignElement tmpElement )
-	{
+	public static Set<String> getDataBindingProperties(DesignElement tmpElement) {
 
-		if ( tmpElement instanceof ListingElement )
-		{
+		if (tmpElement instanceof ListingElement) {
 			return listingElementDataBindingProps;
-		}
-		else if ( tmpElement instanceof ExtendedItem )
-		{
+		} else if (tmpElement instanceof ExtendedItem) {
 			return extendedItemDataBindingProps;
-		}
-		else if ( tmpElement instanceof ReportItem )
+		} else if (tmpElement instanceof ReportItem) {
 			return reportItemDataBindingProps;
-		else
-			return Collections.emptySet( );
+		} else {
+			return Collections.emptySet();
+		}
 
 	}
 
 	/**
 	 * Returns properties hash code that are bound to data related values.
-	 * 
-	 * @param tmpElement
-	 *            the design element
+	 *
+	 * @param tmpElement the design element
 	 * @return a set containing property names in string
 	 */
 
-	private static Set<Integer> getDataBindingPropertiesNameHash(
-			DesignElement tmpElement )
-	{
+	private static Set<Integer> getDataBindingPropertiesNameHash(DesignElement tmpElement) {
 
-		if ( tmpElement instanceof ListingElement )
-		{
+		if (tmpElement instanceof ListingElement) {
 			return listingElementDataBindingPropsNameHash;
-		}
-		else if ( tmpElement instanceof ExtendedItem )
-		{
+		} else if (tmpElement instanceof ExtendedItem) {
 			return extendedItemDataBindingPropsNameHash;
-		}
-		else if ( tmpElement instanceof ReportItem )
+		} else if (tmpElement instanceof ReportItem) {
 			return reportItemDataBindingPropsNameHash;
-		else
-			return Collections.emptySet( );
+		} else {
+			return Collections.emptySet();
+		}
 
 	}
 
 	/**
 	 * Checks if the property is data binding property.
-	 * 
-	 * @param element
-	 *            the design element
-	 * @param propName
-	 *            the property name
-	 * @return true if this property is the data binding property, false
-	 *         otherwise
+	 *
+	 * @param element  the design element
+	 * @param propName the property name
+	 * @return true if this property is the data binding property, false otherwise
 	 */
-	public static boolean isDataBindingProperty( DesignElement element,
-			String propName )
-	{
-		if ( !( element instanceof ReportItem )
-				|| StringUtil.isBlank( propName ) )
+	public static boolean isDataBindingProperty(DesignElement element, String propName) {
+		if (!(element instanceof ReportItem) || StringUtil.isBlank(propName)) {
 			return false;
-		return getDataBindingPropertiesNameHash( element ).contains(
-				Integer.valueOf( propName.hashCode( ) ) );
+		}
+		return getDataBindingPropertiesNameHash(element).contains(Integer.valueOf(propName.hashCode()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#
 	 * getPropertyExceptRomDefault(org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	public Object getPropertyExceptRomDefault( Module module,
-			DesignElement element, ElementPropertyDefn prop )
-	{
-		if ( IListingElementModel.REPEAT_HEADER_PROP.equals( prop.getName( ) )
-				&& element instanceof ListingElement )
-		{
-			Object value = super.getPropertyExceptRomDefault( module, element,
-					prop );
+	@Override
+	public Object getPropertyExceptRomDefault(Module module, DesignElement element, ElementPropertyDefn prop) {
+		if (IListingElementModel.REPEAT_HEADER_PROP.equals(prop.getName()) && element instanceof ListingElement) {
+			Object value = super.getPropertyExceptRomDefault(module, element, prop);
 
 			// if report-header is FALSE, return it
-			if ( Boolean.FALSE.equals( value ) )
+			if (Boolean.FALSE.equals(value)) {
 				return value;
+			}
 
 			// if cascadeACL is false, return
-			Object cascadeACL = element.getProperty( module,
-					IReportItemModel.CASCADE_ACL_PROP );
-			if ( Boolean.FALSE.equals( cascadeACL ) )
+			Object cascadeACL = element.getProperty(module, IReportItemModel.CASCADE_ACL_PROP);
+			if (Boolean.FALSE.equals(cascadeACL)) {
 				return value;
+			}
 
 			// cascadeACL is true, then check all the groups: if any group
 			// element defines ACLExpression, then return FALSE
 			ListingElement listingElement = (ListingElement) element;
-			List<DesignElement> groups = listingElement.getGroups( );
-			for ( DesignElement group : groups )
-			{
-				Object aclExpr = group.getProperty( module,
-						IReportItemModel.ACL_EXPRESSION_PROP );
-				if ( aclExpr != null )
+			List<DesignElement> groups = listingElement.getGroups();
+			for (DesignElement group : groups) {
+				Object aclExpr = group.getProperty(module, IReportItemModel.ACL_EXPRESSION_PROP);
+				if (aclExpr != null) {
 					return Boolean.FALSE;
+				}
 			}
 
 			return value;
 
 		}
 
-		return super.getPropertyExceptRomDefault( module, element, prop );
+		return super.getPropertyExceptRomDefault(module, element, prop);
 	}
 }

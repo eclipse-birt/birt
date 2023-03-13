@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -44,8 +47,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_79040 extends BaseTestCase
-{
+public class Regression_79040 extends BaseTestCase {
 
 	private final static String INPUT = "regression_79040.rptdesign"; //$NON-NLS-1$
 
@@ -53,32 +55,30 @@ public class Regression_79040 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	@Override
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
 
-	
-	public void test_regression_79040( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
-		TableHandle table1 = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+	public void test_regression_79040() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+		TableHandle table1 = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
 
-		assertNotNull( table1 );
-		assertEquals( "Data Set", table1.getDataSet( ).getName( ) ); //$NON-NLS-1$
+		assertNotNull(table1);
+		assertEquals("Data Set", table1.getDataSet().getName()); //$NON-NLS-1$
 
 		// drop table, data set, data source in order.
-		table1.drop( );
+		table1.drop();
 
-		DataSetHandle dset = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
-		DataSourceHandle dsource = dset.getDataSource( );
+		DataSetHandle dset = designHandle.findDataSet("Data Set"); //$NON-NLS-1$
+		DataSourceHandle dsource = dset.getDataSource();
 
-		dset.drop( );
-		dsource.drop( );
+		dset.drop();
+		dsource.drop();
 
 		// success if no exception throws.
 	}

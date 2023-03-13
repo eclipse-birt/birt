@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,70 +29,57 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command set a generic property on a model object
- * 
- * 
+ *
+ *
  */
 
-public class SetPropertyCommand extends Command
-{
-	private static Logger logger = Logger.getLogger( SetPropertyCommand.class.getName( ) );
-	
+public class SetPropertyCommand extends Command {
+	private static Logger logger = Logger.getLogger(SetPropertyCommand.class.getName());
+
 	private Object model;
 
 	private Map extendsData;
 
-	public SetPropertyCommand( Object model, Map extendsData )
-	{
+	public SetPropertyCommand(Object model, Map extendsData) {
 		this.model = model;
 		this.extendsData = extendsData;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "SetPropertyCommand >> Starts ..." ); //$NON-NLS-1$
+	@Override
+	public void execute() {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("SetPropertyCommand >> Starts ..."); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 			DesignElementHandle handle = (DesignElementHandle) model;
-			List elementProperties = handle.getDefn( ).getProperties( );
+			List elementProperties = handle.getDefn().getProperties();
 
-			for ( Iterator it = elementProperties.iterator( ); it.hasNext( ); )
-			{
-				String key = ( (IElementPropertyDefn) it.next( ) ).getName( );
-				Object value = null;
-				if ( ( value = extendsData.get( DEUtil.getGUIPropertyKey( key ) ) ) != null )
-				{
-					if ( DesignerConstants.TRACING_COMMANDS )
-					{
-						System.out.println( "SetPropertyCommand >>  Target: " //$NON-NLS-1$
-								+ DEUtil.getDisplayLabel( handle )
-								+ ",Property: " //$NON-NLS-1$
-								+ key
-								+ ",Value: " //$NON-NLS-1$
-								+ value );
+			for (Iterator it = elementProperties.iterator(); it.hasNext();) {
+				String key = ((IElementPropertyDefn) it.next()).getName();
+				Object value = extendsData.get(DEUtil.getGUIPropertyKey(key));
+				if (value != null) {
+					if (DesignerConstants.TRACING_COMMANDS) {
+						System.out.println("SetPropertyCommand >>  Target: " //$NON-NLS-1$
+								+ DEUtil.getDisplayLabel(handle) + ",Property: " //$NON-NLS-1$
+								+ key + ",Value: " //$NON-NLS-1$
+								+ value);
 					}
-					handle.setProperty( key, value );
+					handle.setProperty(key, value);
 				}
 			}
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetPropertyCommand >> Finished" ); //$NON-NLS-1$
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetPropertyCommand >> Finished"); //$NON-NLS-1$
 			}
-		}
-		catch ( SemanticException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetPropertyCommand >> Failed" ); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetPropertyCommand >> Failed"); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

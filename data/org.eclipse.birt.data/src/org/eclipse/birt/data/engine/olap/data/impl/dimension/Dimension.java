@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,23 +36,25 @@ import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
- * Describes a dimension. In current implement a dimension only contains one hierarchy.
+ * Describes a dimension. In current implement a dimension only contains one
+ * hierarchy.
  */
 
-public class Dimension implements IDimension
-{
-	
+public class Dimension implements IDimension {
+
 	protected String name = null;
 	protected IDocumentManager documentManager = null;
 	private IDocumentObject documentObj = null;
 	private Hierarchy hierarchy = null;
 	private int length = 0;
 	private boolean isTime;
-	private static Logger logger = Logger.getLogger( Dimension.class.getName( ) );
-	
-	protected Dimension( ){}
+	private static Logger logger = Logger.getLogger(Dimension.class.getName());
+
+	protected Dimension() {
+	}
+
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param documentManager
 	 * @param hierarchy
@@ -57,281 +62,256 @@ public class Dimension implements IDimension
 	 * @throws BirtException
 	 * @throws IOException
 	 */
-	public Dimension( String name, IDocumentManager documentManager,
-			 Hierarchy hierarchy, boolean isTime )
-			throws DataException, IOException
-	{
-		Object[] params = {
-				name, documentManager, hierarchy, Boolean.valueOf( isTime )
-		};
-		logger.entering( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE, params );
+	public Dimension(String name, IDocumentManager documentManager, Hierarchy hierarchy, boolean isTime)
+			throws DataException, IOException {
+		Object[] params = { name, documentManager, hierarchy, Boolean.valueOf(isTime) };
+		logger.entering(Dimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE, params);
 		this.name = name;
 		this.documentManager = documentManager;
 		this.isTime = isTime;
-		documentObj = documentManager.createDocumentObject( NamingUtil.getDimensionDocName( name ) );
-		documentObj.writeBoolean( isTime );
-		documentObj.writeString( hierarchy.getName( ) );
-		ILevel[] levels = hierarchy.getLevels( );
-		for( int i = 0; i < levels.length; i++ )
-		{
-			documentObj.writeString( levels[i].getLeveType( ) );
+		documentObj = documentManager.createDocumentObject(NamingUtil.getDimensionDocName(name));
+		documentObj.writeBoolean(isTime);
+		documentObj.writeString(hierarchy.getName());
+		ILevel[] levels = hierarchy.getLevels();
+		for (int i = 0; i < levels.length; i++) {
+			documentObj.writeString(levels[i].getLeveType());
 		}
-		this.hierarchy =  (Hierarchy)hierarchy;
-		length = hierarchy.size( );
+		this.hierarchy = (Hierarchy) hierarchy;
+		length = hierarchy.size();
 		// close document object
-		documentObj.close( );
+		documentObj.close();
 		documentObj = null;
-		logger.exiting( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE );
+		logger.exiting(Dimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE);
 	}
 
-	Dimension( String name, IDocumentManager documentManager )
-			throws IOException, DataException
-	{
-		Object[] params = {
-			name, documentManager
-		};
-		logger.entering( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE, params );
+	Dimension(String name, IDocumentManager documentManager) throws IOException, DataException {
+		Object[] params = { name, documentManager };
+		logger.entering(Dimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE, params);
 		this.name = name;
 		this.documentManager = documentManager;
-		loadFromDisk( );
-		logger.exiting( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE );
+		loadFromDisk();
+		logger.exiting(Dimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE);
 	}
 
-	protected void loadFromDisk( ) throws IOException, DataException
-	{
-		documentObj = documentManager.openDocumentObject( NamingUtil.getDimensionDocName( name ) );
-		if ( documentObj == null )
-		{
-			throw new DataException( ResourceConstants.DIMENSION_NOT_EXIST,
-					name );
+	protected void loadFromDisk() throws IOException, DataException {
+		documentObj = documentManager.openDocumentObject(NamingUtil.getDimensionDocName(name));
+		if (documentObj == null) {
+			throw new DataException(ResourceConstants.DIMENSION_NOT_EXIST, name);
 		}
-		isTime = documentObj.readBoolean( );
-		String hierarchyName = documentObj.readString( );
-		hierarchy = this.loadHierarchy( hierarchyName );
-		hierarchy.loadFromDisk( );
-		length = hierarchy.size( );
-		Level[] levels = ( Level[] ) hierarchy.getLevels( );
-		try
-		{
-			for( int i = 0; i < levels.length; i++ )
-			{
-				levels[i].setLevelType( documentObj.readString( ) );
+		isTime = documentObj.readBoolean();
+		String hierarchyName = documentObj.readString();
+		hierarchy = this.loadHierarchy(hierarchyName);
+		hierarchy.loadFromDisk();
+		length = hierarchy.size();
+		Level[] levels = (Level[]) hierarchy.getLevels();
+		try {
+			for (int i = 0; i < levels.length; i++) {
+				levels[i].setLevelType(documentObj.readString());
 			}
+		} catch (java.io.EOFException e) {
 		}
-		catch( java.io.EOFException e )
-		{
-		}
-		documentObj.close( );
+		documentObj.close();
 		documentObj = null;
 	}
-	
-	protected Hierarchy loadHierarchy( String hierarchyName )
-	{
-		return new Hierarchy( documentManager, name, hierarchyName );
+
+	protected Hierarchy loadHierarchy(String hierarchyName) {
+		return new Hierarchy(documentManager, name, hierarchyName);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDimension#getAllRows()
 	 */
-	public IDiskArray getAllRows( StopSign stopSign ) throws IOException
-	{
-		try
-		{
-			return hierarchy.readAllRows( stopSign );
-		}
-		catch ( DataException e )
-		{
-			IOException ex = new IOException( e.getLocalizedMessage( ) );
-			ex.initCause( e );
+	@Override
+	public IDiskArray getAllRows(StopSign stopSign) throws IOException {
+		try {
+			return hierarchy.readAllRows(stopSign);
+		} catch (DataException e) {
+			IOException ex = new IOException(e.getLocalizedMessage());
+			ex.initCause(e);
 			throw ex;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @return
 	 * @throws IOException
 	 */
-	public DimensionRow getRowByPosition( int position )
-			throws IOException
-	{
-		return hierarchy.readRowByPosition( position );
+	public DimensionRow getRowByPosition(int position) throws IOException {
+		return hierarchy.readRowByPosition(position);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param positionArray
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 */
-	public IDiskArray getDimensionRowByPositions(
-			IDiskArray positionArray, StopSign stopSign ) throws IOException
-	{
-		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
-				positionArray.size( ) );
+	public IDiskArray getDimensionRowByPositions(IDiskArray positionArray, StopSign stopSign) throws IOException {
+		BufferedStructureArray resultArray = new BufferedStructureArray(DimensionRow.getCreator(),
+				positionArray.size());
 
-		for ( int i = 0; i < positionArray.size( ); i++ )
-		{
-			if( stopSign.isStopped( ) )
+		for (int i = 0; i < positionArray.size(); i++) {
+			if (stopSign.isStopped()) {
 				break;
-			int pos = ( (Integer) positionArray.get( i ) ).intValue( );
-			resultArray.add( hierarchy.readRowByPosition( pos ) );
+			}
+			int pos = ((Integer) positionArray.get(i)).intValue();
+			resultArray.add(hierarchy.readRowByPosition(pos));
 		}
 		return resultArray;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param offset
 	 * @return
 	 * @throws IOException
 	 */
-	public DimensionRow getDimensionRowByOffset( int offset )
-			throws IOException
-	{
-		return hierarchy.readRowByOffset( offset );
+	public DimensionRow getDimensionRowByOffset(int offset) throws IOException {
+		return hierarchy.readRowByOffset(offset);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param keyValue
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public IDiskArray find( Level level, Object[] keyValue )
-			throws IOException, DataException
-	{
-		DiskIndex index = level.getDiskIndex( );
-		if ( index == null )
+	public IDiskArray find(Level level, Object[] keyValue) throws IOException, DataException {
+		DiskIndex index = level.getDiskIndex();
+		if (index == null) {
 			return null;
-		return index.find( keyValue );
+		}
+		return index.find(keyValue);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param keyValue
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public IDiskArray findPosition( Level level, Object[] keyValue )
-			throws IOException, DataException
-	{
-		IDiskArray indexKeyArray = find( level, keyValue );
+	public IDiskArray findPosition(Level level, Object[] keyValue) throws IOException, DataException {
+		IDiskArray indexKeyArray = find(level, keyValue);
 		int len = 0;
-		for ( int i = 0; i < indexKeyArray.size( ); i++ )
-		{
-			IndexKey key = (IndexKey) indexKeyArray.get( i );
-			len += key.getDimensionPos( ).length;
+		for (int i = 0; i < indexKeyArray.size(); i++) {
+			IndexKey key = (IndexKey) indexKeyArray.get(i);
+			len += key.getDimensionPos().length;
 		}
-		IDiskArray result = new BufferedPrimitiveDiskArray( len );
-		for ( int i = 0; i < indexKeyArray.size( ); i++ )
-		{
-			IndexKey key = (IndexKey) indexKeyArray.get( i );
-			int[] pos = key.getDimensionPos( );
-			for( int j = 0; j < pos.length; j++ )
-			{
-				result.add( Integer.valueOf( pos[j] ) );
+		IDiskArray result = new BufferedPrimitiveDiskArray(len);
+		for (int i = 0; i < indexKeyArray.size(); i++) {
+			IndexKey key = (IndexKey) indexKeyArray.get(i);
+			int[] pos = key.getDimensionPos();
+			for (int j = 0; j < pos.length; j++) {
+				result.add(Integer.valueOf(pos[j]));
 			}
 		}
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param keyValue
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public IndexKey findFirst( Level level, Object[] keyValue )
-			throws IOException, DataException
-	{
-		DiskIndex index = level.getDiskIndex( );
-		if ( index == null )
+	public IndexKey findFirst(Level level, Object[] keyValue) throws IOException, DataException {
+		DiskIndex index = level.getDiskIndex();
+		if (index == null) {
 			return null;
-		return index.findFirst( keyValue );
+		}
+		return index.findFirst(keyValue);
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param selections
 	 * @return Dimension index array.
-	 * @throws IOException 
-	 * @throws DataException 
+	 * @throws IOException
+	 * @throws DataException
 	 */
-	public IDiskArray find( Level[] levels, ISelection[][] filters ) throws IOException, DataException
-	{
-		return DimensionFilterHelper.find( levels, filters );
+	public IDiskArray find(Level[] levels, ISelection[][] filters) throws IOException, DataException {
+		return DimensionFilterHelper.find(levels, filters);
 	}
-	
-	public Level getDetailLevel( )
-	{
-		return (Level)(hierarchy.getLevels( )[hierarchy.getLevels( ).length - 1]);
+
+	public Level getDetailLevel() {
+		return (Level) (hierarchy.getLevels()[hierarchy.getLevels().length - 1]);
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#findAll()
 	 */
-	public IDiskArray findAll( ) throws IOException
-	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( length );
-		int lastPos = length( ) - 1;
-		for ( int i = 0; i <= lastPos; i++ )
-		{
-			result.add( Integer.valueOf( i ) );
+	@Override
+	public IDiskArray findAll() throws IOException {
+		IDiskArray result = new BufferedPrimitiveDiskArray(length);
+		int lastPos = length() - 1;
+		for (int i = 0; i <= lastPos; i++) {
+			result.add(Integer.valueOf(i));
 		}
 		return result;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#getName()
 	 */
-	public String getName()
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#getHierarchy()
 	 */
-	public IHierarchy getHierarchy( )
-	{
+	@Override
+	public IHierarchy getHierarchy() {
 		return hierarchy;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#isTime()
 	 */
-	public boolean isTime( )
-	{
+	@Override
+	public boolean isTime() {
 		return isTime;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#length()
 	 */
-	public int length( )
-	{
+	@Override
+	public int length() {
 		return length;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#close()
 	 */
-	public void close( ) throws IOException
-	{
-		hierarchy.close( );
+	@Override
+	public void close() throws IOException {
+		hierarchy.close();
 	}
 
 }

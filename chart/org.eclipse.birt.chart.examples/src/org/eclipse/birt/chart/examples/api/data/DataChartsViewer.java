@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,7 +24,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,12 +50,9 @@ import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of interactivity charts in Swing JPanel.
- * 
+ *
  */
-public final class DataChartsViewer extends JPanel implements
-		IUpdateNotifier,
-		ComponentListener
-{
+public final class DataChartsViewer extends JPanel implements IUpdateNotifier, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,286 +67,262 @@ public final class DataChartsViewer extends JPanel implements
 	/**
 	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting interactivity.
-	 * 
+	 *
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		DataChartsViewer dcv = new DataChartsViewer( );
+	public static void main(String[] args) {
+		DataChartsViewer dcv = new DataChartsViewer();
 
-		JFrame jf = new JFrame( );
-		jf.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		jf.addComponentListener( dcv );
+		JFrame jf = new JFrame();
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jf.addComponentListener(dcv);
 
-		Container co = jf.getContentPane( );
-		co.setLayout( new BorderLayout( ) );
-		co.add( dcv, BorderLayout.CENTER );
+		Container co = jf.getContentPane();
+		co.setLayout(new BorderLayout());
+		co.add(dcv, BorderLayout.CENTER);
 
-		Dimension dScreen = Toolkit.getDefaultToolkit( ).getScreenSize( );
-		Dimension dApp = new Dimension( 600, 400 );
-		jf.setSize( dApp );
-		jf.setLocation( ( dScreen.width - dApp.width ) / 2,
-				( dScreen.height - dApp.height ) / 2 );
+		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension dApp = new Dimension(600, 400);
+		jf.setSize(dApp);
+		jf.setLocation((dScreen.width - dApp.width) / 2, (dScreen.height - dApp.height) / 2);
 
-		jf.setTitle( dcv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
-				+ dcv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$
+		jf.setTitle(dcv.getClass().getName() + " [device=" //$NON-NLS-1$
+				+ dcv.idr.getClass().getName() + "]");//$NON-NLS-1$
 
-		ControlPanel cp = dcv.new ControlPanel( dcv );
-		co.add( cp, BorderLayout.SOUTH );
+		ControlPanel cp = dcv.new ControlPanel(dcv);
+		co.add(cp, BorderLayout.SOUTH);
 
-		jf.setVisible( true );
+		jf.setVisible(true);
 	}
 
 	/**
 	 * Get the connection with SWING device to render the graphics.
 	 */
-	DataChartsViewer( )
-	{
-		PlatformConfig config = new PlatformConfig( );
-		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-		final PluginSettings ps = PluginSettings.instance( config );
-		try
-		{
-			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
+	DataChartsViewer() {
+		PlatformConfig config = new PlatformConfig();
+		config.setProperty("STANDALONE", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance(config);
+		try {
+			idr = ps.getDevice("dv.SWING");//$NON-NLS-1$
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = DataCharts.createMinSliceChart( );
+		cm = DataCharts.createMinSliceChart();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
-	public void regenerateChart( )
-	{
+	@Override
+	public void regenerateChart() {
 		bNeedsGeneration = true;
-		repaint( );
+		repaint();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#update()
 	 */
-	public void repaintChart( )
-	{
-		repaint( );
+	@Override
+	public void repaintChart() {
+		repaint();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#peerInstance()
 	 */
-	public Object peerInstance( )
-	{
+	@Override
+	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel( )
-	{
+	@Override
+	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel( )
-	{
-		return gcs.getChartModel( );
+	@Override
+	public Chart getRunTimeModel() {
+		return gcs.getChartModel();
 	}
 
-	public void paint( Graphics g )
-	{
-		super.paint( g );
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
 
 		Graphics2D g2d = (Graphics2D) g;
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, this );
+		idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER, this);
 
-		Dimension d = getSize( );
-		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
-		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
+		Dimension d = getSize();
+		Bounds bo = BoundsImpl.create(0, 0, d.width, d.height);
+		bo.scale(72d / idr.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
 		// When the update button has been pushed, build a chart offscreen.
-		if ( bNeedsGeneration )
-		{
+		if (bNeedsGeneration) {
 			bNeedsGeneration = false;
-			try
-			{
-				gcs = gr.build( idr.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						null,
-						null );
-			}
-			catch ( ChartException ex )
-			{
-				showException( g2d, ex );
+			try {
+				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, null, null);
+			} catch (ChartException ex) {
+				showException(g2d, ex);
 			}
 		}
 
 		// Draw the previous built chart on screen.
-		try
-		{
-			gr.render( idr, gcs );
-		}
-		catch ( ChartException ex )
-		{
-			showException( g2d, ex );
+		try {
+			gr.render(idr, gcs);
+		} catch (ChartException ex) {
+			showException(g2d, ex);
 		}
 	}
 
 	/**
 	 * Presents the Exceptions if the chart cannot be displayed properly.
-	 * 
+	 *
 	 * @param g2d
 	 * @param ex
 	 */
-	private final void showException( Graphics2D g2d, Exception ex )
-	{
-		String sWrappedException = ex.getClass( ).getName( );
+	private void showException(Graphics2D g2d, Exception ex) {
+		String sWrappedException = ex.getClass().getName();
 		Throwable th = ex;
-		while ( ex.getCause( ) != null )
-		{
-			ex = (Exception) ex.getCause( );
+		while (ex.getCause() != null) {
+			ex = (Exception) ex.getCause();
 		}
-		String sException = ex.getClass( ).getName( );
-		if ( sWrappedException.equals( sException ) )
-		{
+		String sException = ex.getClass().getName();
+		if (sWrappedException.equals(sException)) {
 			sWrappedException = null;
 		}
 
 		String sMessage = null;
-		if ( th instanceof BirtException )
-		{
-			sMessage = ( (BirtException) th ).getLocalizedMessage( );
-		}
-		else
-		{
-			sMessage = ex.getMessage( );
+		if (th instanceof BirtException) {
+			sMessage = ((BirtException) th).getLocalizedMessage();
+		} else {
+			sMessage = ex.getMessage();
 		}
 
-		if ( sMessage == null )
-		{
+		if (sMessage == null) {
 			sMessage = "<null>";//$NON-NLS-1$
 		}
 
-		StackTraceElement[] stea = ex.getStackTrace( );
-		Dimension d = getSize( );
+		StackTraceElement[] stea = ex.getStackTrace();
+		Dimension d = getSize();
 
-		Font fo = new Font( "Monospaced", Font.BOLD, 14 );//$NON-NLS-1$
-		g2d.setFont( fo );
-		FontMetrics fm = g2d.getFontMetrics( );
-		g2d.setColor( Color.WHITE );
-		g2d.fillRect( 20, 20, d.width - 40, d.height - 40 );
-		g2d.setColor( Color.BLACK );
-		g2d.drawRect( 20, 20, d.width - 40, d.height - 40 );
-		g2d.setClip( 20, 20, d.width - 40, d.height - 40 );
-		int x = 25, y = 20 + fm.getHeight( );
-		g2d.drawString( "Exception:", x, y );//$NON-NLS-1$
-		x += fm.stringWidth( "Exception:" ) + 5;//$NON-NLS-1$
-		g2d.setColor( Color.RED );
-		g2d.drawString( sException, x, y );
+		Font fo = new Font("Monospaced", Font.BOLD, 14);//$NON-NLS-1$
+		g2d.setFont(fo);
+		FontMetrics fm = g2d.getFontMetrics();
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(20, 20, d.width - 40, d.height - 40);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRect(20, 20, d.width - 40, d.height - 40);
+		g2d.setClip(20, 20, d.width - 40, d.height - 40);
+		int x = 25, y = 20 + fm.getHeight();
+		g2d.drawString("Exception:", x, y);//$NON-NLS-1$
+		x += fm.stringWidth("Exception:") + 5;//$NON-NLS-1$
+		g2d.setColor(Color.RED);
+		g2d.drawString(sException, x, y);
 		x = 25;
-		y += fm.getHeight( );
-		if ( sWrappedException != null )
-		{
-			g2d.setColor( Color.BLACK );
-			g2d.drawString( "Wrapped In:", x, y );//$NON-NLS-1$
-			x += fm.stringWidth( "Wrapped In:" ) + 5;//$NON-NLS-1$
-			g2d.setColor( Color.RED );
-			g2d.drawString( sWrappedException, x, y );
+		y += fm.getHeight();
+		if (sWrappedException != null) {
+			g2d.setColor(Color.BLACK);
+			g2d.drawString("Wrapped In:", x, y);//$NON-NLS-1$
+			x += fm.stringWidth("Wrapped In:") + 5;//$NON-NLS-1$
+			g2d.setColor(Color.RED);
+			g2d.drawString(sWrappedException, x, y);
 			x = 25;
-			y += fm.getHeight( );
+			y += fm.getHeight();
 		}
-		g2d.setColor( Color.BLACK );
+		g2d.setColor(Color.BLACK);
 		y += 10;
-		g2d.drawString( "Message:", x, y );//$NON-NLS-1$
-		x += fm.stringWidth( "Message:" ) + 5;//$NON-NLS-1$
-		g2d.setColor( Color.BLUE );
-		g2d.drawString( sMessage, x, y );
+		g2d.drawString("Message:", x, y);//$NON-NLS-1$
+		x += fm.stringWidth("Message:") + 5;//$NON-NLS-1$
+		g2d.setColor(Color.BLUE);
+		g2d.drawString(sMessage, x, y);
 		x = 25;
-		y += fm.getHeight( );
-		g2d.setColor( Color.BLACK );
+		y += fm.getHeight();
+		g2d.setColor(Color.BLACK);
 		y += 10;
-		g2d.drawString( "Trace:", x, y );//$NON-NLS-1$
+		g2d.drawString("Trace:", x, y);//$NON-NLS-1$
 		x = 40;
-		y += fm.getHeight( );
-		g2d.setColor( Color.GREEN.darker( ) );
-		for ( int i = 0; i < stea.length; i++ )
-		{
-			g2d.drawString( stea[i].getClassName( ) + ":"//$NON-NLS-1$
-					+ stea[i].getMethodName( ) + "(...):"//$NON-NLS-1$
-					+ stea[i].getLineNumber( ), x, y );
+		y += fm.getHeight();
+		g2d.setColor(Color.GREEN.darker());
+		for (int i = 0; i < stea.length; i++) {
+			g2d.drawString(stea[i].getClassName() + ":"//$NON-NLS-1$
+					+ stea[i].getMethodName() + "(...):"//$NON-NLS-1$
+					+ stea[i].getLineNumber(), x, y);
 			x = 40;
-			y += fm.getHeight( );
+			y += fm.getHeight();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 *
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
+	 * ComponentEvent)
 	 */
-	public void componentHidden( ComponentEvent e )
-	{
+	@Override
+	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent)
 	 */
-	public void componentMoved( ComponentEvent e )
-	{
+	@Override
+	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 *
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
+	 * ComponentEvent)
 	 */
-	public void componentResized( ComponentEvent e )
-	{
+	@Override
+	public void componentResized(ComponentEvent e) {
 		bNeedsGeneration = true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent)
 	 */
-	public void componentShown( ComponentEvent e )
-	{
+	@Override
+	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/**
-	 * An inner class Control Panel, which provides the interactive interface
-	 * with the user.
+	 * An inner class Control Panel, which provides the interactive interface with
+	 * the user.
 	 */
-	private final class ControlPanel extends JPanel implements ActionListener
-	{
+	private final class ControlPanel extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		private JComboBox jcbModels = null;
@@ -356,114 +331,63 @@ public final class DataChartsViewer extends JPanel implements
 
 		private final DataChartsViewer dcv;
 
-		ControlPanel( DataChartsViewer dcv )
-		{
+		ControlPanel(DataChartsViewer dcv) {
 			this.dcv = dcv;
 
-			setLayout( new GridLayout( 0, 1, 0, 0 ) );
+			setLayout(new GridLayout(0, 1, 0, 0));
 
-			JPanel jp = new JPanel( );
-			jp.setLayout( new FlowLayout( FlowLayout.LEFT, 3, 3 ) );
+			JPanel jp = new JPanel();
+			jp.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
 
-			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
-			choose.setDisplayedMnemonic( 'c' );
-			jp.add( choose );
-			jcbModels = new JComboBox( );
+			JLabel choose = new JLabel("Choose:");//$NON-NLS-1$
+			choose.setDisplayedMnemonic('c');
+			jp.add(choose);
+			jcbModels = new JComboBox();
 
-			jcbModels.addItem( "Min Slice" );//$NON-NLS-1$
-			jcbModels.addItem( "Multiple Y Axis" );//$NON-NLS-1$
-			jcbModels.addItem( "Multiple Y Series" );//$NON-NLS-1$
-			jcbModels.addItem( "Big number Y Series" );//$NON-NLS-1$
+			jcbModels.addItem("Min Slice");//$NON-NLS-1$
+			jcbModels.addItem("Multiple Y Axis");//$NON-NLS-1$
+			jcbModels.addItem("Multiple Y Series");//$NON-NLS-1$
+			jcbModels.addItem("Big number Y Series");//$NON-NLS-1$
 
-			jcbModels.setSelectedIndex( 0 );
-			choose.setLabelFor( jcbModels );
-			jp.add( jcbModels );
+			jcbModels.setSelectedIndex(0);
+			choose.setLabelFor(jcbModels);
+			jp.add(jcbModels);
 
-			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
-			jbUpdate.setMnemonic( 'u' );
-			jbUpdate.setToolTipText( "Update" );//$NON-NLS-1$
-			jbUpdate.addActionListener( this );
-			jp.add( jbUpdate );
+			jbUpdate = new JButton("Update");//$NON-NLS-1$
+			jbUpdate.setMnemonic('u');
+			jbUpdate.setToolTipText("Update");//$NON-NLS-1$
+			jbUpdate.addActionListener(this);
+			jp.add(jbUpdate);
 
-			add( jp );
+			add(jp);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+		 *
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
-		public void componentHidden( ComponentEvent cev )
-		{
-			setVisible( false );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
-		 */
-		public void componentMoved( ComponentEvent cev )
-		{
-			JFrame jf = (JFrame) cev.getComponent( );
-			Rectangle r = jf.getBounds( );
-			setLocation( r.x, r.y + r.height );
-			setSize( r.width, 50 );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
-		 */
-		public void componentResized( ComponentEvent cev )
-		{
-			JFrame jf = (JFrame) cev.getComponent( );
-			Rectangle r = jf.getBounds( );
-			setLocation( r.x, r.y + r.height );
-			setSize( r.width, 50 );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
-		 */
-		public void componentShown( ComponentEvent cev )
-		{
-			JFrame jf = (JFrame) cev.getComponent( );
-			Rectangle r = jf.getBounds( );
-			setLocation( r.x, r.y + r.height );
-			setSize( r.width, 50 );
-			setVisible( true );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed( ActionEvent e )
-		{
-			int i = jcbModels.getSelectedIndex( );
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int i = jcbModels.getSelectedIndex();
 			cm = null;
-			switch ( i )
-			{
-				case 0 :
-					cm = DataCharts.createMinSliceChart( );
-					break;
-				case 1 :
-					cm = DataCharts.createMultiYSeriesChart( );
-					break;
-				case 2 :
-					cm = DataCharts.createMultiYAxisChart( );
-					break;
-				case 3 :
-					cm = DataCharts.createBigNumberSliceChart( );
+			switch (i) {
+			case 0:
+				cm = DataCharts.createMinSliceChart();
+				break;
+			case 1:
+				cm = DataCharts.createMultiYSeriesChart();
+				break;
+			case 2:
+				cm = DataCharts.createMultiYAxisChart();
+				break;
+			case 3:
+				cm = DataCharts.createBigNumberSliceChart();
 			}
 
 			bNeedsGeneration = true;
-			dcv.repaint( );
+			dcv.repaint();
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,16 +34,16 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command moves a child inside a SlotHandle
- * 
- * 
+ *
+ *
  */
 
-public class FlowMoveChildCommand extends Command
-{
+public class FlowMoveChildCommand extends Command {
 
-	private static Logger logger = Logger.getLogger( FlowMoveChildCommand.class.getName( ) );
-	
-	private static final String TRANS_LABEL_MOVE_ELEMENT = Messages.getString( "FlowMoveChildCommand.transLabel.moveElement" ); //$NON-NLS-1$
+	private static Logger logger = Logger.getLogger(FlowMoveChildCommand.class.getName());
+
+	private static final String TRANS_LABEL_MOVE_ELEMENT = Messages
+			.getString("FlowMoveChildCommand.transLabel.moveElement"); //$NON-NLS-1$
 
 	private Object child = null;
 
@@ -50,31 +53,28 @@ public class FlowMoveChildCommand extends Command
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param container
 	 * @param model
 	 * @param model2
 	 */
-	public FlowMoveChildCommand( Object child, Object after, Object container )
-	{
+	public FlowMoveChildCommand(Object child, Object after, Object container) {
 		this.child = child;
 		this.after = after;
 		this.container = container;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "FlowMoveChildCommand >> Starts ... " ); //$NON-NLS-1$
+	@Override
+	public void execute() {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("FlowMoveChildCommand >> Starts ... "); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 
 			DesignElementHandle containerHandle = null;
 
@@ -82,48 +82,32 @@ public class FlowMoveChildCommand extends Command
 			String contentString = null;
 
 			// for virtual model that contains a slot handle
-			if ( container instanceof ListBandProxy )
-			{
-				containerHandle = ( (ListBandProxy) container ).getSlotHandle( )
-						.getElementHandle( );
-				ElementDetailHandle slot = ( (ListBandProxy) container ).getSlotHandle( );
-				if ( slot instanceof SlotHandle )
-				{
-					slotID = ((SlotHandle)slot).getSlotID( );
-				}
-				else
-				{
+			if (container instanceof ListBandProxy) {
+				containerHandle = ((ListBandProxy) container).getSlotHandle().getElementHandle();
+				ElementDetailHandle slot = ((ListBandProxy) container).getSlotHandle();
+				if (slot instanceof SlotHandle) {
+					slotID = ((SlotHandle) slot).getSlotID();
+				} else {
 					slotID = -1;
 				}
-				pos = DEUtil.findInsertPosition( containerHandle,
-						(DesignElementHandle) after,
-						slotID );
-				int cur = DEUtil.findInsertPosition( containerHandle,
-						(DesignElementHandle) child,
-						slotID );
-				if (cur < pos)
-				{
-					pos --;
+				pos = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after, slotID);
+				int cur = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) child, slotID);
+				if (cur < pos) {
+					pos--;
 				}
 			}
 
 			// for real node that contains design element handle
-			else if ( container instanceof DesignElementHandle )
-			{
+			else if (container instanceof DesignElementHandle) {
 				containerHandle = (DesignElementHandle) container;
-				slotID = DEUtil.getSlotID( containerHandle, after );
-				if ( slotID == -1 )
-				{
-					contentString = DEUtil.getDefaultContentName( containerHandle );
-					pos = DEUtil.findInsertPosition( containerHandle,
-							(DesignElementHandle) after, contentString );
+				slotID = DEUtil.getSlotID(containerHandle, after);
+				if (slotID == -1) {
+					contentString = DEUtil.getDefaultContentName(containerHandle);
+					pos = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after, contentString);
+				} else {
+					pos = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after);
 				}
-				else
-				{
-					pos = DEUtil.findInsertPosition( containerHandle,
-							(DesignElementHandle) after );
-				}
-			}else 
+			} else
 //			if ( container instanceof ReportElementModel )
 //			{
 //				containerHandle = ( (ReportElementModel) container ).getElementHandle( );
@@ -131,110 +115,79 @@ public class FlowMoveChildCommand extends Command
 //				pos = DEUtil.findInsertPosition( containerHandle,
 //						(DesignElementHandle) after,
 //						slotID );
-//			}else 
-			if ( container instanceof SlotHandle )
-			{
-				containerHandle = ( (SlotHandle) container ).getElementHandle( );
-				slotID = ( (SlotHandle) container ).getSlotID( );
-				pos = DEUtil.findInsertPosition( containerHandle,
-						(DesignElementHandle) after,
-						slotID );
-			}
-			else if(container instanceof IMixedHandle)
-			{
-				IMixedHandle mixHandleInstance = (IMixedHandle)container;
-				if(child instanceof CubeHandle)
-				{
-					containerHandle = mixHandleInstance.getSlotHandle( ).getElementHandle( );
-					ElementDetailHandle slot = mixHandleInstance.getSlotHandle( );
-					if ( slot instanceof SlotHandle )
-					{
-						slotID = ((SlotHandle)slot).getSlotID( );
+//			}else
+			if (container instanceof SlotHandle) {
+				containerHandle = ((SlotHandle) container).getElementHandle();
+				slotID = ((SlotHandle) container).getSlotID();
+				pos = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after, slotID);
+			} else if (container instanceof IMixedHandle) {
+				IMixedHandle mixHandleInstance = (IMixedHandle) container;
+				if (child instanceof CubeHandle) {
+					containerHandle = mixHandleInstance.getSlotHandle().getElementHandle();
+					ElementDetailHandle slot = mixHandleInstance.getSlotHandle();
+					if (slot instanceof SlotHandle) {
+						slotID = ((SlotHandle) slot).getSlotID();
 					}
-					
-					pos = DEUtil.findInsertPosition( containerHandle,
-							(DesignElementHandle) adjustAfterObjectForSlotHandleInIMixedHandle( ),
-							slotID );
-					int cur = DEUtil.findInsertPosition( containerHandle,
-							(DesignElementHandle) child,
-							slotID );
-					if (cur < pos)
-					{
-						pos --;
+
+					pos = DEUtil.findInsertPosition(containerHandle,
+							(DesignElementHandle) adjustAfterObjectForSlotHandleInIMixedHandle(), slotID);
+					int cur = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) child, slotID);
+					if (cur < pos) {
+						pos--;
 					}
-				}else
-				{
-					containerHandle = mixHandleInstance.getPropertyHandle( ).getElementHandle( );
-					contentString = DEUtil.getDefaultContentName( containerHandle );
-					pos = computePosForPropertyHandleInIMixedHandle( containerHandle, contentString );
-					int cur = DEUtil.findInsertPosition( containerHandle,(DesignElementHandle) child, contentString );
-					if (cur < pos)
-					{
-						pos --;
+				} else {
+					containerHandle = mixHandleInstance.getPropertyHandle().getElementHandle();
+					contentString = DEUtil.getDefaultContentName(containerHandle);
+					pos = computePosForPropertyHandleInIMixedHandle(containerHandle, contentString);
+					int cur = DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) child, contentString);
+					if (cur < pos) {
+						pos--;
 					}
 				}
 			}
 
 			DesignElementHandle handle = (DesignElementHandle) child;
 
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
-			stack.startTrans( TRANS_LABEL_MOVE_ELEMENT );
+			stack.startTrans(TRANS_LABEL_MOVE_ELEMENT);
 
-			if (slotID == -1)
-			{
-				handle.moveTo( containerHandle, contentString );
-				containerHandle.getPropertyHandle( contentString ).shift( handle, pos );
-			}
-			else
-			{
-				handle.moveTo( containerHandle, slotID );
-				containerHandle.getSlot( slotID ).shift( handle, pos );
+			if (slotID == -1) {
+				handle.moveTo(containerHandle, contentString);
+				containerHandle.getPropertyHandle(contentString).shift(handle, pos);
+			} else {
+				handle.moveTo(containerHandle, slotID);
+				containerHandle.getSlot(slotID).shift(handle, pos);
 			}
 
-			stack.commit( );
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "FlowMoveChildCommand >> Finished. Moved " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( handle )
-						+ " to the slot " //$NON-NLS-1$
-						+ slotID
-						+ " of " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( containerHandle )
-						+ ",Position: " //$NON-NLS-1$
-						+ pos );
+			stack.commit();
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("FlowMoveChildCommand >> Finished. Moved " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(handle) + " to the slot " //$NON-NLS-1$
+						+ slotID + " of " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(containerHandle) + ",Position: " //$NON-NLS-1$
+						+ pos);
 			}
-		}
-		catch ( ContentException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "FlowMoveChildCommand >> Failed" ); //$NON-NLS-1$
+		} catch (ContentException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("FlowMoveChildCommand >> Failed"); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
-		}
-		catch ( SemanticException ee )
-		{
-			logger.log( Level.SEVERE,ee.getMessage( ), ee);
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (SemanticException ee) {
+			logger.log(Level.SEVERE, ee.getMessage(), ee);
 		}
 	}
-	
-	private int computePosForPropertyHandleInIMixedHandle(DesignElementHandle containerHandle,String contentString)
-	{
-		if(after != null && after instanceof CubeHandle)
-		{
+
+	private int computePosForPropertyHandleInIMixedHandle(DesignElementHandle containerHandle, String contentString) {
+		if (after instanceof CubeHandle) {
 			return 0;
-		}else{
-			return DEUtil.findInsertPosition( containerHandle,
-						(DesignElementHandle) after, contentString );
+		} else {
+			return DEUtil.findInsertPosition(containerHandle, (DesignElementHandle) after, contentString);
 		}
 	}
-	
-	private Object adjustAfterObjectForSlotHandleInIMixedHandle()
-	{
-		if(after != null && !(after instanceof CubeHandle))
-		{
+
+	private Object adjustAfterObjectForSlotHandleInIMixedHandle() {
+		if (after != null && !(after instanceof CubeHandle)) {
 			return null;
 		}
 		return after;

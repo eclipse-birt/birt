@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,10 +22,9 @@ import org.eclipse.core.runtime.IStatus;
  * A settable IStatus. Can be an error, warning, info or ok. For error, info and
  * warning states, a message describes the problem.
  */
-public class StatusInfo implements IStatus
-{
+public class StatusInfo implements IStatus {
 
-	public static final IStatus OK_STATUS = new StatusInfo( );
+	public static final IStatus OK_STATUS = new StatusInfo();
 
 	private String fStatusMessage;
 	private int fSeverity;
@@ -31,48 +33,39 @@ public class StatusInfo implements IStatus
 	/**
 	 * Creates a status set to OK (no message)
 	 */
-	public StatusInfo( )
-	{
-		this( OK, null );
+	public StatusInfo() {
+		this(OK, null);
 	}
 
 	/**
 	 * Creates a status set to OK (no message) with given plugin id.
-	 * 
+	 *
 	 * @param pluginID
 	 */
-	public StatusInfo( String pluginID )
-	{
-		this( pluginID, OK, null );
+	public StatusInfo(String pluginID) {
+		this(pluginID, OK, null);
 	}
 
 	/**
 	 * Creates a status .
-	 * 
-	 * @param severity
-	 *            The status severity: ERROR, WARNING, INFO and OK.
-	 * @param message
-	 *            The message of the status. Applies only for ERROR, WARNING and
-	 *            INFO.
+	 *
+	 * @param severity The status severity: ERROR, WARNING, INFO and OK.
+	 * @param message  The message of the status. Applies only for ERROR, WARNING
+	 *                 and INFO.
 	 */
-	public StatusInfo( int severity, String message )
-	{
-		this( null, severity, message );
+	public StatusInfo(int severity, String message) {
+		this(null, severity, message);
 	}
 
 	/**
 	 * Creates a status .
-	 * 
-	 * @param pluginID
-	 *            the plugin id this status is associated with.
-	 * @param severity
-	 *            The status severity: ERROR, WARNING, INFO and OK.
-	 * @param message
-	 *            The message of the status. Applies only for ERROR, WARNING and
-	 *            INFO.
+	 *
+	 * @param pluginID the plugin id this status is associated with.
+	 * @param severity The status severity: ERROR, WARNING, INFO and OK.
+	 * @param message  The message of the status. Applies only for ERROR, WARNING
+	 *                 and INFO.
 	 */
-	public StatusInfo( String pluginID, int severity, String message )
-	{
+	public StatusInfo(String pluginID, int severity, String message) {
 		fPluginID = pluginID;
 		fStatusMessage = message;
 		fSeverity = severity;
@@ -81,78 +74,69 @@ public class StatusInfo implements IStatus
 	/**
 	 * Returns if the status' severity is OK.
 	 */
-	public boolean isOK( )
-	{
+	@Override
+	public boolean isOK() {
 		return fSeverity == IStatus.OK;
 	}
 
 	/**
 	 * Returns if the status' severity is WARNING.
 	 */
-	public boolean isWarning( )
-	{
+	public boolean isWarning() {
 		return fSeverity == IStatus.WARNING;
 	}
 
 	/**
 	 * Returns if the status' severity is INFO.
 	 */
-	public boolean isInfo( )
-	{
+	public boolean isInfo() {
 		return fSeverity == IStatus.INFO;
 	}
 
 	/**
 	 * Returns if the status' severity is ERROR.
 	 */
-	public boolean isError( )
-	{
+	public boolean isError() {
 		return fSeverity == IStatus.ERROR;
 	}
 
 	/**
 	 * @see IStatus#getMessage
 	 */
-	public String getMessage( )
-	{
+	@Override
+	public String getMessage() {
 		return fStatusMessage;
 	}
 
 	/**
 	 * Sets the status to ERROR.
-	 * 
-	 * @param errorMessage
-	 *            The error message (can be empty, but not null)
+	 *
+	 * @param errorMessage The error message (can be empty, but not null)
 	 */
-	public void setError( String errorMessage )
-	{
-		Assert.isNotNull( errorMessage );
+	public void setError(String errorMessage) {
+		Assert.isNotNull(errorMessage);
 		fStatusMessage = errorMessage;
 		fSeverity = IStatus.ERROR;
 	}
 
 	/**
 	 * Sets the status to WARNING.
-	 * 
-	 * @param warningMessage
-	 *            The warning message (can be empty, but not null)
+	 *
+	 * @param warningMessage The warning message (can be empty, but not null)
 	 */
-	public void setWarning( String warningMessage )
-	{
-		Assert.isNotNull( warningMessage );
+	public void setWarning(String warningMessage) {
+		Assert.isNotNull(warningMessage);
 		fStatusMessage = warningMessage;
 		fSeverity = IStatus.WARNING;
 	}
 
 	/**
 	 * Sets the status to INFO.
-	 * 
-	 * @param infoMessage
-	 *            The info message (can be empty, but not null)
+	 *
+	 * @param infoMessage The info message (can be empty, but not null)
 	 */
-	public void setInfo( String infoMessage )
-	{
-		Assert.isNotNull( infoMessage );
+	public void setInfo(String infoMessage) {
+		Assert.isNotNull(infoMessage);
 		fStatusMessage = infoMessage;
 		fSeverity = IStatus.INFO;
 	}
@@ -160,8 +144,7 @@ public class StatusInfo implements IStatus
 	/**
 	 * Sets the status to OK.
 	 */
-	public void setOK( )
-	{
+	public void setOK() {
 		fStatusMessage = null;
 		fSeverity = IStatus.OK;
 	}
@@ -169,64 +152,64 @@ public class StatusInfo implements IStatus
 	/*
 	 * @see IStatus#matches(int)
 	 */
-	public boolean matches( int severityMask )
-	{
-		return ( fSeverity & severityMask ) != 0;
+	@Override
+	public boolean matches(int severityMask) {
+		return (fSeverity & severityMask) != 0;
 	}
 
 	/**
 	 * Returns always <code>false</code>.
-	 * 
+	 *
 	 * @see IStatus#isMultiStatus()
 	 */
-	public boolean isMultiStatus( )
-	{
+	@Override
+	public boolean isMultiStatus() {
 		return false;
 	}
 
 	/*
 	 * @see IStatus#getSeverity()
 	 */
-	public int getSeverity( )
-	{
+	@Override
+	public int getSeverity() {
 		return fSeverity;
 	}
 
 	/*
 	 * @see IStatus#getPlugin()
 	 */
-	public String getPlugin( )
-	{
+	@Override
+	public String getPlugin() {
 		return fPluginID == null ? ReportPlugin.REPORT_UI : fPluginID;
 	}
 
 	/**
 	 * Returns always <code>null</code>.
-	 * 
+	 *
 	 * @see IStatus#getException()
 	 */
-	public Throwable getException( )
-	{
+	@Override
+	public Throwable getException() {
 		return null;
 	}
 
 	/**
 	 * Returns always the error severity.
-	 * 
+	 *
 	 * @see IStatus#getCode()
 	 */
-	public int getCode( )
-	{
+	@Override
+	public int getCode() {
 		return fSeverity;
 	}
 
 	/**
 	 * Returns always an empty array.
-	 * 
+	 *
 	 * @see IStatus#getChildren()
 	 */
-	public IStatus[] getChildren( )
-	{
+	@Override
+	public IStatus[] getChildren() {
 		return new IStatus[0];
 	}
 
@@ -234,33 +217,24 @@ public class StatusInfo implements IStatus
 	 * Returns a string representation of the status, suitable for debugging
 	 * purposes only.
 	 */
-	public String toString( )
-	{
-		StringBuffer buf = new StringBuffer( );
-		buf.append( "StatusInfo " ); //$NON-NLS-1$
-		if ( fSeverity == OK )
-		{
-			buf.append( "OK" ); //$NON-NLS-1$
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("StatusInfo "); //$NON-NLS-1$
+		if (fSeverity == OK) {
+			buf.append("OK"); //$NON-NLS-1$
+		} else if (fSeverity == ERROR) {
+			buf.append("ERROR"); //$NON-NLS-1$
+		} else if (fSeverity == WARNING) {
+			buf.append("WARNING"); //$NON-NLS-1$
+		} else if (fSeverity == INFO) {
+			buf.append("INFO"); //$NON-NLS-1$
+		} else {
+			buf.append("severity="); //$NON-NLS-1$
+			buf.append(fSeverity);
 		}
-		else if ( fSeverity == ERROR )
-		{
-			buf.append( "ERROR" ); //$NON-NLS-1$
-		}
-		else if ( fSeverity == WARNING )
-		{
-			buf.append( "WARNING" ); //$NON-NLS-1$
-		}
-		else if ( fSeverity == INFO )
-		{
-			buf.append( "INFO" ); //$NON-NLS-1$
-		}
-		else
-		{
-			buf.append( "severity=" ); //$NON-NLS-1$
-			buf.append( fSeverity );
-		}
-		buf.append( ": " ); //$NON-NLS-1$
-		buf.append( fStatusMessage );
-		return buf.toString( );
+		buf.append(": "); //$NON-NLS-1$
+		buf.append(fStatusMessage);
+		return buf.toString();
 	}
 }

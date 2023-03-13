@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,14 +57,11 @@ import org.eclipse.ui.ISharedImages;
  * Dialog to add and edit selection choice for parameter
  */
 
-public class SelectionChoiceDialog extends BaseDialog
-{
+public class SelectionChoiceDialog extends BaseDialog {
 
-	public static interface ISelectionChoiceValidator
-	{
+	public interface ISelectionChoiceValidator {
 
-		String validate( String displayLabelKey, String displayLabel,
-				String value );
+		String validate(String displayLabelKey, String displayLabel, String value);
 	}
 
 	private Text labelEditor;
@@ -94,246 +94,209 @@ public class SelectionChoiceDialog extends BaseDialog
 
 	private IDialogHelper helper;
 
-	public SelectionChoiceDialog( String title )
-	{
-		this( UIUtil.getDefaultShell( ), title );
+	public SelectionChoiceDialog(String title) {
+		this(UIUtil.getDefaultShell(), title);
 	}
 
-	public SelectionChoiceDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
+	public SelectionChoiceDialog(Shell parentShell, String title) {
+		super(parentShell, title);
 	}
 
-	public SelectionChoiceDialog( String title, boolean canUseNullValue,
-			boolean canUseEmptyValue )
-	{
-		this( title );
+	public SelectionChoiceDialog(String title, boolean canUseNullValue, boolean canUseEmptyValue) {
+		this(title);
 		this.canUseEmptyValue = canUseEmptyValue;
 		this.canUseNullValue = canUseNullValue;
 	}
 
-	protected boolean initDialog( )
-	{
-		Assert.isNotNull( selectionChoice );
-		labelEditor.setText( UIUtil.convertToGUIString( selectionChoice.getLabel( ) ) );
-		resourceText.setText( UIUtil.convertToGUIString( selectionChoice.getLabelResourceKey( ) ) );
-		if ( validator != null )
-		{
-			updateStatus( );
+	@Override
+	protected boolean initDialog() {
+		Assert.isNotNull(selectionChoice);
+		labelEditor.setText(UIUtil.convertToGUIString(selectionChoice.getLabel()));
+		resourceText.setText(UIUtil.convertToGUIString(selectionChoice.getLabelResourceKey()));
+		if (validator != null) {
+			updateStatus();
 		}
 		return true;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		String[] labels = new String[]{
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayTextKey" ), //$NON-NLS-1$
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayText" ), //$NON-NLS-1$
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.Value" ) //$NON-NLS-1$
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		String[] labels = { Messages.getString("ParameterDialog.SelectionDialog.Label.DisplayTextKey"), //$NON-NLS-1$
+				Messages.getString("ParameterDialog.SelectionDialog.Label.DisplayText"), //$NON-NLS-1$
+				Messages.getString("ParameterDialog.SelectionDialog.Label.Value") //$NON-NLS-1$
 		};
-		Composite composite = (Composite) super.createDialogArea( parent );
-		GridLayout layout = new GridLayout( 4, false );
+		Composite composite = (Composite) super.createDialogArea(parent);
+		GridLayout layout = new GridLayout(4, false);
 		layout.marginWidth = 15;
 		layout.marginHeight = 15;
-		composite.setLayout( layout );
-		new Label( composite, SWT.NONE ).setText( labels[0] );
-		resourceText = new Text( composite, SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		composite.setLayout(layout);
+		new Label(composite, SWT.NONE).setText(labels[0]);
+		resourceText = new Text(composite, SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.minimumWidth = 200;
-		resourceText.setLayoutData( gd );
-		resourceText.setEditable( false );
-		Button resourceBtn = new Button( composite, SWT.PUSH );
-		resourceBtn.setText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource" ) ); //$NON-NLS-1$
-		resourceBtn.setToolTipText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource.Tooltip" ) ); //$NON-NLS-1$
-		resourceBtn.addSelectionListener( new SelectionAdapter( ) {
+		resourceText.setLayoutData(gd);
+		resourceText.setEditable(false);
+		Button resourceBtn = new Button(composite, SWT.PUSH);
+		resourceBtn.setText(Messages.getString("ParameterDialog.SelectionDialog.Button.Resource")); //$NON-NLS-1$
+		resourceBtn.setToolTipText(Messages.getString("ParameterDialog.SelectionDialog.Button.Resource.Tooltip")); //$NON-NLS-1$
+		resourceBtn.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleBrowserSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleBrowserSelectedEvent();
 			}
-		} );
-		resourceBtn.setEnabled( enableResourceKey( ) );
+		});
+		resourceBtn.setEnabled(enableResourceKey());
 
-		removeBtn = new Button( composite, SWT.NONE );
-		removeBtn.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
-		removeBtn.setToolTipText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Remove.Tooltip" ) ); //$NON-NLS-1$
-		removeBtn.addSelectionListener( new SelectionAdapter( ) {
+		removeBtn = new Button(composite, SWT.NONE);
+		removeBtn.setImage(ReportPlatformUIImages.getImage(ISharedImages.IMG_TOOL_DELETE));
+		removeBtn.setToolTipText(Messages.getString("ParameterDialog.SelectionDialog.Button.Remove.Tooltip")); //$NON-NLS-1$
+		removeBtn.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				resourceText.setText( EMPTY_STRING );
-				labelEditor.setText( EMPTY_STRING );
-				updateRemoveBtnState( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				resourceText.setText(EMPTY_STRING);
+				labelEditor.setText(EMPTY_STRING);
+				updateRemoveBtnState();
 			}
-		} );
+		});
 
-		new Label( composite, SWT.NONE ).setText( labels[1] );
-		labelEditor = new Text( composite, SWT.BORDER );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
+		new Label(composite, SWT.NONE).setText(labels[1]);
+		labelEditor = new Text(composite, SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.minimumWidth = 200;
 		gd.horizontalSpan = 3;
-		labelEditor.setLayoutData( gd );
+		labelEditor.setLayoutData(gd);
 
-		new Label( composite, SWT.NONE ).setText( labels[2] );
-		createValuePart( composite );
+		new Label(composite, SWT.NONE).setText(labels[2]);
+		createValuePart(composite);
 
-		final Composite noteContainer = new Composite( composite, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
+		final Composite noteContainer = new Composite(composite, SWT.NONE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
-		gd.widthHint = UIUtil.getMaxStringWidth( labels, composite )
-				+ 200
-				+ layout.horizontalSpacing
-				* 2
-				+ resourceBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		noteContainer.setLayoutData( gd );
+		gd.widthHint = UIUtil.getMaxStringWidth(labels, composite) + 200 + layout.horizontalSpacing * 2
+				+ resourceBtn.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		noteContainer.setLayoutData(gd);
 
-		layout = new GridLayout( 3, false );
+		layout = new GridLayout(3, false);
 		layout.marginWidth = 0;
-		noteContainer.setLayout( layout );
+		noteContainer.setLayout(layout);
 
-		Label note = new Label( noteContainer, SWT.WRAP );
-		note.setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Note" ) ); //$NON-NLS-1$
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.minimumWidth = UIUtil.getMaxStringWidth( labels, composite )
-				+ 200
-				+ layout.horizontalSpacing
-				* 2
-				+ resourceBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		note.setLayoutData( gd );
+		Label note = new Label(noteContainer, SWT.WRAP);
+		note.setText(Messages.getString("ParameterDialog.SelectionDialog.Label.Note")); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.minimumWidth = UIUtil.getMaxStringWidth(labels, composite) + 200 + layout.horizontalSpacing * 2
+				+ resourceBtn.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		note.setLayoutData(gd);
 
-		messageLine = new CLabel( composite, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
+		messageLine = new CLabel(composite, SWT.NONE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
-		messageLine.setLayoutData( gd );
-		if ( validator != null )
-		{
-			ModifyListener listener = new ModifyListener( ) {
+		messageLine.setLayoutData(gd);
+		if (validator != null) {
+			ModifyListener listener = new ModifyListener() {
 
-				public void modifyText( ModifyEvent e )
-				{
-					updateStatus( );
+				@Override
+				public void modifyText(ModifyEvent e) {
+					updateStatus();
 				}
 
 			};
-			labelEditor.addModifyListener( listener );
-			if ( getValueControl( ) instanceof Text )
-				( (Text) getValueControl( ) ).addModifyListener( listener );
-			if ( getValueControl( ) instanceof Combo )
-				( (Combo) getValueControl( ) ).addModifyListener( listener );
-			if ( getValueControl( ) instanceof CCombo )
-				( (CCombo) getValueControl( ) ).addModifyListener( listener );
+			labelEditor.addModifyListener(listener);
+			if (getValueControl() instanceof Text) {
+				((Text) getValueControl()).addModifyListener(listener);
+			}
+			if (getValueControl() instanceof Combo) {
+				((Combo) getValueControl()).addModifyListener(listener);
+			}
+			if (getValueControl() instanceof CCombo) {
+				((CCombo) getValueControl()).addModifyListener(listener);
+			}
 
 		}
 
-		UIUtil.bindHelp( composite, IHelpContextIds.SELECTION_CHOICE_DIALOG );
+		UIUtil.bindHelp(composite, IHelpContextIds.SELECTION_CHOICE_DIALOG);
 
 		return composite;
 	}
 
-	protected void okPressed( )
-	{
-		selectionChoice.setLabel( UIUtil.convertToModelString( labelEditor.getText( ),
-				false ) );
-		selectionChoice.setValue( getValueValue( ) );
-		selectionChoice.setLabelResourceKey( UIUtil.convertToModelString( resourceText.getText( ),
-				false ) );
-		setResult( selectionChoice );
-		super.okPressed( );
+	@Override
+	protected void okPressed() {
+		selectionChoice.setLabel(UIUtil.convertToModelString(labelEditor.getText(), false));
+		selectionChoice.setValue(getValueValue());
+		selectionChoice.setLabelResourceKey(UIUtil.convertToModelString(resourceText.getText(), false));
+		setResult(selectionChoice);
+		super.okPressed();
 	}
 
-	private void updateStatus( )
-	{
-		if ( helper != null )
-			helper.update( false );
-		String erroeMessage = validator.validate( UIUtil.convertToModelString( resourceText.getText( ),
-				false ),
-				UIUtil.convertToModelString( labelEditor.getText( ), false ),
-				getValueValue( ) );
-		if ( erroeMessage != null )
-		{
-			messageLine.setText( erroeMessage );
-			messageLine.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
-			getOkButton( ).setEnabled( false );
+	private void updateStatus() {
+		if (helper != null) {
+			helper.update(false);
 		}
-		else
-		{
-			messageLine.setText( "" ); //$NON-NLS-1$
-			messageLine.setImage( null );
-			getOkButton( ).setEnabled( true );
+		String erroeMessage = validator.validate(UIUtil.convertToModelString(resourceText.getText(), false),
+				UIUtil.convertToModelString(labelEditor.getText(), false), getValueValue());
+		if (erroeMessage != null) {
+			messageLine.setText(erroeMessage);
+			messageLine.setImage(ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK));
+			getOkButton().setEnabled(false);
+		} else {
+			messageLine.setText(""); //$NON-NLS-1$
+			messageLine.setImage(null);
+			getOkButton().setEnabled(true);
 		}
-		updateRemoveBtnState( );
+		updateRemoveBtnState();
 	}
 
-	public void setInput( SelectionChoice selectionChoice )
-	{
+	public void setInput(SelectionChoice selectionChoice) {
 		this.selectionChoice = selectionChoice;
 	}
 
-	public void setValidator( ISelectionChoiceValidator validator )
-	{
+	public void setValidator(ISelectionChoiceValidator validator) {
 		this.validator = validator;
 	}
 
-	private String[] getBaseNames( )
-	{
-		List<String> resources = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getIncludeResources( );
-		if ( resources == null )
+	private String[] getBaseNames() {
+		List<String> resources = SessionHandleAdapter.getInstance().getReportDesignHandle().getIncludeResources();
+		if (resources == null) {
 			return null;
-		else
-			return resources.toArray( new String[0] );
+		} else {
+			return resources.toArray(new String[0]);
+		}
 	}
 
-	private URL[] getResourceURLs( )
-	{
-		String[] baseNames = getBaseNames( );
-		if ( baseNames == null )
+	private URL[] getResourceURLs() {
+		String[] baseNames = getBaseNames();
+		if (baseNames == null) {
 			return null;
-		else
-		{
+		} else {
 			URL[] urls = new URL[baseNames.length];
-			for ( int i = 0; i < baseNames.length; i++ )
-			{
-				urls[i] = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findResource( baseNames[i],
-								IResourceLocator.MESSAGE_FILE );
+			for (int i = 0; i < baseNames.length; i++) {
+				urls[i] = SessionHandleAdapter.getInstance().getReportDesignHandle().findResource(baseNames[i],
+						IResourceLocator.MESSAGE_FILE);
 			}
 			return urls;
 		}
 	}
 
-	private boolean enableResourceKey( )
-	{
-		URL[] resources = getResourceURLs( );
+	private boolean enableResourceKey() {
+		URL[] resources = getResourceURLs();
 		String[] path = null;
-		try
-		{
-			if ( resources != null && resources.length > 0 )
-			{
+		try {
+			if (resources != null && resources.length > 0) {
 				path = new String[resources.length];
-				for ( int i = 0; i < path.length; i++ )
-				{
-					path[i] = DEUtil.getFilePathFormURL( resources[i] );
+				for (int i = 0; i < path.length; i++) {
+					path[i] = DEUtil.getFilePathFormURL(resources[i]);
 				}
 			}
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		if ( resources == null || path == null || path.length == 0 )
-		{
+		if (resources == null || path == null || path.length == 0) {
 			return false;
-		}
-		else
-		{
+		} else {
 			boolean flag = false;
-			for ( int i = 0; i < path.length; i++ )
-			{
-				if ( path[i] != null && new File( path[i] ).exists( ) )
-				{
+			for (int i = 0; i < path.length; i++) {
+				if (path[i] != null && new File(path[i]).exists()) {
 					flag = true;
 					break;
 				}
@@ -342,108 +305,86 @@ public class SelectionChoiceDialog extends BaseDialog
 		}
 	}
 
-	protected void handleBrowserSelectedEvent( )
-	{
-		ResourceEditDialog dlg = new ResourceEditDialog( getShell( ),
-				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+	protected void handleBrowserSelectedEvent() {
+		ResourceEditDialog dlg = new ResourceEditDialog(getShell(),
+				Messages.getString("ResourceKeyDescriptor.title.SelectKey")); //$NON-NLS-1$
 
-		dlg.setResourceURLs( getResourceURLs( ) );
+		dlg.setResourceURLs(getResourceURLs());
 
-		if ( dlg.open( ) == Window.OK )
-		{
-			handleSelectedEvent( (String[]) dlg.getDetailResult( ) );
+		if (dlg.open() == Window.OK) {
+			handleSelectedEvent((String[]) dlg.getDetailResult());
 		}
 	}
 
-	private void handleSelectedEvent( String[] values )
-	{
-		if ( values.length == 2 )
-		{
-			if ( values[0] != null )
-				resourceText.setText( values[0] );
-			if ( values[1] != null )
-				labelEditor.setText( values[1] );
-			updateRemoveBtnState( );
+	private void handleSelectedEvent(String[] values) {
+		if (values.length == 2) {
+			if (values[0] != null) {
+				resourceText.setText(values[0]);
+			}
+			if (values[1] != null) {
+				labelEditor.setText(values[1]);
+			}
+			updateRemoveBtnState();
 		}
 	}
 
-	private void updateRemoveBtnState( )
-	{
-		removeBtn.setEnabled( resourceText.getText( ).equals( EMPTY_STRING ) ? false
-				: true );
+	private void updateRemoveBtnState() {
+		removeBtn.setEnabled(resourceText.getText().equals(EMPTY_STRING) ? false : true);
 	}
 
-	private void createValuePart( Composite parent )
-	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( selectionChoice,
-				IDialogHelperProvider.class );
-		if ( helperProviders != null )
-		{
-			for ( int i = 0; i < helperProviders.length; i++ )
-			{
+	private void createValuePart(Composite parent) {
+		Object[] helperProviders = ElementAdapterManager.getAdapters(selectionChoice, IDialogHelperProvider.class);
+		if (helperProviders != null) {
+			for (int i = 0; i < helperProviders.length; i++) {
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null && helper == null )
-				{
-					helper = helperProvider.createHelper( this,
-							SELECTON_CHOICE_HELPER_KEY );
-					if ( helper != null )
-					{
-						helper.setProperty( VALUE, selectionChoice.getValue( ) );
-						helper.setProperty( CAN_EMPTY, canUseEmptyValue );
-						helper.setProperty( CAN_NULL, canUseNullValue );
-						helper.createContent( parent );
-						helper.addListener( SWT.Modify, new Listener( ) {
+				if (helperProvider != null && helper == null) {
+					helper = helperProvider.createHelper(this, SELECTON_CHOICE_HELPER_KEY);
+					if (helper != null) {
+						helper.setProperty(VALUE, selectionChoice.getValue());
+						helper.setProperty(CAN_EMPTY, canUseEmptyValue);
+						helper.setProperty(CAN_NULL, canUseNullValue);
+						helper.createContent(parent);
+						helper.addListener(SWT.Modify, new Listener() {
 
-							public void handleEvent( Event event )
-							{
-								helper.update( false );
+							@Override
+							public void handleEvent(Event event) {
+								helper.update(false);
 							}
-						} );
-						helper.update( true );
+						});
+						helper.update(true);
 					}
 				}
 			}
 		}
-		if ( helper == null )
-		{
-			valueEditor = new Text( parent, SWT.BORDER );
-			valueEditor.setText( UIUtil.convertToGUIString( selectionChoice.getValue( ) ) );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		if (helper == null) {
+			valueEditor = new Text(parent, SWT.BORDER);
+			valueEditor.setText(UIUtil.convertToGUIString(selectionChoice.getValue()));
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 3;
-			valueEditor.setLayoutData( gd );
-			valueEditor.setFocus( );
-		}
-		else
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			valueEditor.setLayoutData(gd);
+			valueEditor.setFocus();
+		} else {
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 3;
-			helper.getControl( ).setLayoutData( gd );
-			helper.getControl( ).setFocus( );
+			helper.getControl().setLayoutData(gd);
+			helper.getControl().setFocus();
 		}
 	}
 
-	private Control getValueControl( )
-	{
-		if ( helper == null )
-		{
+	private Control getValueControl() {
+		if (helper == null) {
 			return valueEditor;
-		}
-		else
-		{
+		} else {
 
-			return helper.getControl( );
+			return helper.getControl();
 		}
 	}
 
-	private String getValueValue( )
-	{
-		if ( helper == null )
-		{
-			return valueEditor.getText( );
-		}
-		else
-		{
-			return (String) helper.getProperty( VALUE );
+	private String getValueValue() {
+		if (helper == null) {
+			return valueEditor.getText();
+		} else {
+			return (String) helper.getProperty(VALUE);
 		}
 	}
 }

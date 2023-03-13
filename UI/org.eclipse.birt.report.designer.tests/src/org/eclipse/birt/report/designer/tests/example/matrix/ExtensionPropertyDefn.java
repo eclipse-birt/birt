@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
-public class ExtensionPropertyDefn implements IPropertyDefinition
-{
+public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	String name = null;
 
@@ -40,157 +42,154 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getGroupName()
 	 */
-	public String getGroupNameID( )
-	{
+	@Override
+	public String getGroupNameID() {
 		return groupNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return ROMExtension.getMessage( displayNameID );
+	public String getDisplayName() {
+		return ROMExtension.getMessage(displayNameID);
 	}
 
 	/**
 	 * Sets the resource key for display name
-	 * 
+	 *
 	 * @param displayNameID
 	 */
-	
-	public void setDisplayNameID( String displayNameID)
-	{
+
+	public void setDisplayNameID(String displayNameID) {
 		this.displayNameID = displayNameID;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getType()
 	 */
-	public int getType( )
-	{
+	@Override
+	public int getType() {
 		return type;
 	}
 
-	void setType( int type )
-	{
+	void setType(int type) {
 		this.type = type;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#isList()
 	 */
-	public boolean isList( )
-	{
+	@Override
+	public boolean isList() {
 		return isList;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getChoices()
 	 */
-	public List getChoices( )
-	{
-		if ( type != PropertyType.CHOICE_TYPE )
+	@Override
+	public List getChoices() {
+		if (type != PropertyType.CHOICE_TYPE) {
 			return null;
+		}
 		return choices;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getMembers()
 	 */
-	public List getMembers( )
-	{
-		if ( type != PropertyType.STRUCT_TYPE )
+	@Override
+	public List getMembers() {
+		if (type != PropertyType.STRUCT_TYPE) {
 			return null;
+		}
 		return members;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	@Override
+	public Object getDefaultValue() {
 		return defaultValue;
 	}
 
 	/**
-	 * @param groupID
-	 *            The group to set.
+	 * @param groupID The group to set.
 	 */
-	public void setGroup( String groupID )
-	{
+	public void setGroup(String groupID) {
 		this.groupNameID = groupID;
 	}
 
 	/**
-	 * @param isList
-	 *            The isList to set.
+	 * @param isList The isList to set.
 	 */
-	public void setIsList( boolean isList )
-	{
+	public void setIsList(boolean isList) {
 		this.isList = isList;
 	}
 
 	/**
 	 * @param choices
 	 */
-	public void setChoices( List choices )
-	{
+	public void setChoices(List choices) {
 		this.choices = choices;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
+	 * )
 	 */
-	public String getDisplayNameID( )
-	{
+	@Override
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
-	public IMethodInfo getMethodInfo( )
-	{
+	@Override
+	public IMethodInfo getMethodInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isReadOnly( )
-	{
+	@Override
+	public boolean isReadOnly() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,10 +37,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
  * Provides ODA extensibility.
  */
 
-public class OdaExtensibilityProvider extends ExtensibilityProvider
-		implements
-			ODAProvider
-{
+public class OdaExtensibilityProvider extends ExtensibilityProvider implements ODAProvider {
 
 	/**
 	 * ID of the extension which is used to extend the extendable element.
@@ -48,127 +48,119 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/**
 	 * Constructs ODA extensibility provider with the element to extend and
 	 * extension ID.
-	 * 
-	 * @param element
-	 *            the element to extend
-	 * @param extensionID
-	 *            the ID of the extension which provides property definition.
+	 *
+	 * @param element     the element to extend
+	 * @param extensionID the ID of the extension which provides property
+	 *                    definition.
 	 */
 
-	public OdaExtensibilityProvider( DesignElement element, String extensionID )
-	{
-		super( element );
-		if ( element == null )
-			throw new IllegalArgumentException( "element can not be null!" ); //$NON-NLS-1$
+	public OdaExtensibilityProvider(DesignElement element, String extensionID) {
+		super(element);
+		if (element == null) {
+			throw new IllegalArgumentException("element can not be null!"); //$NON-NLS-1$
+		}
 
 		this.extensionID = extensionID;
-		cachedExtDefn = extensionID == null
-				? null
-				: (ExtensionElementDefn) MetaDataDictionary.getInstance( )
-						.getElement( extensionID );
+		cachedExtDefn = extensionID == null ? null
+				: (ExtensionElementDefn) MetaDataDictionary.getInstance().getElement(extensionID);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.ExtensibilityProvider#
 	 * getPropertyDefns()
 	 */
 
-	public List<IElementPropertyDefn> getPropertyDefns( )
-	{
-		if ( getExtDefn( ) == null )
-			return Collections.emptyList( );
+	@Override
+	public List<IElementPropertyDefn> getPropertyDefns() {
+		if (getExtDefn() == null) {
+			return Collections.emptyList();
+		}
 
-		List<IElementPropertyDefn> list = getExtDefn( ).getProperties( );
-		List<UserPropertyDefn> userProps = element.getUserProperties( );
-		if ( userProps != null )
-			list.addAll( userProps );
+		List<IElementPropertyDefn> list = getExtDefn().getProperties();
+		List<UserPropertyDefn> userProps = element.getUserProperties();
+		if (userProps != null) {
+			list.addAll(userProps);
+		}
 
 		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.ExtensibilityProvider#getPropertyDefn
 	 * (java.lang.String)
 	 */
 
-	public ElementPropertyDefn getPropertyDefn( String propName )
-	{
-		if ( getExtDefn( ) == null )
+	@Override
+	public ElementPropertyDefn getPropertyDefn(String propName) {
+		if (getExtDefn() == null) {
 			return null;
+		}
 
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) getExtDefn( )
-				.getProperty( propName );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getExtDefn().getProperty(propName);
 
-		if ( propDefn == null )
-			propDefn = element.getUserPropertyDefn( propName );
+		if (propDefn == null) {
+			propDefn = element.getUserPropertyDefn(propName);
+		}
 		return propDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.ExtensibilityProvider#checkExtends
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public void checkExtends( DesignElement parent ) throws ExtendsException
-	{
-		String parentExt = (String) parent.getProperty( null,
-				IOdaExtendableElementModel.EXTENSION_ID_PROP );
+	@Override
+	public void checkExtends(DesignElement parent) throws ExtendsException {
+		String parentExt = (String) parent.getProperty(null, IOdaExtendableElementModel.EXTENSION_ID_PROP);
 
 		assert extensionID != null;
-		if ( !extensionID.equalsIgnoreCase( parentExt ) )
-			throw new WrongTypeException( element, parent,
-					WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+		if (!extensionID.equalsIgnoreCase(parentExt)) {
+			throw new WrongTypeException(element, parent, WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
-	public ExtensionElementDefn getExtDefn( )
-	{
+	@Override
+	public ExtensionElementDefn getExtDefn() {
 		return cachedExtDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID
 	 * (java.lang.String)
 	 */
 
-	public String convertExtensionID( )
-	{
-		if ( element instanceof OdaDataSource )
-		{
+	@Override
+	public String convertExtensionID() {
+		if (element instanceof OdaDataSource) {
 			String id = extensionID;
-			ExtensionManifest manifest = ODAManifestUtil
-					.getDataSourceExtension( id );
+			ExtensionManifest manifest = ODAManifestUtil.getDataSourceExtension(id);
 
-			if ( manifest != null && manifest.isDeprecated( ) )
-			{
-				id = manifest.getRelatedDataSourceId( );
+			if (manifest != null && manifest.isDeprecated()) {
+				id = manifest.getRelatedDataSourceId();
 			}
 			return id;
-		}
-		else if ( element instanceof OdaDataSet )
-		{
+		} else if (element instanceof OdaDataSet) {
 			String id = extensionID;
-			DataSetType type = ODAManifestUtil.getDataSetExtension( id );
-			if ( type != null && type.isDeprecated( ) )
-			{
-				id = type.getRelatedDataSetId( );
+			DataSetType type = ODAManifestUtil.getDataSetExtension(id);
+			if (type != null && type.isDeprecated()) {
+				id = type.getRelatedDataSetId();
 			}
 			return id;
 		}
@@ -179,20 +171,16 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID
-	 * ()
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID ()
 	 */
 
-	public boolean isValidExtensionID( )
-	{
-		if ( element instanceof OdaDataSet
-				&& ODAManifestUtil.getDataSetExtension( extensionID ) != null )
+	@Override
+	public boolean isValidExtensionID() {
+		if ((element instanceof OdaDataSet && ODAManifestUtil.getDataSetExtension(extensionID) != null) || (element instanceof OdaDataSource && ODAManifestUtil.getDataSourceExtension(extensionID) != null)) {
 			return true;
-		if ( element instanceof OdaDataSource
-				&& ODAManifestUtil.getDataSourceExtension( extensionID ) != null )
-			return true;
+		}
 		return false;
 	}
 

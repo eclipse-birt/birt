@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,194 +29,173 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * 
+ *
  */
 
-public abstract class AbstractSortingFormHandleProvider extends
-		AbstractDescriptorProvider implements ISortingFormProvider
-{
+public abstract class AbstractSortingFormHandleProvider extends AbstractDescriptorProvider
+		implements ISortingFormProvider {
 
-	protected static Logger logger = Logger.getLogger( AbstractSortingFormHandleProvider.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(AbstractSortingFormHandleProvider.class.getName());
 
 	protected Object input;
 
-	public void setInput( Object input )
-	{
+	@Override
+	public void setInput(Object input) {
 		this.input = input;
 
 	}
 
-	public Object getInput( )
-	{
+	public Object getInput() {
 		return input;
 	}
 
-	public boolean isEnable( )
-	{
-		if ( DEUtil.getInputSize( input ) != 1 )
+	@Override
+	public boolean isEnable() {
+		if (DEUtil.getInputSize(input) != 1) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
-	public boolean isEditable( )
-	{
+	@Override
+	public boolean isEditable() {
 		return true;
 	}
 
-	public boolean edit( int pos )
-	{
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		if ( !doEditItem( pos ) )
-		{
-			stack.rollback( );
+	public boolean edit(int pos) {
+		CommandStack stack = getActionStack();
+		stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+		if (!doEditItem(pos)) {
+			stack.rollback();
 			return false;
 		}
-		stack.commit( );
+		stack.commit();
 		return true;
 	}
 
-	public void add( int pos ) throws Exception
-	{
+	public void add(int pos) throws Exception {
 		boolean sucess = false;
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		try
-		{
-			sucess = doAddItem( pos );
+		CommandStack stack = getActionStack();
+		stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+		try {
+			sucess = doAddItem(pos);
+		} catch (Exception e) {
+			stack.rollback();
+			throw new Exception(e);
 		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			throw new Exception( e );
-		}
-		if ( sucess )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollback( );
+		if (sucess) {
+			stack.commit();
+		} else {
+			stack.rollback();
 		}
 	}
 
-	protected CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActionStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	public FormContentProvider getFormContentProvider(
-			IModelEventProcessor listener, IDescriptorProvider provider )
-	{
-		return new FormContentProvider( listener, provider );
+	public FormContentProvider getFormContentProvider(IModelEventProcessor listener, IDescriptorProvider provider) {
+		return new FormContentProvider(listener, provider);
 	}
 
-	public class FormContentProvider implements IStructuredContentProvider
-	{
+	public class FormContentProvider implements IStructuredContentProvider {
 
 		private IModelEventProcessor listener;
 		private IDescriptorProvider provider;
 
-		public FormContentProvider( IModelEventProcessor listener,
-				IDescriptorProvider provider )
-		{
+		public FormContentProvider(IModelEventProcessor listener, IDescriptorProvider provider) {
 			this.listener = listener;
 			this.provider = provider;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 *
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
-		public Object[] getElements( Object inputElement )
-		{
+		@Override
+		public Object[] getElements(Object inputElement) {
 			assert provider instanceof AbstractSortingFormHandleProvider;
-			Object[] elements = ( (AbstractSortingFormHandleProvider) provider ).getElements( inputElement );
-			registerEventManager( );
-			deRegisterEventManager( );
+			Object[] elements = ((AbstractSortingFormHandleProvider) provider).getElements(inputElement);
+			registerEventManager();
+			deRegisterEventManager();
 			return elements;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		public void dispose( )
-		{
-			if ( !( ( (ISortingFormProvider) provider ) instanceof GroupHandleProvider ) )
-				return;
-
-			Object[] elements = ( (ISortingFormProvider) provider ).getElements( input );
-
-			if ( elements == null )
-			{
+		@Override
+		public void dispose() {
+			if (!(((ISortingFormProvider) provider) instanceof GroupHandleProvider)) {
 				return;
 			}
-			deRegisterEventManager( );
+
+			Object[] elements = ((ISortingFormProvider) provider).getElements(input);
+
+			if (elements == null) {
+				return;
+			}
+			deRegisterEventManager();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 *
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		protected void deRegisterEventManager( )
-		{
-			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( )
-						.removeModelEventProcessor( listener );
+		protected void deRegisterEventManager() {
+			if (UIUtil.getModelEventManager() != null) {
+				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
+			}
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
-		protected void registerEventManager( )
-		{
-			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( )
-						.addModelEventProcessor( listener );
+		protected void registerEventManager() {
+			if (UIUtil.getModelEventManager() != null) {
+				UIUtil.getModelEventManager().addModelEventProcessor(listener);
+			}
 		}
 	}
 
-	public Object load( )
-	{
+	@Override
+	public Object load() {
 		return null;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
+	@Override
+	public void save(Object value) throws SemanticException {
 
 	}
 
-	public boolean isAddEnable( )
-	{
+	@Override
+	public boolean isAddEnable() {
 		return true;
 	}
 
-	public boolean isEditEnable( )
-	{
+	@Override
+	public boolean isEditEnable() {
 		return true;
 	}
 
-	public boolean isDeleteEnable( )
-	{
+	@Override
+	public boolean isDeleteEnable() {
 		return true;
 	}
 
-	public boolean needRebuilded( NotificationEvent event )
-	{
+	@Override
+	public boolean needRebuilded(NotificationEvent event) {
 		return false;
 	}
 

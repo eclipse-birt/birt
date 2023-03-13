@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,11 +21,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * Indicates a change to a user-defined property. Use the {@link #getAction}
  * method to determine the specific kind of change.
- * 
+ *
  */
 
-public class UserPropertyEvent extends NotificationEvent
-{
+public class UserPropertyEvent extends NotificationEvent {
 
 	/**
 	 * The property was added.
@@ -50,20 +52,15 @@ public class UserPropertyEvent extends NotificationEvent
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element that changed.
-	 * @param prop
-	 *            the property that changed.
-	 * @param theAction
-	 *            the action which causes this event: {@link #ADD}, or
-	 *            {@link #DROP}.
+	 *
+	 * @param obj       the element that changed.
+	 * @param prop      the property that changed.
+	 * @param theAction the action which causes this event: {@link #ADD}, or
+	 *                  {@link #DROP}.
 	 */
 
-	public UserPropertyEvent( DesignElement obj, UserPropertyDefn prop,
-			int theAction )
-	{
-		super( obj );
+	public UserPropertyEvent(DesignElement obj, UserPropertyDefn prop, int theAction) {
+		super(obj);
 		property = prop;
 		action = theAction;
 	}
@@ -71,54 +68,55 @@ public class UserPropertyEvent extends NotificationEvent
 	/**
 	 * Returns the action that causes this event. One of {@link #ADD}, or
 	 * {@link #DROP}.
-	 * 
+	 *
 	 * @return the action that causes this event.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
 	/**
 	 * Returns the definition of the user-defined property that changed.
-	 * 
+	 *
 	 * @return the user-defined property definition.
 	 */
 
-	public UserPropertyDefn getProperty( )
-	{
+	public UserPropertyDefn getProperty() {
 		return property;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return USER_PROP_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 *
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	@Override
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event)) {
 			return false;
+		}
 		UserPropertyEvent userPropertyEvent = (UserPropertyEvent) event;
-		if ( action != userPropertyEvent.getAction( ) )
+		if ((action != userPropertyEvent.getAction()) || (property != null && !property.equals(userPropertyEvent.getProperty()))) {
 			return false;
-		if ( property != null
-				&& !property.equals( userPropertyEvent.getProperty( ) ) )
+		}
+		if (property == null && userPropertyEvent.getProperty() != null) {
 			return false;
-		if ( property == null && userPropertyEvent.getProperty( ) != null )
-			return false;
+		}
 		return true;
 	}
 }

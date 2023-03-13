@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,11 +50,9 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
 
 /**
  * Edit Part corresponding to a Table object.
- * 
+ *
  */
-public class HierarchyNodeEditPart extends NodeEditPartHelper implements
-		Listener
-{
+public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listener {
 
 	public TablePaneFigure scrollPane;
 	public TableNodeFigure tableNode;
@@ -63,69 +64,58 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	/**
 	 * @param impl
 	 */
-	public HierarchyNodeEditPart( EditPart parent,
-			TabularHierarchyHandle hierarchy )
-	{
-		setModel( hierarchy );
-		setParent( parent );
-		this.dimension = (DimensionHandle) hierarchy.getContainer( );
-		this.cube = (TabularCubeHandle) parent.getModel( );
+	public HierarchyNodeEditPart(EditPart parent, TabularHierarchyHandle hierarchy) {
+		setModel(hierarchy);
+		setParent(parent);
+		this.dimension = (DimensionHandle) hierarchy.getContainer();
+		this.cube = (TabularCubeHandle) parent.getModel();
 		this.hierarchy = hierarchy;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		String name = dimension.getName( ) + " (" //$NON-NLS-1$
-				+ ( hierarchy.getDataSet( ) ).getName( )
-				+ ")"; //$NON-NLS-1$
-		tableNode = new TableNodeFigure( name );
-		scrollPane = new TablePaneFigure( name );
-		scrollPane.setContents( tableNode );
+	@Override
+	protected IFigure createFigure() {
+		String name = dimension.getName() + " (" //$NON-NLS-1$
+				+ (hierarchy.getDataSet()).getName() + ")"; //$NON-NLS-1$
+		tableNode = new TableNodeFigure(name);
+		scrollPane = new TablePaneFigure(name);
+		scrollPane.setContents(tableNode);
 		return scrollPane;
 	}
 
 	/***************************************************************************
-	 * Returns the Children for this Edit Part. It returns a List of
-	 * ColumnEditParts
-	 * 
+	 * Returns the Children for this Edit Part. It returns a List of ColumnEditParts
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
+	@Override
+	protected List getModelChildren() {
 
-		List childList = new ArrayList( );
+		List childList = new ArrayList();
 
-		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
-				.toArray( new TabularLevelHandle[0] );
-		if ( levels != null )
-		{
-			for ( int i = 0; i < levels.length; i++ )
-			{
-				if ( levels[i].getColumnName( ) != null )
-				{
-					ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField( hierarchy.getDataSet( ),
-							levels[i].getColumnName( ) );
-					if ( resultSetColumn != null
-							&& !childList.contains( resultSetColumn ) )
-					{
+		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents(IHierarchyModel.LEVELS_PROP)
+				.toArray(new TabularLevelHandle[0]);
+		if (levels != null) {
+			for (int i = 0; i < levels.length; i++) {
+				if (levels[i].getColumnName() != null) {
+					ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField(hierarchy.getDataSet(),
+							levels[i].getColumnName());
+					if (resultSetColumn != null && !childList.contains(resultSetColumn)) {
 						boolean flag = true;
-						for ( int j = 0; j < childList.size( ); j++ )
-						{
-							ResultSetColumnHandle column = (ResultSetColumnHandle) childList.get( j );
-							if ( column.getColumnName( )
-									.equals( resultSetColumn.getColumnName( ) ) )
-							{
+						for (int j = 0; j < childList.size(); j++) {
+							ResultSetColumnHandle column = (ResultSetColumnHandle) childList.get(j);
+							if (column.getColumnName().equals(resultSetColumn.getColumnName())) {
 								flag = false;
 								break;
 							}
 						}
-						if ( flag )
-							childList.add( resultSetColumn );
+						if (flag) {
+							childList.add(resultSetColumn);
+						}
 					}
 				}
 			}
@@ -135,237 +125,193 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
-	protected void refreshVisuals( )
-	{
+	@Override
+	protected void refreshVisuals() {
 		Rectangle r;
-		if ( !UIHelper.existIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
-				UIHelper.getId( getModel( ), cube ),
-				BuilderConstants.POSITION_X ) )
-		{
+		if (!UIHelper.existIntProperty(((ReportElementHandle) getModel()).getRoot(), UIHelper.getId(getModel(), cube),
+				BuilderConstants.POSITION_X)) {
 			int displayWidth = 500 - 40;
 			int displayHeight = 400 - 20;
 
-			List childList = new ArrayList( );
-			if ( getCube( ) != null )
-			{
-				childList.add( getCube( ).getDataSet( ) );
-				DimensionHandle[] dimensions = (DimensionHandle[]) getCube( ).getContents( ICubeModel.DIMENSIONS_PROP )
-						.toArray( new DimensionHandle[0] );
-				for ( int i = 0; i < dimensions.length; i++ )
-				{
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
-					if ( hierarchy != null && hierarchy.getDataSet( ) != null )
-						childList.add( hierarchy );
+			List childList = new ArrayList();
+			if (getCube() != null) {
+				childList.add(getCube().getDataSet());
+				DimensionHandle[] dimensions = (DimensionHandle[]) getCube().getContents(ICubeModel.DIMENSIONS_PROP)
+						.toArray(new DimensionHandle[0]);
+				for (int i = 0; i < dimensions.length; i++) {
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy();
+					if (hierarchy != null && hierarchy.getDataSet() != null) {
+						childList.add(hierarchy);
+					}
 				}
 			}
 
-			List polygonList = new ArrayList( );
-			for ( int i = 0; i < childList.size( ); i++ )
-			{
-				if ( existPosX( childList.get( i ) ) )
-					polygonList.add( getPolygon( childList.get( i ) ) );
+			List polygonList = new ArrayList();
+			for (int i = 0; i < childList.size(); i++) {
+				if (existPosX(childList.get(i))) {
+					polygonList.add(getPolygon(childList.get(i)));
+				}
 			}
 
-			int width = getWidth( getModel( ) );
-			int height = getHeight( getModel( ) );
+			int width = getWidth(getModel());
+			int height = getHeight(getModel());
 
 			boolean contain = false;
 			int x = 0, y = 0;
-			for ( int i = 0; i < 100; i++ )
-			{
-				x = new Random( ).nextInt( displayWidth - width );
-				y = new Random( ).nextInt( displayHeight - height );
-				for ( int j = 0; j < polygonList.size( ); j++ )
-				{
+			for (int i = 0; i < 100; i++) {
+				x = new Random().nextInt(displayWidth - width);
+				y = new Random().nextInt(displayHeight - height);
+				for (int j = 0; j < polygonList.size(); j++) {
 					contain = true;
-					Polygon polygon = (Polygon) polygonList.get( j );
-					if ( polygon.containsPoint( x, y ) )
+					Polygon polygon = (Polygon) polygonList.get(j);
+					if (polygon.containsPoint(x, y) || polygon.containsPoint(x + width, y) || polygon.containsPoint(x + width, y + height) || polygon.containsPoint(x, y + height)) {
 						break;
-					if ( polygon.containsPoint( x + width, y ) )
-						break;
-					if ( polygon.containsPoint( x + width, y + height ) )
-						break;
-					if ( polygon.containsPoint( x, y + height ) )
-						break;
+					}
 					contain = false;
 				}
-				if ( !contain )
-				{
+				if (!contain) {
 					break;
 				}
 			}
-			polygonList.clear( );
-			childList.clear( );
-			if ( !contain )
-				r = new Rectangle( setPosX( x ), setPosY( y ), width, height );
-			else
-				r = new Rectangle( getPosX( getModel( ) ),
-						getPosY( getModel( ) ),
-						getWidth( getModel( ) ),
-						getHeight( getModel( ) ) );
+			polygonList.clear();
+			childList.clear();
+			if (!contain) {
+				r = new Rectangle(setPosX(x), setPosY(y), width, height);
+			} else {
+				r = new Rectangle(getPosX(getModel()), getPosY(getModel()), getWidth(getModel()),
+						getHeight(getModel()));
+			}
+		} else {
+			r = new Rectangle(getPosX(getModel()), getPosY(getModel()), getWidth(getModel()), getHeight(getModel()));
 		}
-		else
-			r = new Rectangle( getPosX( getModel( ) ),
-					getPosY( getModel( ) ),
-					getWidth( getModel( ) ),
-					getHeight( getModel( ) ) );
-		getFigure( ).setBounds( r );
-		( (GraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				r );
+		getFigure().setBounds(r);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), r);
 
 	}
 
-	private Polygon getPolygon( Object model )
-	{
-		Polygon polygon = new Polygon( );
-		int x = getPosX( model );
-		int y = getPosY( model );
-		int width = getWidth( model );
-		int height = getHeight( model );
-		polygon.addPoint( new Point( x - 50, y - 50 ) );
-		polygon.addPoint( new Point( x + width + 50, y - 50 ) );
-		polygon.addPoint( new Point( x + width + 50, y + height + 50 ) );
-		polygon.addPoint( new Point( x - 50, y + height + 50 ) );
+	private Polygon getPolygon(Object model) {
+		Polygon polygon = new Polygon();
+		int x = getPosX(model);
+		int y = getPosY(model);
+		int width = getWidth(model);
+		int height = getHeight(model);
+		polygon.addPoint(new Point(x - 50, y - 50));
+		polygon.addPoint(new Point(x + width + 50, y - 50));
+		polygon.addPoint(new Point(x + width + 50, y + height + 50));
+		polygon.addPoint(new Point(x - 50, y + height + 50));
 		return polygon;
 	}
 
-	private int getWidth( Object model )
-	{
-		int width = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
-				UIHelper.getId( model, cube ),
-				BuilderConstants.SIZE_WIDTH );
+	private int getWidth(Object model) {
+		int width = UIHelper.getIntProperty(((ReportElementHandle) model).getRoot(), UIHelper.getId(model, cube),
+				BuilderConstants.SIZE_WIDTH);
 		return width == 0 ? 150 : width;
 	}
 
-	private int getHeight( Object model )
-	{
-		int height = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
-				UIHelper.getId( model, cube ),
-				BuilderConstants.SIZE_HEIGHT );
+	private int getHeight(Object model) {
+		int height = UIHelper.getIntProperty(((ReportElementHandle) model).getRoot(), UIHelper.getId(model, cube),
+				BuilderConstants.SIZE_HEIGHT);
 		return height == 0 ? 200 : height;
 	}
 
-	private int getPosX( Object model )
-	{
-		int x = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
-				UIHelper.getId( model, cube ),
-				BuilderConstants.POSITION_X );
+	private int getPosX(Object model) {
+		int x = UIHelper.getIntProperty(((ReportElementHandle) model).getRoot(), UIHelper.getId(model, cube),
+				BuilderConstants.POSITION_X);
 		return x;
 	}
 
-	private int getPosY( Object model )
-	{
-		int y = UIHelper.getIntProperty( ( (ReportElementHandle) model ).getRoot( ),
-				UIHelper.getId( model, cube ),
-				BuilderConstants.POSITION_Y );
+	private int getPosY(Object model) {
+		int y = UIHelper.getIntProperty(((ReportElementHandle) model).getRoot(), UIHelper.getId(model, cube),
+				BuilderConstants.POSITION_Y);
 		return y;
 	}
 
-	private int setPosX( int x )
-	{
-		try
-		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
-					UIHelper.getId( getModel( ), cube ),
-					BuilderConstants.POSITION_X,
-					x );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+	private int setPosX(int x) {
+		try {
+			UIHelper.setIntProperty(((ReportElementHandle) getModel()).getRoot(), UIHelper.getId(getModel(), cube),
+					BuilderConstants.POSITION_X, x);
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 		return x;
 	}
 
-	private int setPosY( int y )
-	{
-		try
-		{
-			UIHelper.setIntProperty( ( (ReportElementHandle) getModel( ) ).getRoot( ),
-					UIHelper.getId( getModel( ), cube ),
-					BuilderConstants.POSITION_Y,
-					y );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+	private int setPosY(int y) {
+		try {
+			UIHelper.setIntProperty(((ReportElementHandle) getModel()).getRoot(), UIHelper.getId(getModel(), cube),
+					BuilderConstants.POSITION_Y, y);
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 		return y;
 	}
 
-	private boolean existPosX( Object model )
-	{
-		return UIHelper.existIntProperty( ( (ReportElementHandle) model ).getRoot( ),
-				UIHelper.getId( model, cube ),
-				BuilderConstants.POSITION_X );
+	private boolean existPosX(Object model) {
+		return UIHelper.existIntProperty(((ReportElementHandle) model).getRoot(), UIHelper.getId(model, cube),
+				BuilderConstants.POSITION_X);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new TableSelectionEditPolicy( ) );
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new TableSelectionEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
+	 *
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
-	public IFigure getChopFigure( )
-	{
+	@Override
+	public IFigure getChopFigure() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
-	public IFigure getContentPane( )
-	{
+	@Override
+	public IFigure getContentPane() {
 		return tableNode;
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( isActive( ) && !isDelete( ) )
-		{
-			refresh( );
+	@Override
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (isActive() && !isDelete()) {
+			refresh();
 		}
 	}
 
-	public void deactivate( )
-	{
-		super.deactivate( );
-		cube.getRoot( ).removeListener( this );
+	@Override
+	public void deactivate() {
+		super.deactivate();
+		cube.getRoot().removeListener(this);
 	}
 
-	public void activate( )
-	{
-		super.activate( );
-		cube.getRoot( ).addListener( this );
+	@Override
+	public void activate() {
+		super.activate();
+		cube.getRoot().addListener(this);
 	}
 
-	public DragTracker getDragTracker( Request req )
-	{
-		DragEditPartsTracker track = new DragEditPartsTracker( this );
+	@Override
+	public DragTracker getDragTracker(Request req) {
+		DragEditPartsTracker track = new DragEditPartsTracker(this);
 		return track;
 	}
 
-	public TabularCubeHandle getCube( )
-	{
+	public TabularCubeHandle getCube() {
 		return cube;
 	}
 

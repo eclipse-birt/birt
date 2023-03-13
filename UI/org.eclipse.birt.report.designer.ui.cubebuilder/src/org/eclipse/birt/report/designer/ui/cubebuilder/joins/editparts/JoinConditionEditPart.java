@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -17,8 +20,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
-public class JoinConditionEditPart extends AbstractConnectionEditPart
-{
+public class JoinConditionEditPart extends AbstractConnectionEditPart {
 
 	private static final String SELECTION_POLICY = "Selection Policy"; //$NON-NLS-1$
 
@@ -26,28 +28,23 @@ public class JoinConditionEditPart extends AbstractConnectionEditPart
 	 * @param context
 	 * @param join
 	 */
-	public JoinConditionEditPart( EditPart context,
-			DimensionJoinConditionHandle join )
-	{
-		setModel( join );
-		setParent( context );
+	public JoinConditionEditPart(EditPart context, DimensionJoinConditionHandle join) {
+		setModel(join);
+		setParent(context);
 	}
 
-	protected IFigure createFigure( )
-	{
-		return new ColumnConnection( );
+	@Override
+	protected IFigure createFigure() {
+		return new ColumnConnection();
 	}
 
-
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( SELECTION_POLICY, new JoinSelectionEditPolicy( ) );
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(SELECTION_POLICY, new JoinSelectionEditPolicy());
 	}
 
-
-	public DeleteJoinAction getRemoveAction( )
-	{
-		DeleteJoinAction removeAction = new DeleteJoinAction( this, getModel( ) );
+	public DeleteJoinAction getRemoveAction() {
+		DeleteJoinAction removeAction = new DeleteJoinAction(this, getModel());
 		return removeAction;
 	}
 

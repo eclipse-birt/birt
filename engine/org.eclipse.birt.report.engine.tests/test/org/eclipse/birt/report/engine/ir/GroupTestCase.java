@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,34 +18,31 @@ import junit.framework.TestCase;
 
 /**
  * base class of Group type test
- * 
+ *
  */
-public abstract class GroupTestCase extends TestCase
-{
+public abstract class GroupTestCase extends TestCase {
 
 	protected GroupDesign group;
 
-	public GroupTestCase( GroupDesign g )
-	{
+	public GroupTestCase(GroupDesign g) {
 		group = g;
 	}
 
 	/**
 	 * Test get/setKeyExpr method
-	 * 
+	 *
 	 * set the key expression
-	 * 
+	 *
 	 * then get it to test if they work correctly
 	 */
 
-	public void testBaseGroup( )
-	{
+	public void testBaseGroup() {
 		// Expression exp = new Expression( );
 
-		//Set
-		//group.setKeyExpr( exp );
+		// Set
+		// group.setKeyExpr( exp );
 
-		//Get
-		//assertEquals( group.getKeyExpr( ), exp );
+		// Get
+		// assertEquals( group.getKeyExpr( ), exp );
 	}
 }

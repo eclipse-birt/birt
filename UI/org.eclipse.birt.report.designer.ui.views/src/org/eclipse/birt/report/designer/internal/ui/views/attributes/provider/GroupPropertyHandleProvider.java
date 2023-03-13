@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,21 +25,18 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * property sheet page.
  */
 
-public class GroupPropertyHandleProvider
-{
+public class GroupPropertyHandleProvider {
 
 	private static GroupPropertyHandleProvider instance;
 
 	/**
 	 * Return a single instance.
-	 * 
+	 *
 	 * @return instance of this
 	 */
-	public static GroupPropertyHandleProvider getInstance( )
-	{
-		if ( instance == null )
-		{
-			instance = new GroupPropertyHandleProvider( );
+	public static GroupPropertyHandleProvider getInstance() {
+		if (instance == null) {
+			instance = new GroupPropertyHandleProvider();
 		}
 		return instance;
 	}
@@ -178,30 +178,21 @@ public class GroupPropertyHandleProvider
 	// }
 
 	/**
-	 * Gets the set of choices for the property; return null if the property
-	 * doesn't have choice list.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 * Gets the set of choices for the property; return null if the property doesn't
+	 * have choice list.
+	 *
+	 * @param o the property model to inspect
 	 * @return the array holds choice values
 	 */
-	private Object[] getChoiceValues( Object o )
-	{
+	private Object[] getChoiceValues(Object o) {
 		Object[] values = null;
-		if ( o instanceof GroupPropertyHandle )
-		{
-			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getAllowedChoices( ) != null )
-			{
-				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-						.getAllowedChoices( )
-						.getChoices( );
-				if ( choices.length > 0 )
-				{
+		if (o instanceof GroupPropertyHandle) {
+			if (((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices() != null) {
+				IChoice[] choices = ((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices().getChoices();
+				if (choices.length > 0) {
 					values = new Object[choices.length];
-					for ( int i = 0; i < choices.length; i++ )
-					{
-						values[i] = choices[i].getName( );
+					for (int i = 0; i < choices.length; i++) {
+						values[i] = choices[i].getName();
 					}
 				}
 			}
@@ -212,28 +203,19 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Determines if the property has choice type value.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return if a property has choice type value
 	 */
-	public boolean isChoiceProperty( Object o )
-	{
+	public boolean isChoiceProperty(Object o) {
 		boolean choice = false;
-		if ( isColorProperty( o ) )
-		{
+		if (isColorProperty(o)) {
 			return false;
 		}
-		if ( o instanceof GroupPropertyHandle )
-		{
-			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getAllowedChoices( ) != null )
-			{
-				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-						.getAllowedChoices( )
-						.getChoices( );
-				if ( choices.length > 0 )
-				{
+		if (o instanceof GroupPropertyHandle) {
+			if (((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices() != null) {
+				IChoice[] choices = ((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices().getChoices();
+				if (choices.length > 0) {
 					choice = true;
 				}
 			}
@@ -243,147 +225,120 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Determines whether this is a style property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a style property
 	 */
-	public boolean isStyleProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.isStyleProperty( );
+	public boolean isStyleProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().isStyleProperty();
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is a color type property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a color type property
 	 */
-	public boolean isColorProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.COLOR_TYPE;
+	public boolean isColorProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.COLOR_TYPE;
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is a dimension property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a dimension property
 	 */
-	public boolean isFontSizeProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			if ( !( (GroupPropertyHandle) o ).getPropertyDefn( ).hasChoices( ) )
-			{
+	public boolean isFontSizeProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			if (!((GroupPropertyHandle) o).getPropertyDefn().hasChoices()) {
 				return false;
 			}
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.DIMENSION_TYPE;
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.DIMENSION_TYPE;
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is a dimension property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a dimension property
 	 */
-	public boolean isDimensionProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
+	public boolean isDimensionProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
 
-			if ( isFontSizeProperty( o ) )
+			if (isFontSizeProperty(o)) {
 				return false;
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.DIMENSION_TYPE;
+			}
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.DIMENSION_TYPE;
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is a boolean type property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a boolean type property
 	 */
-	public boolean isBooleanProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.BOOLEAN_TYPE;
+	public boolean isBooleanProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.BOOLEAN_TYPE;
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is a date-time type property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a date-time type property
 	 */
-	public boolean isDateTimeProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.DATE_TIME_TYPE;
+	public boolean isDateTimeProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.DATE_TIME_TYPE;
 		}
 		return false;
 	}
 
 	/**
 	 * Determines whether this is an expression type property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if an expression property
 	 */
-	public boolean isExpressionProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
+	public boolean isExpressionProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.EXPRESSION_TYPE;
 		}
 
 		return false;
 	}
-	
-	public boolean supportConstantExpression(Object o)
-	{
+
+	public boolean supportConstantExpression(Object o) {
 		boolean result = false;
-		if ( o instanceof GroupPropertyHandle )
-		{
-			result = ModelUtil.supportConstantExpression( ( (GroupPropertyHandle) o ).getPropertyDefn( ) );
+		if (o instanceof GroupPropertyHandle) {
+			result = ModelUtil.supportConstantExpression(((GroupPropertyHandle) o).getPropertyDefn());
 		}
 		return result;
 	}
 
 	/**
 	 * Determines whether this is a custom style property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a custom style property
 	 */
-	public boolean isElementRefValue( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+	public boolean isElementRefValue(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getTypeCode() == IPropertyType.ELEMENT_REF_TYPE;
 		}
 
 		return false;
@@ -391,16 +346,13 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Determines whether this is a visible property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a visible property
 	 */
-	public boolean isReadOnly( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).isReadOnly( );
+	public boolean isReadOnly(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).isReadOnly();
 		}
 
 		return false;
@@ -408,16 +360,13 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Determines whether this is a visible property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a visible property
 	 */
-	public boolean isEditable( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).isEditable( );
+	public boolean isEditable(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().isEditable();
 		}
 
 		return false;
@@ -425,42 +374,33 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Get the value's position in the choice list it belongs to.
-	 * 
-	 * @param o
-	 *            the property model to inspect
-	 * @param value
-	 *            the specified value
+	 *
+	 * @param o     the property model to inspect
+	 * @param value the specified value
 	 * @return the position
 	 */
-	public Object getIndexByValue( Object o, Object value )
-	{
+	public Object getIndexByValue(Object o, Object value) {
 		int index = 0;
 
-		Object values[] = getChoiceValues( o );
+		Object values[] = getChoiceValues(o);
 
-		for ( int i = 0; values != null && i < values.length; i++ )
-		{
-			if ( values[i].equals( value ) )
-			{
+		for (int i = 0; values != null && i < values.length; i++) {
+			if (values[i].equals(value)) {
 				index = i;
 			}
 		}
-		return Integer.valueOf( index );
+		return Integer.valueOf(index);
 	}
 
 	/**
 	 * Determines whether this is a password property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if a password property
 	 */
-	public boolean isPassProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.isEncryptable( );
+	public boolean isPassProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().isEncryptable();
 		}
 
 		return false;
@@ -468,18 +408,13 @@ public class GroupPropertyHandleProvider
 
 	/**
 	 * Determines whether this is a background image property.
-	 * 
-	 * @param o
-	 *            the property model to inspect
+	 *
+	 * @param o the property model to inspect
 	 * @return true if it is a background image property
 	 */
-	public boolean isBackgroundImageProperty( Object o )
-	{
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getName( )
-					.equals( IStyleModel.BACKGROUND_IMAGE_PROP );
+	public boolean isBackgroundImageProperty(Object o) {
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getName().equals(IStyleModel.BACKGROUND_IMAGE_PROP);
 		}
 		return false;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.eclipse.birt.core.framework.IConfigurationElement;
  * The descriptor of the plugin emitter.
  */
 
-public class EmitterInfo
-{
+public class EmitterInfo {
 
 	private String format;
 	private String id;
@@ -36,18 +38,14 @@ public class EmitterInfo
 
 	/**
 	 * whether emitter need to output the display:none or process it in layout
-	 * engine.
-	 * true: output display:none in emitter and do not process it in layout engine. 
-	 * false: process it in layout engine, not output it in emitter.
+	 * engine. true: output display:none in emitter and do not process it in layout
+	 * engine. false: process it in layout engine, not output it in emitter.
 	 */
 	private Boolean outputDisplayNone;
 
-	public EmitterInfo( String format, String id, String pagination,
-			String mimeType, String icon, String namespace, String fileExt,
-			Boolean outputDisplayNone, Boolean isHidden,
-			String supportedImageFormats, boolean needOutputResultSet,
-			IConfigurationElement emitter )
-	{
+	public EmitterInfo(String format, String id, String pagination, String mimeType, String icon, String namespace,
+			String fileExt, Boolean outputDisplayNone, Boolean isHidden, String supportedImageFormats,
+			boolean needOutputResultSet, IConfigurationElement emitter) {
 		this.format = format;
 		this.id = id;
 		this.emitter = emitter;
@@ -64,161 +62,154 @@ public class EmitterInfo
 
 	/**
 	 * Get the namespace of the emitter.
+	 *
 	 * @return namespace of the emitter
 	 */
-	public String getNamespace( )
-	{
+	public String getNamespace() {
 		return namespace;
 	}
 
 	/**
 	 * Get the icon of the emitter.
+	 *
 	 * @return
 	 */
-	public String getIcon( )
-	{
+	public String getIcon() {
 		return icon;
 	}
 
 	/**
 	 * Get the format of the emitter.
+	 *
 	 * @return format of the emitter
 	 */
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
 
 	/**
 	 * Get the id of the emitter.
+	 *
 	 * @return id of the emitter
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return id;
 	}
 
 	/**
 	 * Get the emitter instance of the emitter.
+	 *
 	 * @return emitter instance
 	 */
-	public IConfigurationElement getEmitter( )
-	{
+	public IConfigurationElement getEmitter() {
 		return emitter;
 	}
 
 	/**
 	 * Get the mimeType of the emitter.
+	 *
 	 * @return mimeType of the emitter
 	 */
-	public String getMimeType( )
-	{
+	public String getMimeType() {
 		return mimeType;
 	}
 
 	/**
 	 * Get the pagination of the emitter.
+	 *
 	 * @return pagination of the emitter
 	 */
-	public String getPagination( )
-	{
+	public String getPagination() {
 		return pagination;
 	}
-	
+
 	/**
 	 * Get the outputDisplayNone of the emitter.
+	 *
 	 * @return outputDisplayNone of the emitter
 	 */
-	public Boolean getOutputDisplayNone( )
-	{
+	public Boolean getOutputDisplayNone() {
 		return outputDisplayNone;
 	}
-	
+
 	/**
 	 * get the file extension of this emitter's output, "." not included
-	 * 
+	 *
 	 * @return file extension
 	 */
-	public String getFileExtension( )
-	{
+	public String getFileExtension() {
 		return fileExtension;
 	}
-	
+
 	/**
 	 * get whether format is allowed to be shown
-	 * 
+	 *
 	 * @return hideFormat
 	 */
-	public Boolean isHidden( )
-	{
+	public Boolean isHidden() {
 		return isHidden;
 	}
-	
+
 	/**
 	 * get the image formats the emitter supports
-	 * 
+	 *
 	 * @return the supported image formats.
 	 */
-	public String getSupportedImageFormats() 
-	{
+	public String getSupportedImageFormats() {
 		return supportedImageFormats;
 	}
 
 	/**
 	 * If the emitter needs output query result set.
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean needOutputResultSet( )
-	{
+	public boolean needOutputResultSet() {
 		return needOutputResultSet;
 	}
 
 	/**
 	 * Set needOutputResultSet.
-	 * 
+	 *
 	 * @param needOutputResultSet
 	 */
-	public void setNeedOutputResultSet( boolean needOutputResultSet )
-	{
+	public void setNeedOutputResultSet(boolean needOutputResultSet) {
 		this.needOutputResultSet = needOutputResultSet;
 	}
 
 	/**
 	 * Get the emitter override priority.
+	 *
 	 * @return the override priority.
 	 */
-	public int getOverridePriority( )
-	{
+	public int getOverridePriority() {
 		return overridePriority;
 	}
 
 	/**
 	 * Set the emitter override priority.
+	 *
 	 * @param overridePriority
 	 */
-	public void setOverridePriority( int overridePriority )
-	{
+	public void setOverridePriority(int overridePriority) {
 		this.overridePriority = overridePriority;
 	}
-	
+
 	/**
 	 * Get if the emitter format is deprecated
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isFormatDeprecated( )
-	{
+	public boolean isFormatDeprecated() {
 		return isFormatDeprecated;
 	}
-	
+
 	/**
 	 * Set if the emitter format is deprecated
-	 * 
+	 *
 	 * @param isFormatDeprecated
 	 */
-	public void setFormatDeprecated( boolean isFormatDeprecated )
-	{
+	public void setFormatDeprecated(boolean isFormatDeprecated) {
 		this.isFormatDeprecated = isFormatDeprecated;
 	}
 }

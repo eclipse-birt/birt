@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,10 +22,9 @@ import org.eclipse.birt.report.taglib.component.ParamValueField;
 
 /**
  * This tag is used to specify the report parameter.
- * 
+ *
  */
-public class ParamValueTag extends BodyTagSupport
-{
+public class ParamValueTag extends BodyTagSupport {
 
 	/**
 	 * Serial Version UID
@@ -37,64 +38,54 @@ public class ParamValueTag extends BodyTagSupport
 
 	/**
 	 * Initialize pageContext
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
-	public void setPageContext( PageContext context )
-	{
-		super.setPageContext( context );
-		param = new ParamValueField( );
+	@Override
+	public void setPageContext(PageContext context) {
+		super.setPageContext(context);
+		param = new ParamValueField();
 	}
 
 	/**
 	 * When reach the end tag, fire this operation
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
-	public int doEndTag( ) throws JspException
-	{
+	@Override
+	public int doEndTag() throws JspException {
 		// included in viewer tag
-		ParamTag paramTag = (ParamTag) TagSupport
-				.findAncestorWithClass( this, ParamTag.class );
-		if ( paramTag != null )
-		{
-			if ( bodyContent != null )
-			{
-				String bodyString = bodyContent.getString( );
-				if ( bodyString != null )
-				{
-					bodyString = bodyString.trim( );
-					if ( !"".equals(bodyString) )
-					{
+		ParamTag paramTag = (ParamTag) TagSupport.findAncestorWithClass(this, ParamTag.class);
+		if (paramTag != null) {
+			if (bodyContent != null) {
+				String bodyString = bodyContent.getString();
+				if (bodyString != null) {
+					bodyString = bodyString.trim();
+					if (!"".equals(bodyString)) {
 						// replace the value attribute with the content, if empty
-						if ( param.getValue() == null || "".equals(param.getValue()) )
-						{
-							param.setValue( bodyString );
+						if (param.getValue() == null || "".equals(param.getValue())) {
+							param.setValue(bodyString);
 						}
 					}
 				}
 			}
-			paramTag.addValue( param );
+			paramTag.addValue(param);
 		}
-		return super.doEndTag( );
-	}
-	
-	/**
-	 * @param value
-	 *            the value to set
-	 */
-	public void setValue( Object value )
-	{
-		param.setValue( value );
+		return super.doEndTag();
 	}
 
 	/**
-	 * @param displayText
-	 *            the displayText to set
+	 * @param value the value to set
 	 */
-	public void setDisplayText( String displayText )
-	{
-		param.setDisplayText( displayText );
+	public void setValue(Object value) {
+		param.setValue(value);
+	}
+
+	/**
+	 * @param displayText the displayText to set
+	 */
+	public void setDisplayText(String displayText) {
+		param.setDisplayText(displayText);
 	}
 
 }

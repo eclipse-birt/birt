@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,52 +14,43 @@
 
 package org.eclipse.birt.core.btree;
 
-class BTreeValue<V>
-{
+class BTreeValue<V> {
 
 	private byte[] bytes;
 	private V value;
 
-	BTreeValue( )
-	{
+	BTreeValue() {
 	}
 
-	BTreeValue( byte[] bytes )
-	{
-		this( null, bytes );
+	BTreeValue(byte[] bytes) {
+		this(null, bytes);
 	}
 
-	BTreeValue( V value, byte[] bytes )
-	{
+	BTreeValue(V value, byte[] bytes) {
 		this.bytes = bytes;
 		this.value = value;
 	}
 
-	public byte[] getBytes( )
-	{
+	public byte[] getBytes() {
 		return bytes;
 	}
 
-	public void setBytes( byte[] bytes )
-	{
+	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
 	}
 
-	public V getValue( )
-	{
+	public V getValue() {
 		return value;
 	}
 
-	public void setValue( V value )
-	{
+	public void setValue(V value) {
 		this.value = value;
 	}
 
-	public String toString( )
-	{
-		if ( value != null )
-		{
-			return value.toString( );
+	@Override
+	public String toString() {
+		if (value != null) {
+			return value.toString();
 		}
 		return null;
 	}

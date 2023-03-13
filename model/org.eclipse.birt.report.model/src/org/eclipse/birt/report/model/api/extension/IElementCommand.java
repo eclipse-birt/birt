@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -12,7 +15,6 @@
 package org.eclipse.birt.report.model.api.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-
 
 /**
  * Represents a extended element command that is integrated with the BIRT
@@ -24,70 +26,68 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * BIRT activity record.)
  */
 
-public interface IElementCommand
-{
+public interface IElementCommand {
 
 	/**
-	 * Executes the record. Derived classes do the desired operation. All
-	 * semantic and other checks must have already been done; the record
-	 * operation must succeed.
+	 * Executes the record. Derived classes do the desired operation. All semantic
+	 * and other checks must have already been done; the record operation must
+	 * succeed.
 	 */
 
-	void execute( );
+	void execute();
 
 	/**
-	 * Undoes the record. Leaves the state of the IR identical to what it was
-	 * before execute was called. Note that the operation must be designed so
-	 * that it succeeds if the IR is in the correct state: the same state it was
-	 * in after execute( ) was called. (If the IR is in any other state, then a
-	 * programming error has occurred.)
+	 * Undoes the record. Leaves the state of the IR identical to what it was before
+	 * execute was called. Note that the operation must be designed so that it
+	 * succeeds if the IR is in the correct state: the same state it was in after
+	 * execute( ) was called. (If the IR is in any other state, then a programming
+	 * error has occurred.)
 	 */
 
-	void undo( );
+	void undo();
 
 	/**
-	 * Redoes the record. Logically repeats the execute record. The state of the
-	 * IR must be identical to that after undo( ) has executed. After the call,
-	 * the state of the IR must be identical to that after execute( ) was
-	 * called.
+	 * Redoes the record. Logically repeats the execute record. The state of the IR
+	 * must be identical to that after undo( ) has executed. After the call, the
+	 * state of the IR must be identical to that after execute( ) was called.
 	 */
 
-	void redo( );
+	void redo();
 
 	/**
 	 * Tells if this record can be undone. All records should be undoable in the
 	 * production system. A record may temporarily not support undo during a
 	 * development cycle.
-	 * 
+	 *
 	 * @return true if the record can be undone, false otherwise
 	 */
 
-	boolean canUndo( );
+	boolean canUndo();
 
 	/**
 	 * Tells if this record can be redone. All records should be redoable in the
 	 * production system. A record may temporarily not support redo during a
 	 * development cycle.
-	 * 
+	 *
 	 * @return true if redoable, false otherwise.
 	 */
 
-	boolean canRedo( );
+	boolean canRedo();
 
 	/**
-	 * Gets the label of this record. This label should be localized. The label
-	 * is optional.
-	 * 
+	 * Gets the label of this record. This label should be localized. The label is
+	 * optional.
+	 *
 	 * @return the label of this record
 	 */
 
-	String getLabel( );
+	String getLabel();
 
 	/**
 	 * Gets the extendedItem handle from the extension user. This is for sending
 	 * notifications.
-	 * 
+	 *
 	 * @return the ExtendedItem handle
 	 */
-	DesignElementHandle getElementHandle( );
+	DesignElementHandle getElementHandle();
 }

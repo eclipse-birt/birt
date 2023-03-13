@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -37,28 +40,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  */
 
-public class Regression_160419 extends BaseTestCase
-{
+public class Regression_160419 extends BaseTestCase {
 
 	public final static String REPORT = "regression_160419.xml";
 
-	public void test_regression_160419( ) throws Exception
-	{
+	public void test_regression_160419() throws Exception {
 		// open the report design
-		openDesign( REPORT );
-		OdaDataSetHandle dataset = (OdaDataSetHandle) designHandle
-				.findDataSet( "Data Set" );
-		Iterator parameters = dataset.parametersIterator( );
+		openDesign(REPORT);
+		OdaDataSetHandle dataset = (OdaDataSetHandle) designHandle.findDataSet("Data Set");
+		Iterator parameters = dataset.parametersIterator();
 		// find the parameters
-		OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters
-				.next( );
-		
-		assertNotNull( parameter );
-		parameter.setDefaultValue( "\"A%\"" );
-		
-		// bind to the report parameter
-		parameter.setParamName( "p1" );
+		OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters.next();
 
-		assertEquals( "\"A%\"", parameter.getDefaultValue( ) );
+		assertNotNull(parameter);
+		parameter.setDefaultValue("\"A%\"");
+
+		// bind to the report parameter
+		parameter.setParamName("p1");
+
+		assertEquals("\"A%\"", parameter.getDefaultValue());
 	}
 }

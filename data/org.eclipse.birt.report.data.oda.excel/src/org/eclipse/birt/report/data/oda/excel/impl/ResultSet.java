@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Megha Nidhi Dahal and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -53,15 +56,14 @@ public class ResultSet implements IResultSet {
 
 	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault();
 
-	private static Pattern pattern1 = Pattern.compile( "\\QT\\E" ); //$NON-NLS-1$
-   
-	private static Pattern pattern2 = Pattern.compile( "\\QZ\\E" ); //$NON-NLS-1$
-	    
+	private static Pattern pattern1 = Pattern.compile("\\QT\\E"); //$NON-NLS-1$
+
+	private static Pattern pattern2 = Pattern.compile("\\QZ\\E"); //$NON-NLS-1$
+
 	/**
 	 * Constructor
 	 *
-	 * @param excelSource
-	 *            flat file data source reader
+	 * @param excelSource flat file data source reader
 	 * @param rsmd
 	 */
 	ResultSet(ExcelFileSource excelSource, ResultSetMetaData rsmd) {
@@ -74,6 +76,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
+	@Override
 	public IResultSetMetaData getMetaData() throws OdaException {
 		return this.resultSetMetaData;
 	}
@@ -81,6 +84,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		this.cursor = 0;
 		this.sourceData = null;
@@ -91,6 +95,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
+	@Override
 	public void setMaxRows(int max) throws OdaException {
 		this.maxRows = max;
 	}
@@ -98,6 +103,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
+	@Override
 	public boolean next() throws OdaException {
 		if (overFlow) {
 			return false;
@@ -134,6 +140,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
+	@Override
 	public int getRow() throws OdaException {
 		validateCursorState();
 		return this.fetchAccumulator;
@@ -142,6 +149,7 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
+	@Override
 	public String getString(int index) throws OdaException {
 		validateCursorState();
 		String result = sourceData[cursor][index - 1];
@@ -150,10 +158,10 @@ public class ResultSet implements IResultSet {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang
 	 * .String)
 	 */
+	@Override
 	public String getString(String columnName) throws OdaException {
 		validateCursorState();
 		int columnIndex = findColumn(columnName);
@@ -163,15 +171,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
+	@Override
 	public int getInt(int index) throws OdaException {
 		return stringToInt(getString(index));
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String
-	 * )
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String )
 	 */
+	@Override
 	public int getInt(String columnName) throws OdaException {
 		return stringToInt(getString(columnName));
 	}
@@ -179,15 +188,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
+	@Override
 	public double getDouble(int index) throws OdaException {
 		return stringToDouble(getString(index));
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang
 	 * .String)
 	 */
+	@Override
 	public double getDouble(String columnName) throws OdaException {
 		return stringToDouble(getString(columnName));
 	}
@@ -195,15 +205,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(int index) throws OdaException {
 		return stringToBigDecimal(getString(index));
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.
 	 * lang.String)
 	 */
+	@Override
 	public BigDecimal getBigDecimal(String columnName) throws OdaException {
 		return stringToBigDecimal(getString(columnName));
 	}
@@ -211,15 +222,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
+	@Override
 	public Date getDate(int index) throws OdaException {
 		return stringToDate(getString(index));
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String
-	 * )
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String )
 	 */
+	@Override
 	public Date getDate(String columnName) throws OdaException {
 		return stringToDate(getString(columnName));
 	}
@@ -227,23 +239,24 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
-	public Time getTime( int index ) throws OdaException
-	{
-		try{
-			return stringToTime( getString( index ) );
-		}catch (Exception e){
+	@Override
+	public Time getTime(int index) throws OdaException {
+		try {
+			return stringToTime(getString(index));
+		} catch (Exception e) {
 			return null;
 		}
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
-	public Time getTime( String columnName ) throws OdaException
-	{
-		try{
-			return stringToTime( getString( columnName ) );
-		}catch (Exception e){
+	@Override
+	public Time getTime(String columnName) throws OdaException {
+		try {
+			return stringToTime(getString(columnName));
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -251,23 +264,25 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
-	public Timestamp getTimestamp( int index ) throws OdaException
-	{
-		try{
-			return stringToTimestamp( getString( index ) );
-		}catch (Exception e){
+	@Override
+	public Timestamp getTimestamp(int index) throws OdaException {
+		try {
+			return stringToTimestamp(getString(index));
+		} catch (Exception e) {
 			return null;
 		}
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.String)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.
+	 * String)
 	 */
-	public Timestamp getTimestamp( String columnName ) throws OdaException
-	{
-		try{
-			return stringToTimestamp( getString( columnName ) );
-		}catch (Exception e){
+	@Override
+	public Timestamp getTimestamp(String columnName) throws OdaException {
+		try {
+			return stringToTimestamp(getString(columnName));
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -275,15 +290,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(int)
 	 */
+	@Override
 	public IBlob getBlob(int index) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(java.lang.String
-	 * )
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBlob(java.lang.String )
 	 */
+	@Override
 	public IBlob getBlob(String columnName) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -291,15 +307,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getClob(int)
 	 */
+	@Override
 	public IClob getClob(int index) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getClob(java.lang.String
-	 * )
+	 * org.eclipse.datatools.connectivity.oda.IResultSet#getClob(java.lang.String )
 	 */
+	@Override
 	public IClob getClob(String columnName) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -309,6 +326,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
 	 */
+	@Override
 	public boolean getBoolean(int index) throws OdaException {
 		return stringToBoolean(getString(index)).booleanValue();
 	}
@@ -316,10 +334,10 @@ public class ResultSet implements IResultSet {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang
 	 * .String)
 	 */
+	@Override
 	public boolean getBoolean(String columnName) throws OdaException {
 		return stringToBoolean(getString(columnName)).booleanValue();
 	}
@@ -329,6 +347,7 @@ public class ResultSet implements IResultSet {
 	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
 	 */
+	@Override
 	public Object getObject(int index) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -336,10 +355,10 @@ public class ResultSet implements IResultSet {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang
 	 * .String)
 	 */
+	@Override
 	public Object getObject(String columnName) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -347,15 +366,16 @@ public class ResultSet implements IResultSet {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
+	@Override
 	public boolean wasNull() throws OdaException {
 		return this.wasNull;
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang
 	 * .String)
 	 */
+	@Override
 	public int findColumn(String columnName) throws OdaException {
 		return resultSetMetaData.findColumn(columnName);
 	}
@@ -363,31 +383,28 @@ public class ResultSet implements IResultSet {
 	/**
 	 * Validate whether the cursor has been initialized and at a valid row.
 	 *
-	 * @throws OdaException
-	 *             if the cursor is not initialized
+	 * @throws OdaException if the cursor is not initialized
 	 */
 	private void validateCursorState() throws OdaException {
-		if (this.cursor < 0)
-			throw new OdaException(
-					Messages.getString("resultSet_CURSOR_HAS_NOT_BEEN_INITIALIZED")); //$NON-NLS-1$
+		if (this.cursor < 0) {
+			throw new OdaException(Messages.getString("resultSet_CURSOR_HAS_NOT_BEEN_INITIALIZED")); //$NON-NLS-1$
+		}
 	}
 
 	/**
 	 * Transform a String value to an int value
 	 *
-	 * @param stringValue
-	 *            String value
+	 * @param stringValue String value
 	 * @return Corresponding int value
 	 */
 	private int stringToInt(String stringValue) {
 		if (stringValue != null) {
 			try {
-				//xls is returning doubles 
-				return (int)Double.parseDouble(stringValue);
+				// xls is returning doubles
+				return (int) Double.parseDouble(stringValue);
 			} catch (NumberFormatException e) {
 				try {
-					Number number = NumberFormat
-							.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
+					Number number = NumberFormat.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
 					if (number != null) {
 						return number.intValue();
 					}
@@ -402,8 +419,7 @@ public class ResultSet implements IResultSet {
 	/**
 	 * Transform a String value to a double value
 	 *
-	 * @param stringValue
-	 *            String value
+	 * @param stringValue String value
 	 * @return Corresponding double value
 	 */
 	private double stringToDouble(String stringValue) {
@@ -412,8 +428,7 @@ public class ResultSet implements IResultSet {
 				return Double.parseDouble(stringValue);
 			} catch (NumberFormatException e) {
 				try {
-					Number number = NumberFormat
-							.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
+					Number number = NumberFormat.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
 					if (number != null) {
 						return number.doubleValue();
 					}
@@ -428,8 +443,7 @@ public class ResultSet implements IResultSet {
 	/**
 	 * Transform a String value to a big decimal value
 	 *
-	 * @param stringValue
-	 *            String value
+	 * @param stringValue String value
 	 * @return Corresponding BigDecimal value
 	 */
 	private BigDecimal stringToBigDecimal(String stringValue) {
@@ -438,8 +452,7 @@ public class ResultSet implements IResultSet {
 				return new BigDecimal(stringValue);
 			} catch (NumberFormatException e) {
 				try {
-					Number number = NumberFormat
-							.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
+					Number number = NumberFormat.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
 					if (number != null) {
 						return new BigDecimal(number.toString());
 					}
@@ -454,21 +467,19 @@ public class ResultSet implements IResultSet {
 	/**
 	 * Transform a String value to a date value
 	 *
-	 * @param stringValue
-	 *            String value
+	 * @param stringValue String value
 	 * @return Corresponding date value
 	 * @throws OdaException
 	 */
 
 	private Date stringToDate(String stringValue) throws OdaException {
 		if (stringValue != null && stringValue.trim().length() > 0) {
-			try{
-				//return new Date (excelDateToDate(Double.parseDouble(stringValue)).getTime());
-				return DateUtil.toSqlDate( stringValue );
-			} catch( Exception ex){
+			try {
+				// return new Date (excelDateToDate(Double.parseDouble(stringValue)).getTime());
+				return DateUtil.toSqlDate(stringValue);
+			} catch (Exception ex) {
 
-				throw new OdaException(Messages.getFormattedString(
-						"invalid_date_value", new String[] { stringValue })); //$NON-NLS-1$
+				throw new OdaException(Messages.getFormattedString("invalid_date_value", new String[] { stringValue })); //$NON-NLS-1$
 			}
 		}
 
@@ -476,72 +487,57 @@ public class ResultSet implements IResultSet {
 		return null;
 	}
 
-	 /**
-     * Transform a String value to a Time value
-     * @param stringValue String value
-     * @return Corresponding Time value
-     * @throws OdaException 
-     */
-    private Time stringToTime( String stringValue ) throws OdaException
-    {
-    	if ( stringValue != null && stringValue.trim().length() > 0 )
-		{
-			try
-			{
-				return DateUtil.toSqlTime( stringValue );
-			}
-			catch ( OdaException oe )
-			{
-				throw new OdaException(Messages.getFormattedString(
-						"invalid_date_value", new String[] { stringValue })); //$NON-NLS-1$
+	/**
+	 * Transform a String value to a Time value
+	 *
+	 * @param stringValue String value
+	 * @return Corresponding Time value
+	 * @throws OdaException
+	 */
+	private Time stringToTime(String stringValue) throws OdaException {
+		if (stringValue != null && stringValue.trim().length() > 0) {
+			try {
+				return DateUtil.toSqlTime(stringValue);
+			} catch (OdaException oe) {
+				throw new OdaException(Messages.getFormattedString("invalid_date_value", new String[] { stringValue })); //$NON-NLS-1$
 			}
 		}
 		this.wasNull = true;
 		return null;
-    }
-    
-    /**
-     * Transform a String value to a Timestamp value
-     * @param stringValue String value
-     * @return Corresponding Timestamp value
-     * @throws OdaException 
-     */
-    private Timestamp stringToTimestamp( String stringValue ) throws OdaException
-    {
-    	if( stringValue != null && stringValue.trim().length() > 0 )
-        {
-            try
-            {
-            	String value = pattern1.matcher( stringValue).replaceAll(" "); //$NON-NLS-1$
-            	value = pattern2.split( value )[0];
-            	return Timestamp.valueOf( value );
-			}
-			catch ( IllegalArgumentException e )
-			{
-				try
-				{
-					long timeMills = Long.valueOf( stringValue ).longValue( );
-					return new Timestamp( timeMills );
-				}
-				catch ( NumberFormatException e1 )
-				{
-					try
-					{
-						java.util.Date date = DateUtil.toDate( stringValue );
-						Timestamp timeStamp = new Timestamp( date.getTime( ) );
+	}
+
+	/**
+	 * Transform a String value to a Timestamp value
+	 *
+	 * @param stringValue String value
+	 * @return Corresponding Timestamp value
+	 * @throws OdaException
+	 */
+	private Timestamp stringToTimestamp(String stringValue) throws OdaException {
+		if (stringValue != null && stringValue.trim().length() > 0) {
+			try {
+				String value = pattern1.matcher(stringValue).replaceAll(" "); //$NON-NLS-1$
+				value = pattern2.split(value)[0];
+				return Timestamp.valueOf(value);
+			} catch (IllegalArgumentException e) {
+				try {
+					long timeMills = Long.parseLong(stringValue);
+					return new Timestamp(timeMills);
+				} catch (NumberFormatException e1) {
+					try {
+						java.util.Date date = DateUtil.toDate(stringValue);
+						Timestamp timeStamp = new Timestamp(date.getTime());
 						return timeStamp;
-					}
-					catch ( OdaException ex )
-					{
-						//ignore
+					} catch (OdaException ex) {
+						// ignore
 					}
 				}
 			}
 		}
-    	this.wasNull = true;
-        return null;
-    }
-	
+		this.wasNull = true;
+		return null;
+	}
+
 	/**
 	 * Transform a string to boolean value
 	 *
@@ -550,23 +546,22 @@ public class ResultSet implements IResultSet {
 	 */
 	private Boolean stringToBoolean(String stringValue) {
 		if (stringValue != null) {
-			if (stringValue.equalsIgnoreCase("true")) //$NON-NLS-1$
+			if (stringValue.equalsIgnoreCase("true")) { //$NON-NLS-1$
 				return Boolean.TRUE;
-			else if (stringValue.equalsIgnoreCase("false")) //$NON-NLS-1$
+			} else if (stringValue.equalsIgnoreCase("false")) { //$NON-NLS-1$
 				return Boolean.FALSE;
-			else {
+			} else {
 				try {
-					if (Integer.parseInt((String) stringValue) == 0)
+					if (Integer.parseInt((String) stringValue) == 0) {
 						return Boolean.FALSE;
-					else
+					} else {
 						return Boolean.TRUE;
+					}
 				} catch (NumberFormatException e) {
 					try {
-						Number number = NumberFormat.getInstance(
-								JRE_DEFAULT_LOCALE).parse(stringValue);
+						Number number = NumberFormat.getInstance(JRE_DEFAULT_LOCALE).parse(stringValue);
 						if (number != null) {
-							return number.intValue() == 0 ? Boolean.FALSE
-									: Boolean.TRUE;
+							return number.intValue() == 0 ? Boolean.FALSE : Boolean.TRUE;
 						}
 					} catch (ParseException e1) {
 					}

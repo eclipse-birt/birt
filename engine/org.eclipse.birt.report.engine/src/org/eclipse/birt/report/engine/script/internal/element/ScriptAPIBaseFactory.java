@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,74 +28,74 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 /**
  * Interface to create some structure instances.
- * 
+ *
  * @deprecated
  */
-public class ScriptAPIBaseFactory implements IScriptAPIFactory
-{
+@Deprecated
+public class ScriptAPIBaseFactory implements IScriptAPIFactory {
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 * 
+	 *
 	 * @return IHideRule
 	 */
 
-	public IHideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
-		IHideRule rule = new HideRuleImpl( r );
+	@Override
+	public IHideRule createHideRule() {
+		HideRule r = new HideRule();
+		IHideRule rule = new HideRuleImpl(r);
 		return rule;
 	}
 
 	/**
 	 * Create <code>IFilterCondition</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IFilterCondition createFilterCondition( )
-	{
-		FilterCondition c = new FilterCondition( );
-		IFilterCondition condition = new FilterConditionImpl( c );
+	@Override
+	public IFilterCondition createFilterCondition() {
+		FilterCondition c = new FilterCondition();
+		IFilterCondition condition = new FilterConditionImpl(c);
 		return condition;
 	}
 
 	/**
 	 * Create <code>IDataBinding</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( )
-	{
-		ComputedColumn c = new ComputedColumn( );
-		IDataBinding binding = new DataBindingImpl( c );
+	@Override
+	public IDataBinding createDataBinding() {
+		ComputedColumn c = new ComputedColumn();
+		IDataBinding binding = new DataBindingImpl(c);
 		return binding;
 	}
 
 	/**
 	 * Create <code>IHighLightRule</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IHighlightRule createHighLightRule( )
-	{
-		HighlightRule h = new HighlightRule( );
-		IHighlightRule rule = new HighlightRuleImpl( h );
+	@Override
+	public IHighlightRule createHighLightRule() {
+		HighlightRule h = new HighlightRule();
+		IHighlightRule rule = new HighlightRuleImpl(h);
 		return rule;
 	}
 
 	/**
 	 * Create <code>ISortCondition</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public ISortCondition createSortCondition( )
-	{
-		SortKey s = new SortKey( );
-		ISortCondition sort = new SortConditionImpl( s );
+	@Override
+	public ISortCondition createSortCondition() {
+		SortKey s = new SortKey();
+		ISortCondition sort = new SortConditionImpl(s);
 		return sort;
 	}
 }

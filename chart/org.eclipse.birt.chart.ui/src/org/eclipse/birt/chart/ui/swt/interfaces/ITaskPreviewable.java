@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,32 +20,31 @@ import org.eclipse.swt.widgets.Canvas;
  * Provides preview functionality if current task supports preview
  */
 
-public interface ITaskPreviewable
-{
+public interface ITaskPreviewable {
 
 	/**
 	 * Indicates if current task can preview chart or not.
-	 * 
+	 *
 	 * @return support preview or not
 	 */
-	boolean isPreviewable( );
+	boolean isPreviewable();
 
 	/**
 	 * Returns the canvas which displays preview result
-	 * 
+	 *
 	 * @return canvas
 	 */
-	Canvas getPreviewCanvas( );
+	Canvas getPreviewCanvas();
 
 	/**
 	 * Creates preview painter
-	 * 
+	 *
 	 * @return preview painter
 	 */
-	IChartPreviewPainter createPreviewPainter( );
+	IChartPreviewPainter createPreviewPainter();
 
 	/**
 	 * Renders the preview in canvas
 	 */
-	void doPreview( );
+	void doPreview();
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,80 +24,61 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
-public class ReportExecutorUtil
-{
+public class ReportExecutorUtil {
 
-	public static void execute( IReportExecutor executor,
-			IContentEmitter emitter ) throws BirtException
-	{
-		IReportContent report = executor.execute( );
-		emitter.start( report );
-		while ( executor.hasNextChild( ) )
-		{
-			IReportItemExecutor childExecutor = executor.getNextChild( );
-			if ( childExecutor != null )
-			{
-				execute( childExecutor, emitter );
+	public static void execute(IReportExecutor executor, IContentEmitter emitter) throws BirtException {
+		IReportContent report = executor.execute();
+		emitter.start(report);
+		while (executor.hasNextChild()) {
+			IReportItemExecutor childExecutor = executor.getNextChild();
+			if (childExecutor != null) {
+				execute(childExecutor, emitter);
 			}
 		}
 
-		emitter.end( report );
+		emitter.end(report);
 	}
 
-	public static void execute( IReportItemExecutor executor,
-			IContentEmitter emitter ) throws BirtException
-	{
-		IContent content = executor.execute( );
-		if ( content != null )
-		{
-			ContentEmitterUtil.startContent( content, emitter );
+	public static void execute(IReportItemExecutor executor, IContentEmitter emitter) throws BirtException {
+		IContent content = executor.execute();
+		if (content != null) {
+			ContentEmitterUtil.startContent(content, emitter);
 		}
-		executeAll( executor, emitter );
-		if ( content != null )
-		{
-			ContentEmitterUtil.endContent( content, emitter );
+		executeAll(executor, emitter);
+		if (content != null) {
+			ContentEmitterUtil.endContent(content, emitter);
 		}
-		executor.close( );
+		executor.close();
 	}
 
-	public static IPageContent executeMasterPage( IReportExecutor executor,
-			long pageNumber, MasterPageDesign pageDesign ) throws BirtException
-	{
-		IReportItemExecutor pageExecutor = executor.createPageExecutor(
-				pageNumber, pageDesign );
-		if ( pageExecutor != null )
-		{
-			IPageContent pageContent = (IPageContent) pageExecutor.execute( );
-			if ( pageContent != null )
-			{
-				DOMBuilderEmitter emitter = new DOMBuilderEmitter( pageContent );
-				executeAll( pageExecutor, emitter );
+	public static IPageContent executeMasterPage(IReportExecutor executor, long pageNumber, MasterPageDesign pageDesign)
+			throws BirtException {
+		IReportItemExecutor pageExecutor = executor.createPageExecutor(pageNumber, pageDesign);
+		if (pageExecutor != null) {
+			IPageContent pageContent = (IPageContent) pageExecutor.execute();
+			if (pageContent != null) {
+				DOMBuilderEmitter emitter = new DOMBuilderEmitter(pageContent);
+				executeAll(pageExecutor, emitter);
 			}
-			pageExecutor.close( );
+			pageExecutor.close();
 			return pageContent;
 		}
 		return null;
 	}
 
-	static protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter ) throws BirtException
-	{
-		while ( executor.hasNextChild( ) )
-		{
-			IReportItemExecutor childExecutor = executor.getNextChild( );
-			if ( childExecutor != null )
-			{
-				IContent childContent = childExecutor.execute( );
-				if ( childContent != null )
-				{
-					ContentEmitterUtil.startContent( childContent, emitter );
+	static protected void executeAll(IReportItemExecutor executor, IContentEmitter emitter) throws BirtException {
+		while (executor.hasNextChild()) {
+			IReportItemExecutor childExecutor = executor.getNextChild();
+			if (childExecutor != null) {
+				IContent childContent = childExecutor.execute();
+				if (childContent != null) {
+					ContentEmitterUtil.startContent(childContent, emitter);
 				}
-				executeAll( childExecutor, emitter );
-				if ( childContent != null )
-				{
-					ContentEmitterUtil.endContent( childContent, emitter );
+				executeAll(childExecutor, emitter);
+				if (childContent != null) {
+					ContentEmitterUtil.endContent(childContent, emitter);
 				}
-				childExecutor.close( );
+				childExecutor.close();
 			}
 		}
 	}

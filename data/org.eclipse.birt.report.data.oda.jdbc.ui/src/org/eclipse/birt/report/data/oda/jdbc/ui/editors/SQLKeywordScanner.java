@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,37 +30,36 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.4 $ $Date: 2009/07/07 06:50:16 $
  */
 
-public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
-{
+public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 	/**
-	 *  
+	 *
 	 */
-	public SQLKeywordScanner( )
-	{
-		super( );
-		IToken sqlKeywordsToken = new Token( new TextAttribute( ColorManager.getColor(127, 0, 85), null, SWT.BOLD ) );
-		ArrayList rules = new ArrayList( );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, reservedwords ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, types ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, constants ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, functions ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, predicates ) );
-		
+	public SQLKeywordScanner() {
+		super();
+		IToken sqlKeywordsToken = new Token(new TextAttribute(ColorManager.getColor(127, 0, 85), null, SWT.BOLD));
+		ArrayList rules = new ArrayList();
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, reservedwords));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, types));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, constants));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, functions));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, predicates));
+
 		// Add generic whitespace rule.
-		rules.add( new WhitespaceRule( new IWhitespaceDetector( ) {
+		rules.add(new WhitespaceRule(new IWhitespaceDetector() {
 
-			public boolean isWhitespace( char c )
-			{
-				return Character.isWhitespace( c );
+			@Override
+			public boolean isWhitespace(char c) {
+				return Character.isWhitespace(c);
 			}
-		} ) );
+		}));
 
-		setRules( (IRule[]) rules.toArray( new IRule[rules.size( )] ) );
-		this.setDefaultReturnToken( new Token( new TextAttribute( Display.getDefault( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND ))));
+		setRules((IRule[]) rules.toArray(new IRule[rules.size()]));
+		this.setDefaultReturnToken(
+				new Token(new TextAttribute(Display.getDefault().getSystemColor(SWT.COLOR_LIST_FOREGROUND))));
 	}
 
 }

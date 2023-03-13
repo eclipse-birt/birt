@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -36,8 +39,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * after convertion.
  * <p>
  */
-public class Regression_148548 extends BaseTestCase
-{
+public class Regression_148548 extends BaseTestCase {
 
 	private final static String REPORT = "ScriptTest2.0.1.rptdesign"; //$NON-NLS-1$
 
@@ -45,25 +47,24 @@ public class Regression_148548 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 		// copyResource_INPUT( REPORT , REPORT );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
 
-	public void test_regression_148548( ) throws DesignFileException
-	{
-		openDesign( REPORT );
-		ScriptDataSetHandle ds = (ScriptDataSetHandle) designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
-		assertNotNull( ds );
-		List resultSets = ds.getListProperty( ScriptDataSetHandle.RESULT_SET_PROP );
+	public void test_regression_148548() throws DesignFileException {
+		openDesign(REPORT);
+		ScriptDataSetHandle ds = (ScriptDataSetHandle) designHandle.findDataSet("Data Set"); //$NON-NLS-1$
+		assertNotNull(ds);
+		List resultSets = ds.getListProperty(ScriptDataSetHandle.RESULT_SET_PROP);
 
-		assertNotNull( resultSets );
+		assertNotNull(resultSets);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,56 +30,40 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 /**
- * 
+ *
  */
 
-public class ReloadImageAction extends AbstractViewAction
-{
+public class ReloadImageAction extends AbstractViewAction {
 
-	public ReloadImageAction( Object element )
-	{
-		super( element, Messages.getString( "ReloadImageAction.Text" ) ); //$NON-NLS-1$
+	public ReloadImageAction(Object element) {
+		super(element, Messages.getString("ReloadImageAction.Text")); //$NON-NLS-1$
 	}
 
-	public void run( )
-	{
-		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-				.getResourceSynchronizerService( );
+	@Override
+	public void run() {
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
 
-		if ( synchronizer != null )
-		{
-			ImageHandle image = ( (ImageHandle) this.getSelection( ) );
-			ExpressionHandle uri = (ExpressionHandle) image.getExpressionProperty( IImageItemModel.URI_PROP );
-			if ( uri != null )
-			{
-				String imageUri = (String) uri.getExpression( );
-				if ( ExpressionType.JAVASCRIPT.equals( uri.getType( ) ) )
-				{
-					if ( imageUri != null )
-					{
-						imageUri = DEUtil.removeQuote( imageUri );
+		if (synchronizer != null) {
+			ImageHandle image = ((ImageHandle) this.getSelection());
+			ExpressionHandle uri = (ExpressionHandle) image.getExpressionProperty(IImageItemModel.URI_PROP);
+			if (uri != null) {
+				String imageUri = (String) uri.getExpression();
+				if (ExpressionType.JAVASCRIPT.equals(uri.getType())) {
+					if (imageUri != null) {
+						imageUri = DEUtil.removeQuote(imageUri);
 					}
 				}
-				if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( image.getSource( ) ) )
-				{
-					try
-					{
-						ImageManager.getInstance( )
-								.rloadImage( image.getModuleHandle( ), imageUri );
-					}
-					catch ( IOException e )
-					{
+				if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals(image.getSource())) {
+					try {
+						ImageManager.getInstance().rloadImage(image.getModuleHandle(), imageUri);
+					} catch (IOException e) {
 
 					}
+				} else if (DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals(image.getSource())) {
+					ImageManager.getInstance().reloadURIImage(image.getModuleHandle(), imageUri);
 				}
-				else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals( image.getSource( ) ) )
-				{
-					ImageManager.getInstance( )
-							.reloadURIImage( image.getModuleHandle( ), imageUri );
-				}
-				synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-						imageUri,
-						IReportResourceChangeEvent.ImageResourceChange ) );
+				synchronizer.notifyResourceChanged(
+						new ReportResourceChangeEvent(this, imageUri, IReportResourceChangeEvent.ImageResourceChange));
 			}
 
 		}

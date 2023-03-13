@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pptx.tests;
 
@@ -14,88 +26,66 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
 
-public class DesignToPNG
-{
-	public void convert( String design, String outputFolder )
-			throws Exception
-	{
-		IReportEngine engine = getReportEngine( );
-		try
-		{
-			toDocument( engine, design, outputFolder + "/output.rptdocument" );
-			toPPTX( engine, outputFolder + "/output.rptdocument", outputFolder
-					+ "/output.pptx" );
-			toPNG( outputFolder + "/output.pptx" );
-		}
-		finally
-		{
-			closeReportEngine( engine );
+public class DesignToPNG {
+	public void convert(String design, String outputFolder) throws Exception {
+		IReportEngine engine = getReportEngine();
+		try {
+			toDocument(engine, design, outputFolder + "/output.rptdocument");
+			toPPTX(engine, outputFolder + "/output.rptdocument", outputFolder + "/output.pptx");
+			toPNG(outputFolder + "/output.pptx");
+		} finally {
+			closeReportEngine(engine);
 		}
 	}
 
-	protected void toPNG( String pptx ) throws Exception
-	{
-		PPTX2PNG.main( new String[]{pptx} );
+	protected void toPNG(String pptx) throws Exception {
+		PPTX2PNG.main(new String[] { pptx });
 
 	}
 
-	protected void toDocument( IReportEngine engine, String reportDesign,
-			String document ) throws BirtException
-	{
-		IReportRunnable runnable = engine.openReportDesign( reportDesign );
-		IRunTask task = engine.createRunTask( runnable );
-		try
-		{
-			task.run( document );
-		}
-		finally
-		{
-			task.close( );
+	protected void toDocument(IReportEngine engine, String reportDesign, String document) throws BirtException {
+		IReportRunnable runnable = engine.openReportDesign(reportDesign);
+		IRunTask task = engine.createRunTask(runnable);
+		try {
+			task.run(document);
+		} finally {
+			task.close();
 		}
 	}
 
-	protected void toPPTX( IReportEngine engine, String reportDocument,
-			String pptx ) throws EngineException
-	{
-		IReportDocument document = engine.openReportDocument( reportDocument );
-		try
-		{
-			IRenderTask task = engine.createRenderTask( document );
-			try
-			{
-				RenderOption option = new RenderOption( );
-				option.setOutputFormat( "pptx" );
-				option.setOutputFileName( pptx );
-				task.setRenderOption( option );
-				task.render( );;
+	protected void toPPTX(IReportEngine engine, String reportDocument, String pptx) throws EngineException {
+		IReportDocument document = engine.openReportDocument(reportDocument);
+		try {
+			IRenderTask task = engine.createRenderTask(document);
+			try {
+				RenderOption option = new RenderOption();
+				option.setOutputFormat("pptx");
+				option.setOutputFileName(pptx);
+				task.setRenderOption(option);
+				task.render();
+
+			} finally {
+				task.close();
 			}
-			finally
-			{
-				task.close( );
-			}
-		}
-		finally
-		{
-			document.close( );
+		} finally {
+			document.close();
 		}
 	}
 
-	protected IReportEngine getReportEngine( ) throws BirtException
-	{
-		EngineConfig config = new EngineConfig( );
+	protected IReportEngine getReportEngine() throws BirtException {
+		EngineConfig config = new EngineConfig();
 
-		Platform.startup( config );
+		Platform.startup(config);
 
 		IReportEngineFactory factory = (IReportEngineFactory) Platform
-				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-		IReportEngine engine = factory.createReportEngine( config );
+				.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+		IReportEngine engine = factory.createReportEngine(config);
 		return engine;
 
 	}
 
-	protected void closeReportEngine( IReportEngine engine )
-	{
-		engine.destroy( );
-		Platform.shutdown( );
+	protected void closeReportEngine(IReportEngine engine) {
+		engine.destroy();
+		Platform.shutdown();
 	}
 }

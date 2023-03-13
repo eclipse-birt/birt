@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,7 @@ import org.eclipse.birt.report.model.api.extension.ReportItem;
 /**
  * RotatedTextItem
  */
-public class RotatedTextItem extends ReportItem
-{
+public class RotatedTextItem extends ReportItem {
 
 	public static final String EXTENSION_NAME = "RotatedText"; //$NON-NLS-1$
 	public static final String TEXT_PROP = "text"; //$NON-NLS-1$
@@ -27,29 +29,24 @@ public class RotatedTextItem extends ReportItem
 
 	private ExtendedItemHandle modelHandle;
 
-	RotatedTextItem( ExtendedItemHandle modelHandle )
-	{
+	RotatedTextItem(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
-	public String getText( )
-	{
-		return modelHandle.getStringProperty( TEXT_PROP );
+	public String getText() {
+		return modelHandle.getStringProperty(TEXT_PROP);
 	}
 
-	public int getRotationAngle( )
-	{
-		return modelHandle.getIntProperty( ROTATION_ANGLE_PROP );
+	public int getRotationAngle() {
+		return modelHandle.getIntProperty(ROTATION_ANGLE_PROP);
 	}
 
-	public void setText( String value ) throws SemanticException
-	{
-		modelHandle.setProperty( TEXT_PROP, value );
+	public void setText(String value) throws SemanticException {
+		modelHandle.setProperty(TEXT_PROP, value);
 	}
 
-	public void setRotationAngle( int value ) throws SemanticException
-	{
-		modelHandle.setProperty( ROTATION_ANGLE_PROP, value );
+	public void setRotationAngle(int value) throws SemanticException {
+		modelHandle.setProperty(ROTATION_ANGLE_PROP, value);
 	}
 
 }

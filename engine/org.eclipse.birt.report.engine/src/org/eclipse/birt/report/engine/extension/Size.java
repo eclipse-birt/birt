@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,43 +25,46 @@ public class Size {
 	public final static String UNITS_MM = EngineIRConstants.UNITS_MM;
 	public final static String UNITS_PT = EngineIRConstants.UNITS_PT;
 	public final static String UNITS_PX = EngineIRConstants.UNITS_PX;
-	
-	protected float			width;
-	protected float			height;
-	protected String		unit;
-	
+
+	protected float width;
+	protected float height;
+	protected String unit;
+
 	/**
 	 * @return Returns the unit.
 	 */
 	public String getUnit() {
 		return unit;
 	}
-	
+
 	/**
 	 * @param unit The unit to set.
 	 */
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	
+
 	/**
 	 * @return Returns the height.
 	 */
 	public float getHeight() {
 		return height;
 	}
+
 	/**
 	 * @param height The height to set.
 	 */
 	public void setHeight(float height) {
 		this.height = height;
 	}
+
 	/**
 	 * @return Returns the width.
 	 */
 	public float getWidth() {
 		return width;
 	}
+
 	/**
 	 * @param width The width to set.
 	 */

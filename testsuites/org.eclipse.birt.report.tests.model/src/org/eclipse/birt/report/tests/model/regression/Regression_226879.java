@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -19,7 +22,6 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-
 /**
  * Regression description:
  * </p>
@@ -29,41 +31,38 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * </p>
  */
-public class Regression_226879 extends BaseTestCase
-{
+public class Regression_226879 extends BaseTestCase {
 	private final static String CSS = "regression_226879.css";
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyInputToFile(INPUT_FOLDER + "/"+ CSS);
-		
-		SessionHandle sessionHandle=DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle=sessionHandle.createDesign( );
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyInputToFile(INPUT_FOLDER + "/" + CSS);
+
+		SessionHandle sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
+		designHandle = sessionHandle.createDesign();
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
 
 	/**
-	 * @throws Exception 
-	 * 
+	 * @throws Exception
+	 *
 	 */
-	
-	public void test_regression_225252( ) throws Exception
-	{
-		CssStyleSheetHandle cssStyleSheetHandle=loadStyleSheet(CSS);
-		assertEquals(1,cssStyleSheetHandle.getUnsupportedStyles( ).size( ));
-		assertEquals("p:first-line",cssStyleSheetHandle.getUnsupportedStyles( ).get( 0 ).toString( ));
+
+	public void test_regression_225252() throws Exception {
+		CssStyleSheetHandle cssStyleSheetHandle = loadStyleSheet(CSS);
+		assertEquals(1, cssStyleSheetHandle.getUnsupportedStyles().size());
+		assertEquals("p:first-line", cssStyleSheetHandle.getUnsupportedStyles().get(0).toString());
 	}
-	
-	private CssStyleSheetHandle loadStyleSheet(String fileName) throws StyleSheetException{
+
+	private CssStyleSheetHandle loadStyleSheet(String fileName) throws StyleSheetException {
 		fileName = INPUT_FOLDER + "/" + fileName;
-		InputStream is = Regression_226879.class.getResourceAsStream( fileName );
-		return designHandle.openCssStyleSheet( is );
+		InputStream is = Regression_226879.class.getResourceAsStream(fileName);
+		return designHandle.openCssStyleSheet(is);
 	}
 }

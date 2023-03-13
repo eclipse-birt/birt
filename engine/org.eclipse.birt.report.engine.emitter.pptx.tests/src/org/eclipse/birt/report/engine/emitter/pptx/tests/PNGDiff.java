@@ -1,11 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pptx.tests;
 
-public class PNGDiff
-{
+public class PNGDiff {
 
-	public static boolean compare( String input, String output )
-	{
+	public static boolean compare(String input, String output) {
 		return false;
 	}
 }

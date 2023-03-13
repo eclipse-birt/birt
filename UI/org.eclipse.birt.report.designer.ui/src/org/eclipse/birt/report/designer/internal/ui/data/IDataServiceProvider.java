@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,57 +32,44 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 /**
  * IDataServiceProvider
  */
-public interface IDataServiceProvider
-{
+public interface IDataServiceProvider {
 
 	/**
 	 * Creats a new data set in default context.
 	 */
-	void createDataSet( );
+	void createDataSet();
 
-	List getSelectValueList( Expression expression,
-			DataSetHandle dataSetHandle, boolean useDataSetFilter )
-			throws BirtException;
-
-	List getSelectValueFromBinding( Expression expression,
-			DataSetHandle dataSetHandle, Iterator binding,
-			Iterator groupIterator, boolean useDataSetFilter )
-			throws BirtException;
-	
-	List getSelectValueList( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
-			boolean useDataSetFilter )
+	List getSelectValueList(Expression expression, DataSetHandle dataSetHandle, boolean useDataSetFilter)
 			throws BirtException;
 
-	List getSelectValueList( Expression expression, DataSetHandle dataSetHandle,
-			DataEngineFlowMode flowMode ) throws BirtException;
+	List getSelectValueFromBinding(Expression expression, DataSetHandle dataSetHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter) throws BirtException;
 
-	List getSelectValueFromBinding( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, 
-			Iterator binding,
-			Iterator groupIterator, boolean useDataSetFilter )
-			throws BirtException;
-	
-	void updateColumnCache( DataSetHandle dataSetHandle, boolean holdEvent )
+	List getSelectValueList(Expression expression, ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
+			boolean useDataSetFilter) throws BirtException;
+
+	List getSelectValueList(Expression expression, DataSetHandle dataSetHandle, DataEngineFlowMode flowMode)
 			throws BirtException;
 
-	void registerSession( DataSetHandle handle, DataRequestSession session )
-			throws BirtException;
-	
-	void registerSession( CubeHandle handle, DataRequestSession session)
-			throws BirtException;
-	
-	void registerSession( DataSourceHandle handle, DataRequestSession session )
-			throws BirtException;
-	
+	List getSelectValueFromBinding(Expression expression, ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
+			Iterator binding, Iterator groupIterator, boolean useDataSetFilter) throws BirtException;
+
+	void updateColumnCache(DataSetHandle dataSetHandle, boolean holdEvent) throws BirtException;
+
+	void registerSession(DataSetHandle handle, DataRequestSession session) throws BirtException;
+
+	void registerSession(CubeHandle handle, DataRequestSession session) throws BirtException;
+
+	void registerSession(DataSourceHandle handle, DataRequestSession session) throws BirtException;
+
 	/**
 	 * set free the resource registered in session.
+	 *
 	 * @param session
 	 * @throws BirtException
 	 */
-	void unRegisterSession( DataRequestSession session ) throws BirtException;
-	
-	List<IArgumentLayout> getArgumentLayout(ITimeFunction function,List<IArgumentInfo> infos);
+	void unRegisterSession(DataRequestSession session) throws BirtException;
 
-	
+	List<IArgumentLayout> getArgumentLayout(ITimeFunction function, List<IArgumentInfo> infos);
+
 }

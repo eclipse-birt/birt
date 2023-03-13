@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,15 +24,15 @@ import org.eclipse.birt.data.engine.impl.SummaryGroupLevelCalculator;
 /**
  * When useDetails==false, this class is used.
  */
-public class ResultIterator2 extends ResultIterator
-{
+public class ResultIterator2 extends ResultIterator {
 	// the value of lower group level
 	private int lowestGroupLevel;
-	
+
 	private int currRowIndex;
 
 	private boolean isSummary;
-	private SummaryGroupLevelCalculator groupLevelCalculator; 
+	private SummaryGroupLevelCalculator groupLevelCalculator;
+
 	/**
 	 * @param context
 	 * @param queryResults
@@ -37,151 +40,130 @@ public class ResultIterator2 extends ResultIterator
 	 * @param lowestGroupLevel
 	 * @throws DataException
 	 */
-	public ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
-			String queryResultID, int lowestGroupLevel, boolean isSummary, IBaseQueryDefinition qd ) throws DataException
-	{
-		super( tempDir, context, queryResults, queryResultID, qd );
-		
+	public ResultIterator2(String tempDir, DataEngineContext context, IQueryResults queryResults, String queryResultID,
+			int lowestGroupLevel, boolean isSummary, IBaseQueryDefinition qd) throws DataException {
+		super(tempDir, context, queryResults, queryResultID, qd);
+
 		this.lowestGroupLevel = lowestGroupLevel;
-		if( this.hasFirstNext )
+		if (this.hasFirstNext) {
 			this.currRowIndex = 0;
-		else
+		} else {
 			this.currRowIndex = -1;
+		}
 		this.isSummary = isSummary;
-		if( this.isSummary )
-		{
-			if ( lowestGroupLevel == 0 )
-				this.groupLevelCalculator = new SummaryGroupLevelCalculator( null );
-			else
-			{
+		if (this.isSummary) {
+			if (lowestGroupLevel == 0) {
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator(null);
+			} else {
 				int[][] groupIndex = new int[lowestGroupLevel + 1][];
-				for ( int i = 0; i <= lowestGroupLevel; i++ )
-				{
-					groupIndex[i] = this.exprResultSet.getGroupStartAndEndIndex( i );
+				for (int i = 0; i <= lowestGroupLevel; i++) {
+					groupIndex[i] = this.exprResultSet.getGroupStartAndEndIndex(i);
 				}
 
-				this.groupLevelCalculator = new SummaryGroupLevelCalculator( groupIndex );
+				this.groupLevelCalculator = new SummaryGroupLevelCalculator(groupIndex);
 			}
 		}
 	}
-	
-	
-	public ResultIterator2( String tempDir, DataEngineContext context,
-			QueryResults queryResults, String queryResultID,
-			String subQueryName, int currParentIndex, int lowestGroupLevel, IBaseQueryDefinition qd )
-			throws DataException
-	{
-		super( tempDir,
-				context,
-				queryResults,
-				queryResultID,
-				subQueryName,
-				currParentIndex, qd);
+
+	public ResultIterator2(String tempDir, DataEngineContext context, QueryResults queryResults, String queryResultID,
+			String subQueryName, int currParentIndex, int lowestGroupLevel, IBaseQueryDefinition qd)
+			throws DataException {
+		super(tempDir, context, queryResults, queryResultID, subQueryName, currParentIndex, qd);
 		this.lowestGroupLevel = lowestGroupLevel;
-		if( this.hasFirstNext )
+		if (this.hasFirstNext) {
 			this.currRowIndex = 0;
-		else
+		} else {
 			this.currRowIndex = -1;
+		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#doNext()
 	 */
-	protected boolean doNext( ) throws DataException
-	{
+	@Override
+	protected boolean doNext() throws DataException {
 		boolean hasNext = false;
 		boolean shouldMoveForward = false;
-	
-		int index = this.exprResultSet.getCurrentIndex( );
-		if ( this.exprResultSet.getCurrentIndex( ) >= 0 ) // not the first row
-		{
-			exprResultSet.skipToEnd( lowestGroupLevel );
-			if ( (!isSummary) && this.exprResultSet.getCurrentIndex( ) != index )
-			{
-				shouldMoveForward = false;
-				hasNext = exprResultSet.getCurrentIndex( ) >= 0;
 
-			}
-			else
-			{
+		int index = this.exprResultSet.getCurrentIndex();
+		if (this.exprResultSet.getCurrentIndex() >= 0) // not the first row
+		{
+			exprResultSet.skipToEnd(lowestGroupLevel);
+			if ((!isSummary) && this.exprResultSet.getCurrentIndex() != index) {
+				shouldMoveForward = false;
+				hasNext = exprResultSet.getCurrentIndex() >= 0;
+
+			} else {
 				shouldMoveForward = true;
 			}
-		}
-		else
-		{
+		} else {
 			shouldMoveForward = true;
 		}
-	
-		if( shouldMoveForward )
-		{
-			hasNext = super.doNext( );
+
+		if (shouldMoveForward) {
+			hasNext = super.doNext();
 		}
-		if ( hasNext )
-		{
+		if (hasNext) {
 			currRowIndex++;
 		}
 
 		return hasNext;
 	}
-	
-	public int getEndingGroupLevel( ) throws BirtException
-	{
+
+	@Override
+	public int getEndingGroupLevel() throws BirtException {
 		// make sure that the ending group level value is also correct
-		if( this.isSummary )
-		{
-			return this.groupLevelCalculator.getEndingGroupLevel( this.exprResultSet.getCurrentIndex( ) );
+		if (this.isSummary) {
+			return this.groupLevelCalculator.getEndingGroupLevel(this.exprResultSet.getCurrentIndex());
 		}
-		
-		return super.getEndingGroupLevel( );
+
+		return super.getEndingGroupLevel();
 	}
-	
-/*	
+
+	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
-	 
-	public int getStartingGroupLevel( ) throws DataException
-	{
-		return cachedStartingGroupLevel;		
-	}
-	
-	
-	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#getEndingGroupLevel()
-	 
-	public int getEndingGroupLevel( ) throws BirtException
-	{
-		this.exprResultSet.skipToEnd( this.lowestGroupLevel );
-		
-		return super.getEndingGroupLevel( );
-	}*/
-	
+	 *
+	 * public int getStartingGroupLevel( ) throws DataException { return
+	 * cachedStartingGroupLevel; }
+	 *
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.ResultIterator#getEndingGroupLevel
+	 * ()
+	 *
+	 * public int getEndingGroupLevel( ) throws BirtException {
+	 * this.exprResultSet.skipToEnd( this.lowestGroupLevel );
+	 *
+	 * return super.getEndingGroupLevel( ); }
+	 */
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 	 */
-	public int getRowIndex( ) throws BirtException
-	{
+	@Override
+	public int getRowIndex() throws BirtException {
 		return currRowIndex;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 	 */
-	public void moveTo( int rowIndex ) throws BirtException
-	{
-		if( rowIndex >=0 )
-		{
+	@Override
+	public void moveTo(int rowIndex) throws BirtException {
+		if (rowIndex >= 0) {
 			this.isFirstNext = false;
 		}
-		if ( rowIndex < 0 || rowIndex < this.currRowIndex )
-			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					Integer.valueOf( rowIndex ) );
-		else if ( rowIndex == currRowIndex )
+		if (rowIndex < 0 || rowIndex < this.currRowIndex) {
+			throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
+		} else if (rowIndex == currRowIndex) {
 			return;
+		}
 
 		int gapRows = rowIndex - currRowIndex;
-		for ( int i = 0; i < gapRows; i++ )
-		{
-			if ( this.next( ) == false )
-				throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-						Integer.valueOf( rowIndex ) );
+		for (int i = 0; i < gapRows; i++) {
+			if (!this.next()) {
+				throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
+			}
 		}
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -72,65 +75,65 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for PropertyCommand.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testSetProperty()}</td>
  * <td>The property name is not defined in the meta.xml.</td>
  * <td>throw out exception.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The property name can be found in the meta.xml and the property is not
  * intrinsic</td>
  * <td>Property is set successfully.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The name can be found in the meta.xml and the property is an intrinsic
  * property</td>
  * <td>property value is set successfully.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Changes property value and checks property value.</td>
  * <td>getProperty is the same as input value</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetandClearProperty()}</td>
  * <td>set property value and check the get property value</td>
  * <td>the value of property is the same as input value</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>clear property value and check the result</td>
  * <td>after clear property , the size of result is zero.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testAddItem()}</td>
  * <td>Add map rules to a style which contains null list.</td>
  * <td>The style will have a map rule after executing the command and save file
  * is equal to the golden file PropertyCommandTest_golden_4.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add a map rule to a style which already has one a map rule.</td>
  * <td>After executing the command, the map rule list size is 2 and save file
  * is equal to the golden file PropertyCommandTest_golden_5.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add a map rule to a style which has no map rule, but its parent has a
@@ -138,142 +141,142 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>After executing the command, the map rule list size is 2 and save file
  * is equal to the golden file PropertyCommandTest_golden_6.xml</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetMember()}</td>
  * <td>The value is null.</td>
  * <td>getValue is null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The value is the same as old value.</td>
  * <td>Keeps the input value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Normal case.</td>
  * <td>Keeps the input value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testReplaceItemOne()}</td>
  * <td>Execute the command, save the file</td>
  * <td>compare with a golden file, they should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Undo the command, save the file</td>
  * <td>compare with a golden file, should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Redo the command, save the file</td>
  * <td>compare with a golden file, should be identical</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testReplaceItemTwo()}</td>
  * <td>Use the first structure list in My-Style to replace the first structure
  * list in style2</td>
  * <td>the value of structure was replaced</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Undo the operation and use the first structure list in style2 to replace
  * the first structure list in My-Style</td>
  * <td>he value of structure was replaced</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testRemoveAllItems()}</td>
  * <td>use propertycommand to remove all map-rule items</td>
  * <td>after remove all map-rule items ,the size of map.rules should be zero
  * </td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertAndRemoveItem()}</td>
  * <td>insert new item named InsertAndRemove</td>
  * <td>after insert new item , size of rules changes to three</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove this new item</td>
  * <td>after remove that inserted item ,size of rules change to two</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertAndRemoveItem()}</td>
  * <td>undo and redo those two operations</td>
  * <td>after undo and redo operation , size of rules plus or reduce one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>remove item from null structure list
- * 
+ *
  * </td>
  * <td>remove item from null list must throw out exception</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMoveItem()}</td>
  * <td>test move item operation from not null structure list</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>undo and redo several times</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>test move item operation from null structure list</td>
  * <td>Matches the golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>move item to position which out of array size
  * <td>The exception with IndexOutOfBoundException is thrown.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * <tr>
  * <td>{@link #testPropertyEvent}</td>
  * <td>basic notification with event test.</td>
  * <td>after changing , getpropertyname should be equal to the setter one</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testNotification}</td>
  * <td>Use listener to test if notification works or not.</td>
  * <td>value of property displayName change to listener</td>
  * </tr>
- * 
+ *
  * </table>
- * 
- * 
+ *
+ *
  */
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class PropertyCommandTest extends BaseTestCase {
 
 	/**
-	 * The report element to be tested, that is, the property will be set on
-	 * this report element.
+	 * The report element to be tested, that is, the property will be set on this
+	 * report element.
 	 */
 
 	MasterPage page;
@@ -290,6 +293,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -298,8 +302,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		openDesign("PropertyCommandTest.xml"); //$NON-NLS-1$
 		page = new GraphicMasterPage();
 		page.getHandle(design).setName("Page");//$NON-NLS-1$
-		page.setProperty(MasterPage.TYPE_PROP,
-				DesignChoiceConstants.PAGE_SIZE_CUSTOM);
+		page.setProperty(MasterPage.TYPE_PROP, DesignChoiceConstants.PAGE_SIZE_CUSTOM);
 
 		imageHandle = ((ImageHandle) designHandle.findElement("Image1")); //$NON-NLS-1$
 		actionHandle = imageHandle.getActionHandle();
@@ -314,13 +317,13 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Test Cases:
 	 * <ul>
 	 * <li>The property name is not defined in the meta.xml.</li>
-	 * <li>The property name can be found in the meta.xml and the property is
-	 * not intrinsic</li>
-	 * <li>The name can be found in the meta.xml and the property is an
-	 * intrinsic property</li>
+	 * <li>The property name can be found in the meta.xml and the property is not
+	 * intrinsic</li>
+	 * <li>The name can be found in the meta.xml and the property is an intrinsic
+	 * property</li>
 	 * <li>changes property value and checks property value.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -367,40 +370,35 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * Tests the setProperty that the value is structure and the context of it
-	 * is not null. In this case, we will make a copy of the given structure and
-	 * then set it to the element.
-	 * 
+	 * Tests the setProperty that the value is structure and the context of it is
+	 * not null. In this case, we will make a copy of the given structure and then
+	 * set it to the element.
+	 *
 	 * @throws Exception
 	 */
 	public void testSetProperty_1() throws Exception {
 		// action has set in image, so it has structure context
 		Action action = (Action) actionHandle.getStructure();
-		assertEquals(actionHandle.getStructure(),
-				((List) imageHandle.getProperty(ImageHandle.ACTION_PROP))
-						.get(0));
+		assertEquals(actionHandle.getStructure(), ((List) imageHandle.getProperty(ImageHandle.ACTION_PROP)).get(0));
 		StructureContext context = action.getContext();
 		assertNotNull(context);
 
 		// set this action to another element, we will make a copy and original
 		// action will have no change
-		LabelHandle labelHandle = designHandle.getElementFactory().newLabel(
-				null);
+		LabelHandle labelHandle = designHandle.getElementFactory().newLabel(null);
 		ActionHandle labelActionHandle = labelHandle.setAction(action);
 		assertNotSame(action, labelActionHandle.getStructure());
 		assertEquals(context, action.getContext());
 	}
 
 	/**
-	 * Test setProperty method. especially for compatible with set toc string
-	 * value.
-	 * 
+	 * Test setProperty method. especially for compatible with set toc string value.
+	 *
 	 * @throws SemanticException
 	 */
 
 	public void testBackwardTOCSetProperty() throws SemanticException {
-		LabelHandle labelHandle = designHandle.getElementFactory().newLabel(
-				"lable1");//$NON-NLS-1$
+		LabelHandle labelHandle = designHandle.getElementFactory().newLabel("lable1");//$NON-NLS-1$
 		designHandle.getBody().add(labelHandle);
 		labelHandle.setStringProperty(IReportItemModel.TOC_PROP, "exp1");//$NON-NLS-1$
 
@@ -419,40 +417,35 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Test for method clearProperty(String).
 	 * <p>
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>sets new property</li>
 	 * <li>clears just added new property</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
 	public void testSetandClearProperty() throws SemanticException {
 		propertyOperate("height", "2mm", true);//$NON-NLS-1$ //$NON-NLS-2$
 		propertyOperate("height", null, true);//$NON-NLS-1$
-		propertyOperate("displayName", "world", true);//$NON-NLS-1$  //$NON-NLS-2$
+		propertyOperate("displayName", "world", true);//$NON-NLS-1$ //$NON-NLS-2$
 		propertyOperate("displayName", null, true);//$NON-NLS-1$
 	}
 
 	/**
 	 * Test if property handle can set and get value rightly.
-	 * 
-	 * @param prop
-	 *            get property name from it
-	 * @param value
-	 *            property value
+	 *
+	 * @param prop  get property name from it
+	 * @param value property value
 	 */
 
 	private void PropertyDefnOperate(ElementPropertyDefn prop, Object value) {
 		// The property name can be found in the meta.xml
 
 		try {
-			page.getHandle(design).getPropertyHandle(prop.getName())
-					.setValue(value);
-			assertEquals(value,
-					page.getHandle(design).getPropertyHandle(prop.getName())
-							.getValue());
+			page.getHandle(design).getPropertyHandle(prop.getName()).setValue(value);
+			assertEquals(value, page.getHandle(design).getPropertyHandle(prop.getName()).getValue());
 		} catch (SemanticException e) {
 			fail(e.toString());
 		}
@@ -464,18 +457,15 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * If value is null ,then judge object is null or not
 	 * <p>
 	 * If value is not null,then judge object is equal to value or not
-	 * 
-	 * @param name
-	 *            name of property
-	 * @param value
-	 *            value of property
+	 *
+	 * @param name  name of property
+	 * @param value value of property
 	 * @param type
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
-	private void propertyOperate(String name, String value, boolean type)
-			throws SemanticException {
+	private void propertyOperate(String name, String value, boolean type) throws SemanticException {
 		Object o;
 		if (type) {
 			if (value == null) {
@@ -510,19 +500,19 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * Tests the method PropertyCommand#addItem().
 	 * <p>
 	 * Test Cases:
 	 * <ul>
 	 * <li>Add map rules to a style which contains null list.</li>
 	 * <li>Add a map rule to a style which already has one</li>
-	 * <li>Add a map rule to a style which has no map rule, but its parent has a
-	 * map rule.</li>
-	 * <li>Add a structure in the list to the list again. The new structure will
-	 * be added.
+	 * <li>Add a map rule to a style which has no map rule, but its parent has a map
+	 * rule.</li>
+	 * <li>Add a structure in the list to the list again. The new structure will be
+	 * added.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddItem() throws Exception {
@@ -553,8 +543,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		// add the same structure to the list twice. The structure will be
 		// copied and added.
 
-		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
 
 		MapRuleHandle rule = (MapRuleHandle) propHandle.iterator().next();
 		propHandle.addItem(rule.getStructure());
@@ -569,19 +558,19 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests addItem()
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
-	 * <li>Table define a highlight rule list, row inherited it. Now add a new
-	 * rule on the row, ensure that the list value in table won't be affected.</li>
-	 * <li>Label2 extends from label1, and label1 has defined an Action. Now add
-	 * a parameter binding to label2, ensure that list value in label1 won't be
+	 * <li>Table define a highlight rule list, row inherited it. Now add a new rule
+	 * on the row, ensure that the list value in table won't be affected.</li>
+	 * <li>Label2 extends from label1, and label1 has defined an Action. Now add a
+	 * parameter binding to label2, ensure that list value in label1 won't be
 	 * affected.
-	 * 
+	 *
 	 * </li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 * @throws SemanticException
 	 */
@@ -602,16 +591,13 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// table has a highlight rule.
 
-		table.getPrivateStyle()
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
-				.addItem(highlightRule);
+		table.getPrivateStyle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).addItem(highlightRule);
 
 		// row inherited that rule.
 
 		RowHandle row = (RowHandle) table.getDetail().getContents().get(0);
 
-		List inheritedRules = (List) row
-				.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
+		List inheritedRules = (List) row.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
 		assertNull(inheritedRules);
 
 		// Add a new rule to row, list value in table should not be affected.
@@ -622,14 +608,11 @@ public class PropertyCommandTest extends BaseTestCase {
 		highlightRule.setValue1("Momo"); //$NON-NLS-1$
 		highlightRule.setProperty(HighlightRule.COLOR_MEMBER, "blue"); //$NON-NLS-1$
 
-		PropertyHandle rulesHandle = row
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
+		PropertyHandle rulesHandle = row.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 		rulesHandle.addItem(highlightRule2);
 
 		assertEquals(1, rulesHandle.getListValue().size());
-		assertEquals(1,
-				table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
-						.getListValue().size());
+		assertEquals(1, table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).getListValue().size());
 
 		// Case 2:
 		LabelHandle label1 = factory.newLabel("label1"); //$NON-NLS-1$
@@ -643,8 +626,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		Action action = StructureFactory.createAction();
 		ActionHandle actionHandle = label1.setAction(action);
-		actionHandle
-				.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
 
 		ParamBinding param = StructureFactory.createParamBinding();
 		param.setParamName("p1"); //$NON-NLS-1$
@@ -666,20 +648,17 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		inheritedAction.getParamBindings().addItem(param2);
 		assertEquals(1, actionHandle.getParamBindings().getListValue().size());
-		assertEquals(2, inheritedAction.getParamBindings().getListValue()
-				.size());
+		assertEquals(2, inheritedAction.getParamBindings().getListValue().size());
 	}
 
 	/**
 	 * delete latest added new style item.
-	 * 
-	 * @param style
-	 *            style element of design
+	 *
+	 * @param style style element of design
 	 * @throws PropertyValueException
 	 */
 	private void DeleteRule(StyleElement style) throws PropertyValueException {
-		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
 
 		List rules = (List) style.getProperty(design, Style.MAP_RULES_PROP);
 		propHandle.removeItem(rules.size() - 1);
@@ -687,7 +666,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object).
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -696,7 +675,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>setMember value is the same as old value</li>
 	 * <li>Normal case.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -707,8 +686,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// get map.rules property handle
 
-		PropertyHandle propHandle = shareHandle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = shareHandle.getPropertyHandle(Style.MAP_RULES_PROP);
 		assertNotNull(propHandle);
 
 		// get first maprule structure
@@ -746,16 +724,16 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object)
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
 	 * <li>Table define a highlight rule list, row inherited it, change the rule
 	 * property on row won't affect the value on table.</li>
-	 * <li>Label2 extends from label1, and label1 has defined an Action, test
-	 * that change the action on label2 won't affect the value on label1.</li>
+	 * <li>Label2 extends from label1, and label1 has defined an Action, test that
+	 * change the action on label2 won't affect the value on label1.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -775,20 +753,17 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// table has a highlightrule.
 
-		table.getPrivateStyle()
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
-				.addItem(highlightRule);
+		table.getPrivateStyle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).addItem(highlightRule);
 
 		// row inherited that rule.
 
 		RowHandle row = (RowHandle) table.getDetail().getContents().get(0);
 
-		List inheritedRules = (List) row
-				.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
+		List inheritedRules = (List) row.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
 		assertNull(inheritedRules);
 
-		HighlightRuleHandle rule1 = (HighlightRuleHandle) table
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).getAt(0);
+		HighlightRuleHandle rule1 = (HighlightRuleHandle) table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
+				.getAt(0);
 		assertNotNull(rule1);
 
 		assertEquals("row[\"Company\"]", rule1.getTestExpression()); //$NON-NLS-1$
@@ -801,12 +776,9 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		rule1.getColor().setValue("blue"); //$NON-NLS-1$
 
-		assertEquals(
-				"blue", rule1.getMember(HighlightRule.COLOR_MEMBER).getStringValue()); //$NON-NLS-1$
-		assertEquals(
-				"blue", table.getPropertyHandle( //$NON-NLS-1$
-						StyleHandle.HIGHLIGHT_RULES_PROP).getAt(0)
-						.getMember(HighlightRule.COLOR_MEMBER).getStringValue());
+		assertEquals("blue", rule1.getMember(HighlightRule.COLOR_MEMBER).getStringValue()); //$NON-NLS-1$
+		assertEquals("blue", table.getPropertyHandle( //$NON-NLS-1$
+				StyleHandle.HIGHLIGHT_RULES_PROP).getAt(0).getMember(HighlightRule.COLOR_MEMBER).getStringValue());
 
 		// Case 2:
 
@@ -819,8 +791,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		Action action = StructureFactory.createAction();
 		ActionHandle actionHandle = label1.setAction(action);
-		actionHandle
-				.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
 		actionHandle.setTargetBookmark("BK1"); //$NON-NLS-1$
 
 		ActionHandle inheritedAction = label2.getActionHandle();
@@ -828,8 +799,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		assertEquals("BK1", inheritedAction.getTargetBookmark()); //$NON-NLS-1$
 
 		// change the action on the child.
-		inheritedAction
-				.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
+		inheritedAction.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
 		inheritedAction.setURI("/statistics.html"); //$NON-NLS-1$
 
 		assertEquals("bookmark-link", label1.getActionHandle().getLinkType()); //$NON-NLS-1$
@@ -838,7 +808,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests PropertyCommand#setMember(MemberRef,Object)
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
@@ -849,7 +819,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>Sets expression of filterCondition structure to empty string</li>
 	 * <li>Throw out SemanticException</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -863,21 +833,16 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		SortKey sortKey = StructureFactory.createSortKey();
 		sortKey.setKey("Key");//$NON-NLS-1$
-		PropertyHandle propertyHandle = tableHandle
-				.getPropertyHandle(ListingHandle.SORT_PROP);
-		SortKeyHandle sortHandle = (SortKeyHandle) propertyHandle
-				.addItem(sortKey);
+		PropertyHandle propertyHandle = tableHandle.getPropertyHandle(ListingHandle.SORT_PROP);
+		SortKeyHandle sortHandle = (SortKeyHandle) propertyHandle.addItem(sortKey);
 
 		try {
-			MemberHandle memberHandle = sortHandle
-					.getMember(SortKey.KEY_MEMBER);
+			MemberHandle memberHandle = sortHandle.getMember(SortKey.KEY_MEMBER);
 			memberHandle.setStringValue("");//$NON-NLS-1$
 
 			fail("throw out semanticException");//$NON-NLS-1$
 		} catch (SemanticException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e.getErrorCode());
 		}
 
 		assertEquals("Key", sortHandle.getKey());//$NON-NLS-1$
@@ -887,9 +852,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 			fail("throw out semanticException");//$NON-NLS-1$
 		} catch (SemanticException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e.getErrorCode());
 
 		}
 		assertEquals("Key", sortHandle.getKey());//$NON-NLS-1$
@@ -901,21 +864,16 @@ public class PropertyCommandTest extends BaseTestCase {
 		filterCondition.setOperator("between");//$NON-NLS-1$
 		filterCondition.setValue1("1");//$NON-NLS-1$
 		filterCondition.setValue2("100");//$NON-NLS-1$
-		propertyHandle = tableHandle
-				.getPropertyHandle(ListingHandle.FILTER_PROP);
-		FilterConditionHandle conditionHandle = (FilterConditionHandle) propertyHandle
-				.addItem(filterCondition);
+		propertyHandle = tableHandle.getPropertyHandle(ListingHandle.FILTER_PROP);
+		FilterConditionHandle conditionHandle = (FilterConditionHandle) propertyHandle.addItem(filterCondition);
 
 		try {
-			MemberHandle memberHandle = conditionHandle
-					.getMember(FilterCondition.EXPR_MEMBER);
+			MemberHandle memberHandle = conditionHandle.getMember(FilterCondition.EXPR_MEMBER);
 			memberHandle.setStringValue("");//$NON-NLS-1$
 
 			fail("throw out semanticException");//$NON-NLS-1$
 		} catch (SemanticException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e.getErrorCode());
 		}
 		assertEquals("row[\"column\"]", conditionHandle.getExpr());//$NON-NLS-1$
 		try {
@@ -923,9 +881,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 			fail("throw out semanticException");//$NON-NLS-1$
 		} catch (SemanticException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e.getErrorCode());
 
 		}
 
@@ -936,7 +892,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Invoke
 	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#removeAllItems(MemberRef)}
 	 * to test removeAllItems method.
-	 * 
+	 *
 	 * <p>
 	 * Test Case:
 	 * <ul>
@@ -944,20 +900,20 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>use PropertyCommand to remove all Drillthrough SearchKeys for an
 	 * action.</li>
 	 * </ul>
-	 * 
+	 *
 	 * Analysis:
-	 * 
-	 * In <code>removeAllItems</code>, it must confirm <code>propDefn</code> is
-	 * an object of <code>StructListPropertyType</code>.
-	 * (PropertyCommand#checkListProperty) While if the property is set to
-	 * empty, the value must be validated. (PropertyCommand#validateValue)
-	 * 
+	 *
+	 * In <code>removeAllItems</code>, it must confirm <code>propDefn</code> is an
+	 * object of <code>StructListPropertyType</code>.
+	 * (PropertyCommand#checkListProperty) While if the property is set to empty,
+	 * the value must be validated. (PropertyCommand#validateValue)
+	 *
 	 * The problem is that <code>StructListPropertyType</code> always throws an
 	 * PropertyValueException when it tries to validate the value.
 	 * (StructListPropertyType#validateValue)
-	 * 
+	 *
 	 * This likes conflict.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -965,19 +921,16 @@ public class PropertyCommandTest extends BaseTestCase {
 		// remove first level list(Property)
 
 		SharedStyleHandle shareHandle = designHandle.findStyle("Style2");//$NON-NLS-1$
-		PropertyHandle propHandle = shareHandle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = shareHandle.getPropertyHandle(Style.MAP_RULES_PROP);
 		assertNotNull(propHandle);
-		ComplexPropertyCommand command = new ComplexPropertyCommand(design,
-				shareHandle.getElement());
+		ComplexPropertyCommand command = new ComplexPropertyCommand(design, shareHandle.getElement());
 		command.removeAllItems(propHandle.getContext());
 
 		assertNull(shareHandle.getProperty(Style.MAP_RULES_PROP));
 
 		// remove second level list(Member)
 
-		MemberHandle memberHandle = actionHandle
-				.getMember(Action.SEARCH_MEMBER);
+		MemberHandle memberHandle = actionHandle.getMember(Action.SEARCH_MEMBER);
 
 		assertEquals(2, memberHandle.getListValue().size());
 
@@ -989,15 +942,13 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests removing items with position.
-	 * 
-	 * @throws SemanticException
-	 *             if any exception
+	 *
+	 * @throws SemanticException if any exception
 	 */
 
 	public void testRemoveItemWithPositino() throws SemanticException {
 		SharedStyleHandle shareHandle = designHandle.findStyle("Style2");//$NON-NLS-1$
-		PropertyHandle propHandle = shareHandle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = shareHandle.getPropertyHandle(Style.MAP_RULES_PROP);
 		assertNotNull(propHandle);
 		List list = propHandle.getListValue();
 		assertEquals(2, list.size());
@@ -1005,8 +956,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		assertEquals("Design", ((MapRule) list.get(1)).getDisplay()); //$NON-NLS-1$
 
 		// Delete the second one
-		ComplexPropertyCommand command = new ComplexPropertyCommand(design,
-				shareHandle.getElement());
+		ComplexPropertyCommand command = new ComplexPropertyCommand(design, shareHandle.getElement());
 		command.removeItem(new StructureContext(shareHandle.getElement(),
 				(ElementPropertyDefn) propHandle.getPropertyDefn(), null), 1);
 
@@ -1023,31 +973,25 @@ public class PropertyCommandTest extends BaseTestCase {
 		assertNull(list);
 
 		try {
-			command = new ComplexPropertyCommand(design,
-					shareHandle.getElement());
+			command = new ComplexPropertyCommand(design, shareHandle.getElement());
 			command.removeItem(new StructureContext(shareHandle.getElement(),
-					(ElementPropertyDefn) propHandle.getPropertyDefn(), null),
-					4);
+					(ElementPropertyDefn) propHandle.getPropertyDefn(), null), 4);
 			fail();
 		} catch (PropertyValueException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e.getErrorCode());
 		}
 	}
 
 	/**
 	 * Tests removing items with item instance.
-	 * 
-	 * @throws PropertyValueException
-	 *             if any exception
+	 *
+	 * @throws PropertyValueException if any exception
 	 */
 
 	public void testRemoveItemWithItem() throws PropertyValueException {
 		// Reload from design file
 		SharedStyleHandle shareHandle = designHandle.findStyle("Style2");//$NON-NLS-1$
-		PropertyHandle propHandle = shareHandle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = shareHandle.getPropertyHandle(Style.MAP_RULES_PROP);
 		assertNotNull(propHandle);
 		List list = propHandle.getListValue();
 		assertEquals(2, list.size());
@@ -1055,11 +999,9 @@ public class PropertyCommandTest extends BaseTestCase {
 		assertEquals("Design", ((MapRule) list.get(1)).getDisplay()); //$NON-NLS-1$
 
 		// Delete the second one
-		ComplexPropertyCommand command = new ComplexPropertyCommand(design,
-				shareHandle.getElement());
+		ComplexPropertyCommand command = new ComplexPropertyCommand(design, shareHandle.getElement());
 		command.removeItem(new StructureContext(shareHandle.getElement(),
-				(ElementPropertyDefn) propHandle.getPropertyDefn(), null),
-				(MapRule) list.get(1));
+				(ElementPropertyDefn) propHandle.getPropertyDefn(), null), (MapRule) list.get(1));
 
 		list = propHandle.getListValue();
 		assertEquals(1, list.size());
@@ -1068,18 +1010,15 @@ public class PropertyCommandTest extends BaseTestCase {
 		// Delete the first one
 		command = new ComplexPropertyCommand(design, shareHandle.getElement());
 		command.removeItem(new StructureContext(shareHandle.getElement(),
-				(ElementPropertyDefn) propHandle.getPropertyDefn(), null),
-				(MapRule) list.get(0));
+				(ElementPropertyDefn) propHandle.getPropertyDefn(), null), (MapRule) list.get(0));
 
 		list = propHandle.getListValue();
 		assertNull(list);
 
 		try {
-			command = new ComplexPropertyCommand(design,
-					shareHandle.getElement());
+			command = new ComplexPropertyCommand(design, shareHandle.getElement());
 			command.removeItem(new StructureContext(shareHandle.getElement(),
-					(ElementPropertyDefn) propHandle.getPropertyDefn(), null),
-					new MapRule());
+					(ElementPropertyDefn) propHandle.getPropertyDefn(), null), new MapRule());
 			fail();
 		} catch (PropertyValueException e) {
 
@@ -1089,28 +1028,22 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Deal with three situations of add item operation.
-	 * 
-	 * @param style
-	 *            StyleElement which ReportDesign finds
-	 * @param type
-	 *            mark of size of rules is zero or not
-	 * @throws SemanticException
-	 *             if any exception.
+	 *
+	 * @param style StyleElement which ReportDesign finds
+	 * @param type  mark of size of rules is zero or not
+	 * @throws SemanticException if any exception.
 	 */
 
-	private void AddItemRule(StyleElement style, boolean type)
-			throws SemanticException {
+	private void AddItemRule(StyleElement style, boolean type) throws SemanticException {
 		// create one new MapRule
 
 		MapRule rule = new MapRule();
-		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(
-				MapRule.DISPLAY_MEMBER);
+		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(MapRule.DISPLAY_MEMBER);
 		rule.setProperty(propDefn, "Rule1"); //$NON-NLS-1$
 
 		// get map.rules property handle and add maprule
 
-		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
 		propHandle.addItem(rule);
 
 		// check size
@@ -1122,10 +1055,11 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		design.getActivityStack().undo();
 		rules = (List) style.getProperty(design, Style.MAP_RULES_PROP);
-		if (type)
+		if (type) {
 			assertTrue(rules.size() == 2);
-		else
+		} else {
 			assertNull(rules);
+		}
 
 		// redo and check size
 
@@ -1136,16 +1070,16 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * If type is false mean EmptyList ,then return 1, else return 3.
-	 * 
-	 * @param type
-	 *            mark of size of rules is zero or not
-	 * 
+	 *
+	 * @param type mark of size of rules is zero or not
+	 *
 	 * @return the integer flag
 	 */
 
 	private int judgeType(boolean type) {
-		if (type)
+		if (type) {
 			return 3;
+		}
 
 		return 1;
 	}
@@ -1154,19 +1088,19 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * Invoke
 	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#replaceItem(MemberRef, IStructure, IStructure)}
 	 * .
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Execute the command, save the file,compare with a golden file, they
 	 * should be identical</li>
 	 * <li>Undo the command, save the file,compare with a golden file, should be
 	 * </li>
-	 * <li>Redo the command, save the file, compare with a golden file, should
-	 * be identical</li>
+	 * <li>Redo the command, save the file, compare with a golden file, should be
+	 * identical</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1176,10 +1110,8 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// add item operation
 
-		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
-		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(
-				MapRule.DISPLAY_MEMBER);
+		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(MapRule.DISPLAY_MEMBER);
 		rule.setProperty(propDefn, "RuleReplace");//$NON-NLS-1$
 		propHandle.addItem(rule);
 
@@ -1188,8 +1120,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		// replace item operation
 
 		MapRule ruleNew = new MapRule();
-		propDefn = (PropertyDefn) rule.getDefn().findProperty(
-				MapRule.DISPLAY_MEMBER);
+		propDefn = (PropertyDefn) rule.getDefn().findProperty(MapRule.DISPLAY_MEMBER);
 		ruleNew.setProperty(propDefn, "NewItem"); //$NON-NLS-1$
 		propHandle.replaceItem(rule, ruleNew);
 		saveOperate("PropertyCommandTest_golden_1.xml");//$NON-NLS-1$
@@ -1208,14 +1139,14 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <ul>
 	 * <li>get the map rule list from My-Style.</li>
 	 * <li>get the map rule list from style2</li>
-	 * <li>use the second structure list in My-Style to replace the first
-	 * structure list in style2</li>
-	 * <li>use the first structure list in style2 to replace the second
-	 * structure list in My-Style.</li>
-	 * 
+	 * <li>use the second structure list in My-Style to replace the first structure
+	 * list in style2</li>
+	 * <li>use the first structure list in style2 to replace the second structure
+	 * list in My-Style.</li>
+	 *
 	 * <li>Replace an item within a member list</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1223,10 +1154,8 @@ public class PropertyCommandTest extends BaseTestCase {
 		SharedStyleHandle styleHandle1 = designHandle.findStyle("My-Style"); //$NON-NLS-1$
 		SharedStyleHandle styleHandle2 = designHandle.findStyle("Style2"); //$NON-NLS-1$
 
-		ComplexPropertyCommand command1 = new ComplexPropertyCommand(design,
-				styleHandle1.getElement());
-		ComplexPropertyCommand command2 = new ComplexPropertyCommand(design,
-				styleHandle2.getElement());
+		ComplexPropertyCommand command1 = new ComplexPropertyCommand(design, styleHandle1.getElement());
+		ComplexPropertyCommand command2 = new ComplexPropertyCommand(design, styleHandle2.getElement());
 
 		CommandStack cs = designHandle.getCommandStack();
 
@@ -1238,10 +1167,8 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// get member reference directly from the property handle
 
-		StructureContext mem1 = styleHandle1.getPropertyHandle(
-				Style.MAP_RULES_PROP).getContext();
-		StructureContext mem2 = styleHandle2.getPropertyHandle(
-				Style.MAP_RULES_PROP).getContext();
+		StructureContext mem1 = styleHandle1.getPropertyHandle(Style.MAP_RULES_PROP).getContext();
+		StructureContext mem2 = styleHandle2.getPropertyHandle(Style.MAP_RULES_PROP).getContext();
 
 		// use the rule1 structure to replace rule2 structure
 
@@ -1249,8 +1176,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// assert whether the value was replaced
 
-		PropertyHandle propHandle = styleHandle2
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = styleHandle2.getPropertyHandle(Style.MAP_RULES_PROP);
 		rule2 = ((MapRuleHandle) propHandle.getAt(0));
 		assertEquals("Closed", rule2.getDisplay()); //$NON-NLS-1$
 
@@ -1270,37 +1196,29 @@ public class PropertyCommandTest extends BaseTestCase {
 			command1.replaceItem(mem1, new CustomColor(), rule2.getStructure());
 			fail();
 		} catch (PropertyValueException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e.getErrorCode());
 		}
 
 		// replace item within list member.
 
-		MemberHandle memberHandle = actionHandle
-				.getMember(Action.SEARCH_MEMBER);
+		MemberHandle memberHandle = actionHandle.getMember(Action.SEARCH_MEMBER);
 
-		assertEquals(
-				"searchKey1", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
+		assertEquals("searchKey1", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
 
 		SearchKey key = StructureFactory.createSearchKey();
 		key.setExpression("SearchKey3"); //$NON-NLS-1$
 
 		command1 = new ComplexPropertyCommand(design, imageHandle.getElement());
-		command1.replaceItem(memberHandle.getContext(), memberHandle.getAt(0)
-				.getStructure(), key);
+		command1.replaceItem(memberHandle.getContext(), memberHandle.getAt(0).getStructure(), key);
 
-		assertEquals(
-				"SearchKey3", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
+		assertEquals("SearchKey3", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
 	}
 
 	/**
 	 * Save as file and compare text file.
-	 * 
-	 * @param saveFile
-	 *            storage file
-	 * @param compareFile
-	 *            compare file
+	 *
+	 * @param saveFile    storage file
+	 * @param compareFile compare file
 	 * @throws Exception
 	 */
 
@@ -1325,7 +1243,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>undo and redo those two operations</li>
 	 * <li>remove item from null structure list</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1340,11 +1258,9 @@ public class PropertyCommandTest extends BaseTestCase {
 		// insert one item to last position
 
 		MapRule rule = new MapRule();
-		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(
-				MapRule.DISPLAY_MEMBER);
-		rule.setProperty(propDefn, "InsertAndRemove"); //$NON-NLS-1$	
-		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
+		PropertyDefn propDefn = (PropertyDefn) rule.getDefn().findProperty(MapRule.DISPLAY_MEMBER);
+		rule.setProperty(propDefn, "InsertAndRemove"); //$NON-NLS-1$
+		PropertyHandle propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
 		propHandle.insertItem(rule, rules.size());
 		propHandle.addItem(null);
 		CustomColor color = new CustomColor();
@@ -1352,9 +1268,7 @@ public class PropertyCommandTest extends BaseTestCase {
 			propHandle.insertItem(color, rules.size());
 			fail();
 		} catch (PropertyValueException e) {
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE,
-					e.getErrorCode());
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_WRONG_ITEM_TYPE, e.getErrorCode());
 		}
 
 		// save check result
@@ -1375,8 +1289,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		// structure list in Style1 is null
 
 		style = design.findStyle("Style1"); //$NON-NLS-1$
-		propHandle = style.getHandle(design).getPropertyHandle(
-				Style.MAP_RULES_PROP);
+		propHandle = style.getHandle(design).getPropertyHandle(Style.MAP_RULES_PROP);
 
 		// rules is null
 
@@ -1396,16 +1309,14 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// 1. Add one structure to the list member.
 
-		MemberHandle memberHandle = actionHandle
-				.getMember(Action.PARAM_BINDINGS_MEMBER);
+		MemberHandle memberHandle = actionHandle.getMember(Action.PARAM_BINDINGS_MEMBER);
 		assertNull(memberHandle.getListValue());
 
 		ParamBinding paramBinding = StructureFactory.createParamBinding();
 		paramBinding.setParamName("param1"); //$NON-NLS-1$
 		paramBinding.setExpression("expr1"); //$NON-NLS-1$
 
-		ComplexPropertyCommand command = new ComplexPropertyCommand(design,
-				imageHandle.getElement());
+		ComplexPropertyCommand command = new ComplexPropertyCommand(design, imageHandle.getElement());
 		command.addItem(memberHandle.getContext(), paramBinding);
 
 		assertEquals(1, memberHandle.getListValue().size());
@@ -1436,7 +1347,7 @@ public class PropertyCommandTest extends BaseTestCase {
 	 * <li>test move item operation from null structure list</li>
 	 * <li>Test moving items between list member.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1451,8 +1362,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// get map.rules handle
 
-		PropertyHandle propHandle = styleHandle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle propHandle = styleHandle.getPropertyHandle(Style.MAP_RULES_PROP);
 
 		// move item from index zero to index one
 
@@ -1504,34 +1414,29 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// move item within a member list.
 
-		MemberHandle memberHandle = actionHandle
-				.getMember(Action.SEARCH_MEMBER);
+		MemberHandle memberHandle = actionHandle.getMember(Action.SEARCH_MEMBER);
 		assertEquals(2, memberHandle.getListValue().size());
 
-		ComplexPropertyCommand command = new ComplexPropertyCommand(design,
-				imageHandle.getElement());
+		ComplexPropertyCommand command = new ComplexPropertyCommand(design, imageHandle.getElement());
 		command.moveItem(memberHandle.getContext(), 0, 2);
 
-		assertEquals(
-				"searchKey1", ((SearchKeyHandle) memberHandle.getAt(1)).getExpression()); //$NON-NLS-1$
-		assertEquals(
-				"searchKey2", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
+		assertEquals("searchKey1", ((SearchKeyHandle) memberHandle.getAt(1)).getExpression()); //$NON-NLS-1$
+		assertEquals("searchKey2", ((SearchKeyHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
 
 	}
 
 	/**
 	 * Tests RemoveItem logic
-	 * 
+	 *
 	 * <p>
 	 * Test Cases:
 	 * <ul>
-	 * <li>Table define a highlight rule list, row inherited it, drop the rule
-	 * on row won't affect the rules on table.</li>
-	 * Label2 extends from label1, and label1 has defined an Action, test that
-	 * remove a drill through parameter structure from the action on label2
-	 * won't affect the value on label1.
+	 * <li>Table define a highlight rule list, row inherited it, drop the rule on
+	 * row won't affect the rules on table.</li> Label2 extends from label1, and
+	 * label1 has defined an Action, test that remove a drill through parameter
+	 * structure from the action on label2 won't affect the value on label1.
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 	public void testRemoveItem() throws SemanticException {
@@ -1550,28 +1455,22 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		// table has a highlightrule.
 
-		table.getPrivateStyle()
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
-				.addItem(highlightRule);
+		table.getPrivateStyle().getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).addItem(highlightRule);
 
 		// row inherited that rule.
 
 		RowHandle row = (RowHandle) table.getDetail().getContents().get(0);
 
-		List inheritedRules = (List) row
-				.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
+		List inheritedRules = (List) row.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP);
 		assertNull(inheritedRules);
 
 		// remove rule from row, table should not be affected.
 
-		PropertyHandle rulesHandle = row
-				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
+		PropertyHandle rulesHandle = row.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
 		// rulesHandle.removeItem( 0 );
 
 		assertFalse(rulesHandle.iterator().hasNext());
-		assertEquals(1,
-				table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
-						.getListValue().size());
+		assertEquals(1, table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).getListValue().size());
 
 		// Case 2:
 		LabelHandle label1 = factory.newLabel("label1"); //$NON-NLS-1$
@@ -1585,8 +1484,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		Action action = StructureFactory.createAction();
 		ActionHandle actionHandle = label1.setAction(action);
-		actionHandle
-				.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
 
 		ParamBinding param = StructureFactory.createParamBinding();
 		param.setParamName("p1"); //$NON-NLS-1$
@@ -1607,39 +1505,35 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testElementTypePropertyCommand() throws Exception {
-		CubeHandle cubeHandle = designHandle.getElementFactory()
-				.newTabularCube(null);
+		CubeHandle cubeHandle = designHandle.getElementFactory().newTabularCube(null);
 		designHandle.getCubes().add(cubeHandle);
 
-		MeasureGroupHandle measureGroupHandle = designHandle
-				.getElementFactory().newTabularMeasureGroup("testMeasureGroup"); //$NON-NLS-1$
-		cubeHandle.setProperty(ICubeModel.MEASURE_GROUPS_PROP,
-				measureGroupHandle);
+		MeasureGroupHandle measureGroupHandle = designHandle.getElementFactory()
+				.newTabularMeasureGroup("testMeasureGroup"); //$NON-NLS-1$
+		cubeHandle.setProperty(ICubeModel.MEASURE_GROUPS_PROP, measureGroupHandle);
 		assertEquals(cubeHandle, measureGroupHandle.getContainer());
 		assertEquals(measureGroupHandle.getElement(),
-				design.getNameHelper().getNameSpace(Module.CUBE_NAME_SPACE)
-						.getElement(measureGroupHandle.getName()));
+				design.getNameHelper().getNameSpace(Module.CUBE_NAME_SPACE).getElement(measureGroupHandle.getName()));
 	}
 
 	/**
-	 * The newValue and oldValue in PropertyRecord once be set in constructor,
-	 * then should never be changed. This test case is for testing if the old
-	 * local value is a list, then we should make a copy for the list, but not
-	 * point oldValue to the same list instance with Element. And the undo,
-	 * redo, rollback status should be correct.
-	 * 
+	 * The newValue and oldValue in PropertyRecord once be set in constructor, then
+	 * should never be changed. This test case is for testing if the old local value
+	 * is a list, then we should make a copy for the list, but not point oldValue to
+	 * the same list instance with Element. And the undo, redo, rollback status
+	 * should be correct.
+	 *
 	 * @throws Exception
 	 */
 
 	public void testProeprtyRecordForListValue() throws Exception {
 		createDesign();
 
-		TableHandle table = designHandle.getElementFactory().newTableItem(
-				"table"); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory().newTableItem("table"); //$NON-NLS-1$
 		designHandle.getBody().add(table);
 
 		ActivityStack stack = (ActivityStack) designHandle.getCommandStack();
@@ -1655,8 +1549,7 @@ public class PropertyCommandTest extends BaseTestCase {
 		stack = (ActivityStack) designHandle.getCommandStack();
 		assertTrue(stack.canUndo());
 
-		table.getPropertyHandle(TableHandle.BOUND_DATA_COLUMNS_PROP)
-				.clearValue();
+		table.getPropertyHandle(TableHandle.BOUND_DATA_COLUMNS_PROP).clearValue();
 
 		assertTrue(stack.canUndo());
 
@@ -1672,16 +1565,16 @@ public class PropertyCommandTest extends BaseTestCase {
 	}
 
 	/**
-	 * Invoke {@link org.eclipse.birt.report.model.api.command.PropertyEvent}to
-	 * test property event.
+	 * Invoke {@link org.eclipse.birt.report.model.api.command.PropertyEvent}to test
+	 * property event.
 	 * <p>
-	 * 
+	 *
 	 * Test Case:
-	 * 
+	 *
 	 * <ul>
 	 * <li>basic notification with event test.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1701,14 +1594,14 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Unit test for the listener.
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * Test Case:
 	 * <ul>
 	 * <li>Use listener to test if notification works or not.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1733,11 +1626,9 @@ public class PropertyCommandTest extends BaseTestCase {
 		// Set member value
 
 		listener.propertyChanged = false;
-		PropertyHandle mapRulesHandle = myStyle
-				.getPropertyHandle(Style.MAP_RULES_PROP);
+		PropertyHandle mapRulesHandle = myStyle.getPropertyHandle(Style.MAP_RULES_PROP);
 		StructureHandle mapRuleHandle = mapRulesHandle.getAt(0);
-		MemberHandle operatorHandle = mapRuleHandle
-				.getMember(MapRule.OPERATOR_MEMBER);
+		MemberHandle operatorHandle = mapRuleHandle.getMember(MapRule.OPERATOR_MEMBER);
 		operatorHandle.setValue(DesignChoiceConstants.MAP_OPERATOR_BETWEEN);
 		assertTrue(listener.propertyChanged);
 
@@ -1745,8 +1636,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		listener.propertyChanged = false;
 		MapRule newMapRule = new MapRule();
-		newMapRule.setProperty(MapRule.OPERATOR_MEMBER,
-				DesignChoiceConstants.MAP_OPERATOR_LIKE);
+		newMapRule.setProperty(MapRule.OPERATOR_MEMBER, DesignChoiceConstants.MAP_OPERATOR_LIKE);
 		mapRulesHandle.addItem(newMapRule);
 		assertTrue(listener.propertyChanged);
 
@@ -1754,8 +1644,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		listener.propertyChanged = false;
 		MapRule anotherNewMapRule = new MapRule();
-		anotherNewMapRule.setProperty(MapRule.OPERATOR_MEMBER,
-				DesignChoiceConstants.MAP_OPERATOR_GE);
+		anotherNewMapRule.setProperty(MapRule.OPERATOR_MEMBER, DesignChoiceConstants.MAP_OPERATOR_GE);
 		mapRulesHandle.replaceItem(newMapRule, anotherNewMapRule);
 		assertTrue(listener.propertyChanged);
 
@@ -1775,7 +1664,7 @@ public class PropertyCommandTest extends BaseTestCase {
 
 	/**
 	 * Tests event notification when variable element property changed.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testVariableElementPropertyNotification() throws Exception {
@@ -1793,19 +1682,18 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		listener.propertyChanged = false;
 		variableElementHandle = list.get(1);
-		variableElementHandle
-				.setType(DesignChoiceConstants.VARIABLE_TYPE_REPORT);
+		variableElementHandle.setType(DesignChoiceConstants.VARIABLE_TYPE_REPORT);
 		assertTrue(listener.propertyChanged);
 
 	}
 
 	/**
-	 * When drops TOC/highlightRule, the corresponding back reference on the
-	 * style elements should be removed. Otherwise, it may cause NPE during the
-	 * style broadcast process.
+	 * When drops TOC/highlightRule, the corresponding back reference on the style
+	 * elements should be removed. Otherwise, it may cause NPE during the style
+	 * broadcast process.
 	 * <p>
 	 * Uses TOC as examples to test this feature. see Bug 286598
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1836,14 +1724,13 @@ public class PropertyCommandTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 *
+		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged(DesignElementHandle focus,
-				NotificationEvent ev) {
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			propertyChanged = true;
 		}
 

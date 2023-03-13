@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,142 +23,132 @@ import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
-public class Table extends Listing implements ITable
-{
+public class Table extends Listing implements ITable {
 
-	public Table( TableHandle table )
-	{
-		super( table );
+	public Table(TableHandle table) {
+		super(table);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
 	 */
 
-	public int getColumnCount( )
-	{
-		return ( (TableHandle) handle ).getColumnCount( );
+	@Override
+	public int getColumnCount() {
+		return ((TableHandle) handle).getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
 	 */
 
-	public boolean repeatHeader( )
-	{
-		return ( (TableHandle) handle ).repeatHeader( );
+	@Override
+	public boolean repeatHeader() {
+		return ((TableHandle) handle).repeatHeader();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader
 	 * (boolean)
 	 */
 
-	public void setRepeatHeader( boolean value ) throws SemanticException
-	{
+	@Override
+	public void setRepeatHeader(boolean value) throws SemanticException {
 
-		setProperty( IListingElementModel.REPEAT_HEADER_PROP, Boolean
-				.valueOf( value ) );
+		setProperty(IListingElementModel.REPEAT_HEADER_PROP, Boolean.valueOf(value));
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
 	 */
 
-	public String getCaption( )
-	{
-		return ( (TableHandle) handle ).getCaption( );
+	@Override
+	public String getCaption() {
+		return ((TableHandle) handle).getCaption();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java
 	 * .lang.String)
 	 */
 
-	public void setCaption( String caption ) throws SemanticException
-	{
-		setProperty( ITableItemModel.CAPTION_PROP, caption );
+	@Override
+	public void setCaption(String caption) throws SemanticException {
+		setProperty(ITableItemModel.CAPTION_PROP, caption);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
 	 */
 
-	public String getCaptionKey( )
-	{
-		return ( (TableHandle) handle ).getCaptionKey( );
+	@Override
+	public String getCaptionKey() {
+		return ((TableHandle) handle).getCaptionKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey
 	 * (java.lang.String)
 	 */
 
-	public void setCaptionKey( String captionKey ) throws SemanticException
-	{
-		setProperty( ITableItemModel.CAPTION_KEY_PROP, captionKey );
+	@Override
+	public void setCaptionKey(String captionKey) throws SemanticException {
+		setProperty(ITableItemModel.CAPTION_KEY_PROP, captionKey);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
+	 *
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
 	 */
 
-	public IColumn getColumn( int index )
-	{
-		SlotHandle slotHandle = handle.getSlot( ITableItemModel.COLUMN_SLOT );
-		ColumnHandle columnHandle = (ColumnHandle) slotHandle.get( index );
-		if ( columnHandle == null )
+	@Override
+	public IColumn getColumn(int index) {
+		SlotHandle slotHandle = handle.getSlot(ITableItemModel.COLUMN_SLOT);
+		ColumnHandle columnHandle = (ColumnHandle) slotHandle.get(index);
+		if (columnHandle == null) {
 			return null;
-		IColumn column = new Column( columnHandle );
+		}
+		IColumn column = new Column(columnHandle);
 		return column;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.simpleapi.ITable#getSummary()
 	 */
-	public String getSummary( )
-	{
-		return ( (TableHandle) handle ).getSummary( );
+	@Override
+	public String getSummary() {
+		return ((TableHandle) handle).getSummary();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.ITable#setSummary(java.lang
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ITable#setSummary(java.lang
 	 * .String)
 	 */
-	public void setSummary( String summary ) throws SemanticException
-	{
-		setProperty( ITableItemModel.SUMMARY_PROP, summary );
+	@Override
+	public void setSummary(String summary) throws SemanticException {
+		setProperty(ITableItemModel.SUMMARY_PROP, summary);
 
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's StringMap.java to support BIRT's CSS rules
@@ -14,10 +17,9 @@ package org.eclipse.birt.report.engine.css.engine.value;
 /**
  * A simple hashtable, not synchronized, with fixed load factor and with
  * equality test made with '=='.
- * 
+ *
  */
-public class StringMap
-{
+public class StringMap {
 
 	/**
 	 * The initial capacity
@@ -37,33 +39,27 @@ public class StringMap
 	/**
 	 * Creates a new table.
 	 */
-	public StringMap( )
-	{
+	public StringMap() {
 		table = new Entry[INITIAL_CAPACITY];
 	}
 
 	/**
 	 * Creates a copy of the given StringMap object.
-	 * 
-	 * @param t
-	 *            The table to copy.
+	 *
+	 * @param t The table to copy.
 	 */
-	public StringMap( StringMap t )
-	{
+	public StringMap(StringMap t) {
 		count = t.count;
 		table = new Entry[t.table.length];
-		for ( int i = 0; i < table.length; i++ )
-		{
+		for (int i = 0; i < table.length; i++) {
 			Entry e = t.table[i];
 			Entry n = null;
-			if ( e != null )
-			{
-				n = new Entry( e.hash, e.key, e.value, null );
+			if (e != null) {
+				n = new Entry(e.hash, e.key, e.value, null);
 				table[i] = n;
 				e = e.next;
-				while ( e != null )
-				{
-					n.next = new Entry( e.hash, e.key, e.value, null );
+				while (e != null) {
+					n.next = new Entry(e.hash, e.key, e.value, null);
 					n = n.next;
 					e = e.next;
 				}
@@ -73,18 +69,15 @@ public class StringMap
 
 	/**
 	 * Gets the value corresponding to the given string.
-	 * 
+	 *
 	 * @return the value or null
 	 */
-	public Object get( String key )
-	{
-		int hash = key.hashCode( ) & 0x7FFFFFFF;
+	public Object get(String key) {
+		int hash = key.hashCode() & 0x7FFFFFFF;
 		int index = hash % table.length;
 
-		for ( Entry e = table[index]; e != null; e = e.next )
-		{
-			if ( ( e.hash == hash ) && e.key == key )
-			{
+		for (Entry e = table[index]; e != null; e = e.next) {
+			if ((e.hash == hash) && e.key == key) {
 				return e.value;
 			}
 		}
@@ -93,18 +86,15 @@ public class StringMap
 
 	/**
 	 * Sets a new value for the given variable
-	 * 
+	 *
 	 * @return the old value or null
 	 */
-	public Object put( String key, Object value )
-	{
-		int hash = key.hashCode( ) & 0x7FFFFFFF;
+	public Object put(String key, Object value) {
+		int hash = key.hashCode() & 0x7FFFFFFF;
 		int index = hash % table.length;
 
-		for ( Entry e = table[index]; e != null; e = e.next )
-		{
-			if ( ( e.hash == hash ) && e.key == key )
-			{
+		for (Entry e = table[index]; e != null; e = e.next) {
+			if ((e.hash == hash) && e.key == key) {
 				Object old = e.value;
 				e.value = value;
 				return old;
@@ -113,13 +103,12 @@ public class StringMap
 
 		// The key is not in the hash table
 		int len = table.length;
-		if ( count++ >= ( len * 3 ) >>> 2 )
-		{
-			rehash( );
+		if (count++ >= (len * 3) >>> 2) {
+			rehash();
 			index = hash % table.length;
 		}
 
-		Entry e = new Entry( hash, key, value, table[index] );
+		Entry e = new Entry(hash, key, value, table[index]);
 		table[index] = e;
 		return null;
 	}
@@ -127,16 +116,13 @@ public class StringMap
 	/**
 	 * Rehash the table
 	 */
-	protected void rehash( )
-	{
+	protected void rehash() {
 		Entry[] oldTable = table;
 
 		table = new Entry[oldTable.length * 2 + 1];
 
-		for ( int i = oldTable.length - 1; i >= 0; i-- )
-		{
-			for ( Entry old = oldTable[i]; old != null; )
-			{
+		for (int i = oldTable.length - 1; i >= 0; i--) {
+			for (Entry old = oldTable[i]; old != null;) {
 				Entry e = old;
 				old = old.next;
 
@@ -150,8 +136,7 @@ public class StringMap
 	/**
 	 * To manage collisions
 	 */
-	protected static class Entry
-	{
+	protected static class Entry {
 
 		/**
 		 * The hash code
@@ -176,8 +161,7 @@ public class StringMap
 		/**
 		 * Creates a new entry
 		 */
-		public Entry( int hash, String key, Object value, Entry next )
-		{
+		public Entry(int hash, String key, Object value, Entry next) {
 			this.hash = hash;
 			this.key = key;
 			this.value = value;

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,45 +24,38 @@ import org.xml.sax.SAXException;
  * page breaks properties to group, otherwise, ignore these properties.
  */
 
-public class CompatiblePageBreakPropState extends CompatiblePropertyState
-{
+public class CompatiblePageBreakPropState extends CompatiblePropertyState {
 
 	/**
-	 * Constructs a <code>CompatiblePageBreakPropState</code> to parse an
-	 * pagebreak property.
-	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
-	 * 
+	 * Constructs a <code>CompatiblePageBreakPropState</code> to parse an pagebreak
+	 * property.
+	 *
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
+	 *
 	 */
 
-	public CompatiblePageBreakPropState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatiblePageBreakPropState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( value.equalsIgnoreCase( "left" ) //$NON-NLS-1$
-				|| value.equalsIgnoreCase( "right" ) ) //$NON-NLS-1$
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (value.equalsIgnoreCase("left") //$NON-NLS-1$
+				|| value.equalsIgnoreCase("right")) //$NON-NLS-1$
 		{
 			value = DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS;
 
-			doEnd( value );
-		}
-		else
-		{
-			super.end( );
+			doEnd(value);
+		} else {
+			super.end();
 		}
 	}
 }

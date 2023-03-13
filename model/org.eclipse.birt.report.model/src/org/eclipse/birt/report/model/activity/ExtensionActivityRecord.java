@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +31,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
  * to the ROM extension elements.
  */
 
-public final class ExtensionActivityRecord extends ActivityRecord
-{
+public final class ExtensionActivityRecord extends ActivityRecord {
 
 	/**
 	 * The effective extended element command this record has.
@@ -51,108 +53,106 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	private String propName = null;
 
 	/**
-	 * Constructs the extension activity record with the effective extended
-	 * element command.
-	 * 
-	 * @param extCommand
-	 *            the effective extended element command
+	 * Constructs the extension activity record with the effective extended element
+	 * command.
+	 *
+	 * @param extCommand the effective extended element command
 	 */
 
-	public ExtensionActivityRecord( IElementCommand extCommand )
-	{
+	public ExtensionActivityRecord(IElementCommand extCommand) {
 		assert extCommand != null;
 		extRecord = extCommand;
-		setLabel( extCommand.getLabel( ) );
+		setLabel(extCommand.getLabel());
 
-		if ( extCommand.getElementHandle( ) != null )
-			element = extCommand.getElementHandle( ).getElement( );
+		if (extCommand.getElementHandle() != null) {
+			element = extCommand.getElementHandle().getElement();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#canRedo()
 	 */
 
-	public boolean canRedo( )
-	{
-		return extRecord.canRedo( );
+	@Override
+	public boolean canRedo() {
+		return extRecord.canRedo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#canUndo()
 	 */
 
-	public boolean canUndo( )
-	{
-		return extRecord.canUndo( );
+	@Override
+	public boolean canUndo() {
+		return extRecord.canUndo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#destroy()
 	 */
 
-	public void destroy( )
-	{
-		super.destroy( );
+	@Override
+	public void destroy() {
+		super.destroy();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getTransNo()
 	 */
 
-	public int getTransNo( )
-	{
-		return super.getTransNo( );
+	@Override
+	public int getTransNo() {
+		return super.getTransNo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#execute()
 	 */
 
-	public void execute( )
-	{
-		extRecord.execute( );
+	@Override
+	public void execute() {
+		extRecord.execute();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#undo()
 	 */
 
-	public void undo( )
-	{
-		extRecord.undo( );
+	@Override
+	public void undo() {
+		extRecord.undo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#redo()
 	 */
 
-	public void redo( )
-	{
-		extRecord.redo( );
+	@Override
+	public void redo() {
+		extRecord.redo();
 	}
 
 	/**
 	 * Returns the design element.
-	 * 
+	 *
 	 * @return the design element
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 
@@ -161,23 +161,20 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * <code>ExtensionPropertyDefinitionEvent</code> will be returned when the
 	 * extension element is not null and the dynamic property list is changed.
 	 * <code>propertyEvent</code> will be returned if not the above case.
-	 * 
+	 *
 	 * @return event
 	 */
-	private NotificationEvent getEvent( )
-	{
+	private NotificationEvent getEvent() {
 		assert element != null;
 		NotificationEvent event = null;
 		assert element instanceof ExtendedItem;
 
-		IReportItem extElement = ( (ExtendedItem) element )
-				.getExtendedElement( );
-		if ( extElement != null && extElement.refreshPropertyDefinition( ) )
-		{
-			event = new ExtensionPropertyDefinitionEvent( element );
+		IReportItem extElement = ((ExtendedItem) element).getExtendedElement();
+		if (extElement != null && extElement.refreshPropertyDefinition()) {
+			event = new ExtensionPropertyDefinitionEvent(element);
+		} else {
+			event = new PropertyEvent(element, propName);
 		}
-		else
-			event = new PropertyEvent( element, propName );
 		// Use the same notification for the done/redone and undone states.
 		return event;
 
@@ -185,30 +182,30 @@ public final class ExtensionActivityRecord extends ActivityRecord
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 *
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public void rollback( )
-	{
-		undo( );
-		setState( ActivityRecord.UNDONE_STATE );
+	@Override
+	public void rollback() {
+		undo();
+		setState(ActivityRecord.UNDONE_STATE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		if ( element == null )
-			return Collections.emptyList( );
+	@Override
+	protected List<RecordTask> getPostTasks() {
+		if (element == null) {
+			return Collections.emptyList();
+		}
 
-		List<RecordTask> retList = new ArrayList<RecordTask>( );
-		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		List<RecordTask> retList = new ArrayList<>();
+		retList.add(new NotificationRecordTask(element, getEvent()));
 		return retList;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,56 +24,50 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IRunContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
-public class RunContext extends ReportContextImpl implements IRunContext
-{
+public class RunContext extends ReportContextImpl implements IRunContext {
 
-	public RunContext( ExecutionContext context )
-	{
-		super( context );
-	}
-	
-	public IReportDocument getReportDocument( )
-	{
-		return context.getReportDocument( );
+	public RunContext(ExecutionContext context) {
+		super(context);
 	}
 
-	public IDocArchiveWriter getWriter( )
-	{
-		ReportDocumentWriter writer = context.getReportDocWriter( );
-		if ( writer != null )
-		{
-			return writer.getArchive( );
+	@Override
+	public IReportDocument getReportDocument() {
+		return context.getReportDocument();
+	}
+
+	@Override
+	public IDocArchiveWriter getWriter() {
+		ReportDocumentWriter writer = context.getReportDocWriter();
+		if (writer != null) {
+			return writer.getArchive();
 		}
 		return null;
 	}
 
-	public IReportContent getReportContent( )
-	{
-		return context.getReportContent( );
+	@Override
+	public IReportContent getReportContent() {
+		return context.getReportContent();
 	}
 
-	public IDocArchiveReader getDataSource( )
-	{
-		DocumentDataSource dataSource = context.getDataSource( );
-		if ( dataSource != null )
-		{
-			return dataSource.getDataSource( );
+	@Override
+	public IDocArchiveReader getDataSource() {
+		DocumentDataSource dataSource = context.getDataSource();
+		if (dataSource != null) {
+			return dataSource.getDataSource();
 		}
-		IReportDocument document = context.getReportDocument( );
-		if ( document != null )
-		{
-			return document.getArchive( );
+		IReportDocument document = context.getReportDocument();
+		if (document != null) {
+			return document.getArchive();
 		}
 		return null;
 	}
-	
-	public boolean isProgressiveViewingEnable( )
-	{
-		return context.isProgressiveViewingEnable( );
+
+	@Override
+	public boolean isProgressiveViewingEnable() {
+		return context.isProgressiveViewingEnable();
 	}
 
-	public ExecutionContext getExecutionContext( )
-	{
+	public ExecutionContext getExecutionContext() {
 		return context;
 	}
 }

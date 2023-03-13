@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.egit.core.GitProvider">
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-charts"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-epp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-publish"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-report-framework"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-report-framework-sdk"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-runtime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-runtime-test"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-sample-plugins"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-source"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-tests-suite"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-charts/ChartRuntime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-charts/ChartSDK"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-charts/DeploymentRuntime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,tutorial/extension-tutorial-1"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,tutorial/extension-tutorial-2"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-charts"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-rcp-report-designer"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-report-designer-all-in-one"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-report-framework"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-runtime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.apache.derby.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.api"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.axis.overlay"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.build"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.chart"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.chart.cshelp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.cshelp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.device.extension"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.device.extension.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.device.pdf"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.device.svg"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.device.svg.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.device.swt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.device.swt.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.chart.doc.isv"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.doc.isv.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.engine"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.engine.extension"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.engine.extension.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.engine.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.examples"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.examples.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.examples.core.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.examples.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.integration.wtp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.integration.wtp.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.integration.wtp.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.osgi.runtime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.osgi.runtime.sdk"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.reportitem"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.reportitem.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.reportitem.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.reportitem.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.ui.extension"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.ui.extension.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.chart.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,chart/org.eclipse.birt.chart.viewer"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.chart.viewer.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,core/org.eclipse.birt.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.core.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.core.script.function"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.core.script.function.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,core/org.eclipse.birt.core.testhelper"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,core/org.eclipse.birt.core.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,core/org.eclipse.birt.core.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.core.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.cshelp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.cshelp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.aggregation"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.data.aggregation.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.data.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.oda.mongodb"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.oda.mongodb.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.oda.pojo"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.data.oda.pojo.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.oda.pojo.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.oda.pojo.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.data.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.doc"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.doc.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.doc.isv"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.doc.isv.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.engine.runtime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.example"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.example.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.integration.wtp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.integration.wtp.sdk.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.integration.wtp.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.integration.wtp.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.jetty.overlay"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.me.prettyprint.hector"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.nl.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.osgi.runtime"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.osgi.runtime.sdk"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.p2updatesite"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-runtime-osgi"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.rcp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.rcp.nl.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.releng.birtbuilder"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.releng.util"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.adapter"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.adapter.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.bidi.utils"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.bidi.utils.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.bidi.utils.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.excel"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.excel.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.excel.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.excel.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.hive"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.hive.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.hive.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.hive.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.dbprofile"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.jdbc.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.jdbc.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.jdbc.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.data.oda.mongodb.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.data.oda.mongodb.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.sampledb"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.sampledb.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.sampledb.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.sampledb.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.xml"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.xml.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.oda.xml.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.oda.xml.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.debug.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.debug.core.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.debug.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.debug.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-report-all-in-one"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.core.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.report.designer.editor.xml.wtp.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-report-rcp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.samplereports"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.cubebuilder"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.cubebuilder.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.data"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.editor.script"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.editor.script.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.editor.xml.wtp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.editors"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.editors.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.editors.schematic"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.editors.schematic.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.ide"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.ide.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.lib"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.lib.explorer"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.lib.explorer.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.lib.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.preview"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.preview.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.preview.static_html"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.preview.test"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.preview.web"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.preview.web.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.rcp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.rcp.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.samples.ide"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.samples.ide.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.samples.rcp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.samplesview"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.samplesview.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,UI/org.eclipse.birt.report.designer.ui.views"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.designer.ui.views.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.dataextraction"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.dataextraction.csv"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.dataextraction.csv.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.dataextraction.csv.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.dataextraction.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.docx"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.docx.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.excel"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.excel.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.html"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.html.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.odp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.ods"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.odt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.pdf"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.pdf.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.postscript"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.postscript.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.ppt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.ppt.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.pptx"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.pptx.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.config.wpml"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.emitter.config.wpml.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.docx"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.html"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.html.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.odp"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.ods"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.odt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.pdf.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.postscript"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.postscript.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.ppt"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.pptx"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.pptx.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.prototype.excel"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.prototype.excel.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.wpml"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.fonts"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.engine.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.odf"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.ooxml"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.pdf"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.engine.script.javascript"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.testhelper"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,xtab/org.eclipse.birt.report.item.crosstab.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.item.crosstab.core.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,xtab/org.eclipse.birt.report.item.crosstab.core.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,xtab/org.eclipse.birt.report.item.crosstab.ui"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.item.crosstab.ui.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model.adapter.oda"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model.adapter.oda.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.model.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model.testhelper"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model.testresources"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.model.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.report.modelextension.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.report.tests.chart"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.report.tests.engine"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.report.tests.engine.emitter.html"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.report.tests.model"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.report.viewer"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.viewer.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.report.viewer.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,model/org.eclipse.birt.resources"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.resources.nl"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.sdk"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.sdk.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.site"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.target"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.testhelper.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.tests"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.tests.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,testsuites/org.eclipse.birt.tests.data"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.tests.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-wtp-integration-sdk"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.wtp.nl.feature"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.w3c.dom.svg.extension"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.w3c.sac"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/org.eclipse.birt.report.engine.emitter.pptx.tests/src/org/eclipse/birt/report/engine/emitter/pptx/tests/designs/pptx_project"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,releng"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/uk.co.spudsoft.birt.emitters.excel"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,engine/uk.co.spudsoft.birt.emitters.excel.tests"/>
+</provider>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502625623_3" label="BBuild" name="BBuild">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.sdk" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.build.package.nl-parent" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.site" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-epp" type="4"/>
+<item elementID="=org.eclipse.birt.build" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.target" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.example" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-charts" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-source" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-publish" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.releng.util" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.rcp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.p2updatesite" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-tests-suite" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.products" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-runtime-test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-charts" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-sample-plugins" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ChartSDK" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-report-framework" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.releng.birtbuilder" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.all" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ChartRuntime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.wtp.integration.sdk" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-report-framework-sdk" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DeploymentRuntime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-report-framework" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-rcp-report-designer" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-report-designer-all-in-one" type="4"/>
+<item elementID="=org.eclipse.birt" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.build.package-parent" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502680681_5" label="BChart" name="BChart">
+<item elementID="=org.eclipse.birt.chart.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.chart.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.chart.engine" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.chart.viewer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.chart.examples" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.pdf" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.svg" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.swt" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.reportitem" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.ui.extension" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.examples.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.reportitem.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.extension" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.engine.extension" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.integration.wtp.ui" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502727033_6" label="BCommon" name="BCommon">
+<item elementID="=org.w3c.sac" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.apache.derby.core" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.w3c.dom.svg.extension" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502749931_7" label="BCore" name="BCore">
+<item elementID="=org.eclipse.birt.core" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.core.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.core.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.core.testhelper" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502770672_8" label="BData" name="BData">
+<item elementID="=org.eclipse.birt.data" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.data.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.data.oda.pojo" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.aggregation" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.oda.mongodb" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.oda.pojo.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.oda.mongodb.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.oda.pojo.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.adapter" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.xml" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.core.script.function" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.hive" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.me.prettyprint.hector" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.excel" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.bidi.utils" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.xml.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.hive.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.excel.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.sampledb" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.bidi.utils.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.sampledb.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.script.javascript" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502790279_9" label="BDocs" name="BDocs">
+<item elementID="=org.eclipse.birt.doc" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.cshelp" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.doc.isv" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.cshelp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.doc.isv" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502814366_10" label="BEngine" name="BEngine">
+<item elementID="=org.eclipse.birt.report.engine" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.report.engine.odf" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/uk.co.spudsoft.birt.emitters.excel" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.fonts" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.ooxml" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/uk.co.spudsoft.birt.emitters.excel.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.testhelper" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.odp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.ods" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.odt" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.pdf" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.ppt" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.docx" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.html" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.pptx" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.wpml" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.dataextraction" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.pdf.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.dataextraction.csv" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.odp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.ods" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.odt" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.pdf" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.ppt" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.html.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.postscript" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.pptx.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.docx" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.html" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.pptx" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.wpml" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.excel" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.prototype.excel" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.dataextraction.csv.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.postscript.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.postscript" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.prototype.excel.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/pptx_project" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502832029_11" label="BFeatures" name="BFeatures">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.nl.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.doc.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.rcp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.sdk.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.osgi.runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.testsuite.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.cshelp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.engine.runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.rcp.nl.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.wtp.nl.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.doc.isv.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.example.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.osgi.runtime.sdk" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.osgi.runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.testhelper.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.cshelp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.viewer.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.doc.isv.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.osgi.runtime.sdk" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.integration.wtp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.integration.wtp.sdk.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.integration.wtp.feature" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.editor.xml.wtp.feature" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502879391_13" label="BI18N" name="BI18N">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/nl" type="4"/>
+<item elementID="=org.eclipse.birt.core.nl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.core.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.resources.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.engine.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.model.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.oda.pojo.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.viewer.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.examples.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.debug.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.svg.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.swt.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.reportitem.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.data.aggregation.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.mongodb.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.debug.core.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.ui.extension.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.integration.wtp.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.examples.core.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.reportitem.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.mongodb.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.adapter.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.xml.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.core.script.function.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.hive.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.core.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.excel.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.device.extension.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.engine.extension.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.bidi.utils.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.xml.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.ide.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.lib.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.rcp.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.hive.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.item.crosstab.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.chart.integration.wtp.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.excel.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.sampledb.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.views.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.item.crosstab.core.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editors.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.sampledb.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.dataextraction.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.cubebuilder.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview.web.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.samples.ide.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.samplesview.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.lib.explorer.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editor.script.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.dataextraction.csv.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.pdf.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.ppt.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.docx.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.html.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.pptx.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.wpml.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.excel.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editors.schematic.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.engine.emitter.config.postscript.nl" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502848599_12" label="BModel" name="BModel">
+<item elementID="=org.eclipse.birt.resources" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.report.model" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.eclipse.birt.report.model.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.model.testhelper" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.model.adapter.oda" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.model.testresources" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.modelextension.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.model.adapter.oda.tests" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502900462_14" label="BReleng" name="BReleng">
+<item elementID="=releng" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502924605_15" label="BTestSuites" name="BTestSuites">
+<item elementID="=org.eclipse.birt.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.tests.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.tests.data" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.tests.chart" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.tests.model" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.tests.engine" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.tests.engine.emitter.html" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502943247_16" label="BTutorial" name="BTutorial">
+<item elementID="=extension-tutorial-1" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/extension-tutorial-2" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502982969_17" label="BUI" name="BUI">
+<item elementID="=org.eclipse.birt.report.debug.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.debug.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.tests" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.ide" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.lib" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.rcp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.data" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.views" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editors" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.samplereports" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.cubebuilder" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview.web" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.samples.ide" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.samples.rcp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.samplesview" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.lib.explorer" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview.test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editor.script" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editor.xml.wtp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.editors.schematic" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.ui.preview.static_html" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618503007146_18" label="BViewer" name="BViewer">
+<item elementID="=org.eclipse.birt.axis.overlay" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.jetty.overlay" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.viewer" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.integration.wtp.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.viewer.tests" type="4"/>
+</workingSets>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618503027419_19" label="BXTab" name="BXTab">
+<item elementID="=org.eclipse.birt.report.item.crosstab.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.item.crosstab.core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.item.crosstab.core.tests" type="4"/>
+</workingSets>
+</psf>

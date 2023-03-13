@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,24 +25,16 @@ import org.eclipse.birt.core.util.CommonUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class FontConfigReader
-{
+public class FontConfigReader {
 
-	public FontMappingConfig parseConfig( URL url ) throws IOException,
-			ParserConfigurationException, SAXException
-	{
-		InputStream input = url.openStream( );
-		try
-		{
-			FontMappingConfig config = new FontMappingConfig( );
-			InputSource source = new InputSource( url.openStream( ) );
-			SAXParser parser = CommonUtil.createSAXParser( );
-			parser.parse( source, new FontConfigHandler( config ) );
+	public FontMappingConfig parseConfig(URL url) throws IOException, ParserConfigurationException, SAXException {
+		InputStream input = url.openStream();
+		try (input) {
+			FontMappingConfig config = new FontMappingConfig();
+			InputSource source = new InputSource(url.openStream());
+			SAXParser parser = CommonUtil.createSAXParser();
+			parser.parse(source, new FontConfigHandler(config));
 			return config;
-		}
-		finally
-		{
-			input.close( );
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,22 +26,17 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * its extension property.
  */
 
-public class AddOnExtensibilityProvider extends ModelExtensibilityProvider
-{
+public class AddOnExtensibilityProvider extends ModelExtensibilityProvider {
 
 	/**
-	 * Constructs the add-on extensibility provider with the extendable element
-	 * and the extension name.
-	 * 
-	 * @param element
-	 *            the extendable element
-	 * @param extensionName
-	 *            the extension name
+	 * Constructs the add-on extensibility provider with the extendable element and
+	 * the extension name.
+	 *
+	 * @param element       the extendable element
+	 * @param extensionName the extension name
 	 */
 
-	public AddOnExtensibilityProvider( DesignElement element,
-			String extensionName )
-	{
-		super( element, extensionName );
+	public AddOnExtensibilityProvider(DesignElement element, String extensionName) {
+		super(element, extensionName);
 	}
 }

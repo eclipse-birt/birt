@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,33 +25,28 @@ import org.xml.sax.SAXException;
  * support 'top' , 'bottom' , 'middle' .
  * <p>
  * The compatible version is less than 3.2.2
- * 
+ *
  */
 
-public class CompatibleVerticalAlignState extends CompatiblePropertyState
-{
+public class CompatibleVerticalAlignState extends CompatiblePropertyState {
 
-	CompatibleVerticalAlignState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	CompatibleVerticalAlignState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 	}
 
-	public void end( ) throws SAXException
-	{
+	@Override
+	public void end() throws SAXException {
 		/**
-		 * Now Engine just supports 'top', 'middle','buttom' three choice types.
-		 * So if the old file has other choice types, should clean those choice
-		 * types.
+		 * Now Engine just supports 'top', 'middle','buttom' three choice types. So if
+		 * the old file has other choice types, should clean those choice types.
 		 */
 
-		String value = text.toString( );
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( value )
-				|| DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( value )
-				|| DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( value ) )
-		{
-			super.end( );
+		String value = text.toString();
+		if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals(value)
+				|| DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals(value)
+				|| DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals(value)) {
+			super.end();
 		}
 
 	}

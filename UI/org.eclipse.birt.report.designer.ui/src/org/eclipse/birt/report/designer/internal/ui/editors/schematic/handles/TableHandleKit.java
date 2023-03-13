@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -21,70 +24,62 @@ import org.eclipse.gef.SharedCursors;
 /**
  * Provides handle caretion and adding support.
  */
-public class TableHandleKit
-{
+public class TableHandleKit {
 
 	/**
 	 * Adds handle to table cell.
+	 *
 	 * @param part
 	 * @param handles
 	 */
-	public static void addHandles( TableCellEditPart part, List handles )
-	{
-		List list = part.getViewer( ).getSelectedEditParts( );
-		if (hasRemoveEditPart( list ))
-		{
+	public static void addHandles(TableCellEditPart part, List handles) {
+		List list = part.getViewer().getSelectedEditParts();
+		if (hasRemoveEditPart(list)) {
 			return;
 		}
-		handles.add( createHandle( part ) );
+		handles.add(createHandle(part));
 	}
 
 	/**
 	 * Adds handle to table
+	 *
 	 * @param part
 	 * @param handles
 	 */
-	public static void addHandles( TableEditPart part, List handles )
-	{
-		handles.add( createColumnHandle( part ) );
-		handles.add( createRowHandle( part ) );
+	public static void addHandles(TableEditPart part, List handles) {
+		handles.add(createColumnHandle(part));
+		handles.add(createRowHandle(part));
 	}
-	
-	private static boolean hasRemoveEditPart( List parts)
-	{
-		for (int i=0; i<parts.size( ); i++)
-		{
-			Object obj = parts.get( i );
-			if (obj instanceof ReportElementEditPart && ((ReportElementEditPart)obj).isDelete( ))
-			{
+
+	private static boolean hasRemoveEditPart(List parts) {
+		for (int i = 0; i < parts.size(); i++) {
+			Object obj = parts.get(i);
+			if (obj instanceof ReportElementEditPart && ((ReportElementEditPart) obj).isDelete()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	static Handle createHandle( TableCellEditPart owner )
-	{
 
-		TableEditPart part = (TableEditPart) owner.getParent( );
-		Rectangle rect = part.getSelectBounds( );
+	static Handle createHandle(TableCellEditPart owner) {
 
-		TableSelectionHandle handle = new TableSelectionHandle( owner, rect );
-		handle.setCursor( SharedCursors.SIZEALL );
+		TableEditPart part = (TableEditPart) owner.getParent();
+		Rectangle rect = part.getSelectBounds();
+
+		TableSelectionHandle handle = new TableSelectionHandle(owner, rect);
+		handle.setCursor(SharedCursors.SIZEALL);
 
 		return handle;
 	}
 
-	static Handle createColumnHandle( TableEditPart owner )
-	{
-		TableColumnHandle handle = new TableColumnHandle( owner );
+	static Handle createColumnHandle(TableEditPart owner) {
+		TableColumnHandle handle = new TableColumnHandle(owner);
 		return handle;
 
 	}
 
-	static Handle createRowHandle( TableEditPart owner )
-	{
-		TableRowHandle handle = new TableRowHandle( owner );
+	static Handle createRowHandle(TableEditPart owner) {
+		TableRowHandle handle = new TableRowHandle(owner);
 		return handle;
 
 	}

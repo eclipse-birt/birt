@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,106 +27,93 @@ import org.eclipse.birt.report.engine.emitter.config.wpml.i18n.Messages;
 /**
  * This class is a descriptor of word emitter.
  */
-public class WordEmitterDescriptor extends AbstractEmitterDescriptor
-{
+public class WordEmitterDescriptor extends AbstractEmitterDescriptor {
 	protected static final String CHART_DPI = "ChartDpi";
-	protected void initOptions( )
-	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.wpml" );
-		// Initializes the option for chart DPI.
-		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
-		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
-		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
-		chartDpi.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		chartDpi.setDefaultValue( new Integer( 192 ) );
-		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
-		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
-		options = new IConfigurableOption[]{chartDpi};
-		
-		applyDefaultValues( );
+	@Override
+	protected void initOptions() {
+		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.wpml");
+		// Initializes the option for chart DPI.
+		ConfigurableOption chartDpi = new ConfigurableOption(CHART_DPI);
+		chartDpi.setDisplayName(getMessage("OptionDisplayValue.ChartDpi")); //$NON-NLS-1$
+		chartDpi.setDataType(IConfigurableOption.DataType.INTEGER);
+		chartDpi.setDisplayType(IConfigurableOption.DisplayType.TEXT);
+		chartDpi.setDefaultValue(new Integer(192));
+		chartDpi.setToolTip(getMessage("Tooltip.ChartDpi"));
+		chartDpi.setDescription(getMessage("OptionDescription.ChartDpi")); //$NON-NLS-1$
+
+		options = new IConfigurableOption[] { chartDpi };
+
+		applyDefaultValues();
 	}
 
-	private String getMessage( String key )
-	{
-		return Messages.getString( key, locale );
+	private String getMessage(String key) {
+		return Messages.getString(key, locale);
 	}
 
 	@Override
-	public IConfigurableOptionObserver createOptionObserver( )
-	{
-		return new WordOptionObserver( );
+	public IConfigurableOptionObserver createOptionObserver() {
+		return new WordOptionObserver();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	public String getDescription( )
-	{
-		return getMessage( "WordEmitter.Description" ); //$NON-NLS-1$
+	@Override
+	public String getDescription() {
+		return getMessage("WordEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return getMessage( "WordEmitter.DisplayName" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return getMessage("WordEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
+	 *
+	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	public String getID( )
-	{
+	@Override
+	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.word"; //$NON-NLS-1$
 	}
-	
-	public String getRenderOptionName( String name )
-	{
+
+	public String getRenderOptionName(String name) {
 		assert name != null;
-		if ( CHART_DPI.equals( name ) )
-		{
+		if (CHART_DPI.equals(name)) {
 			return IRenderOption.CHART_DPI;
 		}
 		return name;
 	}
 
-	class WordOptionObserver extends AbstractConfigurableOptionObserver
-	{
+	class WordOptionObserver extends AbstractConfigurableOptionObserver {
 
 		@Override
-		public IConfigurableOption[] getOptions( )
-		{
+		public IConfigurableOption[] getOptions() {
 			return options;
 		}
 
 		@Override
-		public IRenderOption getPreferredRenderOption( )
-		{
-			RenderOption renderOption = new RenderOption( );
+		public IRenderOption getPreferredRenderOption() {
+			RenderOption renderOption = new RenderOption();
 
-			renderOption.setEmitterID( getID( ) );
-			renderOption.setOutputFormat( "doc" ); //$NON-NLS-1$
+			renderOption.setEmitterID(getID());
+			renderOption.setOutputFormat("doc"); //$NON-NLS-1$
 
-			if ( values != null && values.length > 0 )
-			{
-				for ( IOptionValue optionValue : values )
-				{
-					if ( optionValue != null )
-					{
-						renderOption.setOption(
-								getRenderOptionName( optionValue.getName( ) ),
-								optionValue.getValue( ) );
+			if (values != null && values.length > 0) {
+				for (IOptionValue optionValue : values) {
+					if (optionValue != null) {
+						renderOption.setOption(getRenderOptionName(optionValue.getName()), optionValue.getValue());
 					}
 				}
 			}

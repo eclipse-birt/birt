@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,15 +74,15 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of one element's container/slot combination.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of one element's container/slot combination.</td>
  * <td>The property value should be from the predefined style of this element's
  * container/slot combination.</td>
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of the slot in which one element's.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of the slot in which one element's.</td>
  * <td>The property value should be from the predefined style of the slot in
  * which this element's.</td>
  * </tr>
@@ -92,8 +95,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * <tr>
  * <td></td>
- * <td>Test getting the style property value that is set on the predefined
- * style of one element's container.</td>
+ * <td>Test getting the style property value that is set on the predefined style
+ * of one element's container.</td>
  * <td>The property value should be from the predefined style of one element's
  * container.</td>
  * </tr>
@@ -145,14 +148,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td>{@link #testErrorValidation()}</td>
  * <td>Test semantic errors with the design file input.</td>
- * <td>The errors are collected, such as the wrong choice names. </td>
+ * <td>The errors are collected, such as the wrong choice names.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
-public class BidiParseTest extends BaseTestCase
-{
+public class BidiParseTest extends BaseTestCase {
 	static final String IN_FILE_NAME = "BidiParseTest.xml"; //$NON-NLS-1$
 	static final String IN_FILE_NAME_1 = "BidiParseTest_1.xml"; //$NON-NLS-1$
 	static final String INVALID_FILE_NAME = "BidiParseTest_invalid.xml"; //$NON-NLS-1$
@@ -192,365 +194,319 @@ public class BidiParseTest extends BaseTestCase
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
 	 * Test parsing and getting Bidi properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testParser( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME );
+	public void testParser() throws Exception {
+		openDesign(IN_FILE_NAME);
 
 		// Test getting bidiTextDirection from style element.
-		for ( int n = testStyleData.length; n-- > 0; )
-		{
-			testStyleElementProperty( testStyleData[n][0], testStyleData[n][1] );
+		for (int n = testStyleData.length; n-- > 0;) {
+			testStyleElementProperty(testStyleData[n][0], testStyleData[n][1]);
 		}
-		NameSpace ns = design.getNameHelper( ).getNameSpace(
-				Module.STYLE_NAME_SPACE );
-		assertEquals( testStyleData.length, ns.getCount( ) );
+		NameSpace ns = design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE);
+		assertEquals(testStyleData.length, ns.getCount());
 
 		// Test getting non-style property value set in element itself.
-		for ( int n = testElementData.length; n-- > 0; )
-		{
-			testPropertyFromSelector( (String) testElementData[n][0],
-					(Boolean) testElementData[n][1],
-					(Boolean) testElementData[n][2] );
+		for (int n = testElementData.length; n-- > 0;) {
+			testPropertyFromSelector((String) testElementData[n][0], (Boolean) testElementData[n][1],
+					(Boolean) testElementData[n][2]);
 		}
 		// bidiLayoutOrientation property test
-		assertEquals( RTL, design.getProperty( design, ORIENTATION ) );
-		assertTrue( designHandle.isDirectionRTL( ) );
+		assertEquals(RTL, design.getProperty(design, ORIENTATION));
+		assertTrue(designHandle.isDirectionRTL());
 	}
 
 	/**
 	 * Tests the 'bidiTextDirection' style in Table.
-	 * 
-	 * @throws Exception
-	 *             any exception caught
+	 *
+	 * @throws Exception any exception caught
 	 */
 
-	public void testTable( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME );
+	public void testTable() throws Exception {
+		openDesign(IN_FILE_NAME);
 
 		// Test getting the style property value that is set on the predefined
 		// or custom style of one element's slot.
 
-		TableItem table = (TableItem) design.findElement( "testTable" ); //$NON-NLS-1$
-		testPropertyFromSelector( table, false, false, false, "Bidi-Style-LTR" ); //$NON-NLS-1$
+		TableItem table = (TableItem) design.findElement("testTable"); //$NON-NLS-1$
+		testPropertyFromSelector(table, false, false, false, "Bidi-Style-LTR"); //$NON-NLS-1$
 
-		DesignElement element = table.getSlot( TableItem.DETAIL_SLOT )
-				.getContent( 0 );
-		testPropertyFromSelector( element, true, false, false, "table-detail" ); //$NON-NLS-1$
+		DesignElement element = table.getSlot(TableItem.DETAIL_SLOT).getContent(0);
+		testPropertyFromSelector(element, true, false, false, "table-detail"); //$NON-NLS-1$
 
-		element = table.getSlot( TableItem.HEADER_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
+		element = table.getSlot(TableItem.HEADER_SLOT).getContent(0);
+		testPropertyFromSelector(element, false, false, true, "Bidi-Style-LTR"); //$NON-NLS-1$
 
-		element = table.getSlot( TableItem.HEADER_SLOT ).getContent( 1 );
-		testPropertyFromSelector( element, true, false, false, "Bidi-Style-RTL" ); //$NON-NLS-1$
+		element = table.getSlot(TableItem.HEADER_SLOT).getContent(1);
+		testPropertyFromSelector(element, true, false, false, "Bidi-Style-RTL"); //$NON-NLS-1$
 
-		element = table.getSlot( TableItem.FOOTER_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
+		element = table.getSlot(TableItem.FOOTER_SLOT).getContent(0);
+		testPropertyFromSelector(element, false, false, true, "Bidi-Style-LTR"); //$NON-NLS-1$
 
-		element = table.getSlot( TableItem.COLUMN_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
+		element = table.getSlot(TableItem.COLUMN_SLOT).getContent(0);
+		testPropertyFromSelector(element, false, false, true, "Bidi-Style-LTR"); //$NON-NLS-1$
 
-		table.setStyle( null );
-		testPropertyFromSelector( element, true, true, true, "table-detail" ); //$NON-NLS-1$
-		assertNull( table.getFactoryProperty( design, DIRECTION ) );
+		table.setStyle(null);
+		testPropertyFromSelector(element, true, true, true, "table-detail"); //$NON-NLS-1$
+		assertNull(table.getFactoryProperty(design, DIRECTION));
 
-		table.setStyleName( "Bidi-Style-RTL" ); //$NON-NLS-1$
-		testPropertyFromSelector( element, true, false, true, "Bidi-Style-RTL" ); //$NON-NLS-1$
-		assertNotNull( table.getFactoryProperty( design, DIRECTION ) );
+		table.setStyleName("Bidi-Style-RTL"); //$NON-NLS-1$
+		testPropertyFromSelector(element, true, false, true, "Bidi-Style-RTL"); //$NON-NLS-1$
+		assertNotNull(table.getFactoryProperty(design, DIRECTION));
 
-		table.setStyleName( "Bidi-Style-LTR" ); //$NON-NLS-1$
-		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
+		table.setStyleName("Bidi-Style-LTR"); //$NON-NLS-1$
+		testPropertyFromSelector(element, false, false, true, "Bidi-Style-LTR"); //$NON-NLS-1$
 	}
 
-	private void testStyleElementProperty( String name, String value )
-	{
-		StyleElement style = design.findStyle( name );
-		assertNotNull( style );
-		assertEquals( value, style.getStringProperty( design, DIRECTION ) );
+	private void testStyleElementProperty(String name, String value) {
+		StyleElement style = design.findStyle(name);
+		assertNotNull(style);
+		assertEquals(value, style.getStringProperty(design, DIRECTION));
 	}
 
-	private void testPropertyFromSelector( String name, boolean rtl,
-			boolean inherited )
-	{
-		testPropertyFromSelector(
-				designHandle.findElement( name ), rtl, inherited );
+	private void testPropertyFromSelector(String name, boolean rtl, boolean inherited) {
+		testPropertyFromSelector(designHandle.findElement(name), rtl, inherited);
 	}
 
-	private void testPropertyFromSelector( DesignElementHandle deh,
-			boolean rtl, boolean inherited )
-	{
-		assertNotNull( deh );
-		assertNull( deh.getStringProperty( ORIENTATION ) );
-		assertEquals( deh.isDirectionRTL( ), rtl );
-		assertEquals( deh.getStringProperty( DIRECTION ) == null, inherited );
+	private void testPropertyFromSelector(DesignElementHandle deh, boolean rtl, boolean inherited) {
+		assertNotNull(deh);
+		assertNull(deh.getStringProperty(ORIENTATION));
+		assertEquals(deh.isDirectionRTL(), rtl);
+		assertEquals(deh.getStringProperty(DIRECTION) == null, inherited);
 	}
 
-	private void testPropertyFromSelector( DesignElement element, boolean rtl,
-			boolean inherited, boolean factoryPropIsNull, String styleName )
-	{
-		assertNotNull( element );
-		DesignElementHandle deh = element.getHandle( design );
-		assertNotNull( deh );
-		testPropertyFromSelector( deh, rtl, inherited );
+	private void testPropertyFromSelector(DesignElement element, boolean rtl, boolean inherited,
+			boolean factoryPropIsNull, String styleName) {
+		assertNotNull(element);
+		DesignElementHandle deh = element.getHandle(design);
+		assertNotNull(deh);
+		testPropertyFromSelector(deh, rtl, inherited);
 
-		StyleElement style = design.findStyle( styleName );
-		assertNotNull( style );
-		assertEquals( rtl, RTL.equals( style.getStringProperty( design,
-				DIRECTION ) ) );
+		StyleElement style = design.findStyle(styleName);
+		assertNotNull(style);
+		assertEquals(rtl, RTL.equals(style.getStringProperty(design, DIRECTION)));
 
-		assertEquals( element.getFactoryProperty( design, DIRECTION ) == null,
-				factoryPropIsNull );
+		assertEquals(element.getFactoryProperty(design, DIRECTION) == null, factoryPropIsNull);
 	}
 
 	/**
 	 * Test writer.
-	 * 
-	 * @throws Exception
-	 *             any exception caught
+	 *
+	 * @throws Exception any exception caught
 	 */
-	public void testWriter( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME );
+	public void testWriter() throws Exception {
+		openDesign(IN_FILE_NAME);
 
-		DesignElementHandle handle = designHandle.findElement( "testLabel" ); //$NON-NLS-1$
-		handle.setStyleName( "Bidi-Style-LTR" ); //$NON-NLS-1$
+		DesignElementHandle handle = designHandle.findElement("testLabel"); //$NON-NLS-1$
+		handle.setStyleName("Bidi-Style-LTR"); //$NON-NLS-1$
 
-		handle = designHandle.findElement( "testText" ); //$NON-NLS-1$
-		StyleHandle style = handle.getPrivateStyle( );
-		style.setTextDirection( RTL );
+		handle = designHandle.findElement("testText"); //$NON-NLS-1$
+		StyleHandle style = handle.getPrivateStyle();
+		style.setTextDirection(RTL);
 
-		design.setProperty( ORIENTATION, LTR );
+		design.setProperty(ORIENTATION, LTR);
 
-		save( );
-		assertTrue( compareFile( GOLDEN_FILE_NAME ) );
+		save();
+		assertTrue(compareFile(GOLDEN_FILE_NAME));
 	}
 
 	/**
-	 * Get the member value of highlight rule to see if they are identical to
-	 * those specified in the input file.
-	 * 
-	 * @throws Exception
-	 *             any exception during writing the design file.
+	 * Get the member value of highlight rule to see if they are identical to those
+	 * specified in the input file.
+	 *
+	 * @throws Exception any exception during writing the design file.
 	 */
 
-	public void testReadHighlightRules( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME_1 );
+	public void testReadHighlightRules() throws Exception {
+		openDesign(IN_FILE_NAME_1);
 
-		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
+		StyleHandle styleHandle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
+		Iterator highlightHandles = styleHandle.highlightRulesIterator();
+		assertNotNull(highlightHandles);
 
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
-		assertNotNull( highlightHandle );
-		assertEquals( RTL, highlightHandle.getTextDirection( ) );
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
+		assertEquals(RTL, highlightHandle.getTextDirection());
 
 		// the second highlight rule
-		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
-		assertNotNull( highlightHandle );
-		assertNull( highlightHandle.getTextDirection( ) );
+		highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
+		assertNull(highlightHandle.getTextDirection());
 	}
 
 	/**
 	 * Test highlight writer.
-	 * 
-	 * @throws Exception
-	 *             any exception during reading/writing the design file.
+	 *
+	 * @throws Exception any exception during reading/writing the design file.
 	 */
 
-	public void testWriteHighlightRules( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME_1 );
+	public void testWriteHighlightRules() throws Exception {
+		openDesign(IN_FILE_NAME_1);
 
-		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
+		StyleHandle styleHandle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
+		Iterator highlightHandles = styleHandle.highlightRulesIterator();
+		assertNotNull(highlightHandles);
 
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
 
 		// invalid choice value
-		try
-		{
-			highlightHandle.setTextDirection( "nochoice" ); //$NON-NLS-1$ 
-			fail( );
+		try {
+			highlightHandle.setTextDirection("nochoice"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(e.getErrorCode(), PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND);
 		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals( e.getErrorCode( ),
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND );
-		}
-		highlightHandle.setTextDirection( LTR );
+		highlightHandle.setTextDirection(LTR);
 
 		// the second highlight rule.
 
-		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
-		assertNotNull( highlightHandle );
-		highlightHandle.setTextDirection( RTL );
-		assertEquals( RTL, highlightHandle.getTextDirection( ) );
+		highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
+		highlightHandle.setTextDirection(RTL);
+		assertEquals(RTL, highlightHandle.getTextDirection());
 
-		save( );
-		
-		assertTrue( compareFile( GOLDEN_FILE_NAME_1 ) );
+		save();
+
+		assertTrue(compareFile(GOLDEN_FILE_NAME_1));
 	}
 
 	/**
 	 * Test property search with Session Default.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws PropertyValueException
 	 */
-	public void testSessionDefault( ) throws DesignFileException,
-			PropertyValueException
-	{
-		openDesign( IN_FILE_NAME );
+	public void testSessionDefault() throws DesignFileException, PropertyValueException {
+		openDesign(IN_FILE_NAME);
 
-		DesignElementHandle grid = designHandle.findElement( "testGrid" ); //$NON-NLS-1$
-		assertNotNull( grid );
+		DesignElementHandle grid = designHandle.findElement("testGrid"); //$NON-NLS-1$
+		assertNotNull(grid);
 
 		// Session default value
-		design.getSession( ).setDefaultValue( DIRECTION, LTR );
+		design.getSession().setDefaultValue(DIRECTION, LTR);
 
-		assertEquals( LTR, grid.getStringProperty( DIRECTION ) );
-		assertFalse( grid.isDirectionRTL( ) );
+		assertEquals(LTR, grid.getStringProperty(DIRECTION));
+		assertFalse(grid.isDirectionRTL());
 
-		DesignElementHandle list = designHandle.findElement( "testList" ); //$NON-NLS-1$
-		assertNotNull( list );
+		DesignElementHandle list = designHandle.findElement("testList"); //$NON-NLS-1$
+		assertNotNull(list);
 		// List overrides the default
-		assertEquals( RTL, list.getStringProperty( DIRECTION ) );
-		assertTrue( list.isDirectionRTL( ) );
+		assertEquals(RTL, list.getStringProperty(DIRECTION));
+		assertTrue(list.isDirectionRTL());
 
 		// Remove session default value
-		design.getSession( ).setDefaultValue( DIRECTION, null );
+		design.getSession().setDefaultValue(DIRECTION, null);
 
-		assertTrue( grid.isDirectionRTL( ) );
-		assertNull( grid.getStringProperty( DIRECTION ) );
-		assertTrue( list.isDirectionRTL( ) );
-		assertEquals( RTL, list.getStringProperty( DIRECTION ) );
+		assertTrue(grid.isDirectionRTL());
+		assertNull(grid.getStringProperty(DIRECTION));
+		assertTrue(list.isDirectionRTL());
+		assertEquals(RTL, list.getStringProperty(DIRECTION));
 	}
 
 	/**
-	 * Tests the semantic errors of the Style, such as the font-size and width
-	 * are non-negative.
-	 * 
+	 * Tests the semantic errors of the Style, such as the font-size and width are
+	 * non-negative.
+	 *
 	 * @throws Exception
 	 */
 
-	public void testErrorValidation( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME );
+	public void testErrorValidation() throws Exception {
+		openDesign(IN_FILE_NAME);
 
-		DesignElementHandle text = designHandle.findElement( "testText" ); //$NON-NLS-1$
-		assertNotNull( text );
-		assertNotNull( designHandle.getProperty( ORIENTATION ) );
+		DesignElementHandle text = designHandle.findElement("testText"); //$NON-NLS-1$
+		assertNotNull(text);
+		assertNotNull(designHandle.getProperty(ORIENTATION));
 
-		Object oldValue = text.getProperty( DIRECTION );
-		text.setProperty( DIRECTION, null );
+		Object oldValue = text.getProperty(DIRECTION);
+		text.setProperty(DIRECTION, null);
 
-		try
-		{
-			text.setProperty( DIRECTION, LTR + "." ); //$NON-NLS-1$
-			fail( );
+		try {
+			text.setProperty(DIRECTION, LTR + "."); //$NON-NLS-1$
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e.getErrorCode());
+			testPropertyFromSelector(text, true, true);
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
-			testPropertyFromSelector( text, true, true );
+		try {
+			text.setProperty(DIRECTION, RTL + "_"); //$NON-NLS-1$
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e.getErrorCode());
+			testPropertyFromSelector(text, true, true);
 		}
-		try
-		{
-			text.setProperty( DIRECTION, RTL + "_" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
-			testPropertyFromSelector( text, true, true );
-		}
-		text.setProperty( DIRECTION, LTR.toUpperCase( ) );
-		testPropertyFromSelector( text, false, false );
+		text.setProperty(DIRECTION, LTR.toUpperCase());
+		testPropertyFromSelector(text, false, false);
 
-		text.setProperty( DIRECTION, RTL.toUpperCase( ) );
-		testPropertyFromSelector( text, true, false );
+		text.setProperty(DIRECTION, RTL.toUpperCase());
+		testPropertyFromSelector(text, true, false);
 
-		if ( oldValue != null )
-			text.setProperty( DIRECTION, oldValue );
+		if (oldValue != null) {
+			text.setProperty(DIRECTION, oldValue);
+		}
 
 		// Verify opening report design with invalid direction values fails.
-		try
-		{
-			openDesign( INVALID_FILE_NAME );
-			fail( );
-		}
-		catch ( DesignFileException e )
-		{
+		try {
+			openDesign(INVALID_FILE_NAME);
+			fail();
+		} catch (DesignFileException e) {
 			return;
 		}
-		assertTrue( false );
+		assertTrue(false);
 	}
 
 	/**
 	 * Tests the 'bidiTextDirection' style in TOC.
-	 * 
+	 *
 	 * @throws Exception
 	 */
-	public void testTOC( ) throws Exception
-	{
-		openDesign( IN_FILE_NAME );
-		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
+	public void testTOC() throws Exception {
+		openDesign(IN_FILE_NAME);
+		LabelHandle label = designHandle.getElementFactory().newLabel(null);
 
-		testPropertyFromSelector( label, false, true );
+		testPropertyFromSelector(label, false, true);
 
-		designHandle.getBody( ).add( label );
+		designHandle.getBody().add(label);
 
-		testPropertyFromSelector( label, designHandle.isDirectionRTL( ), true );
-		label.addTOC( "label toc expression" ); //$NON-NLS-1$
+		testPropertyFromSelector(label, designHandle.isDirectionRTL(), true);
+		label.addTOC("label toc expression"); //$NON-NLS-1$
 
-		TOCHandle tocHandle = label.getTOC( );
+		TOCHandle tocHandle = label.getTOC();
 
-		assertNull( tocHandle.getTextDirection( ) );
+		assertNull(tocHandle.getTextDirection());
 
-		CommandStack stack = designHandle.getCommandStack( );
-		stack.startTrans( null );
-		StyleHandle style = designHandle.getElementFactory( ).newStyle(
-				"newTocStyle" ); //$NON-NLS-1$
-		style.setTextDirection( LTR );
-		designHandle.getStyles( ).add( style );
-		tocHandle.setStyleName( style.getName( ) );
-		stack.commit( );
-		assertEquals( style.getTextDirection( ), tocHandle.getTextDirection( ) );
+		CommandStack stack = designHandle.getCommandStack();
+		stack.startTrans(null);
+		StyleHandle style = designHandle.getElementFactory().newStyle("newTocStyle"); //$NON-NLS-1$
+		style.setTextDirection(LTR);
+		designHandle.getStyles().add(style);
+		tocHandle.setStyleName(style.getName());
+		stack.commit();
+		assertEquals(style.getTextDirection(), tocHandle.getTextDirection());
 
-		stack.undo( );
+		stack.undo();
 
-		assertNull( tocHandle.getTextDirection( ) );
+		assertNull(tocHandle.getTextDirection());
 
 		// add style and set toc style
-		designHandle.getStyles( ).add( style );
-		tocHandle.setStyleName( style.getName( ) );
-		assertEquals( style.getTextDirection( ), tocHandle.getTextDirection( ) );
+		designHandle.getStyles().add(style);
+		tocHandle.setStyleName(style.getName());
+		assertEquals(style.getTextDirection(), tocHandle.getTextDirection());
 
-		stack.undo( );
+		stack.undo();
 
-		assertNull( tocHandle.getTextDirection( ) );
+		assertNull(tocHandle.getTextDirection());
 	}
 }

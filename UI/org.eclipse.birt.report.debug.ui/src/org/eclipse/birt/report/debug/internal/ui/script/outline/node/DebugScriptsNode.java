@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,27 +21,28 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * Script root node.
  */
 
-public class DebugScriptsNode extends ScriptsNode
-{
+public class DebugScriptsNode extends ScriptsNode {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 *
 	 * @param handle
 	 */
-	public DebugScriptsNode( ReportDesignHandle handle )
-	{
-		super( handle );
+	public DebugScriptsNode(ReportDesignHandle handle) {
+		super(handle);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode#getChildren()
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode#
+	 * getChildren()
 	 */
-	public Object[] getChildren( )
-	{
-		if ( getParent( ) != null )
-		{
-			DebugScriptedDesignVisitor visitor = new DebugScriptedDesignVisitor( );
-			return visitor.getScriptNodes( (ReportDesignHandle) getParent( ) )
-					.toArray( );
+	@Override
+	public Object[] getChildren() {
+		if (getParent() != null) {
+			DebugScriptedDesignVisitor visitor = new DebugScriptedDesignVisitor();
+			return visitor.getScriptNodes((ReportDesignHandle) getParent()).toArray();
 
 		}
 		return new Object[0];

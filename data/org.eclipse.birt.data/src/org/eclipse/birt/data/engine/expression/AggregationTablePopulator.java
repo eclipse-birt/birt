@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,24 +23,22 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 /**
  * This class is used to populate an AggregationTable.
  */
-final class AggregationTablePopulator
-{
+final class AggregationTablePopulator {
 	/**
 	 * No instance
 	 */
-	private AggregationTablePopulator()
-	{		
-	}
-	
-	/**
-	 * close the context
-	 */
-	public static void close( )
-	{
+	private AggregationTablePopulator() {
 	}
 
 	/**
-	 * Populate the AggregateTable instance using given AggregateObject. 
+	 * close the context
+	 */
+	public static void close() {
+	}
+
+	/**
+	 * Populate the AggregateTable instance using given AggregateObject.
+	 *
 	 * @param table
 	 * @param aggreObjList
 	 * @param groupLvl
@@ -45,33 +46,24 @@ final class AggregationTablePopulator
 	 * @return
 	 * @throws DataException
 	 */
-	public static int populateAggregationTable( AggregateTable table,
-			AggregateObject aggreObj, int groupLvl, int calculationLvl,
-			boolean aftergroup, boolean isDetailedRow, ScriptContext cx ) throws DataException
-	{
-		try
-		{
-			AggregateRegistry reg = table.getAggrRegistry( groupLvl,
-					calculationLvl,
-					isDetailedRow,
-					cx );
+	public static int populateAggregationTable(AggregateTable table, AggregateObject aggreObj, int groupLvl,
+			int calculationLvl, boolean aftergroup, boolean isDetailedRow, ScriptContext cx) throws DataException {
+		try {
+			AggregateRegistry reg = table.getAggrRegistry(groupLvl, calculationLvl, isDetailedRow, cx);
 
-			return reg.register( aggreObj.getAggregateExpr( ) );
-		}
-		catch ( DataException e )
-		{
+			return reg.register(aggreObj.getAggregateExpr());
+		} catch (DataException e) {
 			throw e;
 		}
 	}
 
 	/**
 	 * create an aggregate table for base query.
-	 * 
+	 *
 	 * @param query
 	 * @return
 	 */
-	public static AggregateTable createAggregateTable( String tempDir, BaseQuery query )
-	{
-		return new AggregateTable( tempDir, query );
+	public static AggregateTable createAggregateTable(String tempDir, BaseQuery query) {
+		return new AggregateTable(tempDir, query);
 	}
 }

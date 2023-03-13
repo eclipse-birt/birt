@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
 
      <!-- Extension points -->
    <extension-point id="odadatasource" name="%extension.odadatasource" schema="schema/datasource.exsd"/>
    <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
    <extension-point id="menuBuilders" name="%extension.menuBuilders" schema="schema/menuBuilders.exsd"/>
-   <extension-point id="elementAdapters" name="elementAdapters" schema="schema/elementAdapters.exsd"/>
-   <extension-point id="reportItemEditpart" name="BIRT Designer Report Item EditPart extension" schema="schema/reportItemEditpart.exsd"/>
-   <extension-point id="DNDServices" name="DND Services" schema="schema/DNDServices.exsd"/>
+   <extension-point id="elementAdapters" name="%extension-point.name" schema="schema/elementAdapters.exsd"/>
+   <extension-point id="reportItemEditpart" name="%extension-point.name.0" schema="schema/reportItemEditpart.exsd"/>
+   <extension-point id="DNDServices" name="%extension-point.name.1" schema="schema/DNDServices.exsd"/>
 
    
    <!-- ActionSets -->
@@ -38,7 +52,7 @@
           locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
                id="undoredo.toolbar"
-               label="Edit">
+               label="%toolbar.label">
             <command
                   commandId="org.eclipse.ui.edit.undo"
                   id="undoredo.undo"
@@ -310,7 +324,7 @@
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.InsertHandler"
             id="org.eclipse.birt.report.designer.ui.command.insertCommand"
-            name="insertCommand">
+            name="%command.name">
       </command>
       <commandParameterType
             converter="org.eclipse.birt.report.designer.internal.ui.command.SlotHandleConverter"
@@ -321,27 +335,27 @@
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CopyHandler"
             id="org.eclipse.birt.report.designer.ui.command.copyAction"
-            name="copyAction">
+            name="%command.name.0">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.PasteHandler"
             id="org.eclipse.birt.report.designer.ui.command.pasteAction"
-            name="pasteAction">
+            name="%command.name.1">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.DeleteHandler"
             id="org.eclipse.birt.report.designer.ui.command.deleteCommand"
-            name="deleteCommand">
+            name="%command.name.2">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CutHandler"
             id="org.eclipse.birt.report.designer.ui.command.cutCommand"
-            name="cutCommand">
+            name="%command.name.3">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.InsertRowHandler"
             id="org.eclipse.birt.report.designer.ui.command.insertRowCommand"
-            name="insertRowCommand">
+            name="%command.name.4">
       </command>
       <commandParameterType
             converter="org.eclipse.birt.report.designer.internal.ui.command.IntegerConverter"
@@ -350,37 +364,37 @@
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.InsertColumnHandler"
             id="org.eclipse.birt.report.designer.ui.command.insertColumnCommand"
-            name="insertColumnCommand">
+            name="%command.name.5">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.MergeHandler"
             id="org.eclipse.birt.report.designer.ui.command.mergeCommand"
-            name="mergeCommand">
+            name="%command.name.6">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.SplitCellHandler"
             id="org.eclipse.birt.report.designer.ui.command.splitCommand"
-            name="splitCommand">
+            name="%command.name.7">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CreatePlaceHolderHandler"
             id="org.eclipse.birt.report.designer.ui.command.createPlaceHolderCommand"
-            name="createPlaceHolderCommand">
+            name="%command.name.8">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.RevertToReportItemHandler"
             id="org.eclipse.birt.report.designer.ui.command.revertToReportItemCommand"
-            name="revertToReportItemCommand">
+            name="%command.name.9">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.RevertToTemplateHandler"
             id="org.eclipse.birt.report.designer.ui.command.revertToTemplateCommand"
-            name="revertToTemplateCommand">
+            name="%command.name.10">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ApplyStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.applyStyleCommand"
-            name="applyStyleCommand">
+            name="%command.name.11">
       </command>
       <commandParameterType
             converter="org.eclipse.birt.report.designer.internal.ui.command.BooleanConverter"
@@ -389,102 +403,102 @@
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.EditGroupHandler"
             id="org.eclipse.birt.report.designer.ui.command.editGroupCommand"
-            name="editGroupCommand">
+            name="%command.name.12">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.InsertGroupHanlder"
             id="org.eclipse.birt.report.designer.ui.command.insertGroupCommand"
-            name="insertGroupCommand">
+            name="%command.name.13">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.NewStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.newStyleCommand"
-            name="newStyleCommand">
+            name="%command.name.14">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.EditStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.editStyleCommand"
-            name="editStyleCommand">
+            name="%command.name.15">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ImpotCSSStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.importCSSCommand"
-            name="importCSSCommand">
+            name="%command.name.16">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.RefreshLibraryHandler"
             id="org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand"
-            name="refreshLibraryCommand">
+            name="%command.name.17">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ExportLibraryHandler"
             id="org.eclipse.birt.report.designer.ui.command.exportLibraryCommand"
-            name="exportLibraryCommand">
+            name="%command.name.18">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.PublishToTemplateHandler"
             id="org.eclipse.birt.report.designer.ui.command.publishToTemplateCommand"
-            name="publishToTemplateCommand">
+            name="%command.name.19">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.PublishToLibraryHandler"
             id="org.eclipse.birt.report.designer.ui.command.publishToLibraryCommand"
-            name="publishToLibraryCommand">
+            name="%command.name.20">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.EditHandler"
             id="org.eclipse.birt.report.designer.ui.command.editCommand"
-            name="editCommand">
+            name="%command.name.21">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.BaseInsertHandler"
             id="org.eclipse.birt.report.designer.ui.command.baseInsertCommand"
-            name="baseInsertCommand">
+            name="%command.name.22">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.InsertExpressionHandler"
             id="org.eclipse.birt.report.designer.ui.command.insertExpressionCommand"
-            name="insertExpressionCommand">
+            name="%command.name.23">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.DeleteRowHandler"
             id="org.eclipse.birt.report.designer.ui.command.deleteRowCommand"
-            name="deleteRowCommand">
+            name="%command.name.24">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.DeleteColumnHandler"
             id="org.eclipse.birt.report.designer.ui.command.deleteColumnCommand"
-            name="deleteColumnCommand">
+            name="%command.name.25">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.DeleteGrouphandler"
             id="org.eclipse.birt.report.designer.ui.command.deleteGroupCommand"
-            name="deleteGroupCommand">
+            name="%command.name.26">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.EditBindingHandler"
             id="org.eclipse.birt.report.designer.ui.command.editBindingCommand"
-            name="editBindingCommand">
+            name="%command.name.27">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ReloadCssStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.reloadCssStyleCommand"
-            name="reloadCssStyleCommand">
+            name="%command.name.28">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CopyCellContentsHandler"
             id="org.eclipse.birt.report.designer.ui.command.copyCellContentsCommand"
-            name="CopyCellContentsAction">
+            name="%command.name.29">
 	  </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CreateChartHandler"
             id="org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand"
-            name="CreateChartViewCommand">
+            name="%command.name.30">
       </command>
       <command
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ResetImageSizeHandler"
             id="org.eclipse.birt.report.designer.ui.command.resetImageSizeCommand"
-            name="resetImageSizeCommand">
+            name="%command.name.31">
       </command>
    </extension>
    <extension
@@ -599,7 +613,7 @@
    <extension
 	point="org.eclipse.ui.contexts">
 	<context
-		name="reportdesignereditpart.context"
+		name="%context.name"
 		id="org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"
 		parentId="org.eclipse.ui.contexts.window">
 	</context>

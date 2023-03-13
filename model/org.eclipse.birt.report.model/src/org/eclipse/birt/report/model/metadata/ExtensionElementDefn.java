@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,7 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
  * Represents the extension element definition based on Model extension point.
  * This class only used for those extension definition from third-party, not the
  * Model-defined standard elements.
- * 
+ *
  * <h3>Property Visibility</h3> All extension element definition support
  * property visibility, which defines to something like read-only, or hide. This
  * is used to help UI display the property value or the entire property. When
@@ -27,8 +30,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
  * definition.
  */
 
-public abstract class ExtensionElementDefn extends ElementDefn
-{
+public abstract class ExtensionElementDefn extends ElementDefn {
 
 	/**
 	 * The extension point that this extension definition extended from.
@@ -38,37 +40,37 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
 	 */
 
-	protected void build( ) throws MetaDataException
-	{
-		if ( isBuilt )
+	@Override
+	protected void build() throws MetaDataException {
+		if (isBuilt) {
 			return;
+		}
 
-		buildDefn( );
+		buildDefn();
 
 		// Cache data for properties defined here. Note, done here so
 		// we don't repeat the work for any style properties copied below.
 
-		buildProperties( );
+		buildProperties();
 
-		buildPropertiesVisibility( );
+		buildPropertiesVisibility();
 
-		buildContainerProperties( );
+		buildContainerProperties();
 
-		buildXmlName( );
+		buildXmlName();
 
 		// build slot
-		buildSlots( );
+		buildSlots();
 
 		// build validation trigger
-		buildTriggerDefnSet( );
+		buildTriggerDefnSet();
 
 		// if name is not defined, the set the name options
-		if ( cachedProperties.get( IDesignElementModel.NAME_PROP ) == null )
-		{
+		if (cachedProperties.get(IDesignElementModel.NAME_PROP) == null) {
 			nameConfig.nameOption = MetaDataConstants.NO_NAME;
 			nameConfig.nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
 			nameConfig.holder = null;
@@ -77,23 +79,20 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		isBuilt = true;
 	}
 
-	protected void buildXmlName( )
-	{
+	protected void buildXmlName() {
 
 	}
 
 	/**
-	 * Checks whether the property has the mask defined by the peer extension
-	 * given the property name.
-	 * 
-	 * @param propName
-	 *            the property name to check
+	 * Checks whether the property has the mask defined by the peer extension given
+	 * the property name.
+	 *
+	 * @param propName the property name to check
 	 * @return true if the style masks defined by peer extension of the item is
 	 *         found, otherwise false
 	 */
 
-	public boolean isMasked( String propName )
-	{
+	public boolean isMasked(String propName) {
 		// TODO: the mask for style property is not supported now.
 
 		return false;
@@ -101,12 +100,11 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 	/**
 	 * Gets the extension point of this extension element.
-	 * 
+	 *
 	 * @return the extension point of this extension element
 	 */
 
-	public String getExtensionPoint( )
-	{
+	public String getExtensionPoint() {
 		return this.extensionPoint;
 	}
 }

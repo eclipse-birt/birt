@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <feature
       id="org.eclipse.birt.osgi.runtime"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.13.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -19,8 +33,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
@@ -33,8 +47,7 @@
       <import plugin="org.eclipse.equinox.jsp.jasper.registry" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.equinox.http.registry" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="javax.servlet.jsp"/>
+      <import plugin="javax.servlet-api"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>
       <import plugin="org.eclipse.osgi.services"/>
@@ -47,6 +60,7 @@
       <import plugin="org.eclipse.datatools.connectivity.oda.profile" version="3.0.6" match="compatible"/>
       <import plugin="org.eclipse.datatools.connectivity" version="1.1.0" match="compatible"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design" version="3.0.2" match="compatible"/>
+      <import plugin="javax.servlet.jsp-api"/>
    </requires>
 
    <plugin
@@ -198,7 +212,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.data.oda.mongodb.ui"
          download-size="0"
@@ -212,30 +226,30 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="javax.xml.rpc"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.xml.soap"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.apache.axis"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.wsdl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -246,7 +260,7 @@
          unpack="false"/>
 
    <plugin
-         id="com.lowagie.text"
+         id="com.github.librepdf.openpdf"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -299,6 +313,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.apache.batik.codec"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
@@ -307,13 +328,6 @@
 
    <plugin
          id="org.apache.batik.dom.svg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -341,14 +355,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.util.gui"
+         id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.xml"
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -645,7 +659,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.w3c.dom.svg.extension"
          download-size="0"
@@ -653,5 +667,13 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
+   <plugin
+         id="org.apache.batik.transcoder.birt.ext"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
 </feature>

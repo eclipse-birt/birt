@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,112 +30,92 @@ import org.eclipse.jface.util.SafeRunnable;
 /**
  * ReportResourceSynchronizer
  */
-public class ReportResourceSynchronizer implements IReportResourceSynchronizer
-{
-	private static final Logger log = Logger.getLogger( ReportResourceSynchronizer.class.getName( ) );
+public class ReportResourceSynchronizer implements IReportResourceSynchronizer {
+	private static final Logger log = Logger.getLogger(ReportResourceSynchronizer.class.getName());
 
-	//protected ListenerList listeners = new ListenerList( );
-	private int[] eventTypes = new int[]
-	{
-		IReportResourceChangeEvent.NewResource,
-		IReportResourceChangeEvent.LibraySaveChange,
-		IReportResourceChangeEvent.ImageResourceChange,
-		IReportResourceChangeEvent.DataDesignSaveChange,
-		//IReportResourceChangeEvent.LibrayContentChange
+	// protected ListenerList listeners = new ListenerList( );
+	private int[] eventTypes = { IReportResourceChangeEvent.NewResource, IReportResourceChangeEvent.LibraySaveChange,
+			IReportResourceChangeEvent.ImageResourceChange, IReportResourceChangeEvent.DataDesignSaveChange,
+			// IReportResourceChangeEvent.LibrayContentChange
 	};
-	private Map<Integer, List<IReportResourceChangeListener>> listeners = new HashMap<Integer, List<IReportResourceChangeListener>>();
+	private Map<Integer, List<IReportResourceChangeListener>> listeners = new HashMap<>();
 
 	protected boolean disabled = false;
 
-	public ReportResourceSynchronizer( )
-	{
+	public ReportResourceSynchronizer() {
 	}
 
-	private void internalAddListener( int type, IReportResourceChangeListener listener )
-	{
-		List<IReportResourceChangeListener> list = listeners.get( type );
-		if (list == null)
-		{
-			list = new ArrayList<IReportResourceChangeListener>();
-			listeners.put( type, list );
+	private void internalAddListener(int type, IReportResourceChangeListener listener) {
+		List<IReportResourceChangeListener> list = listeners.get(type);
+		if (list == null) {
+			list = new ArrayList<>();
+			listeners.put(type, list);
 		}
-		list.add( listener );
+		list.add(listener);
 	}
 
-	public void addListener( int type, IReportResourceChangeListener listener )
-	{
-		if ( disabled )
-		{
+	@Override
+	public void addListener(int type, IReportResourceChangeListener listener) {
+		if (disabled) {
 			return;
 		}
-		for (int i=0; i<eventTypes.length; i++)
-		{
-			if ((type & eventTypes[i]) != 0)
-			{
-				internalAddListener( eventTypes[i], listener );
+		for (int i = 0; i < eventTypes.length; i++) {
+			if ((type & eventTypes[i]) != 0) {
+				internalAddListener(eventTypes[i], listener);
 			}
 		}
-		
+
 	}
-	
-	public void removeListener(int type,  IReportResourceChangeListener listener )
-	{
-		if ( disabled )
-		{
+
+	@Override
+	public void removeListener(int type, IReportResourceChangeListener listener) {
+		if (disabled) {
 			return;
 		}
-		for (int i=0; i<eventTypes.length; i++)
-		{
-			if ((type & eventTypes[i]) != 0)
-			{
-				internalRemoveListener( eventTypes[i], listener );
+		for (int i = 0; i < eventTypes.length; i++) {
+			if ((type & eventTypes[i]) != 0) {
+				internalRemoveListener(eventTypes[i], listener);
 			}
 		}
 	}
-	
-	private void internalRemoveListener(int type,  IReportResourceChangeListener listener )
-	{
-		List<IReportResourceChangeListener> list = listeners.get( type );
-		if (list != null)
-		{
-			list.remove( listener );
+
+	private void internalRemoveListener(int type, IReportResourceChangeListener listener) {
+		List<IReportResourceChangeListener> list = listeners.get(type);
+		if (list != null) {
+			list.remove(listener);
 		}
 	}
 
-	protected void notifyListeners( final IReportResourceChangeEvent event )
-	{
-		log.log( Level.FINE, event.toString( ) );
-		
-		//Object[] list = listeners.getListeners( );
-		List<IReportResourceChangeListener> list = listeners.get( event.getType( ) );
-		if (list == null)
-		{
+	protected void notifyListeners(final IReportResourceChangeEvent event) {
+		log.log(Level.FINE, event.toString());
+
+		// Object[] list = listeners.getListeners( );
+		List<IReportResourceChangeListener> list = listeners.get(event.getType());
+		if (list == null) {
 			return;
 		}
 
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			final IReportResourceChangeListener rcl = list.get( i );
+		for (int i = 0; i < list.size(); i++) {
+			final IReportResourceChangeListener rcl = list.get(i);
 
-			SafeRunner.run( new SafeRunnable( ) {
+			SafeRunner.run(new SafeRunnable() {
 
-				public void run( ) throws Exception
-				{
-					rcl.resourceChanged( event );
+				@Override
+				public void run() throws Exception {
+					rcl.resourceChanged(event);
 				}
-			} );
+			});
 		}
 
 	}
 
-	public void notifyResourceChanged( IReportResourceChangeEvent event )
-	{
-		if ( disabled )
-		{
+	@Override
+	public void notifyResourceChanged(IReportResourceChangeEvent event) {
+		if (disabled) {
 			return;
 		}
 
-		notifyListeners( event );
+		notifyListeners(event);
 	}
 
 }

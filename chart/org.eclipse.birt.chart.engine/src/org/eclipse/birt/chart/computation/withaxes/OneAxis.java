@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,8 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * renderer. Note that positions, orientations, rotation angles, etc could be
  * transposed and may not reflect the same values maintained by the model.
  */
-public final class OneAxis
-{
+public final class OneAxis {
 
 	private AutoScale sc;
 
@@ -66,50 +68,46 @@ public final class OneAxis
 	// if there is place to show labels
 	private boolean bShowLabels = true;
 
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
 	 * The constructor.
 	 */
-	OneAxis( Axis axModel )
-	{
+	OneAxis(Axis axModel) {
 		this.axModel = axModel;
-		gr = new Grid( );
+		gr = new Grid();
 		axisType = IConstants.UNDEFINED;
 	}
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param axModel
 	 * @param axisType
 	 */
-	OneAxis( Axis axModel, int axisType )
-	{
+	OneAxis(Axis axModel, int axisType) {
 		this.axModel = axModel;
-		gr = new Grid( );
+		gr = new Grid();
 		this.axisType = axisType;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getAxisType( )
-	{
+	public int getAxisType() {
 		return this.axisType;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param _iOrientation
 	 * @param _iLabelLocation
 	 * @param _iLabelRotation
 	 * @param _iTickStyle
 	 * @param _iAxisLocation
 	 */
-	void set( int _iOrientation, int _iLabelPosition, int _iTitlePosition,
-			boolean _bCategoryScale, boolean _bTickBwteenCategories )
-	{
+	void set(int _iOrientation, int _iLabelPosition, int _iTitlePosition, boolean _bCategoryScale,
+			boolean _bTickBwteenCategories) {
 		iOrientation = _iOrientation;
 		iLabelPosition = _iLabelPosition;
 		iTitlePosition = _iTitlePosition;
@@ -117,83 +115,69 @@ public final class OneAxis
 		bTickBwteenCategories = _bTickBwteenCategories;
 	}
 
-	public void setAxisCoordinate( double _dAxisRenderingCoordinate )
-	{
+	public void setAxisCoordinate(double _dAxisRenderingCoordinate) {
 		dAxisRenderingCoordinate = _dAxisRenderingCoordinate;
 	}
 
-	void setAxisCoordinate3D( Location3D loc3d )
-	{
+	void setAxisCoordinate3D(Location3D loc3d) {
 		locAxisRenderingCoordinate = loc3d;
 	}
 
-	public void setTitleCoordinate( double _dTitleRenderingCoordinate )
-	{
+	public void setTitleCoordinate(double _dTitleRenderingCoordinate) {
 		dTitleRenderingCoordinate = _dTitleRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getCombinedTickStyle( )
-	{
-		return gr.getTickStyle( IConstants.MAJOR )
-				| gr.getTickStyle( IConstants.MINOR );
+	public int getCombinedTickStyle() {
+		return gr.getTickStyle(IConstants.MAJOR) | gr.getTickStyle(IConstants.MINOR);
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getAxisCoordinate( )
-	{
+	public double getAxisCoordinate() {
 		return dAxisRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Location3D getAxisCoordinate3D( )
-	{
+	public Location3D getAxisCoordinate3D() {
 		return locAxisRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getTitleCoordinate( )
-	{
+	public double getTitleCoordinate() {
 		return dTitleRenderingCoordinate;
 	}
 
 	/**
 	 * @return
 	 */
-	public final int getLabelPosition( )
-	{
+	public int getLabelPosition() {
 		return iLabelPosition;
 	}
 
 	/**
 	 * @return
 	 */
-	public final int getTitlePosition( )
-	{
+	public int getTitlePosition() {
 		return iTitlePosition;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Axis getModelAxis( )
-	{
+	public Axis getModelAxis() {
 		return axModel;
 	}
 
-	final void setGridProperties( LineAttributes laMajorGrid,
-			LineAttributes laMinorGrid, LineAttributes laMajorTicks,
-			LineAttributes laMinorTicks, int iMajorTickStyle,
-			int iMinorTickStyle, int iMinorUnitsPerMajorUnit )
-	{
+	void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, LineAttributes laMajorTicks,
+			LineAttributes laMinorTicks, int iMajorTickStyle, int iMinorTickStyle, int iMinorUnitsPerMajorUnit) {
 		gr.laMajorGrid = laMajorGrid;
 		gr.laMinorGrid = laMinorGrid;
 		gr.laMajorTicks = laMajorTicks;
@@ -206,53 +190,45 @@ public final class OneAxis
 	/**
 	 * @return
 	 */
-	public final Grid getGrid( )
-	{
+	public Grid getGrid() {
 		return gr;
 	}
 
 	/**
 	 * @return
 	 */
-	public final int getOrientation( )
-	{
+	public int getOrientation() {
 		return iOrientation;
 	}
 
 	/**
 	 * @return
 	 */
-	public final boolean isCategoryScale( )
-	{
+	public boolean isCategoryScale() {
 		return bCategoryScale;
 	}
 
-	public final boolean isTickBwtweenCategories( )
-	{
+	public boolean isTickBwtweenCategories() {
 		// The default value of TickBwtweenCategories is true, and it should
 		// only take effect for category scale. Which means
 		// TickBwtweenCategories can only be false when
 		// bCategoryScale is true.
 		return !bCategoryScale || bTickBwteenCategories;
 	}
-	
-	public final Chart getChartModel( )
-	{
-		if ( axModel == null )
-		{
+
+	public Chart getChartModel() {
+		if (axModel == null) {
 			return null;
 		}
 
-		EObject ct = axModel.eContainer( );
+		EObject ct = axModel.eContainer();
 
-		while ( ct != null )
-		{
-			if ( ct instanceof ChartWithAxes )
-			{
+		while (ct != null) {
+			if (ct instanceof ChartWithAxes) {
 				return (Chart) ct;
 			}
 
-			ct = ct.eContainer( );
+			ct = ct.eContainer();
 		}
 
 		return null;
@@ -261,39 +237,32 @@ public final class OneAxis
 	/**
 	 * @return
 	 */
-	final boolean isAxisLabelStaggered( )
-	{
-		if ( axModel == null )
-		{
+	boolean isAxisLabelStaggered() {
+		if (axModel == null) {
 			return false;
 		}
 
 		ChartDimension dim = null;
 		Chart cm = getChartModel();
-		if ( cm != null )
-		{
-			dim = cm.getDimension( );
+		if (cm != null) {
+			dim = cm.getDimension();
 		}
-		
-		if ( dim == ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
+
+		if (dim == ChartDimension.THREE_DIMENSIONAL_LITERAL) {
 			return false;
 		}
-		
-		return axModel.isStaggered( );
+
+		return axModel.isStaggered();
 	}
 
-	final int getLableShowingInterval( )
-	{
-		if ( axModel == null )
-		{
+	int getLableShowingInterval() {
+		if (axModel == null) {
 			return 1;
 		}
 
-		int i = axModel.getInterval( );
+		int i = axModel.getInterval();
 
-		if ( i < 1 )
-		{
+		if (i < 1) {
 			return 1;
 		}
 
@@ -301,100 +270,86 @@ public final class OneAxis
 	}
 
 	/**
-	 * 
+	 *
 	 * @param _sc
 	 */
-	void set( AutoScale _sc )
-	{
+	void set(AutoScale _sc) {
 		sc = _sc;
 	}
 
 	/**
 	 * @return
 	 */
-	public AutoScale getScale( )
-	{
+	public AutoScale getScale() {
 		return sc;
 	}
 
-	void set( IntersectionValue _iv )
-	{
+	void set(IntersectionValue _iv) {
 		iv = _iv;
 	}
 
-	void set( Label _laAxisLabels, Label _laAxisTitle )
-	{
-		la = goFactory.copyOf( _laAxisLabels );
-		laTitle = goFactory.copyOf( _laAxisTitle );
+	void set(Label _laAxisLabels, Label _laAxisTitle) {
+		la = goFactory.copyOf(_laAxisLabels);
+		laTitle = goFactory.copyOf(_laAxisTitle);
 	}
 
-	void set( LineAttributes _la )
-	{
+	void set(LineAttributes _la) {
 		lia = _la;
 	}
 
 	/**
 	 * @return
 	 */
-	public final LineAttributes getLineAttributes( )
-	{
+	public LineAttributes getLineAttributes() {
 		return lia;
 	}
 
 	/**
 	 * @return
 	 */
-	public final IntersectionValue getIntersectionValue( )
-	{
+	public IntersectionValue getIntersectionValue() {
 		return iv;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Label getLabel( )
-	{
+	public Label getLabel() {
 		return la;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Label getTitle( )
-	{
+	public Label getTitle() {
 		return laTitle;
 	}
 
 	/**
 	 * @return
 	 */
-	public final FormatSpecifier getFormatSpecifier( )
-	{
-		return axModel.getFormatSpecifier( );
+	public FormatSpecifier getFormatSpecifier() {
+		return axModel.getFormatSpecifier();
 	}
 
 	/**
 	 * @return
 	 */
-	public final RunTimeContext getRunTimeContext( )
-	{
-		return sc.getRunTimeContext( );
+	public RunTimeContext getRunTimeContext() {
+		return sc.getRunTimeContext();
 	}
 
 	/**
 	 * @return Returns the bShowLabels.
 	 */
-	public final boolean isShowLabels( )
-	{
+	public boolean isShowLabels() {
 		return bShowLabels;
 	}
 
 	/**
-	 * @param bShowLabels
-	 *            The bShowLabels to set.
+	 * @param bShowLabels The bShowLabels to set.
 	 */
-	public final void setShowLabels( boolean bShowLabels )
-	{
+	public void setShowLabels(boolean bShowLabels) {
 		this.bShowLabels = bShowLabels;
 	}
 }

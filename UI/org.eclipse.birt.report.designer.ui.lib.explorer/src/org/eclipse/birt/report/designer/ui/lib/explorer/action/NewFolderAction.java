@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,123 +33,101 @@ import org.eclipse.jface.window.Window;
 /**
  * The action class for creating a folder in resource explorer.
  */
-public class NewFolderAction extends ResourceAction
-{
+public class NewFolderAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for creating folder.
-	 * 
-	 * @param page
-	 *            the resource explorer page
+	 *
+	 * @param page the resource explorer page
 	 */
-	public NewFolderAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "NewFolderAction.Text" ), page ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_FOLDER ) );
+	public NewFolderAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("NewFolderAction.Text"), page); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_FOLDER));
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		try
-		{
-			return canInsertIntoSelectedContainer( );
-		}
-		catch ( IOException e )
-		{
+	public boolean isEnabled() {
+		try {
+			return canInsertIntoSelectedContainer();
+		} catch (IOException e) {
 			return false;
 		}
 	}
 
 	@Override
-	public void run( )
-	{
+	public void run() {
 		File container = null;
 
-		try
-		{
-			container = getSelectedContainer( );
-		}
-		catch ( IOException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			container = getSelectedContainer();
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
 			return;
 		}
 
-		if ( container == null )
-		{
+		if (container == null) {
 			return;
 		}
 
-		String newName = queryNewResourceName( container );
+		String newName = queryNewResourceName(container);
 
-		if ( newName == null || newName.length( ) <= 0 )
-		{
+		if (newName == null || newName.length() <= 0) {
 			return;
 		}
 
-		File newFolder = new File(container, newName );
+		File newFolder = new File(container, newName);
 
-		if ( newFolder.mkdir( ) )
-		{
-			fireResourceChanged( newFolder.getAbsolutePath( ) );
+		if (newFolder.mkdir()) {
+			fireResourceChanged(newFolder.getAbsolutePath());
 		}
 	}
 
 	/**
 	 * Returns the new name to be given to the target resource.
-	 * 
-	 * @param container
-	 *            the container to query status on
+	 *
+	 * @param container the container to query status on
 	 * @return the new name to be given to the target resource.
 	 */
-	private String queryNewResourceName( final File container )
-	{
-		final IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+	private String queryNewResourceName(final File container) {
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-		IInputValidator validator = new IInputValidator( ) {
+		IInputValidator validator = new IInputValidator() {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String)
 			 */
-			public String isValid( String string )
-			{
-				if ( string == null || string.length( ) <= 0 )
-				{
-					return Messages.getString( "NewFolderAction.emptyName" ); //$NON-NLS-1$
+			@Override
+			public String isValid(String string) {
+				if (string == null || string.length() <= 0) {
+					return Messages.getString("NewFolderAction.emptyName"); //$NON-NLS-1$
 				}
 
-				File newPath = new File( container, string );
+				File newPath = new File(container, string);
 
-				if ( newPath.exists( ) )
-				{
-					return Messages.getString( "NewFolderAction.nameExists" ); //$NON-NLS-1$
+				if (newPath.exists()) {
+					return Messages.getString("NewFolderAction.nameExists"); //$NON-NLS-1$
 				}
 
-				IStatus status = workspace.validateName( newPath.getName( ),
-						IResource.FOLDER );
+				IStatus status = workspace.validateName(newPath.getName(), IResource.FOLDER);
 
-				if ( !status.isOK( ) )
-				{
-					return status.getMessage( );
+				if (!status.isOK()) {
+					return status.getMessage();
 				}
 				return null;
 			}
 		};
 
-		InputDialog dialog = new InputDialog( getShell( ),
-				Messages.getString( "NewFolderAction.inputDialogTitle" ), //$NON-NLS-1$
-				Messages.getString( "NewFolderAction.inputDialogMessage" ), //$NON-NLS-1$
+		InputDialog dialog = new InputDialog(getShell(), Messages.getString("NewFolderAction.inputDialogTitle"), //$NON-NLS-1$
+				Messages.getString("NewFolderAction.inputDialogMessage"), //$NON-NLS-1$
 				"", //$NON-NLS-1$
-				validator );
+				validator);
 
-		dialog.setBlockOnOpen( true );
-		int result = dialog.open( );
-		if ( result == Window.OK )
-		{
-			return dialog.getValue( );
+		dialog.setBlockOnOpen(true);
+		int result = dialog.open();
+		if (result == Window.OK) {
+			return dialog.getValue();
 		}
 		return null;
 	}

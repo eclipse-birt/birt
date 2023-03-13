@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -15,89 +27,77 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.window.Window;
 
-public class ReferenceDescriptorProvider extends AbstractDescriptorProvider implements
-		ITextDescriptorProvider
-{
+public class ReferenceDescriptorProvider extends AbstractDescriptorProvider implements ITextDescriptorProvider {
 
-	public boolean isEditable( )
-	{
+	@Override
+	public boolean isEditable() {
 		return false;
 	}
 
-	public String getDisplayName( )
-	{
-		return Messages.getString( "ReferencePage.Label.Source" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("ReferencePage.Label.Source"); //$NON-NLS-1$
 	}
 
 	private String property;
-	
+
 	private boolean isEnableButton;
-	public boolean isEnableButton(){
+
+	public boolean isEnableButton() {
 		return isEnableButton;
 	}
-	public Object load( )
-	{
-		String source = ( (ImageHandle) DEUtil.getInputFirstElement( input ) ).getSource( );
-		if ( source.equals( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED ) )
-		{
+
+	@Override
+	public Object load() {
+		String source = ((ImageHandle) DEUtil.getInputFirstElement(input)).getSource();
+		if (source.equals(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED)) {
 			property = ImageHandle.IMAGE_NAME_PROP;
-		}
-		else if ( source.equals( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR ) )
-		{
+		} else if (source.equals(DesignChoiceConstants.IMAGE_REF_TYPE_EXPR)) {
 			property = ImageHandle.VALUE_EXPR_PROP;
-		}
-		else
-		{
+		} else {
 			property = ImageHandle.URI_PROP;
 		}
-		return getStringValue( );
+		return getStringValue();
 	}
 
-	public void handleSelectEvent()
-	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
-				ImageBuilder.DLG_TITLE_EDIT );
-		dialog.setInput( DEUtil.getInputFirstElement( input ) );
-		stack.startTrans( Messages.getString( "ImageEditPart.trans.editImage" ) ); //$NON-NLS-1$
-		if ( Window.OK == dialog.open( ) )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollback( );
+	public void handleSelectEvent() {
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		ImageBuilder dialog = new ImageBuilder(UIUtil.getDefaultShell(), ImageBuilder.DLG_TITLE_EDIT);
+		dialog.setInput(DEUtil.getInputFirstElement(input));
+		stack.startTrans(Messages.getString("ImageEditPart.trans.editImage")); //$NON-NLS-1$
+		if (Window.OK == dialog.open()) {
+			stack.commit();
+		} else {
+			stack.rollback();
 		}
 	}
 
 	private Object input;
-	public void setInput( Object input )
-	{
+
+	@Override
+	public void setInput(Object input) {
 		this.input = input;
 	}
-	
-	private String getStringValue( )
-	{
+
+	private String getStringValue() {
 		String value = null;
-		if ( input instanceof GroupElementHandle )
-		{
-			value = ( (GroupElementHandle) input ).getStringProperty( property );
+		if (input instanceof GroupElementHandle) {
+			value = ((GroupElementHandle) input).getStringProperty(property);
+		} else if (input instanceof List) {
+			value = DEUtil.getGroupElementHandle((List) input).getStringProperty(property);
 		}
-		else if ( input instanceof List )
-		{
-			value = DEUtil.getGroupElementHandle( (List) input )
-					.getStringProperty( property );
+		if (value == null) {
+			isEnableButton = false;
+		} else {
+			isEnableButton = true;
 		}
-		if(value == null)isEnableButton = false;
-		else isEnableButton = true;
 		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
+	@Override
+	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

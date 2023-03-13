@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,31 +27,27 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testDoubleToString()}</td>
  * <td>Test doParse in the util</td>
  * <td>Parse dimension with locale correctly</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
-public class StringUtilTest extends BaseTestCase
-{
-
+public class StringUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests <code>doubleToString(double d, int fNumber, ULocale locale)</code>.
 	 */
 
-	public void testDoubleToString( )
-	{
-		assertEquals(
-				"123456,789", StringUtil.doubleToString( 123456.7890123, 3,ULocale.FRANCE ) ); //$NON-NLS-1$
-		
+	public void testDoubleToString() {
+		assertEquals("123456,789", StringUtil.doubleToString(123456.7890123, 3, ULocale.FRANCE)); //$NON-NLS-1$
+
 		// test the E-expo format double
-		assertEquals( "123456,7", StringUtil.doubleToString( 123.4567E3, 3,ULocale.FRANCE ) ); //$NON-NLS-1$
+		assertEquals("123456,7", StringUtil.doubleToString(123.4567E3, 3, ULocale.FRANCE)); //$NON-NLS-1$
 	}
 
 }

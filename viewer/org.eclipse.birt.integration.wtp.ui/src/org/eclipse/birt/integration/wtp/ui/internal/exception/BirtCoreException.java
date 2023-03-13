@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -18,10 +20,9 @@ import org.eclipse.core.runtime.Status;
 
 /**
  * Implement CoreException
- * 
+ *
  */
-public class BirtCoreException extends CoreException
-{
+public class BirtCoreException extends CoreException {
 
 	/**
 	 * Serial Version ID
@@ -30,29 +31,27 @@ public class BirtCoreException extends CoreException
 
 	/**
 	 * Default Constructor
-	 * 
+	 *
 	 * @param status
 	 */
-	public BirtCoreException( IStatus status )
-	{
-		super( status );
+	public BirtCoreException(IStatus status) {
+		super(status);
 	}
 
 	/**
 	 * Cast CoreException with message and exception
-	 * 
+	 *
 	 * @param message
 	 * @param e
 	 */
-	public static CoreException getException( String message, Exception e )
-	{
-		if ( message == null )
-			message = e.getMessage( );
+	public static CoreException getException(String message, Exception e) {
+		if (message == null) {
+			message = e.getMessage();
+		}
 
-		Status status = new Status( IStatus.ERROR, BirtWTPUIPlugin.PLUGIN_ID,
-				IStatus.ERROR, message, e );
+		Status status = new Status(IStatus.ERROR, BirtWTPUIPlugin.PLUGIN_ID, IStatus.ERROR, message, e);
 
-		return new CoreException( status );
+		return new CoreException(status);
 	}
 
 }

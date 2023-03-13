@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,9 +29,8 @@ import org.eclipse.debug.core.model.LineBreakpoint;
 /**
  * ScriptLineBreakpoint
  */
-public class ScriptLineBreakpoint extends LineBreakpoint
-{
-	private static final Logger logger = Logger.getLogger( ScriptLineBreakpoint.class.getName( ) );
+public class ScriptLineBreakpoint extends LineBreakpoint {
+	private static final Logger logger = Logger.getLogger(ScriptLineBreakpoint.class.getName());
 	/**
 	 * Break point type, script line break point
 	 */
@@ -41,163 +43,152 @@ public class ScriptLineBreakpoint extends LineBreakpoint
 	 * ID key
 	 */
 	public static final String SUBNAME = ScriptDocumentProvider.SUBNAME;
-	private static final String FILENAME =ScriptDocumentProvider.FILENAME;
+	private static final String FILENAME = ScriptDocumentProvider.FILENAME;
 	private static final String DISPLAYNAME = "display name";//$NON-NLS-1$
-	
+
 	private String type = LINEBREAKPOINT;
 
 	/**
-	 *Constructor 
+	 * Constructor
 	 */
-	public ScriptLineBreakpoint( )
-	{
+	public ScriptLineBreakpoint() {
 	}
 
-	/**Constructor 
+	/**
+	 * Constructor
+	 *
 	 * @param resource
 	 * @param name
 	 * @param subName
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public ScriptLineBreakpoint( final IResource resource, final String name,
-			final String subName, final int lineNumber, final String displayName ) throws CoreException
-	{
+	public ScriptLineBreakpoint(final IResource resource, final String name, final String subName, final int lineNumber,
+			final String displayName) throws CoreException {
 		assert resource != null;
 		assert subName != null;
-		IWorkspaceRunnable runnable = new IWorkspaceRunnable( ) {
+		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
-			public void run( IProgressMonitor monitor ) throws CoreException
-			{
-				IMarker marker = resource.createMarker( ScriptDocumentProvider.MARK_TYPE );//$NON-NLS-1$
-				setMarker( marker );
-				marker.setAttribute( IBreakpoint.ENABLED, Boolean.TRUE );
-				marker.setAttribute( IMarker.LINE_NUMBER, lineNumber );
-				marker.setAttribute( IBreakpoint.ID, getModelIdentifier( ) );
-				marker.setAttribute( IMarker.MESSAGE, "Line Breakpoint: "//$NON-NLS-1$
-						+ resource.getName( )
-						+ " [line: "//$NON-NLS-1$
-						+ lineNumber
-						+ "]" );//$NON-NLS-1$
-				marker.setAttribute( SUBNAME, subName );
-				marker.setAttribute( FILENAME, name );
-				setDisplayName( displayName );
+			@Override
+			public void run(IProgressMonitor monitor) throws CoreException {
+				IMarker marker = resource.createMarker(ScriptDocumentProvider.MARK_TYPE);// $NON-NLS-1$
+				setMarker(marker);
+				marker.setAttribute(IBreakpoint.ENABLED, Boolean.TRUE);
+				marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+				marker.setAttribute(IBreakpoint.ID, getModelIdentifier());
+				marker.setAttribute(IMarker.MESSAGE, "Line Breakpoint: "//$NON-NLS-1$
+						+ resource.getName() + " [line: "//$NON-NLS-1$
+						+ lineNumber + "]");//$NON-NLS-1$
+				marker.setAttribute(SUBNAME, subName);
+				marker.setAttribute(FILENAME, name);
+				setDisplayName(displayName);
 			}
 		};
-		run( getMarkerRule( resource ), runnable );
+		run(getMarkerRule(resource), runnable);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.debug.core.model.IBreakpoint#getModelIdentifier()
 	 */
-	public String getModelIdentifier( )
-	{
+	@Override
+	public String getModelIdentifier() {
 		return IScriptConstants.SCRIPT_DEBUG_MODEL;
 	}
 
-	/**Sets the display name;
+	/**
+	 * Sets the display name;
+	 *
 	 * @param name
 	 */
-	public void setDisplayName(String name)
-	{
-		try
-		{
-			getMarker( ).setAttribute( DISPLAYNAME, name );
-		}
-		catch ( CoreException e )
-		{
-			
-		}
-	}
-	
-	/**Gets the display name.
-	 * @return
-	 */
-	public String getDisplayName()
-	{
-		String retValue = ""; //$NON-NLS-1$
-		try
-		{
-			retValue = (String) getMarker( ).getAttribute( DISPLAYNAME );
-		}
-		catch ( CoreException e )
-		{
-			//do nothing
-		}
-		if (retValue == null || retValue.length( ) == 0)
-		{
-			retValue = getSubName( );
-		}
-		return retValue;
-	}
-	
-	/**Gets the id.
-	 * @return
-	 */
-	public String getSubName( )
-	{
-		try
-		{
-			return (String) getMarker( ).getAttribute( SUBNAME );
-		}
-		catch ( CoreException e )
-		{
-			logger.warning( e.getMessage( ) );
-			throw new Error( "Don't set the sub name" );//$NON-NLS-1$
+	public void setDisplayName(String name) {
+		try {
+			getMarker().setAttribute(DISPLAYNAME, name);
+		} catch (CoreException e) {
+
 		}
 	}
 
-	/**Gets the file name.
+	/**
+	 * Gets the display name.
+	 *
 	 * @return
 	 */
-	public String getFileName( ) 
-	{
-		try
-		{
-			return (String) getMarker( ).getAttribute( FILENAME );
+	public String getDisplayName() {
+		String retValue = ""; //$NON-NLS-1$
+		try {
+			retValue = (String) getMarker().getAttribute(DISPLAYNAME);
+		} catch (CoreException e) {
+			// do nothing
 		}
-		catch ( CoreException e )
-		{
+		if (retValue == null || retValue.length() == 0) {
+			retValue = getSubName();
+		}
+		return retValue;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return
+	 */
+	public String getSubName() {
+		try {
+			return (String) getMarker().getAttribute(SUBNAME);
+		} catch (CoreException e) {
+			logger.warning(e.getMessage());
+			throw new Error("Don't set the sub name");//$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Gets the file name.
+	 *
+	 * @return
+	 */
+	public String getFileName() {
+		try {
+			return (String) getMarker().getAttribute(FILENAME);
+		} catch (CoreException e) {
 			return "";
 		}
 	}
 
-	/**Gets the break point line number.
+	/**
+	 * Gets the break point line number.
+	 *
 	 * @return
 	 */
-	public int getScriptLineNumber( )
-	{
-		try
-		{
-			return getLineNumber( );
-		}
-		catch ( CoreException e )
-		{
+	public int getScriptLineNumber() {
+		try {
+			return getLineNumber();
+		} catch (CoreException e) {
 			// return 1;
 		}
 		return 1;
 	}
-	
-	/**Gets the break point type
-	 * See LINEBREAKPOINT and RUNTOLINE
+
+	/**
+	 * Gets the break point type See LINEBREAKPOINT and RUNTOLINE
+	 *
 	 * @return
 	 */
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
-	
-	/** Sets the break point type.
+	/**
+	 * Sets the break point type.
+	 *
 	 * @param type, LINEBREAKPOINT and RUNTOLINE
 	 */
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public boolean shouldSkipBreakpoint() throws CoreException {
 		DebugPlugin plugin = DebugPlugin.getDefault();
-        return plugin != null && isRegistered() && !plugin.getBreakpointManager().isEnabled();
+		return plugin != null && isRegistered() && !plugin.getBreakpointManager().isEnabled();
 	}
 }

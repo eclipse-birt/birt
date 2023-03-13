@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,69 +31,59 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * Command to shift library.
  */
 
-public class ShiftLibraryCommand extends AbstractElementCommand
-{
+public class ShiftLibraryCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructs the command with the module containing the changing library.
-	 * 
-	 * @param module
-	 *            the module containing the changing library
+	 *
+	 * @param module the module containing the changing library
 	 */
 
-	public ShiftLibraryCommand( Module module )
-	{
-		super( module, module );
+	public ShiftLibraryCommand(Module module) {
+		super(module, module);
 		assert module instanceof ReportDesign;
 	}
 
 	/**
 	 * Shifts the given library forwards or backwards.
-	 * 
-	 * @param library
-	 *            the library to shift
-	 * @param newPosn
-	 *            the new position to shift
-	 * @throws SemanticException
-	 *             if failed to shift <code>IncludeLibrary</code> structure
+	 *
+	 * @param library the library to shift
+	 * @param newPosn the new position to shift
+	 * @throws SemanticException if failed to shift <code>IncludeLibrary</code>
+	 *                           structure
 	 */
 
-	public void shiftLibrary( Library library, int newPosn )
-			throws SemanticException
-	{
-		List<Library> libraries = module.getLibraries( );
-		assert !libraries.isEmpty( );
+	public void shiftLibrary(Library library, int newPosn) throws SemanticException {
+		List<Library> libraries = module.getLibraries();
+		assert !libraries.isEmpty();
 
-		if ( !libraries.contains( library ) )
-			throw new LibraryException( library, new String[]{library
-					.getNamespace( )},
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		if (!libraries.contains(library)) {
+			throw new LibraryException(library, new String[] { library.getNamespace() },
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND);
+		}
 
 		// Move the new position so that it is in range.
 
-		int oldPosn = libraries.indexOf( library );
+		int oldPosn = libraries.indexOf(library);
 
-		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn,
-				libraries.size( ) );
+		int adjustedNewPosn = checkAndAdjustPosition(oldPosn, newPosn, libraries.size());
 
-		if ( oldPosn == adjustedNewPosn )
+		if (oldPosn == adjustedNewPosn) {
 			return;
+		}
 
-		ActivityStack stack = getActivityStack( );
+		ActivityStack stack = getActivityStack();
 
-		ShiftLibraryRecord record = new ShiftLibraryRecord( module, oldPosn,
-				adjustedNewPosn );
+		ShiftLibraryRecord record = new ShiftLibraryRecord(module, oldPosn, adjustedNewPosn);
 
-		stack.startTrans( record.getLabel( ) );
+		stack.startTrans(record.getLabel());
 
-		getActivityStack( ).execute( record );
+		getActivityStack().execute(record);
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, module );
-		ElementPropertyDefn propDefn = module
-				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
-		cmd.moveItem( new StructureContext( module, propDefn, null ), oldPosn,
-				newPosn );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand(module, module);
+		ElementPropertyDefn propDefn = module.getPropertyDefn(IModuleModel.LIBRARIES_PROP);
+		cmd.moveItem(new StructureContext(module, propDefn, null), oldPosn, newPosn);
 
-		stack.commit( );
+		stack.commit();
 	}
 }

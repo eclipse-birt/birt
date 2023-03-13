@@ -1,4 +1,18 @@
 <?xml version="1.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
 
 
@@ -87,14 +101,14 @@
 		<Arg>
 		  <New id="GzipHandler" class="org.eclipse.jetty.server.handler.gzip.GzipHandler">
 			<Set name="minGzipSize"><Property name="jetty.gzip.minGzipSize" deprecated="gzip.minGzipSize" default="2048"/></Set>
-			<Set name="checkGzExists"><Property name="jetty.gzip.checkGzExists" deprecated="gzip.checkGzExists" default="false"/></Set>
-			<Set name="compressionLevel"><Property name="jetty.gzip.compressionLevel" deprecated="gzip.compressionLevel" default="-1"/></Set>
+			<!--Set name="checkGzExists"><Property name="jetty.gzip.checkGzExists" deprecated="gzip.checkGzExists" default="false"/></Set-->
+			<!--Set name="compressionLevel"><Property name="jetty.gzip.compressionLevel" deprecated="gzip.compressionLevel" default="-1"/></Set-->
 			<Set name="syncFlush"><Property name="jetty.gzip.syncFlush" default="false" /></Set>
-			<Set name="excludedAgentPatterns">
+			<!--Set name="excludedAgentPatterns">
 			  <Array type="String">
 				<Item><Property name="jetty.gzip.excludedUserAgent" deprecated="gzip.excludedUserAgent" default=".*MSIE.6\.0.*"/></Item>
 			  </Array>
-			</Set>
+			</Set-->
 		  </New>
 		</Arg>
 	</Call>

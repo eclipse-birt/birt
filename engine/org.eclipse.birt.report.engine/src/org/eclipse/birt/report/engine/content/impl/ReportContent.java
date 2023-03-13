@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,10 +61,9 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Report content is the result of report generation.
- * 
+ *
  */
-public class ReportContent implements IReportContent
-{
+public class ReportContent implements IReportContent {
 
 	/**
 	 * css engine used by this report.
@@ -74,25 +76,25 @@ public class ReportContent implements IReportContent
 	/**
 	 * errors occured in the generation.
 	 */
-	private List<ElementExceptionInfo> errors = new ArrayList<ElementExceptionInfo>( );
+	private List<ElementExceptionInfo> errors = new ArrayList<>();
 
 	/**
 	 * toc of this report
 	 */
 	private ITreeNode tocTree;
-	
+
 	private IContent root;
-	
+
 	private long totalPage;
 
 	protected String acl;
-	
+
 	private IReportContext reportContext;
 
 	private ExecutionContext executionContext;
 
 	private Map<String, Object> userProperties;
-	
+
 	private Map<String, Object> extProperties;
 
 	private String title;
@@ -100,279 +102,260 @@ public class ReportContent implements IReportContent
 	/**
 	 * default constructor.
 	 */
-	public ReportContent( Report report )
-	{
-		cssEngine = report.getCSSEngine( );
+	public ReportContent(Report report) {
+		cssEngine = report.getCSSEngine();
 		this.report = report;
 		this.root = createContainerContent();
-		this.root.setStyleClass( report.getRootStyleName( ) );
+		this.root.setStyleClass(report.getRootStyleName());
 	}
 
 	/**
 	 * default constructor.
 	 */
-	public ReportContent( )
-	{
-		cssEngine = new BIRTCSSEngine( );
+	public ReportContent() {
+		cssEngine = new BIRTCSSEngine();
 	}
 
-	public Report getDesign( )
-	{
+	@Override
+	public Report getDesign() {
 		return report;
 	}
-	
-	public IStyle findStyle( String styleClass )
-	{
-		return ( report == null ) ? null : report.findStyle( styleClass );
+
+	@Override
+	public IStyle findStyle(String styleClass) {
+		return (report == null) ? null : report.findStyle(styleClass);
 	}
 
 	/**
 	 * get the css engine used in the report.
-	 * 
+	 *
 	 * @return css engine
 	 */
-	public CSSEngine getCSSEngine( )
-	{
+	public CSSEngine getCSSEngine() {
 		return cssEngine;
 	}
 
-	public IContent getRoot()
-	{
+	@Override
+	public IContent getRoot() {
 		return this.root;
 	}
-	
-	public IPageContent getPageContent(long pageNumber)
-	{
+
+	@Override
+	public IPageContent getPageContent(long pageNumber) {
 		return null;
 	}
-	
-	
+
 	/**
 	 * @return the pageNumber
 	 */
-	public long getTotalPage( )
-	{
+	@Override
+	public long getTotalPage() {
 		return totalPage;
 	}
 
-	
 	/**
 	 * @param pageNumber the pageNumber to set
 	 */
-	public void setTotalPage( long totalPage )
-	{
+	public void setTotalPage(long totalPage) {
 		this.totalPage = totalPage;
 	}
 
-	public IContent getContent(InstanceID id)
-	{
+	@Override
+	public IContent getContent(InstanceID id) {
 		return null;
 	}
-	
-	public IHyperlinkAction createActionContent( )
-	{
-		return new ActionContent( );
+
+	@Override
+	public IHyperlinkAction createActionContent() {
+		return new ActionContent();
 	}
 
-	public IStyle createStyle( )
-	{
-		return new StyleDeclaration( cssEngine );
-	}
-	
-	public ICellContent createCellContent( )
-	{
-		return new CellContent( this );
+	@Override
+	public IStyle createStyle() {
+		return new StyleDeclaration(cssEngine);
 	}
 
-	public IContainerContent createContainerContent( )
-	{
-		return new ContainerContent( this );
+	@Override
+	public ICellContent createCellContent() {
+		return new CellContent(this);
 	}
 
-	public IPageContent createPageContent( )
-	{
-		return new PageContent( this );
+	@Override
+	public IContainerContent createContainerContent() {
+		return new ContainerContent(this);
 	}
 
-	public IRowContent createRowContent( )
-	{
-		return new RowContent( this );
+	@Override
+	public IPageContent createPageContent() {
+		return new PageContent(this);
 	}
 
-	public IListContent createListContent( )
-	{
-		return new ListContent( this );
+	@Override
+	public IRowContent createRowContent() {
+		return new RowContent(this);
 	}
 
-	public IListGroupContent createListGroupContent( )
-	{
-		return new ListGroupContent( this );
-	}
-	
-	public IListBandContent createListBandContent( )
-	{
-		return new ListBandContent( this );
-	}
-	
-	public ITableContent createTableContent( )
-	{
-		return new TableContent( this );
-	}
-	
-	public ITableGroupContent createTableGroupContent( )
-	{
-		return new TableGroupContent( this );
+	@Override
+	public IListContent createListContent() {
+		return new ListContent(this);
 	}
 
-	public ITableBandContent createTableBandContent( )
-	{
-		return new TableBandContent( this );
-	}
-	
-	public ITextContent createTextContent( )
-	{
-		return new TextContent( this );
+	@Override
+	public IListGroupContent createListGroupContent() {
+		return new ListGroupContent(this);
 	}
 
-	public ITextContent createTextContent( IContent content )
-	{
-		return new TextContent( content );
+	@Override
+	public IListBandContent createListBandContent() {
+		return new ListBandContent(this);
 	}
 
-	public IDataContent createDataContent( )
-	{
-		return new DataContent( this );
+	@Override
+	public ITableContent createTableContent() {
+		return new TableContent(this);
 	}
 
-	public IDataContent createDataContent( IContent content )
-	{
-		return new DataContent( content );
+	@Override
+	public ITableGroupContent createTableGroupContent() {
+		return new TableGroupContent(this);
 	}
 
-	public ILabelContent createLabelContent( )
-	{
-		return new LabelContent( this );
+	@Override
+	public ITableBandContent createTableBandContent() {
+		return new TableBandContent(this);
 	}
 
-	public ILabelContent createLabelContent( IContent content )
-	{
-		return new LabelContent( content );
-	}
-	
-	public IAutoTextContent createAutoTextContent( )
-	{
-		return new AutoTextContent( this );
+	@Override
+	public ITextContent createTextContent() {
+		return new TextContent(this);
 	}
 
-	public IForeignContent createForeignContent( )
-	{
-		return new ForeignContent( this );
+	@Override
+	public ITextContent createTextContent(IContent content) {
+		return new TextContent(content);
 	}
 
-	public IForeignContent createForeignContent( IContent content )
-	{
-		return new ForeignContent( content );
+	@Override
+	public IDataContent createDataContent() {
+		return new DataContent(this);
 	}
 
-	public IImageContent createImageContent( )
-	{
-		return new ImageContent( this );
+	@Override
+	public IDataContent createDataContent(IContent content) {
+		return new DataContent(content);
 	}
 
-	public IImageContent createImageContent( IContent content )
-	{
-		return new ImageContent( content );
-	}
-	
-	public IImageContent createObjectContent( )
-	{
-		return new ObjectContent( this );
+	@Override
+	public ILabelContent createLabelContent() {
+		return new LabelContent(this);
 	}
 
-	public List<ElementExceptionInfo> getErrors( )
-	{
+	@Override
+	public ILabelContent createLabelContent(IContent content) {
+		return new LabelContent(content);
+	}
+
+	@Override
+	public IAutoTextContent createAutoTextContent() {
+		return new AutoTextContent(this);
+	}
+
+	@Override
+	public IForeignContent createForeignContent() {
+		return new ForeignContent(this);
+	}
+
+	public IForeignContent createForeignContent(IContent content) {
+		return new ForeignContent(content);
+	}
+
+	@Override
+	public IImageContent createImageContent() {
+		return new ImageContent(this);
+	}
+
+	@Override
+	public IImageContent createImageContent(IContent content) {
+		return new ImageContent(content);
+	}
+
+	public IImageContent createObjectContent() {
+		return new ObjectContent(this);
+	}
+
+	@Override
+	public List<ElementExceptionInfo> getErrors() {
 		return errors;
 	}
 
-	public void setErrors( List<ElementExceptionInfo> errors )
-	{
-		if ( errors != null )
-		{
+	public void setErrors(List<ElementExceptionInfo> errors) {
+		if (errors != null) {
 			this.errors = errors;
-		}
-		else
-		{
-			this.errors = new ArrayList<ElementExceptionInfo>( );
+		} else {
+			this.errors = new ArrayList<>();
 		}
 	}
 
-	public ITOCTree getTOCTree( String format, ULocale locale )
-	{
-		if ( tocTree == null )
-		{
+	@Override
+	public ITOCTree getTOCTree(String format, ULocale locale) {
+		if (tocTree == null) {
 			return null;
 		}
-		return new TOCView( tocTree, report.getReportDesign( ), locale,
-				TimeZone.getDefault( ) );
+		return new TOCView(tocTree, report.getReportDesign(), locale, TimeZone.getDefault());
 	}
-	
-	public void setTOCTree( ITreeNode tocTree )
-	{
+
+	public void setTOCTree(ITreeNode tocTree) {
 		this.tocTree = tocTree;
 	}
 
-	public TOCNode getTOC( )
-	{
-		return getTOCTree( "viewer", ULocale.getDefault( ) ).getRoot( );
+	@Override
+	public TOCNode getTOC() {
+		return getTOCTree("viewer", ULocale.getDefault()).getRoot();
 	}
-	
-	public String getACL( )
-	{
+
+	@Override
+	public String getACL() {
 		return acl;
 	}
 
-	public void setACL( String acl )
-	{
+	@Override
+	public void setACL(String acl) {
 		this.acl = acl;
 	}
-	
-	public IReportContext getReportContext( )
-	{
+
+	@Override
+	public IReportContext getReportContext() {
 		return reportContext;
 	}
-	
-	public void setReportContext( IReportContext context )
-	{
+
+	public void setReportContext(IReportContext context) {
 		this.reportContext = context;
 	}
 
-	public ExecutionContext getExecutionContext( )
-	{
+	public ExecutionContext getExecutionContext() {
 		return executionContext;
 	}
 
-	public void setExecutionContext( ExecutionContext executionContext )
-	{
+	public void setExecutionContext(ExecutionContext executionContext) {
 		this.executionContext = executionContext;
 	}
 
-	public Map<String, Object> getUserProperties( )
-	{
+	@Override
+	public Map<String, Object> getUserProperties() {
 		return userProperties;
 	}
 
-	public void setUserProperties( Map<String, Object> properties )
-	{
+	public void setUserProperties(Map<String, Object> properties) {
 		this.userProperties = properties;
 	}
 
-	public Map<String, Object> getExtensions( )
-	{
+	@Override
+	public Map<String, Object> getExtensions() {
 		return extProperties;
 	}
 
-	public void setExtensions( Map<String, Object> properties )
-	{
+	@Override
+	public void setExtensions(Map<String, Object> properties) {
 		this.extProperties = properties;
 	}
 
@@ -380,62 +363,54 @@ public class ReportContent implements IReportContent
 	final static short FIELD_USER_PROPERTIES = 1;
 	final static short FIELD_EXTENSIONS = 2;
 
-	public void readContent( DataInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		while ( in.available( ) > 0 )
-		{
-			int filedId = IOUtil.readShort( in );
-			readField( filedId, in, loader );
+	@Override
+	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
+		while (in.available() > 0) {
+			int filedId = IOUtil.readShort(in);
+			readField(filedId, in, loader);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readField( int fieldId, DataInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		switch ( fieldId )
-		{
-			case FIELD_ACL :
-				acl = IOUtil.readString( in );
-				break;
-			case FIELD_USER_PROPERTIES :
-				userProperties = (Map<String, Object>) IOUtil.readMap( in );
-				break;
-			case FIELD_EXTENSIONS :
-				extProperties = (Map<String, Object>) IOUtil.readMap( in );
-				break;
-			default :
-				throw new IOException( MessageConstants.UNKNOWN_FIELD_ID + fieldId );
+	private void readField(int fieldId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (fieldId) {
+		case FIELD_ACL:
+			acl = IOUtil.readString(in);
+			break;
+		case FIELD_USER_PROPERTIES:
+			userProperties = (Map<String, Object>) IOUtil.readMap(in);
+			break;
+		case FIELD_EXTENSIONS:
+			extProperties = (Map<String, Object>) IOUtil.readMap(in);
+			break;
+		default:
+			throw new IOException(MessageConstants.UNKNOWN_FIELD_ID + fieldId);
 		}
 	}
 
-	public void writeContent( DataOutputStream out ) throws IOException
-	{
-		if ( acl != null )
-		{
-			IOUtil.writeShort( out, FIELD_ACL );
-			IOUtil.writeObject( out, acl );
+	@Override
+	public void writeContent(DataOutputStream out) throws IOException {
+		if (acl != null) {
+			IOUtil.writeShort(out, FIELD_ACL);
+			IOUtil.writeObject(out, acl);
 		}
-		if ( userProperties != null && userProperties.size( ) > 0 )
-		{
-			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
-			IOUtil.writeMap( out, userProperties );
+		if (userProperties != null && userProperties.size() > 0) {
+			IOUtil.writeShort(out, FIELD_USER_PROPERTIES);
+			IOUtil.writeMap(out, userProperties);
 		}
-		if ( extProperties != null && !extProperties.isEmpty( ) )
-		{
-			IOUtil.writeShort( out, FIELD_EXTENSIONS );
-			IOUtil.writeMap( out, extProperties );
+		if (extProperties != null && !extProperties.isEmpty()) {
+			IOUtil.writeShort(out, FIELD_EXTENSIONS);
+			IOUtil.writeMap(out, extProperties);
 		}
 	}
 
-	public void setTitle( String title )
-	{
+	@Override
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getTitle( )
-	{
+	@Override
+	public String getTitle() {
 		return title;
 	}
 }

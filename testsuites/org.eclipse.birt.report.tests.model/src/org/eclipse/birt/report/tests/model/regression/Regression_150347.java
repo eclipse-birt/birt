@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -29,41 +32,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * ReportDesignHandle.
  * <p>
  */
-public class Regression_150347 extends BaseTestCase
-{
+public class Regression_150347 extends BaseTestCase {
 
 	/**
 	 * @throws IOException
 	 * @throws SemanticException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( "worm.jpg" , "worm.jpg" );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT("worm.jpg", "worm.jpg");
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_150347( ) throws IOException, SemanticException
-	{
-		ReportDesignHandle designHandle = this.createDesign( );
-		InputStream is = Regression_150347.class
-				.getResourceAsStream( "input/worm.jpg" ); //$NON-NLS-1$
 
-		byte[] imageBytes = streamToBytes( is );
+	public void test_regression_150347() throws IOException, SemanticException {
+		ReportDesignHandle designHandle = this.createDesign();
+		InputStream is = Regression_150347.class.getResourceAsStream("input/worm.jpg"); //$NON-NLS-1$
 
-		designHandle.setThumbnail( imageBytes );
-		byte[] data = designHandle.getThumbnail( );
+		byte[] imageBytes = streamToBytes(is);
 
-		assertEquals( imageBytes.length, data.length );
+		designHandle.setThumbnail(imageBytes);
+		byte[] data = designHandle.getThumbnail();
 
-		designHandle.deleteThumbnail( );
-		assertNull( designHandle.getThumbnail( ) );
+		assertEquals(imageBytes.length, data.length);
+
+		designHandle.deleteThumbnail();
+		assertNull(designHandle.getThumbnail());
 
 	}
 }

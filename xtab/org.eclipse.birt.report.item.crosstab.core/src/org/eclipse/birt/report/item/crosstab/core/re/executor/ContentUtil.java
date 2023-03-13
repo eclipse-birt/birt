@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,41 +64,30 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 /**
  * ContentUtil
  */
-class ContentUtil
-{
+class ContentUtil {
 
-	private static final Logger logger = Logger.getLogger( ContentUtil.class.getName( ) );
+	private static final Logger logger = Logger.getLogger(ContentUtil.class.getName());
 
 	/**
 	 * Prevent from instantiation
 	 */
-	private ContentUtil( )
-	{
+	private ContentUtil() {
 	}
 
-	static void processStyle( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator,
-			Map styleCache ) throws BirtException
-	{
-		IStyle style = processStyle( context.getReportContent( ),
-				handle,
-				evaluator,
-				styleCache );
+	static void processStyle(IExecutorContext context, IContent content, AbstractCrosstabItemHandle handle,
+			IBaseResultSet evaluator, Map styleCache) throws BirtException {
+		IStyle style = processStyle(context.getReportContent(), handle, evaluator, styleCache);
 
-		if ( style != null && !style.isEmpty( ) )
-		{
-			content.setInlineStyle( style );
+		if (style != null && !style.isEmpty()) {
+			content.setInlineStyle(style);
 		}
 	}
 
-	static IStyle processStyle( IReportContent reportContent,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator,
-			Map styleCache ) throws BirtException
-	{
-		ReportElementHandle modelHandle = getReportElementHandle( handle );
+	static IStyle processStyle(IReportContent reportContent, AbstractCrosstabItemHandle handle,
+			IBaseResultSet evaluator, Map styleCache) throws BirtException {
+		ReportElementHandle modelHandle = getReportElementHandle(handle);
 
-		if ( modelHandle == null || reportContent == null || evaluator == null )
-		{
+		if (modelHandle == null || reportContent == null || evaluator == null) {
 			return null;
 		}
 
@@ -105,447 +97,339 @@ class ContentUtil
 		Iterator<HighlightRuleHandle> highlightRules = null;
 		Iterator<IConditionalExpression> highlightCondExprs = null;
 
-		if ( styleCache != null )
-		{
-			Object[] cachedData = (Object[]) styleCache.get( modelHandle );
+		if (styleCache != null) {
+			Object[] cachedData = (Object[]) styleCache.get(modelHandle);
 
-			if ( cachedData != null )
-			{
+			if (cachedData != null) {
 				List<HighlightRuleHandle> rules = (List<HighlightRuleHandle>) cachedData[0];
-				if ( rules != null )
-				{
-					highlightRules = rules.iterator( );
+				if (rules != null) {
+					highlightRules = rules.iterator();
 				}
 
 				List<IConditionalExpression> exprs = (List<IConditionalExpression>) cachedData[1];
-				if ( exprs != null )
-				{
-					highlightCondExprs = exprs.iterator( );
+				if (exprs != null) {
+					highlightCondExprs = exprs.iterator();
 				}
-			}
-			else
-			{
+			} else {
 				List<HighlightRuleHandle> rules = null;
 				List<IConditionalExpression> exprs = null;
 
-				StyleHandle privateStyle = modelHandle.getPrivateStyle( );
+				StyleHandle privateStyle = modelHandle.getPrivateStyle();
 
-				if ( privateStyle != null )
-				{
-					rules = new ArrayList<HighlightRuleHandle>( );
-					exprs = new ArrayList<IConditionalExpression>( );
+				if (privateStyle != null) {
+					rules = new ArrayList<>();
+					exprs = new ArrayList<>();
 
-					Iterator itr = privateStyle.highlightRulesIterator( );
+					Iterator itr = privateStyle.highlightRulesIterator();
 
-					while ( itr != null && itr.hasNext( ) )
-					{
-						rules.add( (HighlightRuleHandle) itr.next( ) );
+					while (itr != null && itr.hasNext()) {
+						rules.add((HighlightRuleHandle) itr.next());
 					}
 
-					if ( rules.isEmpty( ) )
-					{
+					if (rules.isEmpty()) {
 						rules = null;
-					}
-					else
-					{
-						exprs = setupHighlightExprs( rules );
+					} else {
+						exprs = setupHighlightExprs(rules);
 
-						highlightRules = rules.iterator( );
-						highlightCondExprs = exprs.iterator( );
+						highlightRules = rules.iterator();
+						highlightCondExprs = exprs.iterator();
 					}
 				}
 
-				styleCache.put( modelHandle, new Object[]{
-						rules, exprs
-				} );
+				styleCache.put(modelHandle, new Object[] { rules, exprs });
 			}
-		}
-		else
-		{
-			StyleHandle privateStyle = modelHandle.getPrivateStyle( );
+		} else {
+			StyleHandle privateStyle = modelHandle.getPrivateStyle();
 
-			if ( privateStyle != null )
-			{
-				highlightRules = privateStyle.highlightRulesIterator( );
+			if (privateStyle != null) {
+				highlightRules = privateStyle.highlightRulesIterator();
 			}
 		}
 
-		if ( highlightRules == null )
-		{
+		if (highlightRules == null) {
 			return null;
 		}
 
-		IStyle highlightStyle = reportContent.createStyle( );
+		IStyle highlightStyle = reportContent.createStyle();
 
-		setupHighlightStyle( modelHandle,
-				highlightRules,
-				highlightCondExprs,
-				highlightStyle,
-				evaluator );
+		setupHighlightStyle(modelHandle, highlightRules, highlightCondExprs, highlightStyle, evaluator);
 
-		if ( !highlightStyle.isEmpty( ) )
-		{
+		if (!highlightStyle.isEmpty()) {
 			return highlightStyle;
 		}
 
 		return null;
 	}
 
-	private static List<IConditionalExpression> setupHighlightExprs(
-			List<HighlightRuleHandle> rules ) throws BirtException
-	{
-		List<IConditionalExpression> exprs = new ArrayList<IConditionalExpression>( );
+	private static List<IConditionalExpression> setupHighlightExprs(List<HighlightRuleHandle> rules)
+			throws BirtException {
+		List<IConditionalExpression> exprs = new ArrayList<>();
 
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+		DataRequestSession session = DataRequestSession
+				.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
 
-		try
-		{
-			IModelAdapter modelAdapter = session.getModelAdaptor( );
+		try {
+			IModelAdapter modelAdapter = session.getModelAdaptor();
 
-			for ( HighlightRuleHandle rule : rules )
-			{
-				IConditionalExpression expression = convertHighlightExpression( rule,
-						modelAdapter );
+			for (HighlightRuleHandle rule : rules) {
+				IConditionalExpression expression = convertHighlightExpression(rule, modelAdapter);
 
-				exprs.add( expression );
+				exprs.add(expression);
 			}
-		}
-		finally
-		{
-			session.shutdown( );
+		} finally {
+			session.shutdown();
 		}
 
 		return exprs;
 	}
 
-	private static IConditionalExpression convertHighlightExpression(
-			HighlightRuleHandle rule, IModelAdapter modelAdapter )
-	{
+	private static IConditionalExpression convertHighlightExpression(HighlightRuleHandle rule,
+			IModelAdapter modelAdapter) {
 		ConditionalExpression condExpr = null;
 
-		if ( ModuleUtil.isListStyleRuleValue( rule ) )
-		{
+		if (ModuleUtil.isListStyleRuleValue(rule)) {
 			List<ScriptExpression> vals = null;
 
-			List<Expression> val1list = rule.getValue1ExpressionList( )
-					.getListValue( );
+			List<Expression> val1list = rule.getValue1ExpressionList().getListValue();
 
-			if ( val1list != null )
-			{
-				vals = new ArrayList<ScriptExpression>( );
+			if (val1list != null) {
+				vals = new ArrayList<>();
 
-				for ( Expression expr : val1list )
-				{
-					vals.add( modelAdapter.adaptExpression( expr,
-							ExpressionLocation.CUBE ) );
+				for (Expression expr : val1list) {
+					vals.add(modelAdapter.adaptExpression(expr, ExpressionLocation.CUBE));
 				}
 			}
 
-			condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-					.getValue( ),
-					ExpressionLocation.CUBE ),
-					DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-					vals );
-		}
-		else
-		{
+			condExpr = new ConditionalExpression(
+					modelAdapter.adaptExpression(
+							(Expression) rule.getExpressionProperty(HighlightRule.TEST_EXPR_MEMBER).getValue(),
+							ExpressionLocation.CUBE),
+					DataAdapterUtil.adaptModelFilterOperator(rule.getOperator()), vals);
+		} else {
 			Expression value1 = null;
 
-			List<Expression> val1list = rule.getValue1ExpressionList( )
-					.getListValue( );
+			List<Expression> val1list = rule.getValue1ExpressionList().getListValue();
 
-			if ( val1list != null && val1list.size( ) > 0 )
-			{
-				value1 = val1list.get( 0 );
+			if (val1list != null && val1list.size() > 0) {
+				value1 = val1list.get(0);
 			}
 
-			condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-					.getValue( ),
-					ExpressionLocation.CUBE ),
-					DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-					modelAdapter.adaptExpression( value1,
-							ExpressionLocation.CUBE ),
-					modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( StyleRule.VALUE2_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ) );
+			condExpr = new ConditionalExpression(
+					modelAdapter.adaptExpression(
+							(Expression) rule.getExpressionProperty(HighlightRule.TEST_EXPR_MEMBER).getValue(),
+							ExpressionLocation.CUBE),
+					DataAdapterUtil.adaptModelFilterOperator(rule.getOperator()),
+					modelAdapter.adaptExpression(value1, ExpressionLocation.CUBE),
+					modelAdapter.adaptExpression(
+							(Expression) rule.getExpressionProperty(StyleRule.VALUE2_MEMBER).getValue(),
+							ExpressionLocation.CUBE));
 		}
 
-		return ExpressionUtil.transformConditionalExpression( condExpr );
+		return ExpressionUtil.transformConditionalExpression(condExpr);
 	}
 
-	private static void setupHighlightStyle( ReportElementHandle handle,
-			Iterator<HighlightRuleHandle> highlightRules,
-			Iterator<IConditionalExpression> cachedHighlightCondExprs,
-			IStyle style, IBaseResultSet evaluator ) throws BirtException
-	{
-		if ( cachedHighlightCondExprs != null )
-		{
-			while ( highlightRules.hasNext( ) )
-			{
-				HighlightRuleHandle rule = highlightRules.next( );
+	private static void setupHighlightStyle(ReportElementHandle handle, Iterator<HighlightRuleHandle> highlightRules,
+			Iterator<IConditionalExpression> cachedHighlightCondExprs, IStyle style, IBaseResultSet evaluator)
+			throws BirtException {
+		if (cachedHighlightCondExprs != null) {
+			while (highlightRules.hasNext()) {
+				HighlightRuleHandle rule = highlightRules.next();
 
-				IConditionalExpression expression = cachedHighlightCondExprs.next( );
+				IConditionalExpression expression = cachedHighlightCondExprs.next();
 
-				try
-				{
-					Object value = evaluator.evaluate( expression );
+				try {
+					Object value = evaluator.evaluate(expression);
 
-					if ( value instanceof Boolean
-							&& ( (Boolean) value ).booleanValue( ) )
-					{
-						setupRuleStyle( rule, style );
+					if (value instanceof Boolean && ((Boolean) value).booleanValue()) {
+						setupRuleStyle(rule, style);
 					}
-				}
-				catch ( BirtException e )
-				{
+				} catch (BirtException e) {
 					// only log a warning for invalid highlight rule processing
-					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+					logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 				}
 			}
 
 			return;
 		}
 
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+		DataRequestSession session = DataRequestSession
+				.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
 
-		try
-		{
-			IModelAdapter modelAdapter = session.getModelAdaptor( );
+		try {
+			IModelAdapter modelAdapter = session.getModelAdaptor();
 
-			while ( highlightRules.hasNext( ) )
-			{
-				HighlightRuleHandle rule = highlightRules.next( );
+			while (highlightRules.hasNext()) {
+				HighlightRuleHandle rule = highlightRules.next();
 
-				IConditionalExpression expression = convertHighlightExpression( rule,
-						modelAdapter );
+				IConditionalExpression expression = convertHighlightExpression(rule, modelAdapter);
 
-				try
-				{
-					Object value = evaluator.evaluate( expression );
+				try {
+					Object value = evaluator.evaluate(expression);
 
-					if ( value instanceof Boolean
-							&& ( (Boolean) value ).booleanValue( ) )
-					{
-						setupRuleStyle( rule, style );
+					if (value instanceof Boolean && ((Boolean) value).booleanValue()) {
+						setupRuleStyle(rule, style);
 					}
-				}
-				catch ( BirtException e )
-				{
+				} catch (BirtException e) {
 					// only log a warning for invalid highlight rule processing
-					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+					logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 				}
 			}
-		}
-		finally
-		{
-			session.shutdown( );
+		} finally {
+			session.shutdown();
 		}
 	}
 
-	static void processVisibility( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
-			throws BirtException
-	{
-		String visibleFormat = processVisibility( handle, evaluator );
+	static void processVisibility(IExecutorContext context, IContent content, AbstractCrosstabItemHandle handle,
+			IBaseResultSet evaluator) throws BirtException {
+		String visibleFormat = processVisibility(handle, evaluator);
 
-		if ( visibleFormat != null )
-		{
-			IStyle style = content.getInlineStyle( );
+		if (visibleFormat != null) {
+			IStyle style = content.getInlineStyle();
 
-			if ( style == null )
-			{
-				style = context.getReportContent( ).createStyle( );
-				content.setInlineStyle( style );
+			if (style == null) {
+				style = context.getReportContent().createStyle();
+				content.setInlineStyle(style);
 			}
 
-			style.setVisibleFormat( visibleFormat );
+			style.setVisibleFormat(visibleFormat);
 		}
 
 	}
 
-	static String processVisibility( AbstractCrosstabItemHandle handle,
-			IBaseResultSet evaluator ) throws BirtException
-	{
-		ReportItemHandle modelHandle = getReportItemHandle( handle );
+	static String processVisibility(AbstractCrosstabItemHandle handle, IBaseResultSet evaluator) throws BirtException {
+		ReportItemHandle modelHandle = getReportItemHandle(handle);
 
-		if ( modelHandle == null || evaluator == null )
-		{
+		if (modelHandle == null || evaluator == null) {
 			return null;
 		}
 
-		Iterator visItr = modelHandle.visibilityRulesIterator( );
+		Iterator visItr = modelHandle.visibilityRulesIterator();
 
-		if ( visItr != null && visItr.hasNext( ) )
-		{
-			StringBuffer buffer = new StringBuffer( );
+		if (visItr != null && visItr.hasNext()) {
+			StringBuilder buffer = new StringBuilder();
 
-			while ( visItr.hasNext( ) )
-			{
-				HideRuleHandle rule = (HideRuleHandle) visItr.next( );
+			while (visItr.hasNext()) {
+				HideRuleHandle rule = (HideRuleHandle) visItr.next();
 
-				String expr = validExpression( rule.getExpression( ) );
+				String expr = validExpression(rule.getExpression());
 
 				Object result = null;
-				if ( expr != null )
-				{
-					result = evaluateExpression( rule.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER ),
-							evaluator );
+				if (expr != null) {
+					result = evaluateExpression(rule.getExpressionProperty(HideRule.VALUE_EXPR_MEMBER), evaluator);
 				}
 
-				if ( result == null || !( result instanceof Boolean ) )
-				{
+				if (result == null || !(result instanceof Boolean)) {
 					continue;
 				}
 
-				boolean isHidden = ( (Boolean) result ).booleanValue( );
-				if ( !isHidden )
-				{
+				boolean isHidden = ((Boolean) result).booleanValue();
+				if (!isHidden) {
 					continue;
 				}
 
 				// we should use rule as the string as
-				buffer.append( rule.getFormat( ) ).append( ", " ); //$NON-NLS-1$
+				buffer.append(rule.getFormat()).append(", "); //$NON-NLS-1$
 			}
 
-			int len = buffer.length( );
-			if ( len > 2 )
-			{
-				buffer.delete( len - 2, len );
+			int len = buffer.length();
+			if (len > 2) {
+				buffer.delete(len - 2, len);
 			}
 
-			return buffer.toString( );
+			return buffer.toString();
 		}
 
 		return null;
 	}
 
-	static void processScope( IExecutorContext context, ICellContent content,
-			CrosstabCellHandle handle, IBaseResultSet evaluator )
-			throws BirtException
-	{
-		if ( handle == null
-				|| evaluator == null
-				|| handle.getModelHandle( ) == null )
-		{
+	static void processScope(IExecutorContext context, ICellContent content, CrosstabCellHandle handle,
+			IBaseResultSet evaluator) throws BirtException {
+		if (handle == null || evaluator == null || handle.getModelHandle() == null) {
 			return;
 		}
 
-		String scope = handle.getModelHandle( )
-				.getStringProperty( ICellModel.SCOPE_PROP );
-		if ( scope != null )
-		{
-			content.setScope( scope );
+		String scope = handle.getModelHandle().getStringProperty(ICellModel.SCOPE_PROP);
+		if (scope != null) {
+			content.setScope(scope);
 		}
 	}
 
-	static void processHeaders( IExecutorContext context, ICellContent content,
-			CrosstabCellHandle handle, IBaseResultSet evaluator )
-			throws BirtException
-	{
-		if ( handle == null
-				|| evaluator == null
-				|| handle.getModelHandle( ) == null )
-		{
+	static void processHeaders(IExecutorContext context, ICellContent content, CrosstabCellHandle handle,
+			IBaseResultSet evaluator) throws BirtException {
+		if (handle == null || evaluator == null || handle.getModelHandle() == null) {
 			return;
 		}
 
-		String headers = handle.getModelHandle( )
-				.getStringProperty( ICellModel.HEADERS_PROP );
-		if ( validExpression( headers ) != null )
-		{
-			Object tmp = evaluateExpression( handle.getModelHandle( )
-					.getExpressionProperty( ICellModel.HEADERS_PROP ),
-					evaluator );
-			if ( tmp != null && !tmp.equals( "" ) ) //$NON-NLS-1$
+		String headers = handle.getModelHandle().getStringProperty(ICellModel.HEADERS_PROP);
+		if (validExpression(headers) != null) {
+			Object tmp = evaluateExpression(handle.getModelHandle().getExpressionProperty(ICellModel.HEADERS_PROP),
+					evaluator);
+			if (tmp != null && !tmp.equals("")) //$NON-NLS-1$
 			{
-				content.setHeaders( tmp.toString( ) );
+				content.setHeaders(tmp.toString());
 			}
 		}
 	}
 
-	static void processBookmark( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
-			throws BirtException
-	{
-		ReportItemHandle modelHandle = getReportItemHandle( handle );
+	static void processBookmark(IExecutorContext context, IContent content, AbstractCrosstabItemHandle handle,
+			IBaseResultSet evaluator) throws BirtException {
+		ReportItemHandle modelHandle = getReportItemHandle(handle);
 
-		if ( modelHandle == null || evaluator == null )
-		{
+		if (modelHandle == null || evaluator == null) {
 			return;
 		}
 
-		String bookmark = modelHandle.getBookmark( );
-		if ( validExpression( bookmark ) != null )
-		{
-			Object tmp = evaluateExpression( modelHandle.getExpressionProperty( IReportItemModel.BOOKMARK_PROP ),
-					evaluator );
-			if ( tmp != null && !tmp.equals( "" ) ) //$NON-NLS-1$
+		String bookmark = modelHandle.getBookmark();
+		if (validExpression(bookmark) != null) {
+			Object tmp = evaluateExpression(modelHandle.getExpressionProperty(IReportItemModel.BOOKMARK_PROP),
+					evaluator);
+			if (tmp != null && !tmp.equals("")) //$NON-NLS-1$
 			{
-				content.setBookmark( tmp.toString( ) );
+				content.setBookmark(tmp.toString());
 			}
 		}
 
-		TOCHandle toc = modelHandle.getTOC( );
-		if ( toc != null && validExpression( toc.getExpression( ) ) != null )
-		{
-			Object tmp = evaluateExpression( toc.getExpressionProperty( TOC.TOC_EXPRESSION ),
-					evaluator );
-			if ( tmp != null )
-			{
-				content.setTOC( tmp );
+		TOCHandle toc = modelHandle.getTOC();
+		if (toc != null && validExpression(toc.getExpression()) != null) {
+			Object tmp = evaluateExpression(toc.getExpressionProperty(TOC.TOC_EXPRESSION), evaluator);
+			if (tmp != null) {
+				content.setTOC(tmp);
 			}
 		}
 
 	}
 
-	static void processAction( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle )
-	{
-		// TODO no action for crosstab itself?
-		return;
+	static void processAction(IExecutorContext context, IContent content, AbstractCrosstabItemHandle handle) {
 	}
 
-	private static String validExpression( String expr )
-	{
-		if ( expr != null && expr.trim( ).length( ) > 0 )
-		{
+	private static String validExpression(String expr) {
+		if (expr != null && expr.trim().length() > 0) {
 			return expr;
 		}
 		return null;
 	}
 
-	private static Object evaluateExpression( ExpressionHandle expHandle,
-			IBaseResultSet evaluator ) throws BirtException
-	{
-		if ( expHandle != null )
-		{
+	private static Object evaluateExpression(ExpressionHandle expHandle, IBaseResultSet evaluator)
+			throws BirtException {
+		if (expHandle != null) {
 			// XXX note this method cannot process the "constant" type, need use
 			// modeladapter in that case.
-			return evaluator.evaluate( expHandle.getType( ),
-					expHandle.getStringExpression( ) );
+			return evaluator.evaluate(expHandle.getType(), expHandle.getStringExpression());
 		}
 
 		return null;
 	}
 
-	private static ReportItemHandle getReportItemHandle(
-			AbstractCrosstabItemHandle handle )
-	{
-		if ( handle != null
-				&& handle.getModelHandle( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) handle.getModelHandle( );
+	private static ReportItemHandle getReportItemHandle(AbstractCrosstabItemHandle handle) {
+		if (handle != null && handle.getModelHandle() instanceof ReportItemHandle) {
+			return (ReportItemHandle) handle.getModelHandle();
 		}
 		return null;
 	}
 
-	private static ReportElementHandle getReportElementHandle(
-			AbstractCrosstabItemHandle handle )
-	{
-		if ( handle != null
-				&& handle.getModelHandle( ) instanceof ReportElementHandle )
-		{
-			return (ReportElementHandle) handle.getModelHandle( );
+	private static ReportElementHandle getReportElementHandle(AbstractCrosstabItemHandle handle) {
+		if (handle != null && handle.getModelHandle() instanceof ReportElementHandle) {
+			return (ReportElementHandle) handle.getModelHandle();
 		}
 		return null;
 	}
@@ -688,17 +572,13 @@ class ContentUtil
 	// Style.SHOW_IF_BLANK_PROP ) );
 	// }
 
-	private static IStyle setupRuleStyle( StructureHandle highlight,
-			IStyle style )
-	{
+	private static IStyle setupRuleStyle(StructureHandle highlight, IStyle style) {
 		String value;
 
 		// Background
-		value = getMemberProperty( highlight,
-				HighlightRule.BACKGROUND_COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setBackgroundColor( value );
+		value = getMemberProperty(highlight, HighlightRule.BACKGROUND_COLOR_MEMBER);
+		if (value != null) {
+			style.setBackgroundColor(value);
 		}
 		// style.setBackgroundPositionX(getMemberProperty(highlight,
 		// HighlightRule.BACKGROUND_POSITION_X_MEMBER));
@@ -708,30 +588,25 @@ class ContentUtil
 		// HighlightRule.BACKGROUND_REPEAT_MEMBER));
 
 		// Text related
-		value = getMemberProperty( highlight, HighlightRule.TEXT_ALIGN_MEMBER );
-		if ( value != null )
-		{
-			style.setTextAlign( value );
+		value = getMemberProperty(highlight, HighlightRule.TEXT_ALIGN_MEMBER);
+		if (value != null) {
+			style.setTextAlign(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.TEXT_INDENT_MEMBER );
-		if ( value != null )
-		{
-			style.setTextIndent( value );
+		value = getMemberProperty(highlight, HighlightRule.TEXT_INDENT_MEMBER);
+		if (value != null) {
+			style.setTextIndent(value);
 		}
-		value = getMemberProperty( highlight, Style.TEXT_UNDERLINE_PROP );
-		if ( value != null )
-		{
-			style.setTextUnderline( value );
+		value = getMemberProperty(highlight, Style.TEXT_UNDERLINE_PROP);
+		if (value != null) {
+			style.setTextUnderline(value);
 		}
-		value = getMemberProperty( highlight, Style.TEXT_LINE_THROUGH_PROP );
-		if ( value != null )
-		{
-			style.setTextLineThrough( value );
+		value = getMemberProperty(highlight, Style.TEXT_LINE_THROUGH_PROP);
+		if (value != null) {
+			style.setTextLineThrough(value);
 		}
-		value = getMemberProperty( highlight, Style.TEXT_OVERLINE_PROP );
-		if ( value != null )
-		{
-			style.setTextOverline( value );
+		value = getMemberProperty(highlight, Style.TEXT_OVERLINE_PROP);
+		if (value != null) {
+			style.setTextOverline(value);
 		}
 		// style.setLetterSpacing(getMemberProperty(highlight,
 		// HighlightRule.LETTER_SPACING_MEMBER));
@@ -739,11 +614,9 @@ class ContentUtil
 		// HighlightRule.LINE_HEIGHT_MEMBER));
 		// style.setOrphans(getMemberProperty(highlight,
 		// HighlightRule.ORPHANS_MEMBER));
-		value = getMemberProperty( highlight,
-				HighlightRule.TEXT_TRANSFORM_MEMBER );
-		if ( value != null )
-		{
-			style.setTextTransform( value );
+		value = getMemberProperty(highlight, HighlightRule.TEXT_TRANSFORM_MEMBER);
+		if (value != null) {
+			style.setTextTransform(value);
 		}
 		// style.setVerticalAlign(getMemberProperty(highlight,
 		// HighlightRule.VERTICAL_ALIGN_MEMBER));
@@ -767,109 +640,79 @@ class ContentUtil
 		// HighlightRule.PAGE_BREAK_INSIDE_MEMBER));
 
 		// Font related
-		value = getMemberProperty( highlight, HighlightRule.FONT_FAMILY_MEMBER );
-		if ( value != null )
-		{
-			style.setFontFamily( value );
+		value = getMemberProperty(highlight, HighlightRule.FONT_FAMILY_MEMBER);
+		if (value != null) {
+			style.setFontFamily(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setColor( value );
+		value = getMemberProperty(highlight, HighlightRule.COLOR_MEMBER);
+		if (value != null) {
+			style.setColor(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.FONT_SIZE_MEMBER );
-		if ( value != null )
-		{
-			style.setFontSize( value );
+		value = getMemberProperty(highlight, HighlightRule.FONT_SIZE_MEMBER);
+		if (value != null) {
+			style.setFontSize(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.FONT_STYLE_MEMBER );
-		if ( value != null )
-		{
-			style.setFontStyle( value );
+		value = getMemberProperty(highlight, HighlightRule.FONT_STYLE_MEMBER);
+		if (value != null) {
+			style.setFontStyle(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.FONT_WEIGHT_MEMBER );
-		if ( value != null )
-		{
-			style.setFontWeight( value );
+		value = getMemberProperty(highlight, HighlightRule.FONT_WEIGHT_MEMBER);
+		if (value != null) {
+			style.setFontWeight(value);
 		}
-		value = getMemberProperty( highlight, HighlightRule.FONT_VARIANT_MEMBER );
-		if ( value != null )
-		{
-			style.setFontVariant( value );
+		value = getMemberProperty(highlight, HighlightRule.FONT_VARIANT_MEMBER);
+		if (value != null) {
+			style.setFontVariant(value);
 		}
 
 		// Border
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderBottomColor( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_BOTTOM_COLOR_MEMBER);
+		if (value != null) {
+			style.setBorderBottomColor(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderBottomStyle( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_BOTTOM_STYLE_MEMBER);
+		if (value != null) {
+			style.setBorderBottomStyle(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderBottomWidth( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER);
+		if (value != null) {
+			style.setBorderBottomWidth(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderLeftColor( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_LEFT_COLOR_MEMBER);
+		if (value != null) {
+			style.setBorderLeftColor(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_STYLE_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderLeftStyle( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_LEFT_STYLE_MEMBER);
+		if (value != null) {
+			style.setBorderLeftStyle(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_WIDTH_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderLeftWidth( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_LEFT_WIDTH_MEMBER);
+		if (value != null) {
+			style.setBorderLeftWidth(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderRightColor( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_RIGHT_COLOR_MEMBER);
+		if (value != null) {
+			style.setBorderRightColor(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_STYLE_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderRightStyle( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_RIGHT_STYLE_MEMBER);
+		if (value != null) {
+			style.setBorderRightStyle(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderRightWidth( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_RIGHT_WIDTH_MEMBER);
+		if (value != null) {
+			style.setBorderRightWidth(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_COLOR_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderTopColor( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_TOP_COLOR_MEMBER);
+		if (value != null) {
+			style.setBorderTopColor(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_STYLE_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderTopStyle( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_TOP_STYLE_MEMBER);
+		if (value != null) {
+			style.setBorderTopStyle(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_WIDTH_MEMBER );
-		if ( value != null )
-		{
-			style.setBorderTopWidth( value );
+		value = getMemberProperty(highlight, HighlightRule.BORDER_TOP_WIDTH_MEMBER);
+		if (value != null) {
+			style.setBorderTopWidth(value);
 		}
 
 		// Margin
@@ -893,28 +736,21 @@ class ContentUtil
 		// HighlightRule.PADDING_RIGHT_MEMBER));
 
 		// Data Formatting
-		value = getMemberProperty( highlight, HighlightRule.NUMBER_ALIGN_MEMBER );
-		if ( value != null )
-		{
-			style.setNumberAlign( value );
+		value = getMemberProperty(highlight, HighlightRule.NUMBER_ALIGN_MEMBER);
+		if (value != null) {
+			style.setNumberAlign(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.DATE_TIME_FORMAT_MEMBER );
-		if ( value != null )
-		{
-			style.setDateFormat( value );
+		value = getMemberProperty(highlight, HighlightRule.DATE_TIME_FORMAT_MEMBER);
+		if (value != null) {
+			style.setDateFormat(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.NUMBER_FORMAT_MEMBER );
-		if ( value != null )
-		{
-			style.setNumberFormat( value );
+		value = getMemberProperty(highlight, HighlightRule.NUMBER_FORMAT_MEMBER);
+		if (value != null) {
+			style.setNumberFormat(value);
 		}
-		value = getMemberProperty( highlight,
-				HighlightRule.STRING_FORMAT_MEMBER );
-		if ( value != null )
-		{
-			style.setStringFormat( value );
+		value = getMemberProperty(highlight, HighlightRule.STRING_FORMAT_MEMBER);
+		if (value != null) {
+			style.setStringFormat(value);
 		}
 
 		// Others
@@ -923,10 +759,9 @@ class ContentUtil
 		// style.setShowIfBlank(getMemberProperty(highlight,
 		// HighlightRule.SHOW_IF_BLANK_MEMBER));
 		// bidi_hcg Bidi related
-		value = getMemberProperty( highlight, Style.TEXT_DIRECTION_PROP );
-		if ( value != null )
-		{
-			style.setDirection( value );
+		value = getMemberProperty(highlight, Style.TEXT_DIRECTION_PROP);
+		if (value != null) {
+			style.setDirection(value);
 		}
 		return style;
 	}
@@ -997,28 +832,21 @@ class ContentUtil
 	// return null;
 	// }
 
-	private static String getMemberProperty( StructureHandle handle, String name )
-	{
-		MemberHandle prop = handle.getMember( name );
-		if ( prop != null )
-		{
-			Object value = prop.getContext( )
-					.getLocalValue( handle.getModule( ) );
-			if ( value != null )
-			{
-				return prop.getStringValue( );
+	private static String getMemberProperty(StructureHandle handle, String name) {
+		MemberHandle prop = handle.getMember(name);
+		if (prop != null) {
+			Object value = prop.getContext().getLocalValue(handle.getModule());
+			if (value != null) {
+				return prop.getStringValue();
 			}
 
 			// for highlight rule, reutrn the referred style local value
-			if ( handle instanceof HighlightRuleHandle )
-			{
-				StyleHandle styleHandle = ( (HighlightRuleHandle) handle ).getStyle( );
-				if ( styleHandle != null )
-				{
-					FactoryPropertyHandle propHandle = styleHandle.getFactoryPropertyHandle( name );
-					if ( propHandle != null )
-					{
-						return propHandle.getStringValue( );
+			if (handle instanceof HighlightRuleHandle) {
+				StyleHandle styleHandle = ((HighlightRuleHandle) handle).getStyle();
+				if (styleHandle != null) {
+					FactoryPropertyHandle propHandle = styleHandle.getFactoryPropertyHandle(name);
+					if (propHandle != null) {
+						return propHandle.getStringValue();
 					}
 				}
 			}
@@ -1026,23 +854,20 @@ class ContentUtil
 		return null;
 	}
 
-	static DimensionType createDimension( DimensionHandle handle )
-	{
-		if ( handle == null || !handle.isSet( ) )
-		{
+	static DimensionType createDimension(DimensionHandle handle) {
+		if (handle == null || !handle.isSet()) {
 			return null;
 		}
 
 		// Extended Choice
-		if ( handle.isKeyword( ) )
-		{
-			return new DimensionType( handle.getStringValue( ) );
+		if (handle.isKeyword()) {
+			return new DimensionType(handle.getStringValue());
 		}
 
 		// set measure and unit
-		double measure = handle.getMeasure( );
-		String unit = handle.getUnits( );
-		return new DimensionType( measure, unit );
+		double measure = handle.getMeasure();
+		String unit = handle.getUnits();
+		return new DimensionType(measure, unit);
 	}
 
 }

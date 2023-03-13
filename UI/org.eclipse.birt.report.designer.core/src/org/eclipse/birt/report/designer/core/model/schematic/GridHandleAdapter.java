@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,127 +30,116 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
  * methods to GUI requirement GridHandleAdapter responds to model GridHandle
- *  
+ *
  */
 
-public class GridHandleAdapter extends TableHandleAdapter
-{
+public class GridHandleAdapter extends TableHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param table
 	 * @param mark
 	 */
-	public GridHandleAdapter( GridHandle grid, IModelAdapterHelper mark )
-	{
-		super( grid, mark );
+	public GridHandleAdapter(GridHandle grid, IModelAdapterHelper mark) {
+		super(grid, mark);
 	}
 
 	/**
-	 * Gets the Children iterator. This children relationship is determined by
-	 * GUI requirement. This is not the model children relationship.
-	 * 
+	 * Gets the Children iterator. This children relationship is determined by GUI
+	 * requirement. This is not the model children relationship.
+	 *
 	 * @return Children iterator
 	 */
-	public List getChildren( )
-	{
-		List children = new ArrayList( );
+	@Override
+	public List getChildren() {
+		List children = new ArrayList();
 
-		SlotHandle rows = getGridHandle( ).getRows( );
+		SlotHandle rows = getGridHandle().getRows();
 
-		for ( Iterator it = rows.iterator( ); it.hasNext( ); )
-		{
-			children.addAll( ( (RowHandle) it.next( ) ).getCells( )
-					.getContents( ) );
+		for (Iterator it = rows.iterator(); it.hasNext();) {
+			children.addAll(((RowHandle) it.next()).getCells().getContents());
 		}
-		removePhantomCells( children );
+		removePhantomCells(children);
 		return children;
 	}
 
 	/**
 	 * Gets the all columns list
-	 * 
+	 *
 	 * @return
 	 */
-	public List getColumns( )
-	{
-		return getGridHandle( ).getColumns( ).getContents( );
+	@Override
+	public List getColumns() {
+		return getGridHandle().getColumns().getContents();
 	}
 
-	private GridHandle getGridHandle( )
-	{
-		return (GridHandle) getHandle( );
+	private GridHandle getGridHandle() {
+		return (GridHandle) getHandle();
 	}
 
 	/**
 	 * Gets all rows list.
-	 * 
+	 *
 	 * @return The rows list.
 	 */
-	protected void buildRowInfo( )
-	{
-		insertRowInfo( getGridHandle( ).getRows( ),
-				TableHandleAdapter.RowUIInfomation.GRID_ROW,
-				TableHandleAdapter.RowUIInfomation.GRID_ROW );
+	@Override
+	protected void buildRowInfo() {
+		insertRowInfo(getGridHandle().getRows(), TableHandleAdapter.RowUIInfomation.GRID_ROW,
+				TableHandleAdapter.RowUIInfomation.GRID_ROW);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter#canMerge(java.util.List)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter#
+	 * canMerge(java.util.List)
 	 */
-	public boolean canMerge( List list )
-	{
-		return list != null && list.size( ) > 1;
+	@Override
+	public boolean canMerge(List list) {
+		return list != null && list.size() > 1;
 	}
 
 	/**
 	 * return false for Grid Item for grid doesn't have slot
 	 */
-	public boolean hasSlotHandleRow( int id )
-	{
+	@Override
+	public boolean hasSlotHandleRow(int id) {
 		return false;
 	}
-	
-	/**Returns the defined height in model in Pixel.
+
+	/**
+	 * Returns the defined height in model in Pixel.
+	 *
 	 * @return
 	 */
-	public String getDefinedHeight( )
-	{
-		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
+	public String getDefinedHeight() {
+		DimensionHandle handle = ((ReportItemHandle) getHandle()).getHeight();
 
-		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
-		{
+		if (handle.getUnits() == null || handle.getUnits().length() == 0) {
 			return null;
-		}
-		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
+		} else if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(handle.getUnits())) {
 			return null;
-		}
-		else
-		{
-			int px = (int) DEUtil.convertoToPixel( handle );
+		} else {
+			int px = (int) DEUtil.convertoToPixel(handle);
 
-			if (DEUtil.isFixLayout( getHandle( ) ))
-			{
-				if (px ==0 && handle.isSet( ))
-				{
+			if (DEUtil.isFixLayout(getHandle())) {
+				if (px == 0 && handle.isSet()) {
 					px = 1;
-				}	
+				}
 			}
-			
-			if ( px <= 0 )
-			{
+
+			if (px <= 0) {
 				return null;
 			}
 
-			return String.valueOf( px );
+			return String.valueOf(px);
 		}
 	}
-	
-	public boolean isSupportHeight()
-	{
+
+	@Override
+	public boolean isSupportHeight() {
 		return true;
 	}
 }

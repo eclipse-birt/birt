@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,8 +40,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * The descriptor to control resource keys
  */
-public class ResourceKeyDescriptor extends PropertyDescriptor
-{
+public class ResourceKeyDescriptor extends PropertyDescriptor {
 
 	private Text text;
 
@@ -46,177 +48,148 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 
 	private String oldValue;
 
-	public ResourceKeyDescriptor( boolean isFormStyle )
-	{
-		setFormStyle( isFormStyle );
+	public ResourceKeyDescriptor(boolean isFormStyle) {
+		setFormStyle(isFormStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#resetUIData()
 	 */
-	public void load( )
-	{
-		if ( !provider.isEnable( ) )
-		{
-			text.setEnabled( false );
-			btnBrowse.setEnabled( false );
-			btnReset.setEnabled( false );
+	@Override
+	public void load() {
+		if (!provider.isEnable()) {
+			text.setEnabled(false);
+			btnBrowse.setEnabled(false);
+			btnReset.setEnabled(false);
 			return;
+		} else {
+			text.setEnabled(true);
+			btnBrowse.setEnabled(true);
+			btnReset.setEnabled(true);
 		}
-		else
-		{
-			text.setEnabled( true );
-			btnBrowse.setEnabled( true );
-			btnReset.setEnabled( true );
-		}
-		oldValue = getDescriptorProvider( ).load( ).toString( );
+		oldValue = getDescriptorProvider().load().toString();
 
-		String[] baseNames = provider.getBaseNames( );
-		if ( baseNames == null )
-		{
-			btnBrowse.setEnabled( false );
-		}
-		else
-		{
-			URL[] resources = provider.getResourceURLs( );
+		String[] baseNames = provider.getBaseNames();
+		if (baseNames == null) {
+			btnBrowse.setEnabled(false);
+		} else {
+			URL[] resources = provider.getResourceURLs();
 			String[] path = null;
-			try
-			{
-				if ( resources != null && resources.length > 0 )
-				{
+			try {
+				if (resources != null && resources.length > 0) {
 					path = new String[resources.length];
-					for ( int i = 0; i < path.length; i++ )
-					{
-						path[i] = DEUtil.getFilePathFormURL( resources[i] );
+					for (int i = 0; i < path.length; i++) {
+						path[i] = DEUtil.getFilePathFormURL(resources[i]);
 					}
 				}
+			} catch (Exception e) {
+				ExceptionUtil.handle(e);
 			}
-			catch ( Exception e )
-			{
-				ExceptionUtil.handle( e );
-			}
-			if ( resources == null || path == null || path.length == 0 )
-			{
-				btnBrowse.setEnabled( false );
-			}
-			else
-			{
+			if (resources == null || path == null || path.length == 0) {
+				btnBrowse.setEnabled(false);
+			} else {
 				boolean flag = false;
-				for ( int i = 0; i < path.length; i++ )
-				{
-					if ( path[i] != null && new File( path[i] ).exists( ) )
-					{
+				for (int i = 0; i < path.length; i++) {
+					if (path[i] != null && new File(path[i]).exists()) {
 						flag = true;
 						break;
 					}
 				}
-				btnBrowse.setEnabled( flag );
+				btnBrowse.setEnabled(flag);
 			}
 		}
-		text.setEnabled( btnBrowse.isEnabled( ) );
+		text.setEnabled(btnBrowse.isEnabled());
 
-		text.setText( DEUtil.resolveNull( oldValue ) );
+		text.setText(DEUtil.resolveNull(oldValue));
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return innerParent;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		innerParent = new Composite( parent, 0 );
-		innerParent.setLayout( new GridLayout( 3, false ) );
-		if ( isFormStyle( ) )
-			text = FormWidgetFactory.getInstance( ).createText( innerParent,
-					"", //$NON-NLS-1$
-					SWT.READ_ONLY );
-		else
-			text = new Text( innerParent, SWT.BORDER | SWT.READ_ONLY );
-		text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+	@Override
+	public Control createControl(Composite parent) {
+		innerParent = new Composite(parent, 0);
+		innerParent.setLayout(new GridLayout(3, false));
+		if (isFormStyle()) {
+			text = FormWidgetFactory.getInstance().createText(innerParent, "", //$NON-NLS-1$
+					SWT.READ_ONLY);
+		} else {
+			text = new Text(innerParent, SWT.BORDER | SWT.READ_ONLY);
+		}
+		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		btnBrowse = FormWidgetFactory.getInstance( ).createButton( innerParent,
-				SWT.PUSH,
-				isFormStyle( ) );
-		btnBrowse.setText( provider.getBrowseText( ) );
-		btnBrowse.setToolTipText( provider.getBrowseTooltipText( ) );
-		btnBrowse.addSelectionListener( new SelectionAdapter( ) {
+		btnBrowse = FormWidgetFactory.getInstance().createButton(innerParent, SWT.PUSH, isFormStyle());
+		btnBrowse.setText(provider.getBrowseText());
+		btnBrowse.setToolTipText(provider.getBrowseTooltipText());
+		btnBrowse.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleBrowserSelectedEvent( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleBrowserSelectedEvent();
 			}
-		} );
+		});
 
-		btnReset = FormWidgetFactory.getInstance( ).createButton( innerParent,
-				SWT.PUSH,
-				isFormStyle( ) );
-		btnReset.setText( provider.getResetText( ) );
-		btnReset.setToolTipText( provider.getResetTooltipText( ) );
-		btnReset.addSelectionListener( new SelectionAdapter( ) {
+		btnReset = FormWidgetFactory.getInstance().createButton(innerParent, SWT.PUSH, isFormStyle());
+		btnReset.setText(provider.getResetText());
+		btnReset.setToolTipText(provider.getResetTooltipText());
+		btnReset.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleSelectedEvent( null );
-			};
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handleSelectedEvent(null);
+			}
 
-		} );
+		});
 
 		return innerParent;
 	}
 
-	private void handleSelectedEvent( String newValue )
-	{
-		if ( "".equals( newValue ) )//$NON-NLS-1$
+	private void handleSelectedEvent(String newValue) {
+		if ("".equals(newValue))//$NON-NLS-1$
 		{
 			newValue = null;
 		}
 
-		try
-		{
+		try {
 			// if the key keeps the same, then set to null first.(Fix bug
 			// 164767)
-			if ( oldValue != null && oldValue.equals( newValue ) )
-			{
-				save( null );
+			if (oldValue != null && oldValue.equals(newValue)) {
+				save(null);
 			}
-			save( newValue );
-			text.setText( DEUtil.resolveNull( newValue ) );
-		}
-		catch ( SemanticException e )
-		{
-			text.setText( DEUtil.resolveNull( oldValue ) );
-			WidgetUtil.processError( text.getShell( ), e );
+			save(newValue);
+			text.setText(DEUtil.resolveNull(newValue));
+		} catch (SemanticException e) {
+			text.setText(DEUtil.resolveNull(oldValue));
+			WidgetUtil.processError(text.getShell(), e);
 		}
 
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		getDescriptorProvider( ).save( obj );
+	@Override
+	public void save(Object obj) throws SemanticException {
+		getDescriptorProvider().save(obj);
 
 	}
 
-	protected void handleBrowserSelectedEvent( )
-	{
-		ResourceEditDialog dlg = new ResourceEditDialog( btnBrowse.getShell( ),
-				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+	protected void handleBrowserSelectedEvent() {
+		ResourceEditDialog dlg = new ResourceEditDialog(btnBrowse.getShell(),
+				Messages.getString("ResourceKeyDescriptor.title.SelectKey")); //$NON-NLS-1$
 
-		dlg.setResourceURLs( provider.getResourceURLs( ) );
+		dlg.setResourceURLs(provider.getResourceURLs());
 
-		if ( dlg.open( ) == Window.OK )
-		{
-			handleSelectedEvent( (String) dlg.getResult( ) );
+		if (dlg.open() == Window.OK) {
+			handleSelectedEvent((String) dlg.getResult());
 		}
 	}
 
@@ -224,37 +197,34 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 
 	private Composite innerParent;
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
-		if ( provider instanceof IResourceKeyDescriptorProvider )
+	@Override
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
+		if (provider instanceof IResourceKeyDescriptorProvider) {
 			this.provider = (IResourceKeyDescriptorProvider) provider;
+		}
 	}
 
-	public String getStringValue( )
-	{
-		return text.getText( );
+	public String getStringValue() {
+		return text.getText();
 	}
 
-	public void setStringValue( String value )
-	{
-		text.setText( value );
+	public void setStringValue(String value) {
+		text.setText(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( text, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(text, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		text.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		text.setVisible(isVisible);
 	}
 
-	public void setInput( Object input )
-	{
-		super.setInput( input );
-		getDescriptorProvider( ).setInput( input );
-	};
+	@Override
+	public void setInput(Object input) {
+		super.setInput(input);
+		getDescriptorProvider().setInput(input);
+	}
 
 }

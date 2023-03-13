@@ -2,21 +2,24 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.Activator
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.data.oda.mongodb.impl,
- org.eclipse.birt.data.oda.mongodb.internal.impl;x-friends:="org.eclipse.birt.data.oda.mongodb.ui"
-Require-Bundle: org.eclipse.core.runtime,
+Export-Package: org.eclipse.birt.data.oda.mongodb;x-internal:=true,
+ org.eclipse.birt.data.oda.mongodb.impl,
+ org.eclipse.birt.data.oda.mongodb.internal.impl;x-friends:="org.eclipse.birt.data.oda.mongodb.ui",
+ org.eclipse.birt.data.oda.mongodb.nls;x-internal:=true
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Import-Package: com.mongodb;version="[3.2.2,4.0.0)",
  com.mongodb.client;version="3.2.2",
- com.mongodb.util;version="[3.2.2,4.0.0)", 
+ com.mongodb.util;version="[3.2.2,4.0.0)",
+ javax.xml.bind;version="2.2.0",
  org.apache.commons.codec;version="1.6.0",
  org.apache.commons.codec.binary;version="1.6.0",
  org.bson;version="3.2.2",

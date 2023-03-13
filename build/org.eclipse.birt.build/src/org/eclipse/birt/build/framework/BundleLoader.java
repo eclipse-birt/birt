@@ -1,6 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.build.framework;
-
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-public class BundleLoader
-{
+public class BundleLoader {
 
 	static final String BUNDLE_SYMBOLIC_NAME = "Bundle-SymbolicName";
 	static final String BUNDLE_VERSION = "Bundle-Version";
@@ -28,83 +37,59 @@ public class BundleLoader
 	protected Bundle bundle;
 	protected Properties properties;
 
-	BundleLoader( URL root )
-	{
+	BundleLoader(URL root) {
 		this.root = root;
 	}
 
-	Bundle load( URL root ) throws IOException, ParserConfigurationException,
-			SAXException
-	{
+	Bundle load(URL root) throws IOException, ParserConfigurationException, SAXException {
 		// properties = loadProperties( root );
-		Manifest manifest = loadManifest( root );
-		String localizationEntry = (String) manifest.getMainAttributes( ).get(
-				BUNDLE_LOCALIZATION );
-		if (localizationEntry  != null)
-		{
-			properties = loadProperties(localizationEntry );
+		Manifest manifest = loadManifest(root);
+		String localizationEntry = (String) manifest.getMainAttributes().get(BUNDLE_LOCALIZATION);
+		if (localizationEntry != null) {
+			properties = loadProperties(localizationEntry);
 		}
 		return bundle;
 	}
 
-	protected Manifest loadManifest( URL root ) throws IOException
-	{
-		InputStream in = openInputStream( root, MANIFEST_ENTRY );
-		if ( in == null )
-		{
-			throw new IOException( "can't load the " + MANIFEST_ENTRY );
+	protected Manifest loadManifest(URL root) throws IOException {
+		InputStream in = openInputStream(root, MANIFEST_ENTRY);
+		if (in == null) {
+			throw new IOException("can't load the " + MANIFEST_ENTRY);
 		}
-		try
-		{
-			return new Manifest( in );
-		}
-		finally
-		{
-			in.close( );
+		try {
+			return new Manifest(in);
+		} finally {
+			in.close();
 		}
 	}
 
-	protected Properties loadProperties( String propertyEntryName)
-	{
-		InputStream in = openInputStream( root, propertyEntryName );;
-		if ( in == null )
-		{
+	protected Properties loadProperties(String propertyEntryName) {
+		InputStream in = openInputStream(root, propertyEntryName);
+
+		if (in == null) {
 			return null;
 		}
-		try
-		{
-			Properties properties = new Properties( );
-			properties.load( in );
+		try {
+			Properties properties = new Properties();
+			properties.load(in);
 			return properties;
-		}
-		catch ( IOException ex )
-		{
-		}
-		finally
-		{
-			try
-			{
-				in.close( );
-			}
-			catch ( IOException ex )
-			{
+		} catch (IOException ex) {
+		} finally {
+			try {
+				in.close();
+			} catch (IOException ex) {
 			}
 		}
 		return null;
 	}
 
-	protected String localizeProperty( String key )
-	{
-		if ( key != null && key.length( ) > 0 )
-		{
-			if ( key.charAt( 0 ) == '%' )
-			{
-				key = key.substring( 1 );
-				if ( properties != null )
-				{
-					String value = properties.getProperty( key );
-					if ( value != null )
-					{
+	protected String localizeProperty(String key) {
+		if (key != null && key.length() > 0) {
+			if (key.charAt(0) == '%') {
+				key = key.substring(1);
+				if (properties != null) {
+					String value = properties.getProperty(key);
+					if (value != null) {
 						return value;
 					}
 				}
@@ -113,19 +98,14 @@ public class BundleLoader
 		return key;
 	}
 
-	protected InputStream openInputStream( URL root, String name )
-	{
-		try
-		{
-			URL manifestUrl = new URL( root, name );
-			InputStream in = manifestUrl.openStream( );
-			if ( in != null )
-			{
+	protected InputStream openInputStream(URL root, String name) {
+		try {
+			URL manifestUrl = new URL(root, name);
+			InputStream in = manifestUrl.openStream();
+			if (in != null) {
 				return in;
 			}
-		}
-		catch ( IOException ex )
-		{
+		} catch (IOException ex) {
 		}
 		return null;
 	}

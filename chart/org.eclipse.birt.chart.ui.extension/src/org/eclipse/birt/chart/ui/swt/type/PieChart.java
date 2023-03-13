@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -56,8 +59,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * PieChart
  */
-public class PieChart extends DefaultChartTypeImpl
-{
+public class PieChart extends DefaultChartTypeImpl {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
@@ -66,131 +68,113 @@ public class PieChart extends DefaultChartTypeImpl
 
 	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard"; //$NON-NLS-1$
 
-	public PieChart( )
-	{
-		super.chartTitle = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
+	public PieChart() {
+		super.chartTitle = Messages.getString("PieChart.Txt.DefaultPieChartTitle"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return TYPE_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
-	public Image getImage( )
-	{
-		return UIHelper.getImage( "icons/obj16/piecharticon.gif" ); //$NON-NLS-1$
+	@Override
+	public Image getImage() {
+		return UIHelper.getImage("icons/obj16/piecharticon.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
-	public IHelpContent getHelp( )
-	{
-		return new HelpContentImpl( TYPE_LITERAL,
-				Messages.getString( "PieChart.Txt.HelpText" ) ); //$NON-NLS-1$
+	@Override
+	public IHelpContent getHelp() {
+		return new HelpContentImpl(TYPE_LITERAL, Messages.getString("PieChart.Txt.HelpText")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
-	public Collection<IChartSubType> getChartSubtypes( String sDimension,
-			Orientation orientation )
-	{
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
+	@Override
+	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
+		Vector<IChartSubType> vSubTypes = new Vector<>();
 		// Do not respond to requests for unknown orientations
-		if ( !orientation.equals( Orientation.VERTICAL_LITERAL ) )
-		{
+		if (!orientation.equals(Orientation.VERTICAL_LITERAL)) {
 			return vSubTypes;
 		}
-		vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
-				getImageForSubtype( sDimension ),
-				getDescriptionForSubtype( sDimension ),
-				getDisplayNameForSubtype( sDimension ) ) );
+		vSubTypes.add(new DefaultChartSubTypeImpl(STANDARD_SUBTYPE_LITERAL, getImageForSubtype(sDimension),
+				getDescriptionForSubtype(sDimension), getDisplayNameForSubtype(sDimension)));
 		return vSubTypes;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
-	public Chart getModel( String sSubType, Orientation orientation,
-			String sDimension, Chart currentChart )
-	{
+	@Override
+	public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart) {
 		ChartWithoutAxes newChart = null;
-		if ( currentChart != null )
-		{
-			newChart = (ChartWithoutAxes) getConvertedChart( currentChart,
-					sSubType,
-					sDimension );
-			if ( newChart != null )
-			{
+		if (currentChart != null) {
+			newChart = (ChartWithoutAxes) getConvertedChart(currentChart, sSubType, sDimension);
+			if (newChart != null) {
 				return newChart;
 			}
 		}
-		newChart = ChartWithoutAxesImpl.createDefault( );
-		newChart.setType( getName( ) );
-		newChart.setSubType( sSubType );
-		ChartElementUtil.setEObjectAttribute( newChart,
-				"dimension",//$NON-NLS-1$
-				getDimensionFor( sDimension ),
-				sDimension == null );
+		newChart = ChartWithoutAxesImpl.createDefault();
+		newChart.setType(getName());
+		newChart.setSubType(sSubType);
+		ChartElementUtil.setEObjectAttribute(newChart, "dimension", //$NON-NLS-1$
+				getDimensionFor(sDimension), sDimension == null);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
-		Series categorySeries = SeriesImpl.createDefault( );
-		sdX.getSeries( ).add( categorySeries );
-		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault();
+		Series categorySeries = SeriesImpl.createDefault();
+		sdX.getSeries().add(categorySeries);
+		sdX.getQuery().setDefinition("Base Series"); //$NON-NLS-1$
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
-		Series valueSeries = getSeries( false);
-		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
-		( (PieSeries) valueSeries ).getTitle( )
-				.getCaption( )
-				.setValue( "valueSeries" ); //$NON-NLS-1$
-		sdY.getSeries( ).add( valueSeries );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault();
+		Series valueSeries = getSeries(false);
+		valueSeries.setSeriesIdentifier("valueSeriesIdentifier"); //$NON-NLS-1$
+		((PieSeries) valueSeries).getTitle().getCaption().setValue("valueSeries"); //$NON-NLS-1$
+		sdY.getSeries().add(valueSeries);
 
-		sdX.getSeriesDefinitions( ).add( sdY );
+		sdX.getSeriesDefinitions().add(sdY);
 
-		newChart.getSeriesDefinitions( ).add( sdX );
+		newChart.getSeriesDefinitions().add(sdX);
 
-		addSampleData( newChart );
+		addSampleData(newChart);
 		return newChart;
 	}
 
-	private void addSampleData( Chart newChart )
-	{
-		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
-		sd.getBaseSampleData( ).clear( );
-		sd.getOrthogonalSampleData( ).clear( );
+	private void addSampleData(Chart newChart) {
+		SampleData sd = DataFactory.eINSTANCE.createSampleData();
+		sd.getBaseSampleData().clear();
+		sd.getOrthogonalSampleData().clear();
 
 		// Create Base Sample Data
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
-		sd.getBaseSampleData( ).add( sdBase );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sdBase.setDataSetRepresentation("A, B, C"); //$NON-NLS-1$
+		sd.getBaseSampleData().add(sdBase);
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
-		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
-		oSample.setSeriesDefinitionIndex( 0 );
-		sd.getOrthogonalSampleData( ).add( oSample );
+		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		oSample.setDataSetRepresentation("5,4,12"); //$NON-NLS-1$
+		oSample.setSeriesDefinitionIndex(0);
+		sd.getOrthogonalSampleData().add(oSample);
 
 		/*
 		 * OrthogonalSampleData oSample2 =
@@ -199,303 +183,243 @@ public class PieChart extends DefaultChartTypeImpl
 		 * oSample2.setSeriesDefinitionIndex(0);
 		 * sd.getOrthogonalSampleData().add(oSample2);
 		 */
-		newChart.setSampleData( sd );
+		newChart.setSampleData(sd);
 	}
 
-	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
-			String sNewDimension )
-	{
-		Chart helperModel = currentChart.copyInstance( );
-		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
+	private Chart getConvertedChart(Chart currentChart, String sNewSubType, String sNewDimension) {
+		Chart helperModel = currentChart.copyInstance();
+		helperModel.eAdapters().addAll(currentChart.eAdapters());
 		// Cache series to keep attributes during conversion
-		ChartCacheManager.getInstance( )
-				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
-		IChartType oldType = ChartUIUtil.getChartType( currentChart.getType( ) );
-		if ( currentChart instanceof ChartWithAxes )
-		{
-			if ( !ChartPreviewPainter.isLivePreviewActive( ) )
-			{
-				helperModel.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
-						( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 )
-								.getType( ),
-						AxisType.LINEAR_LITERAL ) );
+		ChartCacheManager.getInstance().cacheSeries(ChartUIUtil.getAllOrthogonalSeriesDefinitions(helperModel));
+		IChartType oldType = ChartUIUtil.getChartType(currentChart.getType());
+		if (currentChart instanceof ChartWithAxes) {
+			if (!ChartPreviewPainter.isLivePreviewActive()) {
+				helperModel.setSampleData(getConvertedSampleData(helperModel.getSampleData(),
+						((ChartWithAxes) currentChart).getAxes().get(0).getType(), AxisType.LINEAR_LITERAL));
 			}
 
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithoutAxesImpl.createDefault( );
-			copyChartProperties( helperModel, currentChart );
-			currentChart.setType( getName( ) );
-			currentChart.setSubType( sNewSubType );
-			ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
-					getDimensionFor( sNewDimension ),
-					sNewDimension == null );
+			currentChart = ChartWithoutAxesImpl.createDefault();
+			copyChartProperties(helperModel, currentChart);
+			currentChart.setType(getName());
+			currentChart.setSubType(sNewSubType);
+			ChartElementUtil.setEObjectAttribute(currentChart, "dimension", //$NON-NLS-1$
+					getDimensionFor(sNewDimension), sNewDimension == null);
 
-			if ( helperModel.isSetSeriesThickness( ) )
-			{
-				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
+			if (helperModel.isSetSeriesThickness()) {
+				currentChart.setSeriesThickness(helperModel.getSeriesThickness());
 			}
 
 			// Copy series definitions from old chart
-			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.add( ( (ChartWithAxes) helperModel ).getAxes( )
-							.get( 0 )
-							.getSeriesDefinitions( )
-							.get( 0 ) );
-			Vector<SeriesDefinition> vOSD = new Vector<SeriesDefinition>( );
+			((ChartWithoutAxes) currentChart).getSeriesDefinitions()
+					.add(((ChartWithAxes) helperModel).getAxes().get(0).getSeriesDefinitions().get(0));
+			Vector<SeriesDefinition> vOSD = new Vector<>();
 
 			// Only convert series in primary orthogonal axis.
-			Axis primaryOrthogonalAxis = ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( ( (ChartWithAxes) helperModel ).getAxes( )
-					.get( 0 ) );
-			EList<SeriesDefinition> osd = primaryOrthogonalAxis.getSeriesDefinitions( );
-			for ( int j = 0; j < osd.size( ); j++ )
-			{
-				SeriesDefinition sd = osd.get( j );
-				Series series = sd.getDesignTimeSeries( );
-				sd.getSeries( ).clear( );
-				sd.getSeries( ).add( getConvertedSeries( series, j ) );
-				vOSD.add( sd );
+			Axis primaryOrthogonalAxis = ((ChartWithAxes) helperModel)
+					.getPrimaryOrthogonalAxis(((ChartWithAxes) helperModel).getAxes().get(0));
+			EList<SeriesDefinition> osd = primaryOrthogonalAxis.getSeriesDefinitions();
+			for (int j = 0; j < osd.size(); j++) {
+				SeriesDefinition sd = osd.get(j);
+				Series series = sd.getDesignTimeSeries();
+				sd.getSeries().clear();
+				sd.getSeries().add(getConvertedSeries(series, j));
+				vOSD.add(sd);
 			}
 
-			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.get( 0 )
-					.getSeriesDefinitions( )
-					.clear( );
-			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.get( 0 )
-					.getSeriesDefinitions( )
-					.addAll( vOSD );
+			((ChartWithoutAxes) currentChart).getSeriesDefinitions().get(0).getSeriesDefinitions().clear();
+			((ChartWithoutAxes) currentChart).getSeriesDefinitions().get(0).getSeriesDefinitions().addAll(vOSD);
 
 			// Set the legend item type t Categories to have the chart behave as
 			// expected by default.
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.CATEGORIES_LITERAL );
-			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) != null
-					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
-							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
-			{
-				title.setValue( getDefaultTitle( ) );
+			currentChart.getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
+			Text title = currentChart.getTitle().getLabel().getCaption();
+			if (title.getValue() != null && (title.getValue().trim().length() == 0
+					|| title.getValue().trim().equals(oldType.getDefaultTitle().trim()))) {
+				title.setValue(getDefaultTitle());
 			}
-		}
-		else if ( currentChart instanceof ChartWithoutAxes )
-		{
-			if ( currentChart.getType( ).equals( getName( ) ) )
-			{
-				currentChart.setSubType( sNewSubType );
-				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
-						getDimensionFor( sNewDimension ),
-						sNewDimension == null );
-			}
-			else
-			{
+		} else if (currentChart instanceof ChartWithoutAxes) {
+			if (currentChart.getType().equals(getName())) {
+				currentChart.setSubType(sNewSubType);
+				ChartElementUtil.setEObjectAttribute(currentChart, "dimension", //$NON-NLS-1$
+						getDimensionFor(sNewDimension), sNewDimension == null);
+			} else {
 				// Create a new instance of the correct type and set initial
 				// properties
-				currentChart = ChartWithoutAxesImpl.createDefault( );
-				copyChartProperties( helperModel, currentChart );
-				currentChart.setType( getName( ) );
-				currentChart.setSubType( sNewSubType );
-				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
-						getDimensionFor( sNewDimension ),
-						sNewDimension == null );
+				currentChart = ChartWithoutAxesImpl.createDefault();
+				copyChartProperties(helperModel, currentChart);
+				currentChart.setType(getName());
+				currentChart.setSubType(sNewSubType);
+				ChartElementUtil.setEObjectAttribute(currentChart, "dimension", //$NON-NLS-1$
+						getDimensionFor(sNewDimension), sNewDimension == null);
 
 				// Clear existing series definitions
-				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-						.clear( );
+				((ChartWithoutAxes) currentChart).getSeriesDefinitions().clear();
 
 				// Copy series definitions
-				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-						.addAll( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( ) );
+				((ChartWithoutAxes) currentChart).getSeriesDefinitions()
+						.addAll(((ChartWithoutAxes) helperModel).getSeriesDefinitions());
 
 				// Update the series
-				EList<SeriesDefinition> seriesdefinitions = ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-						.get( 0 )
-						.getSeriesDefinitions( );
-				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
-				{
-					Series series = seriesdefinitions.get( j )
-							.getDesignTimeSeries( );
-					series = getConvertedSeries( series, j );
+				EList<SeriesDefinition> seriesdefinitions = ((ChartWithoutAxes) currentChart).getSeriesDefinitions()
+						.get(0).getSeriesDefinitions();
+				for (int j = 0; j < seriesdefinitions.size(); j++) {
+					Series series = seriesdefinitions.get(j).getDesignTimeSeries();
+					series = getConvertedSeries(series, j);
 
 					// Clear any existing series
-					seriesdefinitions.get( j ).getSeries( ).clear( );
+					seriesdefinitions.get(j).getSeries().clear();
 					// Add the new series
-					seriesdefinitions.get( j ).getSeries( ).add( series );
+					seriesdefinitions.get(j).getSeries().add(series);
 				}
 
-				currentChart.getLegend( )
-						.setItemType( LegendItemType.CATEGORIES_LITERAL );
-				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) != null
-						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
-								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
-				{
-					title.setValue( getDefaultTitle( ) );
+				currentChart.getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
+				Text title = currentChart.getTitle().getLabel().getCaption();
+				if (title.getValue() != null && (title.getValue().trim().length() == 0
+						|| title.getValue().trim().equals(oldType.getDefaultTitle().trim()))) {
+					title.setValue(getDefaultTitle());
 				}
 			}
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 		return currentChart;
 	}
 
-	protected Series getConvertedSeries( Series series, int seriesIndex )
-	{
+	protected Series getConvertedSeries(Series series, int seriesIndex) {
 		// Do not convert base series
-		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
-		{
+		if (series.getClass().getName().equals(SeriesImpl.class.getName())) {
 			return series;
 		}
 
-		PieSeries pieseries = (PieSeries) ChartCacheManager.getInstance( )
-				.findSeries( PieSeriesImpl.class.getName( ), seriesIndex );
-		if ( pieseries == null )
-		{
-			pieseries = (PieSeries) getSeries( false );
+		PieSeries pieseries = (PieSeries) ChartCacheManager.getInstance().findSeries(PieSeriesImpl.class.getName(),
+				seriesIndex);
+		if (pieseries == null) {
+			pieseries = (PieSeries) getSeries(false);
 		}
 
 		// Copy generic series properties
-		ChartUIUtil.copyGeneralSeriesAttributes( series, pieseries );
+		ChartUIUtil.copyGeneralSeriesAttributes(series, pieseries);
 
 		return pieseries;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
-	 * ()
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions ()
 	 */
-	public String[] getSupportedDimensions( )
-	{
-		return new String[]{
-				TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
-		};
+	@Override
+	public String[] getSupportedDimensions() {
+		return new String[] { TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
-	public String getDefaultDimension( )
-	{
+	@Override
+	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
-	 * ()
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition ()
 	 */
-	public boolean supportsTransposition( )
-	{
+	@Override
+	public boolean supportsTransposition() {
 		return false;
 	}
 
-	private ChartDimension getDimensionFor( String sDimension )
-	{
-		if ( sDimension == null || sDimension.equals( TWO_DIMENSION_TYPE ) )
-		{
+	private ChartDimension getDimensionFor(String sDimension) {
+		if (sDimension == null || sDimension.equals(TWO_DIMENSION_TYPE)) {
 			return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 		}
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
 	}
 
-	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
-			String sTitle )
-	{
-		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( ChartUIUtil.getBaseSeriesDefinitions( chart )
-				.get( 0 ),
-				context,
-				sTitle );
-		component.setLabelText( Messages.getString( "PieBaseSeriesComponent.Label.CategoryDefinition" ) ); //$NON-NLS-1$
+	@Override
+	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle) {
+		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent(
+				ChartUIUtil.getBaseSeriesDefinitions(chart).get(0), context, sTitle);
+		component.setLabelText(Messages.getString("PieBaseSeriesComponent.Label.CategoryDefinition")); //$NON-NLS-1$
 		return component;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "PieChart.Txt.DisplayName" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("PieChart.Txt.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
-	public Series getSeries( )
-	{
-		return getSeries( true );
+	@Override
+	public Series getSeries() {
+		return getSeries(true);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
-	public Series getSeries( boolean needInitializing )
-	{
-		if ( needInitializing )
-		{
-			PieSeries pieseries = (PieSeries) PieSeriesImpl.create( );
-			pieseries.setExplosion( 0 );
-			pieseries.setLeaderLineLength( 10.0 );
-			pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
+	@Override
+	public Series getSeries(boolean needInitializing) {
+		if (needInitializing) {
+			PieSeries pieseries = (PieSeries) PieSeriesImpl.create();
+			pieseries.setExplosion(0);
+			pieseries.setLeaderLineLength(10.0);
+			pieseries.setLeaderLineStyle(LeaderLineStyle.FIXED_LENGTH_LITERAL);
 			return pieseries;
-		}
-		else
-		{
-			PieSeries pieseries = (PieSeries) PieSeriesImpl.createDefault( );
+		} else {
+			PieSeries pieseries = (PieSeries) PieSeriesImpl.createDefault();
 			return pieseries;
 		}
 	}
 
-	protected String getDescriptionForSubtype( String sDimension )
-	{
-		return Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$	
+	protected String getDescriptionForSubtype(String sDimension) {
+		return Messages.getString("PieChart.Txt.Description"); //$NON-NLS-1$
 	}
 
-	protected Image getImageForSubtype( String sDimension )
-	{
-		if ( sDimension.equals( TWO_DIMENSION_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
-		{
-			return UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
+	protected Image getImageForSubtype(String sDimension) {
+		if (sDimension.equals(TWO_DIMENSION_TYPE)
+				|| sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) {
+			return UIHelper.getImage("icons/wizban/piechartimage.gif"); //$NON-NLS-1$
 		}
-		if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
-		{
-			return UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
+		if (sDimension.equals(TWO_DIMENSION_WITH_DEPTH_TYPE)
+				|| sDimension.equals(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName())) {
+			return UIHelper.getImage("icons/wizban/piechartwithdepthimage.gif"); //$NON-NLS-1$
 		}
 		return null;
 	}
 
-	protected String getDisplayNameForSubtype( String sDimension )
-	{
-		return Messages.getString( "PieChart.SubType.Standard" ); //$NON-NLS-1$
+	protected String getDisplayNameForSubtype(String sDimension) {
+		return Messages.getString("PieChart.SubType.Standard"); //$NON-NLS-1$
 	}
-	
-	public String getValueDefinitionName( )
-	{
+
+	@Override
+	public String getValueDefinitionName() {
 		return Messages.getString("PieLeftAreaComponent.Label.SliceSizeDefinition"); //$NON-NLS-1$
 	}
-	
+
 	@Override
-	public boolean isChartWithAxes( )
-	{
+	public boolean isChartWithAxes() {
 		return false;
 	}
 }

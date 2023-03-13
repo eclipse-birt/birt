@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * PaletteEntryExtension
  */
-public class PaletteEntryExtension
-{
+public class PaletteEntryExtension {
 
 	private String itemName;
 	private String label;
@@ -31,107 +33,85 @@ public class PaletteEntryExtension
 	private String categoryDisplayName;
 	private String command;
 
-	public String getLabel( )
-	{
-		if ( itemName != null
-				&& DEUtil.getMetaDataDictionary( ).getExtension( itemName ) != null )
-			return DEUtil.getMetaDataDictionary( )
-					.getExtension( itemName )
-					.getDisplayName( );
+	public String getLabel() {
+		if (itemName != null && DEUtil.getMetaDataDictionary().getExtension(itemName) != null) {
+			return DEUtil.getMetaDataDictionary().getExtension(itemName).getDisplayName();
+		}
 		return label;
 	}
 
-	public void setLabel( String label )
-	{
+	public void setLabel(String label) {
 		this.label = label;
 	}
 
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public ImageDescriptor getIcon( )
-	{
+	public ImageDescriptor getIcon() {
 		return icon;
 	}
 
-	public void setIcon( ImageDescriptor icon )
-	{
+	public void setIcon(ImageDescriptor icon) {
 		this.icon = icon;
 	}
 
-	public ImageDescriptor getIconLarge( )
-	{
+	public ImageDescriptor getIconLarge() {
 		return iconLarge;
 	}
 
-	public void setIconLarge( ImageDescriptor iconLarge )
-	{
+	public void setIconLarge(ImageDescriptor iconLarge) {
 		this.iconLarge = iconLarge;
 	}
 
-	public String getCategory( )
-	{
+	public String getCategory() {
 		return category;
 	}
 
-	public String getCategoryDisplayName( )
-	{
+	public String getCategoryDisplayName() {
 		return categoryDisplayName;
 	}
 
-	public void setCategory( String category )
-	{
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
-	public void setCategoryDisplayName( String displayName )
-	{
+	public void setCategoryDisplayName(String displayName) {
 		this.categoryDisplayName = displayName;
 	}
 
-	public String getCommand( )
-	{
+	public String getCommand() {
 		return command;
 	}
 
-	public void setCommand( String command )
-	{
+	public void setCommand(String command) {
 		this.command = command;
 	}
 
-	public Object executeCreate( ) throws Exception
-	{
-		if ( getCommand( ) != null )
-		{
-			return CommandUtils.executeCommand( getCommand( ) );
+	public Object executeCreate() throws Exception {
+		if (getCommand() != null) {
+			return CommandUtils.executeCommand(getCommand());
 		}
-		throw new Exception( "create command not specified." ); //$NON-NLS-1$
+		throw new Exception("create command not specified."); //$NON-NLS-1$
 	}
 
-	public String getItemName( )
-	{
+	public String getItemName() {
 		return itemName;
 	}
 
-	public void setItemName( String itemName )
-	{
+	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
 
-	public String getMenuLabel( )
-	{
+	public String getMenuLabel() {
 		return menuLabel;
 	}
 
-	public void setMenuLabel( String menuLabel )
-	{
+	public void setMenuLabel(String menuLabel) {
 		this.menuLabel = menuLabel;
 	}
 }

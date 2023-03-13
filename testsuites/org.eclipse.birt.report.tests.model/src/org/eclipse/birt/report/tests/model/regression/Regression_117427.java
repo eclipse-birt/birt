@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,34 +45,32 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * there won't be exception
  * </p>
  */
-public class Regression_117427 extends BaseTestCase
-{
+public class Regression_117427 extends BaseTestCase {
 
 	private final static String REPORT = "regression_117427.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( REPORT , REPORT );
-		
+		copyResource_INPUT(REPORT, REPORT);
+
 	}
-	
+
 	/**
-	 * @throws DesignFileException 
-	 * @throws SemanticException 
-	 * @throws IOException 
-	 * 
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 * @throws IOException
+	 *
 	 */
-	
-	public void test_regression_117427( ) throws DesignFileException, SemanticException, IOException
-	{
-		openDesign( REPORT );
-		LibraryHandle lib = designHandle.getLibrary( "regression_117427_lib" ); //$NON-NLS-1$
-		designHandle.dropLibrary( lib );
-		
-		assertEquals( 0, designHandle.getLibraries( ).size( ) );
+
+	public void test_regression_117427() throws DesignFileException, SemanticException, IOException {
+		openDesign(REPORT);
+		LibraryHandle lib = designHandle.getLibrary("regression_117427_lib"); //$NON-NLS-1$
+		designHandle.dropLibrary(lib);
+
+		assertEquals(0, designHandle.getLibraries().size());
 	}
 }

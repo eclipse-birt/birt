@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,11 +27,10 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the oda data source element.
- * 
+ *
  */
 
-public class OdaDataSourceState extends DataSourceState
-{
+public class OdaDataSourceState extends DataSourceState {
 
 	/**
 	 * Old extension id of flat file in BIRT 1.0 or before.
@@ -58,121 +60,102 @@ public class OdaDataSourceState extends DataSourceState
 	/**
 	 * Constructs the oda data source state with the design parser handler, the
 	 * container element and the container slot of the oda data source.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 *
+	 * @param handler the design file parser handler
 	 */
 
-	public OdaDataSourceState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, slot );
-		element = new OdaDataSource( );
+	public OdaDataSourceState(ModuleParserHandler handler, int slot) {
+		super(handler, slot);
+		element = new OdaDataSource();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		parseODADataSourceExtensionID( attrs, false );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		parseODADataSourceExtensionID(attrs, false);
 
-		initElement( attrs, true );
+		initElement(attrs, true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
-		{
-			if ( handler.isVersion( VersionUtil.VERSION_0 )
-					|| handler.isVersion( VersionUtil.VERSION_1_0_0 ) )
-			{
-				return new CompatibleOdaDataSourcePropertyState( handler,
-						getElement( ) );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
+			if (handler.isVersion(VersionUtil.VERSION_0) || handler.isVersion(VersionUtil.VERSION_1_0_0)) {
+				return new CompatibleOdaDataSourcePropertyState(handler, getElement());
 			}
 		}
 
 		// if the extension id is OK, use normal procedure to parse the design
 		// file. Otherwise, use dummy state to parse.
 
-		if ( isValidExtensionId )
-			return super.startElement( tagName );
+		if (isValidExtensionId) {
+			return super.startElement(tagName);
+		}
 
-		return ParseStateFactory.getInstance( ).createParseState( tagName,
-				handler, element,
-				( (OdaDummyProvider) provider ).getContentTree( ) );
+		return ParseStateFactory.getInstance().createParseState(tagName, handler, element,
+				((OdaDummyProvider) provider).getContentTree());
 	}
 
 	/**
 	 * Parse the attribute of "extensionId" for extendable element.
-	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param extensionNameRequired
-	 *            whether extension name is required
+	 *
+	 * @param attrs                 the SAX attributes object
+	 * @param extensionNameRequired whether extension name is required
 	 */
 
-	private void parseODADataSourceExtensionID( Attributes attrs,
-			boolean extensionNameRequired )
-	{
-		String extensionID = getAttrib( attrs,
-				DesignSchemaConstants.EXTENSION_ID_ATTRIB );
+	private void parseODADataSourceExtensionID(Attributes attrs, boolean extensionNameRequired) {
+		String extensionID = getAttrib(attrs, DesignSchemaConstants.EXTENSION_ID_ATTRIB);
 
-		if ( StringUtil.isBlank( extensionID ) )
-		{
-			if ( !extensionNameRequired )
+		if (StringUtil.isBlank(extensionID)) {
+			if (!extensionNameRequired) {
 				return;
+			}
 
-			SemanticError e = new SemanticError( element,
-					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
-			RecoverableError.dealMissingInvalidExtension( handler, e );
+			SemanticError e = new SemanticError(element, SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION);
+			RecoverableError.dealMissingInvalidExtension(handler, e);
 
 			return;
 		}
-		if ( handler.versionNumber < VersionUtil.VERSION_3_0_0 )
-		{
-			if ( OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase( extensionID ) )
+		if (handler.versionNumber < VersionUtil.VERSION_3_0_0) {
+			if (OBSOLETE_FLAT_FILE_ID.equalsIgnoreCase(extensionID)) {
 				extensionID = NEW_FLAT_FILE_ID;
+			}
 		}
 
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+		setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
 
 		// get the provider to check whether this is a valid oda extension
 
-		provider = ( (OdaDataSource) element ).getProvider( );
+		provider = ((OdaDataSource) element).getProvider();
 
-		if ( provider == null )
+		if (provider == null) {
 			return;
-
-		if ( provider instanceof OdaDummyProvider )
-		{
-			SemanticError e = new SemanticError( element,
-					new String[]{extensionID},
-					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
-			RecoverableError.dealMissingInvalidExtension( handler, e );
-			isValidExtensionId = false;
 		}
-		else
-		{
+
+		if (provider instanceof OdaDummyProvider) {
+			SemanticError e = new SemanticError(element, new String[] { extensionID },
+					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND);
+			RecoverableError.dealMissingInvalidExtension(handler, e);
+			isValidExtensionId = false;
+		} else {
 			// After version 3.2.7 , add convert fuction.
 
-			String newExtensionID = provider.convertExtensionID( );
-			if ( !extensionID.equals( newExtensionID ) )
-			{
-				setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-						newExtensionID );
+			String newExtensionID = provider.convertExtensionID();
+			if (!extensionID.equals(newExtensionID)) {
+				setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, newExtensionID);
 			}
 		}
 	}

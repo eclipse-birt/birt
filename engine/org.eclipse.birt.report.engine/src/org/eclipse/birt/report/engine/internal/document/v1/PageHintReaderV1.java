@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,91 +31,78 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
 
-public class PageHintReaderV1 implements IPageHintReader
-{
+public class PageHintReaderV1 implements IPageHintReader {
 	protected IReportDocument document;
-	ArrayList pageHints = new ArrayList( );
+	ArrayList pageHints = new ArrayList();
 
-	public PageHintReaderV1( IReportDocument document ) throws IOException
-	{
+	public PageHintReaderV1(IReportDocument document) throws IOException {
 		this.document = document;
-		IDocArchiveReader reader = document.getArchive( );
+		IDocArchiveReader reader = document.getArchive();
 
-		InputStream in = reader
-				.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
-		try
-		{
-			DataInputStream di = new DataInputStream( new BufferedInputStream(
-					in ) );
-			long pageCount = IOUtil.readLong( di );
-			for ( long i = 0; i < pageCount; i++ )
-			{
-				IPageHint hint = readPageHint( di );
-				pageHints.add( hint );
+		InputStream in = reader.getStream(ReportDocumentConstants.PAGEHINT_STREAM);
+		try {
+			DataInputStream di = new DataInputStream(new BufferedInputStream(in));
+			long pageCount = IOUtil.readLong(di);
+			for (long i = 0; i < pageCount; i++) {
+				IPageHint hint = readPageHint(di);
+				pageHints.add(hint);
 			}
-		}
-		catch ( IOException ex )
-		{
-			in.close( );
+		} catch (IOException ex) {
+			in.close();
 			throw ex;
 		}
 	}
 
-	public int getVersion( )
-	{
+	@Override
+	public int getVersion() {
 		return VERSION_0;
-	
+
 	}
 
-	public void close( )
-	{
+	@Override
+	public void close() {
 	}
 
-	public long getTotalPage( ) throws IOException
-	{
-		return pageHints.size( );
+	@Override
+	public long getTotalPage() throws IOException {
+		return pageHints.size();
 	}
 
-	public IPageHint getPageHint( long pageNumber ) throws IOException
-	{
-		return (IPageHint) pageHints.get( (int) pageNumber );
+	@Override
+	public IPageHint getPageHint(long pageNumber) throws IOException {
+		return (IPageHint) pageHints.get((int) pageNumber);
 	}
 
-	public long findPage( long offset ) throws IOException
-	{
-		for ( int i = 0; i < pageHints.size( ); i++ )
-		{
-			IPageHint hint = (IPageHint) pageHints.get( i );
+	public long findPage(long offset) throws IOException {
+		for (int i = 0; i < pageHints.size(); i++) {
+			IPageHint hint = (IPageHint) pageHints.get(i);
 			PageSection section = hint.getSection(0);
-			if ( section.startOffset > offset )
-			{
+			if (section.startOffset > offset) {
 				return i + 1;
 			}
 		}
-		return pageHints.size( );
+		return pageHints.size();
 	}
 
-	private PageHint readPageHint( DataInputStream in ) throws IOException
-	{
-		long pageNumber = IOUtil.readLong( in );
-		long pageOffset = IOUtil.readLong( in );
-		PageHint hint = new PageHint( pageNumber, pageOffset );
-		PageSection section = new PageSection( );
-		section.startOffset = IOUtil.readLong( in );
-		section.endOffset = IOUtil.readLong( in );
-		hint.addSection( section );
+	private PageHint readPageHint(DataInputStream in) throws IOException {
+		long pageNumber = IOUtil.readLong(in);
+		long pageOffset = IOUtil.readLong(in);
+		PageHint hint = new PageHint(pageNumber, pageOffset);
+		PageSection section = new PageSection();
+		section.startOffset = IOUtil.readLong(in);
+		section.endOffset = IOUtil.readLong(in);
+		hint.addSection(section);
 		return hint;
 	}
 
-	public long getPageOffset( long pageNumber, String masterPage )
-			throws IOException
-	{
-		return getPageHint(pageNumber).getOffset( );
+	@Override
+	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
+		return getPageHint(pageNumber).getOffset();
 	}
 
-	public Collection<PageVariable> getPageVariables( ) throws IOException
-	{
-		return new ArrayList<PageVariable>( );
+	@Override
+	public Collection<PageVariable> getPageVariables() throws IOException {
+		return new ArrayList<>();
 	}
 
 }

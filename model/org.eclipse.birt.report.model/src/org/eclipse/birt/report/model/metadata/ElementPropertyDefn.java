@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,10 +24,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * display name, etc.
  */
 
-public abstract class ElementPropertyDefn extends PropertyDefn
-		implements
-			IElementPropertyDefn
-{
+public abstract class ElementPropertyDefn extends PropertyDefn implements IElementPropertyDefn {
 
 	/**
 	 * The message ID for the property group name.
@@ -50,40 +50,40 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Default constructor.
 	 */
 
-	public ElementPropertyDefn( )
-	{
+	public ElementPropertyDefn() {
 	}
 
 	/**
 	 * Returns the group name (if any) for the property.
-	 * 
+	 *
 	 * @return The (localized) group name, or null if the property is not in a
 	 *         group.
 	 */
 
-	public String getGroupName( )
-	{
-		if ( groupNameKey == null )
+	@Override
+	public String getGroupName() {
+		if (groupNameKey == null) {
 			return null;
+		}
 
-		return ModelMessages.getMessage( groupNameKey );
+		return ModelMessages.getMessage(groupNameKey);
 	}
 
 	/**
-	 * Indicates if derived elements can inherit the value of this property.
-	 * Most properties can inherit values from a parent element. A few system
-	 * properties, such as the name or extends, can't be inherited.
+	 * Indicates if derived elements can inherit the value of this property. Most
+	 * properties can inherit values from a parent element. A few system properties,
+	 * such as the name or extends, can't be inherited.
 	 * <p>
-	 * Note: This attribute is used for both style property and non-style
-	 * property with two different meanings.
+	 * Note: This attribute is used for both style property and non-style property
+	 * with two different meanings.
 	 * <ul>
-	 * <li>For style property, it determines whether this property can be
-	 * cascaded from container;
-	 * <li>For non-style property, that means whether this property can be
-	 * inherited from parent.
+	 * <li>For style property, it determines whether this property can be cascaded
+	 * from container;
+	 * <li>For non-style property, that means whether this property can be inherited
+	 * from parent.
 	 * </ul>
-	 * We take it because of the fact style is not inheritable, and the
-	 * following diagram:
+	 * We take it because of the fact style is not inheritable, and the following
+	 * diagram:
 	 * <p>
 	 * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
 	 * collapse" bordercolor="#111111">
@@ -101,12 +101,12 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * <td align="center"><code>false</code></td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @return Whether the property can inherit the parent's value.
 	 */
 
-	public boolean canInherit( )
-	{
+	@Override
+	public boolean canInherit() {
 		return isInheritable;
 	}
 
@@ -116,43 +116,41 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * property can be "associated" with elements that have a style. If so, then
 	 * each element with a style will include the style property as though that
 	 * property were defined on the element itself. The meta-data for the style
-	 * property is copied onto the meta-data for the element. In this case, the
-	 * copy will also return true from isStyleProperty( ), indicating that the
-	 * element obtained the property implicitly from the style element.
-	 * 
-	 * @return Whether the property is defined on a style for the purpose of
-	 *         being used by elements.
+	 * property is copied onto the meta-data for the element. In this case, the copy
+	 * will also return true from isStyleProperty( ), indicating that the element
+	 * obtained the property implicitly from the style element.
+	 *
+	 * @return Whether the property is defined on a style for the purpose of being
+	 *         used by elements.
 	 */
 
-	public boolean isStyleProperty( )
-	{
+	@Override
+	public boolean isStyleProperty() {
 		return false;
 	}
 
 	/**
-	 * Builds the semantic information for this property. Called once while
-	 * loading the meta-data. The build must succeed, or a programming error has
-	 * occurred.
-	 * 
-	 * @throws MetaDataException
-	 *             if the build is failed
+	 * Builds the semantic information for this property. Called once while loading
+	 * the meta-data. The build must succeed, or a programming error has occurred.
+	 *
+	 * @throws MetaDataException if the build is failed
 	 */
 
-	public void build( ) throws MetaDataException
-	{
-		super.build( );
+	@Override
+	public void build() throws MetaDataException {
+		super.build();
 
 		// Check consistency of options. A style property that is meant
 		// to be used by multiple elements cannot also be intrinsic:
 		// defined by a member variable.
 
-		if ( isIntrinsic( ) && isStyleProperty( ) )
-			throw new MetaDataException( new String[]{name},
-					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE );
+		if (isIntrinsic() && isStyleProperty()) {
+			throw new MetaDataException(new String[] { name },
+					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE);
+		}
 
 		// all element type property is not inheritable
-		if ( getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
-		{
+		if (getTypeCode() == IPropertyType.ELEMENT_TYPE) {
 			this.isInheritable = false;
 		}
 
@@ -160,100 +158,96 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	/**
 	 * Returns the message ID for the group name.
-	 * 
+	 *
 	 * @return The group name message ID.
 	 */
 
-	public String getGroupNameKey( )
-	{
+	@Override
+	public String getGroupNameKey() {
 		return groupNameKey;
 	}
 
 	/**
 	 * Sets whether the property value can be inherited by subclasses.
-	 * 
-	 * @param flag
-	 *            <code>true</code> if the property value can be inherited,
-	 *            <code>false</code> otherwise.
+	 *
+	 * @param flag <code>true</code> if the property value can be inherited,
+	 *             <code>false</code> otherwise.
 	 */
 
-	void setCanInherit( boolean flag )
-	{
+	void setCanInherit(boolean flag) {
 		isInheritable = flag;
 	}
 
 	/**
 	 * Sets the message ID for the group name.
-	 * 
-	 * @param id
-	 *            The group name message ID.
+	 *
+	 * @param id The group name message ID.
 	 */
 
-	void setGroupNameKey( String id )
-	{
+	void setGroupNameKey(String id) {
 		groupNameKey = id;
 	}
 
 	/**
 	 * Checks whether the property is visible to the property sheet.
-	 * 
+	 *
 	 * @return <code>true</code>.
 	 */
 
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		return true;
 	}
 
 	/**
 	 * Checks whether the property value is read-only in the property sheet.
-	 * 
+	 *
 	 * @return <code>false</code>.
 	 */
 
-	public boolean isReadOnly( )
-	{
+	@Override
+	public boolean isReadOnly() {
 		return false;
 	}
 
 	/**
-	 * Checks whether the property value can be edited by the user in the
-	 * property sheet.
-	 * 
+	 * Checks whether the property value can be edited by the user in the property
+	 * sheet.
+	 *
 	 * @return <code>true</code> if the property value is read-only,
 	 *         <code>false</code> otherwise.
 	 */
 
-	public boolean isEditable( )
-	{
-		return !( getTypeCode( ) == IPropertyType.CHOICE_TYPE );
+	@Override
+	public boolean isEditable() {
+		return !(getTypeCode() == IPropertyType.CHOICE_TYPE);
 	}
 
 	/**
 	 * Returns the method information of this property.
-	 * 
+	 *
 	 * @return the method information of this property. Return null, if this
 	 *         property is not a method property.
 	 */
 
-	public IMethodInfo getMethodInfo( )
-	{
-		if ( getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+	@Override
+	public IMethodInfo getMethodInfo() {
+		if (getTypeCode() == IPropertyType.SCRIPT_TYPE) {
 			return (IMethodInfo) details;
+		}
 
 		return null;
 	}
 
 	/**
-	 * Returns <code>true</code> indicating if the xml property value
-	 * represents the extension-defined model.
-	 * 
+	 * Returns <code>true</code> indicating if the xml property value represents the
+	 * extension-defined model.
+	 *
 	 * @return <code>true</code> if the xml property value represents the
 	 *         extension-defined model.
 	 */
 
-	public boolean hasOwnModel( )
-	{
+	public boolean hasOwnModel() {
 		return false;
 	}
 
@@ -261,8 +255,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * @return the enableExtraSearch
 	 */
 
-	public boolean enableContextSearch( )
-	{
+	public boolean enableContextSearch() {
 		return useOwnSearch;
 	}
 }

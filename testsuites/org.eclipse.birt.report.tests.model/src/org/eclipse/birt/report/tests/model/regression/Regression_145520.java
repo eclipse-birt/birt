@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -49,8 +52,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * refresh.
  * <p>
  */
-public class Regression_145520 extends BaseTestCase
-{
+public class Regression_145520 extends BaseTestCase {
 
 	private final static String REPORT = "regression_145520.xml"; //$NON-NLS-1$
 
@@ -60,54 +62,50 @@ public class Regression_145520 extends BaseTestCase
 	 * @throws ContentException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_145520( ) throws DesignFileException,
-			ContentException, NameException
-	{
-		this.openDesign( REPORT );
-		TableHandle table1 = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
 
-		MyListener tableListener = new MyListener( );
-		table1.addListener( tableListener );
+	public void test_regression_145520() throws DesignFileException, ContentException, NameException {
+		this.openDesign(REPORT);
+		TableHandle table1 = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
 
-		ElementFactory factory = this.designHandle.getElementFactory( );
-		TableGroupHandle group = factory.newTableGroup( );
+		MyListener tableListener = new MyListener();
+		table1.addListener(tableListener);
 
-		MyListener groupListener = new MyListener( );
-		group.addListener( groupListener );
+		ElementFactory factory = this.designHandle.getElementFactory();
+		TableGroupHandle group = factory.newTableGroup();
 
-		table1.getGroups( ).add( group );
+		MyListener groupListener = new MyListener();
+		group.addListener(groupListener);
+
+		table1.getGroups().add(group);
 
 		// make sure that the group has been notified of the groupname change
 		// event.
 
-		assertTrue( groupListener.event instanceof PropertyEvent );
+		assertTrue(groupListener.event instanceof PropertyEvent);
 		PropertyEvent propEvent = (PropertyEvent) groupListener.event;
 
-		assertEquals( "groupName", propEvent.getPropertyName( ) ); //$NON-NLS-1$
-		assertEquals( group.getElement( ), propEvent.getTarget( ) );
+		assertEquals("groupName", propEvent.getPropertyName()); //$NON-NLS-1$
+		assertEquals(group.getElement(), propEvent.getTarget());
 	}
 
-	static class MyListener implements Listener
-	{
+	static class MyListener implements Listener {
 
 		DesignElementHandle focus = null;
 		NotificationEvent event = null;
 
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.focus = focus;
 			this.event = ev;
 		}

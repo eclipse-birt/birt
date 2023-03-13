@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,14 +18,13 @@ import java.io.Serializable;
 
 /**
  * Parameter choice contains value or label.
- * 
+ *
  */
 
-public class ParameterChoice implements Serializable
-{
+public class ParameterChoice implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5052627081310365919L;
 
@@ -32,45 +34,41 @@ public class ParameterChoice implements Serializable
 
 	/**
 	 * returns the value of the selection choice
-	 * 
+	 *
 	 * @return the value of the selction choice
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
-	 * returns the locale-specific label for a selection choice. The locale used
-	 * is the locale in the parameter definition request.
-	 * 
+	 * returns the locale-specific label for a selection choice. The locale used is
+	 * the locale in the parameter definition request.
+	 *
 	 * @return the localized label for the parameter
 	 */
 
-	public Object getLabel( )
-	{
+	public Object getLabel() {
 		return label;
 	}
 
 	/**
 	 * Sets value
-	 * 
+	 *
 	 * @param value
 	 */
 
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
 	 * Sets label
-	 * 
+	 *
 	 * @param label
 	 */
 
-	public void setLabel( Object label )
-	{
+	public void setLabel(Object label) {
 		this.label = label;
 	}
 

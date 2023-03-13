@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,58 +27,55 @@ import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * 
+ *
  */
 
-public class CutHandler extends SelectionHandler
-{
-	private static final String DEFAULT_TEXT = Messages.getString( "CutAction.text" ); //$NON-NLS-1$
+public class CutHandler extends SelectionHandler {
+	private static final String DEFAULT_TEXT = Messages.getString("CutAction.text"); //$NON-NLS-1$
 
-	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		super.execute( event );
-		
-		Object[] selection = getElementHandles().toArray( );
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Cut action >> Cut " + Arrays.toString( selection ) ); //$NON-NLS-1$
+		super.execute(event);
+
+		Object[] selection = getElementHandles().toArray();
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Cut action >> Cut " + Arrays.toString(selection)); //$NON-NLS-1$
 		}
-		Object cloneElements = DNDUtil.cloneSource( selection );
-		DeleteAction action = createDeleteAction( selection );
-		action.run( );
-		if ( action.hasExecuted( ) )
-		{
-			Clipboard.getDefault( ).setContents( cloneElements );
+		Object cloneElements = DNDUtil.cloneSource(selection);
+		DeleteAction action = createDeleteAction(selection);
+		action.run();
+		if (action.hasExecuted()) {
+			Clipboard.getDefault().setContents(cloneElements);
 		}
-		
+
 		return Boolean.TRUE;
 	}
-	
-	protected DeleteAction createDeleteAction( final Object objects )
-	{
-		return new DeleteAction( objects ) {
+
+	protected DeleteAction createDeleteAction(final Object objects) {
+		return new DeleteAction(objects) {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#getTransactionLabel()
+			 *
+			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#
+			 * getTransactionLabel()
 			 */
-			protected String getTransactionLabel( )
-			{
-				if ( objects instanceof IStructuredSelection )
-				{
-					return Messages.getString( "CutAction.trans" ); //$NON-NLS-1$
+			@Override
+			protected String getTransactionLabel() {
+				if (objects instanceof IStructuredSelection) {
+					return Messages.getString("CutAction.trans"); //$NON-NLS-1$
 				}
-				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( objects ); //$NON-NLS-1$
+				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel(objects); //$NON-NLS-1$
 			}
 		};
 	}
-	
+
 }

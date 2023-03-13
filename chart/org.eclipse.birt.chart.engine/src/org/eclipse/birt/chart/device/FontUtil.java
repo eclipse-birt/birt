@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,11 +19,10 @@ import java.util.Map;
 
 /**
  * Font utility class.
- * 
+ *
  * @since 2.3
  */
-public final class FontUtil
-{
+public final class FontUtil {
 	// Defines default font families.
 	public static final String LOGIC_FONT_FAMILY_SERIF = "serif"; //$NON-NLS-1$
 
@@ -45,34 +47,30 @@ public final class FontUtil
 	/**
 	 * Map between CSS style font family to system font family
 	 */
-	private static Map<String, String> sFamilyMap = new HashMap( );
+	private static Map<String, String> sFamilyMap = new HashMap();
 
 	/**
 	 * Static table stores the font families. It provides the font name and the
 	 * family of the fonts.
 	 */
-	static
-	{
-		sFamilyMap.put( LOGIC_FONT_FAMILY_SERIF, FONT_FAMILY_TIMES_NEW_ROMAN );
-		sFamilyMap.put( LOGIC_FONT_FAMILY_SANS_SERIF, FONT_FAMILY_ARIAL );
-		sFamilyMap.put( LOGIC_FONT_FAMILY_CURSIVE, FONT_FAMILY_COMIC_SANS_MS );
-		sFamilyMap.put( LOGIC_FONT_FAMILY_FANTASY, FONT_FAMILY_IMPACT );
-		sFamilyMap.put( LOGIC_FONT_FAMILY_MONOSPACE, FONT_FAMILY_COURIER_NEW );
-	};
+	static {
+		sFamilyMap.put(LOGIC_FONT_FAMILY_SERIF, FONT_FAMILY_TIMES_NEW_ROMAN);
+		sFamilyMap.put(LOGIC_FONT_FAMILY_SANS_SERIF, FONT_FAMILY_ARIAL);
+		sFamilyMap.put(LOGIC_FONT_FAMILY_CURSIVE, FONT_FAMILY_COMIC_SANS_MS);
+		sFamilyMap.put(LOGIC_FONT_FAMILY_FANTASY, FONT_FAMILY_IMPACT);
+		sFamilyMap.put(LOGIC_FONT_FAMILY_MONOSPACE, FONT_FAMILY_COURIER_NEW);
+	}
 
 	/**
 	 * Returns the final font family name.
-	 * 
-	 * @param fontFamily
-	 *            specified font family name.
+	 *
+	 * @param fontFamily specified font family name.
 	 * @return actually font family name.
 	 */
-	public static String getFontFamily( String fontFamily )
-	{
-		String destFontName = (String) sFamilyMap.get( fontFamily );
+	public static String getFontFamily(String fontFamily) {
+		String destFontName = (String) sFamilyMap.get(fontFamily);
 
-		if ( destFontName == null )
-		{
+		if (destFontName == null) {
 			destFontName = fontFamily;
 		}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,41 +23,34 @@ import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
  * Simple implementation of IDataRowExpressionEvaluator.
  */
 
-public class SimpleDataRowExpressionEvaluator
-		extends
-			DataRowExpressionEvaluatorAdapter
-{
+public class SimpleDataRowExpressionEvaluator extends DataRowExpressionEvaluatorAdapter {
 
 	private int index = 0;
 	private Object[] columnData;
 	private Map map;
 
-	public SimpleDataRowExpressionEvaluator( String[] expressions,
-			Object[][] data )
-	{
-		if ( expressions == null
-				|| data == null || expressions.length != data.length )
-		{
-			throw new IllegalArgumentException( );
+	public SimpleDataRowExpressionEvaluator(String[] expressions, Object[][] data) {
+		if (expressions == null || data == null || expressions.length != data.length) {
+			throw new IllegalArgumentException();
 		}
 
-		map = new HashMap( );
-		for ( int i = 0; i < expressions.length; i++ )
-		{
-			map.put( expressions[i], data[i] );
+		map = new HashMap();
+		for (int i = 0; i < expressions.length; i++) {
+			map.put(expressions[i], data[i]);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
-		Object[] data = (Object[]) map.get( expression );
-		if ( data == null )
-		{
+	@Override
+	public Object evaluate(String expression) {
+		Object[] data = (Object[]) map.get(expression);
+		if (data == null) {
 			return expression;
 		}
 		columnData = data;
@@ -63,19 +59,17 @@ public class SimpleDataRowExpressionEvaluator
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
+	@Override
+	public boolean first() {
 		index = 0;
 
-		if ( map.size( ) > 0 )
-		{
-			columnData = (Object[]) map.values( ).iterator( ).next( );
+		if (map.size() > 0) {
+			columnData = (Object[]) map.values().iterator().next();
 
-			if ( columnData != null && index < columnData.length )
-			{
+			if (columnData != null && index < columnData.length) {
 				return true;
 			}
 		}
@@ -85,13 +79,12 @@ public class SimpleDataRowExpressionEvaluator
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
-		if ( columnData != null && index < ( columnData.length - 1 ) )
-		{
+	@Override
+	public boolean next() {
+		if (columnData != null && index < (columnData.length - 1)) {
 			index++;
 			return true;
 		}
@@ -100,16 +93,16 @@ public class SimpleDataRowExpressionEvaluator
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
+	@Override
+	public void close() {
 		// Doing nothing.
 	}
 
-	public Object evaluateGlobal( String expression )
-	{
+	@Override
+	public Object evaluateGlobal(String expression) {
 		return null;
 	}
 

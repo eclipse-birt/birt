@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,90 +21,71 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * read a index (binary search) 
+ * read a index (binary search)
  *
  */
-public class OffsetIndexReader
-{
+public class OffsetIndexReader {
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( OffsetIndexReader.class.getName( ) );
-	
+	protected static Logger logger = Logger.getLogger(OffsetIndexReader.class.getName());
+
 	protected String indexFile;
 	protected RandomAccessFile index;
 
-	public OffsetIndexReader( String indexFile )
-	{
+	public OffsetIndexReader(String indexFile) {
 		this.indexFile = indexFile;
 	}
 
-	public void open( ) throws IOException
-	{
-		File file = new File( indexFile );
-		index = new RandomAccessFile( file, "r" );
+	public void open() throws IOException {
+		File file = new File(indexFile);
+		index = new RandomAccessFile(file, "r");
 	}
 
-	public void close( )
-	{
-		if ( index != null )
-		{
-			try
-			{
-				index.close( );
-			}
-			catch ( Exception ex )
-			{
+	public void close() {
+		if (index != null) {
+			try {
+				index.close();
+			} catch (Exception ex) {
 			}
 		}
 	}
 
-	public long find( long target )
-	{
-		try
-		{
-			long length = index.length( );
-			if ( length < 16 )
-			{
+	public long find(long target) {
+		try {
+			long length = index.length();
+			if (length < 16) {
 				return -1;
 			}
 
 			// the first one
-			if ( target == 0 )
-			{
-				index.seek( 8 );
-				return index.readLong( );
+			if (target == 0) {
+				index.seek(8);
+				return index.readLong();
 			}
 
 			// use binary search to find the target
 
 			long min = 1;
 			long max = length / 16 - 1;
-			long ref = ( min + max ) / 2;
-			do
-			{
-				index.seek( 16 * ref );
-				long offset = index.readLong( );
-				if ( target == offset )
-				{
-					return index.readLong( );
+			long ref = (min + max) / 2;
+			do {
+				index.seek(16 * ref);
+				long offset = index.readLong();
+				if (target == offset) {
+					return index.readLong();
 				}
-				if ( target > offset )
-				{
+				if (target > offset) {
 					min = ref + 1;
-					ref = ( min + max ) / 2;
+					ref = (min + max) / 2;
 
-				}
-				else
-				{
+				} else {
 					max = ref - 1;
-					ref = ( min + max ) / 2;
+					ref = (min + max) / 2;
 				}
-			} while ( min <= max );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.WARNING, ex.getMessage( ), ex );
+			} while (min <= max);
+		} catch (Exception ex) {
+			logger.log(Level.WARNING, ex.getMessage(), ex);
 		}
 		return -1;
 	}

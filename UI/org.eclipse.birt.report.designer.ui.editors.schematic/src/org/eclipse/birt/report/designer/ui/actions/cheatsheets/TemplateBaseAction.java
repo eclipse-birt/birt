@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -31,93 +33,76 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 /**
  * Base class for All cheat sheets action that apply when a specific editpart is
  * selected inside the editor
- *  
+ *
  */
-public abstract class TemplateBaseAction extends Action
-		implements
-			ICheatSheetAction
-{
+public abstract class TemplateBaseAction extends Action implements ICheatSheetAction {
 
 	protected EditPart selection;
 	protected String[] params;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[],
-	 *      org.eclipse.ui.cheatsheets.ICheatSheetManager)
+	 * org.eclipse.ui.cheatsheets.ICheatSheetManager)
 	 */
-	public void run( String[] params, ICheatSheetManager manager )
-	{
+	@Override
+	public void run(String[] params, ICheatSheetManager manager) {
 		this.params = params;
-		IEditorPart editor = UIUtil.getActiveReportEditor( );
-		if ( editor instanceof MultiPageReportEditor )
-		{
+		IEditorPart editor = UIUtil.getActiveReportEditor();
+		if (editor instanceof MultiPageReportEditor) {
 			// switch to Design Page
-			( (MultiPageReportEditor) editor ).setActivePage( ReportLayoutEditorFormPage.ID);
+			((MultiPageReportEditor) editor).setActivePage(ReportLayoutEditorFormPage.ID);
 
 			// init some variables
-			ReportLayoutEditor reportDesigner = (ReportLayoutEditor) ( (MultiPageReportEditor) editor )
-					.getActivePageInstance( );
-			AbstractEditPartViewer viewer = (AbstractEditPartViewer) reportDesigner
-					.getGraphicalViewer( );
+			ReportLayoutEditor reportDesigner = (ReportLayoutEditor) ((MultiPageReportEditor) editor)
+					.getActivePageInstance();
+			AbstractEditPartViewer viewer = (AbstractEditPartViewer) reportDesigner.getGraphicalViewer();
 
 			// tries to select the EditPart for the item name
-			selectEditPartForItemName( params[0], (MultiPageReportEditor) editor, viewer );
+			selectEditPartForItemName(params[0], (MultiPageReportEditor) editor, viewer);
 
 			// if the viewer selection contains a match for the class, proceed
-			selection = matchSelectionType( viewer );
-			if ( selection != null )
-			{
-				IAction action = getAction( reportDesigner );
-				if ( action != null && action.isEnabled( ) )
-				{
-					action.run( );
+			selection = matchSelectionType(viewer);
+			if (selection != null) {
+				IAction action = getAction(reportDesigner);
+				if (action != null && action.isEnabled()) {
+					action.run();
 				}
-			}
-			else
-			{
+			} else {
 				// show an error dialog asking to select the right element
-				showErrorWrongElementSelection( );
+				showErrorWrongElementSelection();
 			}
-		}
-		else
-		{
+		} else {
 			// show an error asking to select the right editor
-			showErrorWrongEditor( );
+			showErrorWrongEditor();
 		}
 	}
 
 	/**
 	 * show an error asking to select the right editor
 	 */
-	protected void showErrorWrongEditor( )
-	{
+	protected void showErrorWrongEditor() {
 		// TODO Auto-generated method stub
 	}
 
 	/**
-	 * show an error dialog asking to select the applicable element for that
-	 * action
+	 * show an error dialog asking to select the applicable element for that action
 	 */
-	protected abstract void showErrorWrongElementSelection( );
+	protected abstract void showErrorWrongElementSelection();
 
 	/**
 	 * Check that the viewer selection is a good match for this action
-	 * 
-	 * @param viewer
-	 *            The Edit Part viewer
+	 *
+	 * @param viewer The Edit Part viewer
 	 */
-	protected EditPart matchSelectionType( AbstractEditPartViewer viewer )
-	{
+	protected EditPart matchSelectionType(AbstractEditPartViewer viewer) {
 		EditPart part = null;
-		List editParts = viewer.getSelectedEditParts( );
+		List editParts = viewer.getSelectedEditParts();
 
-		for ( Iterator iter = editParts.iterator( ); iter.hasNext( ); )
-		{
-			Object iterEditPart = iter.next( );
-			if ( checkType( iterEditPart.getClass( ) ) )
-			{
+		for (Iterator iter = editParts.iterator(); iter.hasNext();) {
+			Object iterEditPart = iter.next();
+			if (checkType(iterEditPart.getClass())) {
 				part = (EditPart) iterEditPart;
 				break;
 			}
@@ -127,38 +112,32 @@ public abstract class TemplateBaseAction extends Action
 
 	/**
 	 * Check if the type is appropriate for this action
-	 * 
-	 * @param class1
-	 *            type of the selected EditPart
+	 *
+	 * @param class1 type of the selected EditPart
 	 * @return true if the type matches an appropriate EditPart
 	 */
-	protected abstract boolean checkType( Class class1 );
+	protected abstract boolean checkType(Class class1);
 
 	/**
-	 * select the EditPart in the editor if we find it if we don't find it, just
-	 * try with the current selection.
-	 * 
-	 * @param itemName
-	 *            The name of the Item in the report to select
-	 * @param editor
-	 *            The Report Editor
-	 * @param viewer
-	 *            The EditPart Viewer
+	 * select the EditPart in the editor if we find it if we don't find it, just try
+	 * with the current selection.
+	 *
+	 * @param itemName The name of the Item in the report to select
+	 * @param editor   The Report Editor
+	 * @param viewer   The EditPart Viewer
 	 */
-	protected void selectEditPartForItemName( String itemName,
-			MultiPageReportEditor editor, AbstractEditPartViewer viewer )
-	{
-		ModuleHandle reportDesign = editor.getModel( );
-		DesignElementHandle elementHandle = reportDesign.findElement( itemName );
-		if ( elementHandle != null )
-		{
-			EditPart editPart = (EditPart) viewer.getEditPartRegistry( ).get(
-					elementHandle );
-			if ( editPart != null )
-				viewer.select( editPart );
+	protected void selectEditPartForItemName(String itemName, MultiPageReportEditor editor,
+			AbstractEditPartViewer viewer) {
+		ModuleHandle reportDesign = editor.getModel();
+		DesignElementHandle elementHandle = reportDesign.findElement(itemName);
+		if (elementHandle != null) {
+			EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(elementHandle);
+			if (editPart != null) {
+				viewer.select(editPart);
+			}
 		}
 	}
 
-	protected abstract IAction getAction( ReportLayoutEditor reportDesigner );
+	protected abstract IAction getAction(ReportLayoutEditor reportDesigner);
 
 }

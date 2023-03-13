@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +30,9 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 /**
  * CrosstabMeasureHeaderRowExecutor
  */
-public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
-{
+public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor {
 
-	private static Logger logger = Logger.getLogger( CrosstabMeasureHeaderRowExecutor.class.getName( ) );
+	private static Logger logger = Logger.getLogger(CrosstabMeasureHeaderRowExecutor.class.getName());
 
 	private int rowSpan, colSpan;
 	private int currentChangeType;
@@ -50,33 +52,31 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	private boolean isFirst;
 	private IReportItemExecutor nextExecutor;
 
-	public CrosstabMeasureHeaderRowExecutor( BaseCrosstabExecutor parent )
-	{
-		super( parent );
+	public CrosstabMeasureHeaderRowExecutor(BaseCrosstabExecutor parent) {
+		super(parent);
 	}
 
-	public void close( )
-	{
-		super.close( );
+	@Override
+	public void close() {
+		super.close();
 
 		nextExecutor = null;
 	}
 
-	public IContent execute( )
-	{
-		IRowContent content = context.getReportContent( ).createRowContent( );
+	@Override
+	public IContent execute() {
+		IRowContent content = context.getReportContent().createRowContent();
 
-		initializeContent( content, null );
+		initializeContent(content, null);
 
-		processRowHeight( findMeasureHeaderCell( ) );
+		processRowHeight(findMeasureHeaderCell());
 
-		prepareChildren( );
+		prepareChildren();
 
 		return content;
 	}
 
-	private void prepareChildren( )
-	{
+	private void prepareChildren() {
 		isFirst = true;
 
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
@@ -85,9 +85,9 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 		currentEdgePosition = -1;
 
 		blankStarted = false;
-		hasColumnGroups = columnGroups != null && columnGroups.size( ) > 0;
+		hasColumnGroups = columnGroups != null && columnGroups.size() > 0;
 
-		totalMeasureCount = crosstabItem.getMeasureCount( );
+		totalMeasureCount = crosstabItem.getMeasureCount();
 
 		rowSpan = 1;
 		colSpan = 0;
@@ -97,61 +97,49 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 		hasLast = false;
 
-		walker.reload( );
+		walker.reload();
 	}
 
-	private CrosstabCellHandle getSubTotalMeasureHeaderCell( int axis,
-			int dimensionIndex, int levelIndex, int measureIndex )
-	{
-		if ( measureIndex >= 0
-				&& measureIndex < totalMeasureCount
-				&& dimensionIndex >= 0
-				&& levelIndex >= 0 )
-		{
-			DimensionViewHandle dv = crosstabItem.getDimension( axis,
-					dimensionIndex );
-			LevelViewHandle lv = dv.getLevel( levelIndex );
+	private CrosstabCellHandle getSubTotalMeasureHeaderCell(int axis, int dimensionIndex, int levelIndex,
+			int measureIndex) {
+		if (measureIndex >= 0 && measureIndex < totalMeasureCount && dimensionIndex >= 0 && levelIndex >= 0) {
+			DimensionViewHandle dv = crosstabItem.getDimension(axis, dimensionIndex);
+			LevelViewHandle lv = dv.getLevel(levelIndex);
 
-			return crosstabItem.getMeasure( measureIndex ).getHeader( lv );
+			return crosstabItem.getMeasure(measureIndex).getHeader(lv);
 		}
 
 		return null;
 	}
 
-	private boolean needCornerHeaderCell( )
-	{
-		if ( !hasColumnGroups )
-		{
+	private boolean needCornerHeaderCell() {
+		if (!hasColumnGroups) {
 			return true;
 		}
 
-		int cgCount = columnGroups.size( );
-		int rgCount = rowGroups == null ? 0 : rowGroups.size( );
+		int cgCount = columnGroups.size();
+		int rgCount = rowGroups == null ? 0 : rowGroups.size();
 
 		int offset = cgCount * rgCount;
 
 		// assuming all header cell span == 1 for now
-		if ( offset < crosstabItem.getHeaderCount( ) )
-		{
+		if (offset < crosstabItem.getHeaderCount()) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private CrosstabCellHandle getCornerHeaderCell( int colIndex )
-	{
+	private CrosstabCellHandle getCornerHeaderCell(int colIndex) {
 		int offset = 0;
 
-		if ( hasColumnGroups )
-		{
-			int cgCount = columnGroups.size( );
-			int rgCount = rowGroups == null ? 0 : rowGroups.size( );
+		if (hasColumnGroups) {
+			int cgCount = columnGroups.size();
+			int rgCount = rowGroups == null ? 0 : rowGroups.size();
 
 			// even when no row groups, we consider there's always one dummy row
 			// group.
-			if ( rgCount == 0 )
-			{
+			if (rgCount == 0) {
 				rgCount++;
 			}
 
@@ -159,113 +147,85 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 		}
 
 		// assuming all header cell span == 1 for now
-		if ( ( colIndex + offset ) < crosstabItem.getHeaderCount( ) )
-		{
-			return crosstabItem.getHeader( colIndex + offset );
+		if ((colIndex + offset) < crosstabItem.getHeaderCount()) {
+			return crosstabItem.getHeader(colIndex + offset);
 		}
 
 		return null;
 	}
 
-	private void advance( )
-	{
-		try
-		{
-			while ( walker.hasNext( ) )
-			{
-				ColumnEvent ev = walker.next( );
+	private void advance() {
+		try {
+			while (walker.hasNext()) {
+				ColumnEvent ev = walker.next();
 
-				switch ( currentChangeType )
-				{
-					case ColumnEvent.ROW_EDGE_CHANGE :
-					case ColumnEvent.MEASURE_HEADER_CHANGE :
+				switch (currentChangeType) {
+				case ColumnEvent.ROW_EDGE_CHANGE:
+				case ColumnEvent.MEASURE_HEADER_CHANGE:
 
-						if ( blankStarted )
-						{
-							int headerCount = crosstabItem.getHeaderCount( );
+					if (blankStarted) {
+						int headerCount = crosstabItem.getHeaderCount();
 
-							// TODO to simplify, only check headerCount>1 for
-							// now (e.g. assume all cell span == 1), later if
-							// header cell span supported, should calculate
-							// based on real span.
-							if ( headerCount > 1
-									|| ( ev.type != ColumnEvent.ROW_EDGE_CHANGE && ev.type != ColumnEvent.MEASURE_HEADER_CHANGE ) )
-							{
-								nextExecutor = new CrosstabCellExecutor( this,
-										getCornerHeaderCell( currentColIndex
-												- colSpan
-												+ 1 ),
-										rowSpan,
-										colSpan,
-										currentColIndex - colSpan + 1 );
+						// TODO to simplify, only check headerCount>1 for
+						// now (e.g. assume all cell span == 1), later if
+						// header cell span supported, should calculate
+						// based on real span.
+						if (headerCount > 1 || (ev.type != ColumnEvent.ROW_EDGE_CHANGE
+								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE)) {
+							nextExecutor = new CrosstabCellExecutor(this,
+									getCornerHeaderCell(currentColIndex - colSpan + 1), rowSpan, colSpan,
+									currentColIndex - colSpan + 1);
 
-								( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-								blankStarted = false;
-								hasLast = false;
-							}
+							blankStarted = false;
+							hasLast = false;
 						}
-						break;
-					case ColumnEvent.MEASURE_CHANGE :
-					case ColumnEvent.COLUMN_EDGE_CHANGE :
+					}
+					break;
+				case ColumnEvent.MEASURE_CHANGE:
+				case ColumnEvent.COLUMN_EDGE_CHANGE:
 
-						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getMeasure( lastMeasureIndex )
-										.getHeader( ),
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
+					nextExecutor = new CrosstabCellExecutor(this, crosstabItem.getMeasure(lastMeasureIndex).getHeader(),
+							rowSpan, colSpan, currentColIndex - colSpan + 1);
 
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-						hasLast = false;
-						break;
-					case ColumnEvent.COLUMN_TOTAL_CHANGE :
+					hasLast = false;
+					break;
+				case ColumnEvent.COLUMN_TOTAL_CHANGE:
 
-						nextExecutor = new CrosstabCellExecutor( this,
-								getSubTotalMeasureHeaderCell( COLUMN_AXIS_TYPE,
-										lastDimensionIndex,
-										lastLevelIndex,
-										lastMeasureIndex ),
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
+					nextExecutor = new CrosstabCellExecutor(this, getSubTotalMeasureHeaderCell(COLUMN_AXIS_TYPE,
+							lastDimensionIndex, lastLevelIndex, lastMeasureIndex), rowSpan, colSpan,
+							currentColIndex - colSpan + 1);
 
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-						hasLast = false;
-						break;
-					case ColumnEvent.GRAND_TOTAL_CHANGE :
+					hasLast = false;
+					break;
+				case ColumnEvent.GRAND_TOTAL_CHANGE:
 
-						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getMeasure( lastMeasureIndex )
-										.getHeader( null ),
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
+					nextExecutor = new CrosstabCellExecutor(this,
+							crosstabItem.getMeasure(lastMeasureIndex).getHeader(null), rowSpan, colSpan,
+							currentColIndex - colSpan + 1);
 
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-						hasLast = false;
-						break;
+					hasLast = false;
+					break;
 				}
 
-				if ( ev.type == ColumnEvent.MEASURE_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE
-						|| ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
-				{
+				if (ev.type == ColumnEvent.MEASURE_CHANGE || ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
+						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE || ev.type == ColumnEvent.GRAND_TOTAL_CHANGE) {
 					rowSpan = 1;
 					colSpan = 0;
 					lastMeasureIndex = ev.measureIndex;
 					lastDimensionIndex = ev.dimensionIndex;
 					lastLevelIndex = ev.levelIndex;
 					hasLast = true;
-				}
-				else if ( !blankStarted
-						&& ( ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE )
-						&& needCornerHeaderCell( ) )
-				{
+				} else if (!blankStarted
+						&& (ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE)
+						&& needCornerHeaderCell()) {
 					blankStarted = true;
 					rowSpan = 1;
 					colSpan = 0;
@@ -278,104 +238,79 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 				colSpan++;
 				currentColIndex++;
 
-				if ( nextExecutor != null )
-				{
+				if (nextExecutor != null) {
 					return;
 				}
 			}
 
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabMeasureHeaderRowExecutor.error.generate.child.executor" ), //$NON-NLS-1$
-					e );
+		} catch (OLAPException e) {
+			logger.log(Level.SEVERE,
+					Messages.getString("CrosstabMeasureHeaderRowExecutor.error.generate.child.executor"), //$NON-NLS-1$
+					e);
 		}
 
-		if ( hasLast )
-		{
+		if (hasLast) {
 			hasLast = false;
 
 			// handle last column
-			switch ( currentChangeType )
-			{
-				case ColumnEvent.ROW_EDGE_CHANGE :
-				case ColumnEvent.MEASURE_HEADER_CHANGE :
+			switch (currentChangeType) {
+			case ColumnEvent.ROW_EDGE_CHANGE:
+			case ColumnEvent.MEASURE_HEADER_CHANGE:
 
-					if ( blankStarted )
-					{
-						nextExecutor = new CrosstabCellExecutor( this,
-								getCornerHeaderCell( currentColIndex
-										- colSpan
-										+ 1 ),
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
+				if (blankStarted) {
+					nextExecutor = new CrosstabCellExecutor(this, getCornerHeaderCell(currentColIndex - colSpan + 1),
+							rowSpan, colSpan, currentColIndex - colSpan + 1);
 
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-					}
-					break;
-				case ColumnEvent.MEASURE_CHANGE :
-				case ColumnEvent.COLUMN_EDGE_CHANGE :
+					((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
+				}
+				break;
+			case ColumnEvent.MEASURE_CHANGE:
+			case ColumnEvent.COLUMN_EDGE_CHANGE:
 
-					nextExecutor = new CrosstabCellExecutor( this,
-							crosstabItem.getMeasure( lastMeasureIndex )
-									.getHeader( ),
-							rowSpan,
-							colSpan,
-							currentColIndex - colSpan + 1 );
+				nextExecutor = new CrosstabCellExecutor(this, crosstabItem.getMeasure(lastMeasureIndex).getHeader(),
+						rowSpan, colSpan, currentColIndex - colSpan + 1);
 
-					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-					break;
-				case ColumnEvent.COLUMN_TOTAL_CHANGE :
+				break;
+			case ColumnEvent.COLUMN_TOTAL_CHANGE:
 
-					nextExecutor = new CrosstabCellExecutor( this,
-							getSubTotalMeasureHeaderCell( COLUMN_AXIS_TYPE,
-									lastDimensionIndex,
-									lastLevelIndex,
-									lastMeasureIndex ),
-							rowSpan,
-							colSpan,
-							currentColIndex - colSpan + 1 );
+				nextExecutor = new CrosstabCellExecutor(this, getSubTotalMeasureHeaderCell(COLUMN_AXIS_TYPE,
+						lastDimensionIndex, lastLevelIndex, lastMeasureIndex), rowSpan, colSpan,
+						currentColIndex - colSpan + 1);
 
-					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-					break;
-				case ColumnEvent.GRAND_TOTAL_CHANGE :
+				break;
+			case ColumnEvent.GRAND_TOTAL_CHANGE:
 
-					nextExecutor = new CrosstabCellExecutor( this,
-							crosstabItem.getMeasure( lastMeasureIndex )
-									.getHeader( null ),
-							rowSpan,
-							colSpan,
-							currentColIndex - colSpan + 1 );
+				nextExecutor = new CrosstabCellExecutor(this, crosstabItem.getMeasure(lastMeasureIndex).getHeader(null),
+						rowSpan, colSpan, currentColIndex - colSpan + 1);
 
-					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				((CrosstabCellExecutor) nextExecutor).setPosition(currentEdgePosition);
 
-					break;
+				break;
 			}
 		}
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
+	@Override
+	public IReportItemExecutor getNextChild() {
 		IReportItemExecutor childExecutor = nextExecutor;
 
 		nextExecutor = null;
 
-		advance( );
+		advance();
 
 		return childExecutor;
 	}
 
-	public boolean hasNextChild( )
-	{
-		if ( isFirst )
-		{
+	@Override
+	public boolean hasNextChild() {
+		if (isFirst) {
 			isFirst = false;
 
-			advance( );
+			advance();
 		}
 
 		return nextExecutor != null;

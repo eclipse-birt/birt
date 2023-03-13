@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,13 +26,12 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.GroupHandle;
 
 /**
- * 
+ *
  */
 
-public class DeleteGroupAction extends DynamicItemAction
-{
+public class DeleteGroupAction extends DynamicItemAction {
 
-	private static final String STACK_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.stackMsg.deleteGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_DELETE_GROUP = Messages.getString("DeleteGroupAction.stackMsg.deleteGroup"); //$NON-NLS-1$
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
@@ -40,47 +42,43 @@ public class DeleteGroupAction extends DynamicItemAction
 	/**
 	 * @param part
 	 */
-	public DeleteGroupAction( ReportElementEditPart editPart,GroupHandle handle)
-	{		this.handle = handle;
+	public DeleteGroupAction(ReportElementEditPart editPart, GroupHandle handle) {
+		this.handle = handle;
 		this.editPart = editPart;
-		setId( ID );		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		setId(ID);
+		setText(DEUtil.getEscapedMenuItemText(handle.getDisplayLabel()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return handle.canDrop( );
+	@Override
+	public boolean isEnabled() {
+		return handle.canDrop();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Delete group action >> Run ..." ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Delete group action >> Run ..."); //$NON-NLS-1$
 		}
 
-		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_HANDLE,handle);
-		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_EDIT_PART,editPart);
-		
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteGroupCommand",null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
-		}	
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_HANDLE, handle);
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_EDIT_PART, editPart);
 
-		
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.deleteGroupCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+
 	}
 
 }

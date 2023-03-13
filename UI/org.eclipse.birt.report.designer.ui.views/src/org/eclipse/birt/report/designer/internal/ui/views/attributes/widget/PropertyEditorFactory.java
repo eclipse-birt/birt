@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,290 +45,208 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Populates PropertyDescriptor of property sheet page.
  */
-public class PropertyEditorFactory
-{
+public class PropertyEditorFactory {
 
-	private static PropertyEditorFactory instance = new PropertyEditorFactory( );
+	private static PropertyEditorFactory instance = new PropertyEditorFactory();
 
-	private static String booleanValues[] = new String[]{
-			"false", "true"}; //$NON-NLS-1$ //$NON-NLS-2$
+	private static String booleanValues[] = { "false", "true" }; //$NON-NLS-1$ //$NON-NLS-2$
 
-	private static String booleanDisplayValues[] = new String[]{
-			Messages.getString( "PropertyEditorFactory.Boolean.False" ),
-			Messages.getString( "PropertyEditorFactory.Boolean.True" )}; //$NON-NLS-1$ //$NON-NLS-2$
+	private static String booleanDisplayValues[] = { Messages.getString("PropertyEditorFactory.Boolean.False"),
+			Messages.getString("PropertyEditorFactory.Boolean.True") }; //$NON-NLS-1$
 
 	/**
 	 * Avoid instantiation.
 	 */
-	private PropertyEditorFactory( )
-	{
+	private PropertyEditorFactory() {
 	}
 
 	/**
 	 * Gets the single instance of this class.
-	 * 
+	 *
 	 * @return instance
 	 */
-	public static PropertyEditorFactory getInstance( )
-	{
+	public static PropertyEditorFactory getInstance() {
 		return instance;
 	}
 
-	public CellEditor createPropertyEditor( Composite parent, Object o )
-	{
+	public CellEditor createPropertyEditor(Composite parent, Object o) {
 		// create different editors according to property input type
 		CellEditor editor = null;
 
 		String[] unitsList = null;
 
-		GroupPropertyHandleProvider handle = GroupPropertyHandleProvider.getInstance( );
+		GroupPropertyHandleProvider handle = GroupPropertyHandleProvider.getInstance();
 
 		// not editable property
-		if ( handle.isReadOnly( o ) )
-		{
+		if (handle.isReadOnly(o)) {
 			return null;
 		}
 
-		String[] values = getChoiceNames( o );
-		String[] displayNames = getChoiceDisplayNames( o );
-		String value = ( (GroupPropertyHandle) o ).getStringValue( );
+		String[] values = getChoiceNames(o);
+		String[] displayNames = getChoiceDisplayNames(o);
+		String value = ((GroupPropertyHandle) o).getStringValue();
 
-		if ( value == null )
-		{
+		if (value == null) {
 			value = ""; //$NON-NLS-1$
 		}
 
-		if ( handle.isBooleanProperty( o ) )
-		{
-			if ( handle.isEditable( o ) )
-			{
-				editor = new ComboBoxCellEditor( parent,
-						booleanDisplayValues,
-						booleanValues,
-						SWT.NONE );
+		if (handle.isBooleanProperty(o)) {
+			if (handle.isEditable(o)) {
+				editor = new ComboBoxCellEditor(parent, booleanDisplayValues, booleanValues, SWT.NONE);
+			} else {
+				editor = new ComboBoxCellEditor(parent, booleanDisplayValues, booleanValues, SWT.READ_ONLY);
 			}
-			else
-			{
-				editor = new ComboBoxCellEditor( parent,
-						booleanDisplayValues,
-						booleanValues,
-						SWT.READ_ONLY );
-			}
-			editor.setValue( value );
-		}
-		else if ( handle.isColorProperty( o ) )
-		{
-			editor = new ComboBoxColorCellEditor( parent,
-					displayNames,values,
-					SWT.READ_ONLY );
+			editor.setValue(value);
+		} else if (handle.isColorProperty(o)) {
+			editor = new ComboBoxColorCellEditor(parent, displayNames, values, SWT.READ_ONLY);
 
-			editor.setValue( value );
-		}
-		else if ( handle.isDateTimeProperty( o ) )
-		{
-			editor = new DateTimeCellEditor( parent );
-			editor.setValue( value );
-		}
-		else if ( handle.isFontSizeProperty( o ) )
-		{
-			editor = new ComboBoxDimensionCellEditor( parent,
-					displayNames,
-					values );			
+			editor.setValue(value);
+		} else if (handle.isDateTimeProperty(o)) {
+			editor = new DateTimeCellEditor(parent);
+			editor.setValue(value);
+		} else if (handle.isFontSizeProperty(o)) {
+			editor = new ComboBoxDimensionCellEditor(parent, displayNames, values);
 
-			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
-					.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
-			unitsList = ChoiceSetFactory.getNamefromChoiceSet( choiceSet );
-			( (ComboBoxDimensionCellEditor) editor ).setUnitsList( unitsList );
+			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary()
+					.getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
+			unitsList = ChoiceSetFactory.getNamefromChoiceSet(choiceSet);
+			((ComboBoxDimensionCellEditor) editor).setUnitsList(unitsList);
 
 			DimensionValue dimensionValue = null;
-			try
-			{
-				dimensionValue = DimensionValue.parse( value );
-				if ( dimensionValue != null )
-				{
-					editor.setValue( dimensionValue.toDisplayString() );
-					( (ComboBoxDimensionCellEditor) editor ).setUnits( dimensionValue.getUnits( ) );					
+			try {
+				dimensionValue = DimensionValue.parse(value);
+				if (dimensionValue != null) {
+					editor.setValue(dimensionValue.toDisplayString());
+					((ComboBoxDimensionCellEditor) editor).setUnits(dimensionValue.getUnits());
 				}
+			} catch (PropertyValueException e) {
+				editor.setValue(value);
 			}
-			catch ( PropertyValueException e )
-			{
-				editor.setValue( value );
-			}
-		}
-		else if ( handle.isDimensionProperty( o ) )
-		{
-			IChoiceSet choiceSet = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getAllowedUnits( );
-			values = ChoiceSetFactory.getNamefromChoiceSet( choiceSet );
+		} else if (handle.isDimensionProperty(o)) {
+			IChoiceSet choiceSet = ((GroupPropertyHandle) o).getPropertyDefn().getAllowedUnits();
+			values = ChoiceSetFactory.getNamefromChoiceSet(choiceSet);
 
 			DimensionValue dimensionValue = null;
-			try
-			{
+			try {
 
-				dimensionValue = DimensionValue.parse( value );
-			}
-			catch ( PropertyValueException e )
-			{
+				dimensionValue = DimensionValue.parse(value);
+			} catch (PropertyValueException e) {
 				// Do nothing
 			}
-			if ( handle.isEditable( o ) )
-			{
-				editor = new DimensionCellEditor( parent, values, SWT.READ_ONLY );
+			if (handle.isEditable(o)) {
+				editor = new DimensionCellEditor(parent, values, SWT.READ_ONLY);
+			} else {
+				editor = new DimensionCellEditor(parent, values, SWT.NONE);
 			}
-			else
-			{
-				editor = new DimensionCellEditor( parent, values, SWT.NONE );
+
+			if (dimensionValue != null) {
+				((DimensionCellEditor) editor).setUnits(dimensionValue.getUnits());
+				editor.setValue(dimensionValue.toDisplayString());
 			}
-			
-			if ( dimensionValue != null )
-			{
-				( (DimensionCellEditor) editor ).setUnits( dimensionValue.getUnits( ) );
-				editor.setValue( dimensionValue.toDisplayString() );
-			}
-		}
-		else if ( handle.isElementRefValue( o ) )
-		{
+		} else if (handle.isElementRefValue(o)) {
 			GroupPropertyHandle propertyHandle = (GroupPropertyHandle) o;
-			List handles = propertyHandle.getReferenceableElementList( );
+			List handles = propertyHandle.getReferenceableElementList();
 
-			values = new String[handles.size( )];
-			for ( int i = 0; i < handles.size( ); i++ )
-			{
-				values[i] = ( (DesignElementHandle) handles.get( i ) ).getQualifiedName( );
+			values = new String[handles.size()];
+			for (int i = 0; i < handles.size(); i++) {
+				values[i] = ((DesignElementHandle) handles.get(i)).getQualifiedName();
 			}
 
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) propertyHandle.getPropertyDefn( );
-			ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) propertyHandle.getPropertyDefn();
+			ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType();
 			assert elementDefn != null;
-			if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn.getName( ) ) )
-			{
-				values = filterPreStyles( values );
+			if (ReportDesignConstants.STYLE_ELEMENT.equals(elementDefn.getName())) {
+				values = filterPreStyles(values);
 			}
 
-			editor = new ComboBoxCellEditor( parent, values );
-			editor.setValue( value );
-		}
-		else if ( handle.isExpressionProperty( o ) )
-		{
-			editor = new ExpressionCellEditor( parent, SWT.READ_ONLY,handle.supportConstantExpression( o ) );
-			editor.setValue(  ( (GroupPropertyHandle) o ).getValue( ) );
-		}
-		else if ( handle.isPassProperty( o ) )
-		{
-			editor = new CTextCellEditor( parent, SWT.PASSWORD );
-			editor.setValue( value );
-		}
-		else if ( handle.isBackgroundImageProperty( o ) )
-		{
-			editor = new BackgroundImageCellEditor( parent );
-			editor.setValue( value );
-		}
-		else if ( displayNames.length > 0 )
-		{
-			if ( handle.isEditable( o ) )
-			{
-				editor = new ComboBoxCellEditor( parent,
-						displayNames,
-						values,
-						SWT.NONE );
+			editor = new ComboBoxCellEditor(parent, values);
+			editor.setValue(value);
+		} else if (handle.isExpressionProperty(o)) {
+			editor = new ExpressionCellEditor(parent, SWT.READ_ONLY, handle.supportConstantExpression(o));
+			editor.setValue(((GroupPropertyHandle) o).getValue());
+		} else if (handle.isPassProperty(o)) {
+			editor = new CTextCellEditor(parent, SWT.PASSWORD);
+			editor.setValue(value);
+		} else if (handle.isBackgroundImageProperty(o)) {
+			editor = new BackgroundImageCellEditor(parent);
+			editor.setValue(value);
+		} else if (displayNames.length > 0) {
+			if (handle.isEditable(o)) {
+				editor = new ComboBoxCellEditor(parent, displayNames, values, SWT.NONE);
+			} else {
+				editor = new ComboBoxCellEditor(parent, displayNames, values, SWT.READ_ONLY);
 			}
-			else
-			{
-				editor = new ComboBoxCellEditor( parent,
-						displayNames,
-						values,
-						SWT.READ_ONLY );
-			}
-			editor.setValue( value );
-		}
-		else
-		{
-			editor = new CTextCellEditor( parent );
-			editor.setValue( value );
+			editor.setValue(value);
+		} else {
+			editor = new CTextCellEditor(parent);
+			editor.setValue(value);
 		}
 
 		return editor;
 	}
 
 	/**
-	 * Returns the array of choice names if the property has a choice list;or
-	 * null otherwise.
-	 * 
+	 * Returns the array of choice names if the property has a choice list;or null
+	 * otherwise.
+	 *
 	 * @return the list of available choice names.
 	 */
-	private String[] getChoiceNames( Object o )
-	{
+	private String[] getChoiceNames(Object o) {
 		String[] values = null;
 
-		if ( o instanceof GroupPropertyHandle )
-		{
-			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getAllowedChoices( ) != null )
-			{
-				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-						.getAllowedChoices( )
-						.getChoices( );
-				if ( choices.length > 0 )
-				{
+		if (o instanceof GroupPropertyHandle) {
+			if (((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices() != null) {
+				IChoice[] choices = ((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices().getChoices();
+				if (choices.length > 0) {
 					values = new String[choices.length];
-					for ( int i = 0; i < choices.length; i++ )
-					{
+					for (int i = 0; i < choices.length; i++) {
 						// temp: displayname
-						values[i] = choices[i].getName( );
+						values[i] = choices[i].getName();
 					}
 				}
 			}
 		}
-		if ( values == null )
-			return new String[]{};
+		if (values == null) {
+			return new String[] {};
+		}
 
 		return values;
 	}
 
-	private String[] getChoiceDisplayNames( Object o )
-	{
+	private String[] getChoiceDisplayNames(Object o) {
 		String[] values = null;
 
-		if ( o instanceof GroupPropertyHandle )
-		{
-			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
-					.getAllowedChoices( ) != null )
-			{
-				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-						.getAllowedChoices( )
-						.getChoices( );
-				if ( choices.length > 0 )
-				{
+		if (o instanceof GroupPropertyHandle) {
+			if (((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices() != null) {
+				IChoice[] choices = ((GroupPropertyHandle) o).getPropertyDefn().getAllowedChoices().getChoices();
+				if (choices.length > 0) {
 					values = new String[choices.length];
-					for ( int i = 0; i < choices.length; i++ )
-					{
+					for (int i = 0; i < choices.length; i++) {
 						// temp: displayname
-						values[i] = choices[i].getDisplayName( );
+						values[i] = choices[i].getDisplayName();
 					}
 				}
 			}
 		}
-		if ( values == null )
-			return new String[]{};
+		if (values == null) {
+			return new String[] {};
+		}
 
 		return values;
 	}
 
 	/**
 	 * Gets the name of the model
-	 * 
+	 *
 	 * @param o
 	 * @return the name of the input object
 	 */
-	public String getName( Object o )
-	{
-		if ( o instanceof String )
-		{
+	public String getName(Object o) {
+		if (o instanceof String) {
 			return (String) o;
 		}
-		if ( o instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getName( );
+		if (o instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) o).getPropertyDefn().getName();
 		}
 		return "nullname"; //$NON-NLS-1$
 	}
@@ -339,8 +260,7 @@ public class PropertyEditorFactory
 	 * <li>"Inherited from Style xxx" if the value is inherited from a style.
 	 * </ul>
 	 */
-	public String getTooltip( Object o )
-	{
+	public String getTooltip(Object o) {
 		// TODO: need model support for local or inherited style support
 		// if ( o instanceof SimpleValueHandle )
 		// {
@@ -362,38 +282,30 @@ public class PropertyEditorFactory
 	 * @param model
 	 * @return the display name for this model instance
 	 */
-	public String getDisplayName( Object model )
-	{
-		if ( model instanceof GroupPropertyHandle )
-		{
-			return ( (GroupPropertyHandle) model ).getPropertyDefn( )
-					.getDisplayName( );
+	public String getDisplayName(Object model) {
+		if (model instanceof GroupPropertyHandle) {
+			return ((GroupPropertyHandle) model).getPropertyDefn().getDisplayName();
 		}
 
 		return ""; //$NON-NLS-1$
 	}
 
-	private String[] filterPreStyles( String items[] )
-	{
-		List preStyles = DesignEngine.getMetaDataDictionary( )
-				.getPredefinedStyles( );
-		List preStyleNames = new ArrayList( );
+	private String[] filterPreStyles(String items[]) {
+		List preStyles = DesignEngine.getMetaDataDictionary().getPredefinedStyles();
+		List preStyleNames = new ArrayList();
 
-		for ( int i = 0; i < preStyles.size( ); i++ )
-		{
-			preStyleNames.add( ( (IPredefinedStyle) preStyles.get( i ) ).getName( ) );
+		for (int i = 0; i < preStyles.size(); i++) {
+			preStyleNames.add(((IPredefinedStyle) preStyles.get(i)).getName());
 		}
 
-		List sytleNames = new ArrayList( );
-		for ( int i = 0; i < items.length; i++ )
-		{
-			if ( preStyleNames.indexOf( items[i] ) == -1 )
-			{
-				sytleNames.add( items[i] );
+		List sytleNames = new ArrayList();
+		for (int i = 0; i < items.length; i++) {
+			if (preStyleNames.indexOf(items[i]) == -1) {
+				sytleNames.add(items[i]);
 			}
 		}
 
-		return (String[]) ( sytleNames.toArray( new String[]{} ) );
+		return (String[]) (sytleNames.toArray(new String[] {}));
 
 	}
 }

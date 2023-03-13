@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +35,7 @@ import org.eclipse.swt.widgets.Table;
 /**
  * Sorting FormHandleProvider, provides Sorting sensitive data and processes.
  */
-public class SortingHandleProvider implements IFormHandleProvider
-{
+public class SortingHandleProvider implements IFormHandleProvider {
 
 	/**
 	 * The current selections in outline or Editor.
@@ -43,31 +45,24 @@ public class SortingHandleProvider implements IFormHandleProvider
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = new String[]{
-			SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER, SortKey.LOCALE_MEMBER, SortKey.STRENGTH_MEMBER
-	};
+	private String[] columnKeys = { SortKey.KEY_MEMBER, SortKey.DIRECTION_MEMBER, SortKey.LOCALE_MEMBER,
+			SortKey.STRENGTH_MEMBER };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[]{
-			200, 100, 100, 100
-	};
+	private static int[] columnWidth = { 200, 100, 100, 100 };
 
 	/**
 	 * Model processor, provide data process of Sorting model.
 	 */
-	private SortingModelProvider modelAdapter = new SortingModelProvider( );
+	private SortingModelProvider modelAdapter = new SortingModelProvider();
 
-	
-	public SortingModelProvider getModelAdapter( )
-	{
+	public SortingModelProvider getModelAdapter() {
 		return modelAdapter;
 	}
 
-	
-	public void setModelAdapter( SortingModelProvider modelAdapter )
-	{
+	public void setModelAdapter(SortingModelProvider modelAdapter) {
 		this.modelAdapter = modelAdapter;
 	}
 
@@ -83,229 +78,216 @@ public class SortingHandleProvider implements IFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
-		if ( columnNames == null )
-		{
-			columnNames = modelAdapter.getColumnNames( columnKeys );
+	@Override
+	public String[] getColumnNames() {
+		if (columnNames == null) {
+			columnNames = modelAdapter.getColumnNames(columnKeys);
 		}
 		return columnNames;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getTitle()
 	 */
-	public String getTitle( )
-	{
-		return Messages.getString( "SortingHandleProvider.Label.SortOn" ); //$NON-NLS-1$
+	@Override
+	public String getTitle() {
+		return Messages.getString("SortingHandleProvider.Label.SortOn"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( Table table )
-	{
-		if ( editors == null )
-		{
+	@Override
+	public CellEditor[] getEditors(Table table) {
+		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
-			editors[0] = new TextCellEditor( table );
-			editors[1] = new TextCellEditor( table );
+			editors[0] = new TextCellEditor(table);
+			editors[1] = new TextCellEditor(table);
 		}
 		return editors;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos )
-			throws PropertyValueException
-	{
-		return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
+	@Override
+	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
+		return modelAdapter.moveItem(input.get(0), oldPos, newPos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws PropertyValueException
-	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+	@Override
+	public boolean doDeleteItem(int pos) throws PropertyValueException {
+		return modelAdapter.deleteItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws SemanticException
-	{
-		return modelAdapter.doAddItem( input.get( 0 ), pos );
+	@Override
+	public boolean doAddItem(int pos) throws SemanticException {
+		return modelAdapter.doAddItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
-		return modelAdapter.doEditItem( input.get( 0 ), pos );
+	@Override
+	public boolean doEditItem(int pos) {
+		return modelAdapter.doEditItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
-		return modelAdapter.getText( element, key );
+		return modelAdapter.getText(element, key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
-	{
+	@Override
+	public String getImagePath(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-		{
+	@Override
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List) {
 			input = (List) inputElement;
+		} else {
+			input = new ArrayList();
+			input.add(inputElement);
 		}
-		else
-		{
-			input = new ArrayList( );
-			input.add( inputElement );
-		}
-		Object[] elements = modelAdapter.getElements( input );
+		Object[] elements = modelAdapter.getElements(input);
 		return elements;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	@Override
+	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
+	@Override
+	public Object getValue(Object element, String property) {
+		int index = Arrays.asList(columnNames).indexOf(property);
+		String columnText = getColumnText(element, index);
 
 		return columnText;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
 	 * java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws NameException, SemanticException
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
+	@Override
+	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
+		int index = Arrays.asList(columnNames).indexOf(property);
 		String key = columnKeys[index];
 
 		String strValue;
-		if ( value instanceof Integer )
-		{
-			int intValue = ( (Integer) value ).intValue( );
-			if ( intValue == -1 )
-			{
-				CCombo combo = (CCombo) editors[index].getControl( );
-				strValue = combo.getText( );
-			}
-			else
-			{
-				String[] choices = modelAdapter.getChoiceSet( input.get( 0 ),
-						columnKeys[index] );
+		if (value instanceof Integer) {
+			int intValue = ((Integer) value).intValue();
+			if (intValue == -1) {
+				CCombo combo = (CCombo) editors[index].getControl();
+				strValue = combo.getText();
+			} else {
+				String[] choices = modelAdapter.getChoiceSet(input.get(0), columnKeys[index]);
 				strValue = choices[intValue];
 			}
-		}
-		else
+		} else {
 			strValue = (String) value;
-		return modelAdapter.setStringValue( input.get( 0 ), data, key, strValue );
+		}
+		return modelAdapter.setStringValue(input.get(0), data, key, strValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	@Override
+	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider
 	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof PropertyEvent )
-		{
+	@Override
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof PropertyEvent) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isEditable( )
-	{
+	@Override
+	public boolean isEditable() {
 		return true;
 	}
 
-	public Image getImage( Object element, int columnIndex )
-	{
+	@Override
+	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

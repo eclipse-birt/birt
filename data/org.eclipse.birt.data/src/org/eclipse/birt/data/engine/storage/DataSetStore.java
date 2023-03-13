@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,38 +24,27 @@ import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- * 
+ *
  */
 
-public class DataSetStore
-{
+public class DataSetStore {
 
-	public static IDataSetReader createReader( StreamManager manager,
-			IResultClass resultClass, boolean includeInnerId, Map<?, ?> appContext )
-			throws DataException
-	{
+	public static IDataSetReader createReader(StreamManager manager, IResultClass resultClass, boolean includeInnerId,
+			Map<?, ?> appContext) throws DataException {
 		return null;
 	}
 
-	public static IDataSetWriter createWriter( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
-	{
+	public static IDataSetWriter createWriter(StreamManager manager, IResultClass resultClass, Map<?, ?> appContext,
+			DataEngineSession session, List<IAuxiliaryIndexCreator> auxiliaryIndexs) throws DataException {
 		return null;
 	}
 
-	public static IDataSetUpdater createUpdater( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
-	{
+	public static IDataSetUpdater createUpdater(StreamManager manager, IResultClass resultClass, Map<?, ?> appContext,
+			DataEngineSession session, List<IAuxiliaryIndexCreator> auxiliaryIndexs) throws DataException {
 		return null;
 	}
-	
-	public static boolean isDataMartStore( Map<?, ?> appContext,
-			DataEngineSession session ) throws DataException
-	{
+
+	public static boolean isDataMartStore(Map<?, ?> appContext, DataEngineSession session) throws DataException {
 		return false;
 	}
 }

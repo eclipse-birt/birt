@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +29,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ *
  */
 
-public class StockDataDefinitionComponent extends DefaultSelectDataComponent
-{
+public class StockDataDefinitionComponent extends DefaultSelectDataComponent {
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"; //$NON-NLS-1$
 
@@ -45,109 +47,89 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient String sTitle = null;
 
-	public StockDataDefinitionComponent( SeriesDefinition seriesDefn,
-			ChartWizardContext context, String sTitle )
-	{
-		super( );
+	public StockDataDefinitionComponent(SeriesDefinition seriesDefn, ChartWizardContext context, String sTitle) {
+		super();
 		this.seriesDefn = seriesDefn;
 		this.context = context;
 		this.sTitle = sTitle;
 
-		init( );
+		init();
 	}
 
-	private int adaptIndex(int orginalIndex)
-	{
-		int[] indexmap = {2, 0, 1, 3};
+	private int adaptIndex(int orginalIndex) {
+		int[] indexmap = { 2, 0, 1, 3 };
 		return indexmap[orginalIndex];
 	}
-	
-	private void init( )
-	{
+
+	private void init() {
 		labelArray = new Label[4];
 		dataComArray = new ISelectDataComponent[4];
 
 		// The order of stock values in chart model is High, Low, Open, Close,
 		// it is not usual order, change order to Open, High, Low, Close.
 		Query[] stockQuerys = new Query[4];
-		stockQuerys[0] = ChartUIUtil.getDataQuery( seriesDefn, 0 );
-		stockQuerys[1] = ChartUIUtil.getDataQuery( seriesDefn, 1 );
-		stockQuerys[2] = ChartUIUtil.getDataQuery( seriesDefn, 2 );
-		stockQuerys[3] = ChartUIUtil.getDataQuery( seriesDefn, 3 );
-		
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			dataComArray[i] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
-					ChartUIConstants.QUERY_VALUE,
-					seriesDefn,
-					stockQuerys[adaptIndex(i)],
-					context,
-					sTitle );
+		stockQuerys[0] = ChartUIUtil.getDataQuery(seriesDefn, 0);
+		stockQuerys[1] = ChartUIUtil.getDataQuery(seriesDefn, 1);
+		stockQuerys[2] = ChartUIUtil.getDataQuery(seriesDefn, 2);
+		stockQuerys[3] = ChartUIUtil.getDataQuery(seriesDefn, 3);
+
+		for (int i = 0; i < dataComArray.length; i++) {
+			dataComArray[i] = new BaseDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE, seriesDefn, stockQuerys[adaptIndex(i)], context, sTitle);
 		}
 	}
 
-	public Composite createArea( Composite parent )
-	{
-		cmpSeries = new Composite( parent, SWT.NONE );
+	@Override
+	public Composite createArea(Composite parent) {
+		cmpSeries = new Composite(parent, SWT.NONE);
 		{
-			GridData gridData = new GridData( GridData.FILL_BOTH );
-			cmpSeries.setLayoutData( gridData );
+			GridData gridData = new GridData(GridData.FILL_BOTH);
+			cmpSeries.setLayoutData(gridData);
 
-			GridLayout gridLayout = new GridLayout( 2, false );
+			GridLayout gridLayout = new GridLayout(2, false);
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
-			cmpSeries.setLayout( gridLayout );
+			cmpSeries.setLayout(gridLayout);
 		}
 
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			labelArray[i] = new Label( cmpSeries, SWT.NONE );
-			labelArray[i].setText( ChartUIUtil.getStockTitle( adaptIndex( i ) ) + "*" ); //$NON-NLS-1$
-			Composite cmpData = dataComArray[i].createArea( cmpSeries );
-			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getStockTitle( adaptIndex( i ) ) );
+		for (int i = 0; i < dataComArray.length; i++) {
+			labelArray[i] = new Label(cmpSeries, SWT.NONE);
+			labelArray[i].setText(ChartUIUtil.getStockTitle(adaptIndex(i)) + "*"); //$NON-NLS-1$
+			Composite cmpData = dataComArray[i].createArea(cmpSeries);
+			cmpData.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			((BaseDataDefinitionComponent) dataComArray[i])
+					.bindAssociatedName(ChartUIUtil.getStockTitle(adaptIndex(i)));
 		}
 		return cmpSeries;
 	}
 
 	@Override
-	public void selectArea( boolean selected, Object data )
-	{
-		if ( data instanceof Integer )
-		{
-			int queryIndex = ( (Integer) data ).intValue( );
+	public void selectArea(boolean selected, Object data) {
+		if (data instanceof Integer) {
+			int queryIndex = ((Integer) data).intValue();
 			// ChartUIUtil.setBackgroundColor( labelArray[queryIndex],
 			// selected,
 			// color );
-			dataComArray[queryIndex].selectArea( selected, data );
-		}
-		else if ( data instanceof Object[] )
-		{
+			dataComArray[queryIndex].selectArea(selected, data);
+		} else if (data instanceof Object[]) {
 			Object[] array = (Object[]) data;
 			SeriesDefinition seriesdefinition = (SeriesDefinition) array[0];
-			for ( int i = 0; i < dataComArray.length; i++ )
-			{
-				dataComArray[i].selectArea( selected, new Object[]{
-						seriesdefinition,
-						ChartUIUtil.getDataQuery( seriesdefinition, adaptIndex( i ) )
-				} );
+			for (int i = 0; i < dataComArray.length; i++) {
+				dataComArray[i].selectArea(selected,
+						new Object[] { seriesdefinition, ChartUIUtil.getDataQuery(seriesdefinition, adaptIndex(i)) });
 			}
-		}
-		else
-		{
-			for ( int i = 0; i < dataComArray.length; i++ )
-			{
-				dataComArray[i].selectArea( selected, null );
+		} else {
+			for (int i = 0; i < dataComArray.length; i++) {
+				dataComArray[i].selectArea(selected, null);
 			}
 		}
 	}
 
-	public void dispose( )
-	{
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			dataComArray[i].dispose( );
+	@Override
+	public void dispose() {
+		for (int i = 0; i < dataComArray.length; i++) {
+			dataComArray[i].dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 }

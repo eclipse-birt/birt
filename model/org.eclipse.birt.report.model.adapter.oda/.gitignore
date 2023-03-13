@@ -2,5 +2,4 @@ bin
 build
 utestreports
 *.jar
-.settings
 target

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,71 +30,66 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.BirtUtility;
 
-public class BirtRunReportActionHandler extends AbstractBaseActionHandler
-{
+public class BirtRunReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 */
-	public BirtRunReportActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtRunReportActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
 	 * Local execution.
-	 * 
+	 *
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	public void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
+	@Override
+	public void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
 
-		Map parameterMap = attrBean.getParameters( );
-		if ( parameterMap == null )
-			parameterMap = new HashMap( );
+		Map parameterMap = attrBean.getParameters();
+		if (parameterMap == null) {
+			parameterMap = new HashMap();
+		}
 
-		Map displayTexts = attrBean.getDisplayTexts( );
-		if ( displayTexts == null )
-			displayTexts = new HashMap( );
+		Map displayTexts = attrBean.getDisplayTexts();
+		if (displayTexts == null) {
+			displayTexts = new HashMap();
+		}
 
-		String docName = attrBean.getReportDocumentName( );
-		IViewerReportDesignHandle designHandle = attrBean
-				.getReportDesignHandle( context.getRequest( ) );
+		String docName = attrBean.getReportDocumentName();
+		IViewerReportDesignHandle designHandle = attrBean.getReportDesignHandle(context.getRequest());
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, Boolean.valueOf( attrBean
-				.isDesigner( ) ) );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
+		options.setOption(InputOptions.OPT_IS_DESIGNER, Boolean.valueOf(attrBean.isDesigner()));
 
 		// handle operation
-		BirtUtility.handleOperation( operation, attrBean, parameterMap,
-				displayTexts );
+		BirtUtility.handleOperation(operation, attrBean, parameterMap, displayTexts);
 
-		List<Exception> errorList = new ArrayList<Exception>();
-		getReportService( ).runReport( designHandle, docName, options,
-				parameterMap, displayTexts, errorList );
-		if ( errorList != null && !errorList.isEmpty() ) 
-		{
+		List<Exception> errorList = new ArrayList<>();
+		getReportService().runReport(designHandle, docName, options, parameterMap, displayTexts, errorList);
+		if (errorList != null && !errorList.isEmpty()) {
 			// clear document file
-			File doc = new File( docName );
-			if ( doc != null )
-				doc.delete( );
-			
-			throw BirtUtility.makeAxisFault( "BirtRunReportActionHandler.__execute()", errorList ); //$NON-NLS-1$
+			File doc = new File(docName);
+			if (doc != null) {
+				doc.delete();
+			}
+
+			throw BirtUtility.makeAxisFault("BirtRunReportActionHandler.__execute()", errorList); //$NON-NLS-1$
 		}
 	}
 
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	@Override
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,39 +21,38 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
  *
  */
 
-public interface IColumn
-{
+public interface IColumn {
 	/**
 	 * Removes all hide rules that matches formatType.
-	 * 
+	 *
 	 * @param rule
 	 * @exception ScriptException
 	 */
 
-	void removeHideRule( IHideRule rule ) throws ScriptException;
+	void removeHideRule(IHideRule rule) throws ScriptException;
 
 	/**
 	 * Removes all hide rules
-	 * 
+	 *
 	 * @throws ScriptException
 	 */
 
-	void removeHideRules( ) throws ScriptException;
+	void removeHideRules() throws ScriptException;
 
 	/**
 	 * Returns array of hide rule expression
-	 * 
+	 *
 	 * @return array of hide rule expression
 	 */
 
-	IHideRule[] getHideRules( );
+	IHideRule[] getHideRules();
 
 	/**
 	 * Add HideRule
-	 * 
+	 *
 	 * @param rule
 	 * @throws ScriptException
 	 */
 
-	void addHideRule( IHideRule rule ) throws ScriptException;
+	void addHideRule(IHideRule rule) throws ScriptException;
 }

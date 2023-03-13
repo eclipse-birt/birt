@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,27 +26,22 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
  * The utility class which provides many static methods used in Model.
  */
 
-public class ModelUtilBase
-{
+public class ModelUtilBase {
 
-	protected static boolean needSkipProperty(
-			DesignElementHandle elementHandle, String propName )
-	{
+	protected static boolean needSkipProperty(DesignElementHandle elementHandle, String propName) {
 
-		if ( IStyledElementModel.STYLE_PROP.equals( propName )
-				|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-				|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName )
-				|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
-				|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
-						.equals( propName )
-				|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName )
-				|| IModuleModel.LIBRARIES_PROP.equals( propName ) )
+		if (IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
+				|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName)
+				|| IExtendedItemModel.EXTENSION_NAME_PROP.equals(propName)
+				|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals(propName)
+				|| IDesignElementModel.VIEW_ACTION_PROP.equals(propName)
+				|| IModuleModel.LIBRARIES_PROP.equals(propName)) {
 			return true;
-		else if ( elementHandle instanceof ExtendedItemHandle
-				&& IOdaExtendableElementModel.EXTENSION_ID_PROP
-						.equals( propName ) )
+		} else if (elementHandle instanceof ExtendedItemHandle
+				&& IOdaExtendableElementModel.EXTENSION_ID_PROP.equals(propName)) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 }

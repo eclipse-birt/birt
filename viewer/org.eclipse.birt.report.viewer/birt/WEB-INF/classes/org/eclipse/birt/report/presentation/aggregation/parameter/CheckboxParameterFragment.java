@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -16,17 +18,16 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 /**
  * Fragment help rendering scalar parameter.
  * <p>
+ *
  * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
-public class CheckboxParameterFragment extends ScalarParameterFragment
-{
+public class CheckboxParameterFragment extends ScalarParameterFragment {
 	/**
 	 * Protected constructor.
-	 * 
+	 *
 	 * @param parameter parameter definition reference.
 	 */
-	public CheckboxParameterFragment( ParameterDefinition parameter )
-	{
-		super( parameter );
+	public CheckboxParameterFragment(ParameterDefinition parameter) {
+		super(parameter);
 	}
 }

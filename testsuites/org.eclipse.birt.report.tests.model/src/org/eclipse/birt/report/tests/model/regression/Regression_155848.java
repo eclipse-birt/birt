@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,38 +35,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * The solution is do not save library namespace to the extended joint data
  * sets. Test result set name don't have library name prefix
- * 
- * 
+ *
+ *
  */
 public class Regression_155848 extends BaseTestCase
 
 {
 	private String filename = "Regression_155848.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( filename , filename );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(filename, filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
-	 * @throws ExtendsException 
+	 * @throws ExtendsException
 	 */
-	public void test_regression_155848( ) throws DesignFileException, ExtendsException
-	{
+	public void test_regression_155848() throws DesignFileException, ExtendsException {
 		openDesign(filename);
-	    libraryHandle = designHandle.getLibrary( "lib" ); //$NON-NLS-1$
-	    JointDataSetHandle jointds = libraryHandle.findJointDataSet( "jointds" ); //$NON-NLS-1$
-	   
-	    ElementFactory factory = designHandle.getElementFactory( );
-	    JointDataSetHandle dset = (JointDataSetHandle)factory.newElementFrom(jointds, "dset" ); //$NON-NLS-1$
-	 
+		libraryHandle = designHandle.getLibrary("lib"); //$NON-NLS-1$
+		JointDataSetHandle jointds = libraryHandle.findJointDataSet("jointds"); //$NON-NLS-1$
+
+		ElementFactory factory = designHandle.getElementFactory();
+		JointDataSetHandle dset = (JointDataSetHandle) factory.newElementFrom(jointds, "dset"); //$NON-NLS-1$
+
 	}
-	
+
 }

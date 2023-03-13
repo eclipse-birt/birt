@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,45 +38,38 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 /**
  * UseCssInThemeAction
  */
-public class UseCssInThemeAction extends Action
-{
+public class UseCssInThemeAction extends Action {
 
 	private LibraryExplorerTreeViewPage viewer;
 
-	private static final String ACTION_TEXT = Messages.getString( "UseCssInThemeAction.Text" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString("UseCssInThemeAction.Text"); //$NON-NLS-1$
 
-	public UseCssInThemeAction( LibraryExplorerTreeViewPage page )
-	{
-		super( ACTION_TEXT );
+	public UseCssInThemeAction(LibraryExplorerTreeViewPage page) {
+		super(ACTION_TEXT);
 		this.viewer = page;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		Object obj = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+	@Override
+	public boolean isEnabled() {
+		Object obj = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		LibraryHandle moduleHandle;
-		if ( ( obj == null ) || ( !( obj instanceof LibraryHandle ) ) )
-		{
+		if ((obj == null) || (!(obj instanceof LibraryHandle))) {
 			return false;
 		}
 		moduleHandle = (LibraryHandle) obj;
-		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
-		if ( cssHandle == null )
-		{
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle();
+		if (cssHandle == null) {
 			return false;
 		}
-		SlotHandle slotHandle = moduleHandle.getThemes( );
-		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )
-		{
-			AbstractThemeHandle theme = (AbstractThemeHandle) iter.next( );
-			if ( theme.canAddCssStyleSheet( cssHandle ) )
-			{
+		SlotHandle slotHandle = moduleHandle.getThemes();
+		for (Iterator iter = slotHandle.iterator(); iter.hasNext();) {
+			AbstractThemeHandle theme = (AbstractThemeHandle) iter.next();
+			if (theme.canAddCssStyleSheet(cssHandle)) {
 				return true;
 			}
 		}
@@ -81,25 +77,18 @@ public class UseCssInThemeAction extends Action
 
 	}
 
-	private CssStyleSheetHandle getSelectedCssStyleHandle( )
-	{
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null && selection.size( ) == 1 )
-		{
-			Object selected = selection.getFirstElement( );
-			if ( selected instanceof CssStyleSheetHandle )
-			{
+	private CssStyleSheetHandle getSelectedCssStyleHandle() {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		if (selection != null && selection.size() == 1) {
+			Object selected = selection.getFirstElement();
+			if (selected instanceof CssStyleSheetHandle) {
 				return (CssStyleSheetHandle) selected;
-			}
-			else if ( selected instanceof ReportResourceEntry
-					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof CssStyleSheetHandle )
-			{
-				return (CssStyleSheetHandle) ( (ReportResourceEntry) selected ).getReportElement( );
-			}
-			else if ( selected instanceof ResourceEntryWrapper
-					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
-			{
-				return (CssStyleSheetHandle) ( (ResourceEntryWrapper) selected ).getAdapter( CssStyleSheetHandle.class );
+			} else if (selected instanceof ReportResourceEntry
+					&& ((ReportResourceEntry) selected).getReportElement() instanceof CssStyleSheetHandle) {
+				return (CssStyleSheetHandle) ((ReportResourceEntry) selected).getReportElement();
+			} else if (selected instanceof ResourceEntryWrapper
+					&& ((ResourceEntryWrapper) selected).getType() == ResourceEntryWrapper.CSS_STYLE_SHEET) {
+				return (CssStyleSheetHandle) ((ResourceEntryWrapper) selected).getAdapter(CssStyleSheetHandle.class);
 			}
 		}
 		return null;
@@ -107,37 +96,32 @@ public class UseCssInThemeAction extends Action
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
-		UseCssInThemeDialog dialog = new UseCssInThemeDialog( );
-		String relativeFileName = cssHandle.getFileName( );
-		dialog.setFileName( relativeFileName );
+	@Override
+	public void run() {
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle();
+		UseCssInThemeDialog dialog = new UseCssInThemeDialog();
+		String relativeFileName = cssHandle.getFileName();
+		dialog.setFileName(relativeFileName);
 
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( ACTION_TEXT );
+		if (dialog.open() == Dialog.OK) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			stack.startTrans(ACTION_TEXT);
 
-			AbstractThemeHandle themeHandle = dialog.getTheme( );
-			try
-			{
-				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
-				css.setFileName( dialog.getFileName( ) );
-				css.setExternalCssURI( dialog.getURI( ) );
-				themeHandle.addCss( css );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionUtil.handle( e );
-				stack.rollback( );
+			AbstractThemeHandle themeHandle = dialog.getTheme();
+			try {
+				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet();
+				css.setFileName(dialog.getFileName());
+				css.setExternalCssURI(dialog.getURI());
+				themeHandle.addCss(css);
+			} catch (SemanticException e) {
+				ExceptionUtil.handle(e);
+				stack.rollback();
 				return;
 			}
-			stack.commit( );
+			stack.commit();
 		}
 	}
 

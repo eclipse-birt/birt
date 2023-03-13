@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,18 +18,18 @@ import org.eclipse.birt.report.data.oda.xml.i18n.Messages;
 
 /**
  * This class hosts all constants used in xml driver.
+ *
  * @deprecated Please use DTP xml driver
  */
-public final class Constants
-{
+@Deprecated
+public final class Constants {
 
-	private Constants( )
-	{
+	private Constants() {
 	}
 
 	public static final int DATA_SOURCE_MAJOR_VERSION = 1;
 	public static final int DATA_SOURCE_MINOR_VERSION = 0;
-	public static final String DATA_SOURCE_PRODUCT_NAME = Messages.getString( "Constants.DriverName" );
+	public static final String DATA_SOURCE_PRODUCT_NAME = Messages.getString("Constants.DriverName");
 	public static final int CACHED_RESULT_SET_LENGTH = 10000;
 	public static final String APPCONTEXT_INPUTSTREAM = "org.eclipse.birt.report.data.oda.xml.inputStream";
 	public static final String APPCONTEXT_CLOSEINPUTSTREAM = "org.eclipse.birt.report.data.oda.xml.closeInputStream";

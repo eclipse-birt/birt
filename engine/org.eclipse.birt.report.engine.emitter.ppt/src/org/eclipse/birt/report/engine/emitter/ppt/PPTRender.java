@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -31,87 +34,73 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * The PPT render class.
  */
-public class PPTRender extends PageDeviceRender
-{
+public class PPTRender extends PageDeviceRender {
 
 	private OutputStream pptOutput = null;
 
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.ppt"; //$NON-NLS-1$
 
-	public PPTRender( IEmitterServices services ) throws EngineException
-	{
-		initialize( services );
+	public PPTRender(IEmitterServices services) throws EngineException {
+		initialize(services);
 	}
 
-	public IPageDevice createPageDevice( String title, String author, String subject,
-			String description, IReportContext context, IReportContent report )
-			throws Exception
-	{
-		try
-		{
-			return new PPTPageDevice( pptOutput, title, author, description,
-					subject );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
+	@Override
+	public IPageDevice createPageDevice(String title, String author, String subject, String description,
+			IReportContext context, IReportContent report) throws Exception {
+		try {
+			return new PPTPageDevice(pptOutput, title, author, description, subject);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 		return null;
 	}
 
 	/**
 	 * Returns the output format, always is "ppt".
-	 * 
+	 *
 	 * @return the output format
 	 */
-	public String getOutputFormat( )
-	{
+	@Override
+	public String getOutputFormat() {
 		return "ppt";
 	}
 
 	/**
 	 * Initializes the PPTEmitter.
-	 * 
-	 * @param services
-	 *            the emitter services object.
-	 * @throws EngineException 
+	 *
+	 * @param services the emitter services object.
+	 * @throws EngineException
 	 */
-	public void initialize( IEmitterServices services ) throws EngineException
-	{
+	public void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
-		reportRunnable = services.getReportRunnable( );
+		reportRunnable = services.getReportRunnable();
 
-		if ( reportRunnable != null )
-		{
-			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle( );
+		if (reportRunnable != null) {
+			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle();
 		}
-		this.context = services.getReportContext( );
-		this.pptOutput = EmitterUtil.getOuputStream( services, REPORT_FILE );
-	}
-
-	public void visitImage( IImageArea imageArea )
-	{
-		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( PPTUtil.getHyperlink( imageArea, services,
-				reportRunnable, context ) );
-		super.visitImage( imageArea );
-		pptPage.setLink( null );
+		this.context = services.getReportContext();
+		this.pptOutput = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
 	@Override
-	public void visitText( ITextArea textArea )
-	{
-		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( PPTUtil.getHyperlink( textArea, services,
-				reportRunnable, context ) );
-		super.visitText( textArea );
-		pptPage.setLink( null );
+	public void visitImage(IImageArea imageArea) {
+		PPTPage pptPage = (PPTPage) pageGraphic;
+		pptPage.setLink(PPTUtil.getHyperlink(imageArea, services, reportRunnable, context));
+		super.visitImage(imageArea);
+		pptPage.setLink(null);
 	}
-	
-	protected void drawTextAt( ITextArea text, int x, int y, int width,
-			int height, TextStyle textStyle )
-	{
-		pageGraphic.drawText( text.getLogicalOrderText( ), x, y, width, height, textStyle );
+
+	@Override
+	public void visitText(ITextArea textArea) {
+		PPTPage pptPage = (PPTPage) pageGraphic;
+		pptPage.setLink(PPTUtil.getHyperlink(textArea, services, reportRunnable, context));
+		super.visitText(textArea);
+		pptPage.setLink(null);
+	}
+
+	@Override
+	protected void drawTextAt(ITextArea text, int x, int y, int width, int height, TextStyle textStyle) {
+		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height, textStyle);
 	}
 }

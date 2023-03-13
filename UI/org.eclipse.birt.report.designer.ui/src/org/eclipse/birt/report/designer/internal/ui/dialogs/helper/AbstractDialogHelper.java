@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,92 +26,84 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * AbstractDialogHelper
  */
-public abstract class AbstractDialogHelper implements IDialogHelper
-{
+public abstract class AbstractDialogHelper implements IDialogHelper {
 
 	protected Map<Integer, List<Listener>> listeners;
 	protected Map<String, Object> props;
 	protected Object container;
 
-	public void addListener( int eventType, Listener listener )
-	{
-		if ( listeners == null )
-		{
-			listeners = new HashMap<Integer, List<Listener>>( );
+	@Override
+	public void addListener(int eventType, Listener listener) {
+		if (listeners == null) {
+			listeners = new HashMap<>();
 		}
 
-		List<Listener> list = listeners.get( eventType );
+		List<Listener> list = listeners.get(eventType);
 
-		if ( list == null )
-		{
-			list = new ArrayList<Listener>( );
-			listeners.put( eventType, list );
+		if (list == null) {
+			list = new ArrayList<>();
+			listeners.put(eventType, list);
 		}
 
-		if ( !list.contains( listener ) )
-		{
-			list.add( listener );
+		if (!list.contains(listener)) {
+			list.add(listener);
 		}
 
 	}
 
-	public void createContent( Composite parent )
-	{
+	@Override
+	public void createContent(Composite parent) {
 	}
 
-	public Object getProperty( String key )
-	{
-		if ( props != null )
-		{
-			return props.get( key );
+	@Override
+	public Object getProperty(String key) {
+		if (props != null) {
+			return props.get(key);
 		}
 
 		return null;
 	}
 
-	public void removeListener( int eventType, Listener listener )
-	{
-		if ( listeners != null )
-		{
-			List<Listener> list = listeners.get( eventType );
+	@Override
+	public void removeListener(int eventType, Listener listener) {
+		if (listeners != null) {
+			List<Listener> list = listeners.get(eventType);
 
-			if ( list != null && list.contains( listener ) )
-			{
-				list.remove( listener );
+			if (list != null && list.contains(listener)) {
+				list.remove(listener);
 			}
 		}
 	}
 
-	public void setContainer( Object container )
-	{
+	@Override
+	public void setContainer(Object container) {
 		this.container = container;
 	}
 
-	public void setProperty( String key, Object value )
-	{
-		if ( props == null )
-		{
-			props = new HashMap<String, Object>( );
+	@Override
+	public void setProperty(String key, Object value) {
+		if (props == null) {
+			props = new HashMap<>();
 		}
 
-		props.put( key, value );
+		props.put(key, value);
 	}
 
-	public void validate( )
-	{
+	@Override
+	public void validate() {
 	}
 
-	public String[] getErrors( )
-	{
+	@Override
+	public String[] getErrors() {
 		return new String[0];
 	}
 
-	public void update( boolean inward )
-	{
+	@Override
+	public void update(boolean inward) {
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return null;
 	}
 

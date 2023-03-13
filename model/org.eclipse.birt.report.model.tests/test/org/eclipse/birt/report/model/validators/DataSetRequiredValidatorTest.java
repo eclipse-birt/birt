@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,44 +24,36 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * Tests <code>DataSetRequiredValidator</code>.
  */
 
-public class DataSetRequiredValidatorTest extends ValidatorTestCase
-{
+public class DataSetRequiredValidatorTest extends ValidatorTestCase {
 
-	MyListener listener = new MyListener( );
+	MyListener listener = new MyListener();
 
 	/**
 	 * Tests <code>DataSetRequiredValidator</code>.
-	 * 
-	 * @throws Exception
-	 *             if any exception
+	 *
+	 * @throws Exception if any exception
 	 */
 
-	public void testDataSetRequiredValidator( ) throws Exception
-	{
-		createDesign( );
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
-		
-		TableHandle tableHandle = designHandle.getElementFactory( )
-				.newTableItem( "table1" ); //$NON-NLS-1$
-		designHandle.addValidationListener( listener );
-		designHandle.getBody( ).add( tableHandle );
-		assertTrue( listener.hasError( tableHandle, DataSetRequiredValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
+	public void testDataSetRequiredValidator() throws Exception {
+		createDesign();
+		MetaDataDictionary.getInstance().setUseValidationTrigger(true);
 
-		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset1" ); //$NON-NLS-1$
-		designHandle.getDataSets( ).add( dataSetHandle );
-		assertTrue( listener.hasError( tableHandle, DataSetRequiredValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
+		TableHandle tableHandle = designHandle.getElementFactory().newTableItem("table1"); //$NON-NLS-1$
+		designHandle.addValidationListener(listener);
+		designHandle.getBody().add(tableHandle);
+		assertTrue(listener.hasError(tableHandle, DataSetRequiredValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET));
+
+		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory().newOdaDataSet("dataset1"); //$NON-NLS-1$
+		designHandle.getDataSets().add(dataSetHandle);
+		assertTrue(listener.hasError(tableHandle, DataSetRequiredValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET));
 
 		// Set DATA_SET_PROP
-		
-		tableHandle.setDataSet( dataSetHandle );
-		assertFalse( listener.hasError( tableHandle, DataSetRequiredValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
+
+		tableHandle.setDataSet(dataSetHandle);
+		assertFalse(listener.hasError(tableHandle, DataSetRequiredValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET));
 
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,36 +36,30 @@ import com.ibm.icu.util.ULocale;
  * and the text is correctly inserted.
  * </p>
  */
-public class Regression_117272 extends BaseTestCase
-{
+public class Regression_117272 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 * @throws ContentException
-	 * 
+	 *
 	 */
-	public void test_regression_117272( ) throws ContentException, NameException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle report = sessionHandle.createDesign( );
+	public void test_regression_117272() throws ContentException, NameException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle report = sessionHandle.createDesign();
 
-		ElementFactory factory = report.getElementFactory( );
-		SimpleMasterPageHandle pageHandle = factory
-				.newSimpleMasterPage( "page1" ); //$NON-NLS-1$
+		ElementFactory factory = report.getElementFactory();
+		SimpleMasterPageHandle pageHandle = factory.newSimpleMasterPage("page1"); //$NON-NLS-1$
 
-		report.getMasterPages( ).add( pageHandle );
-		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) report
-				.findMasterPage( "page1" ); //$NON-NLS-1$
+		report.getMasterPages().add(pageHandle);
+		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) report.findMasterPage("page1"); //$NON-NLS-1$
 
 		// insert a dynamic text into master page header.
 
-		TextDataHandle textData = factory.newTextData( "data" ); //$NON-NLS-1$
-		masterPageHandle.getPageHeader( ).add( textData );
+		TextDataHandle textData = factory.newTextData("data"); //$NON-NLS-1$
+		masterPageHandle.getPageHeader().add(textData);
 
 		// check that it is correctly added.
 
-		assertEquals( 1, masterPageHandle.getPageHeader( ).getContents( )
-				.size( ) );
+		assertEquals(1, masterPageHandle.getPageHeader().getContents().size());
 	}
 }

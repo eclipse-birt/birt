@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,70 +30,61 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
- * 
+ *
  */
 
-public class DimensionRowAccessor extends AbstractRowAccessor
-{
+public class DimensionRowAccessor extends AbstractRowAccessor {
 
 	protected IDimension dimension;
 	protected DimensionRow dimRow;
 
 	/**
-	 * 
+	 *
 	 * @param dimension
 	 */
-	public DimensionRowAccessor( IDimension dimension )
-	{
+	public DimensionRowAccessor(IDimension dimension) {
 		this.dimension = dimension;
-		if( !dimension.isTime( ) )
-			populateFieldIndexMap( );
+		if (!dimension.isTime()) {
+			populateFieldIndexMap();
+		}
 	}
-	
-	public List getLevelNames( )
-	{
-		List levelName = new ArrayList( );
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			levelName.add( levels[i].getName( ) );
+
+	public List getLevelNames() {
+		List levelName = new ArrayList();
+		ILevel[] levels = dimension.getHierarchy().getLevels();
+		for (int i = 0; i < levels.length; i++) {
+			levelName.add(levels[i].getName());
 		}
 		return levelName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AbstractRowAccessor#populateFieldIndexMap()
+	 *
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
+	 * AbstractRowAccessor#populateFieldIndexMap()
 	 */
-	protected void populateFieldIndexMap( )
-	{
-		fieldIndexMap = new HashMap( );
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			String[] keyNames = levels[i].getKeyNames( );
-			if ( keyNames != null )
-			{
-				for ( int j = 0; j < keyNames.length; j++ )
-				{
-					String name = OlapExpressionUtil.getAttrReference( dimension.getName( ),
-							levels[i].getName( ),
-							keyNames[j] );
-					fieldIndexMap.put( name, new DimensionKeyIndex( i, j ) );
+	@Override
+	protected void populateFieldIndexMap() {
+		fieldIndexMap = new HashMap();
+		ILevel[] levels = dimension.getHierarchy().getLevels();
+		for (int i = 0; i < levels.length; i++) {
+			String[] keyNames = levels[i].getKeyNames();
+			if (keyNames != null) {
+				for (int j = 0; j < keyNames.length; j++) {
+					String name = OlapExpressionUtil.getAttrReference(dimension.getName(), levels[i].getName(),
+							keyNames[j]);
+					fieldIndexMap.put(name, new DimensionKeyIndex(i, j));
 				}
 			}
 
-			String[] attrNames = levels[i].getAttributeNames( );
-			if ( attrNames != null )
-			{
-				for ( int j = 0; j < attrNames.length; j++ )
-				{
-					String attrName = parseAttributeName( attrNames[j] );
-					String name = OlapExpressionUtil.getAttrReference( dimension.getName( ),
-							levels[i].getName( ),
-							attrName );
-					fieldIndexMap.put( name, new DimensionAttrIndex( i, j ) );
+			String[] attrNames = levels[i].getAttributeNames();
+			if (attrNames != null) {
+				for (int j = 0; j < attrNames.length; j++) {
+					String attrName = parseAttributeName(attrNames[j]);
+					String name = OlapExpressionUtil.getAttrReference(dimension.getName(), levels[i].getName(),
+							attrName);
+					fieldIndexMap.put(name, new DimensionAttrIndex(i, j));
 				}
 			}
 		}
@@ -98,110 +92,108 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 	}
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @throws IOException
 	 */
-	public void seek( int position ) throws IOException
-	{
-		dimRow = ( (Dimension) dimension ).getRowByPosition( position );
+	public void seek(int position) throws IOException {
+		dimRow = ((Dimension) dimension).getRowByPosition(position);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public DimensionRow getCurrentRow( )
-	{
+	public DimensionRow getCurrentRow() {
 		return dimRow;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getAggrValue(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getAggrValue(java.
+	 * lang.String)
 	 */
-	public Object getAggrValue( String aggrName ) throws DataException
-	{
+	@Override
+	public Object getAggrValue(String aggrName) throws DataException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getFieldValue(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getFieldValue(java.
+	 * lang.String)
 	 */
-	public Object getFieldValue( String fieldName ) throws DataException
-	{
-		if ( dimRow == null )
-			throw new DataException( ResourceConstants.CANNOT_ACCESS_NULL_DIMENSION_ROW );
-		if( !dimension.isTime( ) )
-		{
-			FieldIndex index = (FieldIndex) fieldIndexMap.get( fieldName );
-			return index != null ? index.getValue( ) : null;
+	@Override
+	public Object getFieldValue(String fieldName) throws DataException {
+		if (dimRow == null) {
+			throw new DataException(ResourceConstants.CANNOT_ACCESS_NULL_DIMENSION_ROW);
 		}
-		else
-		{
-			return TimeDimensionUtil.getFieldVaule( ( Date )( dimRow.getMembers()[0].getKeyValues( )[0] ), fieldName );
+		if (!dimension.isTime()) {
+			FieldIndex index = (FieldIndex) fieldIndexMap.get(fieldName);
+			return index != null ? index.getValue() : null;
+		} else {
+			return TimeDimensionUtil.getFieldVaule((Date) (dimRow.getMembers()[0].getKeyValues()[0]), fieldName);
 		}
 	}
 
-	public boolean isTimeDimensionRow( )
-	{
-		return dimension.isTime( );
+	@Override
+	public boolean isTimeDimensionRow() {
+		return dimension.isTime();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
-	class DimensionKeyIndex extends KeyIndex
-	{
+	class DimensionKeyIndex extends KeyIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
-		DimensionKeyIndex( int levelIndex, int keyIndex )
-		{
-			super( levelIndex, keyIndex );
+		DimensionKeyIndex(int levelIndex, int keyIndex) {
+			super(levelIndex, keyIndex);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AbstractRowAccessor.FieldIndex#getValue()
+		 *
+		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
+		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
-		Object getValue( ) throws DataException
-		{
-			return dimRow.getMembers( )[levelIndex].getKeyValues( )[keyIndex];
+		@Override
+		Object getValue() throws DataException {
+			return dimRow.getMembers()[levelIndex].getKeyValues()[keyIndex];
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	class DimensionAttrIndex extends AttributeIndex
-	{
+	class DimensionAttrIndex extends AttributeIndex {
 
 		/**
-		 * 
+		 *
 		 * @param levelIndex
 		 * @param keyIndex
 		 */
-		DimensionAttrIndex( int levelIndex, int keyIndex )
-		{
-			super( levelIndex, keyIndex );
+		DimensionAttrIndex(int levelIndex, int keyIndex) {
+			super(levelIndex, keyIndex);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AbstractRowAccessor.FieldIndex#getValue()
+		 *
+		 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.
+		 * AbstractRowAccessor.FieldIndex#getValue()
 		 */
-		Object getValue( ) throws DataException
-		{
-			return dimRow.getMembers( )[levelIndex].getAttributes( )[attrIndex];
+		@Override
+		Object getValue() throws DataException {
+			return dimRow.getMembers()[levelIndex].getAttributes()[attrIndex];
 		}
 	}
 

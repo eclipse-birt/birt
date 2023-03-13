@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,88 +22,82 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 
 /**
- * 
+ *
  * the row content object which contains cell content objects
- * 
+ *
  */
-public class RowContentWrapper extends AbstractContentWrapper
-		implements
-			IRowContent
-{
+public class RowContentWrapper extends AbstractContentWrapper implements IRowContent {
 
 	IRowContent rowContent;
 
 	/**
 	 * constructor
-	 * 
-	 * @param row
-	 *            the row deign
+	 *
+	 * @param row the row deign
 	 */
-	public RowContentWrapper( IRowContent content )
-	{
-		super( content );
+	public RowContentWrapper(IRowContent content) {
+		super(content);
 		rowContent = content;
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitRow( this, value );
+	@Override
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitRow(this, value);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IRowContent#getRowID()
 	 */
-	public int getRowID( )
-	{
-		return rowContent.getRowID( );
+	@Override
+	public int getRowID() {
+		return rowContent.getRowID();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IRowContent#setRowID(int)
 	 */
-	public void setRowID( int rowID )
-	{
-		rowContent.setRowID( rowID );
+	@Override
+	public void setRowID(int rowID) {
+		rowContent.setRowID(rowID);
 	}
 
-	public ITableContent getTable( )
-	{
+	@Override
+	public ITableContent getTable() {
 		return null;
 	}
 
-	public IBandContent getBand( )
-	{
-		return rowContent.getBand( );
+	@Override
+	public IBandContent getBand() {
+		return rowContent.getBand();
 	}
 
-	public IGroupContent getGroup( )
-	{
-		return rowContent.getGroup( );
+	@Override
+	public IGroupContent getGroup() {
+		return rowContent.getGroup();
 	}
 
-	public String getGroupId( )
-	{
-		return rowContent.getGroupId( );
+	@Override
+	public String getGroupId() {
+		return rowContent.getGroupId();
 	}
 
-	public void setGroupId( String groupId )
-	{
-		rowContent.setGroupId( groupId );
+	@Override
+	public void setGroupId(String groupId) {
+		rowContent.setGroupId(groupId);
 	}
 
-	public void setRepeatable( boolean repeatable )
-	{
-		rowContent.setRepeatable( repeatable );
-		
+	@Override
+	public void setRepeatable(boolean repeatable) {
+		rowContent.setRepeatable(repeatable);
+
 	}
 
-	public boolean isRepeatable( )
-	{
-		return rowContent.isRepeatable( );
+	@Override
+	public boolean isRepeatable() {
+		return rowContent.isRepeatable();
 	}
 }

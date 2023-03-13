@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +31,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * rows as defined in IGroupInstanceInfo list will be retrievable by user.
  */
 
-public class PLSDataPopulator implements IPLSDataPopulator
-{
+public class PLSDataPopulator implements IPLSDataPopulator {
 
 	// The target groups. It is sorted and merged from the original
 	// user input so that following conditions hold
@@ -60,246 +62,224 @@ public class PLSDataPopulator implements IPLSDataPopulator
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param targetGroups
 	 * @param docIt
 	 * @throws DataException
 	 */
-	PLSDataPopulator( List<IGroupInstanceInfo> targetGroups,
-			ResultIterator docIt ) throws DataException
-	{
+	PLSDataPopulator(List<IGroupInstanceInfo> targetGroups, ResultIterator docIt) throws DataException {
 		this.docIt = docIt;
 
-		this.populateBoundary( targetGroups );
+		this.populateBoundary(targetGroups);
 
-		this.populateEmptyInfo( );
+		this.populateEmptyInfo();
 	}
 
 	/**
 	 * Return the enclosed document iterator.
-	 * 
+	 *
 	 * @return
 	 */
-	public ResultIterator getDocumentIterator( )
-	{
+	@Override
+	public ResultIterator getDocumentIterator() {
 		return this.docIt;
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private void populateEmptyInfo( )
-	{
-		this.isEmpty = !( this.currentBoundary != null && this.currentBoundary.getStart( ) < this.docIt.getExprResultSet( )
-				.getDataSetResultSet( )
-				.getRowCount( ) );
+	private void populateEmptyInfo() {
+		this.isEmpty = !(this.currentBoundary != null
+				&& this.currentBoundary.getStart() < this.docIt.getExprResultSet().getDataSetResultSet().getRowCount());
 	}
 
 	/**
 	 * Populate the boundaries info.
-	 * 
+	 *
 	 * @param targetGroups
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void populateBoundary( List<IGroupInstanceInfo> targetGroups ) throws DataException
-	{
+	private void populateBoundary(List<IGroupInstanceInfo> targetGroups) throws DataException {
 		// Make a copy to user input.
-		List<IGroupInstanceInfo> groups = new ArrayList<IGroupInstanceInfo>( targetGroups );
+		List<IGroupInstanceInfo> groups = new ArrayList<>(targetGroups);
 
 		// Sort the copy
-		Collections.sort( groups, new Comparator<IGroupInstanceInfo>( ) {
+		Collections.sort(groups, new Comparator<IGroupInstanceInfo>() {
 
-			public int compare( IGroupInstanceInfo arg0, IGroupInstanceInfo arg1 )
-			{
-				if ( arg0.getGroupLevel( ) < arg1.getGroupLevel( ) )
+			@Override
+			public int compare(IGroupInstanceInfo arg0, IGroupInstanceInfo arg1) {
+				if (arg0.getGroupLevel() < arg1.getGroupLevel()) {
 					return -1;
-				if ( arg0.getGroupLevel( ) > arg1.getGroupLevel( ) )
+				}
+				if (arg0.getGroupLevel() > arg1.getGroupLevel()) {
 					return 1;
-				if ( arg0.getRowId( ) < arg1.getRowId( ) )
+				}
+				if (arg0.getRowId() < arg1.getRowId()) {
 					return -1;
-				if ( arg0.getRowId( ) > arg1.getRowId( ) )
+				}
+				if (arg0.getRowId() > arg1.getRowId()) {
 					return 1;
+				}
 				return 0;
 			}
-		} );
+		});
 
 		// Here the groups has been sorted.
-		List<Boundary> boundaries = new LinkedList<Boundary>( );
-		tag: for ( IGroupInstanceInfo info : groups )
-		{
-			int[] groupStartEndingIndex = docIt.getExprResultSet( )
-					.getGroupStartAndEndIndex( info.getGroupLevel( ) );
-			for ( int i = 0; i < groupStartEndingIndex.length; i = i + 2 )
-			{
-				if ( groupStartEndingIndex[i] <= info.getRowId( )
-						&& groupStartEndingIndex[i + 1] > info.getRowId( ) )
-				{
-					Boundary b = new Boundary( info.getGroupLevel( ),
-							groupStartEndingIndex[i],
-							groupStartEndingIndex[i + 1] - 1 );
+		List<Boundary> boundaries = new LinkedList<>();
+		tag: for (IGroupInstanceInfo info : groups) {
+			int[] groupStartEndingIndex = docIt.getExprResultSet().getGroupStartAndEndIndex(info.getGroupLevel());
+			for (int i = 0; i < groupStartEndingIndex.length; i = i + 2) {
+				if (groupStartEndingIndex[i] <= info.getRowId() && groupStartEndingIndex[i + 1] > info.getRowId()) {
+					Boundary b = new Boundary(info.getGroupLevel(), groupStartEndingIndex[i],
+							groupStartEndingIndex[i + 1] - 1);
 
 					// Try to merge the boundaries.
-					for ( Boundary target : boundaries )
-					{
-						if ( b.containedBy( target ) )
+					for (Boundary target : boundaries) {
+						if (b.containedBy(target)) {
 							continue tag;
+						}
 					}
 
 					// If failed to merge, simply add to boundaries list.
-					boundaries.add( b );
+					boundaries.add(b);
 					continue tag;
 				}
 			}
 		}
 
-		Collections.sort( boundaries, new Comparator<Boundary>( ) {
+		Collections.sort(boundaries, new Comparator<Boundary>() {
 
-			public int compare( Boundary o1, Boundary o2 )
-			{
-				if ( o1.start < o2.start )
+			@Override
+			public int compare(Boundary o1, Boundary o2) {
+				if (o1.start < o2.start) {
 					return -1;
-				else if ( o1.start > o2.start )
+				} else if (o1.start > o2.start) {
 					return 1;
+				}
 				return 0;
 			}
 
-		} );
-		
-		populateStartingEndingGroupLevel( groups, boundaries );
-		
-		if ( boundaries.size( ) > 0 )
-		{
-			this.currentBoundary = boundaries.get( 0 );
-			
+		});
+
+		populateStartingEndingGroupLevel(groups, boundaries);
+
+		if (boundaries.size() > 0) {
+			this.currentBoundary = boundaries.get(0);
+
 		}
-		
-		
+
 		this.targetBoundaries = boundaries;
-		
-		
+
 	}
 
 	/**
-	 * 
+	 *
 	 * @param groups
 	 * @param boundaries
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void populateStartingEndingGroupLevel(
-			List<IGroupInstanceInfo> groups, List<Boundary> boundaries ) throws DataException
-	{
-		int matteredGroupLevel = groups.get( groups.size( )-1 ).getGroupLevel( );
+	private void populateStartingEndingGroupLevel(List<IGroupInstanceInfo> groups, List<Boundary> boundaries)
+			throws DataException {
+		int matteredGroupLevel = groups.get(groups.size() - 1).getGroupLevel();
 
-		for ( int i = 0; i <= matteredGroupLevel; i++ )
-		{
-			int[] starEndGroupIndex = this.docIt.getExprResultSet( )
-					.getGroupStartAndEndIndex( i );
-			List<Boundary> temp = new ArrayList<Boundary>(boundaries);
-			for ( int j = 0; j < starEndGroupIndex.length; j = j+2 )
-			{
-				//If all the boundaries are processed, then continue to process next group level.
-				if( temp.isEmpty( ))
+		for (int i = 0; i <= matteredGroupLevel; i++) {
+			int[] starEndGroupIndex = this.docIt.getExprResultSet().getGroupStartAndEndIndex(i);
+			List<Boundary> temp = new ArrayList<>(boundaries);
+			for (int j = 0; j < starEndGroupIndex.length; j = j + 2) {
+				// If all the boundaries are processed, then continue to process next group
+				// level.
+				if (temp.isEmpty()) {
 					break;
-				
-				//Feed all the boundaries of current starting/ending group index to this list
-				List<Boundary> contained = new ArrayList<Boundary>();
+				}
 
-				Iterator<Boundary> it = temp.iterator( );
-				while( it.hasNext( ))
-				{
-					Boundary b = it.next( );
-					//Need not process the boundary that of same or above the current group 
-					//that under check.
-					if( b.groupLevel <= i )
-					{
+				// Feed all the boundaries of current starting/ending group index to this list
+				List<Boundary> contained = new ArrayList<>();
+
+				Iterator<Boundary> it = temp.iterator();
+				while (it.hasNext()) {
+					Boundary b = it.next();
+					// Need not process the boundary that of same or above the current group
+					// that under check.
+					if (b.groupLevel <= i) {
 						it.remove();
 						continue;
 					}
-					if( b.start >= starEndGroupIndex[j] && b.end <= starEndGroupIndex[j+1]-1 )
-					{
-						contained.add( b );
-						it.remove( );
+					if (b.start >= starEndGroupIndex[j] && b.end <= starEndGroupIndex[j + 1] - 1) {
+						contained.add(b);
+						it.remove();
 						continue;
 					}
-					
-					//if b is not in current starting ending group index boundary.
-					if( b.start > starEndGroupIndex[j+1])
-					{
+
+					// if b is not in current starting ending group index boundary.
+					if (b.start > starEndGroupIndex[j + 1]) {
 						break;
-					}	
+					}
 				}
-				if ( !contained.isEmpty( ) )
-				{
-					contained.get( 0 ).startGroupLevel = contained.get( 0 ).startGroupLevel < i
-							? contained.get( 0 ).startGroupLevel : i;
-					contained.get( contained.size( ) - 1 ).endGroupLevel = contained.get( contained.size( ) - 1 ).endGroupLevel < i
-							? contained.get( contained.size( ) - 1 ).endGroupLevel
+				if (!contained.isEmpty()) {
+					contained.get(0).startGroupLevel = contained.get(0).startGroupLevel < i
+							? contained.get(0).startGroupLevel
 							: i;
+					contained.get(
+							contained.size() - 1).endGroupLevel = contained.get(contained.size() - 1).endGroupLevel < i
+									? contained.get(contained.size() - 1).endGroupLevel
+									: i;
 				}
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
-	public void close( ) throws BirtException
-	{
-		this.docIt.close( );
+	@Override
+	public void close() throws BirtException {
+		this.docIt.close();
 	}
 
 	/**
 	 * Move to next qualified row.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean next( ) throws DataException
-	{
-		if ( this.isEmpty )
+	@Override
+	public boolean next() throws DataException {
+		if (this.isEmpty) {
 			return false;
-		try
-		{
-			while ( docIt.next( ) )
-			{
-				if ( docIt.getExprResultSet( ).getCurrentIndex( ) < this.currentBoundary.start )
-				{
-					docIt.moveTo( this.currentBoundary.start );
-				}
-				else if ( docIt.getExprResultSet( ).getCurrentIndex( ) > this.currentBoundary.end )
-				{
-					this.targetBoundaries.remove( this.currentBoundary );
+		}
+		try {
+			while (docIt.next()) {
+				if (docIt.getExprResultSet().getCurrentIndex() < this.currentBoundary.start) {
+					docIt.moveTo(this.currentBoundary.start);
+				} else if (docIt.getExprResultSet().getCurrentIndex() > this.currentBoundary.end) {
+					this.targetBoundaries.remove(this.currentBoundary);
 
-					if ( this.targetBoundaries.size( ) == 0 )
-					{
+					if (this.targetBoundaries.size() == 0) {
 						break;
 					}
 
-					this.currentBoundary = this.targetBoundaries.get( 0 );
+					this.currentBoundary = this.targetBoundaries.get(0);
 
-					docIt.moveTo( this.currentBoundary.start );
+					docIt.moveTo(this.currentBoundary.start);
 
 				}
 
 				this.rowIndex++;
 				return true;
 			}
-		}
-		catch ( BirtException e1 )
-		{
-			throw DataException.wrap( e1 );
+		} catch (BirtException e1) {
+			throw DataException.wrap(e1);
 		}
 		return false;
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Work
-	 * 
+	 *
 	 */
-	protected static class Boundary
-	{
+	protected static class Boundary {
 
 		//
 		private int start;
@@ -314,13 +294,12 @@ public class PLSDataPopulator implements IPLSDataPopulator
 		int endGroupLevel;
 
 		/**
-		 * 
+		 *
 		 * @param groupLevel
 		 * @param start
 		 * @param end
 		 */
-		Boundary( int groupLevel, int start, int end )
-		{
+		Boundary(int groupLevel, int start, int end) {
 			this.start = start;
 			this.end = end;
 			this.startGroupLevel = groupLevel;
@@ -329,22 +308,19 @@ public class PLSDataPopulator implements IPLSDataPopulator
 		}
 
 		/**
-		 * 
+		 *
 		 * @param target
 		 * @return
 		 */
-		public boolean containedBy( Boundary target )
-		{
+		public boolean containedBy(Boundary target) {
 			return target.start <= this.start && target.end >= this.end;
 		}
 
-		public int getStart( )
-		{
+		public int getStart() {
 			return this.start;
 		}
 
-		public int getEnd( )
-		{
+		public int getEnd() {
 			return this.end;
 		}
 	}

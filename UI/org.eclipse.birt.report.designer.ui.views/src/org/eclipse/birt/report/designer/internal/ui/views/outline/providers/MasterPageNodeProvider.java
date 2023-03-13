@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -18,11 +20,10 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 
 /**
  * Provider for the MasterPage node
- * 
- *  
+ *
+ *
  */
-public class MasterPageNodeProvider extends DefaultNodeProvider
-{
+public class MasterPageNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * the text for new action
@@ -45,20 +46,18 @@ public class MasterPageNodeProvider extends DefaultNodeProvider
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
-	 * @param model
-	 *            the model
+	 *
+	 * @param model the model
 	 */
-	public Object[] getChildren( Object model )
-	{
-		if ( model instanceof SimpleMasterPageHandle )
-		{
+	@Override
+	public Object[] getChildren(Object model) {
+		if (model instanceof SimpleMasterPageHandle) {
 			SimpleMasterPageHandle handle = (SimpleMasterPageHandle) model;
-			ArrayList list = new ArrayList( );
-			list.add(  handle.getPageHeader( )  );
-			list.add( handle.getPageFooter( ) );
-			return list.toArray( );
+			ArrayList list = new ArrayList();
+			list.add(handle.getPageHeader());
+			list.add(handle.getPageFooter());
+			return list.toArray();
 		}
-		return super.getChildren( model );
+		return super.getChildren(model);
 	}
 }

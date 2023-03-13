@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,35 +22,28 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * ComputedMeasureViewHandle
  */
-public class ComputedMeasureViewHandle extends MeasureViewHandle implements
-		IComputedMeasureViewConstants
-{
+public class ComputedMeasureViewHandle extends MeasureViewHandle implements IComputedMeasureViewConstants {
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
-	ComputedMeasureViewHandle( DesignElementHandle handle )
-	{
-		super( handle );
+	ComputedMeasureViewHandle(DesignElementHandle handle) {
+		super(handle);
 	}
 
-	public String getName( )
-	{
-		return handle.getName( );
+	public String getName() {
+		return handle.getName();
 	}
 
 	@Override
-	public MeasureHandle getCubeMeasure( )
-	{
+	public MeasureHandle getCubeMeasure() {
 		// this does not apply to regular data cubes
-		if ( CrosstabUtil.isBoundToLinkedDataSet( this.getCrosstab( ) ) )
-		{
+		if (CrosstabUtil.isBoundToLinkedDataSet(this.getCrosstab())) {
 			// this only applies if measure has its own aggregation
-			if ( CrosstabUtil.measureHasItsOwnAggregation( this.getCrosstab( ), super.getCubeMeasure( ) ) )
-			{
+			if (CrosstabUtil.measureHasItsOwnAggregation(this.getCrosstab(), super.getCubeMeasure())) {
 				// return the super implementation
-				return super.getCubeMeasure( );
+				return super.getCubeMeasure();
 			}
 		}
 		// otherwise in all other cases return normal
@@ -55,13 +51,11 @@ public class ComputedMeasureViewHandle extends MeasureViewHandle implements
 	}
 
 	@Override
-	public String getCubeMeasureName( )
-	{
-		String measureName = (String)handle.getProperty( IComputedMeasureViewConstants.MEASURE_NAME_PROP );
-		if( measureName == null )
-		{
-			measureName = handle.getName( );	
-		} 
+	public String getCubeMeasureName() {
+		String measureName = (String) handle.getProperty(IComputedMeasureViewConstants.MEASURE_NAME_PROP);
+		if (measureName == null) {
+			measureName = handle.getName();
+		}
 		return measureName;
 	}
 }

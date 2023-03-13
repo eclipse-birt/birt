@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,28 +22,34 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>URL Value</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object ' <em><b>URL
+ * Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTooltip <em>Tooltip</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl
+ * <em>Base Url</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget
+ * <em>Target</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName
+ * <em>Base Parameter Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName
+ * <em>Value Parameter Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName
+ * <em>Series Parameter Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTooltip
+ * <em>Tooltip</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class URLValueImpl extends ActionValueImpl implements URLValue
-{
+public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * The default value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -50,6 +59,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	/**
 	 * The cached value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -59,6 +69,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	/**
 	 * The default value of the '{@link #getTarget() <em>Target</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -68,6 +79,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -75,8 +87,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String target = TARGET_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getBaseParameterName() <em>Base Parameter
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -84,8 +97,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String BASE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBaseParameterName() <em>Base Parameter
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -93,8 +107,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String baseParameterName = BASE_PARAMETER_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getValueParameterName() <em>Value Parameter
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -102,8 +117,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String VALUE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getValueParameterName() <em>Value Parameter
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -111,8 +127,10 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String valueParameterName = VALUE_PARAMETER_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSeriesParameterName() <em>Series Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getSeriesParameterName() <em>Series
+	 * Parameter Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
 	 * @see #getSeriesParameterName()
 	 * @generated
 	 * @ordered
@@ -120,8 +138,10 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String SERIES_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSeriesParameterName() <em>Series Parameter Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeriesParameterName() <em>Series
+	 * Parameter Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
 	 * @see #getSeriesParameterName()
 	 * @generated
 	 * @ordered
@@ -130,8 +150,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * The default value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -140,8 +160,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * The cached value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -150,329 +170,317 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	protected URLValueImpl( )
-	{
-		super( );
+	protected URLValueImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.URL_VALUE;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getBaseUrl( )
-	{
+	@Override
+	public String getBaseUrl() {
 		return baseUrl;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setBaseUrl( String newBaseUrl )
-	{
+	@Override
+	public void setBaseUrl(String newBaseUrl) {
 		String oldBaseUrl = baseUrl;
 		baseUrl = newBaseUrl;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__BASE_URL,
-					oldBaseUrl,
-					baseUrl ) );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_URL, oldBaseUrl,
+					baseUrl));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getTarget( )
-	{
+	@Override
+	public String getTarget() {
 		return target;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setTarget( String newTarget )
-	{
+	@Override
+	public void setTarget(String newTarget) {
 		String oldTarget = target;
 		target = newTarget;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__TARGET,
-					oldTarget,
-					target ) );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__TARGET, oldTarget,
+					target));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getBaseParameterName( )
-	{
+	@Override
+	public String getBaseParameterName() {
 		return baseParameterName;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setBaseParameterName( String newBaseParameterName )
-	{
+	@Override
+	public void setBaseParameterName(String newBaseParameterName) {
 		String oldBaseParameterName = baseParameterName;
 		baseParameterName = newBaseParameterName;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__BASE_PARAMETER_NAME,
-					oldBaseParameterName,
-					baseParameterName ) );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_PARAMETER_NAME,
+					oldBaseParameterName, baseParameterName));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getValueParameterName( )
-	{
+	@Override
+	public String getValueParameterName() {
 		return valueParameterName;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setValueParameterName( String newValueParameterName )
-	{
+	@Override
+	public void setValueParameterName(String newValueParameterName) {
 		String oldValueParameterName = valueParameterName;
 		valueParameterName = newValueParameterName;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME,
-					oldValueParameterName,
-					valueParameterName ) );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME,
+					oldValueParameterName, valueParameterName));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getSeriesParameterName( )
-	{
+	@Override
+	public String getSeriesParameterName() {
 		return seriesParameterName;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setSeriesParameterName( String newSeriesParameterName )
-	{
+	@Override
+	public void setSeriesParameterName(String newSeriesParameterName) {
 		String oldSeriesParameterName = seriesParameterName;
 		seriesParameterName = newSeriesParameterName;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME,
-					oldSeriesParameterName,
-					seriesParameterName ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTooltip( )
-	{
-		return tooltip;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTooltip( String newTooltip )
-	{
-		String oldTooltip = tooltip;
-		tooltip = newTooltip;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.URL_VALUE__TOOLTIP,
-					oldTooltip,
-					tooltip ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.URL_VALUE__BASE_URL :
-				return getBaseUrl( );
-			case AttributePackage.URL_VALUE__TARGET :
-				return getTarget( );
-			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				return getBaseParameterName( );
-			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				return getValueParameterName( );
-			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				return getSeriesParameterName( );
-			case AttributePackage.URL_VALUE__TOOLTIP :
-				return getTooltip( );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME,
+					oldSeriesParameterName, seriesParameterName));
 		}
-		return super.eGet( featureID, resolve, coreType );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.URL_VALUE__BASE_URL :
-				setBaseUrl( (String) newValue );
-				return;
-			case AttributePackage.URL_VALUE__TARGET :
-				setTarget( (String) newValue );
-				return;
-			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				setBaseParameterName( (String) newValue );
-				return;
-			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				setValueParameterName( (String) newValue );
-				return;
-			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				setSeriesParameterName( (String) newValue );
-				return;
-			case AttributePackage.URL_VALUE__TOOLTIP :
-				setTooltip( (String) newValue );
-				return;
-		}
-		super.eSet( featureID, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.URL_VALUE__BASE_URL :
-				setBaseUrl( BASE_URL_EDEFAULT );
-				return;
-			case AttributePackage.URL_VALUE__TARGET :
-				setTarget( TARGET_EDEFAULT );
-				return;
-			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				setBaseParameterName( BASE_PARAMETER_NAME_EDEFAULT );
-				return;
-			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				setValueParameterName( VALUE_PARAMETER_NAME_EDEFAULT );
-				return;
-			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				setSeriesParameterName( SERIES_PARAMETER_NAME_EDEFAULT );
-				return;
-			case AttributePackage.URL_VALUE__TOOLTIP :
-				setTooltip( TOOLTIP_EDEFAULT );
-				return;
-		}
-		super.eUnset( featureID );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.URL_VALUE__BASE_URL :
-				return BASE_URL_EDEFAULT == null ? baseUrl != null
-						: !BASE_URL_EDEFAULT.equals( baseUrl );
-			case AttributePackage.URL_VALUE__TARGET :
-				return TARGET_EDEFAULT == null ? target != null
-						: !TARGET_EDEFAULT.equals( target );
-			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null
-						: !BASE_PARAMETER_NAME_EDEFAULT.equals( baseParameterName );
-			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null
-						: !VALUE_PARAMETER_NAME_EDEFAULT.equals( valueParameterName );
-			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
-						: !SERIES_PARAMETER_NAME_EDEFAULT.equals( seriesParameterName );
-			case AttributePackage.URL_VALUE__TOOLTIP :
-				return TOOLTIP_EDEFAULT == null ? tooltip != null
-						: !TOOLTIP_EDEFAULT.equals( tooltip );
-		}
-		return super.eIsSet( featureID );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public String getTooltip() {
+		return tooltip;
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (baseUrl: " ); //$NON-NLS-1$
-		result.append( baseUrl );
-		result.append( ", target: " ); //$NON-NLS-1$
-		result.append( target );
-		result.append( ", baseParameterName: " ); //$NON-NLS-1$
-		result.append( baseParameterName );
-		result.append( ", valueParameterName: " ); //$NON-NLS-1$
-		result.append( valueParameterName );
-		result.append( ", seriesParameterName: " ); //$NON-NLS-1$
-		result.append( seriesParameterName );
-		result.append( ", tooltip: " ); //$NON-NLS-1$
-		result.append( tooltip );
-		result.append( ')' );
-		return result.toString( );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void setTooltip(String newTooltip) {
+		String oldTooltip = tooltip;
+		tooltip = newTooltip;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__TOOLTIP, oldTooltip,
+					tooltip));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case AttributePackage.URL_VALUE__BASE_URL:
+			return getBaseUrl();
+		case AttributePackage.URL_VALUE__TARGET:
+			return getTarget();
+		case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
+			return getBaseParameterName();
+		case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
+			return getValueParameterName();
+		case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
+			return getSeriesParameterName();
+		case AttributePackage.URL_VALUE__TOOLTIP:
+			return getTooltip();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case AttributePackage.URL_VALUE__BASE_URL:
+			setBaseUrl((String) newValue);
+			return;
+		case AttributePackage.URL_VALUE__TARGET:
+			setTarget((String) newValue);
+			return;
+		case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
+			setBaseParameterName((String) newValue);
+			return;
+		case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
+			setValueParameterName((String) newValue);
+			return;
+		case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
+			setSeriesParameterName((String) newValue);
+			return;
+		case AttributePackage.URL_VALUE__TOOLTIP:
+			setTooltip((String) newValue);
+			return;
+		}
+		super.eSet(featureID, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case AttributePackage.URL_VALUE__BASE_URL:
+			setBaseUrl(BASE_URL_EDEFAULT);
+			return;
+		case AttributePackage.URL_VALUE__TARGET:
+			setTarget(TARGET_EDEFAULT);
+			return;
+		case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
+			setBaseParameterName(BASE_PARAMETER_NAME_EDEFAULT);
+			return;
+		case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
+			setValueParameterName(VALUE_PARAMETER_NAME_EDEFAULT);
+			return;
+		case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
+			setSeriesParameterName(SERIES_PARAMETER_NAME_EDEFAULT);
+			return;
+		case AttributePackage.URL_VALUE__TOOLTIP:
+			setTooltip(TOOLTIP_EDEFAULT);
+			return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case AttributePackage.URL_VALUE__BASE_URL:
+			return BASE_URL_EDEFAULT == null ? baseUrl != null : !BASE_URL_EDEFAULT.equals(baseUrl);
+		case AttributePackage.URL_VALUE__TARGET:
+			return TARGET_EDEFAULT == null ? target != null : !TARGET_EDEFAULT.equals(target);
+		case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME:
+			return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null
+					: !BASE_PARAMETER_NAME_EDEFAULT.equals(baseParameterName);
+		case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME:
+			return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null
+					: !VALUE_PARAMETER_NAME_EDEFAULT.equals(valueParameterName);
+		case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME:
+			return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
+					: !SERIES_PARAMETER_NAME_EDEFAULT.equals(seriesParameterName);
+		case AttributePackage.URL_VALUE__TOOLTIP:
+			return TOOLTIP_EDEFAULT == null ? tooltip != null : !TOOLTIP_EDEFAULT.equals(tooltip);
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) {
+			return super.toString();
+		}
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (baseUrl: "); //$NON-NLS-1$
+		result.append(baseUrl);
+		result.append(", target: "); //$NON-NLS-1$
+		result.append(target);
+		result.append(", baseParameterName: "); //$NON-NLS-1$
+		result.append(baseParameterName);
+		result.append(", valueParameterName: "); //$NON-NLS-1$
+		result.append(valueParameterName);
+		result.append(", seriesParameterName: "); //$NON-NLS-1$
+		result.append(seriesParameterName);
+		result.append(", tooltip: "); //$NON-NLS-1$
+		result.append(tooltip);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
 	 * A convenience method provided to create a new URLValue instance
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param sBaseUrl
 	 * @param sTarget
 	 * @param sBaseParameterName
@@ -480,29 +488,26 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * @param sSeriesParameterName
 	 * @return
 	 */
-	public static final URLValue create( String sBaseUrl, String sTarget,
-			String sBaseParameterName, String sValueParameterName,
-			String sSeriesParameterName )
-	{
-		final URLValue uv = AttributeFactory.eINSTANCE.createURLValue( );
-		uv.setBaseUrl( sBaseUrl );
-		uv.setTarget( sTarget );
-		uv.setBaseParameterName( sBaseParameterName );
-		uv.setValueParameterName( sValueParameterName );
-		uv.setSeriesParameterName( sSeriesParameterName );
+	public static final URLValue create(String sBaseUrl, String sTarget, String sBaseParameterName,
+			String sValueParameterName, String sSeriesParameterName) {
+		final URLValue uv = AttributeFactory.eINSTANCE.createURLValue();
+		uv.setBaseUrl(sBaseUrl);
+		uv.setTarget(sTarget);
+		uv.setBaseParameterName(sBaseParameterName);
+		uv.setValueParameterName(sValueParameterName);
+		uv.setSeriesParameterName(sSeriesParameterName);
 		return uv;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final char cEncode = '%';
 
 	/**
 	 * A static/fast lookup table provided for
 	 */
-	private final static String[] hex = {
-			"00", //$NON-NLS-1$
+	private final static String[] hex = { "00", //$NON-NLS-1$
 			"01", //$NON-NLS-1$
 			"02", //$NON-NLS-1$
 			"03", //$NON-NLS-1$
@@ -762,71 +767,64 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * Encodes portions of a URL as needed
-	 * 
+	 *
 	 * @param sText
 	 * @return
 	 */
-	public static final String encode( String sText )
-	{
-		if ( sText == null )
-		{
+	public static final String encode(String sText) {
+		if (sText == null) {
 			return null;
 		}
 
-		final StringBuffer sb = new StringBuffer( );
-		final char chrarry[] = sText.toCharArray( );
+		final StringBuilder sb = new StringBuilder();
+		final char chrarry[] = sText.toCharArray();
 		int ch = 0;
 
-		for ( int i = 0; i < chrarry.length; i++ )
-		{
+		for (int i = 0; i < chrarry.length; i++) {
 			ch = chrarry[i];
-			if ( ( 'A' <= ch && ch <= 'Z' ) // 'A'..'Z'
-					|| ( 'a' <= ch && ch <= 'z' ) // 'a'..'z'
-					|| ( '0' <= ch && ch <= '9' ) ) // '0'..'9'
+			if (('A' <= ch && ch <= 'Z') // 'A'..'Z'
+					|| ('a' <= ch && ch <= 'z') // 'a'..'z'
+					|| ('0' <= ch && ch <= '9')) // '0'..'9'
 			{
-				sb.append( chrarry[i] );
-			}
-			else if ( ch <= 0x007f ) // other ASCII
+				sb.append(chrarry[i]);
+			} else if (ch <= 0x007f) // other ASCII
 			{
-				sb.append( cEncode + hex[ch] );
-			}
-			else if ( ch <= 0x07FF ) // non-ASCII <= 0x7FF
+				sb.append(cEncode + hex[ch]);
+			} else if (ch <= 0x07FF) // non-ASCII <= 0x7FF
 			{
-				sb.append( cEncode + hex[0xc0 | ( ch >> 6 )] );
-				sb.append( cEncode + hex[0x80 | ( ch & 0x3F )] );
-			}
-			else
+				sb.append(cEncode + hex[0xc0 | (ch >> 6)]);
+				sb.append(cEncode + hex[0x80 | (ch & 0x3F)]);
+			} else
 			// 0x7FF < ch <= 0xFFFF
 			{
-				sb.append( cEncode + hex[0xe0 | ( ch >> 12 )] );
-				sb.append( cEncode + hex[0x80 | ( ( ch >> 6 ) & 0x3F )] );
-				sb.append( cEncode + hex[0x80 | ( ch & 0x3F )] );
+				sb.append(cEncode + hex[0xe0 | (ch >> 12)]);
+				sb.append(cEncode + hex[0x80 | ((ch >> 6) & 0x3F)]);
+				sb.append(cEncode + hex[0x80 | (ch & 0x3F)]);
 			}
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	public URLValue copyInstance( )
-	{
-		URLValueImpl dest = new URLValueImpl( );
-		dest.set( this );
+	@Override
+	public URLValue copyInstance() {
+		URLValueImpl dest = new URLValueImpl();
+		dest.set(this);
 		return dest;
 	}
 
-	protected void set( URLValue src )
-	{
-		super.set( src );
+	protected void set(URLValue src) {
+		super.set(src);
 
-		baseUrl = src.getBaseUrl( );
-		target = src.getTarget( );
-		baseParameterName = src.getBaseParameterName( );
-		valueParameterName = src.getValueParameterName( );
-		seriesParameterName = src.getSeriesParameterName( );
-		tooltip = src.getTooltip( );
+		baseUrl = src.getBaseUrl();
+		target = src.getTarget();
+		baseParameterName = src.getBaseParameterName();
+		valueParameterName = src.getValueParameterName();
+		seriesParameterName = src.getSeriesParameterName();
+		tooltip = src.getTooltip();
 	}
 
 } // URLValueImpl

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,44 +30,34 @@ import org.eclipse.birt.chart.util.ChartUtil;
  * Simple implementation for IActionRenderer
  */
 
-public class SimpleActionRenderer extends ActionRendererAdapter
-{
+public class SimpleActionRenderer extends ActionRendererAdapter {
 
 	private final IDataRowExpressionEvaluator evaluator;
 
-	public SimpleActionRenderer( IDataRowExpressionEvaluator evaluator )
-	{
+	public SimpleActionRenderer(IDataRowExpressionEvaluator evaluator) {
 		this.evaluator = evaluator;
 	}
 
 	@Override
-	public void processAction(Action action, StructureSource source,
-			RunTimeContext rtc)
-	{
-		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
-		{
-			URLValue uv = (URLValue) action.getValue( );
+	public void processAction(Action action, StructureSource source, RunTimeContext rtc) {
+		if (ActionType.URL_REDIRECT_LITERAL.equals(action.getType())) {
+			URLValue uv = (URLValue) action.getValue();
 
-			String sa = uv.getBaseUrl( );
-			SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
-			String uri = handle.getURI( );
-			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) )
-					&& evaluator != null )
-			{
-				final DataPointHints dph = (DataPointHints) source.getSource( );
-				uri = ChartUtil.stringValue( dph.getUserValue( uri ) );
+			String sa = uv.getBaseUrl();
+			SimpleActionHandle handle = SimpleActionUtil.deserializeAction(sa);
+			String uri = handle.getURI();
+			if (StructureType.SERIES_DATA_POINT.equals(source.getType()) && evaluator != null) {
+				final DataPointHints dph = (DataPointHints) source.getSource();
+				uri = ChartUtil.stringValue(dph.getUserValue(uri));
 			}
-			uv.setBaseUrl( uri );
-			uv.setTarget( handle.getTargetWindow( ) );
-		}
-		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
-		{
-			TooltipValue tv = (TooltipValue) action.getValue( );
+			uv.setBaseUrl(uri);
+			uv.setTarget(handle.getTargetWindow());
+		} else if (ActionType.SHOW_TOOLTIP_LITERAL.equals(action.getType())) {
+			TooltipValue tv = (TooltipValue) action.getValue();
 
-			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
-			{
-				final DataPointHints dph = (DataPointHints) source.getSource( );
-				tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
+			if (StructureType.SERIES_DATA_POINT.equals(source.getType())) {
+				final DataPointHints dph = (DataPointHints) source.getSource();
+				tv.setText(ChartUtil.stringValue(dph.getUserValue(tv.getText())));
 			}
 		}
 	}

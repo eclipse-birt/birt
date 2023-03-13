@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,9 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * AbstractBindingDialogHelper
  */
-public abstract class AbstractBindingDialogHelper implements
-		IBindingDialogHelper
-{
+public abstract class AbstractBindingDialogHelper implements IBindingDialogHelper {
 
 	protected ReportItemHandle bindingHolder;
 	protected ComputedColumnHandle binding;
@@ -36,151 +37,131 @@ public abstract class AbstractBindingDialogHelper implements
 	protected ExpressionProvider expressionProvider;
 	private Object itemContainer;
 
-	private String[] groups = new String[0];
-	
-	public boolean isAggregate( )
-	{
+	private String[] groups = {};
+
+	public boolean isAggregate() {
 		return isAggregate;
 	}
 
-	public void setAggregate( boolean isAggregate )
-	{
+	@Override
+	public void setAggregate(boolean isAggregate) {
 		this.isAggregate = isAggregate;
 	}
-	
-	public boolean isMeasure( )
-	{
+
+	public boolean isMeasure() {
 		return isMeasure;
 	}
 
-	public void setMeasure( boolean isMeasure )
-	{
+	@Override
+	public void setMeasure(boolean isMeasure) {
 		this.isMeasure = isMeasure;
 	}
-	
-	public boolean isTimePeriod()
-	{
+
+	public boolean isTimePeriod() {
 		return isTimePeriod;
 	}
 
-	public void setTimePeriod(boolean timePeriod)
-	{
+	@Override
+	public void setTimePeriod(boolean timePeriod) {
 		this.isTimePeriod = timePeriod;
 	}
 
-	public ReportItemHandle getBindingHolder( )
-	{
+	public ReportItemHandle getBindingHolder() {
 		return bindingHolder;
 	}
 
-	public void setBindingHolder( ReportItemHandle bindingHolder )
-	{
+	@Override
+	public void setBindingHolder(ReportItemHandle bindingHolder) {
 		this.bindingHolder = bindingHolder;
 	}
 
-	public ComputedColumnHandle getBinding( )
-	{
+	public ComputedColumnHandle getBinding() {
 		return binding;
 	}
 
-	public void setBinding( ComputedColumnHandle binding )
-	{
+	@Override
+	public void setBinding(ComputedColumnHandle binding) {
 		this.binding = binding;
-		if ( this.binding != null )
-		{
-			setAggregate ( this.binding.getAggregateFunction( ) != null
-					&& !this.binding.getAggregateFunction( ).equals( "" ) ); //$NON-NLS-1$
-			if ( !isAggregate( ) )
-			{
-				setMeasure( this.binding.getAggregateOn( ) != null
-						&& !this.binding.getAggregateOn( ).equals( "" ) ); //$NON-NLS-1$
+		if (this.binding != null) {
+			setAggregate(
+					this.binding.getAggregateFunction() != null && !this.binding.getAggregateFunction().equals("")); //$NON-NLS-1$
+			if (!isAggregate()) {
+				setMeasure(this.binding.getAggregateOn() != null && !this.binding.getAggregateOn().equals("")); //$NON-NLS-1$
 			}
-			if ( isMeasure( ) && !isAggregate( ) )
-			{
-				setAggregate( true );
+			if (isMeasure() && !isAggregate()) {
+				setAggregate(true);
 			}
 		}
-		if (this.binding != null)
-		{
-			setTimePeriod(this.binding.getTimeDimension() != null
-					&& !this.binding.getTimeDimension().equals( "" ));//$NON-NLS-1$
+		if (this.binding != null) {
+			setTimePeriod(this.binding.getTimeDimension() != null && !this.binding.getTimeDimension().equals(""));//$NON-NLS-1$
 		}
 	}
 
-	public ComputedColumnHandle getBindingColumn( )
-	{
+	public ComputedColumnHandle getBindingColumn() {
 		return this.binding;
 	}
 
-	public DataColumnBindingDialog getDialog( )
-	{
+	public DataColumnBindingDialog getDialog() {
 		return dialog;
 	}
 
-	public void setDialog( DataColumnBindingDialog dialog )
-	{
+	@Override
+	public void setDialog(DataColumnBindingDialog dialog) {
 		this.dialog = dialog;
 	}
 
-	public ExpressionProvider getExpressionProvider( )
-	{
+	public ExpressionProvider getExpressionProvider() {
 		return expressionProvider;
 	}
 
-	public void setExpressionProvider( ExpressionProvider expressionProvider )
-	{
+	@Override
+	public void setExpressionProvider(ExpressionProvider expressionProvider) {
 		this.expressionProvider = expressionProvider;
 	}
 
-	public void setDataItemContainer( Object itemContainer )
-	{
+	public void setDataItemContainer(Object itemContainer) {
 		this.itemContainer = itemContainer;
 	}
 
-	public Object getDataItemContainer( )
-	{
+	public Object getDataItemContainer() {
 		return this.itemContainer;
 	}
 
-	public boolean canProcessWithWarning( )
-	{
+	@Override
+	public boolean canProcessWithWarning() {
 		return true;
 	}
 
-	public boolean canProcessAggregation( )
-	{
-		if ( bindingHolder != null && bindingHolder instanceof ListingHandle )
+	@Override
+	public boolean canProcessAggregation() {
+		if (bindingHolder instanceof ListingHandle) {
 			return true;
+		}
 		return false;
 	}
 
-	protected void setContentSize( Composite composite )
-	{
-		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		composite.setSize( Math.max( size.x, 400 ), Math.max( size.y,
-				isAggregate( ) ? 320 : 50 ) );
+	protected void setContentSize(Composite composite) {
+		Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		composite.setSize(Math.max(size.x, 400), Math.max(size.y, isAggregate() ? 320 : 50));
 	}
 
-	public void setEditModal( boolean isEditModal )
-	{
+	@Override
+	public void setEditModal(boolean isEditModal) {
 
 	}
 
 	@Override
-	public boolean canProcessMeasure( )
-	{
+	public boolean canProcessMeasure() {
 		return false;
 	}
 
 	@Override
-	public void setGroups( String[] groups )
-	{
+	public void setGroups(String[] groups) {
 		this.groups = groups;
 	}
 
 	@Override
-	public String[] getGroups( )
-	{
+	public String[] getGroups() {
 		return this.groups;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,80 +32,65 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-
-public class PostscriptRender extends PageDeviceRender
-{
+public class PostscriptRender extends PageDeviceRender {
 	private OutputStream output = null;
 	private RenderOption renderOption = null;
-	
-	public PostscriptRender( IEmitterServices services ) throws EngineException
-	{
-		initialize( services );
+
+	public PostscriptRender(IEmitterServices services) throws EngineException {
+		initialize(services);
 	}
-	
-	public IPageDevice createPageDevice( String title, String author, String subject, String description,
-			IReportContext context, IReportContent report )
-	{
-		try
-		{
-			return new PostscriptPageDevice( renderOption, output, title, author, description );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
+
+	@Override
+	public IPageDevice createPageDevice(String title, String author, String subject, String description,
+			IReportContext context, IReportContent report) {
+		try {
+			return new PostscriptPageDevice(renderOption, output, title, author, description);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 		return null;
 	}
 
-	public String getDefaultOuputFile( )
-	{
+	public String getDefaultOuputFile() {
 		return "report.ps";
 	}
 
-	public String getOutputFormat( )
-	{
+	@Override
+	public String getOutputFormat() {
 		return "postscript";
 	}
 
 	/**
 	 * Initializes the pdfEmitter.
-	 * 
-	 * @param services
-	 *            the emitter svervices object.
-	 * @throws EngineException 
+	 *
+	 * @param services the emitter svervices object.
+	 * @throws EngineException
 	 */
-	private void initialize( IEmitterServices services ) throws EngineException
-	{
+	private void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
-		renderOption = (RenderOption)services.getRenderOption( );
+		renderOption = (RenderOption) services.getRenderOption();
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 		// It has the top preference.
-		IReportRunnable reportRunnable = services.getReportRunnable( );
-		if ( reportRunnable != null )
-		{
-			reportDesign = (ReportDesignHandle) reportRunnable
-					.getDesignHandle( );
+		IReportRunnable reportRunnable = services.getReportRunnable();
+		if (reportRunnable != null) {
+			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle();
 		}
 
-		this.context = services.getReportContext( );
-		this.output = EmitterUtil.getOuputStream( services, "report.ps" );
+		this.context = services.getReportContext();
+		this.output = EmitterUtil.getOuputStream(services, "report.ps");
 	}
 
-	protected void newPage( IContainerArea page )
-	{
+	@Override
+	protected void newPage(IContainerArea page) {
 		String orientation = null;
-		if ( page instanceof ContainerArea )
-		{
+		if (page instanceof ContainerArea) {
 			ContainerArea pageContainer = (ContainerArea) page;
-			if ( pageContainer.getContent( ) instanceof IPageContent )
-			{
-				IPageContent pageContent = (IPageContent) ( (ContainerArea) page )
-						.getContent( );
-				orientation = pageContent.getOrientation( );
-				( (PostscriptPageDevice) pageDevice )
-						.setOrientation( orientation );
+			if (pageContainer.getContent() instanceof IPageContent) {
+				IPageContent pageContent = (IPageContent) ((ContainerArea) page).getContent();
+				orientation = pageContent.getOrientation();
+				((PostscriptPageDevice) pageDevice).setOrientation(orientation);
 			}
 		}
-		super.newPage( page );
+		super.newPage(page);
 	}
 }

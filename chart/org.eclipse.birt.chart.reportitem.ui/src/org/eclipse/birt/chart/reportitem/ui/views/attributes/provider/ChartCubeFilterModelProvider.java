@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,83 +27,84 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 
-
 /**
  * The class is responsible to manage chart filter with cube set.
- * 
+ *
  * @since 2.3
  */
-public class ChartCubeFilterModelProvider extends FilterModelProvider
-{
+public class ChartCubeFilterModelProvider extends FilterModelProvider {
 
-	public ChartCubeFilterModelProvider()
-	{
+	public ChartCubeFilterModelProvider() {
 		fFilterPropertyName = ChartReportItemUtil.PROPERTY_CUBE_FILTER;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider#getElements(java.util.List)
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
+	 * FilterModelProvider#getElements(java.util.List)
 	 */
-	public Object[] getElements( List input )
-	{
-		Object obj = input.get( 0 );
-		if ( !( obj instanceof DesignElementHandle ) )
+	@Override
+	public Object[] getElements(List input) {
+		Object obj = input.get(0);
+		if (!(obj instanceof DesignElementHandle)) {
 			return EMPTY;
+		}
 		DesignElementHandle element = (DesignElementHandle) obj;
-		PropertyHandle propertyHandle = element.getPropertyHandle( fFilterPropertyName );
-		Iterator iterator = propertyHandle.getListValue( ).iterator( );
-		if ( iterator == null )
+		PropertyHandle propertyHandle = element.getPropertyHandle(fFilterPropertyName);
+		Iterator iterator = propertyHandle.getListValue().iterator();
+		if (iterator == null) {
 			return EMPTY;
-		List list = new ArrayList( );
-		while ( iterator.hasNext( ) )
-			list.add( iterator.next( ) );
-		return list.toArray( );
+		}
+		List list = new ArrayList();
+		while (iterator.hasNext()) {
+			list.add(iterator.next());
+		}
+		return list.toArray();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider#getText(java.lang.Object, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
+	 * FilterModelProvider#getText(java.lang.Object, java.lang.String)
 	 */
-	public String getText( Object element, String key )
-	{
-		if ( element instanceof FilterConditionElementHandle )
-		{
-			String value = ( (FilterConditionElementHandle) element ).getStringProperty( key );
-			if ( value == null )
-			{
+	@Override
+	public String getText(Object element, String key) {
+		if (element instanceof FilterConditionElementHandle) {
+			String value = ((FilterConditionElementHandle) element).getStringProperty(key);
+			if (value == null) {
 				value = "";//$NON-NLS-1$
 			}
 
-			if ( key.equals( IFilterConditionElementModel.OPERATOR_PROP ) )
-			{
-				IChoice choice = choiceSet.findChoice( value );
-				if ( choice != null )
-				{
-					return choice.getDisplayName( );
+			if (key.equals(IFilterConditionElementModel.OPERATOR_PROP)) {
+				IChoice choice = choiceSet.findChoice(value);
+				if (choice != null) {
+					return choice.getDisplayName();
 				}
-			}
-			else
-			{
+			} else {
 				return value;
 			}
 
 			return "";//$NON-NLS-1$
 		}
-		
-		return super.getText( element, key );
+
+		return super.getText(element, key);
 
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider#deleteItem(java.lang.Object, int)
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
+	 * FilterModelProvider#deleteItem(java.lang.Object, int)
 	 */
-	public boolean deleteItem( Object item, int pos )
-			throws PropertyValueException
-	{
+	@Override
+	public boolean deleteItem(Object item, int pos) throws PropertyValueException {
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( fFilterPropertyName );
-		if ( propertyHandle.getListValue( ).get( pos ) != null )
-		{
-			propertyHandle.removeItem( pos );
+		PropertyHandle propertyHandle = element.getPropertyHandle(fFilterPropertyName);
+		if (propertyHandle.getListValue().get(pos) != null) {
+			propertyHandle.removeItem(pos);
 		}
 
 		return true;

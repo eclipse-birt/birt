@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,19 +18,14 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 
-public interface ITableGroupEventHandler
-{
+public interface ITableGroupEventHandler {
 
-	void onPrepare( ITableGroup tableGroup, IReportContext context )
-			throws ScriptException;
-	
-	void onCreate( IReportElementInstance tableGroup, IReportContext context )
-			throws ScriptException;
-	
-	void onRender( IReportElementInstance tableGroup, IReportContext context )
-			throws ScriptException;
-	
-	void onPageBreak( IReportElementInstance tableGroup, IReportContext context )
-			throws ScriptException;
-	
+	void onPrepare(ITableGroup tableGroup, IReportContext context) throws ScriptException;
+
+	void onCreate(IReportElementInstance tableGroup, IReportContext context) throws ScriptException;
+
+	void onRender(IReportElementInstance tableGroup, IReportContext context) throws ScriptException;
+
+	void onPageBreak(IReportElementInstance tableGroup, IReportContext context) throws ScriptException;
+
 }

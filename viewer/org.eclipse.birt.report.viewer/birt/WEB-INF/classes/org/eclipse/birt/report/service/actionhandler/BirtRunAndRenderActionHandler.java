@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -28,10 +30,9 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Action handler for invoke RunAndRenderTask to retrieve report content.
- * 
+ *
  */
-public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
-{
+public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Output stream to store the report.
@@ -40,45 +41,41 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
 	 * @param os
 	 */
-	public BirtRunAndRenderActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response,
-			OutputStream os )
-	{
-		super( context, operation, response );
+	public BirtRunAndRenderActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os) {
+		super(context, operation, response);
 		this.os = os;
 	}
 
 	/**
 	 * Do execution.
-	 * 
+	 *
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	public void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		Map params = attrBean.getParameters( );
-		Map displayTexts = attrBean.getDisplayTexts( );
-		IViewerReportDesignHandle reportDesignHandle = attrBean
-				.getReportDesignHandle( context.getRequest( ) );
-		boolean svgFlag = ParameterAccessor.getSVGFlag( context.getRequest( ) );
-		String outputDocName = attrBean.getReportDocumentName( );
+	@Override
+	public void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
+		Map params = attrBean.getParameters();
+		Map displayTexts = attrBean.getDisplayTexts();
+		IViewerReportDesignHandle reportDesignHandle = attrBean.getReportDesignHandle(context.getRequest());
+		boolean svgFlag = ParameterAccessor.getSVGFlag(context.getRequest());
+		String outputDocName = attrBean.getReportDocumentName();
 
-		InputOptions options = createInputOptions( attrBean, svgFlag );
+		InputOptions options = createInputOptions(attrBean, svgFlag);
 
-		getReportService( ).runAndRenderReport( reportDesignHandle,
-				outputDocName, options, params, os, new ArrayList( ),
-				displayTexts );
+		getReportService().runAndRenderReport(reportDesignHandle, outputDocName, options, params, os, new ArrayList(),
+				displayTexts);
 	}
 
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	@Override
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

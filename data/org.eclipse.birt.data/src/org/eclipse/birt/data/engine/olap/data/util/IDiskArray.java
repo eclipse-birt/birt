@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,42 +19,47 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.api.ICloseListener;
 
 /**
- * A disk based array. 
+ * A disk based array.
  */
 
-public interface IDiskArray extends ICloseListener
-{
+public interface IDiskArray extends ICloseListener {
 	/**
 	 * Add one element to this array.
+	 *
 	 * @param o
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean add( Object o ) throws IOException;
-	
+	boolean add(Object o) throws IOException;
+
 	/**
 	 * Get the element by index.
+	 *
 	 * @param index
 	 * @return
 	 * @throws IOException
 	 */
-	public Object get( int index ) throws IOException;
-	
+	Object get(int index) throws IOException;
+
 	/**
 	 * Return array size.
+	 *
 	 * @return
 	 */
-	public int size( );
-	
+	int size();
+
 	/**
 	 * Close this disk array and release the used resource.
+	 *
 	 * @throws IOException
 	 */
-	public void close( ) throws IOException;
-	
+	@Override
+	void close() throws IOException;
+
 	/**
 	 * Clear the elements in this disk array.
+	 *
 	 * @throws IOException
 	 */
-	public void clear( ) throws IOException;
+	void clear() throws IOException;
 }

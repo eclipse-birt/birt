@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,142 +34,109 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
  * Data expression evaluator for chart in xtab.
  */
 
-public class BIRTChartXtabResultSetEvaluator
-		extends
-			BIRTCubeResultSetEvaluator
-{
+public class BIRTChartXtabResultSetEvaluator extends BIRTCubeResultSetEvaluator {
 
 	private final ExtendedItemHandle handle;
 	private boolean bSubCursor = false;
 	private boolean bTransposed = false;
 
-	public BIRTChartXtabResultSetEvaluator( ICubeResultSet rs,
-			ExtendedItemHandle handle )
-	{
-		super( rs );
+	public BIRTChartXtabResultSetEvaluator(ICubeResultSet rs, ExtendedItemHandle handle) {
+		super(rs);
 		this.handle = handle;
 	}
 
-	protected void initCubeCursor( ) throws OLAPException, BirtException
-	{
+	@Override
+	protected void initCubeCursor() throws OLAPException, BirtException {
 		ICubeCursor parent = getCubeCursor();
 		cubeCursor = parent;
-		try
-		{
-			AggregationCellHandle cellHandle = ChartCubeUtil.getXtabContainerCell( handle );
-			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
-			LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
-			Chart cm = ChartItemUtil.getChartFromHandle( handle );
-			bTransposed = ( (ChartWithAxes) cm ).isTransposed( );
-			if ( !bTransposed )
-			{
+		try {
+			AggregationCellHandle cellHandle = ChartCubeUtil.getXtabContainerCell(handle);
+			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn();
+			LevelHandle levelAggRow = cellHandle.getAggregationOnRow();
+			Chart cm = ChartItemUtil.getChartFromHandle(handle);
+			bTransposed = ((ChartWithAxes) cm).isTransposed();
+			if (!bTransposed) {
 				// Horizontal span
-				if ( levelAggColumn != null && levelAggRow != null )
-				{
+				if (levelAggColumn != null && levelAggRow != null) {
 					// row cursor is the main
-					List edges = cubeCursor.getOrdinateEdge( );
-					this.mainEdgeCursor = (EdgeCursor) edges.get( 1 );
-					this.subEdgeCursor = (EdgeCursor) edges.get( 0 );
+					List edges = cubeCursor.getOrdinateEdge();
+					this.mainEdgeCursor = (EdgeCursor) edges.get(1);
+					this.subEdgeCursor = (EdgeCursor) edges.get(0);
 
 					bSubCursor = true;
-				}
-				else
-				{
+				} else {
 					cubeCursor = parent;
 				}
 
-			}
-			else if ( cellHandle.getSpanOverOnRow( ) != null )
-			{
+			} else if (cellHandle.getSpanOverOnRow() != null) {
 				// Vertical span
-				if ( levelAggColumn != null && levelAggRow != null )
-				{
+				if (levelAggColumn != null && levelAggRow != null) {
 					// column cursor is the main
-					List edges = cubeCursor.getOrdinateEdge( );
-					this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
-					this.subEdgeCursor = (EdgeCursor) edges.get( 1 );
+					List edges = cubeCursor.getOrdinateEdge();
+					this.mainEdgeCursor = (EdgeCursor) edges.get(0);
+					this.subEdgeCursor = (EdgeCursor) edges.get(1);
 
 					bSubCursor = true;
-				}
-				else
-				{
+				} else {
 					cubeCursor = parent;
 				}
-			}
-			else
-			{
+			} else {
 				cubeCursor = parent;
 			}
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
+		} catch (BirtException e) {
+			logger.log(e);
 			cubeCursor = parent;
 		}
 
-		if ( !bSubCursor )
-		{
-			List edges = cubeCursor.getOrdinateEdge( );
-			if ( edges.size( ) == 1 )
-			{
-				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
-			}
-			else if ( edges.size( ) > 1 )
-			{
-				this.mainEdgeCursor = (EdgeCursor) edges.get( bTransposed ? 1
-						: 0 );
+		if (!bSubCursor) {
+			List edges = cubeCursor.getOrdinateEdge();
+			if (edges.size() == 1) {
+				this.mainEdgeCursor = (EdgeCursor) edges.get(0);
+			} else if (edges.size() > 1) {
+				this.mainEdgeCursor = (EdgeCursor) edges.get(bTransposed ? 1 : 0);
 			}
 			this.subEdgeCursor = null;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#getCubeCursor()
 	 */
-	protected ICubeCursor getCubeCursor() throws BirtException
-	{
-		return (ICubeCursor) rs.getCubeCursor( );
+	@Override
+	protected ICubeCursor getCubeCursor() throws BirtException {
+		return (ICubeCursor) rs.getCubeCursor();
 	}
-	
-	public boolean first( )
-	{
-		try
-		{
-			initCubeCursor( );
 
-			if ( !bSubCursor )
-			{
-				return mainEdgeCursor.first( );
+	@Override
+	public boolean first() {
+		try {
+			initCubeCursor();
+
+			if (!bSubCursor) {
+				return mainEdgeCursor.first();
 			}
 
-			mainEdgeCursor.first( );
+			mainEdgeCursor.first();
 
-			return subEdgeCursor.first( );
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( e );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
+			return subEdgeCursor.first();
+		} catch (BirtException e) {
+			logger.log(e);
 		}
 		return false;
 	}
 
-	public boolean next( )
-	{
-		try
-		{
-			if ( !bSubCursor )
-			{
-				return hasNext( mainEdgeCursor );
+	@Override
+	public boolean next() {
+		try {
+			if (!bSubCursor) {
+				return hasNext(mainEdgeCursor);
 			}
-			return hasNext( subEdgeCursor );
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( e );
+			return hasNext(subEdgeCursor);
+		} catch (OLAPException e) {
+			logger.log(e);
 		}
 		return false;
 	}

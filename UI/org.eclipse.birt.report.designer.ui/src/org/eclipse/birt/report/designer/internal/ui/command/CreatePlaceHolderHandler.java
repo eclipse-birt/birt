@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,51 +25,46 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.gef.Request;
 
 /**
- * 
+ *
  */
 
-public class CreatePlaceHolderHandler extends SelectionHandler
-{
+public class CreatePlaceHolderHandler extends SelectionHandler {
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
-		
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "CreatePlaceHolder action " ); //$NON-NLS-1$
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
+
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("CreatePlaceHolder action "); //$NON-NLS-1$
 		}
 
-		Object selElementHandle = getFirstSelectVariable( );
+		Object selElementHandle = getFirstSelectVariable();
 
-		if ( selElementHandle == null )
-		{
+		if (selElementHandle == null) {
 			return Boolean.FALSE;
 		}
 
-		INodeProvider provider = ProviderFactory.createProvider( selElementHandle );
+		INodeProvider provider = ProviderFactory.createProvider(selElementHandle);
 
-		if ( provider == null )
-		{
+		if (provider == null) {
 			return Boolean.FALSE;
 		}
 
 		boolean retBool = false;
 
-		try
-		{
-			retBool = provider.performRequest( selElementHandle,
-					new Request( IRequestConstants.REQUEST_CREATE_PLACEHOLDER ) );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		try {
+			retBool = provider.performRequest(selElementHandle,
+					new Request(IRequestConstants.REQUEST_CREATE_PLACEHOLDER));
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		return Boolean.valueOf( retBool );
+		return Boolean.valueOf(retBool);
 	}
 }

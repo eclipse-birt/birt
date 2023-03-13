@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -27,44 +29,40 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * jobs when web application servelt loading it or destroying it.
  * <p>
  */
-public class ViewerServletContextListener implements ServletContextListener
-{
+public class ViewerServletContextListener implements ServletContextListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+	 *
+	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
+	 * ServletContextEvent)
 	 */
-	public void contextDestroyed( ServletContextEvent event )
-	{
+	@Override
+	public void contextDestroyed(ServletContextEvent event) {
 		// When trying to destroy application, shutdown Platform and
 		// ReportEngineService.
-		Platform.shutdown( );
-		ReportEngineService.shutdown( );
+		Platform.shutdown();
+		ReportEngineService.shutdown();
 
 		// Reset initialized parameter
-		ParameterAccessor.reset( );
+		ParameterAccessor.reset();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+	 *
+	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.
+	 * ServletContextEvent)
 	 */
-	public void contextInitialized( ServletContextEvent event )
-	{
-		ParameterAccessor.initParameters( event.getServletContext( ) );
-		IViewerReportService instance = new BirtViewerReportService( event
-				.getServletContext( ) );
-		BirtReportServiceFactory.init( instance );
-		try
-		{
-			BirtReportServiceFactory.getReportService( ).setContext(
-					event.getServletContext( ), null );
-		}
-		catch ( BirtException e )
-		{
-			e.printStackTrace( );
+	@Override
+	public void contextInitialized(ServletContextEvent event) {
+		ParameterAccessor.initParameters(event.getServletContext());
+		IViewerReportService instance = new BirtViewerReportService(event.getServletContext());
+		BirtReportServiceFactory.init(instance);
+		try {
+			BirtReportServiceFactory.getReportService().setContext(event.getServletContext(), null);
+		} catch (BirtException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,136 +38,127 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 /**
- * Script debugger outline page 
+ * Script debugger outline page
  */
 
-public class ScriptOutlinePage extends ContentOutlinePage
-{
+public class ScriptOutlinePage extends ContentOutlinePage {
 
 	/**
-	 * Show the outline level. 
+	 * Show the outline level.
 	 */
-	public final static  int SHOW_LEVEL = 3;
+	public final static int SHOW_LEVEL = 3;
 	private ModuleHandle reportHandle;
-	
-	
-	/**Constructor
+
+	/**
+	 * Constructor
+	 *
 	 * @param reportHandle
 	 */
-	public ScriptOutlinePage( ModuleHandle reportHandle )
-	{
+	public ScriptOutlinePage(ModuleHandle reportHandle) {
 		this.reportHandle = reportHandle;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.contentoutline.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.ui.views.contentoutline.ContentOutlinePage#createControl(org.
+	 * eclipse.swt.widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		super.createControl( parent );
-		createContextMenu( );
-		ScriptOutlineTreeProvider provider = new ScriptOutlineTreeProvider( );
+	@Override
+	public void createControl(Composite parent) {
+		super.createControl(parent);
+		createContextMenu();
+		ScriptOutlineTreeProvider provider = new ScriptOutlineTreeProvider();
 
-		getTreeViewer( ).setContentProvider( provider );
+		getTreeViewer().setContentProvider(provider);
 
-		getTreeViewer( ).setLabelProvider( provider );
-		
-		getTreeViewer( ).addDoubleClickListener( new IDoubleClickListener()
-		{
-			public void doubleClick( DoubleClickEvent event )
-			{		
-				Object obj = event.getSelection( );
+		getTreeViewer().setLabelProvider(provider);
+
+		getTreeViewer().addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				Object obj = event.getSelection();
 				ScriptEditAction action = new ScriptEditAction(obj);
-				if (action.isEnabled( ))
-				{
-					action.run( );
+				if (action.isEnabled()) {
+					action.run();
 				}
 			}
 		});
-		
+
 		// add inline renaming support
-		new RenameListener( getTreeViewer( ) ).apply( );
+		new RenameListener(getTreeViewer()).apply();
 
-		getTreeViewer( ).setSorter( new ItemSorter( ) );
+		getTreeViewer().setSorter(new ItemSorter());
 
-		init( reportHandle );
+		init(reportHandle);
 
-		getTreeViewer( ).expandToLevel( SHOW_LEVEL );
+		getTreeViewer().expandToLevel(SHOW_LEVEL);
 
-		final Tree tree = getTreeViewer( ).getTree( );
-		
-		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
+		final Tree tree = getTreeViewer().getTree();
 
-			public void mouseHover( MouseEvent event )
-			{
+		tree.addMouseTrackListener(new MouseTrackAdapter() {
+
+			@Override
+			public void mouseHover(MouseEvent event) {
 				Widget widget = event.widget;
-				if ( widget == tree )
-				{
-					Point pt = new Point( event.x, event.y );
-					TreeItem item = tree.getItem( pt );
-					if ( item == null || item.getData( ) == null )
-					{
-						tree.setToolTipText( null );
-					}
-					else
-					{
-						tree.setToolTipText( getTooltip( item.getData( ) ) );
+				if (widget == tree) {
+					Point pt = new Point(event.x, event.y);
+					TreeItem item = tree.getItem(pt);
+					if (item == null || item.getData() == null) {
+						tree.setToolTipText(null);
+					} else {
+						tree.setToolTipText(getTooltip(item.getData()));
 					}
 				}
 			}
-		} );
-	}
-	
-	private void init( ModuleHandle reportHandle )
-	{
-		setTreeInput( reportHandle );
+		});
 	}
 
-	private void setTreeInput( ModuleHandle reportHandle )
-	{
-		getTreeViewer( ).setInput( new Object[]{
-			reportHandle
-		} );
-	}
-	
-	private void createContextMenu( )
-	{
-		MenuManager menuManager = new ScriptViewContextMenuProvider( getTreeViewer( ) );
-
-		Menu menu = menuManager.createContextMenu( getTreeViewer( ).getControl( ) );
-
-		getTreeViewer( ).getControl( ).setMenu( menu );
-
-		getSite( ).registerContextMenu( "outlinemenu", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );
-		getSite( ).setSelectionProvider( getTreeViewer( ) );
-	}
-	
-	private String getTooltip( Object element )
-	{
-		return ScriptProviderFactory.createProvider( element )
-				.getNodeTooltip( element );
+	private void init(ModuleHandle reportHandle) {
+		setTreeInput(reportHandle);
 	}
 
-	/**Select the item from the id.
+	private void setTreeInput(ModuleHandle reportHandle) {
+		getTreeViewer().setInput(new Object[] { reportHandle });
+	}
+
+	private void createContextMenu() {
+		MenuManager menuManager = new ScriptViewContextMenuProvider(getTreeViewer());
+
+		Menu menu = menuManager.createContextMenu(getTreeViewer().getControl());
+
+		getTreeViewer().getControl().setMenu(menu);
+
+		getSite().registerContextMenu("outlinemenu", menuManager, //$NON-NLS-1$
+				getSite().getSelectionProvider());
+		getSite().setSelectionProvider(getTreeViewer());
+	}
+
+	private String getTooltip(Object element) {
+		return ScriptProviderFactory.createProvider(element).getNodeTooltip(element);
+	}
+
+	/**
+	 * Select the item from the id.
+	 *
 	 * @param id
 	 */
-	public void selectionItem(String id)
-	{
-		if ( getTreeViewer( ) == null || getTreeViewer( ).getTree( ) == null )
-			return ;
-		Object  obj = ModuleUtil.getScriptObject( reportHandle, id);
-		if ( obj instanceof PropertyHandle )
-		{
-			PropertyHandle handle = (PropertyHandle)obj;
-			
-			DebugScriptObjectNode node = new DebugScriptObjectNode(handle);			
-			DebugScriptElementNode parent = new DebugScriptElementNode(handle.getElementHandle( ) );
-			
-			node.setNodeParent(parent );
+	public void selectionItem(String id) {
+		if (getTreeViewer() == null || getTreeViewer().getTree() == null) {
+			return;
+		}
+		Object obj = ModuleUtil.getScriptObject(reportHandle, id);
+		if (obj instanceof PropertyHandle) {
+			PropertyHandle handle = (PropertyHandle) obj;
+
+			DebugScriptObjectNode node = new DebugScriptObjectNode(handle);
+			DebugScriptElementNode parent = new DebugScriptElementNode(handle.getElementHandle());
+
+			node.setNodeParent(parent);
 			IStructuredSelection selection = new StructuredSelection(node);
-			
-			setSelection( selection );
+
+			setSelection(selection);
 		}
 	}
 }

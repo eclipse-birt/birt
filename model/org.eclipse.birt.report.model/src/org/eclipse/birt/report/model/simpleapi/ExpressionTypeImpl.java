@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,26 +23,23 @@ import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
  *
  */
 
-class ExpressionTypeImpl implements IExpressionType
-{
+class ExpressionTypeImpl implements IExpressionType {
 
-	private static IExpressionType instance = new ExpressionTypeImpl( );
+	private static IExpressionType instance = new ExpressionTypeImpl();
 
-	protected static IExpressionType getInstance( )
-	{
+	protected static IExpressionType getInstance() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IExpressionType#iterator()
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpressionType#iterator()
 	 */
 
-	public Iterator<String> iterator( )
-	{
-		return ExpressionType.iterator( );
+	@Override
+	public Iterator<String> iterator() {
+		return ExpressionType.iterator();
 	}
 
 }

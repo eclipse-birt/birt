@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,63 +29,48 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 /**
  * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the
  * package. <!-- end-user-doc -->
+ *
  * @see org.eclipse.birt.chart.model.util.ModelResourceImpl
  */
-public class ModelResourceFactoryImpl extends ResourceFactoryImpl
-{
+public class ModelResourceFactoryImpl extends ResourceFactoryImpl {
 
-	static
-	{
+	static {
 		ExtendedMetaData extendedMetaData = ExtendedMetaData.INSTANCE;
-		extendedMetaData.putPackage( ModelPackage.eNS_URI,
-				ModelPackage.eINSTANCE );
-		extendedMetaData.putPackage( AttributePackage.eNS_URI,
-				AttributePackage.eINSTANCE );
-		extendedMetaData.putPackage( ComponentPackage.eNS_URI,
-				ComponentPackage.eINSTANCE );
-		extendedMetaData.putPackage( DataPackage.eNS_URI, DataPackage.eINSTANCE );
-		extendedMetaData.putPackage( LayoutPackage.eNS_URI,
-				LayoutPackage.eINSTANCE );
-		extendedMetaData.putPackage( TypePackage.eNS_URI, TypePackage.eINSTANCE );
+		extendedMetaData.putPackage(ModelPackage.eNS_URI, ModelPackage.eINSTANCE);
+		extendedMetaData.putPackage(AttributePackage.eNS_URI, AttributePackage.eINSTANCE);
+		extendedMetaData.putPackage(ComponentPackage.eNS_URI, ComponentPackage.eINSTANCE);
+		extendedMetaData.putPackage(DataPackage.eNS_URI, DataPackage.eINSTANCE);
+		extendedMetaData.putPackage(LayoutPackage.eNS_URI, LayoutPackage.eINSTANCE);
+		extendedMetaData.putPackage(TypePackage.eNS_URI, TypePackage.eINSTANCE);
 	}
 
 	/**
 	 * Creates an instance of the resource factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 */
-	public ModelResourceFactoryImpl( )
-	{
-		super( );
+	public ModelResourceFactoryImpl() {
+		super();
 	}
 
 	/**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc --> <!--
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public Resource createResource( URI uri )
-	{
-		XMLResource result = new ModelResourceImpl( uri );
-		result.getDefaultSaveOptions( )
-				.put( XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE );
-		result.getDefaultLoadOptions( )
-				.put( XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE );
+	public Resource createResource(URI uri) {
+		XMLResource result = new ModelResourceImpl(uri);
+		result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+		result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
-		result.getDefaultSaveOptions( )
-				.put( XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE );
+		result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 
-		result.getDefaultLoadOptions( )
-				.put( XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE,
-						Boolean.TRUE );
-		result.getDefaultSaveOptions( )
-				.put( XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE,
-						Boolean.TRUE );
+		result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+		result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
-		result.getDefaultLoadOptions( )
-				.put( XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE );
+		result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
 		return result;
 	}
 
-} //ModelResourceFactoryImpl
+} // ModelResourceFactoryImpl

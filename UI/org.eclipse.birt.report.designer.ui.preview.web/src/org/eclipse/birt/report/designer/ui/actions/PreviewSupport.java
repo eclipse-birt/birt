@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,313 +53,262 @@ import org.osgi.framework.Bundle;
 /**
  * PreviewSupport
  */
-abstract class PreviewSupport
-{
+abstract class PreviewSupport {
 
 	protected static final String TYPE_HTML = "html"; //$NON-NLS-1$
 
-	private static final Map<String, String> typeMap = new HashMap<String, String>( );
+	private static final Map<String, String> typeMap = new HashMap<>();
 
 	private static final String IMG_FILE_DEFAULT = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
 	private static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
 
-	static
-	{
-		typeMap.put( "doc", "icons/etool16/preview_doc.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "html", "icons/etool16/preview_html.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "pdf", "icons/etool16/preview_pdf.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "ppt", "icons/etool16/preview_ppt.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "postscript", "icons/etool16/preview_ps.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "xls", "icons/etool16/preview_xls.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "docx", "icons/etool16/preview_docx.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "pptx", "icons/etool16/preview_pptx.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
-		typeMap.put( "xhtml", "icons/etool16/preview_xhtml.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
+	static {
+		typeMap.put("doc", "icons/etool16/preview_doc.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("html", "icons/etool16/preview_html.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("pdf", "icons/etool16/preview_pdf.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("ppt", "icons/etool16/preview_ppt.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("postscript", "icons/etool16/preview_ps.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("xls", "icons/etool16/preview_xls.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("docx", "icons/etool16/preview_docx.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("pptx", "icons/etool16/preview_pptx.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		typeMap.put("xhtml", "icons/etool16/preview_xhtml.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	protected Menu getPreviewMenu( Object parent, boolean fullLabel )
-	{
-		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+	protected Menu getPreviewMenu(Object parent, boolean fullLabel) {
+		ReportEngine engine = new ReportEngine(new EngineConfig());
 
-		EmitterInfo[] emitters = engine.getEmitterInfo( );
+		EmitterInfo[] emitters = engine.getEmitterInfo();
 
-		if ( emitters == null )
-		{
+		if (emitters == null) {
 			return null;
 		}
 
-		TreeMap<String, List<EmitterInfo>> supportedFormats = new TreeMap<String, List<EmitterInfo>>( );
-		TreeMap<String, List<EmitterInfo>> deprecatedFormats = new TreeMap<String, List<EmitterInfo>>( );
+		TreeMap<String, List<EmitterInfo>> supportedFormats = new TreeMap<>();
+		TreeMap<String, List<EmitterInfo>> deprecatedFormats = new TreeMap<>();
 
-		for ( EmitterInfo ei : emitters )
-		{
-			if ( !ei.isHidden( ) )
-			{
+		for (EmitterInfo ei : emitters) {
+			if (!ei.isHidden()) {
 				List<EmitterInfo> list = null;
-				
-				if ( !ei.isFormatDeprecated( ) )
-				{
-					list = supportedFormats.get( ei.getFormat( ) );
-	
-					if ( list == null )
-					{
-						list = new ArrayList<EmitterInfo>( );
-						supportedFormats.put( ei.getFormat( ), list );
+
+				if (!ei.isFormatDeprecated()) {
+					list = supportedFormats.get(ei.getFormat());
+
+					if (list == null) {
+						list = new ArrayList<>();
+						supportedFormats.put(ei.getFormat(), list);
 					}
-				}
-				else 
-				{
-					list = deprecatedFormats.get( ei.getFormat( ) );
-					
-					if ( list == null )
-					{
-						list = new ArrayList<EmitterInfo>( );
-						deprecatedFormats.put( ei.getFormat( ), list );
+				} else {
+					list = deprecatedFormats.get(ei.getFormat());
+
+					if (list == null) {
+						list = new ArrayList<>();
+						deprecatedFormats.put(ei.getFormat(), list);
 					}
 				}
 
-				list.add( ei );
+				list.add(ei);
 			}
 		}
 
 		Menu menu;
 
-		if ( parent instanceof Control )
-		{
-			menu = new Menu( (Control) parent );
-		}
-		else if ( parent instanceof Menu )
-		{
-			menu = new Menu( (Menu) parent );
-		}
-		else
-		{
+		if (parent instanceof Control) {
+			menu = new Menu((Control) parent);
+		} else if (parent instanceof Menu) {
+			menu = new Menu((Menu) parent);
+		} else {
 			return null;
 		}
 
-		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		//remove "&1"
-		previewWebViewer.setText( "" //$NON-NLS-1$
-				+ Messages.getString( fullLabel ? "designer.preview.previewaction.label.webviewer" //$NON-NLS-1$
-						: "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( UIHelper.getImage( Activator.getDefault( )
-				.getBundle( ), IMG_FILE_WEB ) );
-		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
+		MenuItem previewWebViewer = new MenuItem(menu, SWT.PUSH);
+		// remove "&1"
+		previewWebViewer.setText("" //$NON-NLS-1$
+				+ Messages.getString(fullLabel ? "designer.preview.previewaction.label.webviewer" //$NON-NLS-1$
+						: "designer.preview.run.webviewer")); //$NON-NLS-1$
+		previewWebViewer.setImage(UIHelper.getImage(Activator.getDefault().getBundle(), IMG_FILE_WEB));
+		previewWebViewer.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				preview( TYPE_HTML, true );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				preview(TYPE_HTML, true);
 			}
-		} );
+		});
 
 		// TODO should share same manager for one UI enviroment
-		EmitterConfigurationManager configManager = new EmitterConfigurationManager( );
+		EmitterConfigurationManager configManager = new EmitterConfigurationManager();
 
 		int i = 0;
 
-		for ( Entry<String, List<EmitterInfo>> ent : supportedFormats.entrySet( ) )
-		{
-			final String format = ent.getKey( );
-			final List<EmitterInfo> emits = ent.getValue( );
+		for (Entry<String, List<EmitterInfo>> ent : supportedFormats.entrySet()) {
+			final String format = ent.getKey();
+			final List<EmitterInfo> emits = ent.getValue();
 
-			MenuItem previewOption = new MenuItem( menu,
-					emits.size( ) > 1 ? SWT.CASCADE : SWT.PUSH );
+			MenuItem previewOption = new MenuItem(menu, emits.size() > 1 ? SWT.CASCADE : SWT.PUSH);
 
-			//remove indexPrefix
-			previewOption.setText(  Messages.getFormattedString( fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
-							: "designer.preview.run", //$NON-NLS-1$
-							new Object[]{
-								format.toUpperCase( )
-							} ) );
+			// remove indexPrefix
+			previewOption.setText(Messages.getFormattedString(fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
+					: "designer.preview.run", //$NON-NLS-1$
+					new Object[] { format.toUpperCase() }));
 
-			previewOption.setImage( getFormatIcon( format, emits ) );
+			previewOption.setImage(getFormatIcon(format, emits));
 
-			processEmits( previewOption, emits, configManager );
+			processEmits(previewOption, emits, configManager);
 		}
-		
-		for ( Entry<String, List<EmitterInfo>> ent : deprecatedFormats.entrySet( ) )
-		{
-			final String format = ent.getKey( );
-			final List<EmitterInfo> emits = ent.getValue( );
 
-			MenuItem previewOption = new MenuItem( menu,
-					emits.size( ) > 1 ? SWT.CASCADE : SWT.PUSH );
+		for (Entry<String, List<EmitterInfo>> ent : deprecatedFormats.entrySet()) {
+			final String format = ent.getKey();
+			final List<EmitterInfo> emits = ent.getValue();
 
-			previewOption.setText(  Messages.getFormattedString( fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
-							: "designer.preview.run", //$NON-NLS-1$
-							new Object[]{
-								format.toUpperCase( ) + " " + Messages.getString( "designer.preview.deprecated.label" )
-							} ) );
+			MenuItem previewOption = new MenuItem(menu, emits.size() > 1 ? SWT.CASCADE : SWT.PUSH);
 
-			previewOption.setImage( getFormatIcon( format, emits ) );
+			previewOption.setText(Messages.getFormattedString(fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
+					: "designer.preview.run", //$NON-NLS-1$
+					new Object[] {
+							format.toUpperCase() + " " + Messages.getString("designer.preview.deprecated.label") }));
 
-			processEmits( previewOption, emits, configManager );
+			previewOption.setImage(getFormatIcon(format, emits));
+
+			processEmits(previewOption, emits, configManager);
 		}
 
 		return menu;
 	}
-	
-	private void processEmits( MenuItem previewOption, List<EmitterInfo> emits, EmitterConfigurationManager configManager )
-	{
-		if ( emits.size( ) > 1 )
-		{
-			Menu subMenu = new Menu( previewOption );
-			previewOption.setMenu( subMenu );
+
+	private void processEmits(MenuItem previewOption, List<EmitterInfo> emits,
+			EmitterConfigurationManager configManager) {
+		if (emits.size() > 1) {
+			Menu subMenu = new Menu(previewOption);
+			previewOption.setMenu(subMenu);
 
 			int j = 1;
-			for ( final EmitterInfo ei : emits )
-			{
-				MenuItem sub1 = new MenuItem( subMenu, SWT.PUSH );
+			for (final EmitterInfo ei : emits) {
+				MenuItem sub1 = new MenuItem(subMenu, SWT.PUSH);
 
-				final IEmitterDescriptor emitterDescriptor = configManager.getEmitterDescriptor( ei.getID( ) );
+				final IEmitterDescriptor emitterDescriptor = configManager.getEmitterDescriptor(ei.getID());
 
 				String label = null;
 
-				if ( emitterDescriptor != null
-						&& emitterDescriptor.getDisplayName( ) != null )
-				{
-					label = emitterDescriptor.getDisplayName( );
+				if (emitterDescriptor != null && emitterDescriptor.getDisplayName() != null) {
+					label = emitterDescriptor.getDisplayName();
 				}
 
-				if ( label == null )
-				{
-					label = getDefaultLabel( ei );
+				if (label == null) {
+					label = getDefaultLabel(ei);
 				}
 
-				sub1.setText( "&" + ( j++ ) + " " + label ); //$NON-NLS-1$ //$NON-NLS-2$
+				sub1.setText("&" + (j++) + " " + label); //$NON-NLS-1$ //$NON-NLS-2$
 
-				sub1.addSelectionListener( new SelectionAdapter( ) {
+				sub1.addSelectionListener(new SelectionAdapter() {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						preview( ei, emitterDescriptor );
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						preview(ei, emitterDescriptor);
 					}
-				} );
+				});
 			}
-		}
-		else
-		{
-			final EmitterInfo ei = emits.get( 0 );
-			final IEmitterDescriptor emitterDescriptor = configManager.getEmitterDescriptor( ei.getID( ) );
+		} else {
+			final EmitterInfo ei = emits.get(0);
+			final IEmitterDescriptor emitterDescriptor = configManager.getEmitterDescriptor(ei.getID());
 
-			previewOption.addSelectionListener( new SelectionAdapter( ) {
+			previewOption.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					preview( ei, emitterDescriptor );
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					preview(ei, emitterDescriptor);
 				}
-			} );
+			});
 		}
 	}
 
-	private String getDefaultLabel( EmitterInfo ei )
-	{
-		String format = ei.getFormat( ).toUpperCase( );
-		String formatDetail = ei.getID( );
+	private String getDefaultLabel(EmitterInfo ei) {
+		String format = ei.getFormat().toUpperCase();
+		String formatDetail = ei.getID();
 
-		return formatDetail == null ? format
-				: ( format + " (" + formatDetail + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+		return formatDetail == null ? format : (format + " (" + formatDetail + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private Image getFormatIcon( String format, List<EmitterInfo> emits )
-	{
+	private Image getFormatIcon(String format, List<EmitterInfo> emits) {
 		Image icon = null;
 
-		for ( EmitterInfo ei : emits )
-		{
-			String path = ei.getIcon( );
+		for (EmitterInfo ei : emits) {
+			String path = ei.getIcon();
 
-			IConfigurationElement confElem = ei.getEmitter( );
+			IConfigurationElement confElem = ei.getEmitter();
 
-			if ( confElem != null && path != null )
-			{
-				String pluginId = confElem.getDeclaringExtension( )
-						.getNamespace( );
+			if (confElem != null && path != null) {
+				String pluginId = confElem.getDeclaringExtension().getNamespace();
 
-				Bundle bundle = Platform.getBundle( pluginId );
+				Bundle bundle = Platform.getBundle(pluginId);
 
-				icon = UIHelper.getImage( bundle, path, false );
+				icon = UIHelper.getImage(bundle, path, false);
 			}
 		}
 
-		if ( icon == null )
-		{
+		if (icon == null) {
 			// keep old compatibility
-			if ( typeMap.containsKey( format ) )
-			{
-				icon = UIHelper.getImage( Activator.getDefault( ).getBundle( ),
-						typeMap.get( format ) );
-			}
-			else
-			{
-				icon = UIHelper.getImage( Activator.getDefault( ).getBundle( ),
-						IMG_FILE_DEFAULT );
+			if (typeMap.containsKey(format)) {
+				icon = UIHelper.getImage(Activator.getDefault().getBundle(), typeMap.get(format));
+			} else {
+				icon = UIHelper.getImage(Activator.getDefault().getBundle(), IMG_FILE_DEFAULT);
 			}
 		}
 
 		return icon;
 	}
 
-	protected boolean prePreview( )
-	{
+	protected boolean prePreview() {
 		PreviewUtil.clearSystemProperties();
 
 		return true;
 	}
 
-	protected void preview( String format, boolean allowPage )
-	{
-		if ( !prePreview( ) )
-		{
+	protected void preview(String format, boolean allowPage) {
+		if (!prePreview()) {
 			return;
 		}
 
-		FormEditor editor = UIUtil.getActiveReportEditor( false );
+		FormEditor editor = UIUtil.getActiveReportEditor(false);
 		ModuleHandle model = null;
 
-		if ( editor instanceof MultiPageReportEditor )
-		{
-			model = ( (MultiPageReportEditor) editor ).getModel( );
+		if (editor instanceof MultiPageReportEditor) {
+			model = ((MultiPageReportEditor) editor).getModel();
 		}
 
-		if ( !UIUtil.canPreviewWithErrors( model ) )
+		if (!UIUtil.canPreviewWithErrors(model)) {
 			return;
+		}
 
-		if ( editor != null )
-		{
-			IFormPage activePageInstance=editor.getActivePageInstance();
-			if ( model.needsSave( ) ||(activePageInstance!=null && activePageInstance.isDirty()))//Do save when current active page is dirty.
+		if (editor != null) {
+			IFormPage activePageInstance = editor.getActivePageInstance();
+			if (model.needsSave() || (activePageInstance != null && activePageInstance.isDirty()))// Do save when
+																									// current active
+																									// page is dirty.
 			{
-				editor.doSave( null );
+				editor.doSave(null);
 			}
 		}
-		Map<String, Object> options = new HashMap<String, Object>( );
-		options.put( WebViewer.FORMAT_KEY, format );
-		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
-		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
-				.getResourceFolder( ) );
+		Map<String, Object> options = new HashMap<>();
+		options.put(WebViewer.FORMAT_KEY, format);
+		options.put(WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf(allowPage));
+		options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder());
 		if (hasParameters(model)) {
 			options.put(WebViewer.SHOW_PARAMETER_PAGE_KEY, "true");
 		}
-		WebViewer.display( model.getFileName( ), options );
+		WebViewer.display(model.getFileName(), options);
 	}
-	private boolean hasParameters(ModuleHandle model )
-	{
-		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
 
-		if ( webapp != null && webapp.useCustomParamHandling( ) )
-		{
+	private boolean hasParameters(ModuleHandle model) {
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp();
+
+		if (webapp != null && webapp.useCustomParamHandling()) {
 			return false;
 		}
 
-		List parameters = model.getFlattenParameters( );
+		List parameters = model.getFlattenParameters();
 
-		if ( parameters != null )
-		{
-			for ( Object p : parameters )
-			{
-				if ( p instanceof ParameterHandle
-						&& !( (ParameterHandle) p ).isHidden( ) )
-				{
+		if (parameters != null) {
+			for (Object p : parameters) {
+				if (p instanceof ParameterHandle && !((ParameterHandle) p).isHidden()) {
 					return true;
 				}
 			}
@@ -365,40 +317,34 @@ abstract class PreviewSupport
 		return false;
 	}
 
-
-	protected void preview( EmitterInfo ei, IEmitterDescriptor descriptor )
-	{
-		if ( !prePreview( ) )
-		{
+	protected void preview(EmitterInfo ei, IEmitterDescriptor descriptor) {
+		if (!prePreview()) {
 			return;
 		}
 
-		FormEditor editor = UIUtil.getActiveReportEditor( false );
+		FormEditor editor = UIUtil.getActiveReportEditor(false);
 		ModuleHandle model = null;
 
-		if ( editor instanceof MultiPageReportEditor )
-		{
-			model = ( (MultiPageReportEditor) editor ).getModel( );
+		if (editor instanceof MultiPageReportEditor) {
+			model = ((MultiPageReportEditor) editor).getModel();
 		}
 
-		if ( !UIUtil.canPreviewWithErrors( model ) )
+		if (!UIUtil.canPreviewWithErrors(model)) {
 			return;
+		}
 
-		if ( editor != null )
-		{
-			if ( model.needsSave( ) )
-			{
-				editor.doSave( null );
+		if (editor != null) {
+			if (model.needsSave()) {
+				editor.doSave(null);
 			}
 		}
 
-		Map<String, Object> options = new HashMap<String, Object>( );
-		options.put( WebViewer.EMITTER_ID_KEY, ei.getID( ) );
-		options.put( WebViewer.FORMAT_KEY, ei.getFormat( ) );
-		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( false ) );
-		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
-				.getResourceFolder( ) );
+		Map<String, Object> options = new HashMap<>();
+		options.put(WebViewer.EMITTER_ID_KEY, ei.getID());
+		options.put(WebViewer.FORMAT_KEY, ei.getFormat());
+		options.put(WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf(false));
+		options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder());
 
-		WebViewer.display( model.getFileName( ), options );
+		WebViewer.display(model.getFileName(), options);
 	}
 }

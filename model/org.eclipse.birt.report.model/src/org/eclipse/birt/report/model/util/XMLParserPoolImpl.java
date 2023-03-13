@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,11 +40,10 @@ import org.xml.sax.XMLReader;
  * passed to load.
  */
 
-class XMLParserPoolImpl implements XMLParserPool
-{
+class XMLParserPoolImpl implements XMLParserPool {
 
 	/**
-	 * 
+	 *
 	 */
 
 	private final static int SAXPARSER_DEFAULT_SIZE = 300;
@@ -50,116 +52,99 @@ class XMLParserPoolImpl implements XMLParserPool
 	 * Logger instance.
 	 */
 
-	private static Logger logger = Logger.getLogger( XMLParserPoolImpl.class
-			.getName( ) );
+	private static Logger logger = Logger.getLogger(XMLParserPoolImpl.class.getName());
 
 	/**
-	 * Map to save cached parsers. The key is the parser properties key sets.
-	 * The value is the parser.
+	 * Map to save cached parsers. The key is the parser properties key sets. The
+	 * value is the parser.
 	 */
 
-	private final Map<Set<?>, List<SAXParser>> parserCache = new HashMap<Set<?>, List<SAXParser>>( );
+	private final Map<Set<?>, List<SAXParser>> parserCache = new HashMap<>();
 
 	/**
 	 * Creates an instance that caches parsers and caches handlers as specified.
-	 * 
+	 *
 	 */
-	public XMLParserPoolImpl( )
-	{
+	public XMLParserPoolImpl() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.XMLParserPool#get(java.util.Map)
 	 */
 
-	public SAXParser get( Map<String, ?> properties )
-			throws ParserConfigurationException, SAXException
-	{
+	@Override
+	public SAXParser get(Map<String, ?> properties) throws ParserConfigurationException, SAXException {
 		Set<String> keys = null;
 		SAXParser parser = null;
-		if ( properties != null )
-		{
-			keys = new HashSet<String>( properties.keySet( ) );
+		if (properties != null) {
+			keys = new HashSet<>(properties.keySet());
 		}
 
-		synchronized ( this )
-		{
-			List<SAXParser> list = parserCache.get( keys );
-			if ( list != null )
-			{
-				int size = list.size( );
-				if ( size > 0 )
-				{
-					parser = list.remove( size - 1 );
+		synchronized (this) {
+			List<SAXParser> list = parserCache.get(keys);
+			if (list != null) {
+				int size = list.size();
+				if (size > 0) {
+					parser = list.remove(size - 1);
 				}
-			}
-			else
-				parserCache.put( keys, new ArrayList<SAXParser>( ) );
-		}
-		if ( parser == null )
-			parser = createParser( properties );
-		
-		if ( properties != null )
-		{
-			for ( Map.Entry<String, ?> entry : properties.entrySet( ) )
-			{
-				parser.getXMLReader( ).setProperty( entry.getKey( ),
-						entry.getValue( ) );
+			} else {
+				parserCache.put(keys, new ArrayList<SAXParser>());
 			}
 		}
-		
+		if (parser == null) {
+			parser = createParser(properties);
+		}
+
+		if (properties != null) {
+			for (Map.Entry<String, ?> entry : properties.entrySet()) {
+				parser.getXMLReader().setProperty(entry.getKey(), entry.getValue());
+			}
+		}
+
 		return parser;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.XMLParserPool#release(javax.xml.parsers
 	 * .SAXParser, java.util.Map)
 	 */
 
-	public synchronized void release( SAXParser parser,
-			Map<String, ?> properties )
-	{
+	@Override
+	public synchronized void release(SAXParser parser, Map<String, ?> properties) {
 		assert parser != null;
 
 		Set<String> keys = null;
-		if ( properties != null )
-			keys = properties.keySet( );
+		if (properties != null) {
+			keys = properties.keySet();
+		}
 
-		try
-		{			
+		try {
 			// release lexical handler
-			XMLReader reader = parser.getXMLReader( );
-			if ( keys != null && reader != null )
-			{
-				for ( Iterator<String> iterator = keys.iterator( ); iterator
-						.hasNext( ); )
-				{
-					String key = iterator.next( );
-					reader.setProperty( key, null );
+			XMLReader reader = parser.getXMLReader();
+			if (keys != null && reader != null) {
+				for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+					String key = iterator.next();
+					reader.setProperty(key, null);
 				}
 			}
-		}
-		catch ( SAXException e )
-		{
+		} catch (SAXException e) {
 			// ignore any exception
 		}
-		
-		// reset the parser so that make sure no memory leak
-		parser.reset( );
-		
-		synchronized ( this )
-		{
-			List<SAXParser> list = parserCache.get( keys );
-			int currentSize = list.size( );
 
-			if ( currentSize < SAXPARSER_DEFAULT_SIZE )
-			{
-				list.add( parser );
+		// reset the parser so that make sure no memory leak
+		parser.reset();
+
+		synchronized (this) {
+			List<SAXParser> list = parserCache.get(keys);
+			int currentSize = list.size();
+
+			if (currentSize < SAXPARSER_DEFAULT_SIZE) {
+				list.add(parser);
 			}
 		}
 	}
@@ -171,11 +156,9 @@ class XMLParserPoolImpl implements XMLParserPool
 	 * @throws SAXException
 	 */
 
-	private SAXParser createParser( Map<String, ?> properties )
-			throws ParserConfigurationException, SAXException
-	{
-		SAXParser parser = CommonUtil.createSAXParser( );
-		logger.log( Level.FINEST, "created a new SAX parser" ); //$NON-NLS-1$
+	private SAXParser createParser(Map<String, ?> properties) throws ParserConfigurationException, SAXException {
+		SAXParser parser = CommonUtil.createSAXParser();
+		logger.log(Level.FINEST, "created a new SAX parser"); //$NON-NLS-1$
 		return parser;
 	}
 }

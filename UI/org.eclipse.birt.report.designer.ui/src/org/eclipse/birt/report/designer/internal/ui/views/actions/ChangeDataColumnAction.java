@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,55 +21,47 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-public class ChangeDataColumnAction extends AbstractElementAction
-{
+public class ChangeDataColumnAction extends AbstractElementAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "ChangeDataColumnAction.text" ); //$NON-NLS-1$	
+	private static final String DEFAULT_TEXT = Messages.getString("ChangeDataColumnAction.text"); //$NON-NLS-1$
 
-	public ChangeDataColumnAction( Object selectedObject )
-	{
-		super( selectedObject, DEFAULT_TEXT );
+	public ChangeDataColumnAction(Object selectedObject) {
+		super(selectedObject, DEFAULT_TEXT);
 	}
 
-	public ChangeDataColumnAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public ChangeDataColumnAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( getSelectedElement( ) == null )
-		{
+	@Override
+	protected boolean doAction() throws Exception {
+		if (getSelectedElement() == null) {
 			return false;
 		}
 
-		return ProviderFactory.createProvider( getSelectedElement( ) )
-				.performRequest( getSelectedElement( ),
-						new Request( IRequestConstants.REQUEST_CHANGE_DATA_COLUMN ) );
+		return ProviderFactory.createProvider(getSelectedElement()).performRequest(getSelectedElement(),
+				new Request(IRequestConstants.REQUEST_CHANGE_DATA_COLUMN));
 	}
 
 	/**
 	 * @return the model of selected GUI object.
 	 */
-	ReportElementHandle getSelectedElement( )
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+	ReportElementHandle getSelectedElement() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{// multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
-		if ( obj instanceof ReportElementHandle )
-		{
+		if (obj instanceof ReportElementHandle) {
 			return (ReportElementHandle) obj;
 		}
 		return null;

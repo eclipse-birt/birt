@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,39 +28,36 @@ import org.eclipse.ui.PlatformUI;
  * Show properties of selected element.
  */
 
-public class ShowPropertyAction extends Action
-{
+public class ShowPropertyAction extends Action {
 
 	private Object model;
 
-	public ShowPropertyAction( Object model )
-	{
-		setText( Messages.getString( "ShowPropertyAction.text" ) ); //$NON-NLS-1$
+	public ShowPropertyAction(Object model) {
+		setText(Messages.getString("ShowPropertyAction.text")); //$NON-NLS-1$
 		this.model = model;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	@Override
+	public boolean isEnabled() {
 		return model instanceof DesignElementHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Show property action >> Run ..." ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Show property action >> Run ..."); //$NON-NLS-1$
 		}
-		showView( );
+		showView();
 		// ReportEditor editor = UIUtil.getActiveReportEditor( );
 		// IViewReference[] viewReference = editor.getSite( )
 		// .getPage( )
@@ -74,20 +74,14 @@ public class ShowPropertyAction extends Action
 		// }
 	}
 
-	private void showView( )
-	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
-		IWorkbenchPage page = window.getActivePage( );
-		if ( page != null )
-		{
-			try
-			{
-				page.showView( "org.eclipse.ui.views.PropertySheet" ); //$NON-NLS-1$
-			}
-			catch ( PartInitException e )
-			{
-				ExceptionHandler.handle( e );
+	private void showView() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		if (page != null) {
+			try {
+				page.showView("org.eclipse.ui.views.PropertySheet"); //$NON-NLS-1$
+			} catch (PartInitException e) {
+				ExceptionHandler.handle(e);
 			}
 		}
 	}

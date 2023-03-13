@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,50 +21,47 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 
 /**
- * 
+ *
  */
 
-public class MediatorRequestImpl implements IMediatorRequest
-{
+public class MediatorRequestImpl implements IMediatorRequest {
 
 	private String type;
 	private Object data;
 	private Object source;
 	private Map<?, ?> extras;
 
-	MediatorRequestImpl( IMediatorState state )
-	{
-		this.type = state.getType( );
-		this.data = state.getData( );
-		this.source = state.getSource( );
-		if ( state.getExtras( ) != null )
-		{
-			this.extras = new HashMap<Object, Object>( state.getExtras( ) );
+	MediatorRequestImpl(IMediatorState state) {
+		this.type = state.getType();
+		this.data = state.getData();
+		this.source = state.getSource();
+		if (state.getExtras() != null) {
+			this.extras = new HashMap<Object, Object>(state.getExtras());
 		}
 	}
 
-	public String getType( )
-	{
+	@Override
+	public String getType() {
 		return type;
 	}
 
-	public Object getData( )
-	{
+	@Override
+	public Object getData() {
 		return data;
 	}
 
-	public Object getSource( )
-	{
+	@Override
+	public Object getSource() {
 		return source;
 	}
 
-	public boolean isSticky( )
-	{
+	@Override
+	public boolean isSticky() {
 		return false;
 	}
 
-	public Map<?, ?> getExtras( )
-	{
+	@Override
+	public Map<?, ?> getExtras() {
 		return extras;
 	}
 

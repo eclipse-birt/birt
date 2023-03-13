@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,113 +30,98 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ *
  */
 
-public class LevelDynamicAttributeDialog extends BaseDialog
-{
+public class LevelDynamicAttributeDialog extends BaseDialog {
 
 	private Combo memberCombo;
 	private String[] items;
 	private String item;
 
-	public LevelDynamicAttributeDialog( String title )
-	{
-		super( title );
+	public LevelDynamicAttributeDialog(String title) {
+		super(title);
 	}
 
-	public void setInput( String[] items )
-	{
+	public void setInput(String[] items) {
 		this.items = items;
 	}
 
-	public void setInput( String[] items, String item )
-	{
+	public void setInput(String[] items, String item) {
 		this.items = items;
 		this.item = item;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		Composite container = new Composite( composite, SWT.NONE );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Composite container = new Composite(composite, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		layout.marginWidth = layout.marginHeight = 0;
-		container.setLayout( layout );
+		container.setLayout(layout);
 
-		Label nameLabel = new Label( container, SWT.WRAP );
-		nameLabel.setText( Messages.getString("LevelDynamicAttributeDialog.Label.Member") ); //$NON-NLS-1$
-		nameLabel.setLayoutData( new GridData( ) );
-		nameLabel.setFont( parent.getFont( ) );
+		Label nameLabel = new Label(container, SWT.WRAP);
+		nameLabel.setText(Messages.getString("LevelDynamicAttributeDialog.Label.Member")); //$NON-NLS-1$
+		nameLabel.setLayoutData(new GridData());
+		nameLabel.setFont(parent.getFont());
 
-		memberCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		memberCombo.setVisibleItemCount( 30 );
-		GridData gd = new GridData( GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_FILL );
+		memberCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+		memberCombo.setVisibleItemCount(30);
+		GridData gd = new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL);
 		gd.widthHint = 250;
-		memberCombo.setLayoutData( gd );
-		memberCombo.addSelectionListener( new SelectionAdapter( ) {
+		memberCombo.setLayoutData(gd);
+		memberCombo.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				checkButtonStatus( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkButtonStatus();
 			}
-		} );
+		});
 
-		applyDialogFont( composite );
+		applyDialogFont(composite);
 
-		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_DYNAMIC_ATTRIBUTE_DIALOG );
+		UIUtil.bindHelp(parent, IHelpContextIds.LEVEL_DYNAMIC_ATTRIBUTE_DIALOG);
 
-		initDialog( );
+		initDialog();
 
 		return composite;
 	}
 
-	protected boolean initDialog( )
-	{
-		if ( items != null )
-		{
-			memberCombo.setItems( items );
+	@Override
+	protected boolean initDialog() {
+		if (items != null) {
+			memberCombo.setItems(items);
 		}
-		if ( item != null )
-		{
-			memberCombo.setText( item );
+		if (item != null) {
+			memberCombo.setText(item);
 		}
-		return super.initDialog( );
+		return super.initDialog();
 	}
 
-	protected Control createButtonBar( Composite parent )
-	{
-		Control bar = super.createButtonBar( parent );
-		checkButtonStatus( );
+	@Override
+	protected Control createButtonBar(Composite parent) {
+		Control bar = super.createButtonBar(parent);
+		checkButtonStatus();
 		return bar;
 	}
 
-	private void checkButtonStatus( )
-	{
-		if ( memberCombo.getText( ).trim( ).length( ) == 0 )
-		{
-			if ( getButton( IDialogConstants.OK_ID ) != null )
-			{
-				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+	private void checkButtonStatus() {
+		if (memberCombo.getText().trim().length() == 0) {
+			if (getButton(IDialogConstants.OK_ID) != null) {
+				getButton(IDialogConstants.OK_ID).setEnabled(false);
 			}
-		}
-		else
-		{
-			if ( getButton( IDialogConstants.OK_ID ) != null )
-			{
-				getButton( IDialogConstants.OK_ID ).setEnabled( true );
-			}
+		} else if (getButton(IDialogConstants.OK_ID) != null) {
+			getButton(IDialogConstants.OK_ID).setEnabled(true);
 		}
 	}
 
-	protected void okPressed( )
-	{
-		setResult( memberCombo.getText( ) );
-		super.okPressed( );
+	@Override
+	protected void okPressed() {
+		setResult(memberCombo.getText());
+		super.okPressed();
 	}
 }

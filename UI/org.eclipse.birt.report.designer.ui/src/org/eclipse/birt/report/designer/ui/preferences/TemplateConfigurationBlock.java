@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,143 +38,124 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  */
-public class TemplateConfigurationBlock extends OptionsConfigurationBlock
-{
+public class TemplateConfigurationBlock extends OptionsConfigurationBlock {
 
-	private final Key PREF_TEMPLATE = getReportKey( ReportPlugin.TEMPLATE_PREFERENCE );
+	private final Key PREF_TEMPLATE = getReportKey(ReportPlugin.TEMPLATE_PREFERENCE);
 	private PixelConverter fPixelConverter;
 	public static final String BUTTON_KEY = "buttons";//$NON-NLS-1$
 
-	public TemplateConfigurationBlock( IStatusChangeListener context,
-			IProject project )
-	{
-		super( context, ReportPlugin.getDefault( ), project );
-		setKeys( getKeys( ) );
+	public TemplateConfigurationBlock(IStatusChangeListener context, IProject project) {
+		super(context, ReportPlugin.getDefault(), project);
+		setKeys(getKeys());
 	}
 
-	private Key[] getKeys( )
-	{
-		Key[] keys = new Key[]{
-			PREF_TEMPLATE
-		};
+	private Key[] getKeys() {
+		Key[] keys = { PREF_TEMPLATE };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
-	protected Control createContents( Composite parent )
-	{
-		fPixelConverter = new PixelConverter( parent );
-		setShell( parent.getShell( ) );
+	@Override
+	protected Control createContents(Composite parent) {
+		fPixelConverter = new PixelConverter(parent);
+		setShell(parent.getShell());
 
-		Composite mainComp = new Composite( parent, SWT.NONE );
-		mainComp.setFont( parent.getFont( ) );
-		GridLayout layout = new GridLayout( );
+		Composite mainComp = new Composite(parent, SWT.NONE);
+		mainComp.setFont(parent.getFont());
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		mainComp.setLayout( layout );
+		mainComp.setLayout(layout);
 
-		Composite othersComposite = createBuildPathTabContent( mainComp );
-		GridData gridData = new GridData( GridData.FILL,
-				GridData.FILL,
-				true,
-				true );
-		gridData.heightHint = fPixelConverter.convertHeightInCharsToPixels( 20 );
-		othersComposite.setLayoutData( gridData );
+		Composite othersComposite = createBuildPathTabContent(mainComp);
+		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		gridData.heightHint = fPixelConverter.convertHeightInCharsToPixels(20);
+		othersComposite.setLayoutData(gridData);
 
-		validateSettings( null, null, null );
+		validateSettings(null, null, null);
 
 		return mainComp;
 	}
 
-	public static final String TITLE_LABEL = Messages.getString( "report.designer.ui.preferences.template.title" ); //$NON-NLS-1$ 
-	public static final String TEMPLATE_IMAGE_LABEL = Messages.getString( "report.designer.ui.preferences.template.templatefolder" ); //$NON-NLS-1$
-	public static final String BROWSER_BUTTON = Messages.getString( "report.designer.ui.preferences.template.select" ); //$NON-NLS-1$ 
-	public static final String OPEN_DIALOG_TITLE = Messages.getString( "report.designer.ui.preferences.template.openDialogTitle" ); //$NON-NLS-1$
-	//$NON-NLS-1$
+	public static final String TITLE_LABEL = Messages.getString("report.designer.ui.preferences.template.title"); //$NON-NLS-1$
+	public static final String TEMPLATE_IMAGE_LABEL = Messages
+			.getString("report.designer.ui.preferences.template.templatefolder"); //$NON-NLS-1$
+	public static final String BROWSER_BUTTON = Messages.getString("report.designer.ui.preferences.template.select"); //$NON-NLS-1$
+	public static final String OPEN_DIALOG_TITLE = Messages
+			.getString("report.designer.ui.preferences.template.openDialogTitle"); //$NON-NLS-1$
+	// $NON-NLS-1$
 
 	public static final String DIRCTORY = "templates"; //$NON-NLS-1$
 	private Text resourceText;
 
-	private Composite createBuildPathTabContent( Composite parent )
-	{
+	private Composite createBuildPathTabContent(Composite parent) {
 
-		Label title = new Label( parent, SWT.NULL );
-		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		title.setText( TITLE_LABEL );
-		new Label( parent, SWT.NONE );
+		Label title = new Label(parent, SWT.NULL);
+		title.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		title.setText(TITLE_LABEL);
+		new Label(parent, SWT.NONE);
 
-		Composite pageContent = new Composite( parent, SWT.NONE );
+		Composite pageContent = new Composite(parent, SWT.NONE);
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL
-				| GridData.VERTICAL_ALIGN_BEGINNING );
+		GridData data = new GridData(
+				GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		data.grabExcessHorizontalSpace = true;
-		pageContent.setLayoutData( data );
+		pageContent.setLayoutData(data);
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 3;
-		pageContent.setLayout( layout );
+		pageContent.setLayout(layout);
 
-		resourceText = addTextField( pageContent,
-				TEMPLATE_IMAGE_LABEL,
-				PREF_TEMPLATE,
-				0,
-				0 );
-		
-		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
-				IDialogHelperProvider.class );
+		resourceText = addTextField(pageContent, TEMPLATE_IMAGE_LABEL, PREF_TEMPLATE, 0, 0);
+
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter(this,
+				IDialogHelperProvider.class);
 		IDialogHelper controlTypeHelper = null;
-		if ( helperProvider != null )
-		{
-			controlTypeHelper = helperProvider.createHelper( this, BUTTON_KEY );
+		if (helperProvider != null) {
+			controlTypeHelper = helperProvider.createHelper(this, BUTTON_KEY);
 		}
 
-		if ( controlTypeHelper != null )
-		{
-			controlTypeHelper.setContainer( this );
-			controlTypeHelper.createContent( pageContent );
+		if (controlTypeHelper != null) {
+			controlTypeHelper.setContainer(this);
+			controlTypeHelper.createContent(pageContent);
 
-			controlTypeHelper.addListener( SWT.Selection, new Listener( ) {
+			controlTypeHelper.addListener(SWT.Selection, new Listener() {
 
-				public void handleEvent( Event event )
-				{
-					resourceText.setText( event.text );
+				@Override
+				public void handleEvent(Event event) {
+					resourceText.setText(event.text);
 				}
-			} );
-		}
-		else
-		{
-			new Label( pageContent, SWT.NONE );
-			Button browser = new Button( pageContent, SWT.PUSH );
-			browser.setText( BROWSER_BUTTON );
-			data = new GridData( );
-			browser.setLayoutData( data );
-			browser.addSelectionListener( new SelectionAdapter( ) {
-	
-				public void widgetSelected( SelectionEvent event )
-				{
-					DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ) );
-	
-					dialog.setText( OPEN_DIALOG_TITLE );
-					String folderName = dialog.open( );
-					if ( folderName == null )
-					{
+			});
+		} else {
+			new Label(pageContent, SWT.NONE);
+			Button browser = new Button(pageContent, SWT.PUSH);
+			browser.setText(BROWSER_BUTTON);
+			data = new GridData();
+			browser.setLayoutData(data);
+			browser.addSelectionListener(new SelectionAdapter() {
+
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					DirectoryDialog dialog = new DirectoryDialog(
+							PlatformUI.getWorkbench().getDisplay().getActiveShell());
+
+					dialog.setText(OPEN_DIALOG_TITLE);
+					String folderName = dialog.open();
+					if (folderName == null) {
 						return;
 					}
-					folderName = folderName.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$ 
-					if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$ 
+					folderName = folderName.replace('\\', '/'); // $NON-NLS-1$
+					if (!folderName.endsWith("/")) //$NON-NLS-1$
 					{
-						folderName = folderName + "/"; //$NON-NLS-1$ 
+						folderName = folderName + "/"; //$NON-NLS-1$
 					}
-					resourceText.setText( folderName );
+					resourceText.setText(folderName);
 				}
-			} );
+			});
 		}
 		return pageContent;
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,66 +26,64 @@ import org.eclipse.swt.widgets.Button;
  * overriden for saving operation.
  */
 
-public abstract class ApplyButtonHandler implements IButtonHandler
-{
+public abstract class ApplyButtonHandler implements IButtonHandler {
 
 	protected Button button;
 	private ChartWizard wizard;
 
-	public ApplyButtonHandler( ChartWizard wizard )
-	{
+	public ApplyButtonHandler(ChartWizard wizard) {
 		this.wizard = wizard;
 	}
 
-	public Button getButton( )
-	{
+	@Override
+	public Button getButton() {
 		return button;
 	}
 
-	public int getId( )
-	{
+	@Override
+	public int getId() {
 		return IDialogConstants.OK_ID;
 	}
 
-	public String getLabel( )
-	{
-		return Messages.getString( "ApplyButtonHandler.Label.Apply" ); //$NON-NLS-1$
+	@Override
+	public String getLabel() {
+		return Messages.getString("ApplyButtonHandler.Label.Apply"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns tool-tip text of this button.
-	 * 
-	 * @return  tool-tip text of this button.
+	 *
+	 * @return tool-tip text of this button.
 	 */
-	public String getTooltip( )
-	{
+	@Override
+	public String getTooltip() {
 		return null;
 	}
 
 	/**
 	 * Returns button icon.
-	 * 
+	 *
 	 * @return button icon.
 	 */
-	public Image getIcon( )
-	{
+	@Override
+	public Image getIcon() {
 		return null;
 	}
-	
-	public void setButton( Button button )
-	{
+
+	@Override
+	public void setButton(Button button) {
 		this.button = button;
-		( (GridData) button.getLayoutData( ) ).horizontalIndent = 10;
+		((GridData) button.getLayoutData()).horizontalIndent = 10;
 
 		// Default status is disabled
-		button.setEnabled( false );
+		button.setEnabled(false);
 	}
 
-	public void run( )
-	{
+	@Override
+	public void run() {
 		// Update title and button status
-		wizard.updateTitleAsEdit( );
-		getButton( ).setEnabled( false );
+		wizard.updateTitleAsEdit();
+		getButton().setEnabled(false);
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,11 +23,10 @@ import org.xml.sax.SAXException;
 /**
  * Reports a parse error. Describes errors as codes so that the error text can
  * be localized.
- * 
+ *
  */
 
-public class XMLParserException extends SAXException
-{
+public class XMLParserException extends SAXException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -100,172 +102,151 @@ public class XMLParserException extends SAXException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param errCode
-	 *            the error code
+	 *
+	 * @param errCode the error code
 	 */
 
-	public XMLParserException( String errCode )
-	{
-		super( (String) null );
+	public XMLParserException(String errCode) {
+		super((String) null);
 		errorCode = errCode;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param e
-	 *            a SAX exception
+	 *
+	 * @param e a SAX exception
 	 */
 
-	public XMLParserException( SAXException e )
-	{
-		super( e );
+	public XMLParserException(SAXException e) {
+		super(e);
 		saxException = e;
 		errorCode = DESIGN_EXCEPTION_SAX_ERROR;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param e
-	 *            a generic exception
+	 *
+	 * @param e a generic exception
 	 */
 
-	public XMLParserException( Exception e )
-	{
-		super( e );
+	public XMLParserException(Exception e) {
+		super(e);
 		errorCode = DESIGN_EXCEPTION_EXCEPTION;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param e
-	 *            generic exception
-	 * @param errCode
-	 *            error code that explains the exception
+	 *
+	 * @param e       generic exception
+	 * @param errCode error code that explains the exception
 	 */
 
-	public XMLParserException( Exception e, String errCode )
-	{
-		super( e );
+	public XMLParserException(Exception e, String errCode) {
+		super(e);
 		errorCode = errCode;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param errors
-	 *            list of errors
+	 *
+	 * @param errors list of errors
 	 */
 
-	public XMLParserException( List<XMLParserException> errors )
-	{
-		super( (String) null );
+	public XMLParserException(List<XMLParserException> errors) {
+		super((String) null);
 		errorCode = DESIGN_EXCEPTION_WARNINGS_FOUND;
 		errorList = errors;
 	}
 
 	/**
 	 * Sets the line number associated with the exception.
-	 * 
-	 * @param n
-	 *            The line number to set.
+	 *
+	 * @param n The line number to set.
 	 */
 
-	public void setLineNumber( int n )
-	{
+	public void setLineNumber(int n) {
 		lineNo = n;
 	}
 
 	/**
 	 * Sets the element associated with the exception.
-	 * 
-	 * @param theTag
-	 *            the element name to set.
+	 *
+	 * @param theTag the element name to set.
 	 */
 
-	public void setTag( String theTag )
-	{
+	public void setTag(String theTag) {
 		tag = theTag;
 	}
 
 	/**
 	 * Gets the error code associated with the exception.
-	 * 
+	 *
 	 * @return the error code
 	 */
-	public String getErrorCode( )
-	{
+	public String getErrorCode() {
 		return errorCode;
 	}
 
 	/**
 	 * Gets the element associated with the exception.
-	 * 
+	 *
 	 * @return the element name
 	 */
-	public String getTag( )
-	{
+	public String getTag() {
 		return tag;
 	}
 
 	/**
 	 * Gets the line number associated with the exception.
-	 * 
+	 *
 	 * @return the line number
 	 */
-	public int getLineNumber( )
-	{
+	public int getLineNumber() {
 		return lineNo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		StringBuffer sb = new StringBuffer( );
+	@Override
+	public String getLocalizedMessage() {
+		StringBuilder sb = new StringBuilder();
 
 		String SEPARATOR = " "; //$NON-NLS-1$
 
-		sb
-				.append( "Line Number:" ).append( getLineNumber( ) ).append( SEPARATOR ); //$NON-NLS-1$
-		sb.append( "Error Code:" ).append( errorCode ).append( SEPARATOR ); //$NON-NLS-1$
+		sb.append("Line Number:").append(getLineNumber()).append(SEPARATOR); //$NON-NLS-1$
+		sb.append("Error Code:").append(errorCode).append(SEPARATOR); //$NON-NLS-1$
 
-		if ( getException( ) != null )
-			sb
-					.append( "Exception:" ).append( getException( ) ).append( SEPARATOR ); //$NON-NLS-1$
+		if (getException() != null) {
+			sb.append("Exception:").append(getException()).append(SEPARATOR); //$NON-NLS-1$
+		}
 
-		sb
-				.append( "Message:" ).append( ModelMessages.getMessage( errorCode ) ).append( SEPARATOR ); //$NON-NLS-1$
+		sb.append("Message:").append(ModelMessages.getMessage(errorCode)).append(SEPARATOR); //$NON-NLS-1$
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
+	@Override
+	public String getMessage() {
+		return getLocalizedMessage();
 	}
 
 	/**
 	 * Returns the error list.
-	 * 
+	 *
 	 * @return the error list
 	 */
 
-	public List<XMLParserException> getErrorList( )
-	{
+	public List<XMLParserException> getErrorList() {
 		return errorList;
 	}
 }

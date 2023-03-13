@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
@@ -65,8 +68,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * Presents a scatter chart with Mouse_Hover + Show_Tooltip
  */
 
-public class MarkerShape_1 extends ChartTestCase
-{
+public class MarkerShape_1 extends ChartTestCase {
 
 	private static String GOLDEN = "MarkerShape_1.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "MarkerShape_1.jpg"; //$NON-NLS-1$
@@ -85,241 +87,180 @@ public class MarkerShape_1 extends ChartTestCase
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new MarkerShape_1( );
+	public static void main(String[] args) {
+		new MarkerShape_1();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public MarkerShape_1( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+	public MarkerShape_1() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
 
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = createScatterChart( );
-		BufferedImage img = new BufferedImage(
-				500,
-				500,
-				BufferedImage.TYPE_INT_ARGB );
-		Graphics g = img.getGraphics( );
+		cm = createScatterChart();
+		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT ) );
+		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile(OUTPUT));
 
-		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
-		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
+		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
+		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
-		try
-		{
-			gcs = gr.build(
-					dRenderer.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null );
-			gr.render( dRenderer, gcs );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+		try {
+			gcs = gr.build(dRenderer.getDisplayServer(), cm, bo, null, null, null);
+			gr.render(dRenderer, gcs);
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void testMarkerShape_1( ) throws Exception
-	{
-		MarkerShape_1 st = new MarkerShape_1( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+	public void testMarkerShape_1() throws Exception {
+		MarkerShape_1 st = new MarkerShape_1();
+		assertTrue(st.compareBytes(GOLDEN, OUTPUT));
 	}
 
 	/**
 	 * Creates a scatter chart model as a reference implementation
-	 * 
-	 * @return An instance of the simulated runtime chart model (containing
-	 *         filled datasets)
+	 *
+	 * @return An instance of the simulated runtime chart model (containing filled
+	 *         datasets)
 	 */
-	public static final Chart createScatterChart( )
-	{
-		ChartWithAxes cwaScatter = ChartWithAxesImpl.create( );
+	public static final Chart createScatterChart() {
+		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Chart Type
-		cwaScatter.setType( "Scatter Chart" );
+		cwaScatter.setType("Scatter Chart");
 
 		// Title
-		cwaScatter.getTitle( ).getLabel( ).getCaption( ).setValue(
-				"Sample Scatter Chart" ); //$NON-NLS-1$
-		cwaScatter.getBlock( ).setBackground( ColorDefinitionImpl.GREY( ) );
+		cwaScatter.getTitle().getLabel().getCaption().setValue("Sample Scatter Chart"); //$NON-NLS-1$
+		cwaScatter.getBlock().setBackground(ColorDefinitionImpl.GREY());
 
 		// Plot
-		Plot p = cwaScatter.getPlot( );
+		Plot p = cwaScatter.getPlot();
 
-		p.getOutline( ).setStyle( LineStyle.SOLID_LITERAL );
-		p.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
-		p.getOutline( ).setVisible( true );
+		p.getOutline().setStyle(LineStyle.SOLID_LITERAL);
+		p.getOutline().setColor(ColorDefinitionImpl.create(214, 100, 12));
+		p.getOutline().setVisible(true);
 
-		p.setBackground( ColorDefinitionImpl.CREAM( ) );
-		p.setAnchor( Anchor.SOUTH_LITERAL );
-		p.getClientArea( ).getOutline( ).setVisible( true );
+		p.setBackground(ColorDefinitionImpl.CREAM());
+		p.setAnchor(Anchor.SOUTH_LITERAL);
+		p.getClientArea().getOutline().setVisible(true);
 
 		// Legend
-		Legend lg = cwaScatter.getLegend( );
-		lg.setVisible( false );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
+		Legend lg = cwaScatter.getLegend();
+		lg.setVisible(false);
+		lg.getText().getFont().setSize(16);
+		lg.getInsets().set(10, 5, 0, 0);
 
-		lg.getOutline( ).setStyle( LineStyle.DOTTED_LITERAL );
-		lg.getOutline( ).setColor( ColorDefinitionImpl.create( 214, 100, 12 ) );
-		lg.getOutline( ).setVisible( true );
+		lg.getOutline().setStyle(LineStyle.DOTTED_LITERAL);
+		lg.getOutline().setColor(ColorDefinitionImpl.create(214, 100, 12));
+		lg.getOutline().setVisible(true);
 
-		lg
-				.setBackground( GradientImpl.create( ColorDefinitionImpl
-						.create( 225, 225, 255 ), ColorDefinitionImpl.create(
-						255,
-						255,
-						225 ), -35, false ) );
-		lg.setAnchor( Anchor.SOUTH_LITERAL );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		lg.setBackground(GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+				ColorDefinitionImpl.create(255, 255, 225), -35, false));
+		lg.setAnchor(Anchor.SOUTH_LITERAL);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
-		lg.getClientArea( ).setBackground( ColorDefinitionImpl.ORANGE( ) );
-		lg.setPosition( Position.BELOW_LITERAL );
-		lg.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		lg.getClientArea().setBackground(ColorDefinitionImpl.ORANGE());
+		lg.setPosition(Position.BELOW_LITERAL);
+		lg.setOrientation(Orientation.HORIZONTAL_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaScatter )
-				.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.getTitle( ).setVisible( false );
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryBaseAxes()[0];
+		xAxisPrimary.getTitle().setVisible(false);
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.BLACK( ).darker( ) );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.BLACK().darker());
 
-		FontDefinition fd = FontDefinitionImpl.create(
-				"Arial",
-				(float) 20.0,
-				true,
-				true,
-				false,
-				false,
-				false,
-				45.0,
-				TextAlignmentImpl.create( ) );
-		xAxisPrimary.getLabel( ).getCaption( ).setFont( fd );
+		FontDefinition fd = FontDefinitionImpl.create("Arial", (float) 20.0, true, true, false, false, false, 45.0,
+				TextAlignmentImpl.create());
+		xAxisPrimary.getLabel().getCaption().setFont(fd);
 
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickAttributes(
-				LineAttributesImpl.create( ColorDefinitionImpl.create(
-						239,
-						33,
-						3 ), LineStyle.DOTTED_LITERAL, 2 ) );
-		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
-				LineStyle.DOTTED_LITERAL );
-		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
-				ColorDefinitionImpl.GREY( ) );
-		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.create(239, 33, 3), LineStyle.DOTTED_LITERAL, 2));
+		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(LineStyle.DOTTED_LITERAL);
+		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(ColorDefinitionImpl.GREY());
+		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
 
-		MarkerRange mr = MarkerRangeImpl.create(
-				xAxisPrimary,
-				NumberDataElementImpl.create( 2.0 ),
-				NumberDataElementImpl.create( 3.0 ),
-				null );
-		mr.setOutline( LineAttributesImpl.create( ColorDefinitionImpl.create(
-				239,
-				33,
-				3 ), LineStyle.DOTTED_LITERAL, 2 ) );
+		MarkerRange mr = MarkerRangeImpl.create(xAxisPrimary, NumberDataElementImpl.create(2.0),
+				NumberDataElementImpl.create(3.0), null);
+		mr.setOutline(LineAttributesImpl.create(ColorDefinitionImpl.create(239, 33, 3), LineStyle.DOTTED_LITERAL, 2));
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaScatter )
-				.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getLabel( ).getCaption( ).setValue( "" ); //$NON-NLS-1$
-		yAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.BLUE( ) );
-		yAxisPrimary.getLabel( ).setVisible( false );
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getLabel().getCaption().setValue(""); //$NON-NLS-1$
+		yAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.BLUE());
+		yAxisPrimary.getLabel().setVisible(false);
 
-		yAxisPrimary.getTitle( ).setVisible( false );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		yAxisPrimary.getTitle().setVisible(false);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(
-				LineStyle.DOTTED_LITERAL );
-		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setColor(
-				ColorDefinitionImpl.GREY( ) );
-		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( false );
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(LineStyle.DOTTED_LITERAL);
+		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(ColorDefinitionImpl.GREY());
+		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(false);
 
-		MarkerLine ml = MarkerLineImpl.create(
-				yAxisPrimary,
-				NumberDataElementImpl.create( 60.0 ) );
-		ml.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
-				.create( 17, 37, 223 ), LineStyle.SOLID_LITERAL, 1 ) );
+		MarkerLine ml = MarkerLineImpl.create(yAxisPrimary, NumberDataElementImpl.create(60.0));
+		ml.setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.create(17, 37, 223), LineStyle.SOLID_LITERAL, 1));
 
 		// Data Set
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-				.create( new double[]{22.49, 163.55, -65.43, 0.0, -107.0} );
-		NumberDataSet dsNumericValues2 = NumberDataSetImpl
-				.create( new double[]{-36.53, 43.9, 8.29, 97.45, 32.0} );
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] { 22.49, 163.55, -65.43, 0.0, -107.0 });
+		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create(new double[] { -36.53, 43.9, 8.29, 97.45, 32.0 });
 
 		// X-Series
-		Series seBase = SeriesImpl.create( );
-		seBase.setDataSet( dsNumericValues1 );
+		Series seBase = SeriesImpl.create();
+		seBase.setDataSet(dsNumericValues1);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 3 );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().update(3);
 
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seBase );
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seBase);
 
 		// Y-Series
-		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
+		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create();
 
-		DataPoint dp = ss.getDataPoint( );
-		dp.getComponents( ).clear( );
-		dp.setPrefix( "(" ); //$NON-NLS-1$
-		dp.setSuffix( ")" ); //$NON-NLS-1$
-		dp.getComponents( ).add(
-				DataPointComponentImpl.create(
-						DataPointComponentType.BASE_VALUE_LITERAL,
-						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
-		dp.getComponents( ).add(
-				DataPointComponentImpl.create(
-						DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
+		DataPoint dp = ss.getDataPoint();
+		dp.getComponents().clear();
+		dp.setPrefix("("); //$NON-NLS-1$
+		dp.setSuffix(")"); //$NON-NLS-1$
+		dp.getComponents().add(DataPointComponentImpl.create(DataPointComponentType.BASE_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create("0.00"))); //$NON-NLS-1$
+		dp.getComponents().add(DataPointComponentImpl.create(DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create("0.00"))); //$NON-NLS-1$
 
-		ss.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.BLUE( ) );
-		ss.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
+		ss.getLabel().getCaption().setColor(ColorDefinitionImpl.BLUE());
+		ss.getLabel().setBackground(ColorDefinitionImpl.CYAN());
 
-		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
-		{
-			( (Marker) ss.getMarkers( ).get( i ) )
-					.setType( MarkerType.ICON_LITERAL );
-			( (Marker) ss.getMarkers( ).get( i ) )
-					.setFill( ImageImpl
-							.create( "http://www.actuate.com/images/copy/thumb_businessintelligence.gif" ) );
+		for (int i = 0; i < ss.getMarkers().size(); i++) {
+			((Marker) ss.getMarkers().get(i)).setType(MarkerType.ICON_LITERAL);
+			((Marker) ss.getMarkers().get(i))
+					.setFill(ImageImpl.create("http://www.actuate.com/images/copy/thumb_businessintelligence.gif"));
 		}
 
-		ss.getLabel( ).setVisible( true );
-		ss.setDataSet( dsNumericValues2 );
+		ss.getLabel().setVisible(true);
+		ss.setDataSet(dsNumericValues2);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-		sdY.getSeries( ).add( ss );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(ColorDefinitionImpl.GREEN());
+		sdY.getSeries().add(ss);
 
 		return cwaScatter;
 

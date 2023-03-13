@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
-   <extension-point id="reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
-   <extension-point id="reportitemPresentation" name="Extended Item Presentation-Time Support" schema="schema/reportitemPresentation.exsd"/>
-   <extension-point id="emitters" name="Emitters that Support Report Rendering" schema="schema/emitters.exsd"/>
-   <extension-point id="reportitemQuery" name="Extended Item DTE Prepare-Time support" schema="schema/reportitemQuery.exsd"/>
-   <extension-point id="reportEventHandler" name="Extended Item Java Event Handler" schema="schema/reportEventHandler.exsd"/>
-   <extension-point id="reportItemPreparation" name="Extended Item Preparation Support" schema="schema/reportItemPreparation.exsd"/>
-   <extension-point id="dataExtraction" name="Data Extraction Support" schema="schema/dataExtraction.exsd"/>
-   <extension-point id="extendedItemFactory" name="Extended Item Factory" schema="schema/extendedItemFactory.exsd"/>
+   <extension-point id="reportitemGeneration" name="%extension-point.name" schema="schema/reportitemGeneration.exsd"/>
+   <extension-point id="reportitemPresentation" name="%extension-point.name.0" schema="schema/reportitemPresentation.exsd"/>
+   <extension-point id="emitters" name="%extension-point.name.1" schema="schema/emitters.exsd"/>
+   <extension-point id="reportitemQuery" name="%extension-point.name.2" schema="schema/reportitemQuery.exsd"/>
+   <extension-point id="reportEventHandler" name="%extension-point.name.3" schema="schema/reportEventHandler.exsd"/>
+   <extension-point id="reportItemPreparation" name="%extension-point.name.4" schema="schema/reportItemPreparation.exsd"/>
+   <extension-point id="dataExtraction" name="%extension-point.name.5" schema="schema/dataExtraction.exsd"/>
+   <extension-point id="extendedItemFactory" name="%extension-point.name.6" schema="schema/extendedItemFactory.exsd"/>
    <extension
          id="ReportExecutor"
-         name="BIRT Report Design Executor"
+         name="%extension.name"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run class="org.eclipse.birt.report.engine.plugin.ReportExecutor"/>
@@ -22,11 +36,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.birt.report.engine.ReportExecutor"
-            name="Report Engine SDK"/>
+            name="%product.name"/>
    </extension>
    <extension
          id="ReportEngineFactory"
-         name="ReportEngineFactory"
+         name="%extension.name.0"
          point="org.eclipse.birt.core.FactoryService">
       <factory class="org.eclipse.birt.report.engine.api.impl.ReportEngineFactory"/>
    </extension>

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,11 +23,10 @@ import org.eclipse.birt.report.model.metadata.MetaDataException;
 
 /**
  * Reports an error during a user property operation.
- * 
+ *
  */
 
-public class UserPropertyException extends SemanticException
-{
+public class UserPropertyException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -39,15 +41,15 @@ public class UserPropertyException extends SemanticException
 	protected String propertyName = null;
 
 	/**
-	 * Error code indicating the use property definition is missing name, while
-	 * it must have a name.
+	 * Error code indicating the use property definition is missing name, while it
+	 * must have a name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_NAME_REQUIRED = MessageConstants.USER_PROPERTY_EXCEPTION_NAME_REQUIRED;
 
 	/**
-	 * Error code indicating the new user property duplicates an existing
-	 * property name.
+	 * Error code indicating the new user property duplicates an existing property
+	 * name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_NAME = MessageConstants.USER_PROPERTY_EXCEPTION_DUPLICATE_NAME;
@@ -72,8 +74,8 @@ public class UserPropertyException extends SemanticException
 	public static final String DESIGN_EXCEPTION_MISSING_CHOICES = MessageConstants.USER_PROPERTY_EXCEPTION_MISSING_CHOICES;
 
 	/**
-	 * Error code indicating the display name ID is provided, and display name
-	 * can not be found.
+	 * Error code indicating the display name ID is provided, and display name can
+	 * not be found.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_DISPLAY_ID = MessageConstants.USER_PROPERTY_EXCEPTION_INVALID_DISPLAY_ID;
@@ -103,8 +105,8 @@ public class UserPropertyException extends SemanticException
 	public static final String DESIGN_EXCEPTION_CHOICE_NAME_REQUIRED = MessageConstants.USER_PROPERTY_EXCEPTION_CHOICE_NAME_REQUIRED;
 
 	/**
-	 * Error code indicating the choice value is invalid for the user property
-	 * type, which is not choice.
+	 * Error code indicating the choice value is invalid for the user property type,
+	 * which is not choice.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_VALUE = MessageConstants.USER_PROPERTY_EXCEPTION_INVALID_CHOICE_VALUE;
@@ -118,104 +120,77 @@ public class UserPropertyException extends SemanticException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element to be changed.
-	 * @param name
-	 *            the name of the user property.
-	 * @param errCode
-	 *            what went wrong.
+	 *
+	 * @param obj     the element to be changed.
+	 * @param name    the name of the user property.
+	 * @param errCode what went wrong.
 	 */
 
-	public UserPropertyException( DesignElement obj, String name, String errCode )
-	{
-		super( obj, errCode );
+	public UserPropertyException(DesignElement obj, String name, String errCode) {
+		super(obj, errCode);
 		propertyName = name;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element to be changed
-	 * @param name
-	 *            the name of the user property
-	 * @param errCode
-	 *            the error code
-	 * @param cause
-	 *            the nested exception
+	 *
+	 * @param obj     the element to be changed
+	 * @param name    the name of the user property
+	 * @param errCode the error code
+	 * @param cause   the nested exception
 	 */
 
-	public UserPropertyException( DesignElement obj, String name,
-			String errCode, MetaDataException cause )
-	{
-		super( obj, errCode, cause );
+	public UserPropertyException(DesignElement obj, String name, String errCode, MetaDataException cause) {
+		super(obj, errCode, cause);
 		propertyName = name;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element to be changed
-	 * @param name
-	 *            the name of the user property
-	 * @param errCode
-	 *            the error code
-	 * @param cause
-	 *            the nested exception
-	 * @param args
-	 *            argument array used for error message
+	 *
+	 * @param obj     the element to be changed
+	 * @param name    the name of the user property
+	 * @param errCode the error code
+	 * @param cause   the nested exception
+	 * @param args    argument array used for error message
 	 */
 
-	public UserPropertyException( DesignElement obj, String name,
-			String errCode, ModelException cause, String[] args )
-	{
-		super( obj, args, errCode, cause );
+	public UserPropertyException(DesignElement obj, String name, String errCode, ModelException cause, String[] args) {
+		super(obj, args, errCode, cause);
 		propertyName = name;
 	}
 
 	/**
 	 * Gets the name of the property that caused the problem.
-	 * 
+	 *
 	 * @return the property name.
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_NAME
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_DUPLICATE_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_DISPLAY_ID
 				|| sResourceKey == DESIGN_EXCEPTION_CHOICE_NAME_REQUIRED
 				|| sResourceKey == DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED
-				|| sResourceKey == DESIGN_EXCEPTION_INVALID_CHOICE_VALUE )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{propertyName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_USER_PROP_DISALLOWED )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_CHOICE_VALUE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { propertyName });
+		} else if (sResourceKey == DESIGN_EXCEPTION_USER_PROP_DISALLOWED) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE) {
 			assert oaMessageArguments.length == 2;
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( element ), propertyName,
-					(String)oaMessageArguments[0], (String)oaMessageArguments[1]} );
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element), propertyName,
+					(String) oaMessageArguments[0], (String) oaMessageArguments[1] });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

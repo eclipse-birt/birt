@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,14 +28,11 @@ import org.eclipse.birt.chart.render.DeferredCache;
 
 import com.ibm.icu.util.ULocale;
 
-
-
 /**
  * This class wraps different types of rendering events. It could stand for one
  * or a list of events.
  */
-public final class WrappedInstruction implements IRenderInstruction
-{
+public final class WrappedInstruction implements IRenderInstruction {
 
 	private final DeferredCache dc;
 
@@ -41,209 +41,165 @@ public final class WrappedInstruction implements IRenderInstruction
 	private ArrayList alEvents = null;
 
 	private PrimitiveRenderEvent pre = null;
-	
+
 	private long zorder = 0;
 
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
-	 * The cache stores render events which lie within the same plane with
-	 * current render event.
+	 * The cache stores render events which lie within the same plane with current
+	 * render event.
 	 */
 	private DeferredCache subDeferredCache = null;
 
 	private Bounds compareBounds = null;
-	
+
 	/**
 	 * The constructor.
 	 */
-	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
-			int iInstruction, long zorder )
-	{
+	public WrappedInstruction(DeferredCache dc, ArrayList alEvents, int iInstruction, long zorder) {
 		this.dc = dc;
 		this.alEvents = alEvents;
 		this.iInstruction = iInstruction;
 		this.zorder = zorder;
 	}
 
-	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
-			int iInstruction )
-	{
-		this( dc, alEvents, iInstruction, 0);
+	public WrappedInstruction(DeferredCache dc, ArrayList alEvents, int iInstruction) {
+		this(dc, alEvents, iInstruction, 0);
 	}
 
 	/**
 	 * The constructor.
 	 */
-	public WrappedInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
-			int iInstruction, long zorder )
-	{
+	public WrappedInstruction(DeferredCache dc, PrimitiveRenderEvent pre, int iInstruction, long zorder) {
 		this.dc = dc;
 		this.pre = pre;
 		this.iInstruction = iInstruction;
 		this.zorder = zorder;
 	}
 
-	public WrappedInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
-			int iInstruction )
-	{
-		this( dc, pre, iInstruction, 0);
+	public WrappedInstruction(DeferredCache dc, PrimitiveRenderEvent pre, int iInstruction) {
+		this(dc, pre, iInstruction, 0);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo( Object o )
-	{
+	@Override
+	public int compareTo(Object o) {
 		Bounds bo = null;
 
-		if ( o instanceof PrimitiveRenderEvent )
-		{
-			try
-			{
-				bo = ( (PrimitiveRenderEvent) o ).getBounds( );
-			}
-			catch ( ChartException e )
-			{
+		if (o instanceof PrimitiveRenderEvent) {
+			try {
+				bo = ((PrimitiveRenderEvent) o).getBounds();
+			} catch (ChartException e) {
 				assert false;
 				return -1;
 			}
-		}
-		else if ( o instanceof IRenderInstruction )
-		{
-			if (o instanceof WrappedInstruction)
-			{
-				bo = ( (WrappedInstruction) o ).getCompareBounds( );
-				long zorder_that = ( (WrappedInstruction) o ).zorder;
-				if (this.zorder < zorder_that)
-				{
+		} else if (o instanceof IRenderInstruction) {
+			if (o instanceof WrappedInstruction) {
+				bo = ((WrappedInstruction) o).getCompareBounds();
+				long zorder_that = ((WrappedInstruction) o).zorder;
+				if (this.zorder < zorder_that) {
 					return -1;
-				}
-				else if (this.zorder > zorder_that)
-				{
+				} else if (this.zorder > zorder_that) {
 					return 1;
 				}
-			}
-			else
-			{
-				bo = ( (IRenderInstruction) o ).getBounds( );
+			} else {
+				bo = ((IRenderInstruction) o).getBounds();
 			}
 		}
-		
-		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getCompareBounds( ),
-				bo )
-				: ( bo == null ? 1 : PrimitiveRenderEvent.compareRegular( getCompareBounds( ), bo ) );
+
+		return (dc != null && dc.isTransposed()) ? PrimitiveRenderEvent.compareTransposed(getCompareBounds(), bo)
+				: (bo == null ? 1 : PrimitiveRenderEvent.compareRegular(getCompareBounds(), bo));
 	}
 
 	/**
 	 * Returns the associated event.
-	 * 
+	 *
 	 * @return
 	 */
-	public final PrimitiveRenderEvent getEvent( )
-	{
+	@Override
+	public PrimitiveRenderEvent getEvent() {
 		return pre;
 	}
 
 	/**
-	 * @return Returns the associated instruction. The value could be one of
-	 *         these:
+	 * @return Returns the associated instruction. The value could be one of these:
 	 *         <ul>
 	 *         <li>PrimitiveRenderEvent.DRAW
 	 *         <li>PrimitiveRenderEvent.FILL
 	 *         </ul>
 	 */
-	public final int getInstruction( )
-	{
+	@Override
+	public int getInstruction() {
 		return iInstruction;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
-		return Messages.getString( "wrapped.instruction.to.string", //$NON-NLS-1$ 
-				new Object[]{
-						super.toString( ),
-						Boolean.valueOf( isModel( ) ),
-						getBounds( )
-				},
-				ULocale.getDefault( ) );
+	@Override
+	public String toString() {
+		return Messages.getString("wrapped.instruction.to.string", //$NON-NLS-1$
+				new Object[] { super.toString(), Boolean.valueOf(isModel()), getBounds() }, ULocale.getDefault());
 	}
 
 	/**
 	 * This method set a bounds to be used for polygon comparison to reset polygon
-	 * rendering order. Under some cases, like core, triangle charts, we don't
-	 * use actual plan to do order comparison, it is difficult. We just sets a
-	 * compare bounds instead of actual bound for comparison.
-	 * 
+	 * rendering order. Under some cases, like core, triangle charts, we don't use
+	 * actual plan to do order comparison, it is difficult. We just sets a compare
+	 * bounds instead of actual bound for comparison.
+	 *
 	 * @param bounds
 	 */
-	public void setCompareBounds( Bounds bounds )
-	{
-		this.compareBounds = bounds; 
+	public void setCompareBounds(Bounds bounds) {
+		this.compareBounds = bounds;
 	}
-	
+
 	/**
 	 * Returns compare bounds.
-	 * 
+	 *
 	 * @return
 	 */
-	public Bounds getCompareBounds( )
-	{
-		if ( compareBounds != null )
-		{
+	public Bounds getCompareBounds() {
+		if (compareBounds != null) {
 			return compareBounds;
 		}
-		return getBounds( );
+		return getBounds();
 	}
-	
+
 	/**
-	 * @return Returns the mimimum bounds required to contain the rendering area
-	 *         of associated rendering event.
+	 * @return Returns the mimimum bounds required to contain the rendering area of
+	 *         associated rendering event.
 	 */
-	public final Bounds getBounds( )
-	{
-		if ( compareBounds != null )
-		{
+	@Override
+	public Bounds getBounds() {
+		if (compareBounds != null) {
 			return compareBounds;
 		}
-		
-		if ( !isModel( ) )
-		{
-			try
-			{
-				return pre.getBounds( );
+
+		if (!isModel()) {
+			try {
+				return pre.getBounds();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
-			catch ( Exception ex )
-			{
-				ex.printStackTrace( );
-			}
-		}
-		else
-		{
+		} else {
 			Bounds bo = null;
-			for ( int i = 0; i < alEvents.size( ); i++ )
-			{
-				try
-				{
-					if ( i == 0 )
-					{
-						bo = goFactory.copyOf( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
+			for (int i = 0; i < alEvents.size(); i++) {
+				try {
+					if (i == 0) {
+						bo = goFactory.copyOf(((PrimitiveRenderEvent) alEvents.get(i)).getBounds());
+					} else {
+						bo.max(((PrimitiveRenderEvent) alEvents.get(i)).getBounds());
 					}
-					else
-					{
-						bo.max( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
-					}
-				}
-				catch ( Exception ex )
-				{
-					ex.printStackTrace( );
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
 			return bo;
@@ -254,80 +210,64 @@ public final class WrappedInstruction implements IRenderInstruction
 	/**
 	 * @return Returns if wraps multiple events currently.
 	 */
-	public boolean isModel( )
-	{
+	@Override
+	public boolean isModel() {
 		return pre == null;
 	}
 
 	/**
 	 * @return Returns list of events currently wraps.
 	 */
-	public List getModel( )
-	{
+	@Override
+	public List getModel() {
 		return alEvents;
 	}
 
-	
-	public long getZOrder( )
-	{
+	public long getZOrder() {
 		return zorder;
 	}
 
-	
-	public void setZOrder( int zorder )
-	{
+	public void setZOrder(int zorder) {
 		this.zorder = zorder;
 	}
-	
-	public static Comparator<?> getDefaultComarator( )
-	{
-		return new WIComparator( );
+
+	public static Comparator<?> getDefaultComarator() {
+		return new WIComparator();
 	}
 
-	private static class WIComparator
-			implements
-				Comparator<Object>,
-				Serializable
-	{
+	private static class WIComparator implements Comparator<Object>, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		private long getZOrder( Object o )
-		{
-			if ( o instanceof WrappedInstruction )
-			{
-				return ( (WrappedInstruction) o ).getZOrder( );
-			}
-			else
-			{
+		private long getZOrder(Object o) {
+			if (o instanceof WrappedInstruction) {
+				return ((WrappedInstruction) o).getZOrder();
+			} else {
 				return 0;
 			}
 		}
 
-		public int compare( Object o1, Object o2 )
-		{
-			return Long.valueOf( getZOrder( o1 ) ).compareTo( getZOrder( o2 ) );
+		@Override
+		public int compare(Object o1, Object o2) {
+			return Long.compare(getZOrder(o1), getZOrder(o2));
 		}
 	}
 
 	/**
 	 * Set sub-deferred cache instance.
-	 * 
-	 * @param dc 
+	 *
+	 * @param dc
 	 */
-	public void setSubDeferredCache( DeferredCache dc )
-	{
+	public void setSubDeferredCache(DeferredCache dc) {
 		this.subDeferredCache = dc;
 	}
-	
+
 	/**
 	 * Returns instance of sub-deferred cache.
-	 * 
+	 *
 	 * @return
 	 */
-	public DeferredCache getSubDeferredCache(  )
-	{
+	public DeferredCache getSubDeferredCache() {
 		return subDeferredCache;
 	}
 }
-

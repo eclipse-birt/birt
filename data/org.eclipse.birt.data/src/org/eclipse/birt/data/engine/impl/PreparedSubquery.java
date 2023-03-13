@@ -1,16 +1,19 @@
 /*
  *************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
@@ -44,292 +47,263 @@ import org.mozilla.javascript.Scriptable;
  * A prepared Sub query, which does not have its own data set, but rather
  * queries a subset of data produced by its a parent query.
  */
-class PreparedSubquery implements IPreparedQueryService
-{
+class PreparedSubquery implements IPreparedQueryService {
 	private int groupLevel;
 	private PreparedQuery preparedQuery;
 	private IPreparedQueryService queryService;
 	private DataEngineSession session;
 	private boolean subQueryOnGroup;
-	
-	private static Logger logger = Logger.getLogger( PreparedSubquery.class.getName( ) );
-	
+
+	private static Logger logger = Logger.getLogger(PreparedSubquery.class.getName());
+
 	/**
-	 * @param subquery
-	 *            Subquery definition
-	 * @param parentQuery
-	 *            Parent query (which can be a subquery itself, or a
-	 *            PreparedReportQuery)
-	 * @param groupLevel
-	 *            Index of group in which this subquery is defined within the
-	 *            parent query. If 0, subquery is defined outside of any groups.
+	 * @param subquery    Subquery definition
+	 * @param parentQuery Parent query (which can be a subquery itself, or a
+	 *                    PreparedReportQuery)
+	 * @param groupLevel  Index of group in which this subquery is defined within
+	 *                    the parent query. If 0, subquery is defined outside of any
+	 *                    groups.
 	 * @throws DataException
 	 */
-	PreparedSubquery( DataEngineSession session, DataEngineContext context,
-			ISubqueryDefinition subquery,
-			IPreparedQueryService queryService, int groupLevel ) throws DataException
-	{
-		Object[] params = {
-				session,
-				context,
-				subquery,
-				queryService,
-				Integer.valueOf( groupLevel )
-		};
-		logger.entering( PreparedSubquery.class.getName( ),
-				"PreparedSubquery",
-				params );
+	PreparedSubquery(DataEngineSession session, DataEngineContext context, ISubqueryDefinition subquery,
+			IPreparedQueryService queryService, int groupLevel) throws DataException {
+		Object[] params = { session, context, subquery, queryService, Integer.valueOf(groupLevel) };
+		logger.entering(PreparedSubquery.class.getName(), "PreparedSubquery", params);
 		this.groupLevel = groupLevel;
 		this.queryService = queryService;
-		this.subQueryOnGroup = subquery.applyOnGroup( );
-		
-		logger.logp( Level.FINER,
-				PreparedSubquery.class.getName( ),
-				"PreparedSubquery",
-				"PreparedSubquery starts up." );
+		this.subQueryOnGroup = subquery.applyOnGroup();
+
+		logger.logp(Level.FINER, PreparedSubquery.class.getName(), "PreparedSubquery", "PreparedSubquery starts up.");
 		this.session = session;
-		this.preparedQuery = new PreparedQuery( session, context,
-				subquery,
-				this,
-				queryService.getDataSourceQuery().appContext );
-		logger.exiting( PreparedSubquery.class.getName( ), "PreparedSubquery" );
+		this.preparedQuery = new PreparedQuery(session, context, subquery, this,
+				queryService.getDataSourceQuery().appContext);
+		logger.exiting(PreparedSubquery.class.getName(), "PreparedSubquery");
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.IPreparedQueryService#getDataSourceQuery()
 	 */
-	public PreparedDataSourceQuery getDataSourceQuery( )
-	{
+	@Override
+	public PreparedDataSourceQuery getDataSourceQuery() {
 		// Gets the parent's report query
-		return queryService.getDataSourceQuery( );
+		return queryService.getDataSourceQuery();
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
-	 *      java.lang.String, org.mozilla.javascript.Scriptable)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.
+	 * eclipse.birt.data.engine.odi.IResultIterator, java.lang.String,
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName, Scriptable subScope ) throws DataException
-	{
-		return this.preparedQuery.execSubquery( iterator, parentExecutor, subQueryName, subScope );
+	@Override
+	public IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
+			Scriptable subScope) throws DataException {
+		return this.preparedQuery.execSubquery(iterator, parentExecutor, subQueryName, subScope);
 	}
-	
+
 	/**
 	 * @return group level of current sub query
 	 */
-	int getGroupLevel( )
-	{
+	int getGroupLevel() {
 		return this.groupLevel;
 	}
-	
+
 	/**
 	 * Executes this subquery
-	 * 
+	 *
 	 * @param parentIterator
 	 * @param scope
 	 * @return
 	 * @throws DataException
 	 */
-	QueryResults execute( IResultIterator parentIterator, IQueryExecutor parentExecutor, Scriptable scope ) 
-		throws DataException
-	{
-		logger.logp( Level.FINER,
-				PreparedSubquery.class.getName( ),
-				"execute",
-				"start to execute a PreparedSubquery." );
-		try
-		{
-			return preparedQuery.doPrepare( null,
-					scope,
-					new SubQueryExecutor( parentIterator, parentExecutor, parentExecutor.getQueryContextVisitor( ) ),
-					getDataSourceQuery( ) );
-		}
-		finally
-		{
-			logger.logp( Level.FINER,
-					PreparedSubquery.class.getName( ),
-					"execute",
-					"finish executing a PreparedSubquery." );
+	QueryResults execute(IResultIterator parentIterator, IQueryExecutor parentExecutor, Scriptable scope)
+			throws DataException {
+		logger.logp(Level.FINER, PreparedSubquery.class.getName(), "execute", "start to execute a PreparedSubquery.");
+		try {
+			return preparedQuery.doPrepare(null, scope,
+					new SubQueryExecutor(parentIterator, parentExecutor, parentExecutor.getQueryContextVisitor()),
+					getDataSourceQuery());
+		} finally {
+			logger.logp(Level.FINER, PreparedSubquery.class.getName(), "execute",
+					"finish executing a PreparedSubquery.");
 		}
 	}
-	
+
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	public class SubQueryExecutor extends QueryExecutor implements ISubQueryExecutor
-	{
+	public class SubQueryExecutor extends QueryExecutor implements ISubQueryExecutor {
 		private IResultIterator parentIterator;
 		private IQueryExecutor parentExecutor;
+
 		/**
 		 * @param parentIterator
 		 */
-		public SubQueryExecutor( IResultIterator parentIterator, IQueryExecutor parentExecutor, IQueryContextVisitor contextVisitor )
-		{	
-			super( preparedQuery.getSharedScope( ),
-					preparedQuery.getBaseQueryDefn( ),
-					preparedQuery.getAggrTable( ),
-					session, contextVisitor );
-			
+		public SubQueryExecutor(IResultIterator parentIterator, IQueryExecutor parentExecutor,
+				IQueryContextVisitor contextVisitor) {
+			super(preparedQuery.getSharedScope(), preparedQuery.getBaseQueryDefn(), preparedQuery.getAggrTable(),
+					session, contextVisitor);
+
 			this.parentIterator = parentIterator;
 			this.parentExecutor = parentExecutor;
-			this.setParentExecutorHelper( parentIterator.getExecutorHelper( ) );
+			this.setParentExecutorHelper(parentIterator.getExecutorHelper());
 		}
-		
-		public IResultIterator getParentIterator()
-		{
+
+		public IResultIterator getParentIterator() {
 			return this.parentIterator;
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
+		 * )
 		 */
-		protected IDataSource createOdiDataSource( )
-		{
+		@Override
+		protected IDataSource createOdiDataSource() {
 			// Subqueries don't have its own data source
 			return null;
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource()
 		 */
-		protected DataSourceRuntime findDataSource( )
-		{
+		@Override
+		protected DataSourceRuntime findDataSource() {
 			// Subqueries don't have its own data source
 			return null;
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#newDataSetRuntime()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#newDataSetRuntime()
 		 */
-		protected DataSetRuntime newDataSetRuntime()
-		{
-			return new SubqueryDataSetRuntime( this, session );
+		@Override
+		protected DataSetRuntime newDataSetRuntime() {
+			return new SubqueryDataSetRuntime(this, session);
 		}
-		
-		protected String getDataSetName( )
-		{
-			if ( preparedQuery.getBaseQueryDefn( ) instanceof IQueryDefinition )
-				return ( (IQueryDefinition) preparedQuery.getBaseQueryDefn( ) ).getDataSetName( );
+
+		@Override
+		protected String getDataSetName() {
+			if (preparedQuery.getBaseQueryDefn() instanceof IQueryDefinition) {
+				return ((IQueryDefinition) preparedQuery.getBaseQueryDefn()).getDataSetName();
+			}
 			return null;
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
-		protected IQuery createOdiQuery( ) throws DataException
-		{
+		@Override
+		protected IQuery createOdiQuery() throws DataException {
 			// An empty odi data source is used for sub query data set
-			return DataSourceFactory.getFactory( )
-					.getEmptyDataSource( session )
-					.newCandidateQuery( false );
+			return DataSourceFactory.getFactory().getEmptyDataSource(session).newCandidateQuery(false);
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler ) 
-				throws DataException
-		{
+		@Override
+		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
 			assert parentIterator != null;
-	
-			if ( parentIterator instanceof EmptyResultIterator )
-				return new EmptyResultIterator( );
-			
-			IResultIterator ret = null;
+
+			if (parentIterator instanceof EmptyResultIterator) {
+				return new EmptyResultIterator();
+			}
+
+			IResultIterator ret;
 			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery;
 
-			if ( PreparedSubquery.this.subQueryOnGroup == true )
-				cdQuery.setCandidates( parentIterator, groupLevel );
-			else
-				cdQuery.setCandidates( new CustomDataSet( parentIterator,
-						getMergedResultClass( ) ) );
-			
-			ret = cdQuery.execute( eventHandler );
-			//parentIterator = null;
+			if (PreparedSubquery.this.subQueryOnGroup) {
+				cdQuery.setCandidates(parentIterator, groupLevel);
+			} else {
+				cdQuery.setCandidates(new CustomDataSet(parentIterator, getMergedResultClass()));
+			}
+
+			ret = cdQuery.execute(eventHandler);
+			// parentIterator = null;
 			return ret;
 		}
-		
+
 		/**
 		 * @return
 		 * @throws DataException
 		 */
-		private IResultClass getMergedResultClass( ) throws DataException
-		{
-			IResultClass parentResultClass = parentIterator.getResultClass( );
+		private IResultClass getMergedResultClass() throws DataException {
+			IResultClass parentResultClass = parentIterator.getResultClass();
 
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
 			assert candidateQuery != null;
 
-			List computedColumns = dataSet.getComputedColumns( );
-			List columnsList = new ArrayList( );
+			List computedColumns = dataSet.getComputedColumns();
+			List columnsList = new ArrayList();
 
-			for ( int i = 0; i < parentResultClass.getFieldCount( ); i++ )
-			{
-				ResultFieldMetadata columnMetaData = new ResultFieldMetadata( i + 1,
-						parentResultClass.getFieldName( i + 1 ),
-						parentResultClass.getFieldName( i + 1 ),
-						parentResultClass.getFieldValueClass( i + 1 ),
-						parentResultClass.getFieldNativeTypeName( i + 1 ),
-						parentResultClass.isCustomField( i + 1 ),
-						-1 );
-				columnsList.add( columnMetaData );
-				columnMetaData.setAlias( parentResultClass.getFieldAlias( i + 1 ) );
+			for (int i = 0; i < parentResultClass.getFieldCount(); i++) {
+				ResultFieldMetadata columnMetaData = new ResultFieldMetadata(i + 1,
+						parentResultClass.getFieldName(i + 1), parentResultClass.getFieldName(i + 1),
+						parentResultClass.getFieldValueClass(i + 1), parentResultClass.getFieldNativeTypeName(i + 1),
+						parentResultClass.isCustomField(i + 1), -1);
+				columnsList.add(columnMetaData);
+				columnMetaData.setAlias(parentResultClass.getFieldAlias(i + 1));
 			}
 
 			// Add computed columns
-			int count = columnsList.size( );
-			Iterator it = computedColumns.iterator( );
-			for ( int j = columnsList.size( ); it.hasNext( ); j++ )
-			{
-				IComputedColumn compColumn = (IComputedColumn) it.next( );
-				ResultFieldMetadata columnMetaData = new ResultFieldMetadata( ++count,
-						compColumn.getName( ),
-						compColumn.getName( ),
-						DataType.getClass( compColumn.getDataType( ) ),
-						null /* nativeTypeName */,
-						true,
-						-1 );
-				columnsList.add( columnMetaData );
+			int count = columnsList.size();
+			Iterator it = computedColumns.iterator();
+			for (int j = columnsList.size(); it.hasNext(); j++) {
+				IComputedColumn compColumn = (IComputedColumn) it.next();
+				ResultFieldMetadata columnMetaData = new ResultFieldMetadata(++count, compColumn.getName(),
+						compColumn.getName(), DataType.getClass(compColumn.getDataType()), null /* nativeTypeName */,
+						true, -1);
+				columnsList.add(columnMetaData);
 			}
 
-			return new ResultClass( columnsList );
+			return new ResultClass(columnsList);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.impl.ISubQueryExecutor#getSubQueryStartingIndex()
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.ISubQueryExecutor#getSubQueryStartingIndex(
+		 * )
 		 */
-		public int getSubQueryStartingIndex( ) throws DataException
-		{
-			if( !subQueryOnGroup )
-				return this.parentIterator.getCurrentResultIndex( );
-			if ( parentIterator instanceof EmptyResultIterator )
+		@Override
+		public int getSubQueryStartingIndex() throws DataException {
+			if (!subQueryOnGroup) {
+				return this.parentIterator.getCurrentResultIndex();
+			}
+			if (parentIterator instanceof EmptyResultIterator) {
 				return 0;
+			}
 
-			int groupIndex = this.parentIterator.getCurrentGroupIndex( groupLevel );
-			
-			int[] groupStartingEndingIndex = this.parentIterator.getGroupStartAndEndIndex( groupLevel );
-			
-			//For the subquery of subquery, the starting index should still point to the ultimate
-			//parent.
-			return ( this.parentExecutor instanceof ISubQueryExecutor )
-					? ( (ISubQueryExecutor) this.parentExecutor ).getSubQueryStartingIndex( )
+			int groupIndex = this.parentIterator.getCurrentGroupIndex(groupLevel);
+
+			int[] groupStartingEndingIndex = this.parentIterator.getGroupStartAndEndIndex(groupLevel);
+
+			// For the subquery of subquery, the starting index should still point to the
+			// ultimate
+			// parent.
+			return (this.parentExecutor instanceof ISubQueryExecutor)
+					? ((ISubQueryExecutor) this.parentExecutor).getSubQueryStartingIndex()
 							+ groupStartingEndingIndex[groupIndex * 2]
 					: groupStartingEndingIndex[groupIndex * 2];
 		}
 	}
-	
+
 	/**
 	 *
 	 */
-	private static final class CustomDataSet implements ICustomDataSet
-	{
+	private static final class CustomDataSet implements ICustomDataSet {
 		private IResultIterator resultIterator;
 		private IResultClass resultClass;
-		
+
 		private boolean finished;
 
-		CustomDataSet( IResultIterator resultIterator, IResultClass resultClass )
-		{
+		CustomDataSet(IResultIterator resultIterator, IResultClass resultClass) {
 			this.resultIterator = resultIterator;
 			this.resultClass = resultClass;
 		}
@@ -337,36 +311,37 @@ class PreparedSubquery implements IPreparedQueryService
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
 		 */
-		public IResultClass getResultClass( )
-		{
+		@Override
+		public IResultClass getResultClass() {
 			return resultClass;
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
 		 */
-		public void open( ) throws DataException
-		{
+		@Override
+		public void open() throws DataException {
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetc h()
 		 */
-		public IResultObject fetch( ) throws DataException
-		{
-			if ( finished )
+		@Override
+		public IResultObject fetch() throws DataException {
+			if (finished) {
 				return null;
+			}
 
 			finished = true;
-			return resultIterator.getCurrentResult( );
+			return resultIterator.getCurrentResult();
 		}
-		
+
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 		 */
-		public void close( ) throws DataException
-		{
+		@Override
+		public void close() throws DataException {
 		}
 	}
-	
+
 }

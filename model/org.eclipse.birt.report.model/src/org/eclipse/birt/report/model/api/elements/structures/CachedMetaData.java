@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,10 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * information when it gets from databases, input/output parameter definitions.
  */
 
-public class CachedMetaData extends PropertyStructure
-{
+public class CachedMetaData extends PropertyStructure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public final static String CACHED_METADATA_STRUCT = "CachedMetaData"; //$NON-NLS-1$
@@ -45,40 +46,37 @@ public class CachedMetaData extends PropertyStructure
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	@Override
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new CachedMetaDataHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	@Override
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new CachedMetaDataHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	@Override
+	public String getStructName() {
 		return CACHED_METADATA_STRUCT;
 	}
 

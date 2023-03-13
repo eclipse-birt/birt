@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,111 +39,90 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
-public class StockSeriesUIProvider extends DefaultSeriesUIProvider
-{
+public class StockSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
-	public StockSeriesUIProvider( )
-	{
-		super( );
+	public StockSeriesUIProvider() {
+		super();
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
-		return new StockSeriesAttributeComposite( parent,
-				SWT.NONE,
-				context,
-				series );
+	@Override
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
+		return new StockSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
-	public String getSeriesClass( )
-	{
+	@Override
+	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
-		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
-		{
-			return new StockDataDefinitionComponent( seriesDefn,
-					context,
-					sTitle );
+	@Override
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
+		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
+			return new StockDataDefinitionComponent(seriesDefn, context, sTitle);
+		} else if (seriesType == ISelectDataCustomizeUI.GROUPING_SERIES) {
+			return new YOptionalDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_GROUP,
+					ChartUIConstants.QUERY_OPTIONAL, seriesDefn, seriesDefn.getQuery(), context, sTitle);
 		}
-		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
-		{
-			return new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
-					ChartUIConstants.QUERY_OPTIONAL,
-					seriesDefn,
-					seriesDefn.getQuery( ),
-					context,
-					sTitle );
-		}
-		return new DefaultSelectDataComponent( );
+		return new DefaultSelectDataComponent();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
+	 * org.eclipse.birt.chart.model.component.Series)
 	 */
-	public AxisType[] getCompatibleAxisType( Series series )
-	{
-		return new AxisType[]{
-				AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL
-		};
+	@Override
+	public AxisType[] getCompatibleAxisType(Series series) {
+		return new AxisType[] { AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 *
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
+	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException
-	{
-		Iterator<Query> iterEntries = series.getDataDefinition( ).iterator( );
-		while ( iterEntries.hasNext( ) )
-		{
-			Query query = iterEntries.next( );
-			DataType dataType = idsp.getDataType( query.getDefinition( ) );
-			if ( dataType == DataType.TEXT_LITERAL
-					|| dataType == DataType.DATE_TIME_LITERAL )
-			{
-				final ExpressionCodec codec = ChartModelHelper.instance( )
-						.createExpressionCodec( );
-				codec.decode( query.getDefinition( ) );
-				throw new ChartException( ChartUIExtensionPlugin.ID,
-						ChartException.DATA_BINDING,
-						codec.getExpression( ) );
+	@Override
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
+		Iterator<Query> iterEntries = series.getDataDefinition().iterator();
+		while (iterEntries.hasNext()) {
+			Query query = iterEntries.next();
+			DataType dataType = idsp.getDataType(query.getDefinition());
+			if (dataType == DataType.TEXT_LITERAL || dataType == DataType.DATE_TIME_LITERAL) {
+				final ExpressionCodec codec = ChartModelHelper.instance().createExpressionCodec();
+				codec.decode(query.getDefinition());
+				throw new ChartException(ChartUIExtensionPlugin.ID, ChartException.DATA_BINDING, codec.getExpression());
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.
+	 * eclipse.birt.chart.model.component.Series)
 	 */
-	public int[] validationIndex( Series series )
-	{
-		return new int[]{
-				0, 1, 2, 3
-		};
+	@Override
+	public int[] validationIndex(Series series) {
+		return new int[] { 0, 1, 2, 3 };
 	}
 
 }

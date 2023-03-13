@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,55 +33,52 @@ import org.eclipse.gef.requests.DirectEditRequest;
 /**
  * An EditPolicy for use with container editparts. This policy can be used to
  * contribute commands to direct edit.
- * 
- *  
+ *
+ *
  */
-public class LabelDirectEditPolicy extends DirectEditPolicy
-{
+public class LabelDirectEditPolicy extends DirectEditPolicy {
 
 	/**
 	 * @see DirectEditPolicy#getDirectEditCommand(DirectEditRequest)
 	 */
-	protected Command getDirectEditCommand( DirectEditRequest edit )
-	{
-		String labelText = (String) edit.getCellEditor( ).getValue( );
-		Map extendsData = new HashMap( );
-		extendsData.put( DEUtil.ELEMENT_LABELCONTENT_PROPERTY, labelText );
+	@Override
+	protected Command getDirectEditCommand(DirectEditRequest edit) {
+		String labelText = (String) edit.getCellEditor().getValue();
+		Map extendsData = new HashMap();
+		extendsData.put(DEUtil.ELEMENT_LABELCONTENT_PROPERTY, labelText);
 		EditPart host = getHost();
 		Object model = null;
-		if(host instanceof LabelEditPart)
-		{
-			LabelEditPart label = (LabelEditPart) getHost( );
+		if (host instanceof LabelEditPart) {
+			LabelEditPart label = (LabelEditPart) getHost();
 			model = label.getModel();
+		} else if (host instanceof PlaceHolderEditPart) {
+			PlaceHolderEditPart label = (PlaceHolderEditPart) getHost();
+			model = label.getCopiedModel();
 		}
-		else if(host instanceof PlaceHolderEditPart)
-		{
-			PlaceHolderEditPart label = (PlaceHolderEditPart) getHost( );
-			model=label.getCopiedModel();
-		}
-			
-		SetPropertyCommand command = new SetPropertyCommand( model,
-				extendsData );
+
+		SetPropertyCommand command = new SetPropertyCommand(model, extendsData);
 		return command;
 	}
 
 	/**
 	 * @see DirectEditPolicy#showCurrentEditValue(DirectEditRequest)
 	 */
-	protected void showCurrentEditValue( DirectEditRequest request )
-	{
-		String value = (String) request.getCellEditor( ).getValue( );
-		( (LabelFigure) getHostFigure( ) ).setText( value );
-		//hack to prevent async layout from placing the cell editor twice.
-		getHostFigure( ).getUpdateManager( ).performUpdate( );
+	@Override
+	protected void showCurrentEditValue(DirectEditRequest request) {
+		String value = (String) request.getCellEditor().getValue();
+		((LabelFigure) getHostFigure()).setText(value);
+		// hack to prevent async layout from placing the cell editor twice.
+		getHostFigure().getUpdateManager().performUpdate();
 
 	}
-	
+
+	@Override
 	public boolean understandsRequest(Request request) {
 		if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 				|| RequestConstants.REQ_OPEN.equals(request.getType())
-				|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+				|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
 			return true;
+		}
 		return super.understandsRequest(request);
 	}
 

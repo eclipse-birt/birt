@@ -1,15 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Report Engine Emitter POSTSCRIPT Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript.tests;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.postscript.Activator
 Import-Package: org.osgi.framework;version="1.3.0"
-Require-Bundle: org.eclipse.birt.core,
- org.eclipse.birt.report.engine,
- org.eclipse.birt.report.engine.emitter.postscript,
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
+ org.eclipse.birt.report.engine;bundle-version="4.13.0",
+ org.eclipse.birt.report.engine.emitter.postscript;bundle-version="4.13.0",
  org.junit;bundle-version="4.7.0";resolution:=optional;visibility:=reexport
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: emitterpostscript.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.postscript.tests
+Export-Package: org.eclipse.birt.report.engine.emitter.postscript;x-internal:=true,
+ org.eclipse.birt.report.engine.emitter.postscript.golden.PostscriptRenderTest;x-internal:=true,
+ org.eclipse.birt.report.engine.emitter.postscript.picture;x-internal:=true

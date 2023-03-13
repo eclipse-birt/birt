@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,113 +27,101 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * object. Or a dummy result object will be returned to enable the output
  * parameter could be retrieved.
  */
-class OdaResultSet implements IDataSetPopulator
-{
-    private ResultSet resultSet;
-    
-    private int status;
-    
-    private final static int UNKNOWN = -1;
+class OdaResultSet implements IDataSetPopulator {
+	private ResultSet resultSet;
+
+	private int status;
+
+	private final static int UNKNOWN = -1;
 	private final static int ODA_DATA = 0;
 	private final static int ODA_PARAM = 1;
-	
-    /**
+
+	/**
 	 * constructor
-	 * 
+	 *
 	 * @param rs
 	 * @throws DataException
 	 */
-	OdaResultSet( ResultSet rs )
-	{
+	OdaResultSet(ResultSet rs) {
 		this.resultSet = rs;
 		this.status = UNKNOWN;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		if ( status == UNKNOWN )
-		{
-			IResultObject resultObj = resultSet.fetch( );
-			if ( resultObj != null )
-			{
+	@Override
+	public IResultObject next() throws DataException {
+		if (status == UNKNOWN) {
+			IResultObject resultObj = resultSet.fetch();
+			if (resultObj != null) {
 				status = ODA_DATA;
 				return resultObj;
-			}
-			else
-			{
+			} else {
 				status = ODA_PARAM;
-				return new DummyResultObject( );
+				return new DummyResultObject();
 			}
-		}
-		else if ( status == ODA_DATA )
-		{
-			return this.resultSet.fetch( );
-		}
-		else
-		{
+		} else if (status == ODA_DATA) {
+			return this.resultSet.fetch();
+		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * The dummy result object to enable fetch the output parameter value
 	 */
-	static class DummyResultObject implements IResultObject
-	{
+	static class DummyResultObject implements IResultObject {
 
-		/* 
-		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(java.lang.String)
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(java.lang.
+		 * String)
 		 */
-		public Object getFieldValue( String fieldName ) throws DataException
-		{
+		@Override
+		public Object getFieldValue(String fieldName) throws DataException {
 			return null;
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(int)
 		 */
-		public Object getFieldValue( int fieldIndex ) throws DataException
-		{
+		@Override
+		public Object getFieldValue(int fieldIndex) throws DataException {
 			return null;
 		}
 
 		/*
 		 * @see org.eclipse.birt.data.engine.odi.IResultObject#getResultClass()
 		 */
-		public IResultClass getResultClass( )
-		{
-			try
-			{
+		@Override
+		public IResultClass getResultClass() {
+			try {
 				// return empty ResultClass object
-				return new ResultClass( new ArrayList( ) );
-			}
-			catch ( DataException e )
-			{
+				return new ResultClass(new ArrayList());
+			} catch (DataException e) {
 				assert false;
 				return null;
 			}
 		}
 
 		/*
-		 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(java.lang.String, java.lang.Object)
+		 * @see
+		 * org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(java.lang.
+		 * String, java.lang.Object)
 		 */
-		public void setCustomFieldValue( String fieldName, Object value )
-				throws DataException
-		{
+		@Override
+		public void setCustomFieldValue(String fieldName, Object value) throws DataException {
 			// do nothing
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(int, java.lang.Object)
+		 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(int,
+		 * java.lang.Object)
 		 */
-		public void setCustomFieldValue( int fieldIndex, Object value )
-				throws DataException
-		{
+		@Override
+		public void setCustomFieldValue(int fieldIndex, Object value) throws DataException {
 			// do nothing
 		}
 

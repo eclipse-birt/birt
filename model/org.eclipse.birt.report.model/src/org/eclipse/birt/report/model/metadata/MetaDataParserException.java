@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,8 +23,7 @@ import org.eclipse.birt.report.model.util.XMLParserException;
  * file. A comprehensive set of error codes detail the problem.
  */
 
-public class MetaDataParserException extends XMLParserException
-{
+public class MetaDataParserException extends XMLParserException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -63,29 +65,28 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_NAME_REQUIRED = "NAME_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the display name resource key is
-	 * required for an Element, Member, Property, etc.
+	 * Error code constant indicating that the display name resource key is required
+	 * for an Element, Member, Property, etc.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED = "DISPLAY_NAME_ID_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the cardinality attribute is required
-	 * for a slot.
+	 * Error code constant indicating that the cardinality attribute is required for
+	 * a slot.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MULTIPLE_CARDINALITY_REQUIRED = "MULTIPLE_CARDINALITY_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that type attribute is required for a
-	 * Property or Member.
+	 * Error code constant indicating that type attribute is required for a Property
+	 * or Member.
 	 */
 
-	public static final String DESIGN_EXCEPTION_TYPE_REQUIRED = "TYPE_REQUIRED"; //$NON-NLS-1$	
+	public static final String DESIGN_EXCEPTION_TYPE_REQUIRED = "TYPE_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that name attribute is required for a
-	 * Choice.
+	 * Error code constant indicating that name attribute is required for a Choice.
 	 */
 
 	public static final String DESIGN_EXCEPTION_XML_NAME_REQUIRED = "XML_NAME_REQUIRED"; //$NON-NLS-1$
@@ -111,15 +112,15 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_BUILD_FAILED = "BUILD_FAILED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the display name resource key
-	 * attribute is required for group.
+	 * Error code constant indicating that the display name resource key attribute
+	 * is required for group.
 	 */
 
 	public static final String DESIGN_EXCEPTION_GROUP_NAME_ID_REQUIRED = "GROUP_NAME_ID_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that a choice property definition
-	 * referenced an undefined choice set.
+	 * Error code constant indicating that a choice property definition referenced
+	 * an undefined choice set.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_TYPE = "INVALID_CHOICE_TYPE"; //$NON-NLS-1$
@@ -139,8 +140,8 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED = "STRUCT_TYPE_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that a structure list property referenced
-	 * an undefined structure name.
+	 * Error code constant indicating that a structure list property referenced an
+	 * undefined structure name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_STRUCT_TYPE = "INVALID_STRUCT_TYPE"; //$NON-NLS-1$
@@ -153,9 +154,9 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED = "ELEMENT_REF_TYPE_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the restriction(Wrapped in <Allowed>
-	 * tag) is not valid. May be because that choice is not found in the choice
-	 * set or unit not in the choice set.
+	 * Error code constant indicating that the restriction(Wrapped in <Allowed> tag)
+	 * is not valid. May be because that choice is not found in the choice set or
+	 * unit not in the choice set.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_RESTRICTION = "INVALID_RESTRICTION"; //$NON-NLS-1$
@@ -175,8 +176,7 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_CLASS_NAME_REQUIRED = "CLASS_NAME_REQUIRED"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the validator can not be
-	 * instantiated.
+	 * Error code constant indicating that the validator can not be instantiated.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_META_VALIDATOR = "INVALID_META_VALIDATOR"; //$NON-NLS-1$
@@ -213,107 +213,93 @@ public class MetaDataParserException extends XMLParserException
 
 	/**
 	 * Constructs an exception given the file name and error code.
-	 * 
-	 * @param name
-	 *            file name
-	 * @param errCode
-	 *            error code
+	 *
+	 * @param name    file name
+	 * @param errCode error code
 	 */
 
-	public MetaDataParserException( String name, String errCode )
-	{
-		super( errCode );
+	public MetaDataParserException(String name, String errCode) {
+		super(errCode);
 		fileName = name;
 		errorCode = errCode;
 	}
 
 	/**
 	 * Constructs an exception given an exception and error code.
-	 * 
-	 * @param e
-	 *            an exception
-	 * @param errCode
-	 *            error code
+	 *
+	 * @param e       an exception
+	 * @param errCode error code
 	 */
 
-	public MetaDataParserException( Exception e, String errCode )
-	{
-		super( e, errCode );
+	public MetaDataParserException(Exception e, String errCode) {
+		super(e, errCode);
 	}
 
 	/**
 	 * Constructs an exception given the error code.
-	 * 
-	 * @param errCode
-	 *            error code
+	 *
+	 * @param errCode error code
 	 */
 
-	public MetaDataParserException( String errCode )
-	{
-		super( errCode );
+	public MetaDataParserException(String errCode) {
+		super(errCode);
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param errors
-	 *            list of errors
+	 *
+	 * @param errors list of errors
 	 */
 
-	public MetaDataParserException( List<XMLParserException> errors )
-	{
-		super( errors );
+	public MetaDataParserException(List<XMLParserException> errors) {
+		super(errors);
 	}
 
 	/**
 	 * Sets the file name.
-	 * 
-	 * @param name
-	 *            the file name to set
+	 *
+	 * @param name the file name to set
 	 */
 
-	public void setFileName( String name )
-	{
+	public void setFileName(String name) {
 		fileName = name;
 	}
 
 	/**
-	 * Gets the content message of this exception. The return message will
-	 * contain the information of the file name, affected source file line
-	 * number, error code and the wrapped exception.
-	 * 
+	 * Gets the content message of this exception. The return message will contain
+	 * the information of the file name, affected source file line number, error
+	 * code and the wrapped exception.
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
+	@Override
+	public String getLocalizedMessage() {
 
-		StringBuffer sb = new StringBuffer( );
+		StringBuilder sb = new StringBuilder();
 
 		String SEPARATOR = " "; //$NON-NLS-1$
 
-		if ( fileName != null )
-		{
-			sb.append( "FileName:" ); //$NON-NLS-1$
-			sb.append( fileName );
-			sb.append( SEPARATOR );
+		if (fileName != null) {
+			sb.append("FileName:"); //$NON-NLS-1$
+			sb.append(fileName);
+			sb.append(SEPARATOR);
 		}
 
-		sb.append( "Line Number:" );//$NON-NLS-1$
-		sb.append( getLineNumber( ) );
-		sb.append( SEPARATOR );
-		sb.append( "Error Code:" ); //$NON-NLS-1$
-		sb.append( errorCode );
-		sb.append( SEPARATOR );
+		sb.append("Line Number:");//$NON-NLS-1$
+		sb.append(getLineNumber());
+		sb.append(SEPARATOR);
+		sb.append("Error Code:"); //$NON-NLS-1$
+		sb.append(errorCode);
+		sb.append(SEPARATOR);
 
-		if ( getException( ) != null )
-		{
-			sb.append( "Exception:" );//$NON-NLS-1$
-			sb.append( getException( ) );
-			sb.append( SEPARATOR );
+		if (getException() != null) {
+			sb.append("Exception:");//$NON-NLS-1$
+			sb.append(getException());
+			sb.append(SEPARATOR);
 		}
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 }

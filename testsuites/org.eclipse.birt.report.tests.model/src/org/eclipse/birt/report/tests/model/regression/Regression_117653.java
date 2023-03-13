@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -34,7 +37,7 @@ import com.ibm.icu.util.ULocale;
  * <li>Create two named expressions.
  * <li>Then switch to "user properties".
  * <li>Switch back to "named expressions".
- * <li> Add a named expression.
+ * <li>Add a named expression.
  * <li>These three named expressions are displayed in random
  * </ol>
  * </p>
@@ -44,41 +47,39 @@ import com.ibm.icu.util.ULocale;
  * are in adding order.
  * </p>
  */
-public class Regression_117653 extends BaseTestCase
-{
+public class Regression_117653 extends BaseTestCase {
 	/**
-	 * @throws UserPropertyException 
-	 * 
+	 * @throws UserPropertyException
+	 *
 	 */
-	
-	public void test_regression_117653( ) throws UserPropertyException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		
+	public void test_regression_117653() throws UserPropertyException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+
 		UserPropertyDefn expr1 = new UserPropertyDefn();
-		expr1.setName( "ID" ); //$NON-NLS-1$
-		expr1.setType( new ExpressionPropertyType() );
-		label.addUserPropertyDefn( expr1 );
-		
+		expr1.setName("ID"); //$NON-NLS-1$
+		expr1.setType(new ExpressionPropertyType());
+		label.addUserPropertyDefn(expr1);
+
 		UserPropertyDefn expr2 = new UserPropertyDefn();
-		expr2.setName( "Assignee" ); //$NON-NLS-1$
-		expr2.setType( new ExpressionPropertyType() );
-		label.addUserPropertyDefn( expr2 );
-		
+		expr2.setName("Assignee"); //$NON-NLS-1$
+		expr2.setType(new ExpressionPropertyType());
+		label.addUserPropertyDefn(expr2);
+
 		UserPropertyDefn expr3 = new UserPropertyDefn();
-		expr3.setName( "Pri" ); //$NON-NLS-1$
-		expr3.setType( new ExpressionPropertyType() );
-		label.addUserPropertyDefn( expr3 );
-		
-		List userProps = label.getUserProperties( );
-		assertEquals( "ID", ((UserPropertyDefn)userProps.get( 0 )).getName( )); //$NON-NLS-1$
-		assertEquals( "Assignee", ((UserPropertyDefn)userProps.get( 1 )).getName( )); //$NON-NLS-1$
-		assertEquals( "Pri", ((UserPropertyDefn)userProps.get( 2 )).getName( )); //$NON-NLS-1$
-		
+		expr3.setName("Pri"); //$NON-NLS-1$
+		expr3.setType(new ExpressionPropertyType());
+		label.addUserPropertyDefn(expr3);
+
+		List userProps = label.getUserProperties();
+		assertEquals("ID", ((UserPropertyDefn) userProps.get(0)).getName()); //$NON-NLS-1$
+		assertEquals("Assignee", ((UserPropertyDefn) userProps.get(1)).getName()); //$NON-NLS-1$
+		assertEquals("Pri", ((UserPropertyDefn) userProps.get(2)).getName()); //$NON-NLS-1$
+
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,42 +23,35 @@ import com.ibm.icu.util.ULocale;
  * responsible for formatting the entry according to the formatter and locale.
  */
 
-public interface IDataPointEntry
-{
+public interface IDataPointEntry {
 
 	/**
 	 * Returns the formatted string representation of current object by given
 	 * formatter and locale.
-	 * 
-	 * @param formatter
-	 *            An formatter
-	 * @param locale
-	 *            Specific locale.
+	 *
+	 * @param formatter An formatter
+	 * @param locale    Specific locale.
 	 * @return The string representation
 	 */
-	String getFormattedString( FormatSpecifier formatter, ULocale locale );
+	String getFormattedString(FormatSpecifier formatter, ULocale locale);
 
 	/**
 	 * Returns the formatted string representation of current object by given
 	 * formatter and locale.
-	 * 
-	 * @param type
-	 *            data point type
-	 * @param formatter
-	 *            An formatter
-	 * @param locale
-	 *            Specific locale.
+	 *
+	 * @param type      data point type
+	 * @param formatter An formatter
+	 * @param locale    Specific locale.
 	 * @return The string representation
 	 * @see #getDataPointTypes()
 	 */
-	String getFormattedString( String type, FormatSpecifier formatter,
-			ULocale locale );
+	String getFormattedString(String type, FormatSpecifier formatter, ULocale locale);
 
 	/**
 	 * Returns if the DataPointEntry is valid.
-	 * 
+	 *
 	 * @return value or not
 	 * @since 2.5.0
 	 */
-	boolean isValid( );
+	boolean isValid();
 }

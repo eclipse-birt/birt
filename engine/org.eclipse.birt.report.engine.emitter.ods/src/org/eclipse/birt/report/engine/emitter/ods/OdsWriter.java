@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +29,9 @@ import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
 /**
  * @author Administrator
- * 
+ *
  */
-public class OdsWriter implements IOdsWriter
-{
+public class OdsWriter implements IOdsWriter {
 
 	private OdsXmlWriter writer, tempWriter;
 	private final OdsContext context;
@@ -46,133 +48,114 @@ public class OdsWriter implements IOdsWriter
 	 * @param pageFooter
 	 * @param orientation
 	 */
-	public OdsWriter( OutputStream out, OdsContext context,
-			boolean isRtlSheet )
-	{
+	public OdsWriter(OutputStream out, OdsContext context, boolean isRtlSheet) {
 		this.out = out;
 		this.context = context;
 		this.isRTLSheet = isRtlSheet;
 	}
 
-
-	public void end( ) throws IOException
-	{
-		writer.end( );
-		if ( tempFilePath != null )
-		{
-			File file = new File( tempFilePath );
-			if ( file.exists( ) && file.isFile( ) )
-			{
-				file.delete( );
+	@Override
+	public void end() throws IOException {
+		writer.end();
+		if (tempFilePath != null) {
+			File file = new File(tempFilePath);
+			if (file.exists() && file.isFile()) {
+				file.delete();
 			}
 		}
 	}
 
-	public void endRow( )
-	{
-		writer.endRow( );
+	@Override
+	public void endRow() {
+		writer.endRow();
 	}
 
-	public void outputData( SheetData data, StyleEntry style, int column,
-			int colSpan ) throws IOException
-	{
-		writer.outputData( data, style, column, colSpan );
+	@Override
+	public void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException {
+		writer.outputData(data, style, column, colSpan);
 	}
 
-	public void start( IReportContent report, HashMap<String, BookmarkDef> bookmarkList ) throws IOException
-	{
-		writer = new OdsXmlWriter( out, context, isRTLSheet );
-		writer.setSheetIndex( sheetIndex );
-		writer.start( report, bookmarkList );
-		copyOutputData( );
+	@Override
+	public void start(IReportContent report, HashMap<String, BookmarkDef> bookmarkList) throws IOException {
+		writer = new OdsXmlWriter(out, context, isRTLSheet);
+		writer.setSheetIndex(sheetIndex);
+		writer.start(report, bookmarkList);
+		copyOutputData();
 	}
 
-	private void copyOutputData( ) throws IOException
-	{
-		if ( tempWriter != null )
-		{
-			tempWriter.close( );
+	private void copyOutputData() throws IOException {
+		if (tempWriter != null) {
+			tempWriter.close();
 			BufferedReader reader = null;
-			try
-			{
-				reader = new BufferedReader( new FileReader(
-						new File( tempFilePath ) ) );
-				String line = reader.readLine( );
-				XMLWriter xmlWriter = writer.getWriter( );
-				while ( line != null )
-				{
-					xmlWriter.literal( "\n" );
-					xmlWriter.literal( line );
-					line = reader.readLine( );
+			try {
+				reader = new BufferedReader(new FileReader(new File(tempFilePath)));
+				String line = reader.readLine();
+				XMLWriter xmlWriter = writer.getWriter();
+				while (line != null) {
+					xmlWriter.literal("\n");
+					xmlWriter.literal(line);
+					line = reader.readLine();
 				}
-			}
-			finally
-			{
-				if ( reader != null )
-				{
-					reader.close( );
+			} finally {
+				if (reader != null) {
+					reader.close();
 					reader = null;
 				}
 			}
 		}
 	}
 
-	public void startRow( StyleEntry rowStyle )
-	{
-		writer.startRow( rowStyle );
+	@Override
+	public void startRow(StyleEntry rowStyle) {
+		writer.startRow(rowStyle);
 	}
 
-	public void startSheet( String name ) throws IOException
-	{
-		if ( writer == null )
-		{
-			initializeWriterAsTempWriter( );
+	@Override
+	public void startSheet(String name) throws IOException {
+		if (writer == null) {
+			initializeWriterAsTempWriter();
 		}
-		writer.startSheet( name );
+		writer.startSheet(name);
 		sheetIndex++;
 	}
 
-	public void startSheet( StyleEntry tableStyle, StyleEntry[] colStyles, String name ) throws IOException
-	{
-		if ( writer == null )
-		{
-			initializeWriterAsTempWriter( );
+	@Override
+	public void startSheet(StyleEntry tableStyle, StyleEntry[] colStyles, String name) throws IOException {
+		if (writer == null) {
+			initializeWriterAsTempWriter();
 		}
-		writer.startSheet( tableStyle, colStyles, name );
+		writer.startSheet(tableStyle, colStyles, name);
 		sheetIndex++;
 	}
 
 	/**
 	 * @throws FileNotFoundException
-	 * 
+	 *
 	 */
-	private void initializeWriterAsTempWriter( ) throws FileNotFoundException
-	{
-		tempFilePath = context.getTempFileDir( )
-				+ "_BIRTEMITTER_ODS_TEMP_FILE"
-				+ Thread.currentThread( ).getId( );
-		FileOutputStream out = new FileOutputStream( tempFilePath );
-		tempWriter = new OdsXmlWriter( out, context, isRTLSheet );
+	private void initializeWriterAsTempWriter() throws FileNotFoundException {
+		tempFilePath = context.getTempFileDir() + "_BIRTEMITTER_ODS_TEMP_FILE" + Thread.currentThread().getId();
+		FileOutputStream out = new FileOutputStream(tempFilePath);
+		tempWriter = new OdsXmlWriter(out, context, isRTLSheet);
 		writer = tempWriter;
 	}
 
-	public void endSheet( )
-	{
-		writer.endSheet( );
+	@Override
+	public void endSheet() {
+		writer.endSheet();
 	}
 
-	public void startRow( )
-	{
-		writer.startRow( );
+	@Override
+	public void startRow() {
+		writer.startRow();
 	}
 
-	public void outputData( int col, int row, int type, Object value )
-	{
-		writer.outputData( col, row, type, value );
+	@Override
+	public void outputData(int col, int row, int type, Object value) {
+		writer.outputData(col, row, type, value);
 	}
 
-	public String defineName( String cells )
-	{
-		return writer.defineName( cells );
+	@Override
+	public String defineName(String cells) {
+		return writer.defineName(cells);
 	}
 }

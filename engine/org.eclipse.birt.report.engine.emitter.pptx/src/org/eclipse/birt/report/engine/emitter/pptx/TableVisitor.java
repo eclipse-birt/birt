@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pptx;
 
@@ -6,60 +18,52 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 
-public class TableVisitor extends TreeVisitor<IArea>
-{
+public class TableVisitor extends TreeVisitor<IArea> {
 
-	TableVisitor( )
-	{
+	TableVisitor() {
 	}
 
 	/**
 	 * return the next row
-	 * 
+	 *
 	 * @param row
 	 * @param rowSpan
 	 * @return
 	 */
-	public RowArea getNextRow( RowArea row, final int rowSpan )
-	{
+	public RowArea getNextRow(RowArea row, final int rowSpan) {
 		assert row != null;
 		assert rowSpan >= 1;
 
-		AreaTreeNode currentRow = new AreaTreeNode( row );
-		ITreeNode<IArea> nextRow = new TreeVisitor<IArea>( ).forEach(
-				currentRow, new IFilter<IArea>( ) {
+		AreaTreeNode currentRow = new AreaTreeNode(row);
+		ITreeNode<IArea> nextRow = new TreeVisitor<IArea>().forEach(currentRow, new IFilter<IArea>() {
 
 			int rowCount = 0;
 
-			public int getRowCount( )
-			{
+			@Override
+			public int getRowCount() {
 				return rowCount;
 			}
 
 			@Override
-			public boolean matches( IArea value )
-			{
-				if ( value instanceof RowArea )
-				{
+			public boolean matches(IArea value) {
+				if (value instanceof RowArea) {
 					rowCount++;
-					if ( rowCount > rowSpan )
-					{
+					if (rowCount > rowSpan) {
 						return true;
 					}
 				}
 				return false;
 			}
 		});
-		
-		if ( nextRow == null) {
+
+		if (nextRow == null) {
 			return null;
 		}
-		return (RowArea)nextRow.getValue( );
-		
+		return (RowArea) nextRow.getValue();
+
 	}
 
-	public class AreaTreeNode implements ITreeNode<IArea>
-	{
+	public class AreaTreeNode implements ITreeNode<IArea> {
 
 		private AreaTreeNode parent;
 		/**
@@ -73,11 +77,10 @@ public class TableVisitor extends TreeVisitor<IArea>
 
 		/**
 		 * create a root node for table.
-		 * 
+		 *
 		 * @param table
 		 */
-		public AreaTreeNode( IArea value )
-		{
+		public AreaTreeNode(IArea value) {
 			this.parent = null;
 			this.index = 0;
 			this.value = value;
@@ -85,103 +88,86 @@ public class TableVisitor extends TreeVisitor<IArea>
 
 		/**
 		 * create a child root in parent using index
-		 * 
+		 *
 		 * @param parent
 		 * @param index
 		 */
-		public AreaTreeNode( AreaTreeNode parent, int index, IArea area )
-		{
+		public AreaTreeNode(AreaTreeNode parent, int index, IArea area) {
 			this.parent = parent;
 			this.index = index;
 			this.value = area;
 		}
 
 		@Override
-		public ITreeNode<IArea> getParent( )
-		{
-			initParent( );
+		public ITreeNode<IArea> getParent() {
+			initParent();
 			return parent;
 		}
 
 		/**
 		 * get the next sibling of current node.
-		 * 
+		 *
 		 * @return
 		 */
-		public ITreeNode<IArea> getNext( )
-		{
-			initParent( );
-			if ( parent == null )
-			{
+		@Override
+		public ITreeNode<IArea> getNext() {
+			initParent();
+			if (parent == null) {
 				return null;
 			}
-			IArea next = getChildValue( parent.getValue( ), index + 1 );
-			if ( next != null )
-			{
-				return new AreaTreeNode( parent, index + 1, next );
+			IArea next = getChildValue(parent.getValue(), index + 1);
+			if (next != null) {
+				return new AreaTreeNode(parent, index + 1, next);
 			}
 			return null;
 		}
 
 		/**
 		 * get the first child of current node.
-		 * 
+		 *
 		 * rowArea is handled as leaf node.
-		 * 
+		 *
 		 * @return
 		 */
 		@Override
-		public ITreeNode<IArea> getChild( )
-		{
-			if ( getChildCount( value ) <= 0 )
-			{
+		public ITreeNode<IArea> getChild() {
+			if (getChildCount(value) <= 0) {
 				return null;
 			}
-			return new AreaTreeNode( this, 0, getChildValue( value, 0 ) );
+			return new AreaTreeNode(this, 0, getChildValue(value, 0));
 		}
 
 		@Override
-		public IArea getValue( )
-		{
+		public IArea getValue() {
 			return value;
 		}
 
-		private void initParent( )
-		{
-			if ( parent == null )
-			{
-				IArea container = getParent( value );
-				if ( container != null) 
-				{
-					index = getChildIndex( container, value );
-					parent = new AreaTreeNode( container );
+		private void initParent() {
+			if (parent == null) {
+				IArea container = getParent(value);
+				if (container != null) {
+					index = getChildIndex(container, value);
+					parent = new AreaTreeNode(container);
 				}
 			}
 		}
 
-		private IArea getParent( IArea area )
-		{
-			if ( area instanceof TableArea )
-			{
-				//table has no parent
+		private IArea getParent(IArea area) {
+			if (area instanceof TableArea) {
+				// table has no parent
 				return null;
 			}
-			if ( area instanceof ContainerArea )
-			{
-				return ( (ContainerArea) area ).getParent( );
+			if (area instanceof ContainerArea) {
+				return ((ContainerArea) area).getParent();
 			}
 			return null;
 		}
 
-		private int getChildIndex( IArea parent, IArea child )
-		{
-			if ( parent instanceof ContainerArea )
-			{
+		private int getChildIndex(IArea parent, IArea child) {
+			if (parent instanceof ContainerArea) {
 				ContainerArea container = (ContainerArea) parent;
-				for ( int i = 0; i < container.getChildrenCount( ); i++ )
-				{
-					if ( container.getChild( i ) == child )
-					{
+				for (int i = 0; i < container.getChildrenCount(); i++) {
+					if (container.getChild(i) == child) {
 						return i;
 					}
 				}
@@ -189,33 +175,23 @@ public class TableVisitor extends TreeVisitor<IArea>
 			return -1;
 		}
 
-		private IArea getChildValue( IArea value, int index )
-		{
-			if ( value instanceof ContainerArea )
-			{
+		private IArea getChildValue(IArea value, int index) {
+			if (value instanceof ContainerArea) {
 				ContainerArea container = (ContainerArea) value;
-				if ( container.getChildrenCount( ) > index )
-				{
-					return container.getChild( index );
+				if (container.getChildrenCount() > index) {
+					return container.getChild(index);
 				}
 			}
 			return null;
 		}
 
-		private int getChildCount( IArea value )
-		{
-			if ( value == null )
-			{
-				return 0;
-			}
-			if ( value instanceof RowArea )
-			{
+		private int getChildCount(IArea value) {
+			if ((value == null) || (value instanceof RowArea)) {
 				return 0;
 			}
 
-			if ( value instanceof ContainerArea )
-			{
-				return ( (ContainerArea) value ).getChildrenCount( );
+			if (value instanceof ContainerArea) {
+				return ((ContainerArea) value).getChildrenCount();
 			}
 			return 0;
 		}

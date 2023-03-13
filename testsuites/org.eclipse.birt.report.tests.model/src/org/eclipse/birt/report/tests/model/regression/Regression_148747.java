@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -41,8 +44,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Follow the steps, and make sure that design is valid when reopened.
  * <p>
  */
-public class Regression_148747 extends BaseTestCase
-{
+public class Regression_148747 extends BaseTestCase {
 
 	private final static String REPORT = "regression_148747.xml"; //$NON-NLS-1$
 	private final static String LIB = "regression_148747_lib.xml"; //$NON-NLS-1$
@@ -60,65 +62,63 @@ public class Regression_148747 extends BaseTestCase
 	 * @throws ContentException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( REPORT , REPORT );
-		//copyResource_INPUT( LIB , LIB );
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + LIB );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( REPORT , REPORT );
+		// copyResource_INPUT( LIB , LIB );
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIB);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_148747( ) throws IOException,
-			DesignFileException, ExtendsException, ContentException,
-			NameException
-	{
+
+	public void test_regression_148747()
+			throws IOException, DesignFileException, ExtendsException, ContentException, NameException {
 		// we do the operation in the output folder.
 
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
+		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
-		String outputFolder = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ File.separator + OUTPUT_FOLDER+ File.separator ;
-		
-		String inputFolder =  getTempFolder() + File.separator + INPUT_FOLDER + File.separator;
-		
+		}
+		String outputFolder = tempDir + getFullQualifiedClassName() // $NON-NLS-1$
+				+ File.separator + OUTPUT_FOLDER + File.separator;
+
+		String inputFolder = getTempFolder() + File.separator + INPUT_FOLDER + File.separator;
+
 //		String outputFolder = getTempFolder()  + File.separator + OUTPUT_FOLDER;
-		
-		copyFile(  inputFolder + REPORT, outputFolder + REPORT );
 
-		copyFile(  inputFolder + LIB, outputFolder + LIB );
+		copyFile(inputFolder + REPORT, outputFolder + REPORT);
 
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( null );
+		copyFile(inputFolder + LIB, outputFolder + LIB);
+
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(null);
 
 		// Extends a master page from lib and save the report.
 
-		ReportDesignHandle reportHandle = session.openDesign( outputFolder + "/" + REPORT );
+		ReportDesignHandle reportHandle = session.openDesign(outputFolder + "/" + REPORT);
 
-		LibraryHandle lib = reportHandle.getLibrary( "regression_148747_lib" ); //$NON-NLS-1$
-		assertNotNull( lib );
+		LibraryHandle lib = reportHandle.getLibrary("regression_148747_lib"); //$NON-NLS-1$
+		assertNotNull(lib);
 
-		MasterPageHandle page1 = lib.findMasterPage( "page1" ); //$NON-NLS-1$
-		MasterPageHandle extendPage = (MasterPageHandle) reportHandle
-				.getElementFactory( ).newElementFrom( page1, "childPage" ); //$NON-NLS-1$
+		MasterPageHandle page1 = lib.findMasterPage("page1"); //$NON-NLS-1$
+		MasterPageHandle extendPage = (MasterPageHandle) reportHandle.getElementFactory().newElementFrom(page1,
+				"childPage"); //$NON-NLS-1$
 
-		reportHandle.getMasterPages( ).add( extendPage );
+		reportHandle.getMasterPages().add(extendPage);
 
 		// save and reopen, make sure the file is valid.
 
-		reportHandle.save( );
-		reportHandle = session.openDesign( outputFolder + "/" + REPORT );
+		reportHandle.save();
+		reportHandle = session.openDesign(outputFolder + "/" + REPORT);
 
-		assertNotNull( reportHandle.findMasterPage( "childPage" ) ); //$NON-NLS-1$
-		assertEquals( 0, reportHandle.getErrorList( ).size( ) );
-		assertTrue( reportHandle.isValid( ) );
+		assertNotNull(reportHandle.findMasterPage("childPage")); //$NON-NLS-1$
+		assertEquals(0, reportHandle.getErrorList().size());
+		assertTrue(reportHandle.isValid());
 
 	}
 }

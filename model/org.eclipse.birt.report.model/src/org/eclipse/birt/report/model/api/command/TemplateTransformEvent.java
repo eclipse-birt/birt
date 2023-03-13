@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +24,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * and a report item or data set occurs. The target element is the container.
  */
 
-public class TemplateTransformEvent extends NotificationEvent
-{
+public class TemplateTransformEvent extends NotificationEvent {
 
 	/**
 	 * The slot within the container.
@@ -43,22 +45,17 @@ public class TemplateTransformEvent extends NotificationEvent
 	private final DesignElement toElement;
 
 	/**
-	 * 
+	 *
 	 * /** Constructs the content replace event with the container element, from
 	 * element, to element and the slot within this container.
-	 * 
-	 * @param containerInfo
-	 *            the container information
-	 * @param from
-	 *            the element which the transformation starts from
-	 * @param to
-	 *            the element which the transformation ends to
+	 *
+	 * @param containerInfo the container information
+	 * @param from          the element which the transformation starts from
+	 * @param to            the element which the transformation ends to
 	 */
 
-	public TemplateTransformEvent( ContainerContext containerInfo,
-			DesignElement from, DesignElement to )
-	{
-		super( containerInfo.getElement( ) );
+	public TemplateTransformEvent(ContainerContext containerInfo, DesignElement from, DesignElement to) {
+		super(containerInfo.getElement());
 		this.fromElement = from;
 		this.toElement = to;
 		this.focus = containerInfo;
@@ -66,62 +63,61 @@ public class TemplateTransformEvent extends NotificationEvent
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return TEMPLATE_TRANSFORM_EVENT;
 	}
 
 	/**
 	 * Returns the slot id within the container.
-	 * 
+	 *
 	 * @return the slot id within the container
 	 */
 
-	public int getSlot( )
-	{
-		return focus.getSlotID( );
+	public int getSlot() {
+		return focus.getSlotID();
 	}
 
 	/**
 	 * Returns the element which this event transforms from.
-	 * 
+	 *
 	 * @return the element which this event transforms from.
 	 */
 
-	public IDesignElement getFrom( )
-	{
+	public IDesignElement getFrom() {
 		return this.fromElement;
 	}
 
 	/**
 	 * Returns the element which this event transforms to.
-	 * 
+	 *
 	 * @return the element which this event transforms to.
 	 */
 
-	public IDesignElement getTo( )
-	{
+	public IDesignElement getTo() {
 		return this.toElement;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 *
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	@Override
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event)) {
 			return false;
+		}
 		TemplateTransformEvent transEvent = (TemplateTransformEvent) event;
-		if ( !focus.equals( transEvent.focus )
-				|| fromElement != transEvent.getFrom( )
-				|| toElement != transEvent.getTo( ) )
+		if (!focus.equals(transEvent.focus) || fromElement != transEvent.getFrom() || toElement != transEvent.getTo()) {
 			return false;
+		}
 		return true;
 	}
 }

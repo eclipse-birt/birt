@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,36 +32,42 @@ import org.eclipse.ui.texteditor.StatusTextEditor;
 /**
  * XMLEditor
  */
-public abstract class XMLEditor extends StatusTextEditor
-{
+public abstract class XMLEditor extends StatusTextEditor {
 
 	/**
 	 * Helper for managing the decoration support of this editor's viewer.
 	 *
-	 * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
-	 * compatibility reasons and will be made <code>private</code> soon. Use
-	 * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.</p>
+	 * <p>
+	 * This field should not be referenced by subclasses. It is
+	 * <code>protected</code> for API compatibility reasons and will be made
+	 * <code>private</code> soon. Use
+	 * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.
+	 * </p>
 	 */
 	protected SourceViewerDecorationSupport fSourceViewerDecorationSupport;
-	
+
 	/**
 	 * The overview ruler of this editor.
 	 *
-	 * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
-	 * compatibility reasons and will be made <code>private</code> soon. Use
-	 * {@link #getOverviewRuler()} instead.</p>
+	 * <p>
+	 * This field should not be referenced by subclasses. It is
+	 * <code>protected</code> for API compatibility reasons and will be made
+	 * <code>private</code> soon. Use {@link #getOverviewRuler()} instead.
+	 * </p>
 	 */
-	protected IOverviewRuler fOverviewRuler;	
-	
+	protected IOverviewRuler fOverviewRuler;
+
 	/**
 	 * Helper for accessing annotation from the perspective of this editor.
 	 *
-	 * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
-	 * compatibility reasons and will be made <code>private</code> soon. Use
-	 * {@link #getAnnotationAccess()} instead.</p>
+	 * <p>
+	 * This field should not be referenced by subclasses. It is
+	 * <code>protected</code> for API compatibility reasons and will be made
+	 * <code>private</code> soon. Use {@link #getAnnotationAccess()} instead.
+	 * </p>
 	 */
 	protected IAnnotationAccess fAnnotationAccess;
-	
+
 //	/**
 //	 * Preference key for highlighting current line.
 //	 */
@@ -68,69 +76,72 @@ public abstract class XMLEditor extends StatusTextEditor
 //	 * Preference key for highlight color of current line.
 //	 */
 //	private final static String CURRENT_LINE_COLOR= AbstractDecoratedTextEditorPreferenceConstants.EDITOR_CURRENT_LINE_COLOR;
-	
+
 	private ColorManager colorManager;
 
-	public XMLEditor( )
-	{
-		super( );
-		colorManager = new ColorManager( );
-		setSourceViewerConfiguration( new XMLConfiguration( colorManager ) );
-		
+	public XMLEditor() {
+		super();
+		colorManager = new ColorManager();
+		setSourceViewerConfiguration(new XMLConfiguration(colorManager));
+
 		setRangeIndicator(new DefaultRangeIndicator());
 //		initializeEditor();
 	}
 
 	@Override
-	protected void createActions( )
-	{
-		super.createActions( );
-		setAction( ITextEditorActionConstants.SAVE, new TextSaveAction(  this ) );
+	protected void createActions() {
+		super.createActions();
+		setAction(ITextEditorActionConstants.SAVE, new TextSaveAction(this));
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		if (fSourceViewerDecorationSupport != null) {
 			fSourceViewerDecorationSupport.dispose();
-			fSourceViewerDecorationSupport= null;
+			fSourceViewerDecorationSupport = null;
 		}
 
-		fAnnotationAccess= null;
-		
-		colorManager.dispose( );
-		super.dispose( );
-		( (MultiPageEditorSite) getSite( ) ).dispose( );		
+		fAnnotationAccess = null;
+
+		colorManager.dispose();
+		super.dispose();
+		((MultiPageEditorSite) getSite()).dispose();
 	}
 
-	public void refreshDocument( )
-	{
-		setInput( getEditorInput( ) );
+	public void refreshDocument() {
+		setInput(getEditorInput());
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
-	 */
-	public void init( IEditorSite site, IEditorInput input ) throws PartInitException
-	{
-		IReportProvider provider = getProvider();
-		if ( provider != null )
-		{
-			setDocumentProvider( provider.getReportDocumentProvider( input ) );
-		}
-		super.init( site, input );
-	}
-
-	protected abstract IReportProvider getProvider( );
-	
 	/*
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#createSourceViewer(Composite, IVerticalRuler, int)
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#init(org.eclipse.ui.IEditorSite,
+	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		IReportProvider provider = getProvider();
+		if (provider != null) {
+			setDocumentProvider(provider.getReportDocumentProvider(input));
+		}
+		super.init(site, input);
+	}
+
+	protected abstract IReportProvider getProvider();
+
+	/*
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#createSourceViewer(Composite,
+	 * IVerticalRuler, int)
+	 */
+	@Override
 	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
-		ISourceViewer viewer= super.createSourceViewer( parent, ruler, styles );
+		ISourceViewer viewer = super.createSourceViewer(parent, ruler, styles);
 //		getSourceViewerDecorationSupport(viewer);
 		return viewer;
 	}
-	
+
 //	/**
 //	 * Returns the source viewer decoration support.
 //	 *
@@ -144,7 +155,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //		}
 //		return fSourceViewerDecorationSupport;
 //	}
-	
+
 //	/**
 //	 * Returns the overview ruler.
 //	 *
@@ -155,7 +166,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //			fOverviewRuler= createOverviewRuler(getSharedColors());
 //		return fOverviewRuler;
 //	}
-	
+
 //	/**
 //	 * Returns the annotation access.
 //	 *
@@ -166,7 +177,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //			fAnnotationAccess= createAnnotationAccess();
 //		return fAnnotationAccess;
 //	}
-	
+
 //	/**
 //	 * Creates the annotation access for this editor.
 //	 *
@@ -175,17 +186,17 @@ public abstract class XMLEditor extends StatusTextEditor
 //	protected IAnnotationAccess createAnnotationAccess() {
 //		return new DefaultMarkerAnnotationAccess();
 //	}
-	
+
 //	protected ISharedTextColors getSharedColors() {
 //		ISharedTextColors sharedColors= EditorsPlugin.getDefault().getSharedTextColors();
 //		return sharedColors;
 //	}
-	
+
 //	protected IOverviewRuler createOverviewRuler(ISharedTextColors sharedColors) {
 //		IOverviewRuler ruler= new OverviewRuler(getAnnotationAccess(), VERTICAL_RULER_WIDTH, sharedColors);
 //		return ruler;
 //	}
-	
+
 //	/**
 //	 * Configures the decoration support for this editor's source viewer. Subclasses may override this
 //	 * method, but should call their superclass' implementation at some point.
@@ -195,7 +206,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //	protected void configureSourceViewerDecorationSupport(SourceViewerDecorationSupport support) {
 //		support.setCursorLinePainterPreferenceKeys(CURRENT_LINE, CURRENT_LINE_COLOR);
 //	}
-	
+
 //	/**
 //	 * Initializes this editor. Subclasses may re-implement. If sub-classes do
 //	 * not change the contract, this method should not be extended, i.e. do not
@@ -206,7 +217,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //	protected void initializeEditor() {
 //		setPreferenceStore(EditorsPlugin.getDefault().getPreferenceStore());
 //	}
-	
+
 //	/*
 //	 * @see AbstractTextEditor#handlePreferenceStoreChanged(PropertyChangeEvent)
 //	 */
@@ -233,7 +244,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //			super.handlePreferenceStoreChanged(event);
 //		}
 //	}
-	
+
 //	/**
 //	 * Returns whether the range indicator is enabled according to the preference
 //	 * store settings. Subclasses may override this method to provide a custom
@@ -246,7 +257,7 @@ public abstract class XMLEditor extends StatusTextEditor
 //		IPreferenceStore store= getPreferenceStore();
 //		return store != null ? store.getBoolean(AbstractDecoratedTextEditorPreferenceConstants.SHOW_RANGE_INDICATOR) : true;
 //	}
-	
+
 //	/*
 //	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 //	 */
@@ -261,18 +272,21 @@ public abstract class XMLEditor extends StatusTextEditor
 //		}
 //
 //	}
-	
+
 	/*
 	 * @see ITextEditor#setHighlightRange(int, int, boolean)
 	 */
+	@Override
 	public void setHighlightRange(int offset, int length, boolean moveCursor) {
 		ISourceViewer fSourceViewer = getSourceViewer();
-		if (fSourceViewer == null)
+		if (fSourceViewer == null) {
 			return;
+		}
 
 		if (showsHighlightRangeOnly()) {
-			if (moveCursor)
+			if (moveCursor) {
 				fSourceViewer.setVisibleRegion(offset, length);
+			}
 		} else {
 			fSourceViewer.setRangeIndication(offset, length, moveCursor);
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,115 +40,91 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.swt.SWT;
 
-public class ChartGeneralPage extends GeneralPage
-{
+public class ChartGeneralPage extends GeneralPage {
 
-	protected void buildContent( )
-	{
-		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setLayoutNum( 2 );
-		nameSection.setGridPlaceholder( 0, true );
-		nameSection.setWidth( 200 );
-		addSection( ChartPageSectionId.CHART_NAME, nameSection );
-		
-		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
-		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
-				container,
-				true );
-		elementIdSection.setProvider( elementIdProvider );
-		elementIdSection.setWidth( 200 );
-		elementIdSection.setLayoutNum( 4 );
-		elementIdSection.setGridPlaceholder( 2, true );
-		addSection( ChartPageSectionId.CHART_ELEMENT_ID, elementIdSection );
+	@Override
+	protected void buildContent() {
+		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setLayoutNum(2);
+		nameSection.setGridPlaceholder(0, true);
+		nameSection.setWidth(200);
+		addSection(ChartPageSectionId.CHART_NAME, nameSection);
 
-		SeperatorSection seperator1 = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( ChartPageSectionId.CHART_SEPERATOR_1, seperator1 );
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
+		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
+		elementIdSection.setProvider(elementIdProvider);
+		elementIdSection.setWidth(200);
+		elementIdSection.setLayoutNum(4);
+		elementIdSection.setGridPlaceholder(2, true);
+		addSection(ChartPageSectionId.CHART_ELEMENT_ID, elementIdSection);
 
-		IDescriptorProvider widthProvider = new ChartUnitPropertyDescriptorProvider( ReportItemHandle.WIDTH_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		ComplexUnitSection widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
-				container,
-				true );
-		widthSection.setWidth( 200 );
-		widthSection.setProvider( widthProvider );
-		widthSection.setLayoutNum( 2 );
-		addSection( ChartPageSectionId.CHART_WIDTH, widthSection );
+		SeperatorSection seperator1 = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(ChartPageSectionId.CHART_SEPERATOR_1, seperator1);
 
-		IDescriptorProvider heightProvider = new ChartUnitPropertyDescriptorProvider( ReportItemHandle.HEIGHT_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		ComplexUnitSection heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
-				container,
-				true );
-		heightSection.setProvider( heightProvider );
-		heightSection.setWidth( 200 );
-		heightSection.setLayoutNum( 4 );
-		heightSection.setGridPlaceholder( 2, true );
-		addSection( ChartPageSectionId.CHART_HEIGHT, heightSection );
+		IDescriptorProvider widthProvider = new ChartUnitPropertyDescriptorProvider(ReportItemHandle.WIDTH_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		ComplexUnitSection widthSection = new ComplexUnitSection(widthProvider.getDisplayName(), container, true);
+		widthSection.setWidth(200);
+		widthSection.setProvider(widthProvider);
+		widthSection.setLayoutNum(2);
+		addSection(ChartPageSectionId.CHART_WIDTH, widthSection);
 
-		SeperatorSection seperator2 = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( ChartPageSectionId.CHART_SEPERATOR_2, seperator2 );
+		IDescriptorProvider heightProvider = new ChartUnitPropertyDescriptorProvider(ReportItemHandle.HEIGHT_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		ComplexUnitSection heightSection = new ComplexUnitSection(heightProvider.getDisplayName(), container, true);
+		heightSection.setProvider(heightProvider);
+		heightSection.setWidth(200);
+		heightSection.setLayoutNum(4);
+		heightSection.setGridPlaceholder(2, true);
+		addSection(ChartPageSectionId.CHART_HEIGHT, heightSection);
 
-		IDescriptorProvider styleProvider = new ChoicePropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		ChoiceSection styleSection = new ChoiceSection( styleProvider.getDisplayName( ),
-				container,
-				true );
-		styleSection.setProvider( styleProvider );
-		styleSection.setWidth( 200 );
-		styleSection.setLayoutNum( 2 );
-		addSection( ChartPageSectionId.CHART_STYLE, styleSection );
+		SeperatorSection seperator2 = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(ChartPageSectionId.CHART_SEPERATOR_2, seperator2);
 
-		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
-				container,
-				true );
-		displaySection.setProvider( displayProvider );
-		displaySection.setLayoutNum( 4 );
-		displaySection.setGridPlaceholder( 2, true );
-		displaySection.setWidth( 200 );
-		addSection( ChartPageSectionId.CHART_DISPLAY, displaySection );
+		IDescriptorProvider styleProvider = new ChoicePropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		ChoiceSection styleSection = new ChoiceSection(styleProvider.getDisplayName(), container, true);
+		styleSection.setProvider(styleProvider);
+		styleSection.setWidth(200);
+		styleSection.setLayoutNum(2);
+		addSection(ChartPageSectionId.CHART_STYLE, styleSection);
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider(IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT);
+		ComboSection displaySection = new ComboSection(displayProvider.getDisplayName(), container, true);
+		displaySection.setProvider(displayProvider);
+		displaySection.setLayoutNum(4);
+		displaySection.setGridPlaceholder(2, true);
+		displaySection.setWidth(200);
+		addSection(ChartPageSectionId.CHART_DISPLAY, displaySection);
 	}
 
-	public boolean canReset( )
-	{
+	@Override
+	public boolean canReset() {
 		return false;
 	}
 
-	protected void applyCustomSections( )
-	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
-				ISectionHelperProvider.class );
-		if ( helperProviders != null )
-		{
-			for ( int i = 0; i < helperProviders.length; i++ )
-			{
+	@Override
+	protected void applyCustomSections() {
+		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
+		if (helperProviders != null) {
+			for (int i = 0; i < helperProviders.length; i++) {
 				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
-				if ( helperProvider != null )
-				{
-					ISectionHelper helper = helperProvider.createHelper( this,
-							PageConstants.THEME_HELPER_KEY );
-					if ( helper != null )
-					{
-						helper = ChartReportItemUIFactory.instance( ).updateChartPageSectionHelper( helper );
-						Section section = helper.createSection( container,
-								ISupportThemeElementConstants.THEME_PROP,
-								ChartReportItemConstants.CHART_EXTENSION_NAME,
-								true );
-						if ( section instanceof SimpleComboSection )
-							( (SimpleComboSection) section ).setWidth( 200 );
-						section.setLayoutNum( 6 );
-						section.setGridPlaceholder( 4, true );
-						addSectionAfter( ChartPageSectionId.CHART_THEME,
-								section,
-								ChartPageSectionId.CHART_DISPLAY );
+				if (helperProvider != null) {
+					ISectionHelper helper = helperProvider.createHelper(this, PageConstants.THEME_HELPER_KEY);
+					if (helper != null) {
+						helper = ChartReportItemUIFactory.instance().updateChartPageSectionHelper(helper);
+						Section section = helper.createSection(container, ISupportThemeElementConstants.THEME_PROP,
+								ChartReportItemConstants.CHART_EXTENSION_NAME, true);
+						if (section instanceof SimpleComboSection) {
+							((SimpleComboSection) section).setWidth(200);
+						}
+						section.setLayoutNum(6);
+						section.setGridPlaceholder(4, true);
+						addSectionAfter(ChartPageSectionId.CHART_THEME, section, ChartPageSectionId.CHART_DISPLAY);
 					}
 				}
 			}

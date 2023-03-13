@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,81 +34,72 @@ import org.eclipse.gef.EditPolicy;
  * don't have the cell handle. So create the virtual editpart.The model is
  * VirtualCrosstabCellAdapter.
  */
-public class VirtualCellEditPart extends CrosstabCellEditPart
-{
+public class VirtualCellEditPart extends CrosstabCellEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
-	public VirtualCellEditPart( Object model )
-	{
-		super( model );
+	public VirtualCellEditPart(Object model) {
+		super(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		CellBorder cborder = new CellBorder( );
+	@Override
+	public void refreshFigure() {
+		CellBorder cborder = new CellBorder();
 
-		if ( getFigure( ).getBorder( ) instanceof CellBorder )
-		{
-			cborder.setBorderInsets( ( (CellBorder) getFigure( ).getBorder( ) ).getBorderInsets( ) );
+		if (getFigure().getBorder() instanceof CellBorder) {
+			cborder.setBorderInsets(((CellBorder) getFigure().getBorder()).getBorderInsets());
 		}
-		initEmptyBorder( cborder );
-		getFigure( ).setBorder( cborder );
-		updateBlankString( );
+		initEmptyBorder(cborder);
+		getFigure().setBorder(cborder);
+		updateBlankString();
 
-		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
+		((CellFigure) getFigure()).setDirectionRTL(BidiUIUtils.INSTANCE.isDirectionRTL(getModel())); // bidi_hcg
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new VirtualCrosstabCellFlowLayoutEditPolicy( ) );
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy( ) );
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new VirtualCrosstabCellFlowLayoutEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 	}
 
 	/**
 	 * Draws the string when the cell is empty
 	 */
-	public void updateBlankString( )
-	{
-		int type = ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( );
-		switch ( type )
-		{
-			case VirtualCrosstabCellAdapter.COLUMN_TYPE :
-				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.column" ) );//$NON-NLS-1$
-				break;
-			case VirtualCrosstabCellAdapter.ROW_TYPE :
-				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.row" ) );//$NON-NLS-1$
-				break;
-			case VirtualCrosstabCellAdapter.MEASURE_TYPE :
-				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.measure" ) );//$NON-NLS-1$
-				break;
-			default :
-				( (CellFigure) getFigure( ) ).setBlankString( null );
+	public void updateBlankString() {
+		int type = ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter()).getType();
+		switch (type) {
+		case VirtualCrosstabCellAdapter.COLUMN_TYPE:
+			((CellFigure) getFigure()).setBlankString(Messages.getString("Blank.text.column"));//$NON-NLS-1$
+			break;
+		case VirtualCrosstabCellAdapter.ROW_TYPE:
+			((CellFigure) getFigure()).setBlankString(Messages.getString("Blank.text.row"));//$NON-NLS-1$
+			break;
+		case VirtualCrosstabCellAdapter.MEASURE_TYPE:
+			((CellFigure) getFigure()).setBlankString(Messages.getString("Blank.text.measure"));//$NON-NLS-1$
+			break;
+		default:
+			((CellFigure) getFigure()).setBlankString(null);
 		}
 
 	}
 
-	private void initEmptyBorder( CellBorder cborder )
-	{
+	private void initEmptyBorder(CellBorder cborder) {
 		cborder.bottomStyle = CellBorder.STYLE_NONO;
 		cborder.topStyle = CellBorder.STYLE_NONO;
 		cborder.leftStyle = CellBorder.STYLE_NONO;
@@ -114,43 +108,43 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#getHandleList()
 	 */
-	protected List getHandleList( )
-	{
+	@Override
+	protected List getHandleList() {
 		// TODO the virtual editpart alllow to drag the cell to adjust the
 		// column and row?
-		return super.getHandleList( );
+		return super.getHandleList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
 	 * CrosstabCellEditPart#isinterestSelection(java.lang.Object)
 	 */
-	public boolean isinterestSelection( Object object )
-	{
-		if ( object instanceof VirtualCrosstabCellAdapter
-				&& object == getModel( ) )
+	@Override
+	public boolean isinterestSelection(Object object) {
+		if (object instanceof VirtualCrosstabCellAdapter && object == getModel()) {
 			return true;
-		if ( object instanceof CrosstabPropertyHandleWrapper )
-		{
-			PropertyHandle property = ( (CrosstabPropertyHandleWrapper) object ).getModel( );
-			if ( ICrosstabReportItemConstants.ROWS_PROP.equals( property.getPropertyDefn( )
-					.getName( ) )
-					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.ROW_TYPE )
+		}
+		if (object instanceof CrosstabPropertyHandleWrapper) {
+			PropertyHandle property = ((CrosstabPropertyHandleWrapper) object).getModel();
+			if (ICrosstabReportItemConstants.ROWS_PROP.equals(property.getPropertyDefn().getName())
+					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
+							.getType() == VirtualCrosstabCellAdapter.ROW_TYPE) {
 				return true;
-			else if ( ICrosstabReportItemConstants.COLUMNS_PROP.equals( property.getPropertyDefn( )
-					.getName( ) )
-					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.COLUMN_TYPE )
+			} else if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(property.getPropertyDefn().getName())
+					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
+							.getType() == VirtualCrosstabCellAdapter.COLUMN_TYPE) {
 				return true;
-			else if ( ICrosstabReportItemConstants.MEASURES_PROP.equals( property.getPropertyDefn( )
-					.getName( ) )
-					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
+			} else if (ICrosstabReportItemConstants.MEASURES_PROP.equals(property.getPropertyDefn().getName())
+					&& ((VirtualCrosstabCellAdapter) getCrosstabCellAdapter())
+							.getType() == VirtualCrosstabCellAdapter.MEASURE_TYPE) {
 				return true;
+			}
 		}
 		return false;
 	}

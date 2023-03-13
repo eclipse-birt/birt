@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,28 +22,27 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Read the data from report document and wrap it as a data source for furthur
  * transformation.
  */
-public interface IExprDataResultSet extends IDataSetPopulator
-{	
-	
+public interface IExprDataResultSet extends IDataSetPopulator {
+
 	/**
 	 * @return
 	 */
-	public IResultClass getResultClass( );
+	IResultClass getResultClass();
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public IResultObject fetch( ) throws DataException;
+	IResultObject fetch() throws DataException;
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public int getCount( ) throws DataException;
-	
+	int getCount() throws DataException;
+
 	/**
 	 *
 	 */
-	public void close( ) throws DataException;
+	void close() throws DataException;
 }

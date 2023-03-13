@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,54 +32,39 @@ import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 /**
  * AbstractGroupStructureProvider
  */
-public abstract class AbstractGroupStructureProvider implements
-		IGroupStructureProvider
-{
+public abstract class AbstractGroupStructureProvider implements IGroupStructureProvider {
 
 	private String groupPropertyName;
 
-	protected AbstractGroupStructureProvider( String groupPropertyName )
-	{
+	protected AbstractGroupStructureProvider(String groupPropertyName) {
 		this.groupPropertyName = groupPropertyName;
 	}
 
 	@Override
-	public List<GroupHandle> getGroups( DesignElementHandle handle )
-	{
-		if ( handle != null )
-		{
-			PropertyHandle propHandle = handle.getPropertyHandle( groupPropertyName );
+	public List<GroupHandle> getGroups(DesignElementHandle handle) {
+		if (handle != null) {
+			PropertyHandle propHandle = handle.getPropertyHandle(groupPropertyName);
 
-			if ( propHandle != null )
-			{
-				List glist = propHandle.getContents( );
+			if (propHandle != null) {
+				List glist = propHandle.getContents();
 
-				if ( glist.size( ) > 0 )
-				{
-					List<GroupHandle> clist = new ArrayList<GroupHandle>( );
+				if (glist.size() > 0) {
+					List<GroupHandle> clist = new ArrayList<>();
 
-					ElementFactory factory = new ElementFactory( handle.getModule( ) );
+					ElementFactory factory = new ElementFactory(handle.getModule());
 
-					for ( Object dg : glist )
-					{
-						if ( dg instanceof GroupHandle )
-						{
+					for (Object dg : glist) {
+						if (dg instanceof GroupHandle) {
 							// add to list directly
-							clist.add( (GroupHandle) dg );
-						}
-						else if ( dg instanceof DataGroupHandle )
-						{
+							clist.add((GroupHandle) dg);
+						} else if (dg instanceof DataGroupHandle) {
 							// convert DataGroupHandle to GroupHandle
-							GroupHandle cg = convertGroup( factory,
-									(DataGroupHandle) dg );
+							GroupHandle cg = convertGroup(factory, (DataGroupHandle) dg);
 
-							if ( cg != null )
-							{
-								clist.add( cg );
+							if (cg != null) {
+								clist.add(cg);
 							}
-						}
-						else
-						{
+						} else {
 							// we dont' know how to convert it
 						}
 					}
@@ -85,36 +73,30 @@ public abstract class AbstractGroupStructureProvider implements
 				}
 			}
 		}
-		return Collections.emptyList( );
+		return Collections.emptyList();
 	}
 
-	private GroupHandle convertGroup( ElementFactory factory,
-			DataGroupHandle dataGroup )
-	{
-		try
-		{
-			TableGroupHandle group = factory.newTableGroup( );
+	private GroupHandle convertGroup(ElementFactory factory, DataGroupHandle dataGroup) {
+		try {
+			TableGroupHandle group = factory.newTableGroup();
 
-			group.setName( dataGroup.getGroupName( ) );
-			group.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
-					(Expression) dataGroup.getExpressionProperty( IDataGroupModel.KEY_EXPR_PROP )
-							.getValue( ) );
-			group.setInterval( dataGroup.getInterval( ) );
-			group.setIntervalBase( dataGroup.getIntervalBase( ) );
-			group.setIntervalRange( dataGroup.getIntervalRange( ) );
+			group.setName(dataGroup.getGroupName());
+			group.setExpressionProperty(IGroupElementModel.KEY_EXPR_PROP,
+					(Expression) dataGroup.getExpressionProperty(IDataGroupModel.KEY_EXPR_PROP).getValue());
+			group.setInterval(dataGroup.getInterval());
+			group.setIntervalBase(dataGroup.getIntervalBase());
+			group.setIntervalRange(dataGroup.getIntervalRange());
 
-			group.setSortDirection( dataGroup.getSortDirection( ) );
+			group.setSortDirection(dataGroup.getSortDirection());
 
 			// TODO copy sort/filter definitions and other properties, so far
 			// only the properties above are used, the main purpose is to
 			// populate the value list from UI.
 
 			return group;
-		}
-		catch ( BirtException e )
-		{
+		} catch (BirtException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 
 		return null;

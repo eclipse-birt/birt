@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,17 +20,16 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * Notification event that says that the attribute of the module is changed. The
  * listener can find out which report design changed by calling
- * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}( ).
- * The listener can get the new attribute value from the focus object.
+ * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}(
+ * ). The listener can get the new attribute value from the focus object.
  */
 
-public class AttributeEvent extends NotificationEvent
-{
+public class AttributeEvent extends NotificationEvent {
 
 	/**
-	 *  Name of 'fileName' attribute.  
+	 * Name of 'fileName' attribute.
 	 */
-	
+
 	public static final String FILE_NAME_ATTRIBUTE = "fileName"; //$NON-NLS-1$
 
 	/**
@@ -38,57 +40,54 @@ public class AttributeEvent extends NotificationEvent
 
 	/**
 	 * Constructs a new file name event with the given module.
-	 * 
-	 * @param module
-	 *            the changed module
-	 * @param attrName
-	 *            the changed attribute name
+	 *
+	 * @param module   the changed module
+	 * @param attrName the changed attribute name
 	 */
 
-	public AttributeEvent( Module module, String attrName )
-	{
-		super( module );
+	public AttributeEvent(Module module, String attrName) {
+		super(module);
 		this.attrName = attrName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return ATTRIBUTE_EVENT;
 	}
 
 	/**
 	 * Gets the changed attribute name.
-	 * 
+	 *
 	 * @return the changed attribute name
 	 */
 
-	public String getAttributeName( )
-	{
+	public String getAttributeName() {
 		return this.attrName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 *
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	@Override
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event)) {
 			return false;
+		}
 		AttributeEvent attrEvent = (AttributeEvent) event;
-		if ( attrName != null
-				&& !attrName.equals( attrEvent.getAttributeName( ) ) )
+		if ((attrName != null && !attrName.equals(attrEvent.getAttributeName())) || (attrName == null && attrEvent.getAttributeName() != null)) {
 			return false;
-		if ( attrName == null && attrEvent.getAttributeName( ) != null )
-			return false;
+		}
 		return true;
 	}
 

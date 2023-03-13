@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -30,7 +33,7 @@ import com.ibm.icu.util.ULocale;
  * <b>Steps:</b>
  * <ol>
  * <li>TableHandle table = factory.newTableItem( "table1" );
- * <li> libHandle.getComponents( ).add( table );
+ * <li>libHandle.getComponents( ).add( table );
  * <li>TableItem copiedTable = (TableItem)libHandle.findElement( "table1"
  * ).copy( );
  * </ol>
@@ -40,24 +43,21 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * Follow the steps, ensure no exception throwed.
  */
-public class Regression_152704 extends BaseTestCase
-{
+public class Regression_152704 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 * @throws ContentException
 	 */
-	public void test_regression_112910( ) throws NameException, ContentException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		LibraryHandle libHandle = sessionHandle.createLibrary( );
+	public void test_regression_112910() throws NameException, ContentException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		LibraryHandle libHandle = sessionHandle.createLibrary();
 
-		ElementFactory factory = libHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table1" ); //$NON-NLS-1$
-		libHandle.getComponents( ).add( table );
-		libHandle.findElement( "table1" ) //$NON-NLS-1$
-				.copy( );
+		ElementFactory factory = libHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table1"); //$NON-NLS-1$
+		libHandle.getComponents().add(table);
+		libHandle.findElement("table1") //$NON-NLS-1$
+				.copy();
 
 	}
 }

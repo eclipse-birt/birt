@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,101 +28,93 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
  * This class is used to maps data engine key to documentManager.
  */
 
-public class DocManagerMap
-{
-	private static DocManagerMap instance = new DocManagerMap( );
-	
-	private ThreadLocal<Map> tmap = new ThreadLocal<Map>( ) {
+public class DocManagerMap {
+	private static DocManagerMap instance = new DocManagerMap();
 
-		protected Map initialValue( )
-		{
+	private ThreadLocal<Map> tmap = new ThreadLocal<>() {
+
+		@Override
+		protected Map initialValue() {
 			return new HashMap();
 		}
 
 	};
-	
-	protected static Logger logger = Logger.getLogger( DocManagerMap.class.getName( ) );
+
+	protected static Logger logger = Logger.getLogger(DocManagerMap.class.getName());
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public static DocManagerMap getDocManagerMap( )
-	{
+	public static DocManagerMap getDocManagerMap() {
 		return instance;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param key
 	 * @param manager
 	 */
-	public void set( String dataEngineKey, String key, IDocumentManager manager )
-	{
+	public void set(String dataEngineKey, String key, IDocumentManager manager) {
 		Map docManagerMap = null;
-		Map map = tmap.get( );
-		if ( map.containsKey( dataEngineKey ) )
-		{
-			docManagerMap = (Map) map.get( dataEngineKey );
+		Map map = tmap.get();
+		if (map.containsKey(dataEngineKey)) {
+			docManagerMap = (Map) map.get(dataEngineKey);
+		} else {
+			docManagerMap = new HashMap();
+			map.put(dataEngineKey, docManagerMap);
 		}
-		else
-		{
-			docManagerMap = new HashMap( );
-			map.put( dataEngineKey, docManagerMap );
-		}
-		docManagerMap.put( key, manager );
+		docManagerMap.put(key, manager);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 */
-	public IDocumentManager get( String dataEngineKey, String key )
-	{
-		Map docManagerMap = null;
-		Map map = tmap.get( );
-		if ( !map.containsKey( dataEngineKey ) )
-		{
+	public IDocumentManager get(String dataEngineKey, String key) {
+		Map docManagerMap;
+		Map map = tmap.get();
+		if (!map.containsKey(dataEngineKey)) {
 			return null;
 		}
-		docManagerMap = (Map) map.get( dataEngineKey );
-		if ( !docManagerMap.containsKey( key ) )
-		{
+		docManagerMap = (Map) map.get(dataEngineKey);
+		if (!docManagerMap.containsKey(key)) {
 			return null;
 		}
-		return (IDocumentManager) docManagerMap.get( key );
+		return (IDocumentManager) docManagerMap.get(key);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IShutdownListener#dataEngineShutdown(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IShutdownListener#dataEngineShutdown(java.
+	 * lang.String)
 	 */
-	public void close( String dataEngineKey )
-	{
-		Map docManagerMap = null;
-		Map map = tmap.get( );
-		if ( !map.containsKey( dataEngineKey ) )
+	public void close(String dataEngineKey) {
+		Map docManagerMap;
+		Map map = tmap.get();
+		if (!map.containsKey(dataEngineKey)) {
 			return;
-		docManagerMap = (Map) map.get( dataEngineKey );
-		Collection docManagers = docManagerMap.values( );
-		if( docManagers == null || docManagers.size( ) == 0 )
+		}
+		docManagerMap = (Map) map.get(dataEngineKey);
+		Collection docManagers = docManagerMap.values();
+		if (docManagers == null || docManagers.size() == 0) {
 			return;
-		Iterator docManagerIterator = docManagers.iterator( );
-		while( docManagerIterator.hasNext( ) )
-		{
-			try
-			{
-				((IDocumentManager)docManagerIterator.next( )).close( );
-			}
-			catch ( IOException e )
-			{
+		}
+		Iterator docManagerIterator = docManagers.iterator();
+		while (docManagerIterator.hasNext()) {
+			try {
+				((IDocumentManager) docManagerIterator.next()).close();
+			} catch (IOException e) {
 				e.printStackTrace();
-				logger.log( Level.WARNING, "IOException is thrown when document manage is closed!" );
+				logger.log(Level.WARNING, "IOException is thrown when document manage is closed!");
 			}
 		}
-		docManagerMap.clear( );
-		map.remove( dataEngineKey );
-		tmap.remove( );
+		docManagerMap.clear();
+		map.remove(dataEngineKey);
+		tmap.remove();
 	}
 
 }

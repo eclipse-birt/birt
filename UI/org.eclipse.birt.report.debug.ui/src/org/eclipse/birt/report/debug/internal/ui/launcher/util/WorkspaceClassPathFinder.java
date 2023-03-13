@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,122 +36,101 @@ import com.ibm.icu.util.StringTokenizer;
 
 /**
  * Class used to find a classpath based on projects or workspace
- * 
+ *
  * @deprecated
  */
-public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDatasetWorkspaceClasspathFinder
-{
+@Deprecated
+public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDatasetWorkspaceClasspathFinder {
 
-	public WorkspaceClassPathFinder( )
-	{
+	public WorkspaceClassPathFinder() {
 	}
 
-	public String getClassPath( String projects )
-	{
-		if ( projects == null || projects.length( ) == 0 )
-		{
+	@Override
+	public String getClassPath(String projects) {
+		if (projects == null || projects.length() == 0) {
 			return null;
 		}
 
-		StringBuffer wbuf = new StringBuffer( );
+		StringBuilder wbuf = new StringBuilder();
 
-		StringTokenizer token = new StringTokenizer( projects,
-				PROPERTYSEPARATOR );
+		StringTokenizer token = new StringTokenizer(projects, PROPERTYSEPARATOR);
 		boolean hasHeader = false;
-		while ( token.hasMoreTokens( ) )
-		{
-			String projectName = token.nextToken( );
-			List paths = getProjectPaths( projectName );
-			for ( int i = 0; i < paths.size( ); i++ )
-			{
-				String url = (String) paths.get( i );
-				if ( url != null && url.length( ) != 0 )
-					if ( i == 0 && !hasHeader )
-					{
-						wbuf.append( url );
+		while (token.hasMoreTokens()) {
+			String projectName = token.nextToken();
+			List paths = getProjectPaths(projectName);
+			for (int i = 0; i < paths.size(); i++) {
+				String url = (String) paths.get(i);
+				if (url != null && url.length() != 0) {
+					if (i == 0 && !hasHeader) {
+						wbuf.append(url);
 						hasHeader = true;
+					} else {
+						wbuf.append(PROPERTYSEPARATOR + url);
 					}
-					else
-					{
-						wbuf.append( PROPERTYSEPARATOR + url );
-					}
+				}
 			}
 
 		}
 
-		return wbuf.toString( );
+		return wbuf.toString();
 	}
 
-	public String getClassPath( )
-	{
-		IProject[] projects = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProjects( );
+	@Override
+	public String getClassPath() {
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 
 		String projectString = ""; //$NON-NLS-1$
-		for ( int i = 0; i < projects.length; i++ )
-		{
+		for (int i = 0; i < projects.length; i++) {
 			IProject proj = projects[i];
-			projectString += proj.getName( ) + PROPERTYSEPARATOR;
+			projectString += proj.getName() + PROPERTYSEPARATOR;
 		}
 
-		return getClassPath( projectString );
+		return getClassPath(projectString);
 	}
 
 	/**
 	 * @param projectName
 	 * @return
 	 */
-	private List getProjectPaths( String projectName )
-	{
-		List retValue = new ArrayList( );
+	private List getProjectPaths(String projectName) {
+		List retValue = new ArrayList();
 
-		IProject project = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProject( projectName );
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
-		if ( projectName == null )
-		{
+		if (projectName == null) {
 			return retValue;
 		}
 
-		List paths = getProjectPath( project );
-		for ( int j = 0; j < paths.size( ); j++ )
-		{
-			URL url = (URL) paths.get( j );
-			if ( url != null )
-			{
-				retValue.add( url.getPath( ) );
+		List paths = getProjectPath(project);
+		for (int j = 0; j < paths.size(); j++) {
+			URL url = (URL) paths.get(j);
+			if (url != null) {
+				retValue.add(url.getPath());
 			}
 		}
 
-		String url = getProjectOutClassPath( project );
-		if ( url != null )
-		{
-			retValue.add( url );
+		String url = getProjectOutClassPath(project);
+		if (url != null) {
+			retValue.add(url);
 		}
 		return retValue;
 	}
 
-	private String getProjectOutClassPath( IProject project )
-	{
-		if ( !hasJavaNature( project ) )
-		{
+	private String getProjectOutClassPath(IProject project) {
+		if (!hasJavaNature(project)) {
 			return null;
 		}
 
-		IJavaProject fCurrJProject = JavaCore.create( project );
+		IJavaProject fCurrJProject = JavaCore.create(project);
 		IPath path = null;
-		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
-		if ( projectExists )
-		{
-			if ( path == null )
-			{
-				path = fCurrJProject.readOutputLocation( );
+		boolean projectExists = (project.exists() && project.getFile(".classpath").exists()); //$NON-NLS-1$
+		if (projectExists) {
+			if (path == null) {
+				path = fCurrJProject.readOutputLocation();
 //				String curPath = path.toOSString( );
 //				String directPath = project.getLocation( ).toOSString( );
 //				int index = directPath.lastIndexOf( File.separator );
-				String absPath = getFullPath( path, project );
+				String absPath = getFullPath(path, project);
 
 				return absPath;
 			}
@@ -157,71 +139,55 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 		return null;
 	}
 
-	private List getProjectPath( IProject project )
-	{
-		List retValue = new ArrayList( );
-		if ( !hasJavaNature( project ) )
-		{
+	private List getProjectPath(IProject project) {
+		List retValue = new ArrayList();
+		if (!hasJavaNature(project)) {
 			return retValue;
 		}
 
-		IJavaProject fCurrJProject = JavaCore.create( project );
+		IJavaProject fCurrJProject = JavaCore.create(project);
 		IClasspathEntry[] classpathEntries = null;
-		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
-		if ( projectExists )
-		{
-			if ( classpathEntries == null )
-			{
-				classpathEntries = fCurrJProject.readRawClasspath( );
+		boolean projectExists = (project.exists() && project.getFile(".classpath").exists()); //$NON-NLS-1$
+		if (projectExists) {
+			if (classpathEntries == null) {
+				classpathEntries = fCurrJProject.readRawClasspath();
 			}
 		}
 
-		if ( classpathEntries != null )
-		{
-			retValue = getExistingEntries( classpathEntries, project );
+		if (classpathEntries != null) {
+			retValue = getExistingEntries(classpathEntries, project);
 		}
 		return retValue;
 	}
 
-	private List getExistingEntries( IClasspathEntry[] classpathEntries,IProject project )
-	{
-		ArrayList newClassPath = new ArrayList( );
-		for ( int i = 0; i < classpathEntries.length; i++ )
-		{
+	private List getExistingEntries(IClasspathEntry[] classpathEntries, IProject project) {
+		ArrayList newClassPath = new ArrayList();
+		for (int i = 0; i < classpathEntries.length; i++) {
 			IClasspathEntry curr = classpathEntries[i];
-			if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY )
-			{
-				try
-				{
+			if (curr.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
+				try {
 					boolean inWorkSpace = true;
 					IWorkspace space = ResourcesPlugin.getWorkspace();
-					if (space == null || space.getRoot( ) == null)
-					{
+					if (space == null || space.getRoot() == null) {
 						inWorkSpace = false;
 					}
-						
-					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot( );
-					IPath path = curr.getPath( );
-					if (root.findMember( path ) == null)
-					{
+
+					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+					IPath path = curr.getPath();
+					if (root.findMember(path) == null) {
 						inWorkSpace = false;
 					}
-					
-					if (inWorkSpace)
-					{
-						String absPath = getFullPath( path, root.findMember( path ).getProject( ));
-					
-						URL url = new URL("file:///" + absPath);//$NON-NLS-1$//file:/
+
+					if (inWorkSpace) {
+						String absPath = getFullPath(path, root.findMember(path).getProject());
+
+						URL url = new URL("file:///" + absPath);//$NON-NLS-1$ //file:/
 						newClassPath.add(url);
+					} else {
+						newClassPath.add(curr.getPath().toFile().toURL());
 					}
-					else
-					{
-						newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
-					}
-					
-				}
-				catch ( MalformedURLException e )
-				{
+
+				} catch (MalformedURLException e) {
 					// DO nothing
 				}
 			}
@@ -229,42 +195,37 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 		return newClassPath;
 	}
 
-	private String getFullPath(IPath path, IProject project)
-	{
+	private String getFullPath(IPath path, IProject project) {
 //		String curPath = path.toOSString( );
 //		String directPath = project.getLocation( ).toOSString( );
 //		int index = directPath.lastIndexOf( File.separator );
 //		String absPath = directPath.substring( 0, index ) + curPath;
 //		return absPath;
-		
+
 		String directPath;
 		try {
-			
+
 			directPath = project.getDescription().getLocationURI().toURL().getPath();
 		} catch (Exception e) {
 			directPath = project.getLocation().toOSString();
-		} 
-		String curPath = path.toOSString( );
-		int index = curPath.substring(1).indexOf( File.separator );
-		String absPath = directPath + curPath.substring(index+1);
+		}
+		String curPath = path.toOSString();
+		int index = curPath.substring(1).indexOf(File.separator);
+		String absPath = directPath + curPath.substring(index + 1);
 		return absPath;
 	}
+
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 * 
-	 * @param project
-	 *            IProject
+	 *
+	 * @param project IProject
 	 * @return boolean
 	 */
-	private boolean hasJavaNature( IProject project )
-	{
-		try
-		{
-			return project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
-		{
+	private boolean hasJavaNature(IProject project) {
+		try {
+			return project.hasNature(JavaCore.NATURE_ID);
+		} catch (CoreException e) {
 			// project does not exist or is not open
 		}
 		return false;

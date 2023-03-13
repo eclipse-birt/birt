@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  * Prosents the column nodes on data explorer view.
  */
 
-public class DataSetSchemaModel
-{
+public class DataSetSchemaModel {
 
 	private DataSetHandle dataSetHandle;
 
@@ -26,36 +28,40 @@ public class DataSetSchemaModel
 
 	/**
 	 * Constructor
+	 *
 	 * @param dataSetHandle
 	 * @param schemaName
 	 */
-	public DataSetSchemaModel( DataSetHandle dataSetHandle, String schemaName )
-	{
+	public DataSetSchemaModel(DataSetHandle dataSetHandle, String schemaName) {
 		this.dataSetHandle = dataSetHandle;
 		this.schemaName = schemaName;
 	}
 
-	/** Get dataset handle
+	/**
+	 * Get dataset handle
+	 *
 	 * @return Data set handle
 	 */
-	public DataSetHandle getDataSetHandle( )
-	{
+	public DataSetHandle getDataSetHandle() {
 		return dataSetHandle;
 	}
 
-	/** Get schema name
+	/**
+	 * Get schema name
+	 *
 	 * @return Returns the schmma name.
 	 */
-	public String getSchemaName( )
-	{
+	public String getSchemaName() {
 		return schemaName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return schemaName;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,73 +25,66 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Manager these data sources which are overwritten by the new data sources
  * definition.
- * 
+ *
  * The method of DataEngineImpl#defineDataSource might be called more than once
  * for the same data source, so the new one will replace the existing defined
  * data source. There are two choices for the old one, closed immediatelly or in
  * future, which is decided by whther the old one is used or not.
  */
-class DataSourceManager
-{
+class DataSourceManager {
 	// overwritten data source runtime list
-	private List dataSourceRuntimeList = new ArrayList( );
-	
+	private List dataSourceRuntimeList = new ArrayList();
+
 	// logger
 	private Logger logger;
 
 	/**
 	 * @param logger
 	 */
-	DataSourceManager( Logger logger )
-	{
+	DataSourceManager(Logger logger) {
 		this.logger = logger;
 	}
 
 	/**
 	 * @param dataSourceRuntime
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	void addDataSource( DataSourceRuntime dataSourceRuntime )
-			throws DataException
-	{
-		if ( dataSourceRuntime.canClose( ) == true )
-			closeDataSource( dataSourceRuntime );
-		else
-			close( false );
-		
-		dataSourceRuntimeList.add( dataSourceRuntime );
+	void addDataSource(DataSourceRuntime dataSourceRuntime) throws DataException {
+		if (dataSourceRuntime.canClose()) {
+			closeDataSource(dataSourceRuntime);
+		} else {
+			close(false);
+		}
+
+		dataSourceRuntimeList.add(dataSourceRuntime);
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	void close( )
-	{
-		close( true );
+	void close() {
+		close(true);
 	}
 
 	/**
 	 * close all data sources
+	 *
 	 * @param forceClose
 	 */
-	private void close( boolean forceClose )
-	{
-		Iterator it = this.dataSourceRuntimeList.iterator( );
-		while ( it.hasNext( ) )
-		{
-			DataSourceRuntime ds = (DataSourceRuntime) it.next( );
-			try
-			{
-				if ( forceClose == false && ds.canClose( ) == false )
+	private void close(boolean forceClose) {
+		Iterator it = this.dataSourceRuntimeList.iterator();
+		while (it.hasNext()) {
+			DataSourceRuntime ds = (DataSourceRuntime) it.next();
+			try {
+				if (!forceClose && !ds.canClose()) {
 					continue;
+				}
 
-				closeDataSource( ds );
-			}
-			catch ( DataException e )
-			{
-				if ( logger.isLoggable( Level.FINE ) )
-					logger.log( Level.FINE, "The data source ("
-							+ ds + ") fails to shut down", e );
+				closeDataSource(ds);
+			} catch (DataException e) {
+				if (logger.isLoggable(Level.FINE)) {
+					logger.log(Level.FINE, "The data source (" + ds + ") fails to shut down", e);
+				}
 			}
 		}
 	}
@@ -97,13 +93,11 @@ class DataSourceManager
 	 * @param ds
 	 * @throws DataException
 	 */
-	private void closeDataSource( DataSourceRuntime ds ) throws DataException
-	{
-		if ( ds.isOpen( ) )
-		{
-			ds.beforeClose( );
-			ds.closeOdiDataSource( );
-			ds.afterClose( );
+	private void closeDataSource(DataSourceRuntime ds) throws DataException {
+		if (ds.isOpen()) {
+			ds.beforeClose();
+			ds.closeOdiDataSource();
+			ds.afterClose();
 		}
 	}
 

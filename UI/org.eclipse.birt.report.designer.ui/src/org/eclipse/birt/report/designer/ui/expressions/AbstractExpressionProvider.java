@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,49 +21,48 @@ import org.eclipse.swt.graphics.Image;
 /**
  * The adapter class for IExpressionProvider. For expression provider user
  * extension, it's recommended to extend from this class.
- * 
+ *
  * @since 2.3.2
  */
-public abstract class AbstractExpressionProvider implements IExpressionProvider
-{
+public abstract class AbstractExpressionProvider implements IExpressionProvider {
 
-	public Object[] getCategory( )
-	{
+	@Override
+	public Object[] getCategory() {
 		return null;
 	}
 
-	public Object[] getChildren( Object parentElement )
-	{
+	@Override
+	public Object[] getChildren(Object parentElement) {
 		return null;
 	}
 
-	public String getDisplayText( Object element )
-	{
+	@Override
+	public String getDisplayText(Object element) {
 		return null;
 	}
 
-	public Image getImage( Object element )
-	{
+	@Override
+	public Image getImage(Object element) {
 		return null;
 	}
 
-	public String getInsertText( Object element )
-	{
+	@Override
+	public String getInsertText(Object element) {
 		return null;
 	}
 
-	public Operator[] getOperators( )
-	{
+	@Override
+	public Operator[] getOperators() {
 		return null;
 	}
 
-	public String getTooltipText( Object element )
-	{
+	@Override
+	public String getTooltipText(Object element) {
 		return null;
 	}
 
-	public boolean hasChildren( Object element )
-	{
+	@Override
+	public boolean hasChildren(Object element) {
 		return false;
 	}
 

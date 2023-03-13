@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,21 +18,20 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
-public interface IContainerArea extends IArea
-{
+public interface IContainerArea extends IArea {
 
-	Iterator<IArea> getChildren( );
+	Iterator<IArea> getChildren();
 
-	int getChildrenCount( );
+	int getChildrenCount();
 
-	public void addChild( IArea area );
+	void addChild(IArea area);
 
-	public boolean needClip( );
+	boolean needClip();
 
-	public void setNeedClip( boolean needClip );
+	void setNeedClip(boolean needClip);
 
-	public BoxStyle getBoxStyle( );
-	
-	public String getHelpText( );
+	BoxStyle getBoxStyle();
+
+	String getHelpText();
 
 }

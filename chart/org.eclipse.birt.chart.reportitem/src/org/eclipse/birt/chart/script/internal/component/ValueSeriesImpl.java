@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,129 +56,116 @@ import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ *
  */
 
-public abstract class ValueSeriesImpl extends SeriesImpl implements
-		IValueSeries
-{
+public abstract class ValueSeriesImpl extends SeriesImpl implements IValueSeries {
 
-	protected ValueSeriesImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	protected ValueSeriesImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 	}
 
-	public String getTitle( )
-	{
-		return (String) series.getSeriesIdentifier( );
+	@Override
+	public String getTitle() {
+		return (String) series.getSeriesIdentifier();
 	}
 
-	public boolean isVisible( )
-	{
-		return series.isVisible( );
+	@Override
+	public boolean isVisible() {
+		return series.isVisible();
 	}
 
-	public void setTitle( String title )
-	{
-		series.setSeriesIdentifier( title );
+	@Override
+	public void setTitle(String title) {
+		series.setSeriesIdentifier(title);
 	}
 
-	public void setVisible( boolean visible )
-	{
-		series.setVisible( visible );
+	@Override
+	public void setVisible(boolean visible) {
+		series.setVisible(visible);
 	}
 
-	public IAction getAction( )
-	{
-		EList<Trigger> triggers = series.getTriggers( );
+	@Override
+	public IAction getAction() {
+		EList<Trigger> triggers = series.getTriggers();
 		Action chartAction = null;
-		for ( int i = 0; i < triggers.size( ); i++ )
-		{
-			chartAction = triggers.get( i ).getAction( );
-			if ( ActionType.URL_REDIRECT_LITERAL.equals( chartAction.getType( ) ) )
-			{
-				URLValue uv = (URLValue) chartAction.getValue( );
-				String sa = uv.getBaseUrl( );
+		for (int i = 0; i < triggers.size(); i++) {
+			chartAction = triggers.get(i).getAction();
+			if (ActionType.URL_REDIRECT_LITERAL.equals(chartAction.getType())) {
+				URLValue uv = (URLValue) chartAction.getValue();
+				String sa = uv.getBaseUrl();
 				final ActionHandle action;
-				try
-				{
-					action = ModuleUtil.deserializeAction( sa );
-				}
-				catch ( DesignFileException e )
-				{
-					Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ).log( e ); //$NON-NLS-1$
+				try {
+					action = ModuleUtil.deserializeAction(sa);
+				} catch (DesignFileException e) {
+					Logger.getLogger("org.eclipse.birt.chart.reportitem/trace").log(e); //$NON-NLS-1$
 					return null;
 				}
-				return new IAction( ) {
+				return new IAction() {
 
-					public String getFormatType( )
-					{
-						return action.getFormatType( );
+					@Override
+					public String getFormatType() {
+						return action.getFormatType();
 					}
 
-					public String getLinkType( )
-					{
-						return action.getLinkType( );
+					@Override
+					public String getLinkType() {
+						return action.getLinkType();
 					}
 
-					public String getReportName( )
-					{
-						return action.getReportName( );
+					@Override
+					public String getReportName() {
+						return action.getReportName();
 					}
 
-					public String getTargetBookmark( )
-					{
-						return action.getTargetBookmark( );
+					@Override
+					public String getTargetBookmark() {
+						return action.getTargetBookmark();
 					}
 
-					public String getTargetWindow( )
-					{
-						return action.getTargetWindow( );
+					@Override
+					public String getTargetWindow() {
+						return action.getTargetWindow();
 					}
 
-					public String getURI( )
-					{
-						return action.getURI( );
+					@Override
+					public String getURI() {
+						return action.getURI();
 					}
 
-					public void setFormatType( String type )
-							throws SemanticException
-					{
-						action.setFormatType( type );
+					@Override
+					public void setFormatType(String type) throws SemanticException {
+						action.setFormatType(type);
 					}
 
-					public void setLinkType( String type )
-							throws SemanticException
-					{
-						action.setLinkType( type );
+					@Override
+					public void setLinkType(String type) throws SemanticException {
+						action.setLinkType(type);
 					}
 
-					public void setReportName( String reportName )
-							throws SemanticException
-					{
-						action.setReportName( reportName );
+					@Override
+					public void setReportName(String reportName) throws SemanticException {
+						action.setReportName(reportName);
 					}
 
-					public void setTargetBookmark( String bookmark )
-							throws SemanticException
-					{
-						action.setTargetBookmark( bookmark );
+					@Override
+					public void setTargetBookmark(String bookmark) throws SemanticException {
+						action.setTargetBookmark(bookmark);
 					}
 
-					public void setTargetWindow( String window )
-							throws SemanticException
-					{
-						action.setTargetWindow( window );
+					@Override
+					public void setTargetWindow(String window) throws SemanticException {
+						action.setTargetWindow(window);
 					}
 
-					public void setURI( String uri ) throws SemanticException
-					{
-						action.setURI( uri );
+					@Override
+					public void setURI(String uri) throws SemanticException {
+						action.setURI(uri);
 					}
 
-					public IStructure getStructure( )
-					{
-						return action.getStructure( );
+					@Override
+					public IStructure getStructure() {
+						return action.getStructure();
 					}
 
 				};
@@ -184,132 +174,107 @@ public abstract class ValueSeriesImpl extends SeriesImpl implements
 		return null;
 	}
 
-	protected SeriesGrouping getBaseGrouping( )
-	{
+	protected SeriesGrouping getBaseGrouping() {
 		SeriesGrouping grouping = null;
-		if ( cm instanceof ChartWithAxes )
-		{
-			Axis bAxis = ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
-			SeriesDefinition bSd = bAxis.getSeriesDefinitions( ).get( 0 );
-			grouping = bSd.getGrouping( );
+		if (cm instanceof ChartWithAxes) {
+			Axis bAxis = ((ChartWithAxes) cm).getAxes().get(0);
+			SeriesDefinition bSd = bAxis.getSeriesDefinitions().get(0);
+			grouping = bSd.getGrouping();
 		}
-		if ( cm instanceof ChartWithoutAxes )
-		{
-			SeriesDefinition bSd = ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 );
-			grouping = bSd.getGrouping( );
+		if (cm instanceof ChartWithoutAxes) {
+			SeriesDefinition bSd = ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0);
+			grouping = bSd.getGrouping();
 		}
 		return grouping;
 	}
 
-	public String getAggregateExpr( )
-	{
+	@Override
+	public String getAggregateExpr() {
 		String expr = ""; //$NON-NLS-1$
-		SeriesGrouping baseGrouping = getBaseGrouping( );
-		if ( baseGrouping.isEnabled( ) )
-		{
-			if ( sd.getGrouping( ).isEnabled( ) )
-			{
-				expr = sd.getGrouping( ).getAggregateExpression( );
+		SeriesGrouping baseGrouping = getBaseGrouping();
+		if (baseGrouping.isEnabled()) {
+			if (sd.getGrouping().isEnabled()) {
+				expr = sd.getGrouping().getAggregateExpression();
 			}
-			if ( expr.trim( ).length( ) == 0 )
-			{
-				return baseGrouping.getAggregateExpression( );
+			if (expr.trim().length() == 0) {
+				return baseGrouping.getAggregateExpression();
 			}
 		}
 		return expr;
 	}
 
-	public void setAggregateExpr( String aggregateExpr )
-	{
-		SeriesGrouping baseGrouping = getBaseGrouping( );
-		if ( aggregateExpr == null )
-		{
-			sd.getGrouping( ).setEnabled( false );
-			sd.getGrouping( ).setAggregateExpression( "" ); //$NON-NLS-1$
-			baseGrouping.setEnabled( false );
-		}
-		else
-		{
-			sd.getGrouping( ).setEnabled( true );
-			sd.getGrouping( ).setAggregateExpression( aggregateExpr );
-			baseGrouping.setEnabled( true );
+	@Override
+	public void setAggregateExpr(String aggregateExpr) {
+		SeriesGrouping baseGrouping = getBaseGrouping();
+		if (aggregateExpr == null) {
+			sd.getGrouping().setEnabled(false);
+			sd.getGrouping().setAggregateExpression(""); //$NON-NLS-1$
+			baseGrouping.setEnabled(false);
+		} else {
+			sd.getGrouping().setEnabled(true);
+			sd.getGrouping().setAggregateExpression(aggregateExpr);
+			baseGrouping.setEnabled(true);
 		}
 	}
 
-	protected Axis getAxis( )
-	{
-		if ( cm instanceof ChartWithAxes && sd.eContainer( ) instanceof Axis )
-		{
-			return (Axis) sd.eContainer( );
+	protected Axis getAxis() {
+		if (cm instanceof ChartWithAxes && sd.eContainer() instanceof Axis) {
+			return (Axis) sd.eContainer();
 		}
 		return null;
 	}
 
-	public boolean isPercent( )
-	{
-		Axis axis = getAxis( );
-		if ( axis != null )
-		{
-			return axis.isPercent( );
+	@Override
+	public boolean isPercent() {
+		Axis axis = getAxis();
+		if (axis != null) {
+			return axis.isPercent();
 		}
 		return false;
 	}
 
-	public void setPercent( boolean percent )
-	{
-		Axis axis = getAxis( );
-		if ( axis != null )
-		{
-			axis.setPercent( percent );
+	@Override
+	public void setPercent(boolean percent) {
+		Axis axis = getAxis();
+		if (axis != null) {
+			axis.setPercent(percent);
 		}
 	}
 
-	public static IValueSeries createValueSeries( SeriesDefinition sd, Chart cm )
-	{
-		Series series = sd.getDesignTimeSeries( );
-		if ( series instanceof BarSeries )
-		{
-			return new BarImpl( sd, cm );
+	public static IValueSeries createValueSeries(SeriesDefinition sd, Chart cm) {
+		Series series = sd.getDesignTimeSeries();
+		if (series instanceof BarSeries) {
+			return new BarImpl(sd, cm);
 		}
 
 		// Note the order since LineSeries is extended by other Series.
-		if ( series instanceof DifferenceSeries )
-		{
-			return new DifferenceImpl( sd, cm );
+		if (series instanceof DifferenceSeries) {
+			return new DifferenceImpl(sd, cm);
 		}
-		if ( series instanceof BubbleSeries )
-		{
-			return new BubbleImpl( sd, cm );
+		if (series instanceof BubbleSeries) {
+			return new BubbleImpl(sd, cm);
 		}
-		if ( series instanceof AreaSeries )
-		{
-			return new AreaImpl( sd, cm );
+		if (series instanceof AreaSeries) {
+			return new AreaImpl(sd, cm);
 		}
-		if ( series instanceof ScatterSeries )
-		{
-			return new ScatterImpl( sd, cm );
+		if (series instanceof ScatterSeries) {
+			return new ScatterImpl(sd, cm);
 		}
-		if ( series instanceof LineSeries )
-		{
-			return new LineImpl( sd, cm );
+		if (series instanceof LineSeries) {
+			return new LineImpl(sd, cm);
 		}
 
-		if ( series instanceof StockSeries )
-		{
-			return new StockImpl( sd, cm );
+		if (series instanceof StockSeries) {
+			return new StockImpl(sd, cm);
 		}
-		if ( series instanceof PieSeries )
-		{
-			return new PieImpl( sd, cm );
+		if (series instanceof PieSeries) {
+			return new PieImpl(sd, cm);
 		}
-		if ( series instanceof DialSeries )
-		{
-			return new MeterImpl( sd, cm );
+		if (series instanceof DialSeries) {
+			return new MeterImpl(sd, cm);
 		}
-		if ( series instanceof GanttSeries )
-		{
-			return new GanttImpl( sd, cm );
+		if (series instanceof GanttSeries) {
+			return new GanttImpl(sd, cm);
 		}
 
 		return null;

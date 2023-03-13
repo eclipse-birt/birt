@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,8 +21,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 /**
  * ChartSimplePropertyCommandImpl
  */
-public class ChartSimplePropertyCommandImpl implements IElementCommand
-{
+public class ChartSimplePropertyCommandImpl implements IElementCommand {
 
 	private ChartReportItemImpl item;
 	private Object oldValue;
@@ -31,12 +33,10 @@ public class ChartSimplePropertyCommandImpl implements IElementCommand
 	 * @param newChart
 	 * @param oldChart
 	 * @param impl
-	 * 
+	 *
 	 */
-	public ChartSimplePropertyCommandImpl( DesignElementHandle handle,
-			ChartReportItemImpl impl, String propName, Object newValue,
-			Object oldValue )
-	{
+	public ChartSimplePropertyCommandImpl(DesignElementHandle handle, ChartReportItemImpl impl, String propName,
+			Object newValue, Object oldValue) {
 		this.handle = handle;
 		this.item = impl;
 		this.propertyName = propName;
@@ -44,59 +44,75 @@ public class ChartSimplePropertyCommandImpl implements IElementCommand
 		this.newValue = newValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#execute()
 	 */
-	public void execute( )
-	{
-		item.basicSetProperty( propertyName, newValue );
+	@Override
+	public void execute() {
+		item.basicSetProperty(propertyName, newValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#undo()
 	 */
-	public void undo( )
-	{
-		item.basicSetProperty( propertyName, oldValue );
+	@Override
+	public void undo() {
+		item.basicSetProperty(propertyName, oldValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#redo()
 	 */
-	public void redo( )
-	{
-		item.basicSetProperty( propertyName, newValue );
+	@Override
+	public void redo() {
+		item.basicSetProperty(propertyName, newValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#canUndo()
 	 */
-	public boolean canUndo( )
-	{
+	@Override
+	public boolean canUndo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#canRedo()
 	 */
-	public boolean canRedo( )
-	{
+	@Override
+	public boolean canRedo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getLabel()
 	 */
-	public String getLabel( )
-	{
-		return Messages.getString( "ChartElementCommandImpl.setProperty." + propertyName ); //$NON-NLS-1$
+	@Override
+	public String getLabel() {
+		return Messages.getString("ChartElementCommandImpl.setProperty." + propertyName); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle(
+	 * )
 	 */
-	public DesignElementHandle getElementHandle( )
-	{
+	@Override
+	public DesignElementHandle getElementHandle() {
 		return handle;
 	}
 

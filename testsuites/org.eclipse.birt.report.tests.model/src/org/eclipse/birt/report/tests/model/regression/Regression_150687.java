@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -33,41 +36,38 @@ import com.ibm.icu.util.ULocale;
  * the default resource locator.
  * <p>
  */
-public class Regression_150687 extends BaseTestCase
-{
+public class Regression_150687 extends BaseTestCase {
 
-	private static String jarfile ="test.jar" ;
-	
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( "test.jar" , "test.jar" );
-		copyInputToFile ( INPUT_FOLDER + "/" + jarfile );
+	private static String jarfile = "test.jar";
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( "test.jar" , "test.jar" );
+		copyInputToFile(INPUT_FOLDER + "/" + jarfile);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_150687( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_150687() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ScriptLib lib1 = StructureFactory.createScriptLib( );
-		lib1.setName( "test.jar" ); //$NON-NLS-1$
+		ScriptLib lib1 = StructureFactory.createScriptLib();
+		lib1.setName("test.jar"); //$NON-NLS-1$
 
-		designHandle.addScriptLib( lib1 );
+		designHandle.addScriptLib(lib1);
 
-		session.setResourceFolder( getTempFolder() + "/" + INPUT_FOLDER );
-		URL url = session.getResourceLocator( ).findResource( designHandle,
-				"test.jar", IResourceLocator.JAR_FILE ); //$NON-NLS-1$
-		assertNotNull( url );
+		session.setResourceFolder(getTempFolder() + "/" + INPUT_FOLDER);
+		URL url = session.getResourceLocator().findResource(designHandle, "test.jar", IResourceLocator.JAR_FILE); //$NON-NLS-1$
+		assertNotNull(url);
 	}
 }

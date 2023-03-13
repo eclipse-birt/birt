@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,38 +23,33 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Utility class which is used by IJoinConditionMatcher.
  */
-public class JoinConditionMatchUnit
-{
+public class JoinConditionMatchUnit {
 	private IScriptExpression expr = null;
 	private Scriptable scope = null;
 	private ScriptContext context;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param expr
 	 * @param scope
 	 */
-	public JoinConditionMatchUnit( IScriptExpression expr, Scriptable scope, ScriptContext context )
-	{
+	public JoinConditionMatchUnit(IScriptExpression expr, Scriptable scope, ScriptContext context) {
 		this.expr = expr;
 		this.scope = scope;
 		this.context = context;
 	}
-	
+
 	/**
 	 * Get the value of current column.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getColumnValue() throws DataException
-	{
-		Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
-					context.newContext( this.scope ),
-					ScriptExpression.defaultID,
-					0 );
-				
-			return leftValue;
+	public Object getColumnValue() throws DataException {
+		Object leftValue = ScriptEvalUtil.evalExpr(this.expr, context.newContext(this.scope),
+				ScriptExpression.defaultID, 0);
+
+		return leftValue;
 	}
 }

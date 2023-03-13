@@ -14,15 +14,14 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Xms40m
--Xmx256m
--XX:MaxPermSize=128m</vmArgs>
+      <vmArgs>-Xms512m
+-Xmx1024m
+      </vmArgs>
    </launcherArgs>
 
    <windowImages/>
 
-   <launcher name="BIRT">
-      <solaris/>
+   <launcher name="birt">
       <win useIco="false">
          <bmp/>
       </win>
@@ -31,36 +30,37 @@
    <vm>
    </vm>
 
-   <!-- Compare with BIRT.product, removed org.eclipse.birt.report.engine.fonts,org.eclipse.birt.report.viewer and org.eclipse.birt.resources, for Bugs 383756 by Xiaoying -->
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.text"/>
+      <plugin id="com.github.librepdf.openpdf"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.el"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
-      <plugin id="javax.wsdl" version="1.5.1.qualifier"/>
+      <plugin id="javax.wsdl"/>
       <plugin id="javax.xml"/>
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
       <plugin id="javax.xml.stream"/>
       <plugin id="org.apache.axis"/>
-      <plugin id="org.apache.batik.bridge" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.css"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.dom"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.dom.svg"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.ext.awt"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.parser"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.svggen"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.transcoder"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.util"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.util.gui"  version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.xml"  version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.bridge"/>
+      <plugin id="org.apache.batik.css"/>
+      <plugin id="org.apache.batik.dom"/>
+      <plugin id="org.apache.batik.dom.svg"/>
+      <plugin id="org.apache.batik.ext"/>
+      <plugin id="org.apache.batik.ext.awt"/>
+      <plugin id="org.apache.batik.parser"/>
+      <plugin id="org.apache.batik.svggen"/>
+      <plugin id="org.apache.batik.transcoder"/>
+      <plugin id="org.apache.batik.util"/>
+      <plugin id="org.apache.batik.util.gui"/>
+      <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
+      <plugin id="org.apache.felix.scr"/>
       <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
@@ -91,6 +91,8 @@
       <plugin id="org.eclipse.birt.data.aggregation"/>
       <plugin id="org.eclipse.birt.data.oda.mongodb"/>
       <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
@@ -124,6 +126,7 @@
       <plugin id="org.eclipse.birt.report.engine.dataextraction"/>
       <plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.excel"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.odp"/>
@@ -132,7 +135,9 @@
       <plugin id="org.eclipse.birt.report.engine.emitter.config.pdf"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.postscript"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.ppt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.wpml"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.odp"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.ods"/>
@@ -140,15 +145,16 @@
       <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.ppt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
       <plugin id="org.eclipse.birt.report.engine.odf"/>
+      <plugin id="org.eclipse.birt.report.engine.ooxml"/>
       <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.core"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.ui"/>
       <plugin id="org.eclipse.birt.report.model"/>
       <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
-      <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
@@ -222,7 +228,6 @@
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
-      <plugin id="org.apache.felix.scr"/>
       <plugin id="org.eclipse.equinox.event"/>
       <plugin id="org.eclipse.equinox.frameworkadmin"/>
       <plugin id="org.eclipse.equinox.frameworkadmin.equinox"/>
@@ -294,17 +299,11 @@
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
       <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
-      <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.sac"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
-      <plugin id="org.eclipse.birt.report.engine.ooxml"/>
-      <plugin id="org.eclipse.birt.data.oda.pojo"/>
-      <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
+      <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
    </plugins>
 
 

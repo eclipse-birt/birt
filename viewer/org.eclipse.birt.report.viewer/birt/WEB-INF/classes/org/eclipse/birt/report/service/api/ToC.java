@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -15,10 +17,9 @@ import java.util.List;
 
 /**
  * Representation of a TOC
- * 
+ *
  */
-public class ToC
-{
+public class ToC {
 
 	/**
 	 * Children list
@@ -47,14 +48,13 @@ public class ToC
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param id
 	 * @param displayName
 	 * @param bookmark
 	 * @param style
 	 */
-	public ToC( String id, String displayName, String bookmark, String style )
-	{
+	public ToC(String id, String displayName, String bookmark, String style) {
 		this.id = id;
 		this.displayName = displayName;
 		this.bookmark = bookmark;
@@ -64,50 +64,44 @@ public class ToC
 	/**
 	 * @return the children list
 	 */
-	public List getChildren( )
-	{
+	public List getChildren() {
 		return children;
 	}
 
 	/**
 	 * Set children list
-	 * 
+	 *
 	 * @param children
 	 */
-	public void setChildren( List children )
-	{
+	public void setChildren(List children) {
 		this.children = children;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return id;
 	}
 
 	/**
 	 * @return the display name
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
 	 * @return the bookmark
 	 */
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
 	/**
 	 * @return the style
 	 */
-	public String getStyle( )
-	{
+	public String getStyle() {
 		return style;
 	}
 }

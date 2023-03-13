@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,31 +18,28 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.osgi.framework.BundleContext;
 
-
 /**
  * Obtain support from BIRTPlugin
  */
-public class DataEnginePlugin extends BIRTPlugin
-{
+public class DataEnginePlugin extends BIRTPlugin {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		destroyAggregationFactoryInstance( );
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		destroyAggregationFactoryInstance();
 		ConnectionManager.releaseInstance();
-		super.stop( context );
+		super.stop(context);
 	}
-	
+
 	/**
 	 * Destroy shared instance of AggregationManager.
-	 * 
+	 *
 	 */
-	private void destroyAggregationFactoryInstance( )
-	{
-		AggregationManager.destroyInstance( );
+	private void destroyAggregationFactoryInstance() {
+		AggregationManager.destroyInstance();
 	}
-	
+
 }

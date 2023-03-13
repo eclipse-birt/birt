@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -31,7 +33,7 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 public class FlattenedListHandler extends AbstractHandler {
 
 	private CellContentHandler contentHandler;
-	
+
 	public FlattenedListHandler(CellContentHandler contentHandler, Logger log, IHandler parent, IContent element) {
 		super(log, parent, element);
 		this.contentHandler = contentHandler;
@@ -92,6 +94,6 @@ public class FlattenedListHandler extends AbstractHandler {
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
 		contentHandler.emitImage(state, image);
-	}	
-	
+	}
+
 }

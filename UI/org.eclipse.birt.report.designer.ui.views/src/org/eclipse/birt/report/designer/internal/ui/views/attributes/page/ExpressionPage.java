@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,33 +25,31 @@ import org.eclipse.swt.widgets.Composite;
  * Attribute page for data item expression property.
  */
 
-public class ExpressionPage extends AttributePage
-{
+public class ExpressionPage extends AttributePage {
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1, 15));
 
 		// Defines provider.
 
-		IDescriptorProvider expressionProvider = new ExpressionPropertyDescriptorProvider( TextDataHandle.VALUE_EXPR_PROP,
-				ReportDesignConstants.TEXT_DATA_ITEM );
+		IDescriptorProvider expressionProvider = new ExpressionPropertyDescriptorProvider(
+				TextDataHandle.VALUE_EXPR_PROP, ReportDesignConstants.TEXT_DATA_ITEM);
 
 		// Defines section.
 
-		ExpressionSection expressionSection = new ExpressionSection( expressionProvider.getDisplayName( ),
-				container,
-				true );
+		ExpressionSection expressionSection = new ExpressionSection(expressionProvider.getDisplayName(), container,
+				true);
 
-		expressionSection.setProvider( expressionProvider );
-		expressionSection.setWidth( 500 );
+		expressionSection.setProvider(expressionProvider);
+		expressionSection.setWidth(500);
 
 		// Adds section into this page.
 
-		addSection( PageSectionId.EXPRESSION_VALUE_EXPR, expressionSection ); //$NON-NLS-1$
+		addSection(PageSectionId.EXPRESSION_VALUE_EXPR, expressionSection); // $NON-NLS-1$
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 }

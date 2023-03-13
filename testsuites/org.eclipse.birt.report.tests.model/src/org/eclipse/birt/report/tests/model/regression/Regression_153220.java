@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -38,26 +41,25 @@ import com.ibm.icu.util.ULocale;
  * Follow the steps in bug description, no error thrown out. and the reference
  * of table in report is unresolved
  */
-public class Regression_153220 extends BaseTestCase
-{
+public class Regression_153220 extends BaseTestCase {
 
 	private final static String INPUT = "Regression_153220.xml"; //$NON-NLS-1$
 	private final static String LIBRARY_A = "Regression_153220_lib1.xml"; //$NON-NLS-1$
 	private final static String LIBRARY_B = "Regression_153220_lib2.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
-		copyInputToFile( INPUT_FOLDER + "/" + INPUT );
-		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY_A );
-		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY_B );
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIBRARY_A);
+		copyInputToFile(INPUT_FOLDER + "/" + LIBRARY_B);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
 
 	/**
@@ -65,34 +67,33 @@ public class Regression_153220 extends BaseTestCase
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
-	public void test_Regression_153220( ) throws IOException, DesignFileException, SemanticException
-	{
-		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
-		String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A;
-		String libB = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B;
+	public void test_Regression_153220() throws IOException, DesignFileException, SemanticException {
+		String report = getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT;
+		String libA = getTempFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY_A;
+		String libB = getTempFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY_B;
 
-		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
-		designHandle = sessionHandle.openDesign( report );
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = sessionHandle.openDesign(report);
 
-		designHandle.includeLibrary( LIBRARY_B, "lib2" ); //$NON-NLS-1$
-		libraryHandle = designHandle.getLibrary( "lib2" ); //$NON-NLS-1$
-		TableHandle table = (TableHandle) libraryHandle.findElement( "table2" ); //$NON-NLS-1$
-		assertNotNull( table );
+		designHandle.includeLibrary(LIBRARY_B, "lib2"); //$NON-NLS-1$
+		libraryHandle = designHandle.getLibrary("lib2"); //$NON-NLS-1$
+		TableHandle table = (TableHandle) libraryHandle.findElement("table2"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle rtable = (TableHandle) factory.newElementFrom( table, "Rtable" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( rtable );
-		designHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT );
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle rtable = (TableHandle) factory.newElementFrom(table, "Rtable"); //$NON-NLS-1$
+		designHandle.getBody().add(rtable);
+		designHandle.saveAs(getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT);
 
 		// drop table in lib1 and save the library
-		libraryHandle = sessionHandle.openLibrary( libA );
-		TableHandle table1 = (TableHandle) libraryHandle.findElement( "table1" ); //$NON-NLS-1$
-		table1.drop( );
+		libraryHandle = sessionHandle.openLibrary(libA);
+		TableHandle table1 = (TableHandle) libraryHandle.findElement("table1"); //$NON-NLS-1$
+		table1.drop();
 		// libraryHandle.save( );
-		libraryHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
+		libraryHandle.saveAs(getTempFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY_A);
 
 		// reload lib2, no error, and table reference is unresolved
-		designHandle.reloadLibrary( libraryHandle );
-		assertFalse( rtable.isValidReferenceForCompoundElement( ) );
+		designHandle.reloadLibrary(libraryHandle);
+		assertFalse(rtable.isValidReferenceForCompoundElement());
 	}
 }

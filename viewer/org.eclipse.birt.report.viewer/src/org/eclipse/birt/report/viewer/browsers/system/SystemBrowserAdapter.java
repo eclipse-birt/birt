@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,34 +26,33 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  * system.
  * <p>
  */
-public class SystemBrowserAdapter implements IBrowser
-{
+public class SystemBrowserAdapter implements IBrowser {
 	/**
 	 * Adapter constructor.
 	 */
-	public SystemBrowserAdapter( )
-	{
+	public SystemBrowserAdapter() {
 		// Do nothing
 	}
 
 	/**
 	 * Close browser
 	 */
-	public void close( )
-	{
+	@Override
+	public void close() {
 		// Do nothing
 	}
 
 	/**
 	 * Display arbitary url.
-	 * 
+	 *
 	 * @param url
 	 */
-	public void displayURL( String url )
-	{
+	@Override
+	public void displayURL(String url) {
 		// if ( !Program.launch( url ) )
 		// {
-		//			ViewerPlugin.logError( ViewerPlugin.getFormattedResourceString( "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
+		// ViewerPlugin.logError( ViewerPlugin.getFormattedResourceString(
+		// "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
 		// new Object[]{
 		// url
 		// } ),
@@ -60,76 +61,66 @@ public class SystemBrowserAdapter implements IBrowser
 
 		// use WorkbenchBrowserSupport so we needn't to provide browser
 		// configuration
-		IWorkbenchBrowserSupport support = PlatformUI.getWorkbench( )
-				.getBrowserSupport( );
-		try
-		{
-			IWebBrowser browser = support.getExternalBrowser( );
-			browser.openURL( new URL( url ) );
-		}
-		catch ( Exception e )
-		{
-			ViewerPlugin.logError( ViewerPlugin.getFormattedResourceString( "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
-					new Object[]{
-						url
-					} ),
-					null );
+		IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+		try {
+			IWebBrowser browser = support.getExternalBrowser();
+			browser.openURL(new URL(url));
+		} catch (Exception e) {
+			ViewerPlugin
+					.logError(ViewerPlugin.getFormattedResourceString("viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
+							new Object[] { url }), null);
 		}
 	}
 
 	/**
 	 * Is browser supports close operation.
-	 * 
+	 *
 	 * @return browser supports close operation
 	 */
-	public boolean isCloseSupported( )
-	{
+	@Override
+	public boolean isCloseSupported() {
 		return false;
 	}
 
 	/**
 	 * Is setting browser window location supported.
-	 * 
+	 *
 	 * @return setting browser window location or not
 	 */
-	public boolean isSetLocationSupported( )
-	{
+	@Override
+	public boolean isSetLocationSupported() {
 		return false;
 	}
 
 	/**
 	 * Is setting browser window size supported.
-	 * 
+	 *
 	 * @return setting browser window size or not
 	 */
-	public boolean isSetSizeSupported( )
-	{
+	@Override
+	public boolean isSetSizeSupported() {
 		return false;
 	}
 
 	/**
 	 * Set browser window location.
-	 * 
-	 * @param x
-	 *            X coordinate of browser window's top-left corner
-	 * @param y
-	 *            Y coordinate of browser window's top-left corner
+	 *
+	 * @param x X coordinate of browser window's top-left corner
+	 * @param y Y coordinate of browser window's top-left corner
 	 */
-	public void setLocation( int x, int y )
-	{
+	@Override
+	public void setLocation(int x, int y) {
 		// Do nothing
 	}
 
 	/**
 	 * Set browser window size.
-	 * 
-	 * @param width
-	 *            browser window width
-	 * @param height
-	 *            browser window height
+	 *
+	 * @param width  browser window width
+	 * @param height browser window height
 	 */
-	public void setSize( int width, int height )
-	{
+	@Override
+	public void setSize(int width, int height) {
 		// Do nothing
 	}
 }

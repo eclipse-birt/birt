@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,7 @@ import org.xml.sax.SAXException;
  * improve the performance.
  */
 
-public class ParserFactory
-{
+public class ParserFactory {
 	/**
 	 * Single instance.
 	 */
@@ -36,63 +38,54 @@ public class ParserFactory
 
 	private static XMLParserPool pool;
 
-	private ParserFactory( )
-	{
-		pool = new XMLParserPoolImpl( );
+	private ParserFactory() {
+		pool = new XMLParserPoolImpl();
 	}
 
 	/**
 	 * Returns the singleton instance.
-	 * 
+	 *
 	 * @return the factory instance
 	 */
 
-	public static ParserFactory getInstance( )
-	{
-		if ( factory == null )
-		{
-			factory = new ParserFactory( );
+	public static ParserFactory getInstance() {
+		if (factory == null) {
+			factory = new ParserFactory();
 		}
 
 		return factory;
 	}
 
 	/**
-	 * Retrieves a parser from the pool given specified properties and features.
-	 * If parser can't be created using specified properties or features, an
-	 * exception can be thrown.
-	 * 
-	 * @param properties
-	 *            a map of a parser properties and their values.
+	 * Retrieves a parser from the pool given specified properties and features. If
+	 * parser can't be created using specified properties or features, an exception
+	 * can be thrown.
+	 *
+	 * @param properties a map of a parser properties and their values.
 	 * @return A parser instance with given properties. *
-	 * 
+	 *
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
 
-	public SAXParser getParser( Map<String, ?> properties )
-			throws SAXException, ParserConfigurationException
-	{
-		return pool.get( properties );
+	public SAXParser getParser(Map<String, ?> properties) throws SAXException, ParserConfigurationException {
+		return pool.get(properties);
 	}
 
 	/**
-	 * Retrieves a parser from the pool given specified properties and features.
-	 * If parser can't be created using specified properties or features, an
-	 * exception can be thrown.
-	 * 
-	 * @param parser
-	 *            a parser instance with given properties.
-	 * @param properties
-	 *            a map of a parser properties and their values.
-	 * 
+	 * Retrieves a parser from the pool given specified properties and features. If
+	 * parser can't be created using specified properties or features, an exception
+	 * can be thrown.
+	 *
+	 * @param parser     a parser instance with given properties.
+	 * @param properties a map of a parser properties and their values.
+	 *
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
 
-	public void releaseParser( SAXParser parser, Map<String, ?> properties )
-			throws SAXException, ParserConfigurationException
-	{
-		pool.release( parser, properties );
+	public void releaseParser(SAXParser parser, Map<String, ?> properties)
+			throws SAXException, ParserConfigurationException {
+		pool.release(parser, properties);
 	}
 }

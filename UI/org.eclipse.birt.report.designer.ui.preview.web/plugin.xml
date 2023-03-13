@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
    <extension
          point="org.eclipse.ui.actionSets">         
@@ -110,144 +124,68 @@
       </targetEditor>
 	</extension>
 -->
-	
-	<extension point="org.eclipse.ui.popupMenus"> 
-		<viewerContribution 
-		      id="org.eclipse.birt.report.designer.ui.ide.Report"
-			   targetID="org.eclipse.ui.views.ResourceNavigator">
-			<menu
-		         id="org.eclipse.birt.report.designer.ui.ide.Report"
-		         label="%Menu.Report"
-		         path="additions">
-		    <groupMarker name="report"/>
-		      </menu>
-		 <visibility>
-		    <or>
-           <and>
-              <objectClass
-                    name="org.eclipse.core.resources.IFile">
-              </objectClass>
-              <objectState
-                    name="contentTypeId"
-                    value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
-              </objectState>
-           </and>
-         <and>
-            <objectClass
-                  name="org.eclipse.core.resources.IFile">
-            </objectClass>
-            <objectState
-                  name="contentTypeId"
-                  value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
-            </objectState>
-         </and>
-         <and>
-            <objectClass
-                  name="org.eclipse.core.resources.IFile">
-            </objectClass>
-            <objectState
-                  name="contentTypeId"
-                  value="org.eclipse.birt.report.designer.ui.editors.reportlibrary">
-            </objectState>
-         </and>
-             <and>
-                <objectClass
-                      name="org.eclipse.core.resources.IFile">
-                </objectClass>
-                <objectState
-                      name="extension"
-                      value="rptdocument">
-                </objectState>
-             </and>
-	 	   </or>
-		 </visibility>		
-	   </viewerContribution>
-	   <viewerContribution
-	         id="org.eclipse.birt.report.designer.ui.ide.report.runReport"
-	         targetID="org.eclipse.ui.views.ResourceNavigator">
-	      <action
-	            class="org.eclipse.birt.report.designer.ui.ide.navigator.RunReportAction"
-	            enablesFor="1"
-	            icon="icons/etool16/preview.gif"
-	            id="org.eclipse.birt.report.designer.ui.ide.navigator.RunReportAction"
-	            label="%Action.RunReport"
-	            menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report"/>
-	      <visibility>
-             <or>
-             <and>
-                <objectClass
-                      name="org.eclipse.core.resources.IFile">
-                </objectClass>
-                <objectState
-                      name="contentTypeId"
-                      value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
-                </objectState>
-             </and>
-                <and>
-                   <objectClass
-                         name="org.eclipse.core.resources.IFile">
-                   </objectClass>
-                   <objectState
-                         name="contentTypeId"
-                         value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
-                   </objectState>
-                </and>
-             </or>
-	      </visibility>
-	   </viewerContribution>
-	   <viewerContribution
-	         id="org.eclipse.birt.report.designer.ui.ide.report.viewDocument"
-	         targetID="org.eclipse.ui.views.ResourceNavigator">
-	      <action
-	            class="org.eclipse.birt.report.designer.ui.ide.navigator.ViewDocumentAction"
-	            enablesFor="1"
-	            icon="icons/etool16/preview.gif"
-	            id="org.eclipse.birt.report.designer.ui.ide.navigator.ViewDocument"
-	            label="%Action.ViewDocument"
-	            menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report"/>
-	      <visibility>
-	         <and>
-	            <objectClass name="org.eclipse.core.resources.IFile"/>
-	            <objectState name="extension" value="rptdocument"/>
-	         </and>
-	      </visibility>
-	   </viewerContribution>
-    <viewerContribution
-          id="org.eclipse.birt.report.designer.ui.ide.report.genDoc"
-          targetID="org.eclipse.ui.views.ResourceNavigator">
-       <action
-             class="org.eclipse.birt.report.designer.ui.ide.navigator.GenerateDocumentAction"
-             enablesFor="1"
-             icon="icons/etool16/preview.gif"
-             id="org.eclipse.birt.report.designer.ui.ide.navigator.GenDocumentAction"
-             label="%Action.GenDocument"
-             menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
-       </action>
-       <visibility>
-           <or>
-              <and>
-                 <objectClass
-                       name="org.eclipse.core.resources.IFile">
-                 </objectClass>
-                 <objectState
-                       name="contentTypeId"
-                       value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
-                 </objectState>
-              </and>
-              <and>
-                 <objectClass
-                       name="org.eclipse.core.resources.IFile">
-                 </objectClass>
-                 <objectState
-                       name="contentTypeId"
-                       value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
-                 </objectState>
-              </and>
-             </or>
-       </visibility>
-    </viewerContribution>
-	 
-	</extension>
+
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.birt.report.designer.ui.ide.reportMenu">
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.runReport.command"
+	           label="%Action.RunReport"
+	           icon="icons/etool16/preview.gif"
+               style="push">
+
+            <visibleWhen>
+               <with variable="selection">
+                  <iterate operator="or" ifEmpty="false">
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reporttemplate" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reportdesign" />
+                         </or>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.viewDocument.command"
+	           label="%Action.ViewDocument"
+	           icon="icons/etool16/preview.gif"
+               style="push">
+
+            <visibleWhen>
+               <with variable="selection">
+                  <iterate operator="or" ifEmpty="false">
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test property="org.eclipse.core.resources.extension" value="rptdocument" />
+                        </or>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.generateDocument.command"
+	           label="%Action.GenDocument"
+	           icon="icons/etool16/preview.gif"
+               style="push">
+
+            <visibleWhen>
+               <with variable="selection">
+                  <iterate operator="or" ifEmpty="false">
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reporttemplate" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reportdesign" />
+                        </or>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+ 
+      </menuContribution>
+   </extension>
+
  <extension
        point="org.eclipse.ui.actionSetPartAssociations">
     <actionSetPartAssociation targetID="org.eclipse.birt.report.designer.ui.previewActionSet">
@@ -258,5 +196,16 @@
        <part id="org.eclipse.birt.report.designer.ui.editors.IDEReportDocumentEditor" />
     </actionSetPartAssociation>
  </extension>	 
-   
+
+   <extension point="org.eclipse.ui.commands">
+      <command id="org.eclipse.birt.report.designer.ui.ide.runReport.command" name="%Action.RunReport"/>
+      <command id="org.eclipse.birt.report.designer.ui.ide.generateDocument.command" name="%Action.RunReport"/>
+      <command id="org.eclipse.birt.report.designer.ui.ide.viewDocument.command" name="%Action.RunReport"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.runReport.command" class="org.eclipse.birt.report.designer.internal.ui.handlers.RunReportHandler"/>
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.generateDocument.command" class="org.eclipse.birt.report.designer.internal.ui.handlers.GenerateDocumentHandler"/>
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.viewDocument.command" class="org.eclipse.birt.report.designer.internal.ui.handlers.ViewDocumentHandler"/>
+   </extension>
 </plugin>

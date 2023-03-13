@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.plugin;
 
@@ -6,8 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartUIPlugin extends AbstractUIPlugin
-{
+public class ChartUIPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Plugin ID.
@@ -20,17 +31,15 @@ public class ChartUIPlugin extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public ChartUIPlugin( )
-	{
-		super( );
+	public ChartUIPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static ChartUIPlugin getDefault( )
-	{
+	public static ChartUIPlugin getDefault() {
 		return plugin;
 	}
 }

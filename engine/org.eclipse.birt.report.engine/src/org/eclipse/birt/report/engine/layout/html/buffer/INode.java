@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,19 +17,18 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
-public interface INode
-{
+public interface INode {
 
-	IContainerNode getParent( );
+	IContainerNode getParent();
 
-	void flush( ) throws BirtException;
+	void flush() throws BirtException;
 
-	void start( ) throws BirtException;
+	void start() throws BirtException;
 
-	void end( ) throws BirtException;
+	void end() throws BirtException;
 
-	boolean isStarted( );
+	boolean isStarted();
 
 	IContent getContent();
-	
+
 }

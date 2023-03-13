@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,11 +56,9 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 /**
  * BIRT Project Wizard. Implementation from BasicNewProjectResourceWizard
  * without references page and with report nature.
- * 
+ *
  */
-public class NewReportProjectWizard extends BasicNewResourceWizard implements
-		IExecutableExtension
-{
+public class NewReportProjectWizard extends BasicNewResourceWizard implements IExecutableExtension {
 
 	private WizardNewProjectCreationPage mainPage;
 
@@ -76,18 +77,17 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 	/*
 	 * (non-Javadoc) Method declared on IWizard.
 	 */
-	public void addPages( )
-	{
-		super.addPages( );
+	@Override
+	public void addPages() {
+		super.addPages();
 
-		mainPage = new WizardNewProjectCreationPage( "basicNewProjectPage" ) { //$NON-NLS-1$
+		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage") { //$NON-NLS-1$
 
-			public void createControl( Composite parent )
-			{
+			@Override
+			public void createControl(Composite parent) {
 
-				super.createControl( parent );
-				UIUtil.bindHelp( getControl( ),
-						IHelpContextIds.NEW_REPORT_PROJECT_ID );
+				super.createControl(parent);
+				UIUtil.bindHelp(getControl(), IHelpContextIds.NEW_REPORT_PROJECT_ID);
 
 				// Group group = new Group( (Composite) super.getControl( ),
 				// SWT.NONE );
@@ -134,119 +134,104 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
 			 */
-			public boolean isPageComplete( )
-			{
-				return validatePage( ) || super.isPageComplete( );
+			@Override
+			public boolean isPageComplete() {
+				return validatePage() || super.isPageComplete();
 			}
 
 		};
-		mainPage.setTitle( Messages.getString( "NewReportProjectWizard.title" ) ); //$NON-NLS-1$
-		mainPage.setDescription( Messages.getString( "NewReportProjectWizard.description" ) ); //$NON-NLS-1$
-		this.addPage( mainPage );
+		mainPage.setTitle(Messages.getString("NewReportProjectWizard.title")); //$NON-NLS-1$
+		mainPage.setDescription(Messages.getString("NewReportProjectWizard.description")); //$NON-NLS-1$
+		this.addPage(mainPage);
 
 	}
 
 	/**
 	 * Creates a new project resource with the selected name.
 	 * <p>
-	 * In normal usage, this method is invoked after the user has pressed Finish
-	 * on the wizard; the enablement of the Finish button implies that all
-	 * controls on the pages currently contain valid values.
+	 * In normal usage, this method is invoked after the user has pressed Finish on
+	 * the wizard; the enablement of the Finish button implies that all controls on
+	 * the pages currently contain valid values.
 	 * </p>
 	 * <p>
-	 * Note that this wizard caches the new project once it has been
-	 * successfully created; subsequent invocations of this method will answer
-	 * the same project resource without attempting to create it again.
+	 * Note that this wizard caches the new project once it has been successfully
+	 * created; subsequent invocations of this method will answer the same project
+	 * resource without attempting to create it again.
 	 * </p>
-	 * 
-	 * @return the created project resource, or <code>null</code> if the
-	 *         project was not created
+	 *
+	 * @return the created project resource, or <code>null</code> if the project was
+	 *         not created
 	 */
-	private IProject createNewProject( )
-	{
-		if ( newProject != null )
+	private IProject createNewProject() {
+		if (newProject != null) {
 			return newProject;
+		}
 
 		// get a project handle
-		final IProject newProjectHandle = mainPage.getProjectHandle( );
+		final IProject newProjectHandle = mainPage.getProjectHandle();
 
 		// get a project descriptor
 		IPath newPath = null;
-		if ( !mainPage.useDefaults( ) )
-			newPath = mainPage.getLocationPath( );
+		if (!mainPage.useDefaults()) {
+			newPath = mainPage.getLocationPath();
+		}
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-		final IProjectDescription description = workspace.newProjectDescription( newProjectHandle.getName( ) );
-		description.setLocation( newPath );
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IProjectDescription description = workspace.newProjectDescription(newProjectHandle.getName());
+		description.setLocation(newPath);
 
 		String[] natures = null;
-		if ( isJavaProject )
-			natures = new String[]{
-					ReportPlugin.NATURE_ID,
-					JavaCore.NATURE_ID
-			};
-		else
-			natures = new String[]{
-				ReportPlugin.NATURE_ID
-			};
+		if (isJavaProject) {
+			natures = new String[] { ReportPlugin.NATURE_ID, JavaCore.NATURE_ID };
+		} else {
+			natures = new String[] { ReportPlugin.NATURE_ID };
+		}
 
-		description.setNatureIds( natures );
+		description.setNatureIds(natures);
 
-		if ( isJavaProject )
-			addJavaBuildSpec( description );
+		if (isJavaProject) {
+			addJavaBuildSpec(description);
+		}
 
 		// create the new project operation
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation( ) {
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			protected void execute( IProgressMonitor monitor )
-					throws CoreException
-			{
-				createProject( description, newProjectHandle, monitor );
+			@Override
+			protected void execute(IProgressMonitor monitor) throws CoreException {
+				createProject(description, newProjectHandle, monitor);
 			}
 		};
 
 		// run the new project creation operation
-		try
-		{
-			getContainer( ).run( true, true, op );
-		}
-		catch ( InterruptedException e )
-		{
+		try {
+			getContainer().run(true, true, op);
+		} catch (InterruptedException e) {
 			return null;
-		}
-		catch ( InvocationTargetException e )
-		{
+		} catch (InvocationTargetException e) {
 			// ie.- one of the steps resulted in a core exception
-			Throwable t = e.getTargetException( );
-			if ( t instanceof CoreException )
-			{
-				if ( ( (CoreException) t ).getStatus( ).getCode( ) == IResourceStatus.CASE_VARIANT_EXISTS )
-				{
-					MessageDialog.openError( getShell( ),
-							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-							Messages.getFormattedString( "NewReportProjectWizard.caseVariantExistsError", new String[]{newProjectHandle.getName( )} ) //$NON-NLS-1$,
+			Throwable t = e.getTargetException();
+			if (t instanceof CoreException) {
+				if (((CoreException) t).getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS) {
+					MessageDialog.openError(getShell(), Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
+							Messages.getFormattedString("NewReportProjectWizard.caseVariantExistsError", //$NON-NLS-1$
+									new String[] { newProjectHandle.getName() }) // ,
 					);
-				}
-				else
-				{
-					ErrorDialog.openError( getShell( ),
-							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
+				} else {
+					ErrorDialog.openError(getShell(), Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
 							null, // no special message
-							( (CoreException) t ).getStatus( ) );
+							((CoreException) t).getStatus());
 				}
-			}
-			else
-			{
+			} else {
 				// CoreExceptions are handled above, but unexpected runtime
 				// exceptions and errors may still occur.
-				ExceptionUtil.handle( e );
+				ExceptionUtil.handle(e);
 
-				MessageDialog.openError( getShell( ),
-						Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-						Messages.getFormattedString( "NewReportProjectWizard.internalError", new Object[]{t.getMessage( )} ) ); //$NON-NLS-1$
+				MessageDialog.openError(getShell(), Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
+						Messages.getFormattedString("NewReportProjectWizard.internalError", //$NON-NLS-1$
+								new Object[] { t.getMessage() }));
 			}
 			return null;
 		}
@@ -258,126 +243,103 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 
 	/**
 	 * Creates a project resource given the project handle and description.
-	 * 
-	 * @param description
-	 *            the project description to create a project resource for
-	 * @param projectHandle
-	 *            the project handle to create a project resource for
-	 * @param monitor
-	 *            the progress monitor to show visual progress with
-	 * 
-	 * @exception CoreException
-	 *                if the operation fails
-	 * @exception OperationCanceledException
-	 *                if the operation is canceled
+	 *
+	 * @param description   the project description to create a project resource for
+	 * @param projectHandle the project handle to create a project resource for
+	 * @param monitor       the progress monitor to show visual progress with
+	 *
+	 * @exception CoreException              if the operation fails
+	 * @exception OperationCanceledException if the operation is canceled
 	 */
-	void createProject( IProjectDescription description,
-			IProject projectHandle, IProgressMonitor monitor )
-			throws CoreException, OperationCanceledException
-	{
-		try
-		{
-			monitor.beginTask( "", 2000 );//$NON-NLS-1$
+	void createProject(IProjectDescription description, IProject projectHandle, IProgressMonitor monitor)
+			throws CoreException, OperationCanceledException {
+		try {
+			monitor.beginTask("", 2000);//$NON-NLS-1$
 
-			projectHandle.create( description, new SubProgressMonitor( monitor,
-					1000 ) );
+			projectHandle.create(description, new SubProgressMonitor(monitor, 1000));
 
-			if ( monitor.isCanceled( ) )
-				throw new OperationCanceledException( );
+			if (monitor.isCanceled()) {
+				throw new OperationCanceledException();
+			}
 
-			projectHandle.open( new SubProgressMonitor( monitor, 1000 ) );
+			projectHandle.open(new SubProgressMonitor(monitor, 1000));
 
-		}
-		finally
-		{
-			monitor.done( );
+		} finally {
+			monitor.done();
 		}
 	}
 
 	/**
 	 * Returns the newly created project.
-	 * 
-	 * @return the created project, or <code>null</code> if project not
-	 *         created
+	 *
+	 * @return the created project, or <code>null</code> if project not created
 	 */
-	public IProject getNewProject( )
-	{
+	public IProject getNewProject() {
 		return newProject;
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IWorkbenchWizard.
 	 */
-	public void init( IWorkbench workbench,
-			IStructuredSelection currentSelection )
-	{
-		super.init( workbench, currentSelection );
-		setNeedsProgressMonitor( true );
-		setWindowTitle( Messages.getString( "NewReportProjectWizard.windowTitle" ) ); //$NON-NLS-1$
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
+		super.init(workbench, currentSelection);
+		setNeedsProgressMonitor(true);
+		setWindowTitle(Messages.getString("NewReportProjectWizard.windowTitle")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#getDefaultPageImage()
 	 */
-	public Image getDefaultPageImage( )
-	{
-		return ReportPlugin.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
+	@Override
+	public Image getDefaultPageImage() {
+		return ReportPlugin.getImage("/icons/wizban/create_project_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IWizard.
 	 */
-	public boolean performFinish( )
-	{
-		createNewProject( );
+	@Override
+	public boolean performFinish() {
+		createNewProject();
 
-		if ( newProject == null )
+		if (newProject == null) {
 			return false;
-		if ( isJavaProject )
-		{
+		}
+		if (isJavaProject) {
 
-			createSourceAndOutputFolder( newProject );
+			createSourceAndOutputFolder(newProject);
 
-			try
-			{
-				setClasspath( newProject );
-			}
-			catch ( JavaModelException e )
-			{
-				ExceptionUtil.handle( e );
-				return false;
-			}
-			catch ( CoreException e )
-			{
-				ExceptionUtil.handle( e );
+			try {
+				setClasspath(newProject);
+			} catch (CoreException e) {
+				ExceptionUtil.handle(e);
 				return false;
 			}
 		}
 
-		updatePerspective( );
-		selectAndReveal( newProject );
+		updatePerspective();
+		selectAndReveal(newProject);
 
 		return true;
 	}
 
 	/**
-	 * Stores the configuration element for the wizard. The config element will
-	 * be used in <code>performFinish</code> to set the result perspective.
+	 * Stores the configuration element for the wizard. The config element will be
+	 * used in <code>performFinish</code> to set the result perspective.
 	 */
-	public void setInitializationData( IConfigurationElement cfig,
-			String propertyName, Object data )
-	{
+	@Override
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/**
 	 * Updates the perspective for the active page within the window.
 	 */
-	protected void updatePerspective( )
-	{
-		BasicNewProjectResourceWizard.updatePerspective( configElement );
+	protected void updatePerspective() {
+		BasicNewProjectResourceWizard.updatePerspective(configElement);
 	}
 
 	// private Button createButton( Composite container )
@@ -417,101 +379,73 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 	// return text;
 	// }
 
-	private void addJavaBuildSpec( IProjectDescription description )
-	{
-		ICommand command = description.newCommand( );
-		command.setBuilderName( JavaCore.BUILDER_ID );
-		description.setBuildSpec( new ICommand[]{
-			command
-		} );
+	private void addJavaBuildSpec(IProjectDescription description) {
+		ICommand command = description.newCommand();
+		command.setBuilderName(JavaCore.BUILDER_ID);
+		description.setBuildSpec(new ICommand[] { command });
 	}
 
-	private void createSourceAndOutputFolder( IProject project )
-	{
-		if ( isJavaProject
-				&& sourceText.getText( ) != null
-				&& sourceText.getText( ).trim( ).length( ) > 0 )
-		{
-			IFolder folder = project.getFolder( sourceText.getText( ) );
-			if ( !folder.exists( ) )
-				try
-				{
-					createFolder( folder );
+	private void createSourceAndOutputFolder(IProject project) {
+		if (isJavaProject && sourceText.getText() != null && sourceText.getText().trim().length() > 0) {
+			IFolder folder = project.getFolder(sourceText.getText());
+			if (!folder.exists()) {
+				try {
+					createFolder(folder);
+				} catch (CoreException e) {
+					ExceptionUtil.handle(e);
 				}
-				catch ( CoreException e )
-				{
-					ExceptionUtil.handle( e );
-				}
-		}
-		if ( isJavaProject
-				&& outputText.getText( ) != null
-				&& outputText.getText( ).trim( ).length( ) > 0 )
-		{
-			IFolder folder = project.getFolder( outputText.getText( ) );
-			if ( !folder.exists( ) )
-				try
-				{
-					createFolder( folder );
-				}
-				catch ( CoreException e )
-				{
-					ExceptionUtil.handle( e );
-				}
-		}
-	}
-
-	private void createFolder( IFolder folder ) throws CoreException
-	{
-		if ( !folder.exists( ) )
-		{
-			IContainer parent = folder.getParent( );
-			if ( parent instanceof IFolder )
-			{
-				createFolder( (IFolder) parent );
 			}
-			folder.create( true, true, null );
+		}
+		if (isJavaProject && outputText.getText() != null && outputText.getText().trim().length() > 0) {
+			IFolder folder = project.getFolder(outputText.getText());
+			if (!folder.exists()) {
+				try {
+					createFolder(folder);
+				} catch (CoreException e) {
+					ExceptionUtil.handle(e);
+				}
+			}
 		}
 	}
 
-	private void setClasspath( IProject project ) throws JavaModelException,
-			CoreException
-	{
-		IJavaProject javaProject = JavaCore.create( project );
-
-		if ( outputText.getText( ) != null
-				&& outputText.getText( ).trim( ).length( ) > 0 )
-		{
-			IPath path = project.getFullPath( ).append( outputText.getText( ) );
-			javaProject.setOutputLocation( path, null );
+	private void createFolder(IFolder folder) throws CoreException {
+		if (!folder.exists()) {
+			IContainer parent = folder.getParent();
+			if (parent instanceof IFolder) {
+				createFolder((IFolder) parent);
+			}
+			folder.create(true, true, null);
 		}
-
-		IClasspathEntry[] entries = getClassPathEntries( project );
-		javaProject.setRawClasspath( entries, null );
 	}
 
-	private IClasspathEntry[] getClassPathEntries( IProject project )
-	{
-		IClasspathEntry[] internalClassPathEntries = getInternalClassPathEntries( project );
+	private void setClasspath(IProject project) throws JavaModelException, CoreException {
+		IJavaProject javaProject = JavaCore.create(project);
+
+		if (outputText.getText() != null && outputText.getText().trim().length() > 0) {
+			IPath path = project.getFullPath().append(outputText.getText());
+			javaProject.setOutputLocation(path, null);
+		}
+
+		IClasspathEntry[] entries = getClassPathEntries(project);
+		javaProject.setRawClasspath(entries, null);
+	}
+
+	private IClasspathEntry[] getClassPathEntries(IProject project) {
+		IClasspathEntry[] internalClassPathEntries = getInternalClassPathEntries(project);
 		IClasspathEntry[] entries = new IClasspathEntry[internalClassPathEntries.length + 1];
-		System.arraycopy( internalClassPathEntries,
-				0,
-				entries,
-				0,
-				internalClassPathEntries.length );
-		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) ); //$NON-NLS-1$
+		System.arraycopy(internalClassPathEntries, 0, entries, 0, internalClassPathEntries.length);
+		entries[entries.length - 1] = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER")); //$NON-NLS-1$
 		return entries;
 	}
 
-	protected IClasspathEntry[] getInternalClassPathEntries( IProject project )
-	{
-		if ( sourceText.getText( ) == null
-				|| sourceText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+	protected IClasspathEntry[] getInternalClassPathEntries(IProject project) {
+		if (sourceText.getText() == null || sourceText.getText().trim().equals("")) //$NON-NLS-1$
 		{
 			return new IClasspathEntry[0];
 		}
 		IClasspathEntry[] entries = new IClasspathEntry[1];
-		IPath path = project.getFullPath( ).append( sourceText.getText( ) );
-		entries[0] = JavaCore.newSourceEntry( path );
+		IPath path = project.getFullPath().append(sourceText.getText());
+		entries[0] = JavaCore.newSourceEntry(path);
 		return entries;
 	}
 }

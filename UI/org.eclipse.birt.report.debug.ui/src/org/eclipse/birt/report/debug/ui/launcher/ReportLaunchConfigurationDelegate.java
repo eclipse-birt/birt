@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,17 +31,16 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
 import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContainer;
-import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
+import org.eclipse.pde.launching.EclipseApplicationLaunchConfiguration;
 
 /**
  * ReportLaunchConfigurationDelegate
- * 
+ *
  * @deprecated
  */
-public class ReportLaunchConfigurationDelegate extends
-		EclipseApplicationLaunchConfiguration implements
-		IReportLauncherSettings
-{
+@Deprecated
+public class ReportLaunchConfigurationDelegate extends EclipseApplicationLaunchConfiguration
+		implements IReportLauncherSettings {
 
 	/**
 	 * It is roperty key.
@@ -49,83 +51,66 @@ public class ReportLaunchConfigurationDelegate extends
 
 	private static final String PROJECT_OPENFILES_KEY = "user.openfiles"; //$NON-NLS-1$
 
-	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
+	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder();
 
-	public void launch( ILaunchConfiguration configuration, String mode,
-			ILaunch launch, IProgressMonitor monitor ) throws CoreException
-	{
-		configLaunch( launch, configuration );
-		super.launch( configuration, mode, launch, monitor );
+	@Override
+	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
+			throws CoreException {
+		configLaunch(launch, configuration);
+		super.launch(configuration, mode, launch, monitor);
 	}
 
 	/**
 	 * @param launch
 	 */
-	private void configLaunch( ILaunch launch,
-			ILaunchConfiguration configuration )
-	{
-		if ( launch.getSourceLocator( ) instanceof JavaSourceLookupDirector )
-		{
-			JavaSourceLookupDirector director = (JavaSourceLookupDirector) launch.getSourceLocator( );
-			ISourceContainer[] contains = director.getSourceContainers( );
-			List list = new ArrayList( );
+	private void configLaunch(ILaunch launch, ILaunchConfiguration configuration) {
+		if (launch.getSourceLocator() instanceof JavaSourceLookupDirector) {
+			JavaSourceLookupDirector director = (JavaSourceLookupDirector) launch.getSourceLocator();
+			ISourceContainer[] contains = director.getSourceContainers();
+			List list = new ArrayList();
 
-			if ( contains != null && contains.length != 0 )
-			{
-				for ( int i = 0; i < contains.length; i++ )
-				{
-					list.add( contains[i] );
+			if (contains != null && contains.length != 0) {
+				for (int i = 0; i < contains.length; i++) {
+					list.add(contains[i]);
 				}
 			}
 
-			try
-			{
-				List sourcePaths = getAllProjectSourcePaths( configuration.getAttribute( IMPORTPROJECTNAMES,
-						"" ) ); //$NON-NLS-1$
-				for ( int i = 0; i < sourcePaths.size( ); i++ )
-				{
+			try {
+				List sourcePaths = getAllProjectSourcePaths(configuration.getAttribute(IMPORTPROJECTNAMES, "")); //$NON-NLS-1$
+				for (int i = 0; i < sourcePaths.size(); i++) {
 					// String source = ( String ) sourcePaths.get( i );
 					// ISourceContainer temp = new DirectorySourceContainer(
 					// new Path( source ), true );
 					// list.add( temp );
 
-					IJavaProject source = (IJavaProject) sourcePaths.get( i );
-					ISourceContainer temp = new JavaProjectSourceContainer( source );
-					list.add( i, temp );
+					IJavaProject source = (IJavaProject) sourcePaths.get(i);
+					ISourceContainer temp = new JavaProjectSourceContainer(source);
+					list.add(i, temp);
 				}
-			}
-			catch ( CoreException e )
-			{
+			} catch (CoreException e) {
 
 			}
 
-			ISourceContainer[] retValue = new ISourceContainer[list.size( )];
-			retValue = (ISourceContainer[]) list.toArray( retValue );
-			director.setSourceContainers( retValue );
+			ISourceContainer[] retValue = new ISourceContainer[list.size()];
+			retValue = (ISourceContainer[]) list.toArray(retValue);
+			director.setSourceContainers(retValue);
 		}
 	}
 
 	/**
-	 * @param path
-	 *            no use now
+	 * @param path no use now
 	 * @return
 	 */
-	private List getAllProjectSourcePaths( String path )
-	{
-		List retValue = new ArrayList( );
-		IProject[] projects = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProjects( );
-		if ( projects == null || projects.length == 0 )
-		{
+	private List getAllProjectSourcePaths(String path) {
+		List retValue = new ArrayList();
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		if (projects == null || projects.length == 0) {
 			return retValue;
 		}
-		for ( int i = 0; i < projects.length; i++ )
-		{
+		for (int i = 0; i < projects.length; i++) {
 			IProject project = projects[i];
-			if ( project != null && hasJavaNature( project ) )
-			{
-				retValue.add( JavaCore.create( project ) );
+			if (project != null && hasJavaNature(project)) {
+				retValue.add(JavaCore.create(project));
 			}
 		}
 		return retValue;
@@ -134,19 +119,14 @@ public class ReportLaunchConfigurationDelegate extends
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 * 
-	 * @param project
-	 *            IProject
+	 *
+	 * @param project IProject
 	 * @return boolean
 	 */
-	private boolean hasJavaNature( IProject project )
-	{
-		try
-		{
-			return project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
-		{
+	private boolean hasJavaNature(IProject project) {
+		try {
+			return project.hasNature(JavaCore.NATURE_ID);
+		} catch (CoreException e) {
 			// project does not exist or is not open
 		}
 		return false;
@@ -154,64 +134,52 @@ public class ReportLaunchConfigurationDelegate extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.pde.ui.launcher.AbstractPDELaunchConfiguration#getVMArguments(org.eclipse.debug.core.ILaunchConfiguration)
+	 *
+	 * @see
+	 * org.eclipse.pde.ui.launcher.AbstractPDELaunchConfiguration#getVMArguments(org
+	 * .eclipse.debug.core.ILaunchConfiguration)
 	 */
-	public String[] getVMArguments( ILaunchConfiguration configuration )
-			throws CoreException
-	{
-		String[] temp = super.getVMArguments( configuration );
-		String[] othersArguments = getOthersVMArguments( configuration );
+	@Override
+	public String[] getVMArguments(ILaunchConfiguration configuration) throws CoreException {
+		String[] temp = super.getVMArguments(configuration);
+		String[] othersArguments = getOthersVMArguments(configuration);
 
 		String[] rt;
 
-		if ( temp == null || temp.length == 0 )
-		{
+		if (temp == null || temp.length == 0) {
 			rt = new String[othersArguments.length];
-			System.arraycopy( othersArguments, 0, rt, 0, rt.length );
-		}
-		else
-		{
+			System.arraycopy(othersArguments, 0, rt, 0, rt.length);
+		} else {
 			rt = new String[othersArguments.length + temp.length];
 
-			System.arraycopy( temp, 0, rt, 0, temp.length );
-			System.arraycopy( othersArguments,
-					0,
-					rt,
-					temp.length,
-					othersArguments.length );
+			System.arraycopy(temp, 0, rt, 0, temp.length);
+			System.arraycopy(othersArguments, 0, rt, temp.length, othersArguments.length);
 		}
 
 		return rt;
 	}
 
-	private String[] getOthersVMArguments( ILaunchConfiguration configuration )
-			throws CoreException
-	{
+	private String[] getOthersVMArguments(ILaunchConfiguration configuration) throws CoreException {
 		// String temp[] = ( new ExecutionArguments( configuration.getAttribute(
 		// "vmargs", "" ), "" ) ).getVMArgumentsArray( ); //$NON-NLS-1$
 		// //$NON-NLS-2$ //$NON-NLS-3$
-		String path = configuration.getAttribute( IMPORTPROJECT, "" ); //$NON-NLS-1$
+		String path = configuration.getAttribute(IMPORTPROJECT, ""); //$NON-NLS-1$
 
 		String append = "-D" + PROJECT_NAMES_KEY + "=" + path; //$NON-NLS-1$ //$NON-NLS-2$
 
-		String projectClassPaths = finder.getClassPath( );
+		String projectClassPaths = finder.getClassPath();
 
 		String classPath = ""; //$NON-NLS-1$
 		// String sourcePath = "";
-		if ( projectClassPaths != null && projectClassPaths.length( ) != 0 )
-		{
+		if (projectClassPaths != null && projectClassPaths.length() != 0) {
 			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		String openFiles = "-D" //$NON-NLS-1$
-				+ PROJECT_OPENFILES_KEY
-				+ "=" //$NON-NLS-1$
-				+ configuration.getAttribute( OPENFILENAMES, "" ); //$NON-NLS-1$
+				+ PROJECT_OPENFILES_KEY + "=" //$NON-NLS-1$
+				+ configuration.getAttribute(OPENFILENAMES, ""); //$NON-NLS-1$
 
 		String mode = "-D" + WebViewer.REPORT_DEBUT_MODE + "=" + "TRUE"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		return new String[]{
-				append, classPath, openFiles, mode
-		};
+		return new String[] { append, classPath, openFiles, mode };
 	}
 }

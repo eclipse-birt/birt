@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -32,12 +35,9 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Contains HeadStyleChooser
- * 
+ *
  */
-public class HeadStyleAttributeComposite extends Composite implements
-		SelectionListener,
-		Listener
-{
+public class HeadStyleAttributeComposite extends Composite implements SelectionListener, Listener {
 
 	private transient Composite cmpContent = null;
 
@@ -61,138 +61,122 @@ public class HeadStyleAttributeComposite extends Composite implements
 	 * @param parent
 	 * @param style
 	 */
-	public HeadStyleAttributeComposite( Composite parent, int style,
-			LineDecorator laCurrent, EObject eParent, String sProperty, ChartWizardContext context )
-	{
-		super( parent, style );
+	public HeadStyleAttributeComposite(Composite parent, int style, LineDecorator laCurrent, EObject eParent,
+			String sProperty, ChartWizardContext context) {
+		super(parent, style);
 		this.laCurrent = laCurrent;
 		this.eParent = eParent;
 		this.sProperty = sProperty;
 		this.context = context;
-		init( );
-		placeComponents( );
+		init();
+		placeComponents();
 	}
 
-	private void init( )
-	{
-		this.setSize( getParent( ).getClientArea( ).width,
-				getParent( ).getClientArea( ).height );
-		vListeners = new Vector<Listener>( );
+	private void init() {
+		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
+		vListeners = new Vector<>();
 	}
 
-	private void placeComponents( )
-	{
-		FillLayout flMain = new FillLayout( );
+	private void placeComponents() {
+		FillLayout flMain = new FillLayout();
 		flMain.marginHeight = 0;
 		flMain.marginWidth = 0;
 
-		GridLayout glContent = new GridLayout( );
+		GridLayout glContent = new GridLayout();
 		glContent.verticalSpacing = 5;
 		glContent.horizontalSpacing = 5;
 		glContent.marginHeight = 4;
 		glContent.marginWidth = 4;
 		glContent.numColumns = 6;
 
-		this.setLayout( flMain );
+		this.setLayout(flMain);
 
-		cmpContent = new Composite( this, SWT.NONE );
-		cmpContent.setLayout( glContent );
+		cmpContent = new Composite(this, SWT.NONE);
+		cmpContent.setLayout(glContent);
 
-		lblHeadStyle = new Label( cmpContent, SWT.NONE );
-		GridData gdLHeadStyle = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		lblHeadStyle.setLayoutData( gdLHeadStyle );
-		lblHeadStyle.setText( Messages.getString( "HeadStyleAttributeComposite.Lbl.HeadStyle" ) ); //$NON-NLS-1$
+		lblHeadStyle = new Label(cmpContent, SWT.NONE);
+		GridData gdLHeadStyle = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		lblHeadStyle.setLayoutData(gdLHeadStyle);
+		lblHeadStyle.setText(Messages.getString("HeadStyleAttributeComposite.Lbl.HeadStyle")); //$NON-NLS-1$
 
-		cmbHeadStyle = context.getUIFactory( ).createHeadStyleChooserComposite( cmpContent,
-				SWT.DROP_DOWN | SWT.READ_ONLY,
-				laCurrent.getValue( ),
-				eParent,
-				sProperty );
-		GridData gdCBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
+		cmbHeadStyle = context.getUIFactory().createHeadStyleChooserComposite(cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY,
+				laCurrent.getValue(), eParent, sProperty);
+		GridData gdCBHeadStyle = new GridData(GridData.FILL_HORIZONTAL);
 		gdCBHeadStyle.horizontalSpan = 5;
-		cmbHeadStyle.setLayoutData( gdCBHeadStyle );
-		cmbHeadStyle.addListener( HeadStyleChooserComposite.SELECTION_EVENT,
-				this );
+		cmbHeadStyle.setLayoutData(gdCBHeadStyle);
+		cmbHeadStyle.addListener(HeadStyleChooserComposite.SELECTION_EVENT, this);
 	}
 
-	public void addListener( Listener listener )
-	{
-		vListeners.add( listener );
+	public void addListener(Listener listener) {
+		vListeners.add(listener);
 	}
 
-	public void setLineDecorator( LineDecorator attributes )
-	{
+	public void setLineDecorator(LineDecorator attributes) {
 		laCurrent = attributes;
 
-		if ( laCurrent == null )
-		{
-			cmbHeadStyle.setHeadStyle( LineDecorator.ARROW  );
+		if (laCurrent == null) {
+			cmbHeadStyle.setHeadStyle(LineDecorator.ARROW);
+		} else {
+			cmbHeadStyle.setHeadStyle(attributes.getValue());
 		}
-		else
-		{
-			cmbHeadStyle.setHeadStyle( attributes.getValue( ) );
-		}
-		redraw( );
+		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
+	@Override
+	public void widgetSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
-	private void fireValueChangedEvent( int iEventType, Object data )
-	{
-		for ( int iL = 0; iL < vListeners.size( ); iL++ )
-		{
-			Event se = new Event( );
+	private void fireValueChangedEvent(int iEventType, Object data) {
+		for (int iL = 0; iL < vListeners.size(); iL++) {
+			Event se = new Event();
 			se.widget = this;
 			se.data = data;
 			se.type = iEventType;
-			se.detail = ( data == null ) ? ChartUIExtensionUtil.PROPERTY_UNSET
-					: ChartUIExtensionUtil.PROPERTY_UPDATE;
-			vListeners.get( iL ).handleEvent( se );
+			se.detail = (data == null) ? ChartUIExtensionUtil.PROPERTY_UNSET : ChartUIExtensionUtil.PROPERTY_UPDATE;
+			vListeners.get(iL).handleEvent(se);
 		}
 	}
 
-	private LineDecorator getModelHeadStyle( int iStyle )
-	{
-		switch ( iStyle )
-		{
-			case 0 :
-				return LineDecorator.ARROW_LITERAL;
-			case 1 :
-				return LineDecorator.CIRCLE_LITERAL;
-			case 2 :
-				return LineDecorator.NONE_LITERAL;
-			default :
-				return null;
+	private LineDecorator getModelHeadStyle(int iStyle) {
+		switch (iStyle) {
+		case 0:
+			return LineDecorator.ARROW_LITERAL;
+		case 1:
+			return LineDecorator.CIRCLE_LITERAL;
+		case 2:
+			return LineDecorator.NONE_LITERAL;
+		default:
+			return null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 *
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent( Event event )
-	{
-		if ( cmbHeadStyle != null && cmbHeadStyle.equals( event.widget ) )
-		{
-			fireValueChangedEvent( HeadStyleAttributeComposite.STYLE_CHANGED_EVENT,
-					getModelHeadStyle( cmbHeadStyle.getHeadStyle( ) ) );
+	@Override
+	public void handleEvent(Event event) {
+		if (cmbHeadStyle != null && cmbHeadStyle.equals(event.widget)) {
+			fireValueChangedEvent(HeadStyleAttributeComposite.STYLE_CHANGED_EVENT,
+					getModelHeadStyle(cmbHeadStyle.getHeadStyle()));
 		}
 	}
 }

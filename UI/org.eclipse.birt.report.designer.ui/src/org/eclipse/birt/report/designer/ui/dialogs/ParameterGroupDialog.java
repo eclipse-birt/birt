@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,37 +26,34 @@ import org.eclipse.swt.widgets.Shell;
  * The dialog used to create or edit a parameter group
  */
 
-public class ParameterGroupDialog extends TabDialog
-{
+public class ParameterGroupDialog extends TabDialog {
 
-	private static final String GENERAL_PAGE_TITLE = Messages.getString( "ParameterGroupDialog.Page.Title" );//$NON-NLS-1$
+	private static final String GENERAL_PAGE_TITLE = Messages.getString("ParameterGroupDialog.Page.Title");//$NON-NLS-1$
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 * @param title
 	 */
-	public ParameterGroupDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
+	public ParameterGroupDialog(Shell parentShell, String title) {
+		super(parentShell, title);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabDialog#addTabPages
-	 * ()
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.TabDialog#addTabPages ()
 	 */
-	public void addTabPages( )
-	{
-		addTabPage( new ParameterGroupGeneralPage( GENERAL_PAGE_TITLE ) );
+	@Override
+	public void addTabPages() {
+		addTabPage(new ParameterGroupGeneralPage(GENERAL_PAGE_TITLE));
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETER_GROUP_DIALOG_ID );
-		return super.createDialogArea( parent );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.PARAMETER_GROUP_DIALOG_ID);
+		return super.createDialogArea(parent);
 	}
 }

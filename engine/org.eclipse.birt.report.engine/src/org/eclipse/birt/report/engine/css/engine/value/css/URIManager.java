@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,101 +27,92 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
  * One line Class Desc
- * 
+ *
  * Complete Class Desc
- * 
+ *
  */
-public class URIManager extends IdentifierManager
-{
+public class URIManager extends IdentifierManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
 	}
 
 	protected String propertyName;
 	protected Value defaultValue;
 	protected boolean inherit;
 
-	public URIManager( String propertyName, boolean inherit, Value defaultValue )
-	{
+	public URIManager(String propertyName, boolean inherit, Value defaultValue) {
 		this.propertyName = propertyName;
 		this.defaultValue = defaultValue;
 		this.inherit = inherit;
 	}
 
 	/**
-	 * Implements {@link
-	 * org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
+	 * Implements
+	 * {@link org.apache.batik.css.engine.value.ValueManager#isInheritedProperty()}.
 	 */
-	public boolean isInheritedProperty( )
-	{
+	@Override
+	public boolean isInheritedProperty() {
 		return inherit;
 	}
 
 	/**
-	 * Implements {@link
-	 * org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
+	 * Implements
+	 * {@link org.apache.batik.css.engine.value.ValueManager#getPropertyName()}.
 	 */
-	public String getPropertyName( )
-	{
+	@Override
+	public String getPropertyName() {
 		return propertyName;
 	}
 
 	/**
-	 * Implements {@link
-	 * org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
+	 * Implements
+	 * {@link org.apache.batik.css.engine.value.ValueManager#getDefaultValue()}.
 	 */
-	public Value getDefaultValue( )
-	{
+	@Override
+	public Value getDefaultValue() {
 		return defaultValue;
 	}
 
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue( String value, CSSEngine engine )
-			throws DOMException
-	{
-		return new URIValue( value );
+	public Value createValue(String value, CSSEngine engine) throws DOMException {
+		return new URIValue(value);
 	}
-	
+
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue( LexicalUnit lu, CSSEngine engine )
-			throws DOMException
-	{
-		if ( lu.getLexicalUnitType( ) == LexicalUnit.SAC_URI )
-		{
-			return new URIValue( lu.getStringValue( ) );
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
+		if (lu.getLexicalUnitType() == LexicalUnit.SAC_URI) {
+			return new URIValue(lu.getStringValue());
 		}
-		return createStringValue( lu.getLexicalUnitType( ),
-				lu.getStringValue( ), engine );
+		return createStringValue(lu.getLexicalUnitType(), lu.getStringValue(), engine);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.css.engine.ValueManager#createStringValue(short,
-	 *      java.lang.String,
-	 *      org.eclipse.birt.report.engine.css.engine.CSSEngine)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.css.engine.ValueManager#createStringValue(
+	 * short, java.lang.String, org.eclipse.birt.report.engine.css.engine.CSSEngine)
 	 */
-	public Value createStringValue( short type, String value, CSSEngine engine )
-			throws DOMException
-	{
-		return new StringValue( CSSPrimitiveValue.CSS_STRING, value );
+	@Override
+	public Value createStringValue(short type, String value, CSSEngine engine) throws DOMException {
+		return new StringValue(CSSPrimitiveValue.CSS_STRING, value);
 	}
 
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
-	public StringMap getIdentifiers( )
-	{
+	@Override
+	public StringMap getIdentifiers() {
 		return values;
 	}
 }

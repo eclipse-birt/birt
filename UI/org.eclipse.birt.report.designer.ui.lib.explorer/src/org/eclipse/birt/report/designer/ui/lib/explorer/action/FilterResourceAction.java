@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,42 +29,34 @@ import org.eclipse.jface.window.Window;
 /**
  * The action class for filtering resource in resource explorer.
  */
-public class FilterResourceAction extends ResourceAction
-{
+public class FilterResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for filtering resource.
-	 * 
-	 * @param page
-	 *            the resource explorer page
+	 *
+	 * @param page the resource explorer page
 	 */
-	public FilterResourceAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "LibraryFileFilterAction.Text" ), page ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_TOOL_FILTER ) );
+	public FilterResourceAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("LibraryFileFilterAction.Text"), page); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_TOOL_FILTER));
 	}
 
 	@Override
-	public void run( )
-	{
-		ResourceFilterDialog dialog = new ResourceFilterDialog( );
-		ArrayList<ResourceFilter> filters = new ArrayList<ResourceFilter>( );
+	public void run() {
+		ResourceFilterDialog dialog = new ResourceFilterDialog();
+		ArrayList<ResourceFilter> filters = new ArrayList<>(LibraryExplorerPlugin.getFilterMap().values());
 
-		filters.addAll( LibraryExplorerPlugin.getFilterMap( ).values( ) );
-		dialog.setInput( filters );
+		dialog.setInput(filters);
 
-		if ( dialog.open( ) == Window.OK )
-		{
-			IPreferenceStore store = LibraryExplorerPlugin.getDefault( )
-					.getPreferenceStore( );
+		if (dialog.open() == Window.OK) {
+			IPreferenceStore store = LibraryExplorerPlugin.getDefault().getPreferenceStore();
 
-			for ( int i = 0; i < filters.size( ); i++ )
-			{
-				ResourceFilter filter = filters.get( i );
+			for (int i = 0; i < filters.size(); i++) {
+				ResourceFilter filter = filters.get(i);
 
-				store.setValue( filter.getType( ), filter.isEnabled( ) );
+				store.setValue(filter.getType(), filter.isEnabled());
 			}
-			refreshAll( );
+			refreshAll();
 		}
 	}
 }

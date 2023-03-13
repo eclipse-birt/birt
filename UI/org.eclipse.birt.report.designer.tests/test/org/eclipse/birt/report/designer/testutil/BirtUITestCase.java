@@ -1,17 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.testutil;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.core.resources.IFile;
@@ -26,11 +27,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import junit.framework.TestCase;
+
 /**
  * Base class of BIRT GUI Features test
  */
-public abstract class BirtUITestCase extends TestCase implements ITestConstants
-{
+public abstract class BirtUITestCase extends TestCase implements ITestConstants {
 
 	protected IWorkbench tWorkbench;
 
@@ -44,41 +46,37 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		tWorkbench = PlatformUI.getWorkbench( );
-		tWindow = tWorkbench.getActiveWorkbenchWindow( );
-		tPage = tWindow.getActivePage( );
-		tPerspectiveDescriptor = tWorkbench.getPerspectiveRegistry( )
-				.findPerspectiveWithId( PERSPECTIVE_ID );
+	@Override
+	protected void setUp() throws Exception {
+		tWorkbench = PlatformUI.getWorkbench();
+		tWindow = tWorkbench.getActiveWorkbenchWindow();
+		tPage = tWindow.getActivePage();
+		tPerspectiveDescriptor = tWorkbench.getPerspectiveRegistry().findPerspectiveWithId(PERSPECTIVE_ID);
 	}
 
 	/**
 	 * Switch to the Report Designer Perspective
 	 */
 
-	protected void showPerspective( ) throws Exception
-	{
-		tWorkbench.showPerspective( PERSPECTIVE_ID, tWindow );
+	protected void showPerspective() throws Exception {
+		tWorkbench.showPerspective(PERSPECTIVE_ID, tWindow);
 	}
 
 	/**
 	 * Opens the ReportEditor
-	 * 
+	 *
 	 * @return the Report Editor
 	 */
 
-	protected IEditorPart openEditor( ) throws Exception
-	{
-		if ( tEditor == null )
-		{
-			IProject p = FileUtil.createProject( TEST_PROJECT_NAME );
+	protected IEditorPart openEditor() throws Exception {
+		if (tEditor == null) {
+			IProject p = FileUtil.createProject(TEST_PROJECT_NAME);
 
-			IFile f = FileUtil.createFile( TEST_DESIGN_FILE, p );
-			tEditor = tPage.openEditor( new FileEditorInput( f ), EDITOR_ID );
+			IFile f = FileUtil.createFile(TEST_DESIGN_FILE, p);
+			tEditor = tPage.openEditor(new FileEditorInput(f), EDITOR_ID);
 		}
 		return tEditor;
 	}
@@ -86,43 +84,37 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 	/**
 	 * Saves the opened editor
 	 */
-	protected void saveEditor( )
-	{
-		if ( tEditor != null )
-		{
-			tEditor.doSave( null );
+	protected void saveEditor() {
+		if (tEditor != null) {
+			tEditor.doSave(null);
 		}
 	}
 
 	/**
 	 * Closes the opened editor without saving changes
 	 */
-	protected void closeEditor( )
-	{
-		if ( tEditor != null )
-		{
-			tPage.closeEditor( tEditor, false );
+	protected void closeEditor() {
+		if (tEditor != null) {
+			tPage.closeEditor(tEditor, false);
 			tEditor = null;
 		}
 	}
 
 	/**
 	 * Gets the ViewPart with the specified id
-	 * 
-	 * @param id
-	 *            the id of view part
-	 * 
+	 *
+	 * @param id the id of view part
+	 *
 	 * @return Returns the view part, or null if not found
 	 */
 
-	protected IViewPart getView( String id )
-	{
-		IViewReference[] v = tPage.getViewReferences( );
+	protected IViewPart getView(String id) {
+		IViewReference[] v = tPage.getViewReferences();
 		int i;
-		for ( i = 0; i < v.length; i++ )
-		{
-			if ( v[i].getId( ).equals( id ) )
-				return (IViewPart) v[i].getPart( true );
+		for (i = 0; i < v.length; i++) {
+			if (v[i].getId().equals(id)) {
+				return (IViewPart) v[i].getPart(true);
+			}
 		}
 		return null;
 	}

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,78 +20,74 @@ import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.emf.ecore.EClass;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Number Data Set</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Number
+ * Data Set</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
-{
+public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	protected NumberDataSetImpl( )
-	{
-		super( );
+	protected NumberDataSetImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return DataPackage.Literals.NUMBER_DATA_SET;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'NumberDataSet' instance
-	 * 
-	 * @param oValues
-	 *            The Collection (of Double(s)), Double[] or double[] of values associated with this dataset
-	 * 
+	 *
+	 * @param oValues The Collection (of Double(s)), Double[] or double[] of values
+	 *                associated with this dataset
+	 *
 	 * @return
 	 */
-	public static final NumberDataSet create( Object oValues )
-	{
-		final NumberDataSet nds = DataFactory.eINSTANCE.createNumberDataSet( );
-		( (NumberDataSetImpl) nds ).initialize( );
-		nds.setValues( oValues );
+	public static final NumberDataSet create(Object oValues) {
+		final NumberDataSet nds = DataFactory.eINSTANCE.createNumberDataSet();
+		((NumberDataSetImpl) nds).initialize();
+		nds.setValues(oValues);
 		return nds;
 	}
 
 	/**
 	 * This method performs any initialization of the instance when created
-	 * 
+	 *
 	 * Note: Manually written
 	 */
-	protected void initialize( )
-	{
+	protected void initialize() {
 	}
 
 	/**
 	 * @generated
 	 */
-	public NumberDataSet copyInstance( )
-	{
-		NumberDataSetImpl dest = new NumberDataSetImpl( );
-		dest.set( this );
+	@Override
+	public NumberDataSet copyInstance() {
+		NumberDataSetImpl dest = new NumberDataSetImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( NumberDataSet src )
-	{
+	protected void set(NumberDataSet src) {
 
-		super.set( src );
+		super.set(src);
 
 	}
 
-} //NumberDataSetImpl
+} // NumberDataSetImpl

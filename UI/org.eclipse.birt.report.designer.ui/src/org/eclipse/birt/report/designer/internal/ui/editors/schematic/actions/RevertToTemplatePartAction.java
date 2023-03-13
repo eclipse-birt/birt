@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,44 +23,43 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * 
+ *
  */
 
-public class RevertToTemplatePartAction extends WrapperSelectionAction
-{
+public class RevertToTemplatePartAction extends WrapperSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.RevertToTemplateAction"; //$NON-NLS-1$
-	private static final String DEFAULT_TEXT = Messages.getString( "RevertToTemplateAction.text" ); //$NON-NLS-1$	
+	private static final String DEFAULT_TEXT = Messages.getString("RevertToTemplateAction.text"); //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public RevertToTemplatePartAction( IWorkbenchPart part )
-	{
-		super( part );
+	public RevertToTemplatePartAction(IWorkbenchPart part) {
+		super(part);
 
-		setId( ID );
-		setText( DEFAULT_TEXT );
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
+	 * ISelection)
 	 */
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new RevertToTemplateAction( model );
+	@Override
+	protected IAction createActionHandler(ISelection model) {
+		return new RevertToTemplateAction(model);
 	}
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,79 +29,75 @@ import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
  * vertical lines. Use the {@link org.eclipse.birt.report.model.api.LineHandle}
  * class to change the properties, such as the line size, line color and line
  * pattern using the item's style.
- * 
+ *
  */
 
-public class LineItem extends ReportItem implements ILineItemModel
-{
+public class LineItem extends ReportItem implements ILineItemModel {
 
 	/**
 	 * Default Constructor.
 	 */
 
-	public LineItem( )
-	{
-		super( );
+	public LineItem() {
+		super();
 	}
 
 	/**
 	 * Constructs the line item with an optional name.
-	 * 
-	 * @param theName
-	 *            the optional name of the line item
+	 *
+	 * @param theName the optional name of the line item
 	 */
 
-	public LineItem( String theName )
-	{
-		super( theName );
+	public LineItem(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 *
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitLine( this );
+	@Override
+	public void apply(ElementVisitor visitor) {
+		visitor.visitLine(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	@Override
+	public String getElementName() {
 		return ReportDesignConstants.LINE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	@Override
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the report design
+	 *
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public LineHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new LineHandle( module, this );
+	public LineHandle handle(Module module) {
+		if (handle == null) {
+			handle = new LineHandle(module, this);
 		}
 		return (LineHandle) handle;
 	}

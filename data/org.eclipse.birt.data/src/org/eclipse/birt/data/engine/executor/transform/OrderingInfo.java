@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,52 +22,47 @@ import java.util.List;
  * instance according to the existing SmartCache instance and the information in
  * OrderingInfo instance.
  */
-public final class OrderingInfo
-{
+public final class OrderingInfo {
 
 	// The group start index array
-	private List startIndex = new ArrayList( );
+	private List startIndex = new ArrayList();
 
 	// The group end index array
-	private List endIndex = new ArrayList( );
+	private List endIndex = new ArrayList();
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 * @return
 	 */
-	public int getStartIndex( int i )
-	{
-		return Integer.valueOf( startIndex.get( i ).toString( ) ).intValue( );
+	public int getStartIndex(int i) {
+		return Integer.parseInt(startIndex.get(i).toString());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 * @return
 	 */
-	public int getEndIndex( int i )
-	{
-		return Integer.valueOf( endIndex.get( i ).toString( ) ).intValue( );
+	public int getEndIndex(int i) {
+		return Integer.parseInt(endIndex.get(i).toString());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param startIdx
 	 * @param endIdx
 	 */
-	public void add( int startIdx, int endIdx )
-	{
-		this.startIndex.add( String.valueOf( startIdx ) );
-		this.endIndex.add( String.valueOf( endIdx ) );
+	public void add(int startIdx, int endIdx) {
+		this.startIndex.add(String.valueOf(startIdx));
+		this.endIndex.add(String.valueOf(endIdx));
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public int getCount( )
-	{
-		return startIndex.size( );
+	public int getCount() {
+		return startIndex.size();
 	}
 }

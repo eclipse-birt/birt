@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,48 +52,42 @@ import org.eclipse.ui.PlatformUI;
 /**
  * PublishTemplateAction
  */
-public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
-{
+public class PublishTemplateAction implements IWorkbenchWindowActionDelegate {
 
 	private IFile reportFile = null;
 	private boolean selectReport = false;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
+	@Override
+	public void init(IWorkbenchWindow window) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		if ( selectReport )
-		{
-			if ( reportFile != null )
-			{
-				String url = reportFile.getLocation( ).toOSString( );
-				try
-				{
-					ModuleHandle handle = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( )
-							.openDesign( url );
+	@Override
+	public void run(IAction action) {
+		if (selectReport) {
+			if (reportFile != null) {
+				String url = reportFile.getLocation().toOSString();
+				try {
+					ModuleHandle handle = SessionHandleAdapter.getInstance().getSessionHandle().openDesign(url);
 
 //					if ( !( handle instanceof ReportDesignHandle ) )
 //					{
@@ -98,110 +95,95 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 //						return;
 //					}
 
-					IEditorPart editor = UIUtil.findOpenedEditor( url );
+					IEditorPart editor = UIUtil.findOpenedEditor(url);
 
-					if ( editor != null && editor.isDirty( ) )
-					{
-						MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
-								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
+					if (editor != null && editor.isDirty()) {
+						MessageDialog md = new MessageDialog(UIUtil.getDefaultShell(),
+								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.title"), //$NON-NLS-1$
 								null,
-								Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{reportFile.getName( )} ), //$NON-NLS-1$
+								Messages.getFormattedString("PublishTemplateAction.SaveBeforeGenerating.dialog.message", //$NON-NLS-1$
+										new Object[] { reportFile.getName() }),
 								MessageDialog.CONFIRM,
-								new String[]{
-										Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
-										Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.no" ) //$NON-NLS-1$
-								},
-								0 );
-						switch ( md.open( ) )
-						{
-							case 0 :
-								editor.doSave( null );
-								break;
-							case 1 :
-							default :
+								new String[] {
+										Messages.getString(
+												"PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes"), //$NON-NLS-1$
+										Messages.getString(
+												"PublishTemplateAction.SaveBeforeGenerating.dialog.button.no") //$NON-NLS-1$
+								}, 0);
+						switch (md.open()) {
+						case 0:
+							editor.doSave(null);
+							break;
+						case 1:
+						default:
 						}
 					}
 
-					WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-							new PublishTemplateWizard( (ReportDesignHandle) handle ) );
-					dialog.setPageSize( 500, 250 );
-					dialog.open( );
+					WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(),
+							new PublishTemplateWizard((ReportDesignHandle) handle));
+					dialog.setPageSize(500, 250);
+					dialog.open();
 
-					handle.close( );
-				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
+					handle.close();
+				} catch (Exception e) {
+					ExceptionHandler.handle(e);
 					return;
 				}
 			}
-		}
-		else
-		{
-			IEditorPart editor = UIUtil.getActiveEditor( true );
+		} else {
+			IEditorPart editor = UIUtil.getActiveEditor(true);
 
-			if ( editor != null && editor.isDirty( ) )
-			{
-				MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
-						Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
-						null,
-						Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{editor.getTitle( )} ), //$NON-NLS-1$
+			if (editor != null && editor.isDirty()) {
+				MessageDialog md = new MessageDialog(UIUtil.getDefaultShell(),
+						Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.title"), //$NON-NLS-1$
+						null, Messages.getFormattedString("PublishTemplateAction.SaveBeforeGenerating.dialog.message", //$NON-NLS-1$
+								new Object[] { editor.getTitle() }),
 						MessageDialog.CONFIRM,
-						new String[]{
-								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
-								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.no" ) //$NON-NLS-1$
-						},
-						0 );
-				switch ( md.open( ) )
-				{
-					case 0 :
-						editor.doSave( null );
-						break;
-					case 1 :
-					default :
+						new String[] {
+								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes"), //$NON-NLS-1$
+								Messages.getString("PublishTemplateAction.SaveBeforeGenerating.dialog.button.no") //$NON-NLS-1$
+						}, 0);
+				switch (md.open()) {
+				case 0:
+					editor.doSave(null);
+					break;
+				case 1:
+				default:
 				}
 			}
 
-			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-					new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ) ) );
-			dialog.setPageSize( 500, 250 );
-			dialog.open( );
+			WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), new PublishTemplateWizard(
+					(ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle()));
+			dialog.setPageSize(500, 250);
+			dialog.open();
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 *
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		if ( selection instanceof TreeSelection )
-		{
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof TreeSelection) {
 			IFile file = null;
-			if ( ( (TreeSelection) selection ).getFirstElement( ) instanceof IFile )
-			{
-				file = (IFile) ( (TreeSelection) selection ).getFirstElement( );
+			if (((TreeSelection) selection).getFirstElement() instanceof IFile) {
+				file = (IFile) ((TreeSelection) selection).getFirstElement();
 			}
-			if ( file != null )
-			{
-				if ( file.getFileExtension( ) != null
-						&& ( file.getFileExtension( ).equals( "rpttemplate" ) //$NON-NLS-1$
-						|| file.getFileExtension( ).equals( "rptdesign" ) ) )//$NON-NLS-1$
+			if (file != null) {
+				if (file.getFileExtension() != null && (file.getFileExtension().equals("rpttemplate") //$NON-NLS-1$
+						|| file.getFileExtension().equals("rptdesign")))//$NON-NLS-1$
 				{
 					reportFile = file;
 					selectReport = true;
-					action.setEnabled( true );
-				}
-				else
-				{
+					action.setEnabled(true);
+				} else {
 					reportFile = null;
 					selectReport = false;
-					action.setEnabled( false );
+					action.setEnabled(false);
 				}
 
 				return;
@@ -210,23 +192,16 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 
 		reportFile = null;
 		selectReport = false;
-		action.setEnabled( isEnable( ) ); //$NON-NLS-1$
+		action.setEnabled(isEnable()); // $NON-NLS-1$
 
 	}
 
-	private boolean isEnable( )
-	{
-		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
-		{
-			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
-					|| editor.getEditorInput( )
-							.getName( )
-							.endsWith( ".rptdesign" ) //$NON-NLS-1$
-					|| ReportPlugin.getDefault( )
-							.isReportDesignFile( editor.getEditorInput( )
-									.getName( ) ) )
-			{
+	private boolean isEnable() {
+		IEditorPart editor = UIUtil.getActiveEditor(true);
+		if (editor != null) {
+			if (editor.getEditorInput().getName().endsWith(".rpttemplate") //$NON-NLS-1$
+					|| editor.getEditorInput().getName().endsWith(".rptdesign") //$NON-NLS-1$
+					|| ReportPlugin.getDefault().isReportDesignFile(editor.getEditorInput().getName())) {
 				return true;
 			}
 		}
@@ -238,20 +213,22 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 
 /**
  * PublishPage
- * 
+ *
  * @deprecated change to org.eclipse.birt.report.designer.internal.ui.wizards.
  *             WizardReportSettingPage
  */
-class PublishPage extends WizardPage
-{
+@Deprecated
+class PublishPage extends WizardPage {
 
-	private static final String PAGE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.title" ); //$NON-NLS-1$
-	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
-	private static final String LABEL_DISPLAY_NAME = Messages.getString( "PublishTemplateAction.wizard.page.label.displayName" ); //$NON-NLS-1$
-	private static final String LABEL_DESCRIPTION = Messages.getString( "PublishTemplateAction.wizard.page.label.description" ); //$NON-NLS-1$
-	private static final String LABEL_IMAGE = Messages.getString( "PublishTemplateAction.wizard.page.label.image" ); //$NON-NLS-1$
-	private static final String BTN_CHOOSE = Messages.getString( "PublishTemplateAction.wizard.page.btn.browse" ); //$NON-NLS-1$
-	private static final String BROWSE_TITLE = Messages.getString( "PublishTemplateAction.wizard.page.browse.title" ); //$NON-NLS-1$
+	private static final String PAGE_TITLE = Messages.getString("PublishTemplateAction.wizard.page.title"); //$NON-NLS-1$
+	private static final String PAGE_DESC = Messages.getString("PublishTemplateAction.wizard.page.desc"); //$NON-NLS-1$
+	private static final String LABEL_DISPLAY_NAME = Messages
+			.getString("PublishTemplateAction.wizard.page.label.displayName"); //$NON-NLS-1$
+	private static final String LABEL_DESCRIPTION = Messages
+			.getString("PublishTemplateAction.wizard.page.label.description"); //$NON-NLS-1$
+	private static final String LABEL_IMAGE = Messages.getString("PublishTemplateAction.wizard.page.label.image"); //$NON-NLS-1$
+	private static final String BTN_CHOOSE = Messages.getString("PublishTemplateAction.wizard.page.btn.browse"); //$NON-NLS-1$
+	private static final String BROWSE_TITLE = Messages.getString("PublishTemplateAction.wizard.page.browse.title"); //$NON-NLS-1$
 	private static final String IMAGE_ERROR = "PublishTemplateAction.wizard.page.imageError"; //$NON-NLS-1$
 	// private static final String LABEL_CHEATSHEET = Messages
 	// .getString( "PublishTemplateAction.wizard.page.label.cheatsheet" );
@@ -271,81 +248,81 @@ class PublishPage extends WizardPage
 
 	// private Text cheatSheetText;
 
-	public PublishPage( )
-	{
-		super( PAGE_TITLE );
-		setTitle( PAGE_TITLE );
-		setMessage( PAGE_DESC );
-		module = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+	public PublishPage() {
+		super(PAGE_TITLE);
+		setTitle(PAGE_TITLE);
+		setMessage(PAGE_DESC);
+		module = (ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	public void createControl( Composite parent )
-	{
+	@Override
+	public void createControl(Composite parent) {
 
-		Composite container = new Composite( parent, SWT.NONE );
-		GridLayout gridLayout = new GridLayout( );
+		Composite container = new Composite(parent, SWT.NONE);
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginWidth = 20;
 		gridLayout.marginHeight = 10;
 		gridLayout.verticalSpacing = 7;
 		gridLayout.numColumns = 3;
-		container.setLayout( gridLayout );
+		container.setLayout(gridLayout);
 
-		new Label( container, SWT.NONE ).setText( LABEL_DISPLAY_NAME );
-		nameText = createText( container, 2, 1 );
-		if ( module.getProperty( ModuleHandle.DISPLAY_NAME_PROP ) != null )
-			nameText.setText( module.getDisplayName( ) );
+		new Label(container, SWT.NONE).setText(LABEL_DISPLAY_NAME);
+		nameText = createText(container, 2, 1);
+		if (module.getProperty(ModuleHandle.DISPLAY_NAME_PROP) != null) {
+			nameText.setText(module.getDisplayName());
+		}
 
-		new Label( container, SWT.NONE ).setText( LABEL_DESCRIPTION );
-		descText = createText( container, 2, 5 );
-		if ( module.getProperty( ModuleHandle.DESCRIPTION_PROP ) != null )
-			descText.setText( (String) module.getProperty( ModuleHandle.DESCRIPTION_PROP ) );
+		new Label(container, SWT.NONE).setText(LABEL_DESCRIPTION);
+		descText = createText(container, 2, 5);
+		if (module.getProperty(ModuleHandle.DESCRIPTION_PROP) != null) {
+			descText.setText((String) module.getProperty(ModuleHandle.DESCRIPTION_PROP));
+		}
 
-		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
-		previewImageText = createText( container, 1, 1 );
-		if ( module.getIconFile( ) != null )
-			previewImageText.setText( module.getIconFile( ) );
-		previewImageText.addModifyListener( new ModifyListener( ) {
+		new Label(container, SWT.NONE).setText(LABEL_IMAGE);
+		previewImageText = createText(container, 1, 1);
+		if (module.getIconFile() != null) {
+			previewImageText.setText(module.getIconFile());
+		}
+		previewImageText.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				validate( );
+			@Override
+			public void modifyText(ModifyEvent e) {
+				validate();
 			}
-		} );
+		});
 
-		Button chooseBtn = new Button( container, SWT.NONE );
-		chooseBtn.setText( BTN_CHOOSE );
-		chooseBtn.addSelectionListener( new SelectionListener( ) {
+		Button chooseBtn = new Button(container, SWT.NONE);
+		chooseBtn.setText(BTN_CHOOSE);
+		chooseBtn.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				FileDialog dialog = new FileDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ) );
-				dialog.setText( BROWSE_TITLE );
-				dialog.setFilterExtensions( new String[]{
-					"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				} );
-				String fileName = dialog.open( );
-				if ( fileName == null )
-				{
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+				dialog.setText(BROWSE_TITLE);
+				dialog.setFilterExtensions(new String[] { "*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$
+																							// //$NON-NLS-3$
+																							// //$NON-NLS-4$
+																							// //$NON-NLS-5$
+				});
+				String fileName = dialog.open();
+				if (fileName == null) {
 					return;
 				}
-				previewImageText.setText( fileName );
+				previewImageText.setText(fileName);
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
-		} );
+		});
 
 		// new Label( container, SWT.NONE ).setText( LABEL_CHEATSHEET );
 		// cheatSheetText = createText( container, 1, 1 );
@@ -382,37 +359,32 @@ class PublishPage extends WizardPage
 		// }
 		// } );
 
-		nameText.forceFocus( );
-		setControl( container );
+		nameText.forceFocus();
+		setControl(container);
 	}
 
 	/*
 	 * Return DisplayName if it is not null
 	 */
-	public String getDisplayName( )
-	{
-		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( )
-				.trim( );
+	public String getDisplayName() {
+		return nameText.getText() == null ? STR_EMPTY : nameText.getText().trim();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return descText.getText( ) == null ? STR_EMPTY : descText.getText( )
-				.trim( );
+	@Override
+	public String getDescription() {
+		return descText.getText() == null ? STR_EMPTY : descText.getText().trim();
 	}
 
 	/*
 	 * Return PreviewImagePath if it is not null
 	 */
-	public String getPreviewImagePath( )
-	{
-		return previewImageText.getText( ) == null ? STR_EMPTY
-				: previewImageText.getText( ).trim( );
+	public String getPreviewImagePath() {
+		return previewImageText.getText() == null ? STR_EMPTY : previewImageText.getText().trim();
 	}
 
 	// public String getCheetSheetPath( )
@@ -421,44 +393,32 @@ class PublishPage extends WizardPage
 	// .getText( ).trim( );
 	// }
 
-	private Text createText( Composite container, int column, int row )
-	{
+	private Text createText(Composite container, int column, int row) {
 		Text text;
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 		gridData.horizontalSpan = column;
 
-		if ( row > 1 )
-		{
-			text = new Text( container, SWT.BORDER | SWT.MULTI | SWT.WRAP );
+		if (row > 1) {
+			text = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP);
 			gridData.heightHint = row * 20;
+		} else {
+			text = new Text(container, SWT.BORDER | SWT.SINGLE);
 		}
-		else
-			text = new Text( container, SWT.BORDER | SWT.SINGLE );
-		text.setLayoutData( gridData );
+		text.setLayoutData(gridData);
 		return text;
 	}
 
-	private void validate( )
-	{
-		if ( previewImageText.getText( ).trim( ).length( ) == 0 )
-		{
-			setErrorMessage( null );
-			setPageComplete( true );
-		}
-		else if ( !new File( previewImageText.getText( ) ).exists( ) )
-		{
-			setErrorMessage( Messages.getFormattedString( IMAGE_ERROR,
-					new String[]{
-						previewImageText.getText( )
-					} ) );
-			setPageComplete( false );
+	private void validate() {
+		if (previewImageText.getText().trim().length() == 0) {
+			setErrorMessage(null);
+			setPageComplete(true);
+		} else if (!new File(previewImageText.getText()).exists()) {
+			setErrorMessage(Messages.getFormattedString(IMAGE_ERROR, new String[] { previewImageText.getText() }));
+			setPageComplete(false);
 			return;
-		}
-		else
-		{
-			setErrorMessage( null );
-			setPageComplete( true );
+		} else {
+			setErrorMessage(null);
+			setPageComplete(true);
 		}
 
 		// if ( cheatSheetText.getText( ).trim( ).length( ) == 0 )
@@ -475,8 +435,8 @@ class PublishPage extends WizardPage
 		// }
 		// else
 		{
-			setErrorMessage( null );
-			setPageComplete( true );
+			setErrorMessage(null);
+			setPageComplete(true);
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,8 +42,7 @@ import org.eclipse.birt.report.model.api.scripts.MethodInfo;
  * Implements <code>IReportItem</code> for testing.
  */
 
-public class ReportItemImpl extends ReportItem implements IReportItem
-{
+public class ReportItemImpl extends ReportItem implements IReportItem {
 
 	public static final String USAGE_PROP = "usage"; //$NON-NLS-1$
 
@@ -54,55 +56,48 @@ public class ReportItemImpl extends ReportItem implements IReportItem
 
 	/**
 	 * Constructs an element.
-	 * 
+	 *
 	 * @param extDefn
 	 * @param elementHandle
 	 */
 
-	public ReportItemImpl( IReportItemFactory extDefn,
-			DesignElementHandle elementHandle )
-	{
+	public ReportItemImpl(IReportItemFactory extDefn, DesignElementHandle elementHandle) {
 		this.cachedDefn = extDefn;
 		assert elementHandle != null;
-		this.moduleHandle = elementHandle.getModuleHandle( );
+		this.moduleHandle = elementHandle.getModuleHandle();
 		this.extItemHandle = elementHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang
 	 * .String)
 	 */
-	public ByteArrayOutputStream serialize( String propName )
-	{
+	@Override
+	public ByteArrayOutputStream serialize(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#deserialize(java.lang
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#deserialize(java.lang
 	 * .String, java.io.ByteArrayInputStream)
 	 */
-	public void deserialize( String propName, ByteArrayInputStream data )
-			throws ExtendedElementException
-	{
+	@Override
+	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang
 	 * .String)
 	 */
-	public Object getProperty( String propName )
-	{
-		if ( USAGE_PROP.equalsIgnoreCase( propName ) )
-		{
+	@Override
+	public Object getProperty(String propName) {
+		if (USAGE_PROP.equalsIgnoreCase(propName)) {
 			return usage;
 		}
 
@@ -111,103 +106,92 @@ public class ReportItemImpl extends ReportItem implements IReportItem
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.
 	 * lang.String, java.lang.Object)
 	 */
-	public void checkProperty( String propName, Object value )
-			throws ExtendedElementException
-	{
+	@Override
+	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang
 	 * .String, java.lang.Object)
 	 */
-	public void setProperty( String propName, Object value )
-	{
-		moduleHandle.getCommandStack( ).execute(
-				getElementCommand( propName, value ) );
+	@Override
+	public void setProperty(String propName, Object value) {
+		moduleHandle.getCommandStack().execute(getElementCommand(propName, value));
 	}
 
-	public void doSetProperty( String propName, Object value )
-	{
-		if ( value == null )
+	public void doSetProperty(String propName, Object value) {
+		if (value == null) {
 			return;
+		}
 
-		if ( USAGE_PROP.equalsIgnoreCase( propName ) )
-		{
-			usage = value.toString( );
+		if (USAGE_PROP.equalsIgnoreCase(propName)) {
+			usage = value.toString();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#validate()
 	 */
-	public List validate( )
-	{
-		ExtendedElementException exception = new ExtendedElementException(
-				extItemHandle.getElement( ),
-				"test.testingbox.plugin", "1", null );//$NON-NLS-1$ //$NON-NLS-2$
-		exception.setProperty( ExtendedElementException.LINE_NUMBER, "15" ); //$NON-NLS-1$
-		exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
-				"local actuate" ); //$NON-NLS-1$
-		List list = new ArrayList( );
-		list.add( exception );
+	@Override
+	public List validate() {
+		ExtendedElementException exception = new ExtendedElementException(extItemHandle.getElement(),
+				"test.testingbox.plugin", "1", null);//$NON-NLS-1$ //$NON-NLS-2$
+		exception.setProperty(ExtendedElementException.LINE_NUMBER, "15"); //$NON-NLS-1$
+		exception.setProperty(ExtendedElementException.LOCALIZED_MESSAGE, "local actuate"); //$NON-NLS-1$
+		List list = new ArrayList();
+		list.add(exception);
 
 		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
-	public IReportItem copy( )
-	{
+	@Override
+	public IReportItem copy() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java
+	 *
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java
 	 * .lang.String, java.lang.Object)
 	 */
-	public IElementCommand getElementCommand( String propName, Object value )
-	{
-		return new ElementCommandImpl( this, propName, value, extItemHandle );
+	public IElementCommand getElementCommand(String propName, Object value) {
+		return new ElementCommandImpl(this, propName, value, extItemHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
-	public IPropertyDefinition[] getPropertyDefinitions( )
-	{
+	@Override
+	public IPropertyDefinition[] getPropertyDefinitions() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition
-	 * ()
+	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition ()
 	 */
-	public boolean refreshPropertyDefinition( )
-	{
-		if ( refreshNeeded )
-		{
+	@Override
+	public boolean refreshPropertyDefinition() {
+		if (refreshNeeded) {
 			refreshNeeded = false;
 			return true;
 		}
@@ -215,76 +199,69 @@ public class ReportItemImpl extends ReportItem implements IReportItem
 		return false;
 	}
 
-	public DesignElementHandle getExtItemHandle( )
-	{
+	public DesignElementHandle getExtItemHandle() {
 
 		return extItemHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
-	public IPropertyDefinition[] getMethods( )
-	{
+	@Override
+	public IPropertyDefinition[] getMethods() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
 
-	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
-	{
-		return new Box( this, (ExtendedItemHandle) extItemHandle );
+	@Override
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
+		return new Box(this, (ExtendedItemHandle) extItemHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java
 	 * .lang.String)
 	 */
 
-	public IMethodInfo[] getMethods( String methodName )
-	{
-		if ( "onPrepare".equalsIgnoreCase( methodName ) ) //$NON-NLS-1$
+	@Override
+	public IMethodInfo[] getMethods(String methodName) {
+		if ("onPrepare".equalsIgnoreCase(methodName)) { //$NON-NLS-1$
 			return null;
+		}
 
-		if ( "onRender".equalsIgnoreCase( methodName ) ) //$NON-NLS-1$
+		if ("onRender".equalsIgnoreCase(methodName)) //$NON-NLS-1$
 		{
 			IMethodInfo[] info = new IMethodInfo[1];
 
-			try
-			{
-				info[0] = new TmpMethodInfo( Box.class.getMethod( "getMethod1", //$NON-NLS-1$
-						null ) );
-			}
-			catch ( NoSuchMethodException e )
-			{
+			try {
+				info[0] = new TmpMethodInfo(Box.class.getMethod("getMethod1", //$NON-NLS-1$
+						null));
+			} catch (NoSuchMethodException e) {
 				assert false;
 			}
 
 			return info;
 		}
 
-		if ( "onCreate".equalsIgnoreCase( methodName ) ) //$NON-NLS-1$
+		if ("onCreate".equalsIgnoreCase(methodName)) //$NON-NLS-1$
 		{
 			IMethodInfo[] info = new IMethodInfo[1];
 
-			try
-			{
-				info[0] = new TmpMethodInfo( TmpOnCreate.class.getMethod(
-						"performOnCreate", new Class[]{Boolean.class} ) ); //$NON-NLS-1$
-			}
-			catch ( NoSuchMethodException e )
-			{
+			try {
+				info[0] = new TmpMethodInfo(
+						TmpOnCreate.class.getMethod("performOnCreate", new Class[] { Boolean.class })); //$NON-NLS-1$
+			} catch (NoSuchMethodException e) {
 				assert false;
 			}
 
@@ -296,65 +273,51 @@ public class ReportItemImpl extends ReportItem implements IReportItem
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility ()
 	 */
-	public CompatibilityStatus checkCompatibility( )
-	{
-		try
-		{
-			Map propMap = ( (ExtendedItemHandle) extItemHandle )
-					.getUndefinedProperties( );
-			UndefinedPropertyInfo shape = (UndefinedPropertyInfo) propMap
-					.get( "shape" ); //$NON-NLS-1$
-			if ( shape != null )
-				extItemHandle.setProperty( "shape", "cube" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-			Map illegalContents = ( (ExtendedItemHandle) extItemHandle )
-					.getIllegalContents( );
-			String propName = "header"; //$NON-NLS-1$
-			List headerContents = (List) illegalContents.get( propName );
-			if ( headerContents != null && !headerContents.isEmpty( ) )
-			{
-				extItemHandle.clearProperty( propName );
-				LabelHandle label = extItemHandle.getModuleHandle( )
-						.getElementFactory( ).newLabel( null );
-				extItemHandle.add( propName, label );
+	@Override
+	public CompatibilityStatus checkCompatibility() {
+		try {
+			Map propMap = ((ExtendedItemHandle) extItemHandle).getUndefinedProperties();
+			UndefinedPropertyInfo shape = (UndefinedPropertyInfo) propMap.get("shape"); //$NON-NLS-1$
+			if (shape != null) {
+				extItemHandle.setProperty("shape", "cube"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-		}
-		catch ( SemanticException e )
-		{
+
+			Map illegalContents = ((ExtendedItemHandle) extItemHandle).getIllegalContents();
+			String propName = "header"; //$NON-NLS-1$
+			List headerContents = (List) illegalContents.get(propName);
+			if (headerContents != null && !headerContents.isEmpty()) {
+				extItemHandle.clearProperty(propName);
+				LabelHandle label = extItemHandle.getModuleHandle().getElementFactory().newLabel(null);
+				extItemHandle.add(propName, label);
+			}
+		} catch (SemanticException e) {
 			// do nothing
 		}
 
 		boolean hasCompatibilities = false;
 		ExtendedItemHandle extHandle = (ExtendedItemHandle) extItemHandle;
-		if ( !extHandle.getUndefinedProperties( ).isEmpty( )
-				|| !extHandle.getIllegalContents( ).isEmpty( ) )
+		if (!extHandle.getUndefinedProperties().isEmpty() || !extHandle.getIllegalContents().isEmpty()) {
 			hasCompatibilities = true;
-		int type = hasCompatibilities
-				? CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE
-				: CompatibilityStatus.OK_TYPE;
-		return new CompatibilityStatus( Collections.EMPTY_LIST, type );
+		}
+		int type = hasCompatibilities ? CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE : CompatibilityStatus.OK_TYPE;
+		return new CompatibilityStatus(Collections.EMPTY_LIST, type);
 	}
 
-	private static class TmpMethodInfo extends MethodInfo
-	{
+	private static class TmpMethodInfo extends MethodInfo {
 
-		TmpMethodInfo( Method method )
-		{
-			super( method );
+		TmpMethodInfo(Method method) {
+			super(method);
 		}
 	}
 
-	static class TmpOnCreate
-	{
+	static class TmpOnCreate {
 
-		public String performOnCreate( Boolean flag )
-		{
+		public String performOnCreate(Boolean flag) {
 			return null;
 		}
-	}	
+	}
 }

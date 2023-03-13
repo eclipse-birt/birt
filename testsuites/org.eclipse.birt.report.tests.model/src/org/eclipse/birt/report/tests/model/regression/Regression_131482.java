@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,31 +45,29 @@ import com.ibm.icu.util.ULocale;
  * call setName() to change the name. Test to see this two method works.
  * <p>
  */
-public class Regression_131482 extends BaseTestCase
-{
+public class Regression_131482 extends BaseTestCase {
 
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	
-	public void test_regression_131482( ) throws ContentException, NameException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		OdaDataSourceHandle ds = factory.newOdaDataSource( "s1", null ); //$NON-NLS-1$
-		
-		designHandle.getDataSources( ).add( ds );
-		
-		OdaDataSourceHandle dsHandle = (OdaDataSourceHandle)designHandle.findDataSource( "s1" ); //$NON-NLS-1$
-		assertEquals( "s1", dsHandle.getQualifiedName( ) ); //$NON-NLS-1$
-		
+	public void test_regression_131482() throws ContentException, NameException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		OdaDataSourceHandle ds = factory.newOdaDataSource("s1", null); //$NON-NLS-1$
+
+		designHandle.getDataSources().add(ds);
+
+		OdaDataSourceHandle dsHandle = (OdaDataSourceHandle) designHandle.findDataSource("s1"); //$NON-NLS-1$
+		assertEquals("s1", dsHandle.getQualifiedName()); //$NON-NLS-1$
+
 		// rename the data source
-		
-		dsHandle.setName( "s2" ); //$NON-NLS-1$
-		assertEquals( "s2", dsHandle.getQualifiedName( ) ); //$NON-NLS-1$
+
+		dsHandle.setName("s2"); //$NON-NLS-1$
+		assertEquals("s2", dsHandle.getQualifiedName()); //$NON-NLS-1$
 	}
 }

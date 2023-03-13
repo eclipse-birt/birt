@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -46,42 +49,40 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * accessed from the design.
  * </p>
  */
-public class Regression_121008 extends BaseTestCase
-{
+public class Regression_121008 extends BaseTestCase {
 
 	private final static String TEMPLATE = "regression_121008_template.xml"; //$NON-NLS-1$
 	private final static String libname = "regression_121008_lib.xml";
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( TEMPLATE , TEMPLATE );
-		copyResource_INPUT(  libname, libname );
+		copyResource_INPUT(TEMPLATE, TEMPLATE);
+		copyResource_INPUT(libname, libname);
 	}
+
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_121008( ) throws ContentException, NameException,
-			DesignFileException
-	{
-		openDesign( TEMPLATE );
-		ImageHandle image = (ImageHandle) designHandle.findElement( "NewImage" ); //$NON-NLS-1$
+	public void test_regression_121008() throws ContentException, NameException, DesignFileException {
+		openDesign(TEMPLATE);
+		ImageHandle image = (ImageHandle) designHandle.findElement("NewImage"); //$NON-NLS-1$
 
-		ImageHandle copy = (ImageHandle) image.copy( ).getHandle( design );
-		designHandle.rename( copy );
+		ImageHandle copy = (ImageHandle) image.copy().getHandle(design);
+		designHandle.rename(copy);
 
-		designHandle.getBody( ).paste( copy );
-		ImageHandle image2 = (ImageHandle) designHandle.getBody( ).get( 1 );
+		designHandle.getBody().paste(copy);
+		ImageHandle image2 = (ImageHandle) designHandle.getBody().get(1);
 
-		
 		// ensure the the referenced image can be accessed from the design.
 
-		assertEquals( "regression_121008_lib.lvback.gif", image2.getEmbeddedImage( ).getQualifiedName( ) );
-		assertNotNull( image2.getEmbeddedImage( ).getData( ) );
+		assertEquals("regression_121008_lib.lvback.gif", image2.getEmbeddedImage().getQualifiedName());
+		assertNotNull(image2.getEmbeddedImage().getData());
 	}
 }

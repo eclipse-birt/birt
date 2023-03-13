@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,22 +20,20 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IRenderContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
-public class RenderContext extends ReportContextImpl implements IRenderContext
-{
+public class RenderContext extends ReportContextImpl implements IRenderContext {
 
-	public RenderContext( ExecutionContext context )
-	{
-		super( context );
+	public RenderContext(ExecutionContext context) {
+		super(context);
 	}
 
-	public IReportDocument getReportDocument( )
-	{
-		return context.getReportDocument( );
+	@Override
+	public IReportDocument getReportDocument() {
+		return context.getReportDocument();
 	}
 
-	public IReportContent getReportContent( )
-	{
-		return context.getReportContent( );
+	@Override
+	public IReportContent getReportContent() {
+		return context.getReportContent();
 	}
 
 }

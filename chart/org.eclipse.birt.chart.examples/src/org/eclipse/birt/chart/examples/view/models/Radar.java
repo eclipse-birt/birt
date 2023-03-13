@@ -1,13 +1,13 @@
 /*******************************************************************************
 * Copyright (c) 2007 Actuate Corporation.
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.examples.view.models;
 
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
@@ -31,69 +31,62 @@ import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
 
 /**
- * 
+ *
  */
 
-public class Radar
-{
+public class Radar {
 
-	public static final Chart createRadar( )
-	{
-		ChartWithoutAxes cwoaRadar = ChartWithoutAxesImpl.create( );
-		cwoaRadar.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-		cwoaRadar.setType( "Radar Chart" ); //$NON-NLS-1$	
-		cwoaRadar.setSubType( "Standard Radar Chart" ); //$NON-NLS-1$
+	public static final Chart createRadar() {
+		ChartWithoutAxes cwoaRadar = ChartWithoutAxesImpl.create();
+		cwoaRadar.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
+		cwoaRadar.setType("Radar Chart"); //$NON-NLS-1$
+		cwoaRadar.setSubType("Standard Radar Chart"); //$NON-NLS-1$
 
 		// Plot
-		cwoaRadar.setSeriesThickness( 10 );
+		cwoaRadar.setSeriesThickness(10);
 
 		// Legend
-		Legend lg = cwoaRadar.getLegend( );
-		lg.getOutline( ).setVisible( true );
+		Legend lg = cwoaRadar.getLegend();
+		lg.getOutline().setVisible(true);
 
 		// Title
-		cwoaRadar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Radar Chart" );//$NON-NLS-1$
+		cwoaRadar.getTitle().getLabel().getCaption().setValue("Radar Chart");//$NON-NLS-1$
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"New York", "Boston", "Chicago", "San Francisco", "Dallas"} );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new double[]{
-				54, 21, 75, 91, 37
-		} );
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "New York", "Boston", "Chicago", "San Francisco", "Dallas" });//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] { 54, 21, 75, 91, 37 });
 
-		SampleData sdata = DataFactory.eINSTANCE.createSampleData( );
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdata.getBaseSampleData( ).add( sdBase );
+		SampleData sdata = DataFactory.eINSTANCE.createSampleData();
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sdBase.setDataSetRepresentation("");//$NON-NLS-1$
+		sdata.getBaseSampleData().add(sdBase);
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex( 0 );
-		sdata.getOrthogonalSampleData( ).add( sdOrthogonal );
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sdOrthogonal.setDataSetRepresentation("");//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex(0);
+		sdata.getOrthogonalSampleData().add(sdOrthogonal);
 
-		cwoaRadar.setSampleData( sdata );
+		cwoaRadar.setSampleData(sdata);
 
 		// Base Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sd = SeriesDefinitionImpl.create( );
-		cwoaRadar.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).shift( 0 );
-		sd.getSeries( ).add( seCategory );
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		cwoaRadar.getSeriesDefinitions().add(sd);
+		sd.getSeriesPalette().shift(0);
+		sd.getSeries().add(seCategory);
 
 		// Orthogonal Series
-		RadarSeries seRadar = RadarSeriesImpl.create( );
-		seRadar.setDataSet( seriesOneValues );
-		seRadar.setSeriesIdentifier( "Cities" );//$NON-NLS-1$ 
-		seRadar.getLabel( ).setVisible( true );
+		RadarSeries seRadar = RadarSeriesImpl.create();
+		seRadar.setDataSet(seriesOneValues);
+		seRadar.setSeriesIdentifier("Cities");//$NON-NLS-1$
+		seRadar.getLabel().setVisible(true);
 
-		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
-		sd.getSeriesDefinitions( ).add( sdCity );
-		sdCity.getSeries( ).add( seRadar );
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(seRadar);
 
 		return cwoaRadar;
 	}

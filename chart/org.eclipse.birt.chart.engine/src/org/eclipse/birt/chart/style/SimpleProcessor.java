@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,43 +28,28 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 /**
  * A default implementation for IStyleProcessor.
  */
-public final class SimpleProcessor extends BaseStyleProcessor
-{
+public final class SimpleProcessor extends BaseStyleProcessor {
 
 	private static final SimpleStyle defaultStyle;
 
 	private static SimpleProcessor instance;
 
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
-	static
-	{
-		TextAlignment ta = goFactory.createTextAlignment( );
-		FontDefinition font = goFactory.createFontDefinition( "SansSerif", //$NON-NLS-1$
-				12,
-				false,
-				false,
-				false,
-				false,
-				false,
-				0,
-				ta );
+	static {
+		TextAlignment ta = goFactory.createTextAlignment();
+		FontDefinition font = goFactory.createFontDefinition("SansSerif", //$NON-NLS-1$
+				12, false, false, false, false, false, 0, ta);
 
-		defaultStyle = new SimpleStyle( font,
-				goFactory.BLACK( ),
-				null,
-				null,
-				null );
+		defaultStyle = new SimpleStyle(font, goFactory.BLACK(), null, null, null);
 	}
 
 	/**
 	 * The access entry point.
 	 */
-	synchronized public static SimpleProcessor instance( )
-	{
-		if ( instance == null )
-		{
-			instance = new SimpleProcessor( );
+	synchronized public static SimpleProcessor instance() {
+		if (instance == null) {
+			instance = new SimpleProcessor();
 		}
 
 		return instance;
@@ -70,47 +58,41 @@ public final class SimpleProcessor extends BaseStyleProcessor
 	/**
 	 * The constructor.
 	 */
-	private SimpleProcessor( )
-	{
-		super( );
+	private SimpleProcessor() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.model.attribute.StyledComponent)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.
+	 * model.attribute.StyledComponent)
 	 */
-	public IStyle getStyle( Chart model, StyledComponent name )
-	{
-		if ( model != null && model.getStyles( ).size( ) > 0 )
-		{
-			for ( Iterator<StyleMap> itr = model.getStyles( ).iterator( ); itr.hasNext( ); )
-			{
-				StyleMap sm = itr.next( );
+	@Override
+	public IStyle getStyle(Chart model, StyledComponent name) {
+		if (model != null && model.getStyles().size() > 0) {
+			for (Iterator<StyleMap> itr = model.getStyles().iterator(); itr.hasNext();) {
+				StyleMap sm = itr.next();
 
-				if ( sm.getComponentName( ).equals( name ) )
-				{
-					Style ss = sm.getStyle( );
+				if (sm.getComponentName().equals(name)) {
+					Style ss = sm.getStyle();
 
-					SimpleStyle rt = new SimpleStyle( defaultStyle );
+					SimpleStyle rt = new SimpleStyle(defaultStyle);
 
-					rt.setFont( goFactory.copyOf( ss.getFont( ) ) );
+					rt.setFont(goFactory.copyOf(ss.getFont()));
 
-					if ( ss.getColor( ) != null )
-					{
-						rt.setColor( goFactory.copyOf( ss.getColor( ) ) );
+					if (ss.getColor() != null) {
+						rt.setColor(goFactory.copyOf(ss.getColor()));
 					}
-					if ( ss.getBackgroundColor( ) != null )
-					{
-						rt.setBackgroundColor( goFactory.copyOf( ss.getBackgroundColor( ) ) );
+					if (ss.getBackgroundColor() != null) {
+						rt.setBackgroundColor(goFactory.copyOf(ss.getBackgroundColor()));
 					}
-					if ( ss.getBackgroundImage( ) != null )
-					{
-						rt.setBackgroundImage( goFactory.copyOf( ss.getBackgroundImage( ) ) );
+					if (ss.getBackgroundImage() != null) {
+						rt.setBackgroundImage(goFactory.copyOf(ss.getBackgroundImage()));
 					}
-					if ( ss.getPadding( ) != null )
-					{
-						rt.setPadding( goFactory.copyOf( ss.getPadding( ) ) );
+					if (ss.getPadding() != null) {
+						rt.setPadding(goFactory.copyOf(ss.getPadding()));
 					}
 
 					return rt;
@@ -119,6 +101,6 @@ public final class SimpleProcessor extends BaseStyleProcessor
 		}
 
 		// Always return the default value.
-		return defaultStyle.copy( );
+		return defaultStyle.copy();
 	}
 }

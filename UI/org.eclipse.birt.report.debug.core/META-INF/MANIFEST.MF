@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Debug Core Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.debug.core;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Require-Bundle: org.eclipse.birt.core,
+Bundle-Version: 4.13.0.qualifier
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
  org.eclipse.birt.report.engine;bundle-version="[2.3.0,5.0.0)"
 Export-Package: org.eclipse.birt.report.debug.core.i18n,
  org.eclipse.birt.report.debug.internal.core,
@@ -11,7 +11,6 @@ Export-Package: org.eclipse.birt.report.debug.core.i18n,
  org.eclipse.birt.report.debug.internal.core.vm,
  org.eclipse.birt.report.debug.internal.core.vm.js,
  org.eclipse.birt.report.debug.internal.core.vm.rm
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Eclipse BIRT Project
-Import-Package: com.ibm.icu.util;version="3.4.4"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.debug.core

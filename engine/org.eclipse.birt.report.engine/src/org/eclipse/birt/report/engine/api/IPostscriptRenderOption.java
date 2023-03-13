@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,89 +14,87 @@
 
 package org.eclipse.birt.report.engine.api;
 
+public interface IPostscriptRenderOption extends IRenderOption {
+	String PS_LEVEL = "psLevel";
 
-public interface IPostscriptRenderOption extends IRenderOption
-{
-	public static final String PS_LEVEL = "psLevel";
+	String OPTION_PAPER_SIZE = "OptionPagerSize";
 
-	public static final String OPTION_PAPER_SIZE = "OptionPagerSize";
+	String OPTION_PAPER_TRAY = "OptionPageTray";
 
-	public static final String OPTION_PAPER_TRAY = "OptionPageTray";
+	String OPTION_DUPLEX = "OptionDuplex";
 
-	public static final String OPTION_DUPLEX = "OptionDuplex";
+	String OPTION_COPIES = "OptionCopies";
 
-	public static final String OPTION_COPIES = "OptionCopies";
+	String OPTION_COLLATE = "OptionCollate";
 
-	public static final String OPTION_COLLATE = "OptionCollate";
+	String OPTION_RESOLUTION = "OptionResolution";
 
-	public static final String OPTION_RESOLUTION = "OptionResolution";
+	String OPTION_COLOR = "OptionColor";
 
-	public static final String OPTION_COLOR = "OptionColor";
+	String OPTION_SCALE = "OptionScale";
 
-	public static final String OPTION_SCALE = "OptionScale";
+	String OPTION_AUTO_PAPER_SIZE_SELECTION = "OptionAutoPaperSizeSelection";
 
-	public static final String OPTION_AUTO_PAPER_SIZE_SELECTION = "OptionAutoPaperSizeSelection";
+	String OPTION_FIT_TO_PAPER = "OptionFitToPaper";
 
-	public static final String OPTION_FIT_TO_PAPER = "OptionFitToPaper";
-
-	public static final int DUPLEX_SIMPLEX = 0;
-	public static final int DUPLEX_FLIP_ON_SHORT_EDGE = 1;
-	public static final int DUPLEX_FLIP_ON_LONG_EDGE = 2;
+	int DUPLEX_SIMPLEX = 0;
+	int DUPLEX_FLIP_ON_SHORT_EDGE = 1;
+	int DUPLEX_FLIP_ON_LONG_EDGE = 2;
 
 	/**
 	 * Sets postscript level.
-	 * 
+	 *
 	 * @param level
 	 */
-	void setPostscriptLevel( int level );
+	void setPostscriptLevel(int level);
 
 	/**
 	 * Gets postscript level.
 	 */
-	int getPostscriptLevel( );
+	int getPostscriptLevel();
 
-	void setPaperSize( String paperSize );
+	void setPaperSize(String paperSize);
 
-	String getPaperSize( );
+	String getPaperSize();
 
-	void setPaperTray( String paperTray );
+	void setPaperTray(String paperTray);
 
-	String getPaperTray( );
+	String getPaperTray();
 
-	void setDuplex( int duplex );
+	void setDuplex(int duplex);
 
-	int getDuplex( );
+	int getDuplex();
 
-	void setCopies( int copies );
+	void setCopies(int copies);
 
-	int getCopies( );
+	int getCopies();
 
-	void setCollate( boolean collate );
+	void setCollate(boolean collate);
 
-	boolean getCollate( );
+	boolean getCollate();
 
-	void setResolution( String resolution );
-	
-	String getResolution( );
+	void setResolution(String resolution);
 
-	void setColor( boolean color );
+	String getResolution();
 
-	boolean getColor( );
+	void setColor(boolean color);
 
-	void setScale( int scale );
+	boolean getColor();
 
-	int getScale( );
+	void setScale(int scale);
+
+	int getScale();
 
 	/**
 	 * Select paper size according to page size automatically.
-	 * 
+	 *
 	 * @param autoPaperSizeSelection
 	 */
-	void setAutoPaperSizeSelection( boolean autoPaperSizeSelection );
+	void setAutoPaperSizeSelection(boolean autoPaperSizeSelection);
 
-	boolean getAutoPaperSizeSelection( );
+	boolean getAutoPaperSizeSelection();
 
-	void setFitToPaper( boolean fitToPaper );
+	void setFitToPaper(boolean fitToPaper);
 
-	boolean getFitToPaper( );
+	boolean getFitToPaper();
 }

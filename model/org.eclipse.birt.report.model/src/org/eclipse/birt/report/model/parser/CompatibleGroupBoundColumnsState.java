@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,12 +33,9 @@ import org.xml.sax.SAXException;
  * property with the container of ListingGroup , either a Table or List.
  * <p>
  * The compatible version is equals or less than 3.2.1.
- * 
+ *
  */
-public class CompatibleGroupBoundColumnsState
-		extends
-			CompatibleListPropertyState
-{
+public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyState {
 
 	/**
 	 * The group element.
@@ -44,87 +44,74 @@ public class CompatibleGroupBoundColumnsState
 	private GroupElement group = null;
 
 	/**
-	 * Constructs the design parse state with the design file parser handler.
-	 * This constructor is used when this list property to parse is a property
-	 * of one element.
-	 * 
-	 * @param theHandler
-	 *            the design file parser handler
-	 * @param element
-	 *            the element which holds this property, in this place it must
-	 *            be a Table or a List.
+	 * Constructs the design parse state with the design file parser handler. This
+	 * constructor is used when this list property to parse is a property of one
+	 * element.
+	 *
+	 * @param theHandler the design file parser handler
+	 * @param element    the element which holds this property, in this place it
+	 *                   must be a Table or a List.
 	 * @param group
 	 */
 
-	CompatibleGroupBoundColumnsState( ModuleParserHandler theHandler,
-			DesignElement element, GroupElement group )
-	{
-		super( theHandler, element );
+	CompatibleGroupBoundColumnsState(ModuleParserHandler theHandler, DesignElement element, GroupElement group) {
+		super(theHandler, element);
 		this.group = group;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( struct != null )
-		{
+	@Override
+	public void end() throws SAXException {
+		if (struct != null) {
 			// Ensure that the member is defined.
 
-			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn( )
-					.getMember( name );
-			struct.setProperty( memberDefn, list );
-		}
-		else
-		{
-			handler.tempValue.put( group, list );
+			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn().getMember(name);
+			struct.setProperty(memberDefn, list);
+		} else {
+			handler.tempValue.put(group, list);
 		}
 	}
 
-	static class CompatibleGroupBoundColumnState extends CompatibleStructureState
-	{
+	static class CompatibleGroupBoundColumnState extends CompatibleStructureState {
 
-		CompatibleGroupBoundColumnState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, List list )
-		{
-			super( theHandler, element, propDefn );
+		CompatibleGroupBoundColumnState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+				List list) {
+			super(theHandler, element, propDefn);
 			this.list = list;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.StructureState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			list.add( struct );
+		@Override
+		public void end() throws SAXException {
+			list.add(struct);
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
+	 *
+	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-		{
-			return new CompatibleGroupBoundColumnState( handler, element,
-					propDefn, list );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
+			return new CompatibleGroupBoundColumnState(handler, element, propDefn, list);
 		}
 
-		return new AnyElementState( handler );
+		return new AnyElementState(handler);
 	}
 
 }

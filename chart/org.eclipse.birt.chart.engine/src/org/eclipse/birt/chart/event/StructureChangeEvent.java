@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,8 +17,7 @@ package org.eclipse.birt.chart.event;
 /**
  * A event type indicates a structure change.
  */
-public final class StructureChangeEvent extends ChartEvent
-{
+public final class StructureChangeEvent extends ChartEvent {
 
 	private static final long serialVersionUID = -8897456257858266632L;
 
@@ -34,75 +36,56 @@ public final class StructureChangeEvent extends ChartEvent
 	/**
 	 * The constructor.
 	 */
-	public StructureChangeEvent( Object source )
-	{
-		super( source );
+	public StructureChangeEvent(Object source) {
+		super(source);
 	}
 
 	/**
 	 * Returns the event name.
-	 * 
-	 * @param bStripType
-	 *            Specifies if the name if striped.
+	 *
+	 * @param bStripType Specifies if the name if striped.
 	 * @return
 	 */
-	public final String getEventName( boolean bStripType )
-	{
-		if ( bStripType ) // STRIP OUT THE 'before' OR 'after' PREFIX IF
+	public String getEventName(boolean bStripType) {
+		if (bStripType) // STRIP OUT THE 'before' OR 'after' PREFIX IF
 		// REQUESTED
 		{
-			int iPrefixLength, iType = getEventType( );
-			if ( iType == BEFORE )
-			{
-				iPrefixLength = BEFORE_PREFIX.length( );
-			}
-			else if ( iType == AFTER )
-			{
-				iPrefixLength = BEFORE_PREFIX.length( );
-			}
-			else
-			{
+			int iPrefixLength, iType = getEventType();
+			if (iType == BEFORE) {
+				iPrefixLength = BEFORE_PREFIX.length();
+			} else if (iType == AFTER) {
+				iPrefixLength = BEFORE_PREFIX.length();
+			} else {
 				iPrefixLength = 0;
 			}
-			return sEventName.substring( iPrefixLength );
-		}
-		else
-		{
+			return sEventName.substring(iPrefixLength);
+		} else {
 			return sEventName;
 		}
 	}
 
 	/**
 	 * Sets the event name.
-	 * 
-	 * @param sEventName
-	 *            This must include the 'before' or 'after' prefix as defined by
-	 *            each of the constants in IStructureDefinition
+	 *
+	 * @param sEventName This must include the 'before' or 'after' prefix as defined
+	 *                   by each of the constants in IStructureDefinition
 	 */
-	public final void setEventName( String sEventName )
-	{
+	public void setEventName(String sEventName) {
 		this.sEventName = sEventName;
 	}
 
 	/**
 	 * A convenience method provided to indicate if the event occurs before the
-	 * start of a structure definition or after the end of a structure
-	 * definition.
-	 * 
+	 * start of a structure definition or after the end of a structure definition.
+	 *
 	 * @return An event type indicating BEFORE or AFTER a structure definition
 	 */
-	public final int getEventType( )
-	{
-		if ( sEventName == null )
-		{
+	public int getEventType() {
+		if (sEventName == null) {
 			return UNDEFINED;
-		}
-		else if ( sEventName.startsWith( BEFORE_PREFIX ) )
-		{
+		} else if (sEventName.startsWith(BEFORE_PREFIX)) {
 			return BEFORE;
-		}
-		else if ( sEventName.startsWith( AFTER_PREFIX ) )
-		{
+		} else if (sEventName.startsWith(AFTER_PREFIX)) {
 			return AFTER;
 		}
 		return UNDEFINED;
@@ -110,11 +93,11 @@ public final class StructureChangeEvent extends ChartEvent
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	@Override
+	public void reset() {
 		// NO-OP
 	}
 

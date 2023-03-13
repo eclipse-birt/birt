@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -51,8 +54,7 @@ import com.ibm.icu.util.ULocale;
  * make sure no exception throwed.
  * <p>
  */
-public class Regression_145465 extends BaseTestCase
-{
+public class Regression_145465 extends BaseTestCase {
 
 	private final static String REPORT = "regression_145465.xml"; //$NON-NLS-1$
 	private final static String LIB = "regression_145465_lib.xml"; //$NON-NLS-1$
@@ -62,57 +64,51 @@ public class Regression_145465 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + LIB );
-		//copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIB);
+		// copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_145465( ) throws Exception
-	{
-		openDesign (REPORT);
-		
-		
-		String outputLib = getTempFolder() + File.separator + INPUT_FOLDER + File.separator +  LIB;
 
-		
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		session.setResourceFolder( getTempFolder()+ File.separator + OUTPUT_FOLDER );  //$NON-NLS-1$
-				
-		//session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
-		//		+ File.separator + OUTPUT_FOLDER );
-		ReportDesignHandle designHandle = session.openDesign( getTempFolder() + "/" + INPUT_FOLDER+"/"+ REPORT );
-		LibraryHandle libHandle = designHandle
-				.getLibrary( "regression_145465_lib" ); //$NON-NLS-1$
-		LabelHandle label = (LabelHandle) libHandle.findElement( "NewLabel" ); //$NON-NLS-1$
+	public void test_regression_145465() throws Exception {
+		openDesign(REPORT);
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle extendsLabel = (LabelHandle) factory.newElementFrom(
-				label,
-				"extendsLabel" ); //$NON-NLS-1$
+		String outputLib = getTempFolder() + File.separator + INPUT_FOLDER + File.separator + LIB;
 
-		designHandle.getBody( ).add( extendsLabel );
-		designHandle.save( );
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		session.setResourceFolder(getTempFolder() + File.separator + OUTPUT_FOLDER); // $NON-NLS-1$
+
+		// session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
+		// + File.separator + OUTPUT_FOLDER );
+		ReportDesignHandle designHandle = session.openDesign(getTempFolder() + "/" + INPUT_FOLDER + "/" + REPORT);
+		LibraryHandle libHandle = designHandle.getLibrary("regression_145465_lib"); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) libHandle.findElement("NewLabel"); //$NON-NLS-1$
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle extendsLabel = (LabelHandle) factory.newElementFrom(label, "extendsLabel"); //$NON-NLS-1$
+
+		designHandle.getBody().add(extendsLabel);
+		designHandle.save();
 
 		// remove the library from resource folder.
 
-		boolean deleted = new File( outputLib ).delete( );
-		
-		assertTrue( deleted );
+		boolean deleted = new File(outputLib).delete();
+
+		assertTrue(deleted);
 
 		// refresh the report, make sure no exception is throwed out.
 
-		designHandle.reloadLibraries( );
+		designHandle.reloadLibraries();
 	}
 }

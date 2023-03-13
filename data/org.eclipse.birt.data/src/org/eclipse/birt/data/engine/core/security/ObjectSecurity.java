@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,141 +27,116 @@ import java.security.PrivilegedExceptionAction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
-public class ObjectSecurity
-{
+public class ObjectSecurity {
 	/**
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static ObjectInputStream createObjectInputStream(
-			final InputStream is ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+	public static ObjectInputStream createObjectInputStream(final InputStream is) throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
-				public ObjectInputStream run( ) throws IOException
-				{
-					return new ObjectInputStream( is );
+				@Override
+				public ObjectInputStream run() throws IOException {
+					return new ObjectInputStream(is);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
-	
-	public static ObjectInputStream createObjectInputStream(
-			final InputStream is, final ClassLoader classLoader ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
 
-				public ObjectInputStream run( ) throws IOException
-				{
-					return  new ObjectInputStream( is ) {
+	public static ObjectInputStream createObjectInputStream(final InputStream is, final ClassLoader classLoader)
+			throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
-						protected Class resolveClass( ObjectStreamClass desc )
-								throws IOException, ClassNotFoundException
-						{
-							return Class.forName( desc.getName( ), false,
-									classLoader );
+				@Override
+				public ObjectInputStream run() throws IOException {
+					return new ObjectInputStream(is) {
+
+						@Override
+						protected Class resolveClass(ObjectStreamClass desc)
+								throws IOException, ClassNotFoundException {
+							return Class.forName(desc.getName(), false, classLoader);
 						}
 					};
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param os
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static ObjectOutputStream createObjectOutputStream(
-			final OutputStream os ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectOutputStream>( ) {
+	public static ObjectOutputStream createObjectOutputStream(final OutputStream os) throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectOutputStream>() {
 
-				public ObjectOutputStream run( ) throws IOException
-				{
-					return new ObjectOutputStream( os );
+				@Override
+				public ObjectOutputStream run() throws IOException {
+					return new ObjectOutputStream(os);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 * @throws ClassNotFoundException
 	 */
-	public static Object readObject( final ObjectInputStream is )
-			throws IOException, DataException, ClassNotFoundException
-	{
-		try
-		{
-			if ( is == null )
+	public static Object readObject(final ObjectInputStream is)
+			throws IOException, DataException, ClassNotFoundException {
+		try {
+			if (is == null) {
 				return null;
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws IOException, ClassNotFoundException
-				{
-					return is.readObject( );
-				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
-				throw (IOException) typedException;
 			}
-			else if ( typedException instanceof ClassNotFoundException )
-			{
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+
+				@Override
+				public Object run() throws IOException, ClassNotFoundException {
+					return is.readObject();
+				}
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
+				throw (IOException) typedException;
+			} else if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}
 
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 }

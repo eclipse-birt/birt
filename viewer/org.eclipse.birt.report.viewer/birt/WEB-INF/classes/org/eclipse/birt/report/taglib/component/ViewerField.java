@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -68,8 +70,7 @@ import org.eclipse.birt.report.utility.UrlUtility;
  * <li>isReportlet</li>
  * </ol>
  */
-public class ViewerField implements Serializable, Cloneable, ITagConstants
-{
+public class ViewerField implements Serializable, Cloneable, ITagConstants {
 
 	/**
 	 * Serial Version UID
@@ -144,949 +145,784 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 
 	/**
 	 * Create the final URI string to preview report
-	 * 
+	 *
 	 * @param iPattern
 	 * @return
 	 */
-	public String createURI( String iPattern, String viewingSessionId )
-	{
+	public String createURI(String iPattern, String viewingSessionId) {
 		String uri = iPattern;
-		if ( uri == null )
-		{
+		if (uri == null) {
 			uri = this.pattern;
 		}
 
 		boolean renderReportlet = false;
-		if ( reportDocument != null
-				&& ( reportletId != null || ( bookmark != null && "true" //$NON-NLS-1$
-				.equalsIgnoreCase( isReportlet ) ) ) )
+		if (reportDocument != null && (reportletId != null || (bookmark != null && "true" //$NON-NLS-1$
+				.equalsIgnoreCase(isReportlet)))) {
 			renderReportlet = true;
+		}
 
-		if ( uri == null )
-		{
+		if (uri == null) {
 			uri = IBirtConstants.VIEWER_FRAMESET;
 
 			// frameset doesn't support reportlet. If preview reportlet, force
 			// to use run pattern.
-			if ( renderReportlet )
-			{
+			if (renderReportlet) {
 				uri = IBirtConstants.VIEWER_RUN;
 			}
 		}
 
 		// whether use frameset pattern
-		boolean usingFrameset = IBirtConstants.VIEWER_FRAMESET
-				.equalsIgnoreCase( uri );
+		boolean usingFrameset = IBirtConstants.VIEWER_FRAMESET.equalsIgnoreCase(uri);
 
 		// whether use parameter pattern
-		boolean usingParameter = IBirtConstants.VIEWER_PARAMETER
-				.equalsIgnoreCase( uri );
+		boolean usingParameter = IBirtConstants.VIEWER_PARAMETER.equalsIgnoreCase(uri);
 
 		// append baseURL setting
-		if ( baseURL != null )
-		{
+		if (baseURL != null) {
 			uri = baseURL + "/" + uri; //$NON-NLS-1$
 		}
 
 		String uriSuffix = "";
-		
+
 		Map uriParams = new HashMap();
-		
-		if ( viewingSessionId != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_VIEWING_SESSION_ID, viewingSessionId );
+
+		if (viewingSessionId != null) {
+			uriParams.put(ParameterAccessor.PARAM_VIEWING_SESSION_ID, viewingSessionId);
 		}
-		
+
 		// append format setting
-		if ( format != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_FORMAT, format );
+		if (format != null) {
+			uriParams.put(ParameterAccessor.PARAM_FORMAT, format);
 		}
 
-		if ( emitterId != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterId );
+		if (emitterId != null) {
+			uriParams.put(ParameterAccessor.PARAM_EMITTER_ID, emitterId);
 		}
 
-		if ( pageOverflow != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow );
+		if (pageOverflow != null) {
+			uriParams.put(ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow);
 		}
-		
+
 		// append report design
-		if ( reportDesign != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_REPORT, reportDesign );
+		if (reportDesign != null) {
+			uriParams.put(ParameterAccessor.PARAM_REPORT, reportDesign);
 		}
 
 		// append report document
-		if ( reportDocument != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_REPORT_DOCUMENT, reportDocument );
+		if (reportDocument != null) {
+			uriParams.put(ParameterAccessor.PARAM_REPORT_DOCUMENT, reportDocument);
 		}
 
 		// append reportlet id
-		if ( reportletId != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_INSTANCEID, reportletId );
+		if (reportletId != null) {
+			uriParams.put(ParameterAccessor.PARAM_INSTANCEID, reportletId);
 		}
-			
-		if ( usingFrameset && id != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_ID, id );
+
+		if (usingFrameset && id != null) {
+			uriParams.put(ParameterAccessor.PARAM_ID, id);
 		}
 
 		// append report title
-		if ( usingFrameset && title != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_TITLE, title );
+		if (usingFrameset && title != null) {
+			uriParams.put(ParameterAccessor.PARAM_TITLE, title);
 		}
 
 		// append report title
-		if ( usingFrameset && showTitle != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_SHOW_TITLE, showTitle );
+		if (usingFrameset && showTitle != null) {
+			uriParams.put(ParameterAccessor.PARAM_SHOW_TITLE, showTitle);
 		}
 
 		// append target serlvet pattern setting
-		if ( usingParameter && !isCustom && pattern != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_SERVLET_PATTERN, pattern );
+		if (usingParameter && !isCustom && pattern != null) {
+			uriParams.put(ParameterAccessor.PARAM_SERVLET_PATTERN, pattern);
 		}
 
 		// append window target setting
-		if ( usingParameter && !isCustom && target != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_TARGET, target );
+		if (usingParameter && !isCustom && target != null) {
+			uriParams.put(ParameterAccessor.PARAM_TARGET, target);
 		}
 
 		// append Locale setting
-		if ( locale != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_LOCALE, locale );
+		if (locale != null) {
+			uriParams.put(ParameterAccessor.PARAM_LOCALE, locale);
 		}
 
 		// append time zone setting
-		if ( timeZone != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_TIMEZONE, timeZone );
+		if (timeZone != null) {
+			uriParams.put(ParameterAccessor.PARAM_TIMEZONE, timeZone);
 		}
-		
+
 		// append svg setting
-		if ( svg != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_SVG, svg );
+		if (svg != null) {
+			uriParams.put(ParameterAccessor.PARAM_SVG, svg);
 		}
 
 		// append rtl setting
-		if ( rtl != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_RTL, rtl );
+		if (rtl != null) {
+			uriParams.put(ParameterAccessor.PARAM_RTL, rtl);
 		}
 
 		// append page number setting
-		if ( pageNum > 0 )
-		{
-			uriParams.put( ParameterAccessor.PARAM_PAGE, Long.toString(pageNum) );
+		if (pageNum > 0) {
+			uriParams.put(ParameterAccessor.PARAM_PAGE, Long.toString(pageNum));
 		}
 
-		if ( pageRange != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_PAGE_RANGE, pageRange );
+		if (pageRange != null) {
+			uriParams.put(ParameterAccessor.PARAM_PAGE_RANGE, pageRange);
 		}
 
 		// append masterpage setting
-		if ( allowMasterPage != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_MASTERPAGE, allowMasterPage );
+		if (allowMasterPage != null) {
+			uriParams.put(ParameterAccessor.PARAM_MASTERPAGE, allowMasterPage);
 		}
 
 		// append resource folder setting
-		if ( resourceFolder != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
+		if (resourceFolder != null) {
+			uriParams.put(ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder);
 		}
 
 		// append maxrows setting
-		if ( maxRowsOfRecords >= 0 )
-		{
-			uriParams.put( ParameterAccessor.PARAM_MAXROWS, Long.toString( maxRowsOfRecords ) );
+		if (maxRowsOfRecords >= 0) {
+			uriParams.put(ParameterAccessor.PARAM_MAXROWS, Long.toString(maxRowsOfRecords));
 		}
 
 		// append overwrite document setting
-		if ( forceOverwriteDocument != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_OVERWRITE, forceOverwriteDocument );
+		if (forceOverwriteDocument != null) {
+			uriParams.put(ParameterAccessor.PARAM_OVERWRITE, forceOverwriteDocument);
 		}
 
 		// append show toolbar setting
-		if ( usingFrameset && showToolBar != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_TOOLBAR, showToolBar );
+		if (usingFrameset && showToolBar != null) {
+			uriParams.put(ParameterAccessor.PARAM_TOOLBAR, showToolBar);
 		}
 
 		// append show NavigationBar setting
-		if ( usingFrameset && showNavigationBar != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_NAVIGATIONBAR, showNavigationBar );
+		if (usingFrameset && showNavigationBar != null) {
+			uriParams.put(ParameterAccessor.PARAM_NAVIGATIONBAR, showNavigationBar);
 		}
 
 		// append show ParameterPage setting
-		if ( showParameterPage != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_PARAMETER_PAGE, showParameterPage );
+		if (showParameterPage != null) {
+			uriParams.put(ParameterAccessor.PARAM_PARAMETER_PAGE, showParameterPage);
 		}
-		
+
 		// append bookmark setting
-		if ( bookmark != null )
-		{
-			if ( IBirtConstants.VIEWER_PREVIEW.equalsIgnoreCase( iPattern )
-					&& !"true".equalsIgnoreCase( isReportlet ) ) //$NON-NLS-1$
+		if (bookmark != null) {
+			if (IBirtConstants.VIEWER_PREVIEW.equalsIgnoreCase(iPattern) && !"true".equalsIgnoreCase(isReportlet)) //$NON-NLS-1$
 			{
 				// if use PREVIEW mode, append bookmark directly
-				uriSuffix += "#" + UrlUtility.urlParamValueEncode( bookmark ); //$NON-NLS-1$
-			}
-			else
-			{
-				uriParams.put( ParameterAccessor.PARAM_BOOKMARK, bookmark );
+				uriSuffix += "#" + UrlUtility.urlParamValueEncode(bookmark); //$NON-NLS-1$
+			} else {
+				uriParams.put(ParameterAccessor.PARAM_BOOKMARK, bookmark);
 			}
 		}
 
-		if ( isReportlet != null )
-		{
-			uriParams.put( ParameterAccessor.PARAM_ISREPORTLET, isReportlet );
+		if (isReportlet != null) {
+			uriParams.put(ParameterAccessor.PARAM_ISREPORTLET, isReportlet);
 		}
 
-		return uri += "?" + UrlUtility.makeUriString( uriParams ) + uriSuffix;
+		return uri += "?" + UrlUtility.makeUriString(uriParams) + uriSuffix;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getId( )
-	{
+	public String getId() {
 		return id;
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
-	public void setId( String id )
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the baseURL
 	 */
-	public String getBaseURL( )
-	{
+	public String getBaseURL() {
 		return baseURL;
 	}
 
 	/**
-	 * @param baseURL
-	 *            the baseURL to set
+	 * @param baseURL the baseURL to set
 	 */
-	public void setBaseURL( String baseURL )
-	{
+	public void setBaseURL(String baseURL) {
 		this.baseURL = baseURL;
 	}
 
 	/**
 	 * @return the title
 	 */
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * @param title
-	 *            the title to set
+	 * @param title the title to set
 	 */
-	public void setTitle( String title )
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
 	 * @return the isHostPage
 	 */
-	public boolean isHostPage( )
-	{
+	public boolean isHostPage() {
 		return isHostPage;
 	}
 
 	/**
-	 * @param isHostPage
-	 *            the isHostPage to set
+	 * @param isHostPage the isHostPage to set
 	 */
-	public void setHostPage( boolean isHostPage )
-	{
+	public void setHostPage(boolean isHostPage) {
 		this.isHostPage = isHostPage;
 	}
 
 	/**
 	 * @return the isCustom
 	 */
-	public boolean isCustom( )
-	{
+	public boolean isCustom() {
 		return isCustom;
 	}
 
 	/**
-	 * @param isCustom
-	 *            the isCustom to set
+	 * @param isCustom the isCustom to set
 	 */
-	public void setCustom( boolean isCustom )
-	{
+	public void setCustom(boolean isCustom) {
 		this.isCustom = isCustom;
 	}
 
 	/**
 	 * @return the scrolling
 	 */
-	public String getScrolling( )
-	{
+	public String getScrolling() {
 		return scrolling;
 	}
 
 	/**
-	 * @param scrolling
-	 *            the scrolling to set
+	 * @param scrolling the scrolling to set
 	 */
-	public void setScrolling( String scrolling )
-	{
+	public void setScrolling(String scrolling) {
 		this.scrolling = scrolling;
 	}
 
 	/**
 	 * @return the position
 	 */
-	public String getPosition( )
-	{
+	public String getPosition() {
 		return position;
 	}
 
 	/**
-	 * @param position
-	 *            the position to set
+	 * @param position the position to set
 	 */
-	public void setPosition( String position )
-	{
+	public void setPosition(String position) {
 		this.position = position;
 	}
 
 	/**
 	 * @return the style
 	 */
-	public String getStyle( )
-	{
+	public String getStyle() {
 		return style;
 	}
 
 	/**
-	 * @param style
-	 *            the style to set
+	 * @param style the style to set
 	 */
-	public void setStyle( String style )
-	{
+	public void setStyle(String style) {
 		this.style = style;
 	}
 
 	/**
 	 * @return the height
 	 */
-	public int getHeight( )
-	{
+	public int getHeight() {
 		return height;
 	}
 
 	/**
-	 * @param height
-	 *            the height to set
+	 * @param height the height to set
 	 */
-	public void setHeight( int height )
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * @return the width
 	 */
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
 	/**
-	 * @param width
-	 *            the width to set
+	 * @param width the width to set
 	 */
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	/**
 	 * @return the left
 	 */
-	public String getLeft( )
-	{
+	public String getLeft() {
 		return left;
 	}
 
 	/**
-	 * @param left
-	 *            the left to set
+	 * @param left the left to set
 	 */
-	public void setLeft( String left )
-	{
+	public void setLeft(String left) {
 		this.left = left;
 	}
 
 	/**
 	 * @return the top
 	 */
-	public String getTop( )
-	{
+	public String getTop() {
 		return top;
 	}
 
 	/**
-	 * @param top
-	 *            the top to set
+	 * @param top the top to set
 	 */
-	public void setTop( String top )
-	{
+	public void setTop(String top) {
 		this.top = top;
 	}
 
 	/**
 	 * @return the frameborder
 	 */
-	public String getFrameborder( )
-	{
+	public String getFrameborder() {
 		return frameborder;
 	}
 
 	/**
-	 * @param frameborder
-	 *            the frameborder to set
+	 * @param frameborder the frameborder to set
 	 */
-	public void setFrameborder( String frameborder )
-	{
+	public void setFrameborder(String frameborder) {
 		this.frameborder = frameborder;
 	}
 
 	/**
 	 * @return the reportDesign
 	 */
-	public String getReportDesign( )
-	{
+	public String getReportDesign() {
 		return reportDesign;
 	}
 
 	/**
-	 * @param reportDesign
-	 *            the reportDesign to set
+	 * @param reportDesign the reportDesign to set
 	 */
-	public void setReportDesign( String reportDesign )
-	{
+	public void setReportDesign(String reportDesign) {
 		this.reportDesign = reportDesign;
 	}
 
 	/**
 	 * @return the reportDocument
 	 */
-	public String getReportDocument( )
-	{
+	public String getReportDocument() {
 		return reportDocument;
 	}
 
 	/**
-	 * @param reportDocument
-	 *            the reportDocument to set
+	 * @param reportDocument the reportDocument to set
 	 */
-	public void setReportDocument( String reportDocument )
-	{
+	public void setReportDocument(String reportDocument) {
 		this.reportDocument = reportDocument;
 	}
 
 	/**
 	 * @return the reportletId
 	 */
-	public String getReportletId( )
-	{
+	public String getReportletId() {
 		return reportletId;
 	}
 
 	/**
-	 * @param reportletId
-	 *            the reportletId to set
+	 * @param reportletId the reportletId to set
 	 */
-	public void setReportletId( String reportletId )
-	{
+	public void setReportletId(String reportletId) {
 		this.reportletId = reportletId;
 	}
 
 	/**
 	 * @return the pattern
 	 */
-	public String getPattern( )
-	{
+	public String getPattern() {
 		return pattern;
 	}
 
 	/**
-	 * @param pattern
-	 *            the pattern to set
+	 * @param pattern the pattern to set
 	 */
-	public void setPattern( String pattern )
-	{
+	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 
 	/**
 	 * @return the target
 	 */
-	public String getTarget( )
-	{
+	public String getTarget() {
 		return target;
 	}
 
 	/**
-	 * @param target
-	 *            the target to set
+	 * @param target the target to set
 	 */
-	public void setTarget( String target )
-	{
+	public void setTarget(String target) {
 		this.target = target;
 	}
 
 	/**
 	 * @return the bookmark
 	 */
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
 	/**
-	 * @param bookmark
-	 *            the bookmark to set
+	 * @param bookmark the bookmark to set
 	 */
-	public void setBookmark( String bookmark )
-	{
+	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
 
 	/**
 	 * @return the locale
 	 */
-	public String getLocale( )
-	{
+	public String getLocale() {
 		return locale;
 	}
 
 	/**
-	 * @param locale
-	 *            the locale to set
+	 * @param locale the locale to set
 	 */
-	public void setLocale( String locale )
-	{
+	public void setLocale(String locale) {
 		this.locale = locale;
 	}
-	
+
 	/**
 	 * @return the timeZone
 	 */
-	public String getTimeZone( )
-	{
+	public String getTimeZone() {
 		return timeZone;
 	}
 
-	
 	/**
 	 * @param timeZone the timeZone to set
 	 */
-	public void setTimeZone( String timeZone )
-	{
+	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
 	}
 
 	/**
 	 * @return the format
 	 */
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
 
 	/**
-	 * @param format
-	 *            the format to set
+	 * @param format the format to set
 	 */
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
-	
+
 	/**
 	 * @return the emitterId
 	 */
-	public String getEmitterId( )
-	{
+	public String getEmitterId() {
 		return emitterId;
 	}
-	
+
 	/**
 	 * @param emitterId the emitterId to set
 	 */
-	public void setEmitterId( String emitterId )
-	{
+	public void setEmitterId(String emitterId) {
 		this.emitterId = emitterId;
 	}
 
 	/**
 	 * @return the pageOverflow
 	 */
-	public String getPageOverflow( )
-	{
+	public String getPageOverflow() {
 		return pageOverflow;
 	}
-	
+
 	/**
 	 * @param pageOverflow the pageOverflow to set
 	 */
-	public void setPageOverflow( String pageOverflow )
-	{
+	public void setPageOverflow(String pageOverflow) {
 		this.pageOverflow = pageOverflow;
 	}
 
 	/**
 	 * @return the svg
 	 */
-	public String getSvg( )
-	{
+	public String getSvg() {
 		return svg;
 	}
 
 	/**
-	 * @param svg
-	 *            the svg to set
+	 * @param svg the svg to set
 	 */
-	public void setSvg( String svg )
-	{
+	public void setSvg(String svg) {
 		this.svg = svg;
 	}
 
 	/**
 	 * @return the rtl
 	 */
-	public String getRtl( )
-	{
+	public String getRtl() {
 		return rtl;
 	}
 
 	/**
-	 * @param rtl
-	 *            the rtl to set
+	 * @param rtl the rtl to set
 	 */
-	public void setRtl( String rtl )
-	{
+	public void setRtl(String rtl) {
 		this.rtl = rtl;
 	}
 
 	/**
 	 * @return the pageNum
 	 */
-	public long getPageNum( )
-	{
+	public long getPageNum() {
 		return pageNum;
 	}
 
 	/**
-	 * @param pageNum
-	 *            the pageNum to set
+	 * @param pageNum the pageNum to set
 	 */
-	public void setPageNum( long pageNum )
-	{
+	public void setPageNum(long pageNum) {
 		this.pageNum = pageNum;
 	}
 
 	/**
 	 * @return the pageRange
 	 */
-	public String getPageRange( )
-	{
+	public String getPageRange() {
 		return pageRange;
 	}
 
 	/**
-	 * @param pageRange
-	 *            the pageRange to set
+	 * @param pageRange the pageRange to set
 	 */
-	public void setPageRange( String pageRange )
-	{
+	public void setPageRange(String pageRange) {
 		this.pageRange = pageRange;
 	}
 
 	/**
 	 * @return the allowMasterPage
 	 */
-	public String getAllowMasterPage( )
-	{
+	public String getAllowMasterPage() {
 		return allowMasterPage;
 	}
 
 	/**
-	 * @param allowMasterPage
-	 *            the allowMasterPage to set
+	 * @param allowMasterPage the allowMasterPage to set
 	 */
-	public void setAllowMasterPage( String allowMasterPage )
-	{
+	public void setAllowMasterPage(String allowMasterPage) {
 		this.allowMasterPage = allowMasterPage;
 	}
 
 	/**
 	 * @return the resourceFolder
 	 */
-	public String getResourceFolder( )
-	{
+	public String getResourceFolder() {
 		return resourceFolder;
 	}
 
 	/**
-	 * @param resourceFolder
-	 *            the resourceFolder to set
+	 * @param resourceFolder the resourceFolder to set
 	 */
-	public void setResourceFolder( String resourceFolder )
-	{
+	public void setResourceFolder(String resourceFolder) {
 		this.resourceFolder = resourceFolder;
 	}
 
 	/**
 	 * @return the maxRowsOfRecords
 	 */
-	public int getMaxRowsOfRecords( )
-	{
+	public int getMaxRowsOfRecords() {
 		return maxRowsOfRecords;
 	}
 
 	/**
-	 * @param maxRowsOfRecords
-	 *            the maxRowsOfRecords to set
+	 * @param maxRowsOfRecords the maxRowsOfRecords to set
 	 */
-	public void setMaxRowsOfRecords( int maxRowsOfRecords )
-	{
+	public void setMaxRowsOfRecords(int maxRowsOfRecords) {
 		this.maxRowsOfRecords = maxRowsOfRecords;
 	}
 
 	/**
 	 * @return the forceOverwriteDocument
 	 */
-	public String getForceOverwriteDocument( )
-	{
+	public String getForceOverwriteDocument() {
 		return forceOverwriteDocument;
 	}
 
 	/**
-	 * @param forceOverwriteDocument
-	 *            the forceOverwriteDocument to set
+	 * @param forceOverwriteDocument the forceOverwriteDocument to set
 	 */
-	public void setForceOverwriteDocument( String forceOverwriteDocument )
-	{
+	public void setForceOverwriteDocument(String forceOverwriteDocument) {
 		this.forceOverwriteDocument = forceOverwriteDocument;
 	}
 
 	/**
 	 * @return the showTitle
 	 */
-	public String getShowTitle( )
-	{
+	public String getShowTitle() {
 		return showTitle;
 	}
 
 	/**
-	 * @param showTitle
-	 *            the showTitle to set
+	 * @param showTitle the showTitle to set
 	 */
-	public void setShowTitle( String showTitle )
-	{
+	public void setShowTitle(String showTitle) {
 		this.showTitle = showTitle;
 	}
 
 	/**
 	 * @return the showToolBar
 	 */
-	public String getShowToolBar( )
-	{
+	public String getShowToolBar() {
 		return showToolBar;
 	}
 
 	/**
-	 * @param showToolBar
-	 *            the showToolBar to set
+	 * @param showToolBar the showToolBar to set
 	 */
-	public void setShowToolBar( String showToolBar )
-	{
+	public void setShowToolBar(String showToolBar) {
 		this.showToolBar = showToolBar;
 	}
 
 	/**
 	 * @return the showNavigationBar
 	 */
-	public String getShowNavigationBar( )
-	{
+	public String getShowNavigationBar() {
 		return showNavigationBar;
 	}
 
 	/**
-	 * @param showNavigationBar
-	 *            the showNavigationBar to set
+	 * @param showNavigationBar the showNavigationBar to set
 	 */
-	public void setShowNavigationBar( String showNavigationBar )
-	{
+	public void setShowNavigationBar(String showNavigationBar) {
 		this.showNavigationBar = showNavigationBar;
 	}
 
 	/**
 	 * @return the showParameterPage
 	 */
-	public String getShowParameterPage( )
-	{
+	public String getShowParameterPage() {
 		return showParameterPage;
 	}
 
 	/**
-	 * @param showParameterPage
-	 *            the showParameterPage to set
+	 * @param showParameterPage the showParameterPage to set
 	 */
-	public void setShowParameterPage( String showParameterPage )
-	{
+	public void setShowParameterPage(String showParameterPage) {
 		this.showParameterPage = showParameterPage;
 	}
 
 	/**
 	 * @return the isReportlet
 	 */
-	public String getIsReportlet( )
-	{
+	public String getIsReportlet() {
 		return isReportlet;
 	}
 
 	/**
-	 * @param isReportlet
-	 *            the isReportlet to set
+	 * @param isReportlet the isReportlet to set
 	 */
-	public void setIsReportlet( String isReportlet )
-	{
+	public void setIsReportlet(String isReportlet) {
 		this.isReportlet = isReportlet;
 	}
 
 	/**
 	 * @return the reportContainer
 	 */
-	public String getReportContainer( )
-	{
+	public String getReportContainer() {
 		return reportContainer;
 	}
 
 	/**
-	 * @param reportContainer
-	 *            the reportContainer to set
+	 * @param reportContainer the reportContainer to set
 	 */
-	public void setReportContainer( String reportContainer )
-	{
+	public void setReportContainer(String reportContainer) {
 		this.reportContainer = reportContainer;
 	}
 
 	/**
 	 * @return the parameters
 	 */
-	public Map getParameters( )
-	{
+	public Map getParameters() {
 		return parameters;
 	}
 
 	/**
-	 * @param parameters
-	 *            the parameters to set
+	 * @param parameters the parameters to set
 	 */
-	public void setParameters( Map parameters )
-	{
+	public void setParameters(Map parameters) {
 		this.parameters = parameters;
 	}
 
 	/**
 	 * @return the documentInUrl
 	 */
-	public boolean isDocumentInUrl( )
-	{
+	public boolean isDocumentInUrl() {
 		return documentInUrl;
 	}
 
 	/**
-	 * @param documentInUrl
-	 *            the documentInUrl to set
+	 * @param documentInUrl the documentInUrl to set
 	 */
-	public void setDocumentInUrl( boolean documentInUrl )
-	{
+	public void setDocumentInUrl(boolean documentInUrl) {
 		this.documentInUrl = documentInUrl;
 	}
 
 	/**
 	 * @return the reportDesignHandle
 	 */
-	public IViewerReportDesignHandle getReportDesignHandle( )
-	{
+	public IViewerReportDesignHandle getReportDesignHandle() {
 		return reportDesignHandle;
 	}
 
 	/**
-	 * @param reportDesignHandle
-	 *            the reportDesignHandle to set
+	 * @param reportDesignHandle the reportDesignHandle to set
 	 */
-	public void setReportDesignHandle(
-			IViewerReportDesignHandle reportDesignHandle )
-	{
+	public void setReportDesignHandle(IViewerReportDesignHandle reportDesignHandle) {
 		this.reportDesignHandle = reportDesignHandle;
 	}
 
 	/**
 	 * @return the parameterDefList
 	 */
-	public Collection getParameterDefList( )
-	{
+	public Collection getParameterDefList() {
 		return parameterDefList;
 	}
 
 	/**
-	 * @param parameterDefList
-	 *            the parameterDefList to set
+	 * @param parameterDefList the parameterDefList to set
 	 */
-	public void setParameterDefList( Collection parameterDefList )
-	{
+	public void setParameterDefList(Collection parameterDefList) {
 		this.parameterDefList = parameterDefList;
 	}
 

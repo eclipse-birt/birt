@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -15,24 +27,24 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Call Back Value</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Call
+ * Back Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CallBackValueImpl#getIdentifier <em>Identifier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.CallBackValueImpl#getIdentifier
+ * <em>Identifier</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
-{
+public class CallBackValueImpl extends ActionValueImpl implements CallBackValue {
 
 	/**
-	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -40,9 +52,9 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	protected static final String IDENTIFIER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -51,143 +63,131 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	protected CallBackValueImpl( )
-	{
-		super( );
+	protected CallBackValueImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.CALL_BACK_VALUE;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getIdentifier( )
-	{
+	@Override
+	public String getIdentifier() {
 		return identifier;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setIdentifier( String newIdentifier )
-	{
+	@Override
+	public void setIdentifier(String newIdentifier) {
 		String oldIdentifier = identifier;
 		identifier = newIdentifier;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.CALL_BACK_VALUE__IDENTIFIER,
-					oldIdentifier,
-					identifier ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
-				return getIdentifier( );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.CALL_BACK_VALUE__IDENTIFIER,
+					oldIdentifier, identifier));
 		}
-		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
-				setIdentifier( (String) newValue );
-				return;
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case AttributePackage.CALL_BACK_VALUE__IDENTIFIER:
+			return getIdentifier();
 		}
-		super.eSet( featureID, newValue );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
-				setIdentifier( IDENTIFIER_EDEFAULT );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case AttributePackage.CALL_BACK_VALUE__IDENTIFIER:
+			setIdentifier((String) newValue);
+			return;
 		}
-		super.eUnset( featureID );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.CALL_BACK_VALUE__IDENTIFIER :
-				return IDENTIFIER_EDEFAULT == null ? identifier != null
-						: !IDENTIFIER_EDEFAULT.equals( identifier );
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case AttributePackage.CALL_BACK_VALUE__IDENTIFIER:
+			setIdentifier(IDENTIFIER_EDEFAULT);
+			return;
 		}
-		return super.eIsSet( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case AttributePackage.CALL_BACK_VALUE__IDENTIFIER:
+			return IDENTIFIER_EDEFAULT == null ? identifier != null : !IDENTIFIER_EDEFAULT.equals(identifier);
+		}
+		return super.eIsSet(featureID);
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (identifier: " ); //$NON-NLS-1$
-		result.append( identifier );
-		result.append( ')' );
-		return result.toString( );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) {
+			return super.toString();
+		}
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (identifier: "); //$NON-NLS-1$
+		result.append(identifier);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
 	 * @param action
 	 * @return
 	 */
-	public static CallBackValue create( String callBackIdentifier )
-	{
-		CallBackValue cv = AttributeFactory.eINSTANCE.createCallBackValue( );
-		cv.setIdentifier( callBackIdentifier );
+	public static CallBackValue create(String callBackIdentifier) {
+		CallBackValue cv = AttributeFactory.eINSTANCE.createCallBackValue();
+		cv.setIdentifier(callBackIdentifier);
 		return cv;
 	}
 
@@ -195,17 +195,16 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	public CallBackValue copyInstance( )
-	{
-		CallBackValueImpl dest = new CallBackValueImpl( );
-		dest.set( this );
+	@Override
+	public CallBackValue copyInstance() {
+		CallBackValueImpl dest = new CallBackValueImpl();
+		dest.set(this);
 		return dest;
 	}
 
-	protected void set( CallBackValue src )
-	{
-		super.set( src );
-		identifier = src.getIdentifier( );
+	protected void set(CallBackValue src) {
+		super.set(src);
+		identifier = src.getIdentifier();
 	}
 
 } // CallBackValueImpl

@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -31,31 +43,28 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_121857 extends BaseTestCase
-{
+public class Regression_121857 extends BaseTestCase {
 
 	/**
 	 * @throws Exception
 	 */
-	public void test_regression_121857( ) throws Exception
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		OdaDataSourceHandle datasource = factory.newOdaDataSource( "dsource", //$NON-NLS-1$
-				"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
-		OdaDataSetHandle dataset = factory.newOdaDataSet( "dset", //$NON-NLS-1$
-				"org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$
-		dataset.setDataSource( "dsource" ); //$NON-NLS-1$
+	public void test_regression_121857() throws Exception {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		OdaDataSourceHandle datasource = factory.newOdaDataSource("dsource", //$NON-NLS-1$
+				"org.eclipse.birt.report.data.oda.jdbc"); //$NON-NLS-1$
+		OdaDataSetHandle dataset = factory.newOdaDataSet("dset", //$NON-NLS-1$
+				"org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"); //$NON-NLS-1$
+		dataset.setDataSource("dsource"); //$NON-NLS-1$
 
-		designHandle.getDataSources( ).add( datasource );
-		designHandle.getDataSets( ).add( dataset );
+		designHandle.getDataSources().add(datasource);
+		designHandle.getDataSets().add(dataset);
 
-		datasource.drop( );
-		assertNull( designHandle.findDataSource( "dsource" ) ); //$NON-NLS-1$
-		assertNull( dataset.getDataSource( ) );
-		assertEquals( "dsource", dataset.getDataSourceName( ) ); //$NON-NLS-1$
+		datasource.drop();
+		assertNull(designHandle.findDataSource("dsource")); //$NON-NLS-1$
+		assertNull(dataset.getDataSource());
+		assertEquals("dsource", dataset.getDataSourceName()); //$NON-NLS-1$
 
 	}
 

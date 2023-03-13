@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,84 +37,47 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 /**
  * EventHandlerWrapper
  */
-public class EventHandlerWrapper
-{
+public class EventHandlerWrapper {
 
-	public static String getEventHandlerClassName( DesignElementHandle handle )
-	{
-		if ( handle instanceof CellHandle )
-		{
+	public static String getEventHandlerClassName(DesignElementHandle handle) {
+		if (handle instanceof CellHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof DataItemHandle )
-		{
+		} else if (handle instanceof DataItemHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ScriptDataSourceHandle) 
-		{
+		} else if (handle instanceof ScriptDataSourceHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSourceEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof DataSourceHandle )
-		{
+		} else if (handle instanceof DataSourceHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IDataSourceEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ScriptDataSetHandle )
-		{
+		} else if (handle instanceof ScriptDataSetHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof DataSetHandle )
-		{
+		} else if (handle instanceof DataSetHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof TextDataHandle )
-		{
+		} else if (handle instanceof TextDataHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof GridHandle )
-		{
+		} else if (handle instanceof GridHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ImageHandle )
-		{
+		} else if (handle instanceof ImageHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof LabelHandle )
-		{
+		} else if (handle instanceof LabelHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ListHandle )
-		{
+		} else if (handle instanceof ListHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IListEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ListGroupHandle )
-		{
+		} else if (handle instanceof ListGroupHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof ReportDesignHandle )
-		{
+		} else if (handle instanceof ReportDesignHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof RowHandle )
-		{
+		} else if (handle instanceof RowHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof TableHandle )
-		{
+		} else if (handle instanceof TableHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof TableGroupHandle )
-		{
+		} else if (handle instanceof TableGroupHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof TextItemHandle )
-		{
+		} else if (handle instanceof TextItemHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler"; //$NON-NLS-1$
-		}
-		else if ( handle instanceof AutoTextHandle )
-		{
+		} else if (handle instanceof AutoTextHandle) {
 			return "org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler"; //$NON-NLS-1$
 		}
-		
+
 		return null;
 	}
 }

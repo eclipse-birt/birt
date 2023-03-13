@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -23,6 +26,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -38,7 +42,6 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
-import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 
 /**
  * Regression description:
@@ -52,8 +55,7 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
  * </p>
  */
 
-public class Regression_150779_Count extends ChartTestCase
-{
+public class Regression_150779_Count extends ChartTestCase {
 
 	private static String GOLDEN = "Regression_150779_Count.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "Regression_150779_Count.jpg"; //$NON-NLS-1$
@@ -72,185 +74,156 @@ public class Regression_150779_Count extends ChartTestCase
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new Regression_150779_Count( );
+	public static void main(String[] args) {
+		new Regression_150779_Count();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_150779_Count( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+	public Regression_150779_Count() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
 
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = createChart( );
-		bindGroupingData( cm );
+		cm = createChart();
+		bindGroupingData(cm);
 
-		BufferedImage img = new BufferedImage(
-				500,
-				500,
-				BufferedImage.TYPE_INT_ARGB );
-		Graphics g = img.getGraphics( );
+		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  ); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
-		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
+		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile(OUTPUT)); // $NON-NLS-1$
+		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
+		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
-		try
-		{
-			gcs = gr.build(
-					dRenderer.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null );
-			gr.render( dRenderer, gcs );
-		}
-		catch ( ChartException e )
-		{
+		try {
+			gcs = gr.build(dRenderer.getDisplayServer(), cm, bo, null, null, null);
+			gr.render(dRenderer, gcs);
+		} catch (ChartException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 	}
 
-	public void test_regression_150779_Count( ) throws Exception
-	{
-		Regression_150779_Count st = new Regression_150779_Count( );
-		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
+	public void test_regression_150779_Count() throws Exception {
+		Regression_150779_Count st = new Regression_150779_Count();
+		assertTrue(st.compareImages(GOLDEN, OUTPUT));
 	}
 
-	private void bindGroupingData( Chart chart )
+	private void bindGroupingData(Chart chart)
 
 	{
 		// Data Set
 
-		final Object[][] data = new Object[][]{
-				{"x1", new Integer( 1 ), new CDateTime( 2004, 12, 27 )},
-				{"x2", new Integer( 2 ), new CDateTime( 2004, 12, 22 )},
-				{"x3", new Integer( 3 ), new CDateTime( 2004, 12, 27 )},
-				{"x4", new Integer( 4 ), new CDateTime( 2004, 12, 22 )},
-				{"x5", new Integer( 5 ), new CDateTime( 2004, 12, 17 ),},
-				{"x6", new Integer( 6 ), new CDateTime( 2004, 12, 27 )},
-				{"x7", new Integer( 7 ), new CDateTime( 2004, 12, 17 ),},
-				{"x8", new Integer( 8 ), new CDateTime( 2004, 12, 22 )},
-				{"x9", new Integer( 9 ), new CDateTime( 2004, 12, 17 ),},
-				{"x0", new Integer( 0 ), new CDateTime( 2004, 12, 17 ),},};
+		final Object[][] data = { { "x1", new Integer(1), new CDateTime(2004, 12, 27) },
+				{ "x2", new Integer(2), new CDateTime(2004, 12, 22) },
+				{ "x3", new Integer(3), new CDateTime(2004, 12, 27) },
+				{ "x4", new Integer(4), new CDateTime(2004, 12, 22) },
+				{ "x5", new Integer(5), new CDateTime(2004, 12, 17), },
+				{ "x6", new Integer(6), new CDateTime(2004, 12, 27) },
+				{ "x7", new Integer(7), new CDateTime(2004, 12, 17), },
+				{ "x8", new Integer(8), new CDateTime(2004, 12, 22) },
+				{ "x9", new Integer(9), new CDateTime(2004, 12, 17), },
+				{ "x0", new Integer(0), new CDateTime(2004, 12, 17), }, };
 
-		try
-		{
-			Generator gr = Generator.instance( );
-			gr.bindData( new IDataRowExpressionEvaluator( ) {
+		try {
+			Generator gr = Generator.instance();
+			gr.bindData(new IDataRowExpressionEvaluator() {
 
 				int idx = 0;
 
-				public void close( )
-				{
+				@Override
+				public void close() {
 				}
 
-				public Object evaluate( String expression )
-				{
-					if ( "X".equals( expression ) )
-					{
+				@Override
+				public Object evaluate(String expression) {
+					if ("X".equals(expression)) {
 						return data[idx][0];
-					}
-					else if ( "Y".equals( expression ) )
-					{
+					} else if ("Y".equals(expression)) {
 						return data[idx][1];
-					}
-					else if ( "G".equals( expression ) )
-					{
+					} else if ("G".equals(expression)) {
 						return data[idx][2];
 					}
 					return null;
 				}
 
-				public Object evaluateGlobal( String expression )
-				{
-					return evaluate( expression );
+				@Override
+				public Object evaluateGlobal(String expression) {
+					return evaluate(expression);
 				}
 
-				public boolean first( )
-				{
+				@Override
+				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				public boolean next( )
-				{
+				@Override
+				public boolean next() {
 					idx++;
-					return ( idx < 9 );
+					return (idx < 9);
 				}
-			}, chart, new RunTimeContext( ) );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+			}, chart, new RunTimeContext());
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private Chart createChart( )
+	private Chart createChart()
 
 	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// X-Axis
 
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
-		xAxisPrimary.setCategoryAxis( true );
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
+		xAxisPrimary.setCategoryAxis(true);
 
-		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 45 );
+		xAxisPrimary.getLabel().getCaption().getFont().setRotation(45);
 		// Y-Axis
 
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 
 		// X-Series
 
-		Series seCategory = SeriesImpl.create( );
-		Query xQ = QueryImpl.create( "G" );
-		seCategory.getDataDefinition( ).add( xQ );
+		Series seCategory = SeriesImpl.create();
+		Query xQ = QueryImpl.create("G");
+		seCategory.getDataDefinition().add(xQ);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getGrouping( ).setEnabled( true );
-		sdX.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
-		sdX.getGrouping( ).setAggregateExpression( "Count" );
-		sdX.getGrouping( ).setGroupingInterval( 1 );
+		sdX.setSorting(SortOption.ASCENDING_LITERAL);
+		sdX.getGrouping().setEnabled(true);
+		sdX.getGrouping().setGroupType(DataType.DATE_TIME_LITERAL);
+		sdX.getGrouping().setAggregateExpression("Count");
+		sdX.getGrouping().setGroupingInterval(1);
 		sdX.getGrouping().setGroupingUnit(GroupingUnitType.DAYS_LITERAL);
 		// Y-Series
 
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.getLabel( ).setVisible( true );
-		Query yQ = QueryImpl.create( "Y" );
-		bs.getDataDefinition( ).add( yQ );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.getLabel().setVisible(true);
+		Query yQ = QueryImpl.create("Y");
+		bs.getDataDefinition().add(yQ);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( 0 );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(0);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 	}

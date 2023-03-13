@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,14 +24,12 @@ import com.ibm.icu.util.ULocale;
  * externalize the text with the properties file of the report design or the
  * library. Otherwise the user should implement it.
  */
-public interface IExternalizer
-{
+public interface IExternalizer {
 	/**
-	 * Defines a separator for a fully externalized message reference containing
-	 * a key on the LHS and a value on the RHS separated by the key separator.
+	 * Defines a separator for a fully externalized message reference containing a
+	 * key on the LHS and a value on the RHS separated by the key separator.
 	 */
-	public static final char KEY_SEPARATOR = '=';
+	char KEY_SEPARATOR = '=';
 
-	String externalizedMessage( String sKey, String sDefaultValue,
-			ULocale locale );
+	String externalizedMessage(String sKey, String sDefaultValue, ULocale locale);
 }

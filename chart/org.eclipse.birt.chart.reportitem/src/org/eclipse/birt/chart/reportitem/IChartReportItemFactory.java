@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,26 +33,20 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * Factory class used to create instances.
  */
 
-public interface IChartReportItemFactory
-{
+public interface IChartReportItemFactory {
 
-	IActionRenderer createActionRenderer( DesignElementHandle eih,
-			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
-			IReportContext context );
+	IActionRenderer createActionRenderer(DesignElementHandle eih, IHTMLActionHandler handler,
+			IDataRowExpressionEvaluator evaluator, IReportContext context);
 
-	IReportItemPresentation createReportItemPresentation(
-			IReportItemPresentationInfo info );
+	IReportItemPresentation createReportItemPresentation(IReportItemPresentationInfo info);
 
-	Serializer createSerializer( ExtendedItemHandle eih );
+	Serializer createSerializer(ExtendedItemHandle eih);
 
-	ChartCubeQueryHelper createCubeQueryHelper( ExtendedItemHandle handle,
-			Chart cm, IModelAdapter modelAdapter );
+	ChartCubeQueryHelper createCubeQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter);
 
-	IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
-			ICubeResultSet set );
-	
-	IChartReportItem createChartReportItem(  ExtendedItemHandle eih );
+	IGroupedDataRowExpressionEvaluator createCubeEvaluator(Chart cm, ICubeResultSet set);
 
-	ChartBaseQueryHelper createQueryHelper( ExtendedItemHandle handle,
-			Chart cm, IModelAdapter modelAdapter );
+	IChartReportItem createChartReportItem(ExtendedItemHandle eih);
+
+	ChartBaseQueryHelper createQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter);
 }

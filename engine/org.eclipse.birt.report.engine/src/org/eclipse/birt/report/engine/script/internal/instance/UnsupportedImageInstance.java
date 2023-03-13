@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,196 +23,193 @@ import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 /**
- * 
+ *
  */
 
-public class UnsupportedImageInstance implements IImageInstance
-{
+public class UnsupportedImageInstance implements IImageInstance {
 
 	private ITextContent content;
 
-	public UnsupportedImageInstance( ITextContent content )
-	{
+	public UnsupportedImageInstance(ITextContent content) {
 		this.content = content;
 	}
 
-	public String getHyperlink( )
-	{
+	@Override
+	public String getHyperlink() {
 		return null;
 	}
 
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return null;
 	}
 
-	public void setName( String name )
-	{
+	@Override
+	public void setName(String name) {
 	}
 
-	public String getHelpText( )
-	{
+	@Override
+	public String getHelpText() {
 		return null;
 	}
 
-	public void setHelpText( String helpText )
-	{
+	@Override
+	public void setHelpText(String helpText) {
 	}
 
-	public IScriptStyle getStyle( )
-	{
+	@Override
+	public IScriptStyle getStyle() {
 		return null;
 	}
 
-	public String getHorizontalPosition( )
-	{
+	@Override
+	public String getHorizontalPosition() {
 		return null;
 	}
 
-	public void setHorizontalPosition( String position )
-	{
+	@Override
+	public void setHorizontalPosition(String position) {
 	}
 
-	public String getVerticalPosition( )
-	{
+	@Override
+	public String getVerticalPosition() {
 		return null;
 	}
 
-	public void setVerticalPosition( String position )
-	{
+	@Override
+	public void setVerticalPosition(String position) {
 	}
 
-	public String getWidth( )
-	{
+	@Override
+	public String getWidth() {
 		return null;
 	}
 
-	public void setWidth( String width )
-	{
+	@Override
+	public void setWidth(String width) {
 	}
 
-	public String getHeight( )
-	{
+	@Override
+	public String getHeight() {
 		return null;
 	}
 
-	public void setHeight( String height )
-	{
+	@Override
+	public void setHeight(String height) {
 	}
 
-	public Object getNamedExpressionValue( String name )
-	{
+	@Override
+	public Object getNamedExpressionValue(String name) {
 		return null;
 	}
 
-	public Object getUserPropertyValue( String name )
-	{
+	@Override
+	public Object getUserPropertyValue(String name) {
 		return null;
 	}
 
-	public void setUserPropertyValue( String name, Object value )
-			throws ScriptException
-	{
+	@Override
+	public void setUserPropertyValue(String name, Object value) throws ScriptException {
 	}
 
-	public IReportElementInstance getParent( ) throws ScriptException
-	{
+	@Override
+	public IReportElementInstance getParent() throws ScriptException {
 		return null;
 	}
 
-	public IRowData getRowData( ) throws ScriptException
-	{
+	@Override
+	public IRowData getRowData() throws ScriptException {
 		return null;
 	}
 
-	public String getAltText( )
-	{
-		return content.getText( );
+	@Override
+	public String getAltText() {
+		return content.getText();
 	}
 
-	public void setAltText( String altText )
-	{
+	@Override
+	public void setAltText(String altText) {
 	}
 
-	public String getAltTextKey( )
-	{
+	@Override
+	public String getAltTextKey() {
 		return null;
 	}
 
-	public void setAltTextKey( String altTextKey )
-	{
+	@Override
+	public void setAltTextKey(String altTextKey) {
 	}
 
-	public String getURI( )
-	{
+	@Override
+	public String getURI() {
 		return null;
 	}
 
-	public void setURI( String uri )
-	{
+	@Override
+	public void setURI(String uri) {
 	}
 
-	public int getImageSource( )
-	{
+	@Override
+	public int getImageSource() {
 		return 0;
 	}
 
-	public String getImageName( )
-	{
+	@Override
+	public String getImageName() {
 		return null;
 	}
 
-	public void setImageName( String imageName )
-	{
+	@Override
+	public void setImageName(String imageName) {
 	}
 
-	public byte[] getData( )
-	{
+	@Override
+	public byte[] getData() {
 		return null;
 	}
 
-	public void setData( byte[] data )
-	{
+	@Override
+	public void setData(byte[] data) {
 	}
 
-	public String getMimeType( )
-	{
+	@Override
+	public String getMimeType() {
 		return null;
 	}
 
-	public void setMimeType( String type )
-	{
+	@Override
+	public void setMimeType(String type) {
 	}
 
-	public void setURL( String url )
-	{
+	@Override
+	public void setURL(String url) {
 	}
 
-	public String getURL( )
-	{
+	@Override
+	public String getURL() {
 		return null;
 	}
 
-	public void setFile( String file )
-	{
+	@Override
+	public void setFile(String file) {
 	}
 
-	public String getFile( )
-	{
+	@Override
+	public String getFile() {
 		return null;
 	}
 
-	public IActionInstance createAction( )
-	{
+	@Override
+	public IActionInstance createAction() {
 		return null;
 	}
 
-	public IActionInstance getAction( )
-	{
+	@Override
+	public IActionInstance getAction() {
 		return null;
 	}
 
-	public void setAction( IActionInstance actionInstance )
-	{
+	@Override
+	public void setAction(IActionInstance actionInstance) {
 	}
 }

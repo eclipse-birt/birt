@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,72 +37,62 @@ public class ResultSetItem implements IResultSetItem {
 	 */
 	private DesignElementHandle handle;
 	private Locale locale;
-	/*
-	 * prevent default construction.
-	 */
-	private ResultSetItem( )
-	{
-		
-	}
-	
+
 	/**
 	 * construct result set meta data from result name and IResultMetaData
+	 *
 	 * @param resultSetName
 	 * @param metaData
 	 */
-	public ResultSetItem( String resultSetName, IResultMetaData metaData )
-	{
+	public ResultSetItem(String resultSetName, IResultMetaData metaData) {
 		this.resultSetName = resultSetName;
 		resultSetMetaData = metaData;
 	}
-	
-	public ResultSetItem( String resultSetName, IResultMetaData metaData,
-			DesignElementHandle handle, Locale loc )
-	{
+
+	public ResultSetItem(String resultSetName, IResultMetaData metaData, DesignElementHandle handle, Locale loc) {
 		this.resultSetName = resultSetName;
 		resultSetMetaData = metaData;
 		this.handle = handle;
 		this.locale = loc;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
 	 */
-	public String getResultSetName( )
-	{
+	@Override
+	public String getResultSetName() {
 		return resultSetName;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultMetaData()
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultMetaData()
 	 */
-	public IResultMetaData getResultMetaData( )
-	{
+	@Override
+	public IResultMetaData getResultMetaData() {
 		return resultSetMetaData;
 	}
 
-	public String getResultSetDisplayName( )
-	{
-		if ( handle instanceof ReportElementHandle )
-		{
+	@Override
+	public String getResultSetDisplayName() {
+		if (handle instanceof ReportElementHandle) {
 			ReportElementHandle tmpHandle = (ReportElementHandle) handle;
-			if ( tmpHandle.getDisplayName( ) != null )
-			{
-				return ModuleUtil.getExternalizedValue( tmpHandle, tmpHandle
-						.getDisplayNameKey( ), tmpHandle.getDisplayName( ),
-						ULocale.forLocale( locale ) );
+			if (tmpHandle.getDisplayName() != null) {
+				return ModuleUtil.getExternalizedValue(tmpHandle, tmpHandle.getDisplayNameKey(),
+						tmpHandle.getDisplayName(), ULocale.forLocale(locale));
 			}
-		}
-		else if ( handle != null )
-		{
-			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
-					resultSetName, ULocale.forLocale( locale ) );
+		} else if (handle != null) {
+			return ModuleUtil.getExternalizedValue(handle, handle.getName(), resultSetName, ULocale.forLocale(locale));
 		}
 		return resultSetName;
 	}
-	
-	public DesignElementHandle getHandle( )
-	{
+
+	public DesignElementHandle getHandle() {
 		return handle;
 	}
 }

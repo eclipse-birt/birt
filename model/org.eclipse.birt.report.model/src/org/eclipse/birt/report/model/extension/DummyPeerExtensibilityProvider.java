@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,72 +32,66 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 
 /**
- * 
+ *
  */
 
-public final class DummyPeerExtensibilityProvider
-		extends
-			PeerExtensibilityProvider
-{
+public final class DummyPeerExtensibilityProvider extends PeerExtensibilityProvider {
 
 	private ContentTree contentTree = null;
 
 	/**
-	 * 
+	 *
 	 * @param element
 	 * @param extensionName
 	 */
-	public DummyPeerExtensibilityProvider( DesignElement element,
-			String extensionName )
-	{
-		super( element, extensionName );
-		initializeContentTree( );
+	public DummyPeerExtensibilityProvider(DesignElement element, String extensionName) {
+		super(element, extensionName);
+		initializeContentTree();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * handleInvalidPropertyValue(java.lang.String, java.lang.Object)
 	 */
-	public void handleInvalidPropertyValue( String propName, Object value )
-	{
+	@Override
+	public void handleInvalidPropertyValue(String propName, Object value) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * handleUndefinedChildren(java.lang.String,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public void handleIllegalChildren( String propName, DesignElement child )
-	{
+	@Override
+	public void handleIllegalChildren(String propName, DesignElement child) {
 		// do nothing
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * handleUndefinedProperty(java.lang.String, java.lang.Object)
 	 */
-	public void handleUndefinedProperty( String propName, Object value )
-	{
+	@Override
+	public void handleUndefinedProperty(String propName, Object value) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
+	 *
+	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
 	 */
 
-	public ContentTree getContentTree( )
-	{
+	@Override
+	public ContentTree getContentTree() {
 		return this.contentTree;
 	}
 
@@ -102,33 +99,29 @@ public final class DummyPeerExtensibilityProvider
 	 * Initializes the content tree.
 	 */
 
-	public void initializeContentTree( )
-	{
-		if ( contentTree == null )
-			contentTree = new ContentTree( );
+	public void initializeContentTree() {
+		if (contentTree == null) {
+			contentTree = new ContentTree();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom
 	 * (org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
 	 */
 
-	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
-	{
-		super.copyFromWithNonElementType( source );
+	@Override
+	public void copyFromWithNonElementType(PeerExtensibilityProvider source) {
+		super.copyFromWithNonElementType(source);
 
 		// copy content tree
-		try
-		{
+		try {
 			this.contentTree = null;
-			this.contentTree = (ContentTree) ( (DummyPeerExtensibilityProvider) source ).contentTree
-					.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+			this.contentTree = (ContentTree) ((DummyPeerExtensibilityProvider) source).contentTree.clone();
+		} catch (CloneNotSupportedException e) {
 			assert false;
 			// do nothing
 		}
@@ -136,181 +129,179 @@ public final class DummyPeerExtensibilityProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getExtensionProperty(java.lang.String)
 	 */
-	public Object getExtensionProperty( String propName )
-	{
+	public Object getExtensionProperty(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * setExtensionProperty
 	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
 	 * java.lang.Object)
 	 */
-	public void setExtensionProperty( ElementPropertyDefn prop, Object value )
-	{
+	@Override
+	public void setExtensionProperty(ElementPropertyDefn prop, Object value) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getPropertyDefn(java.lang.String)
 	 */
-	public ElementPropertyDefn getPropertyDefn( String propName )
-	{
+	@Override
+	public ElementPropertyDefn getPropertyDefn(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getModelMethodDefns()
 	 */
-	public List<IElementPropertyDefn> getModelMethodDefns( )
-	{
-		return element.getDefn( ).getMethods( );
+	@Override
+	public List<IElementPropertyDefn> getModelMethodDefns() {
+		return element.getDefn().getMethods();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getScriptPropertyDefinition()
 	 */
-	public IPropertyDefinition getScriptPropertyDefinition( )
-	{
+	@Override
+	public IPropertyDefinition getScriptPropertyDefinition() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getPropertyDefns()
 	 */
-	public List<IElementPropertyDefn> getPropertyDefns( )
-	{
-		List<IElementPropertyDefn> list = element.getDefn( ).getProperties( );
-		List<UserPropertyDefn> userProps = element.getUserProperties( );
-		if ( userProps != null )
-			list.addAll( userProps );
+	@Override
+	public List<IElementPropertyDefn> getPropertyDefns() {
+		List<IElementPropertyDefn> list = element.getDefn().getProperties();
+		List<UserPropertyDefn> userProps = element.getUserProperties();
+		if (userProps != null) {
+			list.addAll(userProps);
+		}
 		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * hasLocalPropertyValues()
 	 */
-	public boolean hasLocalPropertyValues( )
-	{
+	@Override
+	public boolean hasLocalPropertyValues() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * hasLocalPropertyValuesOnOwnModel()
 	 */
-	public boolean hasLocalPropertyValuesOnOwnModel( )
-	{
+	@Override
+	public boolean hasLocalPropertyValuesOnOwnModel() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * initializeReportItem(org.eclipse.birt.report.model.core.Module)
 	 */
-	public void initializeReportItem( Module module )
-			throws ExtendedElementException
-	{
-		if ( extensionName == null )
-			throw new ExtendedElementException( element,
-					ModelException.PLUGIN_ID,
-					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
-		throw new ExtendedElementException( element, ModelException.PLUGIN_ID,
-				SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null );
+	@Override
+	public void initializeReportItem(Module module) throws ExtendedElementException {
+		if (extensionName == null) {
+			throw new ExtendedElementException(element, ModelException.PLUGIN_ID,
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null);
+		}
+		throw new ExtendedElementException(element, ModelException.PLUGIN_ID,
+				SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * isExtensionModelProperty(java.lang.String)
 	 */
-	public boolean isExtensionModelProperty( String propName )
-	{
+	@Override
+	public boolean isExtensionModelProperty(String propName) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * isExtensionXMLProperty(java.lang.String)
 	 */
-	public boolean isExtensionXMLProperty( String propName )
-	{
+	@Override
+	public boolean isExtensionXMLProperty(String propName) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * setEncryptionHelper
 	 * (org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
 	 * java.lang.String)
 	 */
-	public void setEncryptionHelper( ElementPropertyDefn propDefn,
-			String encryptionID )
-	{
+	@Override
+	public void setEncryptionHelper(ElementPropertyDefn propDefn, String encryptionID) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getIllegalChildren()
 	 */
-	public Map<String, List<UndefinedChildInfo>> getIllegalContents( )
-	{
-		return Collections.emptyMap( );
+	@Override
+	public Map<String, List<UndefinedChildInfo>> getIllegalContents() {
+		return Collections.emptyMap();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getInvalidPropertyValueMap()
 	 */
-	public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap( )
-	{
-		return Collections.emptyMap( );
+	@Override
+	public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap() {
+		return Collections.emptyMap();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getUndefinedPropertyMap()
 	 */
-	public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap( )
-	{
-		return Collections.emptyMap( );
+	@Override
+	public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap() {
+		return Collections.emptyMap();
 	}
 }

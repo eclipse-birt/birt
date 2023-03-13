@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -33,7 +36,7 @@ import com.ibm.icu.util.ULocale;
  * </ol>
  * <p>
  * <b>Actual result:</b> At the second time to add the style, it pop up
- * NewStyle1 is exist. 
+ * NewStyle1 is exist.
  * <p>
  * <b>Exception result:</b> It pop up a message to ask user "st1" is exist
  * <p>
@@ -42,36 +45,28 @@ import com.ibm.icu.util.ULocale;
  * Add two styles with the same name, exception should be thrown out
  */
 
-public class Regression_136061 extends BaseTestCase
-{
+public class Regression_136061 extends BaseTestCase {
 
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 
-	public void test_regression_136061( ) throws ContentException, NameException
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		libraryHandle = session.createLibrary( );
-		SharedStyleHandle style = libraryHandle.getElementFactory( ).newStyle(
-				"s1" ); //$NON-NLS-1$
-		ThemeHandle theme = libraryHandle.findTheme( "defaultTheme" ); //$NON-NLS-1$
-		assertNotNull( theme );
-		theme.getStyles( ).add( style );
+	public void test_regression_136061() throws ContentException, NameException {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		libraryHandle = session.createLibrary();
+		SharedStyleHandle style = libraryHandle.getElementFactory().newStyle("s1"); //$NON-NLS-1$
+		ThemeHandle theme = libraryHandle.findTheme("defaultTheme"); //$NON-NLS-1$
+		assertNotNull(theme);
+		theme.getStyles().add(style);
 
-		style = libraryHandle.getElementFactory( ).newStyle( "s1" ); //$NON-NLS-1$
+		style = libraryHandle.getElementFactory().newStyle("s1"); //$NON-NLS-1$
 
-		try
-		{
-			theme.getStyles( ).add( style );
-			fail( );
-		}
-		catch ( NameException e )
-		{
-			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
-					.getErrorCode( ) );
+		try {
+			theme.getStyles().add(style);
+			fail();
+		} catch (NameException e) {
+			assertEquals(NameException.DESIGN_EXCEPTION_DUPLICATE, e.getErrorCode());
 		}
 
 	}

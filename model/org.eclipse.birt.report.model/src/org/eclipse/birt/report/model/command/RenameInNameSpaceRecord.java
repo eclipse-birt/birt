@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,8 +27,7 @@ import org.eclipse.birt.report.model.core.namespace.NameExecutor;
  * Record for renaming element in name space.
  */
 
-class RenameInNameSpaceRecord extends SimpleRecord
-{
+class RenameInNameSpaceRecord extends SimpleRecord {
 
 	private DesignElement element = null;
 	private String oldName = null;
@@ -35,70 +37,60 @@ class RenameInNameSpaceRecord extends SimpleRecord
 
 	/**
 	 * Constructs the record for renaming element in name space.
-	 * 
+	 *
 	 * @param module
-	 * 
-	 * @param element
-	 *            the element for renaming
-	 * @param oldName
-	 *            old name
-	 * @param newName
-	 *            new name
+	 *
+	 * @param element the element for renaming
+	 * @param oldName old name
+	 * @param newName new name
 	 */
 
-	RenameInNameSpaceRecord( Module module, DesignElement element,
-			String oldName, String newName )
-	{
+	RenameInNameSpaceRecord(Module module, DesignElement element, String oldName, String newName) {
 		this.element = element;
 		this.oldName = oldName;
 		this.newName = newName;
-		NameExecutor executor = new NameExecutor( module, element );
-		this.nameHelper = executor.getNameHelper( );
-		this.nameSpaceID = executor.getNameSpaceId( );
+		NameExecutor executor = new NameExecutor(module, element);
+		this.nameHelper = executor.getNameHelper();
+		this.nameSpaceID = executor.getNameSpaceId();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
+	@Override
+	protected void perform(boolean undo) {
+		NameSpace ns = nameHelper.getNameSpace(nameSpaceID);
 
-		if ( undo )
-		{
-			ns.rename( element, newName, oldName );
-		}
-		else
-		{
-			ns.rename( element, oldName, newName );
+		if (undo) {
+			ns.rename(element, newName, oldName);
+		} else {
+			ns.rename(element, oldName, newName);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 *
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
-		return nameHelper.getElement( );
+	@Override
+	public DesignElement getTarget() {
+		return nameHelper.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 *
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		return new NameEvent( element, oldName, newName );
+	@Override
+	public NotificationEvent getEvent() {
+		return new NameEvent(element, oldName, newName);
 	}
 
 }

@@ -1,17 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart viewer
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.viewer;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-ClassPath: .,
  WebContent/WEB-INF/lib/
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
-Require-Bundle: javax.servlet,
- javax.servlet.jsp,
- org.eclipse.birt.chart.engine,
- org.eclipse.birt.chart.engine.extension
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
+Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="4.13.0",
+ org.eclipse.birt.chart.engine.extension;bundle-version="4.13.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: javax.servlet;version="3.1.0",
+ javax.servlet.http;version="3.1.0",
+ javax.servlet.jsp;version="2.1.0",
+ javax.servlet.jsp.tagext;version="2.1.0"
 Automatic-Module-Name: org.eclipse.birt.chart.viewer

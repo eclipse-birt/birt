@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,8 +19,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 
 import com.ibm.icu.util.ULocale;
 
-public class TOCTest extends TOCTestCase
-{
+public class TOCTest extends TOCTestCase {
 
 	static final String TOC_TEST_TOC = "org/eclipse/birt/report/engine/toc/TOCNodeTest.xml";
 	static final String TOC_TEST_TOC_1 = "org/eclipse/birt/report/engine/toc/TOCNodeTest1.xml";
@@ -25,51 +27,39 @@ public class TOCTest extends TOCTestCase
 	static final String TOC_TEST_TOC_3 = "org/eclipse/birt/report/engine/toc/TOCNodeTest3.xml";
 	static final String TOC_TEST_TOC_4 = "org/eclipse/birt/report/engine/toc/TOCNodeTest4.xml";
 
-	static final String TOC_TEST_GOLDEN = "<toc nodeId=\"/\"/>";;
+	static final String TOC_TEST_GOLDEN = "<toc nodeId=\"/\"/>";
 
-	static final String TOC_TEST_1_GOLDEN = "<toc nodeId=\"/\">"
-			+ "    <toc nodeId=\"__TOC_0\" displayText=\"leaf1\"/>"
+	static final String TOC_TEST_1_GOLDEN = "<toc nodeId=\"/\">" + "    <toc nodeId=\"__TOC_0\" displayText=\"leaf1\"/>"
 			+ "    <toc nodeId=\"__TOC_1\" displayText=\"leaf2\"/>" + "</toc>";
 
-	static final String TOC_TEST_2_GOLDEN = "<toc nodeId=\"/\">"
-			+ "    <toc nodeId=\"__TOC_0\" displayText=\"leaf2\">"
+	static final String TOC_TEST_2_GOLDEN = "<toc nodeId=\"/\">" + "    <toc nodeId=\"__TOC_0\" displayText=\"leaf2\">"
 			+ "        <toc nodeId=\"__TOC_0_1\" displayText=\"leaf2\"/>"
-			+ "        <toc nodeId=\"__TOC_0_2\" displayText=\"leaf3\"/>"
-			+ "    </toc>" + "</toc>";
+			+ "        <toc nodeId=\"__TOC_0_2\" displayText=\"leaf3\"/>" + "    </toc>" + "</toc>";
 
 	static final String TOC_TEST_3_GOLDEN = "<toc nodeId=\"/\"/>";
 
-	static final String TOC_TEST_4_GOLDEN = "<toc nodeId=\"/\">"
-			+ "    <toc nodeId=\"__TOC_0\" displayText=\"leaf3\">"
+	static final String TOC_TEST_4_GOLDEN = "<toc nodeId=\"/\">" + "    <toc nodeId=\"__TOC_0\" displayText=\"leaf3\">"
 			+ "        <toc nodeId=\"__TOC_0_1\" displayText=\"leaf3\"/>"
-			+ "        <toc nodeId=\"__TOC_0_2\" displayText=\"leaf4\"/>"
-			+ "    </toc>" + "</toc>";
+			+ "        <toc nodeId=\"__TOC_0_2\" displayText=\"leaf4\"/>" + "    </toc>" + "</toc>";
 
-	public void testTOC( ) throws Exception
-	{
-		//doTest( TOC_TEST_TOC, TOC_TEST_GOLDEN );
+	public void testTOC() throws Exception {
+		// doTest( TOC_TEST_TOC, TOC_TEST_GOLDEN );
 		// doTest( TOC_TEST_TOC_1, TOC_TEST_1_GOLDEN );
 		// doTest( TOC_TEST_TOC_2, TOC_TEST_2_GOLDEN );
 		// doTest( TOC_TEST_TOC_3, TOC_TEST_3_GOLDEN );
 		// doTest( TOC_TEST_TOC_4, TOC_TEST_4_GOLDEN );
 	}
 
-	protected void doTest( String design, String golden ) throws Exception
-	{
-		copyResource( design, "utest/toc.rptdesign" );
-		createReportDocument( "utest/toc.rptdesign", "utest/toc.rptdocument" );
-		IReportDocument document = engine
-				.openReportDocument( "utest/toc.rptdocument" );
-		try
-		{
-			ITOCTree tree = document.getTOCTree( "html", ULocale.ENGLISH );
-			String out = toString( tree.getRoot( ) );
-			assertEquals( golden.replaceAll( "\\s", "" ), out.replaceAll(
-					"\\s", "" ) );
-		}
-		finally
-		{
-			document.close( );
+	protected void doTest(String design, String golden) throws Exception {
+		copyResource(design, "utest/toc.rptdesign");
+		createReportDocument("utest/toc.rptdesign", "utest/toc.rptdocument");
+		IReportDocument document = engine.openReportDocument("utest/toc.rptdocument");
+		try {
+			ITOCTree tree = document.getTOCTree("html", ULocale.ENGLISH);
+			String out = toString(tree.getRoot());
+			assertEquals(golden.replaceAll("\\s", ""), out.replaceAll("\\s", ""));
+		} finally {
+			document.close();
 		}
 	}
 }

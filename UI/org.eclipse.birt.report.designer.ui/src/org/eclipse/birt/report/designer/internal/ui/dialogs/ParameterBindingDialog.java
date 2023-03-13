@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,40 +30,37 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Dialog used for parameter binding
  */
-public class ParameterBindingDialog extends BaseDialog
-{
+public class ParameterBindingDialog extends BaseDialog {
 
-	ArrayList items = new ArrayList( );
+	ArrayList items = new ArrayList();
 
 	/**
 	 * @param parentShell
 	 */
-	public ParameterBindingDialog( Shell parentShell, DesignElementHandle model )
-	{
-		super( parentShell, null );
-		items.add( model );
+	public ParameterBindingDialog(Shell parentShell, DesignElementHandle model) {
+		super(parentShell, null);
+		items.add(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID );
-		Composite composite = (Composite) super.createDialogArea( parent );
-		ParameterBindingPage page = new ParameterBindingPage( composite,
-				SWT.NONE );
-		page.setEnableAutoCommit( false );
-		page.setInput( items );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID);
+		Composite composite = (Composite) super.createDialogArea(parent);
+		ParameterBindingPage page = new ParameterBindingPage(composite, SWT.NONE);
+		page.setEnableAutoCommit(false);
+		page.setInput(items);
 
-		GridData data = new GridData( GridData.FILL_BOTH );
+		GridData data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = 300;
-		page.setLayoutData( data );
-		this.setTitle( Messages.getString( "ParameterBindingDialog.title" ) ); //$NON-NLS-1$
+		page.setLayoutData(data);
+		this.setTitle(Messages.getString("ParameterBindingDialog.title")); //$NON-NLS-1$
 		return composite;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,186 +42,167 @@ import org.eclipse.swt.widgets.Text;
  * ExpressionComposite contains a Text and a Button control for presenting an
  * Expression builder UI.
  */
-public class ExpressionComposite extends Composite
-{
+public class ExpressionComposite extends Composite {
 
 	protected Text text;
 
 	/**
-	 * @param parent
-	 *            A widget which will be the parent of the new instance (cannot
-	 *            be null)
-	 * @param style
-	 *            The style of widget to construct
+	 * @param parent A widget which will be the parent of the new instance (cannot
+	 *               be null)
+	 * @param style  The style of widget to construct
 	 */
-	public ExpressionComposite( Composite parent, boolean isFormStyle )
-	{
-		super( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 2, false );
+	public ExpressionComposite(Composite parent, boolean isFormStyle) {
+		super(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 2;
 		layout.marginWidth = 2;
 		layout.verticalSpacing = 2;
 		layout.horizontalSpacing = 3;
-		setLayout( layout );
-		if ( isFormStyle )
-			text = FormWidgetFactory.getInstance( ).createText( this, "", //$NON-NLS-1$
-					SWT.READ_ONLY | SWT.MULTI );
-		else
-			text = new Text( this, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER );
-		GridData data = new GridData( );
+		setLayout(layout);
+		if (isFormStyle) {
+			text = FormWidgetFactory.getInstance().createText(this, "", //$NON-NLS-1$
+					SWT.READ_ONLY | SWT.MULTI);
+		} else {
+			text = new Text(this, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER);
+		}
+		GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
-		data.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- ( isFormStyle ? 0 : ( text.getBorderWidth( ) * 2 ) );
-		text.setLayoutData( data );
+		data.heightHint = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y
+				- (isFormStyle ? 0 : (text.getBorderWidth() * 2));
+		text.setLayoutData(data);
 
-		Listener listener = new Listener( ) {
+		Listener listener = new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				notifyListeners( SWT.Modify, null );
+			@Override
+			public void handleEvent(Event event) {
+				notifyListeners(SWT.Modify, null);
 			}
 
 		};
 
-		button = ExpressionButtonUtil.createExpressionButton( this,
-				text,
-				null,
-				null,
-				listener,
-				false,
-				isFormStyle ? SWT.FLAT : SWT.PUSH,
-				new ExpressionHelper( ) );
+		button = ExpressionButtonUtil.createExpressionButton(this, text, null, null, listener, false,
+				isFormStyle ? SWT.FLAT : SWT.PUSH, new ExpressionHelper());
 
-		initAccessible( );
+		initAccessible();
 	}
 
-	public void setInput( Object input )
-	{
-		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
-		helper.setContextObject( DEUtil.getInputFirstElement( input ) );
+	public void setInput(Object input) {
+		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper();
+		helper.setContextObject(DEUtil.getInputFirstElement(input));
 	}
 
-	void initAccessible( )
-	{
+	void initAccessible() {
 
-		( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).getControl( )
-				.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+		((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).getControl().getAccessible()
+				.addAccessibleListener(new AccessibleAdapter() {
 
-					public void getHelp( AccessibleEvent e )
-					{
-						e.result = ( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).getControl( )
-								.getToolTipText( );
+					@Override
+					public void getHelp(AccessibleEvent e) {
+						e.result = ((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).getControl()
+								.getToolTipText();
 					}
-				} );
+				});
 
-		text.getAccessible( )
-				.addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		text.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-					public void getRole( AccessibleControlEvent e )
-					{
-						e.detail = text.getEditable( ) ? ACC.ROLE_TEXT
-								: ACC.ROLE_LABEL;
-					}
-				} );
+			@Override
+			public void getRole(AccessibleControlEvent e) {
+				e.detail = text.getEditable() ? ACC.ROLE_TEXT : ACC.ROLE_LABEL;
+			}
+		});
 
-		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			public void getCaretOffset( AccessibleTextEvent e )
-			{
-				e.offset = text.getCaretPosition( );
+			@Override
+			public void getCaretOffset(AccessibleTextEvent e) {
+				e.offset = text.getCaretPosition();
 			}
 
-			public void getSelectionRange( AccessibleTextEvent e )
-			{
-				Point sel = text.getSelection( );
+			@Override
+			public void getSelectionRange(AccessibleTextEvent e) {
+				Point sel = text.getSelection();
 				e.offset = sel.x;
 				e.length = sel.y - sel.x;
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point testPoint = toControl( e.x, e.y );
-				if ( getBounds( ).contains( testPoint ) )
-				{
+			@Override
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point testPoint = toControl(e.x, e.y);
+				if (getBounds().contains(testPoint)) {
 					e.childID = ACC.CHILDID_SELF;
 				}
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				Rectangle location = getBounds( );
-				Point pt = toDisplay( location.x, location.y );
+			@Override
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(location.x, location.y);
 				e.x = pt.x;
 				e.y = pt.y;
 				e.width = location.width;
 				e.height = location.height;
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			@Override
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			@Override
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
+			@Override
+			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			public void getValue( AccessibleControlEvent e )
-			{
-				e.result = text.getText( );
+			@Override
+			public void getValue(AccessibleControlEvent e) {
+				e.result = text.getText();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Sets value of the Expression.
-	 * 
-	 * @param string
-	 *            the String value.
+	 *
+	 * @param string the String value.
 	 */
-	public void setExpression( Expression expression )
-	{
-		ExpressionButtonUtil.initExpressionButtonControl( text, expression );
+	public void setExpression(Expression expression) {
+		ExpressionButtonUtil.initExpressionButtonControl(text, expression);
 	}
 
 	/**
 	 * Gets value of the Expression.
-	 * 
+	 *
 	 * @return a String value.
 	 */
-	public Expression getExpression( )
-	{
-		return ExpressionButtonUtil.getExpression( text );
+	public Expression getExpression() {
+		return ExpressionButtonUtil.getExpression(text);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	public void setEnabled( boolean enabled )
-	{
-		text.setEnabled( enabled );
-		( (ExpressionButton) text.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( enabled );
-		super.setEnabled( enabled );
+	@Override
+	public void setEnabled(boolean enabled) {
+		text.setEnabled(enabled);
+		((ExpressionButton) text.getData(ExpressionButtonUtil.EXPR_BUTTON)).setEnabled(enabled);
+		super.setEnabled(enabled);
 	}
 
 	private ExpressionButton button;
 
-	public void setExpressionProvider( IExpressionProvider provider )
-	{
-		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
-		helper.setProvider( provider );
+	public void setExpressionProvider(IExpressionProvider provider) {
+		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper();
+		helper.setProvider(provider);
 	}
 }

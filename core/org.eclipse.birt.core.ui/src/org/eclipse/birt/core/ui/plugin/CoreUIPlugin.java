@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.eclipse.core.runtime.Plugin;
  * Plugin class for Chart UI Extension
  */
 
-public class CoreUIPlugin extends Plugin
-{
+public class CoreUIPlugin extends Plugin {
 
 	/**
 	 * Plugin ID.
@@ -31,17 +33,15 @@ public class CoreUIPlugin extends Plugin
 	/**
 	 * The constructor.
 	 */
-	public CoreUIPlugin( )
-	{
-		super( );
+	public CoreUIPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static CoreUIPlugin getDefault( )
-	{
+	public static CoreUIPlugin getDefault() {
 		return plugin;
 	}
 

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -18,43 +20,37 @@ import org.eclipse.osgi.util.NLS;
 
 /**
  * Messages used by Birt Project Wizard UI
- * 
+ *
  */
-public class BirtWTPMessages extends NLS
-{
+public class BirtWTPMessages extends NLS {
 
 	// Bundle Name
 	private static final String BUNDLE_NAME = "org.eclipse.birt.chart.integration.wtp.ui.internal.i18n.Messages";//$NON-NLS-1$
 	private static ResourceBundle bundle;
 
-	static
-	{
+	static {
 		// load message values from bundle file
-		NLS.initializeMessages( BUNDLE_NAME, BirtWTPMessages.class );
+		NLS.initializeMessages(BUNDLE_NAME, BirtWTPMessages.class);
 	}
 
 	/**
 	 * Make default constructor is private. Can not create new instance.
-	 * 
+	 *
 	 */
-	private BirtWTPMessages( )
-	{
+	private BirtWTPMessages() {
 	}
 
 	/**
 	 * Return current resource bundle
-	 * 
+	 *
 	 * @return
 	 */
-	public static ResourceBundle getResourceBundle( )
-	{
-		try
-		{
-			if ( bundle == null )
-				bundle = ResourceBundle.getBundle( BUNDLE_NAME );
-		}
-		catch ( MissingResourceException x )
-		{
+	public static ResourceBundle getResourceBundle() {
+		try {
+			if (bundle == null) {
+				bundle = ResourceBundle.getBundle(BUNDLE_NAME);
+			}
+		} catch (MissingResourceException x) {
 			bundle = null;
 		}
 		return bundle;

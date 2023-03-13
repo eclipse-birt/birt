@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -21,10 +23,9 @@ import javax.servlet.ServletResponse;
 
 /**
  * Mock a RequestDispatcher for Viewer UnitText
- * 
+ *
  */
-public class RequestDispatcherSimulator implements RequestDispatcher
-{
+public class RequestDispatcherSimulator implements RequestDispatcher {
 
 	/**
 	 * Forward Servlet
@@ -33,48 +34,46 @@ public class RequestDispatcherSimulator implements RequestDispatcher
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param target
 	 */
-	public RequestDispatcherSimulator( Servlet target )
-	{
+	public RequestDispatcherSimulator(Servlet target) {
 		this.target = target;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.RequestDispatcher#forward(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * javax.servlet.ServletResponse)
 	 */
-	public void forward( ServletRequest request, ServletResponse response )
-			throws ServletException, IOException
-	{
-		if ( target != null )
-			target.service( request, response );
+	@Override
+	public void forward(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+		if (target != null) {
+			target.service(request, response);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.RequestDispatcher#include(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * javax.servlet.ServletResponse)
 	 */
-	public void include( ServletRequest request, ServletResponse response )
-			throws ServletException, IOException
-	{	
+	@Override
+	public void include(ServletRequest request, ServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
 	 * Return forward servlet name
-	 * 
+	 *
 	 * @return
 	 */
-	public String getForward( )
-	{
-		if ( target == null )
+	public String getForward() {
+		if (target == null) {
 			return null;
+		}
 
-		return target.getClass( ).toString( );
+		return target.getClass().toString();
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,31 +25,26 @@ import org.xml.sax.SAXException;
  * The interface for reusing SAX parsers in a multi-thread environment.
  */
 
-interface XMLParserPool
-{
+interface XMLParserPool {
 
 	/**
-	 * Retrieves a parser from the pool given specified properties. If parser
-	 * can't be created using specified properties, an exception can be thrown.
-	 * 
-	 * @param properties
-	 *            a map of a parser properties and their values.
+	 * Retrieves a parser from the pool given specified properties. If parser can't
+	 * be created using specified properties, an exception can be thrown.
+	 *
+	 * @param properties a map of a parser properties and their values.
 	 * @return A parser instance with given properties.
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
 
-	public SAXParser get( Map<String, ?> properties )
-			throws ParserConfigurationException, SAXException;
+	SAXParser get(Map<String, ?> properties) throws ParserConfigurationException, SAXException;
 
 	/**
 	 * Returns the parser to the pool.
-	 * 
-	 * @param parser
-	 *            the parser in the pool.
-	 * @param properties
-	 *            a map of a parser properties and their values.
+	 *
+	 * @param parser     the parser in the pool.
+	 * @param properties a map of a parser properties and their values.
 	 */
-	public void release( SAXParser parser, Map<String, ?> properties );
+	void release(SAXParser parser, Map<String, ?> properties);
 
 }

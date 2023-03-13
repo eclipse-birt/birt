@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,70 +33,59 @@ import org.xml.sax.SAXException;
  * properties.
  * <p>
  * This change is made from BIRT 2.2. The design file version is "3.2.10".
- * 
+ *
  */
 
-class CompatibleODAPrivatePropertyState extends CompatiblePropertyState
-{
+class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
 
 	private IPropertyDefn privatePropDefn = null;
 
 	/**
 	 * Constructs a <code>CompatibleODAPrivatePropertyState</code> to parse an
 	 * obsolete property.
-	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the private properties
+	 *
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the private properties
 	 */
 
-	public CompatibleODAPrivatePropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleODAPrivatePropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 		String privatePropName = null;
-		if ( element instanceof IOdaDataSetModel )
-		{
+		if (element instanceof IOdaDataSetModel) {
 			privatePropName = IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		}
-		else if ( element instanceof IOdaDataSourceModel )
-		{
+		} else if (element instanceof IOdaDataSourceModel) {
 			privatePropName = IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		}
-		else
+		} else {
 			assert false;
+		}
 
-		privatePropDefn = element.getPropertyDefn( privatePropName );
+		privatePropDefn = element.getPropertyDefn(privatePropName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		ExtendedProperty tmpStruct = new ExtendedProperty( );
+	@Override
+	public void end() throws SAXException {
+		ExtendedProperty tmpStruct = new ExtendedProperty();
 
-		setMember( tmpStruct, privatePropDefn.getName( ),
-				ExtendedProperty.NAME_MEMBER, name );
-		setMember( tmpStruct, privatePropDefn.getName( ),
-				ExtendedProperty.VALUE_MEMBER, text.toString( ) );
+		setMember(tmpStruct, privatePropDefn.getName(), ExtendedProperty.NAME_MEMBER, name);
+		setMember(tmpStruct, privatePropDefn.getName(), ExtendedProperty.VALUE_MEMBER, text.toString());
 
-		List privateProps = (List) element.getLocalProperty( handler.module,
-				(ElementPropertyDefn) privatePropDefn );
-		if ( privateProps == null )
-			privateProps = new ArrayList( );
+		List privateProps = (List) element.getLocalProperty(handler.module, (ElementPropertyDefn) privatePropDefn);
+		if (privateProps == null) {
+			privateProps = new ArrayList();
+		}
 
 		// should first add the structure to list then set the list value so as
 		// to setup the structure context
 
-		privateProps.add( tmpStruct );
+		privateProps.add(tmpStruct);
 
-		element.setProperty( (ElementPropertyDefn) privatePropDefn,
-				privateProps );
+		element.setProperty((ElementPropertyDefn) privatePropDefn, privateProps);
 	}
 }

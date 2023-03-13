@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
  * This class is an implementation of IScriptFuction interface.
  */
 
-public class ScriptFunction implements IScriptFunction
-{
+public class ScriptFunction implements IScriptFunction {
 	private static final long serialVersionUID = 1L;
 	//
 	private String name;
@@ -36,10 +38,10 @@ public class ScriptFunction implements IScriptFunction
 	private boolean isStatic;
 	private boolean isConstructor;
 	private boolean isVisible;
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 * @param category
 	 * @param argument
@@ -47,8 +49,9 @@ public class ScriptFunction implements IScriptFunction
 	 * @param desc
 	 * @param executor
 	 */
-	public ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,  boolean isConstructor )
-	{
+	public ScriptFunction(String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument,
+			String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,
+			boolean isConstructor) {
 		this.name = name;
 		this.category = category;
 		this.argument = argument;
@@ -60,10 +63,10 @@ public class ScriptFunction implements IScriptFunction
 		this.isConstructor = isConstructor;
 		this.isVisible = true;
 	}
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 * @param category
 	 * @param argument
@@ -75,11 +78,9 @@ public class ScriptFunction implements IScriptFunction
 	 * @param isConstructor
 	 * @param isVisible
 	 */
-	public ScriptFunction( String name, IScriptFunctionCategory category,
-			IScriptFunctionArgument[] argument, String dataType, String desc,
-			IScriptFunctionExecutor executor, boolean allowVarArguments,
-			boolean isStatic, boolean isConstructor, boolean isVisible )
-	{
+	public ScriptFunction(String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument,
+			String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,
+			boolean isConstructor, boolean isVisible) {
 		this.name = name;
 		this.category = category;
 		this.argument = argument;
@@ -91,84 +92,97 @@ public class ScriptFunction implements IScriptFunction
 		this.isConstructor = isConstructor;
 		this.isVisible = isVisible;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getArguments()
+	 *
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getArguments()
 	 */
-	public IScriptFunctionArgument[] getArguments( )
-	{
+	@Override
+	public IScriptFunctionArgument[] getArguments() {
 		return this.argument;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getCategory()
+	 *
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getCategory()
 	 */
-	public IScriptFunctionCategory getCategory( )
-	{
+	@Override
+	public IScriptFunctionCategory getCategory() {
 		return this.category;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getDataType()
+	 *
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getDataType()
 	 */
-	public String getDataTypeName( )
-	{
+	@Override
+	public String getDataTypeName() {
 		return this.dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.core.script.functionservice.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
+	 *
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
 	 */
-	public String getDescription( )
-	{
+	@Override
+	public String getDescription() {
 		return this.desc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor#execute(java.lang.Object[])
+	 *
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor#execute(
+	 * java.lang.Object[])
 	 */
-	public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
-	{
-		if( this.executor!= null )
-			return this.executor.execute( arguments, context );
+	@Override
+	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
+		if (this.executor != null) {
+			return this.executor.execute(arguments, context);
+		}
 		return null;
 	}
 
-	public boolean allowVarArguments( )
-	{
+	@Override
+	public boolean allowVarArguments() {
 		return this.allowVarArguments;
 	}
 
 	/**
 	 * Returns whether the function is visible.
-	 * 
+	 *
 	 */
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		return this.isVisible;
 	}
-	
-	public boolean isConstructor( )
-	{
+
+	@Override
+	public boolean isConstructor() {
 		return this.isConstructor;
 	}
 
-	public boolean isStatic( )
-	{
+	@Override
+	public boolean isStatic() {
 		return this.isStatic;
 	}
 

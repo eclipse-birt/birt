@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,22 +20,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class JavaSerializer<K> implements BTreeSerializer<K>
-{
+public class JavaSerializer<K> implements BTreeSerializer<K> {
 
-	public byte[] getBytes( K object ) throws IOException
-	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		ObjectOutputStream oo = new ObjectOutputStream( out );
-		oo.writeObject( object );
-		return out.toByteArray( );
+	@Override
+	public byte[] getBytes(K object) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ObjectOutputStream oo = new ObjectOutputStream(out);
+		oo.writeObject(object);
+		return out.toByteArray();
 	}
 
-	public K getObject( byte[] bytes ) throws IOException,
-			ClassNotFoundException
-	{
-		ByteArrayInputStream in = new ByteArrayInputStream( bytes );
-		ObjectInputStream oi = new ObjectInputStream( in );
-		return (K) oi.readObject( );
+	@Override
+	public K getObject(byte[] bytes) throws IOException, ClassNotFoundException {
+		ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+		ObjectInputStream oi = new ObjectInputStream(in);
+		return (K) oi.readObject();
 	}
 }

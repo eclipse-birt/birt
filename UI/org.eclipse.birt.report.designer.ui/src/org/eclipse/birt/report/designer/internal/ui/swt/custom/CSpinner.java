@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -48,10 +51,9 @@ import org.eclipse.swt.widgets.TypedListener;
 /**
  * Represents spinner swt widget
  */
-public class CSpinner extends Composite
-{
+public class CSpinner extends Composite {
 
-	private static final String DLG_TITLE_INVALID_NUMBER = Messages.getString( "Spinner.DialogTitle.InvalidNumber" ); //$NON-NLS-1$
+	private static final String DLG_TITLE_INVALID_NUMBER = Messages.getString("Spinner.DialogTitle.InvalidNumber"); //$NON-NLS-1$
 
 	private static final int BUTTON_WIDTH = 16;
 
@@ -64,294 +66,266 @@ public class CSpinner extends Composite
 	/**
 	 * Format the text value.
 	 */
-	private NumberFormatter formatter = new NumberFormatter( SessionHandleAdapter.getInstance( )
-			.getSessionHandle( )
-			.getULocale( ) ); //$NON-NLS-1$
+	private NumberFormatter formatter = new NumberFormatter(
+			SessionHandleAdapter.getInstance().getSessionHandle().getULocale()); // $NON-NLS-1$
 
 	/**
 	 * The list keeps IValueChangedListener.
 	 */
-	private List listeners = new ArrayList( );
+	private List listeners = new ArrayList();
 
 	private double validValue;
 
 	private boolean isInErrrorHandle;
 
 	/**
-	 * @param parent
-	 *            a widget which will be the parent of the new instance (cannot
-	 *            be null)
-	 * @param style
-	 *            the style of widget to construct
+	 * @param parent a widget which will be the parent of the new instance (cannot
+	 *               be null)
+	 * @param style  the style of widget to construct
 	 */
-	public CSpinner( Composite parent, int style )
-	{
-		super( parent, style );
+	public CSpinner(Composite parent, int style) {
+		super(parent, style);
 
 		int textStyle = SWT.SINGLE;
-		if ( ( style & SWT.READ_ONLY ) != 0 )
+		if ((style & SWT.READ_ONLY) != 0) {
 			textStyle |= SWT.READ_ONLY;
-		if ( ( style & SWT.FLAT ) != 0 )
+		}
+		if ((style & SWT.FLAT) != 0) {
 			textStyle |= SWT.FLAT;
-		text = new Text( this, textStyle );
+		}
+		text = new Text(this, textStyle);
 		int arrowStyle = SWT.ARROW;
-		if ( ( style & SWT.FLAT ) != 0 )
+		if ((style & SWT.FLAT) != 0) {
 			arrowStyle |= SWT.FLAT;
-		up = new Button( this, style | SWT.ARROW | SWT.UP );
-		down = new Button( this, style | SWT.ARROW | SWT.DOWN );
+		}
+		up = new Button(this, style | SWT.ARROW | SWT.UP);
+		down = new Button(this, style | SWT.ARROW | SWT.DOWN);
 
-		addListener( SWT.Traverse, new Listener( ) {
+		addListener(SWT.Traverse, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				traverse( e );
+			@Override
+			public void handleEvent(Event e) {
+				traverse(e);
 			}
-		} );
-		text.addKeyListener( new KeyAdapter( ) {
+		});
+		text.addKeyListener(new KeyAdapter() {
 
-			public void keyReleased( KeyEvent e )
-			{
-				if ( e.keyCode == SWT.KEYPAD_CR
-						|| e.keyCode == SWT.TRAVERSE_RETURN )
-				{
-					fireValueChanged( );
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.keyCode == SWT.KEYPAD_CR || e.keyCode == SWT.TRAVERSE_RETURN) {
+					fireValueChanged();
 				}
 
-				if ( e.keyCode == SWT.ARROW_UP )
-				{
-					up( );
-					fireValueChanged( );
+				if (e.keyCode == SWT.ARROW_UP) {
+					up();
+					fireValueChanged();
 				}
 
-				if ( e.keyCode == SWT.ARROW_DOWN )
-				{
-					down( );
-					fireValueChanged( );
+				if (e.keyCode == SWT.ARROW_DOWN) {
+					down();
+					fireValueChanged();
 				}
 
 			}
-		} );
+		});
 
-		text.addTraverseListener( new TraverseListener( ) {
+		text.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_RETURN )
-				{
-					fireValueChanged( );
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_RETURN) {
+					fireValueChanged();
 				}
-				if ( e.detail == SWT.TRAVERSE_ESCAPE )
-				{
+				if (e.detail == SWT.TRAVERSE_ESCAPE) {
 					e.doit = false;
 				}
 
 			}
 
-		} );
+		});
 
-		text.addFocusListener( new FocusListener( ) {
+		text.addFocusListener(new FocusListener() {
 
-			public void focusGained( FocusEvent e )
-			{
+			@Override
+			public void focusGained(FocusEvent e) {
 
 			}
 
-			public void focusLost( FocusEvent e )
-			{
-				if ( !isInErrrorHandle )
-				{
-					fireValueChanged( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (!isInErrrorHandle) {
+					fireValueChanged();
 				}
 
 			}
 
-		} );
+		});
 
-		up.addListener( SWT.Selection, new Listener( ) {
+		up.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				up( );
-				fireValueChanged( );
+			@Override
+			public void handleEvent(Event e) {
+				up();
+				fireValueChanged();
 			}
-		} );
+		});
 
-		down.addListener( SWT.Selection, new Listener( ) {
+		down.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				down( );
-				fireValueChanged( );
+			@Override
+			public void handleEvent(Event e) {
+				down();
+				fireValueChanged();
 			}
-		} );
+		});
 
-		addListener( SWT.Resize, new Listener( ) {
+		addListener(SWT.Resize, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				resize( );
+			@Override
+			public void handleEvent(Event e) {
+				resize();
 			}
-		} );
+		});
 
-		addListener( SWT.FocusIn, new Listener( ) {
+		addListener(SWT.FocusIn, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				focusIn( );
+			@Override
+			public void handleEvent(Event e) {
+				focusIn();
 			}
-		} );
+		});
 
-		text.setFont( getFont( ) );
+		text.setFont(getFont());
 
-		setSelection( minimum );
-		initAccessible( );
+		setSelection(minimum);
+		initAccessible();
 	}
 
-	void initAccessible( )
-	{
-		AccessibleAdapter accessibleAdapter = new AccessibleAdapter( ) {
+	void initAccessible() {
+		AccessibleAdapter accessibleAdapter = new AccessibleAdapter() {
 
-			public void getName( AccessibleEvent e )
-			{
-				getHelp( e );
+			@Override
+			public void getName(AccessibleEvent e) {
+				getHelp(e);
 			}
 
-			public void getHelp( AccessibleEvent e )
-			{
-				e.result = getToolTipText( );
+			@Override
+			public void getHelp(AccessibleEvent e) {
+				e.result = getToolTipText();
 			}
 		};
-		getAccessible( ).addAccessibleListener( accessibleAdapter );
-		up.getAccessible( ).addAccessibleListener( accessibleAdapter );
-		down.getAccessible( ).addAccessibleListener( accessibleAdapter );
+		getAccessible().addAccessibleListener(accessibleAdapter);
+		up.getAccessible().addAccessibleListener(accessibleAdapter);
+		down.getAccessible().addAccessibleListener(accessibleAdapter);
 
-		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			public void getCaretOffset( AccessibleTextEvent e )
-			{
-				e.offset = text.getCaretPosition( );
+			@Override
+			public void getCaretOffset(AccessibleTextEvent e) {
+				e.offset = text.getCaretPosition();
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point pt = toControl( new Point( e.x, e.y ) );
-				e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
-						: ACC.CHILDID_NONE;
+			@Override
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point pt = toControl(new Point(e.x, e.y));
+				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				Rectangle location = getBounds( );
-				Point pt = toDisplay( location.x, location.y );
+			@Override
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(location.x, location.y);
 				e.x = pt.x;
 				e.y = pt.y;
 				e.width = location.width;
 				e.height = location.height;
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			@Override
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			@Override
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_COMBOBOX;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
+			@Override
+			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
-		} );
+		});
 
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	protected void fireValueChanged( )
-	{
-		if ( !verify( text.getText( ) ) )
-		{
+	protected void fireValueChanged() {
+		if (!verify(text.getText())) {
 			return;
 		}
-		for ( int i = 0; i < listeners.size( ); i++ )
-		{
-			( (IValueChangedListener) listeners.get( i ) ).valueChanged( getSelection( ) );
+		for (int i = 0; i < listeners.size(); i++) {
+			((IValueChangedListener) listeners.get(i)).valueChanged(getSelection());
 		}
 	}
 
 	/**
 	 * Adds a IValueChangedListener instance.
-	 * 
-	 * @param listener
-	 *            the IValueChangedListener instance.
+	 *
+	 * @param listener the IValueChangedListener instance.
 	 */
-	public void addValueChangeListener( IValueChangedListener listener )
-	{
-		listeners.add( listener );
+	public void addValueChangeListener(IValueChangedListener listener) {
+		listeners.add(listener);
 	}
 
 	/**
 	 * Removes a given IValueChangedListener instance.
-	 * 
-	 * @param listener
-	 *            the IValueChangedListener instance.
+	 *
+	 * @param listener the IValueChangedListener instance.
 	 */
-	public void removeValueChangedListener( IValueChangedListener listener )
-	{
-		listeners.remove( listener );
+	public void removeValueChangedListener(IValueChangedListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
-	 * 
-	 * @param pattern
-	 *            A non-localized pattern string.
+	 *
+	 * @param pattern A non-localized pattern string.
 	 * @see java.text.DecimalFormat
 	 */
-	public void setFormatPattern( String pattern )
-	{
-		formatter.applyPattern( pattern );
+	public void setFormatPattern(String pattern) {
+		formatter.applyPattern(pattern);
 	}
 
 	/**
 	 * Verifies whether the input String is a valid double.
-	 * 
-	 * @param value
-	 *            The string to be verified.
-	 * @return Returns true if the string is a valid double value, or false if
-	 *         it is invalid.
+	 *
+	 * @param value The string to be verified.
+	 * @return Returns true if the string is a valid double value, or false if it is
+	 *         invalid.
 	 */
-	private boolean verify( String value )
-	{
-		try
-		{
-			validValue = parse( value );
-			if ( validValue < minimum )
-			{
+	private boolean verify(String value) {
+		try {
+			validValue = parse(value);
+			if (validValue < minimum) {
 				validValue = minimum;
 			}
-			if ( validValue > maximum )
-			{
+			if (validValue > maximum) {
 				validValue = maximum;
 			}
-			text.setText( formatter.format( validValue ) );
+			text.setText(formatter.format(validValue));
 			return true;
-		}
-		catch ( ParseException ex )
-		{
+		} catch (ParseException ex) {
 			isInErrrorHandle = true;
-			ExceptionHandler.openErrorMessageBox( DLG_TITLE_INVALID_NUMBER,
-					ex.getLocalizedMessage( ) );
+			ExceptionHandler.openErrorMessageBox(DLG_TITLE_INVALID_NUMBER, ex.getLocalizedMessage());
 			isInErrrorHandle = false;
-			text.setText( formatter.format( validValue ) );
-			if ( !text.isDisposed( ) )
-			{
-				focusIn( );
+			text.setText(formatter.format(validValue));
+			if (!text.isDisposed()) {
+				focusIn();
 			}
 			return false;
 		}
@@ -359,253 +333,221 @@ public class CSpinner extends Composite
 
 	/**
 	 * Processes up/down key event
-	 * 
-	 * @param e
-	 *            The key event type.
+	 *
+	 * @param e The key event type.
 	 */
-	protected void traverse( Event e )
-	{
-		switch ( e.detail )
-		{
-			case SWT.TRAVERSE_ARROW_PREVIOUS :
-				if ( e.keyCode == SWT.ARROW_UP )
-				{
-					e.doit = true;
-					e.detail = SWT.NULL;
-					up( );
-				}
-				break;
-			case SWT.TRAVERSE_ARROW_NEXT :
-				if ( e.keyCode == SWT.ARROW_DOWN )
-				{
-					e.doit = true;
-					e.detail = SWT.NULL;
-					down( );
-				}
+	protected void traverse(Event e) {
+		switch (e.detail) {
+		case SWT.TRAVERSE_ARROW_PREVIOUS:
+			if (e.keyCode == SWT.ARROW_UP) {
+				e.doit = true;
+				e.detail = SWT.NULL;
+				up();
+			}
+			break;
+		case SWT.TRAVERSE_ARROW_NEXT:
+			if (e.keyCode == SWT.ARROW_DOWN) {
+				e.doit = true;
+				e.detail = SWT.NULL;
+				down();
+			}
 		}
 	}
 
 	/**
 	 * Processes up action
 	 */
-	protected void up( )
-	{
-		setSelection( getSelection( ) + step );
-		notifyListeners( SWT.Selection, new Event( ) );
+	protected void up() {
+		setSelection(getSelection() + step);
+		notifyListeners(SWT.Selection, new Event());
 	}
 
 	/**
 	 * Processes down action
 	 */
-	protected void down( )
-	{
-		setSelection( getSelection( ) - step );
-		notifyListeners( SWT.Selection, new Event( ) );
+	protected void down() {
+		setSelection(getSelection() - step);
+		notifyListeners(SWT.Selection, new Event());
 	}
 
-	protected void focusIn( )
-	{
-		text.setFocus( );
-		text.setSelection( 0, text.getText( ).length( ) );
+	protected void focusIn() {
+		text.setFocus();
+		text.setSelection(0, text.getText().length());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.widgets.Control#setFont(org.eclipse.swt.graphics.Font)
+	 *
+	 * @see org.eclipse.swt.widgets.Control#setFont(org.eclipse.swt.graphics.Font)
 	 */
-	public void setFont( Font font )
-	{
-		super.setFont( font );
-		text.setFont( font );
+	@Override
+	public void setFont(Font font) {
+		super.setFont(font);
+		text.setFont(font);
 	}
 
 	/**
 	 * Sets the initial spinner value.
-	 * 
-	 * @param selection
-	 *            The spinner value to set.
+	 *
+	 * @param selection The spinner value to set.
 	 */
-	public void setSelection( double selection )
-	{
-		if ( selection < minimum )
-		{
+	public void setSelection(double selection) {
+		if (selection < minimum) {
 			selection = minimum;
-		}
-		else if ( selection > maximum )
-		{
+		} else if (selection > maximum) {
 			selection = maximum;
 		}
 
-		text.setText( formatter.format( selection ) );
+		text.setText(formatter.format(selection));
 		validValue = selection;
 	}
 
 	/**
 	 * Returns the current spinner value.
-	 * 
+	 *
 	 * @return The current spinner value.
 	 */
-	public double getSelection( )
-	{
-		try
-		{
-			return parse( text.getText( ) );
-		}
-		catch ( ParseException e )
-		{
-			ExceptionHandler.handle( e );
+	public double getSelection() {
+		try {
+			return parse(text.getText());
+		} catch (ParseException e) {
+			ExceptionHandler.handle(e);
 		}
 		return minimum;
 	}
 
 	/**
 	 * Sets the max spinner value.
-	 * 
-	 * @param maximum
-	 *            the max value.
+	 *
+	 * @param maximum the max value.
 	 */
-	public void setMaximum( double maximum )
-	{
-		checkWidget( );
+	public void setMaximum(double maximum) {
+		checkWidget();
 		this.maximum = maximum;
-		resize( );
+		resize();
 
 	}
 
 	/**
 	 * Gets the max spinner value.
-	 * 
+	 *
 	 * @return the max value.
 	 */
-	public double getMaximum( )
-	{
+	public double getMaximum() {
 		return maximum;
 	}
 
 	/**
 	 * Sets the minimum spinner value.
-	 * 
-	 * @param minimum
-	 *            the minimum value.
+	 *
+	 * @param minimum the minimum value.
 	 */
-	public void setMinimum( double minimum )
-	{
+	public void setMinimum(double minimum) {
 		this.minimum = minimum;
 	}
 
 	/**
 	 * Gets the minimum spinner value.
-	 * 
+	 *
 	 * @return the minimum value.
 	 */
-	public double getMinimum( )
-	{
+	public double getMinimum() {
 		return minimum;
 	}
 
 	/**
 	 * Re-layouts the control.
 	 */
-	protected void resize( )
-	{
-		Rectangle rect = getClientArea( );
+	protected void resize() {
+		Rectangle rect = getClientArea();
 		int width = rect.width;
 		int height = rect.height;
 
 		int textWidth = width - BUTTON_WIDTH;
-		text.setBounds( 0, 0, textWidth, height );
+		text.setBounds(0, 0, textWidth, height);
 
 		int buttonHeight = height / 2;
-		up.setBounds( textWidth, 0, BUTTON_WIDTH, buttonHeight );
-		down.setBounds( textWidth,
-				height - buttonHeight,
-				BUTTON_WIDTH,
-				buttonHeight );
+		up.setBounds(textWidth, 0, BUTTON_WIDTH, buttonHeight);
+		down.setBounds(textWidth, height - buttonHeight, BUTTON_WIDTH, buttonHeight);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#computeSize(int, int, boolean)
 	 */
-	public Point computeSize( int wHint, int hHint, boolean changed )
-	{
-		Point textPt = text.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
-		Point upPt = up.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+	@Override
+	public Point computeSize(int wHint, int hHint, boolean changed) {
+		Point textPt = text.computeSize(SWT.DEFAULT, SWT.DEFAULT, changed);
+		Point upPt = up.computeSize(SWT.DEFAULT, SWT.DEFAULT, changed);
 
 		int width = textPt.x + BUTTON_WIDTH;
-		int height = Math.max( textPt.y, upPt.y );
+		int height = Math.max(textPt.y, upPt.y);
 
-		if ( wHint != SWT.DEFAULT )
+		if (wHint != SWT.DEFAULT) {
 			width = wHint;
+		}
 
-		if ( hHint != SWT.DEFAULT )
+		if (hHint != SWT.DEFAULT) {
 			height = hHint;
+		}
 
-		return new Point( width, height );
+		return new Point(width, height);
 	}
 
-	protected void addSelectionListener( SelectionListener listener )
-	{
+	protected void addSelectionListener(SelectionListener listener) {
 
-		if ( listener == null )
-			throw new SWTError( SWT.ERROR_NULL_ARGUMENT );
-		addListener( SWT.Selection, new TypedListener( listener ) );
+		if (listener == null) {
+			throw new SWTError(SWT.ERROR_NULL_ARGUMENT);
+		}
+		addListener(SWT.Selection, new TypedListener(listener));
 	}
 
 	/**
 	 * Gets the step value.
-	 * 
+	 *
 	 * @return Returns the step.
 	 */
-	public double getStep( )
-	{
+	public double getStep() {
 		return step;
 	}
 
 	/**
 	 * Sets the step value
-	 * 
-	 * @param step
-	 *            The step to set.
+	 *
+	 * @param step The step to set.
 	 */
-	public void setStep( double step )
-	{
+	public void setStep(double step) {
 		this.step = step;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	public void setEnabled( boolean enabled )
-	{
-		text.setEnabled( enabled );
-		up.setEnabled( enabled );
-		down.setEnabled( enabled );
-		super.setEnabled( enabled );
+	@Override
+	public void setEnabled(boolean enabled) {
+		text.setEnabled(enabled);
+		up.setEnabled(enabled);
+		down.setEnabled(enabled);
+		super.setEnabled(enabled);
 	}
 
 	/**
 	 * Returns the text of the spinner.
-	 * 
+	 *
 	 * @return the text of the spinner.
 	 */
 
-	public String getText( )
-	{
-		return text.getText( );
+	public String getText() {
+		return text.getText();
 	}
 
-	private double parse( String value ) throws ParseException
-	{
-		if ( StringUtil.isBlank( value ) )
-		{
+	private double parse(String value) throws ParseException {
+		if (StringUtil.isBlank(value)) {
 			return 0;
 		}
-		return formatter.parse( value ).doubleValue( );
+		return formatter.parse(value).doubleValue();
 	}
 }

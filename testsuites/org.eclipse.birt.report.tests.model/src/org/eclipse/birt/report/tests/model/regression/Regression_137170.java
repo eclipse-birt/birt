@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,46 +35,43 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  */
 
-public class Regression_137170 extends BaseTestCase
-{
+public class Regression_137170 extends BaseTestCase {
 
 	private final static String INPUT = "regression_137170.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_137170( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
 
-		MyListener moniter = new MyListener( );
-		designHandle.addListener( moniter );
-		designHandle.reloadLibraries( );
+	public void test_regression_137170() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
-		assertEquals( 1, MyListener.count );
-		assertTrue( MyListener.event instanceof org.eclipse.birt.report.model.api.command.LibraryReloadedEvent );
+		MyListener moniter = new MyListener();
+		designHandle.addListener(moniter);
+		designHandle.reloadLibraries();
+
+		assertEquals(1, MyListener.count);
+		assertTrue(MyListener.event instanceof org.eclipse.birt.report.model.api.command.LibraryReloadedEvent);
 	}
 
-	static class MyListener implements Listener
-	{
+	static class MyListener implements Listener {
 
 		static int count = 0;
 		static NotificationEvent event = null;
 
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			count++;
 			event = ev;
 		}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,8 +23,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * an element.
  */
 
-public class CircularExtendsException extends ExtendsException
-{
+public class CircularExtendsException extends ExtendsException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -43,57 +45,43 @@ public class CircularExtendsException extends ExtendsException
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param name
-	 *            the value being set for the extends property.
-	 * @param errCode
-	 *            what went wrong.
+	 *
+	 * @param obj     the element being changed.
+	 * @param name    the value being set for the extends property.
+	 * @param errCode what went wrong.
 	 */
 
-	public CircularExtendsException( DesignElement obj, String name,
-			String errCode )
-	{
-		super( obj, name, errCode );
+	public CircularExtendsException(DesignElement obj, String name, String errCode) {
+		super(obj, name, errCode);
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param parent
-	 *            the parent element.
-	 * @param errCode
-	 *            what went wrong.
+	 *
+	 * @param obj     the element being changed.
+	 * @param parent  the parent element.
+	 * @param errCode what went wrong.
 	 */
 
-	public CircularExtendsException( DesignElement obj, DesignElement parent,
-			String errCode )
-	{
-		super( obj, parent, errCode );
+	public CircularExtendsException(DesignElement obj, DesignElement parent, String errCode) {
+		super(obj, parent, errCode);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_CIRCULAR )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( parent ), getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_CIRCULAR) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(parent), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
 		}
 
-		return super.getLocalizedMessage( );
+		return super.getLocalizedMessage();
 	}
 }

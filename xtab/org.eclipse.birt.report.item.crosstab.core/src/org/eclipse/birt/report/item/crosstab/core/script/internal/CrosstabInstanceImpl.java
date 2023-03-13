@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,203 +27,182 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 /**
  * CrosstabInstanceImpl
  */
-public class CrosstabInstanceImpl implements ICrosstabInstance
-{
+public class CrosstabInstanceImpl implements ICrosstabInstance {
 
 	private ITableContent content;
 	private DesignElementHandle modelHandle;
 	private RunningState runningState;
 
-	public CrosstabInstanceImpl( ITableContent content,
-			DesignElementHandle modelHandle, RunningState runningState )
-	{
+	public CrosstabInstanceImpl(ITableContent content, DesignElementHandle modelHandle, RunningState runningState) {
 		this.content = content;
 		this.modelHandle = modelHandle;
 		this.runningState = runningState;
 	}
 
-	public String getCaption( )
-	{
-		return content.getCaption( );
+	@Override
+	public String getCaption() {
+		return content.getCaption();
 	}
 
-	public String getCaptionKey( )
-	{
-		return content.getCaptionKey( );
+	@Override
+	public String getCaptionKey() {
+		return content.getCaptionKey();
 	}
 
-	public String getSummary( )
-	{
-		return content.getSummary( );
+	@Override
+	public String getSummary() {
+		return content.getSummary();
 	}
 
-	public boolean isRepeatColumnHeader( )
-	{
-		return content.isHeaderRepeat( );
+	@Override
+	public boolean isRepeatColumnHeader() {
+		return content.isHeaderRepeat();
 	}
 
-	public boolean isRepeatRowHeader( )
-	{
+	@Override
+	public boolean isRepeatRowHeader() {
 		// TODO wait content support
 		return false;
 	}
 
-	public void setCaption( String caption )
-	{
-		content.setCaption( caption );
+	@Override
+	public void setCaption(String caption) {
+		content.setCaption(caption);
 	}
 
-	public void setCaptionKey( String key )
-	{
-		content.setCaptionKey( key );
+	@Override
+	public void setCaptionKey(String key) {
+		content.setCaptionKey(key);
 	}
 
-	public void setSummary( String summary )
-	{
-		content.setSummary( summary );
+	@Override
+	public void setSummary(String summary) {
+		content.setSummary(summary);
 	}
 
-	public void setRepeatColumnHeader( boolean repeat )
-	{
-		if ( runningState == RunningState.CREATE )
-		{
-			content.setHeaderRepeat( repeat );
-		}
-		else if ( runningState == RunningState.RENDER )
-		{
-			throw new UnsupportedOperationException( "Repeat column header can't be set at render time." );
-		}
-		else
-		{
-			throw new UnsupportedOperationException( "Repeat column header can't be set on page break." );
+	@Override
+	public void setRepeatColumnHeader(boolean repeat) {
+		if (runningState == RunningState.CREATE) {
+			content.setHeaderRepeat(repeat);
+		} else if (runningState == RunningState.RENDER) {
+			throw new UnsupportedOperationException("Repeat column header can't be set at render time.");
+		} else {
+			throw new UnsupportedOperationException("Repeat column header can't be set on page break.");
 		}
 	}
 
-	public void setRepeatRowHeader( boolean repeat )
-	{
+	@Override
+	public void setRepeatRowHeader(boolean repeat) {
 		// TODO wait content support
 	}
 
-	public String getHeight( )
-	{
-		DimensionType height = content.getHeight( );
-		if ( height != null )
-		{
-			return height.toString( );
+	@Override
+	public String getHeight() {
+		DimensionType height = content.getHeight();
+		if (height != null) {
+			return height.toString();
 		}
 		return null;
 	}
 
-	public String getHelpText( )
-	{
-		return content.getHelpText( );
+	@Override
+	public String getHelpText() {
+		return content.getHelpText();
 	}
 
-	public String getHorizontalPosition( )
-	{
-		DimensionType x = content.getX( );
-		if ( x != null )
-		{
-			return x.toString( );
+	@Override
+	public String getHorizontalPosition() {
+		DimensionType x = content.getX();
+		if (x != null) {
+			return x.toString();
 		}
 		return null;
 	}
 
-	public String getName( )
-	{
-		return content.getName( );
+	@Override
+	public String getName() {
+		return content.getName();
 	}
 
-	public Object getNamedExpressionValue( String name )
-	{
+	@Override
+	public Object getNamedExpressionValue(String name) {
 		// TODO need report context support
 		return null;
 	}
 
-	public IScriptStyle getStyle( )
-	{
-		return new StyleInstance( content.getStyle( ) );
+	@Override
+	public IScriptStyle getStyle() {
+		return new StyleInstance(content.getStyle());
 	}
 
-	public Object getUserPropertyValue( String name )
-	{
-		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
-		if ( prop != null )
-		{
-			return modelHandle.getProperty( prop.getName( ) );
+	@Override
+	public Object getUserPropertyValue(String name) {
+		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
+		if (prop != null) {
+			return modelHandle.getProperty(prop.getName());
 		}
 		return null;
 	}
 
-	public String getVerticalPosition( )
-	{
-		DimensionType y = content.getY( );
-		if ( y != null )
-		{
-			return y.toString( );
+	@Override
+	public String getVerticalPosition() {
+		DimensionType y = content.getY();
+		if (y != null) {
+			return y.toString();
 		}
 		return null;
 	}
 
-	public String getWidth( )
-	{
-		DimensionType width = content.getWidth( );
-		if ( width != null )
-		{
-			return width.toString( );
+	@Override
+	public String getWidth() {
+		DimensionType width = content.getWidth();
+		if (width != null) {
+			return width.toString();
 		}
 		return null;
 	}
 
-	public void setHeight( String height )
-	{
-		content.setHeight( DimensionType.parserUnit( height ) );
+	@Override
+	public void setHeight(String height) {
+		content.setHeight(DimensionType.parserUnit(height));
 	}
 
-	public void setHelpText( String help )
-	{
-		content.setHelpText( help );
+	@Override
+	public void setHelpText(String help) {
+		content.setHelpText(help);
 	}
 
-	public void setHorizontalPosition( String position )
-	{
-		content.setX( DimensionType.parserUnit( position ) );
+	@Override
+	public void setHorizontalPosition(String position) {
+		content.setX(DimensionType.parserUnit(position));
 	}
 
-	public void setName( String name )
-	{
-		content.setName( name );
+	@Override
+	public void setName(String name) {
+		content.setName(name);
 	}
 
-	public void setUserPropertyValue( String name, Object value )
-			throws ScriptException
-	{
-		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
-		if ( prop != null )
-		{
-			try
-			{
-				modelHandle.setProperty( prop.getName( ), value );
-			}
-			catch ( SemanticException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
+	@Override
+	public void setUserPropertyValue(String name, Object value) throws ScriptException {
+		UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
+		if (prop != null) {
+			try {
+				modelHandle.setProperty(prop.getName(), value);
+			} catch (SemanticException e) {
+				throw new ScriptException(e.getLocalizedMessage());
 			}
 		}
 	}
 
-	public void setVerticalPosition( String position )
-	{
-		content.setY( DimensionType.parserUnit( position ) );
+	@Override
+	public void setVerticalPosition(String position) {
+		content.setY(DimensionType.parserUnit(position));
 	}
 
-	public void setWidth( String width )
-	{
-		String unit = content.getReportContent( )
-				.getDesign( )
-				.getReportDesign( )
-				.getDefaultUnits( );
-		content.setWidth( DimensionType.parserUnit( width, unit ) );
+	@Override
+	public void setWidth(String width) {
+		String unit = content.getReportContent().getDesign().getReportDesign().getDefaultUnits();
+		content.setWidth(DimensionType.parserUnit(width, unit));
 	}
 
 }

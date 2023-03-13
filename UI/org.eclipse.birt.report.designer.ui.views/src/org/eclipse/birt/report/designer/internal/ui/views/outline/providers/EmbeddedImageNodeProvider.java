@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,67 +31,68 @@ import org.eclipse.jface.viewers.TreeViewer;
  * Node provider for embedded images
  */
 
-public class EmbeddedImageNodeProvider extends DefaultNodeProvider
-{
+public class EmbeddedImageNodeProvider extends DefaultNodeProvider {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#getIconName(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * getIconName(java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
-		assert(model instanceof EmbeddedImageHandle);
-		//EmbeddedImageHandle image = (EmbeddedImageHandle)model;
-		
+	@Override
+	public String getIconName(Object model) {
+		assert (model instanceof EmbeddedImageHandle);
+		// EmbeddedImageHandle image = (EmbeddedImageHandle)model;
+
 		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
-		
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
-	 */
-	public String getNodeDisplayName( Object model )
-	{
-		return ( (EmbeddedImageHandle) model ).getQualifiedName( );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getParent(java.lang.Object)
-	 */
-	public Object getParent( Object model )
-	{
-		return new EmbeddedImageNode( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ) );
-	}
-
-	/**
-	 * Creates the context menu for the given object.
-	 * 
-	 * @param object
-	 *            the object
-	 * @param menu
-	 *            the menu
-	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new InsertEmbeddedImageAction( object, Messages
-				.getString( "EmbeddedImageNodeProvider.action.New" ) ) ); //$NON-NLS-1$		
-		super.createContextMenu( sourceViewer, object, menu );
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#performRequest(java.lang.Object,
-	 *      org.eclipse.gef.Request)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
-	public boolean performRequest( Object model, Request request )
-			throws Exception
-	{
-		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_INSERT ) )
-		{
-			return ProviderFactory.createProvider( getParent( model ) )
-					.performRequest( model, request );
+	@Override
+	public String getNodeDisplayName(Object model) {
+		return ((EmbeddedImageHandle) model).getQualifiedName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getParent(
+	 * java.lang.Object)
+	 */
+	@Override
+	public Object getParent(Object model) {
+		return new EmbeddedImageNode(SessionHandleAdapter.getInstance().getReportDesignHandle());
+	}
+
+	/**
+	 * Creates the context menu for the given object.
+	 *
+	 * @param object the object
+	 * @param menu   the menu
+	 */
+	@Override
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		menu.add(new InsertEmbeddedImageAction(object, Messages.getString("EmbeddedImageNodeProvider.action.New"))); //$NON-NLS-1$
+		super.createContextMenu(sourceViewer, object, menu);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * performRequest(java.lang.Object, org.eclipse.gef.Request)
+	 */
+	@Override
+	public boolean performRequest(Object model, Request request) throws Exception {
+		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_INSERT)) {
+			return ProviderFactory.createProvider(getParent(model)).performRequest(model, request);
 		}
 		return false;
 	}

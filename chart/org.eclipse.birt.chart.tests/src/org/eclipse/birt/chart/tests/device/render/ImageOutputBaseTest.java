@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,9 +32,9 @@ import utility.ImageUtil;
 import utility.ImageUtil.ImageCompParam;
 
 /**
- * BaseTest is a JUnit test case that will generate image files based on 
- * a set of primitive drawing events defined in drawing script files,
- * and then compare the generated files with the expected files.
+ * BaseTest is a JUnit test case that will generate image files based on a set
+ * of primitive drawing events defined in drawing script files, and then compare
+ * the generated files with the expected files.
  */
 public class ImageOutputBaseTest extends TestCase {
 
@@ -53,51 +56,59 @@ public class ImageOutputBaseTest extends TestCase {
 		this.filename = filename;
 		this.workspaceDir = workspaceDir;
 	}
-	
-	public void runTest( ) throws Throwable {
-		
-		Map<ImageCompParam, Integer> params = new HashMap<ImageCompParam, Integer>();
+
+	@Override
+	public void runTest() throws Throwable {
+
+		Map<ImageCompParam, Integer> params = new HashMap<>();
 		params.put(ImageCompParam.TOLERANCE, 4);
 
 		// 1: verify PNG
-		Png24PrimitiveGen generator2 = new Png24PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png");//$NON-NLS-1$
+		Png24PrimitiveGen generator2 = new Png24PrimitiveGen(
+				new FileInputStream(workspaceDir + File.separator + ImageRenderTest.INDIR + dirName + File.separator
+						+ filename + ImageRenderTest.DRAWEXT),
+				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".png");//$NON-NLS-1$
 		generator2.generate();
 		generator2.flush();
-		Image result =
-			ImageUtil.compare(
-				workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".png", //$NON-NLS-1$
-				workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png",
-				params); //$NON-NLS-1$
-		if(result != null) {
-			ImageUtil.savePNG(result, workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".diff.png");
+		Image result = ImageUtil.compare(
+				workspaceDir + File.separator + ImageRenderTest.CONTROLDIR + dirName + File.separator + filename
+						+ ".png", //$NON-NLS-1$
+				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".png",
+				params); // $NON-NLS-1$
+		if (result != null) {
+			ImageUtil.savePNG(result, workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator
+					+ filename + ".diff.png");
 			fail();
 		}
 
 		// 2: verify SVG
-		SvgPrimitiveGen generator3 = new SvgPrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg"); //$NON-NLS-1$
+		SvgPrimitiveGen generator3 = new SvgPrimitiveGen(
+				new FileInputStream(workspaceDir + File.separator + ImageRenderTest.INDIR + dirName + File.separator
+						+ filename + ImageRenderTest.DRAWEXT),
+				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".svg"); //$NON-NLS-1$
 		generator3.generate();
 		generator3.flush();
 
 		// convert golden and actual SVG to PNG
 		String[] files = {
-			workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".svg", //$NON-NLS-1$
-			workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".svg" //$NON-NLS-1$
+				workspaceDir + File.separator + ImageRenderTest.CONTROLDIR + dirName + File.separator + filename
+						+ ".svg", //$NON-NLS-1$
+				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".svg" //$NON-NLS-1$
 		};
-		for(String file: files) {
+
+		for (String file : files) {
 			InputStream inStream = new FileInputStream(file);
-			TranscoderInput input = new TranscoderInput( inStream );
+			TranscoderInput input = new TranscoderInput(inStream);
 			OutputStream outStream = new FileOutputStream(file + ".png"); //$NON-NLS-1$
-	        TranscoderOutput output = new TranscoderOutput(outStream);
-	        PNGTranscoder converter = new PNGTranscoder();
-	        converter.transcode(input, output);
-	        outStream.flush();
-	        outStream.close();
+			TranscoderOutput output = new TranscoderOutput(outStream);
+			PNGTranscoder converter = new PNGTranscoder();
+			converter.transcode(input, output);
+			outStream.flush();
+			outStream.close();
 		}
-		result =
-			ImageUtil.compare(
-				files[0] + ".png", //$NON-NLS-1$
+		result = ImageUtil.compare(files[0] + ".png", //$NON-NLS-1$
 				files[1] + ".png"); //$NON-NLS-1$
-		if(result != null) {
+		if (result != null) {
 			ImageUtil.savePNG(result, files[1] + ".diff.png"); //$NON-NLS-1$
 			fail();
 		}
@@ -108,5 +119,3 @@ public class ImageOutputBaseTest extends TestCase {
 //		assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".pdf"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".pdf")));//$NON-NLS-1$//$NON-NLS-2$
 	}
 }
-
-

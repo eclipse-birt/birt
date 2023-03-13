@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc.ui;
 
@@ -10,19 +22,17 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The main plugin class to be used in the desktop.
- * It contains logic for actions to be performed during the loading
- * and unloading of the plugin.
- * 
- * It also provides mechanism of internationalization, by helping
- * to load strings from the properties file 
+ * The main plugin class to be used in the desktop. It contains logic for
+ * actions to be performed during the loading and unloading of the plugin.
+ *
+ * It also provides mechanism of internationalization, by helping to load
+ * strings from the properties file
  */
-public class JdbcPlugin extends AbstractUIPlugin
-{
+public class JdbcPlugin extends AbstractUIPlugin {
 
-	//The shared instance.
+	// The shared instance.
 	private static JdbcPlugin plugin;
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
 	/**
 	 * The key for drivers map property in preference store.
@@ -41,16 +51,13 @@ public class JdbcPlugin extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public JdbcPlugin( )
-	{
-		super( );
+	public JdbcPlugin() {
+		super();
 		plugin = this;
-		try
-		{
-			resourceBundle = ResourceBundle.getBundle( "org.eclipse.birt.report.data.oda.jdbc.ui.nls.JdbcPluginResources" );
-		}
-		catch ( MissingResourceException x )
-		{
+		try {
+			resourceBundle = ResourceBundle
+					.getBundle("org.eclipse.birt.report.data.oda.jdbc.ui.nls.JdbcPluginResources");
+		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
 	}
@@ -58,40 +65,34 @@ public class JdbcPlugin extends AbstractUIPlugin
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		ConnectionMetaDataManager.getInstance( ).clearCache( );
-		super.stop( context );
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		ConnectionMetaDataManager.getInstance().clearCache();
+		super.stop(context);
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static JdbcPlugin getDefault( )
-	{
+	public static JdbcPlugin getDefault() {
 		return plugin;
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle, or 'key' if not
-	 * found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not found.
 	 */
-	public static String getResourceString( String key )
-	{
-		ResourceBundle bundle = JdbcPlugin.getDefault( ).getResourceBundle( );
-		try
-		{
-			return ( bundle != null ) ? bundle.getString( key ) : key;
-		}
-		catch ( MissingResourceException e )
-		{
+	public static String getResourceString(String key) {
+		ResourceBundle bundle = JdbcPlugin.getDefault().getResourceBundle();
+		try {
+			return (bundle != null) ? bundle.getString(key) : key;
+		} catch (MissingResourceException e) {
 			return key;
 		}
 	}
-	
+
 	/**
-	 * Returns the string from the Resource bundle, formatted according 
-	 * to the arguments specified
+	 * Returns the string from the Resource bundle, formatted according to the
+	 * arguments specified
 	 */
 	public static String getFormattedString(String key, Object[] arguments) {
 		return MessageFormat.format(getResourceString(key), arguments);
@@ -100,8 +101,7 @@ public class JdbcPlugin extends AbstractUIPlugin
 	/**
 	 * Returns the plugin's resource bundle,
 	 */
-	public ResourceBundle getResourceBundle( )
-	{
+	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
 }

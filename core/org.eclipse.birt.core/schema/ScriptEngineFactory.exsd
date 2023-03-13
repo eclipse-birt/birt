@@ -61,9 +61,6 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
-                  <meta.attribute translatable="true"/>
-               </appInfo>
             </annotation>
          </attribute>
          <attribute name="factoryClass" type="string" use="required">
@@ -134,7 +131,7 @@ As for the function level, to make the function &quot;foo&quot; visible under th
       </appInfo>
       <documentation>
          Copyright (c) 2004-2009 Actuate Corporation.
-All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-2.0.html
       </documentation>
    </annotation>
 

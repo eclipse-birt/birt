@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,46 +19,46 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * column definition used by table content.
- * 
- * 
+ *
+ *
  */
-public interface IColumn extends IStyledElement
-{
+public interface IColumn extends IStyledElement {
 	/**
 	 * @return Return this column is a column header or not.
 	 */
-	public boolean isColumnHeader( );
-	
+	boolean isColumnHeader();
+
 	/**
 	 * @return Returns the width.
 	 */
-	public DimensionType getWidth( );
+	DimensionType getWidth();
 
-	public void setWidth( DimensionType width );
+	void setWidth(DimensionType width);
 
 	/**
-	 * get the instance id of the column.
-	 * the instance id is the unique id of the content.
+	 * get the instance id of the column. the instance id is the unique id of the
+	 * content.
+	 *
 	 * @return
 	 */
-	public InstanceID getInstanceID();
-	
-	public String getVisibleFormat( );
-	
+	InstanceID getInstanceID();
+
+	String getVisibleFormat();
+
 	/**
 	 * @return inline style
 	 */
-	IStyle getInlineStyle( );
+	IStyle getInlineStyle();
 
-	void setInlineStyle( IStyle style );
-	
-	public void setGenerateBy( Object generateBy );
-	
-	public Object getGenerateBy( );
+	void setInlineStyle(IStyle style);
 
-	public boolean hasDataItemsInDetail( );
-	
-	public boolean isRepeated( );
+	void setGenerateBy(Object generateBy);
 
-	public void setRepeated( boolean isRepeated );
+	Object getGenerateBy();
+
+	boolean hasDataItemsInDetail();
+
+	boolean isRepeated();
+
+	void setRepeated(boolean isRepeated);
 }

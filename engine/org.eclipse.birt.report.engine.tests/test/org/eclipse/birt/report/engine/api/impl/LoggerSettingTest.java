@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.logging.Level;
@@ -7,38 +19,35 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 
 import junit.framework.TestCase;
 
-public class LoggerSettingTest  extends TestCase{
+public class LoggerSettingTest extends TestCase {
 
-	private ReportEngine createReportEngine(Level logLevel, String fileName)
-	{
+	private ReportEngine createReportEngine(Level logLevel, String fileName) {
 		EngineConfig engineConfig = new EngineConfig();
 		engineConfig.setLogConfig(null, logLevel);
 		engineConfig.setLogFile(fileName);
 		return new ReportEngine(engineConfig);
 	}
 
-	private void verifyResult(Level level, int handlerNum)
-	{
+	private void verifyResult(Level level, int handlerNum) {
 		// find the first logger in hierarchy with level set
 		Logger bl = Logger.getLogger("org.eclipse.birt.report.engine.api.impl");
-		while(bl != null && bl.getLevel() == null) {
+		while (bl != null && bl.getLevel() == null) {
 			bl = bl.getParent();
 		}
 		assertNotNull(bl);
 
-		if(level == null) {
-			if(bl.getLevel() != null) {
+		if (level == null) {
+			if (bl.getLevel() != null) {
 				assertEquals(Level.INFO, bl.getLevel());
 			}
 			assertTrue(bl.getHandlers().length <= 1);
 		} else {
 			assertEquals(level, bl.getLevel());
-			assertEquals( handlerNum, bl.getHandlers().length );
+			assertEquals(handlerNum, bl.getHandlers().length);
 		}
-	}	
+	}
 
-	public void test1()
-	{
+	public void test1() {
 		verifyResult(null, 0);
 		ReportEngine r1 = createReportEngine(Level.WARNING, null);
 		verifyResult(Level.WARNING, 1);
@@ -58,8 +67,7 @@ public class LoggerSettingTest  extends TestCase{
 		verifyResult(Level.WARNING, 0);
 	}
 
-	public void test2()
-	{
+	public void test2() {
 		ReportEngine r1 = createReportEngine(Level.WARNING, null);
 		verifyResult(Level.WARNING, 1);
 		r1.changeLogLevel(Level.INFO);

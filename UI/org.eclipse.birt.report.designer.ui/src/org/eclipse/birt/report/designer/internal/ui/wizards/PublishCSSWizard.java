@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,14 +35,13 @@ import org.eclipse.jface.wizard.Wizard;
 /**
  * PublishCSSWizard
  */
-public class PublishCSSWizard extends Wizard
-{
+public class PublishCSSWizard extends Wizard {
 
 	// CSSHandle handle;
 
-	private static String WINDOWS_TITLE = Messages.getString( "PublishCSSDialog.ShellText" ); //$NON-NLS-1$
-	private static String PAGE_TITLE = Messages.getString( "PublishCSSDialog.TitleArea" ); //$NON-NLS-1$
-	private static String PAGE_DESC = Messages.getString( "PublishCSSDialog.Message" ); //$NON-NLS-1$
+	private static String WINDOWS_TITLE = Messages.getString("PublishCSSDialog.ShellText"); //$NON-NLS-1$
+	private static String PAGE_TITLE = Messages.getString("PublishCSSDialog.TitleArea"); //$NON-NLS-1$
+	private static String PAGE_DESC = Messages.getString("PublishCSSDialog.Message"); //$NON-NLS-1$
 
 	private String filePath;
 	private String fileName;
@@ -51,25 +53,22 @@ public class PublishCSSWizard extends Wizard
 	private String pageTitle;
 	private String pageDescription;
 
-	public void setWizardTitle( String wizardTitle )
-	{
+	public void setWizardTitle(String wizardTitle) {
 		this.widonwTitle = wizardTitle;
-		setWindowTitle( this.widonwTitle );
+		setWindowTitle(this.widonwTitle);
 	}
 
-	public void setPageTitle( String PageTitle )
-	{
+	public void setPageTitle(String PageTitle) {
 		this.pageTitle = PageTitle;
 	}
 
-	public void setPageDesc( String pageDesc )
-	{
+	public void setPageDesc(String pageDesc) {
 		this.pageDescription = pageDesc;
 	}
 
 	/**
 	 * This constructor is used when the CSSHandle is known.
-	 * 
+	 *
 	 */
 	// public PublishCSSWizard( LibraryHandle handle, String fileName,
 	// String folderName )
@@ -81,167 +80,141 @@ public class PublishCSSWizard extends Wizard
 	// this.filePath = handle.getFileName( );
 	// }
 	/**
-	 * 
+	 *
 	 */
-	public PublishCSSWizard( String folderName )
-	{
+	public PublishCSSWizard(String folderName) {
 		this.fileName = null;
 		this.folderName = folderName;
 		// this.handle = null;
 
-		setWizardTitle( WINDOWS_TITLE );
-		setPageTitle( PAGE_TITLE );
-		setPageDesc( PAGE_DESC );
+		setWizardTitle(WINDOWS_TITLE);
+		setPageTitle(PAGE_TITLE);
+		setPageDesc(PAGE_DESC);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
-	public void addPages( )
-	{
-		page = new WizardCSSSettingPage( pageTitle, pageDescription );
+	@Override
+	public void addPages() {
+		page = new WizardCSSSettingPage(pageTitle, pageDescription);
 
 		// page.setTitle( pageTitle );
 		// page.setMessage( pageDescription );
 
-		if ( fileName != null ) // should can be removed
+		if (fileName != null) // should can be removed
 		{
-			page.setFileName( fileName );
+			page.setFileName(fileName);
 		}
-		page.setfolderName( folderName );
+		page.setfolderName(folderName);
 
-		addPage( page );
+		addPage(page);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
+	@Override
+	public boolean performFinish() {
 		// TODO Auto-generated method stub
-		fileName = page.getFileName( );
-		folderName = page.getFolder( );
+		fileName = page.getFileName();
+		folderName = page.getFolder();
 		// if ( handle == null )
 		{
-			filePath = page.getSourceFileName( );
+			filePath = page.getSourceFileName();
 		}
-		return publishiCSSFile( );
+		return publishiCSSFile();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
-	public boolean canFinish( )
-	{
-		return page.canFinish( );
+	@Override
+	public boolean canFinish() {
+		return page.canFinish();
 	}
 
-	private boolean publishiCSSFile( )
-	{
+	private boolean publishiCSSFile() {
 		// copy to resource folder
 
-		if ( !( new File( filePath ).exists( ) ) )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishCSSAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
+		if (!(new File(filePath).exists())) {
+			ExceptionHandler.openErrorMessageBox(Messages.getString("PublishCSSAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishCSSAction.wizard.message.SourceFileNotExist")); //$NON-NLS-1$
 			return true;
 		}
 
-		File targetFolder = new File( folderName );
-		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishCSSAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
-			//$NON-NLS-1$
+		File targetFolder = new File(folderName);
+		if (targetFolder.exists() && (!targetFolder.isDirectory())) {
+			ExceptionHandler.openErrorMessageBox(Messages.getString("PublishCSSAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishCSSAction.wizard.notvalidfolder")); //$NON-NLS-1$
+			// $NON-NLS-1$
 			return true;
 		}
-		boolean folderExists = targetFolder.exists( );
-		if ( !folderExists)
-		{
+		boolean folderExists = targetFolder.exists();
+		if (!folderExists) {
 			// if creating dirs fails, it'll return false.
-			folderExists = targetFolder.mkdirs( );
+			folderExists = targetFolder.mkdirs();
 		}
-		if (!folderExists )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishCSSAction.wizard.msgDirErr" ) ); //$NON-NLS-1$
+		if (!folderExists) {
+			ExceptionHandler.openErrorMessageBox(Messages.getString("PublishCSSAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishCSSAction.wizard.msgDirErr")); //$NON-NLS-1$
 			return false;
 		}
-		
-		File targetFile = new File( targetFolder, fileName );
-		if ( new File( filePath ).compareTo( targetFile ) == 0 )
-		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishCSSAction.wizard.message" ) ); //$NON-NLS-1$
+
+		File targetFile = new File(targetFolder, fileName);
+		if (new File(filePath).compareTo(targetFile) == 0) {
+			ExceptionHandler.openErrorMessageBox(Messages.getString("PublishCSSAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishCSSAction.wizard.message")); //$NON-NLS-1$
 			return false;
 		}
 
 		int overwrite = Window.OK;
-		try
-		{
-			if ( targetFile.exists( ) )
-			{
-				String[] buttons = new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL
-				};
-				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
-						new Object[]{
-							targetFile.getAbsolutePath( )
-						} );
-				MessageDialog d = new MessageDialog( UIUtil.getDefaultShell( ),
-						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
-						null,
-						question,
-						MessageDialog.QUESTION,
-						buttons,
-						0 );
-				overwrite = d.open( );
+		try {
+			if (targetFile.exists()) {
+				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL };
+				String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[] { targetFile.getAbsolutePath() });
+				MessageDialog d = new MessageDialog(UIUtil.getDefaultShell(),
+						Messages.getString("SaveAsDialog.Question"), //$NON-NLS-1$
+						null, question, MessageDialog.QUESTION, buttons, 0);
+				overwrite = d.open();
 			}
-			if ( overwrite == Window.OK
-					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
-			{
-				copyFile( filePath, targetFile );
+			if (overwrite == Window.OK
+					&& (targetFile.exists() || (!targetFile.exists() && targetFile.createNewFile()))) {
+				copyFile(filePath, targetFile);
 
-				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-						.getResourceSynchronizerService( );
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
 
-				if ( synchronizer != null )
-				{
-					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( targetFile.getAbsolutePath( ) ),
-							IReportResourceChangeEvent.NewResource ) );
+				if (synchronizer != null) {
+					synchronizer.notifyResourceChanged(new ReportResourceChangeEvent(this,
+							Path.fromOSString(targetFile.getAbsolutePath()), IReportResourceChangeEvent.NewResource));
 				}
 			}
-		}
-		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
+		} catch (IOException e) {
+			ExceptionHandler.handle(e);
 		}
 
 		return overwrite != 1;
 	}
 
-	private void copyFile( String in, File targetFile ) throws IOException
-	{
-		FileInputStream fis = new FileInputStream( in );
-		FileOutputStream fos = new FileOutputStream( targetFile );
+	private void copyFile(String in, File targetFile) throws IOException {
+		FileInputStream fis = new FileInputStream(in);
+		FileOutputStream fos = new FileOutputStream(targetFile);
 		byte[] buf = new byte[1024];
 		int i = 0;
-		while ( ( i = fis.read( buf ) ) != -1 )
-		{
-			fos.write( buf, 0, i );
+		while ((i = fis.read(buf)) != -1) {
+			fos.write(buf, 0, i);
 		}
-		fis.close( );
-		fos.close( );
+		fis.close();
+		fos.close();
 	}
 
 }

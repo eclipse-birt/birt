@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,8 +32,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 /**
  * Implementation of ICandidateQuery
  */
-public class CandidateQuery extends BaseQuery implements ICandidateQuery
-{
+public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 
 	private ICustomDataSet customDataSet;
 
@@ -40,123 +42,95 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	private IResultClass resultMetadata;
 	private DataEngineSession session;
 
-	public CandidateQuery( DataEngineSession session )
-	{
+	public CandidateQuery(DataEngineSession session) {
 		this.session = session;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.IResultIterator,
-	 *      int)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
+	 * birt.data.engine.odi.IResultIterator, int)
 	 */
-	public void setCandidates( IResultIterator resultObjsIterator,
-			int groupingLevel ) throws DataException
-	{
+	@Override
+	public void setCandidates(IResultIterator resultObjsIterator, int groupingLevel) throws DataException {
 		assert resultObjsIterator != null;
 		this.resultObjsIterator = resultObjsIterator;
 		this.groupingLevel = groupingLevel;
 
-		resultMetadata = resultObjsIterator.getResultClass( );
+		resultMetadata = resultObjsIterator.getResultClass();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.ICustomDataSet)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
+	 * birt.data.engine.odi.ICustomDataSet)
 	 */
-	public void setCandidates( ICustomDataSet customDataSet )
-			throws DataException
-	{
+	@Override
+	public void setCandidates(ICustomDataSet customDataSet) throws DataException {
 		assert customDataSet != null;
 		this.customDataSet = customDataSet;
 
-		resultMetadata = customDataSet.getResultClass( );
+		resultMetadata = customDataSet.getResultClass();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#getResultClass()
 	 */
-	public IResultClass getResultClass( )
-	{
+	@Override
+	public IResultClass getResultClass() {
 		return resultMetadata;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( IEventHandler eventHandler )
-			throws DataException
-	{
-		if ( customDataSet == null ) // sub query
+	@Override
+	public IResultIterator execute(IEventHandler eventHandler) throws DataException {
+		if (customDataSet == null) // sub query
 		{
 			// resultObjsIterator
 			// for sub query, the event handler is no use
-			return new CachedResultSet( this,
-					resultMetadata,
-					resultObjsIterator,
-					groupingLevel,
-					eventHandler,
-					session );
-		}
-		else
-		// scripted query
-		{
-			if ( this.session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
-			{	
-				if ( ( ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION || session.getEngineContext( )
-						.getMode( ) == DataEngineContext.MODE_GENERATION ) )
-						&& this.getQueryDefinition( ) instanceof IQueryDefinition )
-				{
-					IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
-					
-					Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy( this.session, queryDefn,
-							queryDefn.getDataSetName( ) == null
-							? null
-							: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
-					if ( strategy  != Strategy.Complex )
-					{
-						SimpleResultSet simpleResult = new SimpleResultSet( this,
-								customDataSet,
-								resultMetadata,
-								eventHandler,
-								this.getGrouping( ),
-								this.session,
-								strategy == Strategy.SimpleLookingFoward);
-						
-						return simpleResult.getResultSetIterator( );
-					}
-				}
-							
-				return new CachedResultSet( this,
-						customDataSet,
-						eventHandler,
-						session );
-			}
-			else
-				return new CachedResultSet( this,
-						resultMetadata,
-						new DataSetToCache( customDataSet,
-								resultMetadata,
-								session ),
-						eventHandler,
-						session );
+			return new CachedResultSet(this, resultMetadata, resultObjsIterator, groupingLevel, eventHandler, session);
+		} else if (!this.session.getDataSetCacheManager().doesSaveToCache()) {
+			if (((session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION
+					|| session.getEngineContext().getMode() == DataEngineContext.MODE_GENERATION))
+					&& this.getQueryDefinition() instanceof IQueryDefinition) {
+				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition();
 
+				Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy(this.session, queryDefn,
+						queryDefn.getDataSetName() == null ? null
+								: ((DataEngineImpl) this.session.getEngine())
+										.getDataSetDesign(queryDefn.getDataSetName()));
+				if (strategy != Strategy.Complex) {
+					SimpleResultSet simpleResult = new SimpleResultSet(this, customDataSet, resultMetadata,
+							eventHandler, this.getGrouping(), this.session, strategy == Strategy.SimpleLookingFoward);
+
+					return simpleResult.getResultSetIterator();
+				}
+			}
+
+			return new CachedResultSet(this, customDataSet, eventHandler, session);
+		} else {
+			return new CachedResultSet(this, resultMetadata, new DataSetToCache(customDataSet, resultMetadata, session),
+					eventHandler, session);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#close()
 	 */
-	public void close( )
-	{
+	@Override
+	public void close() {
 		// nothing
 
 	}

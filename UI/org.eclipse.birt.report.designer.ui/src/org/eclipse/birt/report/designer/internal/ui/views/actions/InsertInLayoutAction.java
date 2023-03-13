@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,120 +42,104 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * <p>
  */
 
-public class InsertInLayoutAction extends AbstractViewAction
-{
+public class InsertInLayoutAction extends AbstractViewAction {
 
-	public static final String DISPLAY_TEXT = Messages.getString( "InsertInLayoutAction.action.text" ); //$NON-NLS-1$
+	public static final String DISPLAY_TEXT = Messages.getString("InsertInLayoutAction.action.text"); //$NON-NLS-1$
 
 	private EditPart targetPart;
 
 	/**
 	 * Constructor. Uses DISPLAY_TEXT as default text.
-	 * 
+	 *
 	 * @param selectedObject
 	 */
-	public InsertInLayoutAction( Object selectedObject )
-	{
-		this( selectedObject, DISPLAY_TEXT );
+	public InsertInLayoutAction(Object selectedObject) {
+		this(selectedObject, DISPLAY_TEXT);
 	}
 
 	/**
-	 *  
+	 *
 	 */
-	public InsertInLayoutAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public InsertInLayoutAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return isTypeAvailable( )
-				&& getTargetEditPart( ) != null
-				&& InsertInLayoutUtil.handleValidateInsertToLayout( getSelection( ),
-						getTargetEditPart( ) );
+	@Override
+	public boolean isEnabled() {
+		return isTypeAvailable() && getTargetEditPart() != null
+				&& InsertInLayoutUtil.handleValidateInsertToLayout(getSelection(), getTargetEditPart());
 	}
 
 	/**
 	 * Returns if the selection is the type which can be inserted to layout
 	 */
-	public boolean isTypeAvailable( )
-	{
-		return InsertInLayoutUtil.handleValidateInsert( getSelection( ) );
+	public boolean isTypeAvailable() {
+		return InsertInLayoutUtil.handleValidateInsert(getSelection());
 	}
 
-	protected EditPart getTargetEditPart( )
-	{
-		if ( targetPart == null )
-		{
-			EditPartViewer viewer = UIUtil.getLayoutEditPartViewer( );
-			if ( viewer == null )
-			{
+	protected EditPart getTargetEditPart() {
+		if (targetPart == null) {
+			EditPartViewer viewer = UIUtil.getLayoutEditPartViewer();
+			if (viewer == null) {
 				return null;
 			}
-			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
-			if ( targets.isEmpty( ) && targets.size( ) > 1 )
+			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection();
+			if (targets.isEmpty() && targets.size() > 1) {
 				return null;
-			targetPart = (EditPart) targets.getFirstElement( );
+			}
+			targetPart = (EditPart) targets.getFirstElement();
 		}
 		return targetPart;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack();
-		stack.startTrans( DISPLAY_TEXT );
-		try
-		{
-			if ( Policy.TRACING_ACTIONS )
-			{
-				System.out.println( "Insert layout action >> Runs ..." ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(DISPLAY_TEXT);
+		try {
+			if (Policy.TRACING_ACTIONS) {
+				System.out.println("Insert layout action >> Runs ..."); //$NON-NLS-1$
 			}
-			Object newElement = InsertInLayoutUtil.performInsert( getSelection( ),
-					getTargetEditPart( ) );
-			if ( newElement != null )
-				runCreate( newElement, targetPart.getModel( ) );
-			stack.commit( );
-			fireCreateRequest(newElement, getSelection( ));
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-			stack.rollback( );
+			Object newElement = InsertInLayoutUtil.performInsert(getSelection(), getTargetEditPart());
+			if (newElement != null) {
+				runCreate(newElement, targetPart.getModel());
+			}
+			stack.commit();
+			fireCreateRequest(newElement, getSelection());
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
+			stack.rollback();
 		}
 	}
 
-	private void fireCreateRequest(Object newElement, Object source )
-	{
+	private void fireCreateRequest(Object newElement, Object source) {
 		List list = new ArrayList();
 		list.add(newElement);
 		ReportRequest r = new ReportRequest(source);
 		r.setType(ReportRequest.CREATE_ELEMENT);
-		
+
 		r.setSelectionObject(list);
 		SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 	}
-	
-	private void runCreate( Object insertedObj, Object container )
-	{
-		if ( container instanceof ListBandProxy )
-		{
-			container = ( (ListBandProxy) container ).getSlotHandle( );
+
+	private void runCreate(Object insertedObj, Object container) {
+		if (container instanceof ListBandProxy) {
+			container = ((ListBandProxy) container).getSlotHandle();
 		}
-		HashMap map = new HashMap( );
-		map.put( DesignerConstants.KEY_NEWOBJECT, insertedObj );
-		CreateCommand command = new CreateCommand( map );
-		command.setParent( container );
-		command.execute( );
+		HashMap map = new HashMap();
+		map.put(DesignerConstants.KEY_NEWOBJECT, insertedObj);
+		CreateCommand command = new CreateCommand(map);
+		command.setParent(container);
+		command.execute();
 	}
 }

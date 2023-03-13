@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,64 +23,58 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ *
  */
 
-public class DefaultSelectDataComponent implements ISelectDataComponent
-{
+public class DefaultSelectDataComponent implements ISelectDataComponent {
 
 	private transient Vector vListeners = null;
 
-	public Composite createArea( Composite parent )
-	{
+	@Override
+	public Composite createArea(Composite parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
+	@Override
+	public void selectArea(boolean selected, Object data) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void dispose( )
-	{
-		if ( vListeners != null && !vListeners.isEmpty( ) )
-		{
-			vListeners.clear( );
+	@Override
+	public void dispose() {
+		if (vListeners != null && !vListeners.isEmpty()) {
+			vListeners.clear();
 		}
 	}
 
-	public void addListener( Listener listener )
-	{
-		if ( vListeners == null )
-		{
-			vListeners = new Vector( );
+	@Override
+	public void addListener(Listener listener) {
+		if (vListeners == null) {
+			vListeners = new Vector();
 		}
-		vListeners.add( listener );
+		vListeners.add(listener);
 	}
 
-	protected void fireEvent( Event e )
-	{
-		if ( vListeners != null && !vListeners.isEmpty( ) )
-		{
-			for ( int i = 0; i < vListeners.size( ); i++ )
-			{
-				( (Listener) vListeners.get( i ) ).handleEvent( e );
+	protected void fireEvent(Event e) {
+		if (vListeners != null && !vListeners.isEmpty()) {
+			for (int i = 0; i < vListeners.size(); i++) {
+				((Listener) vListeners.get(i)).handleEvent(e);
 			}
 		}
 	}
 
-	public void bindAssociatedLabel( Label label )
-	{
-		// do nothing 
-		
+	@Override
+	public void bindAssociatedLabel(Label label) {
+		// do nothing
+
 	}
 
-	public void bindAssociatedName( String name )
-	{
+	@Override
+	public void bindAssociatedName(String name) {
 		// do nothing
-		
+
 	}
 
 }

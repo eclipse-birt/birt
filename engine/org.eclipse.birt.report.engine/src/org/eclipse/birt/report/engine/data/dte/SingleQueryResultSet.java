@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,321 +30,313 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.mozilla.javascript.Scriptable;
 
-public class SingleQueryResultSet extends QueryResultSet
-{
+public class SingleQueryResultSet extends QueryResultSet {
 
 	private IQueryResultSet rset;
 	boolean isFirstCalled = true;
 
-	public SingleQueryResultSet( IQueryResultSet rsets )
-	{
+	public SingleQueryResultSet(IQueryResultSet rsets) {
 		this.rset = rsets;
 	}
 
-	public void close( )
-	{
+	@Override
+	public void close() {
 		// do nothing in close( )
 	}
 
-	public DataSetID getID( )
-	{
-		return rset.getID( );
+	@Override
+	public DataSetID getID() {
+		return rset.getID();
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
-		return rset.getQueryResults( );
+	@Override
+	public IBaseQueryResults getQueryResults() {
+		return rset.getQueryResults();
 	}
 
-	public IResultIterator getResultIterator( )
-	{
-		IResultIterator resultIterator = new SingleRowIterator( rset
-				.getResultIterator( ) );
+	@Override
+	public IResultIterator getResultIterator() {
+		IResultIterator resultIterator = new SingleRowIterator(rset.getResultIterator());
 		return resultIterator;
 	}
 
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
-		return rset.getResultMetaData( );
+	@Override
+	public IResultMetaData getResultMetaData() throws BirtException {
+		return rset.getResultMetaData();
 	}
 
-	public boolean next( ) throws BirtException
-	{
-		if ( isFirstCalled )
-		{
+	@Override
+	public boolean next() throws BirtException {
+		if (isFirstCalled) {
 			isFirstCalled = false;
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isEmpty( ) throws BirtException
-	{
-		return rset.isEmpty( );
+	@Override
+	public boolean isEmpty() throws BirtException {
+		return rset.isEmpty();
 	}
 
-	public boolean isFirst( ) throws BirtException
-	{
-		return rset.isFirst( );
+	@Override
+	public boolean isFirst() throws BirtException {
+		return rset.isFirst();
 	}
 
-	public boolean isBeforeFirst( ) throws BirtException
-	{
-		return rset.isBeforeFirst( );
+	@Override
+	public boolean isBeforeFirst() throws BirtException {
+		return rset.isBeforeFirst();
 	}
 
-	public Object evaluate( String expr ) throws BirtException
-	{
-		return rset.evaluate( expr );
+	@Override
+	public Object evaluate(String expr) throws BirtException {
+		return rset.evaluate(expr);
 	}
 
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
-		return rset.evaluate( language, expr );
+	@Override
+	public Object evaluate(String language, String expr) throws BirtException {
+		return rset.evaluate(language, expr);
 	}
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
-		return rset.evaluate( expr );
+	@Override
+	public Object evaluate(IBaseExpression expr) throws BirtException {
+		return rset.evaluate(expr);
 	}
 
-	public IBaseResultSet getParent( )
-	{
+	@Override
+	public IBaseResultSet getParent() {
 		return rset;
 	}
 
-	public String getRawID( ) throws BirtException
-	{
-		return rset.getRawID( );
+	@Override
+	public String getRawID() throws BirtException {
+		return rset.getRawID();
 	}
 
-	public int getType( )
-	{
-		return rset.getType( );
+	@Override
+	public int getType() {
+		return rset.getType();
 	}
 
-	public BigDecimal getBigDecimal( String name ) throws BirtException
-	{
-		return rset.getBigDecimal( name );
+	@Override
+	public BigDecimal getBigDecimal(String name) throws BirtException {
+		return rset.getBigDecimal(name);
 	}
 
-	public Blob getBlob( String name ) throws BirtException
-	{
-		return rset.getBlob( name );
+	@Override
+	public Blob getBlob(String name) throws BirtException {
+		return rset.getBlob(name);
 	}
 
-	public Boolean getBoolean( String name ) throws BirtException
-	{
-		return rset.getBoolean( name );
+	@Override
+	public Boolean getBoolean(String name) throws BirtException {
+		return rset.getBoolean(name);
 	}
 
-	public byte[] getBytes( String name ) throws BirtException
-	{
-		return rset.getBytes( name );
+	@Override
+	public byte[] getBytes(String name) throws BirtException {
+		return rset.getBytes(name);
 	}
 
-	public Date getDate( String name ) throws BirtException
-	{
-		return rset.getDate( name );
+	@Override
+	public Date getDate(String name) throws BirtException {
+		return rset.getDate(name);
 	}
 
-	public Double getDouble( String name ) throws BirtException
-	{
-		return rset.getDouble( name );
+	@Override
+	public Double getDouble(String name) throws BirtException {
+		return rset.getDouble(name);
 	}
 
-	public int getEndingGroupLevel( ) throws BirtException
-	{
+	@Override
+	public int getEndingGroupLevel() throws BirtException {
 		return -1;
 	}
 
-	public String getGroupId( int groupLevel )
-	{
+	@Override
+	public String getGroupId(int groupLevel) {
 		return null;
 	}
 
-	public Integer getInteger( String name ) throws BirtException
-	{
-		return rset.getInteger( name );
+	@Override
+	public Integer getInteger(String name) throws BirtException {
+		return rset.getInteger(name);
 	}
 
-	public long getRowIndex( )
-	{
-		return rset.getRowIndex( );
+	@Override
+	public long getRowIndex() {
+		return rset.getRowIndex();
 	}
 
-	public int getStartingGroupLevel( ) throws BirtException
-	{
+	@Override
+	public int getStartingGroupLevel() throws BirtException {
 		return -1;
 	}
 
-	public String getString( String name ) throws BirtException
-	{
-		return rset.getString( name );
+	@Override
+	public String getString(String name) throws BirtException {
+		return rset.getString(name);
 	}
 
-	public Object getValue( String name ) throws BirtException
-	{
-		return rset.getValue( name );
+	@Override
+	public Object getValue(String name) throws BirtException {
+		return rset.getValue(name);
 	}
 
-	public boolean skipTo( long rowIndex ) throws BirtException
-	{
+	@Override
+	public boolean skipTo(long rowIndex) throws BirtException {
 		return false;
 	}
 
-	public String getQueryResultsID( )
-	{
-		if ( rset instanceof QueryResultSet )
-			return ( (QueryResultSet) rset ).getQueryResultsID( );
+	@Override
+	public String getQueryResultsID() {
+		if (rset instanceof QueryResultSet) {
+			return ((QueryResultSet) rset).getQueryResultsID();
+		}
 		return null;
 	}
 
-	private static class SingleRowIterator implements IResultIterator
-	{
+	private static class SingleRowIterator implements IResultIterator {
 
 		private boolean isFirstCalled = true;
 		IResultIterator iter = null;
 
-		public SingleRowIterator( IResultIterator iter )
-		{
+		public SingleRowIterator(IResultIterator iter) {
 			this.iter = iter;
 		}
 
-		public boolean next( )
-		{
-			if ( isFirstCalled )
-			{
+		@Override
+		public boolean next() {
+			if (isFirstCalled) {
 				isFirstCalled = false;
 				return true;
 			}
 			return false;
 		}
 
-		public void close( ) throws BirtException
-		{
+		@Override
+		public void close() throws BirtException {
 			// do nothing in close( )
 		}
 
-		public boolean findGroup( Object[] groupKeyValues )
-				throws BirtException
-		{
+		@Override
+		public boolean findGroup(Object[] groupKeyValues) throws BirtException {
 			return false;
 		}
 
-		public BigDecimal getBigDecimal( String name ) throws BirtException
-		{
-			return iter.getBigDecimal( name );
+		@Override
+		public BigDecimal getBigDecimal(String name) throws BirtException {
+			return iter.getBigDecimal(name);
 		}
 
-		public Blob getBlob( String name ) throws BirtException
-		{
-			return iter.getBlob( name );
+		@Override
+		public Blob getBlob(String name) throws BirtException {
+			return iter.getBlob(name);
 		}
 
-		public Boolean getBoolean( String name ) throws BirtException
-		{
-			return iter.getBoolean( name );
+		@Override
+		public Boolean getBoolean(String name) throws BirtException {
+			return iter.getBoolean(name);
 		}
 
-		public byte[] getBytes( String name ) throws BirtException
-		{
-			return iter.getBytes( name );
+		@Override
+		public byte[] getBytes(String name) throws BirtException {
+			return iter.getBytes(name);
 		}
 
-		public Date getDate( String name ) throws BirtException
-		{
-			return iter.getDate( name );
+		@Override
+		public Date getDate(String name) throws BirtException {
+			return iter.getDate(name);
 		}
 
-		public Double getDouble( String name ) throws BirtException
-		{
-			return iter.getDouble( name );
+		@Override
+		public Double getDouble(String name) throws BirtException {
+			return iter.getDouble(name);
 		}
 
-		public int getEndingGroupLevel( ) throws BirtException
-		{
+		@Override
+		public int getEndingGroupLevel() throws BirtException {
 			return -1;
 		}
 
-		public Integer getInteger( String name ) throws BirtException
-		{
-			return iter.getInteger( name );
+		@Override
+		public Integer getInteger(String name) throws BirtException {
+			return iter.getInteger(name);
 		}
 
-		public IQueryResults getQueryResults( )
-		{
-			return iter.getQueryResults( );
+		@Override
+		public IQueryResults getQueryResults() {
+			return iter.getQueryResults();
 		}
 
-		public IResultMetaData getResultMetaData( ) throws BirtException
-		{
-			return iter.getResultMetaData( );
+		@Override
+		public IResultMetaData getResultMetaData() throws BirtException {
+			return iter.getResultMetaData();
 		}
 
-		public int getRowId( ) throws BirtException
-		{
-			return iter.getRowId( );
+		@Override
+		public int getRowId() throws BirtException {
+			return iter.getRowId();
 		}
 
-		public int getRowIndex( ) throws BirtException
-		{
-			return iter.getRowIndex( );
+		@Override
+		public int getRowIndex() throws BirtException {
+			return iter.getRowIndex();
 		}
 
-		public Scriptable getScope( )
-		{
-			return iter.getScope( );
+		@Override
+		public Scriptable getScope() {
+			return iter.getScope();
 		}
 
-		public IResultIterator getSecondaryIterator( String subQueryName,
-				Scriptable scope ) throws BirtException
-		{
+		@Override
+		public IResultIterator getSecondaryIterator(String subQueryName, Scriptable scope) throws BirtException {
 			return null;
 		}
 
-		public IResultIterator getSecondaryIterator( ScriptContext scriptContext,
-				String subQueryName ) throws BirtException
-		{
+		@Override
+		public IResultIterator getSecondaryIterator(ScriptContext scriptContext, String subQueryName)
+				throws BirtException {
 			return null;
 		}
 
-		public int getStartingGroupLevel( ) throws BirtException
-		{
+		@Override
+		public int getStartingGroupLevel() throws BirtException {
 			return -1;
 		}
 
-		public String getString( String name ) throws BirtException
-		{
-			return iter.getString( name );
+		@Override
+		public String getString(String name) throws BirtException {
+			return iter.getString(name);
 		}
 
-		public Object getValue( String name ) throws BirtException
-		{
-			return iter.getValue( name );
+		@Override
+		public Object getValue(String name) throws BirtException {
+			return iter.getValue(name);
 		}
 
-		public boolean isEmpty( ) throws BirtException
-		{
-			return iter.isEmpty( );
+		@Override
+		public boolean isEmpty() throws BirtException {
+			return iter.isEmpty();
 		}
 
-		public void moveTo( int rowIndex ) throws BirtException
-		{
+		@Override
+		public void moveTo(int rowIndex) throws BirtException {
 		}
 
-		public void skipToEnd( int groupLevel ) throws BirtException
-		{
+		@Override
+		public void skipToEnd(int groupLevel) throws BirtException {
 		}
 
-		public boolean isBeforeFirst( ) throws BirtException
-		{
-			return this.iter.isBeforeFirst( );
+		@Override
+		public boolean isBeforeFirst() throws BirtException {
+			return this.iter.isBeforeFirst();
 		}
 
-		public boolean isFirst( ) throws BirtException
-		{
-			return this.iter.isFirst( );
+		@Override
+		public boolean isFirst() throws BirtException {
+			return this.iter.isFirst();
 		}
 	}
 

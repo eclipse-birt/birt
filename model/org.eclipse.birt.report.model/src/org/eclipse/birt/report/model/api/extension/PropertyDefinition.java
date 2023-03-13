@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,135 +28,128 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * {@link org.eclipse.birt.report.model.metadata.PropertyType}.
  */
 
-abstract public class PropertyDefinition implements IPropertyDefinition
-{
+abstract public class PropertyDefinition implements IPropertyDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID
-	 * ()
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID ()
 	 */
 
-	public String getGroupNameID( )
-	{
+	@Override
+	public String getGroupNameID() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
 	 */
-	abstract public String getName( );
+	@Override
+	abstract public String getName();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID
 	 * ()
 	 */
 
-	public String getDisplayNameID( )
-	{
+	@Override
+	public String getDisplayNameID() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
 	 */
 
-	abstract public int getType( );
+	@Override
+	abstract public int getType();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#isList()
 	 */
 
-	public boolean isList( )
-	{
+	@Override
+	public boolean isList() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
 	 */
 
-	public List<IChoiceDefinition> getChoices( )
-	{
+	@Override
+	public List<IChoiceDefinition> getChoices() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
 	 */
-	public IMethodInfo getMethodInfo( )
-	{
+	@Override
+	public IMethodInfo getMethodInfo() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue
 	 * ()
 	 */
 
-	public Object getDefaultValue( )
-	{
+	@Override
+	public Object getDefaultValue() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#getMembers
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#getMembers ()
 	 */
 
-	public List<IPropertyDefinition> getMembers( )
-	{
+	@Override
+	public List<IPropertyDefinition> getMembers() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isReadOnly
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isReadOnly ()
 	 */
 
-	public boolean isReadOnly( )
-	{
+	@Override
+	public boolean isReadOnly() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible ()
 	 */
 
-	public boolean isVisible( )
-	{
+	@Override
+	public boolean isVisible() {
 		return true;
 	}
 

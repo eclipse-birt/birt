@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,140 +33,113 @@ import org.eclipse.swt.graphics.Image;
 /**
  * ExpressionButtonProvider
  */
-public class ExpressionButtonProvider implements IExpressionButtonProvider
-{
+public class ExpressionButtonProvider implements IExpressionButtonProvider {
 
-	private static final String CONSTANT = Messages.getString( "ExpressionButtonProvider.Constant" ); //$NON-NLS-1$
+	private static final String CONSTANT = Messages.getString("ExpressionButtonProvider.Constant"); //$NON-NLS-1$
 
 	private ExpressionButton input;
 
-	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>( );
+	private Map<String, IExpressionSupport> supports = new HashMap<>();
 	private String[] supportedTypes;
 	private boolean showLeafOnlyInThirdColumn = false;
 
-	public ExpressionButtonProvider( boolean allowConstant )
-	{
-		List<String> types = new ArrayList<String>( );
+	public ExpressionButtonProvider(boolean allowConstant) {
+		List<String> types = new ArrayList<>();
 
-		if ( allowConstant )
-		{
-			types.add( ExpressionType.CONSTANT );
+		if (allowConstant) {
+			types.add(ExpressionType.CONSTANT);
 		}
 
-		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports( );
+		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports();
 
-		if ( exts != null )
-		{
-			for ( IExpressionSupport ex : exts )
-			{
-				types.add( ex.getName( ) );
-				supports.put( ex.getName( ), ex );
+		if (exts != null) {
+			for (IExpressionSupport ex : exts) {
+				types.add(ex.getName());
+				supports.put(ex.getName(), ex);
 			}
 		}
 
-		supportedTypes = types.toArray( new String[types.size( )] );
+		supportedTypes = types.toArray(new String[types.size()]);
 	}
 
-	public void setInput( ExpressionButton input )
-	{
+	@Override
+	public void setInput(ExpressionButton input) {
 		this.input = input;
 	}
 
-	public String[] getExpressionTypes( )
-	{
+	@Override
+	public String[] getExpressionTypes() {
 		return supportedTypes;
 	}
 
-	public Image getImage( String exprType )
-	{
-		if ( ExpressionType.CONSTANT.equals( exprType ) )
-		{
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT );
-		}
-		else
-		{
-			IExpressionSupport spt = supports.get( exprType );
+	@Override
+	public Image getImage(String exprType) {
+		if (ExpressionType.CONSTANT.equals(exprType)) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT);
+		} else {
+			IExpressionSupport spt = supports.get(exprType);
 
-			if ( spt != null )
-			{
-				return spt.getImage( );
+			if (spt != null) {
+				return spt.getImage();
 			}
 		}
 		return null;
 	}
 
-	public String getText( String exprType )
-	{
-		if ( ExpressionType.CONSTANT.equals( exprType ) )
-		{
+	@Override
+	public String getText(String exprType) {
+		if (ExpressionType.CONSTANT.equals(exprType)) {
 			return CONSTANT;
 		}
 
-		IExpressionSupport spt = supports.get( exprType );
+		IExpressionSupport spt = supports.get(exprType);
 
-		if ( spt != null )
-		{
-			return spt.getDisplayName( );
+		if (spt != null) {
+			return spt.getDisplayName();
 		}
 
 		return ""; //$NON-NLS-1$
 	}
 
-	public String getTooltipText( String exprType )
-	{
-		return getText( exprType );
+	@Override
+	public String getTooltipText(String exprType) {
+		return getText(exprType);
 	}
 
-	public void handleSelectionEvent( String exprType )
-	{
-		IExpressionSupport spt = supports.get( exprType );
-		String sOldExpr = input.getExpression( );
+	@Override
+	public void handleSelectionEvent(String exprType) {
+		IExpressionSupport spt = supports.get(exprType);
+		String sOldExpr = input.getExpression();
 
-		if ( spt != null )
-		{
+		if (spt != null) {
 			IExpressionBuilder builder = null;
-			if ( spt instanceof JSExpressionSupport )
-			{
-				builder = ( (JSExpressionSupport) spt ).createBuilder( input.getControl( )
-						.getShell( ),
-						null,
-						showLeafOnlyInThirdColumn );
+			if (spt instanceof JSExpressionSupport) {
+				builder = ((JSExpressionSupport) spt).createBuilder(input.getControl().getShell(), null,
+						showLeafOnlyInThirdColumn);
+			} else {
+				builder = spt.createBuilder(input.getControl().getShell(), null);
 			}
-			else
-			{
-				builder = spt.createBuilder( input.getControl( ).getShell( ), null );
-			}
-			if ( builder != null )
-			{
-				if ( Window.OK == input.openExpressionBuilder( builder,
-						exprType ) )
-				{
-					input.notifyExpressionChangeEvent( sOldExpr,
-							input.getExpression( ) );
+			if (builder != null) {
+				if (Window.OK == input.openExpressionBuilder(builder, exprType)) {
+					input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 				}
+			} else {
+				input.setExpressionType(exprType);
+				input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 			}
-			else
-			{
-				input.setExpressionType( exprType );
-				input.notifyExpressionChangeEvent( sOldExpr,
-						input.getExpression( ) );
-			}
-		}
-		else
-		{
-			input.setExpressionType( exprType );
-			input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
+		} else {
+			input.setExpressionType(exprType);
+			input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 		}
 
 	}
 
-	public IExpressionSupport getExpressionSupport( String exprType )
-	{
-		return supports.get( exprType );
+	@Override
+	public IExpressionSupport getExpressionSupport(String exprType) {
+		return supports.get(exprType);
 	}
 
-	public void setShowLeafOnlyInThirdColumn( boolean leafOnly )
-	{
+	public void setShowLeafOnlyInThirdColumn(boolean leafOnly) {
 		showLeafOnlyInThirdColumn = leafOnly;
 	}
 

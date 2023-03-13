@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,40 +24,36 @@ import org.eclipse.jface.action.Action;
  * Abstract class for all global stack actions
  */
 
-public abstract class GlobalStackAction extends Action implements UpdateAction
-{
+public abstract class GlobalStackAction extends Action implements UpdateAction {
 
 	protected CommandStack stack;
 
-	protected GlobalStackAction( String id, CommandStack stack )
-	{
-		setId( id );
+	protected GlobalStackAction(String id, CommandStack stack) {
+		setId(id);
 		this.stack = stack;
-		stack.addListener( new ActivityStackListener( ) {
+		stack.addListener(new ActivityStackListener() {
 
-			public void stackChanged( ActivityStackEvent event )
-			{
-				if ( event.getStack( ) == GlobalStackAction.this.stack )
-				{
-					update( );
+			@Override
+			public void stackChanged(ActivityStackEvent event) {
+				if (event.getStack() == GlobalStackAction.this.stack) {
+					update();
 				}
 			}
 
-		} );
+		});
 	}
 
-	abstract protected boolean calculateEnabled( );
+	abstract protected boolean calculateEnabled();
 
-	abstract protected String getDisplayLabel( );
+	abstract protected String getDisplayLabel();
 
-	public void update( )
-	{
-		setEnabled( calculateEnabled( ) );
-		setText( getDisplayLabel( ) );
+	@Override
+	public void update() {
+		setEnabled(calculateEnabled());
+		setText(getDisplayLabel());
 	}
 
-	public CommandStack getStack( )
-	{
+	public CommandStack getStack() {
 		return stack;
 	}
 }

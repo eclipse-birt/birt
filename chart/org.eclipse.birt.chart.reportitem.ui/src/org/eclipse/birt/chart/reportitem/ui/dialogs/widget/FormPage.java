@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,16 +58,15 @@ import org.eclipse.swt.widgets.TableItem;
  * provides all table-based operations such as moving, adding, deleting. The
  * Filters, Sorting, Groups and High-lights will use FormPage as UI and provides
  * corresponding Model processors.
- * 
+ *
  * <p>
  * The class is transformed from
  * org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage.
- * 
+ *
  * @since 2.3
  * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage
  */
-public class FormPage extends Composite implements Listener
-{
+public class FormPage extends Composite implements Listener {
 
 	/**
 	 * The simple UI type,not support moving and editing operations.
@@ -128,736 +130,642 @@ public class FormPage extends Composite implements Listener
 	 */
 	private int selectIndex;
 
-	protected List input = new ArrayList( );
+	protected List input = new ArrayList();
 
-	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
-			.equals( Platform.OS_WIN32 ) ? 20 : 22;
+	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS().equals(Platform.OS_WIN32) ? 20 : 22;
 
 	/**
 	 * Constructor
-	 * 
-	 * @param parent
-	 *            A widget which will be the parent of the new instance (cannot
-	 *            be null)
-	 * @param style
-	 *            The style of widget to construct
-	 * @param provider
-	 *            The data provider and processor
+	 *
+	 * @param parent   A widget which will be the parent of the new instance (cannot
+	 *                 be null)
+	 * @param style    The style of widget to construct
+	 * @param provider The data provider and processor
 	 */
-	public FormPage( Composite parent, int style, IFormProvider provider,
-			boolean bAddWithDialog )
-	{
-		super( parent, SWT.NONE );
+	public FormPage(Composite parent, int style, IFormProvider provider, boolean bAddWithDialog) {
+		super(parent, SWT.NONE);
 		assert provider != null;
 		this.provider = provider;
 		this.style = style;
 		this.bAddWithDialog = bAddWithDialog;
-		createControl( );
+		createControl();
 	}
 
-	protected TableViewer getTableViewer( )
-	{
+	protected TableViewer getTableViewer() {
 		return tableViewer;
 	}
 
 	/**
 	 * Constructor
-	 * 
-	 * @param parent
-	 *            A widget which will be the parent of the new instance (cannot
-	 *            be null)
-	 * @param style
-	 *            The style of widget to construct
-	 * @param provider
-	 *            The data provider and processor
+	 *
+	 * @param parent   A widget which will be the parent of the new instance (cannot
+	 *                 be null)
+	 * @param style    The style of widget to construct
+	 * @param provider The data provider and processor
 	 */
-	public FormPage( Composite parent, int style, IFormProvider provider )
-	{
-		this( parent, style, provider, false );
+	public FormPage(Composite parent, int style, IFormProvider provider) {
+		this(parent, style, provider, false);
 	}
 
-	private void enableUI( boolean enabled )
-	{
-		if ( tableViewer != null )
-		{
-			table.setEnabled( enabled );
-			if ( style != SIMPLE_FUNCTION )
-			{
-				btnUp.setEnabled( enabled );
-				btnDown.setEnabled( enabled );
+	private void enableUI(boolean enabled) {
+		if (tableViewer != null) {
+			table.setEnabled(enabled);
+			if (style != SIMPLE_FUNCTION) {
+				btnUp.setEnabled(enabled);
+				btnDown.setEnabled(enabled);
 			}
-			btnAdd.setEnabled( enabled );
-			btnDel.setEnabled( enabled );
+			btnAdd.setEnabled(enabled);
+			btnDel.setEnabled(enabled);
 
-			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
-			{
-				btnEdit.setEnabled( enabled );
+			if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
+				btnEdit.setEnabled(enabled);
 			}
 
-			if ( enabled )
-			{
-				updateArraw( );
+			if (enabled) {
+				updateArraw();
 			}
 		}
 	}
 
-	private void editableUI( boolean editable )
-	{
-		if ( tableViewer != null )
-		{
-			if ( style != SIMPLE_FUNCTION )
-			{
-				btnUp.setEnabled( editable );
-				btnDown.setEnabled( editable );
+	private void editableUI(boolean editable) {
+		if (tableViewer != null) {
+			if (style != SIMPLE_FUNCTION) {
+				btnUp.setEnabled(editable);
+				btnDown.setEnabled(editable);
 			}
-			btnAdd.setEnabled( editable );
-			btnDel.setEnabled( editable );
+			btnAdd.setEnabled(editable);
+			btnDel.setEnabled(editable);
 
-			if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
-			{
-				btnEdit.setEnabled( editable );
+			if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
+				btnEdit.setEnabled(editable);
 			}
 
-			if ( editable )
-			{
-				updateArraw( );
+			if (editable) {
+				updateArraw();
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage#setInput(java.util.List)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage#
+	 * setInput(java.util.List)
 	 */
-	public void setInput( List elements )
-	{
-		if ( elements.size( ) != 1 )
-		{
-			enableUI( false );
+	public void setInput(List elements) {
+		if (elements.size() != 1) {
+			enableUI(false);
 			return;
 		}
 
-		enableUI( true );
-		editableUI( provider.isEditable( ) );
-		deRegisterListeners( );
+		enableUI(true);
+		editableUI(provider.isEditable());
+		deRegisterListeners();
 		input = elements;
-		tableViewer.setInput( elements );
-		refresh( );
-		registerListeners( );
-		updateArraw( );
-		updateBindingParameters( );
+		tableViewer.setInput(elements);
+		refresh();
+		registerListeners();
+		updateArraw();
+		updateBindingParameters();
 	}
 
-	protected void createControl( )
-	{
+	protected void createControl() {
 
-		table = new Table( this, SWT.SINGLE
-				| SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
-		table.setLinesVisible( true );
-		table.setHeaderVisible( true );
-		String[] columnNames = provider.getColumnNames( );
-		for ( int i = 0; i < columnNames.length; i++ )
-		{
-			TableColumn column = new TableColumn( table, SWT.LEFT );
-			column.setText( columnNames[i] );
-			column.setWidth( provider.getColumnWidths( )[i] );
+		table = new Table(this, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		String[] columnNames = provider.getColumnNames();
+		for (int i = 0; i < columnNames.length; i++) {
+			TableColumn column = new TableColumn(table, SWT.LEFT);
+			column.setText(columnNames[i]);
+			column.setWidth(provider.getColumnWidths()[i]);
 		}
-		table.addKeyListener( new KeyAdapter( ) {
+		table.addKeyListener(new KeyAdapter() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				if ( !provider.isEditable( ) )
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (!provider.isEditable()) {
 					return;
-				if ( e.keyCode == SWT.DEL )
-				{
-					int itemCount = table.getItemCount( );
-					int pos = table.getSelectionIndex( );
-					if ( selectIndex == itemCount - 1 )
-					{
+				}
+				if (e.keyCode == SWT.DEL) {
+					int itemCount = table.getItemCount();
+					int pos = table.getSelectionIndex();
+					if (selectIndex == itemCount - 1) {
 						selectIndex--;
 					}
-					try
-					{
-						provider.doDeleteItem( pos );
+					try {
+						provider.doDeleteItem(pos);
+					} catch (Exception e1) {
+						WidgetUtil.processError(FormPage.this.getShell(), e1);
 					}
-					catch ( Exception e1 )
-					{
-						WidgetUtil.processError( FormPage.this.getShell( ), e1 );
-					}
-				}
-				else if ( e.character == '\r' ) // return is pressed
+				} else if (e.character == '\r') // return is pressed
 				{
-					if ( style == FULL_FUNCTION
-							|| style == FULL_FUNCTION_HORIZONTAL )
-					{
-						edit( );
+					if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
+						edit();
 					}
 				}
 			}
-		} );
+		});
 
-		table.addSelectionListener( new SelectionAdapter( ) {
+		table.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				selectIndex = table.getSelectionIndex( );
-				updateArraw( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selectIndex = table.getSelectionIndex();
+				updateArraw();
 			}
-		} );
-		table.addMouseListener( new MouseAdapter( ) {
+		});
+		table.addMouseListener(new MouseAdapter() {
 
-			public void mouseDoubleClick( MouseEvent e )
-			{
-				if ( !provider.isEditable( ) )
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				if (!provider.isEditable()) {
 					return;
-				if ( style == FULL_FUNCTION
-						|| style == FULL_FUNCTION_HORIZONTAL )
-				{
-					edit( );
+				}
+				if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
+					edit();
 				}
 			}
-		} );
-		createTableViewer( );
+		});
+		createTableViewer();
 
-		btnDel = new Button( this, SWT.PUSH );
-		btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
+		btnDel = new Button(this, SWT.PUSH);
+		btnDel.setText(Messages.getString("FormPage.Button.Delete")); //$NON-NLS-1$
 
-		btnDel.addSelectionListener( new SelectionAdapter( ) {
+		btnDel.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( tableViewer.isCellEditorActive( ) )
-				{
-					tableViewer.cancelEditing( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (tableViewer.isCellEditorActive()) {
+					tableViewer.cancelEditing();
 				}
-				int pos = table.getSelectionIndex( );
-				if ( pos == -1 )
-				{
-					table.setFocus( );
+				int pos = table.getSelectionIndex();
+				if (pos == -1) {
+					table.setFocus();
 					return;
 				}
 				selectIndex = pos;
-				int itemCount = table.getItemCount( );
-				if ( selectIndex == itemCount - 1 )
-				{
+				int itemCount = table.getItemCount();
+				if (selectIndex == itemCount - 1) {
 					selectIndex--;
 				}
-				try
-				{
-					provider.doDeleteItem( pos );
+				try {
+					provider.doDeleteItem(pos);
+				} catch (Exception e1) {
+					WidgetUtil.processError(FormPage.this.getShell(), e1);
 				}
-				catch ( Exception e1 )
-				{
-					WidgetUtil.processError( FormPage.this.getShell( ), e1 );
-				}
-				refresh( );
+				refresh();
 			}
-		} );
-		btnAdd = new Button( this, SWT.PUSH );
-		if ( bAddWithDialog == true )
-		{
-			btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			btnAdd.setText( Messages.getString( "FormPage.Button.Add" ) ); //$NON-NLS-1$
+		});
+		btnAdd = new Button(this, SWT.PUSH);
+		if (bAddWithDialog) {
+			btnAdd.setText(Messages.getString("FormPage.Button.AddWithDialog")); //$NON-NLS-1$
+		} else {
+			btnAdd.setText(Messages.getString("FormPage.Button.Add")); //$NON-NLS-1$
 		}
 
-		btnAdd.addSelectionListener( new SelectionAdapter( ) {
+		btnAdd.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				CommandStack stack = getActionStack( );
-				stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-				int pos = table.getSelectionIndex( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				CommandStack stack = getActionStack();
+				stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+				int pos = table.getSelectionIndex();
 				boolean sucess = false;
-				try
-				{
-					sucess = provider.doAddItem( pos );
-				}
-				catch ( Exception e1 )
-				{
-					stack.rollback( );
-					WidgetUtil.processError( FormPage.this.getShell( ), e1 );
+				try {
+					sucess = provider.doAddItem(pos);
+				} catch (Exception e1) {
+					stack.rollback();
+					WidgetUtil.processError(FormPage.this.getShell(), e1);
 					return;
 				}
-				if ( sucess )
-				{
-					stack.commit( );
+				if (sucess) {
+					stack.commit();
+				} else {
+					stack.rollback();
 				}
-				else
-				{
-					stack.rollback( );
-				}
-				selectIndex = table.getItemCount( ) - 1;
-				refresh( );
+				selectIndex = table.getItemCount() - 1;
+				refresh();
 			}
-		} );
+		});
 
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
-		{
-			btnEdit = new Button( this, SWT.PUSH );
-			if ( bAddWithDialog == true )
-			{
-				btnEdit.setText( Messages.getString( "FormPage.Button.EditWithDialog" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				btnEdit.setText( Messages.getString( "FormPage.Button.Edit" ) ); //$NON-NLS-1$
+		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL) {
+			btnEdit = new Button(this, SWT.PUSH);
+			if (bAddWithDialog) {
+				btnEdit.setText(Messages.getString("FormPage.Button.EditWithDialog")); //$NON-NLS-1$
+			} else {
+				btnEdit.setText(Messages.getString("FormPage.Button.Edit")); //$NON-NLS-1$
 			}
 
-			btnEdit.addSelectionListener( new SelectionAdapter( ) {
+			btnEdit.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					edit( );
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					edit();
 				}
-			} );
+			});
 		}
 
-		if ( style != SIMPLE_FUNCTION )
-		{
-			btnUp = new Button( this, SWT.PUSH );
-			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
-			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) ); //$NON-NLS-1$
-			btnUp.addSelectionListener( new SelectionAdapter( ) {
+		if (style != SIMPLE_FUNCTION) {
+			btnUp = new Button(this, SWT.PUSH);
+			btnUp.setText(Messages.getString("FormPage.Button.Up")); //$NON-NLS-1$
+			btnUp.setToolTipText(Messages.getString("FormPage.toolTipText.Up")); //$NON-NLS-1$
+			btnUp.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					if ( tableViewer.isCellEditorActive( ) )
-					{
-						tableViewer.cancelEditing( );
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (tableViewer.isCellEditorActive()) {
+						tableViewer.cancelEditing();
 					}
-					int oldPos = table.getSelectionIndex( );
+					int oldPos = table.getSelectionIndex();
 
 					selectIndex = oldPos - 1;
-					moveItem( oldPos, oldPos - 1 );
-					refresh( );
+					moveItem(oldPos, oldPos - 1);
+					refresh();
 				}
-			} );
+			});
 
-			btnDown = new Button( this, SWT.PUSH );
-			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
-			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
-			btnDown.addSelectionListener( new SelectionAdapter( ) {
+			btnDown = new Button(this, SWT.PUSH);
+			btnDown.setText(Messages.getString("FormPage.Button.Down")); //$NON-NLS-1$
+			btnDown.setToolTipText(Messages.getString("FormPage.toolTipText.Down")); //$NON-NLS-1$
+			btnDown.addSelectionListener(new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					if ( tableViewer.isCellEditorActive( ) )
-					{
-						tableViewer.cancelEditing( );
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (tableViewer.isCellEditorActive()) {
+						tableViewer.cancelEditing();
 					}
-					int oldPos = table.getSelectionIndex( );
+					int oldPos = table.getSelectionIndex();
 
 					selectIndex = oldPos + 1;
-					moveItem( oldPos, oldPos + 1 );
-					refresh( );
+					moveItem(oldPos, oldPos + 1);
+					refresh();
 				}
-			} );
+			});
 
 		}
-		switch ( style )
-		{
-			case SIMPLE_FUNCTION :
-				simpleLayout( );
-				break;
-			case NORMAL_FUNCTION :
-				normallLayout( );
-				break;
-			case FULL_FUNCTION :
-				fullLayout( );
-				break;
-			case FULL_FUNCTION_HORIZONTAL :
-				fullLayoutHorizontal( );
-				break;
+		switch (style) {
+		case SIMPLE_FUNCTION:
+			simpleLayout();
+			break;
+		case NORMAL_FUNCTION:
+			normallLayout();
+			break;
+		case FULL_FUNCTION:
+			fullLayout();
+			break;
+		case FULL_FUNCTION_HORIZONTAL:
+			fullLayoutHorizontal();
+			break;
 		}
 	}
 
-	private void edit( )
-	{
-		int pos = table.getSelectionIndex( );
-		if ( pos == -1 )
-		{
-			table.setFocus( );
+	private void edit() {
+		int pos = table.getSelectionIndex();
+		if (pos == -1) {
+			table.setFocus();
 			return;
 		}
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		if ( !provider.doEditItem( pos ) )
-		{
-			stack.rollback( );
+		CommandStack stack = getActionStack();
+		stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+		if (!provider.doEditItem(pos)) {
+			stack.rollback();
 			return;
 		}
-		stack.commit( );
-		table.setSelection( pos );
-		refresh( );
+		stack.commit();
+		table.setSelection(pos);
+		refresh();
 	}
 
-	private void updateArraw( )
-	{
-		if ( !provider.isEditable( ) )
-			return;
-		if ( style == SIMPLE_FUNCTION )
-		{
+	private void updateArraw() {
+		if (!provider.isEditable() || (style == SIMPLE_FUNCTION)) {
 			return;
 		}
-		int selectIndex = table.getSelectionIndex( );
+		int selectIndex = table.getSelectionIndex();
 		int min = 0;
-		int max = table.getItemCount( ) - 1;
+		int max = table.getItemCount() - 1;
 		// if ( !( provider instanceof GroupHandleProvider ) )
 		// {
 		// max--;
 		// }
-		if ( selectIndex <= 0 )
-			btnUp.setEnabled( false );
-		else
-			btnUp.setEnabled( true );
-		if ( selectIndex >= max || ( selectIndex == -1 ) )
-		{
-			btnDown.setEnabled( false );
-			if ( selectIndex > max )
-				btnUp.setEnabled( false );
+		if (selectIndex <= 0) {
+			btnUp.setEnabled(false);
+		} else {
+			btnUp.setEnabled(true);
 		}
-		else
-			btnDown.setEnabled( true );
-		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
-		{
-			btnDel.setEnabled( true );
-			if ( btnEdit != null )
-				btnEdit.setEnabled( true );
+		if (selectIndex >= max || (selectIndex == -1)) {
+			btnDown.setEnabled(false);
+			if (selectIndex > max) {
+				btnUp.setEnabled(false);
+			}
+		} else {
+			btnDown.setEnabled(true);
 		}
-		else
-		{
-			btnDel.setEnabled( false );
-			if ( btnEdit != null )
-				btnEdit.setEnabled( false );
+		if ((min <= selectIndex) && (selectIndex <= max)) {
+			btnDel.setEnabled(true);
+			if (btnEdit != null) {
+				btnEdit.setEnabled(true);
+			}
+		} else {
+			btnDel.setEnabled(false);
+			if (btnEdit != null) {
+				btnEdit.setEnabled(false);
+			}
 		}
 	}
 
-	private void updateBindingParameters( )
-	{
-		if ( provider instanceof FilterHandleProvider )
-		{
+	private void updateBindingParameters() {
+		if (provider instanceof FilterHandleProvider) {
 			ParamBindingHandle[] bindingParams = null;
 
-			if ( input.get( 0 ) instanceof ReportItemHandle )
-			{
-				ReportItemHandle inputHandle = (ReportItemHandle) input.get( 0 );
-				List list = new ArrayList( );
-				for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
-				{
-					ParamBindingHandle handle = (ParamBindingHandle) iterator.next( );
-					list.add( handle );
+			if (input.get(0) instanceof ReportItemHandle) {
+				ReportItemHandle inputHandle = (ReportItemHandle) input.get(0);
+				List list = new ArrayList();
+				for (Iterator iterator = inputHandle.paramBindingsIterator(); iterator.hasNext();) {
+					ParamBindingHandle handle = (ParamBindingHandle) iterator.next();
+					list.add(handle);
 				}
-				bindingParams = new ParamBindingHandle[list.size( )];
-				list.toArray( bindingParams );
+				bindingParams = new ParamBindingHandle[list.size()];
+				list.toArray(bindingParams);
 			}
-			( (FilterHandleProvider) provider ).setBindingParams( bindingParams );
+			((FilterHandleProvider) provider).setBindingParams(bindingParams);
 		}
 	}
 
 	/**
 	 * Changes the position of one item to a new location.
-	 * 
-	 * @param oldPos
-	 *            The old position
-	 * @param newPos
-	 *            The new Position
+	 *
+	 * @param oldPos The old position
+	 * @param newPos The new Position
 	 */
-	private void moveItem( int oldPos, int newPos )
-	{
-		try
-		{
-			provider.doMoveItem( oldPos, newPos );
-		}
-		catch ( Exception e )
-		{
-			WidgetUtil.processError( FormPage.this.getShell( ), e );
+	private void moveItem(int oldPos, int newPos) {
+		try {
+			provider.doMoveItem(oldPos, newPos);
+		} catch (Exception e) {
+			WidgetUtil.processError(FormPage.this.getShell(), e);
 		}
 	}
 
 	/**
 	 * Creates the TableViewer and set all kinds of processors.
-	 * 
+	 *
 	 */
-	private void createTableViewer( )
-	{
+	private void createTableViewer() {
 
-		tableViewer = new TableViewer( table );
-		tableViewer.setUseHashlookup( true );
-		tableViewer.setColumnProperties( provider.getColumnNames( ) );
-		tableViewer.setCellEditors( provider.getEditors( table ) );
-		tableViewer.setContentProvider( new FormContentProvider( ) );
-		tableViewer.setLabelProvider( new FormLabelProvider( ) );
-		tableViewer.setCellModifier( new FormCellModifier( ) );
+		tableViewer = new TableViewer(table);
+		tableViewer.setUseHashlookup(true);
+		tableViewer.setColumnProperties(provider.getColumnNames());
+		tableViewer.setCellEditors(provider.getEditors(table));
+		tableViewer.setContentProvider(new FormContentProvider());
+		tableViewer.setLabelProvider(new FormLabelProvider());
+		tableViewer.setCellModifier(new FormCellModifier());
 
 	}
 
-	protected void simpleLayout( )
-	{
-		FormLayout layout = new FormLayout( );
+	protected void simpleLayout() {
+		FormLayout layout = new FormLayout();
 		layout.marginHeight = WidgetUtil.SPACING;
 		layout.marginWidth = WidgetUtil.SPACING;
 		layout.spacing = WidgetUtil.SPACING;
-		setLayout( layout );
+		setLayout(layout);
 		// int height = QUICK_BUTTON_HEIGHT - 2;
-		FormData data = new FormData( );
-		data.left = new FormAttachment( 0, 50, SWT.RIGHT );
+		FormData data = new FormData();
+		data.left = new FormAttachment(0, 50, SWT.RIGHT);
 		// data.height = Math.max( btnAdd.computeSize( -1, -1 ).y, height );
-		btnAdd.setLayoutData( data );
+		btnAdd.setLayoutData(data);
 
-		data = new FormData( );
-		data.left = new FormAttachment( btnAdd, 0, SWT.RIGHT );
+		data = new FormData();
+		data.left = new FormAttachment(btnAdd, 0, SWT.RIGHT);
 		// data.height = data.height = Math.max( btnDel.computeSize( -1, -1 ).y,
 		// height );
-		btnDel.setLayoutData( data );
+		btnDel.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( 0, 0, SWT.LEFT );
-		int width[] = provider.getColumnWidths( );
+		data = new FormData();
+		data.top = new FormAttachment(btnAdd, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(0, 0, SWT.LEFT);
+		int width[] = provider.getColumnWidths();
 		int dataWidth = 0;
-		for ( int i = 0; i < width.length; i++ )
-		{
+		for (int i = 0; i < width.length; i++) {
 			dataWidth += width[i];
 		}
-		data.right = new FormAttachment( 0, dataWidth + 15, SWT.LEFT );
-		data.bottom = new FormAttachment( 100 );
-		table.setLayoutData( data );
+		data.right = new FormAttachment(0, dataWidth + 15, SWT.LEFT);
+		data.bottom = new FormAttachment(100);
+		table.setLayoutData(data);
 	}
 
 	/**
 	 * Layouts widgets for simple UI type.
-	 * 
+	 *
 	 */
-	protected void normallLayout( )
-	{
-		FormLayout layout = new FormLayout( );
+	protected void normallLayout() {
+		FormLayout layout = new FormLayout();
 		layout.marginHeight = WidgetUtil.SPACING;
 		layout.marginWidth = WidgetUtil.SPACING;
 		layout.spacing = WidgetUtil.SPACING;
-		setLayout( layout );
+		setLayout(layout);
 		// int height = QUICK_BUTTON_HEIGHT - 2;
-		FormData data = new FormData( );
-		data.right = new FormAttachment( 100 );
+		FormData data = new FormData();
+		data.right = new FormAttachment(100);
 		// data.height = height;
-		btnDown.setLayoutData( data );
+		btnDown.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnDown, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnDown, 0, SWT.LEFT);
 		// data.height = height;
-		btnUp.setLayoutData( data );
+		btnUp.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnUp, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnUp, 0, SWT.LEFT);
 		// data.height = height;
-		btnDel.setLayoutData( data );
+		btnDel.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnDel, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnDel, 0, SWT.LEFT);
 		// data.height = height;
-		btnAdd.setLayoutData( data );
+		btnAdd.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnUp, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( 0, 0, SWT.LEFT );
-		data.right = new FormAttachment( 100 );
-		data.bottom = new FormAttachment( 100 );
-		table.setLayoutData( data );
+		data = new FormData();
+		data.top = new FormAttachment(btnUp, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(0, 0, SWT.LEFT);
+		data.right = new FormAttachment(100);
+		data.bottom = new FormAttachment(100);
+		table.setLayoutData(data);
 
 	}
 
-	protected void fullLayoutHorizontal( )
-	{
-		FormLayout layout = new FormLayout( );
+	protected void fullLayoutHorizontal() {
+		FormLayout layout = new FormLayout();
 		layout.marginHeight = WidgetUtil.SPACING;
 		layout.marginWidth = WidgetUtil.SPACING;
 		layout.spacing = WidgetUtil.SPACING;
-		setLayout( layout );
+		setLayout(layout);
 		// int height = QUICK_BUTTON_HEIGHT - 2;
-		FormData data = new FormData( );
-		data.right = new FormAttachment( 100 );
+		FormData data = new FormData();
+		data.right = new FormAttachment(100);
 		// data.height = height;
-		btnDown.setLayoutData( data );
+		btnDown.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnDown, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnDown, 0, SWT.LEFT);
 		// data.height = height;
-		btnUp.setLayoutData( data );
+		btnUp.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnUp, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnUp, 0, SWT.LEFT);
 		// data.height = height;
-		btnEdit.setLayoutData( data );
+		btnEdit.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnEdit, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnEdit, 0, SWT.LEFT);
 		// data.height = height;
-		btnDel.setLayoutData( data );
+		btnDel.setLayoutData(data);
 
-		data = new FormData( );
-		data.right = new FormAttachment( btnDel, 0, SWT.LEFT );
+		data = new FormData();
+		data.right = new FormAttachment(btnDel, 0, SWT.LEFT);
 		// data.height = height;
-		btnAdd.setLayoutData( data );
+		btnAdd.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnUp, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( 0, 0, SWT.LEFT );
-		data.right = new FormAttachment( 100 );
-		data.bottom = new FormAttachment( 100 );
-		table.setLayoutData( data );
+		data = new FormData();
+		data.top = new FormAttachment(btnUp, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(0, 0, SWT.LEFT);
+		data.right = new FormAttachment(100);
+		data.bottom = new FormAttachment(100);
+		table.setLayoutData(data);
 	}
 
 	/**
 	 * Layouts widgets for Full UI type.
-	 * 
+	 *
 	 */
-	protected void fullLayout( )
-	{
-		FormLayout layout = new FormLayout( );
+	protected void fullLayout() {
+		FormLayout layout = new FormLayout();
 		layout.marginHeight = WidgetUtil.SPACING;
 		layout.marginWidth = WidgetUtil.SPACING;
 		layout.spacing = WidgetUtil.SPACING;
-		setLayout( layout );
+		setLayout(layout);
 
 		int maxWidth = 0;
 		int btnWidth = 60;
 		int height = QUICK_BUTTON_HEIGHT - 2;
-		FormData data = new FormData( );
-		data.right = new FormAttachment( 100 );
-		data.top = new FormAttachment( 0, height );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		FormData data = new FormData();
+		data.right = new FormAttachment(100);
+		data.top = new FormAttachment(0, height);
+		data.width = Math.max(btnWidth, btnAdd.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		maxWidth = maxWidth < data.width ? data.width : maxWidth;
-		btnAdd.setLayoutData( data );
+		btnAdd.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data = new FormData();
+		data.top = new FormAttachment(btnAdd, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(btnAdd, 0, SWT.LEFT);
+		data.width = Math.max(btnWidth, btnEdit.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		maxWidth = maxWidth < data.width ? data.width : maxWidth;
-		btnEdit.setLayoutData( data );
+		btnEdit.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data = new FormData();
+		data.top = new FormAttachment(btnEdit, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(btnEdit, 0, SWT.LEFT);
+		data.width = Math.max(btnWidth, btnDel.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		maxWidth = maxWidth < data.width ? data.width : maxWidth;
-		btnDel.setLayoutData( data );
+		btnDel.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnUp.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data = new FormData();
+		data.top = new FormAttachment(btnDel, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(btnDel, 0, SWT.LEFT);
+		data.width = Math.max(btnWidth, btnUp.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		maxWidth = maxWidth < data.width ? data.width : maxWidth;
-		btnUp.setLayoutData( data );
+		btnUp.setLayoutData(data);
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnUp, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnUp, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDown.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data = new FormData();
+		data.top = new FormAttachment(btnUp, 0, SWT.BOTTOM);
+		data.left = new FormAttachment(btnUp, 0, SWT.LEFT);
+		data.width = Math.max(btnWidth, btnDown.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		maxWidth = maxWidth < data.width ? data.width : maxWidth;
-		btnDown.setLayoutData( data );
+		btnDown.setLayoutData(data);
 
 		// Adjust right position of Add button.
-		int addWidth = ( (FormData) btnAdd.getLayoutData( ) ).width;
-		if ( maxWidth > addWidth )
-		{
-			( (FormData) btnAdd.getLayoutData( ) ).right = new FormAttachment( 100,
-					addWidth - maxWidth );
+		int addWidth = ((FormData) btnAdd.getLayoutData()).width;
+		if (maxWidth > addWidth) {
+			((FormData) btnAdd.getLayoutData()).right = new FormAttachment(100, addWidth - maxWidth);
 		}
-		
-		data = new FormData( );
-		data.top = new FormAttachment( btnAdd, 0, SWT.TOP );
-		data.bottom = new FormAttachment( 100 );
-		data.left = new FormAttachment( 0 );
-		data.right = new FormAttachment( btnAdd, 0, SWT.LEFT );
-		table.setLayoutData( data );
+
+		data = new FormData();
+		data.top = new FormAttachment(btnAdd, 0, SWT.TOP);
+		data.bottom = new FormAttachment(100);
+		data.left = new FormAttachment(0);
+		data.right = new FormAttachment(btnAdd, 0, SWT.LEFT);
+		table.setLayoutData(data);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 *
+	 * @see
+	 * org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.
+	 * core.DesignElement, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public void elementChanged( DesignElementHandle arg0,
-			NotificationEvent event )
-	{
-		if ( provider.needRefreshed( event ) )
-		{
-			if ( !this.isDisposed( ) )
-				refresh( );
+	@Override
+	public void elementChanged(DesignElementHandle arg0, NotificationEvent event) {
+		if (provider.needRefreshed(event)) {
+			if (!this.isDisposed()) {
+				refresh();
+			}
 		}
 	}
 
-	private void refresh( )
-	{
-		tableViewer.refresh( );
-		table.select( selectIndex );
-		table.setFocus( );
-		updateArraw( );
-		updateBindingParameters( );
-		editableUI( provider.isEditable( ) );
+	private void refresh() {
+		tableViewer.refresh();
+		table.select(selectIndex);
+		table.setFocus();
+		updateArraw();
+		updateBindingParameters();
+		editableUI(provider.isEditable());
 		// title.setText( provider.getTitle( ) );
 	}
 
-	private class FormLabelProvider extends LabelProvider
-			implements
-				ITableLabelProvider
-	{
+	private class FormLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-		 *      int)
+		 *
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.
+		 * Object, int)
 		 */
-		public Image getColumnImage( Object element, int columnIndex )
-		{
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-		 *      int)
+		 *
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
+		 * int)
 		 */
-		public String getColumnText( Object element, int columnIndex )
-		{
-			return provider.getColumnText( element, columnIndex );
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			return provider.getColumnText(element, columnIndex);
 		}
 	}
 
-	private class FormContentProvider implements IStructuredContentProvider
-	{
+	private class FormContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 *
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
+		 * Object)
 		 */
-		public Object[] getElements( Object inputElement )
-		{
-			Object[] elements = provider.getElements( inputElement );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( elements[i] instanceof DesignElementHandle )
-				{
+		@Override
+		public Object[] getElements(Object inputElement) {
+			Object[] elements = provider.getElements(inputElement);
+			for (int i = 0; i < elements.length; i++) {
+				if (elements[i] instanceof DesignElementHandle) {
 					DesignElementHandle element = (DesignElementHandle) elements[i];
-					element.removeListener( FormPage.this );
-					element.addListener( FormPage.this );
+					element.removeListener(FormPage.this);
+					element.addListener(FormPage.this);
 				}
 			}
 			return elements;
@@ -865,138 +773,111 @@ public class FormPage extends Composite implements Listener
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		public void dispose( )
-		{
-			return;
-			// if ( !( provider instanceof GroupHandleProvider ) )
-			// return;
-			//
-			// Object[] elements = provider.getElements( input );
-			//
-			// if ( elements == null )
-			// {
-			// return;
-			// }
-			// for ( int i = 0; i < elements.length; i++ )
-			// {
-			// if ( elements[i] instanceof DesignElementHandle )
-			// {
-			// DesignElementHandle element = (DesignElementHandle) elements[i];
-			// element.removeListener( FormPage.this );
-			// }
-			// }
+		@Override
+		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-		 *      java.lang.Object, java.lang.Object)
+		 *
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
+		 * viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
 
-	private class FormCellModifier implements ICellModifier
-	{
+	private class FormCellModifier implements ICellModifier {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
-		 *      java.lang.String)
+		 * java.lang.String)
 		 */
-		public boolean canModify( Object element, String property )
-		{
-			return provider.canModify( element, property );
+		@Override
+		public boolean canModify(Object element, String property) {
+			return provider.canModify(element, property);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
-		 *      java.lang.String)
+		 * java.lang.String)
 		 */
-		public Object getValue( Object element, String property )
-		{
-			return provider.getValue( element, property );
+		@Override
+		public Object getValue(Object element, String property) {
+			return provider.getValue(element, property);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
-		 *      java.lang.String, java.lang.Object)
+		 * java.lang.String, java.lang.Object)
 		 */
-		public void modify( Object element, String property, Object value )
-		{
-			CommandStack stack = getActionStack( );
+		@Override
+		public void modify(Object element, String property, Object value) {
+			CommandStack stack = getActionStack();
 			TableItem item = (TableItem) element;
-			stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-			try
-			{
-				provider.modify( item.getData( ), property, value );
-				stack.commit( );
-			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
-				WidgetUtil.processError( FormPage.this.getShell( ), e );
+			stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+			try {
+				provider.modify(item.getData(), property, value);
+				stack.commit();
+			} catch (Exception e) {
+				stack.rollback();
+				WidgetUtil.processError(FormPage.this.getShell(), e);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#buildUI()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#buildUI()
 	 */
-	protected void buildUI( )
-	{
+	protected void buildUI() {
 
 	}
 
 	/**
 	 * Gets the DE CommandStack instance
-	 * 
+	 *
 	 * @return CommandStack instance
 	 */
-	private CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	private CommandStack getActionStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	protected void registerListeners( )
-	{
-		if ( input == null )
+	protected void registerListeners() {
+		if (input == null) {
 			return;
-		for ( int i = 0; i < input.size( ); i++ )
-		{
-			Object obj = input.get( i );
-			if ( obj instanceof DesignElementHandle )
-			{
+		}
+		for (int i = 0; i < input.size(); i++) {
+			Object obj = input.get(i);
+			if (obj instanceof DesignElementHandle) {
 				DesignElementHandle element = (DesignElementHandle) obj;
-				element.addListener( this );
+				element.addListener(this);
 			}
 		}
 	}
 
-	protected void deRegisterListeners( )
-	{
-		if ( input == null )
+	protected void deRegisterListeners() {
+		if (input == null) {
 			return;
-		for ( int i = 0; i < input.size( ); i++ )
-		{
-			Object obj = input.get( i );
-			if ( obj instanceof DesignElementHandle )
-			{
+		}
+		for (int i = 0; i < input.size(); i++) {
+			Object obj = input.get(i);
+			if (obj instanceof DesignElementHandle) {
 				DesignElementHandle element = (DesignElementHandle) obj;
-				element.removeListener( this );
+				element.removeListener(this);
 			}
 		}
 	}

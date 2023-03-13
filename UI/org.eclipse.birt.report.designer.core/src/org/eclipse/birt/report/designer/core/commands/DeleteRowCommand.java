@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,62 +27,47 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * This command deletes an object from the RowHandle.
- * 
+ *
  */
-public class DeleteRowCommand extends Command
-{
+public class DeleteRowCommand extends Command {
 
 	private RowHandle handle = null;
 
 	/**
 	 * Deletes the command
-	 * 
-	 * @param model
-	 *            the model
+	 *
+	 * @param model the model
 	 */
 
-	public DeleteRowCommand( Object model )
-	{
+	public DeleteRowCommand(Object model) {
 		assert model instanceof RowHandle;
 		this.handle = (RowHandle) model;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( getTableParent( ) != null )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "DeleteRowCommand >> starts. Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( getTableParent( ) ) );
+	@Override
+	public void execute() {
+		if (getTableParent() != null) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("DeleteRowCommand >> starts. Target: " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(getTableParent()));
 			}
-			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableParent( ) );
+			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
 
-			int rowNumber = HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( handle )
-					.getRowNumber( );
+			int rowNumber = HandleAdapterFactory.getInstance().getRowHandleAdapter(handle).getRowNumber();
 
-			try
-			{
-				tableHandle.deleteRow( new int[]{
-					rowNumber
-				} );
-				if ( DesignerConstants.TRACING_COMMANDS )
-				{
-					System.out.println( "DeleteRowCommand >> Finished. " ); //$NON-NLS-1$
+			try {
+				tableHandle.deleteRow(new int[] { rowNumber });
+				if (DesignerConstants.TRACING_COMMANDS) {
+					System.out.println("DeleteRowCommand >> Finished. "); //$NON-NLS-1$
 				}
-			}
-			catch ( SemanticException e )
-			{
-				if ( DesignerConstants.TRACING_COMMANDS )
-				{
-					System.out.println( "DeleteRowCommand >> Failed. " ); //$NON-NLS-1$
+			} catch (SemanticException e) {
+				if (DesignerConstants.TRACING_COMMANDS) {
+					System.out.println("DeleteRowCommand >> Failed. "); //$NON-NLS-1$
 				}
 			}
 		}
@@ -87,32 +75,27 @@ public class DeleteRowCommand extends Command
 
 	/**
 	 * Get the parent table
-	 * 
-	 * @return 
-	 * 		Return the parent table
+	 *
+	 * @return Return the parent table
 	 */
-	private Object getTableParent( )
-	{
-		DesignElementHandle parent = handle.getContainer( );
-		while ( parent != null )
-		{
-			if ( parent instanceof TableHandle || parent instanceof GridHandle )
-			{
+	private Object getTableParent() {
+		DesignElementHandle parent = handle.getContainer();
+		while (parent != null) {
+			if (parent instanceof TableHandle || parent instanceof GridHandle) {
 				return parent;
 			}
-			parent = parent.getContainer( );
+			parent = parent.getContainer();
 		}
 		return null;
 	}
-	
+
 	/**
-	 *  Check whether the command can be executed or not
-	 * 
-	 * @return 
-	 * 		true or false
+	 * Check whether the command can be executed or not
+	 *
+	 * @return true or false
 	 */
-	public boolean canExecute( )
-	{
-		return super.canExecute( ) && handle.canDrop();
+	@Override
+	public boolean canExecute() {
+		return super.canExecute() && handle.canDrop();
 	}
 }

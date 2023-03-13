@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,24 +29,20 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Format utility.
- * 
+ *
  */
-public class FormatUtil
-{
+public class FormatUtil {
 
 	/**
 	 * Checks is custom.
-	 * 
+	 *
 	 * @param formatCategory
-	 * @return <code>true</code> if is custom type. else return
-	 *         <code>false</code>.
+	 * @return <code>true</code> if is custom type. else return <code>false</code>.
 	 */
-	private static boolean isCustom( String formatCategory )
-	{
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategory )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategory )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategory ) )
-		{
+	private static boolean isCustom(String formatCategory) {
+		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals(formatCategory)
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals(formatCategory)
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals(formatCategory)) {
 			return true;
 		}
 		return false;
@@ -51,25 +50,20 @@ public class FormatUtil
 
 	/**
 	 * Formats value with pattern or category.
-	 * 
+	 *
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.
 	 */
 
-	public static String format( ParameterHandle handle, String inputStr )
-			throws BirtException
-	{
+	public static String format(ParameterHandle handle, String inputStr) throws BirtException {
 
-		if ( inputStr == null || inputStr.trim( ).length( ) == 0 )
-		{
+		if (inputStr == null || inputStr.trim().length() == 0) {
 			return null;
 		}
 
-		if ( handle instanceof ScalarParameterHandle )
-		{
-			inputStr = formatScalarParameter( (ScalarParameterHandle) handle,
-					inputStr );
+		if (handle instanceof ScalarParameterHandle) {
+			inputStr = formatScalarParameter((ScalarParameterHandle) handle, inputStr);
 		}
 
 		return inputStr;
@@ -77,46 +71,34 @@ public class FormatUtil
 
 	/**
 	 * Formats scalar parameter value.
-	 * 
+	 *
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.
 	 */
 
-	private static String formatScalarParameter( ScalarParameterHandle handle,
-			String inputStr ) throws BirtException
-	{
-		String pattern = handle.getPattern( );
-		String category = handle.getCategory( );
+	private static String formatScalarParameter(ScalarParameterHandle handle, String inputStr) throws BirtException {
+		String pattern = handle.getPattern();
+		String category = handle.getCategory();
 
-		if ( pattern == null )
-		{
-			if ( isCustom( category ) )
-			{
+		if (pattern == null) {
+			if (isCustom(category)) {
 				return inputStr;
 			}
 			pattern = category;
 		}
 
-		String dataType = handle.getDataType( );
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
-		{
-			Date date = DataTypeUtil.toDate( inputStr, ULocale.US );
-			DateFormatter formatter = new DateFormatter( pattern );
-			inputStr = formatter.format( date );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( dataType ) )
-		{
-			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toDouble( inputStr )
-					.doubleValue( ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( dataType ) )
-		{
-			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toBigDecimal( inputStr ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
-		{
-			inputStr = new StringFormatter( pattern ).format( inputStr );
+		String dataType = handle.getDataType();
+		if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(dataType)) {
+			Date date = DataTypeUtil.toDate(inputStr, ULocale.US);
+			DateFormatter formatter = new DateFormatter(pattern);
+			inputStr = formatter.format(date);
+		} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(dataType)) {
+			inputStr = new NumberFormatter(pattern).format(DataTypeUtil.toDouble(inputStr).doubleValue());
+		} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(dataType)) {
+			inputStr = new NumberFormatter(pattern).format(DataTypeUtil.toBigDecimal(inputStr));
+		} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(dataType)) {
+			inputStr = new StringFormatter(pattern).format(inputStr);
 		}
 		return inputStr;
 	}

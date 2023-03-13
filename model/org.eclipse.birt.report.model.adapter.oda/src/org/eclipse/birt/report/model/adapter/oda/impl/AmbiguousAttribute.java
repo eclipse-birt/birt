@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,11 +18,10 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 
 /**
  * Represents an ambiguous attribute
- * 
+ *
  */
 
-class AmbiguousAttribute implements IAmbiguousAttribute
-{
+class AmbiguousAttribute implements IAmbiguousAttribute {
 
 	private String name;
 	private Object oldValue;
@@ -33,9 +35,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * @param isFromReportParameter
 	 */
 
-	AmbiguousAttribute( String name, Object oldValue, Object toSet,
-			boolean isFromReportParameter )
-	{
+	AmbiguousAttribute(String name, Object oldValue, Object toSet, boolean isFromReportParameter) {
 		this.name = name;
 		this.oldValue = oldValue;
 		this.toSetValue = toSet;
@@ -44,46 +44,46 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * getAttributeName()
 	 */
-	public String getAttributeName( )
-	{
+	@Override
+	public String getAttributeName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * getPreviousValue()
 	 */
-	public Object getPreviousValue( )
-	{
+	@Override
+	public Object getPreviousValue() {
 		return oldValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#getRevisedValue
 	 * ()
 	 */
-	public Object getRevisedValue( )
-	{
+	@Override
+	public Object getRevisedValue() {
 		return toSetValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * isLinkedReportParameterAttribute()
 	 */
-	public boolean isLinkedReportParameterAttribute( )
-	{
+	@Override
+	public boolean isLinkedReportParameterAttribute() {
 		return isFromReportParameter;
 	}
 

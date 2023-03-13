@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,53 +29,51 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer.Filter;
 import org.eclipse.jface.wizard.IWizardPage;
 
-public class DataSourceSelectionHelper
-{
+public class DataSourceSelectionHelper {
 
 	private static final String DTP_ODA_EXT_POINT = "org.eclipse.datatools.connectivity.oda.dataSource"; //$NON-NLS-1$
-	public static final String SCRIPT_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "DataSourceSelectionPage.ScriptDataSource.DisplayName" ); //$NON-NLS-1$
-	public static final String CASSANDRA_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "CassandraScriptedDataSource.display.name" );
+	public static final String SCRIPT_DATA_SOURCE_DISPLAY_NAME = Messages
+			.getString("DataSourceSelectionPage.ScriptDataSource.DisplayName"); //$NON-NLS-1$
+	public static final String CASSANDRA_DATA_SOURCE_DISPLAY_NAME = Messages
+			.getString("CassandraScriptedDataSource.display.name");
 
-	public Object[] getFilteredDataSourceArray( )
-	{
-		Filter aFilter = ManifestExplorer.createFilter( );
-		aFilter.setMissingDataSetTypesFilter( true );
-		aFilter.setDeprecatedFilter( true );
-		ExtensionManifest[] dataSources = ManifestExplorer.getInstance( )
-				.getExtensionManifests( DTP_ODA_EXT_POINT, aFilter );
+	public Object[] getFilteredDataSourceArray() {
+		Filter aFilter = ManifestExplorer.createFilter();
+		aFilter.setMissingDataSetTypesFilter(true);
+		aFilter.setDeprecatedFilter(true);
+		ExtensionManifest[] dataSources = ManifestExplorer.getInstance().getExtensionManifests(DTP_ODA_EXT_POINT,
+				aFilter);
 
-		if ( dataSources == null )
-		{
+		if (dataSources == null) {
 			dataSources = new ExtensionManifest[0];
 		}
 		Object[] newArray = new Object[dataSources.length + 2];
-		for ( int i = 0; i < dataSources.length; i++ )
-		{
+		for (int i = 0; i < dataSources.length; i++) {
 			newArray[i] = dataSources[i];
 		}
 		newArray[dataSources.length] = SCRIPT_DATA_SOURCE_DISPLAY_NAME;
-		newArray[dataSources.length+1] = CASSANDRA_DATA_SOURCE_DISPLAY_NAME;
+		newArray[dataSources.length + 1] = CASSANDRA_DATA_SOURCE_DISPLAY_NAME;
 		return newArray;
 	}
-	
-	public boolean hasNextPage( Object selectedObject )
-	{
-		if ( selectedObject == null )
+
+	public boolean hasNextPage(Object selectedObject) {
+		if (selectedObject == null) {
 			return false;
-		if ( selectedObject instanceof ExtensionManifest )
-		{
+		}
+		if (selectedObject instanceof ExtensionManifest) {
 			// ODA3 check
-			if ( DesignSessionUtil.hasValidOdaDesignUIExtension( ( (ExtensionManifest) selectedObject ).getDataSourceElementID( ) ) )
+			if (DesignSessionUtil
+					.hasValidOdaDesignUIExtension(((ExtensionManifest) selectedObject).getDataSourceElementID())) {
 				return true;
+			}
 
 			// ODA2 check
-			IConfigurationElement dataSourceElement = DataSetProvider.findDataSourceElement( ( (ExtensionManifest) selectedObject ).getExtensionID( ) );
-			if ( dataSourceElement != null )
-			{
+			IConfigurationElement dataSourceElement = DataSetProvider
+					.findDataSourceElement(((ExtensionManifest) selectedObject).getExtensionID());
+			if (dataSourceElement != null) {
 				// Get the new Data source wizard element
-				IConfigurationElement[] elements = dataSourceElement.getChildren( "newDataSourceWizard" );//$NON-NLS-1$
-				if ( elements != null && elements.length > 0 )
-				{
+				IConfigurationElement[] elements = dataSourceElement.getChildren("newDataSourceWizard");//$NON-NLS-1$
+				if (elements != null && elements.length > 0) {
 					return true;
 				}
 			}
@@ -80,43 +81,31 @@ public class DataSourceSelectionHelper
 		// Scripted data source
 		return false;
 	}
-	
-	public IWizardPage getNextPage( Object selectedObject )
-	{
-		return null;
-	}
-	
-	public DataSourceHandle createNoneOdaDataSourceHandle(
-			String dataSourceName, Object selectedObject )
-	{
+
+	public IWizardPage getNextPage(Object selectedObject) {
 		return null;
 	}
 
-	public DataSourceHandle createDataSource( Class classType,
-			String dataSourceName, String dataSourceType )
-	{
-		if ( classType == OdaDataSourceHandle.class )
-		{
-			OdaDataSourceHandle dsHandle = Utility.newOdaDataSource( dataSourceName,
-					dataSourceType );
+	public DataSourceHandle createNoneOdaDataSourceHandle(String dataSourceName, Object selectedObject) {
+		return null;
+	}
+
+	public DataSourceHandle createDataSource(Class classType, String dataSourceName, String dataSourceType) {
+		if (classType == OdaDataSourceHandle.class) {
+			OdaDataSourceHandle dsHandle = Utility.newOdaDataSource(dataSourceName, dataSourceType);
 			return dsHandle;
 		}
-		if ( classType == ScriptDataSourceHandle.class )
-		{
-			ScriptDataSourceHandle dsHandle = Utility.newScriptDataSource( dataSourceName );
-			if ( dataSourceType.equals( DataUIConstants.CASSANDRA_DATA_SOURCE_SCRIPT ) )
-			{
-				UserPropertyDefn userProperty = new UserPropertyDefn( );
-				userProperty.setName( DataUIConstants.SCRIPT_TYPE );
-				userProperty.setDefault( DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE );
-				try
-				{
-					dsHandle.addUserPropertyDefn( userProperty );
+		if (classType == ScriptDataSourceHandle.class) {
+			ScriptDataSourceHandle dsHandle = Utility.newScriptDataSource(dataSourceName);
+			if (dataSourceType.equals(DataUIConstants.CASSANDRA_DATA_SOURCE_SCRIPT)) {
+				UserPropertyDefn userProperty = new UserPropertyDefn();
+				userProperty.setName(DataUIConstants.SCRIPT_TYPE);
+				userProperty.setDefault(DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE);
+				try {
+					dsHandle.addUserPropertyDefn(userProperty);
+				} catch (SemanticException e) {
 				}
-				catch ( SemanticException e )
-				{
-				}
-			}			
+			}
 			return dsHandle;
 		}
 		return null;

@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -37,129 +39,108 @@ import com.ibm.icu.text.Collator;
 
 /**
  * Deals with dataset node
- * 
+ *
  */
-public class DataSetNodeProvider extends DefaultNodeProvider
-{
+public class DataSetNodeProvider extends DefaultNodeProvider {
 
-	private static Comparator<ResultSetColumnHandle> comp = new Comparator<ResultSetColumnHandle>() {
-		
-		private Collator collator = Collator.getInstance( );
-		
+	private static Comparator<ResultSetColumnHandle> comp = new Comparator<>() {
+
+		private Collator collator = Collator.getInstance();
+
+		@Override
 		public int compare(ResultSetColumnHandle r1, ResultSetColumnHandle r2) {
-			return collator.compare( r1.getColumnName( ), r2.getColumnName( ) );
+			return collator.compare(r1.getColumnName(), r2.getColumnName());
 		}
-			
-	};	
-	
-	
+
+	};
+
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 *
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		super.createContextMenu( sourceViewer, object, menu );
+	@Override
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		super.createContextMenu(sourceViewer, object, menu);
 
-		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
-				new ShowPropertyAction( object ) );
+		menu.insertBefore(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
+				new ShowPropertyAction(object));
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
-		IAction action = new RefreshAction( sourceViewer );
-		if (action.isEnabled( ))
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action ); //$NON-NLS-1$
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator()); //$NON-NLS-1$
+		IAction action = new RefreshAction(sourceViewer);
+		if (action.isEnabled()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action); //$NON-NLS-1$
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
-	public String getNodeDisplayName( Object model )
-	{
-		return DEUtil.getDisplayLabel( model, false );
+	@Override
+	public String getNodeDisplayName(Object model) {
+		return DEUtil.getDisplayLabel(model, false);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
-	 * @param object
-	 *            the handle
+	 *
+	 * @param object the handle
 	 */
-	public Object[] getChildren( Object object )
-	{
+	@Override
+	public Object[] getChildren(Object object) {
 		DataSetHandle handle = (DataSetHandle) object;
 
-		ArrayList params = new ArrayList( 10 );
+		ArrayList params = new ArrayList(10);
 
 		CachedMetaDataHandle cmdh = null;
-		try
-		{
-			cmdh = DataSetUIUtil.getCachedMetaDataHandle( handle );
-		}
-		catch ( SemanticException e )
-		{
+		try {
+			cmdh = DataSetUIUtil.getCachedMetaDataHandle(handle);
+		} catch (SemanticException e) {
 		}
 
-		ArrayList columns = new ArrayList( 10 );
+		ArrayList columns = new ArrayList(10);
 
-		if ( cmdh != null )
-		{
-			for ( Iterator iterator = cmdh.getResultSet( ).iterator( ); iterator.hasNext( ); )
-			{
-				ResultSetColumnHandle element = (ResultSetColumnHandle) iterator.next( );
-				columns.add( element );
+		if (cmdh != null) {
+			for (Iterator iterator = cmdh.getResultSet().iterator(); iterator.hasNext();) {
+				ResultSetColumnHandle element = (ResultSetColumnHandle) iterator.next();
+				columns.add(element);
 			}
 		}
 
 		Collections.sort(columns, comp);
-		
-		PropertyHandle parameters = handle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-		Iterator iter = parameters.iterator( );
 
-		if ( iter != null )
-		{
-			while ( iter.hasNext( ) )
-			{
-				Object dataSetParameter = iter.next( );
-				if ( ( (DataSetParameterHandle) dataSetParameter ).isOutput( ) == true )
-				{
-					params.add( dataSetParameter );
+		PropertyHandle parameters = handle.getPropertyHandle(DataSetHandle.PARAMETERS_PROP);
+		Iterator iter = parameters.iterator();
+
+		if (iter != null) {
+			while (iter.hasNext()) {
+				Object dataSetParameter = iter.next();
+				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
+					params.add(dataSetParameter);
 				}
 			}
 		}
 
-		Object[] parametersArray = params.toArray( );
-		Object[] both = new Object[columns.toArray( ).length
-				+ parametersArray.length];
-		System.arraycopy( columns.toArray( ),
-				0,
-				both,
-				0,
-				columns.toArray( ).length );
-		System.arraycopy( parametersArray,
-				0,
-				both,
-				columns.toArray( ).length,
-				parametersArray.length );
+		Object[] parametersArray = params.toArray();
+		Object[] both = new Object[columns.toArray().length + parametersArray.length];
+		System.arraycopy(columns.toArray(), 0, both, 0, columns.toArray().length);
+		System.arraycopy(parametersArray, 0, both, columns.toArray().length, parametersArray.length);
 		return both;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#hasChildren(java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * hasChildren(java.lang.Object)
 	 */
-	public boolean hasChildren( Object object )
-	{
+	@Override
+	public boolean hasChildren(Object object) {
 		return true;
 	}
 

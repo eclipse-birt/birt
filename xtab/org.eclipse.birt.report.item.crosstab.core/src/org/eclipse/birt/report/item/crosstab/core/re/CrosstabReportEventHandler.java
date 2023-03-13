@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,53 +30,44 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * CrosstabReportEventHandler
  */
-public class CrosstabReportEventHandler extends ReportEventHandlerBase
-{
+public class CrosstabReportEventHandler extends ReportEventHandlerBase {
 
 	@Override
-	public void onCreate( IOnCreateEvent event ) throws BirtException
-	{
-		DesignElementHandle modelHandle = event.getHandle( );
+	public void onCreate(IOnCreateEvent event) throws BirtException {
+		DesignElementHandle modelHandle = event.getHandle();
 
-		if ( !( modelHandle instanceof ExtendedItemHandle ) )
-		{
+		if (!(modelHandle instanceof ExtendedItemHandle)) {
 			return;
 		}
 
-		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) modelHandle ).getReportItem( );
+		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) modelHandle)
+				.getReportItem();
 
-		IReportEventContext context = event.getContext( );
+		IReportEventContext context = event.getContext();
 
-		CrosstabCreationHandler handler = new CrosstabCreationHandler( (ExtendedItemHandle) modelHandle,
-				context.getApplicationClassLoader( ) );
+		CrosstabCreationHandler handler = new CrosstabCreationHandler((ExtendedItemHandle) modelHandle,
+				context.getApplicationClassLoader());
 
-		handler.handleCrosstab( crosstab,
-				(ITableContent) event.getContent( ),
-				context,
-				RunningState.CREATE );
+		handler.handleCrosstab(crosstab, (ITableContent) event.getContent(), context, RunningState.CREATE);
 	}
 
 	@Override
-	public void onRender( IOnRenderEvent event ) throws BirtException
-	{
-		DesignElementHandle modelHandle = event.getHandle( );
+	public void onRender(IOnRenderEvent event) throws BirtException {
+		DesignElementHandle modelHandle = event.getHandle();
 
-		if ( !( modelHandle instanceof ExtendedItemHandle ) )
-		{
+		if (!(modelHandle instanceof ExtendedItemHandle)) {
 			return;
 		}
 
-		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) modelHandle ).getReportItem( );
+		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) modelHandle)
+				.getReportItem();
 
-		IReportEventContext context = event.getContext( );
+		IReportEventContext context = event.getContext();
 
-		CrosstabRenderingHandler handler = new CrosstabRenderingHandler( (ExtendedItemHandle) modelHandle,
-				context.getApplicationClassLoader( ) );
+		CrosstabRenderingHandler handler = new CrosstabRenderingHandler((ExtendedItemHandle) modelHandle,
+				context.getApplicationClassLoader());
 
-		handler.handleCrosstab( crosstab,
-				(ITableContent) event.getContent( ),
-				context,
-				RunningState.RENDER );
+		handler.handleCrosstab(crosstab, (ITableContent) event.getContent(), context, RunningState.RENDER);
 	}
 
 }

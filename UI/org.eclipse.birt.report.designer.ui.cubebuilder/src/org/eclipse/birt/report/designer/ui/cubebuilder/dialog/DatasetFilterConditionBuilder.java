@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,49 +27,41 @@ import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.swt.widgets.Shell;
 
-public class DatasetFilterConditionBuilder extends FilterConditionBuilder
-{
+public class DatasetFilterConditionBuilder extends FilterConditionBuilder {
 
-	public DatasetFilterConditionBuilder( String title, String message )
-	{
-		super( title, message );
+	public DatasetFilterConditionBuilder(String title, String message) {
+		super(title, message);
 	}
 
-	public DatasetFilterConditionBuilder( Shell parentShell, String title,
-			String message )
-	{
-		super( parentShell, title, message );
+	public DatasetFilterConditionBuilder(Shell parentShell, String title, String message) {
+		super(parentShell, title, message);
 	}
 
-	protected void setColumnList( DesignElementHandle handle )
-	{
-		try
-		{
+	@Override
+	protected void setColumnList(DesignElementHandle handle) {
+		try {
 			DataSetHandle dataset = null;
-			if ( handle instanceof TabularCubeHandle )
-			{
-				dataset = ( (TabularCubeHandle) handle ).getDataSet( );
-			}
-			else if ( handle instanceof TabularDimensionHandle )
-			{
-				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (TabularDimensionHandle) handle ).getDefaultHierarchy( );
-				if ( hierarchy != null )
-					dataset = hierarchy.getDataSet( );
-			}
-			else if ( handle instanceof TabularHierarchyHandle )
-			{
+			if (handle instanceof TabularCubeHandle) {
+				dataset = ((TabularCubeHandle) handle).getDataSet();
+			} else if (handle instanceof TabularDimensionHandle) {
+				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ((TabularDimensionHandle) handle)
+						.getDefaultHierarchy();
+				if (hierarchy != null) {
+					dataset = hierarchy.getDataSet();
+				}
+			} else if (handle instanceof TabularHierarchyHandle) {
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) handle;
-				if ( hierarchy != null )
-					dataset = hierarchy.getDataSet( );
+				if (hierarchy != null) {
+					dataset = hierarchy.getDataSet();
+				}
 			}
-			if ( dataset != null )
-				columnList = DataUtil.getColumnList( dataset );
-			else
+			if (dataset != null) {
+				columnList = DataUtil.getColumnList(dataset);
+			} else {
 				columnList = Collections.EMPTY_LIST;
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+			}
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 }

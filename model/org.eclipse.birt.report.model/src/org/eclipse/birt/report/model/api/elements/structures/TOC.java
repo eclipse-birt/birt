@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,8 +28,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * The TOC structure defines a TOC. TOC is table of content.
  */
 
-public class TOC extends PropertyStructure
-{
+public class TOC extends PropertyStructure {
 
 	/**
 	 * Name of this structure.
@@ -76,7 +78,7 @@ public class TOC extends PropertyStructure
 	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
 	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
 	public static final String TEXT_DIRECTION_MEMBER = Style.TEXT_DIRECTION_PROP; // bidi_hcg
-	
+
 	/**
 	 * The reference to a style.
 	 */
@@ -85,114 +87,109 @@ public class TOC extends PropertyStructure
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	@Override
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new TOCHandle( valueHandle.getElementHandle( ), getContext( ) );
+	@Override
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new TOCHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	@Override
+	public String getStructName() {
 		return TOC_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		return getStringProperty( null, TOC_EXPRESSION );
+	@Override
+	public String toString() {
+		return getStringProperty(null, TOC_EXPRESSION);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * getIntrinsicProperty(java.lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( TOC_STYLE.equals( propName ) )
+	@Override
+	protected Object getIntrinsicProperty(String propName) {
+		if (TOC_STYLE.equals(propName)) {
 			return style;
+		}
 
-		return super.getIntrinsicProperty( propName );
+		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
 	 * setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( TOC_STYLE.equals( propName ) )
-		{
-			if ( value instanceof String )
-				style = new ElementRefValue( StringUtil
-						.extractNamespace( (String) value ), StringUtil
-						.extractName( (String) value ) );
-			else if ( value instanceof StyleElement )
-				style = new ElementRefValue( null, (Style) value );
-			else
+	@Override
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (TOC_STYLE.equals(propName)) {
+			if (value instanceof String) {
+				style = new ElementRefValue(StringUtil.extractNamespace((String) value),
+						StringUtil.extractName((String) value));
+			} else if (value instanceof StyleElement) {
+				style = new ElementRefValue(null, (Style) value);
+			} else {
 				style = (ElementRefValue) value;
+			}
+		} else {
+			super.setIntrinsicProperty(propName, value);
 		}
-		else
-			super.setIntrinsicProperty( propName, value );
 	}
 
 	/**
 	 * Sets toc expression.
-	 * 
-	 * @param expression
-	 *            toc expression
+	 *
+	 * @param expression toc expression
 	 * @throws SemanticException
 	 */
 
-	public void setExpression( String expression ) throws SemanticException
-	{
-		setProperty( TOC_EXPRESSION, expression );
+	public void setExpression(String expression) throws SemanticException {
+		setProperty(TOC_EXPRESSION, expression);
 	}
 
 	/**
 	 * Gets toc expression.
-	 * 
+	 *
 	 * @return toc expression
 	 */
 
-	public String getExpression( )
-	{
-		return getStringProperty( null, TOC_EXPRESSION );
+	public String getExpression() {
+		return getStringProperty(null, TOC_EXPRESSION);
 	}
 
 }

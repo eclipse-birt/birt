@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,35 +28,26 @@ import org.eclipse.birt.core.framework.Platform;
  * <code>IFileSystemFactory.EXTENSION_FILE_SYSTEM_FACTORY</code> is found.
  */
 
-public class FileSystemFactory implements IFileSystemFactory
-{
+public class FileSystemFactory implements IFileSystemFactory {
 
 	private static volatile IFileSystemFactory instance;
 
 	/**
-	 * Gets the instance of file system factory. If extension is not found,
-	 * default implementation of local file system will be used.
-	 * 
+	 * Gets the instance of file system factory. If extension is not found, default
+	 * implementation of local file system will be used.
+	 *
 	 * @return instance of file system factory.
 	 */
-	public static IFileSystemFactory getInstance( )
-	{
-		if ( instance == null )
-		{
-			synchronized ( FileSystemFactory.class )
-			{
-				if ( instance == null )
-				{
-					Object factory = Platform.createFactoryObject(
-							IFileSystemFactory.EXTENSION_FILE_SYSTEM_FACTORY );
-					if ( factory instanceof IFileSystemFactory )
-					{
+	public static IFileSystemFactory getInstance() {
+		if (instance == null) {
+			synchronized (FileSystemFactory.class) {
+				if (instance == null) {
+					Object factory = Platform.createFactoryObject(IFileSystemFactory.EXTENSION_FILE_SYSTEM_FACTORY);
+					if (factory instanceof IFileSystemFactory) {
 						instance = (IFileSystemFactory) factory;
-					}
-					else
-					{
+					} else {
 						// Use default one if no extension found
-						instance = new FileSystemFactory( );
+						instance = new FileSystemFactory();
 					}
 				}
 			}
@@ -62,21 +56,18 @@ public class FileSystemFactory implements IFileSystemFactory
 	}
 
 	@Override
-	public IFile getFile( String fileName )
-	{
-		return new LocalFile( new File( fileName ) );
+	public IFile getFile(String fileName) {
+		return new LocalFile(new File(fileName));
 	}
 
 	@Override
-	public IFile getFile( URI uri )
-	{
-		return new LocalFile( uri );
+	public IFile getFile(URI uri) {
+		return new LocalFile(uri);
 	}
 
 	@Override
-	public IArchiveFile createArchiveFile( String systemId, String fileName,
-			String mode, IFile externalFile ) throws IOException
-	{
-		return new ArchiveFile( systemId, fileName, mode );
+	public IArchiveFile createArchiveFile(String systemId, String fileName, String mode, IFile externalFile)
+			throws IOException {
+		return new ArchiveFile(systemId, fileName, mode);
 	}
 }

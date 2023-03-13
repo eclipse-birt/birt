@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,33 +28,26 @@ import org.eclipse.gef.SharedCursors;
  * Add the selection handle
  */
 
-public class CrosstabHandleKit
-{
+public class CrosstabHandleKit {
 
 	/**
 	 * Adds handle to table cell.
-	 * 
+	 *
 	 * @param part
 	 * @param handles
 	 */
-	public static void addHandles( CrosstabCellEditPart part, List handles )
-	{
-		List list = part.getViewer( ).getSelectedEditParts( );
-		if ( hasRemoveEditPart( list ) )
-		{
+	public static void addHandles(CrosstabCellEditPart part, List handles) {
+		List list = part.getViewer().getSelectedEditParts();
+		if (hasRemoveEditPart(list)) {
 			return;
 		}
-		handles.add( createHandle( part ) );
+		handles.add(createHandle(part));
 	}
 
-	private static boolean hasRemoveEditPart( List parts )
-	{
-		for ( int i = 0; i < parts.size( ); i++ )
-		{
-			Object obj = parts.get( i );
-			if ( obj instanceof ReportElementEditPart
-					&& ( (ReportElementEditPart) obj ).isDelete( ) )
-			{
+	private static boolean hasRemoveEditPart(List parts) {
+		for (int i = 0; i < parts.size(); i++) {
+			Object obj = parts.get(i);
+			if (obj instanceof ReportElementEditPart && ((ReportElementEditPart) obj).isDelete()) {
 				return true;
 			}
 		}
@@ -62,14 +58,13 @@ public class CrosstabHandleKit
 	 * @param owner
 	 * @return
 	 */
-	static Handle createHandle( CrosstabCellEditPart owner )
-	{
+	static Handle createHandle(CrosstabCellEditPart owner) {
 
-		CrosstabTableEditPart part = (CrosstabTableEditPart) owner.getParent( );
-		Rectangle rect = part.getSelectBounds( );
+		CrosstabTableEditPart part = (CrosstabTableEditPart) owner.getParent();
+		Rectangle rect = part.getSelectBounds();
 
-		TableSelectionHandle handle = new TableSelectionHandle( owner, rect );
-		handle.setCursor( SharedCursors.SIZEALL );
+		TableSelectionHandle handle = new TableSelectionHandle(owner, rect);
+		handle.setCursor(SharedCursors.SIZEALL);
 
 		return handle;
 	}

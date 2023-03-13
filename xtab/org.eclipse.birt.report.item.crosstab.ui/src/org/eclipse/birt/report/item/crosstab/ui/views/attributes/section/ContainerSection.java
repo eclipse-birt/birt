@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,112 +25,105 @@ import org.eclipse.swt.widgets.Group;
 
 /**
  * @author Administrator
- * 
+ *
  */
-public class ContainerSection extends Section
-{
+public class ContainerSection extends Section {
 
-	//CheckPropertyDescriptor columnCheck;
+	// CheckPropertyDescriptor columnCheck;
 
 	public Group group;
 
-	public ContainerSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public ContainerSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section#createSection()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section
+	 * #createSection()
 	 */
-	public void createSection( )
-	{
-		getGroupSection( parent );
+	@Override
+	public void createSection() {
+		getGroupSection(parent);
 	}
 
-	public Composite getContainerComposite( )
-	{
+	public Composite getContainerComposite() {
 		return group;
 	}
 
-	private Group getGroupSection( Composite parent )
-	{
-		if ( group == null )
-		{
-			group = new Group( parent, SWT.NONE );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	private Group getGroupSection(Composite parent) {
+		if (group == null) {
+			group = new Group(parent, SWT.NONE);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 3;
-			group.setLayout( WidgetUtil.createGridLayout( 3 ) );
-			group.setText( getLabelText( ) );
-			group.setLayoutData( gd );
+			group.setLayout(WidgetUtil.createGridLayout(3));
+			group.setText(getLabelText());
+			group.setLayoutData(gd);
 
 		}
 		return group;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) group.getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
-		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
-		if ( width > -1 )
-		{
+	@Override
+	public void layout() {
+		GridData gd = (GridData) group.getLayoutData();
+		if (getLayoutNum() > 0) {
+			gd.horizontalSpan = getLayoutNum() - placeholder;
+		} else {
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else {
 			gd.grabExcessHorizontalSpace = true;
+		}
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void load( )
-	{
+	@Override
+	public void load() {
 		// if(group!=null && !group.isDisposed( ))group.load( );
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 	}
 
-	public void setInput( Object input )
-	{
-
-	}
-
-	public void setHidden( boolean isHidden )
-	{
-		if ( group != null )
-			WidgetUtil.setExcludeGridData( group, isHidden );
+	@Override
+	public void setInput(Object input) {
 
 	}
 
-	public void setVisible( boolean isVisable )
-	{
-		if ( group != null )
-			group.setVisible( isVisable );
+	@Override
+	public void setHidden(boolean isHidden) {
+		if (group != null) {
+			WidgetUtil.setExcludeGridData(group, isHidden);
+		}
+
+	}
+
+	@Override
+	public void setVisible(boolean isVisable) {
+		if (group != null) {
+			group.setVisible(isVisable);
+		}
 
 	}
 

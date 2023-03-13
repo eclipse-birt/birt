@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,15 +27,14 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Insert row action,insert a row or multi rows into a table or a grid.
- *  
+ *
  */
-public class InsertRowAction extends ContextSelectionAction
-{
+public class InsertRowAction extends ContextSelectionAction {
 
 	/**
 	 * display label of action
 	 */
-	private static final String ACTION_MSG_INSERT = Messages.getString( "InsertRowAction.actionMsg.insert" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_INSERT = Messages.getString("InsertRowAction.actionMsg.insert"); //$NON-NLS-1$
 
 	/**
 	 * action id
@@ -41,64 +43,52 @@ public class InsertRowAction extends ContextSelectionAction
 
 	/**
 	 * Constructs a insert row action.
-	 * 
-	 * @param part
-	 *            work bench part.
+	 *
+	 * @param part work bench part.
 	 */
-	public InsertRowAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_INSERT );
+	public InsertRowAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_INSERT);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return !getRowHandles( ).isEmpty( ) && canDrop(getRowHandles());
+	@Override
+	protected boolean calculateEnabled() {
+		return !getRowHandles().isEmpty() && canDrop(getRowHandles());
 	}
-	
-	private boolean canDrop( List rowHandles )
-	{
-		for ( Iterator it = rowHandles.iterator( ); it.hasNext( ); )
-		{
-			if ( !canDrop( (RowHandle)it.next( ) ) )
-			{
+
+	private boolean canDrop(List rowHandles) {
+		for (Iterator it = rowHandles.iterator(); it.hasNext();) {
+			if (!canDrop((RowHandle) it.next())) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	private boolean canDrop(RowHandle handle)
-	{
-		return ((RowHandle)handle).canDrop();
-	}
 
+	private boolean canDrop(RowHandle handle) {
+		return ((RowHandle) handle).canDrop();
+	}
 
 	/**
 	 * Runs the action.
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert row action >> Run ..." ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert row action >> Run ..."); //$NON-NLS-1$
 		}
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_ROW_POSITION,
-				Integer.valueOf( -1 ) );
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, Integer.valueOf(-1));
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.insertRowCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,38 +43,31 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * The class used to process ResultSet data.
- * 
+ *
  */
-class ResultSetProcessUtil extends RowProcessUtil
-{
+class ResultSetProcessUtil extends RowProcessUtil {
 	/**
-	 * 
+	 *
 	 */
 	private List cachedSort;
 
 	private boolean groupingDone;
+
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
 	 * @param filterByRow
 	 * @param psController
 	 */
-	private ResultSetProcessUtil( ResultSetPopulator populator,
-			ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController )
-	{
-		super( populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
-				psController);
+	private ResultSetProcessUtil(ResultSetPopulator populator, ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow, PassStatusController psController) {
+		super(populator, iccState, computedColumnHelper, filterByRow, psController);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -80,434 +76,387 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 * @param sortList
 	 * @throws DataException
 	 */
-	public static void doPopulate( ResultSetPopulator populator,
-			ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList )
-			throws DataException
-	{
-		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
+	public static void doPopulate(ResultSetPopulator populator, ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow, PassStatusController psController,
+			List sortList) throws DataException {
+		ResultSetProcessUtil instance = new ResultSetProcessUtil(populator, iccState, computedColumnHelper, filterByRow,
 				psController);
 		instance.cachedSort = sortList;
-		instance.populateResultSet( );
+		instance.populateResultSet();
 
 	}
-	
-	public static void doPopulateAggregation( ResultSetPopulator populator,
-			ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList )
-			throws DataException
-	{
-		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
+
+	public static void doPopulateAggregation(ResultSetPopulator populator, ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow, PassStatusController psController,
+			List sortList) throws DataException {
+		ResultSetProcessUtil instance = new ResultSetProcessUtil(populator, iccState, computedColumnHelper, filterByRow,
 				psController);
 		instance.cachedSort = sortList;
-		instance.populateAggregation( );
+		instance.populateAggregation();
 	}
-	
-	public static void doPopulateNoUpdateAggrFiltering (
-			ResultSetPopulator populator, ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList )
-			throws DataException
-	{
-		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
-				psController );
+
+	public static void doPopulateNoUpdateAggrFiltering(ResultSetPopulator populator, ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow, PassStatusController psController,
+			List sortList) throws DataException {
+		ResultSetProcessUtil instance = new ResultSetProcessUtil(populator, iccState, computedColumnHelper, filterByRow,
+				psController);
 		instance.cachedSort = sortList;
 		instance.groupingDone = true;
-		instance.populateNoUpdateAggrFiltering( );
+		instance.populateNoUpdateAggrFiltering();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateResultSet( ) throws DataException
-	{
-		//The computed columns that need multipass
-		List aggCCList = prepareComputedColumns( TransformationConstants.RESULT_SET_MODEL );
-		
-		//Grouping will also be done in this method, for currently we only support simple group keys
-		//that is, group keys cannot contain aggregation.
-		doRowFiltering( );
-		
-		//TODO remove me
-		populateTempComputedColumns( this.getAggrComputedColumns( aggCCList, false ) );
-		///////////////
-		
-		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
-		
-		prepareAggregations( aggrDefns );
-		
-		//Filter group instances.
-		doGroupFiltering(  );
+	private void populateResultSet() throws DataException {
+		// The computed columns that need multipass
+		List aggCCList = prepareComputedColumns(TransformationConstants.RESULT_SET_MODEL);
 
-		if( needDoGroupFiltering( ) && psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ) )
-			prepareAggregations( aggrDefns );
-		
-		//Filter aggregation filters
-		doAggrRowFiltering(  );
-		
+		// Grouping will also be done in this method, for currently we only support
+		// simple group keys
+		// that is, group keys cannot contain aggregation.
+		doRowFiltering();
+
+		// TODO remove me
+		populateTempComputedColumns(this.getAggrComputedColumns(aggCCList, false));
+		///////////////
+
+		List aggrDefns = this.populator.getEventHandler().getAggrDefinitions();
+
+		prepareAggregations(aggrDefns);
+
+		// Filter group instances.
+		doGroupFiltering();
+
+		if (needDoGroupFiltering() && psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
+			prepareAggregations(aggrDefns);
+		}
+
+		// Filter aggregation filters
+		doAggrRowFiltering();
+
 		// Do row sorting
-		doRowSorting( );
+		doRowSorting();
 
 		// Do group sorting
-		doGroupSorting( );
-		
-		if ( !groupingDone )
-		{
-			PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true );
+		doGroupSorting();
+
+		if (!groupingDone) {
+			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			groupingDone = true;
 		}
-		
-		clearTemporaryComputedColumns( iccState );
-		
-		populateAggregation( );
-		
+
+		clearTemporaryComputedColumns(iccState);
+
+		populateAggregation();
+
 		// Do 2nd phase: no update aggregation filters here.
-		doNoUpdateAggrGroupFilter( );
-		
-		doNoUpdateAggrRowFilter( );
+		doNoUpdateAggrGroupFilter();
+
+		doNoUpdateAggrRowFilter();
 	}
-	
-	private void populateNoUpdateAggrFiltering( ) throws DataException
-	{
-		doNoUpdateAggrGroupFilter( );
-		
-		doNoUpdateAggrRowFilter( );
+
+	private void populateNoUpdateAggrFiltering() throws DataException {
+		doNoUpdateAggrGroupFilter();
+
+		doNoUpdateAggrRowFilter();
 	}
-	
-	private void populateAggregation ()  throws DataException
-	{
-		calculateAggregationsInColumnBinding( );
+
+	private void populateAggregation() throws DataException {
+		calculateAggregationsInColumnBinding();
 
 		/************************************/
 		// TODO remove me
 		// Temp code util model makes the backward comp.
-		ExpressionCompiler compiler = new ExpressionCompiler( );
-		compiler.setDataSetMode( false );
-		for ( Iterator it = this.populator.getEventHandler( )
-				.getColumnBindings( )
-				.values( )
-				.iterator( ); it.hasNext( ); )
-		{
-			try
-			{
-				IBinding binding = (IBinding) it.next( );
-				compiler.compile( binding.getExpression( ),
-						this.populator.getSession( )
-								.getEngineContext( ).getScriptContext( ));
-			}
-			catch ( DataException e )
-			{
+		ExpressionCompiler compiler = new ExpressionCompiler();
+		compiler.setDataSetMode(false);
+		for (Iterator it = this.populator.getEventHandler().getColumnBindings().values().iterator(); it.hasNext();) {
+			try {
+				IBinding binding = (IBinding) it.next();
+				compiler.compile(binding.getExpression(),
+						this.populator.getSession().getEngineContext().getScriptContext());
+			} catch (DataException e) {
 				// do nothing
 			}
 		}
 
 		/*************************************/
 		//
-		populateAggregationInBinding( );
+		populateAggregationInBinding();
 	}
-	
-	private void calculateAggregationsInColumnBinding( ) throws DataException
-	{
+
+	private void calculateAggregationsInColumnBinding() throws DataException {
 		IExpressionProcessor ep = populator.getExpressionProcessor();
 
-		Map results = populator.getEventHandler( ).getColumnBindings( );
-	
-		DummyICCState iccState = new DummyICCState( results );
+		Map results = populator.getEventHandler().getColumnBindings();
 
-		ep.setResultIterator( populator.getResultIterator( ) );
-		
-		while ( !iccState.isFinish( ) )
-		{
-			ep.evaluateMultiPassExprOnCmp( iccState, false );
+		DummyICCState iccState = new DummyICCState(results);
+
+		ep.setResultIterator(populator.getResultIterator());
+
+		while (!iccState.isFinish()) {
+			ep.evaluateMultiPassExprOnCmp(iccState, false);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
-	private void populateAggregationInBinding( ) throws DataException
-	{
-		this.populator.getExpressionProcessor( )
-				.setResultIterator( this.populator.getResultIterator( ) );
-		this.populator.getResultIterator( ).clearAggrValueHolder( );
-		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
+	private void populateAggregationInBinding() throws DataException {
+		this.populator.getExpressionProcessor().setResultIterator(this.populator.getResultIterator());
+		this.populator.getResultIterator().clearAggrValueHolder();
+		List aggrDefns = this.populator.getEventHandler().getAggrDefinitions();
 
-		AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
-		for ( int i = 0; i < factory.getRound( ); i++ )
-		{
-			AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
-					this.populator );
-			this.populator.getResultIterator( ).addAggrValueHolder( helper );
+		AggrDefnRoundManager factory = new AggrDefnRoundManager(aggrDefns);
+		for (int i = 0; i < factory.getRound(); i++) {
+			AggregationHelper helper = new AggregationHelper(factory.getAggrDefnManager(i), this.populator);
+			this.populator.getResultIterator().addAggrValueHolder(helper);
 
 		}
 	}
-	
+
 	/**
-	 * Class DummyICCState is used by ExpressionProcessor to calculate multipass 
+	 * Class DummyICCState is used by ExpressionProcessor to calculate multipass
 	 * aggregations.
 	 *
 	 */
-	private static class DummyICCState implements IComputedColumnsState
-	{
+	private static class DummyICCState implements IComputedColumnsState {
 		private Object[] exprs;
 		private Object[] names;
 		private boolean[] isValueAvailable;
-		
+
 		/**
-		 * 
+		 *
 		 * @param exprs
 		 * @param names
-		 * @throws DataException 
+		 * @throws DataException
 		 */
-		DummyICCState( Map columnMappings ) throws DataException
-		{
-			this.exprs = columnMappings.values( ).toArray( );
-			this.names = columnMappings.keySet( ).toArray( );
-			this.isValueAvailable= new boolean[exprs.length];
-/*			for( int i = 0; i < exprs.length; i ++ )
-			{
-				IBinding binding = ((IBinding)exprs[i]);
-				
-				if( binding.getExpression( ).getHandle( )== null )
-				{
-					this.isValueAvailable[i] = false;
-				}else
-				{
-					this.isValueAvailable[i] = true;
-				}
-				
-			}*/
+		DummyICCState(Map columnMappings) throws DataException {
+			this.exprs = columnMappings.values().toArray();
+			this.names = columnMappings.keySet().toArray();
+			this.isValueAvailable = new boolean[exprs.length];
+			/*
+			 * for( int i = 0; i < exprs.length; i ++ ) { IBinding binding =
+			 * ((IBinding)exprs[i]);
+			 *
+			 * if( binding.getExpression( ).getHandle( )== null ) { this.isValueAvailable[i]
+			 * = false; }else { this.isValueAvailable[i] = true; }
+			 *
+			 * }
+			 */
 		}
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * isValueAvailable(int)
 		 */
-		public boolean isValueAvailable( int index )
-		{
+		@Override
+		public boolean isValueAvailable(int index) {
 			return this.isValueAvailable[index];
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName
+		 * (int)
 		 */
-		public String getName( int index )
-		{
-			return this.names[index].toString( );
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
-		 */
-		public IBaseExpression getExpression( int index ) throws DataException
-		{
-			return ((IBinding) exprs[index]).getExpression( );
+		@Override
+		public String getName(int index) {
+			return this.names[index].toString();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * getExpression(int)
 		 */
-		public void setValueAvailable( int index )
-		{
-			this.isValueAvailable[index] = true;		
+		@Override
+		public IBaseExpression getExpression(int index) throws DataException {
+			return ((IBinding) exprs[index]).getExpression();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * setValueAvailable(int)
 		 */
-		public int getCount( )
-		{
+		@Override
+		public void setValueAvailable(int index) {
+			this.isValueAvailable[index] = true;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * getCount()
+		 */
+		@Override
+		public int getCount() {
 			return this.isValueAvailable.length;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * getComputedColumn(int)
 		 */
-		public IComputedColumn getComputedColumn( int index )
-		{
+		@Override
+		public IComputedColumn getComputedColumn(int index) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
+		 *
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+		 * setModel(int)
 		 */
-		public void setModel( int model )
-		{
-				
+		@Override
+		public void setModel(int model) {
+
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * @return
 		 */
-		public boolean isFinish()
-		{
-			for( int i = 0; i < isValueAvailable.length; i++ )
-			{
-				if( !isValueAvailable[i] )
+		public boolean isFinish() {
+			for (int i = 0; i < isValueAvailable.length; i++) {
+				if (!isValueAvailable[i]) {
 					return false;
+				}
 			}
 			return true;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggrDefns
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void prepareAggregations( List aggrDefns ) throws DataException
-	{
-		boolean needGroupFiltering = this.needDoGroupFiltering( );
-		boolean needGroupSorting = this.needDoGroupSorting( );
-		boolean needRowSortOnAggregation = this.needRowSortOnAggregation( );
-		boolean needAggrFiltering = psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING );
-		if ( needPreCalculateForGroupFilterSort( needGroupFiltering,
-				needGroupSorting ) || needAggrFiltering || needRowSortOnAggregation )
-		{
-			//TODO: Enhance me so that invalid computed column will not be evaluated at all
-			if( needRowSortOnAggregation && this.computedColumnHelper!= null )
-				this.computedColumnHelper.suppressException( true );
-			//ENDTODO
-			
-			if ( !groupingDone )
-			{
-				PassUtil.pass( this.populator,
-						new OdiResultSetWrapper( populator.getResultIterator( ) ),
-						true);
+	private void prepareAggregations(List aggrDefns) throws DataException {
+		boolean needGroupFiltering = this.needDoGroupFiltering();
+		boolean needGroupSorting = this.needDoGroupSorting();
+		boolean needRowSortOnAggregation = this.needRowSortOnAggregation();
+		boolean needAggrFiltering = psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING);
+		if (needPreCalculateForGroupFilterSort(needGroupFiltering, needGroupSorting) || needAggrFiltering
+				|| needRowSortOnAggregation) {
+			// TODO: Enhance me so that invalid computed column will not be evaluated at all
+			if (needRowSortOnAggregation && this.computedColumnHelper != null) {
+				this.computedColumnHelper.suppressException(true);
+				// ENDTODO
 			}
-			this.populator.getExpressionProcessor( )
-					.setResultIterator( this.populator.getResultIterator( ) );
-			AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
-			this.populator.getResultIterator( ).clearAggrValueHolder( );
-			for ( int i = 0; i < factory.getRound( ); i++ )
-			{
-				AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
-						this.populator );
-				this.populator.getResultIterator( ).addAggrValueHolder( helper );
+
+			if (!groupingDone) {
+				PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			}
-			//TODO: Enhance me so that invalid computed column will not be evaluated at all
-			if( this.computedColumnHelper!= null )
-				this.computedColumnHelper.suppressException( false );
-			//ENDTODO
-			
+			this.populator.getExpressionProcessor().setResultIterator(this.populator.getResultIterator());
+			AggrDefnRoundManager factory = new AggrDefnRoundManager(aggrDefns);
+			this.populator.getResultIterator().clearAggrValueHolder();
+			for (int i = 0; i < factory.getRound(); i++) {
+				AggregationHelper helper = new AggregationHelper(factory.getAggrDefnManager(i), this.populator);
+				this.populator.getResultIterator().addAggrValueHolder(helper);
+			}
+			// TODO: Enhance me so that invalid computed column will not be evaluated at all
+			if (this.computedColumnHelper != null) {
+				this.computedColumnHelper.suppressException(false);
+				// ENDTODO
+			}
+
 		}
 	}
 
 	/**
 	 * Indicate whether need to pre calculate the aggregations.
+	 *
 	 * @param needGroupFiltering
 	 * @param needGroupSorting
 	 * @return
 	 */
-	private boolean needPreCalculateForGroupFilterSort(
-			boolean needGroupFiltering, boolean needGroupSorting )
-	{
+	private boolean needPreCalculateForGroupFilterSort(boolean needGroupFiltering, boolean needGroupSorting) {
 		return needGroupFiltering || needGroupSorting;
 	}
 
 	/**
 	 * Indicate whether need to do group filtering.
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean needDoGroupFiltering( )
-	{
-		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
-		{
-			List<IFilterDefinition> groupFilters = this.populator.getQuery( ).getGrouping( )[i].getFilters( );
-			if( groupFilters != null && groupFilters.size( ) > 0 )
-			{
-				for ( int k =0; k < groupFilters.size( ); k++ )
-				{
-					if ( groupFilters.get( k ).updateAggregation() )
+	private boolean needDoGroupFiltering() {
+		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
+			List<IFilterDefinition> groupFilters = this.populator.getQuery().getGrouping()[i].getFilters();
+			if (groupFilters != null && groupFilters.size() > 0) {
+				for (int k = 0; k < groupFilters.size(); k++) {
+					if (groupFilters.get(k).updateAggregation()) {
 						return true;
+					}
 				}
 			}
 		}
 		return false;
 	}
-	
-	private boolean needRowSortOnAggregation( ) throws DataException
-	{
-		return PreparedQueryUtil.hasSortOnAggregat( this.populator.getQuery().getQueryDefinition() );
+
+	private boolean needRowSortOnAggregation() throws DataException {
+		return PreparedQueryUtil.hasSortOnAggregat(this.populator.getQuery().getQueryDefinition());
 	}
-	
+
 	/**
 	 * Indicate whether need to do group sorting.
+	 *
 	 * @return
 	 */
-	private boolean needDoGroupSorting( )
-	{
-		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
-		{
-			List groupFilters = this.populator.getQuery( ).getGrouping( )[i].getSorts( );
-			if( groupFilters != null && groupFilters.size( ) > 0 )
+	private boolean needDoGroupSorting() {
+		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
+			List groupFilters = this.populator.getQuery().getGrouping()[i].getSorts();
+			if (groupFilters != null && groupFilters.size() > 0) {
 				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param aggCCList
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateTempComputedColumns( List aggCCList ) throws DataException
-	{
-		if ( psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
-		{
-			if ( aggCCList.size( ) != 0
-					|| psController.needDoOperation( PassStatusController.GROUP_ROW_FILTERING ) )
-			{
-				PassUtil.pass( this.populator,
-						new OdiResultSetWrapper( populator.getResultIterator( ) ),
-						true);
+	private void populateTempComputedColumns(List aggCCList) throws DataException {
+		if (psController.needDoOperation(PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING)) {
+			if (aggCCList.size() != 0 || psController.needDoOperation(PassStatusController.GROUP_ROW_FILTERING)) {
+				PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 				this.groupingDone = true;
 			}
-			if ( aggCCList.size( ) != 0 )
-			{				
-				computedColumnHelper.getComputedColumnList( ).clear( );
-				computedColumnHelper.getComputedColumnList( )
-						.addAll( aggCCList );
-				computedColumnHelper.setRePrepare( true );
-				IExpressionProcessor ep = populator.getExpressionProcessor( );
+			if (aggCCList.size() != 0) {
+				computedColumnHelper.getComputedColumnList().clear();
+				computedColumnHelper.getComputedColumnList().addAll(aggCCList);
+				computedColumnHelper.setRePrepare(true);
+				IExpressionProcessor ep = populator.getExpressionProcessor();
 
-				ep.setResultIterator( populator.getResultIterator( ) );
+				ep.setResultIterator(populator.getResultIterator());
 
 				// Populate all temp computed columns ( used for query
 				// filtering,sorting )
-				while ( !isICCStateFinish( ) )
-				{
-					ep.evaluateMultiPassExprOnCmp( iccState, false );
+				while (!isICCStateFinish()) {
+					ep.evaluateMultiPassExprOnCmp(iccState, false);
 				}
 			}
 
-			doGroupRowFilter( );
+			doGroupRowFilter();
 		}
 	}
 
@@ -515,45 +464,37 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupSorting( ) throws DataException
-	{
-		if ( !this.needDoGroupSorting( ))
+	private void doGroupSorting() throws DataException {
+		if (!this.needDoGroupSorting()) {
 			return;
+		}
 
-		if ( !groupingDone )
-		{
-			PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true);
+		if (!groupingDone) {
+			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			groupingDone = true;
 		}
-		
-		//If the aggregation value is subject to change caused by group instance filter and row filter, recalculate the
-		//aggregations.
-		if( this.needDoGroupFiltering( ) || psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ))
-			prepareAggregations( this.populator.getEventHandler( ).getAggrDefinitions( ) );
-		
-		this.populator.getGroupProcessorManager( )
-				.doGroupSorting( this.populator.getCache( ),
-						this.populator.getExpressionProcessor( ));
+
+		// If the aggregation value is subject to change caused by group instance filter
+		// and row filter, recalculate the
+		// aggregations.
+		if (this.needDoGroupFiltering() || psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
+			prepareAggregations(this.populator.getEventHandler().getAggrDefinitions());
+		}
+
+		this.populator.getGroupProcessorManager().doGroupSorting(this.populator.getCache(),
+				this.populator.getExpressionProcessor());
 	}
 
 	/**
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doRowSorting( ) throws DataException
-	{
-		this.populator.getQuery( ).setOrdering( this.cachedSort );
-		
-		SortSpec spec = this.populator.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getSortSpec( );
-		if ( spec != null && spec.length( ) > 0 )
-		{
-			PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true );
+	private void doRowSorting() throws DataException {
+		this.populator.getQuery().setOrdering(this.cachedSort);
+
+		SortSpec spec = this.populator.getGroupProcessorManager().getGroupCalculationUtil().getSortSpec();
+		if (spec != null && spec.length() > 0) {
+			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			this.groupingDone = true;
 		}
 	}
@@ -562,68 +503,64 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupFiltering( ) throws DataException
-	{
-		if ( !this.needDoGroupFiltering( ) )
+	private void doGroupFiltering() throws DataException {
+		if (!this.needDoGroupFiltering()) {
 			return;
-		if ( !groupingDone )
-		{
-			PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true );
+		}
+		if (!groupingDone) {
+			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			groupingDone = true;
 		}
 
-		this.populator.getGroupProcessorManager( )
-				.doGroupFiltering( this.populator.getCache( ),
-						this.populator.getExpressionProcessor( ) );
+		this.populator.getGroupProcessorManager().doGroupFiltering(this.populator.getCache(),
+				this.populator.getExpressionProcessor());
 	}
 
 	/**
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doRowFiltering( ) throws DataException
-	{
-		if(!psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ))
+	private void doRowFiltering() throws DataException {
+		if (!psController.needDoOperation(PassStatusController.RESULT_SET_FILTERING)) {
 			return;
-		
-		if ( needRowSortOnAggregation( ) && this.computedColumnHelper != null )
-			this.computedColumnHelper.suppressException( true );
-		
-		boolean changeMaxRows = filterByRow.getFilterList( FilterByRow.GROUP_FILTER )
-				.size( ) + filterByRow.getFilterList( FilterByRow.AGGR_FILTER )
-				.size( )> 0 ;
-		applyFilters( FilterByRow.QUERY_FILTER, changeMaxRows );
-		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
-		
-		if ( this.computedColumnHelper != null )
-			this.computedColumnHelper.suppressException( false );
+		}
+
+		if (needRowSortOnAggregation() && this.computedColumnHelper != null) {
+			this.computedColumnHelper.suppressException(true);
+		}
+
+		boolean changeMaxRows = filterByRow.getFilterList(FilterByRow.GROUP_FILTER).size()
+				+ filterByRow.getFilterList(FilterByRow.AGGR_FILTER).size() > 0;
+		applyFilters(FilterByRow.QUERY_FILTER, changeMaxRows);
+		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
+
+		if (this.computedColumnHelper != null) {
+			this.computedColumnHelper.suppressException(false);
+		}
 	}
 
 	/**
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doAggrRowFiltering( ) throws DataException
-	{
-		if(!psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ))
+	private void doAggrRowFiltering() throws DataException {
+		if (!psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
 			return;
-		
-		applyFilters( FilterByRow.AGGR_FILTER, false );
-		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
+		}
+
+		applyFilters(FilterByRow.AGGR_FILTER, false);
+		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	private boolean isICCStateFinish( )
-	{
-		for ( int i = 0; i < iccState.getCount( ); i++ )
-		{
-			if ( !iccState.isValueAvailable( i ) )
+	private boolean isICCStateFinish() {
+		for (int i = 0; i < iccState.getCount(); i++) {
+			if (!iccState.isValueAvailable(i)) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -632,145 +569,116 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupRowFilter( ) throws DataException
-	{
-		if ( !psController.needDoOperation( PassStatusController.GROUP_ROW_FILTERING ) )
+	private void doGroupRowFilter() throws DataException {
+		if (!psController.needDoOperation(PassStatusController.GROUP_ROW_FILTERING)) {
 			return;
+		}
 		// Apply group row filters (Total.isTopN, Total.isBottomN..)
-		filterByRow.setWorkingFilterSet( FilterByRow.GROUP_FILTER );
-		PassUtil.pass( this.populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ), true );
+		filterByRow.setWorkingFilterSet(FilterByRow.GROUP_FILTER);
+		PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 
-		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
+		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param iccState
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void clearTemporaryComputedColumns( ComputedColumnsState iccState )
-			throws DataException
-	{
-		if( !psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
+	private void clearTemporaryComputedColumns(ComputedColumnsState iccState) throws DataException {
+		if (!psController.needDoOperation(PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING)) {
 			return;
-		iccState.setModel( TransformationConstants.ALL_MODEL );
-		populator.getExpressionProcessor( ).clear( );
+		}
+		iccState.setModel(TransformationConstants.ALL_MODEL);
+		populator.getExpressionProcessor().clear();
 
-		computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
+		computedColumnHelper.setModel(TransformationConstants.NONE_MODEL);
 
-		//computedColumnHelper.getComputedColumnList( ).clear( );
+		// computedColumnHelper.getComputedColumnList( ).clear( );
 
 		// restore computed column helper to its original state. by call this
 		// method the computedColumnHelper only contain user defined computed
 		// columns
 		// and all temporary computed columns are exclued.
-		//restoreComputedColumns( iccState, computedColumnHelper );
+		// restoreComputedColumns( iccState, computedColumnHelper );
 
-		cleanTempColumns( );
+		cleanTempColumns();
 	}
 
 	/**
 	 * Clean the temporary data.
-	 * 
+	 *
 	 * @throws DataException
 	 */
-	private void cleanTempColumns( ) throws DataException
-	{
-		IResultClass newMeta = rebuildResultClass( populator.getResultSetMetadata( ) );
-		populator.setResultSetMetadata( newMeta );
-		populator.getCache( ).setResultClass( newMeta );
-		PassUtil.pass( populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false );
+	private void cleanTempColumns() throws DataException {
+		IResultClass newMeta = rebuildResultClass(populator.getResultSetMetadata());
+		populator.setResultSetMetadata(newMeta);
+		populator.getCache().setResultClass(newMeta);
+		PassUtil.pass(populator, new OdiResultSetWrapper(populator.getResultIterator()), false);
 
-		populator.getCache( ).reset( );
-		populator.getCache( ).next( );
-		populator.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.setLeaveGroupIndex( 0 );
+		populator.getCache().reset();
+		populator.getCache().next();
+		populator.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil().setLeaveGroupIndex(0);
 	}
 
 	/**
 	 * Build an IResultClass instance excluding temp computed columns.
-	 * 
+	 *
 	 * @param meta
 	 * @return
 	 * @throws DataException
 	 */
-	private static IResultClass rebuildResultClass( IResultClass meta )
-			throws DataException
-	{
-		List projectedColumns = new ArrayList( );
+	private static IResultClass rebuildResultClass(IResultClass meta) throws DataException {
+		List projectedColumns = new ArrayList();
 
-		for ( int i = 1; i <= meta.getFieldCount( ); i++ )
-		{
-			if ( !PassUtil.isTemporaryResultSetComputedColumn( meta.getFieldName( i ) ) )
-			{
-				ResultFieldMetadata field = new ResultFieldMetadata( 0,
-						meta.getFieldName( i ),
-						meta.getFieldAlias( i ),
-						meta.getFieldBindings( i ),
-						meta.getFieldValueClass( i ),
-						meta.getFieldNativeTypeName( i ),
-						meta.isCustomField( i ),
-						meta.getAnalysisType( i ),
-						meta.getAnalysisColumn( i ),
-						meta.isIndexColumn( i ),
-						meta.isCompressedColumn( i ) );
-				field.setAlias( meta.getFieldAlias( i ) );
+		for (int i = 1; i <= meta.getFieldCount(); i++) {
+			if (!PassUtil.isTemporaryResultSetComputedColumn(meta.getFieldName(i))) {
+				ResultFieldMetadata field = new ResultFieldMetadata(0, meta.getFieldName(i), meta.getFieldAlias(i),
+						meta.getFieldBindings(i), meta.getFieldValueClass(i), meta.getFieldNativeTypeName(i),
+						meta.isCustomField(i), meta.getAnalysisType(i), meta.getAnalysisColumn(i),
+						meta.isIndexColumn(i), meta.isCompressedColumn(i));
+				field.setAlias(meta.getFieldAlias(i));
 
-				projectedColumns.add( field );
+				projectedColumns.add(field);
 			}
 		}
-		IResultClass result = new ResultClass( projectedColumns );
+		IResultClass result = new ResultClass(projectedColumns);
 		return result;
 	}
-	
-	private void doNoUpdateAggrRowFilter( ) throws DataException
-	{
-		if ( filterByRow == null )
-			return;
 
-		if ( !psController.needDoOperation( PassStatusController.NOUPDATE_ROW_FILTERING ) )
+	private void doNoUpdateAggrRowFilter() throws DataException {
+		if ((filterByRow == null) || !psController.needDoOperation(PassStatusController.NOUPDATE_ROW_FILTERING)) {
 			return;
+		}
 
-		NoUpdateFilterCalculator.applyFilters( this.populator, this.filterByRow );
+		NoUpdateFilterCalculator.applyFilters(this.populator, this.filterByRow);
 	}
-	
-	private void doNoUpdateAggrGroupFilter( ) throws DataException
-	{
-		if ( !needNoUpdateAggrGroupFiltering( ) )
-			return;
 
-		if ( !groupingDone )
-		{
-			PassUtil.pass( this.populator,
-					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true );
+	private void doNoUpdateAggrGroupFilter() throws DataException {
+		if (!needNoUpdateAggrGroupFiltering()) {
+			return;
+		}
+
+		if (!groupingDone) {
+			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			groupingDone = true;
 		}
 
-		new IncrementalUpdateGroupFilter( this.populator ).doFilters( );
+		new IncrementalUpdateGroupFilter(this.populator).doFilters();
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private boolean needNoUpdateAggrGroupFiltering( )
-	{
-		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
-		{
-			List<IFilterDefinition> groupFilters = this.populator.getQuery( )
-					.getGrouping( )[i].getFilters( );
-			if ( groupFilters != null && groupFilters.size( ) > 0 )
-			{
-				for ( int k = 0; k < groupFilters.size( ); k++ )
-				{
-					if ( !groupFilters.get( k ).updateAggregation( ) )
+	private boolean needNoUpdateAggrGroupFiltering() {
+		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
+			List<IFilterDefinition> groupFilters = this.populator.getQuery().getGrouping()[i].getFilters();
+			if (groupFilters != null && groupFilters.size() > 0) {
+				for (int k = 0; k < groupFilters.size(); k++) {
+					if (!groupFilters.get(k).updateAggregation()) {
 						return true;
+					}
 				}
 			}
 		}

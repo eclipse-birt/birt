@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,22 +22,19 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 /**
  * IMeasure
  */
-public interface IMeasure
-{
+public interface IMeasure {
 
-	String getName( );
+	String getName();
 
-	String getFunctionName( );
+	String getFunctionName();
 
-	String getMeasureExpression( );
+	String getMeasureExpression();
 
-	List<IFilterConditionElement> getFilterConditions( );
+	List<IFilterConditionElement> getFilterConditions();
 
-	void removeAllFilterConditions( ) throws SemanticException;
+	void removeAllFilterConditions() throws SemanticException;
 
-	void addFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void addFilterCondition(IFilterConditionElement filter) throws SemanticException;
 
-	void removeFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void removeFilterCondition(IFilterConditionElement filter) throws SemanticException;
 }

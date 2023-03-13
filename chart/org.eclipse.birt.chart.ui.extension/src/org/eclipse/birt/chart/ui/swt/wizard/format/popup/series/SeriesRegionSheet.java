@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,14 +60,10 @@ import org.eclipse.swt.widgets.Listener;
 import com.ibm.icu.text.NumberFormat;
 
 /**
- * 
+ *
  */
 
-public class SeriesRegionSheet extends AbstractPopupSheet implements
-		SelectionListener,
-		ModifyListener,
-		Listener
-{
+public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionListener, ModifyListener, Listener {
 
 	private transient Composite cmpContent;
 
@@ -111,260 +110,221 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private transient SeriesDefinition seriesDefn;
 
 	private Series series;
-	
+
 	private Series defSeries = null;
 
 	/**
 	 * @param title
 	 * @param context
 	 * @param seriesDefn
-	 * 
+	 *
 	 * @deprecated since 3.7
 	 */
-	public SeriesRegionSheet( String title, ChartWizardContext context,
-			SeriesDefinition seriesDefn )
-	{
-		super( title, context, false );
+	@Deprecated
+	public SeriesRegionSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
+		super(title, context, false);
 		this.seriesDefn = seriesDefn;
 	}
-	
-	public SeriesRegionSheet( String title, ChartWizardContext context,
-			Series series )
-	{
-		super( title, context, false );
+
+	public SeriesRegionSheet(String title, ChartWizardContext context, Series series) {
+		super(title, context, false);
 		this.series = series;
-		this.defSeries = ChartDefaultValueUtil.getDefaultSeries( series );
+		this.defSeries = ChartDefaultValueUtil.getDefaultSeries(series);
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.POPUP_SERIES_METER_REGION );
+	@Override
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_METER_REGION);
 
 		// Layout for the main composite
-		GridLayout glContent = new GridLayout( );
+		GridLayout glContent = new GridLayout();
 		glContent.numColumns = 2;
 		glContent.horizontalSpacing = 5;
 		glContent.verticalSpacing = 5;
 		glContent.marginHeight = 7;
 		glContent.marginWidth = 7;
 
-		cmpContent = new Composite( parent, SWT.NONE );
-		cmpContent.setLayout( glContent );
+		cmpContent = new Composite(parent, SWT.NONE);
+		cmpContent.setLayout(glContent);
 
 		// Layout for the List composite
-		GridLayout glList = new GridLayout( );
+		GridLayout glList = new GridLayout();
 		glList.numColumns = 3;
 		glList.horizontalSpacing = 5;
 		glList.verticalSpacing = 5;
 		glList.marginHeight = 0;
 		glList.marginWidth = 0;
 
-		cmpList = new Composite( cmpContent, SWT.NONE );
-		GridData gdCMPList = new GridData( GridData.FILL_BOTH );
+		cmpList = new Composite(cmpContent, SWT.NONE);
+		GridData gdCMPList = new GridData(GridData.FILL_BOTH);
 		gdCMPList.horizontalSpan = 2;
-		cmpList.setLayoutData( gdCMPList );
-		cmpList.setLayout( glList );
+		cmpList.setLayoutData(gdCMPList);
+		cmpList.setLayout(glList);
 
 		// Layout for the buttons composite
-		GridLayout glButtons = new GridLayout( );
+		GridLayout glButtons = new GridLayout();
 		glButtons.numColumns = 3;
 		glButtons.horizontalSpacing = 5;
 		glButtons.verticalSpacing = 5;
 		glButtons.marginHeight = 5;
 		glButtons.marginWidth = 0;
 
-		Composite cmpButtons = new Composite( cmpList, SWT.NONE );
-		GridData gdCMPButtons = new GridData( GridData.FILL_HORIZONTAL );
+		Composite cmpButtons = new Composite(cmpList, SWT.NONE);
+		GridData gdCMPButtons = new GridData(GridData.FILL_HORIZONTAL);
 		gdCMPButtons.horizontalSpan = 3;
-		cmpButtons.setLayoutData( gdCMPButtons );
-		cmpButtons.setLayout( glButtons );
+		cmpButtons.setLayoutData(gdCMPButtons);
+		cmpButtons.setLayout(glButtons);
 
-		btnAddRange = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNAddRange = new GridData( GridData.FILL_HORIZONTAL );
-		btnAddRange.setLayoutData( gdBTNAddRange );
-		btnAddRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion" ) ); //$NON-NLS-1$
-		btnAddRange.addSelectionListener( this );
+		btnAddRange = new Button(cmpButtons, SWT.PUSH);
+		GridData gdBTNAddRange = new GridData(GridData.FILL_HORIZONTAL);
+		btnAddRange.setLayoutData(gdBTNAddRange);
+		btnAddRange.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion")); //$NON-NLS-1$
+		btnAddRange.addSelectionListener(this);
 
-		btnRemove = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNRemove = new GridData( GridData.FILL_HORIZONTAL );
-		btnRemove.setLayoutData( gdBTNRemove );
-		btnRemove.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry" ) ); //$NON-NLS-1$
-		btnRemove.addSelectionListener( this );
+		btnRemove = new Button(cmpButtons, SWT.PUSH);
+		GridData gdBTNRemove = new GridData(GridData.FILL_HORIZONTAL);
+		btnRemove.setLayoutData(gdBTNRemove);
+		btnRemove.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry")); //$NON-NLS-1$
+		btnRemove.addSelectionListener(this);
 
-		lstMarkers = new List( cmpList, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL );
-		GridData gdLSTMarkers = new GridData( GridData.FILL_HORIZONTAL );
+		lstMarkers = new List(cmpList, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+		GridData gdLSTMarkers = new GridData(GridData.FILL_HORIZONTAL);
 		gdLSTMarkers.horizontalSpan = 3;
 		gdLSTMarkers.heightHint = 100;
-		lstMarkers.setLayoutData( gdLSTMarkers );
-		lstMarkers.addSelectionListener( this );
+		lstMarkers.setLayoutData(gdLSTMarkers);
+		lstMarkers.addSelectionListener(this);
 
-		grpGeneral = new Group( cmpContent, SWT.NONE );
-		GridData gdCMPGeneral = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
-				| GridData.FILL_HORIZONTAL );
+		grpGeneral = new Group(cmpContent, SWT.NONE);
+		GridData gdCMPGeneral = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL);
 		gdCMPGeneral.widthHint = 200;
-		grpGeneral.setLayoutData( gdCMPGeneral );
-		grpGeneral.setLayout( new GridLayout( ) );
-		grpGeneral.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties" ) ); //$NON-NLS-1$
+		grpGeneral.setLayoutData(gdCMPGeneral);
+		grpGeneral.setLayout(new GridLayout());
+		grpGeneral.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties")); //$NON-NLS-1$
 
 		// Layout for the Marker Range composite
-		GridLayout glMarkerRange = new GridLayout( );
+		GridLayout glMarkerRange = new GridLayout();
 		glMarkerRange.numColumns = 3;
 		glMarkerRange.horizontalSpacing = 5;
 		glMarkerRange.verticalSpacing = 5;
 		glMarkerRange.marginHeight = 7;
 		glMarkerRange.marginWidth = 7;
 
-		cmpRange = new Composite( grpGeneral, SWT.NONE );
-		GridData gdGRPRange = new GridData( GridData.FILL_HORIZONTAL );
-		cmpRange.setLayoutData( gdGRPRange );
-		cmpRange.setLayout( glMarkerRange );
+		cmpRange = new Composite(grpGeneral, SWT.NONE);
+		GridData gdGRPRange = new GridData(GridData.FILL_HORIZONTAL);
+		cmpRange.setLayoutData(gdGRPRange);
+		cmpRange.setLayout(glMarkerRange);
 
 		// Layout for Value composite
-		GridLayout glRangeValue = new GridLayout( );
+		GridLayout glRangeValue = new GridLayout();
 		glRangeValue.numColumns = 3;
 		glRangeValue.horizontalSpacing = 2;
 		glRangeValue.verticalSpacing = 5;
 		glRangeValue.marginHeight = 0;
 		glRangeValue.marginWidth = 0;
 
-		Composite cmpRangeValue = new Composite( cmpRange, SWT.NONE );
-		GridData gdCMPRangeValue = new GridData( GridData.FILL_HORIZONTAL );
+		Composite cmpRangeValue = new Composite(cmpRange, SWT.NONE);
+		GridData gdCMPRangeValue = new GridData(GridData.FILL_HORIZONTAL);
 		gdCMPRangeValue.horizontalSpan = 3;
-		cmpRangeValue.setLayoutData( gdCMPRangeValue );
-		cmpRangeValue.setLayout( glRangeValue );
+		cmpRangeValue.setLayoutData(gdCMPRangeValue);
+		cmpRangeValue.setLayout(glRangeValue);
 
-		lblStartValue = new Label( cmpRangeValue, SWT.NONE );
-		GridData gdLBLStartValue = new GridData( );
+		lblStartValue = new Label(cmpRangeValue, SWT.NONE);
+		GridData gdLBLStartValue = new GridData();
 		gdLBLStartValue.horizontalIndent = 5;
-		lblStartValue.setLayoutData( gdLBLStartValue );
-		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
+		lblStartValue.setLayoutData(gdLBLStartValue);
+		lblStartValue.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue")); //$NON-NLS-1$
 
-		txtStartValue = getContext( ).getUIFactory( )
-				.createChartTextEditor( cmpRangeValue,
-						SWT.BORDER | SWT.SINGLE,
-						null,
-						"startValue" );//$NON-NLS-1$
-		new TextNumberEditorAssistField( txtStartValue.getTextControl( ), null );
-		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
+		txtStartValue = getContext().getUIFactory().createChartTextEditor(cmpRangeValue, SWT.BORDER | SWT.SINGLE, null,
+				"startValue");//$NON-NLS-1$
+		new TextNumberEditorAssistField(txtStartValue.getTextControl(), null);
+		GridData gdTXTStartValue = new GridData(GridData.FILL_HORIZONTAL);
 		gdTXTStartValue.horizontalSpan = 2;
-		txtStartValue.setLayoutData( gdTXTStartValue );
-		txtStartValue.addListener( this );
-		
-		lblEndValue = new Label( cmpRangeValue, SWT.NONE );
-		GridData gdLBLEndValue = new GridData( );
-		gdLBLEndValue.horizontalIndent = 5;
-		lblEndValue.setLayoutData( gdLBLEndValue );
-		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
+		txtStartValue.setLayoutData(gdTXTStartValue);
+		txtStartValue.addListener(this);
 
-		txtEndValue = getContext( ).getUIFactory( )
-				.createChartTextEditor( cmpRangeValue,
-						SWT.BORDER | SWT.SINGLE,
-						null,
-						"endValue" );//$NON-NLS-1$
-		new TextNumberEditorAssistField( txtEndValue.getTextControl( ), null );
-		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
+		lblEndValue = new Label(cmpRangeValue, SWT.NONE);
+		GridData gdLBLEndValue = new GridData();
+		gdLBLEndValue.horizontalIndent = 5;
+		lblEndValue.setLayoutData(gdLBLEndValue);
+		lblEndValue.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue")); //$NON-NLS-1$
+
+		txtEndValue = getContext().getUIFactory().createChartTextEditor(cmpRangeValue, SWT.BORDER | SWT.SINGLE, null,
+				"endValue");//$NON-NLS-1$
+		new TextNumberEditorAssistField(txtEndValue.getTextControl(), null);
+		GridData gdTXTEndValue = new GridData(GridData.FILL_HORIZONTAL);
 		gdTXTEndValue.horizontalSpan = 2;
-		txtEndValue.setLayoutData( gdTXTEndValue );
-		txtEndValue.addListener( this );
+		txtEndValue.setLayoutData(gdTXTEndValue);
+		txtEndValue.addListener(this);
 
 		// Radius
-		if ( supportRadius() )
-		{
-			lblInnerRadius = new Label( cmpRangeValue, SWT.NONE );
-			GridData gdLBLInnerRadius = new GridData( );
+		if (supportRadius()) {
+			lblInnerRadius = new Label(cmpRangeValue, SWT.NONE);
+			GridData gdLBLInnerRadius = new GridData();
 			gdLBLInnerRadius.horizontalIndent = 5;
-			lblInnerRadius.setLayoutData( gdLBLInnerRadius );
-			lblInnerRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius" ) ); //$NON-NLS-1$
-	
-			txtInnerRadius = getContext( ).getUIFactory( )
-					.createChartNumberEditor( cmpRangeValue,
-							SWT.BORDER | SWT.SINGLE,
-							null,
-							null,
-							"innerRadius" );//$NON-NLS-1$
-			new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
-			GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
+			lblInnerRadius.setLayoutData(gdLBLInnerRadius);
+			lblInnerRadius.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius")); //$NON-NLS-1$
+
+			txtInnerRadius = getContext().getUIFactory().createChartNumberEditor(cmpRangeValue, SWT.BORDER | SWT.SINGLE,
+					null, null, "innerRadius");//$NON-NLS-1$
+			new TextNumberEditorAssistField(txtInnerRadius.getTextControl(), null);
+			GridData gdTXTInnerRadius = new GridData(GridData.FILL_HORIZONTAL);
 			gdTXTInnerRadius.horizontalSpan = 2;
-			txtInnerRadius.setLayoutData( gdTXTInnerRadius );
-			txtInnerRadius.addModifyListener( this );
-	
-			lblOuterRadius = new Label( cmpRangeValue, SWT.NONE );
-			GridData gdLBLOuterRadius = new GridData( );
+			txtInnerRadius.setLayoutData(gdTXTInnerRadius);
+			txtInnerRadius.addModifyListener(this);
+
+			lblOuterRadius = new Label(cmpRangeValue, SWT.NONE);
+			GridData gdLBLOuterRadius = new GridData();
 			gdLBLOuterRadius.horizontalIndent = 5;
-			lblOuterRadius.setLayoutData( gdLBLOuterRadius );
-			lblOuterRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius" ) ); //$NON-NLS-1$
-	
-			txtOuterRadius = getContext( ).getUIFactory( )
-					.createChartNumberEditor( cmpRangeValue,
-							SWT.BORDER | SWT.SINGLE,
-							null,
-							null,
-							"outerRadius" );//$NON-NLS-1$
-			new TextNumberEditorAssistField( txtOuterRadius.getTextControl( ), null );
-			GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
+			lblOuterRadius.setLayoutData(gdLBLOuterRadius);
+			lblOuterRadius.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius")); //$NON-NLS-1$
+
+			txtOuterRadius = getContext().getUIFactory().createChartNumberEditor(cmpRangeValue, SWT.BORDER | SWT.SINGLE,
+					null, null, "outerRadius");//$NON-NLS-1$
+			new TextNumberEditorAssistField(txtOuterRadius.getTextControl(), null);
+			GridData gdTXTOuterRadius = new GridData(GridData.FILL_HORIZONTAL);
 			gdTXTOuterRadius.horizontalSpan = 2;
-			txtOuterRadius.setLayoutData( gdTXTOuterRadius );
-			txtOuterRadius.addModifyListener( this );
+			txtOuterRadius.setLayoutData(gdTXTOuterRadius);
+			txtOuterRadius.addModifyListener(this);
 		}
-		
+
 		// Fill
-		lblRangeFill = new Label( cmpRange, SWT.NONE );
-		GridData gdLBLRangeFill = new GridData( );
+		lblRangeFill = new Label(cmpRange, SWT.NONE);
+		GridData gdLBLRangeFill = new GridData();
 		gdLBLRangeFill.horizontalIndent = 5;
-		lblRangeFill.setLayoutData( gdLBLRangeFill );
-		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
-		
-		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
-				| FillChooserComposite.ENABLE_TRANSPARENT
+		lblRangeFill.setLayoutData(gdLBLRangeFill);
+		lblRangeFill.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.Fill")); //$NON-NLS-1$
+
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT | FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
-		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
-				: fillStyles;
-		if ( supportPatternAndImageFill( ) )
-		{
+		fillStyles |= getContext().getUIFactory().supportAutoUI() ? FillChooserComposite.ENABLE_AUTO : fillStyles;
+		if (supportPatternAndImageFill()) {
 			fillStyles |= FillChooserComposite.ENABLE_IMAGE;
-		}
-		else
-		{
+		} else {
 			fillStyles |= FillChooserComposite.DISABLE_PATTERN_FILL;
 		}
-		
-		fccRange = new FillChooserComposite( cmpRange,
-				SWT.NONE,
-				fillStyles,
-				getContext( ),
-				null );
-		GridData gdFCCRange = new GridData( GridData.FILL_HORIZONTAL );
+
+		fccRange = new FillChooserComposite(cmpRange, SWT.NONE, fillStyles, getContext(), null);
+		GridData gdFCCRange = new GridData(GridData.FILL_HORIZONTAL);
 		gdFCCRange.horizontalSpan = 2;
-		fccRange.setLayoutData( gdFCCRange );
-		fccRange.addListener( this );
+		fccRange.setLayoutData(gdFCCRange);
+		fccRange.addListener(this);
 
 		// Range Outline
-		if ( supportRangeOutline( ) )
-		{
-			grpMarkerRange = new Group( cmpRange, SWT.NONE );
-			GridData gdGRPMarkerRange = new GridData( GridData.FILL_HORIZONTAL );
+		if (supportRangeOutline()) {
+			grpMarkerRange = new Group(cmpRange, SWT.NONE);
+			GridData gdGRPMarkerRange = new GridData(GridData.FILL_HORIZONTAL);
 			gdGRPMarkerRange.horizontalSpan = 3;
-			grpMarkerRange.setLayoutData( gdGRPMarkerRange );
-			grpMarkerRange.setLayout( new FillLayout( ) );
-			grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
-	
-			int lineStyles = LineAttributesComposite.ENABLE_COLOR
-					| LineAttributesComposite.ENABLE_STYLES
-					| LineAttributesComposite.ENABLE_VISIBILITY
-					| LineAttributesComposite.ENABLE_WIDTH;
-			lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+			grpMarkerRange.setLayoutData(gdGRPMarkerRange);
+			grpMarkerRange.setLayout(new FillLayout());
+			grpMarkerRange.setText(Messages.getString("BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline")); //$NON-NLS-1$
+
+			int lineStyles = LineAttributesComposite.ENABLE_COLOR | LineAttributesComposite.ENABLE_STYLES
+					| LineAttributesComposite.ENABLE_VISIBILITY | LineAttributesComposite.ENABLE_WIDTH;
+			lineStyles |= getContext().getUIFactory().supportAutoUI() ? LineAttributesComposite.ENABLE_AUTO_COLOR
 					: lineStyles;
-			liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
-					SWT.NONE,
-					lineStyles,
-					getContext( ),
-					null,
-					( (DialSeries) defSeries ).getDial( )
-							.getDialRegions( )
-							.get( 0 )
-							.getOutline( ) );
-			liacMarkerRange.addListener( this );
+			liacMarkerRange = new LineAttributesComposite(grpMarkerRange, SWT.NONE, lineStyles, getContext(), null,
+					((DialSeries) defSeries).getDial().getDialRegions().get(0).getOutline());
+			liacMarkerRange.addListener(this);
 		}
 		// Label Properties
 		// lacLabel = new LabelAttributesComposite( cmpContent,
@@ -384,35 +344,33 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		// lacLabel.addListener( this );
 		// lacLabel.setEnabled( false );
 
-		populateLists( );
+		populateLists();
 
-		refreshButtons( );
+		refreshButtons();
 
 		return cmpContent;
 	}
 
-	protected boolean supportPatternAndImageFill( )
-	{
+	protected boolean supportPatternAndImageFill() {
 		return true;
 	}
 
-	protected boolean supportRangeOutline( )
-	{
+	protected boolean supportRangeOutline() {
 		return true;
 	}
 
-	protected boolean supportRadius( )
-	{
+	protected boolean supportRadius() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 *
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent( Event event )
-	{
+	@Override
+	public void handleEvent(Event event) {
 		// if ( event.widget.equals( lacLabel ) )
 		// {
 		// if ( this.lstMarkers.getSelection( ).length != 0 )
@@ -447,104 +405,67 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		// }
 		// }
 		// }
-		if ( event.widget.equals( fccRange ) )
-		{
-			( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setFill( (Fill) event.data );
-		}
-		else if (event.widget.equals(txtStartValue)) {
+		if (event.widget.equals(fccRange)) {
+			(getDialForProcessing().getDialRegions()).get(getMarkerIndex()).setFill((Fill) event.data);
+		} else if (event.widget.equals(txtStartValue)) {
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
 				int iMarkerIndex = getMarkerIndex();
 				(getDialForProcessing().getDialRegions()).get(iMarkerIndex)
-						.setStartValue(
-								this.getTypedDataElement(txtStartValue
-										.getText()));
+						.setStartValue(this.getTypedDataElement(txtStartValue.getText()));
 			}
 		} else if (event.widget.equals(txtEndValue)) {
 			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
 				int iMarkerIndex = getMarkerIndex();
-				(getDialForProcessing().getDialRegions())
-						.get(iMarkerIndex)
-						.setEndValue(
-								this.getTypedDataElement(txtEndValue.getText()));
+				(getDialForProcessing().getDialRegions()).get(iMarkerIndex)
+						.setEndValue(this.getTypedDataElement(txtEndValue.getText()));
 			}
-		}
-		else if ( event.widget.equals( liacMarkerRange ) )
-		{
-			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
-			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
-			{
-				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ).getOutline( ),
-						"style",//$NON-NLS-1$
-						event.data,
-						isUnset );
-			}
-			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
-			{
-				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ).getOutline( ),
-						"thickness",//$NON-NLS-1$
-						( (Integer) event.data ).intValue( ),
-						isUnset );
-			}
-			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
-			{
-				getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) )
-						.getOutline( )
-						.setColor( (ColorDefinition) event.data );
-			}
-			else
-			{
-				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) )
-						.getOutline( ),
-						"visible",//$NON-NLS-1$
-						( (Boolean) event.data ).booleanValue( ),
-						isUnset );
+		} else if (event.widget.equals(liacMarkerRange)) {
+			boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
+			if (event.type == LineAttributesComposite.STYLE_CHANGED_EVENT) {
+				ChartElementUtil.setEObjectAttribute(
+						getDialForProcessing().getDialRegions().get(getMarkerIndex()).getOutline(), "style", //$NON-NLS-1$
+						event.data, isUnset);
+			} else if (event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT) {
+				ChartElementUtil.setEObjectAttribute(
+						getDialForProcessing().getDialRegions().get(getMarkerIndex()).getOutline(), "thickness", //$NON-NLS-1$
+						((Integer) event.data).intValue(), isUnset);
+			} else if (event.type == LineAttributesComposite.COLOR_CHANGED_EVENT) {
+				getDialForProcessing().getDialRegions().get(getMarkerIndex()).getOutline()
+						.setColor((ColorDefinition) event.data);
+			} else {
+				ChartElementUtil.setEObjectAttribute(
+						getDialForProcessing().getDialRegions().get(getMarkerIndex()).getOutline(), "visible", //$NON-NLS-1$
+						((Boolean) event.data).booleanValue(), isUnset);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 *
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
+	 * ModifyEvent)
 	 */
-	public void modifyText( ModifyEvent e )
-	{
-		int markerIndex = getMarkerIndex( );
-		if ( markerIndex >= 0 )
-		{
-			if ( e.widget.equals( txtInnerRadius ) )
-			{
-				if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
-				{
-					if ( txtInnerRadius.isSetValue( ) )
-					{
-						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
-								.setInnerRadius( txtInnerRadius.getValue( ) );
-					}
-					else
-					{
-						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
-								.unsetInnerRadius( );
+	@Override
+	public void modifyText(ModifyEvent e) {
+		int markerIndex = getMarkerIndex();
+		if (markerIndex >= 0) {
+			if (e.widget.equals(txtInnerRadius)) {
+				if (!TextEditorComposite.TEXT_RESET_MODEL.equals(e.data)) {
+					if (txtInnerRadius.isSetValue()) {
+						(getDialForProcessing().getDialRegions()).get(getMarkerIndex())
+								.setInnerRadius(txtInnerRadius.getValue());
+					} else {
+						(getDialForProcessing().getDialRegions()).get(getMarkerIndex()).unsetInnerRadius();
 					}
 				}
-			}
-			else if ( e.widget.equals( txtOuterRadius ) )
-			{
-				if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
-				{
-					if ( txtOuterRadius.isSetValue( ) )
-					{
-						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
-								.setOuterRadius( txtOuterRadius.getValue( ) );
-					}
-					else
-					{
-						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
-								.unsetOuterRadius( );
+			} else if (e.widget.equals(txtOuterRadius)) {
+				if (!TextEditorComposite.TEXT_RESET_MODEL.equals(e.data)) {
+					if (txtOuterRadius.isSetValue()) {
+						(getDialForProcessing().getDialRegions()).get(getMarkerIndex())
+								.setOuterRadius(txtOuterRadius.getValue());
+					} else {
+						(getDialForProcessing().getDialRegions()).get(getMarkerIndex()).unsetOuterRadius();
 					}
 				}
 			}
@@ -553,232 +474,192 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( btnAddRange ) )
-		{
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		if (e.getSource().equals(btnAddRange)) {
 			DialRegion range = null;
-			if ( getContext( ).getUIFactory( ).supportAutoUI( ) )
-			{
-				range = DialRegionImpl.createDefault( );
-			}
-			else
-			{
-				range = DialRegionImpl.create( );
-			}
-			
-			range.setStartValue( getTypedDataElement( null ) );
-			range.setEndValue( getTypedDataElement( null ) );
-			getDialForProcessing( ).getDialRegions( ).add( range );
-			range.eAdapters( ).addAll( getDialForProcessing( ).eAdapters( ) );
-			iRangeCount++;
-			buildList( );
-			lstMarkers.select( lstMarkers.getItemCount( ) - 1 );
-			updateUIForSelection( );
-			if ( lstMarkers.getItemCount( ) == 1 )
-			{
-				// Enable UI elements
-				setState( true );
+			if (getContext().getUIFactory().supportAutoUI()) {
+				range = DialRegionImpl.createDefault();
+			} else {
+				range = DialRegionImpl.create();
 			}
 
-			refreshButtons( );
-		}
-		else if ( e.getSource( ).equals( btnRemove ) )
-		{
-			if ( lstMarkers.getSelection( ).length == 0 )
-			{
+			range.setStartValue(getTypedDataElement(null));
+			range.setEndValue(getTypedDataElement(null));
+			getDialForProcessing().getDialRegions().add(range);
+			range.eAdapters().addAll(getDialForProcessing().eAdapters());
+			iRangeCount++;
+			buildList();
+			lstMarkers.select(lstMarkers.getItemCount() - 1);
+			updateUIForSelection();
+			if (lstMarkers.getItemCount() == 1) {
+				// Enable UI elements
+				setState(true);
+			}
+
+			refreshButtons();
+		} else if (e.getSource().equals(btnRemove)) {
+			if (lstMarkers.getSelection().length == 0) {
 				return;
 			}
-			int iMarkerIndex = getMarkerIndex( );
+			int iMarkerIndex = getMarkerIndex();
 
-			getDialForProcessing( ).getDialRegions( ).remove( iMarkerIndex );
+			getDialForProcessing().getDialRegions().remove(iMarkerIndex);
 			iRangeCount--;
 
-			buildList( );
-			if ( lstMarkers.getItemCount( ) > 0 )
-			{
-				lstMarkers.select( 0 );
-				updateUIForSelection( );
-			}
-			else
-			{
-				resetUI( );
-				setState( false );
+			buildList();
+			if (lstMarkers.getItemCount() > 0) {
+				lstMarkers.select(0);
+				updateUIForSelection();
+			} else {
+				resetUI();
+				setState(false);
 			}
 
-			refreshButtons( );
-		}
-		else if ( e.getSource( ).equals( lstMarkers ) )
-		{
-			updateUIForSelection( );
-			refreshButtons( );
+			refreshButtons();
+		} else if (e.getSource().equals(lstMarkers)) {
+			updateUIForSelection();
+			refreshButtons();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
-	private Dial getDialForProcessing( )
-	{
-		if ( series != null )
-		{
-			return ( (DialSeries) series ).getDial( );
+	private Dial getDialForProcessing() {
+		if (series != null) {
+			return ((DialSeries) series).getDial();
 		}
-		return ( (DialSeries) seriesDefn.getDesignTimeSeries( ) ).getDial( );
+		return ((DialSeries) seriesDefn.getDesignTimeSeries()).getDial();
 	}
 
-	private String getValueAsString( DataElement de )
-	{
-		if ( de != null )
-		{
-			return ChartUIUtil.getDefaultNumberFormatInstance( )
-					.format( ( (NumberDataElement) de ).getValue( ) );
+	private String getValueAsString(DataElement de) {
+		if (de != null) {
+			return ChartUIUtil.getDefaultNumberFormatInstance().format(((NumberDataElement) de).getValue());
 		}
 		return "";//$NON-NLS-1$
 	}
 
-	private int getMarkerIndex( )
-	{
-		int iSelectionIndex = lstMarkers.getSelectionIndex( );
+	private int getMarkerIndex() {
+		int iSelectionIndex = lstMarkers.getSelectionIndex();
 		return iSelectionIndex;
 	}
 
-	private void buildList( )
-	{
+	private void buildList() {
 		// Clear any existing contents
-		lstMarkers.removeAll( );
+		lstMarkers.removeAll();
 
-		iRangeCount = getDialForProcessing( ).getDialRegions( ).size( );
-		for ( int iRanges = 0; iRanges < iRangeCount; iRanges++ )
-		{
-			lstMarkers.add( Messages.getString( "SeriesRegionSheet.message.dialRegion" ) + ( iRanges + 1 ) ); //$NON-NLS-1$
+		iRangeCount = getDialForProcessing().getDialRegions().size();
+		for (int iRanges = 0; iRanges < iRangeCount; iRanges++) {
+			lstMarkers.add(Messages.getString("SeriesRegionSheet.message.dialRegion") + (iRanges + 1)); //$NON-NLS-1$
 		}
 	}
 
-	private void refreshButtons( )
-	{
-		btnRemove.setEnabled( lstMarkers.getSelectionIndex( ) != -1 );
+	private void refreshButtons() {
+		btnRemove.setEnabled(lstMarkers.getSelectionIndex() != -1);
 	}
 
-	private void updateUIForSelection( )
-	{
-		grpGeneral.layout( );
-		int iRangeIndex = getMarkerIndex( );
-		DialRegion range = getDialForProcessing( ).getDialRegions( )
-				.get( iRangeIndex );
+	private void updateUIForSelection() {
+		grpGeneral.layout();
+		int iRangeIndex = getMarkerIndex();
+		DialRegion range = getDialForProcessing().getDialRegions().get(iRangeIndex);
 
 		// Update the value fields
-		txtStartValue.setEObjectParent( range );
-		txtStartValue.setText( getValueAsString( range.getStartValue( ) ) );
-		txtEndValue.setEObjectParent( range );
-		txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
-		
+		txtStartValue.setEObjectParent(range);
+		txtStartValue.setText(getValueAsString(range.getStartValue()));
+		txtEndValue.setEObjectParent(range);
+		txtEndValue.setText(getValueAsString(range.getEndValue()));
+
 		// Update the radius fields
-		if ( supportRadius() )
-		{
-			txtInnerRadius.setEObjectParent( range );
-			if ( range.isSetInnerRadius( ) )
-			{
-				txtInnerRadius.setValue( range.getInnerRadius( ) );
+		if (supportRadius()) {
+			txtInnerRadius.setEObjectParent(range);
+			if (range.isSetInnerRadius()) {
+				txtInnerRadius.setValue(range.getInnerRadius());
+			} else {
+				txtInnerRadius.unsetValue();
 			}
-			else
-			{
-				txtInnerRadius.unsetValue( );
-			}
-			
-			
-			txtOuterRadius.setEObjectParent( range );
-			if ( range.isSetOuterRadius( ) )
-			{
-				txtOuterRadius.setValue( range.getOuterRadius( ) );
-			}
-			else
-			{
-				txtOuterRadius.unsetValue( );
+
+			txtOuterRadius.setEObjectParent(range);
+			if (range.isSetOuterRadius()) {
+				txtOuterRadius.setValue(range.getOuterRadius());
+			} else {
+				txtOuterRadius.unsetValue();
 			}
 		}
 
 		// Update the fill
-		fccRange.setFill( range.getFill( ) );
+		fccRange.setFill(range.getFill());
 
-		if ( supportRangeOutline( ) )
-		{
+		if (supportRangeOutline()) {
 			// Update the Line attribute fields
-			liacMarkerRange.setLineAttributes( range.getOutline( ) );
+			liacMarkerRange.setLineAttributes(range.getOutline());
 		}
 
 		// // Update the Label attribute fields
 		// lacLabel.setLabel( range.getLabel( ), chart.getUnits( ) );
 	}
 
-	private void populateLists( )
-	{
-		buildList( );
+	private void populateLists() {
+		buildList();
 
-		if ( lstMarkers.getItemCount( ) > 0 )
-		{
-			lstMarkers.select( 0 );
-			updateUIForSelection( );
-		}
-		else
-		{
-			setState( false );
+		if (lstMarkers.getItemCount() > 0) {
+			lstMarkers.select(0);
+			updateUIForSelection();
+		} else {
+			setState(false);
 		}
 	}
 
+	private void setState(boolean bState) {
+		lblStartValue.setEnabled(bState);
+		txtStartValue.setEnabled(bState);
+		lblEndValue.setEnabled(bState);
+		txtEndValue.setEnabled(bState);
 
-	private void setState( boolean bState )
-	{
-		lblStartValue.setEnabled( bState );
-		txtStartValue.setEnabled( bState );
-		lblEndValue.setEnabled( bState );
-		txtEndValue.setEnabled( bState );
-
-		if( supportRadius( ) )
-		{
-			lblInnerRadius.setEnabled( bState );
-			txtInnerRadius.setEnabled( bState );
-			lblOuterRadius.setEnabled( bState );
-			txtOuterRadius.setEnabled( bState );
+		if (supportRadius()) {
+			lblInnerRadius.setEnabled(bState);
+			txtInnerRadius.setEnabled(bState);
+			lblOuterRadius.setEnabled(bState);
+			txtOuterRadius.setEnabled(bState);
 		}
 
-		if( supportRangeOutline( ) )
-		{
-			liacMarkerRange.setAttributesEnabled( bState );
+		if (supportRangeOutline()) {
+			liacMarkerRange.setAttributesEnabled(bState);
 			// lacLabel.setEnabled( bState );
-			this.grpMarkerRange.setEnabled( bState );
+			this.grpMarkerRange.setEnabled(bState);
 		}
 
-		lblRangeFill.setEnabled( bState );
-		fccRange.setEnabled( bState );
+		lblRangeFill.setEnabled(bState);
+		fccRange.setEnabled(bState);
 
-		this.grpGeneral.setEnabled( bState );
+		this.grpGeneral.setEnabled(bState);
 
 	}
 
-	private void resetUI( )
-	{
-		txtStartValue.setText( "" ); //$NON-NLS-1$
-		txtEndValue.setText( "" ); //$NON-NLS-1$
-		if ( supportRadius( ) ) {
-			txtInnerRadius.unsetValue( );
-			txtOuterRadius.unsetValue( );
+	private void resetUI() {
+		txtStartValue.setText(""); //$NON-NLS-1$
+		txtEndValue.setText(""); //$NON-NLS-1$
+		if (supportRadius()) {
+			txtInnerRadius.unsetValue();
+			txtOuterRadius.unsetValue();
 		}
-		fccRange.setFill( null );
-		
-		if( supportRangeOutline ( ) )
-		{
-			liacMarkerRange.setLineAttributes( null );
-			liacMarkerRange.layout( );
+		fccRange.setFill(null);
+
+		if (supportRangeOutline()) {
+			liacMarkerRange.setLineAttributes(null);
+			liacMarkerRange.layout();
 		}
 		// lacLabel.setLabel( LabelImpl.create( ), chart.getUnits( ) );
 		// lacLabel.layout( );
@@ -792,26 +673,20 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	// iMarkerIndex ) ) ).getLabel( );
 	// }
 
-	private DataElement getTypedDataElement( String strDataElement )
-	{
-		if ( strDataElement == null )
-		{
+	private DataElement getTypedDataElement(String strDataElement) {
+		if (strDataElement == null) {
 			return null;
 		}
-		if ( strDataElement.trim( ).length( ) == 0 )
-		{
-			return NumberDataElementImpl.create( 0.0 );
+		if (strDataElement.trim().length() == 0) {
+			return NumberDataElementImpl.create(0.0);
 		}
-		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance();
 
-		try
-		{
-			Number numberElement = nf.parse( strDataElement );
-			return NumberDataElementImpl.create( numberElement.doubleValue( ) );
-		}
-		catch ( ParseException e1 )
-		{
-			return NumberDataElementImpl.create( 0.0 );
+		try {
+			Number numberElement = nf.parse(strDataElement);
+			return NumberDataElementImpl.create(numberElement.doubleValue());
+		} catch (ParseException e1) {
+			return NumberDataElementImpl.create(0.0);
 		}
 	}
 }

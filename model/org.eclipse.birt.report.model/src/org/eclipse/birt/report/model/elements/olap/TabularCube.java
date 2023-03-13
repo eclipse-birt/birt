@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,159 +34,147 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * measures. It specifies a dataset to refer to o outside data set element.Use
  * the {@link org.eclipse.birt.report.model.api.olap.CubeHandle}class to change
  * the properties.
- * 
+ *
  */
 
-public class TabularCube extends Cube
-{
+public class TabularCube extends Cube {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public TabularCube( )
-	{
+	public TabularCube() {
 	}
 
 	/**
 	 * Constructs a cube element with the given name.
-	 * 
-	 * @param name
-	 *            the name given for the element
+	 *
+	 * @param name the name given for the element
 	 */
 
-	public TabularCube( String name )
-	{
-		super( name );
+	public TabularCube(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitTabularCube( this );
+	@Override
+	public void apply(ElementVisitor visitor) {
+		visitor.visitTabularCube(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	@Override
+	public String getElementName() {
 		return ReportDesignConstants.TABULAR_CUBE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	@Override
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the module of the cube
-	 * 
+	 *
+	 * @param module the module of the cube
+	 *
 	 * @return an API handle for this element.
 	 */
 
-	public TabularCubeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new TabularCubeHandle( module, this );
+	public TabularCubeHandle handle(Module module) {
+		if (handle == null) {
+			handle = new TabularCubeHandle(module, this);
 		}
 		return (TabularCubeHandle) handle;
 	}
 
 	/**
 	 * Sets the measure group at the specified position to be default.
-	 * 
+	 *
 	 * @param index
 	 */
 
-	public void setDefaultMeasureGroup( int index )
-	{
-		List groups = getListProperty( getRoot( ), MEASURE_GROUPS_PROP );
-		if ( groups == null || groups.isEmpty( ) )
+	public void setDefaultMeasureGroup(int index) {
+		List groups = getListProperty(getRoot(), MEASURE_GROUPS_PROP);
+		if (groups == null || groups.isEmpty()) {
 			return;
-		if ( index >= 0 && index < groups.size( ) )
-			setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
-					null, (DesignElement) groups.get( index ) ) );
+		}
+		if (index >= 0 && index < groups.size()) {
+			setProperty(Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(null, (DesignElement) groups.get(index)));
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.olap.Cube#findLocalElement(java
+	 *
+	 * @see org.eclipse.birt.report.model.elements.olap.Cube#findLocalElement(java
 	 * .lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
-	public DesignElement findLocalElement( String name, IElementDefn type )
-	{
-		if ( StringUtil.isBlank( name ) || type == null )
+	@Override
+	public DesignElement findLocalElement(String name, IElementDefn type) {
+		if (StringUtil.isBlank(name) || type == null) {
 			return null;
+		}
 
-		Module root = getRoot( );
-		if ( root == null )
+		Module root = getRoot();
+		if (root == null) {
 			return null;
+		}
 
 		ElementDefn targetDefn = (ElementDefn) type;
-		String nameSpaceID = targetDefn.getNameSpaceID( );
+		String nameSpaceID = targetDefn.getNameSpaceID();
 
-		NameSpace tmpNS = root.getNameHelper( ).getNameSpace( nameSpaceID );
-		DesignElement tmpSharedElement = tmpNS.getElement( name );
+		NameSpace tmpNS = root.getNameHelper().getNameSpace(nameSpaceID);
+		DesignElement tmpSharedElement = tmpNS.getElement(name);
 
 		// tmpSharedElement can be local elements or elements in the shared
 		// dimension
 
-		if ( tmpSharedElement instanceof TabularHierarchy )
-		{
-			Dimension tmpCubeDim = findLocalDimension( (Dimension) tmpSharedElement
-					.getContainer( ) );
+		if (tmpSharedElement instanceof TabularHierarchy) {
+			Dimension tmpCubeDim = findLocalDimension((Dimension) tmpSharedElement.getContainer());
 
-			if ( tmpCubeDim == null )
+			if (tmpCubeDim == null) {
 				return null;
+			}
 
-			return tmpCubeDim.getLocalHierarchy( root, name );
-		}
-		else if ( tmpSharedElement instanceof Dimension )
-		{
-			return findLocalDimension( (Dimension) tmpSharedElement );
+			return tmpCubeDim.getLocalHierarchy(root, name);
+		} else if (tmpSharedElement instanceof Dimension) {
+			return findLocalDimension((Dimension) tmpSharedElement);
 		}
 		return null;
 	}
 
-	private Dimension findLocalDimension( Dimension sharedDim )
-	{
-		if ( sharedDim.getContainer( ) == this )
+	private Dimension findLocalDimension(Dimension sharedDim) {
+		if (sharedDim.getContainer() == this) {
 			return sharedDim;
+		}
 
 		Dimension tmpCubeDim = null;
-		List<BackRef> cubeDims = sharedDim.getClientList( );
-		for ( int i = 0; i < cubeDims.size( ); i++ )
-		{
-			BackRef cubeDim = cubeDims.get( i );
-			if ( cubeDim.getElement( ).getContainer( ) == this )
-			{
-				tmpCubeDim = (Dimension) cubeDim.getElement( );
+		List<BackRef> cubeDims = sharedDim.getClientList();
+		for (int i = 0; i < cubeDims.size(); i++) {
+			BackRef cubeDim = cubeDims.get(i);
+			if (cubeDim.getElement().getContainer() == this) {
+				tmpCubeDim = (Dimension) cubeDim.getElement();
 				break;
 			}
 		}

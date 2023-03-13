@@ -1,71 +1,80 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
+/**
+ * Definition of text line area
+ *
+ * @since 3.3
+ *
+ */
+public class TextLineArea extends LineArea {
 
-public class TextLineArea extends LineArea
-{
-
-	public TextLineArea( ContainerArea parent, LayoutContext context )
-	{
-		super( parent, context );
-		//support widow and orphans, do not auto-pagebreak in textlineArea
+	/**
+	 * Constructor container based
+	 *
+	 * @param parent
+	 * @param context
+	 */
+	public TextLineArea(ContainerArea parent, LayoutContext context) {
+		super(parent, context);
+		// support widow and orphans, do not auto-pagebreak in textlineArea
 		isInInlineStacking = true;
 	}
 
-	public TextLineArea(TextLineArea area)
-	{
+	/**
+	 * Constructor area based
+	 *
+	 * @param area
+	 */
+	public TextLineArea(TextLineArea area) {
 		super(area);
 	}
-	
-	public TextLineArea cloneArea( )
-	{
+
+	@Override
+	public TextLineArea cloneArea() {
 		return new TextLineArea(this);
 	}
-	
-	public SplitResult splitLines( int lineCount ) throws BirtException
-	{
-		if( pageBreakBefore == IStyle.AVOID_VALUE)
-		{
+
+	@Override
+	public SplitResult splitLines(int lineCount) {
+		if (pageBreakBefore == CSSValueConstants.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
-
-	public SplitResult split( int height, boolean force ) throws BirtException
-	{
-		if ( force )
-		{
-			TextLineArea newArea = cloneArea( );
-			newArea.children.addAll( children );
-			children.clear( );
+	@Override
+	public SplitResult split(int height, boolean force) {
+		if (force) {
+			TextLineArea newArea = cloneArea();
+			newArea.children.addAll(children);
+			children.clear();
 			this.height = 0;
-			return new SplitResult( newArea,
-					SplitResult.SPLIT_SUCCEED_WITH_PART );
+			return new SplitResult(newArea, SplitResult.SPLIT_SUCCEED_WITH_PART);
 		}
-		if ( pageBreakBefore == IStyle.AVOID_VALUE )
-		{
+		if (pageBreakBefore == CSSValueConstants.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
-	
 
-	public boolean isPageBreakInsideAvoid()
-	{
+	@Override
+	public boolean isPageBreakInsideAvoid() {
 		return true;
 	}
 }

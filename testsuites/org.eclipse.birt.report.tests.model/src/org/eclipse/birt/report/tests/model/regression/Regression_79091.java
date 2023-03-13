@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -23,7 +26,8 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 /**
  * Regression description:
  * </p>
- * Report style doesn't refresh correspondingly in the layout view<p>
+ * Report style doesn't refresh correspondingly in the layout view
+ * <p>
  * Steps to reproduce:
  * <ol>
  * <li>Add a data source and data set
@@ -34,11 +38,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>Preview
  * </ol>
  * <p>
- * Expected result:
- * Style change both applied to the layout view and preview 
+ * Expected result: Style change both applied to the layout view and preview
  * <p>
- * Actual result:
- * After step 5, style change just applied to preview not the layout view. If do any action in the layout view, OK.
+ * Actual result: After step 5, style change just applied to preview not the
+ * layout view. If do any action in the layout view, OK.
  * </p>
  * Test description:
  * <p>
@@ -47,8 +50,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * from the table.
  * </p>
  */
-public class Regression_79091 extends BaseTestCase
-{
+public class Regression_79091 extends BaseTestCase {
 
 	private static final String INPUT = "regression_79091.rptdesign"; //$NON-NLS-1$
 
@@ -56,65 +58,55 @@ public class Regression_79091 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	@Override
+	public void setUp() throws Exception {
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_79091( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
-		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		assertEquals(
-				"normal", table.getStringProperty( StyleHandle.FONT_STYLE_PROP ) ); //$NON-NLS-1$
 
-		StyleHandle tableSelector = new ElementFactory( design )
-				.newStyle( "table" ); //$NON-NLS-1$
-		tableSelector.setFontStyle( "italic" ); //$NON-NLS-1$
+	public void test_regression_79091() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+		TableHandle table = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
+		assertEquals("normal", table.getStringProperty(StyleHandle.FONT_STYLE_PROP)); //$NON-NLS-1$
 
-		designHandle.getStyles( ).add( tableSelector );
+		StyleHandle tableSelector = new ElementFactory(design).newStyle("table"); //$NON-NLS-1$
+		tableSelector.setFontStyle("italic"); //$NON-NLS-1$
 
-		assertEquals(
-				"italic", table.getStringProperty( StyleHandle.FONT_STYLE_PROP ) ); //$NON-NLS-1$
+		designHandle.getStyles().add(tableSelector);
 
-		
+		assertEquals("italic", table.getStringProperty(StyleHandle.FONT_STYLE_PROP)); //$NON-NLS-1$
+
 		// add a test listener on the table
 
-		TestListener listener = new TestListener( );
-		table.addListener( listener );
+		TestListener listener = new TestListener();
+		table.addListener(listener);
 
 		// change the table selector.
 
-		tableSelector.setFontStyle( "normal" ); //$NON-NLS-1$
-		assertEquals(
-				"normal", table.getStringProperty( StyleHandle.FONT_STYLE_PROP ) ); //$NON-NLS-1$
-		assertTrue( listener.ev instanceof StyleEvent );
-		
+		tableSelector.setFontStyle("normal"); //$NON-NLS-1$
+		assertEquals("normal", table.getStringProperty(StyleHandle.FONT_STYLE_PROP)); //$NON-NLS-1$
+		assertTrue(listener.ev instanceof StyleEvent);
+
 		// The listener will be called twice.
-		assertEquals( 2, TestListener.count );
+		assertEquals(2, TestListener.count);
 	}
 
-	private static class TestListener implements Listener
-	{
+	private static class TestListener implements Listener {
 
-		DesignElementHandle focus = null;
 		NotificationEvent ev = null;
 		static int count = 0;
 
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
-			this.focus = focus;
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.ev = ev;
-			count ++;
+			count++;
 		}
 
 	}

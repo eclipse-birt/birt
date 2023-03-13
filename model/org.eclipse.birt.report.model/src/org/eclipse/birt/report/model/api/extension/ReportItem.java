@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,116 +32,97 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * method will do nothing or return null.
  */
 
-public class ReportItem
-		implements
-			IReportItem,
-			ICompatibleReportItem,
-			Cloneable
-{
+public class ReportItem implements IReportItem, ICompatibleReportItem, Cloneable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang
 	 * .String)
 	 */
 
-	public ByteArrayOutputStream serialize( String propName )
-	{
+	@Override
+	public ByteArrayOutputStream serialize(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.
 	 * lang.String, java.io.ByteArrayInputStream)
 	 */
 
-	public void deserialize( String propName, ByteArrayInputStream data )
-			throws ExtendedElementException
-	{
-		return;
+	@Override
+	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions
-	 * ()
+	 * org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions ()
 	 */
-	public IPropertyDefinition[] getPropertyDefinitions( )
-	{
+	@Override
+	public IPropertyDefinition[] getPropertyDefinitions() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.
 	 * lang.String)
 	 */
-	public Object getProperty( String propName )
-	{
+	@Override
+	public Object getProperty(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	public void checkProperty( String propName, Object value )
-			throws ExtendedElementException
-	{
-		return;
+	@Override
+	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.
+	 *
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.
 	 * lang.String, java.lang.Object)
 	 */
 
-	public void setProperty( String propName, Object value )
-	{
-		return;
+	@Override
+	public void setProperty(String propName, Object value) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#validate()
 	 */
 
-	public List<SemanticException> validate( )
-	{
-		return Collections.emptyList( );
+	@Override
+	public List<SemanticException> validate() {
+		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#copy()
 	 */
 
-	public IReportItem copy( )
-	{
-		try
-		{
-			return (IReportItem) super.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	@Override
+	public IReportItem copy() {
+		try {
+			return (IReportItem) super.clone();
+		} catch (CloneNotSupportedException e) {
 			assert false;
 		}
 		return null;
@@ -146,160 +130,157 @@ public class ReportItem
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.extension.IReportItem#refreshPropertyDefinition
 	 * ()
 	 */
 
-	public boolean refreshPropertyDefinition( )
-	{
+	@Override
+	public boolean refreshPropertyDefinition() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
-	public IPropertyDefinition[] getMethods( )
-	{
+	@Override
+	public IPropertyDefinition[] getMethods() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.extension.IReportItem#
 	 * getScriptPropertyDefinition()
 	 */
 
-	public IPropertyDefinition getScriptPropertyDefinition( )
-	{
+	@Override
+	public IPropertyDefinition getScriptPropertyDefinition() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.IReportItem#getScriptableElement
 	 * ()
 	 */
 
-	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
-	{
+	@Override
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
 		return null;
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public List getPredefinedStyles( )
-	{
+	@Override
+	public List getPredefinedStyles() {
 		return Collections.EMPTY_LIST;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java
 	 * .lang.String)
 	 */
 
-	public IMethodInfo[] getMethods( String methodName )
-	{
+	@Override
+	public IMethodInfo[] getMethods(String methodName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * checkCompatibility()
 	 */
-	public CompatibilityStatus checkCompatibility( )
-	{
-		return new CompatibilityStatus( );
+	@Override
+	public CompatibilityStatus checkCompatibility() {
+		return new CompatibilityStatus();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * getRowExpressions()
 	 */
-	public List getRowExpressions( )
-	{
+	@Override
+	public List getRowExpressions() {
 		return Collections.EMPTY_LIST;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * updateRowExpressions(java.util.Map)
 	 */
-	public void updateRowExpressions( Map newExpressions )
-	{
+	@Override
+	public void updateRowExpressions(Map newExpressions) {
 		// do nothing by default
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org
+	 *
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org
 	 * .eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setHandle( ExtendedItemHandle handle )
-	{
+	@Override
+	public void setHandle(ExtendedItemHandle handle) {
 		// do nothing by default
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.extension.IReportItem#canExportSingleChart
 	 * ()
 	 */
-	public boolean canExport( )
-	{
+	@Override
+	public boolean canExport() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#availableBindings
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#availableBindings ()
 	 */
-	public Iterator availableBindings( )
-	{
-		return Collections.EMPTY_LIST.iterator( );
+	@Override
+	public Iterator availableBindings() {
+		return Collections.EMPTY_LIST.iterator();
 	}
-	
-	public StyleHandle[] getReferencedStyle( )
-	{
+
+	@Override
+	public StyleHandle[] getReferencedStyle() {
 		return null;
 	}
 
-	public void updateStyleReference( Map<String, String> styleMap )
-	{
+	@Override
+	public void updateStyleReference(Map<String, String> styleMap) {
 		// TODO Auto-generated method stub
 	}
 
-	public void handleCompatibilityIssue( )
-	{
+	@Override
+	public void handleCompatibilityIssue() {
 		// TODO Auto-generated method stub
 	}
 
-	public boolean hasFixedSize( )
-	{
+	@Override
+	public boolean hasFixedSize() {
 		return false;
 	}
 }

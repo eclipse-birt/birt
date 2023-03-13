@@ -1,9 +1,11 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     Actuate Corporation - Initial implementation.
@@ -17,47 +19,45 @@ import java.util.Map;
 
 /**
  * File name generator which inserts a time stamp in the name.
+ *
  * @see TimestampFilenameGeneratorFactory
  */
-public class TimestampFilenameGenerator implements IFilenameGenerator
-{
+public class TimestampFilenameGenerator implements IFilenameGenerator {
 	private static final String DEFAULT_DATE_PATTERN = "yyyyMMdd-HHmmss"; //$NON-NLS-1$
 
 	public String datePattern;
-	
+
 	/**
-	 * 
+	 *
 	 */
-	public TimestampFilenameGenerator()
-	{
+	public TimestampFilenameGenerator() {
 		this(null);
 	}
-	
+
 	/**
 	 * Constructor.
-	 * @param datePattern date pattern to use 
+	 *
+	 * @param datePattern date pattern to use
 	 */
-	public TimestampFilenameGenerator( String datePattern )
-	{
-		if ( datePattern == null )
-		{
+	public TimestampFilenameGenerator(String datePattern) {
+		if (datePattern == null) {
 			datePattern = DEFAULT_DATE_PATTERN;
 		}
 		this.datePattern = datePattern;
 	}
-	
+
 	/**
 	 * Returns a file name containing a formatted time stamp.
+	 *
 	 * @see IFilenameGenerator#getFilename(String, String, String, Map)
 	 */
-	public String getFilename( String baseName, String fileExtension, String outputType, Map options )
-	{
-		DateFormat dateFormatter = new SimpleDateFormat( datePattern );
-		if ( fileExtension == null )
-		{
+	@Override
+	public String getFilename(String baseName, String fileExtension, String outputType, Map options) {
+		DateFormat dateFormatter = new SimpleDateFormat(datePattern);
+		if (fileExtension == null) {
 			fileExtension = ""; //$NON-NLS-1$
 		}
-		return baseName + "_" + dateFormatter.format( new Date() ) + "." + fileExtension; //$NON-NLS-1$
+		return baseName + "_" + dateFormatter.format(new Date()) + "." + fileExtension; //$NON-NLS-1$
 	}
 
 }

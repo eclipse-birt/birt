@@ -1,16 +1,16 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.chart.tests.script;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.chart.tests.script.component.AxisTest;
 import org.eclipse.birt.chart.tests.script.component.CategoryTest;
@@ -27,41 +27,42 @@ import org.eclipse.birt.chart.tests.script.series.PieSeriesTest;
 import org.eclipse.birt.chart.tests.script.series.SeriesTypeTest;
 import org.eclipse.birt.chart.tests.script.series.StackableSeriesTest;
 
-public class SimpleAPITest
-{
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.chart.script.api" );//$NON-NLS-1$
+public class SimpleAPITest {
+
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.chart.script.api");//$NON-NLS-1$
 
 		// $JUnit-BEGIN$
 
 		// Package org.eclipse.birt.chart.tests.script
-		suite.addTestSuite( ChartTest.class );
-		suite.addTestSuite( ChartWithAxesTest.class );
-		suite.addTestSuite( ChartWithoutAxesTest.class );
+		suite.addTestSuite(ChartTest.class);
+		suite.addTestSuite(ChartWithAxesTest.class);
+		suite.addTestSuite(ChartWithoutAxesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.scale
-		suite.addTestSuite( ScaleTest.class );
-		suite.addTestSuite( LinearScaleTest.class );
-		suite.addTestSuite( TimeScaleTest.class );
+		suite.addTestSuite(ScaleTest.class);
+		suite.addTestSuite(LinearScaleTest.class);
+		suite.addTestSuite(TimeScaleTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.component
-		suite.addTestSuite( LegendTest.class );
-		suite.addTestSuite( MarkerLineTest.class );
-		suite.addTestSuite( MarkerRangeTest.class );
-		suite.addTestSuite( AxisTest.class );
-		suite.addTestSuite( CategoryTest.class );
-		suite.addTestSuite( ValueSeriesTest.class );
+		suite.addTestSuite(LegendTest.class);
+		suite.addTestSuite(MarkerLineTest.class);
+		suite.addTestSuite(MarkerRangeTest.class);
+		suite.addTestSuite(AxisTest.class);
+		suite.addTestSuite(CategoryTest.class);
+		suite.addTestSuite(ValueSeriesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.series
-		suite.addTestSuite( SeriesTypeTest.class );
-		suite.addTestSuite( StackableSeriesTest.class );
-		suite.addTestSuite( BarSeriesTest.class );
-		suite.addTestSuite( PieSeriesTest.class );
+		suite.addTestSuite(SeriesTypeTest.class);
+		suite.addTestSuite(StackableSeriesTest.class);
+		suite.addTestSuite(BarSeriesTest.class);
+		suite.addTestSuite(PieSeriesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.data
-		suite.addTestSuite( SeriesGroupingTest.class );
+		suite.addTestSuite(SeriesGroupingTest.class);
 
 		// $JUnit-END$
 		return suite;

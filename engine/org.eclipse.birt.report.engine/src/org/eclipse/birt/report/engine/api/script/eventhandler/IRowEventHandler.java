@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,30 +22,25 @@ import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 /**
  * Script event handler interface for a detail row
  */
-public interface IRowEventHandler
-{
+public interface IRowEventHandler {
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IRow rowHandle, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(IRow rowHandle, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IRowInstance rowInstance, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IRowInstance rowInstance, IReportContext reportContext )
-			throws ScriptException;
+	void onRender(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IRowInstance rowInstance, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException;
 
 }

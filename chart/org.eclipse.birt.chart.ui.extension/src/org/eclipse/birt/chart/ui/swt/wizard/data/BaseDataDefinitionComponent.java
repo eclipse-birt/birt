@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,13 +77,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
-		SelectionListener,
-		IQueryExpressionManager
-{
+public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
+		implements SelectionListener, IQueryExpressionManager {
 
 	protected Composite cmpTop;
-	
+
 	private Label lblDesc;
 
 	private CCombo cmbDefinition;
@@ -99,7 +100,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private String description = ""; //$NON-NLS-1$
 
-	private String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
+	private String tooltipWhenBlank = Messages.getString("BaseDataDefinitionComponent.Tooltip.InputValueExpression"); //$NON-NLS-1$
 
 	private final String queryType;
 
@@ -116,46 +117,41 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/** Indicates button for aggregation will be created */
 	public static final int BUTTON_AGGREGATION = 2;
 
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
-	private final SharedBindingHelper sbHelper = new SharedBindingHelper( );
-	
+	private final SharedBindingHelper sbHelper = new SharedBindingHelper();
+
 	/**
-	 * 
+	 *
 	 * @param queryType
 	 * @param seriesdefinition
 	 * @param query
 	 * @param context
 	 * @param sTitle
 	 */
-	public BaseDataDefinitionComponent( String queryType,
-			SeriesDefinition seriesdefinition, Query query,
-			ChartWizardContext context, String sTitle )
-	{
-		this( BUTTON_NONE, queryType, seriesdefinition, query, context, sTitle );
+	public BaseDataDefinitionComponent(String queryType, SeriesDefinition seriesdefinition, Query query,
+			ChartWizardContext context, String sTitle) {
+		this(BUTTON_NONE, queryType, seriesdefinition, query, context, sTitle);
 	}
 
 	/**
-	 * 
-	 * 
-	 * @param style
-	 *            Specify buttons by using '|'. See {@link #BUTTON_GROUP},
-	 *            {@link #BUTTON_NONE}, {@link #BUTTON_AGGREGATION}
-	 * @param queryType
-	 *            query type. See {@link ChartUIConstants#QUERY_CATEGORY},
-	 *            {@link ChartUIConstants#QUERY_VALUE},
-	 *            {@link ChartUIConstants#QUERY_OPTIONAL}
+	 *
+	 *
+	 * @param style            Specify buttons by using '|'. See
+	 *                         {@link #BUTTON_GROUP}, {@link #BUTTON_NONE},
+	 *                         {@link #BUTTON_AGGREGATION}
+	 * @param queryType        query type. See
+	 *                         {@link ChartUIConstants#QUERY_CATEGORY},
+	 *                         {@link ChartUIConstants#QUERY_VALUE},
+	 *                         {@link ChartUIConstants#QUERY_OPTIONAL}
 	 * @param seriesdefinition
 	 * @param query
 	 * @param context
 	 * @param sTitle
 	 */
-	public BaseDataDefinitionComponent( int style, String queryType,
-			SeriesDefinition seriesdefinition, Query query,
-			ChartWizardContext context, String sTitle )
-	{
-		super( );
+	public BaseDataDefinitionComponent(int style, String queryType, SeriesDefinition seriesdefinition, Query query,
+			ChartWizardContext context, String sTitle) {
+		super();
 		this.query = query;
 		this.queryType = queryType;
 		this.seriesdefinition = seriesdefinition;
@@ -163,610 +159,489 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		this.style = style;
 	}
 
-	public Composite createArea( Composite parent )
-	{
+	@Override
+	public Composite createArea(Composite parent) {
 		int numColumns = 2;
-		if ( description != null && description.length( ) > 0 )
-		{
+		if (description != null && description.length() > 0) {
 			numColumns++;
 		}
-		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
-		{
+		if ((style & BUTTON_AGGREGATION) == BUTTON_AGGREGATION) {
 			numColumns++;
 		}
-		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
-		{
+		if ((style & BUTTON_GROUP) == BUTTON_GROUP) {
 			numColumns++;
 		}
 
-		cmpTop = new Composite( parent, SWT.NONE );
+		cmpTop = new Composite(parent, SWT.NONE);
 		{
-			GridLayout glContent = new GridLayout( );
+			GridLayout glContent = new GridLayout();
 			glContent.numColumns = numColumns;
 			glContent.marginHeight = 0;
 			glContent.marginWidth = 0;
 			glContent.horizontalSpacing = 2;
-			cmpTop.setLayout( glContent );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cmpTop.setLayoutData( gd );
+			cmpTop.setLayout(glContent);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			cmpTop.setLayoutData(gd);
 		}
 
 		lblDesc = null;
-		if ( description != null && description.length( ) > 0 )
-		{
-			lblDesc = new Label( cmpTop, SWT.NONE );
-			updateLabel( );
+		if (description != null && description.length() > 0) {
+			lblDesc = new Label(cmpTop, SWT.NONE);
+			updateLabel();
 		}
 
-		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
-		{
-			createAggregationItem( cmpTop );
+		if ((style & BUTTON_AGGREGATION) == BUTTON_AGGREGATION) {
+			createAggregationItem(cmpTop);
 		}
-		
-		boolean isSharingChart = context.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY );
-		
-		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
-		sbHelper.reset( predefinedQuery );
-		
+
+		boolean isSharingChart = context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_CHART_QUERY);
+
+		final Object[] predefinedQuery = context.getPredefinedQuery(queryType);
+		sbHelper.reset(predefinedQuery);
+
 		// always use combo box #66704
 		boolean needComboField = true;
-		
-		IDataServiceProvider provider = context.getDataServiceProvider( );
+
+		IDataServiceProvider provider = context.getDataServiceProvider();
 		// fix regression of #66704, keep the status.
-		final boolean needComboStatus = ( predefinedQuery != null
-				&& predefinedQuery.length > 0 && ( provider.checkState( IDataServiceProvider.SHARE_QUERY )
-				|| provider.checkState( IDataServiceProvider.HAS_CUBE )
-				|| ( provider.checkState( IDataServiceProvider.INHERIT_CUBE ) && !provider.checkState( IDataServiceProvider.PART_CHART ) ) || provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) ) )
+		final boolean needComboStatus = (predefinedQuery != null && predefinedQuery.length > 0
+				&& (provider.checkState(IDataServiceProvider.SHARE_QUERY)
+						|| provider.checkState(IDataServiceProvider.HAS_CUBE)
+						|| (provider.checkState(IDataServiceProvider.INHERIT_CUBE)
+								&& !provider.checkState(IDataServiceProvider.PART_CHART))
+						|| provider.checkState(IDataServiceProvider.INHERIT_COLUMNS_GROUPS)))
 				&& !isSharingChart;
-		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
+		boolean hasContentAssist = (!isSharingChart && predefinedQuery != null && predefinedQuery.length > 0);
 		IAssistField assistField = null;
-		if ( needComboField )
-		{
+		if (needComboField) {
 			// Create a composite to decorate combo field for the content assist function.
-			Composite control = new Composite( cmpTop, SWT.NONE );
-			GridData gd = new GridData( GridData.FILL_BOTH );
+			Composite control = new Composite(cmpTop, SWT.NONE);
+			GridData gd = new GridData(GridData.FILL_BOTH);
 			gd.widthHint = 80;
-			control.setLayoutData( gd );
-			GridLayout gl = new GridLayout( );
-			FieldAssistHelper.getInstance( ).initDecorationMargin( gl );
-			control.setLayout( gl );
-			
-			cmbDefinition = new CCombo( control,
-					context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.PART_CHART ) ? SWT.READ_ONLY
-							| SWT.BORDER
-							: SWT.BORDER );
-			gd = new GridData( GridData.FILL_HORIZONTAL );
+			control.setLayoutData(gd);
+			GridLayout gl = new GridLayout();
+			FieldAssistHelper.getInstance().initDecorationMargin(gl);
+			control.setLayout(gl);
+
+			cmbDefinition = new CCombo(control,
+					context.getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART)
+							? SWT.READ_ONLY | SWT.BORDER
+							: SWT.BORDER);
+			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.grabExcessHorizontalSpace = true;
-			cmbDefinition.setLayoutData( gd );
-			
+			cmbDefinition.setLayoutData(gd);
+
 			// Initialize content assist.
-			if ( hasContentAssist )
-			{
-				assistField = new CComboAssistField( cmbDefinition, null, null );
+			if (hasContentAssist) {
+				assistField = new CComboAssistField(cmbDefinition, null, null);
 			}
 
-			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
+			cmbDefinition.addListener(SWT.Selection, new Listener() {
 
-				public void handleEvent( Event event )
-				{
-					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
+				@Override
+				public void handleEvent(Event event) {
+					String oldQuery = query.getDefinition() == null ? "" : query.getDefinition(); //$NON-NLS-1$
 					// Combo may be disposed, so cache the text first
-					String text = btnBuilder.getExpression( );
+					String text = btnBuilder.getExpression();
 
 					// Do nothing for the same query
-					if ( !isTableSharedBinding( )
-							&& !( isInXTabNonAggrCellAndInheritCube( ) )
-							&& text.equals( oldQuery ) )
-					{
+					if (!isTableSharedBinding() && !(isInXTabNonAggrCellAndInheritCube()) && text.equals(oldQuery)) {
 						return;
 					}
 
 					// Set category/Y optional expression by value series
 					// expression if it is crosstab sharing.
-					if ( !oldQuery.equals( text )
-							&& queryType == ChartUIConstants.QUERY_VALUE )
-					{
-						context.getDataServiceProvider( )
-								.update( ChartUIConstants.QUERY_VALUE, text );
+					if (!oldQuery.equals(text) && queryType == ChartUIConstants.QUERY_VALUE) {
+						context.getDataServiceProvider().update(ChartUIConstants.QUERY_VALUE, text);
 					}
 
 					// Change direction once category query is changed in xtab
 					// case
-					if ( context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.PART_CHART )
-							&& ChartUIConstants.QUERY_CATEGORY.equals( queryType )
-							&& context.getModel( ) instanceof ChartWithAxes )
-					{
-						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
+					if (context.getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART)
+							&& ChartUIConstants.QUERY_CATEGORY.equals(queryType)
+							&& context.getModel() instanceof ChartWithAxes) {
+						((ChartWithAxes) context.getModel()).setTransposed(cmbDefinition.getSelectionIndex() > 0);
 					}
 
-					if ( needComboStatus
-							&& predefinedQuery.length == 0
-							&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
-									.equals( "" ) ) ) //$NON-NLS-1$
+					if (needComboStatus && predefinedQuery.length == 0
+							&& (getQuery().getDefinition() == null || getQuery().getDefinition().equals(""))) //$NON-NLS-1$
 					{
-						cmbDefinition.setEnabled( false );
-						btnBuilder.setEnabled( false );
+						cmbDefinition.setEnabled(false);
+						btnBuilder.setEnabled(false);
 					}
 				}
-			} );
+			});
 
-		}
-		else
-		{
+		} else {
 			Composite control = cmpTop;
-			if ( hasContentAssist )
-			{
+			if (hasContentAssist) {
 				// Create a composite to decorate text field for the content assist function.
-				control = new Composite( cmpTop, SWT.NONE );
-				GridData gd = new GridData( GridData.FILL_BOTH );
+				control = new Composite(cmpTop, SWT.NONE);
+				GridData gd = new GridData(GridData.FILL_BOTH);
 				gd.widthHint = 80;
-				control.setLayoutData( gd );
-				GridLayout gl = new GridLayout( );
-				FieldAssistHelper.getInstance( ).initDecorationMargin( gl );
-				control.setLayout( gl );
+				control.setLayoutData(gd);
+				GridLayout gl = new GridLayout();
+				FieldAssistHelper.getInstance().initDecorationMargin(gl);
+				control.setLayout(gl);
 			}
-			
-			txtDefinition = new Text( control, SWT.BORDER | SWT.SINGLE );
-			GridData gdTXTDefinition = new GridData( GridData.FILL_HORIZONTAL );
+
+			txtDefinition = new Text(control, SWT.BORDER | SWT.SINGLE);
+			GridData gdTXTDefinition = new GridData(GridData.FILL_HORIZONTAL);
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
-			txtDefinition.setLayoutData( gdTXTDefinition );
-			
+			txtDefinition.setLayoutData(gdTXTDefinition);
+
 			// Initialize content assist.
-			if ( hasContentAssist )
-			{
-				assistField = new TextAssistField( txtDefinition, null, null );
+			if (hasContentAssist) {
+				assistField = new TextAssistField(txtDefinition, null, null);
 			}
 		}
 
-		try
-		{
-			btnBuilder = (IExpressionButton) context.getUIServiceProvider( )
-					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
-							cmpTop,
-							getInputControl( ),
-							context.getExtendedItem( ),
-							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							new Listener( ) {
+		try {
+			btnBuilder = (IExpressionButton) context.getUIServiceProvider().invoke(
+					IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE, cmpTop, getInputControl(),
+					context.getExtendedItem(), IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS, new Listener() {
 
-								public void handleEvent( Event event )
-								{
-									onModifyExpression( );
-								}
-							},
-							null,
-							queryType );
-		}
-		catch ( ChartException e )
-		{
-			WizardBase.displayException( e );
+						@Override
+						public void handleEvent(Event event) {
+							onModifyExpression();
+						}
+					}, null, queryType);
+		} catch (ChartException e) {
+			WizardBase.displayException(e);
 		}
 
-		if ( needComboStatus )
-		{
-			if ( ( predefinedQuery == null || predefinedQuery.length == 0 )
-					&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
-							.equals( "" ) ) ) //$NON-NLS-1$
+		if (needComboStatus) {
+			if ((predefinedQuery == null || predefinedQuery.length == 0)
+					&& (getQuery().getDefinition() == null || getQuery().getDefinition().equals(""))) //$NON-NLS-1$
 			{
-				cmbDefinition.setEnabled( false );
-				btnBuilder.setEnabled( false );
+				cmbDefinition.setEnabled(false);
+				btnBuilder.setEnabled(false);
 			}
 		}
 
-		btnBuilder.setPredefinedQuery( predefinedQuery );
-		btnBuilder.setAssitField( assistField );
+		btnBuilder.setPredefinedQuery(predefinedQuery);
+		btnBuilder.setAssitField(assistField);
 
-		if ( query != null )
-		{
-			btnBuilder.setExpression( query.getDefinition( ) );
+		if (query != null) {
+			btnBuilder.setExpression(query.getDefinition());
 		}
 
 		// Listener for handling dropping of custom table header
-		Control dropControl = getInputControl( );
-		DropTarget target = new DropTarget( dropControl, DND.DROP_COPY );
-		Transfer[] types = new Transfer[]{
-			SimpleTextTransfer.getInstance( )
-		};
-		target.setTransfer( types );
+		Control dropControl = getInputControl();
+		DropTarget target = new DropTarget(dropControl, DND.DROP_COPY);
+		Transfer[] types = { SimpleTextTransfer.getInstance() };
+		target.setTransfer(types);
 		// Add drop support
-		target.addDropListener( new DataTextDropListener( dropControl,
-				btnBuilder ) );
+		target.addDropListener(new DataTextDropListener(dropControl, btnBuilder));
 		// Add color manager
-		DataDefinitionTextManager.getInstance( )
-				.addDataDefinitionText( dropControl, this );
+		DataDefinitionTextManager.getInstance().addDataDefinitionText(dropControl, this);
 
-		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
-		{
-			btnGroup = new Button( cmpTop, SWT.PUSH );
-			GridData gdBTNGroup = new GridData( );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNGroup );
-			btnGroup.setLayoutData( gdBTNGroup );
-			btnGroup.setImage( UIHelper.getImage( "icons/obj16/group.gif" ) ); //$NON-NLS-1$
-			btnGroup.addSelectionListener( this );
-			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
-			ChartUIUtil.addScreenReaderAccessbility( btnGroup, btnGroup.getToolTipText( ) );
+		if ((style & BUTTON_GROUP) == BUTTON_GROUP) {
+			btnGroup = new Button(cmpTop, SWT.PUSH);
+			GridData gdBTNGroup = new GridData();
+			ChartUIUtil.setChartImageButtonSizeByPlatform(gdBTNGroup);
+			btnGroup.setLayoutData(gdBTNGroup);
+			btnGroup.setImage(UIHelper.getImage("icons/obj16/group.gif")); //$NON-NLS-1$
+			btnGroup.addSelectionListener(this);
+			btnGroup.setToolTipText(Messages.getString("BaseDataDefinitionComponent.Label.EditGroupSorting")); //$NON-NLS-1$
+			ChartUIUtil.addScreenReaderAccessbility(btnGroup, btnGroup.getToolTipText());
 		}
 
 		// In shared binding, only support predefined query
-		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
-				&& !provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
-		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.PART_CHART )
-				|| context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.SHARE_QUERY ) )
-		{
+		boolean isCubeNoMultiDimensions = (provider.checkState(IDataServiceProvider.HAS_CUBE)
+				|| provider.checkState(IDataServiceProvider.SHARE_CROSSTAB_QUERY))
+				&& !provider.checkState(IDataServiceProvider.MULTI_CUBE_DIMENSIONS);
+		if (context.getDataServiceProvider().checkState(IDataServiceProvider.PART_CHART)
+				|| context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_QUERY)) {
 			// Sharing query with crosstab allows user to edit category and Y
 			// optional expression, so here doesn't disable the text field if it
 			// is SHARE_CROSSTAB_QUERY.
-			if ( !needComboStatus && cmbDefinition != null
-					&& ( !context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) || isSharingChart ) )
-			{
+			if (!needComboStatus && cmbDefinition != null
+					&& (!context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_CROSSTAB_QUERY)
+							|| isSharingChart)) {
 				// allow y-optional if contains definition
-				if ( !ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-						|| !provider.checkState( IDataServiceProvider.SHARE_TABLE_QUERY )
-						|| getQuery( ).getDefinition( ) == null
-						|| getQuery( ).getDefinition( ).trim( ).length( ) == 0 )
-				{
-					cmbDefinition.setEnabled( false );
-					btnBuilder.setEnabled( false );
+				if (!ChartUIConstants.QUERY_OPTIONAL.equals(queryType)
+						|| !provider.checkState(IDataServiceProvider.SHARE_TABLE_QUERY)
+						|| getQuery().getDefinition() == null || getQuery().getDefinition().trim().length() == 0) {
+					cmbDefinition.setEnabled(false);
+					btnBuilder.setEnabled(false);
 				}
 			}
 
-			if ( btnGroup != null )
-			{
-				btnGroup.setEnabled( false );
+			if (btnGroup != null) {
+				btnGroup.setEnabled(false);
 			}
 		}
-		
+
 		// If current is 'Inherit columns & groups' and there is no group
 		// defined in table, this case the Optional Y group UI should be
 		// disabled.
-		boolean disableOptionalY = context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
-				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-				&& ( predefinedQuery == null || predefinedQuery.length == 0 );
-		if ( disableOptionalY )
-		{
-			getInputControl( ).setEnabled( false );
-			btnBuilder.setEnabled( false );
-			if ( btnGroup != null )
-			{
-				btnGroup.setEnabled( false );
+		boolean disableOptionalY = context.getDataServiceProvider().checkState(
+				IDataServiceProvider.INHERIT_COLUMNS_GROUPS) && ChartUIConstants.QUERY_OPTIONAL.equals(queryType)
+				&& (predefinedQuery == null || predefinedQuery.length == 0);
+		if (disableOptionalY) {
+			getInputControl().setEnabled(false);
+			btnBuilder.setEnabled(false);
+			if (btnGroup != null) {
+				btnGroup.setEnabled(false);
 			}
+		} else if (cmbDefinition != null && ChartUIConstants.QUERY_OPTIONAL.equals(queryType)
+				&& isCubeNoMultiDimensions) {
+			cmbDefinition.setEnabled(false);
+			btnBuilder.setEnabled(false);
 		}
-		else if ( cmbDefinition != null
-				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-				&& isCubeNoMultiDimensions )
-		{
-			cmbDefinition.setEnabled( false );
-			btnBuilder.setEnabled( false );
-		}
-		
+
 		disableBtnGroup();
-		
-		setTooltipForInputControl( );
-		
+
+		setTooltipForInputControl();
+
 		return cmpTop;
 	}
-	
-	 
+
 	/*
-	 * if:1.is cube 2. keep hierarchy is checked 3.current cmbDefinition is not
-	 * top level then disable gourping and sorting dialog
+	 * if:1.is cube 2. keep hierarchy is checked 3.current cmbDefinition is not top
+	 * level then disable gourping and sorting dialog
 	 * if(ChartUIUtil.isKeepCubeHierarchyAndIsNotTopLevel( wizardContext, query,
 	 * keep_hierarchy ));
 	 */
-	protected void disableBtnGroup( )
-	{
-		if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
-				&& query.getDefinition( ) != null
-				&& !"".endsWith( query.getDefinition( ) ) ) { //$NON-NLS-1$
-			IDataServiceProvider dataServiceProvider = context.getDataServiceProvider( );
+	protected void disableBtnGroup() {
+		if (ChartUIConstants.QUERY_CATEGORY.equals(queryType) && query.getDefinition() != null
+				&& !"".endsWith(query.getDefinition())) { //$NON-NLS-1$
+			IDataServiceProvider dataServiceProvider = context.getDataServiceProvider();
 
-			if ( dataServiceProvider.checkState( IDataServiceProvider.IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL ) )
-			{
-				btnGroup.setEnabled( false );
+			if (dataServiceProvider.checkState(IDataServiceProvider.IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL)) {
+				btnGroup.setEnabled(false);
 			}
 		}
 	}
 
 	/**
 	 * Check if current is using table shared binding.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
-	private boolean isTableSharedBinding( )
-	{
-		return cmbDefinition != null
-				&& !cmbDefinition.isDisposed( )
-				&& ( context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
-	}
-	
-	private boolean isInXTabNonAggrCellAndInheritCube()
-	{
-		IDataServiceProvider provider = context.getDataServiceProvider( );
-		int state = provider.getState( );
-		return ( state & ( IDataServiceProvider.HAS_DATA_SET | IDataServiceProvider.HAS_CUBE ) ) == 0
-				&& ( state & IDataServiceProvider.INHERIT_CUBE ) != 0
-				&& ( state & IDataServiceProvider.SHARE_QUERY ) == 0
-				&& ( state & IDataServiceProvider.PART_CHART ) == 0;
+	private boolean isTableSharedBinding() {
+		return cmbDefinition != null && !cmbDefinition.isDisposed()
+				&& (context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_QUERY)
+						|| context.getDataServiceProvider().checkState(IDataServiceProvider.INHERIT_COLUMNS_GROUPS));
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
-		if ( data instanceof Object[] )
-		{
+	private boolean isInXTabNonAggrCellAndInheritCube() {
+		IDataServiceProvider provider = context.getDataServiceProvider();
+		int state = provider.getState();
+		return (state & (IDataServiceProvider.HAS_DATA_SET | IDataServiceProvider.HAS_CUBE)) == 0
+				&& (state & IDataServiceProvider.INHERIT_CUBE) != 0 && (state & IDataServiceProvider.SHARE_QUERY) == 0
+				&& (state & IDataServiceProvider.PART_CHART) == 0;
+	}
+
+	@Override
+	public void selectArea(boolean selected, Object data) {
+		if (data instanceof Object[]) {
 			Object[] array = (Object[]) data;
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
-			updateText( query.getDefinition( ) );
-			DataDefinitionTextManager.getInstance( )
-					.addDataDefinitionText( getInputControl( ), this );
-			setTooltipForInputControl( );
-			if ( fAggEditorComposite != null )
-			{
-				fAggEditorComposite.setAggregation( query, seriesdefinition );
+			updateText(query.getDefinition());
+			DataDefinitionTextManager.getInstance().addDataDefinitionText(getInputControl(), this);
+			setTooltipForInputControl();
+			if (fAggEditorComposite != null) {
+				fAggEditorComposite.setAggregation(query, seriesdefinition);
 			}
 		}
 	}
 
-	public void dispose( )
-	{
-		if ( getInputControl( ) != null )
-		{
-			DataDefinitionTextManager.getInstance( )
-					.removeDataDefinitionText( getInputControl( ) );
+	@Override
+	public void dispose() {
+		if (getInputControl() != null) {
+			DataDefinitionTextManager.getInstance().removeDataDefinitionText(getInputControl());
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( btnGroup ) )
-		{
-			handleGroupAction( );
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		if (e.getSource().equals(btnGroup)) {
+			handleGroupAction();
 		}
 	}
 
 	/**
 	 * Handle grouping/sorting action.
 	 */
-	protected void handleGroupAction( )
-	{
-		SeriesDefinition sdBackup = seriesdefinition.copyInstance( );
-		GroupSortingDialog groupDialog = createGroupSortingDialog( sdBackup );
+	protected void handleGroupAction() {
+		SeriesDefinition sdBackup = seriesdefinition.copyInstance();
+		GroupSortingDialog groupDialog = createGroupSortingDialog(sdBackup);
 
-		if ( groupDialog.open( ) == Window.OK )
-		{
-			if ( !sdBackup.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
-			{
-				seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-			}
-			else
-			{
-				seriesdefinition.setSorting( sdBackup.getSorting( ) );
+		if (groupDialog.open() == Window.OK) {
+			if (!sdBackup.eIsSet(DataPackage.eINSTANCE.getSeriesDefinition_Sorting())) {
+				seriesdefinition.eUnset(DataPackage.eINSTANCE.getSeriesDefinition_Sorting());
+			} else {
+				seriesdefinition.setSorting(sdBackup.getSorting());
 			}
 
-			seriesdefinition.setSortKey( sdBackup.getSortKey( ) );
-			seriesdefinition.getSortKey( )
-					.eAdapters( )
-					.addAll( seriesdefinition.eAdapters( ) );
+			seriesdefinition.setSortKey(sdBackup.getSortKey());
+			seriesdefinition.getSortKey().eAdapters().addAll(seriesdefinition.eAdapters());
 
-			seriesdefinition.setSortLocale( sdBackup.getSortLocale( ) );
-			
-			if ( sdBackup.isSetSortStrength( ) )
-			{
-				seriesdefinition.setSortStrength( sdBackup.getSortStrength( ) );
-			}
-			else
-			{
-				seriesdefinition.unsetSortStrength( );
-			}
-			
-			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
-			seriesdefinition.getGrouping( )
-					.eAdapters( )
-					.addAll( seriesdefinition.eAdapters( ) );
-			ChartUIUtil.checkGroupType( context, context.getModel( ) );
-			ChartUIUtil.checkAggregateType( context );
+			seriesdefinition.setSortLocale(sdBackup.getSortLocale());
 
-			DataDefinitionTextManager.getInstance( ).updateTooltip( );
+			if (sdBackup.isSetSortStrength()) {
+				seriesdefinition.setSortStrength(sdBackup.getSortStrength());
+			} else {
+				seriesdefinition.unsetSortStrength();
+			}
+
+			seriesdefinition.setGrouping(sdBackup.getGrouping());
+			seriesdefinition.getGrouping().eAdapters().addAll(seriesdefinition.eAdapters());
+			ChartUIUtil.checkGroupType(context, context.getModel());
+			ChartUIUtil.checkAggregateType(context);
+
+			DataDefinitionTextManager.getInstance().updateTooltip();
 		}
 	}
 
-	protected void onModifyExpression( )
-	{
-		String newExpr = btnBuilder.getExpression( );
-		updateQuery( newExpr );
-		setTooltipForInputControl( );
+	protected void onModifyExpression() {
+		String newExpr = btnBuilder.getExpression();
+		updateQuery(newExpr);
+		setTooltipForInputControl();
 
-		final Event e = new Event( );
-		e.widget = getInputControl( );
+		final Event e = new Event();
+		e.widget = getInputControl();
 		e.type = IChartDataSheet.EVENT_QUERY;
 		e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR_AND_TEXT;
-		context.getDataSheet( ).notifyListeners( e );
+		context.getDataSheet().notifyListeners(e);
 	}
 
 	/**
 	 * Create instance of <code>GroupSortingDialog</code> for base series or Y
 	 * series.
-	 * 
+	 *
 	 * @param sdBackup
 	 * @return
 	 */
-	protected GroupSortingDialog createGroupSortingDialog(
-			SeriesDefinition sdBackup )
-	{
-		return new BaseGroupSortingDialog( cmpTop.getShell( ),
-				context,
-				sdBackup );
+	protected GroupSortingDialog createGroupSortingDialog(SeriesDefinition sdBackup) {
+		return new BaseGroupSortingDialog(cmpTop.getShell(), context, sdBackup);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
 	}
-
 
 	/**
 	 * Set tooltip for input control.
 	 */
-	public void setTooltipForInputControl( )
-	{
-		Control control = getInputControl( );
-		if ( control != null && !control.isDisposed( ) )
-		{
-			getInputControl( ).setToolTipText( getTooltipForDataText( ChartUIUtil.getText( control ) ) );
+	@Override
+	public void setTooltipForInputControl() {
+		Control control = getInputControl();
+		if (control != null && !control.isDisposed()) {
+			getInputControl().setToolTipText(getTooltipForDataText(ChartUIUtil.getText(control)));
 		}
 	}
 
 	/**
 	 * Sets the description in the left of data text box.
-	 * 
+	 *
 	 * @param description
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	private String getTooltipForDataText( String queryText )
-	{
-		if ( isTableSharedBinding( ) )
-		{
-			return cmbDefinition.getToolTipText( );
+	private String getTooltipForDataText(String queryText) {
+		if (isTableSharedBinding()) {
+			return cmbDefinition.getToolTipText();
 		}
-		if ( queryText.trim( ).length( ) == 0 )
-		{
+		if (queryText.trim().length() == 0) {
 			return tooltipWhenBlank;
 		}
-		if ( ChartUIConstants.QUERY_VALUE.equals( queryType )
-				&& context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.HAS_DATA_SET ) )
-		{
-			SeriesDefinition baseSd = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-					.get( 0 );
+		if (ChartUIConstants.QUERY_VALUE.equals(queryType)
+				&& context.getDataServiceProvider().checkState(IDataServiceProvider.HAS_DATA_SET)) {
+			SeriesDefinition baseSd = ChartUIUtil.getBaseSeriesDefinitions(context.getModel()).get(0);
 
 			SeriesGrouping sg = null;
-			boolean baseEnabled = baseSd.getGrouping( ) != null
-					&& baseSd.getGrouping( ).isEnabled( );
-			if ( baseEnabled )
-			{
-				sg = baseSd.getGrouping( );
-				if ( seriesdefinition.getGrouping( ) != null
-						&& seriesdefinition.getGrouping( ).isEnabled( ) )
-				{
-					sg = seriesdefinition.getGrouping( );
+			boolean baseEnabled = baseSd.getGrouping() != null && baseSd.getGrouping().isEnabled();
+			if (baseEnabled) {
+				sg = baseSd.getGrouping();
+				if (seriesdefinition.getGrouping() != null && seriesdefinition.getGrouping().isEnabled()) {
+					sg = seriesdefinition.getGrouping();
 				}
 			}
-			if ( query.getGrouping( ) != null
-					&& query.getGrouping( ).isEnabled( ) )
-			{
-				sg = query.getGrouping( );
+			if (query.getGrouping() != null && query.getGrouping().isEnabled()) {
+				sg = query.getGrouping();
 			}
 
-			if ( sg != null )
-			{
-				StringBuffer sbuf = new StringBuffer( );
-				sbuf.append( sg.getAggregateExpression( ) );
-				sbuf.append( "( " ); //$NON-NLS-1$
-				sbuf.append( queryText );
+			if (sg != null) {
+				StringBuilder sbuf = new StringBuilder();
+				sbuf.append(sg.getAggregateExpression());
+				sbuf.append("( "); //$NON-NLS-1$
+				sbuf.append(queryText);
 				IAggregateFunction aFunc = null;
-				try
-				{
-					aFunc = PluginSettings.instance( )
-							.getAggregateFunction( sg.getAggregateExpression( ) );
-				}
-				catch ( ChartException e )
-				{
+				try {
+					aFunc = PluginSettings.instance().getAggregateFunction(sg.getAggregateExpression());
+				} catch (ChartException e) {
 					// Since the aggFuncName might be null, so we don't display
 					// the
 					// exception to user, it is true.
 				}
 
-				if ( !baseEnabled
-						&& aFunc != null
-						&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
-				{
+				if (!baseEnabled && aFunc != null && aFunc.getType() == IAggregateFunction.SUMMARY_AGGR) {
 					return queryText;
 				}
 
-				int count = aFunc != null ? aFunc.getParametersCount( )
-						: sg.getAggregateParameters( ).size( );
+				int count = aFunc != null ? aFunc.getParametersCount() : sg.getAggregateParameters().size();
 
-				for ( int i = 0; i < sg.getAggregateParameters( ).size( ); i++ )
-				{
-					if ( i < count )
-					{
-						sbuf.append( ", " ); //$NON-NLS-1$
-						sbuf.append( sg.getAggregateParameters( ).get( i ) );
+				for (int i = 0; i < sg.getAggregateParameters().size(); i++) {
+					if (i < count) {
+						sbuf.append(", "); //$NON-NLS-1$
+						sbuf.append(sg.getAggregateParameters().get(i));
 					}
 
 				}
-				sbuf.append( " )" ); //$NON-NLS-1$
-				return sbuf.toString( );
+				sbuf.append(" )"); //$NON-NLS-1$
+				return sbuf.toString();
 			}
 
 		}
 		return queryText;
 	}
 
-	public void setTooltipWhenBlank( String tootipWhenBlank )
-	{
+	public void setTooltipWhenBlank(String tootipWhenBlank) {
 		this.tooltipWhenBlank = tootipWhenBlank;
 	}
 
-	private void createAggregationItem( Composite composite )
-	{
-		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-				.get( 0 );
-		boolean enabled = ChartUIUtil.isGroupingSupported( context )
-				&& ( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
-						.isEnabled( ) );
-		if ( query.getGrouping( ) == null )
-		{
+	private void createAggregationItem(Composite composite) {
+		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions(context.getModel()).get(0);
+		boolean enabled = ChartUIUtil.isGroupingSupported(context)
+				&& (PluginSettings.instance().inEclipseEnv() || baseSD.getGrouping().isEnabled());
+		if (query.getGrouping() == null) {
 			// Set default aggregate function
-			SeriesGrouping aggGrouping = SeriesGroupingImpl.create( );
-			if ( seriesdefinition.getGrouping( ) != null )
-			{
-				aggGrouping.setAggregateExpression( seriesdefinition.getGrouping( )
-					.getAggregateExpression( ) );
+			SeriesGrouping aggGrouping = SeriesGroupingImpl.create();
+			if (seriesdefinition.getGrouping() != null) {
+				aggGrouping.setAggregateExpression(seriesdefinition.getGrouping().getAggregateExpression());
 			}
-			query.setGrouping( aggGrouping );
+			query.setGrouping(aggGrouping);
 		}
-		fAggEditorComposite = new AggregateEditorComposite( composite,
-				seriesdefinition,
-				context,
-				enabled,
-				query );
+		fAggEditorComposite = new AggregateEditorComposite(composite, seriesdefinition, context, enabled, query);
 	}
 
-	private Control getInputControl( )
-	{
-		if ( txtDefinition != null )
-		{
+	private Control getInputControl() {
+		if (txtDefinition != null) {
 			return txtDefinition;
 		}
-		if ( cmbDefinition != null )
-		{
-			return cmbDefinition;
-		}
-		return null;
+		return cmbDefinition;
 	}
 
 	/**
@@ -775,36 +650,31 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 * Under shared binding case, update grouping/aggregate attributes of chart
 	 * model if the selected item is group/aggregate expression.
 	 */
-	public void updateQuery( String expression )
-	{
-		if ( getInputControl( ) instanceof CCombo )
-		{
-			Object checkResult = context.getDataServiceProvider( )
-					.checkData( queryType, expression );
-			if ( checkResult != null && checkResult instanceof Boolean )
-			{
-				if ( !( (Boolean) checkResult ).booleanValue( ) )
-				{
+	@Override
+	public void updateQuery(String expression) {
+		if (getInputControl() instanceof CCombo) {
+			Object checkResult = context.getDataServiceProvider().checkData(queryType, expression);
+			if (checkResult instanceof Boolean) {
+				if (!((Boolean) checkResult).booleanValue()) {
 					// Can't select expressions of one dimension to set
 					// on category series and Y optional at one time.
 
 					// did not show the warning since its logic is different
 					// from others
 					// ChartWizard.showException( ChartWizard.BaseDataDefCom_ID,
-					//	Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$ 
+					// Messages.getString(
+					// "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) );
+					// //$NON-NLS-1$
 					// setUIText( getInputControl( ), oldQuery );
 					return;
 				}
 			}
 		}
 
-		if ( isTableSharedBinding( ) )
-		{
-			updateQueryForSharedBinding( expression );
-		}
-		else
-		{
-			setQueryExpression( expression );
+		if (isTableSharedBinding()) {
+			updateQueryForSharedBinding(expression);
+		} else {
+			setQueryExpression(expression);
 		}
 
 		enableAggEditor(expression);
@@ -812,360 +682,269 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	/**
 	 * Update query expression for sharing query with table.
-	 * 
+	 *
 	 * @param expression
 	 */
-	private void updateQueryForSharedBinding( String expression )
-	{
-		if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
-				|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) )
-		{
-			String grpName = sbHelper.findGroupName( expression );
+	private void updateQueryForSharedBinding(String expression) {
+		if (ChartUIConstants.QUERY_CATEGORY.equals(queryType) || ChartUIConstants.QUERY_OPTIONAL.equals(queryType)) {
+			String grpName = sbHelper.findGroupName(expression);
 			boolean isGroupExpr = grpName != null;
 
-			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				seriesdefinition.getGrouping( ).setEnabled( isGroupExpr );
-				query.setDefinition( null );
-				ChartAdapter.endIgnoreNotifications( );
+			if (ChartUIConstants.QUERY_CATEGORY.equals(queryType)) {
+				ChartAdapter.beginIgnoreNotifications();
+				seriesdefinition.getGrouping().setEnabled(isGroupExpr);
+				query.setDefinition(null);
+				ChartAdapter.endIgnoreNotifications();
 			}
 
-			if ( isGroupExpr )
-			{
-				expression = sbHelper.translateToBindingName( expression,
-						grpName );
+			if (isGroupExpr) {
+				expression = sbHelper.translateToBindingName(expression, grpName);
 			}
-		}
-		else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-		{
-			String aggrName = sbHelper.findAggrName( expression );
+		} else if (ChartUIConstants.QUERY_VALUE.equals(queryType)) {
+			String aggrName = sbHelper.findAggrName(expression);
 			boolean isAggregationExpr = aggrName != null;
-			String chartAggr = isAggregationExpr ? sbHelper.getChartAggr( aggrName )
-					: null;
-			ChartAdapter.beginIgnoreNotifications( );
-			if (query.getGrouping( ) != null)
-			{
-				query.getGrouping( ).setEnabled( isAggregationExpr );
-				query.getGrouping( ).setAggregateExpression( chartAggr );
+			String chartAggr = isAggregationExpr ? sbHelper.getChartAggr(aggrName) : null;
+			ChartAdapter.beginIgnoreNotifications();
+			if (query.getGrouping() != null) {
+				query.getGrouping().setEnabled(isAggregationExpr);
+				query.getGrouping().setAggregateExpression(chartAggr);
 			}
-			ChartAdapter.endIgnoreNotifications( );
+			ChartAdapter.endIgnoreNotifications();
 
-			if ( isAggregationExpr )
-			{
-				expression = sbHelper.translateToBindingName( expression,
-						aggrName );
+			if (isAggregationExpr) {
+				expression = sbHelper.translateToBindingName(expression, aggrName);
 			}
 		}
 
-		setQueryExpression( expression );
+		setQueryExpression(expression);
 	}
 
-	private void setQueryExpression( String expression )
-	{
-		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-		{
-			if ( !( context.getChartType( ) instanceof GanttChart )
-					&& !context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.SHARE_QUERY )
-					&& context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.HAS_DATA_SET ) )
-			{
-				if ( context.getDataServiceProvider( ).getDataType( expression ) == DataType.DATE_TIME_LITERAL )
-				{
-					SeriesGrouping basegrouping = ChartUtil.getBaseSeriesDefinitions( context.getModel( ) )
-							.get( 0 )
-							.getGrouping( );
-					if ( basegrouping != null
-							&& basegrouping.isEnabled( )
-							&& !ChartUIUtil.isDataTimeSupportedAgg( basegrouping.getAggregateExpression( ) ) )
-					{
-						ChartAdapter.beginIgnoreNotifications( );
-						if ( query.getGrouping( ) == null )
-						{
-							query.setGrouping( DataFactoryImpl.init( )
-									.createSeriesGrouping( ) );
+	private void setQueryExpression(String expression) {
+		if (ChartUIConstants.QUERY_VALUE.equals(queryType)) {
+			if (!(context.getChartType() instanceof GanttChart)
+					&& !context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_QUERY)
+					&& context.getDataServiceProvider().checkState(IDataServiceProvider.HAS_DATA_SET)) {
+				if (context.getDataServiceProvider().getDataType(expression) == DataType.DATE_TIME_LITERAL) {
+					SeriesGrouping basegrouping = ChartUtil.getBaseSeriesDefinitions(context.getModel()).get(0)
+							.getGrouping();
+					if (basegrouping != null && basegrouping.isEnabled()
+							&& !ChartUIUtil.isDataTimeSupportedAgg(basegrouping.getAggregateExpression())) {
+						ChartAdapter.beginIgnoreNotifications();
+						if (query.getGrouping() == null) {
+							query.setGrouping(DataFactoryImpl.init().createSeriesGrouping());
 						}
-						SeriesGrouping group = query.getGrouping( );
-						group.setEnabled( true );
-						if ( !ChartUIUtil.isDataTimeSupportedAgg( group.getAggregateExpression( ) ) )
-						{
-							group.setAggregateExpression( "First" ); //$NON-NLS-1$
+						SeriesGrouping group = query.getGrouping();
+						group.setEnabled(true);
+						if (!ChartUIUtil.isDataTimeSupportedAgg(group.getAggregateExpression())) {
+							group.setAggregateExpression("First"); //$NON-NLS-1$
 						}
-						ChartAdapter.endIgnoreNotifications( );
+						ChartAdapter.endIgnoreNotifications();
 					}
 
 				}
 			}
 
-		}
-		else if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-		{
-			DataType type = context.getDataServiceProvider( )
-					.getDataType( expression );
-			ChartAdapter.beginIgnoreNotifications( );
-			if ( seriesdefinition.getGrouping( ) == null )
-			{
-				seriesdefinition.setGrouping( DataFactoryImpl.init( )
-						.createSeriesGrouping( ) );
+		} else if (ChartUIConstants.QUERY_CATEGORY.equals(queryType)) {
+			DataType type = context.getDataServiceProvider().getDataType(expression);
+			ChartAdapter.beginIgnoreNotifications();
+			if (seriesdefinition.getGrouping() == null) {
+				seriesdefinition.setGrouping(DataFactoryImpl.init().createSeriesGrouping());
 			}
-			seriesdefinition.getGrouping( ).setGroupType( type );
-			if ( type == DataType.DATE_TIME_LITERAL )
-			{
-				seriesdefinition.getGrouping( )
-						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+			seriesdefinition.getGrouping().setGroupType(type);
+			if (type == DataType.DATE_TIME_LITERAL) {
+				seriesdefinition.getGrouping().setGroupingUnit(GroupingUnitType.YEARS_LITERAL);
 			}
-						
+
 			// Update sort key according to special case.
-			if ( ChartUIUtil.hasLimitOnCategorySortKey( context ) && ChartUtil.hasSorting( seriesdefinition) )
-			{
+			if (ChartUIUtil.hasLimitOnCategorySortKey(context) && ChartUtil.hasSorting(seriesdefinition)) {
 				// Category sort key uses category expression instead.
-				Query sortQuery = seriesdefinition.getSortKey( );
-				if ( sortQuery == null  )
-				{
-					sortQuery = QueryImpl.create( expression );
-					sortQuery.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
-					seriesdefinition.setSortKey( sortQuery );
-				}
-				else
-				{
-					sortQuery.setDefinition( expression );
+				Query sortQuery = seriesdefinition.getSortKey();
+				if (sortQuery == null) {
+					sortQuery = QueryImpl.create(expression);
+					sortQuery.eAdapters().addAll(seriesdefinition.eAdapters());
+					seriesdefinition.setSortKey(sortQuery);
+				} else {
+					sortQuery.setDefinition(expression);
 				}
 			}
-			ChartAdapter.endIgnoreNotifications( );
-		}
-		else if(ChartUIConstants.QUERY_OPTIONAL.equals( queryType ))
-		{
-			ChartAdapter.beginIgnoreNotifications( );
-			if ( expression == null || expression.trim( ).length( ) == 0 )
-			{
-				seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-				if ( seriesdefinition.getSortKey( ) != null )
-				{
-					seriesdefinition.getSortKey( ).setDefinition( null );
+			ChartAdapter.endIgnoreNotifications();
+		} else if (ChartUIConstants.QUERY_OPTIONAL.equals(queryType)) {
+			ChartAdapter.beginIgnoreNotifications();
+			if (expression == null || expression.trim().length() == 0) {
+				seriesdefinition.eUnset(DataPackage.eINSTANCE.getSeriesDefinition_Sorting());
+				if (seriesdefinition.getSortKey() != null) {
+					seriesdefinition.getSortKey().setDefinition(null);
+				}
+			} else {
+				if (seriesdefinition.getSortKey() != null && seriesdefinition.getSortKey().getDefinition() != null
+						&& seriesdefinition.getSortKey().getDefinition().equals(query.getDefinition())) {
+					seriesdefinition.getSortKey().setDefinition(expression);
+				}
+				DataType type = context.getDataServiceProvider().getDataType(expression);
+
+				if (query.getGrouping() == null) {
+					query.setGrouping(DataFactoryImpl.init().createSeriesGrouping());
+				}
+				query.getGrouping().setGroupType(type);
+				if (type == DataType.DATE_TIME_LITERAL
+						&& context.getDataServiceProvider().checkState(IDataServiceProvider.HAS_DATA_SET)) {
+					query.getGrouping().setGroupingUnit(GroupingUnitType.YEARS_LITERAL);
 				}
 			}
-			else
-			{
-				if ( seriesdefinition.getSortKey( ) != null
-						&& seriesdefinition.getSortKey( ).getDefinition( ) != null
-						&& seriesdefinition.getSortKey( )
-								.getDefinition( )
-								.equals( query.getDefinition( ) ) )
-				{
-					seriesdefinition.getSortKey( ).setDefinition( expression );
-				}
-				DataType type = context.getDataServiceProvider( )
-						.getDataType( expression );
-
-				if ( query.getGrouping( ) == null )
-				{
-					query.setGrouping( DataFactoryImpl.init( )
-							.createSeriesGrouping( ) );
-				}
-				query.getGrouping( ).setGroupType( type );
-				if ( type == DataType.DATE_TIME_LITERAL
-						&& context.getDataServiceProvider( )
-								.checkState( IDataServiceProvider.HAS_DATA_SET ) )
-				{
-					query.getGrouping( )
-							.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
-				}
-			}
-			ChartAdapter.endIgnoreNotifications( );
+			ChartAdapter.endIgnoreNotifications();
 		}
 
-
-		if ( query != null )
-		{
-			query.setDefinition( expression );
-		}
-		else
-		{
-			query = QueryImpl.create( expression );
-			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+		if (query != null) {
+			query.setDefinition(expression);
+		} else {
+			query = QueryImpl.create(expression);
+			query.eAdapters().addAll(seriesdefinition.eAdapters());
 			// Since the data query must be non-null, it's created in
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping
 			// query
-			seriesdefinition.setQuery( query );
+			seriesdefinition.setQuery(query);
 		}
 
 	}
 
-	public Query getQuery( )
-	{
-		if ( query == null )
-		{
-			query = DataFactory.eINSTANCE.createQuery( );
-			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
-			ChartAdapter.beginIgnoreNotifications( );
-			seriesdefinition.setQuery( query );
-			ChartAdapter.endIgnoreNotifications( );
+	@Override
+	public Query getQuery() {
+		if (query == null) {
+			query = DataFactory.eINSTANCE.createQuery();
+			query.eAdapters().addAll(seriesdefinition.eAdapters());
+			ChartAdapter.beginIgnoreNotifications();
+			seriesdefinition.setQuery(query);
+			ChartAdapter.endIgnoreNotifications();
 		}
 
 		return query;
 	}
 
-	public String getDisplayExpression( )
-	{
-			String expr = btnBuilder.getExpression( );
-			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
+	@Override
+	public String getDisplayExpression() {
+		String expr = btnBuilder.getExpression();
+		return (expr == null) ? "" : expr; //$NON-NLS-1$
 	}
 
-	public boolean isValidExpression( String expression )
-	{
-		if ( cmbDefinition != null && cmbDefinition.getItems( ).length > 0 )
-		{
-			return cmbDefinition.indexOf( expression ) >= 0;
+	@Override
+	public boolean isValidExpression(String expression) {
+		if (cmbDefinition != null && cmbDefinition.getItems().length > 0) {
+			return cmbDefinition.indexOf(expression) >= 0;
 		}
-		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY )
-				|| context.getDataServiceProvider( ).checkState(
-						IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
-				|| context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.HAS_CUBE ) )
-		{
-			if ( cmbDefinition == null )
-			{
+		if (context.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_QUERY)
+				|| context.getDataServiceProvider().checkState(IDataServiceProvider.INHERIT_COLUMNS_GROUPS)
+				|| context.getDataServiceProvider().checkState(IDataServiceProvider.HAS_CUBE)) {
+			if (cmbDefinition == null) {
 				return false;
 			}
-			return cmbDefinition.indexOf( expression ) >= 0;
+			return cmbDefinition.indexOf(expression) >= 0;
 		}
 		return true;
 	}
-	
-	private boolean isGroupEnabled( )
-	{
-		return seriesdefinition != null
-				&& seriesdefinition.getGrouping( ) != null
-				&& seriesdefinition.getGrouping( ).isEnabled( );
+
+	private boolean isGroupEnabled() {
+		return seriesdefinition != null && seriesdefinition.getGrouping() != null
+				&& seriesdefinition.getGrouping().isEnabled();
 	}
 
-	private boolean isAggregateEnabled( )
-	{
-		return query != null
-				&& query.getGrouping( ) != null
-				&& query.getGrouping( ).isEnabled( )
-				&& query.getGrouping( ).getAggregateExpression( ) != null;
+	private boolean isAggregateEnabled() {
+		return query != null && query.getGrouping() != null && query.getGrouping().isEnabled()
+				&& query.getGrouping().getAggregateExpression() != null;
 	}
 
-	public void updateText( String expression )
-	{
-		if ( isTableSharedBinding( ) )
-		{
-			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
-					&& isGroupEnabled( )
-					|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-					|| ChartUIConstants.QUERY_VALUE.equals( queryType )
-					&& isAggregateEnabled( ) )
-			{
-				expression = sbHelper.translateFromBindingName( expression );
+	@Override
+	public void updateText(String expression) {
+		if (isTableSharedBinding()) {
+			if (ChartUIConstants.QUERY_CATEGORY.equals(queryType) && isGroupEnabled()
+					|| ChartUIConstants.QUERY_OPTIONAL.equals(queryType)
+					|| ChartUIConstants.QUERY_VALUE.equals(queryType) && isAggregateEnabled()) {
+				expression = sbHelper.translateFromBindingName(expression);
 			}
 		}
 
-		if ( btnBuilder != null )
-		{
-			btnBuilder.setExpression( expression );
+		if (btnBuilder != null) {
+			btnBuilder.setExpression(expression);
 		}
-		
+
 		enableAggEditor(expression);
 	}
 
-	private void enableAggEditor( String expression )
-	{
-		if ( expression != null && fAggEditorComposite != null )
-		{
-			try
-			{
-				ExpressionCodec ec = ChartModelHelper.instance( ).createExpressionCodec( );
-				ec.decode( expression );
-				expression = ec.convertJSExpression( false );
+	private void enableAggEditor(String expression) {
+		if (expression != null && fAggEditorComposite != null) {
+			try {
+				ExpressionCodec ec = ChartModelHelper.instance().createExpressionCodec();
+				ec.decode(expression);
+				expression = ec.convertJSExpression(false);
 
-				boolean enabled = this.context.getUIFactory( )
-						.createUIHelper( )
-						.useDataSetRow( context.getExtendedItem( ), expression );
-				fAggEditorComposite.setEnabled( enabled );
-			}
-			catch ( BirtException e )
-			{
-				WizardBase.displayException( e );
+				boolean enabled = !this.context.getUIFactory().createUIHelper().useDataSetRow(context.getExtendedItem(),
+						expression);
+				fAggEditorComposite.setEnabled(enabled);
+			} catch (BirtException e) {
+				WizardBase.displayException(e);
 			}
 
 		}
 	}
 
-	public void updateLabel( )
-	{
-		lblDesc.setText( description );
-		lblDesc.setToolTipText( tooltipWhenBlank );
-		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
-		if ( isRequiredField )
-		{
-			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
+	public void updateLabel() {
+		lblDesc.setText(description);
+		lblDesc.setToolTipText(tooltipWhenBlank);
+		boolean isRequiredField = (ChartUIConstants.QUERY_CATEGORY.equals(queryType));
+		if (isRequiredField) {
+			FieldAssistHelper.getInstance().addRequiredFieldIndicator(lblDesc);
 		}
 	}
 
-	public String getExpressionType( )
-	{
-		if ( btnBuilder != null )
-		{
-			return btnBuilder.getExpressionType( );
+	public String getExpressionType() {
+		if (btnBuilder != null) {
+			return btnBuilder.getExpressionType();
 		}
 		return null;
 	}
 
-	public IExpressionButton getExpressionButton( )
-	{
+	@Override
+	public IExpressionButton getExpressionButton() {
 		return btnBuilder;
 	}
 
-	private static class SharedBindingHelper
-	{
+	private static class SharedBindingHelper {
 
-		private final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-				.createExpressionCodec( );
+		private final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
 		/*
 		 * map from group/aggr name to binding name
 		 */
-		private final Map<String, String> mapBindingName = new HashMap<String, String>( );
+		private final Map<String, String> mapBindingName = new HashMap<>();
 
 		/*
 		 * map from group/aggr name to column binding info
 		 */
-		private final Map<String, ColumnBindingInfo> mapBinding = new HashMap<String, ColumnBindingInfo>( );
+		private final Map<String, ColumnBindingInfo> mapBinding = new HashMap<>();
 
 		/**
 		 * To reset the instance with predefinedQuery.
-		 * 
+		 *
 		 * @param predefinedQuery
 		 */
-		public void reset( Object[] predefinedQuery )
-		{
-			mapBindingName.clear( );
-			mapBinding.clear( );
+		public void reset(Object[] predefinedQuery) {
+			mapBindingName.clear();
+			mapBinding.clear();
 
-			if ( predefinedQuery != null )
-			{
-				for ( Object obj : predefinedQuery )
-				{
-					if ( obj instanceof ColumnBindingInfo )
-					{
+			if (predefinedQuery != null) {
+				for (Object obj : predefinedQuery) {
+					if (obj instanceof ColumnBindingInfo) {
 						ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
 
-						switch ( cbi.getColumnType( ) )
-						{
-							case ColumnBindingInfo.GROUP_COLUMN :
-							case ColumnBindingInfo.AGGREGATE_COLUMN :
-								String bindingName = exprCodec.getBindingName( cbi.getExpression( ) );
-								// Bugzilla 368070, T52858
-								if ( bindingName != null )
-								{
-									mapBindingName.put( cbi.getName( ),
-											bindingName );
-									mapBinding.put( cbi.getName( ), cbi );
-								}
-								break;
+						switch (cbi.getColumnType()) {
+						case ColumnBindingInfo.GROUP_COLUMN:
+						case ColumnBindingInfo.AGGREGATE_COLUMN:
+							String bindingName = exprCodec.getBindingName(cbi.getExpression());
+							// Bugzilla 368070, T52858
+							if (bindingName != null) {
+								mapBindingName.put(cbi.getName(), bindingName);
+								mapBinding.put(cbi.getName(), cbi);
+							}
+							break;
 						}
 					}
 				}
@@ -1174,39 +953,30 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		/**
 		 * Finds the group name contained by the given expression
-		 * 
-		 * @param expr
-		 *            the given expression
+		 *
+		 * @param expr the given expression
 		 * @return the group name if found,null otherwise.
 		 */
-		public String findGroupName( String expr )
-		{
-			return findName( expr, ColumnBindingInfo.GROUP_COLUMN );
+		public String findGroupName(String expr) {
+			return findName(expr, ColumnBindingInfo.GROUP_COLUMN);
 		}
 
 		/**
 		 * Finds the aggregation name contained by the given expression
-		 * 
-		 * @param expr
-		 *            the given expression
+		 *
+		 * @param expr the given expression
 		 * @return the aggregation name if found,null otherwise.
 		 */
-		public String findAggrName( String expr )
-		{
-			return findName( expr, ColumnBindingInfo.AGGREGATE_COLUMN );
+		public String findAggrName(String expr) {
+			return findName(expr, ColumnBindingInfo.AGGREGATE_COLUMN);
 		}
 
-		private String findName( String expr, int columnType )
-		{
-			if ( expr != null && expr.length( ) > 0 )
-			{
-				for ( Map.Entry<String, ColumnBindingInfo> entry : mapBinding.entrySet( ) )
-				{
-					if ( entry.getValue( ).getColumnType( ) == columnType )
-					{
-						String name = entry.getKey( );
-						if ( expr.contains( name ) )
-						{
+		private String findName(String expr, int columnType) {
+			if (expr != null && expr.length() > 0) {
+				for (Map.Entry<String, ColumnBindingInfo> entry : mapBinding.entrySet()) {
+					if (entry.getValue().getColumnType() == columnType) {
+						String name = entry.getKey();
+						if (expr.contains(name)) {
 							return name;
 						}
 					}
@@ -1215,41 +985,31 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return null;
 		}
 
-		public String getChartAggr( String aggrName )
-		{
-			ColumnBindingInfo cbi = mapBinding.get( aggrName );
-			if ( cbi != null )
-			{
-				return cbi.getChartAggExpression( );
+		public String getChartAggr(String aggrName) {
+			ColumnBindingInfo cbi = mapBinding.get(aggrName);
+			if (cbi != null) {
+				return cbi.getChartAggExpression();
 			}
 			return null;
 		}
 
-		public String translateToBindingName( String expr, String name )
-		{
-			if ( expr != null && expr.length( ) > 0 )
-			{
-				String bindingName = mapBindingName.get( name );
+		public String translateToBindingName(String expr, String name) {
+			if (expr != null && expr.length() > 0) {
+				String bindingName = mapBindingName.get(name);
 
-				if ( bindingName != null )
-				{
-					expr = expr.replaceAll( name, bindingName );
+				if (bindingName != null) {
+					expr = expr.replaceAll(name, bindingName);
 				}
 			}
 
 			return expr;
 		}
 
-		public String translateFromBindingName( String expr )
-		{
-			if ( expr != null && expr.length( ) > 0 )
-			{
-				for ( Map.Entry<String, String> entry : mapBindingName.entrySet( ) )
-				{
-					if ( expr.contains( entry.getValue( ) ) )
-					{
-						return expr.replaceAll( entry.getValue( ),
-								entry.getKey( ) );
+		public String translateFromBindingName(String expr) {
+			if (expr != null && expr.length() > 0) {
+				for (Map.Entry<String, String> entry : mapBindingName.entrySet()) {
+					if (expr.contains(entry.getValue())) {
+						return expr.replaceAll(entry.getValue(), entry.getKey());
 					}
 				}
 			}
@@ -1260,11 +1020,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	}
 
 	@Override
-	public void bindAssociatedName( String name )
-	{
-		if ( getInputControl( ) != null )
-		{
-			ChartUIUtil.addScreenReaderAccessbility( getInputControl( ), name );
+	public void bindAssociatedName(String name) {
+		if (getInputControl() != null) {
+			ChartUIUtil.addScreenReaderAccessbility(getInputControl(), name);
 		}
 	}
 }

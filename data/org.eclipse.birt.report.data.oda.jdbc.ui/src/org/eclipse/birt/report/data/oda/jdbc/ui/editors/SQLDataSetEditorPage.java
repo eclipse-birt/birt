@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -102,8 +105,7 @@ import org.eclipse.ui.PlatformUI;
  * ui.
  */
 
-public class SQLDataSetEditorPage extends DataSetWizardPage
-{
+public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 	// composite in editor page
 	private Document doc = null;
@@ -125,7 +127,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Group sqlOptionGroup = null;
 	private Group selectTableGroup = null;
 
-	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
+	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString("dataset.new.query");//$NON-NLS-1$
 
 	private int maxSchemaCount;
 	private int maxTableCountPerSchema;
@@ -141,143 +143,104 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private OdaConnectionProvider odaConnectionProvider;
 
 	String metadataBidiFormatStr = null; // bidi_hcg
-	
+
 	private boolean continueConnect = true;
-	
+
 	private static final int DB_OBJECT_TREE_HEIGHT_MIN = 150;
 	private static final int DB_OBJECT_TREE_WIDTH_MIN = 200;
-			
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param pageName
 	 */
-	public SQLDataSetEditorPage( String pageName )
-	{
-		super( pageName );
+	public SQLDataSetEditorPage(String pageName) {
+		super(pageName);
 	}
 
-	private void readPreferences( )
-	{
-		setDefaultPereferencesIfNeed( );
-		Preferences preferences = JdbcPlugin.getDefault( )
-				.getPluginPreferences( );
+	private void readPreferences() {
+		setDefaultPereferencesIfNeed();
+		Preferences preferences = JdbcPlugin.getDefault().getPluginPreferences();
 
-		if ( DateSetPreferencePage.ENABLED.equals( preferences.getString( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ) ) )
-		{
+		if (DateSetPreferencePage.ENABLED
+				.equals(preferences.getString(DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG))) {
 			prefetchSchema = true;
 		}
-		if ( DateSetPreferencePage.ENABLED.equals( preferences.getString( DateSetPreferencePage.ENABLE_CODE_ASSIST ) ) )
-		{
+		if (DateSetPreferencePage.ENABLED.equals(preferences.getString(DateSetPreferencePage.ENABLE_CODE_ASSIST))) {
 			enableCodeAssist = true;
 		}
-		maxSchemaCount = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA );
-		maxTableCountPerSchema = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
-		timeOutLimit = preferences.getInt( DateSetPreferencePage.USER_TIMEOUT_LIMIT );
-		if ( maxSchemaCount <= 0 )
-		{
+		maxSchemaCount = preferences.getInt(DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA);
+		maxTableCountPerSchema = preferences.getInt(DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA);
+		timeOutLimit = preferences.getInt(DateSetPreferencePage.USER_TIMEOUT_LIMIT);
+		if (maxSchemaCount <= 0) {
 			maxSchemaCount = Integer.MAX_VALUE;
 		}
-		if ( maxTableCountPerSchema <= 0 )
-		{
+		if (maxTableCountPerSchema <= 0) {
 			maxTableCountPerSchema = Integer.MAX_VALUE;
 		}
-		if ( timeOutLimit < 0 )
-		{
+		if (timeOutLimit < 0) {
 			timeOutLimit = 0;
 		}
 	}
 
-	private void setDefaultPereferencesIfNeed( )
-	{
-		Preferences preferences = JdbcPlugin.getDefault( )
-				.getPluginPreferences( );
-		if ( !preferences.contains( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG ) )
-		{
-			preferences.setValue( DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG,
-					DateSetPreferencePage.ENABLED );
+	private void setDefaultPereferencesIfNeed() {
+		Preferences preferences = JdbcPlugin.getDefault().getPluginPreferences();
+		if (!preferences.contains(DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG)) {
+			preferences.setValue(DateSetPreferencePage.SCHEMAS_PREFETCH_CONFIG, DateSetPreferencePage.ENABLED);
 		}
-		if ( !preferences.contains( DateSetPreferencePage.ENABLE_CODE_ASSIST ) )
-		{
-			preferences.setValue( DateSetPreferencePage.ENABLE_CODE_ASSIST,
-					DateSetPreferencePage.ENABLED );
+		if (!preferences.contains(DateSetPreferencePage.ENABLE_CODE_ASSIST)) {
+			preferences.setValue(DateSetPreferencePage.ENABLE_CODE_ASSIST, DateSetPreferencePage.ENABLED);
 		}
-		if ( !preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA ) )
-		{
-			preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
-					String.valueOf( DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA ) );
+		if (!preferences.contains(DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA)) {
+			preferences.setValue(DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA,
+					String.valueOf(DateSetPreferencePage.DEFAULT_MAX_NUM_OF_SCHEMA));
 		}
-		if ( !preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
-		{
-			preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA,
-					String.valueOf( DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA ) );
+		if (!preferences.contains(DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA)) {
+			preferences.setValue(DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA,
+					String.valueOf(DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
 		}
-		if ( !preferences.contains( DateSetPreferencePage.USER_TIMEOUT_LIMIT ) )
-		{
-			preferences.setValue( DateSetPreferencePage.USER_TIMEOUT_LIMIT,
-					String.valueOf( DateSetPreferencePage.DEFAULT_TIMEOUT_LIMIT ) );
+		if (!preferences.contains(DateSetPreferencePage.USER_TIMEOUT_LIMIT)) {
+			preferences.setValue(DateSetPreferencePage.USER_TIMEOUT_LIMIT,
+					String.valueOf(DateSetPreferencePage.DEFAULT_TIMEOUT_LIMIT));
 		}
 	}
 
-	private void prepareJDBCMetaDataProvider( DataSetDesign dataSetDesign )
-	{
-		JdbcMetaDataProvider.createInstance( dataSetDesign, this.getHostResourceIdentifiers( ) );
+	private void prepareJDBCMetaDataProvider(DataSetDesign dataSetDesign) {
+		JdbcMetaDataProvider.createInstance(dataSetDesign, this.getHostResourceIdentifiers());
 
-		class TempThread extends Thread
-		{
-			public void run()
-			{
-				try
-				{
-					JdbcMetaDataProvider.getInstance( ).reconnect( );
-				}
-				catch ( Exception e )
-				{
+		class TempThread extends Thread {
+			@Override
+			public void run() {
+				try {
+					JdbcMetaDataProvider.getInstance().reconnect();
+				} catch (Exception e) {
 					prepareException = e;
 				}
 			}
 		}
-		
-		TempThread tt = new TempThread( );
-		tt.start( );
-		
-		try
-		{	
-			tt.join( this.timeOutLimit * 1000 );
-			Thread.State state = tt.getState( );
-			if( state == Thread.State.TERMINATED )
-			{
-				if ( prepareException != null )
-				{
-					ExceptionHandler.showException( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-							prepareException.getLocalizedMessage( ),
-							prepareException );
+
+		TempThread tt = new TempThread();
+		tt.start();
+
+		try {
+			tt.join(this.timeOutLimit * 1000);
+			Thread.State state = tt.getState();
+			if (state == Thread.State.TERMINATED) {
+				if (prepareException != null) {
+					ExceptionHandler.showException(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+							JdbcPlugin.getResourceString("exceptionHandler.title.error"),
+							prepareException.getLocalizedMessage(), prepareException);
 					prepareException = null;
 				}
-			}
-			else 
-			{
+			} else {
 				continueConnect = false;
-				ExceptionHandler.showException( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-						JdbcPlugin.getResourceString( "connection.timeOut" ),
-						new Exception() );
+				ExceptionHandler.showException(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						JdbcPlugin.getResourceString("exceptionHandler.title.error"),
+						JdbcPlugin.getResourceString("connection.timeOut"), new Exception());
 			}
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionHandler.showException( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-					e.getLocalizedMessage( ),
-					e );
+		} catch (InterruptedException e) {
+			ExceptionHandler.showException(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					JdbcPlugin.getResourceString("exceptionHandler.title.error"), e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -286,627 +249,540 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPageCustomControl( Composite parent )
-	{
-		this.dataSetDesign = this.getInitializationDesign( );
+	@Override
+	public void createPageCustomControl(Composite parent) {
+		this.dataSetDesign = this.getInitializationDesign();
 
 		// bidi_hcg: initialize value of metadataBidiFormatStr
-		try
-		{
-			Properties connProps = DesignSessionUtil.getEffectiveDataSourceProperties( dataSetDesign.getDataSourceDesign( ) );
-			metadataBidiFormatStr = connProps.getProperty( BidiConstants.METADATA_FORMAT_PROP_NAME );
-		}
-		catch ( OdaException e )
-		{
+		try {
+			Properties connProps = DesignSessionUtil
+					.getEffectiveDataSourceProperties(dataSetDesign.getDataSourceDesign());
+			metadataBidiFormatStr = connProps.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);
+		} catch (OdaException e) {
 			metadataBidiFormatStr = null;
 		}
 
-		readPreferences( );
-		prepareJDBCMetaDataProvider( dataSetDesign );
-		this.odaConnectionProvider = new OdaConnectionProvider( dataSetDesign.getDataSourceDesign( ) );
-		setControl( createPageControl( parent ) );
-		initializeControl( );
-		this.formerQueryTxt = dataSetDesign.getQueryText( );
-		Utility.setSystemHelp( getControl( ),
-				IHelpConstants.CONEXT_ID_DATASET_JDBC );
+		readPreferences();
+		prepareJDBCMetaDataProvider(dataSetDesign);
+		this.odaConnectionProvider = new OdaConnectionProvider(dataSetDesign.getDataSourceDesign());
+		setControl(createPageControl(parent));
+		initializeControl();
+		this.formerQueryTxt = dataSetDesign.getQueryText();
+		Utility.setSystemHelp(getControl(), IHelpConstants.CONEXT_ID_DATASET_JDBC);
 	}
 
 	/**
 	 * create page control for sql edit page
-	 * 
+	 *
 	 * @param parent
 	 * @return
 	 */
-	private Control createPageControl( Composite parent )
-	{
-		SashForm pageContainer = new SashForm( parent, SWT.NONE );
+	private Control createPageControl(Composite parent) {
+		SashForm pageContainer = new SashForm(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.horizontalSpacing = 2;
-		pageContainer.setLayout( layout );
-		pageContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		pageContainer.setLayout(layout);
+		pageContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		pageContainer.setSashWidth( 3 );
+		pageContainer.setSashWidth(3);
 
-		Control left = createDBMetaDataSelectionComposite( pageContainer );
-		Control right = createTextualQueryComposite( pageContainer );
-		setWidthHints( pageContainer, left, right );
-		
+		Control left = createDBMetaDataSelectionComposite(pageContainer);
+		Control right = createTextualQueryComposite(pageContainer);
+		setWidthHints(pageContainer, left, right);
+
 		return pageContainer;
 	}
-	
+
 	/**
 	 * @param pageContainer
 	 * @param left
 	 * @param right
 	 */
-	private void setWidthHints( SashForm pageContainer, Control left,
-			Control right )
-	{
-		int leftWidth = left.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		int rightWidth = right.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+	private void setWidthHints(SashForm pageContainer, Control left, Control right) {
+		int leftWidth = left.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		int rightWidth = right.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 
-		pageContainer.setWeights( new int[]{
-				leftWidth, rightWidth
-		} );
+		pageContainer.setWeights(new int[] { leftWidth, rightWidth });
 
 	}
 
 	/**
 	 * initial dataset control
-	 * 
+	 *
 	 */
-	private void initializeControl( )
-	{
-		if ( this.dataSetDesign.getOdaExtensionDataSourceId( ) != null && this.dataSetDesign.getOdaExtensionDataSourceId( ).contains( "hive" ) )
-		{
-			DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query.hive" );
+	private void initializeControl() {
+		if (this.dataSetDesign.getOdaExtensionDataSourceId() != null
+				&& this.dataSetDesign.getOdaExtensionDataSourceId().contains("hive")) {
+			DEFAULT_MESSAGE = JdbcPlugin.getResourceString("dataset.new.query.hive");
+		} else {
+			DEFAULT_MESSAGE = JdbcPlugin.getResourceString("dataset.new.query");
 		}
-		else
-		{
-			DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
-		}
-		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-		viewer.getTextWidget( ).setFocus( );
+		setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
+		viewer.getTextWidget().setFocus();
 	}
 
 	/**
 	 * Creates the composite, for displaying the list of available db objects
-	 * 
+	 *
 	 * @param parent
 	 */
-	private Control createDBMetaDataSelectionComposite( Composite parent )
-	{
-		sComposite = new ScrolledComposite( parent, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		sComposite.setExpandHorizontal( true );
-		sComposite.setExpandVertical( true );
-		sComposite.setMinHeight( 500 );
-		sComposite.setMinWidth( 250 );
-		
-		sComposite.addControlListener( new ControlAdapter( ) {
+	private Control createDBMetaDataSelectionComposite(Composite parent) {
+		sComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		sComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		sComposite.setExpandHorizontal(true);
+		sComposite.setExpandVertical(true);
+		sComposite.setMinHeight(500);
+		sComposite.setMinWidth(250);
 
-			public void controlResized( ControlEvent e )
-			{
-				computeSize( );
+		sComposite.addControlListener(new ControlAdapter() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				computeSize();
 			}
-		} );
-		
-		boolean supportsSchema = false ; 
-		boolean supportsProcedure = false; 
-		
-		if ( continueConnect )
-		{
-			supportsSchema = JdbcMetaDataProvider.getInstance( )
-					.isSupportSchema( );
-			supportsProcedure = JdbcMetaDataProvider.getInstance( )
-					.isSupportProcedure( );
+		});
+
+		boolean supportsSchema = false;
+		boolean supportsProcedure = false;
+
+		if (continueConnect) {
+			supportsSchema = JdbcMetaDataProvider.getInstance().isSupportSchema();
+			supportsProcedure = JdbcMetaDataProvider.getInstance().isSupportProcedure();
 		}
-		
-		tablescomposite = new Composite( sComposite, SWT.NONE );
 
-		tablescomposite.setLayout( new GridLayout( ) );
-		GridData data = new GridData( GridData.FILL_BOTH );
+		tablescomposite = new Composite(sComposite, SWT.NONE);
+
+		tablescomposite.setLayout(new GridLayout());
+		GridData data = new GridData(GridData.FILL_BOTH);
 		data.grabExcessVerticalSpace = true;
-		tablescomposite.setLayoutData( data );
+		tablescomposite.setLayoutData(data);
 
-		createDBObjectTree( tablescomposite );
+		createDBObjectTree(tablescomposite);
 		createObjectTreeMenu();
 
-		createSchemaFilterComposite( supportsSchema,
-				supportsProcedure,
-				tablescomposite );
+		createSchemaFilterComposite(supportsSchema, supportsProcedure, tablescomposite);
 
-		createSQLOptionGroup( tablescomposite );
+		createSQLOptionGroup(tablescomposite);
 
-		addDragSupportToTree( );
+		addDragSupportToTree();
 		// bidi_hcg: pass value of metadataBidiFormatStr
-		addFetchDbObjectListener( metadataBidiFormatStr );
-		
-		sComposite.setContent( tablescomposite );
+		addFetchDbObjectListener(metadataBidiFormatStr);
+
+		sComposite.setContent(tablescomposite);
 
 		return tablescomposite;
 	}
 
-	private void computeSize( )
-	{
-		if ( this.getShell( ) != null )
-		{
-			availableDbObjectsTree.setBounds( availableDbObjectsTree.getBounds( ).x,
-					availableDbObjectsTree.getBounds( ).y,
-					this.getShell( ).getSize( ).x / 3,
-					this.getShell( ).getSize( ).y / 4 );
-			sComposite.setMinSize( max( this.getShell( ).getSize( ).x / 3 - 30,
-					DB_OBJECT_TREE_WIDTH_MIN ),
-					max( this.getShell( ).getSize( ).y / 4,
-							DB_OBJECT_TREE_HEIGHT_MIN )
-							+ selectTableGroup.getBounds( ).height
-							+ sqlOptionGroup.getBounds( ).height + 30 );
-			tablescomposite.layout( );
+	private void computeSize() {
+		if (this.getShell() != null) {
+			availableDbObjectsTree.setBounds(availableDbObjectsTree.getBounds().x, availableDbObjectsTree.getBounds().y,
+					this.getShell().getSize().x / 3, this.getShell().getSize().y / 4);
+			sComposite.setMinSize(max(this.getShell().getSize().x / 3 - 30, DB_OBJECT_TREE_WIDTH_MIN),
+					max(this.getShell().getSize().y / 4, DB_OBJECT_TREE_HEIGHT_MIN)
+							+ selectTableGroup.getBounds().height + sqlOptionGroup.getBounds().height + 30);
+			tablescomposite.layout();
 		}
 
 	}
-	
-	private int max( double d, double b )
-	{
-		return (int) Math.max( d, b );
+
+	private int max(double d, double b) {
+		return (int) Math.max(d, b);
 	}
 
-	private void createDBObjectTree( Composite tablescomposite )
-	{
+	private void createDBObjectTree(Composite tablescomposite) {
 		// Available Items
-		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
-		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
-		GridData labelData = new GridData( );
-		dataSourceLabel.setLayoutData( labelData );
+		Label dataSourceLabel = new Label(tablescomposite, SWT.LEFT);
+		dataSourceLabel.setText(JdbcPlugin.getResourceString("tablepage.label.availableItems"));//$NON-NLS-1$
+		GridData labelData = new GridData();
+		dataSourceLabel.setLayoutData(labelData);
 
-		availableDbObjectsTree = new Tree( tablescomposite, SWT.BORDER
-				| SWT.MULTI );
-		GridData treeData = new GridData( GridData.FILL_BOTH );
+		availableDbObjectsTree = new Tree(tablescomposite, SWT.BORDER | SWT.MULTI);
+		GridData treeData = new GridData(GridData.FILL_BOTH);
 		treeData.minimumHeight = DB_OBJECT_TREE_HEIGHT_MIN;
-		availableDbObjectsTree.setLayoutData( treeData );
+		availableDbObjectsTree.setLayoutData(treeData);
 
-		availableDbObjectsTree.addMenuDetectListener( new MenuDetectListener( ) {
+		availableDbObjectsTree.addMenuDetectListener(new MenuDetectListener() {
 
-			public void menuDetected( MenuDetectEvent e )
-			{
-				if ( availableDbObjectsTree.getSelectionCount( ) > 0 )
-				{
-					TreeItem item = availableDbObjectsTree.getSelection( )[0];
-					if ( item.getParentItem( ) != null && treeMenu!=null )
-					{
-						treeMenu.setLocation( e.x, e.y );
+			@Override
+			public void menuDetected(MenuDetectEvent e) {
+				if (availableDbObjectsTree.getSelectionCount() > 0) {
+					TreeItem item = availableDbObjectsTree.getSelection()[0];
+					if (item.getParentItem() != null && treeMenu != null) {
+						treeMenu.setLocation(e.x, e.y);
 						return;
 					}
 				}
 				e.doit = false;
 			}
-		} );
+		});
 
-		availableDbObjectsTree.addMouseListener( new MouseAdapter( ) {
+		availableDbObjectsTree.addMouseListener(new MouseAdapter() {
 
-			public void mouseDoubleClick( MouseEvent e )
-			{
-				insertTreeItemText( );
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				insertTreeItemText();
 			}
-		} );
+		});
 	}
 
-	private void createObjectTreeMenu( )
-	{
-		treeMenu = new Menu( availableDbObjectsTree );
+	private void createObjectTreeMenu() {
+		treeMenu = new Menu(availableDbObjectsTree);
 
-		MenuItem insert = new MenuItem( treeMenu, SWT.NONE );
-		insert.setText( JdbcPlugin.getResourceString( "sqleditor.objectTree.menuItem.insert" ) );
-		insert.addSelectionListener( new SelectionAdapter( ) {
+		MenuItem insert = new MenuItem(treeMenu, SWT.NONE);
+		insert.setText(JdbcPlugin.getResourceString("sqleditor.objectTree.menuItem.insert"));
+		insert.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				insertTreeItemText( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				insertTreeItemText();
 			}
 
-		} );
-		availableDbObjectsTree.setMenu( treeMenu );
+		});
+		availableDbObjectsTree.setMenu(treeMenu);
 	}
 
-	private void createSchemaFilterComposite( boolean supportsSchema,
-			boolean supportsProcedure, Composite tablescomposite )
-	{
+	private void createSchemaFilterComposite(boolean supportsSchema, boolean supportsProcedure,
+			Composite tablescomposite) {
 		// Group for selecting the Tables etc
 		// Searching the Tables and Views
-		selectTableGroup = new Group( tablescomposite, SWT.FILL );
+		selectTableGroup = new Group(tablescomposite, SWT.FILL);
 
-		GridLayout groupLayout = new GridLayout( );
+		GridLayout groupLayout = new GridLayout();
 		groupLayout.numColumns = 3;
 		groupLayout.verticalSpacing = 10;
-		selectTableGroup.setLayout( groupLayout );
+		selectTableGroup.setLayout(groupLayout);
 
-		GridData selectTableData = new GridData( GridData.FILL_HORIZONTAL );
-		selectTableGroup.setLayoutData( selectTableData );
+		GridData selectTableData = new GridData(GridData.FILL_HORIZONTAL);
+		selectTableGroup.setLayoutData(selectTableData);
 
-		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
-		schemaLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.schema" ) );
+		schemaLabel = new Label(selectTableGroup, SWT.LEFT);
+		schemaLabel.setText(JdbcPlugin.getResourceString("tablepage.label.schema"));
 
-		schemaCombo = new Combo( selectTableGroup, prefetchSchema
-				? SWT.READ_ONLY : SWT.DROP_DOWN );
+		schemaCombo = new Combo(selectTableGroup, prefetchSchema ? SWT.READ_ONLY : SWT.DROP_DOWN);
 
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
-		schemaCombo.setLayoutData( gd );
-		schemaCombo.setVisibleItemCount( 30 );
+		schemaCombo.setLayoutData(gd);
+		schemaCombo.setVisibleItemCount(30);
 
-		final Label filterLabel = new Label( selectTableGroup, SWT.LEFT );
-		filterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );
-		filterLabel.addMouseTrackListener( new MouseTrackAdapter( ) {
+		final Label filterLabel = new Label(selectTableGroup, SWT.LEFT);
+		filterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
+		filterLabel.addMouseTrackListener(new MouseTrackAdapter() {
 
-			public void mouseHover( MouseEvent event )
-			{
-				filterLabel.setToolTipText( JdbcPlugin.getResourceString( "tablepage.label.filter.tooltip" ) );
+			@Override
+			public void mouseHover(MouseEvent event) {
+				filterLabel.setToolTipText(JdbcPlugin.getResourceString("tablepage.label.filter.tooltip"));
 			}
-		} );
+		});
 
-		searchTxt = new Text( selectTableGroup, SWT.BORDER );
-		GridData searchTxtData = new GridData( GridData.FILL_HORIZONTAL );
+		searchTxt = new Text(selectTableGroup, SWT.BORDER);
+		GridData searchTxtData = new GridData(GridData.FILL_HORIZONTAL);
 		searchTxtData.horizontalSpan = 2;
-		searchTxt.setLayoutData( searchTxtData );
-		searchTxt.addMouseTrackListener( new MouseTrackAdapter( ) {
+		searchTxt.setLayoutData(searchTxtData);
+		searchTxt.addMouseTrackListener(new MouseTrackAdapter() {
 
-			public void mouseHover( MouseEvent event )
-			{
-				searchTxt.setToolTipText( JdbcPlugin.getResourceString( "tablepage.label.filter.tooltip" ) );
+			@Override
+			public void mouseHover(MouseEvent event) {
+				searchTxt.setToolTipText(JdbcPlugin.getResourceString("tablepage.label.filter.tooltip"));
 			}
-		} );
+		});
 
-		
 		// Select Type
-		Label selectTypeLabel = new Label( selectTableGroup, SWT.NONE );
-		selectTypeLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.selecttype" ) );
+		Label selectTypeLabel = new Label(selectTableGroup, SWT.NONE);
+		selectTypeLabel.setText(JdbcPlugin.getResourceString("tablepage.label.selecttype"));
 
 		// Filter Combo
-		filterComboViewer = new ComboViewer( selectTableGroup, SWT.READ_ONLY );
-		setFilterComboContents( filterComboViewer, supportsProcedure );
-		GridData filterData = new GridData( GridData.FILL_HORIZONTAL );
+		filterComboViewer = new ComboViewer(selectTableGroup, SWT.READ_ONLY);
+		setFilterComboContents(filterComboViewer, supportsProcedure);
+		GridData filterData = new GridData(GridData.FILL_HORIZONTAL);
 		filterData.horizontalSpan = 2;
-		filterComboViewer.getControl( ).setLayoutData( filterData );
+		filterComboViewer.getControl().setLayoutData(filterData);
 
-		setupShowSystemTableCheckBox( selectTableGroup );
-		setupShowAliasCheckBox( selectTableGroup);
+		setupShowSystemTableCheckBox(selectTableGroup);
+		setupShowAliasCheckBox(selectTableGroup);
 
 		// Find Button
-		Button findButton = new Button( selectTableGroup, SWT.NONE );
-		GridData btnData = new GridData( GridData.HORIZONTAL_ALIGN_CENTER );
+		Button findButton = new Button(selectTableGroup, SWT.NONE);
+		GridData btnData = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
 		btnData.horizontalSpan = 3;
-		findButton.setLayoutData( btnData );
-		findButton.setText( JdbcPlugin.getResourceString( "tablepage.button.filter" ) );//$NON-NLS-1$
+		findButton.setLayoutData(btnData);
+		findButton.setText(JdbcPlugin.getResourceString("tablepage.button.filter"));//$NON-NLS-1$
 
 		// Add listener to the find button
-		findButton.addSelectionListener( new SelectionAdapter( ) {
+		findButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.asyncExec( new Runnable( ) {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 
-							public void run( )
-							{
-								fc = populateFilterConfig( );
-								// bidi_hcg: pass value of metadataBidiFormatStr
-								DBNodeUtil.createTreeRoot( availableDbObjectsTree,
-										new RootNode( dataSetDesign.getDataSourceDesign( )
-												.getName( ) ),
-										fc,
-										metadataBidiFormatStr,
-										SQLDataSetEditorPage.this.timeOutLimit * 1000 );
-							}
-						} );
+					@Override
+					public void run() {
+						fc = populateFilterConfig();
+						// bidi_hcg: pass value of metadataBidiFormatStr
+						DBNodeUtil.createTreeRoot(availableDbObjectsTree,
+								new RootNode(dataSetDesign.getDataSourceDesign().getName()), fc, metadataBidiFormatStr,
+								SQLDataSetEditorPage.this.timeOutLimit * 1000);
+					}
+				});
 			}
-		} );
+		});
 
 		String[] allSchemaNames = null;
-		if ( supportsSchema )
-		{
-			String allFlag = JdbcPlugin.getResourceString( "tablepage.text.All" );
-			schemaCombo.add( allFlag );
+		if (supportsSchema) {
+			String allFlag = JdbcPlugin.getResourceString("tablepage.text.All");
+			schemaCombo.add(allFlag);
 
-			if ( prefetchSchema )
-			{
+			if (prefetchSchema) {
 
-				allSchemaNames = JdbcMetaDataProvider.getInstance( )
-						.getAllSchemaNames( timeOutLimit * 1000 );
+				allSchemaNames = JdbcMetaDataProvider.getInstance().getAllSchemaNames(timeOutLimit * 1000);
 
-				for ( String name : allSchemaNames )
-				{
-					schemaCombo.add( BidiTransform.transform( name,
-							metadataBidiFormatStr,
-							BidiConstants.DEFAULT_BIDI_FORMAT_STR ) );
+				for (String name : allSchemaNames) {
+					schemaCombo.add(BidiTransform.transform(name, metadataBidiFormatStr,
+							BidiConstants.DEFAULT_BIDI_FORMAT_STR));
 				}
 			}
-			schemaCombo.select( 0 );
+			schemaCombo.select(0);
+		} else {
+			schemaCombo.removeAll();
+			schemaCombo.setEnabled(false);
+			schemaLabel.setEnabled(false);
 		}
-		else
-		{
-			schemaCombo.removeAll( );
-			schemaCombo.setEnabled( false );
-			schemaLabel.setEnabled( false );
-		}
-		if ( prefetchSchema && continueConnect )
-		{
-			fc = populateFilterConfig( );
+		if (prefetchSchema && continueConnect) {
+			fc = populateFilterConfig();
 			// bidi_hcg: pass value of metadataBidiFormatStr
-			DBNodeUtil.createTreeRoot( availableDbObjectsTree,
-					new RootNode( dataSetDesign.getDataSourceDesign( )
-							.getName( ), allSchemaNames ),
-					fc,
-					metadataBidiFormatStr,
-					SQLDataSetEditorPage.this.timeOutLimit * 1000 );
-		}
-		else
-		{
+			DBNodeUtil.createTreeRoot(availableDbObjectsTree,
+					new RootNode(dataSetDesign.getDataSourceDesign().getName(), allSchemaNames), fc,
+					metadataBidiFormatStr, SQLDataSetEditorPage.this.timeOutLimit * 1000);
+		} else {
 			// bidi_hcg: pass value of metadataBidiFormatStr
-			DBNodeUtil.createRootTip( availableDbObjectsTree,
-					new RootNode( dataSetDesign.getDataSourceDesign( )
-							.getName( ) ),
-					metadataBidiFormatStr );
+			DBNodeUtil.createRootTip(availableDbObjectsTree,
+					new RootNode(dataSetDesign.getDataSourceDesign().getName()), metadataBidiFormatStr);
 		}
 	}
 
-	private void createSQLOptionGroup( Composite tablescomposite )
-	{
-		sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
-		sqlOptionGroup.setText( JdbcPlugin.getResourceString( "tablepage.group.title" ) ); //$NON-NLS-1$
-		GridLayout sqlOptionGroupLayout = new GridLayout( );
+	private void createSQLOptionGroup(Composite tablescomposite) {
+		sqlOptionGroup = new Group(tablescomposite, SWT.FILL);
+		sqlOptionGroup.setText(JdbcPlugin.getResourceString("tablepage.group.title")); //$NON-NLS-1$
+		GridLayout sqlOptionGroupLayout = new GridLayout();
 		sqlOptionGroupLayout.verticalSpacing = 10;
-		sqlOptionGroup.setLayout( sqlOptionGroupLayout );
-		GridData sqlOptionGroupData = new GridData( GridData.FILL_HORIZONTAL );
-		sqlOptionGroup.setLayoutData( sqlOptionGroupData );
+		sqlOptionGroup.setLayout(sqlOptionGroupLayout);
+		GridData sqlOptionGroupData = new GridData(GridData.FILL_HORIZONTAL);
+		sqlOptionGroup.setLayoutData(sqlOptionGroupData);
 
-		setupIdentifierQuoteStringCheckBox( sqlOptionGroup );
+		setupIdentifierQuoteStringCheckBox(sqlOptionGroup);
 
-		setupIncludeSchemaCheckBox( sqlOptionGroup );
+		setupIncludeSchemaCheckBox(sqlOptionGroup);
 	}
 
-	private FilterConfig populateFilterConfig( )
-	{
+	private FilterConfig populateFilterConfig() {
 		String schemaName = null;
-		if ( schemaCombo.isEnabled( ) && schemaCombo.getSelectionIndex( ) != 0 )
-		{
-			schemaName = schemaCombo.getText( );
-			schemaName = BidiTransform.transform( schemaName,
-					BidiConstants.DEFAULT_BIDI_FORMAT_STR,
-					metadataBidiFormatStr );
+		if (schemaCombo.isEnabled() && schemaCombo.getSelectionIndex() != 0) {
+			schemaName = schemaCombo.getText();
+			schemaName = BidiTransform.transform(schemaName, BidiConstants.DEFAULT_BIDI_FORMAT_STR,
+					metadataBidiFormatStr);
 		}
-		TableType type = getSelectedFilterType( );
-		String namePattern = searchTxt.getText( );
-		boolean isShowSystemTable = showSystemTableCheckBox.isEnabled( )
-				? showSystemTableCheckBox.getSelection( ) : false;
-		boolean isShowAlias = showAliasCheckBox.isEnabled( )
-				? showAliasCheckBox.getSelection( ) : false;
-		FilterConfig result = new FilterConfig( schemaName,
-				type,
-				namePattern,
-				isShowSystemTable,
-				isShowAlias,
-				maxSchemaCount,
-				maxTableCountPerSchema );
+		TableType type = getSelectedFilterType();
+		String namePattern = searchTxt.getText();
+		boolean isShowSystemTable = showSystemTableCheckBox.isEnabled() ? showSystemTableCheckBox.getSelection()
+				: false;
+		boolean isShowAlias = showAliasCheckBox.isEnabled() ? showAliasCheckBox.getSelection() : false;
+		FilterConfig result = new FilterConfig(schemaName, type, namePattern, isShowSystemTable, isShowAlias,
+				maxSchemaCount, maxTableCountPerSchema);
 		return result;
 	}
 
 	/*
-	 * 
+	 *
 	 * @seeorg.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSetWizardPageCore
 	 * #collectDataSetDesign(org.eclipse.datatools.connectivity
 	 * .oda.design.DataSetDesign)
 	 */
-	protected DataSetDesign collectDataSetDesign( DataSetDesign design )
-	{
+	@Override
+	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// This method sometimes is called even if the whole page is ever not
 		// presented
-		if ( doc != null )
-		{
-			design.setQueryText( doc.get( ) );
-			if ( !design.getQueryText( ).equals( formerQueryTxt ) )
-			{
-				MetaDataRetriever retriever = new MetaDataRetriever( odaConnectionProvider,
-						design );
-				IResultSetMetaData resultsetMeta = retriever.getResultSetMetaData( );
-				IParameterMetaData paramMeta = retriever.getParameterMetaData( );
-				SQLUtility.saveDataSetDesign( design, resultsetMeta, paramMeta );
-				formerQueryTxt = design.getQueryText( );
-				retriever.close( );
+		if (doc != null) {
+			design.setQueryText(doc.get());
+			if (!design.getQueryText().equals(formerQueryTxt)) {
+				MetaDataRetriever retriever = new MetaDataRetriever(odaConnectionProvider, design);
+				IResultSetMetaData resultsetMeta = retriever.getResultSetMetaData();
+				IParameterMetaData paramMeta = retriever.getParameterMetaData();
+				SQLUtility.saveDataSetDesign(design, resultsetMeta, paramMeta);
+				formerQueryTxt = design.getQueryText();
+				retriever.close();
 			}
 		}
 		return design;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param group
 	 */
-	private void setupIdentifierQuoteStringCheckBox( Group group )
-	{
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+	private void setupIdentifierQuoteStringCheckBox(Group group) {
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.horizontalSpan = 3;
-		identifierQuoteStringCheckBox = new Button( group, SWT.CHECK );
-		identifierQuoteStringCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.dnd" ) ); //$NON-NLS-1$
-		identifierQuoteStringCheckBox.setSelection( false );
-		identifierQuoteStringCheckBox.setLayoutData( layoutData );
-		
-		if ( JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( ).equals( "" ) ) 
-		{
-			identifierQuoteStringCheckBox.setEnabled( false );
+		identifierQuoteStringCheckBox = new Button(group, SWT.CHECK);
+		identifierQuoteStringCheckBox.setText(JdbcPlugin.getResourceString("tablepage.button.dnd")); //$NON-NLS-1$
+		identifierQuoteStringCheckBox.setSelection(false);
+		identifierQuoteStringCheckBox.setLayoutData(layoutData);
+
+		if (JdbcMetaDataProvider.getInstance().getIdentifierQuoteString().equals("")) {
+			identifierQuoteStringCheckBox.setEnabled(false);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param group
 	 */
-	private void setupShowSystemTableCheckBox( Group group )
-	{
-		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+	private void setupShowSystemTableCheckBox(Group group) {
+		GridData layoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		layoutData.horizontalSpan = 2;
-		showSystemTableCheckBox = new Button( group, SWT.CHECK );
-		showSystemTableCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.showSystemTables" ) ); //$NON-NLS-1$
-		showSystemTableCheckBox.setSelection( false );
-		showSystemTableCheckBox.setLayoutData( layoutData );
-		showSystemTableCheckBox.setEnabled( true );
+		showSystemTableCheckBox = new Button(group, SWT.CHECK);
+		showSystemTableCheckBox.setText(JdbcPlugin.getResourceString("tablepage.button.showSystemTables")); //$NON-NLS-1$
+		showSystemTableCheckBox.setSelection(false);
+		showSystemTableCheckBox.setLayoutData(layoutData);
+		showSystemTableCheckBox.setEnabled(true);
 	}
-	
-	private void setupShowAliasCheckBox(Group group)
-	{
-		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+
+	private void setupShowAliasCheckBox(Group group) {
+		GridData layoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		layoutData.horizontalSpan = 2;
-		showAliasCheckBox = new Button( group, SWT.CHECK );
-		showAliasCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.showAlias" ) ); //$NON-NLS-1$
-		showAliasCheckBox.setSelection( true );
-		showAliasCheckBox.setLayoutData( layoutData );
-		showAliasCheckBox.setEnabled( true );
-	}
-	
-	/**
-	 * 
-	 * @param group
-	 */
-	private void setupIncludeSchemaCheckBox( Group group )
-	{
-		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		layoutData.horizontalSpan = 2;
-		includeSchemaCheckBox = new Button( group, SWT.CHECK );
-		includeSchemaCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.includeSchemaInfo" ) ); //$NON-NLS-1$
-		includeSchemaCheckBox.setSelection( true );
-		includeSchemaCheckBox.setLayoutData( layoutData );
-		includeSchemaCheckBox.setEnabled( true );
+		showAliasCheckBox = new Button(group, SWT.CHECK);
+		showAliasCheckBox.setText(JdbcPlugin.getResourceString("tablepage.button.showAlias")); //$NON-NLS-1$
+		showAliasCheckBox.setSelection(true);
+		showAliasCheckBox.setLayoutData(layoutData);
+		showAliasCheckBox.setEnabled(true);
 	}
 
 	/**
-	 * 
+	 *
+	 * @param group
+	 */
+	private void setupIncludeSchemaCheckBox(Group group) {
+		GridData layoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		layoutData.horizontalSpan = 2;
+		includeSchemaCheckBox = new Button(group, SWT.CHECK);
+		includeSchemaCheckBox.setText(JdbcPlugin.getResourceString("tablepage.button.includeSchemaInfo")); //$NON-NLS-1$
+		includeSchemaCheckBox.setSelection(true);
+		includeSchemaCheckBox.setLayoutData(layoutData);
+		includeSchemaCheckBox.setEnabled(true);
+	}
+
+	/**
+	 *
 	 * @param filterComboViewer
 	 */
-	private void setFilterComboContents( ComboViewer filterComboViewer,
-			boolean supportsProcedure )
-	{
-		if ( filterComboViewer == null )
-		{
+	private void setFilterComboContents(ComboViewer filterComboViewer, boolean supportsProcedure) {
+		if (filterComboViewer == null) {
 			return;
 		}
-		filterComboViewer.setContentProvider( new IStructuredContentProvider( ) {
+		filterComboViewer.setContentProvider(new IStructuredContentProvider() {
 
-			public Object[] getElements( Object inputElement )
-			{
-				return ( (List) inputElement ).toArray( );
+			@Override
+			public Object[] getElements(Object inputElement) {
+				return ((List) inputElement).toArray();
 			}
 
-			public void dispose( )
-			{
+			@Override
+			public void dispose() {
 			}
 
-			public void inputChanged( Viewer viewer, Object oldInput,
-					Object newInput )
-			{
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
-		} );
+		});
 
-		filterComboViewer.setLabelProvider( new LabelProvider( ) {
+		filterComboViewer.setLabelProvider(new LabelProvider() {
 
-			public String getText( Object inputElement )
-			{
+			@Override
+			public String getText(Object inputElement) {
 				TableType type = (TableType) inputElement;
-				return type.getDisplayName( );
+				return type.getDisplayName();
 			}
 
-		} );
+		});
 
-
-		List<TableType> types = getTableTypes( supportsProcedure );
-		filterComboViewer.setInput( types );
+		List<TableType> types = getTableTypes(supportsProcedure);
+		filterComboViewer.setInput(types);
 
 		// Set the Default selection to the First Item , which is "All"
-		filterComboViewer.getCombo( ).select( 0 );
-		filterComboViewer.getCombo( )
-				.addSelectionListener( new SelectionAdapter( ) {
+		filterComboViewer.getCombo().select(0);
+		filterComboViewer.getCombo().addSelectionListener(new SelectionAdapter() {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						TableType type = getSelectedFilterType( );
-						if ( type == TableType.ALL || type == TableType.TABLE )
-						{
-							showSystemTableCheckBox.setEnabled( true );
-							showAliasCheckBox.setEnabled( true );
-						}
-						else
-						{
-							showSystemTableCheckBox.setEnabled( false );
-							showAliasCheckBox.setEnabled( false );
-						}
-					}
-				} );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TableType type = getSelectedFilterType();
+				if (type == TableType.ALL || type == TableType.TABLE) {
+					showSystemTableCheckBox.setEnabled(true);
+					showAliasCheckBox.setEnabled(true);
+				} else {
+					showSystemTableCheckBox.setEnabled(false);
+					showAliasCheckBox.setEnabled(false);
+				}
+			}
+		});
 	}
 
-	protected List<TableType> getTableTypes( boolean supportsProcedure )
-	{
-		List<TableType> types = new ArrayList<TableType>( );
+	protected List<TableType> getTableTypes(boolean supportsProcedure) {
+		List<TableType> types = new ArrayList<>();
 
 		// Populate the Types of Data bases objects which can be retrieved
-		types.add( TableType.ALL );
-		types.add( TableType.TABLE );
-		types.add( TableType.VIEW );
-		if ( supportsProcedure )
-		{
-			types.add( TableType.PROCEDURE );
+		types.add(TableType.ALL);
+		types.add(TableType.TABLE);
+		types.add(TableType.VIEW);
+		if (supportsProcedure) {
+			types.add(TableType.PROCEDURE);
 		}
 		return types;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The Type of the object selected in the type combo
 	 */
-	private TableType getSelectedFilterType( )
-	{
-		IStructuredSelection selection = (IStructuredSelection) filterComboViewer.getSelection( );
-		if ( selection != null && selection.getFirstElement( ) != null )
-		{
-			return (TableType) selection.getFirstElement( );
+	private TableType getSelectedFilterType() {
+		IStructuredSelection selection = (IStructuredSelection) filterComboViewer.getSelection();
+		if (selection != null && selection.getFirstElement() != null) {
+			return (TableType) selection.getFirstElement();
 		}
 		return TableType.ALL;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi
 	// transformations (if required)
-	private void addFetchDbObjectListener( final String metadataBidiFormatStr )
-	{
+	private void addFetchDbObjectListener(final String metadataBidiFormatStr) {
 
-		availableDbObjectsTree.addListener( SWT.Expand, new Listener( ) {
+		availableDbObjectsTree.addListener(SWT.Expand, new Listener() {
 
 			/*
-			 * @see
-			 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.
+			 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.
 			 * widgets.Event)
 			 */
-			public void handleEvent( final Event event )
-			{
+			@Override
+			public void handleEvent(final Event event) {
 				TreeItem item = (TreeItem) event.item;
-				BusyIndicator.showWhile( item.getDisplay( ), new Runnable( ) {
+				BusyIndicator.showWhile(item.getDisplay(), new Runnable() {
 
 					/*
 					 * @see java.lang.Runnable#run()
 					 */
-					public void run( )
-					{
+					@Override
+					public void run() {
 						// bidi_hcg: pass value of metadataBidiFormatStr
-						listChildren( event, metadataBidiFormatStr );
+						listChildren(event, metadataBidiFormatStr);
 					}
-				} );
+				});
 			}
 
 			/**
@@ -914,333 +790,289 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			 */
 			// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi
 			// transformations (if required)
-			private void listChildren( Event event, String metadataBidiFormatStr )
-			{
+			private void listChildren(Event event, String metadataBidiFormatStr) {
 				TreeItem item = (TreeItem) event.item;
-				IDBNode node = (IDBNode) item.getData( );
-				if ( node instanceof ChildrenAllowedNode )
-				{
+				IDBNode node = (IDBNode) item.getData();
+				if (node instanceof ChildrenAllowedNode) {
 					ChildrenAllowedNode parent = (ChildrenAllowedNode) node;
-					if ( !parent.isChildrenPrepared( ) )
-					{
-						item.removeAll( );
+					if (!parent.isChildrenPrepared()) {
+						item.removeAll();
 						// bidi_hcg: pass value of metadataBidiFormatStr
-						parent.prepareChildren( fc, 
-								SQLDataSetEditorPage.this.timeOutLimit * 1000 );
-						if ( parent.getChildren( ) != null )
-						{
-							for ( IDBNode child : parent.getChildren( ) )
-							{
+						parent.prepareChildren(fc, SQLDataSetEditorPage.this.timeOutLimit * 1000);
+						if (parent.getChildren() != null) {
+							for (IDBNode child : parent.getChildren()) {
 								// bidi_hcg: pass value of metadataBidiFormatStr
 								// to child element
-								DBNodeUtil.createTreeItem( item,
-										child,
-										metadataBidiFormatStr );
+								DBNodeUtil.createTreeItem(item, child, metadataBidiFormatStr);
 							}
 						}
 					}
 				}
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Adds drag support to tree..Must set tree before execution.
 	 */
-	private void addDragSupportToTree( )
-	{
-		DragSource dragSource = new DragSource( availableDbObjectsTree,
-				DND.DROP_COPY );
-		dragSource.setTransfer( new Transfer[]{
-			TextTransfer.getInstance( )
-		} );
-		dragSource.addDragListener( new DragSourceAdapter( ) {
+	private void addDragSupportToTree() {
+		DragSource dragSource = new DragSource(availableDbObjectsTree, DND.DROP_COPY);
+		dragSource.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		dragSource.addDragListener(new DragSourceAdapter() {
 
 			private String textToInsert;
 
-			public void dragStart( DragSourceEvent event )
-			{
+			@Override
+			public void dragStart(DragSourceEvent event) {
 				event.doit = false;
-				this.textToInsert = getTextToInsert( );
-				if ( textToInsert.length( ) > 0 )
-				{
+				this.textToInsert = getTextToInsert();
+				if (textToInsert.length() > 0) {
 					event.doit = true;
 				}
 			}
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.swt.dnd.DragSourceAdapter#dragSetData(org.eclipse
+			 *
+			 * @see org.eclipse.swt.dnd.DragSourceAdapter#dragSetData(org.eclipse
 			 * .swt.dnd.DragSourceEvent)
 			 */
-			public void dragSetData( DragSourceEvent event )
-			{
-				if ( TextTransfer.getInstance( )
-						.isSupportedType( event.dataType ) )
-				{
+			@Override
+			public void dragSetData(DragSourceEvent event) {
+				if (TextTransfer.getInstance().isSupportedType(event.dataType)) {
 					event.data = textToInsert;
 				}
 			}
-		} );
+		});
 	}
 
-	private String getTextToInsert( )
-	{
-		TreeItem[] selection = availableDbObjectsTree.getSelection( );
-		StringBuffer data = new StringBuffer( );
-		if ( selection != null && selection.length > 0 )
-		{
-			for ( int i = 0; i < selection.length; i++ )
-			{
-				IDBNode dbNode = (IDBNode) selection[i].getData( );
+	private String getTextToInsert() {
+		TreeItem[] selection = availableDbObjectsTree.getSelection();
+		StringBuilder data = new StringBuilder();
+		if (selection != null && selection.length > 0) {
+			for (int i = 0; i < selection.length; i++) {
+				IDBNode dbNode = (IDBNode) selection[i].getData();
 				// bidi_hcg: pass value of metadataBidiFormatStr
-				String sql = dbNode.getQualifiedNameInSQL( identifierQuoteStringCheckBox.getSelection( ),
-						includeSchemaCheckBox.getSelection( ),
-						metadataBidiFormatStr );
-				if ( sql != null )
-				{
-					data.append( sql ).append( "," );
+				String sql = dbNode.getQualifiedNameInSQL(identifierQuoteStringCheckBox.getSelection(),
+						includeSchemaCheckBox.getSelection(), metadataBidiFormatStr);
+				if (sql != null) {
+					data.append(sql).append(",");
 				}
 			}
 		}
-		String result = data.toString( );
-		if ( result.length( ) > 0 )
-		{
+		String result = data.toString();
+		if (result.length() > 0) {
 			// remove the last ","
-			result = result.substring( 0, result.length( ) - 1 );
+			result = result.substring(0, result.length() - 1);
 		}
 		return result;
 	}
 
 	/**
 	 * Adds drop support to viewer.Must set viewer before execution.
-	 * 
+	 *
 	 */
-	private void addDropSupportToViewer( )
-	{
-		final StyledText text = viewer.getTextWidget( );
-		DropTarget dropTarget = new DropTarget( text, DND.DROP_COPY
-				| DND.DROP_DEFAULT );
-		dropTarget.setTransfer( new Transfer[]{
-			TextTransfer.getInstance( )
-		} );
-		dropTarget.addDropListener( new DropTargetAdapter( ) {
+	private void addDropSupportToViewer() {
+		final StyledText text = viewer.getTextWidget();
+		DropTarget dropTarget = new DropTarget(text, DND.DROP_COPY | DND.DROP_DEFAULT);
+		dropTarget.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		dropTarget.addDropListener(new DropTargetAdapter() {
 
-			public void dragEnter( DropTargetEvent event )
-			{
-				text.setFocus( );
-				if ( event.detail == DND.DROP_DEFAULT )
+			@Override
+			public void dragEnter(DropTargetEvent event) {
+				text.setFocus();
+				if (event.detail == DND.DROP_DEFAULT) {
 					event.detail = DND.DROP_COPY;
-				if ( event.detail != DND.DROP_COPY )
+				}
+				if (event.detail != DND.DROP_COPY) {
 					event.detail = DND.DROP_NONE;
+				}
 			}
 
-			public void dragOver( DropTargetEvent event )
-			{
+			@Override
+			public void dragOver(DropTargetEvent event) {
 				event.feedback = DND.FEEDBACK_SCROLL | DND.FEEDBACK_SELECT;
 			}
 
-			public void dragOperationChanged( DropTargetEvent event )
-			{
-				dragEnter( event );
+			@Override
+			public void dragOperationChanged(DropTargetEvent event) {
+				dragEnter(event);
 			}
 
-			public void drop( DropTargetEvent event )
-			{
-				if ( event.data instanceof String && !event.data.equals( "" ) )
-					insertText( (String) event.data );
+			@Override
+			public void drop(DropTargetEvent event) {
+				if (event.data instanceof String && !event.data.equals("")) {
+					insertText((String) event.data);
+				}
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Insert a text string into the text area
-	 * 
+	 *
 	 * @param text
 	 */
-	private void insertText( String text )
-	{
-		if ( text == null )
+	private void insertText(String text) {
+		if (text == null) {
 			return;
+		}
 
-		StyledText textWidget = viewer.getTextWidget( );
-		int selectionStart = textWidget.getSelection( ).x;
-		textWidget.insert( text );
-		textWidget.setSelection( selectionStart + text.length( ) );
-		textWidget.setFocus( );
+		StyledText textWidget = viewer.getTextWidget();
+		int selectionStart = textWidget.getSelection().x;
+		textWidget.insert(text);
+		textWidget.setSelection(selectionStart + text.length());
+		textWidget.setFocus();
 	}
 
 	/**
 	 * Creates the textual query editor
-	 * 
+	 *
 	 * @param parent
 	 */
-	private Control createTextualQueryComposite( Composite parent )
-	{
+	private Control createTextualQueryComposite(Composite parent) {
 
-		Composite composite = new Composite( parent, SWT.FILL
-				| SWT.LEFT_TO_RIGHT );
-		GridLayout layout = new GridLayout( );
+		Composite composite = new Composite(parent, SWT.FILL | SWT.LEFT_TO_RIGHT);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
-		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Label queryTextLabel = new Label( composite, SWT.NONE );
-		queryTextLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.queryText" ) );//$NON-NLS-1$	
+		Label queryTextLabel = new Label(composite, SWT.NONE);
+		queryTextLabel.setText(JdbcPlugin.getResourceString("tablepage.label.queryText"));//$NON-NLS-1$
 
-		CompositeRuler ruler = new CompositeRuler( );
-		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn( );
-		ruler.addDecorator( 0, lineNumbers );
-		viewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		SourceViewerConfiguration svc = new SQLSourceViewerConfiguration( dataSetDesign.getDataSourceDesign( ),
-				timeOutLimit * 1000,
-				enableCodeAssist );
-		viewer.configure( svc );
+		CompositeRuler ruler = new CompositeRuler();
+		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn();
+		ruler.addDecorator(0, lineNumbers);
+		viewer = new SourceViewer(composite, ruler, SWT.H_SCROLL | SWT.V_SCROLL);
+		SourceViewerConfiguration svc = new SQLSourceViewerConfiguration(dataSetDesign.getDataSourceDesign(),
+				timeOutLimit * 1000, enableCodeAssist);
+		viewer.configure(svc);
 
-		doc = new Document( getQueryText( ) );
-		FastPartitioner partitioner = new FastPartitioner( new SQLPartitionScanner( ),
-				new String[]{
-						SQLPartitionScanner.QUOTE_STRING,
-						SQLPartitionScanner.COMMENT,
-						IDocument.DEFAULT_CONTENT_TYPE
-				} );
-		partitioner.connect( doc );
-		doc.setDocumentPartitioner( partitioner );
-		viewer.setDocument( doc );
-		viewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
-		viewer.getTextWidget( )
-				.addBidiSegmentListener( new BidiSegmentListener( ) {
+		doc = new Document(getQueryText());
+		FastPartitioner partitioner = new FastPartitioner(new SQLPartitionScanner(), new String[] {
+				SQLPartitionScanner.QUOTE_STRING, SQLPartitionScanner.COMMENT, IDocument.DEFAULT_CONTENT_TYPE });
+		partitioner.connect(doc);
+		doc.setDocumentPartitioner(partitioner);
+		viewer.setDocument(doc);
+		viewer.getTextWidget().setFont(JFaceResources.getTextFont());
+		viewer.getTextWidget().addBidiSegmentListener(new BidiSegmentListener() {
 
-					/*
-					 * @see
-					 * org.eclipse.swt.custom.BidiSegmentListener#lineGetSegments
-					 * (org.eclipse.swt.custom.BidiSegmentEvent)
-					 */
-					public void lineGetSegments( BidiSegmentEvent event )
-					{
-						event.segments = SQLUtility.getBidiLineSegments( event.lineText );
-					}
-				} );
-		attachMenus( viewer );
+			/*
+			 * @see org.eclipse.swt.custom.BidiSegmentListener#lineGetSegments
+			 * (org.eclipse.swt.custom.BidiSegmentEvent)
+			 */
+			@Override
+			public void lineGetSegments(BidiSegmentEvent event) {
+				event.segments = SQLUtility.getBidiLineSegments(event.lineText);
+			}
+		});
+		attachMenus(viewer);
 
-		GridData data = new GridData( GridData.FILL_BOTH );
+		GridData data = new GridData(GridData.FILL_BOTH);
 		data.widthHint = 500;
-		viewer.getControl( ).setLayoutData( data );
+		viewer.getControl().setLayoutData(data);
 
 		// Add drop support to the viewer
-		addDropSupportToViewer( );
+		addDropSupportToViewer();
 
 		// add support of additional accelerated key
-		viewer.getTextWidget( ).addKeyListener( new KeyListener( ) {
+		viewer.getTextWidget().addKeyListener(new KeyListener() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				if ( isUndoKeyPress( e ) )
-				{
-					viewer.doOperation( ITextOperationTarget.UNDO );
-				}
-				else if ( isRedoKeyPress( e ) )
-				{
-					viewer.doOperation( ITextOperationTarget.REDO );
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (isUndoKeyPress(e)) {
+					viewer.doOperation(ITextOperationTarget.UNDO);
+				} else if (isRedoKeyPress(e)) {
+					viewer.doOperation(ITextOperationTarget.REDO);
 				}
 			}
 
-			private boolean isUndoKeyPress( KeyEvent e )
-			{
+			private boolean isUndoKeyPress(KeyEvent e) {
 				// CTRL + z
-				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
-						&& ( ( e.keyCode == 'z' ) || ( e.keyCode == 'Z' ) );
+				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'z') || (e.keyCode == 'Z'));
 			}
 
-			private boolean isRedoKeyPress( KeyEvent e )
-			{
+			private boolean isRedoKeyPress(KeyEvent e) {
 				// CTRL + y
-				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
-						&& ( ( e.keyCode == 'y' ) || ( e.keyCode == 'Y' ) );
+				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'y') || (e.keyCode == 'Y'));
 			}
 
-			public void keyReleased( KeyEvent e )
-			{
+			@Override
+			public void keyReleased(KeyEvent e) {
 			}
-		} );
+		});
 		return composite;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param viewer
 	 */
-	private final void attachMenus( SourceViewer viewer )
-	{
-		StyledText widget = viewer.getTextWidget( );
-		TextMenuManager menuManager = new TextMenuManager( viewer );
-		widget.setMenu( menuManager.getContextMenu( widget ) );
+	private final void attachMenus(SourceViewer viewer) {
+		StyledText widget = viewer.getTextWidget();
+		TextMenuManager menuManager = new TextMenuManager(viewer);
+		widget.setMenu(menuManager.getContextMenu(widget));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSetWizardPageCore
 	 * #refresh(org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
-	protected void refresh( DataSetDesign dataSetDesign )
-	{
+	@Override
+	protected void refresh(DataSetDesign dataSetDesign) {
 		this.dataSetDesign = dataSetDesign;
-		initializeControl( );
+		initializeControl();
 	}
 
 	/*
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		getControl( ).setFocus( );
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		getControl().setFocus();
 	}
 
 	/**
-	 * return the query text. If the query text is empty then return the
-	 * pre-defined pattern
-	 * 
+	 * return the query text. If the query text is empty then return the pre-defined
+	 * pattern
+	 *
 	 * @return
 	 */
-	private String getQueryText( )
-	{
-		String queryText = dataSetDesign.getQueryText( );
-		if ( queryText != null && queryText.trim( ).length( ) > 0 )
+	private String getQueryText() {
+		String queryText = dataSetDesign.getQueryText();
+		if (queryText != null && queryText.trim().length() > 0) {
 			return queryText;
+		}
 
-		return SQLUtility.getQueryPresetTextString( this.dataSetDesign.getOdaExtensionDataSetId( ) );
+		return SQLUtility.getQueryPresetTextString(this.dataSetDesign.getOdaExtensionDataSetId());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #cleanup()
 	 */
-	protected void cleanup( )
-	{
-		JdbcMetaDataProvider.release( );
-		if ( odaConnectionProvider != null )
-		{
-			odaConnectionProvider.release( );
+	@Override
+	protected void cleanup() {
+		JdbcMetaDataProvider.release();
+		if (odaConnectionProvider != null) {
+			odaConnectionProvider.release();
 			odaConnectionProvider = null;
 		}
 		dataSetDesign = null;
 	}
 
-	private void insertTreeItemText( )
-	{
-		String text = getTextToInsert( );
-		if ( text.length( ) > 0 )
-		{
-			insertText( text );
+	private void insertTreeItemText() {
+		String text = getTextToInsert();
+		if (text.length() > 0) {
+			insertText(text);
 		}
 	}
 }

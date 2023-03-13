@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,62 +32,54 @@ import org.eclipse.jface.viewers.StructuredViewer;
  * The action used to add library to a report design
  */
 
-public class AddSelectedLibToCurrentReportDesignAction extends Action
-{
+public class AddSelectedLibToCurrentReportDesignAction extends Action {
 
 	private StructuredViewer viewer;
 
-	private static final String ACTION_TEXT = Messages.getString( "UseLibraryAction.Text" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString("UseLibraryAction.Text"); //$NON-NLS-1$
 
-	public AddSelectedLibToCurrentReportDesignAction( StructuredViewer viewer )
-	{
-		super( ACTION_TEXT );
+	public AddSelectedLibToCurrentReportDesignAction(StructuredViewer viewer) {
+		super(ACTION_TEXT);
 		this.viewer = viewer;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		LibraryHandle library = getSelectedLibrary( );
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+	@Override
+	public boolean isEnabled() {
+		LibraryHandle library = getSelectedLibrary();
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-		boolean enabled = library != null
-				&& moduleHandle != null
-				&& !moduleHandle.isInclude( library )
-				&& ( library.getFileName( ) != null && !library.getFileName( )
-						.equals( moduleHandle.getFileName( ) ) );
+		boolean enabled = library != null && moduleHandle != null && !moduleHandle.isInclude(library)
+				&& (library.getFileName() != null && !library.getFileName().equals(moduleHandle.getFileName()));
 
-		if ( enabled )
-			enabled = testRun( library );
+		if (enabled) {
+			enabled = testRun(library);
+		}
 
-		if ( library != null )
-			library.close( );
+		if (library != null) {
+			library.close();
+		}
 
 		return enabled;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( isEnabled( ) )
-		{
-			LibraryHandle library = getSelectedLibrary( );
-			try
-			{
-				UIUtil.includeLibrary( library );
-			}
-			catch ( Exception e )
-			{
-				ExceptionUtil.handle( e );
+	@Override
+	public void run() {
+		if (isEnabled()) {
+			LibraryHandle library = getSelectedLibrary();
+			try {
+				UIUtil.includeLibrary(library);
+			} catch (Exception e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 	}
@@ -93,48 +88,36 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	 * Need model to provide a new api to support it.
 	 */
 	@Deprecated
-	private boolean testRun( LibraryHandle library )
-	{
+	private boolean testRun(LibraryHandle library) {
 		boolean enabled = false;
-		CommandStack commandStack = Utility.getCommandStack( );
-		commandStack.startTrans( "" );
-		try
-		{
+		CommandStack commandStack = Utility.getCommandStack();
+		commandStack.startTrans("");
+		try {
 			// we set the flag "isDefault" to true here to mimic the behavior
 			// that the namespace cannot be changed, so renaming UI will not be
 			// triggered during this testing mode.
-			UIUtil.includeLibrary( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ), library, true );
+			UIUtil.includeLibrary(SessionHandleAdapter.getInstance().getReportDesignHandle(), library, true);
 			enabled = true;
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			enabled = false;
 		}
-		commandStack.rollback( );
+		commandStack.rollback();
 		return enabled;
 	}
 
-	private LibraryHandle getSelectedLibrary( )
-	{
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null && selection.size( ) == 1 )
-		{
-			Object selected = selection.getFirstElement( );
+	private LibraryHandle getSelectedLibrary() {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		if (selection != null && selection.size() == 1) {
+			Object selected = selection.getFirstElement();
 
-			if ( selected instanceof LibraryHandle )
-			{
+			if (selected instanceof LibraryHandle) {
 				return (LibraryHandle) selected;
-			}
-			else if ( selected instanceof ReportResourceEntry
-					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof LibraryHandle )
-			{
-				return (LibraryHandle) ( (ReportResourceEntry) selected ).getReportElement( );
-			}
-			else if ( selected instanceof ResourceEntryWrapper
-					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.LIBRARY )
-			{
-				return (LibraryHandle) ( (ResourceEntryWrapper) selected ).getAdapter( LibraryHandle.class );
+			} else if (selected instanceof ReportResourceEntry
+					&& ((ReportResourceEntry) selected).getReportElement() instanceof LibraryHandle) {
+				return (LibraryHandle) ((ReportResourceEntry) selected).getReportElement();
+			} else if (selected instanceof ResourceEntryWrapper
+					&& ((ResourceEntryWrapper) selected).getType() == ResourceEntryWrapper.LIBRARY) {
+				return (LibraryHandle) ((ResourceEntryWrapper) selected).getAdapter(LibraryHandle.class);
 			}
 		}
 		return null;

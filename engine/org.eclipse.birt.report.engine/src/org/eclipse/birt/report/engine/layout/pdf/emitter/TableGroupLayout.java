@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,59 +24,45 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
-
-public class TableGroupLayout extends RepeatableLayout
-{
+public class TableGroupLayout extends RepeatableLayout {
 	protected TableLayout tableLM = null;
-	public TableGroupLayout( LayoutEngineContext context,
-			ContainerLayout parent, IContent content )
-	{
-		super( context, parent, content );
+
+	public TableGroupLayout(LayoutEngineContext context, ContainerLayout parent, IContent content) {
+		super(context, parent, content);
 		tableLM = getTableLayoutManager();
 		bandStatus = IBandContent.BAND_GROUP_HEADER;
 	}
-	
-	protected void repeatHeader( ) throws BirtException
-	{
-		if( bandStatus == IBandContent.BAND_GROUP_HEADER )   
-		{
+
+	@Override
+	protected void repeatHeader() throws BirtException {
+		if ((bandStatus == IBandContent.BAND_GROUP_HEADER) || !((IGroupContent) content).isHeaderRepeat()) {
 			return;
 		}
-		if ( !((IGroupContent) content).isHeaderRepeat() )
-		{
-			return;
-		}
-		IBandContent header = context.getWrappedGroupHeader( content
-				.getInstanceID( ) );
-		if ( header == null || header.getChildren( ).isEmpty( ) )
-		{
+		IBandContent header = context.getWrappedGroupHeader(content.getInstanceID());
+		if (header == null || header.getChildren().isEmpty()) {
 			return;
 		}
 		TableRegionLayout rLayout = tableLM.getTableRegionLayout();
-		rLayout.initialize( header );
-		rLayout.layout( );
-		TableArea tableRegion = (TableArea) header
-				.getExtension( IContent.LAYOUT_EXTENSION );
-		if ( tableRegion != null
-				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
-		{	
-			TableContext tableContext = (TableContext)tableLM.contextList.getLast( );
-			tableContext.layout.addRows( rLayout.getTableAreaLayout( ).getRows( ) );
-			
+		rLayout.initialize(header);
+		rLayout.layout();
+		TableArea tableRegion = (TableArea) header.getExtension(IContent.LAYOUT_EXTENSION);
+		if (tableRegion != null && tableRegion.getAllocatedHeight() < getCurrentMaxContentHeight()) {
+			TableContext tableContext = (TableContext) tableLM.contextList.getLast();
+			tableContext.layout.addRows(rLayout.getTableAreaLayout().getRows());
+
 			// add to root
-			Iterator iter = tableRegion.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				AbstractArea area = (AbstractArea) iter.next( );
-				addArea( area );
+			Iterator iter = tableRegion.getChildren();
+			while (iter.hasNext()) {
+				AbstractArea area = (AbstractArea) iter.next();
+				addArea(area);
 			}
 		}
-		content.setExtension( IContent.LAYOUT_EXTENSION, null );
+		content.setExtension(IContent.LAYOUT_EXTENSION, null);
 	}
-	
-	public boolean addArea( AbstractArea area )
-	{
-		return addArea( area, false );
+
+	@Override
+	public boolean addArea(AbstractArea area) {
+		return addArea(area, false);
 	}
 
 }

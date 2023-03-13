@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,13 +20,10 @@ import org.eclipse.birt.chart.computation.Methods;
 /**
  * IntersectionValue
  */
-public final class IntersectionValue extends Methods implements IConstants
-{
+public final class IntersectionValue extends Methods implements IConstants {
 
-	public static final IntersectionValue MAX_VALUE = new IntersectionValue( MAX,
-			0 );
-	public static final IntersectionValue MIN_VALUE = new IntersectionValue( MIN,
-			0 );
+	public static final IntersectionValue MAX_VALUE = new IntersectionValue(MAX, 0);
+	public static final IntersectionValue MIN_VALUE = new IntersectionValue(MIN, 0);
 
 	int iType;
 
@@ -33,18 +33,16 @@ public final class IntersectionValue extends Methods implements IConstants
 	 * @param _iType
 	 * @param _dValue
 	 */
-	public IntersectionValue( int _iType, double _dValue )
-	{
+	public IntersectionValue(int _iType, double _dValue) {
 		iType = _iType;
-		oValue = new Double( _dValue );
+		oValue = new Double(_dValue);
 	}
 
 	/**
 	 * @param _iType
 	 * @param _oValue
 	 */
-	public IntersectionValue( int _iType, Object _oValue )
-	{
+	public IntersectionValue(int _iType, Object _oValue) {
 		iType = _iType;
 		oValue = _oValue;
 	}
@@ -52,42 +50,35 @@ public final class IntersectionValue extends Methods implements IConstants
 	/**
 	 * @return
 	 */
-	public final int getType( )
-	{
+	public int getType() {
 		return iType;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Object getValue( )
-	{
+	public Object getValue() {
 		return oValue;
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getValueAsDouble( )
-	{
-		return asDouble( oValue ).doubleValue( );
+	public double getValueAsDouble() {
+		return asDouble(oValue).doubleValue();
 	}
 
 	/**
 	 * @param sc
 	 * @return
 	 */
-	public final double getValueAsDouble( AutoScale sc )
-	{
-		if ( iType == MAX )
-		{
-			return asDouble( sc.getMaximum( ) ).doubleValue( );
+	public double getValueAsDouble(AutoScale sc) {
+		if (iType == MAX) {
+			return asDouble(sc.getMaximum()).doubleValue();
+		} else if (iType == MIN) {
+			return asDouble(sc.getMinimum()).doubleValue();
 		}
-		else if ( iType == MIN )
-		{
-			return asDouble( sc.getMinimum( ) ).doubleValue( );
-		}
-		return asDouble( oValue ).doubleValue( );
+		return asDouble(oValue).doubleValue();
 	}
 
 }

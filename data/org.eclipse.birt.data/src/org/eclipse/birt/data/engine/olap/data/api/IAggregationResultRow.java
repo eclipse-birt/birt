@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,18 +18,17 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 
 /**
- * 
+ *
  */
 
-public interface IAggregationResultRow extends IComparableStructure
-{
+public interface IAggregationResultRow extends IComparableStructure {
 
-	public abstract void setLevelMembers( Member[] levelMembers );
+	void setLevelMembers(Member[] levelMembers);
 
-	public abstract Member[] getLevelMembers( );
+	Member[] getLevelMembers();
 
-	public abstract void setAggregationValues( Object[] aggregationValues );
+	void setAggregationValues(Object[] aggregationValues);
 
-	public abstract Object[] getAggregationValues( );
+	Object[] getAggregationValues();
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,47 +24,47 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * RefreshAction
  */
-public class RefreshAction extends AbstractViewAction
-{
+public class RefreshAction extends AbstractViewAction {
 	private TreeViewer sourceViewer;
-	
-	/**Constructor
+
+	/**
+	 * Constructor
+	 *
 	 * @param selectedObject
 	 */
-	public RefreshAction( Object selectedObject )
-	{
-		super( selectedObject );
+	public RefreshAction(Object selectedObject) {
+		super(selectedObject);
 	}
 
-	/**Constructot
+	/**
+	 * Constructot
+	 *
 	 * @param sourceViewer
 	 * @param selectedObject
 	 * @param text
 	 */
-	public RefreshAction( TreeViewer sourceViewer, Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public RefreshAction(TreeViewer sourceViewer, Object selectedObject, String text) {
+		super(selectedObject, text);
 		this.sourceViewer = sourceViewer;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{	
-		DebugJsEditor editor = ScriptDebugUtil.getActiveJsEditor( );
-		if (editor == null)
-		{
+	@Override
+	public void run() {
+		DebugJsEditor editor = ScriptDebugUtil.getActiveJsEditor();
+		if (editor == null) {
 			return;
 		}
-		DebugJsInput input = (DebugJsInput)editor. getEditorInput( );
-		
-		DebugJsInput newInput = new DebugJsInput(input.getFile( ), input.getId( ));
-		editor.setInput( newInput );
-	
-		sourceViewer.setInput( new Object[]{
-				newInput.getModuleHandle( )
-			} );
-		sourceViewer.expandToLevel( ScriptOutlinePage.SHOW_LEVEL );
+		DebugJsInput input = (DebugJsInput) editor.getEditorInput();
+
+		DebugJsInput newInput = new DebugJsInput(input.getFile(), input.getId());
+		editor.setInput(newInput);
+
+		sourceViewer.setInput(new Object[] { newInput.getModuleHandle() });
+		sourceViewer.expandToLevel(ScriptOutlinePage.SHOW_LEVEL);
 	}
 }

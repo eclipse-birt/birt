@@ -17,6 +17,8 @@ on:
     branches:
       - master
   pull_request:
+  pull_request_review_comment:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,31 +26,132 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.9.1
+      with:
+       access_token: ${{ github.token }}
     - name: Checkout
       uses: actions/checkout@v1
-    - name: Set up JDK 8
+    - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
-        java-version: 8
-    - name: Setup Maven
-      run: echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
-    - name: Cache maven repo
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-maven-repo
+        java-version: 11
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
       with:
-        path: |
-          ~/.m2/repository
-          !~/.m2/repository/org/eclipse/birt
-          !~/.m2/repository/.cache/tycho
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.sha1') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+        maven-version: 3.8.5        
+    - name: Set up Maven 2
+      run: echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
     - name: Build with Maven
       run: mvn clean install --no-transfer-progress -U -DskipTests
-    - name: Test Core
-      run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
-    - name: Test Model
-      run: mvn -B -pl :org.eclipse.birt.report.model.tests integration-test
+    - name: Data Test
+      run: mvn -B -pl :org.eclipse.birt.data.tests integration-test
+    - name: Model Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.model.tests integration-test
+    - name: Model Regression Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.model integration-test
+    - name: Report Engine Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.engine.tests integration-test
+    - name: Charts Core Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.chart.tests integration-test
+    - name: Charts Regression Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.chart integration-test
+    - name: Engine Regression Test
+      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
+#    - name: Test Core
+#      run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
+
+    - name: Archive BIRT Update Site
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-site
+        path: build/org.eclipse.birt.p2updatesite/target/org.eclipse.birt.p2updatesite*.zip
+    - name: Archive BIRT charts
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-charts
+        path: build/birt-packages/birt-charts/target/birt-charts-*.zip
+    - name: Archive BIRT RCP Report Win
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-rcp-report-designer-win
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*win*.zip
+        
+    - name: Archive BIRT RCP Report Linux
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-rcp-report-designer-linux
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*linux*.zip
+        
+    - name: Archive BIRT RCP Report Mac Arm
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-rcp-report-designer-mac-arm
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*aarch*.zip
+
+    - name: Archive BIRT RCP Report Mac Intel
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-rcp-report-designer-mac
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*cocoa.x86*.zip
+        
+    - name: Archive BIRT Report Designer all-in-one-win
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-win
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*win*.zip 
+    - name: Archive BIRT Report Designer all-in-one-linux
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-linux
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*linux*.zip 
+    - name: Archive BIRT Report Designer all-in-one-mac-intel
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-intel
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.x86_*.zip
+    - name: Archive BIRT Report Designer all-in-one-mac-silicon
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-designer-all-in-one-mac-silicon
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.aarch64*.zip     
+    - name: Archive BIRT Report Framework
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-framework
+        path: build/birt-packages/birt-report-framework/target/birt-report-framework-*.zip
+    - name: Archive BIRT Report Framework SDK
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-report-framework-sdk
+        path: build/birt-packages/birt-report-framework-sdk/target/birt-report-framework-sdk-*.zip
+    - name: Archive BIRT Runtime
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-runtime
+        path: build/birt-packages/birt-runtime/target/birt-runtime-*.zip
+    - name: Archive BIRT Runtime OSGI
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-runtime-osgi
+        path: build/birt-packages/birt-runtime-osgi/target/birt-runtime-osgi-*.zip
+    - name: Archive BIRT Sample Plugins
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-sample-plugins
+        path: build/birt-packages/birt-sample-plugins/target/birt-sample-plugins-*.zip
+    - name: Archive BIRT Sources
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-source
+        path: build/birt-packages/birt-source/target/birt-source-*.zip
+    - name: Archive BIRT Tests Suite
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-tests-suite
+        path: build/birt-packages/birt-tests-suite/target/birt-tests-suite-*.zip
+    - name: Archive BIRT WTP Integration SDK
+      uses: actions/upload-artifact@v2
+      with: 
+        name: birt-wtp-integration-sdk
+        path: build/birt-packages/birt-wtp-integration-sdk/target/birt-wtp-integration-sdk-*.zip

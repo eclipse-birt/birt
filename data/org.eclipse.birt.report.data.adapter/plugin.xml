@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <plugin>
-   <extension-point id="DataSetInterceptor" name="Data Set Interceptor" schema="schema/DataSetInterceptor.exsd"/>
-   <extension-point id="CubeInterceptor" name="Cube Interceptor" schema="schema/CubeInterceptor.exsd"/>
+   <extension-point id="DataSetInterceptor" name="%extension-point.name" schema="schema/DataSetInterceptor.exsd"/>
+   <extension-point id="CubeInterceptor" name="%extension-point.name.0" schema="schema/CubeInterceptor.exsd"/>
      
      <extension
          id="DataAdapterFactory"
-         name="DataAdapterFactory"
+         name="%extension.name"
          point="org.eclipse.birt.core.FactoryService">
    		<factory class="org.eclipse.birt.report.data.adapter.impl.DataAdapterFactory"/>
 	 </extension>

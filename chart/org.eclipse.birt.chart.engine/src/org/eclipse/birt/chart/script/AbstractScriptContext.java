@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,11 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * The abstract class implements common methods to store script contexts.
- * 
+ *
  * @since 2.5
  */
 
-public abstract class AbstractScriptContext implements IScriptContext
-{
+public abstract class AbstractScriptContext implements IScriptContext {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -43,106 +45,98 @@ public abstract class AbstractScriptContext implements IScriptContext
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getExternalContext()
 	 */
-	public IExternalContext getExternalContext( )
-	{
+	@Override
+	public IExternalContext getExternalContext() {
 		return externalContext;
 	}
 
 	/**
-	 * @param externalContext
-	 *            the context of script
+	 * @param externalContext the context of script
 	 */
-	public void setExternalContext( IExternalContext externalContext )
-	{
+	public void setExternalContext(IExternalContext externalContext) {
 		this.externalContext = externalContext;
 	}
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getLocale()
 	 * @deprecated Use {@link #getULocale()} instead.
 	 */
-	public Locale getLocale( )
-	{
-		return locale == null ? null : locale.toLocale( );
+	@Deprecated
+	@Override
+	public Locale getLocale() {
+		return locale == null ? null : locale.toLocale();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getLogger()
 	 */
-	public ILogger getLogger( )
-	{
+	@Override
+	public ILogger getLogger() {
 		return logger;
 	}
 
 	/**
 	 * Sets associated logger.
-	 * 
-	 * @param logger
-	 *            Logger
+	 *
+	 * @param logger Logger
 	 */
-	public void setLogger( ILogger logger )
-	{
+	public void setLogger(ILogger logger) {
 		this.logger = logger;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getULocale()
 	 */
-	public ULocale getULocale( )
-	{
+	@Override
+	public ULocale getULocale() {
 		return locale;
 	}
 
 	/**
 	 * Sets associated locale.
-	 * 
-	 * @param locale
-	 *            Locale
+	 *
+	 * @param locale Locale
 	 */
-	public void setULocale( ULocale locale )
-	{
+	public void setULocale(ULocale locale) {
 		this.locale = locale;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.script.IScriptContext#getProperty(java.lang.Object
-	 * )
+	 * org.eclipse.birt.chart.script.IScriptContext#getProperty(java.lang.Object )
 	 */
-	public Object getProperty( Object key )
-	{
-		if ( propertyMap == null )
-		{
+	@Override
+	public Object getProperty(Object key) {
+		if (propertyMap == null) {
 			return null;
 		}
-		return propertyMap.get( key );
+		return propertyMap.get(key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.script.IScriptContext#setProperty(java.lang.Object
-	 * , java.lang.Object)
+	 * org.eclipse.birt.chart.script.IScriptContext#setProperty(java.lang.Object ,
+	 * java.lang.Object)
 	 */
-	public void setProperty( Object key, Object value )
-	{
-		if ( propertyMap == null )
-		{
-			propertyMap = new HashMap<Object, Object>( );
+	@Override
+	public void setProperty(Object key, Object value) {
+		if (propertyMap == null) {
+			propertyMap = new HashMap<>();
 		}
 
-		propertyMap.put( key, value );
+		propertyMap.put(key, value);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,39 +19,37 @@ import java.io.OutputStream;
 
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
+public interface IPart extends IPartContainer {
 
-public interface IPart extends IPartContainer
-{
+	String getRelativeUri();
 
-	String getRelativeUri( );
+	Package getPackage();
 
-	Package getPackage( );
+	ContentType getContentType();
 
-	ContentType getContentType( );
+	OutputStream getCacheOutputStream() throws IOException;
 
-	OutputStream getCacheOutputStream( ) throws IOException;
+	OutputStream getOutputStream() throws IOException;
 
-	OutputStream getOutputStream( ) throws IOException;
-	
-	String getAbsoluteUri( );
+	String getAbsoluteUri();
 
-	String getRelationshipId( );
+	String getRelationshipId();
 
-	String getRelationshipUri( );
+	String getRelationshipUri();
 
-	String getRelationshipType( );
+	String getRelationshipType();
 
-	OOXmlWriter getCacheWriter( ) throws IOException;
+	OOXmlWriter getCacheWriter() throws IOException;
 
-	OOXmlWriter getWriter( ) throws IOException;
+	OOXmlWriter getWriter() throws IOException;
 
-	String getHyperlinkId( String url );
+	String getHyperlinkId(String url);
 
-	String getExternalImageId( String url );
+	String getExternalImageId(String url);
 
-	boolean isCached( );
-	
-	boolean isReference( );
+	boolean isCached();
 
-	String getBookmarkId( String bmkurl );
+	boolean isReference();
+
+	String getBookmarkId(String bmkurl);
 }

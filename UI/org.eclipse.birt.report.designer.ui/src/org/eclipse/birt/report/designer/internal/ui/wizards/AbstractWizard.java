@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,12 +27,11 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Base class for all wizards and some dialog
- * 
- *  
+ *
+ *
  */
 
-public abstract class AbstractWizard extends Wizard
-{
+public abstract class AbstractWizard extends Wizard {
 
 	private int style;
 
@@ -41,30 +43,27 @@ public abstract class AbstractWizard extends Wizard
 
 	/**
 	 * Creates a wizard to create or edit element
-	 * 
-	 * @param title
-	 *            the wizard title
+	 *
+	 * @param title the wizard title
 	 */
-	public AbstractWizard( String title, int style )
-	{
-		super( );
+	public AbstractWizard(String title, int style) {
+		super();
 		wizard = this;
 		this.style = style;
-		setWindowTitle( title );
+		setWindowTitle(title);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
+	@Override
+	public boolean performFinish() {
 		assert model != null;
-		IWizardPage[] pages = getPages( );
-		for ( int i = 0; i < pages.length; i++ )
-		{
-			savePage( ( (ElementWizardPage) pages[i] ) );
+		IWizardPage[] pages = getPages();
+		for (int i = 0; i < pages.length; i++) {
+			savePage(((ElementWizardPage) pages[i]));
 		}
 		return true;
 	}
@@ -72,98 +71,88 @@ public abstract class AbstractWizard extends Wizard
 	/**
 	 * Sets wizard content
 	 */
-	public void initPage( IWizardPage page )
-	{
+	public void initPage(IWizardPage page) {
 		assert model != null;
 		assert page instanceof ElementWizardPage;
-		( (ElementWizardPage) page ).setInput( model );
+		((ElementWizardPage) page).setInput(model);
 	}
 
 	/**
 	 * Sets wizard content input
-	 * 
-	 * @param model
-	 *            the model to set
+	 *
+	 * @param model the model to set
 	 */
-	public void setInput( Object model )
-	{
+	public void setInput(Object model) {
 		assert model != null;
 		this.model = model;
 	}
 
 	/**
 	 * Saves the result of the page
-	 * 
+	 *
 	 * @page the page to save
 	 */
-	public void savePage( ElementWizardPage page )
-	{
-		page.saveTo( model );
+	public void savePage(ElementWizardPage page) {
+		page.saveTo(model);
 	}
 
 	/**
 	 * Opens the wizard and return the result
-	 * 
+	 *
 	 * @return the result
 	 */
-	public Object open( )
-	{
-		//initialize the shell
-		Shell shell = new Shell( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL );
+	public Object open() {
+		// initialize the shell
+		Shell shell = new Shell(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL);
 
-		shell.setLayout( new GridLayout( ) );
+		shell.setLayout(new GridLayout());
 
-		//initialize the composite
-		Composite composite = new Composite( shell, SWT.NONE );
-		composite.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_CENTER ) );
-		GridLayout layout = new GridLayout( );
+		// initialize the composite
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		//create wizard dialog
-		WizardDialog dialog = new WizardDialog( shell, wizard );
-		dialog.create( );
-		dialog.setFinishLabel( finishLabel );
+		// create wizard dialog
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+		dialog.create();
+		dialog.setFinishLabel(finishLabel);
 
-		//initialize page
-		initPage( wizard.getStartingPage( ) );
+		// initialize page
+		initPage(wizard.getStartingPage());
 
-		if ( dialog.open( ) == WizardDialog.CANCEL )
-		{//Cancel was pressed
+		if (dialog.open() == WizardDialog.CANCEL) {// Cancel was pressed
 			return null;
 		}
-		//Finish button was pressed
+		// Finish button was pressed
 		return model;
 	}
 
 	/**
 	 * @return Returns the type.
 	 */
-	public int getStyle( )
-	{
+	public int getStyle() {
 		return style;
 	}
 
 	/**
 	 * Sets finish Label
-	 * 
-	 * @param newLabel
-	 *            the label to be set
+	 *
+	 * @param newLabel the label to be set
 	 */
-	protected void setFinishLabel( String newLabel )
-	{
+	protected void setFinishLabel(String newLabel) {
 		finishLabel = newLabel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#isHelpAvailable()
 	 */
-	public boolean isHelpAvailable( )
-	{
+	@Override
+	public boolean isHelpAvailable() {
 		return true;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,39 +19,40 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.osgi.framework.Bundle;
 
-public class BundleVersionUtil
-{
+/**
+ * Class to retrieve the version from the bundle.
+ *
+ * @since 3.3
+ *
+ */
+public class BundleVersionUtil {
 
 	/**
 	 * The Log object that <code>BundleVersionUtil</code> uses to log the error,
 	 * debug, information messages.
 	 */
-	protected static Logger logger = Logger.getLogger( BundleVersionUtil.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger(BundleVersionUtil.class.getName());
 
 	private static String UNKNOWN_VERSION = "UNKNOWN";
 
-	public static String getBundleVersion( String bundleName )
-	{
-		Bundle bundle = Platform.getBundle( bundleName );
-		if ( bundle != null )
-		{
-			return bundle.getVersion( ).toString( );
+	public static String getBundleVersion(String bundleName) {
+
+		Bundle bundle = EclipseUtil.getBundle(bundleName);
+		if (bundle != null) {
+			return bundle.getVersion().toString();
 		}
+
 		// the engine.jar are in the class path
-		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain( );
-		if ( domain != null )
-		{
-			CodeSource codeSource = domain.getCodeSource( );
-			if ( codeSource != null )
-			{
-				URL jarUrl = codeSource.getLocation( );
-				if( jarUrl != null )
-				{
-					return jarUrl.getFile( );
+		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain();
+		if (domain != null) {
+			CodeSource codeSource = domain.getCodeSource();
+			if (codeSource != null) {
+				URL jarUrl = codeSource.getLocation();
+				if (jarUrl != null) {
+					return jarUrl.getFile();
 				}
 			}
 		}

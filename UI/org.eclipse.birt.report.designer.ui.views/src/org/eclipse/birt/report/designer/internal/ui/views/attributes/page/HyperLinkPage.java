@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,55 +24,50 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The HyperLink attribute page of DE element.
  */
-public class HyperLinkPage extends AttributePage
-{
+public class HyperLinkPage extends AttributePage {
 
 	private TextAndButtonSection hyperLinkSection;
 	private HyperLinkDescriptorProvider hyperLinkProvider;
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(3, 15));
 
-		hyperLinkProvider = new HyperLinkDescriptorProvider( );
-		hyperLinkSection = new TextAndButtonSection( hyperLinkProvider.getDisplayName( ),
-				container,
-				true );
-		hyperLinkSection.setProvider( hyperLinkProvider );
-		hyperLinkSection.addSelectionListener( new SelectionAdapter( ) {
+		hyperLinkProvider = new HyperLinkDescriptorProvider();
+		hyperLinkSection = new TextAndButtonSection(hyperLinkProvider.getDisplayName(), container, true);
+		hyperLinkSection.setProvider(hyperLinkProvider);
+		hyperLinkSection.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( hyperLinkProvider.hyperLinkSelected( ) )
-					hyperLinkSection.load( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (hyperLinkProvider.hyperLinkSelected()) {
+					hyperLinkSection.load();
+				}
 			}
 
-		} );
-		hyperLinkSection.setWidth( 300 );
-		hyperLinkSection.setButtonText( Messages.getString( "HyperLinkPage.Button.Text" ) ); //$NON-NLS-1$
-		hyperLinkSection.setButtonTooltipText( Messages
-				.getString("HyperLinkPage.toolTipText.Button") ); //$NON-NLS-1$
-		hyperLinkSection.setButtonIsComputeSize( true );
-		addSection( PageSectionId.HYPERLINK_HYPERLINK, hyperLinkSection );
+		});
+		hyperLinkSection.setWidth(300);
+		hyperLinkSection.setButtonText(Messages.getString("HyperLinkPage.Button.Text")); //$NON-NLS-1$
+		hyperLinkSection.setButtonTooltipText(Messages.getString("HyperLinkPage.toolTipText.Button")); //$NON-NLS-1$
+		hyperLinkSection.setButtonIsComputeSize(true);
+		addSection(PageSectionId.HYPERLINK_HYPERLINK, hyperLinkSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refresh()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refresh()
 	 */
-	public void refresh( )
-	{
-		super.refresh( );
-		if ( hyperLinkSection != null &&
-				hyperLinkSection.getButtonControl( ) != null )
-		{
-			hyperLinkSection.getButtonControl( )
-					.setEnabled( hyperLinkProvider.isEnable( ) );
+	@Override
+	public void refresh() {
+		super.refresh();
+		if (hyperLinkSection != null && hyperLinkSection.getButtonControl() != null) {
+			hyperLinkSection.getButtonControl().setEnabled(hyperLinkProvider.isEnable());
 		}
 	}
 }

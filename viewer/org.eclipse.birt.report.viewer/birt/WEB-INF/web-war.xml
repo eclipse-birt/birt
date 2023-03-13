@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
@@ -53,15 +67,28 @@
 		
 		Following values are supported:
 		
-		<all> 		- All paths.
-		<domain>	- Only the paths with host matches current domain. Note the comparison is literal, "127.0.0.1" and "localhost" are considered as different hosts.
+		<all> 		- All paths. DANGEROUS, SEE https://bugs.eclipse.org/bugs/show_bug.cgi?id=580391 
+		<domain>	- Allow domains listed in URL_REPORT_DOMAIN_POLICY.
 		<none> 		- URL paths are not supported.
 		
-		Defaults to "domain".
+		Defaults to "none".
 	-->
 	<context-param>
 		<param-name>URL_REPORT_PATH_POLICY</param-name>
-		<param-value>domain</param-value>
+		<param-value>none</param-value>
+	</context-param>
+
+	<!--
+		Settings to control the allowed domains 
+		  when the URL_REPORT_PATH_POLICY parameter is set to 'domain'.
+		
+		It should contain a comma separated list of valid domains.
+		
+		defauls to localhost,127.0.0.1
+	-->
+	<context-param>
+		<param-name>URL_REPORT_PATH_DOMAINS</param-name>
+		<param-value>localhost,127.0.0.1</param-value>
 	</context-param>
 
 	<!--

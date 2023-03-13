@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,50 +28,48 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
  * <li><code>GROUP_FOOTER</code></li>
  * <li><code>BAND_DETAIL</code></li>
  */
-public interface IBandContent extends IContainerContent
-{
+public interface IBandContent extends IContainerContent {
 
-	public static final int BAND_HEADER = BandDesign.BAND_HEADER;
-	public static final int BAND_FOOTER = BandDesign.BAND_FOOTER;
-	public static final int BAND_GROUP_HEADER = BandDesign.GROUP_HEADER;
-	public static final int BAND_GROUP_FOOTER = BandDesign.GROUP_FOOTER;
-	public static final int BAND_DETAIL = BandDesign.BAND_DETAIL;
+	int BAND_HEADER = BandDesign.BAND_HEADER;
+	int BAND_FOOTER = BandDesign.BAND_FOOTER;
+	int BAND_GROUP_HEADER = BandDesign.GROUP_HEADER;
+	int BAND_GROUP_FOOTER = BandDesign.GROUP_FOOTER;
+	int BAND_DETAIL = BandDesign.BAND_DETAIL;
 
 	/**
 	 * Get the type of the band content. The return result of this method is in
-	 * <code>int</code> format, and the <code>int</code> value must be one
-	 * of the following predefined values in class <code>IBandContent</code>:
+	 * <code>int</code> format, and the <code>int</code> value must be one of the
+	 * following predefined values in class <code>IBandContent</code>:
 	 * <li><code>BAND_HEADER</code></li>
 	 * <li><code>BAND_FOOTER</code></li>
 	 * <li><code>GROUP_HEADER</code></li>
 	 * <li><code>GROUP_FOOTER</code></li>
 	 * <li><code>BAND_DETAIL</code></li>
-	 * 
+	 *
 	 * @return type of the band content.
 	 */
-	int getBandType( );
+	int getBandType();
 
 	/**
 	 * Set the type of the band content. The value of parameter
-	 * <code>bandType</code> must be one of the following predefined values in
-	 * class <code>IBandContent</code>:
+	 * <code>bandType</code> must be one of the following predefined values in class
+	 * <code>IBandContent</code>:
 	 * <li><code>BAND_HEADER</code></li>
 	 * <li><code>BAND_FOOTER</code></li>
 	 * <li><code>GROUP_HEADER</code></li>
 	 * <li><code>GROUP_FOOTER</code></li>
 	 * <li><code>BAND_DETAIL</code></li>
-	 * 
-	 * @param bandType
-	 *            the type of the band content.
+	 *
+	 * @param bandType the type of the band content.
 	 */
-	void setBandType( int bandType );
+	void setBandType(int bandType);
 
 	/**
 	 * Get the group id if the band content is in some group. This method will
 	 * return <code>null</code> when the band content is not a group header and
 	 * group footer.
-	 * 
+	 *
 	 * @return the group id.
 	 */
-	String getGroupID( );
+	String getGroupID();
 }

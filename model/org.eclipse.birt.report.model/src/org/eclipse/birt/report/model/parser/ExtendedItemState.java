@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,8 +45,7 @@ import org.xml.sax.SAXException;
  * This class parses the Extended Item (extended item) tag.
  */
 
-public class ExtendedItemState extends ReportItemState
-{
+public class ExtendedItemState extends ReportItemState {
 
 	/**
 	 * The extended item being created.
@@ -54,193 +56,154 @@ public class ExtendedItemState extends ReportItemState
 	/**
 	 * Constructs the extended item state with the design parser handler, the
 	 * container element and the container slot of the extended item.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 *
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public ExtendedItemState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public ExtendedItemState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/**
-	 * Constructs extended item state with the design parser handler, the
-	 * container element and the container property name of the report element.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * Constructs extended item state with the design parser handler, the container
+	 * element and the container property name of the report element.
+	 *
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public ExtendedItemState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public ExtendedItemState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new ExtendedItem( );
-		handler.addExtendedItem( element );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new ExtendedItem();
+		handler.addExtendedItem(element);
 
-		parseExtensionName( attrs, true );
+		parseExtensionName(attrs, true);
 
 		// parse extension version
-		String extensionVersion = attrs
-				.getValue( DesignSchemaConstants.EXTENSION_VERSION_ATTRIB );
-		setProperty( IExtendedItemModel.EXTENSION_VERSION_PROP,
-				extensionVersion );
+		String extensionVersion = attrs.getValue(DesignSchemaConstants.EXTENSION_VERSION_ATTRIB);
+		setProperty(IExtendedItemModel.EXTENSION_VERSION_PROP, extensionVersion);
 
-		boolean nameRequired = element.getDefn( ).getNameOption( ) == MetaDataConstants.REQUIRED_NAME;
-		initElement( attrs, nameRequired );
+		boolean nameRequired = element.getDefn().getNameOption() == MetaDataConstants.REQUIRED_NAME;
+		initElement(attrs, nameRequired);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	@Override
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.ReportElementState#startElement(
+	 *
+	 * @see org.eclipse.birt.report.model.parser.ReportElementState#startElement(
 	 * java.lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( element.getExtDefn( ) != null )
-		{
-			return super.startElement( tagName );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		if (element.getExtDefn() != null) {
+			return super.startElement(tagName);
 		}
-		return ParseStateFactory.getInstance( ).createParseState( tagName, handler,
-				element, element.getExtensibilityProvider( ).getContentTree( ) );
+		return ParseStateFactory.getInstance().createParseState(tagName, handler, element,
+				element.getExtensibilityProvider().getContentTree());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		try
-		{
-			element.initializeReportItem( handler.module );
-		}
-		catch ( ExtendedElementException e )
-		{
+	@Override
+	public void end() throws SAXException {
+		try {
+			element.initializeReportItem(handler.module);
+		} catch (ExtendedElementException e) {
 			return;
 		}
 
-		Object reportItem = element.getExtendedElement( );
-		
+		Object reportItem = element.getExtendedElement();
+
 		// try to resolve level and adjust aggregation on property
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_13 )
-		{
-			IElementDefn levelDefn = MetaDataDictionary.getInstance( )
-					.getElement( ReportDesignConstants.LEVEL_ELEMENT );
-			IElementDefn eDefn = element.getDefn( );
-			List<IElementPropertyDefn> properties = eDefn.getProperties( );
-			for ( int i = 0; i < properties.size( ); i++ )
-			{
-				ElementPropertyDefn defn = (ElementPropertyDefn) properties
-						.get( i );
-				if ( defn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if (handler.versionNumber < VersionUtil.VERSION_3_2_13) {
+			IElementDefn levelDefn = MetaDataDictionary.getInstance().getElement(ReportDesignConstants.LEVEL_ELEMENT);
+			IElementDefn eDefn = element.getDefn();
+			List<IElementPropertyDefn> properties = eDefn.getProperties();
+			for (int i = 0; i < properties.size(); i++) {
+				ElementPropertyDefn defn = (ElementPropertyDefn) properties.get(i);
+				if ((defn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE) || !defn.getTargetElementType().isKindOf(levelDefn)) {
 					continue;
-				if ( !defn.getTargetElementType( ).isKindOf( levelDefn ) )
-					continue;
-				ElementRefValue value = (ElementRefValue) element
-						.getLocalProperty( handler.module, defn );
-				if ( value != null && !value.isResolved( ) )
-				{
-					Level level = ( (ModuleNameHelper) handler.module
-							.getNameHelper( ) ).findCachedLevel( value
-							.getName( ) );
-					if ( level != null )
-					{
-						value.resolve( level );
-						level.addClient( element, defn.getName( ) );
+				}
+				ElementRefValue value = (ElementRefValue) element.getLocalProperty(handler.module, defn);
+				if (value != null && !value.isResolved()) {
+					Level level = ((ModuleNameHelper) handler.module.getNameHelper()).findCachedLevel(value.getName());
+					if (level != null) {
+						value.resolve(level);
+						level.addClient(element, defn.getName());
 					}
 				}
 			}
 
-			List columnBindings = (List) element.getLocalProperty(
-					handler.module, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-			if ( columnBindings != null )
-			{
-				for ( int i = 0; i < columnBindings.size( ); i++ )
-				{
-					ComputedColumn column = (ComputedColumn) columnBindings
-							.get( i );
-					List aggregationList = column.getAggregateOnList( );
-					if ( aggregationList == null )
+			List columnBindings = (List) element.getLocalProperty(handler.module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+			if (columnBindings != null) {
+				for (int i = 0; i < columnBindings.size(); i++) {
+					ComputedColumn column = (ComputedColumn) columnBindings.get(i);
+					List aggregationList = column.getAggregateOnList();
+					if (aggregationList == null) {
 						continue;
-					for ( int j = 0; j < aggregationList.size( ); j++ )
-					{
-						String aggregationOn = (String) aggregationList.get( j );
-						if ( aggregationOn != null )
-						{
-							Level level = ( (ModuleNameHelper) handler.module
-									.getNameHelper( ) )
-									.findCachedLevel( aggregationOn );
-							if ( level != null )
-								aggregationList.set( j, level.getFullName( ) );
+					}
+					for (int j = 0; j < aggregationList.size(); j++) {
+						String aggregationOn = (String) aggregationList.get(j);
+						if (aggregationOn != null) {
+							Level level = ((ModuleNameHelper) handler.module.getNameHelper())
+									.findCachedLevel(aggregationOn);
+							if (level != null) {
+								aggregationList.set(j, level.getFullName());
+							}
 						}
 					}
 				}
 			}
 		}
 
-		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_1 )
-		{
-			if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
-			{
-				( (ICompatibleReportItem) reportItem ).handleCompatibilityIssue( );
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_1) {
+			if (reportItem instanceof ICompatibleReportItem) {
+				((ICompatibleReportItem) reportItem).handleCompatibilityIssue();
 			}
-			super.end( );
+			super.end();
 			return;
 		}
 
-
-		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
-		{
-			List<String> jsExprs = ( (ICompatibleReportItem) reportItem )
-					.getRowExpressions( );
-			Map<String, String> updatedExprs = BoundDataColumnUtil
-					.handleJavaExpression( jsExprs, element, handler.module,
-							handler.tempValue );
-			( (ICompatibleReportItem) reportItem )
-					.updateRowExpressions( updatedExprs );
-			( (ICompatibleReportItem) reportItem ).handleCompatibilityIssue( );
+		if (reportItem instanceof ICompatibleReportItem) {
+			List<String> jsExprs = ((ICompatibleReportItem) reportItem).getRowExpressions();
+			Map<String, String> updatedExprs = BoundDataColumnUtil.handleJavaExpression(jsExprs, element,
+					handler.module, handler.tempValue);
+			((ICompatibleReportItem) reportItem).updateRowExpressions(updatedExprs);
+			((ICompatibleReportItem) reportItem).handleCompatibilityIssue();
 		}
 
-		super.end( );
+		super.end();
 	}
 }

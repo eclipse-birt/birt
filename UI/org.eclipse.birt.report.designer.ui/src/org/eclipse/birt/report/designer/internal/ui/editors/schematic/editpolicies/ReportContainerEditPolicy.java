@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,35 +27,39 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * This is simple implementation of ContainerEditPolicy. Provides a installabel
  * edit policy for all container element
- * 
- *  
+ *
+ *
  */
-public class ReportContainerEditPolicy extends ContainerEditPolicy
-{
+public class ReportContainerEditPolicy extends ContainerEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+	 *
+	 * @see
+	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse
+	 * .gef.requests.CreateRequest)
 	 */
-	protected Command getCreateCommand( CreateRequest request )
-	{
+	@Override
+	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org.eclipse.gef.requests.GroupRequest)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org
+	 * .eclipse.gef.requests.GroupRequest)
 	 */
-	public Command getOrphanChildrenCommand( GroupRequest request )
-	{
-		List parts = request.getEditParts( );
-		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
-		for ( int i = 0; i < parts.size( ); i++ )
-		{
-			DeleteCommand command = new DeleteCommand( ( (EditPart) parts.get( i ) ).getModel( ) );
-			command.setClear( false );
-			result.add( command );
+	@Override
+	public Command getOrphanChildrenCommand(GroupRequest request) {
+		List parts = request.getEditParts();
+		CompoundCommand result = new CompoundCommand("Move in layout");//$NON-NLS-1$
+		for (int i = 0; i < parts.size(); i++) {
+			DeleteCommand command = new DeleteCommand(((EditPart) parts.get(i)).getModel());
+			command.setClear(false);
+			result.add(command);
 		}
-		return result.unwrap( );
+		return result.unwrap();
 	}
 }

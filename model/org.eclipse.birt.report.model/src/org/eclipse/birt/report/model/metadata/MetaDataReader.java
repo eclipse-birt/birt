@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,60 +31,44 @@ import org.eclipse.birt.report.model.util.ParserFactory;
  * dictionary instance.
  */
 
-public final class MetaDataReader
-{
+public final class MetaDataReader {
 
 	/**
 	 * Logger instance.
 	 */
 
-	private static Logger logger = Logger.getLogger( MetaDataReader.class
-			.getName( ) );
+	private static Logger logger = Logger.getLogger(MetaDataReader.class.getName());
 
 	/**
 	 * Parses the source metadata config file, retrieve the data into data
-	 * structures. <code>MetaLogManager</code> will be loaded to do the meta
-	 * data error logging, don't forget to call
-	 * {@link MetaLogManager#shutDown()}after reading of the metadata.
-	 * 
-	 * 
-	 * @param fileName
-	 *            meta source file name.
+	 * structures. <code>MetaLogManager</code> will be loaded to do the meta data
+	 * error logging, don't forget to call {@link MetaLogManager#shutDown()}after
+	 * reading of the metadata.
+	 *
+	 *
+	 * @param fileName meta source file name.
 	 * @throws MetaDataParserException
 	 */
 
-	public static void read( String fileName ) throws MetaDataParserException
-	{
+	public static void read(String fileName) throws MetaDataParserException {
 		InputStream inputStream = null;
-		try
-		{
-			inputStream = new FileInputStream( fileName );
-		}
-		catch ( FileNotFoundException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			MetaLogManager.log( "Metadata definition file not found", e ); //$NON-NLS-1$
-			throw new MetaDataParserException( fileName,
-					MetaDataParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+		try {
+			inputStream = new FileInputStream(fileName);
+		} catch (FileNotFoundException e) {
+			logger.log(Level.SEVERE, e.getMessage());
+			MetaLogManager.log("Metadata definition file not found", e); //$NON-NLS-1$
+			throw new MetaDataParserException(fileName, MetaDataParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND);
 		}
 
-		try
-		{
-			read( inputStream );
-		}
-		catch ( MetaDataParserException e )
-		{
-			e.setFileName( fileName );
+		try {
+			read(inputStream);
+		} catch (MetaDataParserException e) {
+			e.setFileName(fileName);
 			throw e;
-		}
-		finally
-		{
-			try
-			{
-				inputStream.close( );
-			}
-			catch ( IOException e )
-			{
+		} finally {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
 				// Do nothing.
 			}
 		}
@@ -89,51 +76,38 @@ public final class MetaDataReader
 
 	/**
 	 * Parses the source metadata config file, retrieve the data into data
-	 * structures. <code>MetaLogManager</code> will be loaded to do the meta
-	 * data error logging, don't forget to call
-	 * {@link MetaLogManager#shutDown()}after reading of the metadata.
-	 * 
-	 * @param inputStream
-	 *            meta source file stream.
+	 * structures. <code>MetaLogManager</code> will be loaded to do the meta data
+	 * error logging, don't forget to call {@link MetaLogManager#shutDown()}after
+	 * reading of the metadata.
+	 *
+	 * @param inputStream meta source file stream.
 	 * @throws MetaDataParserException
 	 */
 
-	public static void read( InputStream inputStream )
-			throws MetaDataParserException
-	{
+	public static void read(InputStream inputStream) throws MetaDataParserException {
 		InputStream internalStream = inputStream;
-		if ( inputStream != null && !inputStream.markSupported( ) )
-		{
-			internalStream = new BufferedInputStream( inputStream );
-			assert internalStream.markSupported( );
+		if (inputStream != null && !inputStream.markSupported()) {
+			internalStream = new BufferedInputStream(inputStream);
+			assert internalStream.markSupported();
 		}
 
-		assert MetaDataDictionary.getInstance( ).isEmpty( );
-		MetaDataHandler handler = new MetaDataHandler( );
-		
-		SAXParser parser = null; 
-		try
-		{
-			parser = ParserFactory.getInstance( ).getParser( null );
-			parser.parse( internalStream, handler );			
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
-			MetaLogManager.log( "Metadata parsing error", e ); //$NON-NLS-1$
-			throw new MetaDataParserException( e,
-					MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR );
-		}
-		finally
-		{
-			// even there is XML exception, need to release the resource. 
-			try
-			{
-				ParserFactory.getInstance( ).releaseParser( parser, null );				
-			}
-			catch ( Exception e1 )
-			{
-				
+		assert MetaDataDictionary.getInstance().isEmpty();
+		MetaDataHandler handler = new MetaDataHandler();
+
+		SAXParser parser = null;
+		try {
+			parser = ParserFactory.getInstance().getParser(null);
+			parser.parse(internalStream, handler);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage());
+			MetaLogManager.log("Metadata parsing error", e); //$NON-NLS-1$
+			throw new MetaDataParserException(e, MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR);
+		} finally {
+			// even there is XML exception, need to release the resource.
+			try {
+				ParserFactory.getInstance().releaseParser(parser, null);
+			} catch (Exception e1) {
+
 			}
 		}
 

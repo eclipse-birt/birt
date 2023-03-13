@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,22 +62,15 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.FormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-public class AccordionPropertyList extends Canvas implements IPropertyList
-{
+public class AccordionPropertyList extends Canvas implements IPropertyList {
 
-	public static final Image ICON_COLLAPSE = UIHelper.getImage( ReportPlugin.getDefault( )
-			.getBundle( ),
-			ReportPlatformUIImages.ICONS_PATH
-					+ ReportPlatformUIImages.OBJ16_PATH
-					+ "collapse.png" );
+	public static final Image ICON_COLLAPSE = UIHelper.getImage(ReportPlugin.getDefault().getBundle(),
+			ReportPlatformUIImages.ICONS_PATH + ReportPlatformUIImages.OBJ16_PATH + "collapse.png");
 
-	public static final Image ICON_EXPAND = UIHelper.getImage( ReportPlugin.getDefault( )
-			.getBundle( ),
-			ReportPlatformUIImages.ICONS_PATH
-					+ ReportPlatformUIImages.OBJ16_PATH
-					+ "expand.png" );
+	public static final Image ICON_EXPAND = UIHelper.getImage(ReportPlugin.getDefault().getBundle(),
+			ReportPlatformUIImages.ICONS_PATH + ReportPlatformUIImages.OBJ16_PATH + "expand.png");
 
-	private static final ListElement[] ELEMENTS_EMPTY = new ListElement[0];
+	private static final ListElement[] ELEMENTS_EMPTY = {};
 
 	protected static final int NONE = -1;
 
@@ -114,8 +110,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 
 	private FormToolkit factory;
 
-	public class ListElement extends Canvas
-	{
+	public class ListElement extends Canvas {
 
 		private Tab tab;
 
@@ -125,91 +120,78 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 
 		private boolean hover;
 
-		public ListElement( Composite parent, final Tab tab, int index )
-		{
-			super( parent, SWT.NO_FOCUS );
+		public ListElement(Composite parent, final Tab tab, int index) {
+			super(parent, SWT.NO_FOCUS);
 			this.tab = tab;
 			hover = false;
 			selected = false;
 			this.index = index;
 
-			addPaintListener( new PaintListener( ) {
+			addPaintListener(new PaintListener() {
 
-				public void paintControl( PaintEvent e )
-				{
-					paint( e );
+				@Override
+				public void paintControl(PaintEvent e) {
+					paint(e);
 				}
-			} );
-			addMouseListener( new MouseAdapter( ) {
+			});
+			addMouseListener(new MouseAdapter() {
 
-				public void mouseDown( MouseEvent e )
-				{
-					if ( !selected )
-					{
-						select( getIndex( ListElement.this ), true );
-						computeTopAndBottomTab( );
+				@Override
+				public void mouseDown(MouseEvent e) {
+					if (!selected) {
+						select(getIndex(ListElement.this), true);
+						computeTopAndBottomTab();
 					}
-					Composite tabbedPropertyComposite = getParent( );
-					Control[] children = tabbedPropertyComposite.getParent( )
-							.getTabList( );
-					if ( children != null && children.length > 0 )
-					{
-						for ( int i = 0; i < children.length; i++ )
-						{
-							if ( children[i] == AccordionPropertyList.this )
-							{
-								continue;
-							}
-							else if ( children[i].setFocus( ) )
-							{
+					Composite tabbedPropertyComposite = getParent();
+					Control[] children = tabbedPropertyComposite.getParent().getTabList();
+					if (children != null && children.length > 0) {
+						for (int i = 0; i < children.length; i++) {
+							if (children[i] == AccordionPropertyList.this) {
+							} else if (children[i].setFocus()) {
 								focus = false;
 								return;
 							}
 						}
 					}
 				}
-			} );
-			addMouseMoveListener( new MouseMoveListener( ) {
+			});
+			addMouseMoveListener(new MouseMoveListener() {
 
-				public void mouseMove( MouseEvent e )
-				{
-					if ( !hover )
-					{
+				@Override
+				public void mouseMove(MouseEvent e) {
+					if (!hover) {
 						hover = true;
-						redraw( );
+						redraw();
 					}
 				}
-			} );
-			addMouseTrackListener( new MouseTrackAdapter( ) {
+			});
+			addMouseTrackListener(new MouseTrackAdapter() {
 
-				public void mouseExit( MouseEvent e )
-				{
+				@Override
+				public void mouseExit(MouseEvent e) {
 					hover = false;
-					redraw( );
+					redraw();
 				}
-			} );
+			});
 		}
 
-		public void setSelected( boolean selected )
-		{
+		public void setSelected(boolean selected) {
 			this.selected = selected;
-			redraw( );
+			redraw();
 		}
 
 		/**
 		 * Draws elements and collects element areas.
 		 */
-		private void paint( PaintEvent e )
-		{
+		private void paint(PaintEvent e) {
 			/*
-			 * draw the top two lines of the tab, same for selected, hover and
-			 * default
+			 * draw the top two lines of the tab, same for selected, hover and default
 			 */
-			Rectangle bounds = getBounds( );
-			e.gc.setForeground( widgetNormalShadow );
-			e.gc.drawLine( 0, 0, bounds.width - 1, 0 );
-			e.gc.setForeground( listBackground );
-			e.gc.drawLine( 0, 1, bounds.width - 1, 1 );
+			Rectangle bounds = getBounds();
+			e.gc.setForeground(widgetNormalShadow);
+			e.gc.drawLine(0, 0, bounds.width - 1, 0);
+			e.gc.setForeground(listBackground);
+			e.gc.drawLine(0, 1, bounds.width - 1, 1);
 
 			/* draw the fill in the tab */
 			// if ( selected )
@@ -218,203 +200,155 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 			// e.gc.fillRectangle( 0, 2, bounds.width, bounds.height - 1 );
 			// }
 			// else
-			if ( hover && tab.isIndented( ) )
-			{
-				e.gc.setBackground( indentedHoverBackground );
-				e.gc.fillRectangle( 0, 2, bounds.width - 1, bounds.height - 1 );
-			}
-			else if ( hover )
-			{
-				e.gc.setForeground( hoverGradientStart );
-				e.gc.setBackground( hoverGradientEnd );
-				e.gc.fillGradientRectangle( 0,
-						2,
-						bounds.width - 1,
-						bounds.height - 1,
-						true );
-			}
-			else if ( tab.isIndented( ) )
-			{
-				e.gc.setBackground( indentedDefaultBackground );
-				e.gc.fillRectangle( 0, 2, bounds.width - 1, bounds.height - 1 );
-			}
-			else
-			{
-				e.gc.setForeground( defaultGradientStart );
-				e.gc.setBackground( defaultGradientEnd );
-				e.gc.fillGradientRectangle( 0,
-						2,
-						bounds.width - 1,
-						bounds.height - 1,
-						true );
+			if (hover && tab.isIndented()) {
+				e.gc.setBackground(indentedHoverBackground);
+				e.gc.fillRectangle(0, 2, bounds.width - 1, bounds.height - 1);
+			} else if (hover) {
+				e.gc.setForeground(hoverGradientStart);
+				e.gc.setBackground(hoverGradientEnd);
+				e.gc.fillGradientRectangle(0, 2, bounds.width - 1, bounds.height - 1, true);
+			} else if (tab.isIndented()) {
+				e.gc.setBackground(indentedDefaultBackground);
+				e.gc.fillRectangle(0, 2, bounds.width - 1, bounds.height - 1);
+			} else {
+				e.gc.setForeground(defaultGradientStart);
+				e.gc.setBackground(defaultGradientEnd);
+				e.gc.fillGradientRectangle(0, 2, bounds.width - 1, bounds.height - 1, true);
 			}
 
 			// if ( !selected )
 			{
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( bounds.width - 1,
-						1,
-						bounds.width - 1,
-						bounds.height + 1 );
-				e.gc.drawLine( 0, 1, 0, bounds.height + 1 );
+				e.gc.setForeground(widgetNormalShadow);
+				e.gc.drawLine(bounds.width - 1, 1, bounds.width - 1, bounds.height + 1);
+				e.gc.drawLine(0, 1, 0, bounds.height + 1);
 			}
 
 			int textIndent = INDENT;
-			FontMetrics fm = e.gc.getFontMetrics( );
-			int height = fm.getHeight( );
-			int textMiddle = ( bounds.height - height ) / 2;
+			FontMetrics fm = e.gc.getFontMetrics();
+			int height = fm.getHeight();
+			int textMiddle = (bounds.height - height) / 2;
 
 			/* draw the icon for the selected tab */
-			if ( tab.isIndented( ) )
-			{
+			if (tab.isIndented()) {
 				textIndent = textIndent + INDENT;
-			}
-			else
-			{
+			} else {
 				textIndent = textIndent - 3;
 			}
-			if ( selected )
-				e.gc.drawImage( ICON_EXPAND, textIndent, textMiddle - 1 );
-			else
-				e.gc.drawImage( ICON_COLLAPSE, textIndent, textMiddle - 1 );
+			if (selected) {
+				e.gc.drawImage(ICON_EXPAND, textIndent, textMiddle - 1);
+			} else {
+				e.gc.drawImage(ICON_COLLAPSE, textIndent, textMiddle - 1);
+			}
 			textIndent = textIndent + 16 + 5;
 
 			/* draw the text */
-			e.gc.setForeground( widgetForeground );
-			if ( selected )
-			{
+			e.gc.setForeground(widgetForeground);
+			if (selected) {
 				/* selected tab is bold font */
-				e.gc.setFont( JFaceResources.getFontRegistry( )
-						.getBold( JFaceResources.DEFAULT_FONT ) );
+				e.gc.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
 			}
-			e.gc.drawText( tab.getText( ), textIndent, textMiddle, true );
+			e.gc.drawText(tab.getText(), textIndent, textMiddle, true);
 
-			if ( ( (AccordionPropertyList) getParent( ) ).focus
-					&& selected
-					&& focus )
-			{
+			if (((AccordionPropertyList) getParent()).focus && selected && focus) {
 				/* draw a line if the tab has focus */
-				Point point = e.gc.textExtent( tab.getText( ) );
-				e.gc.drawLine( textIndent, bounds.height - 4, textIndent
-						+ point.x, bounds.height - 4 );
+				Point point = e.gc.textExtent(tab.getText());
+				e.gc.drawLine(textIndent, bounds.height - 4, textIndent + point.x, bounds.height - 4);
 			}
 
 			/* draw the bottom line on the tab for selected and default */
-			if ( !hover && this != elements[getSelectionIndex( )] )
-			{
-				e.gc.setForeground( listBackground );
-				e.gc.drawLine( 1,
-						bounds.height - 1,
-						bounds.width - 2,
-						bounds.height - 1 );
+			if (!hover && this != elements[getSelectionIndex()]) {
+				e.gc.setForeground(listBackground);
+				e.gc.drawLine(1, bounds.height - 1, bounds.width - 2, bounds.height - 1);
 			}
 
-			if ( this == elements[getSelectionIndex( )]
-					|| this == elements[elements.length - 1] )
-			{
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( 0,
-						bounds.height - 1,
-						bounds.width,
-						bounds.height - 1 );
+			if (this == elements[getSelectionIndex()] || this == elements[elements.length - 1]) {
+				e.gc.setForeground(widgetNormalShadow);
+				e.gc.drawLine(0, bounds.height - 1, bounds.width, bounds.height - 1);
 			}
 
 		}
 
-		public String getText( )
-		{
-			return tab.getText( );
+		public String getText() {
+			return tab.getText();
 		}
 
-		public String toString( )
-		{
-			return tab.getText( );
+		@Override
+		public String toString() {
+			return tab.getText();
 		}
 	}
 
-	public AccordionPropertyList( Composite parent )
-	{
-		super( parent, SWT.NONE );
-		factory = FormWidgetFactory.getInstance( );
-		removeAll( );
-		setLayout( new FormLayout( ) );
-		initColours( );
-		initAccessible( );
+	public AccordionPropertyList(Composite parent) {
+		super(parent, SWT.NONE);
+		factory = FormWidgetFactory.getInstance();
+		removeAll();
+		setLayout(new FormLayout());
+		initColours();
+		initAccessible();
 
-		this.addFocusListener( new FocusListener( ) {
+		this.addFocusListener(new FocusListener() {
 
-			public void focusGained( FocusEvent e )
-			{
+			@Override
+			public void focusGained(FocusEvent e) {
 				focus = true;
-				int i = getSelectionIndex( );
-				if ( i >= 0 )
-				{
-					elements[i].redraw( );
+				int i = getSelectionIndex();
+				if (i >= 0) {
+					elements[i].redraw();
 				}
 			}
 
-			public void focusLost( FocusEvent e )
-			{
+			@Override
+			public void focusLost(FocusEvent e) {
 				focus = false;
-				int i = getSelectionIndex( );
-				if ( i >= 0 )
-				{
-					elements[i].redraw( );
+				int i = getSelectionIndex();
+				if (i >= 0) {
+					elements[i].redraw();
 				}
 			}
-		} );
+		});
 
 		// do nothing, just for tab traverse.
-		this.addKeyListener( new KeyAdapter( ) {
-		} );
+		this.addKeyListener(new KeyAdapter() {
+		});
 
-		this.addControlListener( new ControlAdapter( ) {
+		this.addControlListener(new ControlAdapter() {
 
-			public void controlResized( ControlEvent e )
-			{
-				computeTopAndBottomTab( );
+			@Override
+			public void controlResized(ControlEvent e) {
+				computeTopAndBottomTab();
 			}
-		} );
+		});
 
-		this.addTraverseListener( new TraverseListener( ) {
+		this.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_ARROW_PREVIOUS
-						|| e.detail == SWT.TRAVERSE_ARROW_NEXT )
-				{
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_ARROW_PREVIOUS || e.detail == SWT.TRAVERSE_ARROW_NEXT) {
 					int nMax = elements.length - 1;
-					int nCurrent = getSelectionIndex( );
-					if ( e.detail == SWT.TRAVERSE_ARROW_PREVIOUS )
-					{
+					int nCurrent = getSelectionIndex();
+					if (e.detail == SWT.TRAVERSE_ARROW_PREVIOUS) {
 						nCurrent -= 1;
-						nCurrent = Math.max( 0, nCurrent );
-					}
-					else if ( e.detail == SWT.TRAVERSE_ARROW_NEXT )
-					{
+						nCurrent = Math.max(0, nCurrent);
+					} else if (e.detail == SWT.TRAVERSE_ARROW_NEXT) {
 						nCurrent += 1;
-						nCurrent = Math.min( nCurrent, nMax );
+						nCurrent = Math.min(nCurrent, nMax);
 					}
-					select( nCurrent, true );
-					computeTopAndBottomTab( );
-					redraw( );
-				}
-				else
-				{
+					select(nCurrent, true);
+					computeTopAndBottomTab();
+					redraw();
+				} else {
 					e.doit = true;
 				}
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Calculate the number of tabs that will fit in the tab list composite.
 	 */
-	protected void computeTabsThatFitInComposite( )
-	{
-		tabsThatFitInComposite = ( ( getSize( ).y - 22 ) ) / getTabHeight( );
-		if ( tabsThatFitInComposite <= 0 )
-		{
+	protected void computeTabsThatFitInComposite() {
+		tabsThatFitInComposite = ((getSize().y - 22)) / getTabHeight();
+		if (tabsThatFitInComposite <= 0) {
 			tabsThatFitInComposite = 1;
 		}
 	}
@@ -422,47 +356,41 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 	/**
 	 * Returns the element with the given index from this list viewer. Returns
 	 * <code>null</code> if the index is out of range.
-	 * 
-	 * @param index
-	 *            the zero-based index
-	 * @return the element at the given index, or <code>null</code> if the index
-	 *         is out of range
+	 *
+	 * @param index the zero-based index
+	 * @return the element at the given index, or <code>null</code> if the index is
+	 *         out of range
 	 */
-	public Object getElementAt( int index )
-	{
-		if ( index >= 0 && index < elements.length )
-		{
+	public Object getElementAt(int index) {
+		if (index >= 0 && index < elements.length) {
 			return elements[index];
 		}
 		return null;
 	}
 
 	/**
-	 * Returns the zero-relative index of the item which is currently selected
-	 * in the receiver, or -1 if no item is selected.
-	 * 
+	 * Returns the zero-relative index of the item which is currently selected in
+	 * the receiver, or -1 if no item is selected.
+	 *
 	 * @return the index of the selected item
 	 */
-	public int getSelectionIndex( )
-	{
+	@Override
+	public int getSelectionIndex() {
 		return selectedElementIndex;
 	}
 
-	public String getSelectionKey( )
-	{
-		return elementMap.keySet( ).toArray( )[selectedElementIndex].toString( );
+	@Override
+	public String getSelectionKey() {
+		return elementMap.keySet().toArray()[selectedElementIndex].toString();
 	}
 
 	/**
 	 * Removes all elements from this list.
 	 */
-	public void removeAll( )
-	{
-		if ( elements != null )
-		{
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				elements[i].dispose( );
+	public void removeAll() {
+		if (elements != null) {
+			for (int i = 0; i < elements.length; i++) {
+				elements[i].dispose();
 			}
 		}
 		elements = ELEMENTS_EMPTY;
@@ -476,220 +404,191 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 
 	private Map elementMap = null;
 
-	public void setElements( Map children )
-	{
+	@Override
+	public void setElements(Map children) {
 		elementMap = children;
-		if ( elements != ELEMENTS_EMPTY )
-		{
-			removeAll( );
+		if (elements != ELEMENTS_EMPTY) {
+			removeAll();
 		}
-		elements = new ListElement[children.size( )];
-		if ( children.size( ) == 0 )
-		{
+		elements = new ListElement[children.size()];
+		if (children.size() == 0) {
 			widestLabelIndex = NONE;
-		}
-		else
-		{
+		} else {
 			widestLabelIndex = 0;
-			for ( int i = 0; i < children.size( ); i++ )
-			{
-				elements[i] = new ListElement( this,
-						(Tab) children.get( children.keySet( ).toArray( )[i] ),
-						i );
-				elements[i].setVisible( false );
-				elements[i].setLayoutData( null );
+			for (int i = 0; i < children.size(); i++) {
+				elements[i] = new ListElement(this, (Tab) children.get(children.keySet().toArray()[i]), i);
+				elements[i].setVisible(false);
+				elements[i].setLayoutData(null);
 
-				if ( i != widestLabelIndex )
-				{
-					String label = ( (Tab) children.get( children.keySet( )
-							.toArray( )[i] ) ).getText( );
-					if ( getTextDimension( label ).x > getTextDimension( ( (Tab) children.get( children.keySet( )
-							.toArray( )[widestLabelIndex] ) ).getText( ) ).x )
-					{
+				if (i != widestLabelIndex) {
+					String label = ((Tab) children.get(children.keySet().toArray()[i])).getText();
+					if (getTextDimension(label).x > getTextDimension(
+							((Tab) children.get(children.keySet().toArray()[widestLabelIndex])).getText()).x) {
 						widestLabelIndex = i;
 					}
 				}
 
-				Composite container = new Composite( this, SWT.NONE );
-				container.setVisible( false );
-				container.setLayoutData( null );
-				elements[i].setData( container );
+				Composite container = new Composite(this, SWT.NONE);
+				container.setVisible(false);
+				container.setLayoutData(null);
+				elements[i].setData(container);
 			}
 		}
 
-		computeTopAndBottomTab( );
+		computeTopAndBottomTab();
 	}
 
 	/**
 	 * Selects one for the elements in the list.
 	 */
-	public void select( int index, boolean reveal )
-	{
-		if ( getSelectionIndex( ) == index )
-		{
+	public void select(int index, boolean reveal) {
+		if (getSelectionIndex() == index) {
 			/*
 			 * this index is already selected.
 			 */
 			return;
 		}
-		if ( index >= 0 && index < elements.length )
-		{
-			int lastSelected = getSelectionIndex( );
-			elements[index].setSelected( true );
+		if (index >= 0 && index < elements.length) {
+			int lastSelected = getSelectionIndex();
+			elements[index].setSelected(true);
 			selectedElementIndex = index;
-			if ( lastSelected != NONE )
-			{
-				elements[lastSelected].setSelected( false );
+			if (lastSelected != NONE) {
+				elements[lastSelected].setSelected(false);
 
-				resetSelectedItem( lastSelected );
+				resetSelectedItem(lastSelected);
 
-				if ( getSelectionIndex( ) != elements.length - 1 )
-				{
+				if (getSelectionIndex() != elements.length - 1) {
 					/*
-					 * redraw the next tab to fix the border by calling
-					 * setSelected()
+					 * redraw the next tab to fix the border by calling setSelected()
 					 */
-					elements[getSelectionIndex( ) + 1].setSelected( false );
+					elements[getSelectionIndex() + 1].setSelected(false);
 
-					resetSelectedItem( getSelectionIndex( ) + 1 );
+					resetSelectedItem(getSelectionIndex() + 1);
 				}
 			}
 
-			FormData formData = new FormData( );
+			FormData formData = new FormData();
 			formData.height = 0;
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( elements[index], 0 );
+			formData.left = new FormAttachment(0, 0);
+			formData.right = new FormAttachment(100, 0);
+			formData.top = new FormAttachment(elements[index], 0);
 
-			Composite container = (Composite) elements[index].getData( );
-			container.setLayoutData( formData );
-			container.setVisible( true );
+			Composite container = (Composite) elements[index].getData();
+			container.setLayoutData(formData);
+			container.setVisible(true);
 
-			formData = new FormData( );
-			formData.height = getTabHeight( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( container, 0 );
+			formData = new FormData();
+			formData.height = getTabHeight();
+			formData.left = new FormAttachment(0, 0);
+			formData.right = new FormAttachment(100, 0);
+			formData.top = new FormAttachment(container, 0);
 
-			if ( index + 1 < elements.length )
-			{
-				elements[index + 1].setLayoutData( formData );
+			if (index + 1 < elements.length) {
+				elements[index + 1].setLayoutData(formData);
 			}
 
-			container.getParent( ).layout( );
+			container.getParent().layout();
 		}
 
-		notifyListeners( SWT.Selection, new Event( ) );
+		notifyListeners(SWT.Selection, new Event());
 	}
 
-	private void resetSelectedItem( int index )
-	{
-		Composite container = (Composite) elements[index].getData( );
-		container.setLayoutData( null );
-		container.setVisible( false );
+	private void resetSelectedItem(int index) {
+		Composite container = (Composite) elements[index].getData();
+		container.setLayoutData(null);
+		container.setVisible(false);
 
-		FormData formData = new FormData( );
-		formData.height = getTabHeight( );
-		formData.left = new FormAttachment( 0, 0 );
-		formData.right = new FormAttachment( 100, 0 );
-		formData.top = new FormAttachment( elements[index], 0 );
+		FormData formData = new FormData();
+		formData.height = getTabHeight();
+		formData.left = new FormAttachment(0, 0);
+		formData.right = new FormAttachment(100, 0);
+		formData.top = new FormAttachment(elements[index], 0);
 
-		if ( index + 1 < elements.length )
-			elements[index + 1].setLayoutData( formData );
+		if (index + 1 < elements.length) {
+			elements[index + 1].setLayoutData(formData);
+		}
 	}
 
-	public void setSelection( String key, int index )
-	{
-		if ( elementMap.containsKey( key ) )
-			index = Arrays.asList( elementMap.keySet( ).toArray( ) )
-					.indexOf( key );
-		if ( getSelectionIndex( ) == index )
-		{
+	@Override
+	public void setSelection(String key, int index) {
+		if (elementMap.containsKey(key)) {
+			index = Arrays.asList(elementMap.keySet().toArray()).indexOf(key);
+		}
+		if (getSelectionIndex() == index) {
 			/*
 			 * this index is already selected.
 			 */
 			return;
 		}
-		if ( index >= 0 && index < elements.length )
-		{
-			int lastSelected = getSelectionIndex( );
-			elements[index].setSelected( true );
+		if (index >= 0 && index < elements.length) {
+			int lastSelected = getSelectionIndex();
+			elements[index].setSelected(true);
 			selectedElementIndex = index;
-			if ( lastSelected != NONE )
-			{
-				elements[lastSelected].setSelected( false );
-				resetSelectedItem( lastSelected );
-				if ( getSelectionIndex( ) != elements.length - 1 )
-				{
+			if (lastSelected != NONE) {
+				elements[lastSelected].setSelected(false);
+				resetSelectedItem(lastSelected);
+				if (getSelectionIndex() != elements.length - 1) {
 					/*
-					 * redraw the next tab to fix the border by calling
-					 * setSelected()
+					 * redraw the next tab to fix the border by calling setSelected()
 					 */
-					elements[getSelectionIndex( ) + 1].setSelected( false );
-					resetSelectedItem( getSelectionIndex( ) + 1 );
+					elements[getSelectionIndex() + 1].setSelected(false);
+					resetSelectedItem(getSelectionIndex() + 1);
 				}
 			}
 
-			FormData formData = new FormData( );
+			FormData formData = new FormData();
 			formData.height = 0;
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( elements[index], 0 );
+			formData.left = new FormAttachment(0, 0);
+			formData.right = new FormAttachment(100, 0);
+			formData.top = new FormAttachment(elements[index], 0);
 
-			Composite container = (Composite) elements[index].getData( );
-			container.setLayoutData( formData );
-			container.setVisible( true );
+			Composite container = (Composite) elements[index].getData();
+			container.setLayoutData(formData);
+			container.setVisible(true);
 
-			formData = new FormData( );
-			formData.height = getTabHeight( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( container, 0 );
+			formData = new FormData();
+			formData.height = getTabHeight();
+			formData.left = new FormAttachment(0, 0);
+			formData.right = new FormAttachment(100, 0);
+			formData.top = new FormAttachment(container, 0);
 
-			if ( index + 1 < elements.length )
-			{
-				elements[index + 1].setLayoutData( formData );
+			if (index + 1 < elements.length) {
+				elements[index + 1].setLayoutData(formData);
 			}
 
-			container.getParent( ).layout( );
+			container.getParent().layout();
 		}
-	};
+	}
 
 	/**
 	 * Selects one for the elements in the list.
 	 */
-	public void deselectAll( )
-	{
-		if ( getSelectionIndex( ) != NONE )
-		{
-			elements[getSelectionIndex( )].setSelected( false );
+	public void deselectAll() {
+		if (getSelectionIndex() != NONE) {
+			elements[getSelectionIndex()].setSelected(false);
 			selectedElementIndex = NONE;
 		}
 	}
 
-	private int getIndex( ListElement element )
-	{
+	private int getIndex(ListElement element) {
 		return element.index;
 	}
 
 	/**
 	 * Computes the size based on the widest string in the list.
 	 */
-	public Point computeSize( int wHint, int hHint, boolean changed )
-	{
-		Point result = super.computeSize( hHint, wHint, changed );
-		if ( widestLabelIndex == -1 )
-		{
-			String properties_not_available = Messages.getString( "TabbedPropertyList.properties.not.available" ); //$NON-NLS-1$
-			result.x = getTextDimension( properties_not_available ).x + INDENT;
-		}
-		else
-		{
-			int width = getTextDimension( elements[widestLabelIndex].getText( ) ).x;
+	@Override
+	public Point computeSize(int wHint, int hHint, boolean changed) {
+		Point result = super.computeSize(hHint, wHint, changed);
+		if (widestLabelIndex == -1) {
+			String properties_not_available = Messages.getString("TabbedPropertyList.properties.not.available"); //$NON-NLS-1$
+			result.x = getTextDimension(properties_not_available).x + INDENT;
+		} else {
+			int width = getTextDimension(elements[widestLabelIndex].getText()).x;
 			/*
-			 * To anticipate for the icon placement we should always keep the
-			 * space available after the label. So when the active tab includes
-			 * an icon the width of the tab doesn't change.
+			 * To anticipate for the icon placement we should always keep the space
+			 * available after the label. So when the active tab includes an icon the width
+			 * of the tab doesn't change.
 			 */
 			result.x = width + 32;
 			result.x = result.x >= 125 ? result.x : 125;
@@ -697,14 +596,12 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 		return result;
 	}
 
-	private Point getTextDimension( String text )
-	{
-		if ( textGc == null || textGc.isDisposed( ) )
-		{
-			textGc = new GC( this );
+	private Point getTextDimension(String text) {
+		if (textGc == null || textGc.isDisposed()) {
+			textGc = new GC(this);
 		}
-		textGc.setFont( getFont( ) );
-		Point point = textGc.textExtent( text );
+		textGc.setFont(getFont());
+		Point point = textGc.textExtent(text);
 		point.x++;
 		return point;
 	}
@@ -712,223 +609,178 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 	/**
 	 * Initialize the colours used.
 	 */
-	private void initColours( )
-	{
+	private void initColours() {
 		/*
 		 * Colour 3 COLOR_LIST_BACKGROUND
 		 */
-		listBackground = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+		listBackground = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 
 		/*
 		 * Colour 13 COLOR_WIDGET_BACKGROUND
 		 */
-		widgetBackground = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+		widgetBackground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
 
 		/*
 		 * Colour 16 COLOR_WIDGET_FOREGROUND
 		 */
-		widgetForeground = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WIDGET_FOREGROUND );
+		widgetForeground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
 
 		/*
 		 * Colour 19 COLOR_WIDGET_NORMAL_SHADOW
 		 */
-		widgetNormalShadow = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW );
+		widgetNormalShadow = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
 
-		RGB white = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WHITE )
-				.getRGB( );
+		RGB white = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE).getRGB();
 
 		/*
 		 * Mimic palette view look and feel.
 		 */
-		defaultGradientStart = factory.getColors( )
-				.createColor( "TabbedPropertyList.defaultTabGradientStart", //$NON-NLS-1$
-						FormColors.blend( ColorConstants.button.getRGB( ),
-								ColorConstants.listBackground.getRGB( ),
-								85 ) );
-		defaultGradientEnd = factory.getColors( )
-				.createColor( "TabbedPropertyList.defaultTabGradientEnd", //$NON-NLS-1$
-						FormColors.blend( ColorConstants.button.getRGB( ),
-								ColorConstants.buttonDarker.getRGB( ),
-								45 ) );
-		
-		/*
-		 * gradient in the hover tab: start colour WIDGET_BACKGROUND 100% +
-		 * white 20% end colour WIDGET_BACKGROUND 100% + WIDGET_NORMAL_SHADOW
-		 * 10%
-		 */
-		hoverGradientStart = factory.getColors( )
-				.createColor( "TabbedPropertyList.hoverBackgroundGradientStart", //$NON-NLS-1$
-						FormColors.blend( white, widgetBackground.getRGB( ), 20 ) );
-		hoverGradientEnd = factory.getColors( )
-				.createColor( "TabbedPropertyList.hoverBackgroundGradientEnd", //$NON-NLS-1$
-						FormColors.blend( widgetNormalShadow.getRGB( ),
-								widgetBackground.getRGB( ),
-								10 ) );
+		defaultGradientStart = factory.getColors().createColor("TabbedPropertyList.defaultTabGradientStart", //$NON-NLS-1$
+				FormColors.blend(ColorConstants.button.getRGB(), ColorConstants.listBackground.getRGB(), 85));
+		defaultGradientEnd = factory.getColors().createColor("TabbedPropertyList.defaultTabGradientEnd", //$NON-NLS-1$
+				FormColors.blend(ColorConstants.button.getRGB(), ColorConstants.buttonDarker.getRGB(), 45));
 
-		indentedDefaultBackground = factory.getColors( )
-				.createColor( "TabbedPropertyList.indentedDefaultBackground", //$NON-NLS-1$
-						FormColors.blend( white, widgetBackground.getRGB( ), 10 ) );
-		indentedHoverBackground = factory.getColors( )
-				.createColor( "TabbedPropertyList.indentedHoverBackground", //$NON-NLS-1$
-						FormColors.blend( white, widgetBackground.getRGB( ), 75 ) );
+		/*
+		 * gradient in the hover tab: start colour WIDGET_BACKGROUND 100% + white 20%
+		 * end colour WIDGET_BACKGROUND 100% + WIDGET_NORMAL_SHADOW 10%
+		 */
+		hoverGradientStart = factory.getColors().createColor("TabbedPropertyList.hoverBackgroundGradientStart", //$NON-NLS-1$
+				FormColors.blend(white, widgetBackground.getRGB(), 20));
+		hoverGradientEnd = factory.getColors().createColor("TabbedPropertyList.hoverBackgroundGradientEnd", //$NON-NLS-1$
+				FormColors.blend(widgetNormalShadow.getRGB(), widgetBackground.getRGB(), 10));
+
+		indentedDefaultBackground = factory.getColors().createColor("TabbedPropertyList.indentedDefaultBackground", //$NON-NLS-1$
+				FormColors.blend(white, widgetBackground.getRGB(), 10));
+		indentedHoverBackground = factory.getColors().createColor("TabbedPropertyList.indentedHoverBackground", //$NON-NLS-1$
+				FormColors.blend(white, widgetBackground.getRGB(), 75));
 	}
 
 	/**
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
-	public void dispose( )
-	{
-		if ( textGc != null && !textGc.isDisposed( ) )
-		{
-			textGc.dispose( );
+	@Override
+	public void dispose() {
+		if (textGc != null && !textGc.isDisposed()) {
+			textGc.dispose();
 			textGc = null;
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
 	/**
-	 * Get the height of a tab. The height of the tab is the height of the text
-	 * plus buffer.
-	 * 
+	 * Get the height of a tab. The height of the tab is the height of the text plus
+	 * buffer.
+	 *
 	 * @return the height of a tab.
 	 */
-	private int getTabHeight( )
-	{
-		int tabHeight = getTextDimension( "" ).y + INDENT; //$NON-NLS-1$ 
-		if ( tabsThatFitInComposite == 1 )
-		{
+	private int getTabHeight() {
+		int tabHeight = getTextDimension("").y + INDENT; //$NON-NLS-1$
+		if (tabsThatFitInComposite == 1) {
 			/*
-			 * if only one tab will fix, reduce the size of the tab height so
-			 * that the navigation elements fit.
+			 * if only one tab will fix, reduce the size of the tab height so that the
+			 * navigation elements fit.
 			 */
-			int ret = getBounds( ).height - 20;
-			return ( ret > tabHeight ) ? tabHeight : ( ret < 5 ) ? 5 : ret;
+			int ret = getBounds().height - 20;
+			return (ret > tabHeight) ? tabHeight : (ret < 5) ? 5 : ret;
 		}
 		return tabHeight;
 	}
 
-	public void computeTopAndBottomTab( )
-	{
-		computeTabsThatFitInComposite( );
-		layoutTabs( );
+	public void computeTopAndBottomTab() {
+		computeTabsThatFitInComposite();
+		layoutTabs();
 	}
 
 	/**
 	 * Layout the tabs.
-	 * 
-	 * @param up
-	 *            if <code>true</code>, then we are laying out as a result of an
-	 *            scroll up request.
+	 *
+	 * @param up if <code>true</code>, then we are laying out as a result of an
+	 *           scroll up request.
 	 */
-	private void layoutTabs( )
-	{
-		if ( tabsThatFitInComposite != NONE && elements.length > 0 )
-		{
+	private void layoutTabs() {
+		if (tabsThatFitInComposite != NONE && elements.length > 0) {
 
-			for ( int i = 0; i < elements.length; i++ )
-			{
+			for (int i = 0; i < elements.length; i++) {
 				// System.out.print(i + " [" + elements[i].getText() + "]");
-				FormData formData = new FormData( );
-				formData.height = getTabHeight( );
-				formData.left = new FormAttachment( 0, 0 );
-				formData.right = new FormAttachment( 100, 0 );
-				if ( i == 0 )
-				{
-					formData.top = new FormAttachment( 0, 0 );
+				FormData formData = new FormData();
+				formData.height = getTabHeight();
+				formData.left = new FormAttachment(0, 0);
+				formData.right = new FormAttachment(100, 0);
+				if (i == 0) {
+					formData.top = new FormAttachment(0, 0);
+				} else if (i == getSelectionIndex() + 1) {
+					formData.top = new FormAttachment((Composite) elements[i - 1].getData(), 0);
+				} else {
+					formData.top = new FormAttachment(elements[i - 1], 0);
 				}
-				else
-				{
-					if ( i == getSelectionIndex( ) + 1 )
-					{
-						formData.top = new FormAttachment( (Composite) elements[i - 1].getData( ),
-								0 );
-					}
-					else
-					{
-						formData.top = new FormAttachment( elements[i - 1], 0 );
-					}
-				}
-				elements[i].setLayoutData( formData );
-				elements[i].setVisible( true );
+				elements[i].setLayoutData(formData);
+				elements[i].setVisible(true);
 
-				if ( i == getSelectionIndex( ) )
-				{
-					formData = new FormData( );
+				if (i == getSelectionIndex()) {
+					formData = new FormData();
 					formData.height = 0;
-					formData.left = new FormAttachment( 0, 0 );
-					formData.right = new FormAttachment( 100, 0 );
-					formData.top = new FormAttachment( elements[i], 0 );
+					formData.left = new FormAttachment(0, 0);
+					formData.right = new FormAttachment(100, 0);
+					formData.top = new FormAttachment(elements[i], 0);
 
-					Composite container = (Composite) elements[i].getData( );
+					Composite container = (Composite) elements[i].getData();
 
-					int height = container.computeSize( SWT.DEFAULT,
-							SWT.DEFAULT ).y;
-					if ( formData.height < height )
+					int height = container.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+					if (formData.height < height) {
 						formData.height = height;
+					}
 
-					container.setLayoutData( formData );
-					container.setVisible( true );
-				}
-				else
-				{
-					Composite container = (Composite) elements[i].getData( );
-					container.setLayoutData( null );
-					container.setVisible( false );
+					container.setLayoutData(formData);
+					container.setVisible(true);
+				} else {
+					Composite container = (Composite) elements[i].getData();
+					container.setLayoutData(null);
+					container.setVisible(false);
 				}
 			}
 		}
 
 		// layout so that we have enough space for the new labels
-		Composite grandparent = getParent( ).getParent( );
-		grandparent.layout( true );
-		layout( true );
+		Composite grandparent = getParent().getParent();
+		grandparent.layout(true);
+		layout(true);
 	}
 
 	/**
 	 * Initialize the accessibility adapter.
 	 */
-	private void initAccessible( )
-	{
-		final Accessible accessible = getAccessible( );
-		accessible.addAccessibleListener( new AccessibleAdapter( ) {
+	private void initAccessible() {
+		final Accessible accessible = getAccessible();
+		accessible.addAccessibleListener(new AccessibleAdapter() {
 
-			public void getName( AccessibleEvent e )
-			{
-				if ( getSelectionIndex( ) != NONE )
-				{
-					e.result = elements[getSelectionIndex( )].getText( );
+			@Override
+			public void getName(AccessibleEvent e) {
+				if (getSelectionIndex() != NONE) {
+					e.result = elements[getSelectionIndex()].getText();
 				}
 			}
 
-			public void getHelp( AccessibleEvent e )
-			{
-				if ( getSelectionIndex( ) != NONE )
-				{
-					e.result = elements[getSelectionIndex( )].getText( );
+			@Override
+			public void getHelp(AccessibleEvent e) {
+				if (getSelectionIndex() != NONE) {
+					e.result = elements[getSelectionIndex()].getText();
 				}
 			}
-		} );
+		});
 
-		accessible.addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		accessible.addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point pt = toControl( new Point( e.x, e.y ) );
-				e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
-						: ACC.CHILDID_NONE;
+			@Override
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point pt = toControl(new Point(e.x, e.y));
+				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				if ( getSelectionIndex( ) != NONE )
-				{
-					Rectangle location = elements[getSelectionIndex( )].getBounds( );
-					Point pt = toDisplay( new Point( location.x, location.y ) );
+			@Override
+			public void getLocation(AccessibleControlEvent e) {
+				if (getSelectionIndex() != NONE) {
+					Rectangle location = elements[getSelectionIndex()].getBounds();
+					Point pt = toDisplay(new Point(location.x, location.y));
 					e.x = pt.x;
 					e.y = pt.y;
 					e.width = location.width;
@@ -936,55 +788,52 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 				}
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			@Override
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			@Override
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TABITEM;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
-				e.detail = ACC.STATE_NORMAL
-						| ACC.STATE_SELECTABLE
-						| ACC.STATE_SELECTED
-						| ACC.STATE_FOCUSED
+			@Override
+			public void getState(AccessibleControlEvent e) {
+				e.detail = ACC.STATE_NORMAL | ACC.STATE_SELECTABLE | ACC.STATE_SELECTED | ACC.STATE_FOCUSED
 						| ACC.STATE_FOCUSABLE;
 			}
-		} );
+		});
 
-		addListener( SWT.Selection, new Listener( ) {
+		addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				if ( isFocusControl( ) )
-				{
-					accessible.setFocus( ACC.CHILDID_SELF );
+			@Override
+			public void handleEvent(Event event) {
+				if (isFocusControl()) {
+					accessible.setFocus(ACC.CHILDID_SELF);
 				}
 			}
-		} );
+		});
 
-		addListener( SWT.FocusIn, new Listener( ) {
+		addListener(SWT.FocusIn, new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				accessible.setFocus( ACC.CHILDID_SELF );
+			@Override
+			public void handleEvent(Event event) {
+				accessible.setFocus(ACC.CHILDID_SELF);
 			}
-		} );
+		});
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return this;
 	}
 
-	public Control getItem( int index )
-	{
-		if ( index >= 0 && index < elements.length )
+	@Override
+	public Control getItem(int index) {
+		if (index >= 0 && index < elements.length) {
 			return elements[index];
+		}
 		return null;
 	}
 }

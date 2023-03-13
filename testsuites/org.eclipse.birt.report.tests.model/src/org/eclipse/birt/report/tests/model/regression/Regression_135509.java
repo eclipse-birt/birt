@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -41,39 +44,34 @@ import com.ibm.icu.util.ULocale;
  * exception will be throwed when adding a binding with an existing name
  * </p>
  */
-public class Regression_135509 extends BaseTestCase
-{
+public class Regression_135509 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_135509( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_135509() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		DataItemHandle data = factory.newDataItem( "data" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		DataItemHandle data = factory.newDataItem("data"); //$NON-NLS-1$
 
-		ComputedColumn col1 = StructureFactory.createComputedColumn( );
-		col1.setName( "a" ); //$NON-NLS-1$
-		col1.setExpression( "dataSetRow[\"xxx1\"]" ); //$NON-NLS-1$
+		ComputedColumn col1 = StructureFactory.createComputedColumn();
+		col1.setName("a"); //$NON-NLS-1$
+		col1.setExpression("dataSetRow[\"xxx1\"]"); //$NON-NLS-1$
 
-		data.addColumnBinding( col1, true );
+		data.addColumnBinding(col1, true);
 
-		ComputedColumn col2 = StructureFactory.createComputedColumn( );
-		col2.setName( "a" ); //$NON-NLS-1$
-		col2.setExpression( "dataSetRow[\"xxx2\"]" ); //$NON-NLS-1$
-		try
-		{
-			data.addColumnBinding( col1, true );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertTrue( e instanceof PropertyValueException );
+		ComputedColumn col2 = StructureFactory.createComputedColumn();
+		col2.setName("a"); //$NON-NLS-1$
+		col2.setExpression("dataSetRow[\"xxx2\"]"); //$NON-NLS-1$
+		try {
+			data.addColumnBinding(col1, true);
+			fail();
+		} catch (SemanticException e) {
+			assertTrue(e instanceof PropertyValueException);
 		}
 
 	}

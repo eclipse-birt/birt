@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,64 +18,65 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
 
-public class DataContent extends TextContent implements IDataContent
-{
+public class DataContent extends TextContent implements IDataContent {
 	IDataContent dataContent;
-	public DataContent( IDataContent content )
-	{
-		super( content );
+
+	public DataContent(IDataContent content) {
+		super(content);
 		dataContent = content;
-		
+
 	}
 
-	public Object getValue( )
-	{
+	@Override
+	public Object getValue() {
 		return dataContent.getValue();
 	}
 
-	public void setValue( Object value )
-	{
-		this.dataContent.setValue( value );
+	@Override
+	public void setValue(Object value) {
+		this.dataContent.setValue(value);
 	}
 
-	public String getLabelText( )
-	{
-		return dataContent.getLabelText( );
+	@Override
+	public String getLabelText() {
+		return dataContent.getLabelText();
 	}
 
-	public void setLabelText( String text )
-	{
-		this.dataContent.setLabelText(text);;
+	@Override
+	public void setLabelText(String text) {
+		this.dataContent.setLabelText(text);
+
 	}
 
-	public String getLabelKey( )
-	{
+	@Override
+	public String getLabelKey() {
 		return dataContent.getLabelKey();
 	}
 
-	public void setLabelKey( String key )
-	{
-		dataContent.setLabelKey(key);;
+	@Override
+	public void setLabelKey(String key) {
+		dataContent.setLabelKey(key);
+
 	}
 
-	public String getHelpText( )
-	{
+	@Override
+	public String getHelpText() {
 		return dataContent.getHelpText();
 	}
 
-	public String getHelpKey( )
-	{
+	@Override
+	public String getHelpKey() {
 		return dataContent.getHelpKey();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
+	 *
+	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
+	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitData( this, value );
+	@Override
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitData(this, value);
 	}
 }

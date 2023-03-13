@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,38 +27,32 @@ import org.xml.sax.SAXException;
  * conversion for BIRT 2.1.1.
  */
 
-public class CompatibleColumnDataTypeState extends CompatiblePropertyState
-{
+public class CompatibleColumnDataTypeState extends CompatiblePropertyState {
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the element to parse
-	 * @param propDefn
-	 *            the property definition
-	 * @param struct
-	 *            the structure of OdaDataSetParameter
+	 *
+	 * @param theHandler the parser handler
+	 * @param element    the element to parse
+	 * @param propDefn   the property definition
+	 * @param struct     the structure of OdaDataSetParameter
 	 */
 
-	CompatibleColumnDataTypeState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	CompatibleColumnDataTypeState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		doEnd( DataTypeConversionUtil.converToParamType( value ) );
+		doEnd(DataTypeConversionUtil.converToParamType(value));
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,75 +23,66 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
+public class ClassPathTableProvider implements ITableLabelProvider, IStructuredContentProvider {
 
-public class ClassPathTableProvider
-		implements
-			ITableLabelProvider,
-			IStructuredContentProvider
-{
-
-	public ClassPathTableProvider( )
-	{
+	public ClassPathTableProvider() {
 
 	}
 
-	public Image getColumnImage( Object arg0, int arg1 )
-	{
-		if ( arg1 == 0 && ( arg0 instanceof ClassPathElement ) )
-		{
-			return ( (ClassPathElement) arg0 ).getIcon( );
+	@Override
+	public Image getColumnImage(Object arg0, int arg1) {
+		if (arg1 == 0 && (arg0 instanceof ClassPathElement)) {
+			return ((ClassPathElement) arg0).getIcon();
 		}
 		return null;
 	}
 
-	public String getColumnText( Object arg0, int arg1 )
-	{
-		if ( arg1 == 0 && ( arg0 instanceof ClassPathElement ) )
-		{
-			return getDisplayText( (ClassPathElement) arg0 );
+	@Override
+	public String getColumnText(Object arg0, int arg1) {
+		if (arg1 == 0 && (arg0 instanceof ClassPathElement)) {
+			return getDisplayText((ClassPathElement) arg0);
 		}
 		return null;
 	}
 
-	private String getDisplayText( ClassPathElement element )
-	{
-		String value = element.getValue( );
-		if ( value != null )
-		{
-			value = value + " - " + element.getFullPath( ); //$NON-NLS-1$
+	private String getDisplayText(ClassPathElement element) {
+		String value = element.getValue();
+		if (value != null) {
+			value = value + " - " + element.getFullPath(); //$NON-NLS-1$
 		}
 		return value;
 	}
 
-	public void addListener( ILabelProviderListener arg0 )
-	{
+	@Override
+	public void addListener(ILabelProviderListener arg0) {
 
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 
 	}
 
-	public boolean isLabelProperty( Object arg0, String arg1 )
-	{
+	@Override
+	public boolean isLabelProperty(Object arg0, String arg1) {
 		return false;
 	}
 
-	public void removeListener( ILabelProviderListener arg0 )
-	{
+	@Override
+	public void removeListener(ILabelProviderListener arg0) {
 
 	}
 
-	public Object[] getElements( Object arg0 )
-	{
-		if ( arg0 instanceof List )
-			return ( (List) arg0 ).toArray( );
+	@Override
+	public Object[] getElements(Object arg0) {
+		if (arg0 instanceof List) {
+			return ((List) arg0).toArray();
+		}
 		return new Object[0];
 	}
 
-	public void inputChanged( Viewer arg0, Object arg1, Object arg2 )
-	{
+	@Override
+	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 	}
 

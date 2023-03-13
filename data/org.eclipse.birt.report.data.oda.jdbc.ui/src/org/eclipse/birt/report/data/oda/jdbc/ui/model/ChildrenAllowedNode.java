@@ -1,72 +1,65 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
-public abstract class ChildrenAllowedNode implements IDBNode
-{
+public abstract class ChildrenAllowedNode implements IDBNode {
 	private IDBNode[] children;
-	
-	public boolean isChildrenPrepared( )
-	{
+
+	public boolean isChildrenPrepared() {
 		return children != null;
 	}
-	
-	public void prepareChildren( FilterConfig fc, long timeout )
-	{
-		class TempThread extends Thread
-		{
+
+	public void prepareChildren(FilterConfig fc, long timeout) {
+		class TempThread extends Thread {
 			private FilterConfig fc;
-			TempThread( FilterConfig fc )
-			{
+
+			TempThread(FilterConfig fc) {
 				this.fc = fc;
 			}
+
 			private IDBNode[] result = null;
+
 			@Override
-			public void run( )
-			{
-				result = refetchChildren( fc );
+			public void run() {
+				result = refetchChildren(fc);
 			}
-			
-			public IDBNode[] getResult( )
-			{
+
+			public IDBNode[] getResult() {
 				return result;
 			}
 		}
-		TempThread tt = new TempThread( fc );
-		tt.start( );
-		try
-		{
-			tt.join( timeout );
-		}
-		catch ( InterruptedException e )
-		{
+		TempThread tt = new TempThread(fc);
+		tt.start();
+		try {
+			tt.join(timeout);
+		} catch (InterruptedException e) {
 
 		}
-		IDBNode[] children = tt.getResult( );
-		if ( children == null )
-		{
+		IDBNode[] children = tt.getResult();
+		if (children == null) {
 			children = new IDBNode[0];
 		}
-		setChildren( children );
+		setChildren(children);
 	}
 
-	protected abstract IDBNode[] refetchChildren( FilterConfig fc );
-	
-	public IDBNode[] getChildren( )
-	{
+	protected abstract IDBNode[] refetchChildren(FilterConfig fc);
+
+	public IDBNode[] getChildren() {
 		return children;
 	}
-	
-	protected void setChildren( IDBNode[] children )
-	{
+
+	protected void setChildren(IDBNode[] children) {
 		this.children = children;
 	}
 }

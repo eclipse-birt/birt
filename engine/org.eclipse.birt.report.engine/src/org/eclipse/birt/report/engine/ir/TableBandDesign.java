@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,50 +14,43 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Band used in a TableItem.
- * 
+ *
  */
-public class TableBandDesign extends BandDesign
-{
+public class TableBandDesign extends BandDesign {
 
 	/**
 	 * get the row number defined in this band.
-	 * 
+	 *
 	 * @return row number
 	 */
-	public int getRowCount( )
-	{
-		return getContentCount( );
+	public int getRowCount() {
+		return getContentCount();
 	}
 
 	/**
 	 * add a row definition in this band.
-	 * 
-	 * @param row
-	 *            row to be added.
+	 *
+	 * @param row row to be added.
 	 */
-	public void addRow( RowDesign row )
-	{
-		assert ( row != null );
-		addContent( row );
+	public void addRow(RowDesign row) {
+		assert (row != null);
+		addContent(row);
 	}
 
 	/**
 	 * get row in this band.
-	 * 
-	 * @param index
-	 *            row index
+	 *
+	 * @param index row index
 	 * @return row.
 	 */
-	public RowDesign getRow( int index )
-	{
-		return (RowDesign) getContent( index );
+	public RowDesign getRow(int index) {
+		return (RowDesign) getContent(index);
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitTableBand( this, value );
+	@Override
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitTableBand(this, value);
 	}
 }

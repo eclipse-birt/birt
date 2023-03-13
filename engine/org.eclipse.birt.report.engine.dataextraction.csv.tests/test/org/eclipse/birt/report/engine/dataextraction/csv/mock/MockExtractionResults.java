@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,43 +18,38 @@ import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 
-
-public class MockExtractionResults implements IExtractionResults
-{
+public class MockExtractionResults implements IExtractionResults {
 	private boolean closed;
 	private MockDataIterator iterator;
 	private MockResultMetaData metaData;
-	
-	public MockExtractionResults( String[] columnNames, int[] columnTypes, Object[][] data )
-	{
+
+	public MockExtractionResults(String[] columnNames, int[] columnTypes, Object[][] data) {
 		closed = false;
 		metaData = new MockResultMetaData(columnNames, columnTypes);
 		iterator = new MockDataIterator(columnNames, data, this);
 	}
-	
-	public void close( )
-	{
+
+	@Override
+	public void close() {
 		closed = true;
-		iterator.close( );
+		iterator.close();
 	}
 
-	private void assertOpened() throws BirtException
-	{
-		if ( closed )
-		{
-			throw new BirtException( null, "Result set is already closed.", null);
+	private void assertOpened() throws BirtException {
+		if (closed) {
+			throw new BirtException(null, "Result set is already closed.", null);
 		}
 	}
-	
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
+
+	@Override
+	public IResultMetaData getResultMetaData() throws BirtException {
 		return metaData;
 	}
 
-	public IDataIterator nextResultIterator( ) throws BirtException
-	{
+	@Override
+	public IDataIterator nextResultIterator() throws BirtException {
 		assertOpened();
-		return iterator;	
+		return iterator;
 	}
-	
+
 }

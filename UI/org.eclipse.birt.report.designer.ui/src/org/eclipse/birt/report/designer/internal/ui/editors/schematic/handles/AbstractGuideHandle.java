@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,102 +26,94 @@ import org.eclipse.gef.handles.AbstractHandle;
 
 /**
  * The class is the all ReportelemenEditPart base class.
- * 
+ *
  */
-public abstract class AbstractGuideHandle extends AbstractHandle implements
-		MouseMotionListener
-{
+public abstract class AbstractGuideHandle extends AbstractHandle implements MouseMotionListener {
 
 	private boolean isInGuideHandle = false;
 	private boolean canDeleteGuide = true;
 
-	public AbstractGuideHandle( GraphicalEditPart owner, Locator loc )
-	{
-		super( owner, loc );
-		addMouseMotionListener( this );
-		getLocator( ).relocate( this );
+	public AbstractGuideHandle(GraphicalEditPart owner, Locator loc) {
+		super(owner, loc);
+		addMouseMotionListener(this);
+		getLocator().relocate(this);
 
 	}
 
-	public void mouseEntered( MouseEvent me )
-	{
+	@Override
+	public void mouseEntered(MouseEvent me) {
 		// System.out.println( "handle enter" );
 		isInGuideHandle = true;
-		getGuideFeedBackHost( ).addGuideFeedBack( );
+		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
-	public void mouseExited( MouseEvent me )
-	{
-		// System.out.println( "handle  exit" );
+	@Override
+	public void mouseExited(MouseEvent me) {
+		// System.out.println( "handle exit" );
 		isInGuideHandle = false;
-		getGuideFeedBackHost( ).delayRemoveGuideFeedBack( );
+		getGuideFeedBackHost().delayRemoveGuideFeedBack();
 	}
 
-	public void mouseHover( MouseEvent me )
-	{
+	@Override
+	public void mouseHover(MouseEvent me) {
 		// System.out.println( "handle hover" );
 		isInGuideHandle = true;
-		getGuideFeedBackHost( ).addGuideFeedBack( );
+		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
-	public void mouseMoved( MouseEvent me )
-	{
+	@Override
+	public void mouseMoved(MouseEvent me) {
 		// System.out.println( "handle move" );
 		isInGuideHandle = true;
 
 		// addGuideFeedBack();
 	}
 
-	public void mouseDragged( MouseEvent me )
-	{
+	@Override
+	public void mouseDragged(MouseEvent me) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
-		return new ReportElementDragTracker( getOwner( ) );
+	@Override
+	protected DragTracker createDragTracker() {
+		return new ReportElementDragTracker(getOwner());
 	}
 
-	protected IGuideFeedBackHost getGuideFeedBackHost( )
-	{
-		return (IGuideFeedBackHost) getOwner( );
+	protected IGuideFeedBackHost getGuideFeedBackHost() {
+		return (IGuideFeedBackHost) getOwner();
 	}
 
-	public boolean isInGuideHandle( )
-	{
+	public boolean isInGuideHandle() {
 		return isInGuideHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#findFigureAt(int, int,
 	 * org.eclipse.draw2d.TreeSearch)
 	 */
-	public IFigure findFigureAt( int x, int y, TreeSearch search )
-	{
-		return super.findFigureAt( x, y, search );
+	@Override
+	public IFigure findFigureAt(int x, int y, TreeSearch search) {
+		return super.findFigureAt(x, y, search);
 	}
 
 	/**
 	 * @return Returns the canDeleteGuide.
 	 */
-	public boolean isCanDeleteGuide( )
-	{
+	public boolean isCanDeleteGuide() {
 		return canDeleteGuide;
 	}
 
 	/**
-	 * @param canDeleteGuide
-	 *            The canDeleteGuide to set.
+	 * @param canDeleteGuide The canDeleteGuide to set.
 	 */
-	public void setCanDeleteGuide( boolean canDeleteGuide )
-	{
+	public void setCanDeleteGuide(boolean canDeleteGuide) {
 		this.canDeleteGuide = canDeleteGuide;
 	}
 }

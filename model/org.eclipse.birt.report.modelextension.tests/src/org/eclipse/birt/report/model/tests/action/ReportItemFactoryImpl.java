@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,65 +25,64 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * Implements <code>IReportItemFactory</code> for testing
  */
 
-public class ReportItemFactoryImpl implements IReportItemFactory
-{
+public class ReportItemFactoryImpl implements IReportItemFactory {
 
 	/**
 	 * Messages for I18N
 	 */
 
-	static IMessages messages = new MessagesImpl( );
+	static IMessages messages = new MessagesImpl();
 
 	/**
 	 * Default constructor
 	 */
 
-	public ReportItemFactoryImpl( )
-	{
+	public ReportItemFactoryImpl() {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.model.api.ReportDesignHandle)
+	 *
+	 * @see
+	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
+	 * model.api.ReportDesignHandle)
 	 */
 
-	public IReportItem newReportItem( DesignElementHandle item )
-	{
-		return new ReportItemImpl( this, item );
+	@Override
+	public IReportItem newReportItem(DesignElementHandle item) {
+		return new ReportItemImpl(this, item);
 	}
 
 	/**
 	 * Returns the localized message.
-	 * 
-	 * @param key
-	 *            the resource key
+	 *
+	 * @param key the resource key
 	 * @return the localized message
 	 */
 
-	public static String getMessage( String key )
-	{
-		return messages.getMessage( key, ThreadResources.getLocale( ) );
+	public static String getMessage(String key) {
+		return messages.getMessage(key, ThreadResources.getLocale());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
-	public IMessages getMessages( )
-	{
+	@Override
+	public IMessages getMessages() {
 		return messages;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#getFactoryStyles(java.lang.String)
+	 *
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#
+	 * getFactoryStyles(java.lang.String)
 	 */
-	public IStyleDeclaration[] getFactoryStyles( String extensionName )
-	{
+	@Override
+	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
 		return null;
 	}
 }

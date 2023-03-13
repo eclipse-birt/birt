@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,55 +30,40 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * items should be kept, or just replaced by axis chart.
  */
 
-public class ChartInXTabStatusManager
-{
+public class ChartInXTabStatusManager {
 
-	private static Map<AggregationCellHandle, Boolean> mapGrandItems = new HashMap<AggregationCellHandle, Boolean>( );
+	private static Map<AggregationCellHandle, Boolean> mapGrandItems = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
-	public static void updateGrandItemStatus( AggregationCellHandle detailCell )
-			throws BirtException
-	{
-		if ( detailCell != null )
-		{
-			AggregationCellHandle grandCell = ChartCubeUtil.getGrandTotalAggregationCell( detailCell,
-					detailCell.getCrosstab( )
-							.getMeasureDirection( )
-							.equals( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL ) );
-			if ( grandCell != null )
-			{
-				List contents = grandCell.getContents( );
-				if ( contents.size( ) > 0 )
-				{
-					for ( Object content : contents )
-					{
-						if ( content instanceof DataItemHandle )
-						{
-							mapGrandItems.put( detailCell, true );
+	public static void updateGrandItemStatus(AggregationCellHandle detailCell) throws BirtException {
+		if (detailCell != null) {
+			AggregationCellHandle grandCell = ChartCubeUtil.getGrandTotalAggregationCell(detailCell, detailCell
+					.getCrosstab().getMeasureDirection().equals(ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL));
+			if (grandCell != null) {
+				List contents = grandCell.getContents();
+				if (contents.size() > 0) {
+					for (Object content : contents) {
+						if (content instanceof DataItemHandle) {
+							mapGrandItems.put(detailCell, true);
 							return;
 						}
 					}
 				}
 			}
-			mapGrandItems.put( detailCell, false );
+			mapGrandItems.put(detailCell, false);
 		}
 	}
 
-	public static boolean hasGrandItem( AggregationCellHandle detailCell )
-	{
-		if ( mapGrandItems.containsKey( detailCell ) )
-		{
-			return mapGrandItems.get( detailCell );
+	public static boolean hasGrandItem(AggregationCellHandle detailCell) {
+		if (mapGrandItems.containsKey(detailCell)) {
+			return mapGrandItems.get(detailCell);
 		}
 		return false;
 	}
 
-	public static boolean hasGrandItem( ExtendedItemHandle chartHandle )
-			throws BirtException
-	{
-		if ( ChartCubeUtil.isPlotChart( chartHandle ) )
-		{
-			return hasGrandItem( ChartCubeUtil.getXtabContainerCell( chartHandle ) );
+	public static boolean hasGrandItem(ExtendedItemHandle chartHandle) throws BirtException {
+		if (ChartCubeUtil.isPlotChart(chartHandle)) {
+			return hasGrandItem(ChartCubeUtil.getXtabContainerCell(chartHandle));
 		}
 		return false;
 	}

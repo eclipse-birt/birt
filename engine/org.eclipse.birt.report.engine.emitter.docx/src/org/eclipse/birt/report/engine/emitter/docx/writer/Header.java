@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,91 +22,74 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 
-public class Header extends BasicComponent
-{
+public class Header extends BasicComponent {
 
-	private static Logger logger = Logger.getLogger( Header.class.getName( ) );
+	private static Logger logger = Logger.getLogger(Header.class.getName());
 
 	Document document;
 	int headerHeight;
 	int headerWidth;
 
-	Header( IPart part, Document document, int headerHeight, int headerWidth )
-			throws IOException
-	{
-		super( part );
+	Header(IPart part, Document document, int headerHeight, int headerWidth) throws IOException {
+		super(part);
 		this.document = document;
 		this.headerHeight = headerHeight;
 		this.headerWidth = headerWidth;
 	}
 
-	void start( )
-	{
-		writer.startWriter( );
-		writer.openTag( "w:hdr" );
-		writeXmlns( );
-		startHeaderFooterContainer( headerHeight, headerWidth, true );
+	@Override
+	void start() {
+		writer.startWriter();
+		writer.openTag("w:hdr");
+		writeXmlns();
+		startHeaderFooterContainer(headerHeight, headerWidth, true);
 	}
 
-	void end( )
-	{
-		endHeaderFooterContainer( );
-		writer.closeTag( "w:hdr" );
-		writer.endWriter( );
-		writer.close( );
+	@Override
+	void end() {
+		endHeaderFooterContainer();
+		writer.closeTag("w:hdr");
+		writer.endWriter();
+		writer.close();
 	}
 
-	protected int getImageID( )
-	{
-		return document.getImageID( );
+	@Override
+	protected int getImageID() {
+		return document.getImageID();
 	}
 
-	protected int getMhtTextId( )
-	{
-		return document.getMhtTextId( );
+	@Override
+	protected int getMhtTextId() {
+		return document.getMhtTextId();
 	}
 
-	public void drawDocumentBackgroundImageWithSize( String backgroundImageUrl,
-			String backgroundHeight, String backgroundWidth, double topMargin,
-			double leftMargin, double pageHeight, double pageWidth )
-	{
-		int imageId = getImageID( );
+	public void drawDocumentBackgroundImageWithSize(String backgroundImageUrl, String backgroundHeight,
+			String backgroundWidth, double topMargin, double leftMargin, double pageHeight, double pageWidth) {
+		int imageId = getImageID();
 		IPart imagePart = null;
-		if ( backgroundImageUrl != null )
-		{
-			try
-			{
-				byte[] backgroundImageData = EmitterUtil
-						.getImageData( backgroundImageUrl );
+		if (backgroundImageUrl != null) {
+			try {
+				byte[] backgroundImageData = EmitterUtil.getImageData(backgroundImageUrl);
 
-				ImagePart imgPart = imageManager.getImagePart( part,
-						backgroundImageUrl, backgroundImageData );
-				imagePart = imgPart.getPart( );
-				Image imageInfo = EmitterUtil
-						.parseImage( null, IImageContent.IMAGE_URL,
-								backgroundImageUrl, null, null );
-				int imageWidth = imageInfo.getWidth( );
-				int imageHeight = imageInfo.getHeight( );
-				String[] realSize = WordUtil.parseBackgroundSize(
-						backgroundHeight, backgroundWidth, imageWidth,
-						imageHeight, pageWidth, pageHeight );
-				drawBackgroundImageShape( realSize, topMargin, leftMargin,
-						imageId, imagePart );
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				ImagePart imgPart = imageManager.getImagePart(part, backgroundImageUrl, backgroundImageData);
+				imagePart = imgPart.getPart();
+				Image imageInfo = EmitterUtil.parseImage(null, IImageContent.IMAGE_URL, backgroundImageUrl, null, null);
+				int imageWidth = imageInfo.getWidth();
+				int imageHeight = imageInfo.getHeight();
+				String[] realSize = WordUtil.parseBackgroundSize(backgroundHeight, backgroundWidth, imageWidth,
+						imageHeight, pageWidth, pageHeight);
+				drawBackgroundImageShape(realSize, topMargin, leftMargin, imageId, imagePart);
+			} catch (IOException e) {
+				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
 	}
 
-	private void drawBackgroundImageShape( String[] size, double topMargin,
-			double leftMargin, int imageId, IPart imagePart )
-	{
+	private void drawBackgroundImageShape(String[] size, double topMargin, double leftMargin, int imageId,
+			IPart imagePart) {
 		writer.openTag("w:sdt");
 		writer.openTag("w:sdtPr");
 		writer.openTag("w:id");
@@ -133,20 +119,16 @@ public class Header extends BasicComponent
 		writer.openTag("w:pict");
 		writer.openTag("v:rect");
 		writer.attribute("id", "_x0000_s1041");
-		String attrValue = "position:absolute;left:0;text-align:left;margin-left:"
-				+ 0//Seems leftMargin should not be used here.
-				+ "pt;margin-top:"
-				+ 0//Seems topMargin should not be used here.
-				+ "pt;width:"
-				+ size[1]
-				+ ";height:"
-				+ size[0]
+		String attrValue = "position:absolute;left:0;text-align:left;margin-left:" + 0// Seems leftMargin should not be
+																						// used here.
+				+ "pt;margin-top:" + 0// Seems topMargin should not be used here.
+				+ "pt;width:" + size[1] + ";height:" + size[0]
 				+ ";z-index:-1;mso-width-percent:1000;mso-position-horizontal-relative:page;mso-position-vertical-relative:page;mso-width-percent:1000";
-		writer.attribute( "style", attrValue );
+		writer.attribute("style", attrValue);
 		writer.attribute("o:allowincell", "f");
 		writer.attribute("stroked", "f");
 		writer.openTag("v:fill");
-		writer.attribute("r:id", imagePart.getRelationshipId( ));
+		writer.attribute("r:id", imagePart.getRelationshipId());
 		writer.attribute("o:title", "exposure");
 		writer.attribute("size", "0,0");
 		writer.attribute("aspect", "atLeast");

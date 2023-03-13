@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,9 +28,7 @@ import org.eclipse.swt.widgets.Canvas;
  * The class is responsible for computing and painting graphics in builder.
  */
 
-public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> implements
-		IChartPreviewPainter
-{
+public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> implements IChartPreviewPainter {
 
 	/** The delay millisecond of chart painting. */
 	private static final int PAINT_DELAY = 200;
@@ -45,131 +46,115 @@ public abstract class PreviewPainterBase<CX extends IChartWizardContext<?>> impl
 
 	protected CX wizardContext;
 
-	protected PreviewPainterBase( CX wizardContext )
-	{
+	protected PreviewPainterBase(CX wizardContext) {
 		this.wizardContext = wizardContext;
 	}
 
-	public void dispose( )
-	{
-		activateLivePreview( false );
-		if ( fPaintTimer != null )
-		{
-			fPaintTimer.cancel( );
+	@Override
+	public void dispose() {
+		activateLivePreview(false);
+		if (fPaintTimer != null) {
+			fPaintTimer.cancel();
 			fPaintTimer = null;
 		}
 	}
 
-	protected void doRenderModel( IChartObject object )
-	{
-		if ( !isDisposedPreviewCanvas( ) )
-		{
-			clearPreviewCanvas( );
-			repaintChartInTimer( );
+	protected void doRenderModel(IChartObject object) {
+		if (!isDisposedPreviewCanvas()) {
+			clearPreviewCanvas();
+			repaintChartInTimer();
 		}
 	}
 
-	public void renderModel( IChartObject cm )
-	{
-		if ( cm == null )
-		{
+	@Override
+	public void renderModel(IChartObject cm) {
+		if (cm == null) {
 			return;
 		}
-		this.chart = cm.copyInstance( );
+		this.chart = cm.copyInstance();
 
-		doRenderModel( chart );
+		doRenderModel(chart);
 	}
 
-	public void setPreview( Canvas previewCanvas )
-	{
+	@Override
+	public void setPreview(Canvas previewCanvas) {
 		this.preview = previewCanvas;
 	}
 
-	public void controlMoved( ControlEvent e )
-	{
+	@Override
+	public void controlMoved(ControlEvent e) {
 
 	}
 
-	public void controlResized( ControlEvent e )
-	{
-		repaintChartInTimer( );
+	@Override
+	public void controlResized(ControlEvent e) {
+		repaintChartInTimer();
 	}
 
-	protected void repaintChartInTimer( )
-	{
-		if ( fPaintTimer != null )
-		{
-			fPaintTimer.cancel( );
+	protected void repaintChartInTimer() {
+		if (fPaintTimer != null) {
+			fPaintTimer.cancel();
 		}
 
-		fPaintTimer = new Timer( );
+		fPaintTimer = new Timer();
 
-		TimerTask task = new TimerTask( ) {
+		TimerTask task = new TimerTask() {
 
-			public void run( )
-			{
-				paintChart( );
+			@Override
+			public void run() {
+				paintChart();
 			}
 		};
 
-		fPaintTimer.schedule( task, PAINT_DELAY );
+		fPaintTimer.schedule(task, PAINT_DELAY);
 	}
 
 	/**
 	 * Generate whole chart and paint it.
 	 */
-	abstract protected void paintChart( );
+	abstract protected void paintChart();
 
-	protected void clearPreviewCanvas( )
-	{
+	protected void clearPreviewCanvas() {
 		// TO clean canvas if needed
 	}
 
-	protected boolean isDisposedPreviewCanvas( )
-	{
-		return ( preview == null || preview.isDisposed( ) );
+	protected boolean isDisposedPreviewCanvas() {
+		return (preview == null || preview.isDisposed());
 	}
 
 	/**
 	 * Checks whether Live Preview is enabled
 	 */
-	protected boolean isLivePreviewEnabled( )
-	{
+	protected boolean isLivePreviewEnabled() {
 		return true;
 	}
 
-	protected void ignoreNotifications( boolean bIgnoreNotifications )
-	{
-		ChartAdapter.ignoreNotifications( bIgnoreNotifications );
+	protected void ignoreNotifications(boolean bIgnoreNotifications) {
+		ChartAdapter.ignoreNotifications(bIgnoreNotifications);
 	}
 
 	/**
 	 * Checks whether Live Preview is active
 	 */
-	public static boolean isLivePreviewActive( )
-	{
+	public static boolean isLivePreviewActive() {
 		return isLivePreview;
 	}
 
 	/**
-	 * Activates Live Preview when the data bindings are complete. The final
-	 * result depends on whether Live Preview is enabled.
-	 * 
-	 * @param canLive
-	 *            activate Live Preview or not
+	 * Activates Live Preview when the data bindings are complete. The final result
+	 * depends on whether Live Preview is enabled.
+	 *
+	 * @param canLive activate Live Preview or not
 	 */
-	public static void activateLivePreview( boolean canLive )
-	{
+	public static void activateLivePreview(boolean canLive) {
 		isLivePreview = canLive;
 	}
 
-	public static void enableProcessor( boolean isEnabled )
-	{
+	public static void enableProcessor(boolean isEnabled) {
 		enableProcessor = isEnabled;
 	}
 
-	public static boolean isProcessorEnabled( )
-	{
+	public static boolean isProcessorEnabled() {
 		return enableProcessor;
 	}
 

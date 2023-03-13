@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -29,44 +32,42 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * choice. Ensure the returned list are in nature-order.
  * </p>
  */
-public class Regression_118590 extends BaseTestCase
-{
+public class Regression_118590 extends BaseTestCase {
 	/**
-	 * 
+	 *
 	 */
-	
-	public void test_regression_118590( )
-	{
-		ChoiceSet choiceSet = new ChoiceSet( );
+
+	public void test_regression_118590() {
+		ChoiceSet choiceSet = new ChoiceSet();
 		Choice[] choices = new Choice[3];
-		choices[0] = new Choice( "one", "value1" ); //$NON-NLS-1$//$NON-NLS-2$
-		choices[1] = new Choice( "two", "value2" ); //$NON-NLS-1$//$NON-NLS-2$
+		choices[0] = new Choice("one", "value1"); //$NON-NLS-1$//$NON-NLS-2$
+		choices[1] = new Choice("two", "value2"); //$NON-NLS-1$//$NON-NLS-2$
 
-		choices[2] = new ExtensionChoice( new IChoiceDefinition( ) {
+		choices[2] = new ExtensionChoice(new IChoiceDefinition() {
 
-			public String getDisplayNameID( )
-			{
+			@Override
+			public String getDisplayNameID() {
 				return "extID"; //$NON-NLS-1$
 			}
 
-			public String getName( )
-			{
+			@Override
+			public String getName() {
 				return "extName"; //$NON-NLS-1$
 			}
 
-			public Object getValue( )
-			{
+			@Override
+			public Object getValue() {
 				return "extValue"; //$NON-NLS-1$
 			}
-		}, null );
+		}, null);
 
-		choiceSet.setChoices( choices );
+		choiceSet.setChoices(choices);
 
 		// access with Null-Comparator
 
-		IChoice[] naturedSortedChoices = choiceSet.getChoices( null );
-		assertEquals( "extName", naturedSortedChoices[0].getName( ) ); //$NON-NLS-1$
-		assertEquals( "one", naturedSortedChoices[1].getName( ) ); //$NON-NLS-1$
-		assertEquals( "two", naturedSortedChoices[2].getName( ) ); //$NON-NLS-1$
+		IChoice[] naturedSortedChoices = choiceSet.getChoices(null);
+		assertEquals("extName", naturedSortedChoices[0].getName()); //$NON-NLS-1$
+		assertEquals("one", naturedSortedChoices[1].getName()); //$NON-NLS-1$
+		assertEquals("two", naturedSortedChoices[2].getName()); //$NON-NLS-1$
 	}
 }

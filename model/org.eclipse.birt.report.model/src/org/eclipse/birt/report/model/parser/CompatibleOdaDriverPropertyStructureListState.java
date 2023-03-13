@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,11 +35,11 @@ import org.xml.sax.SAXException;
  * <p>
  * The compatible version is 0.
  * <p>
- * 
+ *
  * <pre>
- *        
+ *
  *        Old design file:
- *        
+ *
  *               &lt;oda-data-source name=&quot;myDataSource1&quot;&gt;
  *                 &lt;list-property name=&quot;privateDriverProperties&quot;&gt;
  *                   &lt;ex-property&gt;
@@ -61,9 +64,9 @@ import org.xml.sax.SAXException;
  *                   &lt;/ex-property&gt;
  *                 &lt;/list-property&gt;
  *               &lt;/oda-data-source&gt;
- *        
+ *
  *         New design file:
- *         
+ *
  *               &lt;oda-data-source extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSource1&quot;&gt;
  *                 &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
  *                 &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
@@ -71,152 +74,131 @@ import org.xml.sax.SAXException;
  *                 &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
  *                 &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
  *               &lt;/oda-data-source&gt;
- *         
+ *
  * </pre>
  */
 
-public class CompatibleOdaDriverPropertyStructureListState
-		extends
-			CompatibleListPropertyState
-{
+public class CompatibleOdaDriverPropertyStructureListState extends CompatibleListPropertyState {
 
-	CompatibleOdaDriverPropertyStructureListState(
-			ModuleParserHandler theHandler, DesignElement element )
-	{
-		super( theHandler, element );
+	CompatibleOdaDriverPropertyStructureListState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
-		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-				"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
+		setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, "org.eclipse.birt.report.data.oda.jdbc"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EX_PROPERTY_TAG ) )
-			return new CompatibleOdaDriverPropertyStructureState( handler,
-					element, propDefn );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.EX_PROPERTY_TAG)) {
+			return new CompatibleOdaDriverPropertyStructureState(handler, element, propDefn);
+		}
 
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( list == null || list.isEmpty( ) )
+	@Override
+	public void end() throws SAXException {
+		if (list == null || list.isEmpty()) {
 			return;
+		}
 
 		name = IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		super.end( );
+		super.end();
 	}
 
-	static class CompatibleOdaDriverPropertyStructureState
-			extends
-				CompatibleStructureState
-	{
+	static class CompatibleOdaDriverPropertyStructureState extends CompatibleStructureState {
 
 		String propertyName = null;
 		String propertyValue = null;
 		List privatePropDefns = Collections.EMPTY_LIST;
 
-		CompatibleOdaDriverPropertyStructureState(
-				ModuleParserHandler theHandler, DesignElement element,
-				PropertyDefn propDefn )
-		{
-			super( theHandler, element );
+		CompatibleOdaDriverPropertyStructureState(ModuleParserHandler theHandler, DesignElement element,
+				PropertyDefn propDefn) {
+			super(theHandler, element);
 
 			ODAExtensionElementDefn elementDefn = null;
 
-			if ( element instanceof OdaDataSet )
-			{
-				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSet) element )
-						.getExtDefn( );
-				propDefn = element
-						.getPropertyDefn( IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
-			}
-			else if ( element instanceof OdaDataSource )
-			{
-				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSource) element )
-						.getExtDefn( );
-				propDefn = element
-						.getPropertyDefn( IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
+			if (element instanceof OdaDataSet) {
+				elementDefn = (ODAExtensionElementDefn) ((OdaDataSet) element).getExtDefn();
+				propDefn = element.getPropertyDefn(IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP);
+			} else if (element instanceof OdaDataSource) {
+				elementDefn = (ODAExtensionElementDefn) ((OdaDataSource) element).getExtDefn();
+				propDefn = element.getPropertyDefn(IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP);
 			}
 
-			if ( elementDefn != null )
-				privatePropDefns = elementDefn
-						.getODAPrivateDriverPropertyNames( );
-			
-			this.name = propDefn.getName( );
+			if (elementDefn != null) {
+				privatePropDefns = elementDefn.getODAPrivateDriverPropertyNames();
+			}
+
+			this.name = propDefn.getName();
 
 		}
-		
+
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 *
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+		 * String)
 		 */
 
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.NAME_ATTRIB ) )
-				return new CompatibleTextState( handler, true, this );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.VALUE_TAG ) )
-				return new CompatibleTextState( handler, false, this );
+		@Override
+		public AbstractParseState startElement(String tagName) {
+			if (tagName.equalsIgnoreCase(DesignSchemaConstants.NAME_ATTRIB)) {
+				return new CompatibleTextState(handler, true, this);
+			}
+			if (tagName.equalsIgnoreCase(DesignSchemaConstants.VALUE_TAG)) {
+				return new CompatibleTextState(handler, false, this);
+			}
 
-			return super.startElement( tagName );
+			return super.startElement(tagName);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			if ( propertyValue != null && propertyName != null )
-			{
-				String newPropertyName = CompatibleOdaDataSourcePropertyState
-						.getNewOdaDriverProperty( propertyName );
+		@Override
+		public void end() throws SAXException {
+			if (propertyValue != null && propertyName != null) {
+				String newPropertyName = CompatibleOdaDataSourcePropertyState.getNewOdaDriverProperty(propertyName);
 
-				if ( !privatePropDefns.contains( newPropertyName ) )
-				{
-					setProperty( newPropertyName, propertyValue );
-				}
-				else
-				{
-					struct = new ExtendedProperty( );
+				if (!privatePropDefns.contains(newPropertyName)) {
+					setProperty(newPropertyName, propertyValue);
+				} else {
+					struct = new ExtendedProperty();
 
-					setMember( struct, propDefn.getName( ),
-							ExtendedProperty.NAME_MEMBER, newPropertyName );
-					setMember( struct, propDefn.getName( ),
-							ExtendedProperty.VALUE_MEMBER, propertyValue );
+					setMember(struct, propDefn.getName(), ExtendedProperty.NAME_MEMBER, newPropertyName);
+					setMember(struct, propDefn.getName(), ExtendedProperty.VALUE_MEMBER, propertyValue);
 
-					super.end( );
+					super.end();
 				}
 			}
 		}
 	}
 
-	static class CompatibleTextState extends DesignParseState
-	{
+	static class CompatibleTextState extends DesignParseState {
 
 		boolean isPropertyName = false;
 		CompatibleOdaDriverPropertyStructureState state;
 
-		CompatibleTextState( ModuleParserHandler handler,
-				boolean isPropertyName,
-				CompatibleOdaDriverPropertyStructureState state )
-		{
-			super( handler );
+		CompatibleTextState(ModuleParserHandler handler, boolean isPropertyName,
+				CompatibleOdaDriverPropertyStructureState state) {
+			super(handler);
 
 			this.isPropertyName = isPropertyName;
 			this.state = state;
@@ -224,28 +206,29 @@ public class CompatibleOdaDriverPropertyStructureListState
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 		 */
-		public DesignElement getElement( )
-		{
+		@Override
+		public DesignElement getElement() {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			String value = text.toString( );
+		@Override
+		public void end() throws SAXException {
+			String value = text.toString();
 
-			if ( isPropertyName )
+			if (isPropertyName) {
 				state.propertyName = value;
-			else
+			} else {
 				state.propertyValue = value;
+			}
 		}
 
 	}

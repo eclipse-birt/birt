@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -32,11 +35,11 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * Steps to reproduce:
  * <ol>
- * <li> In a report design, select Window>Preference>BIRT>Library.
- * <li> Select "always overwrite existing elements when export report design to
- * a library".
- * <li> Export the same element to a library file twice.
- * <li> Hint message still pops up.
+ * <li>In a report design, select Window>Preference>BIRT>Library.
+ * <li>Select "always overwrite existing elements when export report design to a
+ * library".
+ * <li>Export the same element to a library file twice.
+ * <li>Hint message still pops up.
  * </ol>
  * </p>
  * Test description:
@@ -45,60 +48,54 @@ import com.ibm.icu.util.ULocale;
  * no exception will occur.
  * </p>
  */
-public class Regression_118556 extends BaseTestCase
-{
+public class Regression_118556 extends BaseTestCase {
 	private String OUTPUT = "regression_118556_lib.out";
-	protected void setUp() throws Exception
-	{
+
+	@Override
+	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		
+
 	}
-    protected void tearDown() throws Exception
-	 {
-		 removeResource();	 
-	 }
-	
+
+	@Override
+	protected void tearDown() throws Exception {
+		removeResource();
+	}
+
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
 	 * @throws DesignFileException
-	 * 
+	 *
 	 */
 
-	public void test_regression_118556( ) throws SemanticException, DesignFileException,
-			IOException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_118556() throws SemanticException, DesignFileException, IOException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "newLabel" ); //$NON-NLS-1$
-		label.setText( "Sample Label" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("newLabel"); //$NON-NLS-1$
+		label.setText("Sample Label"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( label );
-		
-        
-		//String lib = this.getTempFolder( ) + "/" + OUTPUT_FOLDER
-		//		+ "/" + "regression_118556_lib.out"; //$NON-NLS-1$
-		
-		String lib=this.genOutputFile(OUTPUT);
-		designHandle.saveAs( lib );
-		
-		LabelHandle labelHandle = (LabelHandle) designHandle
-		.findElement( "newLabel" ); //$NON-NLS-1$
-		
-		ElementExportUtil.exportElement( labelHandle, OUTPUT, true );
+		designHandle.getBody().add(label);
+
+		// String lib = this.getTempFolder( ) + "/" + OUTPUT_FOLDER
+		// + "/" + "regression_118556_lib.out"; //$NON-NLS-1$
+
+		String lib = this.genOutputFile(OUTPUT);
+		designHandle.saveAs(lib);
+
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("newLabel"); //$NON-NLS-1$
+
+		ElementExportUtil.exportElement(labelHandle, OUTPUT, true);
 
 		// the second time
 
-		try
-		{
-			ElementExportUtil.exportElement( labelHandle, OUTPUT, true );
-		}
-		catch ( Exception e )
-		{
+		try {
+			ElementExportUtil.exportElement(labelHandle, OUTPUT, true);
+		} catch (Exception e) {
 			fail();
 		}
 	}

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
-public class MasterPageExecutor extends ReportItemExecutor
-{
+public class MasterPageExecutor extends ReportItemExecutor {
 
 	MasterPageDesign masterPage;
 	long pageNumber;
@@ -35,87 +37,74 @@ public class MasterPageExecutor extends ReportItemExecutor
 	static final int BODY_BAND = 1;
 	static final int FOOTER_BAND = 2;
 
-	public MasterPageExecutor( ExecutorManager manager, long pageNumber,
-			MasterPageDesign masterPage )
-	{
-		super( manager, -1 );
+	public MasterPageExecutor(ExecutorManager manager, long pageNumber, MasterPageDesign masterPage) {
+		super(manager, -1);
 		this.pageNumber = pageNumber;
 		this.masterPage = masterPage;
 		this.nextBand = HEADER_BAND;
 	}
 
-	public IContent execute( )
-	{
-		context.setPageNumber( pageNumber );
+	@Override
+	public IContent execute() {
+		context.setPageNumber(pageNumber);
 
 		// disable the tocBuilder
-		tocBuilder = context.getTOCBuilder( );
-		context.setTOCBuilder( null );
+		tocBuilder = context.getTOCBuilder();
+		context.setTOCBuilder(null);
 		rs = context.getResultSets();
-		context.setExecutingMasterPage( true );
+		context.setExecutingMasterPage(true);
 
-		IPageContent pageContent = report.createPageContent( );
-		pageContent.setPageNumber( pageNumber );
+		IPageContent pageContent = report.createPageContent();
+		pageContent.setPageNumber(pageNumber);
 
 		content = pageContent;
-		content.setGenerateBy( masterPage );
-		instanceId = new InstanceID( null, pageNumber, masterPage.getID( ),
-				null );
-		content.setInstanceID( instanceId );
+		content.setGenerateBy(masterPage);
+		instanceId = new InstanceID(null, pageNumber, masterPage.getID(), null);
+		content.setInstanceID(instanceId);
 		return content;
 	}
 
-	public void close( ) throws BirtException
-	{
-		context.setExecutingMasterPage( false );
+	@Override
+	public void close() throws BirtException {
+		context.setExecutingMasterPage(false);
 		// reenable the TOC
-		context.setTOCBuilder( tocBuilder );
+		context.setTOCBuilder(tocBuilder);
 		context.setResultSets(rs);
-		super.close( );
+		super.close();
 	}
 
-	public boolean hasNextChild( )
-	{
+	@Override
+	public boolean hasNextChild() {
 		return nextBand >= HEADER_BAND && nextBand <= FOOTER_BAND;
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( hasNextChild( ) )
-		{
+	@Override
+	public IReportItemExecutor getNextChild() {
+		if (hasNextChild()) {
 			ArrayList band = null;
-			switch ( nextBand )
-			{
-				case HEADER_BAND :
-					if ( masterPage instanceof SimpleMasterPageDesign )
-					{
-						band = ( (SimpleMasterPageDesign) masterPage )
-								.getHeaders( );
-					}
-					else
-					{
-						band = new ArrayList( );
-					}
-					break;
-				case FOOTER_BAND :
-					if ( masterPage instanceof SimpleMasterPageDesign )
-					{
-						band = ( (SimpleMasterPageDesign) masterPage )
-								.getFooters( );
+			switch (nextBand) {
+			case HEADER_BAND:
+				if (masterPage instanceof SimpleMasterPageDesign) {
+					band = ((SimpleMasterPageDesign) masterPage).getHeaders();
+				} else {
+					band = new ArrayList();
+				}
+				break;
+			case FOOTER_BAND:
+				if (masterPage instanceof SimpleMasterPageDesign) {
+					band = ((SimpleMasterPageDesign) masterPage).getFooters();
 
-					}
-					else
-					{
-						band = new ArrayList( );
-					}
-					break;
-				case BODY_BAND :
-					band = new ArrayList( );
-					break;
+				} else {
+					band = new ArrayList();
+				}
+				break;
+			case BODY_BAND:
+				band = new ArrayList();
+				break;
 			}
 			nextBand++;
-			PageBandExecutor bandExecutor = new PageBandExecutor( this, band );
-			bandExecutor.setParent( this );
+			PageBandExecutor bandExecutor = new PageBandExecutor(this, band);
+			bandExecutor.setParent(this);
 			return bandExecutor;
 		}
 		return null;

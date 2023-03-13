@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /**
  * <copyright>
  * </copyright>
@@ -16,26 +28,24 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Big Number Data Element</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Big
+ * Number Data Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl#getValue
+ * <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class BigNumberDataElementImpl extends DataElementImpl implements
-		BigNumberDataElement
-{
+public class BigNumberDataElementImpl extends DataElementImpl implements BigNumberDataElement {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -43,9 +53,9 @@ public class BigNumberDataElementImpl extends DataElementImpl implements
 	protected static final BigDecimal VALUE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -53,167 +63,152 @@ public class BigNumberDataElementImpl extends DataElementImpl implements
 	protected BigDecimal value = VALUE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	protected BigNumberDataElementImpl( )
-	{
-		super( );
+	protected BigNumberDataElementImpl() {
+		super();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return DataPackage.Literals.BIG_NUMBER_DATA_ELEMENT;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public BigDecimal getValue( )
-	{
+	@Override
+	public BigDecimal getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public void setValue( BigDecimal newValue )
-	{
+	@Override
+	public void setValue(BigDecimal newValue) {
 		BigDecimal oldValue = value;
 		value = newValue;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE,
-					oldValue,
-					value ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE :
-				return getValue( );
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE, oldValue,
+					value));
 		}
-		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE :
-				setValue( (BigDecimal) newValue );
-				return;
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE:
+			return getValue();
 		}
-		super.eSet( featureID, newValue );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE :
-				setValue( VALUE_EDEFAULT );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE:
+			setValue((BigDecimal) newValue);
+			return;
 		}
-		super.eUnset( featureID );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE :
-				return VALUE_EDEFAULT == null ? value != null
-						: !VALUE_EDEFAULT.equals( value );
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE:
+			setValue(VALUE_EDEFAULT);
+			return;
 		}
-		return super.eIsSet( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE:
+			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+		}
+		return super.eIsSet(featureID);
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (value: " ); //$NON-NLS-1$
-		result.append( value );
-		result.append( ')' );
-		return result.toString( );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) {
+			return super.toString();
+		}
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (value: "); //$NON-NLS-1$
+		result.append(value);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( BigNumberDataElement src )
-	{
+	protected void set(BigNumberDataElement src) {
 
-		super.set( src );
+		super.set(src);
 
 		// attributes
 
-		value = src.getValue( );
+		value = src.getValue();
 
 	}
 
 	/**
 	 * @generated
 	 */
-	public BigNumberDataElement copyInstance( )
-	{
-		BigNumberDataElementImpl dest = new BigNumberDataElementImpl( );
-		dest.set( this );
+	@Override
+	public BigNumberDataElement copyInstance() {
+		BigNumberDataElementImpl dest = new BigNumberDataElementImpl();
+		dest.set(this);
 		return dest;
 	}
-	
-	public static BigNumberDataElement create(BigDecimal value)
-	{
-		BigNumberDataElementImpl dest = new BigNumberDataElementImpl( );
+
+	public static BigNumberDataElement create(BigDecimal value) {
+		BigNumberDataElementImpl dest = new BigNumberDataElementImpl();
 		dest.value = value;
 		return dest;
 	}
 
-} //BigNumberDataElementImpl
+} // BigNumberDataElementImpl

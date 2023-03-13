@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,11 +34,15 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-public class TextCompositor
-{
+public class TextCompositor {
 
 	private FontInfo fontInfo;
 	private int runLevel;
+
+	/**
+	 * @see TextArea#isKeepTrailingSoftHyphen()
+	 */
+	private static final String SOFT_HYPHEN = "\u00ad";
 
 	/** offset relative to the text in the textContent. */
 	int offset = 0;
@@ -46,28 +53,27 @@ public class TextCompositor
 	private IWordRecognizer remainWords;
 	/** the remain word */
 	private Word remainWord;
-	/** the remain characters in current word after hyphenation */
+	/** the remain characters in current word after word-breaking / hyphenation */
 	private Word wordVestige;
 
-
 	/**
-	 * Check if current TextArea contains line break. If text wrapping need not
-	 * be handled, hasNextArea() will return false when hasLineBreak is true.
+	 * Check if current TextArea contains line break. If text wrapping need not be
+	 * handled, hasNextArea() will return false when hasLineBreak is true.
 	 */
 	private boolean hasLineBreak = false;
-	
+
 	private boolean isNewLine = true;
-	
+
 	private boolean blankText = false;
-	
+
 	// for no wrap text, the first exceed word should also been add into text area.
 	private boolean insertFirstExceedWord = false;
-	
-	//three possible line break collapse status
+
+	// three possible line break collapse status
 	private static int LINE_BREAK_COLLAPSE_FREE = 0;
 	private static int LINE_BREAK_COLLAPSE_STANDING_BY = 1;
 	private static int LINE_BREAK_COLLAPSE_OCCUPIED = 2;
-	
+
 	private int lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 
 	private ITextContent textContent;
@@ -75,216 +81,178 @@ public class TextCompositor
 	private LayoutContext context;
 	private boolean textWrapping;
 
-	public TextCompositor( ITextContent textContent,
-			FontMappingManager fontManager, LayoutContext context )
-	{
+	public TextCompositor(ITextContent textContent, FontMappingManager fontManager, LayoutContext context) {
 		this.textContent = textContent;
 		this.fontManager = fontManager;
 		this.context = context;
-		
-		IStyle style = textContent.getComputedStyle( );
-		textWrapping = context.getTextWrapping( )
-				&& !PropertyUtil.isWhiteSpaceNoWrap( style
-						.getProperty( StyleConstants.STYLE_WHITE_SPACE ) );
-		remainChunks = new ChunkGenerator( fontManager, textContent, context
-				.getBidiProcessing( ), context.getFontSubstitution( ) );
+
+		IStyle style = textContent.getComputedStyle();
+		textWrapping = context.getTextWrapping()
+				&& !PropertyUtil.isWhiteSpaceNoWrap(style.getProperty(StyleConstants.STYLE_WHITE_SPACE));
+		remainChunks = new ChunkGenerator(fontManager, textContent, context.getBidiProcessing(),
+				context.getFontSubstitution());
 	}
-	
-	public TextCompositor( ITextContent textContent,
-			FontMappingManager fontManager, LayoutContext context,
-			boolean blankText )
-	{
-		this( textContent, fontManager, context );
+
+	public TextCompositor(ITextContent textContent, FontMappingManager fontManager, LayoutContext context,
+			boolean blankText) {
+		this(textContent, fontManager, context);
 		this.blankText = blankText;
 	}
 
-	public boolean hasNextArea( )
-	{
+	public boolean hasNextArea() {
 		// if the text need not be wrapped, and need switch to a new line, just
 		// ignore the subsequence text.
-		if ( !textWrapping && hasLineBreak )
-		{
+		if (!textWrapping && hasLineBreak) {
 			return false;
 		}
-		return offset < textContent.getText( ).length( );
+		return offset < textContent.getText().length();
 	}
 
-	public void setNewLineStatus( boolean status )
-	{
+	public void setNewLineStatus(boolean status) {
 		isNewLine = status;
-		if ( isNewLine && !textWrapping )
-		{
+		if (isNewLine && !textWrapping) {
 			insertFirstExceedWord = true;
 		}
 	}
 
-	public TextArea getNextArea( int maxLineWidth )
-	{
-		if ( !hasNextArea( ) )
-		{
-			throw new RuntimeException( "No more text." );
+	public TextArea getNextArea(int maxLineWidth) {
+		if (!hasNextArea()) {
+			throw new RuntimeException("No more text.");
 		}
-		TextArea textArea = getNextTextArea( maxLineWidth );
-		if ( textArea != null )
-		{
-			offset += textArea.getTextLength( );
+		TextArea textArea = getNextTextArea(maxLineWidth);
+		if (textArea != null) {
+			offset += textArea.getTextLength();
 		}
-		if( lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPIED )
-		{
+		if (lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPIED) {
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			return null;
 		}
 		return textArea;
 	}
-	
-	protected boolean isEmptyWordVestige( Word wordVestige )
-	{
-		String value = wordVestige.getValue( );
-		for ( int i = 0; i < value.length( ); i++ )
-		{
-			if ( value.charAt( i ) != ' ' )
-			{
+
+	protected boolean isEmptyWordVestige(Word wordVestige) {
+		String value = wordVestige.getValue();
+		for (int i = 0; i < value.length(); i++) {
+			if (value.charAt(i) != ' ') {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private TextArea getNextTextArea( int maxLineWidth )
-	{
+	private TextArea getNextTextArea(int maxLineWidth) {
 		// the hyphenation vestige
-		if ( null != wordVestige )
-		{
-			if ( isEmptyWordVestige( wordVestige ) )
-			{
-				offset += wordVestige.getLength( );
+		if (null != wordVestige) {
+			if (isEmptyWordVestige(wordVestige)) {
+				offset += wordVestige.getLength();
 				wordVestige = null;
 				return null;
-			}
-			else
-			{
+			} else {
 				lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-				TextArea textArea = createTextArea( textContent, offset, runLevel,
-						fontInfo );
-				textArea.setMaxWidth( maxLineWidth );
-				textArea.setWidth( 0 );
-				addWordIntoTextArea( textArea, wordVestige );
+				TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
+				textArea.setMaxWidth(maxLineWidth);
+				textArea.setWidth(0);
+				addWordIntoTextArea(textArea, wordVestige);
 				return textArea;
 			}
 		}
-		if ( null != remainWord )
-		{
+		if (null != remainWord) {
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-			TextArea textArea = createTextArea( textContent, offset, runLevel,
-					fontInfo );
-			textArea.setMaxWidth( maxLineWidth );
-			textArea.setWidth( 0 );
-			addWordIntoTextArea( textArea, remainWord );
+			TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
+			textArea.setMaxWidth(maxLineWidth);
+			textArea.setWidth(0);
+			addWordIntoTextArea(textArea, remainWord);
+			textArea.setKeepTrailingSoftHyphen(remainWord.isKeepTrailingSoftHyphen());
 			remainWord = null;
 			return textArea;
+			// FIXME: Why do we return here already?
+			// This return here in a way contradicts the idea of the algorithm, which is to
+			// stuff as many words as possible into a TextArea,
+			// because it results in a (e.g. PDF) text line consisting of two (more than
+			// one) TextAreas A and B, where A is a TextArea with exactly one Word (= word
+			// fragment) that did not fit into the previous line, and B contains the next
+			// Words.
+			// This results in slightly larger PDF files than necessary and it and makes it
+			// slightly harder for accessibility software to understand the file.
 		}
 		// iterate the remainWords.
-		if ( null == remainWords || !remainWords.hasWord( ) )
-		{
-			Chunk chunk = remainChunks.getNext( );
-			if ( chunk instanceof LineBreakChunk )
-			{
+		if (null == remainWords || !remainWords.hasWord()) {
+			Chunk chunk = remainChunks.getNext();
+			if (chunk instanceof LineBreakChunk) {
 				// return a hard line break. the line height is decided by
 				// the current font's height.
-				FontHandler handler = new FontHandler( fontManager,
-						textContent, false );
-				TextArea textArea = createTextArea( textContent, handler
-						.getFontInfo( ), true );
-				textArea.setTextLength( chunk.getLength( ) );
+				FontHandler handler = new FontHandler(fontManager, textContent, false);
+				TextArea textArea = createTextArea(textContent, handler.getFontInfo(), true);
+				textArea.setTextLength(chunk.getLength());
 				hasLineBreak = true;
-				if( lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY )
-				{
+				if (lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY) {
 					lineBreakCollapse = LINE_BREAK_COLLAPSE_OCCUPIED;
 				}
 				return textArea;
 			}
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-			fontInfo = chunk.getFontInfo( );
-			runLevel = chunk.getRunLevel( );
-			remainWords = new WordRecognizerWrapper( chunk.getText( ), context
-					.getLocale( ) );
+			fontInfo = chunk.getFontInfo();
+			runLevel = chunk.getRunLevel();
+			remainWords = new WordRecognizerWrapper(chunk.getText(), context.getLocale());
 		}
 		// new an empty text area.
-		TextArea textArea = createTextArea( textContent, offset, runLevel,
-				fontInfo );
-		textArea.setMaxWidth( maxLineWidth );
-		textArea.setWidth( 0 );
-		addWordsIntoTextArea( textArea, remainWords );
+		TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
+		textArea.setMaxWidth(maxLineWidth);
+		textArea.setWidth(0);
+		addWordsIntoTextArea(textArea, remainWords);
 		return textArea;
 	}
 
 	protected TextStyle textStyle = null;
 
-	protected TextArea createTextArea( ITextContent textContent,
-			FontInfo fontInfo, boolean blankLine )
-	{
-		if ( textStyle == null || textStyle.getFontInfo( )!= fontInfo)
-		{
-			textStyle = TextAreaLayout.buildTextStyle( textContent,
-					fontInfo );
-			if ( blankText )
-			{
-				textStyle.setHasHyperlink( false );
+	protected TextArea createTextArea(ITextContent textContent, FontInfo fontInfo, boolean blankLine) {
+		if (textStyle == null || textStyle.getFontInfo() != fontInfo) {
+			textStyle = TextAreaLayout.buildTextStyle(textContent, fontInfo);
+			if (blankText) {
+				textStyle.setHasHyperlink(false);
 			}
 		}
-		TextArea area = new TextArea( /*textContent.getText( ),*/ textStyle );
-		area.setOffset( offset );
-		if ( blankLine )
-		{
+		TextArea area = new TextArea( /* textContent.getText( ), */ textStyle);
+		area.setOffset(offset);
+		if (blankLine) {
 			area.lineBreak = true;
 			area.blankLine = true;
-		}
-		else
-		{
-			area.setOffset( 0 );
-			area.setTextLength( textContent.getText( ).length( ) );
+		} else {
+			area.setOffset(0);
+			area.setTextLength(textContent.getText().length());
 		}
 		return area;
 	}
 
-	protected TextArea createTextArea( ITextContent textContent, int offset,
-			int runLevel, FontInfo fontInfo )
-	{
-		if ( textStyle == null || textStyle.getFontInfo( )!= fontInfo)
-		{
-			textStyle = TextAreaLayout.buildTextStyle( textContent,
-					fontInfo );
-			if ( blankText )
-			{
-				textStyle.setHasHyperlink( false );
-				textStyle.setLineThrough( false );
-				textStyle.setUnderLine( false );
+	protected TextArea createTextArea(ITextContent textContent, int offset, int runLevel, FontInfo fontInfo) {
+		if (textStyle == null || textStyle.getFontInfo() != fontInfo) {
+			textStyle = TextAreaLayout.buildTextStyle(textContent, fontInfo);
+			if (blankText) {
+				textStyle.setHasHyperlink(false);
+				textStyle.setLineThrough(false);
+				textStyle.setUnderLine(false);
 			}
 		}
-		TextArea area = new TextArea( textContent.getText( ), textStyle );
-		if ( !blankText )
-		{
-			area.setAction( textContent.getHyperlinkAction( ) );
+		TextArea area = new TextArea(textContent.getText(), textStyle);
+		if (!blankText) {
+			area.setAction(textContent.getHyperlinkAction());
 		}
-		area.setOffset( offset );
-		area.setRunLevel( runLevel );
-		area.setVerticalAlign( textContent.getComputedStyle( ).getProperty( IStyle.STYLE_VERTICAL_ALIGN ) );
+		area.setOffset(offset);
+		area.setRunLevel(runLevel);
+		area.setVerticalAlign(textContent.getComputedStyle().getProperty(IStyle.STYLE_VERTICAL_ALIGN));
 		return area;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param textArea
 	 * @param words
 	 */
-	private void addWordsIntoTextArea( TextArea textArea, IWordRecognizer words )
-	{
-		while ( words.hasWord( ) )
-		{
-			Word word = words.getNextWord( );
-			addWordIntoTextArea( textArea, word );
-			if ( textArea.isLineBreak( ) )
-			{
+	private void addWordsIntoTextArea(TextArea textArea, IWordRecognizer words) {
+		while (words.hasWord()) {
+			Word word = words.getNextWord();
+			addWordIntoTextArea(textArea, word);
+			if (textArea.isLineBreak()) {
 				return;
 			}
 		}
@@ -292,169 +260,146 @@ public class TextCompositor
 
 	/**
 	 * layout a word, add the word to the line buffer.
-	 * 
-	 * @param word
-	 *            the word
-	 * 
+	 *
+	 * @param word the word
+	 *
 	 */
-	private void addWordIntoTextArea( TextArea textArea, Word word )
-	{
+	private void addWordIntoTextArea(TextArea textArea, Word word) {
+
 		// get the word's size
-		int textLength = word.getLength( );
-		int wordWidth = getWordWidth( fontInfo, word );
+		int textLength = word.getLength();
+		int wordWidth = getWordWidth(fontInfo, word);
 		// append the letter spacing
-		wordWidth += textStyle.getLetterSpacing( ) * textLength;
-		int adjustWordSize = fontInfo.getItalicAdjust( ) + wordWidth;
-		if ( textArea.hasSpace( adjustWordSize ) )
-		{
-			addWord( textArea, textLength, wordWidth );
+		wordWidth += textStyle.getLetterSpacing() * textLength;
+		int adjustWordSize = fontInfo.getItalicAdjust() + wordWidth;
+		int hyphenWidth = 0;
+		if (word.getValue().endsWith(SOFT_HYPHEN)) {
+			hyphenWidth = getTextWidth(fontInfo, "-");
+			// We are using the Unicode MINUS here for computing the hyphen dash size,
+			// because getTextWidth for the SOFT HYPHEN would return 0 width.
+		}
+		if (textArea.hasSpace(adjustWordSize + hyphenWidth)) {
+			addWord(textArea, textLength, wordWidth);
 			wordVestige = null;
-			if ( remainWords.hasWord( ) )
-			{
+			if (remainWords.hasWord()) {
 				// test if we can append the word spacing
-				if ( textArea.hasSpace( textStyle.getWordSpacing( ) ) )
-				{
-					textArea.addWordSpacing( textStyle.getWordSpacing( ) );
-				}
-				else
-				{
+				if (textArea.hasSpace(textStyle.getWordSpacing())) {
+					textArea.addWordSpacing(textStyle.getWordSpacing());
+				} else {
 					// we have more words, but there is no enough space for
 					// them.
-					textArea.setLineBreak( true );
+					textArea.setLineBreak(true);
 					hasLineBreak = true;
 					lineBreakCollapse = LINE_BREAK_COLLAPSE_STANDING_BY;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// for no wrap text, the first exceed word should also been add into text area.
-			if ( !textWrapping && insertFirstExceedWord )
-			{
-				addWord( textArea, textLength );
+			if (!textWrapping && insertFirstExceedWord) {
+				addWord(textArea, textLength);
 				wordVestige = null;
 				insertFirstExceedWord = false;
 			}
-			if ( isNewLine && context.isEnableWordbreak( ))
-			{
-				doWordBreak( word.getValue( ), textArea );
-			}
-			else if ( isNewLine && textArea.isEmpty( ) )
-			{
-				// If width of a word is larger than the max line width, add
-				// it into the line directly.
-				addWord( textArea, textLength, wordWidth );
-
-			}
-			else
-			{
+			if (isNewLine && textArea.isEmpty()) {
+				if (context.isEnableWordbreak()) {
+					doWordBreak(word.getValue(), textArea);
+				} else {
+					// If width of a word is larger than the max line width,
+					// add it into the line directly.
+					addWord(textArea, textLength, wordWidth);
+				}
+			} else {
 				wordVestige = null;
 				remainWord = word;
+				if (remainWords.hasWord()) {
+					// The soft hyphen symbol should be omitted except for the last word in the
+					// line.
+					// Please Note: This condition is not quite correct, but OK for real-world data.
+					// If the soft hyphen is inside a word, then the breakIterator has at least
+					// one more "word", which is actually the (part of) the rest of this word.
+					// But if someone comes up with a word that *ends* with a soft-hyphen,
+					// then there might be no more remaining "words", so this results in
+					// hiding the soft hyphen. However, a word ending with a soft-hyphen
+					// doesn't make sense at all, so we don't care about this.
+					remainWord.setKeepTrailingSoftHyphen(false);
+				}
 			}
-			textArea.setLineBreak( true );
+			textArea.setLineBreak(true);
 			hasLineBreak = true;
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_STANDING_BY;
 		}
 	}
 
-	private void doWordBreak( String str, TextArea area )
-	{
-		IHyphenationManager hm = new DefaultHyphenationManager( );
-		Hyphenation wb = hm.getHyphenation( str );
-		FontInfo fi = area.getStyle( ).getFontInfo( );
-		if ( area.getMaxWidth( ) < 0 )
-		{
-			addWordVestige( area, 1, getTextWidth( fi, wb
-					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
+	private void doWordBreak(String str, TextArea area) {
+		IHyphenationManager hm = new DefaultHyphenationManager();
+		Hyphenation wb = hm.getHyphenation(str);
+		FontInfo fi = area.getStyle().getFontInfo();
+		if (area.getMaxWidth() < 0) {
+			addWordVestige(area, 1, getTextWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
 			return;
 		}
-		int endHyphenIndex = hyphen( 0, area.getMaxWidth( ) - area.getWidth( ),
-				wb, fi );
+		int endHyphenIndex = hyphen(0, area.getMaxWidth() - area.getWidth(), wb, fi);
 		// current line can't even place one character. Force to add the first
 		// character into the line.
-		if ( endHyphenIndex == 0 && area.getWidth( ) == 0 )
-		{
-			addWordVestige( area, 1, getTextWidth( fi, wb
-					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
-		}
-		else
-		{
-			addWordVestige( area, endHyphenIndex, getTextWidth( fi, wb
-					.getHyphenText( 0, endHyphenIndex ) )
-					+ textStyle.getLetterSpacing( ) * ( endHyphenIndex - 1 ), str.substring(
-					endHyphenIndex, str.length( ) ) );
+		if (endHyphenIndex == 0 && area.getWidth() == 0) {
+			addWordVestige(area, 1, getTextWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
+		} else {
+			addWordVestige(area, endHyphenIndex, getTextWidth(fi, wb.getHyphenText(0, endHyphenIndex))
+					+ textStyle.getLetterSpacing() * (endHyphenIndex - 1), str.substring(endHyphenIndex));
 		}
 	}
 
-	private void addWordVestige( TextArea area, int vestigeTextLength,
-			int vestigeWordWidth, String vestigeString )
-	{
-		addWord( area, vestigeTextLength, vestigeWordWidth );
-		if ( vestigeString.length( ) == 0 )
-		{
+	private void addWordVestige(TextArea area, int vestigeTextLength, int vestigeWordWidth, String vestigeString) {
+		addWord(area, vestigeTextLength, vestigeWordWidth);
+		if (vestigeString.length() == 0) {
 			wordVestige = null;
-		}
-		else
-		{
-			wordVestige = new Word( vestigeString, 0, vestigeString.length( ) );
+		} else {
+			wordVestige = new Word(vestigeString, 0, vestigeString.length());
 		}
 	}
 
 	/**
 	 * Gets the hyphenation index
-	 * 
-	 * @param startIndex
-	 *            the start index
-	 * @param width
-	 *            the width of the free space
-	 * @param hyphenation
-	 *            the hyphenation
-	 * @param fi
-	 *            the FontInfo object of the text to be hyphened.
+	 *
+	 * @param startIndex  the start index
+	 * @param width       the width of the free space
+	 * @param hyphenation the hyphenation
+	 * @param fi          the FontInfo object of the text to be hyphened.
 	 * @return the hyphenation index
 	 */
-	private int hyphen( int startIndex, int width, Hyphenation hyphenation,
-			FontInfo fi )
-	{
-		assert ( startIndex >= 0 );
-		if ( startIndex > hyphenation.length( ) - 1 )
-		{
+	private int hyphen(int startIndex, int width, Hyphenation hyphenation, FontInfo fi) {
+		assert (startIndex >= 0);
+		if (startIndex > hyphenation.length() - 1) {
 			return -1;
 		}
 		int last = 0;
 		int current = 0;
-		for ( int i = startIndex + 1; i < hyphenation.length( ); i++ )
-		{
+		for (int i = startIndex + 1; i < hyphenation.length(); i++) {
 			last = current;
-			String pre = hyphenation.getHyphenText( startIndex, i );
-			current = (int) ( fi.getWordWidth( pre ) * PDFConstants.LAYOUT_TO_PDF_RATIO )
-					+ textStyle.getLetterSpacing( ) * pre.length( );
-			if ( width > last && width <= current )
-			{
+			String pre = hyphenation.getHyphenText(startIndex, i);
+			current = (int) (fi.getWordWidth(pre) * PDFConstants.LAYOUT_TO_PDF_RATIO)
+					+ textStyle.getLetterSpacing() * pre.length();
+			if (width > last && width <= current) {
 				return i - 1;
 			}
 		}
-		return hyphenation.length( ) - 1;
+		return hyphenation.length() - 1;
 	}
 
-	private int getTextWidth( FontInfo fontInfo, String text )
-	{
-		return (int) ( fontInfo.getWordWidth( text ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	private int getTextWidth(FontInfo fontInfo, String text) {
+		return (int) (fontInfo.getWordWidth(text) * PDFConstants.LAYOUT_TO_PDF_RATIO);
 	}
 
-	private int getWordWidth( FontInfo fontInfo, Word word )
-	{
-		return getTextWidth( fontInfo, word.getValue( ) );
+	private int getWordWidth(FontInfo fontInfo, Word word) {
+		return getTextWidth(fontInfo, word.getValue());
 	}
 
-	private void addWord( TextArea textArea, int textLength, int wordWidth )
-	{
-		textArea.addWord( textLength, wordWidth );
+	private void addWord(TextArea textArea, int textLength, int wordWidth) {
+		textArea.addWord(textLength, wordWidth);
 	}
-	
-	private void addWord( TextArea textArea, int textLength )
-	{
-		textArea.addWordUsingMaxWidth( textLength );
+
+	private void addWord(TextArea textArea, int textLength) {
+		textArea.addWordUsingMaxWidth(textLength);
 	}
-	
+
 }

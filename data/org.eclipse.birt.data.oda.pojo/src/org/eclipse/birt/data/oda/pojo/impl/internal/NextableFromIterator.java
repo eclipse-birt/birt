@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,44 +18,40 @@ import java.util.Iterator;
 /**
  * Nextable Wrapper for Iterator
  */
-public class NextableFromIterator extends Nextable
-{
+public class NextableFromIterator extends Nextable {
 	@SuppressWarnings("unchecked")
 	private Iterator itr;
 	private Object currValue;
-	
+
 	@SuppressWarnings("unchecked")
-	public NextableFromIterator( Iterator itr )
-	{
+	public NextableFromIterator(Iterator itr) {
 		this.itr = itr;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#getValue()
 	 */
 	@Override
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return currValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#next()
 	 */
 	@Override
-	public boolean next( )
-	{
-		if ( itr == null )
-		{
+	public boolean next() {
+		if (itr == null) {
 			return false;
 		}
-		if ( itr.hasNext( ) )
-		{
-			currValue = itr.next( );
+		if (itr.hasNext()) {
+			currValue = itr.next();
 			return true;
-		}
-		else
-		{
+		} else {
 			currValue = null;
 			return false;
 		}

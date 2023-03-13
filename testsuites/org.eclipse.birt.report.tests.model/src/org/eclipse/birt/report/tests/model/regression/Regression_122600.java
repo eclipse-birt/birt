@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -24,42 +27,40 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Check that those value are listed in highlight(map) operator choice Note:top
  * percent, bottom percent are removed
  */
-public class Regression_122600 extends BaseTestCase
-{
+public class Regression_122600 extends BaseTestCase {
 
 	/**
-	 * 
+	 *
 	 */
-	public void test_regression_122600( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
+	public void test_regression_122600() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
 
-		IChoiceSet choiceset = instance.getChoiceSet( "mapOperator" ); //$NON-NLS-1$
+		IChoiceSet choiceset = instance.getChoiceSet("mapOperator"); //$NON-NLS-1$
 
-		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
+		IChoice[] naturedSortedChoices = choiceset.getChoices(null);
 
 		boolean topN = false;
 		boolean bottomN = false;
 		boolean like = false;
 		boolean match = false;
 
-		for ( int i = 0; i < naturedSortedChoices.length; i++ )
-		{
+		for (int i = 0; i < naturedSortedChoices.length; i++) {
 			IChoice choice = (IChoice) naturedSortedChoices[i];
 
-			if ( "top-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			if ("top-n".equals(choice.getName())) { //$NON-NLS-1$
 				topN = true;
-			else if ( "bottom-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			} else if ("bottom-n".equals(choice.getName())) { //$NON-NLS-1$
 				bottomN = true;
-			else if ( "like".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			} else if ("like".equals(choice.getName())) { //$NON-NLS-1$
 				like = true;
-			else if ( "match".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			} else if ("match".equals(choice.getName())) { //$NON-NLS-1$
 				match = true;
+			}
 
 		}
-		assertTrue( topN );
-		assertTrue( bottomN );
-		assertTrue( like );
-		assertTrue( match );
+		assertTrue(topN);
+		assertTrue(bottomN);
+		assertTrue(like);
+		assertTrue(match);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,8 +40,7 @@ import org.eclipse.swt.widgets.Listener;
  * A handy class for font style preview.
  */
 
-public class PreviewLabel extends Canvas
-{
+public class PreviewLabel extends Canvas {
 
 	protected static final int WEIGHT_NORMAL = 400;
 
@@ -68,131 +70,121 @@ public class PreviewLabel extends Canvas
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param parent
-	 *            widget parent.
-	 * @param style
-	 *            create style.
+	 *
+	 * @param parent widget parent.
+	 * @param style  create style.
 	 */
-	public PreviewLabel( Composite parent, int style )
-	{
-		super( parent, style );
+	public PreviewLabel(Composite parent, int style) {
+		super(parent, style);
 
-		initFields( );
+		initFields();
 
-		addPaintListener( new PaintListener( ) {
+		addPaintListener(new PaintListener() {
 
-			public void paintControl( PaintEvent e )
-			{
-				PreviewLabel.this.paintControl( e );
+			@Override
+			public void paintControl(PaintEvent e) {
+				PreviewLabel.this.paintControl(e);
 			}
-		} );
+		});
 
-		addDisposeListener( new DisposeListener( ) {
+		addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				if ( fontCreated )
-				{
-					getFont( ).dispose( );
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if (fontCreated) {
+					getFont().dispose();
 				}
 			}
-		} );
+		});
 
-		addListener( SWT.Traverse, new Listener( ) {
+		addListener(SWT.Traverse, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				switch ( e.detail )
-				{
-					case SWT.TRAVERSE_PAGE_NEXT :
-					case SWT.TRAVERSE_PAGE_PREVIOUS :
-					case SWT.TRAVERSE_ARROW_NEXT :
-					case SWT.TRAVERSE_ARROW_PREVIOUS :
-					case SWT.TRAVERSE_RETURN :
-						e.doit = false;
-						return;
+			@Override
+			public void handleEvent(Event e) {
+				switch (e.detail) {
+				case SWT.TRAVERSE_PAGE_NEXT:
+				case SWT.TRAVERSE_PAGE_PREVIOUS:
+				case SWT.TRAVERSE_ARROW_NEXT:
+				case SWT.TRAVERSE_ARROW_PREVIOUS:
+				case SWT.TRAVERSE_RETURN:
+					e.doit = false;
+					return;
 				}
 				e.doit = true;
 			}
-		} );
+		});
 
-		initAccessible( );
+		initAccessible();
 	}
 
-	void initAccessible( )
-	{
-		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+	void initAccessible() {
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point pt = toControl( new Point( e.x, e.y ) );
-				e.childID = ( getBounds( ).contains( pt ) ) ? ACC.CHILDID_SELF
-						: ACC.CHILDID_NONE;
+			@Override
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point pt = toControl(new Point(e.x, e.y));
+				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				Rectangle location = getBounds( );
-				Point pt = toDisplay( location.x, location.y );
+			@Override
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(location.x, location.y);
 				e.x = pt.x;
 				e.y = pt.y;
 				e.width = location.width;
 				e.height = location.height;
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			@Override
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			@Override
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_LABEL;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
+			@Override
+			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			public void getValue( AccessibleControlEvent e )
-			{
+			@Override
+			public void getValue(AccessibleControlEvent e) {
 				e.result = text;
 			}
 
-		} );
+		});
 
-		Accessible accessible = getAccessible( );
-		accessible.addAccessibleListener( new AccessibleAdapter( ) {
+		Accessible accessible = getAccessible();
+		accessible.addAccessibleListener(new AccessibleAdapter() {
 
-			public void getName( AccessibleEvent e )
-			{
+			@Override
+			public void getName(AccessibleEvent e) {
 				e.result = text;
-				if ( e.result == null )
-					getHelp( e );
+				if (e.result == null) {
+					getHelp(e);
+				}
 			}
 
-			public void getHelp( AccessibleEvent e )
-			{
-				e.result = getToolTipText( );
+			@Override
+			public void getHelp(AccessibleEvent e) {
+				e.result = getToolTipText();
 			}
-		} );
+		});
 	}
 
-	private void initFields( )
-	{
-		try
-		{
-			FontData fd = getFont( ).getFontData( )[0];
+	private void initFields() {
+		try {
+			FontData fd = getFont().getFontData()[0];
 
-			fontFamily = fd.getName( );
-			fontSize = fd.getHeight( );
-			isBold = ( fd.getStyle( ) & SWT.BOLD ) != 0;
-			isItalic = ( fd.getStyle( ) & SWT.ITALIC ) != 0;
-		}
-		catch ( Exception e )
-		{
+			fontFamily = fd.getName();
+			fontSize = fd.getHeight();
+			isBold = (fd.getStyle() & SWT.BOLD) != 0;
+			isItalic = (fd.getStyle() & SWT.ITALIC) != 0;
+		} catch (Exception e) {
 			/**
 			 * Does nothing.
 			 */
@@ -202,8 +194,7 @@ public class PreviewLabel extends Canvas
 	/**
 	 * Restores all state to default;
 	 */
-	public void restoreDefaultState( )
-	{
+	public void restoreDefaultState() {
 		isUnderline = false;
 		isLinethrough = false;
 		isOverline = false;
@@ -213,218 +204,179 @@ public class PreviewLabel extends Canvas
 		isBold = false;
 		isItalic = false;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Sets if update the view whenever the font style has been changed.
-	 * 
+	 *
 	 * @param onthefly
 	 */
-	public void setUpdateOnthefly( boolean onthefly )
-	{
+	public void setUpdateOnthefly(boolean onthefly) {
 		this.updateOnTheFly = onthefly;
 	}
 
 	/**
 	 * Sets the label text.
-	 * 
-	 * @param txt
-	 *            text.
+	 *
+	 * @param txt text.
 	 */
-	public void setText( String txt )
-	{
+	public void setText(String txt) {
 		this.text = txt;
 	}
 
 	/**
 	 * Sets if the label has the underline style.
-	 * 
+	 *
 	 * @param underline
 	 */
-	public void setUnderline( boolean underline )
-	{
+	public void setUnderline(boolean underline) {
 		this.isUnderline = underline;
 	}
 
 	/**
 	 * Sets if the label has the line-through style.
-	 * 
+	 *
 	 * @param linethrough
 	 */
-	public void setLinethrough( boolean linethrough )
-	{
+	public void setLinethrough(boolean linethrough) {
 		this.isLinethrough = linethrough;
 	}
 
 	/**
 	 * Sets if the label has the over-line style.
-	 * 
+	 *
 	 * @param overline
 	 */
-	public void setOverline( boolean overline )
-	{
+	public void setOverline(boolean overline) {
 		this.isOverline = overline;
 	}
 
 	/**
 	 * Sets the font family.
-	 * 
-	 * @param fontFamily
-	 *            family name.
+	 *
+	 * @param fontFamily family name.
 	 */
-	public void setFontFamily( String fontFamily )
-	{
+	public void setFontFamily(String fontFamily) {
 		this.fontFamily = fontFamily;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Sets the font size.
-	 * 
-	 * @param fontSize
-	 *            size value.
+	 *
+	 * @param fontSize size value.
 	 */
-	public void setFontSize( int fontSize )
-	{
+	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Sets the font weight. NOTE: only win32 system support this style.
-	 * 
-	 * @param fontWeight
-	 *            weight value.
+	 *
+	 * @param fontWeight weight value.
 	 */
-	public void setFontWeight( int fontWeight )
-	{
+	public void setFontWeight(int fontWeight) {
 		this.fontWeight = fontWeight;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Sets if has a bold style.
-	 * 
+	 *
 	 * @param isBold
 	 */
-	public void setBold( boolean isBold )
-	{
+	public void setBold(boolean isBold) {
 		this.isBold = isBold;
 
 		this.fontWeight = isBold ? WEIGHT_BOLD : WEIGHT_NORMAL;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Sets if has a italic style.
-	 * 
+	 *
 	 * @param isItalic
 	 */
-	public void setItalic( boolean isItalic )
-	{
+	public void setItalic(boolean isItalic) {
 		this.isItalic = isItalic;
 
-		if ( updateOnTheFly )
-		{
-			updateView( );
+		if (updateOnTheFly) {
+			updateView();
 		}
 	}
 
 	/**
 	 * Updates the view using current font style.
 	 */
-	public void updateView( )
-	{
-		Font oldFont = getFont( );
+	public void updateView() {
+		Font oldFont = getFont();
 
 		int style = 0;
 
-		if ( isBold )
-		{
+		if (isBold) {
 			style |= SWT.BOLD;
 		}
 
-		if ( isItalic )
-		{
+		if (isItalic) {
 			style |= SWT.ITALIC;
 		}
 
-		if ( fontWeight >= WEIGHT_BOLD )
-		{
+		if (fontWeight >= WEIGHT_BOLD) {
 			style |= SWT.BOLD;
 		}
 
-		setFont( new Font( Display.getCurrent( ), fontFamily, fontSize, style ) );
+		setFont(new Font(Display.getCurrent(), fontFamily, fontSize, style));
 
-		if ( fontCreated )
-		{
-			oldFont.dispose( );
+		if (fontCreated) {
+			oldFont.dispose();
 		}
 
 		fontCreated = true;
 
-		this.redraw( );
+		this.redraw();
 
 	}
 
-	protected void paintControl( PaintEvent e )
-	{
+	protected void paintControl(PaintEvent e) {
 		GC gc = e.gc;
 
-		if ( text == null )
-		{
+		if (text == null) {
 			text = ""; //$NON-NLS-1$
 		}
 
-		Point pt = gc.stringExtent( text );
+		Point pt = gc.stringExtent(text);
 
-		gc.drawString( text,
-				( getSize( ).x - pt.x ) / 2,
-				( getSize( ).y - pt.y ) / 2,
-				true );
+		gc.drawString(text, (getSize().x - pt.x) / 2, (getSize().y - pt.y) / 2, true);
 
-		if ( isUnderline )
-		{
-			gc.drawLine( ( getSize( ).x - pt.x ) / 2,
-					( getSize( ).y - pt.y ) / 2 + pt.y,
-					( getSize( ).x - pt.x ) / 2 + pt.x,
-					( getSize( ).y - pt.y ) / 2 + pt.y );
+		if (isUnderline) {
+			gc.drawLine((getSize().x - pt.x) / 2, (getSize().y - pt.y) / 2 + pt.y, (getSize().x - pt.x) / 2 + pt.x,
+					(getSize().y - pt.y) / 2 + pt.y);
 		}
 
-		if ( isLinethrough )
-		{
-			gc.drawLine( ( getSize( ).x - pt.x ) / 2,
-					( getSize( ).y - pt.y ) / 2 + pt.y / 2,
-					( getSize( ).x - pt.x ) / 2 + pt.x,
-					( getSize( ).y - pt.y ) / 2 + pt.y / 2 );
+		if (isLinethrough) {
+			gc.drawLine((getSize().x - pt.x) / 2, (getSize().y - pt.y) / 2 + pt.y / 2, (getSize().x - pt.x) / 2 + pt.x,
+					(getSize().y - pt.y) / 2 + pt.y / 2);
 		}
 
-		if ( isOverline )
-		{
-			gc.drawLine( ( getSize( ).x - pt.x ) / 2,
-					( getSize( ).y - pt.y ) / 2,
-					( getSize( ).x - pt.x ) / 2 + pt.x,
-					( getSize( ).y - pt.y ) / 2 );
+		if (isOverline) {
+			gc.drawLine((getSize().x - pt.x) / 2, (getSize().y - pt.y) / 2, (getSize().x - pt.x) / 2 + pt.x,
+					(getSize().y - pt.y) / 2);
 		}
 	}
 

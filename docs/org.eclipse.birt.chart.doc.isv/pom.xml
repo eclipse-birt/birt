@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.chart.doc.isv</artifactId>
@@ -40,7 +54,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<version>${antrun.version}</version>
 				<executions>
 					<execution>
 						<id>javadoc</id>
@@ -50,16 +64,16 @@
 						</goals>
 						<configuration>
 							<target>
-								<property name="chart.src.dir" location="${basedir}/../../chart/"/>
+								<property name="chart.src.dir" location="${basedir}/../../chart/" />
 								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Javadoc">
-									<reference refid="maven.compile.classpath" torefid="class.path"/>
-									<property name="BranchVersion" value="${project.version}"/>
-									<property name="chartengine.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine"/>
-									<property name="chartengine.ext.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine.extension"/>
-									<property name="chartexamples.dir" value="${chart.src.dir}/org.eclipse.birt.chart.examples"/>
-									<property name="chartui.dir" value="${chart.src.dir}/org.eclipse.birt.chart.ui"/>
-									<property name="chartreportitem.dir" value="${chart.src.dir}/org.eclipse.birt.chart.reportitem"/>
-									<property name="model.dir" value="${chart.src.dir}/org.eclipse.birt.report.model"/>
+									<reference refid="maven.compile.classpath" torefid="class.path" />
+									<property name="BranchVersion" value="${project.version}" />
+									<property name="chartengine.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine" />
+									<property name="chartengine.ext.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine.extension" />
+									<property name="chartexamples.dir" value="${chart.src.dir}/org.eclipse.birt.chart.examples" />
+									<property name="chartui.dir" value="${chart.src.dir}/org.eclipse.birt.chart.ui" />
+									<property name="chartreportitem.dir" value="${chart.src.dir}/org.eclipse.birt.chart.reportitem" />
+									<property name="model.dir" value="${chart.src.dir}/org.eclipse.birt.report.model" />
 								</ant>
 							</target>
 						</configuration>
@@ -72,7 +86,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Clean"/>
+								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Clean" />
 							</target>
 						</configuration>
 					</execution>

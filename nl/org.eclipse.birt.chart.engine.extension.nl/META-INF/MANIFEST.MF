@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart Engine Extension NLS Support
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension.nl1
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Fragment-Host: org.eclipse.birt.chart.engine.extension;bundle-version="[2.1.0,5.0.0)"
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.chart.engine.extension.nl1
+Export-Package: org.eclipse.birt.chart.engine.extension.i18n;x-internal:=true

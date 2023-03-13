@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,124 +39,114 @@ import org.eclipse.ui.editors.text.EditorsUI;
 /**
  * Gets the script debug hover string.
  */
-public class ScriptDebugHover implements ITextHoverExtension, ITextHover
-{
+public class ScriptDebugHover implements ITextHoverExtension, ITextHover {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.ITextHoverExtension#getHoverControlCreator()
 	 */
-	public IInformationControlCreator getHoverControlCreator( )
-	{
-		return new IInformationControlCreator( ) {
+	@Override
+	public IInformationControlCreator getHoverControlCreator() {
+		return new IInformationControlCreator() {
 
-			public IInformationControl createInformationControl( Shell parent )
-			{
-				return new DefaultInformationControl( parent,
-						EditorsUI.getTooltipAffordanceString( ) );
+			@Override
+			public IInformationControl createInformationControl(Shell parent) {
+				return new DefaultInformationControl(parent, EditorsUI.getTooltipAffordanceString());
 			}
 		};
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.text.ITextHover#getHoverInfo(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.jface.text.ITextHover#getHoverInfo(org.eclipse.jface.text.
+	 * ITextViewer, org.eclipse.jface.text.IRegion)
 	 */
-	public String getHoverInfo( ITextViewer textViewer, IRegion hoverRegion )
-	{
-		ScriptStackFrame frame = getFrame( );
-		if ( frame == null )
-		{
+	@Override
+	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
+		ScriptStackFrame frame = getFrame();
+		if (frame == null) {
 			return null;
 		}
-		IDocument document = textViewer.getDocument( );
-		if ( document == null )
-		{
+		IDocument document = textViewer.getDocument();
+		if (document == null) {
 			return null;
 		}
-		try
-		{
-			String str = TextUtilities.getContentType(document, IDocumentExtension3.DEFAULT_PARTITIONING, hoverRegion.getOffset( )+1, true);
-			
-			String variableName = document.get( hoverRegion.getOffset( ),
-					hoverRegion.getLength( ) );
-			
-			if (JSPartitionScanner.JS_KEYWORD.equals( str ) && !"this".equals( variableName )) //$NON-NLS-1$
+		try {
+			String str = TextUtilities.getContentType(document, IDocumentExtension3.DEFAULT_PARTITIONING,
+					hoverRegion.getOffset() + 1, true);
+
+			String variableName = document.get(hoverRegion.getOffset(), hoverRegion.getLength());
+
+			if (JSPartitionScanner.JS_KEYWORD.equals(str) && !"this".equals(variableName)) //$NON-NLS-1$
 			{
 				return null;
 			}
-			ScriptValue var = ( (ScriptDebugTarget) frame.getDebugTarget( ) ).evaluate( frame,
-					variableName );
-			if ( var != null )
-			{
-				return getVariableText( var );
+			ScriptValue var = ((ScriptDebugTarget) frame.getDebugTarget()).evaluate(frame, variableName);
+			if (var != null) {
+				return getVariableText(var);
 			}
-		}
-		catch ( BadLocationException e )
-		{
+		} catch (BadLocationException e) {
 			return null;
 		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.text.ITextHover#getHoverRegion(org.eclipse.jface.text.ITextViewer, int)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.jface.text.ITextHover#getHoverRegion(org.eclipse.jface.text.
+	 * ITextViewer, int)
 	 */
-	public IRegion getHoverRegion( ITextViewer textViewer, int offset )
-	{
-		return ScriptDebugUtil.findWord( textViewer.getDocument( ), offset );
+	@Override
+	public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
+		return ScriptDebugUtil.findWord(textViewer.getDocument(), offset);
 	}
 
-	private static String replaceHTMLChars( String variableText )
-	{
-		StringBuffer buffer = new StringBuffer( variableText.length( ) );
-		char[] characters = variableText.toCharArray( );
-		for ( int i = 0; i < characters.length; i++ )
-		{
+	private static String replaceHTMLChars(String variableText) {
+		StringBuilder buffer = new StringBuilder(variableText.length());
+		char[] characters = variableText.toCharArray();
+		for (int i = 0; i < characters.length; i++) {
 			char character = characters[i];
-			switch ( character )
-			{
-				case '<' :
-					buffer.append( "&lt;" ); //$NON-NLS-1$
-					break;
-				case '>' :
-					buffer.append( "&gt;" ); //$NON-NLS-1$
-					break;
-				case '&' :
-					buffer.append( "&amp;" ); //$NON-NLS-1$
-					break;
-				case '"' :
-					buffer.append( "&quot;" ); //$NON-NLS-1$
-					break;
-				default :
-					buffer.append( character );
+			switch (character) {
+			case '<':
+				buffer.append("&lt;"); //$NON-NLS-1$
+				break;
+			case '>':
+				buffer.append("&gt;"); //$NON-NLS-1$
+				break;
+			case '&':
+				buffer.append("&amp;"); //$NON-NLS-1$
+				break;
+			case '"':
+				buffer.append("&quot;"); //$NON-NLS-1$
+				break;
+			default:
+				buffer.append(character);
 			}
 		}
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
-	private static String getVariableText( ScriptValue variable )
-	{
-		StringBuffer buffer = new StringBuffer( );
-		ScriptModelPresentation modelPresentation = new ScriptModelPresentation( );
-		buffer.append( "<p><pre>" ); //$NON-NLS-1$
-		String variableText = modelPresentation.getVariableText( variable );
-		buffer.append( replaceHTMLChars( variableText ) );
-		buffer.append( "</pre></p>" ); //$NON-NLS-1$
-		modelPresentation.dispose( );
-		if ( buffer.length( ) > 0 )
-		{
-			return buffer.toString( );
+	private static String getVariableText(ScriptValue variable) {
+		StringBuilder buffer = new StringBuilder();
+		ScriptModelPresentation modelPresentation = new ScriptModelPresentation();
+		buffer.append("<p><pre>"); //$NON-NLS-1$
+		String variableText = modelPresentation.getVariableText(variable);
+		buffer.append(replaceHTMLChars(variableText));
+		buffer.append("</pre></p>"); //$NON-NLS-1$
+		modelPresentation.dispose();
+		if (buffer.length() > 0) {
+			return buffer.toString();
 		}
 		return null;
 	}
 
-	private ScriptStackFrame getFrame( )
-	{
-		IAdaptable adaptable = DebugUITools.getDebugContext( );
-		if ( adaptable != null )
-		{
-			return (ScriptStackFrame) adaptable.getAdapter( ScriptStackFrame.class );
+	private ScriptStackFrame getFrame() {
+		IAdaptable adaptable = DebugUITools.getDebugContext();
+		if (adaptable != null) {
+			return (ScriptStackFrame) adaptable.getAdapter(ScriptStackFrame.class);
 		}
 		return null;
 	}

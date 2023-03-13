@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -21,8 +23,7 @@ import javax.print.attribute.standard.Media;
  * Printer bean for descripting a printer on the server.
  * <p>
  */
-public class Printer
-{
+public class Printer {
 
 	private String name;
 	private int status;
@@ -48,7 +49,7 @@ public class Printer
 	// Media size attribute
 	private boolean mediaSupported;
 	private String mediaSize;
-	private Map mediaSizeNames = new HashMap( );
+	private Map mediaSizeNames = new HashMap();
 
 	// Page settings
 	private int pageSize;
@@ -67,311 +68,258 @@ public class Printer
 
 	public static final int STATUS_ACCEPTING_JOBS = 0;
 	public static final int STATUS_NOT_ACCEPTING_JOBS = 1;
-	
+
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the status
 	 */
-	public int getStatus( )
-	{
+	public int getStatus() {
 		return status;
 	}
 
 	/**
-	 * @param status
-	 *            the status to set
+	 * @param status the status to set
 	 */
-	public void setStatus( int status )
-	{
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
 	/**
 	 * @return the model
 	 */
-	public String getModel( )
-	{
+	public String getModel() {
 		return model;
 	}
 
 	/**
-	 * @param model
-	 *            the model to set
+	 * @param model the model to set
 	 */
-	public void setModel( String model )
-	{
+	public void setModel(String model) {
 		this.model = model;
 	}
 
 	/**
 	 * @return the info
 	 */
-	public String getInfo( )
-	{
+	public String getInfo() {
 		return info;
 	}
 
 	/**
-	 * @param info
-	 *            the info to set
+	 * @param info the info to set
 	 */
-	public void setInfo( String info )
-	{
+	public void setInfo(String info) {
 		this.info = info;
 	}
 
 	/**
 	 * @return the copiesSupported
 	 */
-	public boolean isCopiesSupported( )
-	{
+	public boolean isCopiesSupported() {
 		return copiesSupported;
 	}
 
 	/**
-	 * @param copiesSupported
-	 *            the copiesSupported to set
+	 * @param copiesSupported the copiesSupported to set
 	 */
-	public void setCopiesSupported( boolean copiesSupported )
-	{
+	public void setCopiesSupported(boolean copiesSupported) {
 		this.copiesSupported = copiesSupported;
 	}
 
 	/**
 	 * @return the copies
 	 */
-	public int getCopies( )
-	{
+	public int getCopies() {
 		return copies;
 	}
 
 	/**
-	 * @param copies
-	 *            the copies to set
+	 * @param copies the copies to set
 	 */
-	public void setCopies( int copies )
-	{
+	public void setCopies(int copies) {
 		this.copies = copies;
 	}
 
 	/**
 	 * @return the collateSupported
 	 */
-	public boolean isCollateSupported( )
-	{
+	public boolean isCollateSupported() {
 		return collateSupported;
 	}
 
 	/**
-	 * @param collateSupported
-	 *            the collateSupported to set
+	 * @param collateSupported the collateSupported to set
 	 */
-	public void setCollateSupported( boolean collateSupported )
-	{
+	public void setCollateSupported(boolean collateSupported) {
 		this.collateSupported = collateSupported;
 	}
 
 	/**
 	 * @return the collate
 	 */
-	public boolean isCollate( )
-	{
+	public boolean isCollate() {
 		return collate;
 	}
 
 	/**
-	 * @param collate
-	 *            the collate to set
+	 * @param collate the collate to set
 	 */
-	public void setCollate( boolean collate )
-	{
+	public void setCollate(boolean collate) {
 		this.collate = collate;
 	}
 
 	/**
 	 * @return the modeSupported
 	 */
-	public boolean isModeSupported( )
-	{
+	public boolean isModeSupported() {
 		return modeSupported;
 	}
 
 	/**
-	 * @param modeSupported
-	 *            the modeSupported to set
+	 * @param modeSupported the modeSupported to set
 	 */
-	public void setModeSupported( boolean modeSupported )
-	{
+	public void setModeSupported(boolean modeSupported) {
 		this.modeSupported = modeSupported;
 	}
 
 	/**
 	 * @return the mode
 	 */
-	public int getMode( )
-	{
+	public int getMode() {
 		return mode;
 	}
 
 	/**
-	 * @param mode
-	 *            the mode to set
+	 * @param mode the mode to set
 	 */
-	public void setMode( int mode )
-	{
+	public void setMode(int mode) {
 		this.mode = mode;
 	}
 
 	/**
 	 * @return the duplexSupported
 	 */
-	public boolean isDuplexSupported( )
-	{
+	public boolean isDuplexSupported() {
 		return duplexSupported;
 	}
 
 	/**
-	 * @param duplexSupported
-	 *            the duplexSupported to set
+	 * @param duplexSupported the duplexSupported to set
 	 */
-	public void setDuplexSupported( boolean duplexSupported )
-	{
+	public void setDuplexSupported(boolean duplexSupported) {
 		this.duplexSupported = duplexSupported;
 	}
 
 	/**
 	 * @return the duplex
 	 */
-	public int getDuplex( )
-	{
+	public int getDuplex() {
 		return duplex;
 	}
 
 	/**
-	 * @param duplex
-	 *            the duplex to set
+	 * @param duplex the duplex to set
 	 */
-	public void setDuplex( int duplex )
-	{
+	public void setDuplex(int duplex) {
 		this.duplex = duplex;
 	}
 
 	/**
 	 * @return the mediaSupported
 	 */
-	public boolean isMediaSupported( )
-	{
+	public boolean isMediaSupported() {
 		return mediaSupported;
 	}
 
 	/**
-	 * @param mediaSupported
-	 *            the mediaSupported to set
+	 * @param mediaSupported the mediaSupported to set
 	 */
-	public void setMediaSupported( boolean mediaSupported )
-	{
+	public void setMediaSupported(boolean mediaSupported) {
 		this.mediaSupported = mediaSupported;
 	}
 
 	/**
 	 * @return the mediaSize
 	 */
-	public String getMediaSize( )
-	{
+	public String getMediaSize() {
 		return mediaSize;
 	}
 
 	/**
-	 * @param mediaSize
-	 *            the mediaSize to set
+	 * @param mediaSize the mediaSize to set
 	 */
-	public void setMediaSize( String mediaSize )
-	{
+	public void setMediaSize(String mediaSize) {
 		this.mediaSize = mediaSize;
 	}
 
 	/**
 	 * @return the mediaSizeNames
 	 */
-	public Map getMediaSizeNames( )
-	{
+	public Map getMediaSizeNames() {
 		return mediaSizeNames;
 	}
 
 	/**
 	 * Add media size name
-	 * 
+	 *
 	 * @param name
 	 */
-	public void addMediaSizeName( String name, Media media )
-	{
-		mediaSizeNames.put( name, media );
+	public void addMediaSizeName(String name, Media media) {
+		mediaSizeNames.put(name, media);
 	}
 
 	/**
 	 * @return the pageSize
 	 */
-	public int getPageSize( )
-	{
+	public int getPageSize() {
 		return pageSize;
 	}
 
 	/**
-	 * @param pageSize
-	 *            the pageSize to set
+	 * @param pageSize the pageSize to set
 	 */
-	public void setPageSize( int pageSize )
-	{
+	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
 
 	/**
 	 * @return the pageRange
 	 */
-	public String getPageRange( )
-	{
+	public String getPageRange() {
 		return pageRange;
 	}
 
 	/**
-	 * @param pageRange
-	 *            the pageRange to set
+	 * @param pageRange the pageRange to set
 	 */
-	public void setPageRange( String pageRange )
-	{
+	public void setPageRange(String pageRange) {
 		this.pageRange = pageRange;
 	}
 
 	/**
 	 * @return the service
 	 */
-	public PrintService getService( )
-	{
+	public PrintService getService() {
 		return service;
 	}
 
 	/**
-	 * @param service
-	 *            the service to set
+	 * @param service the service to set
 	 */
-	public void setService( PrintService service )
-	{
+	public void setService(PrintService service) {
 		this.service = service;
 	}
 

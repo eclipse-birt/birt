@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,10 +20,9 @@ import org.eclipse.gef.requests.CreateRequest;
 
 /**
  * Abstrct creation tool extension.
- * 
+ *
  */
-public abstract class AbstractToolHandleExtends
-{
+public abstract class AbstractToolHandleExtends {
 
 	private CreateRequest request = null;
 
@@ -28,16 +30,15 @@ public abstract class AbstractToolHandleExtends
 
 	private Object model;
 
-	public abstract boolean preHandleMouseDown( );
+	public abstract boolean preHandleMouseDown();
 
 	/**
 	 * Process after creation
-	 * 
-	 * @deprecated tentative solution for bugzilla#145284, will be refactored
-	 *             later.
+	 *
+	 * @deprecated tentative solution for bugzilla#145284, will be refactored later.
 	 */
-	public boolean postHandleCreation( )
-	{
+	@Deprecated
+	public boolean postHandleCreation() {
 		// doing nothing by default
 		return true;
 	}
@@ -45,12 +46,9 @@ public abstract class AbstractToolHandleExtends
 	/**
 	 * Process before mouse up.
 	 */
-	public boolean preHandleMouseUp( )
-	{
-		if ( model != null )
-		{
-			getRequest( ).getExtendedData( )
-					.put( DesignerConstants.KEY_NEWOBJECT, model );
+	public boolean preHandleMouseUp() {
+		if (model != null) {
+			getRequest().getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, model);
 			return true;
 		}
 
@@ -61,50 +59,43 @@ public abstract class AbstractToolHandleExtends
 	/**
 	 * @return Returns the request.
 	 */
-	public CreateRequest getRequest( )
-	{
+	public CreateRequest getRequest() {
 		return request;
 	}
 
 	/**
-	 * @param request
-	 *            The request to set.
+	 * @param request The request to set.
 	 */
-	public void setRequest( CreateRequest request )
-	{
+	public void setRequest(CreateRequest request) {
 		this.request = request;
 	}
 
 	/**
 	 * Set target edit part.
-	 * 
+	 *
 	 * @param part
 	 */
-	public void setTargetEditPart( EditPart part )
-	{
+	public void setTargetEditPart(EditPart part) {
 		this.part = part;
 	}
 
 	/**
 	 * @return target edit part
 	 */
-	public EditPart getTargetEditPart( )
-	{
+	public EditPart getTargetEditPart() {
 		return part;
 	}
 
 	/**
 	 * Set model.
-	 * 
+	 *
 	 * @param obj
 	 */
-	protected void setModel( Object obj )
-	{
+	protected void setModel(Object obj) {
 		model = obj;
 	}
 
-	protected Object getModel( )
-	{
+	protected Object getModel() {
 		return this.model;
 	}
 }

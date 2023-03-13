@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,90 +30,87 @@ import org.eclipse.ui.part.ViewPart;
 /**
  * ChartExamplesView consists of a workbench view including the examples
  * selector and preview canvas.
- * 
+ *
  * @see ViewPart
  */
-public class ChartExamplesView extends ViewPart
-{
+public class ChartExamplesView extends ViewPart {
 
 	ChartExamples instance = null;
 
 	static SaveXMLAction sxAction = null;
-	
+
 	static OpenJavaSourceAction opsAction = null;
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.VIEW_CHART_EXAMPLE );
-		
-		instance = new ChartExamples( parent );
+	@Override
+	public void createPartControl(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.VIEW_CHART_EXAMPLE);
 
-		final IActionBars actionBars = getViewSite( ).getActionBars( );
-		IToolBarManager toolbarManager = actionBars.getToolBarManager( );
+		instance = new ChartExamples(parent);
+
+		final IActionBars actionBars = getViewSite().getActionBars();
+		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 		Tools tools[] = ChartExamples.tools;
 		String group = tools[0].group;
-		toolbarManager.add( new GroupMarker( group ) );
-		for ( int i = 0; i < tools.length; i++ )
-		{
+		toolbarManager.add(new GroupMarker(group));
+		for (int i = 0; i < tools.length; i++) {
 			Tools tool = tools[i];
-			if ( !tool.group.equals( group ) )
-			{
-				toolbarManager.add( new Separator( ) );
-				toolbarManager.add( new GroupMarker( tool.group ) );
+			if (!tool.group.equals(group)) {
+				toolbarManager.add(new Separator());
+				toolbarManager.add(new GroupMarker(tool.group));
 			}
 			group = tool.group;
-			toolbarManager.appendToGroup( group, initActions( tool, parent ) );
+			toolbarManager.appendToGroup(group, initActions(tool, parent));
 		}
-		actionBars.updateActionBars( );
+		actionBars.updateActionBars();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
-		instance.setFocus( );
+	@Override
+	public void setFocus() {
+		instance.setFocus();
 	}
 
 	/**
 	 * Called when the View is to be disposed.
 	 */
-	public void dispose( )
-	{
-		instance.dispose( );
+	@Override
+	public void dispose() {
+		instance.dispose();
 		instance = null;
-		super.dispose( );
+		super.dispose();
 	}
 
-	private Action initActions( Tools tool, Composite cmp )
-	{
-		if ( tool.name.equals( "Save" ) ) //$NON-NLS-1$
+	private Action initActions(Tools tool, Composite cmp) {
+		if (tool.name.equals("Save")) //$NON-NLS-1$
 		{
-			sxAction = new SaveXMLAction( tool, cmp );
+			sxAction = new SaveXMLAction(tool, cmp);
 			return sxAction;
-		}
-		else if ( tool.name.equals( "Open" ) ) //$NON-NLS-1$
+		} else if (tool.name.equals("Open")) //$NON-NLS-1$
 		{
-			opsAction = new OpenJavaSourceAction( tool,
-					getViewSite( ).getWorkbenchWindow( ) );
+			opsAction = new OpenJavaSourceAction(tool, getViewSite().getWorkbenchWindow());
 			return opsAction;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
-	
-	public static void setActionsEnabled( boolean bEnabled )
-	{
-		sxAction.setEnabled( bEnabled );
-		opsAction.setEnabled( bEnabled );
+
+	public static void setActionsEnabled(boolean bEnabled) {
+		if (sxAction != null) {
+			sxAction.setEnabled(bEnabled);
+		}
+		if (opsAction != null) {
+			opsAction.setEnabled(bEnabled);
+		}
 	}
 }

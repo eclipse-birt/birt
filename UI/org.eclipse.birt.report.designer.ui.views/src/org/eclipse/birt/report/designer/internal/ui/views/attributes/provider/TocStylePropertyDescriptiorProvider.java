@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,10 +28,9 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 
 /**
  * @author Administrator
- * 
+ *
  */
-public class TocStylePropertyDescriptiorProvider extends
-		SimpleComboPropertyDescriptorProvider {
+public class TocStylePropertyDescriptiorProvider extends SimpleComboPropertyDescriptorProvider {
 
 	protected TOCHandle tocHandle;
 
@@ -38,9 +40,11 @@ public class TocStylePropertyDescriptiorProvider extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("Element.Toc.Sytle"); //$NON-NLS-1$
@@ -50,8 +54,9 @@ public class TocStylePropertyDescriptiorProvider extends
 		return tocHandle;
 	}
 
+	@Override
 	public String[] getItems() {
-		String[] items = null;
+		String[] items;
 
 		items = ChoiceSetFactory.getStyles();
 		items = filterPreStyles(items);
@@ -60,8 +65,7 @@ public class TocStylePropertyDescriptiorProvider extends
 	}
 
 	private String[] filterPreStyles(String items[]) {
-		List preStyles = DesignEngine.getMetaDataDictionary()
-				.getPredefinedStyles();
+		List preStyles = DesignEngine.getMetaDataDictionary().getPredefinedStyles();
 		List preStyleNames = new ArrayList();
 
 		for (int i = 0; i < preStyles.size(); i++) {
@@ -79,13 +83,13 @@ public class TocStylePropertyDescriptiorProvider extends
 
 	}
 
+	@Override
 	public Object load() {
 		String value = null;
 		if (input instanceof ReportItemHandle) {
 			tocHandle = ((ReportItemHandle) input).getTOC();
 		} else if (input instanceof List) {
-			tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-					(List) input).getElements().get(0)).getTOC();
+			tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0)).getTOC();
 		}
 
 		if (tocHandle != null) {
@@ -95,13 +99,14 @@ public class TocStylePropertyDescriptiorProvider extends
 		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		if (tocHandle == null) {
 			if (input instanceof ReportItemHandle) {
 				tocHandle = ((ReportItemHandle) input).getTOC();
 			} else if (input instanceof List) {
-				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-						(List) input).getElements().get(0)).getTOC();
+				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0))
+						.getTOC();
 			}
 		}
 
@@ -111,21 +116,21 @@ public class TocStylePropertyDescriptiorProvider extends
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 		super.setInput(input);
 		if (tocHandle == null) {
 			if (input instanceof ReportItemHandle) {
 				tocHandle = ((ReportItemHandle) input).getTOC();
 			} else if (input instanceof List) {
-				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-						(List) input).getElements().get(0)).getTOC();
+				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0))
+						.getTOC();
 			}
 		}
 	}
-	
-	
-	public boolean isSpecialProperty( )
-	{
+
+	@Override
+	public boolean isSpecialProperty() {
 		return true;
 	}
 

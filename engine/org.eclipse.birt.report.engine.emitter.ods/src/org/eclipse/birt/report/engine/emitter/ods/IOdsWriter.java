@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,30 +19,27 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
-public interface IOdsWriter
-{
+public interface IOdsWriter {
 
-	public void start( IReportContent report,
-			HashMap<String, BookmarkDef> bookmarkList ) throws IOException;
+	void start(IReportContent report, HashMap<String, BookmarkDef> bookmarkList) throws IOException;
 
-	public void end( ) throws IOException;
+	void end() throws IOException;
 
-	public void startSheet( StyleEntry tableStyle, StyleEntry[] colStyles, String sheetName ) throws IOException;
+	void startSheet(StyleEntry tableStyle, StyleEntry[] colStyles, String sheetName) throws IOException;
 
-	public void startSheet( String sheetName ) throws IOException;
+	void startSheet(String sheetName) throws IOException;
 
-	public void endSheet( );
+	void endSheet();
 
-	public void startRow( StyleEntry rowStyle );
+	void startRow(StyleEntry rowStyle);
 
-	public void startRow( );
+	void startRow();
 
-	public void endRow( );
+	void endRow();
 
-	public void outputData( SheetData data, StyleEntry style, int column,
-			int colSpan ) throws IOException;
+	void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException;
 
-	void outputData( int col, int row, int type, Object value );
+	void outputData(int col, int row, int type, Object value);
 
-	String defineName( String cells );
+	String defineName(String cells);
 }

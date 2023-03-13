@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,11 +24,10 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * Iterates over the items within a property or member defined as a list of
  * simple value. Each object returned by <code>getNext( )</code> is of type
  * <code>Object</code>.
- * 
+ *
  */
 
-class SimpleIterator implements Iterator
-{
+class SimpleIterator implements Iterator {
 
 	/**
 	 * Handle to the property or member that contains the list.
@@ -46,18 +48,16 @@ class SimpleIterator implements Iterator
 	protected int index;
 
 	/**
-	 * Constructs a simple iterator for the property or member that has the list
-	 * of items over which to iterate.
-	 * 
-	 * @param handle
-	 *            handle to the property or member that has the list of items
-	 *            over which to iterate
+	 * Constructs a simple iterator for the property or member that has the list of
+	 * items over which to iterate.
+	 *
+	 * @param handle handle to the property or member that has the list of items
+	 *               over which to iterate
 	 */
 
-	public SimpleIterator( SimpleValueHandle handle )
-	{
+	public SimpleIterator(SimpleValueHandle handle) {
 		valueHandle = handle;
-		list = valueHandle.getListValue( );
+		list = valueHandle.getListValue();
 		index = 0;
 	}
 
@@ -66,51 +66,49 @@ class SimpleIterator implements Iterator
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
-		if ( !hasNext( ) )
+	@Override
+	public void remove() {
+		if (!hasNext()) {
 			return;
-		try
-		{
-			valueHandle.removeItem( index );
 		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			valueHandle.removeItem(index);
+		} catch (PropertyValueException e) {
 			// Ignore any errors.
 		}
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	public boolean hasNext( )
-	{
-		return list != null && index < list.size( );
+	@Override
+	public boolean hasNext() {
+		return list != null && index < list.size();
 	}
 
 	/**
 	 * Returns a handle to the next item in the list. The handle is of type
 	 * <code>Object</code>
-	 * 
+	 *
 	 * @return a handle to the next item in the list
 	 */
 	// Implementation of iterator.next( )
-	public Object next( )
-	{
-		if ( !hasNext( ) )
+	@Override
+	public Object next() {
+		if (!hasNext()) {
 			return null;
+		}
 
-		Object value = list.get( index++ );
-		if ( value instanceof ElementRefValue )
-		{
+		Object value = list.get(index++);
+		if (value instanceof ElementRefValue) {
 			ElementRefValue elementRef = (ElementRefValue) value;
-			if ( elementRef.isResolved( ) )
-				return elementRef.getElement( ).getHandle(
-						elementRef.getElement( ).getRoot( ) );
-			return elementRef.getQualifiedReference( );
+			if (elementRef.isResolved()) {
+				return elementRef.getElement().getHandle(elementRef.getElement().getRoot());
+			}
+			return elementRef.getQualifiedReference();
 		}
 		return value;
 	}

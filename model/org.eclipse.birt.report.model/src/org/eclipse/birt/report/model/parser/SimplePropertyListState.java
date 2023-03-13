@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,8 +41,7 @@ import org.xml.sax.SAXException;
  * element.
  */
 
-public class SimplePropertyListState extends AbstractPropertyState
-{
+public class SimplePropertyListState extends AbstractPropertyState {
 
 	/**
 	 * The list to store the values.
@@ -55,37 +57,30 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
-	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
-	 * element, )
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
+	 * )
 	 */
 
-	SimplePropertyListState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	SimplePropertyListState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/**
-	 * Constructs the design parse state with the design file parser handler.
-	 * This constructor is used when this list property to parse is a member of
-	 * one structure.
-	 * 
-	 * @param theHandler
-	 *            the design parser handler
-	 * @param element
-	 *            the element holding this list property
-	 * @param propDefn
-	 *            the definition of the property which is structure list
-	 * @param struct
-	 *            the structure which holds this list property
+	 * Constructs the design parse state with the design file parser handler. This
+	 * constructor is used when this list property to parse is a member of one
+	 * structure.
+	 *
+	 * @param theHandler the design parser handler
+	 * @param element    the element holding this list property
+	 * @param propDefn   the definition of the property which is structure list
+	 * @param struct     the structure which holds this list property
 	 */
 
-	SimplePropertyListState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element );
+	SimplePropertyListState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element);
 
 		this.propDefn = propDefn;
 		this.struct = struct;
@@ -93,41 +88,36 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 *
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
 	 * ()
 	 */
-	protected AbstractParseState generalJumpTo( )
-	{
-		if ( supportIsEmpty( ) )
-		{
-			AbstractPropertyState state = new EmptyListState( handler, element,
-					struct );
-			state.setName( name );
+	@Override
+	protected AbstractParseState generalJumpTo() {
+		if (supportIsEmpty()) {
+			AbstractPropertyState state = new EmptyListState(handler, element, struct);
+			state.setName(name);
 			return state;
 		}
 
-		return super.generalJumpTo( );
+		return super.generalJumpTo();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
+	 *
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
 	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
-	{
+	@Override
+	protected void doSetProperty(PropertyDefn propDefn, Object valueToSet) {
 		assert valueToSet != null;
 
-		if ( propDefn.getTypeCode( ) != IPropertyType.LIST_TYPE )
-		{
+		if (propDefn.getTypeCode() != IPropertyType.LIST_TYPE) {
 			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE );
-			handler.getErrorHandler( ).semanticError( e );
+					DesignParserException.DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
@@ -135,67 +125,57 @@ public class SimplePropertyListState extends AbstractPropertyState
 		// Validate the value.
 
 		assert valueToSet instanceof List;
-		List valueList = new ArrayList( );
+		List valueList = new ArrayList();
 
-		try
-		{
+		try {
 
-			PropertyType type = propDefn.getType( );
-			Object propValue = type.validateXml( handler.module, element,
-					propDefn, valueToSet );
+			PropertyType type = propDefn.getType();
+			Object propValue = type.validateXml(handler.module, element, propDefn, valueToSet);
 
 			valueList = (List) propValue;
-		}
-		catch ( PropertyValueException ex )
-		{
+		} catch (PropertyValueException ex) {
 			// if this element is extensible and value is invalid, then pass
 			// this value to the extension to do some work, maybe compatibility,
 			// maybe still invalid and fire a warning, maybe something else
-			if ( element instanceof ExtendedItem && propDefn.isExtended( ) )
-			{
+			if (element instanceof ExtendedItem && propDefn.isExtended()) {
 				valueList = (List) valueToSet;
-				List retValue = new ArrayList( );
-				for ( int i = 0; i < valueList.size( ); i++ )
-				{
-					String item = (String) valueList.get( i );
-					retValue.add( StringUtil.trimString( item ) );
+				List retValue = new ArrayList();
+				for (int i = 0; i < valueList.size(); i++) {
+					String item = (String) valueList.get(i);
+					retValue.add(StringUtil.trimString(item));
 				}
-				( (ExtendedItem) element ).getExtensibilityProvider( )
-						.handleInvalidPropertyValue( propDefn.getName( ),
-								retValue );
+				((ExtendedItem) element).getExtensibilityProvider().handleInvalidPropertyValue(propDefn.getName(),
+						retValue);
 				return;
 			}
-			ex.setElement( element );
-			ex.setPropertyName( propDefn.getName( ) );
-			handlePropertyValueException( ex );
+			ex.setElement(element);
+			ex.setPropertyName(propDefn.getName());
+			handlePropertyValueException(ex);
 			valid = false;
 			return;
 		}
 
-		if ( !valueList.isEmpty( ) )
-			element.setProperty( propDefn, valueList );
+		if (!valueList.isEmpty()) {
+			element.setProperty(propDefn, valueList);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember
+	 *
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember
 	 * (org.eclipse.birt.report.model.api.core.IStructure, java.lang.String,
-	 * org.eclipse.birt.report.model.metadata.StructPropertyDefn,
-	 * java.lang.Object)
+	 * org.eclipse.birt.report.model.metadata.StructPropertyDefn, java.lang.Object)
 	 */
 
-	protected void doSetMember( IStructure struct, String propName,
-			StructPropertyDefn memberDefn, Object valueToSet )
-	{
+	@Override
+	protected void doSetMember(IStructure struct, String propName, StructPropertyDefn memberDefn, Object valueToSet) {
 		assert valueToSet != null;
 
-		if ( memberDefn.getTypeCode( ) != IPropertyType.LIST_TYPE )
-		{
+		if (memberDefn.getTypeCode() != IPropertyType.LIST_TYPE) {
 			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE );
-			handler.getErrorHandler( ).semanticError( e );
+					DesignParserException.DESIGN_EXCEPTION_WRONG_SIMPLE_LIST_TYPE);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
@@ -203,69 +183,59 @@ public class SimplePropertyListState extends AbstractPropertyState
 		// Validate the value.
 
 		assert valueToSet instanceof List;
-		List valueList = new ArrayList( );
+		List valueList = new ArrayList();
 
-		try
-		{
-			for ( int i = 0; i < ( (List) valueToSet ).size( ); i++ )
-			{
-				Object item = ( (List) valueToSet ).get( i );
-				PropertyType type = memberDefn.getSubType( );
-				Object propValue = type.validateXml( handler.getModule( ),
-						element, memberDefn, item );
-				if ( propValue != null )
-					valueList.add( i, propValue );
+		try {
+			for (int i = 0; i < ((List) valueToSet).size(); i++) {
+				Object item = ((List) valueToSet).get(i);
+				PropertyType type = memberDefn.getSubType();
+				Object propValue = type.validateXml(handler.getModule(), element, memberDefn, item);
+				if (propValue != null) {
+					valueList.add(i, propValue);
+				}
 
 			}
-		}
-		catch ( PropertyValueException ex )
-		{
-			ex.setElement( element );
-			ex.setPropertyName( propName );
-			handlePropertyValueException( ex );
+		} catch (PropertyValueException ex) {
+			ex.setElement(element);
+			ex.setPropertyName(propName);
+			handlePropertyValueException(ex);
 			valid = false;
 			return;
 		}
 
-		if ( !valueList.isEmpty( ) )
-			struct.setProperty( memberDefn, valueList );
+		if (!valueList.isEmpty()) {
+			struct.setProperty(memberDefn, valueList);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( values == null )
-			return;
-
-		if ( struct != null )
-		{
-			setMember( struct, propDefn.getName( ), name, values );
+	@Override
+	public void end() throws SAXException {
+		if (values == null) {
 			return;
 		}
-		setProperty( name, values );
 
-		if ( propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-		{
-			List propList = (List) element.getProperty( element.getRoot( ),
-					name );
-			if ( propList != null )
-			{
-				for ( int i = 0; i < propList.size( ); i++ )
-				{
-					Object obj = propList.get( i );
-					if ( obj instanceof ElementRefValue )
-					{
+		if (struct != null) {
+			setMember(struct, propDefn.getName(), name, values);
+			return;
+		}
+		setProperty(name, values);
+
+		if (propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
+			List propList = (List) element.getProperty(element.getRoot(), name);
+			if (propList != null) {
+				for (int i = 0; i < propList.size(); i++) {
+					Object obj = propList.get(i);
+					if (obj instanceof ElementRefValue) {
 						ElementRefValue refValue = (ElementRefValue) obj;
-						if ( refValue.isResolved( ) )
-						{
-							IReferencableElement referred = refValue
-									.getTargetElement( );
-							referred.addClient( element, name );
+						if (refValue.isResolved()) {
+							IReferencableElement referred = refValue.getTargetElement();
+							referred.addClient(element, name);
 						}
 					}
 				}
@@ -275,36 +245,36 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.VALUE_TAG == tagValue )
-			return new ValueState( );
-		return super.startElement( tagName );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.VALUE_TAG == tagValue) {
+			return new ValueState();
+		}
+		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs
+	 *
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs
 	 * (org.xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		super.parseAttrs( attrs );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		super.parseAttrs(attrs);
 
-		if ( struct != null )
-			propDefn = (PropertyDefn) struct.getDefn( ).getMember( name );
-		else
-			propDefn = element.getPropertyDefn( name );
+		if (struct != null) {
+			propDefn = (PropertyDefn) struct.getDefn().getMember(name);
+		} else {
+			propDefn = element.getPropertyDefn(name);
+		}
 	}
 
 	/**
@@ -312,17 +282,15 @@ public class SimplePropertyListState extends AbstractPropertyState
 	 * tag.
 	 */
 
-	class InnerParseState extends AbstractParseState
-	{
+	class InnerParseState extends AbstractParseState {
 
-		public XMLParserHandler getHandler( )
-		{
+		@Override
+		public XMLParserHandler getHandler() {
 			return handler;
 		}
 	}
 
-	class ValueState extends InnerParseState
-	{
+	class ValueState extends InnerParseState {
 
 		private String exprType;
 
@@ -330,62 +298,55 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			if ( values == null )
-				values = new ArrayList( );
-
-			exprType = StringUtil.trimString( exprType );
-
-			if ( exprType == null )
-			{
-				exprType = CompatiblePropertyChangeTables.getDefaultExprType(
-						element.getDefn( ).getName( ), name,
-						handler.versionNumber );
+		@Override
+		public void end() throws SAXException {
+			if (values == null) {
+				values = new ArrayList();
 			}
 
-			String value = text.toString( );
-			if ( propDefn.allowExpression( ) )
-			{
-				if ( isNull )
-				{
-					if ( exprType == null )
-						values.add( null );
-					else
-						values.add( new Expression( null, exprType ) );
+			exprType = StringUtil.trimString(exprType);
+
+			if (exprType == null) {
+				exprType = CompatiblePropertyChangeTables.getDefaultExprType(element.getDefn().getName(), name,
+						handler.versionNumber);
+			}
+
+			String value = text.toString();
+			if (propDefn.allowExpression()) {
+				if (isNull) {
+					if (exprType == null) {
+						values.add(null);
+					} else {
+						values.add(new Expression(null, exprType));
+					}
+				} else {
+					values.add(new Expression(value, exprType));
 				}
-				else
-					values.add( new Expression( value, exprType ) );
 
-			}
-			else
-			{
-				if ( isNull )
-					values.add( null );
-				else
-					values.add( value );
+			} else if (isNull) {
+				values.add(null);
+			} else {
+				values.add(value);
 			}
 
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 *
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			super.parseAttrs( attrs );
-			exprType = attrs.getValue( DesignSchemaConstants.TYPE_TAG );
-			isNull = Boolean.parseBoolean( attrs
-					.getValue( DesignSchemaConstants.IS_NULL_ATTRIB ) );
+		@Override
+		public void parseAttrs(Attributes attrs) throws XMLParserException {
+			super.parseAttrs(attrs);
+			exprType = attrs.getValue(DesignSchemaConstants.TYPE_TAG);
+			isNull = Boolean.parseBoolean(attrs.getValue(DesignSchemaConstants.IS_NULL_ATTRIB));
 
 		}
 	}

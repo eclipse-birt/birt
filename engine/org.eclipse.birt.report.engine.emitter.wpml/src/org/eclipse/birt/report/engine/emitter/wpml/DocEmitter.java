@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2006 Inetsoft Technology Corp. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html Contributors: Inetsoft
- * Technology Corp - Implementation
+ * Copyright (c) 2006 Inetsoft Technology Corp.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.wpml;
@@ -39,11 +42,9 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
-public class DocEmitter extends ContentEmitterAdapter
-{
+public class DocEmitter extends ContentEmitterAdapter {
 
-	private static Logger logger = Logger.getLogger( DocEmitter.class
-			.getName( ) );
+	private static Logger logger = Logger.getLogger(DocEmitter.class.getName());
 
 	public final static int MAX_COLUMN = 63;
 
@@ -55,345 +56,303 @@ public class DocEmitter extends ContentEmitterAdapter
 
 	private boolean isClipped = false;
 
-	public DocEmitter( )
-	{
-		contentVisitor = new ContentEmitterVisitor( this );
-		createEmitterImplement( );
+	public DocEmitter() {
+		contentVisitor = new ContentEmitterVisitor(this);
+		createEmitterImplement();
 	}
 
-	protected void createEmitterImplement( )
-	{
-		emitterImplement = new DocEmitterImpl( contentVisitor );
+	protected void createEmitterImplement() {
+		emitterImplement = new DocEmitterImpl(contentVisitor);
 	}
-	
-	public void initialize( IEmitterServices service ) throws EngineException
-	{
-		emitterImplement.initialize( service );
+
+	@Override
+	public void initialize(IEmitterServices service) throws EngineException {
+		emitterImplement.initialize(service);
 	}
-	
-	public String getOutputFormat( )
-	{
-		return emitterImplement.getOutputFormat( );
+
+	@Override
+	public String getOutputFormat() {
+		return emitterImplement.getOutputFormat();
 	}
-	
-	public void startPage( IPageContent page ) throws BirtException
-	{
-		try
-		{
-			emitterImplement.startPage( page );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+
+	@Override
+	public void startPage(IPageContent page) throws BirtException {
+		try {
+			emitterImplement.startPage(page);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
 		}
 	}
-	
-	public void end( IReportContent report ) throws BirtException
-	{
-		try
-		{
-			emitterImplement.end( report );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+
+	@Override
+	public void end(IReportContent report) throws BirtException {
+		try {
+			emitterImplement.end(report);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
 		}
 	}
-	
-	public void endCell( ICellContent cell )
-	{
-		if(omitCellLayer != 0)
-		{
+
+	@Override
+	public void endCell(ICellContent cell) {
+		if (omitCellLayer != 0) {
 			omitCellLayer--;
-			if ( omitCellLayer == 0 )
-			{
+			if (omitCellLayer == 0) {
 				isClipped = false;
 			}
 			return;
 		}
-		emitterImplement.endCell( cell );
+		emitterImplement.endCell(cell);
 	}
 
-	public void endContainer( IContainerContent container )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endContainer(IContainerContent container) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endContainer( container );
+		emitterImplement.endContainer(container);
 	}
 
-	public void startContainer( IContainerContent container )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startContainer(IContainerContent container) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startContainer( container );
+		emitterImplement.startContainer(container);
 	}
 
-	public void endContent( IContent content )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endContent(IContent content) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endContent( content );
+		emitterImplement.endContent(content);
 	}
 
-	public void endGroup( IGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endGroup(IGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endGroup( group );
+		emitterImplement.endGroup(group);
 	}
 
-	public void accountPageProp( IPageContent page )
-	{
-		emitterImplement.computePageProperties( page );
+	public void accountPageProp(IPageContent page) {
+		emitterImplement.computePageProperties(page);
 	}
-	
-	public void endList( IListContent list )
-	{
-		if(isClipped)
-		{
+
+	@Override
+	public void endList(IListContent list) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endList( list );
+		emitterImplement.endList(list);
 	}
 
-	public void endListBand( IListBandContent listBand )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endListBand(IListBandContent listBand) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endListBand( listBand );
+		emitterImplement.endListBand(listBand);
 	}
 
-	public void endListGroup( IListGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endListGroup(IListGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endListGroup( group );
+		emitterImplement.endListGroup(group);
 
 	}
 
-	public void endPage( IPageContent page )
-	{
-		emitterImplement.endPage( page );
+	@Override
+	public void endPage(IPageContent page) {
+		emitterImplement.endPage(page);
 	}
 
-	public void endRow( IRowContent row )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endRow(IRowContent row) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endRow( row );
+		emitterImplement.endRow(row);
 	}
 
-	public void endTable( ITableContent table )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endTable(ITableContent table) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endTable( table );
+		emitterImplement.endTable(table);
 	}
 
-	public void endTableBand( ITableBandContent band )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endTableBand(ITableBandContent band) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endTableBand( band );
+		emitterImplement.endTableBand(band);
 	}
 
-	public void endTableGroup( ITableGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void endTableGroup(ITableGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.endTableGroup( group );
+		emitterImplement.endTableGroup(group);
 	}
 
-	public void start( IReportContent report )
-	{
-		emitterImplement.start( report );
+	@Override
+	public void start(IReportContent report) {
+		emitterImplement.start(report);
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startAutoText(IAutoTextContent autoText) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startAutoText( autoText );
+		emitterImplement.startAutoText(autoText);
 	}
 
-	public void startCell( ICellContent cell )
-	{
-		if ( isClipped )
-		{
-			omitCellLayer++ ;
+	@Override
+	public void startCell(ICellContent cell) {
+		if (isClipped) {
+			omitCellLayer++;
 			return;
 		}
-		int colCount = cell.getColumn( );
-		if(colCount >= MAX_COLUMN)
-		{
-			omitCellLayer ++ ;
+		int colCount = cell.getColumn();
+		if (colCount >= MAX_COLUMN) {
+			omitCellLayer++;
 			isClipped = true;
 			return;
 		}
-		emitterImplement.startCell( cell );
+		emitterImplement.startCell(cell);
 	}
 
-	public void startContent( IContent content )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startContent(IContent content) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startContent( content );
+		emitterImplement.startContent(content);
 	}
 
-	public void startData( IDataContent data )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startData(IDataContent data) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startData( data );
+		emitterImplement.startData(data);
 	}
 
-	public void startForeign( IForeignContent foreign ) throws BirtException
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startForeign(IForeignContent foreign) throws BirtException {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startForeign( foreign );
+		emitterImplement.startForeign(foreign);
 	}
 
-	public void startGroup( IGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startGroup(IGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startGroup( group );
+		emitterImplement.startGroup(group);
 	}
 
-	public void startImage( IImageContent image )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startImage(IImageContent image) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startImage( image );
+		emitterImplement.startImage(image);
 	}
 
-	public void startLabel( ILabelContent label )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startLabel(ILabelContent label) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startLabel( label );
+		emitterImplement.startLabel(label);
 	}
 
-
-	public void startList( IListContent list )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startList(IListContent list) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startList( list );
+		emitterImplement.startList(list);
 	}
 
-	public void startListBand( IListBandContent listBand )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startListBand(IListBandContent listBand) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startListBand( listBand );
+		emitterImplement.startListBand(listBand);
 	}
 
-	public void startListGroup( IListGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startListGroup(IListGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startListGroup( group );
+		emitterImplement.startListGroup(group);
 	}
 
-	public void startRow( IRowContent row )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startRow(IRowContent row) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startRow( row );
+		emitterImplement.startRow(row);
 	}
 
-	public void startTable( ITableContent table )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startTable(ITableContent table) {
+		if (isClipped) {
 			return;
 		}
-		int colCount = table.getColumnCount( );
-		if(colCount > MAX_COLUMN)
-		{
-			table = getPartTable( table );
-	        logger
-	    	  	.log( Level.WARNING , "There are too many columns in the table , just output the first " + MAX_COLUMN + " columns" );
+		int colCount = table.getColumnCount();
+		if (colCount > MAX_COLUMN) {
+			table = getPartTable(table);
+			logger.log(Level.WARNING,
+					"There are too many columns in the table , just output the first " + MAX_COLUMN + " columns");
 		}
-		emitterImplement.startTable( table );
+		emitterImplement.startTable(table);
 	}
-	
-	private ITableContent getPartTable(ITableContent table )
-	{
-		List columns = table.getColumns( );
-		columns = columns.subList( 0, MAX_COLUMN );
-		ITableContent content = new TableContentWrapper(table ,columns );
+
+	private ITableContent getPartTable(ITableContent table) {
+		List columns = table.getColumns();
+		columns = columns.subList(0, MAX_COLUMN);
+		ITableContent content = new TableContentWrapper(table, columns);
 		return content;
 	}
-	
-	public void startTableBand( ITableBandContent band )
-	{
-		if(isClipped)
-		{
+
+	@Override
+	public void startTableBand(ITableBandContent band) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startTableBand( band );
+		emitterImplement.startTableBand(band);
 	}
 
-	public void startTableGroup( ITableGroupContent group )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startTableGroup(ITableGroupContent group) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startTableGroup( group );
+		emitterImplement.startTableGroup(group);
 	}
 
-	public void startText( ITextContent text )
-	{
-		if(isClipped)
-		{
+	@Override
+	public void startText(ITextContent text) {
+		if (isClipped) {
 			return;
 		}
-		emitterImplement.startText( text );
+		emitterImplement.startText(text);
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,229 +41,173 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * IDEReportClasspathResolver
  */
-public class IDEReportClasspathResolver implements IReportClasspathResolver
-{
+public class IDEReportClasspathResolver implements IReportClasspathResolver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.IReportClasspathProvider#resolveClasspath
 	 * (java.lang.Object)
 	 */
-	public String[] resolveClasspath( Object adaptable )
-	{
-		IProject project = adaptProject( adaptable );
-		
+	@Override
+	public String[] resolveClasspath(Object adaptable) {
+		IProject project = adaptProject(adaptable);
+
 //		IWorkspace space = ResourcesPlugin.getWorkspace( );
 //		IWorkspaceRoot root = space.getRoot( );
-		String value = PreferenceFactory.getInstance( )
-			.getPreferences( ReportPlugin.getDefault( ), project )
-				.getString( ReportPlugin.CLASSPATH_PREFERENCE );
-		
-		List<IClasspathEntry> list = IDEClassPathBlock.getEntries( value );
-		List<String> strs = getAllClassPathFromEntries( list );
-		
-		try
-		{
-			if ( project == null || !project.hasNature( JavaCore.NATURE_ID ))
-			{
-				return strs.toArray( new String[strs.size( )] );
-			}
-		}
-		catch ( CoreException e )
-		{
-			return strs.toArray( new String[strs.size( )] );
-		}
-		
-		//Set<String> paths = getProjectClasspath( project );
+		String value = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(), project)
+				.getString(ReportPlugin.CLASSPATH_PREFERENCE);
 
-		List<String> temp = getProjectClasspath( project, true, true );
-		for (int i=0; i<temp.size( ); i++)
-		{
-			addToList( strs, temp.get( i ) );
+		List<IClasspathEntry> list = IDEClassPathBlock.getEntries(value);
+		List<String> strs = getAllClassPathFromEntries(list);
+
+		try {
+			if (project == null || !project.hasNature(JavaCore.NATURE_ID)) {
+				return strs.toArray(new String[strs.size()]);
+			}
+		} catch (CoreException e) {
+			return strs.toArray(new String[strs.size()]);
 		}
-		return strs.toArray( new String[strs.size( )] );
+
+		// Set<String> paths = getProjectClasspath( project );
+
+		List<String> temp = getProjectClasspath(project, true, true);
+		for (int i = 0; i < temp.size(); i++) {
+			addToList(strs, temp.get(i));
+		}
+		return strs.toArray(new String[strs.size()]);
 	}
 
-	private List<String> getAllClassPathFromEntries(List<IClasspathEntry> list)
-	{
+	private List<String> getAllClassPathFromEntries(List<IClasspathEntry> list) {
 		List<String> retValue = new ArrayList();
-		IWorkspace space = ResourcesPlugin.getWorkspace( );
-		IWorkspaceRoot root = space.getRoot( );
-		
-		
-		for (int i=0; i<list.size( ); i++)
-		{
-			IClasspathEntry curr = list.get( i );
+		IWorkspace space = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = space.getRoot();
+
+		for (int i = 0; i < list.size(); i++) {
+			IClasspathEntry curr = list.get(i);
 			boolean inWorkSpace = true;
-			
-			if ( space == null || space.getRoot( ) == null )
-			{
+
+			if (space == null || space.getRoot() == null) {
 				inWorkSpace = false;
 			}
 
-			IPath path = curr.getPath( );
-			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
-			{
-				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
+			IPath path = curr.getPath();
+			if (curr.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+				path = JavaCore.getClasspathVariable(path.segment(0));
+			} else {
+				path = JavaCore.getResolvedClasspathEntry(curr).getPath();
 			}
-			else
-			{
-				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
-			}
-			
-			if (curr.getEntryKind( ) == IClasspathEntry.CPE_PROJECT)
-			{
-				if (root.findMember( path ) instanceof IProject)
-				{
-					List<String> strs = getProjectClasspath( (IProject)root.findMember( path ),false, true );
-					for (int j=0; j<strs.size( ); j++)
-					{
-						addToList( retValue, strs.get( j ) );
+
+			if (curr.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+				if (root.findMember(path) instanceof IProject) {
+					List<String> strs = getProjectClasspath((IProject) root.findMember(path), false, true);
+					for (int j = 0; j < strs.size(); j++) {
+						addToList(retValue, strs.get(j));
 					}
 				}
-			}
-			else
-			{
-				if ( root.findMember( path ) == null )
-				{
+			} else {
+				if (root.findMember(path) == null) {
 					inWorkSpace = false;
 				}
-	
-				if ( inWorkSpace )
-				{
-					String absPath = getFullPath( path,
-							root.findMember( path ).getProject( ) );
-	
-					//retValue.add( absPath );
-					addToList( retValue, absPath );
-				}
-				else
-				{
-					//retValue.add( path.toFile( ).getAbsolutePath( ));
-					addToList( retValue, path.toFile( ).getAbsolutePath( ) );
+
+				if (inWorkSpace) {
+					String absPath = getFullPath(path, root.findMember(path).getProject());
+
+					// retValue.add( absPath );
+					addToList(retValue, absPath);
+				} else {
+					// retValue.add( path.toFile( ).getAbsolutePath( ));
+					addToList(retValue, path.toFile().getAbsolutePath());
 				}
 			}
-		
-			//strs.add( JavaCore.getResolvedClasspathEntry( entry ).getPath( ).toFile( ).getAbsolutePath( ) );
+
+			// strs.add( JavaCore.getResolvedClasspathEntry( entry ).getPath( ).toFile(
+			// ).getAbsolutePath( ) );
 		}
 		return retValue;
 	}
-	
-	private void addToList(List<String> list, String str)
-	{
-		if (!list.contains( str ))
-		{
-			list.add( str );
+
+	private void addToList(List<String> list, String str) {
+		if (!list.contains(str)) {
+			list.add(str);
 		}
 	}
-	
-	
-	private IProject adaptProject( Object adaptable )
-	{
-		if ( adaptable instanceof IProject )
-		{
+
+	private IProject adaptProject(Object adaptable) {
+		if (adaptable instanceof IProject) {
 			return (IProject) adaptable;
-		}
-		else if ( adaptable instanceof IResource )
-		{
-			return ( (IResource) adaptable ).getProject( );
-		}
-		else if ( adaptable instanceof URI )
-		{
+		} else if (adaptable instanceof IResource) {
+			return ((IResource) adaptable).getProject();
+		} else if (adaptable instanceof URI) {
 			// this should be the absolute report file path
-			IFile[] files = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.findFilesForLocationURI( (URI) adaptable );
+			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI((URI) adaptable);
 
-			if ( files != null && files.length > 0 )
-			{
-				return files[0].getProject( );
+			if (files != null && files.length > 0) {
+				return files[0].getProject();
 			}
-		}
-		else if ( adaptable instanceof IPath )
-		{
+		} else if (adaptable instanceof IPath) {
 			// this should be the absolute report file path
-			IFile[] files = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.findFilesForLocation( (IPath) adaptable );
+			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation((IPath) adaptable);
 
-			if ( files != null && files.length > 0 )
-			{
-				return files[0].getProject( );
+			if (files != null && files.length > 0) {
+				return files[0].getProject();
 			}
-		}
-		else if ( adaptable instanceof String )
-		{
+		} else if (adaptable instanceof String) {
 			// this should be the absolute report file path
-			IFile[] files = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.findFilesForLocation( Path.fromOSString( (String) adaptable ) );
+			IFile[] files = ResourcesPlugin.getWorkspace().getRoot()
+					.findFilesForLocation(Path.fromOSString((String) adaptable));
 
-			if ( files != null && files.length > 0 )
-			{
-				return files[0].getProject( );
+			if (files != null && files.length > 0) {
+				return files[0].getProject();
 			}
 		}
 
 		return null;
 	}
 
-	private List<String> getProjectClasspath( IProject project,boolean needExported, boolean needDepend )
-	{
-		
+	private List<String> getProjectClasspath(IProject project, boolean needExported, boolean needDepend) {
 
-		List<String> retValue = new ArrayList<String>( );
-		if ( project == null )
-		{
-			return Collections.emptyList( );
+		List<String> retValue = new ArrayList<>();
+		if (project == null) {
+			return Collections.emptyList();
 		}
 
-		if (needDepend)
-		{
-			List<String> paths = getProjectDependentClasspath( project, needExported );
-	
-			for ( int j = 0; j < paths.size( ); j++ )
-			{
-				addToList( retValue, paths.get( j ) );	
+		if (needDepend) {
+			List<String> paths = getProjectDependentClasspath(project, needExported);
+
+			for (int j = 0; j < paths.size(); j++) {
+				addToList(retValue, paths.get(j));
 			}
 		}
 
-		String url = getProjectOutputClassPath( project );
-		if ( url != null )
-		{
-			//retValue.add( url );
-			addToList( retValue, url );
+		String url = getProjectOutputClassPath(project);
+		if (url != null) {
+			// retValue.add( url );
+			addToList(retValue, url);
 		}
-
 
 		return retValue;
 	}
 
-	private String getProjectOutputClassPath( IProject project )
-	{
-		if ( !hasJavaNature( project ) )
-		{
+	private String getProjectOutputClassPath(IProject project) {
+		if (!hasJavaNature(project)) {
 			return null;
 		}
 
-		IJavaProject fCurrJProject = JavaCore.create( project );
+		IJavaProject fCurrJProject = JavaCore.create(project);
 		IPath path = null;
-		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
-		if ( projectExists )
-		{
-			if ( path == null )
-			{
-				path = fCurrJProject.readOutputLocation( );
+		boolean projectExists = (project.exists() && project.getFile(".classpath").exists()); //$NON-NLS-1$
+		if (projectExists) {
+			if (path == null) {
+				path = fCurrJProject.readOutputLocation();
 				// String curPath = path.toOSString( );
 				// String directPath = project.getLocation( ).toOSString( );
 				// int index = directPath.lastIndexOf( File.separator );
-				if (path == null)
-				{
+				if (path == null) {
 					return null;
 				}
-				String absPath = getFullPath( path, project );
+				String absPath = getFullPath(path, project);
 
 				return absPath;
 			}
@@ -269,142 +216,113 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		return null;
 	}
 
-	private List<String> getProjectDependentClasspath( IProject project, boolean needExported )
-	{
-		if ( !hasJavaNature( project ) )
-		{
-			return Collections.emptyList( );
+	private List<String> getProjectDependentClasspath(IProject project, boolean needExported) {
+		if (!hasJavaNature(project)) {
+			return Collections.emptyList();
 		}
 
-		List<String> retValue = new ArrayList<String>( );
+		List<String> retValue = new ArrayList<>();
 
-		IJavaProject fCurrJProject = JavaCore.create( project );
+		IJavaProject fCurrJProject = JavaCore.create(project);
 		IClasspathEntry[] classpathEntries = null;
 
-		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
+		boolean projectExists = (project.exists() && project.getFile(".classpath").exists()); //$NON-NLS-1$
 
-		if ( projectExists )
-		{
-			if ( classpathEntries == null )
-			{
-				classpathEntries = fCurrJProject.readRawClasspath( );
+		if (projectExists) {
+			if (classpathEntries == null) {
+				classpathEntries = fCurrJProject.readRawClasspath();
 			}
 		}
 
-		if ( classpathEntries != null )
-		{
-			retValue = resolveClasspathEntries( classpathEntries, needExported, fCurrJProject );
+		if (classpathEntries != null) {
+			retValue = resolveClasspathEntries(classpathEntries, needExported, fCurrJProject);
 		}
 
 		return retValue;
 	}
 
-	private List<String> resolveClasspathEntries(
-			IClasspathEntry[] classpathEntries, boolean needExported, IJavaProject project )
-	{
-		ArrayList<String> newClassPath = new ArrayList<String>( );
-		IWorkspace space = ResourcesPlugin.getWorkspace( );
-		IWorkspaceRoot root = space.getRoot( );
-		for ( int i = 0; i < classpathEntries.length; i++ )
-		{
+	private List<String> resolveClasspathEntries(IClasspathEntry[] classpathEntries, boolean needExported,
+			IJavaProject project) {
+		ArrayList<String> newClassPath = new ArrayList<>();
+		IWorkspace space = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = space.getRoot();
+		for (int i = 0; i < classpathEntries.length; i++) {
 			IClasspathEntry curr = classpathEntries[i];
-			if (!needExported && !curr.isExported( ) && curr.getEntryKind( ) != IClasspathEntry.CPE_VARIABLE)
-			{
+			if (!needExported && !curr.isExported() && curr.getEntryKind() != IClasspathEntry.CPE_VARIABLE) {
 				continue;
 			}
-			IPath path = curr.getPath( );
+			IPath path = curr.getPath();
 //			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
 //			{
 //				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
 //			}
 //			else
 //			{
-				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
+			path = JavaCore.getResolvedClasspathEntry(curr).getPath();
 //			}
-			
-			if (project != null && curr.getEntryKind( ) == IClasspathEntry.CPE_CONTAINER)
-			{
-				try
-				{
-					IClasspathContainer contianer = JavaCore.getClasspathContainer( path, project );
-					if (contianer != null && contianer.getKind( ) == IClasspathContainer.K_APPLICATION)
-					{
-						IClasspathEntry[] entrys = contianer.getClasspathEntries( );
-						List<String> list = resolveClasspathEntries( entrys, needExported, project );
-						for (int j=0; j<list.size( ); j++)
-						{
-							addToList( newClassPath, list.get( j ) );
+
+			if (project != null && curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
+				try {
+					IClasspathContainer contianer = JavaCore.getClasspathContainer(path, project);
+					if (contianer != null && contianer.getKind() == IClasspathContainer.K_APPLICATION) {
+						IClasspathEntry[] entrys = contianer.getClasspathEntries();
+						List<String> list = resolveClasspathEntries(entrys, needExported, project);
+						for (int j = 0; j < list.size(); j++) {
+							addToList(newClassPath, list.get(j));
 						}
 					}
-				}
-				catch ( JavaModelException e )
-				{
-					//do nothing
+				} catch (JavaModelException e) {
+					// do nothing
 				}
 				continue;
 			}
-			if (curr.getEntryKind( ) == IClasspathEntry.CPE_SOURCE)
-			{
-				path = curr.getOutputLocation( );
+			if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+				path = curr.getOutputLocation();
 			}
-			if (path == null)
-			{
+			if (path == null) {
 				continue;
 			}
-			if (curr.getEntryKind( ) == IClasspathEntry.CPE_PROJECT)
-			{
-				if (root.findMember( path ) instanceof IProject)
-				{
-					List<String> strs = getProjectClasspath( (IProject)root.findMember( path ),false, false );
-					for (int j=0; j<strs.size( ); j++)
-					{
-						addToList( newClassPath, strs.get( j ) );
+			if (curr.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+				if (root.findMember(path) instanceof IProject) {
+					List<String> strs = getProjectClasspath((IProject) root.findMember(path), false, false);
+					for (int j = 0; j < strs.size(); j++) {
+						addToList(newClassPath, strs.get(j));
 					}
 				}
-			}
-			else if ( curr.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY || 
-					curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE
-					|| curr.getEntryKind( ) == IClasspathEntry.CPE_SOURCE)
-			{
-				
-					boolean inWorkSpace = true;
-					if ( space == null || space.getRoot( ) == null )
-					{
-						inWorkSpace = false;
-					}
-					
-					if ( root.findMember( path ) == null )
-					{
-						inWorkSpace = false;
-					}
+			} else if (curr.getEntryKind() == IClasspathEntry.CPE_LIBRARY
+					|| curr.getEntryKind() == IClasspathEntry.CPE_VARIABLE
+					|| curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 
-					if ( inWorkSpace )
-					{
-						String absPath = getFullPath( path,
-								root.findMember( path ).getProject( ) );
+				boolean inWorkSpace = true;
+				if (space == null || space.getRoot() == null) {
+					inWorkSpace = false;
+				}
 
-						//URL url = new URL( "file:///" + absPath );//$NON-NLS-1$//file:/
-						//newClassPath.add( url.getPath( ) );
-						newClassPath.add( absPath );
-					}
-					else
-					{
+				if (root.findMember(path) == null) {
+					inWorkSpace = false;
+				}
+
+				if (inWorkSpace) {
+					String absPath = getFullPath(path, root.findMember(path).getProject());
+
+					// URL url = new URL( "file:///" + absPath );//$NON-NLS-1$//file:/
+					// newClassPath.add( url.getPath( ) );
+					newClassPath.add(absPath);
+				} else {
 //						newClassPath.add( curr.getPath( )
 //								.toFile( )
 //								.toURI( )
 //								.toURL( ) );
-						newClassPath.add( path
-								.toFile( ).getAbsolutePath( ));
-					}
-
+					newClassPath.add(path.toFile().getAbsolutePath());
 				}
-				
+
+			}
+
 		}
 		return newClassPath;
 	}
 
-	private String getFullPath( IPath path, IProject project )
-	{
+	private String getFullPath(IPath path, IProject project) {
 		// String curPath = path.toOSString( );
 		// String directPath = project.getLocation( ).toOSString( );
 		// int index = directPath.lastIndexOf( File.separator );
@@ -412,45 +330,33 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		// return absPath;
 
 		String directPath;
-		try
-		{
+		try {
 
-			directPath = project.getDescription( )
-					.getLocationURI( )
-					.toURL( )
-					.getPath( );
+			directPath = project.getDescription().getLocationURI().toURL().getPath();
+		} catch (Exception e) {
+			directPath = project.getLocation().toOSString();
 		}
-		catch ( Exception e )
-		{
-			directPath = project.getLocation( ).toOSString( );
-		}
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-		if (root.findMember( path) == project)
-		{
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		if (root.findMember(path) == project) {
 			return directPath;
 		}
-		String curPath = path.toOSString( );
-		int index = curPath.substring( 1 ).indexOf( File.separator );
-		String absPath = directPath + curPath.substring( index + 1 );
+		String curPath = path.toOSString();
+		int index = curPath.substring(1).indexOf(File.separator);
+		String absPath = directPath + curPath.substring(index + 1);
 		return absPath;
 	}
 
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
-	 * 
-	 * @param project
-	 *            IProject
+	 *
+	 * @param project IProject
 	 * @return boolean
 	 */
-	private boolean hasJavaNature( IProject project )
-	{
-		try
-		{
-			return project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
-		{
+	private boolean hasJavaNature(IProject project) {
+		try {
+			return project.hasNature(JavaCore.NATURE_ID);
+		} catch (CoreException e) {
 			// project does not exist or is not open
 		}
 		return false;

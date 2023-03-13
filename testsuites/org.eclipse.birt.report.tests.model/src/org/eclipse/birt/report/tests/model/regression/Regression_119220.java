@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,49 +31,42 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_119220 extends BaseTestCase
-{
+public class Regression_119220 extends BaseTestCase {
 
 	private String filename = "Regression_119220.xml"; //$NON-NLS-1$
 	private String imagename = "embeddedimage.xml";
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		copyResource_INPUT( imagename , imagename );
+		copyResource_INPUT(filename, filename);
+		copyResource_INPUT(imagename, imagename);
 	}
-	
-	
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_119220( ) throws DesignFileException
-	{
-		openDesign( filename );
+	public void test_regression_119220() throws DesignFileException {
+		openDesign(filename);
 
-		libraryHandle = designHandle.getLibrary( "Lib" ); //$NON-NLS-1$
-		assertNotNull( libraryHandle );
-		PropertyHandle libImages = libraryHandle
-				.getPropertyHandle( ModuleHandle.IMAGES_PROP );
+		libraryHandle = designHandle.getLibrary("Lib"); //$NON-NLS-1$
+		assertNotNull(libraryHandle);
+		PropertyHandle libImages = libraryHandle.getPropertyHandle(ModuleHandle.IMAGES_PROP);
 
-		ImageHandle imageHandle = (ImageHandle) designHandle
-				.findElement( "Image" ); //$NON-NLS-1$
+		ImageHandle imageHandle = (ImageHandle) designHandle.findElement("Image"); //$NON-NLS-1$
 
-		assertNotNull( imageHandle );
-		
-		
-		assertEquals( "Lib.actuatetop.jpg", imageHandle.getImageName( ) ); //$NON-NLS-1$
-		assertEquals( "Lib.actuatetop.jpg", imageHandle //$NON-NLS-1$
-				.getProperty( IImageItemModel.IMAGE_NAME_PROP ) );
+		assertNotNull(imageHandle);
+
+		assertEquals("Lib.actuatetop.jpg", imageHandle.getImageName()); //$NON-NLS-1$
+		assertEquals("Lib.actuatetop.jpg", imageHandle //$NON-NLS-1$
+				.getProperty(IImageItemModel.IMAGE_NAME_PROP));
 
 		// make sure the embedded image refer to the library.
-		
-		assertEquals( libImages.getAt( 0 ).getStructure( ), imageHandle
-				.getEmbeddedImage( ).getStructure( ) );
+
+		assertEquals(libImages.getAt(0).getStructure(), imageHandle.getEmbeddedImage().getStructure());
 	}
 }

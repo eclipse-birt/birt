@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +29,13 @@ import org.xml.sax.SAXException;
  * Parses the property that is encoded with base 64.
  */
 
-public class Base64PropertyState extends CompatiblePropertyState
-{
+public class Base64PropertyState extends CompatiblePropertyState {
 
 	/**
 	 * The base 64 codec.
 	 */
 
-	private Base64 base = new Base64( );
+	private Base64 base = new Base64();
 
 	/**
 	 * Charset of the string.
@@ -43,23 +45,21 @@ public class Base64PropertyState extends CompatiblePropertyState
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 * @param charSet
 	 */
 
-	Base64PropertyState( ModuleParserHandler theHandler, DesignElement element,
-			String charSet )
-	{
-		super( theHandler, element );
+	Base64PropertyState(ModuleParserHandler theHandler, DesignElement element, String charSet) {
+		super(theHandler, element);
 		assert charSet != null;
 		this.charSet = charSet;
 	}
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 * @param propDefn
@@ -67,58 +67,54 @@ public class Base64PropertyState extends CompatiblePropertyState
 	 * @param charSet
 	 */
 
-	Base64PropertyState( ModuleParserHandler theHandler, DesignElement element,
-			PropertyDefn propDefn, IStructure struct, String charSet )
-	{
-		super( theHandler, element, propDefn, struct );
+	Base64PropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn, IStructure struct,
+			String charSet) {
+		super(theHandler, element, propDefn, struct);
 		assert charSet != null;
 		this.charSet = charSet;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		value = getDecodedBase64Value( value );
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
+		value = getDecodedBase64Value(value);
 
-		super.doEnd( value );
+		super.doEnd(value);
 	}
 
 	/**
 	 * Sets the image data value as base 64 string.
-	 * 
-	 * @param value
-	 *            the value to set
+	 *
+	 * @param value the value to set
 	 */
 
-	private String getDecodedBase64Value( String value )
-	{
-		String encodedValue = StringUtil.trimString( value );
-		if ( encodedValue == null )
+	private String getDecodedBase64Value(String value) {
+		String encodedValue = StringUtil.trimString(value);
+		if (encodedValue == null) {
 			return null;
+		}
 
 		// replace whitespace with the empty string.
-		Pattern p = Pattern.compile( "\\s" ); //$NON-NLS-1$
-		Matcher m = p.matcher( encodedValue );
-		encodedValue = m.replaceAll( "" ); //$NON-NLS-1$
+		Pattern p = Pattern.compile("\\s"); //$NON-NLS-1$
+		Matcher m = p.matcher(encodedValue);
+		encodedValue = m.replaceAll(""); //$NON-NLS-1$
 
 		byte[] data = null;
 
-		try
-		{
-			data = base.decode( encodedValue.getBytes( charSet ) );
-			if ( data == null )
+		try {
+			data = base.decode(encodedValue.getBytes(charSet));
+			if (data == null) {
 				return null;
-			
-			return new String( data, charSet );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+			}
+
+			return new String(data, charSet);
+		} catch (UnsupportedEncodingException e) {
 			assert false;
 			return null;
 		}

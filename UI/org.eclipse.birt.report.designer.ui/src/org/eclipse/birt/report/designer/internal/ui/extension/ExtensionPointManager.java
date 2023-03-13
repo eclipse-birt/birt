@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,8 +46,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
  * extensions by model extension ID, or full list.It caches the information to
  * avoid reading the extensions each time.
  */
-public class ExtensionPointManager implements IPreferenceChangeListener
-{
+public class ExtensionPointManager implements IPreferenceChangeListener {
 
 	private Map<String, ExtendedElementUIPoint> reportItemUIMap = null;
 
@@ -52,24 +54,19 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	private Map<String, IProviderFactory> providerFactoryMap = null;
 
-	private Map<String, List<String>> prefereces = new HashMap<String, List<String>>( );
-	private Map<String, List<IPreferenceChangeListener>> prefListeners = new HashMap<String, List<IPreferenceChangeListener>>( );
+	private Map<String, List<String>> prefereces = new HashMap<>();
+	private Map<String, List<IPreferenceChangeListener>> prefListeners = new HashMap<>();
 
 	private volatile static ExtensionPointManager instance = null;
 
-	private ExtensionPointManager( )
-	{
+	private ExtensionPointManager() {
 	}
 
-	public static ExtensionPointManager getInstance( )
-	{
-		if ( instance == null )
-		{
-			synchronized ( ExtensionPointManager.class )
-			{
-				if ( instance == null )
-				{
-					instance = new ExtensionPointManager( );
+	public static ExtensionPointManager getInstance() {
+		if (instance == null) {
+			synchronized (ExtensionPointManager.class) {
+				if (instance == null) {
+					instance = new ExtensionPointManager();
 				}
 			}
 		}
@@ -78,72 +75,61 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	/**
 	 * Gets the list of all the extended element points.
-	 * 
+	 *
 	 * @return Returns the list of all the extended element point
 	 *         (ExtendedElementUIPoint).
 	 */
-	public List<ExtendedElementUIPoint> getExtendedElementPoints( )
-	{
-		return Arrays.asList( getReportItemUIMap( ).values( )
-				.toArray( new ExtendedElementUIPoint[getReportItemUIMap( ).size( )] ) );
+	public List<ExtendedElementUIPoint> getExtendedElementPoints() {
+		return Arrays
+				.asList(getReportItemUIMap().values().toArray(new ExtendedElementUIPoint[getReportItemUIMap().size()]));
 	}
 
 	/**
 	 * Gets the extended element point with the specified extension name.
-	 * 
-	 * @param extensionName
-	 *            the extension name of the extended element
-	 * 
+	 *
+	 * @param extensionName the extension name of the extended element
+	 *
 	 * @return Returns the extended element point, or null if any problem exists
 	 */
-	public ExtendedElementUIPoint getExtendedElementPoint( String extensionName )
-	{
+	public ExtendedElementUIPoint getExtendedElementPoint(String extensionName) {
 		assert extensionName != null;
-		return getReportItemUIMap( ).get( extensionName );
+		return getReportItemUIMap().get(extensionName);
 	}
 
 	/**
 	 * Returns the menu builder for the given element.
-	 * 
-	 * @param elementName
-	 *            the name of the element
+	 *
+	 * @param elementName the name of the element
 	 * @return the menu builder, or null if there's no builder defined for the
 	 *         element
 	 */
-	public IMenuBuilder getMenuBuilder( String elementName )
-	{
-		return getMenuBuilderMap( ).get( elementName );
+	public IMenuBuilder getMenuBuilder(String elementName) {
+		return getMenuBuilderMap().get(elementName);
 	}
 
 	/**
 	 * Returns the provider factory for the given element.
-	 * 
-	 * @param elementName
-	 *            the name of the element
-	 * @return the provider factory, or null if there's no factory defined for
-	 *         the element
+	 *
+	 * @param elementName the name of the element
+	 * @return the provider factory, or null if there's no factory defined for the
+	 *         element
 	 */
-	public IProviderFactory getProviderFactory( String elementName )
-	{
-		return getProviderFactoryMap( ).get( elementName );
+	public IProviderFactory getProviderFactory(String elementName) {
+		return getProviderFactoryMap().get(elementName);
 	}
 
-	private Map<String, ExtendedElementUIPoint> getReportItemUIMap( )
-	{
-		synchronized ( this )
-		{
-			if ( reportItemUIMap == null )
-			{
-				reportItemUIMap = new HashMap<String, ExtendedElementUIPoint>( );
+	private Map<String, ExtendedElementUIPoint> getReportItemUIMap() {
+		synchronized (this) {
+			if (reportItemUIMap == null) {
+				reportItemUIMap = new HashMap<>();
 
-				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_REPORT_ITEM_UI ).iterator( ); iter.hasNext( ); )
-				{
-					IExtension extension = iter.next( );
+				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_REPORT_ITEM_UI)
+						.iterator(); iter.hasNext();) {
+					IExtension extension = iter.next();
 
-					ExtendedElementUIPoint point = createReportItemUIPoint( extension );
-					if ( point != null )
-					{
-						reportItemUIMap.put( point.getExtensionName( ), point );
+					ExtendedElementUIPoint point = createReportItemUIPoint(extension);
+					if (point != null) {
+						reportItemUIMap.put(point.getExtensionName(), point);
 					}
 				}
 			}
@@ -153,34 +139,25 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	}
 
-	private Map<String, IMenuBuilder> getMenuBuilderMap( )
-	{
-		synchronized ( this )
-		{
-			if ( menuBuilderMap == null )
-			{
-				menuBuilderMap = new HashMap<String, IMenuBuilder>( );
+	private Map<String, IMenuBuilder> getMenuBuilderMap() {
+		synchronized (this) {
+			if (menuBuilderMap == null) {
+				menuBuilderMap = new HashMap<>();
 
-				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_MENU_BUILDERS ).iterator( ); iter.hasNext( ); )
-				{
-					IExtension extension = iter.next( );
-					IConfigurationElement[] elements = extension.getConfigurationElements( );
-					for ( int i = 0; i < elements.length; i++ )
-					{
-						if ( IExtensionConstants.ELEMENT_MENU_BUILDER.equals( elements[i].getName( ) ) )
-						{
-							String elementId = elements[i].getAttribute( IExtensionConstants.ATTRIBUTE_ELEMENT_NAME );
-							try
-							{
-								Object menuBuilder = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
-								if ( menuBuilder instanceof IMenuBuilder )
-								{
-									menuBuilderMap.put( elementId,
-											(IMenuBuilder) menuBuilder );
+				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_MENU_BUILDERS)
+						.iterator(); iter.hasNext();) {
+					IExtension extension = iter.next();
+					IConfigurationElement[] elements = extension.getConfigurationElements();
+					for (int i = 0; i < elements.length; i++) {
+						if (IExtensionConstants.ELEMENT_MENU_BUILDER.equals(elements[i].getName())) {
+							String elementId = elements[i].getAttribute(IExtensionConstants.ATTRIBUTE_ELEMENT_NAME);
+							try {
+								Object menuBuilder = elements[i]
+										.createExecutableExtension(IExtensionConstants.ATTRIBUTE_CLASS);
+								if (menuBuilder instanceof IMenuBuilder) {
+									menuBuilderMap.put(elementId, (IMenuBuilder) menuBuilder);
 								}
-							}
-							catch ( CoreException e )
-							{
+							} catch (CoreException e) {
 							}
 						}
 					}
@@ -191,34 +168,25 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	}
 
-	private Map<String, IProviderFactory> getProviderFactoryMap( )
-	{
-		synchronized ( this )
-		{
-			if ( providerFactoryMap == null )
-			{
-				providerFactoryMap = new HashMap<String, IProviderFactory>( );
+	private Map<String, IProviderFactory> getProviderFactoryMap() {
+		synchronized (this) {
+			if (providerFactoryMap == null) {
+				providerFactoryMap = new HashMap<>();
 
-				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_PROVIDER_FACTORIES ).iterator( ); iter.hasNext( ); )
-				{
-					IExtension extension = iter.next( );
-					IConfigurationElement[] elements = extension.getConfigurationElements( );
-					for ( int i = 0; i < elements.length; i++ )
-					{
-						if ( IExtensionConstants.ELEMENT_PROVIDER_FACTORY.equals( elements[i].getName( ) ) )
-						{
-							String elementId = elements[i].getAttribute( IExtensionConstants.ATTRIBUTE_ELEMENT_NAME );
-							try
-							{
-								Object factory = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
-								if ( factory instanceof IProviderFactory )
-								{
-									providerFactoryMap.put( elementId,
-											(IProviderFactory) factory );
+				for (Iterator<IExtension> iter = getExtensionElements(IExtensionConstants.EXTENSION_PROVIDER_FACTORIES)
+						.iterator(); iter.hasNext();) {
+					IExtension extension = iter.next();
+					IConfigurationElement[] elements = extension.getConfigurationElements();
+					for (int i = 0; i < elements.length; i++) {
+						if (IExtensionConstants.ELEMENT_PROVIDER_FACTORY.equals(elements[i].getName())) {
+							String elementId = elements[i].getAttribute(IExtensionConstants.ATTRIBUTE_ELEMENT_NAME);
+							try {
+								Object factory = elements[i]
+										.createExecutableExtension(IExtensionConstants.ATTRIBUTE_CLASS);
+								if (factory instanceof IProviderFactory) {
+									providerFactoryMap.put(elementId, (IProviderFactory) factory);
 								}
-							}
-							catch ( CoreException e )
-							{
+							} catch (CoreException e) {
 							}
 						}
 					}
@@ -229,325 +197,222 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	}
 
-	private List<IExtension> getExtensionElements( String id )
-	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		if ( registry == null )
-		{// extension registry cannot be resolved
-			return Collections.emptyList( );
+	private List<IExtension> getExtensionElements(String id) {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		if (registry == null) {// extension registry cannot be resolved
+			return Collections.emptyList();
 		}
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( id );
-		if ( extensionPoint == null )
-		{// extension point cannot be resolved
-			return Collections.emptyList( );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint(id);
+		if (extensionPoint == null) {// extension point cannot be resolved
+			return Collections.emptyList();
 		}
-		return Arrays.asList( extensionPoint.getExtensions( ) );
+		return Arrays.asList(extensionPoint.getExtensions());
 	}
 
-	private ExtendedElementUIPoint createReportItemUIPoint( IExtension extension )
-	{
-		IConfigurationElement[] elements = extension.getConfigurationElements( );
-		if ( elements != null && elements.length > 0 )
-		{
-			return loadElements( elements );
+	private ExtendedElementUIPoint createReportItemUIPoint(IExtension extension) {
+		IConfigurationElement[] elements = extension.getConfigurationElements();
+		if (elements != null && elements.length > 0) {
+			return loadElements(elements);
 		}
 		return null;
 	}
 
-	private ExtendedElementUIPoint loadElements(
-			IConfigurationElement[] elements )
-	{
+	private ExtendedElementUIPoint loadElements(IConfigurationElement[] elements) {
 
-		ExtendedElementUIPoint newPoint = new ExtendedElementUIPoint( );
+		ExtendedElementUIPoint newPoint = new ExtendedElementUIPoint();
 
-		if ( elements != null )
-		{
-			try
-			{
-				for ( int i = 0; i < elements.length; i++ )
-				{
-					loadAttributes( newPoint, elements[i] );
+		if (elements != null) {
+			try {
+				for (int i = 0; i < elements.length; i++) {
+					loadAttributes(newPoint, elements[i]);
 				}
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (Exception e) {
+				ExceptionHandler.handle(e);
 				return null;
 			}
 
 		}
-		if ( DEUtil.getMetaDataDictionary( )
-				.getExtension( newPoint.getExtensionName( ) ) == null )
-		{
+		if (DEUtil.getMetaDataDictionary().getExtension(newPoint.getExtensionName()) == null) {
 			// Non-defined element. Ignore
 			return null;
 		}
-		if ( Policy.TRACING_EXTENSION_LOAD )
-		{
-			System.out.println( "GUI Extesion Manager >> Loads " //$NON-NLS-1$
-					+ newPoint.getExtensionName( ) );
+		if (Policy.TRACING_EXTENSION_LOAD) {
+			System.out.println("GUI Extesion Manager >> Loads " //$NON-NLS-1$
+					+ newPoint.getExtensionName());
 		}
 		return newPoint;
 	}
 
-	private void loadAttributes( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element ) throws CoreException
-	{
-		String elementName = element.getName( );
-		if ( IExtensionConstants.ELEMENT_MODEL.equals( elementName ) )
-		{
-			String value = element.getAttribute( IExtensionConstants.ATTRIBUTE_EXTENSION_NAME );
-			newPoint.setExtensionName( value );
-		}
-		else if ( IExtensionConstants.ELEMENT_REPORT_ITEM_FIGURE_UI.equals( elementName )
-				|| IExtensionConstants.ELEMENT_REPORT_ITEM_IMAGE_UI.equals( elementName )
-				|| IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI.equals( elementName ) )
-		{
-			String className = element.getAttribute( IExtensionConstants.ATTRIBUTE_CLASS );
-			if ( className != null )
-			{
-				Object ui = element.createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
-				newPoint.setReportItemUI( new ExtendedUIAdapter( ui ) );
+	private void loadAttributes(ExtendedElementUIPoint newPoint, IConfigurationElement element) throws CoreException {
+		String elementName = element.getName();
+		if (IExtensionConstants.ELEMENT_MODEL.equals(elementName)) {
+			String value = element.getAttribute(IExtensionConstants.ATTRIBUTE_EXTENSION_NAME);
+			newPoint.setExtensionName(value);
+		} else if (IExtensionConstants.ELEMENT_REPORT_ITEM_FIGURE_UI.equals(elementName)
+				|| IExtensionConstants.ELEMENT_REPORT_ITEM_IMAGE_UI.equals(elementName)
+				|| IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI.equals(elementName)) {
+			String className = element.getAttribute(IExtensionConstants.ATTRIBUTE_CLASS);
+			if (className != null) {
+				Object ui = element.createExecutableExtension(IExtensionConstants.ATTRIBUTE_CLASS);
+				newPoint.setReportItemUI(new ExtendedUIAdapter(ui));
 			}
-		}
-		else if ( IExtensionConstants.ELEMENT_BUILDER.equals( elementName ) )
-		{
-			loadClass( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_CLASS,
-					IExtensionConstants.ELEMENT_BUILDER );
-		}
-		else if ( IExtensionConstants.ELEMENT_PROPERTYEDIT.equals( elementName ) )
-		{
-			loadClass( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_CLASS,
-					IExtensionConstants.ELEMENT_PROPERTYEDIT );
+		} else if (IExtensionConstants.ELEMENT_BUILDER.equals(elementName)) {
+			loadClass(newPoint, element, IExtensionConstants.ATTRIBUTE_CLASS, IExtensionConstants.ELEMENT_BUILDER);
+		} else if (IExtensionConstants.ELEMENT_PROPERTYEDIT.equals(elementName)) {
+			loadClass(newPoint, element, IExtensionConstants.ATTRIBUTE_CLASS, IExtensionConstants.ELEMENT_PROPERTYEDIT);
 		}
 
-		else if ( IExtensionConstants.ELEMENT_PALETTE.equals( elementName ) )
-		{
-			loadIconAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON,
-					IExtensionConstants.ATTRIBUTE_ICON,
-					false );
-			loadIconAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON_LARGE,
-					IExtensionConstants.ATTRIBUTE_ICON_LARGE,
-					false );
-			loadStringAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
-			loadStringAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME );
-		}
-		else if ( IExtensionConstants.ELEMENT_EDITOR.equals( elementName ) )
-		{
-			loadBooleanAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER );
-			loadStringAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
-			loadBooleanAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
-			loadBooleanAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE );
-			loadStringAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL );
-		}
-		else if ( IExtensionConstants.ELEMENT_OUTLINE.equals( elementName ) )
-		{
-			loadIconAttribute( newPoint,
-					element,
-					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON,
-					IExtensionConstants.ATTRIBUTE_ICON,
-					true );
-		}
-		else if ( IExtensionConstants.ELEMENT_DESCRIPTION.equals( elementName ) )
-		{
-			String value = element.getValue( );
-			if ( value != null )
-			{
-				newPoint.setAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION,
-						value );
+		else if (IExtensionConstants.ELEMENT_PALETTE.equals(elementName)) {
+			loadIconAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON,
+					IExtensionConstants.ATTRIBUTE_ICON, false);
+			loadIconAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON_LARGE,
+					IExtensionConstants.ATTRIBUTE_ICON_LARGE, false);
+			loadStringAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY);
+			loadStringAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME);
+		} else if (IExtensionConstants.ELEMENT_EDITOR.equals(elementName)) {
+			loadBooleanAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER);
+			loadStringAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE);
+			loadBooleanAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE);
+			loadBooleanAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE);
+			loadStringAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_EDITOR_MENU_LABEL);
+		} else if (IExtensionConstants.ELEMENT_OUTLINE.equals(elementName)) {
+			loadIconAttribute(newPoint, element, IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON,
+					IExtensionConstants.ATTRIBUTE_ICON, true);
+		} else if (IExtensionConstants.ELEMENT_DESCRIPTION.equals(elementName)) {
+			String value = element.getValue();
+			if (value != null) {
+				newPoint.setAttribute(IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION, value);
 			}
 		}
 	}
 
 	/**
-	 * @param newPoint
-	 *            the extension point instance
-	 * @param element
-	 *            the configuration element
-	 * @param className
-	 *            the name of the class attribute
+	 * @param newPoint  the extension point instance
+	 * @param element   the configuration element
+	 * @param className the name of the class attribute
 	 */
-	private void loadClass( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element, String className,
-			String attributeName )
-	{
-		String value = element.getAttribute( className );
-		if ( value != null )
-		{
-			try
-			{
-				newPoint.setClass( attributeName,
-						element.createExecutableExtension( className ) );
-			}
-			catch ( CoreException e )
-			{
+	private void loadClass(ExtendedElementUIPoint newPoint, IConfigurationElement element, String className,
+			String attributeName) {
+		String value = element.getAttribute(className);
+		if (value != null) {
+			try {
+				newPoint.setClass(attributeName, element.createExecutableExtension(className));
+			} catch (CoreException e) {
 			}
 		}
 
 	}
 
-	private ImageDescriptor getImageDescriptor( IConfigurationElement element, String attrName )
-	{
+	private ImageDescriptor getImageDescriptor(IConfigurationElement element, String attrName) {
 		assert element != null;
-		IExtension extension = element.getDeclaringExtension( );
-		String iconPath = element.getAttribute( attrName );
-		if ( iconPath == null )
-		{
+		IExtension extension = element.getDeclaringExtension();
+		String iconPath = element.getAttribute(attrName);
+		if (iconPath == null) {
 			return null;
 		}
-		URL path = Platform.getBundle( extension.getNamespace( ) )
-				.getEntry( "/" ); //$NON-NLS-1$
-		try
-		{
-			return ImageDescriptor.createFromURL( new URL( path, iconPath ) );
-		}
-		catch ( MalformedURLException e )
-		{
+		URL path = Platform.getBundle(extension.getNamespace()).getEntry("/"); //$NON-NLS-1$
+		try {
+			return ImageDescriptor.createFromURL(new URL(path, iconPath));
+		} catch (MalformedURLException e) {
 		}
 		return null;
 	}
 
-	private void loadStringAttribute( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element, String attributeName )
-	{
-		String value = element.getAttribute( attributeName );
-		if ( value != null )
-		{
-			newPoint.setAttribute( attributeName, value );
+	private void loadStringAttribute(ExtendedElementUIPoint newPoint, IConfigurationElement element,
+			String attributeName) {
+		String value = element.getAttribute(attributeName);
+		if (value != null) {
+			newPoint.setAttribute(attributeName, value);
 		}
 
 	}
 
-	private void loadBooleanAttribute( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element, String attributeName )
-	{
-		String value = element.getAttribute( attributeName );
-		if ( value != null )
-		{
-			newPoint.setAttribute( attributeName, Boolean.valueOf( value ) );
+	private void loadBooleanAttribute(ExtendedElementUIPoint newPoint, IConfigurationElement element,
+			String attributeName) {
+		String value = element.getAttribute(attributeName);
+		if (value != null) {
+			newPoint.setAttribute(attributeName, Boolean.valueOf(value));
 		}
 	}
 
-	private void loadIconAttribute( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element, String keyName, String attributeName, boolean shared )
-	{
-		ImageDescriptor imageDescriptor = getImageDescriptor( element, attributeName );
-		if ( imageDescriptor != null )
-		{
-			if ( shared )
-			{
-				String symbolName = ReportPlatformUIImages.getIconSymbolName( newPoint.getExtensionName( ),
-						keyName );
-				ReportPlatformUIImages.declareImage( symbolName,
-						imageDescriptor );
+	private void loadIconAttribute(ExtendedElementUIPoint newPoint, IConfigurationElement element, String keyName,
+			String attributeName, boolean shared) {
+		ImageDescriptor imageDescriptor = getImageDescriptor(element, attributeName);
+		if (imageDescriptor != null) {
+			if (shared) {
+				String symbolName = ReportPlatformUIImages.getIconSymbolName(newPoint.getExtensionName(), keyName);
+				ReportPlatformUIImages.declareImage(symbolName, imageDescriptor);
 			}
-			newPoint.setAttribute( keyName, imageDescriptor );
+			newPoint.setAttribute(keyName, imageDescriptor);
 		}
 	}
 
-	public void preferenceChange( PreferenceChangeEvent event )
-	{
-		Iterator<String> exntesions = prefereces.keySet( ).iterator( );
-		while ( exntesions.hasNext( ) )
-		{
-			String extension = exntesions.next( );
-			List<String> prefs = prefereces.get( extension );
-			if ( prefs.contains( event.getKey( ) ) )
-			{
-				List<IPreferenceChangeListener> listeners = prefListeners.get( extension );
-				if ( listeners != null )
-				{
-					for ( int i = 0; i < listeners.size( ); i++ )
-					{
-						listeners.get( i ).preferenceChange( event );
+	@Override
+	public void preferenceChange(PreferenceChangeEvent event) {
+		Iterator<String> exntesions = prefereces.keySet().iterator();
+		while (exntesions.hasNext()) {
+			String extension = exntesions.next();
+			List<String> prefs = prefereces.get(extension);
+			if (prefs.contains(event.getKey())) {
+				List<IPreferenceChangeListener> listeners = prefListeners.get(extension);
+				if (listeners != null) {
+					for (int i = 0; i < listeners.size(); i++) {
+						listeners.get(i).preferenceChange(event);
 					}
 				}
 			}
 		}
 	}
 
-	public void addPreference( String extension, String preference )
-	{
-		if ( preference != null && extension != null )
-		{
-			if ( !prefereces.containsKey( extension ) )
-			{
-				prefereces.put( extension, new ArrayList<String>( ) );
+	public void addPreference(String extension, String preference) {
+		if (preference != null && extension != null) {
+			if (!prefereces.containsKey(extension)) {
+				prefereces.put(extension, new ArrayList<String>());
 			}
 
-			List<String> prefs = prefereces.get( extension );
-			if ( !prefs.contains( preference ) )
-				prefs.add( preference );
+			List<String> prefs = prefereces.get(extension);
+			if (!prefs.contains(preference)) {
+				prefs.add(preference);
+			}
 		}
 	}
 
-	public void removePreference( String extension, String preference )
-	{
-		if ( preference != null && extension != null )
-		{
-			if ( !prefereces.containsKey( extension ) )
-			{
+	public void removePreference(String extension, String preference) {
+		if (preference != null && extension != null) {
+			if (!prefereces.containsKey(extension)) {
 				return;
 			}
 
-			List<String> prefs = prefereces.get( extension );
-			if ( prefs.contains( preference ) )
-				prefs.remove( preference );
+			List<String> prefs = prefereces.get(extension);
+			if (prefs.contains(preference)) {
+				prefs.remove(preference);
+			}
 		}
 	}
 
-	public void addPreferenceChangeListener( String extension,
-			IPreferenceChangeListener listener )
-	{
-		if ( listener != null && extension != null )
-		{
-			if ( !prefListeners.containsKey( extension ) )
-			{
-				prefListeners.put( extension,
-						new ArrayList<IPreferenceChangeListener>( ) );
+	public void addPreferenceChangeListener(String extension, IPreferenceChangeListener listener) {
+		if (listener != null && extension != null) {
+			if (!prefListeners.containsKey(extension)) {
+				prefListeners.put(extension, new ArrayList<IPreferenceChangeListener>());
 			}
 
-			List<IPreferenceChangeListener> lisnteners = prefListeners.get( extension );
-			if ( !lisnteners.contains( listener ) )
-				lisnteners.add( listener );
+			List<IPreferenceChangeListener> lisnteners = prefListeners.get(extension);
+			if (!lisnteners.contains(listener)) {
+				lisnteners.add(listener);
+			}
 		}
 	}
 
-	public void removePreferenceChangeListener( String extension,
-			IPreferenceChangeListener listener )
-	{
-		if ( listener != null && extension != null )
-		{
-			if ( !prefListeners.containsKey( extension ) )
-			{
+	public void removePreferenceChangeListener(String extension, IPreferenceChangeListener listener) {
+		if (listener != null && extension != null) {
+			if (!prefListeners.containsKey(extension)) {
 				return;
 			}
 
-			List<IPreferenceChangeListener> listeners = prefListeners.get( extension );
-			if ( listeners.contains( listener ) )
-				listeners.remove( listener );
+			List<IPreferenceChangeListener> listeners = prefListeners.get(extension);
+			if (listeners.contains(listener)) {
+				listeners.remove(listener);
+			}
 		}
 	}
 

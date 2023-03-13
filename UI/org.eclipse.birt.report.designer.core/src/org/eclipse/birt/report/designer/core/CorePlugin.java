@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,17 +26,16 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
- * 
- * 
+ *
+ *
  */
 
-public class CorePlugin extends AbstractUIPlugin
-{
-	public static final RGB defaultRootBackGroundRGB = new RGB(157,167,195);
-	public final static Color ReportRootBackgroundColor = ColorManager.getColor("org.eclipse.birt.report.designer.ui.ReportRootBackgroundColor",  
-			defaultRootBackGroundRGB );// 0xEFEFF7
-	public final static Color ReportForeground = ColorManager.getColor("org.eclipse.birt.report.designer.ui.ReportForeground",  
-			new RGB(0,0,0) );// 0xEFEFF7
+public class CorePlugin extends AbstractUIPlugin {
+	public static final RGB defaultRootBackGroundRGB = new RGB(157, 167, 195);
+	public final static Color ReportRootBackgroundColor = ColorManager
+			.getColor("org.eclipse.birt.report.designer.ui.ReportRootBackgroundColor", defaultRootBackGroundRGB);// 0xEFEFF7
+	public final static Color ReportForeground = ColorManager
+			.getColor("org.eclipse.birt.report.designer.ui.ReportForeground", new RGB(0, 0, 0));// 0xEFEFF7
 	// The shared instance.
 
 	private static final String RESOURCE_BUNDLE_BASE_NAME = "org.eclipse.birt.report.designer.core.CorePluginResources"; //$NON-NLS-1$
@@ -49,16 +51,12 @@ public class CorePlugin extends AbstractUIPlugin
 	 * The constructor.
 	 */
 
-	public CorePlugin( )
-	{
-		super( );
+	public CorePlugin() {
+		super();
 		plugin = this;
-		try
-		{
-			resourceBundle = ResourceBundle.getBundle( RESOURCE_BUNDLE_BASE_NAME );
-		}
-		catch ( MissingResourceException x )
-		{
+		try {
+			resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
+		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
 	}
@@ -67,25 +65,19 @@ public class CorePlugin extends AbstractUIPlugin
 	 * Returns the shared instance.
 	 */
 
-	public static CorePlugin getDefault( )
-	{
+	public static CorePlugin getDefault() {
 		return plugin;
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle, or 'key' if not
-	 * found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not found.
 	 */
-	public static String getResourceString( String key )
-	{
-		ResourceBundle bundle = Platform.getResourceBundle( getDefault( ).getBundle( ) );
+	public static String getResourceString(String key) {
+		ResourceBundle bundle = Platform.getResourceBundle(getDefault().getBundle());
 
-		try
-		{
-			return ( bundle != null ) ? bundle.getString( key ) : key;
-		}
-		catch ( MissingResourceException e )
-		{
+		try {
+			return (bundle != null) ? bundle.getString(key) : key;
+		} catch (MissingResourceException e) {
 			return key;
 		}
 	}
@@ -94,26 +86,26 @@ public class CorePlugin extends AbstractUIPlugin
 	 * Returns the plugin's resource bundle,
 	 */
 
-	public ResourceBundle getResourceBundle( )
-	{
+	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @org.eclipse.ui.plugin#start( BundleContext context )
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 	}
-	
-	/**If use the default color.
+
+	/**
+	 * If use the default color.
+	 *
 	 * @return
 	 */
-	public static boolean isUseNormalTheme()
-	{
-		return ReportRootBackgroundColor.getRGB( ).equals( defaultRootBackGroundRGB );
+	public static boolean isUseNormalTheme() {
+		return ReportRootBackgroundColor.getRGB().equals(defaultRootBackGroundRGB);
 	}
 }

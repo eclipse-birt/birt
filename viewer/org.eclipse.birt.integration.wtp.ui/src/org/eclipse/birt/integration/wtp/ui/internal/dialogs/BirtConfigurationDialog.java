@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,12 +36,9 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * The dialog to configurate BIRT runtime settings
- * 
+ *
  */
-public class BirtConfigurationDialog extends Dialog
-		implements
-			IBirtWizardConstants
-{
+public class BirtConfigurationDialog extends Dialog implements IBirtWizardConstants {
 
 	/**
 	 * Page Properties Map
@@ -124,178 +123,157 @@ public class BirtConfigurationDialog extends Dialog
 
 	/**
 	 * default contrustor
-	 * 
+	 *
 	 * @param parentShell
 	 * @param properties
 	 */
-	public BirtConfigurationDialog( Shell parentShell, Map properties )
-	{
-		super( parentShell );
+	public BirtConfigurationDialog(Shell parentShell, Map properties) {
+		super(parentShell);
 		this.properties = properties;
 	}
 
 	/**
 	 * default contructor
-	 * 
+	 *
 	 * @param parentShell
 	 * @param properties
 	 */
-	protected BirtConfigurationDialog( IShellProvider parentShell,
-			Map properties )
-	{
-		super( parentShell );
+	protected BirtConfigurationDialog(IShellProvider parentShell, Map properties) {
+		super(parentShell);
 		this.properties = properties;
 	}
 
 	/**
 	 * Create Dialog Content
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
+	@Override
+	protected Control createDialogArea(Composite parent) {
 		// dialog title
-		getShell( ).setText( BirtWTPMessages.BIRTConfigurationDialog_title );
+		getShell().setText(BirtWTPMessages.BIRTConfigurationDialog_title);
 
-		Composite composite = new Composite( parent, SWT.NULL );
-		composite.setFont( parent.getFont( ) );
+		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setFont(parent.getFont());
 
-		initializeDialogUnits( parent );
+		initializeDialogUnits(parent);
 
-		composite.setLayout( new GridLayout( ) );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayout(new GridLayout());
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// create folder configuration group
-		Group paths = new Group( composite, SWT.NULL );
-		paths.setLayout( new GridLayout( ) );
-		paths.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		paths.setText( BirtWTPMessages.BIRTConfiguration_group_paths );
-		paths.setEnabled( true );
+		Group paths = new Group(composite, SWT.NULL);
+		paths.setLayout(new GridLayout());
+		paths.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		paths.setText(BirtWTPMessages.BIRTConfiguration_group_paths);
+		paths.setEnabled(true);
 
 		// Initialize UI Utility
-		UIUtil uit = new UIUtil( properties );
+		UIUtil uit = new UIUtil(properties);
 
 		// create resource folder setting group
-		this.txtResourceFolder = uit.createResourceFolderGroup( paths );
-		ContextParamBean param = (ContextParamBean) properties
-				.get( BIRT_RESOURCE_FOLDER_SETTING );
+		this.txtResourceFolder = uit.createResourceFolderGroup(paths);
+		ContextParamBean param = (ContextParamBean) properties.get(BIRT_RESOURCE_FOLDER_SETTING);
 		String resFolder = null;
-		if ( param != null )
-		{
-			resFolder = param.getValue( );
+		if (param != null) {
+			resFolder = param.getValue();
 		}
 		// if the old setting isn't null and blank, overwrite it.
-		if ( resFolder != null && resFolder.trim( ).length( ) > 0 )
-		{
-			this.txtResourceFolder.setText( resFolder.trim( ) );
+		if (resFolder != null && resFolder.trim().length() > 0) {
+			this.txtResourceFolder.setText(resFolder.trim());
 		}
 
 		// create working folder setting group
-		this.txtWorkingFolder = uit.createWorkingFolderGroup( paths );
+		this.txtWorkingFolder = uit.createWorkingFolderGroup(paths);
 
 		// create document folder setting group
-		this.txtDocumentFolder = uit.createDocumentFolderGroup( paths );
+		this.txtDocumentFolder = uit.createDocumentFolderGroup(paths);
 
 		// create image folder setting group
-		this.txtImageFolder = uit.createImageFolderGroup( paths );
+		this.txtImageFolder = uit.createImageFolderGroup(paths);
 
 		// create scriptlib folder setting group
-		this.txtScriptlibFolder = uit.createScriptLibFolderGroup( paths );
+		this.txtScriptlibFolder = uit.createScriptLibFolderGroup(paths);
 
 		// create log folder setting group
-		this.txtLogFolder = uit.createLogFolderGroup( paths );
+		this.txtLogFolder = uit.createLogFolderGroup(paths);
 
 		// create other configuration group
-		Group others = new Group( composite, SWT.NULL );
-		others.setLayout( new GridLayout( ) );
-		others.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		others.setText( BirtWTPMessages.BIRTConfiguration_group_others );
-		others.setEnabled( true );
+		Group others = new Group(composite, SWT.NULL);
+		others.setLayout(new GridLayout());
+		others.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		others.setText(BirtWTPMessages.BIRTConfiguration_group_others);
+		others.setEnabled(true);
 
 		// create ifaccess only setting group
-		this.btAccessOnly = uit.createAccessOnlyGroup( others );
+		this.btAccessOnly = uit.createAccessOnlyGroup(others);
 
 		// create log level setting group
-		this.cbLogLevel = uit.createLogLevelGroup( others );
+		this.cbLogLevel = uit.createLogLevelGroup(others);
 
 		// create print server setting group
-		this.cbPrintServer = uit.createPrintServerGroup( others );
+		this.cbPrintServer = uit.createPrintServerGroup(others);
 
 		// create max rows setting group
-		this.txtMaxRows = uit.createMaxRowsGroup( others );
+		this.txtMaxRows = uit.createMaxRowsGroup(others);
 
 		// create max cube fetching row levels setting group
-		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup( others );
+		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup(others);
 
 		// create max cube fetching column levels setting group
-		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup( others );
+		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup(others);
 
 		// create max cube memory size setting group
-		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
+		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup(others);
 
 		// create import clear setting group
-		this.btClear = uit.createImportClearSetting( composite );
-		this.isClear = this.btClear.getSelection( );
+		this.btClear = uit.createImportClearSetting(composite);
+		this.isClear = this.btClear.getSelection();
 
 		// initialize page properties map
-		initializeProperties( );
+		initializeProperties();
 
 		return composite;
 	}
 
 	/**
 	 * Do initialize page properties map
-	 * 
+	 *
 	 */
-	protected void initializeProperties( )
-	{
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_REPORT_ACCESSONLY_SETTING, BLANK_STRING
-						+ btAccessOnly.getSelection( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
-						.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_ROWLEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxRowLevels.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_COLUMNLEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxColumnLevels.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
-						.getNumberSetting( txtCubeMemorySize.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_PRINT_SERVER_SETTING, cbPrintServer.getText( ) );
+	protected void initializeProperties() {
+		WebArtifactUtil.setContextParamValue(properties, BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_REPORT_ACCESSONLY_SETTING,
+				BLANK_STRING + btAccessOnly.getSelection());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWS_SETTING,
+				DataUtil.getNumberSetting(txtMaxRows.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWLEVELS_SETTING,
+				DataUtil.getNumberSetting(txtMaxRowLevels.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_COLUMNLEVELS_SETTING,
+				DataUtil.getNumberSetting(txtMaxColumnLevels.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_CUBE_MEMORYSIZE_SETTING,
+				DataUtil.getNumberSetting(txtCubeMemorySize.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_PRINT_SERVER_SETTING, cbPrintServer.getText());
 	}
 
 	/**
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		this.isClear = this.btClear.getSelection( );
-		super.okPressed( );
+	@Override
+	protected void okPressed() {
+		this.isClear = this.btClear.getSelection();
+		super.okPressed();
 	}
 
 	/**
 	 * @return the isClear
 	 */
-	public boolean isClear( )
-	{
+	public boolean isClear() {
 		return isClear;
 	}
 }

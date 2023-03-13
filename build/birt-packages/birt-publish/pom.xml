@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build.package</groupId>
 		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
@@ -34,53 +48,33 @@
 								<id>publish</id>
 								<phase>install</phase>
 								<configuration>
-									<tasks>
-										<mkdir dir="${release.package.path}"/>
+									<target>
+										<mkdir dir="${release.package.path}" />
 										<copy todir="${release.package.path}">
-											<fileset dir="../birt-charts/target"
-											         includes="birt-charts-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-report-all-in-one/target/products"
-											         includes="birt-report-designer-all-in-one-*.zip" />
-											<fileset dir="../birt-report-rcp/target/products"
-											         includes="birt-rcp-report-designer-*.zip" />
-											<fileset dir="../birt-report-framework/target"
-											         includes="birt-report-framework-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-report-framework-sdk/target"
-											         includes="birt-report-framework-sdk-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-runtime/target"
-											         includes="birt-runtime-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-runtime-osgi/target"
-											         includes="birt-runtime-osgi-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-charts/target" includes="birt-charts-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-report-all-in-one/target/products" includes="birt-report-designer-all-in-one-*.zip" />
+											<fileset dir="../birt-report-rcp/target/products" includes="birt-rcp-report-designer-*.zip" />
+											<fileset dir="../birt-report-framework/target" includes="birt-report-framework-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-report-framework-sdk/target" includes="birt-report-framework-sdk-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-runtime/target" includes="birt-runtime-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-runtime-osgi/target" includes="birt-runtime-osgi-*.zip" excludes="birt-*-SNAPSHOT.zip" />
 
-											<fileset dir="../birt-sample-plugins/target"
-											         includes="birt-sample-plugins-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-source/target"
-											         includes="birt-source-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-tests-suite/target"
-											         includes="birt-tests-suite-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-wtp-integration-sdk/target"
-											         includes="birt-wtp-integration-sdk-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-sample-plugins/target" includes="birt-sample-plugins-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-source/target" includes="birt-source-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-tests-suite/target" includes="birt-tests-suite-*.zip" excludes="birt-*-SNAPSHOT.zip" />
+											<fileset dir="../birt-wtp-integration-sdk/target" includes="birt-wtp-integration-sdk-*.zip" excludes="birt-*-SNAPSHOT.zip" />
 										</copy>
-										<delete dir="${release.repo.path}"/>
-										<mkdir dir="${release.repo.path}"/>
+										<delete dir="${release.repo.path}" />
+										<mkdir dir="${release.repo.path}" />
 										<copy todir="${release.repo.path}">
-											<fileset dir="../birt-epp/target/repository"/>
+											<fileset dir="../birt-epp/target/repository" />
 										</copy>
-									</tasks>
+									</target>
 								</configuration>
 								<goals>
 									<goal>run</goal>
 								</goals>
-							</execution> 
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>

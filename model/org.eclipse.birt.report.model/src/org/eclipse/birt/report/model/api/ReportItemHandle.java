@@ -1,16 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
-
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -25,49 +27,43 @@ import org.eclipse.birt.report.model.core.Module;
  * bindings allow a report item to pass data into its data source. Call
  * {@link DesignElementHandle#getPrivateStyle}( ) to get a handle with
  * getter/setter methods for the style properties.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.ReportItem
  */
 
-public abstract class ReportItemHandle extends ReportItemHandleImpl
-{
+public abstract class ReportItemHandle extends ReportItemHandleImpl {
 
 	/**
-	 * Constructs the handle for a report item with the given design and
-	 * element. The application generally does not create handles directly.
-	 * Instead, it uses one of the navigation methods available on other element
-	 * handles.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * Constructs the handle for a report item with the given design and element.
+	 * The application generally does not create handles directly. Instead, it uses
+	 * one of the navigation methods available on other element handles.
+	 *
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ReportItemHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ReportItemHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
 	 * Get the suppress duplicates property of this column.
-	 * 
+	 *
 	 * @return a boolean value which indicates if this column is suppress
 	 *         duplicates.
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getProperty
 	 * (java.lang.String)
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.ModuleHandle#setTheme(org.eclipse.birt
+	 *
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#setTheme(org.eclipse.birt
 	 * .report.model.api.ThemeHandle)
 	 */
 }

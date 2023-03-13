@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -15,8 +18,7 @@ import org.eclipse.help.browser.IBrowserFactory;
  * Browser descriptor class.
  * <p>
  */
-public class BrowserDescriptor
-{
+public class BrowserDescriptor {
 	private String browserID;
 
 	private String browserLabel;
@@ -25,13 +27,12 @@ public class BrowserDescriptor
 
 	/**
 	 * Browser descriptor constructor.
-	 * 
-	 * @param id ID of a browser as specified in plugin.xml
-	 * @param label name of the browser
+	 *
+	 * @param id      ID of a browser as specified in plugin.xml
+	 * @param label   name of the browser
 	 * @param factory factory that creates instances of this browser
 	 */
-	public BrowserDescriptor( String id, String label, IBrowserFactory factory )
-	{
+	public BrowserDescriptor(String id, String label, IBrowserFactory factory) {
 		this.browserID = id;
 
 		this.browserLabel = label;
@@ -41,41 +42,37 @@ public class BrowserDescriptor
 
 	/**
 	 * Get browser id
-	 * 
+	 *
 	 * @return browser id
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return browserID;
 	}
 
 	/**
 	 * Get browser label
-	 * 
-	 * @return browser label 
+	 *
+	 * @return browser label
 	 */
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return browserLabel;
 	}
 
 	/**
 	 * Get browser factory.
-	 * 
+	 *
 	 * @return browser factory instance
 	 */
-	public IBrowserFactory getFactory( )
-	{
+	public IBrowserFactory getFactory() {
 		return factory;
 	}
 
 	/**
 	 * Is browser external or not
-	 * 
+	 *
 	 * @return browser external or not
 	 */
-	public boolean isExternal( )
-	{
-		return !BrowserManager.BROWSER_ID_EMBEDDED.equals( getID( ) );
+	public boolean isExternal() {
+		return !BrowserManager.BROWSER_ID_EMBEDDED.equals(getID());
 	}
 }

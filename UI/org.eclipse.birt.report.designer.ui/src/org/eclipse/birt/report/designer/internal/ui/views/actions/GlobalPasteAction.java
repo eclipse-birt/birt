@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,27 +20,25 @@ import org.eclipse.jface.viewers.ISelectionProvider;
  * Global paste action for views
  */
 
-public class GlobalPasteAction extends AbstractGlobalSelectionAction
-{
+public class GlobalPasteAction extends AbstractGlobalSelectionAction {
 
-	protected GlobalPasteAction( ISelectionProvider provider )
-	{
-		super( provider, GlobalActionFactory.PASTE );
+	protected GlobalPasteAction(ISelectionProvider provider) {
+		super(provider, GlobalActionFactory.PASTE);
 	}
 
-	public void run( )
-	{
-		new PasteAction( getSelection( ) ).run( );
+	@Override
+	public void run() {
+		new PasteAction(getSelection()).run();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{				
-		return new PasteAction( getSelection( ) ).isEnabled( );
+	@Override
+	protected boolean calculateEnabled() {
+		return new PasteAction(getSelection()).isEnabled();
 	}
 
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,44 +20,39 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
- * 
+ *
  */
 
-public class InputFileOpener
-{
+public class InputFileOpener {
 	public static final String SIMPLE_QUERY_FILE = "pojoQuery.simple.xml"; //$NON-NLS-1$
-	
-	private InputFileOpener( )
-	{
-		
+
+	private InputFileOpener() {
+
 	}
-	
-	public static InputStream openFile( String fileName )
-	{
-		return InputFileOpener.class.getResourceAsStream( fileName );
+
+	public static InputStream openFile(String fileName) {
+		return InputFileOpener.class.getResourceAsStream(fileName);
 	}
-	
+
 	/**
 	 * Read all data from a InputStream and save it in a String
-	 * 
+	 *
 	 * @param in
 	 * @return
 	 * @throws IOException
 	 */
-	public static String fromInputStream( InputStream in ) throws IOException
-	{
+	public static String fromInputStream(InputStream in) throws IOException {
 		assert in != null;
-		StringBuffer sb = new StringBuffer( );
+		StringBuilder sb = new StringBuilder();
 		char[] buf = new char[1024];
-		Reader reader = new BufferedReader( new InputStreamReader( in ) );
-		int len = reader.read( buf );
-		while ( len != -1 )
-		{
-			sb.append( buf, 0, len );
-			len = reader.read( buf );
+		Reader reader = new BufferedReader(new InputStreamReader(in));
+		int len = reader.read(buf);
+		while (len != -1) {
+			sb.append(buf, 0, len);
+			len = reader.read(buf);
 		}
-		reader.close( );
+		reader.close();
 
-		return sb.toString( );
+		return sb.toString();
 	}
 }

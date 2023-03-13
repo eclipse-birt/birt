@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart Library UI Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.ui; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.ui.plugin.ChartUIPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.chart.ui.i18n,
  org.eclipse.birt.chart.ui.integrate,
  org.eclipse.birt.chart.ui.plugin,
@@ -16,7 +16,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)";visibility:=reexpo
  org.eclipse.birt.core.ui;bundle-version="[2.1.0,5.0.0)";visibility:=reexport,
  org.eclipse.birt.chart.engine;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.chart.ui

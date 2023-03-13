@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,77 +26,71 @@ import org.eclipse.ui.ide.IDE;
  * Provider the project label and image.
  */
 
-public class ProjectLabelProvider implements ILabelProvider
-{
+public class ProjectLabelProvider implements ILabelProvider {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage( Object element )
-	{
-		if ( element instanceof IJavaElement )
-		{
-			return getBaseImage( (IJavaElement) element );
+	@Override
+	public Image getImage(Object element) {
+		if (element instanceof IJavaElement) {
+			return getBaseImage((IJavaElement) element);
 		}
 
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
-	public String getText( Object element )
-	{
-		if ( element instanceof IJavaElement )
-		{
-			return ( (IJavaElement) element ).getElementName( );
+	@Override
+	public String getText(Object element) {
+		if (element instanceof IJavaElement) {
+			return ((IJavaElement) element).getElementName();
 		}
 		return ""; //$NON-NLS-1$
 	}
 
-	public void addListener( ILabelProviderListener listener )
-	{
+	@Override
+	public void addListener(ILabelProviderListener listener) {
 		// do nothing now
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		// do nothing now
 
 	}
 
-	public boolean isLabelProperty( Object element, String property )
-	{
+	@Override
+	public boolean isLabelProperty(Object element, String property) {
 		return true;
 	}
 
-	public void removeListener( ILabelProviderListener listener )
-	{
+	@Override
+	public void removeListener(ILabelProviderListener listener) {
 		// do nothing now
 	}
 
-	public Image getBaseImage( IJavaElement element )
-	{
+	public Image getBaseImage(IJavaElement element) {
 
-		switch ( element.getElementType( ) )
-		{
+		switch (element.getElementType()) {
 
-			case IJavaElement.JAVA_PROJECT :
-				IJavaProject jp = (IJavaProject) element;
-				if ( jp.getProject( ).isOpen( ) )
-				{
-					return ReportPlugin.getDefault( )
-							.getWorkbench( )
-							.getSharedImages( )
-							.getImage( IDE.SharedImages.IMG_OBJ_PROJECT );
-				}
-				return ReportPlugin.getDefault( )
-						.getWorkbench( )
-						.getSharedImages( )
-						.getImage( IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED );
+		case IJavaElement.JAVA_PROJECT:
+			IJavaProject jp = (IJavaProject) element;
+			if (jp.getProject().isOpen()) {
+				return ReportPlugin.getDefault().getWorkbench().getSharedImages()
+						.getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
+			}
+			return ReportPlugin.getDefault().getWorkbench().getSharedImages()
+					.getImage(IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED);
 
-			default :
-				return null;
+		default:
+			return null;
 		}
 
 	}

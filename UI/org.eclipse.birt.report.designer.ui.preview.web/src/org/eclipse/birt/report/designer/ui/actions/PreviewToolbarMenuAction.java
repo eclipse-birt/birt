@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -24,80 +27,71 @@ import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
 /**
  * PreviewToolbarMenuAction
  */
-public class PreviewToolbarMenuAction extends PreviewSupport implements
-		IWorkbenchWindowPulldownDelegate
-{
+public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkbenchWindowPulldownDelegate {
 
 	/**
 	 * The constructor.
 	 */
-	public PreviewToolbarMenuAction( )
-	{
-		super( );
+	public PreviewToolbarMenuAction() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
+	 *
+	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
 	 * .widgets.Control)
 	 */
-	public Menu getMenu( Control parent )
-	{
-		return getPreviewMenu( parent, true );
+	@Override
+	public Menu getMenu(Control parent) {
+		return getPreviewMenu(parent, true);
 	}
 
 	/**
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 *      IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
+	@Override
+	public void init(IWorkbenchWindow window) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
 	 */
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 	}
 
-	public void run( IAction action )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
+	@Override
+	public void run(IAction action) {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Preview action >> Run ..."); //$NON-NLS-1$
 		}
-		preview( TYPE_HTML, true );
+		preview(TYPE_HTML, true);
 	}
 
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		action.setEnabled( isEnable( ) );
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		action.setEnabled(isEnable());
 	}
 
-	private boolean isEnable( )
-	{
-		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
-		{
-			IContentType[] contentTypes = Platform.getContentTypeManager( )
-					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
-			for ( IContentType type : contentTypes )
-			{
-				if ( type.getId( )
-						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) //$NON-NLS-1$
-						|| type.getId( )
-								.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) //$NON-NLS-1$
+	private boolean isEnable() {
+		IEditorPart editor = UIUtil.getActiveEditor(true);
+		if (editor != null) {
+			IContentType[] contentTypes = Platform.getContentTypeManager()
+					.findContentTypesFor(editor.getEditorInput().getName());
+			for (IContentType type : contentTypes) {
+				if (type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reportdesign") //$NON-NLS-1$
+						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) {
 					return true;
+				}
 			}
 		}
 		return false;

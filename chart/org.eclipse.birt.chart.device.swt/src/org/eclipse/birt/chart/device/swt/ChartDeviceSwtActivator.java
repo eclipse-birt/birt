@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartDeviceSwtActivator extends Plugin
-{
+public class ChartDeviceSwtActivator extends Plugin {
 
 	/**
 	 * Plugin ID.
@@ -31,35 +33,33 @@ public class ChartDeviceSwtActivator extends Plugin
 	/**
 	 * The constructor.
 	 */
-	public ChartDeviceSwtActivator( )
-	{
+	public ChartDeviceSwtActivator() {
 		plugin = this;
 	}
 
 	/**
 	 * This method is called upon plug-in activation
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 		plugin = null;
 	}
 
 	/**
 	 * Returns the shared instance.
-	 * 
+	 *
 	 * @return the shared instance.
 	 */
-	public static ChartDeviceSwtActivator getDefault( )
-	{
+	public static ChartDeviceSwtActivator getDefault() {
 		return plugin;
 	}
 

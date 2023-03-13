@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -34,52 +37,48 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * not lost.
  * <p>
  */
-public class Regression_140287 extends BaseTestCase
-{
+public class Regression_140287 extends BaseTestCase {
 
 	private final static String REPORT = "regression_140287.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( REPORT , REPORT );
-		
+		copyResource_INPUT(REPORT, REPORT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_140287( ) throws DesignFileException
-	{
-		openDesign( REPORT );
+	public void test_regression_140287() throws DesignFileException {
+		openDesign(REPORT);
 
-		OdaDataSetHandle ds = (OdaDataSetHandle) designHandle
-				.findDataSet( "Data Set" ); //$NON-NLS-1$
-		Iterator parameters = ds.parametersIterator( );
+		OdaDataSetHandle ds = (OdaDataSetHandle) designHandle.findDataSet("Data Set"); //$NON-NLS-1$
+		Iterator parameters = ds.parametersIterator();
 		OdaDataSetParameterHandle param1 = null;
-		while ( parameters.hasNext( ) )
-		{
-			OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) parameters
-					.next( );
-			if ( "param1".equals( paramHandle.getName( ) ) ) //$NON-NLS-1$
+		while (parameters.hasNext()) {
+			OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) parameters.next();
+			if ("param1".equals(paramHandle.getName())) //$NON-NLS-1$
 			{
 				param1 = paramHandle;
 				break;
 			}
 		}
 
-		assertNotNull( param1 );
-		assertEquals( "\"100\"", param1.getDefaultValue( ) ); //$NON-NLS-1$
+		assertNotNull(param1);
+		assertEquals("\"100\"", param1.getDefaultValue()); //$NON-NLS-1$
 
 		// bind it to report parameter.
 
-		param1.setParamName( "p1" ); //$NON-NLS-1$
+		param1.setParamName("p1"); //$NON-NLS-1$
 
 		// make sure the default value is not cleared.
 
-		assertEquals( "\"100\"", param1.getDefaultValue( ) ); //$NON-NLS-1$
+		assertEquals("\"100\"", param1.getDefaultValue()); //$NON-NLS-1$
 	}
 }

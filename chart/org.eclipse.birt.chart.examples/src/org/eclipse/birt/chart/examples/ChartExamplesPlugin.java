@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,8 +22,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartExamplesPlugin extends AbstractUIPlugin
-{
+public class ChartExamplesPlugin extends AbstractUIPlugin {
 
 	private static ChartExamplesPlugin plugin;
 
@@ -32,55 +34,50 @@ public class ChartExamplesPlugin extends AbstractUIPlugin
 	/**
 	 * Constructs the chart examples plugin.
 	 */
-	public ChartExamplesPlugin( )
-	{
-		
+	public ChartExamplesPlugin() {
+
 	}
 
-	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 *
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
+	 * BundleContext)
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 		plugin = this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 *
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
+	@Override
+	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		super.stop( context );
+		super.stop(context);
 	}
-	
+
 	/**
 	 * Log an error to the ILog for this plugin
-	 * 
-	 * @param message
-	 *            the localized error message text
-	 * @param exception
-	 *            the associated exception, or null
+	 *
+	 * @param message   the localized error message text
+	 * @param exception the associated exception, or null
 	 */
-	public static void logError( String message, Throwable exception )
-	{
-		plugin.getLog( ).log( new Status( IStatus.ERROR, plugin.getBundle( )
-				.getSymbolicName( ), 0, message, exception ) );
+	public static void logError(String message, Throwable exception) {
+		plugin.getLog().log(new Status(IStatus.ERROR, plugin.getBundle().getSymbolicName(), 0, message, exception));
 	}
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
-	public static ChartExamplesPlugin getDefault( )
-	{
+	public static ChartExamplesPlugin getDefault() {
 		return plugin;
 	}
 }

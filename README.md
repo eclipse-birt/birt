@@ -1,28 +1,37 @@
-# Eclipse BIRT
+# Eclipse BIRT [![Build Status](https://github.com/eclipse/birt/workflows/CI/badge.svg)](https://github.com/eclipse/birt/actions)
 The open source Eclipse BIRT reporting and data visualization project. 
 
-[![Build Status](https://github.com/eclipse/birt/workflows/CI/badge.svg)](https://github.com/eclipse/birt/actions)
+## Website
+https://eclipse.org/birt  
+
+## Create a BIRT Development Environment
+* [![yt](https://user-images.githubusercontent.com/180969/143874274-9221c016-846b-4e60-8e06-7f90cb72fc8f.png)](https://www.youtube.com/watch?v=FqfrG2I0AIw)
+
+* [![Create Eclipse Development Environment for Eclipse BIRT](https://download.eclipse.org/oomph/www/setups/svg/birt.svg)](https://www.eclipse.org/setups/installer/?url=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRTConfiguration.setup&show=true "Click to open Eclipse-Installer Auto Launch or drag into your running installer")
 
 ## Building BIRT
-BIRT is built with [Apache Maven](http://maven.apache.org).
+BIRT is built with [Apache Maven](http://maven.apache.org) through [Tycho](https://github.com/eclipse/tycho) on [Eclipse CI](https://ci.eclipse.org/birt).
 
 To build BIRT with the latest Eclipse platform, run:
 
     mvn package -DskipTests 
     
-To build BIRT with Eclipse Neon, run:
-
-    mvn package -Pneon -DskipTests
-
-To build BIRT with Eclipse Oxygen, run:
-
-    mvn package -Poxygen -DskipTests
-    
 ### Building environment
-* JDK 1.8
+* JDK 11
 * Maven 3.6.3
-* Internet access
 
-# Useful links
-## Build Download
-http://download.eclipse.org/birt/downloads/build_list.php
+## Eclipse Version
+If you want to install BIRT as a plugin, please be aware that BIRT 4.12 requires Eclipse 4.25 and higher
+
+## Latest version 4.12.0
+* https://download.eclipse.org/birt/downloads/drops/latest
+* https://download.eclipse.org/birt/update-site/latest
+
+## Current version 4.12.0
+* https://download.eclipse.org/birt/downloads/drops/R-R1-4.12.0-202211301856/
+* https://download.eclipse.org/birt/update-site/4.12.0/
+
+## Latest snapshots towards 4.13.0
+* https://download.eclipse.org/birt/downloads/drops/snapshot/
+* https://download.eclipse.org/birt/update-site/snapshot/
+

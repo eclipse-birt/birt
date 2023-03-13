@@ -1,256 +1,150 @@
 <?xml version="1.0"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project default="test" basedir=".">
-  <target name="test" depends="build-api-package"/>
-  <property name="BIRT_VERSION" value="4.5.0"/>
-  <property name="LIB_DIR" location="./target/lib"/>
-  <property name="ROOT_DIR" location="../../"/>
-  <property name="P2UPDATESITE_DIR" location="../org.eclipse.birt.p2updatesite/"/>
-  <property name="PRODUCT_DIR" location="${P2UPDATESITE_DIR}/target/products/org.eclipse.birt.designer/win32/win32/x86_64/designer/"/>
-  <target name="clean">
-    <delete dir="./target"/>
-  </target>
-  <target name="package" depends="build-api-package">
-</target>
-  <target name="build-api-package" depends="copy-api-jars, build-api-manifest">
-    <jar destfile="./target/org.eclipse.birt.api_${BIRT_VERSION}.jar" manifest="./target/manifest.mf"/>
-  </target>
-  <target name="copy-api-jars">
-    <echo>copy API jars to "${LIB_DIR}</echo>
-    <copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar"/>
-    <copy file="${ROOT_DIR}/common/org.w3c.sac/lib/flute.jar" tofile="${LIB_DIR}/flute.jar"/>
-    <copy todir="${LIB_DIR}">
-      <fileset dir="${ROOT_DIR}">
-        <include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar"/>
-        <include name="data/org.eclipse.birt.data/target/org.eclipse.birt.data-*-api.jar"/>
-        <include name="data/org.eclipse.birt.data.aggregation/target/org.eclipse.birt.data.aggregation-*-api.jar"/>
-        <include name="model/org.eclipse.birt.report.model/target/org.eclipse.birt.report.model-*-api.jar"/>
-        <include name="model/org.eclipse.birt.report.model.adapter.oda/target/org.eclipse.birt.report.model.adapter.oda-*-api.jar"/>
-        <include name="engine/org.eclipse.birt.report.engine/target/org.eclipse.birt.report.engine-*-api.jar"/>
-        <include name="engine/org.eclipse.birt.report.engine/target/org.eclipse.birt.report.engine-*-scriptapi.jar"/>
-        <include name="engine/org.eclipse.birt.report.engine.dataextraction/target/org.eclipse.birt.report.engine.dataextraction-*-api.jar"/>
-        <include name="data/org.eclipse.birt.report.data.adapter/target/org.eclipse.birt.report.data.adapter-*-api.jar"/>
-        <include name="xtab/org.eclipse.birt.report.item.crosstab.core/target/org.eclipse.birt.report.item.crosstab.core-*-api.jar"/>
-        <include name="engine/org.eclipse.birt.report.engine.emitter.config/target/org.eclipse.birt.report.engine.emitter.config-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.engine/target/org.eclipse.birt.chart.engine-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.reportitem/target/org.eclipse.birt.chart.reportitem-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.examples.core/target/org.eclipse.birt.chart.examples.core-*-api.jar"/>
-        <include name="viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/lib/viewservlets.jar"/>
-      </fileset>
-      <chainedmapper>
-        <flattenmapper/>
-        <firstmatchmapper>
-          <globmapper from="org.eclipse.birt.core-*-api.jar" to="coreapi.jar"/>
-          <globmapper from="org.eclipse.birt.data-*-api.jar" to="dteapi.jar"/>
-          <globmapper from="org.eclipse.birt.data.aggregation-*-api.jar" to="dataaggregationapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.model-*-api.jar" to="modelapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.model.adapter.oda*-api.jar" to="modelodaapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.engine-*-api.jar" to="engineapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.engine-*-scriptapi.jar" to="scriptapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.engine.dataextraction-*-api.jar" to="dataextraction.jar"/>
-          <globmapper from="org.eclipse.birt.report.data.adapter-*-api.jar" to="dataadapterapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.item.crosstab.core-*-api.jar" to="crosstabcoreapi.jar"/>
-          <globmapper from="org.eclipse.birt.report.engine.emitter.config-*-api.jar" to="emitterconfig.jar"/>
-          <globmapper from="org.eclipse.birt.chart.engine-*-api.jar" to="chartitemapi.jar"/>
-          <globmapper from="org.eclipse.birt.chart.reportitem-*-api.jar" to="chartengineapi.jar"/>
-          <globmapper from="org.eclipse.birt.chart.examples.core-*-api.jar" to="chartexamplescoreapi.jar"/>
-        </firstmatchmapper>
-      </chainedmapper>
-    </copy>
-    <copy todir="${LIB_DIR}">
-      <fileset dir="${PRODUCT_DIR}/plugins">
-        <include name="org.mozilla.javascript_*.jar"/>
-      </fileset>
-      <globmapper from="org.mozilla.javascript_*.jar" to="js.jar"/>
-    </copy>
-    <antcall target="build-odadesign-api"/>
-    <antcall target="build-odaconnectivity-api"/>
-    <copy todir="${LIB_DIR}">
-      <fileset dir="${PRODUCT_DIR}/plugins">
-        <include name="org.apache.commons.codec_*.jar"/>
-        <include name="org.eclipse.birt.axis.overlay_*.jar"/>
-        <include name="org.eclipse.emf.common_*.jar"/>
-        <include name="org.eclipse.emf.ecore.xmi_*.jar"/>
-        <include name="org.eclipse.emf.ecore_*.jar"/>
-        <include name="org.w3c.css.sac_*.jar"/>
-        <include name="com.ibm.icu_*.jar"/>
-      </fileset>
-    </copy>
-  </target>
-  <target name="build-odadesign-api">
-    <path id="ODA_DESIGN_PATH">
-      <fileset dir="${PRODUCT_DIR}/plugins/">
-        <include name="org.eclipse.datatools.connectivity.oda.design_*.jar"/>
-      </fileset>
-    </path>
-    <fail message="failed to find org.eclipse.datatools.connectivity.oda.design">
-      <condition>
-        <resourcecount refid="ODA_DESIGN_PATH" when="eq" count="0"/>
-      </condition>
-    </fail>
-    <property name="ODA_DESIGN" refid="ODA_DESIGN_PATH"/>
-    <unzip src="${ODA_DESIGN}" dest="./target/unpack/classes/odadesign/"/>
-    <jar destfile="${LIB_DIR}/odadesignapi.jar">
-        <fileset dir="./target/unpack/classes/odadesign">
-        <include name="org/eclipse/datatools/connectivity/oda/design/*.class"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="build-odaconnectivity-api">
-    <path id="ODA_CONNECTIVITY_PATH">
-      <fileset dir="${PRODUCT_DIR}/plugins/">
-        <include name="org.eclipse.datatools.connectivity.oda_*.jar"/>
-      </fileset>
-    </path>
-    <fail message="failed to find org.eclipse.datatools.connectivity.oda">
-      <condition>
-        <resourcecount refid="ODA_CONNECTIVITY_PATH" when="eq" count="0"/>
-      </condition>
-    </fail>
-    <property name="ODA_CONNECTIVITY" refid="ODA_CONNECTIVITY_PATH"/>
-    <unzip src="${ODA_CONNECTIVITY}" dest="./target/unpack/classes/oda"/>
-    <jar destfile="${LIB_DIR}/odaconnectivity.jar">
-        <fileset dir="./target/unpack/classes/oda">
-          <include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class"/>
-          <!--<include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>-->
-      </fileset>
-    </jar>
-  </target>
-  <target name="build-api-manifest">
-    <property name="MANIFEST_TEMPLATE" location="./MANIFEST.MF.template"/>
-    <property name="MANIFEST_MF" location="./target/manifest.mf"/>
-    <script language="javascript"><![CDATA[
-        //for all jars in ./lib folder, get all packages
-        //sort the package and append to manifest.mf
-        
-        function isClass(fileName) {
-            return fileName.endsWith('.class');
-        }
-    
-        function getPackageName( fileName) {
-            if ( isClass(fileName)) {
-                //java.lang.System.out.println(fileName);
-                var last = fileName.lastIndexOf('/');
-                if ( last != -1) {
-                    var pkg = fileName.substring(0, last).replaceAll('/', '.');
-        			//java.lang.System.out.println(pkg);
-        			return pkg;
-                }
-            }
-            return null;
-        }
-
-        function getJarVersion(jarFile) {
-            var manifest = jarFile.getManifest();
-            if ( manifest != null) {
-                var attrs = manifest.getMainAttributes();
-                if (attrs != null) {
-                    var version = attrs.getValue("Bundle-Version");
-                    if (version != null && version.matches('\\d+\\.\\d+\\.\\d+\\..*')) {
-                        var last = version.lastIndexOf('.');
-                        if ( last != -1) {
-                            return version.substring(0, last);
-                        }
-                        return version;
-                    }
-                }
-            }
-            return null;
-        }
-
-        function loadPackages(zipFileName) {
-            var packages = new java.util.HashSet();
-            var zipFile = new java.util.jar.JarFile(zipFileName);
-            var version = getJarVersion(zipFile);
-            //java.lang.System.out.println(zipFileName + ":" + version);
-            var entries = zipFile.entries();
-            while ( entries.hasMoreElements()) {
-                var entry = entries.nextElement();
-                if ( !entry.isDirectory()) {
-                    var pkgName = getPackageName( entry.getName());
-                    if ( pkgName != null) {
-                        if (version != null && !pkgName.startsWith('javax.'))  {
-                            packages.add( pkgName + ';version="' + version + '"');
-                        }
-                        else {
-                            packages.add( pkgName);
-                        }
-                    }
-                }
-            }
-            return packages;
-        }
-
-        function listJarFiles(libFolder) {
-            var jarFiles = new java.util.ArrayList();
-            var folder = new java.io.File(libFolder);
-            var files = folder.listFiles();
-            for (var i = 0; i < files.length; i++) {
-                if ( files[i].isFile() && files[i].getName().endsWith('.jar')) {
-                    jarFiles.add(files[i].getAbsolutePath());
-                }
-            }
-            return jarFiles;
-        }
-
-        function loadApiPackages(libFolder) {
-            var packages = new java.util.HashSet();
-            var jarFiles = listJarFiles(libFolder);
-            for ( var i = 0; i < jarFiles.size(); i++) {
-                packages.addAll(loadPackages(jarFiles.get(i)));
-            }
-            var sortedPackages = new java.util.ArrayList();
-            sortedPackages.addAll(packages);
-            java.util.Collections.sort(sortedPackages);
-            return sortedPackages;
-        }
-        
-        function copyFile(source, target) {
-            var buffer = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
-            var input= new java.io.FileInputStream(source);
-            var out = new java.io.FileOutputStream(target);
-            var size = input.read(buffer);
-            while ( size > 0) {
-                out.write( buffer, 0, size);
-                size = input.read( buffer);
-            }
-            out.close();
-            input.close();
-        }
-
-        function createManifest(source, target, packages) {
-            var sb = new java.lang.StringBuilder("Export-Package:");
-            for (var i = 0; i < packages.size(); i++) {
-                sb.append(' ');
-                sb.append(packages.get(i));
-                sb.append(',');
-                sb.append('\n');
-            }
-            sb.setLength(sb.length() - 2);
-            sb.append('\n');
-            copyFile( source, target);
-            var manifest = new java.io.PrintWriter( new java.io.BufferedWriter( new java.io.FileWriter(target, true)));
-            manifest.print(sb.toString());
-            manifest.close();
-        }
-
-        var libFolder = project.getProperty("LIB_DIR");
-        var template = project.getProperty("MANIFEST_TEMPLATE");
-        var manifest = project.getProperty("MANIFEST_MF");
-
-        var echo = project.createTask("echo");
-        echo.setMessage("load JAR from " + libFolder + " create MANIFEST to " + manifest);
-        echo.perform();
-
-        var packages = loadApiPackages(libFolder);
-        if (packages.isEmpty()) {
-            var fail = project.createTask("fail");
-            fail.setMessage("failed to load API packages from " + libFolder);
-            fail.perform();
-        }
-
-        createManifest(template, manifest, packages);
-        ]]></script>
-    <!-- update manifest version -->
-    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.9.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
-  </target>
+	<target name="test" depends="build-api-package" />
+	<property name="BIRT_VERSION" value="4.13.0" />
+	<property name="HERE" location="." />
+	<property name="LIB_DIR" location="./target/lib" />
+	<property name="ROOT_DIR" location="../../" />
+	<property name="P2UPDATESITE_DIR" location="../org.eclipse.birt.p2updatesite/" />
+	<property name="PRODUCT_DIR" location="${P2UPDATESITE_DIR}/target/products/org.eclipse.birt.designer/win32/win32/x86_64/designer/" />
+	<target name="clean">
+		<delete dir="./target" />
+	</target>
+	<target name="package" depends="build-api-package">
+	</target>
+	<target name="build-api-package" depends="copy-api-jars, build-api-manifest">
+		<jar destfile="./target/org.eclipse.birt.api_${BIRT_VERSION}.jar" manifest="./target/manifest.mf" />
+	</target>
+	<target name="copy-api-jars">
+		<echo>copy API jars to "${LIB_DIR}</echo>
+		<copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar" />
+		<copy file="${ROOT_DIR}/common/org.w3c.sac/lib/flute.jar" tofile="${LIB_DIR}/flute.jar" />
+		<!-- issue 662 axis vulnerabilities -->
+		<copy file="${ROOT_DIR}/common/org.apache.axis/lib/axis-1.4.1-SNAPSHOT.jar" tofile="${LIB_DIR}/axis.jar" />
+		<copy todir="${LIB_DIR}">
+			<fileset dir="${ROOT_DIR}">
+				<include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar" />
+				<include name="data/org.eclipse.birt.data/target/org.eclipse.birt.data-*-api.jar" />
+				<include name="data/org.eclipse.birt.data.aggregation/target/org.eclipse.birt.data.aggregation-*-api.jar" />
+				<include name="model/org.eclipse.birt.report.model/target/org.eclipse.birt.report.model-*-api.jar" />
+				<include name="model/org.eclipse.birt.report.model.adapter.oda/target/org.eclipse.birt.report.model.adapter.oda-*-api.jar" />
+				<include name="engine/org.eclipse.birt.report.engine/target/org.eclipse.birt.report.engine-*-api.jar" />
+				<include name="engine/org.eclipse.birt.report.engine/target/org.eclipse.birt.report.engine-*-scriptapi.jar" />
+				<include name="engine/org.eclipse.birt.report.engine.dataextraction/target/org.eclipse.birt.report.engine.dataextraction-*-api.jar" />
+				<include name="data/org.eclipse.birt.report.data.adapter/target/org.eclipse.birt.report.data.adapter-*-api.jar" />
+				<include name="xtab/org.eclipse.birt.report.item.crosstab.core/target/org.eclipse.birt.report.item.crosstab.core-*-api.jar" />
+				<include name="engine/org.eclipse.birt.report.engine.emitter.config/target/org.eclipse.birt.report.engine.emitter.config-*-api.jar" />
+				<include name="chart/org.eclipse.birt.chart.engine/target/org.eclipse.birt.chart.engine-*-api.jar" />
+				<include name="chart/org.eclipse.birt.chart.reportitem/target/org.eclipse.birt.chart.reportitem-*-api.jar" />
+				<include name="chart/org.eclipse.birt.chart.examples.core/target/org.eclipse.birt.chart.examples.core-*-api.jar" />
+				<include name="viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/lib/viewservlets.jar" />
+			</fileset>
+			<chainedmapper>
+				<flattenmapper />
+				<firstmatchmapper>
+					<globmapper from="org.eclipse.birt.core-*-api.jar" to="coreapi.jar" />
+					<globmapper from="org.eclipse.birt.data-*-api.jar" to="dteapi.jar" />
+					<globmapper from="org.eclipse.birt.data.aggregation-*-api.jar" to="dataaggregationapi.jar" />
+					<globmapper from="org.eclipse.birt.report.model-*-api.jar" to="modelapi.jar" />
+					<globmapper from="org.eclipse.birt.report.model.adapter.oda*-api.jar" to="modelodaapi.jar" />
+					<globmapper from="org.eclipse.birt.report.engine-*-api.jar" to="engineapi.jar" />
+					<globmapper from="org.eclipse.birt.report.engine-*-scriptapi.jar" to="scriptapi.jar" />
+					<globmapper from="org.eclipse.birt.report.engine.dataextraction-*-api.jar" to="dataextraction.jar" />
+					<globmapper from="org.eclipse.birt.report.data.adapter-*-api.jar" to="dataadapterapi.jar" />
+					<globmapper from="org.eclipse.birt.report.item.crosstab.core-*-api.jar" to="crosstabcoreapi.jar" />
+					<globmapper from="org.eclipse.birt.report.engine.emitter.config-*-api.jar" to="emitterconfig.jar" />
+					<globmapper from="org.eclipse.birt.chart.engine-*-api.jar" to="chartitemapi.jar" />
+					<globmapper from="org.eclipse.birt.chart.reportitem-*-api.jar" to="chartengineapi.jar" />
+					<globmapper from="org.eclipse.birt.chart.examples.core-*-api.jar" to="chartexamplescoreapi.jar" />
+				</firstmatchmapper>
+			</chainedmapper>
+		</copy>
+		<copy todir="${LIB_DIR}">
+			<fileset dir="${PRODUCT_DIR}/plugins">
+				<include name="org.mozilla.javascript_*.jar" />
+			</fileset>
+			<globmapper from="org.mozilla.javascript_*.jar" to="js.jar" />
+		</copy>
+		<antcall target="build-odadesign-api" />
+		<antcall target="build-odaconnectivity-api" />
+		<copy todir="${LIB_DIR}">
+			<fileset dir="${PRODUCT_DIR}/plugins">
+				<include name="org.apache.commons.codec_*.jar" />
+				<include name="org.eclipse.birt.axis.overlay_*.jar" />
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar" />
+				<include name="org.w3c.css.sac_*.jar" />
+				<include name="com.ibm.icu_*.jar" />
+				<include name="javax*.jar" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="build-odadesign-api">
+		<path id="ODA_DESIGN_PATH">
+			<fileset dir="${PRODUCT_DIR}/plugins/">
+				<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
+			</fileset>
+		</path>
+		<fail message="failed to find org.eclipse.datatools.connectivity.oda.design">
+			<condition>
+				<resourcecount refid="ODA_DESIGN_PATH" when="eq" count="0" />
+			</condition>
+		</fail>
+		<property name="ODA_DESIGN" refid="ODA_DESIGN_PATH" />
+		<unzip src="${ODA_DESIGN}" dest="./target/unpack/classes/odadesign/" />
+		<jar destfile="${LIB_DIR}/odadesignapi.jar">
+			<fileset dir="./target/unpack/classes/odadesign">
+				<include name="org/eclipse/datatools/connectivity/oda/design/*.class" />
+			</fileset>
+		</jar>
+	</target>
+	<target name="build-odaconnectivity-api">
+		<path id="ODA_CONNECTIVITY_PATH">
+			<fileset dir="${PRODUCT_DIR}/plugins/">
+				<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
+			</fileset>
+		</path>
+		<fail message="failed to find org.eclipse.datatools.connectivity.oda">
+			<condition>
+				<resourcecount refid="ODA_CONNECTIVITY_PATH" when="eq" count="0" />
+			</condition>
+		</fail>
+		<property name="ODA_CONNECTIVITY" refid="ODA_CONNECTIVITY_PATH" />
+		<unzip src="${ODA_CONNECTIVITY}" dest="./target/unpack/classes/oda" />
+		<jar destfile="${LIB_DIR}/odaconnectivity.jar">
+			<fileset dir="./target/unpack/classes/oda">
+				<include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class" />
+				<!--<include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>-->
+			</fileset>
+		</jar>
+	</target>
+	<target name="build-api-manifest">
+		<property name="MANIFEST_TEMPLATE" location="./MANIFEST.MF.template" />
+		<property name="MANIFEST_MF" location="./target/manifest.mf" />
+		<java classname="CreateManifest">
+			<classpath>
+				<pathelement location="${HERE}" />
+			</classpath>
+			<sysproperty key="MANIFEST_TEMPLATE" value="${MANIFEST_TEMPLATE}" />
+			<sysproperty key="MANIFEST_MF" value="${MANIFEST_MF}" />
+			<sysproperty key="LIB_DIR" value="${LIB_DIR}" />
+		</java>
+		<!-- update manifest version -->
+		<replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.13.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}" />
+	</target>
 </project>

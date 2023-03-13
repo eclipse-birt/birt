@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -25,29 +28,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Open the template file, make sure that no exception is throwed out.
  * <p>
  */
-public class Regression_159858 extends BaseTestCase
-{
+public class Regression_159858 extends BaseTestCase {
 
 	private final static String REPORT = "Invoice_template.rptdesign"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_159858( ) throws DesignFileException
-	{
-		openDesign( REPORT );
+	public void test_regression_159858() throws DesignFileException {
+		openDesign(REPORT);
 	}
 }

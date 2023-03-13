@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * includes name, display name ID and tool tip ID.
  */
 
-public abstract class LocalizableInfo implements ILocalizableInfo
-{
+public abstract class LocalizableInfo implements ILocalizableInfo {
 
 	/**
 	 * The name of the definition.
@@ -42,108 +44,103 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 
 	/**
 	 * Returns the resource key for display name.
-	 * 
+	 *
 	 * @return the resource key for display name
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	@Override
+	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
 	/**
 	 * Sets the resource key for display name.
-	 * 
-	 * @param displayNameKey
-	 *            the resource key to set
+	 *
+	 * @param displayNameKey the resource key to set
 	 */
 
-	void setDisplayNameKey( String displayNameKey )
-	{
+	void setDisplayNameKey(String displayNameKey) {
 		this.displayNameKey = displayNameKey;
 	}
 
 	/**
 	 * Returns the definition name.
-	 * 
+	 *
 	 * @return the name of this definition
 	 */
 
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets the definition name.
-	 * 
-	 * @param name
-	 *            the name to set
+	 *
+	 * @param name the name to set
 	 */
 
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * Returns the resource key for tool tip.
-	 * 
+	 *
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey( )
-	{
+	@Override
+	public String getToolTipKey() {
 		return toolTipKey;
 	}
 
 	/**
 	 * Sets the resource key for tool tip.
-	 * 
-	 * @param toolTipKey
-	 *            the resource key to set
+	 *
+	 * @param toolTipKey the resource key to set
 	 */
 
-	void setToolTipKey( String toolTipKey )
-	{
+	void setToolTipKey(String toolTipKey) {
 		this.toolTipKey = toolTipKey;
 	}
 
 	/**
-	 * Returns the display name if the resource key of display name is
-	 * available. Otherwise, return empty string.
-	 * 
+	 * Returns the display name if the resource key of display name is available.
+	 * Otherwise, return empty string.
+	 *
 	 * @return the display name
 	 */
 
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		return displayNameKey != null ? displayNameKey : ""; //$NON-NLS-1$
 	}
 
 	/**
-	 * Returns the tool tip if the resource key of tool tip is available.
-	 * Otherwise, return empty string.
-	 * 
+	 * Returns the tool tip if the resource key of tool tip is available. Otherwise,
+	 * return empty string.
+	 *
 	 * @return the tool tip
 	 */
 
-	public String getToolTip( )
-	{
+	@Override
+	public String getToolTip() {
 		return toolTipKey != null ? toolTipKey : ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	@Override
+	public String toString() {
+		if (!StringUtil.isBlank(getName())) {
+			return getName();
+		}
+		return super.toString();
 	}
 
 }

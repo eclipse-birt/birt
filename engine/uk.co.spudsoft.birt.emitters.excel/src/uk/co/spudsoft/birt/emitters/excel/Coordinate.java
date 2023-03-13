@@ -1,24 +1,27 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
 
-
 package uk.co.spudsoft.birt.emitters.excel;
+
+import java.util.Objects;
 
 public class Coordinate {
 
 	private int row;
 	private int col;
-	
+
 	public Coordinate(int row, int col) {
 		super();
 		this.row = row;
@@ -43,26 +46,24 @@ public class Coordinate {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + row;
-		result = prime * result + col;
-		return result;
+		return Objects.hash(row, col);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Coordinate other = (Coordinate) obj;
-		if (row != other.row)
+		if (row != other.row) {
 			return false;
-		if (col != other.col)
+		}
+		if (col != other.col) {
 			return false;
+		}
 		return true;
 	}
 
@@ -70,5 +71,5 @@ public class Coordinate {
 	public String toString() {
 		return "Coordinate [row=" + row + ", col=" + col + "]";
 	}
-	
+
 }

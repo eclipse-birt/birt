@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,47 +20,39 @@ import java.util.Collection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TreeNode;
 
-public class MemTreeNode extends TreeNode
-{
+public class MemTreeNode extends TreeNode {
 
 	protected ArrayList<ITreeNode> children;
 
 	protected MemTreeNode parent;
 
-	public MemTreeNode( )
-	{
+	public MemTreeNode() {
 	}
 
-	public MemTreeNode( TreeNode entry )
-	{
-		super( entry );
+	public MemTreeNode(TreeNode entry) {
+		super(entry);
 	}
 
-	public Collection<ITreeNode> getChildren( )
-	{
-		if ( children == null )
-		{
-			children = new ArrayList<ITreeNode>( );
+	@Override
+	public Collection<ITreeNode> getChildren() {
+		if (children == null) {
+			children = new ArrayList<>();
 		}
 		return children;
 	}
 
-	public void addChild( MemTreeNode node )
-	{
-		if ( children == null )
-		{
-			children = new ArrayList<ITreeNode>( );
+	public void addChild(MemTreeNode node) {
+		if (children == null) {
+			children = new ArrayList<>();
 		}
-		children.add( node );
+		children.add(node);
 	}
 
-	public MemTreeNode getParent( )
-	{
+	public MemTreeNode getParent() {
 		return parent;
 	}
 
-	public void setParent( MemTreeNode parent )
-	{
+	public void setParent(MemTreeNode parent) {
 		this.parent = parent;
 	}
 

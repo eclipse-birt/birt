@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,52 +23,44 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.gef.EditPart;
 
 /**
- * 
+ *
  */
 
-public class LibraryMasterPageGraphicalPartFactory extends GraphicalPartFactory
-{
-	public EditPart createEditPart( EditPart context, Object model )
-	{
-		//default edit part
-		
+public class LibraryMasterPageGraphicalPartFactory extends GraphicalPartFactory {
+	@Override
+	public EditPart createEditPart(EditPart context, Object model) {
+		// default edit part
+
 		EditPart editPart = null;
-		if (model instanceof LibRootModel)
-		{
-			model = ((LibRootModel)model).getModel( );
-		}
-		else if ( model instanceof LibraryHandle )
-		{
-			//return new LibraryReportDesignEditPart( model );
-			editPart = new EmptyEditPart( model )
-			{
-				public void activate( )
-				{
+		if (model instanceof LibRootModel) {
+			model = ((LibRootModel) model).getModel();
+		} else if (model instanceof LibraryHandle) {
+			// return new LibraryReportDesignEditPart( model );
+			editPart = new EmptyEditPart(model) {
+				@Override
+				public void activate() {
 //					do nothing
 				}
-				public void deactivate( )
-				{
-					//do nothing
+
+				@Override
+				public void deactivate() {
+					// do nothing
 				}
 			};
-		}
-		else if ( model instanceof MasterPageHandle )
-		{
-			return new MasterPageEditPart( model );
+		} else if (model instanceof MasterPageHandle) {
+			return new MasterPageEditPart(model);
 		}
 
 //		if ( ignoreModel( model ) )
 //		{
 //			editPart = new EmptyEditPart( model );
 //		}
-		if ( editPart != null )
-		{
+		if (editPart != null) {
 			return editPart;
 		}
-		editPart = super.createEditPart( context, model );
-		if ( editPart == null || editPart instanceof DummyEditpart )
-		{
-			editPart = new EmptyEditPart( model );
+		editPart = super.createEditPart(context, model);
+		if (editPart == null || editPart instanceof DummyEditpart) {
+			editPart = new EmptyEditPart(model);
 		}
 		return editPart;
 	}

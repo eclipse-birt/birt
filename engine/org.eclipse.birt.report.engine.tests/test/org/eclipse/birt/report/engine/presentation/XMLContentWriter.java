@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.presentation;
 
@@ -21,150 +33,150 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
-public class XMLContentWriter extends ContentEmitterAdapter
-{
+public class XMLContentWriter extends ContentEmitterAdapter {
 
 	XMLWriter writer;
 
-	public String getOutputFormat( )
-	{
+	@Override
+	public String getOutputFormat() {
 		return "text/xml";
 	}
 
-	public void initialize( IEmitterServices service )
-	{
+	@Override
+	public void initialize(IEmitterServices service) {
 	}
 
-	public void start( IReportContent report )
-	{
+	@Override
+	public void start(IReportContent report) {
 
-		writer.openTag( "report" );
-
-	}
-
-	public void end( IReportContent report )
-	{
-		writer.closeTag( "report" );
+		writer.openTag("report");
 
 	}
 
-	public void startPage( IPageContent page )
-	{
-		writer.openTag( "page" );
+	@Override
+	public void end(IReportContent report) {
+		writer.closeTag("report");
+
 	}
 
-	public void endPage( IPageContent page )
-	{
-		writer.closeTag( "page" );
+	@Override
+	public void startPage(IPageContent page) {
+		writer.openTag("page");
 	}
 
-	public void startTable( ITableContent table )
-	{
-		writer.openTag( "table" );
+	@Override
+	public void endPage(IPageContent page) {
+		writer.closeTag("page");
 	}
 
-	public void endTable( ITableContent table )
-	{
-		writer.closeTag( "table" );
+	@Override
+	public void startTable(ITableContent table) {
+		writer.openTag("table");
 	}
 
-	public void startRow( IRowContent row )
-	{
-		writer.openTag( "row" );
+	@Override
+	public void endTable(ITableContent table) {
+		writer.closeTag("table");
 	}
 
-	public void endRow( IRowContent row )
-	{
-		writer.closeTag( "row" );
+	@Override
+	public void startRow(IRowContent row) {
+		writer.openTag("row");
 	}
 
-	public void startCell( ICellContent cell )
-	{
-		writer.openTag( "cell" );
+	@Override
+	public void endRow(IRowContent row) {
+		writer.closeTag("row");
 	}
 
-	public void endCell( ICellContent cell )
-	{
-		writer.closeTag( "cell" );
+	@Override
+	public void startCell(ICellContent cell) {
+		writer.openTag("cell");
 	}
 
-	public void startContainer( IContainerContent container )
-	{
+	@Override
+	public void endCell(ICellContent cell) {
+		writer.closeTag("cell");
+	}
+
+	@Override
+	public void startContainer(IContainerContent container) {
 		writer.openTag("container");
 	}
 
-	public void startText( ITextContent text )
-	{
+	@Override
+	public void startText(ITextContent text) {
 		writer.openTag("text");
 		writer.closeTag("text");
 	}
 
-	public void startData( IDataContent data )
-	{
+	@Override
+	public void startData(IDataContent data) {
 		writer.openTag("data");
 		writer.closeTag("data");
 	}
 
-	public void startLabel( ILabelContent label )
-	{
+	@Override
+	public void startLabel(ILabelContent label) {
 		writer.openTag("label");
 		writer.closeTag("label");
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
-	{
+	@Override
+	public void startAutoText(IAutoTextContent autoText) {
 		writer.openTag("auto-text");
 		writer.closeTag("auto-text");
 	}
-	public void startForeign( IForeignContent foreign )
-	{
+
+	@Override
+	public void startForeign(IForeignContent foreign) {
 		writer.openTag("foreign");
 		writer.closeTag("foreign");
 	}
 
-	public void startImage( IImageContent image )
-	{
+	@Override
+	public void startImage(IImageContent image) {
 		writer.openTag("image");
 		writer.closeTag("image");
 	}
 
-	public void endList( IListContent list )
-	{
+	@Override
+	public void endList(IListContent list) {
 		writer.closeTag("list");
 	}
 
-	public void endListBand( IListBandContent listBand )
-	{
+	@Override
+	public void endListBand(IListBandContent listBand) {
 		writer.closeTag("list-band");
 	}
 
-	public void endTableBand( ITableBandContent band )
-	{
+	@Override
+	public void endTableBand(ITableBandContent band) {
 		writer.closeTag("table-band");
 	}
 
-	public void startList( IListContent list )
-	{
+	@Override
+	public void startList(IListContent list) {
 		writer.openTag("list");
 	}
 
-	public void startListBand( IListBandContent listBand )
-	{
-		writer.openTag( "list-band" );
+	@Override
+	public void startListBand(IListBandContent listBand) {
+		writer.openTag("list-band");
 	}
 
-	public void startTableBand( ITableBandContent band )
-	{
-		writer.openTag( "table-band" );
+	@Override
+	public void startTableBand(ITableBandContent band) {
+		writer.openTag("table-band");
 	}
 
-	public void endGroup( IGroupContent group )
-	{
-		writer.closeTag( "group" );
+	@Override
+	public void endGroup(IGroupContent group) {
+		writer.closeTag("group");
 	}
 
-	public void startGroup( IGroupContent group )
-	{
-		writer.openTag( "group" );
+	@Override
+	public void startGroup(IGroupContent group) {
+		writer.openTag("group");
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,11 +20,10 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * This class is the base class for commands that work directly with the
  * DesignElement class.
- * 
+ *
  */
 
-public abstract class AbstractElementCommand extends Command
-{
+public abstract class AbstractElementCommand extends Command {
 
 	/**
 	 * The element to modify.
@@ -31,50 +33,45 @@ public abstract class AbstractElementCommand extends Command
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param obj
-	 *            the element to modify
+	 *
+	 * @param module the module
+	 * @param obj    the element to modify
 	 */
 
-	public AbstractElementCommand( Module module, DesignElement obj )
-	{
-		super( module );
+	public AbstractElementCommand(Module module, DesignElement obj) {
+		super(module);
 		assert obj != null;
 		element = obj;
 	}
 
 	/**
 	 * Checks and adjusts the new position.
-	 * 
-	 * @param oldPosn
-	 *            the old position
-	 * @param newPosn
-	 *            the new position
-	 * @param size
-	 *            the list size
+	 *
+	 * @param oldPosn the old position
+	 * @param newPosn the new position
+	 * @param size    the list size
 	 * @return the adjusted new position.
 	 */
 
-	static protected int checkAndAdjustPosition( int oldPosn, int newPosn,
-			int size )
-	{
-		if ( newPosn < 0 )
+	static protected int checkAndAdjustPosition(int oldPosn, int newPosn, int size) {
+		if (newPosn < 0) {
 			newPosn = 0;
-		if ( newPosn > size - 1 )
+		}
+		if (newPosn > size - 1) {
 			newPosn = size - 1;
+		}
 
-		if ( oldPosn < 0 || oldPosn > size )
-			throw new IndexOutOfBoundsException(
-					"From: " + oldPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+		if (oldPosn < 0 || oldPosn > size) {
+			throw new IndexOutOfBoundsException("From: " + oldPosn + ", List Size: " + size); //$NON-NLS-1$//$NON-NLS-2$
+		}
 
-		if ( newPosn < 0 || newPosn > size )
-			throw new IndexOutOfBoundsException(
-					"To: " + newPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+		if (newPosn < 0 || newPosn > size) {
+			throw new IndexOutOfBoundsException("To: " + newPosn + ", List Size: " + size); //$NON-NLS-1$//$NON-NLS-2$
+		}
 
-		if ( oldPosn == newPosn )
+		if (oldPosn == newPosn) {
 			return oldPosn;
+		}
 
 		return newPosn;
 	}

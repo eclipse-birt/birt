@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -21,46 +24,44 @@ import org.eclipse.gef.handles.SquareHandle;
 /**
  * Table selection handle
  */
-public class TableSelectionHandle extends SquareHandle
-{
+public class TableSelectionHandle extends SquareHandle {
 
-	//GraphicalEditPart editpart;
+	// GraphicalEditPart editpart;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
+	@Override
+	protected DragTracker createDragTracker() {
 		return null;
 	}
 
 	/**
 	 * Constructor
+	 *
 	 * @param owner
 	 * @param rect
 	 */
-	public TableSelectionHandle( GraphicalEditPart owner, Rectangle rect )
-	{
-		super( owner, new TableRelativeLocator( owner.getFigure( ), -1 ) );
+	public TableSelectionHandle(GraphicalEditPart owner, Rectangle rect) {
+		super(owner, new TableRelativeLocator(owner.getFigure(), -1));
 
-		setOpaque( false );
+		setOpaque(false);
 
-		setPreferredSize( rect.getSize( ) );
-		setLocation( rect.getLocation( ) );
-		setSize( rect.getSize( ) );
-		
-		setBorder( new SelectionBorder(2) );
+		setPreferredSize(rect.getSize());
+		setLocation(rect.getLocation());
+		setSize(rect.getSize());
+
+		setBorder(new SelectionBorder(2));
 	}
 
-	public TableSelectionHandle( GraphicalEditPart first, GraphicalEditPart end )
-	{
-		setOpaque( false );
+	public TableSelectionHandle(GraphicalEditPart first, GraphicalEditPart end) {
+		setOpaque(false);
 	}
 
-	public void paintFigure( Graphics g )
-	{
+	@Override
+	public void paintFigure(Graphics g) {
 
 //		Rectangle r = getBounds( );
 //
@@ -81,13 +82,12 @@ public class TableSelectionHandle extends SquareHandle
 //		}
 	}
 
-	public boolean containsPoint( int x, int y )
-	{
-		if ( !super.containsPoint( x, y ) )
+	@Override
+	public boolean containsPoint(int x, int y) {
+		if (!super.containsPoint(x, y)) {
 			return false;
-		return !Rectangle.SINGLETON.setBounds( getBounds( ) )
-				.shrink( -2, -2 )
-				.contains( x, y );
+		}
+		return !Rectangle.SINGLETON.setBounds(getBounds()).shrink(-2, -2).contains(x, y);
 	}
 
 	/**
@@ -97,13 +97,12 @@ public class TableSelectionHandle extends SquareHandle
 
 	{
 
-		public TableRelativeLocator( IFigure reference, int location )
-		{
-			super( reference, location );
+		public TableRelativeLocator(IFigure reference, int location) {
+			super(reference, location);
 		}
 
-		public void relocate( IFigure target )
-		{
+		@Override
+		public void relocate(IFigure target) {
 
 		}
 	}

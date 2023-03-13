@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,38 +22,22 @@ import java.security.CodeSource;
 import org.mozilla.javascript.PolicySecurityController;
 import org.mozilla.javascript.SecurityController;
 
-public class ScriptUtil
-{
+public class ScriptUtil {
 
-	public static SecurityController createSecurityController( )
-	{
-		return new PolicySecurityController( );
+	public static SecurityController createSecurityController() {
+		return new PolicySecurityController();
 	}
 
-	public static Object getSecurityDomain( final String file )
-	{
-		if ( file == null )
-		{
+	public static Object getSecurityDomain(final String file) {
+		if ((file == null) || (System.getSecurityManager() == null)) {
 			return null;
 		}
-		if ( System.getSecurityManager( ) == null )
-		{
-			return null;
-		}
-		try
-		{
-			return new CodeSource( new URL( file ),
-					(java.security.cert.Certificate[]) null );
-		}
-		catch ( MalformedURLException ex )
-		{
-			try
-			{
-				return new CodeSource( new File( file ).toURI( ).toURL( ),
-						(java.security.cert.Certificate[]) null );
-			}
-			catch ( MalformedURLException e )
-			{
+		try {
+			return new CodeSource(new URL(file), (java.security.cert.Certificate[]) null);
+		} catch (MalformedURLException ex) {
+			try {
+				return new CodeSource(new File(file).toURI().toURL(), (java.security.cert.Certificate[]) null);
+			} catch (MalformedURLException e) {
 				return null;
 			}
 		}

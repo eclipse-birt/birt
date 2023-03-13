@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,48 +23,41 @@ import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecut
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 import org.eclipse.birt.report.engine.util.FastPool;
 
-public class LocalizedReportExecutor extends WrappedReportExecutor
-{
+public class LocalizedReportExecutor extends WrappedReportExecutor {
 
 	IReportExecutor executor;
 	LocalizedContentVisitor l18nVisitor;
 	FastPool freeExecutors;
 
-	public LocalizedReportExecutor( ExecutionContext context,
-			IReportExecutor executor )
-	{
-		super( executor );
-		this.l18nVisitor = new LocalizedContentVisitor( context );
-		this.freeExecutors = new FastPool( );
+	public LocalizedReportExecutor(ExecutionContext context, IReportExecutor executor) {
+		super(executor);
+		this.l18nVisitor = new LocalizedContentVisitor(context);
+		this.freeExecutors = new FastPool();
 		this.executor = executor;
 	}
 
-	protected IReportItemExecutor createWrappedExecutor( IReportItemExecutor executor )
-	{
+	@Override
+	protected IReportItemExecutor createWrappedExecutor(IReportItemExecutor executor) {
 		LocalizedReportItemExecutor l18nExecutor = null;
-		if ( !freeExecutors.isEmpty( ) )
-		{
-			l18nExecutor = (LocalizedReportItemExecutor) freeExecutors.remove( );
-			l18nExecutor.setExecutor( executor );
-		}
-		else
-		{
-			l18nExecutor = new LocalizedReportItemExecutor( this, executor );
+		if (!freeExecutors.isEmpty()) {
+			l18nExecutor = (LocalizedReportItemExecutor) freeExecutors.remove();
+			l18nExecutor.setExecutor(executor);
+		} else {
+			l18nExecutor = new LocalizedReportItemExecutor(this, executor);
 		}
 		return l18nExecutor;
 	}
 
-	protected void closeWrappedExecutor( IReportItemExecutor executor )
-	{
-		freeExecutors.add( executor );
+	@Override
+	protected void closeWrappedExecutor(IReportItemExecutor executor) {
+		freeExecutors.add(executor);
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		IReportContent report = super.execute( );
-		if ( report != null )
-		{
-			report = l18nVisitor.localizeReport( report );
+	@Override
+	public IReportContent execute() throws BirtException {
+		IReportContent report = super.execute();
+		if (report != null) {
+			report = l18nVisitor.localizeReport(report);
 		}
 		return report;
 	}

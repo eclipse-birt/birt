@@ -1,11 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 
-public class XlsContainer
-{
+public class XlsContainer {
 	private StyleEntry style;
 	private ContainerSizeInfo sizeInfo;
 	private HyperlinkDef link;
@@ -16,107 +27,84 @@ public class XlsContainer
 	private String bookmark;
 	private boolean isFirstChild = true;
 
-	public int getEndRow( )
-	{
+	public int getEndRow() {
 		return endRow;
 	}
 
-	public void setEndRow( int endRow )
-	{
+	public void setEndRow(int endRow) {
 		this.endRow = endRow;
 	}
 
-	public XlsContainer( StyleEntry style, XlsContainer parent )
-	{
-		this(style, parent.getSizeInfo( ), parent);
-	}	
-	
-	public XlsContainer( StyleEntry style, ContainerSizeInfo sizeInfo, XlsContainer parent )
-	{
+	public XlsContainer(StyleEntry style, XlsContainer parent) {
+		this(style, parent.getSizeInfo(), parent);
+	}
+
+	public XlsContainer(StyleEntry style, ContainerSizeInfo sizeInfo, XlsContainer parent) {
 		this.style = style;
 		this.sizeInfo = sizeInfo;
 		this.parent = parent;
 		this.endRow = parent != null ? parent.endRow : 0;
 		empty = true;
 		this.startRow = endRow;
-	}	
-	
-	public boolean isEmpty( )
-	{
+	}
+
+	public boolean isEmpty() {
 		return empty;
 	}
-	
-	public void setEmpty( boolean empty )
-	{
+
+	public void setEmpty(boolean empty) {
 		this.empty = empty;
 	}
 
-
-	public StyleEntry getStyle( )
-	{
+	public StyleEntry getStyle() {
 		return style;
 	}
 
-	
-	public void setStyle( StyleEntry style )
-	{
+	public void setStyle(StyleEntry style) {
 		this.style = style;
 	}
 
-	
-	public ContainerSizeInfo getSizeInfo( )
-	{
+	public ContainerSizeInfo getSizeInfo() {
 		return sizeInfo;
 	}
 
-	
-	public void setSizeInfo( ContainerSizeInfo sizeInfo )
-	{
+	public void setSizeInfo(ContainerSizeInfo sizeInfo) {
 		this.sizeInfo = sizeInfo;
 	}
-	
-	public HyperlinkDef getLink( )
-	{
+
+	public HyperlinkDef getLink() {
 		return link;
 	}
 
-	public void setLink( HyperlinkDef link )
-	{
+	public void setLink(HyperlinkDef link) {
 		this.link = link;
 	}
 
-	public int getStartRow( )
-	{
+	public int getStartRow() {
 		return startRow;
 	}
-	
-	public void setStartRow( int startRow )
-	{
+
+	public void setStartRow(int startRow) {
 		this.startRow = startRow;
 	}
-	
-	public XlsContainer getParent( )
-	{
+
+	public XlsContainer getParent() {
 		return parent;
 	}
 
-	public void setBookmark( String bookmark )
-	{
+	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
 
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
-	public boolean isFirstChild( )
-	{
+	public boolean isFirstChild() {
 		return isFirstChild;
 	}
 
-	public void setIsFirstChild( boolean isFirstChild )
-	{
+	public void setIsFirstChild(boolean isFirstChild) {
 		this.isFirstChild = isFirstChild;
 	}
 }

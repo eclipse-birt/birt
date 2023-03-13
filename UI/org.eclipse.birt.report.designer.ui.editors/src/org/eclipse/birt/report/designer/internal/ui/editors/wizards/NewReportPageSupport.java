@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,22 +38,23 @@ import org.eclipse.swt.widgets.Text;
  * Provides support for generating new report page
  */
 
-public class NewReportPageSupport
-{
+public class NewReportPageSupport {
 
 	private Composite topLevel;
 
-	private static final String LABEL_SELECT_A_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.label.select.directory" ); //$NON-NLS-1$
+	private static final String LABEL_SELECT_A_DIRECTORY = Messages
+			.getString("WizardNewReportCreationPage.label.select.directory"); //$NON-NLS-1$
 
-	private static final String LABEL_BROWSE = Messages.getString( "WizardNewReportCreationPage.label.browse" ); //$NON-NLS-1$
+	private static final String LABEL_BROWSE = Messages.getString("WizardNewReportCreationPage.label.browse"); //$NON-NLS-1$
 
-	private static final String LABEL_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.label.directory" ); //$NON-NLS-1$
+	private static final String LABEL_DIRECTORY = Messages.getString("WizardNewReportCreationPage.label.directory"); //$NON-NLS-1$
 
-	private static final String LABEL_USE_DEFAULT = Messages.getString( "WizardNewReportCreationPage.label.useDefault" ); //$NON-NLS-1$
+	private static final String LABEL_USE_DEFAULT = Messages.getString("WizardNewReportCreationPage.label.useDefault"); //$NON-NLS-1$
 
-	private static final String LABEL_FILE_LOCATION = Messages.getString( "WizardNewReportCreationPage.label.file.location" ); //$NON-NLS-1$
+	private static final String LABEL_FILE_LOCATION = Messages
+			.getString("WizardNewReportCreationPage.label.file.location"); //$NON-NLS-1$
 
-	private static final String LABEL_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.label.file.name" ); //$NON-NLS-1$
+	private static final String LABEL_FILE_NAME = Messages.getString("WizardNewReportCreationPage.label.file.name"); //$NON-NLS-1$
 
 	private Text fileNameField;
 
@@ -68,275 +72,238 @@ public class NewReportPageSupport
 
 	private String customLocationFieldValue = "";//$NON-NLS-1$
 
-	public Composite createComposite( Composite parent )
-	{
-		topLevel = new Composite( parent, SWT.NONE );
-		topLevel.setLayout( new GridLayout( ) );
-		topLevel.setFont( parent.getFont( ) );
+	public Composite createComposite(Composite parent) {
+		topLevel = new Composite(parent, SWT.NONE);
+		topLevel.setLayout(new GridLayout());
+		topLevel.setFont(parent.getFont());
 
-		createFileNameGroup( topLevel );
-		createFileLocationGroup( topLevel );
+		createFileNameGroup(topLevel);
+		createFileLocationGroup(topLevel);
 		return topLevel;
 	}
 
 	/**
 	 * Creates the project name specification controls.
-	 * 
-	 * @param parent
-	 *            the parent composite
+	 *
+	 * @param parent the parent composite
 	 */
-	private final void createFileNameGroup( Composite parent )
-	{
-		Composite nameGroup = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	private final void createFileNameGroup(Composite parent) {
+		Composite nameGroup = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		nameGroup.setLayout( layout );
-		nameGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		nameGroup.setLayout(layout);
+		nameGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label fileLabel = new Label( nameGroup, SWT.NONE );
-		fileLabel.setText( LABEL_FILE_NAME );
-		fileLabel.setFont( parent.getFont( ) );
+		Label fileLabel = new Label(nameGroup, SWT.NONE);
+		fileLabel.setText(LABEL_FILE_NAME);
+		fileLabel.setFont(parent.getFont());
 
-		fileNameField = new Text( nameGroup, SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		fileNameField = new Text(nameGroup, SWT.BORDER);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = 250;
-		getFileNameField( ).setLayoutData( data );
-		getFileNameField( ).setFont( parent.getFont( ) );
+		getFileNameField().setLayoutData(data);
+		getFileNameField().setFont(parent.getFont());
 
-		initInput( );
+		initInput();
 	}
 
-	protected void initInput( )
-	{
-		if ( initialFileName != null )
-		{
-			getFileNameField( ).setText( initialFileName );
-		}
-		else
-		{
-			getFileNameField( ).setText( "" ); //$NON-NLS-1$
+	protected void initInput() {
+		if (initialFileName != null) {
+			getFileNameField().setText(initialFileName);
+		} else {
+			getFileNameField().setText(""); //$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * Creates the project location specification controls.
-	 * 
-	 * @param parent
-	 *            the parent composite
+	 *
+	 * @param parent the parent composite
 	 */
-	private final void createFileLocationGroup( Composite parent )
-	{
-		Font font = parent.getFont( );
+	private final void createFileLocationGroup(Composite parent) {
+		Font font = parent.getFont();
 
-		Group locationGroup = new Group( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+		Group locationGroup = new Group(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
-		locationGroup.setLayout( layout );
-		locationGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		locationGroup.setFont( font );
-		locationGroup.setText( LABEL_FILE_LOCATION );
+		locationGroup.setLayout(layout);
+		locationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		locationGroup.setFont(font);
+		locationGroup.setText(LABEL_FILE_LOCATION);
 
-		final Button useDefaultsButton = new Button( locationGroup, SWT.CHECK
-				| SWT.RIGHT );
-		useDefaultsButton.setText( LABEL_USE_DEFAULT );
-		useDefaultsButton.setSelection( useDefaults );
-		useDefaultsButton.setFont( font );
+		final Button useDefaultsButton = new Button(locationGroup, SWT.CHECK | SWT.RIGHT);
+		useDefaultsButton.setText(LABEL_USE_DEFAULT);
+		useDefaultsButton.setSelection(useDefaults);
+		useDefaultsButton.setFont(font);
 
-		GridData buttonData = new GridData( );
+		GridData buttonData = new GridData();
 		buttonData.horizontalSpan = 3;
-		useDefaultsButton.setLayoutData( buttonData );
+		useDefaultsButton.setLayoutData(buttonData);
 
-		createUserSpecifiedProjectLocationGroup( locationGroup, !useDefaults );
+		createUserSpecifiedProjectLocationGroup(locationGroup, !useDefaults);
 
-		SelectionListener listener = new SelectionAdapter( ) {
+		SelectionListener listener = new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				useDefaults = useDefaultsButton.getSelection( );
-				browseButton.setEnabled( !useDefaults );
-				locationPathField.setEnabled( !useDefaults );
-				locationLabel.setEnabled( !useDefaults );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				useDefaults = useDefaultsButton.getSelection();
+				browseButton.setEnabled(!useDefaults);
+				locationPathField.setEnabled(!useDefaults);
+				locationLabel.setEnabled(!useDefaults);
 
-				if ( useDefaults )
-				{
-					customLocationFieldValue = locationPathField.getText( );
-					setLocationForSelection( );
-				}
-				else
-				{
-					locationPathField.setText( customLocationFieldValue );
+				if (useDefaults) {
+					customLocationFieldValue = locationPathField.getText();
+					setLocationForSelection();
+				} else {
+					locationPathField.setText(customLocationFieldValue);
 				}
 			}
 		};
-		useDefaultsButton.addSelectionListener( listener );
+		useDefaultsButton.addSelectionListener(listener);
 	}
 
 	/**
 	 * Returns the value of the file name field with leading and trailing spaces
 	 * removed.
-	 * 
+	 *
 	 * @return the file name in the field
 	 */
-	public String getFileName( )
-	{
-		if ( getFileNameField( ) == null )
-		{
+	public String getFileName() {
+		if (getFileNameField() == null) {
 			return initialFileName;
 		}
-		return getFileNameField( ).getText( ).trim( );
+		return getFileNameField().getText().trim();
 	}
 
 	/**
 	 * Returns the value of the project location field with leading and trailing
 	 * spaces removed.
-	 * 
+	 *
 	 * @return the project location directory in the field
 	 */
-	public IPath getFileLocationFullPath( )
-	{
-		if ( locationPathField == null )
-			return new Path( "" ); //$NON-NLS-1$
-		return new Path( locationPathField.getText( ).trim( ) );
+	public IPath getFileLocationFullPath() {
+		if (locationPathField == null) {
+			return new Path(""); //$NON-NLS-1$
+		}
+		return new Path(locationPathField.getText().trim());
 	}
 
 	/**
 	 * Creates the project location specification controls.
-	 * 
-	 * @param group
-	 *            the parent composite
-	 * @param enabled
-	 *            the initial enabled state of the widgets created
+	 *
+	 * @param group   the parent composite
+	 * @param enabled the initial enabled state of the widgets created
 	 */
-	private void createUserSpecifiedProjectLocationGroup( Composite group,
-			boolean enabled )
-	{
-		Font font = group.getFont( );
+	private void createUserSpecifiedProjectLocationGroup(Composite group, boolean enabled) {
+		Font font = group.getFont();
 
 		// location label
-		locationLabel = new Label( group, SWT.NONE );
-		locationLabel.setText( LABEL_DIRECTORY );
-		locationLabel.setEnabled( enabled );
-		locationLabel.setFont( font );
+		locationLabel = new Label(group, SWT.NONE);
+		locationLabel.setText(LABEL_DIRECTORY);
+		locationLabel.setEnabled(enabled);
+		locationLabel.setFont(font);
 
 		// file location entry field
-		locationPathField = new Text( group, SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		locationPathField = new Text(group, SWT.BORDER);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = 250;
-		locationPathField.setLayoutData( data );
-		locationPathField.setEnabled( enabled );
-		locationPathField.setFont( font );
+		locationPathField.setLayoutData(data);
+		locationPathField.setEnabled(enabled);
+		locationPathField.setFont(font);
 
 		// browse button
-		browseButton = new Button( group, SWT.PUSH );
-		browseButton.setText( LABEL_BROWSE );
-		browseButton.addSelectionListener( new SelectionAdapter( ) {
+		browseButton = new Button(group, SWT.PUSH);
+		browseButton.setText(LABEL_BROWSE);
+		browseButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				handleLocationBrowseButtonPressed( );
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				handleLocationBrowseButtonPressed();
 			}
-		} );
+		});
 
-		browseButton.setEnabled( enabled );
-		browseButton.setFont( font );
-		setButtonLayoutData( browseButton );
+		browseButton.setEnabled(enabled);
+		browseButton.setFont(font);
+		setButtonLayoutData(browseButton);
 
-		if ( defaultFileLocation != null )
-		{
-			locationPathField.setText( defaultFileLocation );
-		}
-		else
-		{
-			locationPathField.setText( "" );//$NON-NLS-1$
+		if (defaultFileLocation != null) {
+			locationPathField.setText(defaultFileLocation);
+		} else {
+			locationPathField.setText("");//$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * Open an appropriate directory browser
 	 */
-	private void handleLocationBrowseButtonPressed( )
-	{
-		DirectoryDialog dialog = new DirectoryDialog( locationPathField.getShell( ) );
-		dialog.setMessage( LABEL_SELECT_A_DIRECTORY );
+	private void handleLocationBrowseButtonPressed() {
+		DirectoryDialog dialog = new DirectoryDialog(locationPathField.getShell());
+		dialog.setMessage(LABEL_SELECT_A_DIRECTORY);
 
-		String dirName = getFileLocationFullPath( ).toOSString( );
-		if ( !dirName.equals( "" ) )//$NON-NLS-1$
+		String dirName = getFileLocationFullPath().toOSString();
+		if (!dirName.equals(""))//$NON-NLS-1$
 		{
-			File path = new File( dirName );
-			if ( path.exists( ) )
-			{
-				dialog.setFilterPath( new Path( dirName ).toOSString( ) );
+			File path = new File(dirName);
+			if (path.exists()) {
+				dialog.setFilterPath(new Path(dirName).toOSString());
 			}
 		}
 
-		String selectedDirectory = dialog.open( );
-		if ( selectedDirectory != null )
-		{
+		String selectedDirectory = dialog.open();
+		if (selectedDirectory != null) {
 			customLocationFieldValue = selectedDirectory;
-			locationPathField.setText( customLocationFieldValue );
+			locationPathField.setText(customLocationFieldValue);
 		}
 	}
 
 	/**
 	 * Set the location to the default location if we are set to useDefaults.
 	 */
-	private void setLocationForSelection( )
-	{
-		if ( useDefaults )
-		{
-			locationPathField.setText( defaultFileLocation );
+	private void setLocationForSelection() {
+		if (useDefaults) {
+			locationPathField.setText(defaultFileLocation);
 		}
 	}
 
 	/**
-	 * Sets the initial file name that this page will use when created. The name
-	 * is ignored if the createControl(Composite) method has already been
-	 * called. Leading and trailing spaces in the name are ignored.
-	 * 
-	 * @param name
-	 *            initial file name for this page
+	 * Sets the initial file name that this page will use when created. The name is
+	 * ignored if the createControl(Composite) method has already been called.
+	 * Leading and trailing spaces in the name are ignored.
+	 *
+	 * @param name initial file name for this page
 	 */
-	public void setInitialFileName( String name )
-	{
-		if ( name == null )
-		{
+	public void setInitialFileName(String name) {
+		if (name == null) {
 			initialFileName = null;
-		}
-		else
-		{
-			initialFileName = name.trim( );
+		} else {
+			initialFileName = name.trim();
 		}
 	}
 
-	public String getInitialFileName()
-	{
+	public String getInitialFileName() {
 		return initialFileName;
 	}
-	
-	protected GridData setButtonLayoutData( Button button )
-	{
-		GridData data = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+
+	protected GridData setButtonLayoutData(Button button) {
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		// TODO replace DialogPage's implementation
 		// int widthHint =
 		// convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-		Point minSize = button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+		Point minSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 		data.widthHint = minSize.x;// Math.max(widthHint, minSize.x);
-		button.setLayoutData( data );
+		button.setLayoutData(data);
 		return data;
 	}
 
-	public void setInitialFileLocation( String path )
-	{
+	public void setInitialFileLocation(String path) {
 		defaultFileLocation = path;
 	}
 
-	public Text getFileNameField( )
-	{
+	public Text getFileNameField() {
 		return fileNameField;
 	}
 
-	public Text getLocationPathField( )
-	{
+	public Text getLocationPathField() {
 		return locationPathField;
 	}
 }

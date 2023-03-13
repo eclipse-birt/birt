@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,11 @@ import org.eclipse.birt.report.engine.content.IContent;
  * a buffered report emitter that allows content objects from the engine to be
  * buffered before output to a specific format. Buffering is needed sometimes,
  * for handling drop, table, etc.
- * 
+ *
  */
-public class BufferedReportEmitter extends ContentEmitterAdapter
-{
+public class BufferedReportEmitter extends ContentEmitterAdapter {
 
-	LinkedList events = new LinkedList( );
+	LinkedList events = new LinkedList();
 
 	/**
 	 * refers to the non-buffered emitter
@@ -35,56 +37,45 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param emitter
 	 */
-	public BufferedReportEmitter( IContentEmitter emitter )
-	{
+	public BufferedReportEmitter(IContentEmitter emitter) {
 		this.emitter = emitter;
 	}
 
-	public boolean isEmpty( )
-	{
-		return events.isEmpty( );
+	public boolean isEmpty() {
+		return events.isEmpty();
 	}
 
-	public void flush( ) throws BirtException
-	{
-		if ( emitter instanceof BufferedReportEmitter )
-		{
-			( (BufferedReportEmitter) emitter ).events.addAll( events );
-		}
-		else
-		{
-			Iterator eventIter = events.iterator( );
-			while ( eventIter.hasNext( ) )
-			{
-				BufferedNode node = (BufferedNode) eventIter.next( );
-				if ( node.start )
-				{
-					ContentEmitterUtil.startContent( node.content, emitter );
-				}
-				else
-				{
-					ContentEmitterUtil.endContent( node.content, emitter );
+	public void flush() throws BirtException {
+		if (emitter instanceof BufferedReportEmitter) {
+			((BufferedReportEmitter) emitter).events.addAll(events);
+		} else {
+			Iterator eventIter = events.iterator();
+			while (eventIter.hasNext()) {
+				BufferedNode node = (BufferedNode) eventIter.next();
+				if (node.start) {
+					ContentEmitterUtil.startContent(node.content, emitter);
+				} else {
+					ContentEmitterUtil.endContent(node.content, emitter);
 				}
 			}
 		}
-		events.clear( );
+		events.clear();
 	}
 
-	public void startContent( IContent content )
-	{
-		events.add( new BufferedNode( content, true ) );
+	@Override
+	public void startContent(IContent content) {
+		events.add(new BufferedNode(content, true));
 	}
 
-	public void endContent( IContent content )
-	{
-		events.add( new BufferedNode( content, false ) );
+	@Override
+	public void endContent(IContent content) {
+		events.add(new BufferedNode(content, false));
 	}
 
-	public static class BufferedNode
-	{
+	public static class BufferedNode {
 
 		boolean start;
 		/**
@@ -93,11 +84,9 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		protected IContent content;
 
 		/**
-		 * @param item
-		 *            the content object
+		 * @param item the content object
 		 */
-		BufferedNode( IContent content, boolean start )
-		{
+		BufferedNode(IContent content, boolean start) {
 			this.content = content;
 			this.start = start;
 		}
@@ -105,13 +94,11 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		/**
 		 * @return Returns the content object stored in this node
 		 */
-		public IContent getContent( )
-		{
+		public IContent getContent() {
 			return content;
 		}
 
-		public boolean isStart( )
-		{
+		public boolean isStart() {
 			return start;
 		}
 	}

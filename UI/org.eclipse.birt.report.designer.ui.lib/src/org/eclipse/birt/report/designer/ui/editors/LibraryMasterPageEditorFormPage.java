@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,51 +22,46 @@ import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
 
 /**
- * 
+ *
  */
 
-public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormPage
-{
-	protected EditPartFactory getEditPartFactory( )
-	{
+public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormPage {
+	@Override
+	protected EditPartFactory getEditPartFactory() {
 		return new LibraryMasterPageGraphicalPartFactory();
 	}
-	
-	public boolean onBroughtToTop( IReportEditorPage prePage )
-	{
-		if ( getEditorInput( ) != prePage.getEditorInput( ) )
-		{
-			setInput( prePage.getEditorInput( ) );
+
+	@Override
+	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		if (getEditorInput() != prePage.getEditorInput()) {
+			setInput(prePage.getEditorInput());
 		}
 
-		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
+		ModuleHandle newModel = getProvider().queryReportModuleHandle();
 		boolean reload = false;
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
-		{
-			setModel( null );
-			doSave( null );
+		if (getStaleType() == IPageStaleType.MODEL_RELOAD) {
+			setModel(null);
+			doSave(null);
 			reload = true;
 		}
-		if ( (newModel != null && getModel( ) != newModel) || reload )
-		{
-			ModuleHandle oldModel = getModel( );
+		if ((newModel != null && getModel() != newModel) || reload) {
+			ModuleHandle oldModel = getModel();
 
-			getProvider( ).connect( newModel );
-			setModel( newModel );
+			getProvider().connect(newModel);
+			setModel(newModel);
 
-			rebuildReportDesign( oldModel );
-			if ( getModel( ) != null )
-			{
-				setViewContentsAsMasterPage( );
-				markPageStale( IPageStaleType.NONE );
+			rebuildReportDesign(oldModel);
+			if (getModel() != null) {
+				setViewContentsAsMasterPage();
+				markPageStale(IPageStaleType.NONE);
 			}
-			updateStackActions( );
+			updateStackActions();
 
 		}
-		//reselect the selection
-		GraphicalViewer view = getGraphicalViewer( );
+		// reselect the selection
+		GraphicalViewer view = getGraphicalViewer();
 
-		UIUtil.resetViewSelection( view, true );
+		UIUtil.resetViewSelection(view, true);
 		return true;
 	}
 }

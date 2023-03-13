@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,19 +29,16 @@ import org.eclipse.swt.widgets.Tree;
 /**
  * TreeValueDialog
  */
-public class TreeValueDialog extends BaseElementTreeSelectionDialog
-{
+public class TreeValueDialog extends BaseElementTreeSelectionDialog {
 
-	List<ListenerClass> listeners = new ArrayList<ListenerClass>( );
+	List<ListenerClass> listeners = new ArrayList<>();
 
-	private static class ListenerClass
-	{
+	private static class ListenerClass {
 
 		int type;
 		Listener listener;
 
-		public ListenerClass( int type, Listener listener )
-		{
+		public ListenerClass(int type, Listener listener) {
 			this.type = type;
 			this.listener = listener;
 		}
@@ -49,57 +49,47 @@ public class TreeValueDialog extends BaseElementTreeSelectionDialog
 	 * @param labelProvider
 	 * @param contentProvider
 	 */
-	public TreeValueDialog( Shell parent, ILabelProvider labelProvider,
-			ITreeContentProvider contentProvider )
-	{
-		super( parent, labelProvider, contentProvider );
+	public TreeValueDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider) {
+		super(parent, labelProvider, contentProvider);
 
-		setAllowMultiple( false );
+		setAllowMultiple(false);
 	}
 
 	/**
 	 * Creates and initializes the tree viewer.
-	 * 
-	 * @param parent
-	 *            the parent composite
+	 *
+	 * @param parent the parent composite
 	 * @return the tree viewer
 	 * @see #doCreateTreeViewer(Composite, int)
 	 */
-	protected TreeViewer createTreeViewer( Composite parent )
-	{
-		TreeViewer treeViewer = super.createTreeViewer( parent );
-		Tree tree = treeViewer.getTree( );
-		assert ( tree != null );
-		for ( int i = 0; i < listeners.size( ); i++ )
-		{
-			int type = listeners.get( i ).type;
-			Listener listener = listeners.get( i ).listener;
-			tree.addListener( type, listener );
+	@Override
+	protected TreeViewer createTreeViewer(Composite parent) {
+		TreeViewer treeViewer = super.createTreeViewer(parent);
+		Tree tree = treeViewer.getTree();
+		assert (tree != null);
+		for (int i = 0; i < listeners.size(); i++) {
+			int type = listeners.get(i).type;
+			Listener listener = listeners.get(i).listener;
+			tree.addListener(type, listener);
 		}
 		return treeViewer;
 	}
 
-	public void addListener( int type, Listener listner )
-	{
-		listeners.add( new ListenerClass( type, listner ) );
+	public void addListener(int type, Listener listner) {
+		listeners.add(new ListenerClass(type, listner));
 	}
 
-	public boolean removeListener( int index )
-	{
-		if ( index >= 0 && index < listeners.size( ) )
-		{
-			listeners.remove( index );
+	public boolean removeListener(int index) {
+		if (index >= 0 && index < listeners.size()) {
+			listeners.remove(index);
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public boolean removeAllListeners( )
-	{
-		listeners.clear( );
+	public boolean removeAllListeners() {
+		listeners.clear();
 		return true;
 	}
 }

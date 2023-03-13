@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +30,9 @@ import org.eclipse.ui.IWorkbenchPart;
  * Add style rule action
  */
 
-public class AddStyleAction extends ContextSelectionAction
-{
+public class AddStyleAction extends ContextSelectionAction {
 
-	private static final String ACTION_MSG_ADD_STYLE_RULE = Messages.getString( "AddStyleAction.actionMsg.addStyleRule" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_ADD_STYLE_RULE = Messages.getString("AddStyleAction.actionMsg.addStyleRule"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "AddStyleAction"; //$NON-NLS-1$
@@ -39,32 +41,31 @@ public class AddStyleAction extends ContextSelectionAction
 
 	/**
 	 * Contructor
-	 * 
+	 *
 	 * @param part
 	 */
-	public AddStyleAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_ADD_STYLE_RULE );
+	public AddStyleAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_ADD_STYLE_RULE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	@Override
+	protected boolean calculateEnabled() {
 		return true;
 	}
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
-	public void run( )
-	{
+	@Override
+	public void run() {
 		// if ( Policy.TRACING_ACTIONS )
 		// {
 		// System.out.println( "Add Style rule action >> Run ..." );
@@ -111,50 +112,35 @@ public class AddStyleAction extends ContextSelectionAction
 
 		boolean hasTheme = false;
 
-		if ( themeHandle != null )
-		{
+		if (themeHandle != null) {
 			hasTheme = true;
-			CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
-					themeHandle );
-		}
-		else
-		{
-			ModuleHandle module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
+			CommandUtils.setVariable(ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME, themeHandle);
+		} else {
+			ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-			if ( module instanceof LibraryHandle )
-			{
-				ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
+			if (module instanceof LibraryHandle) {
+				ThemeHandle theme = ((LibraryHandle) module).getTheme();
 
-				if ( theme != null )
-				{
+				if (theme != null) {
 					hasTheme = true;
-					CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
-							theme );
+					CommandUtils.setVariable(ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME, theme);
 				}
 			}
 		}
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.newStyleCommand" ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		finally
-		{
-			if ( hasTheme )
-			{
-				CommandUtils.removeVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.newStyleCommand"); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		} finally {
+			if (hasTheme) {
+				CommandUtils.removeVariable(ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME);
 			}
 		}
 
 	}
 
-	public void setThemeHandle( AbstractThemeHandle themeHandle )
-	{
+	public void setThemeHandle(AbstractThemeHandle themeHandle) {
 		this.themeHandle = themeHandle;
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,122 +38,103 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
-public class ChartBindingPage extends BindingPage
-{
+public class ChartBindingPage extends BindingPage {
 
-	protected BindingGroupDescriptorProvider createBindingGroupDescriptorProvider( )
-	{
-		return new ChartBindingGroupDescriptorProvider( );
+	protected BindingGroupDescriptorProvider createBindingGroupDescriptorProvider() {
+		return new ChartBindingGroupDescriptorProvider();
 	}
-	
-	protected void applyCustomSections( )
-	{
-		BindingGroupDescriptorProvider bindingProvider = createBindingGroupDescriptorProvider( );
-		bindingProvider.setRefrenceSection( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ) );
-		( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).setProvider( bindingProvider );
-		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();
-		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
 
-			@Override
-			public void setInput( Object object )
-			{
-				super.setInput( object );
-				// always enable refresh button
-				btnRefresh.setEnabled( true );
+	@Override
+	protected void applyCustomSections() {
+		BindingGroupDescriptorProvider bindingProvider = createBindingGroupDescriptorProvider();
+		bindingProvider.setRefrenceSection(((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP)));
+		((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP)).setProvider(bindingProvider);
+		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();
+		((SortingFormSection) getSection(PageSectionId.BINDING_DATASET_FORM))
+				.setCustomForm(new AggregateOnBindingsFormDescriptor(true) {
+
+					@Override
+					public void setInput(Object object) {
+						super.setInput(object);
+						// always enable refresh button
+						btnRefresh.setEnabled(true);
+					}
+				});
+		((SortingFormSection) getSection(PageSectionId.BINDING_DATASET_FORM)).setProvider(dataSetFormProvider);
+		if (((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP)).getProvider() != null) {
+			IDescriptorProvider dataSetProvider = ((BindingGroupSection) getSection(PageSectionId.BINDING_GROUP))
+					.getProvider();
+			if (dataSetProvider instanceof BindingGroupDescriptorProvider) {
+				((BindingGroupDescriptorProvider) dataSetProvider).setDependedProvider(dataSetFormProvider);
 			}
-		} );
-		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
-		if ( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
-		{
-			IDescriptorProvider dataSetProvider = ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );
-			if ( dataSetProvider instanceof BindingGroupDescriptorProvider )
-				( (BindingGroupDescriptorProvider) dataSetProvider ).setDependedProvider( dataSetFormProvider );
 		}
 	}
 
 	/**
 	 * Create different dataset provider for common and sharing case.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3
 	 */
-	protected AggregateOnBindingsFormHandleProvider createDataSetFormProvider()
-	{
-		return new AggregateOnBindingsFormHandleProvider( ) {
+	protected AggregateOnBindingsFormHandleProvider createDataSetFormProvider() {
+		return new AggregateOnBindingsFormHandleProvider() {
 
 			@Override
-			public boolean isEditable( )
-			{
-				if ( input == null )
-				{
-					return super.isEditable( );
+			public boolean isEditable() {
+				if (input == null) {
+					return super.isEditable();
 				}
-				
+
 				final ReportItemHandle rih;
-				if ( input instanceof List ) {
-					rih = (ExtendedItemHandle) ( (List) input ).get( 0 );
+				if (input instanceof List) {
+					rih = (ExtendedItemHandle) ((List) input).get(0);
 				} else {
 					rih = (ExtendedItemHandle) input;
 				}
-				
+
 				// Multi-view case
-				// Don't allow to edit bindings in chart property page when chart is in multi-views, so return false.
-				if ( ChartReportItemUtil.isChildOfMultiViewsHandle( rih ) )
-				{
-						return false;
+				// Don't allow to edit bindings in chart property page when chart is in
+				// multi-views, so return false.
+				if (ChartReportItemUtil.isChildOfMultiViewsHandle(rih)) {
+					return false;
 				}
-				
+
 				// Sharing, Cube, Inheriting and x-chart cases.
 				boolean isSharing = false;
-				if ( ChartItemUtil.getReportItemReference( rih ) != null )
-				{
+				if (ChartItemUtil.getReportItemReference(rih) != null) {
 					isSharing = true;
 				}
-				boolean useCube = ( ChartReportItemHelper.instance( ).getBindingCubeHandle( rih ) != null );
-				return !isSharing
-						&&(!useCube)
-						&& !ChartItemUtil.isChartInheritGroups( rih )
-						&& !ChartCubeUtil.isAxisChart( rih )
-						&& !ChartCubeUtil.isPlotChart( rih );
+				boolean useCube = (ChartReportItemHelper.instance().getBindingCubeHandle(rih) != null);
+				return !isSharing && (!useCube) && !ChartItemUtil.isChartInheritGroups(rih)
+						&& !ChartCubeUtil.isAxisChart(rih) && !ChartCubeUtil.isPlotChart(rih);
 			}
 
 			@Override
-			public void generateAllBindingColumns( )
-			{
+			public void generateAllBindingColumns() {
 				// for cube binding refresh
-				super.generateAllBindingColumns( );
-				if ( getBindingObject( ) != null )
-				{
+				super.generateAllBindingColumns();
+				if (getBindingObject() != null) {
 					CubeHandle cube = null;
-					if ( getBindingObject( ) instanceof ExtendedItemHandle )
-					{
-						cube = ( (ExtendedItemHandle) getBindingObject( ) ).getCube( );
+					if (getBindingObject() instanceof ExtendedItemHandle) {
+						cube = ((ExtendedItemHandle) getBindingObject()).getCube();
 					}
-					if ( cube != null )
-					{
-						try
-						{
-							ExtendedItemHandle inputElement = (ExtendedItemHandle) getBindingObject( );
-							inputElement.getColumnBindings( ).clearValue( );
+					if (cube != null) {
+						try {
+							ExtendedItemHandle inputElement = (ExtendedItemHandle) getBindingObject();
+							inputElement.getColumnBindings().clearValue();
 
-							List<ComputedColumn> columnList = ChartXTabUIUtil.generateComputedColumns( inputElement,
-									cube );
+							List<ComputedColumn> columnList = ChartXTabUIUtil.generateComputedColumns(inputElement,
+									cube);
 
-							if ( columnList.size( ) > 0 )
-							{
-								for ( Iterator<ComputedColumn> iter = columnList.iterator( ); iter.hasNext( ); )
-								{
-									DEUtil.addColumn( inputElement,
-											iter.next( ),
-											false );
+							if (columnList.size() > 0) {
+								for (Iterator<ComputedColumn> iter = columnList.iterator(); iter.hasNext();) {
+									DEUtil.addColumn(inputElement, iter.next(), false);
 								}
 							}
-						}
-						catch ( SemanticException e )
-						{
+						} catch (SemanticException e) {
 							// do nothing
 						}
-						
+
 					}
 				}
 

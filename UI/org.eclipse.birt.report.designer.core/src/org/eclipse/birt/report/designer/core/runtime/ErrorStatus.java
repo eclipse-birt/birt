@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,121 +24,101 @@ import org.eclipse.core.runtime.Status;
  * happens.
  */
 
-public class ErrorStatus extends MultiStatus
-{
+public class ErrorStatus extends MultiStatus {
 
 	/**
 	 * Creates a new instance of Error Status with given reason.
-	 * 
-	 * @param pluginId
-	 *            the unique identifier of the relevant plug-in
-	 * @param code
-	 *            the plug-in-specific status code
-	 * @param reason
-	 *            the error reason
-	 * @param exception
-	 *            a low-level exception, or <code>null</code> if not
-	 *            applicable
+	 *
+	 * @param pluginId  the unique identifier of the relevant plug-in
+	 * @param code      the plug-in-specific status code
+	 * @param reason    the error reason
+	 * @param exception a low-level exception, or <code>null</code> if not
+	 *                  applicable
 	 */
-	public ErrorStatus( String pluginId, int code, String reason,
-			Throwable exception )
-	{
-		super( pluginId, code, reason, exception );
+	public ErrorStatus(String pluginId, int code, String reason, Throwable exception) {
+		super(pluginId, code, reason, exception);
 	}
 
 	/**
 	 * Add a status with given message and severity
-	 * 
-	 * @param message
-	 *            the status message
-	 * @param severity
-	 *            the status severity
+	 *
+	 * @param message  the status message
+	 * @param severity the status severity
 	 */
 
-	public void addStatus( String message, int severity )
-	{
-		merge( new Status( severity, getPlugin( ), getCode( ), message, null ) );
+	public void addStatus(String message, int severity) {
+		merge(new Status(severity, getPlugin(), getCode(), message, null));
 	}
 
 	/**
 	 * Add a warning status with given message
-	 * 
-	 * @param message
-	 *            the status message
+	 *
+	 * @param message the status message
 	 */
-	public void addWarning( String message )
-	{
-		addStatus( message, IStatus.WARNING );
+	public void addWarning(String message) {
+		addStatus(message, IStatus.WARNING);
 	}
 
 	/**
 	 * Add a error status with given message
-	 * 
-	 * @param message
-	 *            the status message
+	 *
+	 * @param message the status message
 	 */
-	public void addError( String message )
-	{
-		addStatus( message, IStatus.ERROR );
+	public void addError(String message) {
+		addStatus(message, IStatus.ERROR);
 	}
 
 	/**
 	 * Add an information status with given message
-	 * 
-	 * @param message
-	 *            the status message
+	 *
+	 * @param message the status message
 	 */
-	public void addInformation( String message )
-	{
-		addStatus( message, IStatus.INFO );
+	public void addInformation(String message) {
+		addStatus(message, IStatus.INFO);
 	}
 
 	/**
 	 * Add cause of error.
-	 * 
+	 *
 	 * @param e
 	 */
-	public void addCause( Throwable e )
-	{
-		String message = e.getLocalizedMessage( );
-		if ( message == null )
-		{
-			message = e.getClass( ).getName( );
+	public void addCause(Throwable e) {
+		String message = e.getLocalizedMessage();
+		if (message == null) {
+			message = e.getClass().getName();
 		}
-		merge( new Status( IStatus.ERROR, getPlugin( ), getCode( ), message, e ) );
+		merge(new Status(IStatus.ERROR, getPlugin(), getCode(), message, e));
 	}
 
 	/**
 	 * Returns the error code
-	 * 
+	 *
 	 * @return the error code
 	 */
-	public int getErrorCode( )
-	{
-		return getCode( );
+	public int getErrorCode() {
+		return getCode();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IStatus#getSeverity()
 	 */
-	public int getSeverity( )
-	{
-		if ( getChildren( ).length == 0 )
-		{// Default value
+	@Override
+	public int getSeverity() {
+		if (getChildren().length == 0) {// Default value
 			return IStatus.ERROR;
 		}
-		return super.getSeverity( );
+		return super.getSeverity();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.Status#setException(java.lang.Throwable)
 	 */
-	public void setException( Throwable exception )
-	{
-		super.setException( exception );
+	@Override
+	public void setException(Throwable exception) {
+		super.setException(exception);
 	}
 }

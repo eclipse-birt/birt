@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -25,7 +27,7 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class FlattenedTableHandler extends AbstractHandler {
-	
+
 	private CellContentHandler contentHandler;
 
 	public FlattenedTableHandler(CellContentHandler contentHandler, Logger log, IHandler parent, ITableContent table) {
@@ -35,15 +37,16 @@ public class FlattenedTableHandler extends AbstractHandler {
 
 	@Override
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
-		if( ( state.sheetName == null ) || state.sheetName.isEmpty() ) {
-			String name = table.getName();
-			if( ( name != null ) && ! name.isEmpty() ) {
+		if ((state.sheetName == null) || state.sheetName.isEmpty()) {
+			String name = state.correctSheetName(table.getName());
+			if ((name != null) && !name.isEmpty()) {
 				state.sheetName = name;
 			}
 		}
-		if( ( state.sheetPassword == null ) || state.sheetPassword.isEmpty() ) {
-			String password = EmitterServices.stringOption( state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD, null);
-			if( ( password != null ) && ! password.isEmpty() ) {
+		if ((state.sheetPassword == null) || state.sheetPassword.isEmpty()) {
+			String password = EmitterServices.stringOption(state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD,
+					null);
+			if ((password != null) && !password.isEmpty()) {
 				state.sheetPassword = password;
 			}
 		}
@@ -75,7 +78,5 @@ public class FlattenedTableHandler extends AbstractHandler {
 	@Override
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
 	}
-	
-	
-	
+
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,62 +23,61 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 /**
  * This interface defines the general style elements supported by chart.
  */
-public interface IStyle
-{
+public interface IStyle {
 
 	/**
 	 * Returns the font of current style.
-	 * 
+	 *
 	 * @return FontDefinition
 	 */
-	FontDefinition getFont( );
+	FontDefinition getFont();
 
 	/**
 	 * Returns the color of current style.
-	 * 
+	 *
 	 * @return ColorDefinition
 	 */
-	ColorDefinition getColor( );
+	ColorDefinition getColor();
 
 	/**
 	 * Returns the background color of current style.
-	 * 
+	 *
 	 * @return ColorDefinition
 	 */
-	ColorDefinition getBackgroundColor( );
+	ColorDefinition getBackgroundColor();
 
 	/**
 	 * Returns the background image of current style.
-	 * 
+	 *
 	 * @return Image
 	 */
-	Image getBackgroundImage( );
+	Image getBackgroundImage();
 
 	/**
 	 * Returns the padding of current style.
-	 * 
+	 *
 	 * @return Insets
 	 */
-	Insets getPadding( );
+	Insets getPadding();
 
 	/**
 	 * Returns the date time format of current style.
-	 * 
+	 *
 	 * @return date time format
 	 */
-	FormatSpecifier getDateTimeFormat( );
+	FormatSpecifier getDateTimeFormat();
 
 	/**
 	 * Returns the number format of current style.
-	 * 
+	 *
 	 * @return number format
 	 */
-	FormatSpecifier getNumberFormat( );
+	FormatSpecifier getNumberFormat();
 
 	/**
 	 * Returns the string format of current style.
-	 * 
+	 *
 	 * @return string format
 	 */
-	FormatSpecifier getStringFormat( );
+	FormatSpecifier getStringFormat();
 }

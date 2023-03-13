@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,74 +25,68 @@ import org.eclipse.swt.graphics.Point;
  * A {@link ReportImageDescriptor} consists of a base image and several
  * adornments. The adornments are computed according to the flags either passed
  * during creation or set via the method {@link #setAdornments(int)}.
- * 
+ *
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
- * 
+ *
  * @since 2.0
  */
-public class ReportImageDescriptor extends CompositeImageDescriptor
-{
+public class ReportImageDescriptor extends CompositeImageDescriptor {
 
 	private ImageDescriptor fBaseImage;
 
-	public ReportImageDescriptor( ImageDescriptor baseImage )
-	{
+	public ReportImageDescriptor(ImageDescriptor baseImage) {
 		fBaseImage = baseImage;
 	}
 
-	public boolean equals( Object object )
-	{
-		if ( object == null
-				|| !ReportImageDescriptor.class.equals( object.getClass( ) ) )
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !ReportImageDescriptor.class.equals(object.getClass())) {
 			return false;
+		}
 		ReportImageDescriptor other = (ReportImageDescriptor) object;
-		return ( fBaseImage.equals( other.fBaseImage ) );
+		return (fBaseImage.equals(other.fBaseImage));
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on Object.
 	 */
-	public int hashCode( )
-	{
-		return fBaseImage.hashCode( );
+	@Override
+	public int hashCode() {
+		return fBaseImage.hashCode();
 	}
 
 	/*
 	 * (non-Javadoc) Method declared in CompositeImageDescriptor
 	 */
-	protected void drawCompositeImage( int width, int height )
-	{
-		ImageData bg = fBaseImage.getImageData( );
-		ImageData data = getImageData( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER ) );
-		drawImage( bg, 0, 0 );
-		Point pos = new Point( getSize( ).x, 0 );
-		addTopRightImage( data, pos );
+	@Override
+	protected void drawCompositeImage(int width, int height) {
+		ImageData bg = fBaseImage.getImageData();
+		ImageData data = getImageData(
+				ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_REPORT_PROJECT_OVER));
+		drawImage(bg, 0, 0);
+		Point pos = new Point(getSize().x, 0);
+		addTopRightImage(data, pos);
 	}
 
-	private ImageData getImageData( ImageDescriptor descriptor )
-	{
-		ImageData data = descriptor.getImageData( ); // null
-		if ( data == null )
-		{
+	private ImageData getImageData(ImageDescriptor descriptor) {
+		ImageData data = descriptor.getImageData(); // null
+		if (data == null) {
 			data = DEFAULT_IMAGE_DATA;
 		}
 		return data;
 	}
 
-	protected Point getSize( )
-	{
-		return new Point( fBaseImage.getImageData( ).width,
-				fBaseImage.getImageData( ).height );
+	@Override
+	protected Point getSize() {
+		return new Point(fBaseImage.getImageData().width, fBaseImage.getImageData().height);
 	}
 
-	private void addTopRightImage( ImageData data, Point pos )
-	{
+	private void addTopRightImage(ImageData data, Point pos) {
 		int x = pos.x - data.width;
-		if ( x >= 0 )
-		{
-			drawImage( data, x, pos.y );
+		if (x >= 0) {
+			drawImage(data, x, pos.y);
 			pos.x = x;
 		}
 	}

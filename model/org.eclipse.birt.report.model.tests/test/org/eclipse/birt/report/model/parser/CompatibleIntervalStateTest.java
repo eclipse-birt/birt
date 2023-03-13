@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,25 +24,22 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  *
  */
 
-public class CompatibleIntervalStateTest extends BaseTestCase
-{
+public class CompatibleIntervalStateTest extends BaseTestCase {
 
 	/**
 	 * Test value of interval property in level element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
-	public void testIntervalValue( ) throws Exception
-	{
-		openDesign( "CompatibleIntervalState.xml" ); //$NON-NLS-1$
-		CubeHandle cubeHandle = (CubeHandle) designHandle.findCube( "Customer Cube" );//$NON-NLS-1$
-		assertNotNull( cubeHandle );
-		
-		LevelHandle levelHandle = (LevelHandle) designHandle.findLevel( "Group1/OFFICECODE" );//$NON-NLS-1$
-		assertNotNull( levelHandle );
-		
-		assertEquals( DesignChoiceConstants.INTERVAL_TYPE_NONE, levelHandle
-				.getInterval( ) );
+	public void testIntervalValue() throws Exception {
+		openDesign("CompatibleIntervalState.xml"); //$NON-NLS-1$
+		CubeHandle cubeHandle = (CubeHandle) designHandle.findCube("Customer Cube");//$NON-NLS-1$
+		assertNotNull(cubeHandle);
+
+		LevelHandle levelHandle = (LevelHandle) designHandle.findLevel("Group1/OFFICECODE");//$NON-NLS-1$
+		assertNotNull(levelHandle);
+
+		assertEquals(DesignChoiceConstants.INTERVAL_TYPE_NONE, levelHandle.getInterval());
 	}
 }

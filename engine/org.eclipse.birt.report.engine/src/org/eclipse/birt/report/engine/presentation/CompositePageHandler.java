@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,29 +20,24 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 
-public class CompositePageHandler implements IPageHandler
-{
+public class CompositePageHandler implements IPageHandler {
 
-	ArrayList handlers = new ArrayList( );
+	ArrayList handlers = new ArrayList();
 
-	public void addHandler( IPageHandler handler )
-	{
-		handlers.add( handler );
+	public void addHandler(IPageHandler handler) {
+		handlers.add(handler);
 	}
 
-	public void removeHandler( IPageHandler handler )
-	{
-		handlers.remove( handler );
+	public void removeHandler(IPageHandler handler) {
+		handlers.remove(handler);
 	}
 
-	public void onPage( int pageNumber, boolean checkpoint,
-			IReportDocumentInfo doc )
-	{
-		Iterator iter = handlers.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IPageHandler handler = (IPageHandler) iter.next( );
-			handler.onPage( pageNumber, checkpoint, doc );
+	@Override
+	public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
+		Iterator iter = handlers.iterator();
+		while (iter.hasNext()) {
+			IPageHandler handler = (IPageHandler) iter.next();
+			handler.onPage(pageNumber, checkpoint, doc);
 		}
 
 	}

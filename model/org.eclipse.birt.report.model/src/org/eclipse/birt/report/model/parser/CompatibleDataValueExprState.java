@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,112 +29,88 @@ import org.xml.sax.SAXException;
  * Parse the valueExpr of DataItem in BIRT 2.1M5 to BIRT 2.1 RC0.
  */
 
-class CompatibleDataValueExprState extends CompatibleMiscExpressionState
-{
+class CompatibleDataValueExprState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs a compatible state.
-	 * 
-	 * @param theHandler
-	 *            the handler to parse the design file.
-	 * @param element
-	 *            the data item
+	 *
+	 * @param theHandler the handler to parse the design file.
+	 * @param element    the data item
 	 */
 
-	CompatibleDataValueExprState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	CompatibleDataValueExprState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	@Override
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( value == null )
+		if (value == null) {
 			return;
+		}
 
 		List newExprs = null;
 
-		try
-		{
-			newExprs = ExpressionUtil.extractColumnExpressions( value );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			newExprs = ExpressionUtil.extractColumnExpressions(value);
+		} catch (BirtException e) {
 			// do nothing
 		}
 
-		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
-				element, handler.module );
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
-		if ( newExprs != null && newExprs.size( ) == 1 )
-		{
-			IColumnBinding column = (IColumnBinding) newExprs.get( 0 );
+		if (newExprs != null && newExprs.size() == 1) {
+			IColumnBinding column = (IColumnBinding) newExprs.get(0);
 
-			if ( value.equals( ExpressionUtil.createRowExpression( column
-					.getResultSetColumnName( ) ) ) )
-			{
-				String newName = column.getResultSetColumnName( );
-				if ( target instanceof GroupElement )
-				{
-					newName = appendBoundColumnsToCachedGroup(
-							(GroupElement) target, newName, column
-									.getBoundExpression( ) );
-				}
-				else
-				{
-					newName = BoundDataColumnUtil.createBoundDataColumn(
-							target, newName, column.getBoundExpression( ),
-							handler.getModule( ) );
+			if (value.equals(ExpressionUtil.createRowExpression(column.getResultSetColumnName()))) {
+				String newName = column.getResultSetColumnName();
+				if (target instanceof GroupElement) {
+					newName = appendBoundColumnsToCachedGroup((GroupElement) target, newName,
+							column.getBoundExpression());
+				} else {
+					newName = BoundDataColumnUtil.createBoundDataColumn(target, newName, column.getBoundExpression(),
+							handler.getModule());
 				}
 
 				// set the property for the result set column property of
 				// DataItem.
 
-				doEnd( newName );
+				doEnd(newName);
 
 				return;
 			}
 
-			setupBoundDataColumns( target, value,
-					handler.versionNumber < VersionUtil.VERSION_3_2_0 );
+			setupBoundDataColumns(target, value, handler.versionNumber < VersionUtil.VERSION_3_2_0);
 		}
 
-		if ( newExprs != null && newExprs.size( ) > 1 )
-		{
-			setupBoundDataColumns( target, value,
-					handler.versionNumber < VersionUtil.VERSION_3_2_0 );
+		if (newExprs != null && newExprs.size() > 1) {
+			setupBoundDataColumns(target, value, handler.versionNumber < VersionUtil.VERSION_3_2_0);
 		}
 
-		String trimmedValue = value.trim( );
+		String trimmedValue = value.trim();
 		String newName = trimmedValue;
 
-		if ( trimmedValue.length( ) == 0 )
-		{
-			doEnd( newName );
+		if (trimmedValue.length() == 0) {
+			doEnd(newName);
 			return;
 		}
 
-		if ( target instanceof GroupElement )
-		{
-			newName = appendBoundColumnsToCachedGroup( (GroupElement) target,
-					trimmedValue, trimmedValue );
-		}
-		else
-		{
-			newName = BoundDataColumnUtil.createBoundDataColumn( target,
-					trimmedValue, trimmedValue, handler.getModule( ) );
+		if (target instanceof GroupElement) {
+			newName = appendBoundColumnsToCachedGroup((GroupElement) target, trimmedValue, trimmedValue);
+		} else {
+			newName = BoundDataColumnUtil.createBoundDataColumn(target, trimmedValue, trimmedValue,
+					handler.getModule());
 		}
 
 		// set the property for the result set column property of DataItem.
 
-		doEnd( newName );
+		doEnd(newName);
 	}
 }

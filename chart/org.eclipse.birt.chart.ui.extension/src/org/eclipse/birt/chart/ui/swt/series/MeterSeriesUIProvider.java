@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,96 +40,70 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * MeterSeriesUIProvider
  */
-public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
-{
+public class MeterSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
-	public MeterSeriesUIProvider( )
-	{
-		super( );
+	public MeterSeriesUIProvider() {
+		super();
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
-		return new MeterSeriesAttributeComposite( parent,
-				SWT.NONE,
-				context,
-				series );
+	@Override
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
+		return new MeterSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass
-	 * ()
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass ()
 	 */
-	public String getSeriesClass( )
-	{
+	@Override
+	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
-		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
-		{
-			return new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
-					ChartUIConstants.QUERY_VALUE,
-					seriesDefn,
-					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
-					context,
-					sTitle );
-		}
-		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
-		{
-			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
-					ChartUIConstants.QUERY_OPTIONAL,
-					seriesDefn,
-					seriesDefn.getQuery( ),
-					context,
-					sTitle );
+	@Override
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
+		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
+			return new BaseDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE, seriesDefn, ChartUIUtil.getDataQuery(seriesDefn, 0), context, sTitle);
+		} else if (seriesType == ISelectDataCustomizeUI.GROUPING_SERIES) {
+			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent(
+					BaseDataDefinitionComponent.BUTTON_GROUP, ChartUIConstants.QUERY_OPTIONAL, seriesDefn,
+					seriesDefn.getQuery(), context, sTitle);
 			return ddc;
 		}
-		return new DefaultSelectDataComponent( );
+		return new DefaultSelectDataComponent();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
 	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException
-	{
-		Iterator<?> iterEntries = series.getDataDefinition( ).iterator( );
-		boolean bIsNumericAgg = ChartUIUtil.isNumericAggregate( series );
+	@Override
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
+		Iterator<?> iterEntries = series.getDataDefinition().iterator();
+		boolean bIsNumericAgg = ChartUIUtil.isNumericAggregate(series);
 
-		while ( iterEntries.hasNext( ) )
-		{
-			Query query = (Query) iterEntries.next( );
-			DataType dataType = idsp.getDataType( query.getDefinition( ) );
-			if ( bIsNumericAgg )
-			{
+		while (iterEntries.hasNext()) {
+			Query query = (Query) iterEntries.next();
+			DataType dataType = idsp.getDataType(query.getDefinition());
+			if (bIsNumericAgg) {
 				dataType = DataType.NUMERIC_LITERAL;
 			}
-			if ( dataType == DataType.TEXT_LITERAL
-					|| dataType == DataType.DATE_TIME_LITERAL )
-			{
-				final ExpressionCodec codec = ChartModelHelper.instance( )
-						.createExpressionCodec( );
-				codec.decode( query.getDefinition( ) );
-				throw new ChartException( ChartUIExtensionPlugin.ID,
-						ChartException.DATA_BINDING,
-						codec.getExpression( ) );
+			if (dataType == DataType.TEXT_LITERAL || dataType == DataType.DATE_TIME_LITERAL) {
+				final ExpressionCodec codec = ChartModelHelper.instance().createExpressionCodec();
+				codec.decode(query.getDefinition());
+				throw new ChartException(ChartUIExtensionPlugin.ID, ChartException.DATA_BINDING, codec.getExpression());
 			}
 		}
 	}

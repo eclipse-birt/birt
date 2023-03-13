@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,12 +41,11 @@ import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
- * 
+ *
  * report item executor manager
- * 
+ *
  */
-public class ExecutorManager
-{
+public class ExecutorManager {
 
 	/**
 	 * item executor type
@@ -84,240 +86,214 @@ public class ExecutorManager
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param loader
 	 * @param visitor
 	 */
-	public ExecutorManager( AbstractReportExecutor reportExecutor )
-	{
+	public ExecutorManager(AbstractReportExecutor reportExecutor) {
 		this.reportExecutor = reportExecutor;
-		for ( int i = 0; i < NUMBER; i++ )
-		{
-			freeList[i] = new LinkedList( );
+		for (int i = 0; i < NUMBER; i++) {
+			freeList[i] = new LinkedList();
 		}
-		executorFactory = new ExecutorFactory( );
+		executorFactory = new ExecutorFactory();
 	}
 
-	ExecutionContext getExecutionContext( )
-	{
+	ExecutionContext getExecutionContext() {
 		return reportExecutor.context;
 	}
 
-	long generateUniqueID( )
-	{
+	long generateUniqueID() {
 		return reportExecutor.uniqueId++;
 	}
 
-	void setUniqueID( long id )
-	{
+	void setUniqueID(long id) {
 		reportExecutor.uniqueId = id;
 	}
 
-	CachedReportContentReaderV3 getReportReader( )
-	{
+	CachedReportContentReaderV3 getReportReader() {
 		return reportExecutor.reader;
 	}
 
-	CachedReportContentReaderV3 getPageReader( )
-	{
+	CachedReportContentReaderV3 getPageReader() {
 		return reportExecutor.pageReader;
 	}
 
-	PageHintReader getPageHintReader( )
-	{
+	PageHintReader getPageHintReader() {
 		return reportExecutor.hintsReader;
 	}
 
 	/**
 	 * get item executor
-	 * 
-	 * @param type
-	 *            the executor type
+	 *
+	 * @param type the executor type
 	 * @return item executor
 	 */
-	protected ReportItemExecutor getItemExecutor( int type )
-	{
-		assert ( type >= 0 ) && ( type < NUMBER );
-		if ( !freeList[type].isEmpty( ) )
-		{
+	protected ReportItemExecutor getItemExecutor(int type) {
+		assert (type >= 0) && (type < NUMBER);
+		if (!freeList[type].isEmpty()) {
 			// the free list is non-empty
-			return (ReportItemExecutor) freeList[type].removeFirst( );
+			return (ReportItemExecutor) freeList[type].removeFirst();
 		}
-		switch ( type )
-		{
-			case GRIDITEM :
-				return new GridItemExecutor( this );
-			case IMAGEITEM :
-				return new ImageItemExecutor( this );
-			case LABELITEM :
-				return new LabelItemExecutor( this );
-			case LISTITEM :
-				return new ListItemExecutor( this );
-			case TABLEITEM :
-				return new TableItemExecutor( this );
-			case DYNAMICTEXTITEM :
-				return new DynamicTextItemExecutor( this );
-			case TEXTITEM :
-				return new TextItemExecutor( this );
-			case DATAITEM :
-				return new DataItemExecutor( this );
-			case EXTENDEDITEM :
-				return new ExtendedItemExecutor( this );
-			case TEMPLATEITEM :
-				return new TemplateExecutor( this );
-			case AUTOTEXTITEM :
-				return new AutoTextItemExecutor( this );
-			case LISTBANDITEM :
-				return new ListBandExecutor( this );
-			case TABLEBANDITEM :
-				return new TableBandExecutor( this );
-			case ROWITEM :
-				return new RowExecutor( this );
-			case CELLITEM :
-				return new CellExecutor( this );
-			case LISTGROUPITEM :
-				return new ListGroupExecutor( this );
-			case TABLEGROUPITEM :
-				return new TableGroupExecutor( this );
-			default :
-				throw new UnsupportedOperationException(
-						"unsupported executor!" ); //$NON-NLS-1$
+		switch (type) {
+		case GRIDITEM:
+			return new GridItemExecutor(this);
+		case IMAGEITEM:
+			return new ImageItemExecutor(this);
+		case LABELITEM:
+			return new LabelItemExecutor(this);
+		case LISTITEM:
+			return new ListItemExecutor(this);
+		case TABLEITEM:
+			return new TableItemExecutor(this);
+		case DYNAMICTEXTITEM:
+			return new DynamicTextItemExecutor(this);
+		case TEXTITEM:
+			return new TextItemExecutor(this);
+		case DATAITEM:
+			return new DataItemExecutor(this);
+		case EXTENDEDITEM:
+			return new ExtendedItemExecutor(this);
+		case TEMPLATEITEM:
+			return new TemplateExecutor(this);
+		case AUTOTEXTITEM:
+			return new AutoTextItemExecutor(this);
+		case LISTBANDITEM:
+			return new ListBandExecutor(this);
+		case TABLEBANDITEM:
+			return new TableBandExecutor(this);
+		case ROWITEM:
+			return new RowExecutor(this);
+		case CELLITEM:
+			return new CellExecutor(this);
+		case LISTGROUPITEM:
+			return new ListGroupExecutor(this);
+		case TABLEGROUPITEM:
+			return new TableGroupExecutor(this);
+		default:
+			throw new UnsupportedOperationException("unsupported executor!"); //$NON-NLS-1$
 		}
 	}
 
-	public ReportItemExecutor createExecutor( ReportItemExecutor parent,
-			ReportItemDesign design, long offset )
-	{
-		ReportItemExecutor executor = executorFactory.createExecutor( design );
-		if ( executor != null )
-		{
-			executor.setParent( parent );
-			executor.setDesign( design );
-			executor.setOffset( offset );
+	public ReportItemExecutor createExecutor(ReportItemExecutor parent, ReportItemDesign design, long offset) {
+		ReportItemExecutor executor = executorFactory.createExecutor(design);
+		if (executor != null) {
+			executor.setParent(parent);
+			executor.setDesign(design);
+			executor.setOffset(offset);
 		}
 		return executor;
 	}
 
 	/**
 	 * release item executor
-	 * 
-	 * @param type
-	 *            the executor type
-	 * @param itemExecutor
-	 *            the item executor
+	 *
+	 * @param type         the executor type
+	 * @param itemExecutor the item executor
 	 */
-	public void releaseExecutor( ReportItemExecutor itemExecutor )
-	{
-		int type = itemExecutor.getExecutorType( );
-		if ( type >= 0 && type < NUMBER )
-		{
-			freeList[type].add( itemExecutor );
+	public void releaseExecutor(ReportItemExecutor itemExecutor) {
+		int type = itemExecutor.getExecutorType();
+		if (type >= 0 && type < NUMBER) {
+			freeList[type].add(itemExecutor);
 		}
 	}
 
-	class ExecutorFactory extends DefaultReportItemVisitorImpl
-	{
+	class ExecutorFactory extends DefaultReportItemVisitorImpl {
 
-		public ReportItemExecutor createExecutor( ReportItemDesign design )
-		{
-			if ( design == null )
-			{
-				return getItemExecutor( EXTENDEDITEM );
+		public ReportItemExecutor createExecutor(ReportItemDesign design) {
+			if (design == null) {
+				return getItemExecutor(EXTENDEDITEM);
 			}
-			return (ReportItemExecutor) design.accept( this, null );
+			return (ReportItemExecutor) design.accept(this, null);
 		}
 
-		public Object visitAutoTextItem( AutoTextItemDesign autoText,
-				Object value )
-		{
-			return getItemExecutor( AUTOTEXTITEM );
+		@Override
+		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
+			return getItemExecutor(AUTOTEXTITEM);
 		}
 
-		public Object visitCell( CellDesign cell, Object value )
-		{
-			return getItemExecutor( CELLITEM );
+		@Override
+		public Object visitCell(CellDesign cell, Object value) {
+			return getItemExecutor(CELLITEM);
 		}
 
-		public Object visitDataItem( DataItemDesign data, Object value )
-		{
-			return getItemExecutor( DATAITEM );
+		@Override
+		public Object visitDataItem(DataItemDesign data, Object value) {
+			return getItemExecutor(DATAITEM);
 		}
 
-		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
-		{
-			return getItemExecutor( EXTENDEDITEM );
+		@Override
+		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
+			return getItemExecutor(EXTENDEDITEM);
 		}
 
-		public Object visitFreeFormItem( FreeFormItemDesign container,
-				Object value )
-		{
+		@Override
+		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			return null;
 		}
 
-		public Object visitGridItem( GridItemDesign grid, Object value )
-		{
-			return getItemExecutor( GRIDITEM );
+		@Override
+		public Object visitGridItem(GridItemDesign grid, Object value) {
+			return getItemExecutor(GRIDITEM);
 		}
 
-		public Object visitImageItem( ImageItemDesign image, Object value )
-		{
-			return getItemExecutor( IMAGEITEM );
+		@Override
+		public Object visitImageItem(ImageItemDesign image, Object value) {
+			return getItemExecutor(IMAGEITEM);
 		}
 
-		public Object visitLabelItem( LabelItemDesign label, Object value )
-		{
-			return getItemExecutor( LABELITEM );
+		@Override
+		public Object visitLabelItem(LabelItemDesign label, Object value) {
+			return getItemExecutor(LABELITEM);
 		}
 
-		public Object visitListBand( ListBandDesign band, Object value )
-		{
-			return getItemExecutor( LISTBANDITEM );
+		@Override
+		public Object visitListBand(ListBandDesign band, Object value) {
+			return getItemExecutor(LISTBANDITEM);
 		}
 
-		public Object visitListItem( ListItemDesign list, Object value )
-		{
-			return getItemExecutor( LISTITEM );
+		@Override
+		public Object visitListItem(ListItemDesign list, Object value) {
+			return getItemExecutor(LISTITEM);
 		}
 
-		public Object visitDynamicTextItem( DynamicTextItemDesign dynText,
-				Object value )
-		{
-			return getItemExecutor( DYNAMICTEXTITEM );
+		@Override
+		public Object visitDynamicTextItem(DynamicTextItemDesign dynText, Object value) {
+			return getItemExecutor(DYNAMICTEXTITEM);
 		}
 
-		public Object visitRow( RowDesign row, Object value )
-		{
-			return getItemExecutor( ROWITEM );
+		@Override
+		public Object visitRow(RowDesign row, Object value) {
+			return getItemExecutor(ROWITEM);
 		}
 
-		public Object visitTableBand( TableBandDesign band, Object value )
-		{
-			return getItemExecutor( TABLEBANDITEM );
+		@Override
+		public Object visitTableBand(TableBandDesign band, Object value) {
+			return getItemExecutor(TABLEBANDITEM);
 		}
 
-		public Object visitTableItem( TableItemDesign table, Object value )
-		{
-			return getItemExecutor( TABLEITEM );
+		@Override
+		public Object visitTableItem(TableItemDesign table, Object value) {
+			return getItemExecutor(TABLEITEM);
 		}
 
-		public Object visitTemplate( TemplateDesign template, Object value )
-		{
-			return getItemExecutor( TEMPLATEITEM );
+		@Override
+		public Object visitTemplate(TemplateDesign template, Object value) {
+			return getItemExecutor(TEMPLATEITEM);
 		}
 
-		public Object visitTextItem( TextItemDesign text, Object value )
-		{
-			return getItemExecutor( TEXTITEM );
+		@Override
+		public Object visitTextItem(TextItemDesign text, Object value) {
+			return getItemExecutor(TEXTITEM);
 		}
 
-		public Object visitListGroup( ListGroupDesign group, Object value )
-		{
-			return getItemExecutor( LISTGROUPITEM );
+		@Override
+		public Object visitListGroup(ListGroupDesign group, Object value) {
+			return getItemExecutor(LISTGROUPITEM);
 		}
 
-		public Object visitTableGroup( TableGroupDesign group, Object value )
-		{
-			return getItemExecutor( TABLEGROUPITEM );
+		@Override
+		public Object visitTableGroup(TableGroupDesign group, Object value) {
+			return getItemExecutor(TABLEGROUPITEM);
 		}
 
 	}

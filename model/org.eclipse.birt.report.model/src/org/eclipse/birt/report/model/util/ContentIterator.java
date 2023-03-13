@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,11 +24,10 @@ import org.eclipse.birt.report.model.core.Module;
  * guarantees the consistency between several rounds of visiting. That is, a
  * given element will get the same iterating results between two times of
  * iterating, as long as the element is not modified.
- * 
+ *
  */
 
-public class ContentIterator extends LevelContentIterator
-{
+public class ContentIterator extends LevelContentIterator {
 
 	/**
 	 * The maximal level.
@@ -36,30 +38,25 @@ public class ContentIterator extends LevelContentIterator
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given <code>element</code>
-	 * 
+	 *
 	 * @param module
-	 * 
-	 * @param element
-	 *            the element to visit.
+	 *
+	 * @param element the element to visit.
 	 */
 
-	public ContentIterator( Module module, DesignElement element )
-	{
-		super( module, element, LevelContentIterator.MAX_LEVEL );
+	public ContentIterator(Module module, DesignElement element) {
+		super(module, element, LevelContentIterator.MAX_LEVEL);
 	}
 
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given slot id of the given <code>element</code>
-	 * 
-	 * @param module
-	 *            module where contents reside.
-	 * @param containerInfo
-	 *            container infor to traverse
+	 *
+	 * @param module        module where contents reside.
+	 * @param containerInfo container infor to traverse
 	 */
 
-	public ContentIterator( Module module, ContainerContext containerInfo )
-	{
-		super( module, containerInfo, LevelContentIterator.MAX_LEVEL );
+	public ContentIterator(Module module, ContainerContext containerInfo) {
+		super(module, containerInfo, LevelContentIterator.MAX_LEVEL);
 	}
 }

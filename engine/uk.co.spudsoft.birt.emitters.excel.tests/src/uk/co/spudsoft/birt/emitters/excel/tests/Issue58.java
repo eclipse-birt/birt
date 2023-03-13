@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -25,7 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue58 extends ReportRunner {
-	
+
 	@Test
 	public void testIssue58WithoutOption() throws BirtException, IOException {
 
@@ -35,18 +37,18 @@ public class Issue58 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 21, this.firstNullRow(sheet));
-			assertEquals( 20, this.lastRow(sheet));
-		
+			assertEquals(21, this.firstNullRow(sheet));
+			assertEquals(20, this.lastRow(sheet));
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testIssue58WithOption() throws BirtException, IOException {
 
@@ -57,17 +59,16 @@ public class Issue58 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 6, this.firstNullRow(sheet));
-			assertEquals( 21, this.lastRow(sheet));
-		
+			assertEquals(6, this.firstNullRow(sheet));
+			assertEquals(21, this.lastRow(sheet));
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

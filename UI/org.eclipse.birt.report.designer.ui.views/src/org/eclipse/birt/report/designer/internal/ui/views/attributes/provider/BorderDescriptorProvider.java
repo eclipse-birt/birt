@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
@@ -10,41 +22,38 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public abstract class BorderDescriptorProvider extends
-		AbstractDescriptorProvider
-{
+public abstract class BorderDescriptorProvider extends AbstractDescriptorProvider {
 
 	protected Object input;
 
-	protected HashMap styleMap = new HashMap( );
+	protected HashMap styleMap = new HashMap();
 
-	public BorderDescriptorProvider( )
-	{
-		styleMap.put( StyleHandle.BORDER_LEFT_STYLE_PROP, Boolean.FALSE );
-		styleMap.put( StyleHandle.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE );
-		styleMap.put( StyleHandle.BORDER_TOP_STYLE_PROP, Boolean.FALSE );
-		styleMap.put( StyleHandle.BORDER_BOTTOM_STYLE_PROP, Boolean.FALSE );
+	public BorderDescriptorProvider() {
+		styleMap.put(StyleHandle.BORDER_LEFT_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(StyleHandle.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(StyleHandle.BORDER_TOP_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(StyleHandle.BORDER_BOTTOM_STYLE_PROP, Boolean.FALSE);
 	}
 
-	public void setStyleProperty( String style, Boolean value )
-	{
-		styleMap.put( style, value );
+	public void setStyleProperty(String style, Boolean value) {
+		styleMap.put(style, value);
 	}
 
-	public void setInput( Object input )
-	{
+	@Override
+	public void setInput(Object input) {
 		this.input = input;
 	}
 
-	protected String getLocalStringValue( String property )
-	{
+	protected String getLocalStringValue(String property) {
 		GroupElementHandle handle = null;
-		if ( input instanceof List )
-			handle = DEUtil.getGroupElementHandle( (List) input );
-		if ( handle == null )
+		if (input instanceof List) {
+			handle = DEUtil.getGroupElementHandle((List) input);
+		}
+		if (handle == null) {
 			return ""; //$NON-NLS-1$
-		String value = handle.getLocalStringProperty( property );
-		if ( value == null )
+		}
+		String value = handle.getLocalStringProperty(property);
+		if (value == null)
 		// && multiSelectionHandle.shareSameValue( property ) )
 		{
 			value = ""; //$NON-NLS-1$
@@ -52,15 +61,16 @@ public abstract class BorderDescriptorProvider extends
 		return value;
 	}
 
-	protected String getStringValue( String property )
-	{
+	protected String getStringValue(String property) {
 		GroupElementHandle handle = null;
-		if ( input instanceof List )
-			handle = DEUtil.getGroupElementHandle( (List) input );
-		if ( handle == null )
+		if (input instanceof List) {
+			handle = DEUtil.getGroupElementHandle((List) input);
+		}
+		if (handle == null) {
 			return ""; //$NON-NLS-1$
-		String value = handle.getStringProperty( property );
-		if ( value == null )
+		}
+		String value = handle.getStringProperty(property);
+		if (value == null)
 		// && multiSelectionHandle.shareSameValue( property ) )
 		{
 			value = ""; //$NON-NLS-1$
@@ -68,75 +78,65 @@ public abstract class BorderDescriptorProvider extends
 		return value;
 	}
 
-	protected String getDisplayValue( String property )
-	{
+	protected String getDisplayValue(String property) {
 		GroupElementHandle handle = null;
-		if ( input instanceof List )
-			handle = DEUtil.getGroupElementHandle( (List) input );
-		if ( handle == null )
+		if (input instanceof List) {
+			handle = DEUtil.getGroupElementHandle((List) input);
+		}
+		if (handle == null) {
 			return ""; //$NON-NLS-1$
-		if ( getLocalStringValue( property ).equals( "" ) )
-		{
-			String value = handle.getPropertyHandle( property )
-					.getStringValue( );
-			if ( value == null )
-			{
+		}
+		if (getLocalStringValue(property).equals("")) {
+			String value = handle.getPropertyHandle(property).getStringValue();
+			if (value == null) {
 				value = ""; //$NON-NLS-1$
 			}
 			return value;
-		}
-		else
+		} else {
 			return ""; //$NON-NLS-1$
+		}
 	}
 
-	protected String getDefaultStringValue( String property )
-	{
+	protected String getDefaultStringValue(String property) {
 		GroupElementHandle handle = null;
-		if ( input instanceof List )
-			handle = DEUtil.getGroupElementHandle( (List) input );
-		if ( handle == null )
+		if (input instanceof List) {
+			handle = DEUtil.getGroupElementHandle((List) input);
+		}
+		if (handle == null) {
 			return ""; //$NON-NLS-1$
-		if ( getLocalStringValue( property ).equals( "" ) )
-		{
-			String value = handle.getStringProperty( property );
-			if ( value == null )
+		}
+		if (getLocalStringValue(property).equals("")) {
+			String value = handle.getStringProperty(property);
+			if (value == null)
 			// && multiSelectionHandle.shareSameValue( property ) )
 			{
 				value = ""; //$NON-NLS-1$
 			}
 			return value;
-		}
-		else
+		} else {
 			return ""; //$NON-NLS-1$
+		}
 	}
 
-	protected void save( String property, Object value )
-			throws SemanticException
-	{
+	protected void save(String property, Object value) throws SemanticException {
 		GroupElementHandle groupElementHandle = null;
 
-		if ( input instanceof GroupElementHandle )
-		{
+		if (input instanceof GroupElementHandle) {
 			groupElementHandle = (GroupElementHandle) input;
-		}
-		else if ( input instanceof List )
-		{
-			groupElementHandle = DEUtil.getGroupElementHandle( (List) input );
+		} else if (input instanceof List) {
+			groupElementHandle = DEUtil.getGroupElementHandle((List) input);
 		}
 
-		if ( groupElementHandle != null )
-		{
-			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle( property );
-			if ( handle != null && handle.getLocalStringValue( ) != null )
-			{
-				if ( handle.getLocalStringValue( ).equals( value ) )
-				{
+		if (groupElementHandle != null) {
+			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle(property);
+			if (handle != null && handle.getLocalStringValue() != null) {
+				if (handle.getLocalStringValue().equals(value)) {
 					return;
 				}
 			}
-			groupElementHandle.setProperty( property, value );
+			groupElementHandle.setProperty(property, value);
 		}
 	}
 
-	abstract void handleModifyEvent( );
+	abstract void handleModifyEvent();
 }

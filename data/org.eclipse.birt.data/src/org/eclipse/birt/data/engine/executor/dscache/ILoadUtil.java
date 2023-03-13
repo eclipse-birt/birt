@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,27 +19,26 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- * 
+ *
  */
 
-interface ILoadUtil
-{
+interface ILoadUtil {
 
 	/**
 	 * @param resultObject
 	 * @throws DataException
 	 */
-	public abstract IResultObject loadObject( ) throws DataException;
+	IResultObject loadObject() throws DataException;
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract IResultClass loadResultClass( ) throws DataException;
+	IResultClass loadResultClass() throws DataException;
 
 	/**
 	 * @throws DataException
 	 */
-	public abstract void close( ) throws DataException;
+	void close() throws DataException;
 
 }

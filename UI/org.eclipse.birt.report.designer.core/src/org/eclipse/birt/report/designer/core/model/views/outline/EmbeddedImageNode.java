@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,64 +20,59 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
  * Model class for embedded image node in the outline view
  */
 
-public class EmbeddedImageNode
-{
+public class EmbeddedImageNode {
 
 	private ModuleHandle reportHandle;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param reportHandle
 	 */
-	public EmbeddedImageNode( ModuleHandle reportHandle )
-	{
+	public EmbeddedImageNode(ModuleHandle reportHandle) {
 		this.reportHandle = reportHandle;
 	}
 
 	/**
 	 * Get container of embedded images.
-	 * 
+	 *
 	 * @return report design handle, which contains embedded images.
 	 */
-	public ModuleHandle getReportDesignHandle( )
-	{
+	public ModuleHandle getReportDesignHandle() {
 		return reportHandle;
 	}
 
 	/**
 	 * Get array of embedded images.
-	 * 
+	 *
 	 * @return Array of embedded images.
 	 */
-	public Object[] getChildren( )
-	{
-		return reportHandle.getVisibleImages( ).toArray( );
+	public Object[] getChildren() {
+		return reportHandle.getVisibleImages().toArray();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object arg0 )
-	{
-		if ( arg0 == this )
-		{
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 == this) {
 			return true;
 		}
-		if ( arg0 instanceof EmbeddedImageNode )
-		{
-			return ( (EmbeddedImageNode) arg0 ).reportHandle == reportHandle;
+		if (arg0 instanceof EmbeddedImageNode) {
+			return ((EmbeddedImageNode) arg0).reportHandle == reportHandle;
 		}
 		return false;
 	}
 
-	public int hashCode( )
-	{
+	@Override
+	public int hashCode() {
 		int hashCode = 13;
-		if(reportHandle!=null)
-			hashCode +=  reportHandle.hashCode( ) * 7;
+		if (reportHandle != null) {
+			hashCode += reportHandle.hashCode() * 7;
+		}
 		return hashCode;
 	}
 }

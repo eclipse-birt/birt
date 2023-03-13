@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,169 +38,150 @@ import org.eclipse.ui.part.Page;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-public class ReportMultiBookPage extends Page implements
-		IContentOutlinePage,
-		ISelectionChangedListener
-{
+public class ReportMultiBookPage extends Page implements IContentOutlinePage, ISelectionChangedListener {
 
 	private PageBook pagebook;
 	private ISelection selection;
-	private ArrayList listeners = new ArrayList( );
+	private ArrayList listeners = new ArrayList();
 	private IPageBookViewPage currentPage;
 	private IPageBookViewPage emptyPage;
 	private IActionBars actionBars;
 	private ISelectionChangedListener selectionChangedListener;
 
-	public ReportMultiBookPage( )
-	{
-		selectionChangedListener = new ISelectionChangedListener( ) {
+	public ReportMultiBookPage() {
+		selectionChangedListener = new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				ReportMultiBookPage.this.getSite( )
-						.getSelectionProvider( )
-						.setSelection( event.getSelection( ) );
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				ReportMultiBookPage.this.getSite().getSelectionProvider().setSelection(event.getSelection());
 			}
 		};
 	}
 
-	public void addFocusListener( FocusListener listener )
-	{
+	public void addFocusListener(FocusListener listener) {
 	}
 
-	public void addSelectionChangedListener( ISelectionChangedListener listener )
-	{
-		listeners.add( listener );
+	@Override
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		listeners.add(listener);
 	}
 
-	public void createControl( Composite parent )
-	{
-		pagebook = new PageBook( parent, SWT.NONE );
+	@Override
+	public void createControl(Composite parent) {
+		pagebook = new PageBook(parent, SWT.NONE);
 	}
 
-	public void dispose( )
-	{
-		if ( pagebook != null && !pagebook.isDisposed( ) )
-			pagebook.dispose( );
-		if ( emptyPage != null )
-		{
-			emptyPage.dispose( );
+	@Override
+	public void dispose() {
+		if (pagebook != null && !pagebook.isDisposed()) {
+			pagebook.dispose();
+		}
+		if (emptyPage != null) {
+			emptyPage.dispose();
 			emptyPage = null;
 		}
-		if ( currentPage != null )
-		{
-			currentPage.dispose( );
+		if (currentPage != null) {
+			currentPage.dispose();
 		}
 		currentPage = null;
 		pagebook = null;
 		listeners = null;
 	}
 
-	public boolean isDisposed( )
-	{
+	public boolean isDisposed() {
 		return listeners == null;
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return pagebook;
 	}
 
-	public PageBook getPagebook( )
-	{
+	public PageBook getPagebook() {
 		return pagebook;
 	}
 
-	public ISelection getSelection( )
-	{
+	@Override
+	public ISelection getSelection() {
 		return selection;
 	}
 
-	public void makeContributions( IMenuManager menuManager,
-			IToolBarManager toolBarManager, IStatusLineManager statusLineManager )
-	{
+	@Override
+	public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager,
+			IStatusLineManager statusLineManager) {
 	}
 
-	public void removeFocusListener( FocusListener listener )
-	{
+	public void removeFocusListener(FocusListener listener) {
 	}
 
-	public void removeSelectionChangedListener(
-			ISelectionChangedListener listener )
-	{
-		listeners.remove( listener );
+	@Override
+	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
+		listeners.remove(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 *
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
-	public void selectionChanged( SelectionChangedEvent event )
-	{
-		setSelection( event.getSelection( ) );
-		StructuredSelection selection = (StructuredSelection) event.getSelection( );
-		Object obj = selection.getFirstElement( );
-		if ( obj instanceof IFormPage )
-		{
-			Object palette = ( (IFormPage) obj ).getAdapter( PalettePage.class );
-			setActivePage( (IPageBookViewPage) palette );
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		setSelection(event.getSelection());
+		StructuredSelection selection = (StructuredSelection) event.getSelection();
+		Object obj = selection.getFirstElement();
+		if (obj instanceof IFormPage) {
+			Object palette = ((IFormPage) obj).getAdapter(PalettePage.class);
+			setActivePage((IPageBookViewPage) palette);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.Page#setActionBars(org.eclipse.ui.IActionBars)
 	 */
-	public void setActionBars( IActionBars actionBars )
-	{
+	@Override
+	public void setActionBars(IActionBars actionBars) {
 		this.actionBars = actionBars;
-		if ( currentPage != null )
-			setActivePage( currentPage );
+		if (currentPage != null) {
+			setActivePage(currentPage);
+		}
 	}
 
-	public IActionBars getActionBars( )
-	{
+	public IActionBars getActionBars() {
 		return actionBars;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.Page#setFocus()
 	 */
-	public void setFocus( )
-	{
-		if ( currentPage != null )
-		{
-			if ( !UIUtil.containsFocusControl( currentPage.getControl( ) ) )
-			{
-				currentPage.setFocus( );
+	@Override
+	public void setFocus() {
+		if (currentPage != null) {
+			if (!UIUtil.containsFocusControl(currentPage.getControl())) {
+				currentPage.setFocus();
 			}
 		}
 	}
 
-	private IPageBookViewPage getEmptyPage( )
-	{
-		if ( emptyPage == null )
-			emptyPage = new EmptyPage( );
+	private IPageBookViewPage getEmptyPage() {
+		if (emptyPage == null) {
+			emptyPage = new EmptyPage();
+		}
 		return emptyPage;
 	}
 
-	public IPageBookViewPage getCurrentPage( )
-	{
+	public IPageBookViewPage getCurrentPage() {
 		return currentPage;
 	}
 
-	public void setActivePage( IPageBookViewPage page )
-	{
+	public void setActivePage(IPageBookViewPage page) {
 		IPageBookViewPage previousPage = null;
-		if ( page == null )
-		{
-			page = getEmptyPage( );
+		if (page == null) {
+			page = getEmptyPage();
 		}
 
 		// if ( previousPage instanceof IReportPageBookViewPage )
@@ -207,143 +190,125 @@ public class ReportMultiBookPage extends Page implements
 		// .removeSelectionChangedListener( selectionChangedListener );
 		// }
 
-		if ( currentPage != null
-				&& currentPage != getEmptyPage( )
-				&& !( currentPage instanceof PalettePage )
-				&& page != currentPage )
-		{
+		if (currentPage != null && currentPage != getEmptyPage() && !(currentPage instanceof PalettePage)
+				&& page != currentPage) {
 			// currentPage.getControl( ).dispose( );
 			// currentPage.dispose( );
 			previousPage = currentPage;
 		}
 		this.currentPage = page;
-		if ( pagebook == null )
-		{
+		if (pagebook == null) {
 			// still not being made
 			return;
 		}
 		Control control = null;
-		try
-		{
-			control = page.getControl( );
-		}
-		catch ( Exception e )
-		{
+		try {
+			control = page.getControl();
+		} catch (Exception e) {
 
 		}
-		if ( control == null || control.isDisposed( ) )
-		{
-			if ( page.getSite( ) == null )
-			{
-				try
-				{
-					page.init( getSite( ) );
-				}
-				catch ( PartInitException e )
-				{
-					page = getEmptyPage( );
+		if (control == null || control.isDisposed()) {
+			if (page.getSite() == null) {
+				try {
+					page.init(getSite());
+				} catch (PartInitException e) {
+					page = getEmptyPage();
 				}
 			}
 			// first time
-			page.createControl( pagebook );
-			page.setActionBars( getActionBars( ) );
-			control = page.getControl( );
+			page.createControl(pagebook);
+			page.setActionBars(getActionBars());
+			control = page.getControl();
 
-			if ( page instanceof IReportPageBookViewPage )
-			{
-				( (IReportPageBookViewPage) page ).getSelectionProvider( )
-						.addSelectionChangedListener( selectionChangedListener );
+			if (page instanceof IReportPageBookViewPage) {
+				((IReportPageBookViewPage) page).getSelectionProvider()
+						.addSelectionChangedListener(selectionChangedListener);
 			}
-			getSite( ).setSelectionProvider( this );
+			getSite().setSelectionProvider(this);
 		}
-		pagebook.showPage( control );
+		pagebook.showPage(control);
 		this.currentPage = page;
-		if ( previousPage != null
-				&& previousPage.getControl( ) != null
-				&& !previousPage.getControl( ).isDisposed( ) )
-		{
+		if (previousPage != null && previousPage.getControl() != null && !previousPage.getControl().isDisposed()) {
 			final IPageBookViewPage disposePage = previousPage;
-			Display.getDefault( ).asyncExec( new Runnable( ) {
+			Display.getDefault().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					disposePage.getControl( ).dispose( );
-					disposePage.dispose( );
+				@Override
+				public void run() {
+					disposePage.getControl().dispose();
+					disposePage.dispose();
 				}
-			} );
+			});
 		}
 	}
 
 	/**
 	 * Set the selection.
 	 */
-	public void setSelection( ISelection selection )
-	{
+	@Override
+	public void setSelection(ISelection selection) {
 		this.selection = selection;
-		if ( listeners == null )
+		if (listeners == null) {
 			return;
-		SelectionChangedEvent e = new SelectionChangedEvent( this, selection );
-		for ( int i = 0; i < listeners.size( ); i++ )
-		{
-			( (ISelectionChangedListener) listeners.get( i ) ).selectionChanged( e );
+		}
+		SelectionChangedEvent e = new SelectionChangedEvent(this, selection);
+		for (int i = 0; i < listeners.size(); i++) {
+			((ISelectionChangedListener) listeners.get(i)).selectionChanged(e);
 		}
 	}
 
-	public static class EmptyPage implements IPageBookViewPage
-	{
+	public static class EmptyPage implements IPageBookViewPage {
 
 		private Composite control;
 		private IPageSite site;
 
-		public IPageSite getSite( )
-		{
+		@Override
+		public IPageSite getSite() {
 			return site;
 		}
 
-		public void init( IPageSite site ) throws PartInitException
-		{
+		@Override
+		public void init(IPageSite site) throws PartInitException {
 			this.site = site;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
-		 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
-		 * )
+		 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite )
 		 */
-		public void createControl( Composite parent )
-		{
-			control = new Composite( parent, SWT.NULL );
+		@Override
+		public void createControl(Composite parent) {
+			control = new Composite(parent, SWT.NULL);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.ui.part.IPage#dispose()
 		 */
-		public void dispose( )
-		{
+		@Override
+		public void dispose() {
 			control = null;
 			site = null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.ui.part.IPage#getControl()
 		 */
-		public Control getControl( )
-		{
+		@Override
+		public Control getControl() {
 			return control;
 		}
 
-		public void setActionBars( IActionBars actionBars )
-		{
+		@Override
+		public void setActionBars(IActionBars actionBars) {
 		}
 
-		public void setFocus( )
-		{
+		@Override
+		public void setFocus() {
 		}
 	}
 

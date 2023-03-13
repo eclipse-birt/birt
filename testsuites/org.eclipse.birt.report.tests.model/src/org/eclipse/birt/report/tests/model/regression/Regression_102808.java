@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -31,52 +34,46 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * container's highlight rule is not affected.
  * </p>
  */
-public class Regression_102808 extends BaseTestCase
-{
+public class Regression_102808 extends BaseTestCase {
 
 	private final static String INPUT = "regression_102808.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
-	
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_102808( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_regression_102808() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
 		// get the label inside a table, add a highlight rule.
-		
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		assertNotNull( label );
-		assertNull( label.getProperty( StyleHandle.HIGHLIGHT_RULES_PROP ) );
-		
-		HighlightRule rule = StructureFactory.createHighlightRule( );
-		rule.setValue1( "2 > 1" ); //$NON-NLS-1$
-		rule.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER, "red" ); //$NON-NLS-1$
 
-		PropertyHandle highlightHandle = label
-				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
-		highlightHandle.addItem( rule );
-		assertNotNull( label.getProperty( StyleHandle.HIGHLIGHT_RULES_PROP ) );
-		
-		
+		LabelHandle label = (LabelHandle) designHandle.findElement("label1"); //$NON-NLS-1$
+		assertNotNull(label);
+		assertNull(label.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP));
+
+		HighlightRule rule = StructureFactory.createHighlightRule();
+		rule.setValue1("2 > 1"); //$NON-NLS-1$
+		rule.setProperty(HighlightRule.BACKGROUND_COLOR_MEMBER, "red"); //$NON-NLS-1$
+
+		PropertyHandle highlightHandle = label.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
+		highlightHandle.addItem(rule);
+		assertNotNull(label.getProperty(StyleHandle.HIGHLIGHT_RULES_PROP));
+
 		// make sure the table container's highlight rule is not affected.
-		
-		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		PropertyHandle tableHighlight = table
-				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
-		assertNull( tableHighlight.getListValue( ) );
+
+		TableHandle table = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
+		PropertyHandle tableHighlight = table.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP);
+		assertNull(tableHighlight.getListValue());
 	}
 }

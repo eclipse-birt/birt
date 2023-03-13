@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,10 +46,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * A prepared query which uses a Script Data Source.
  */
-class PreparedScriptDSQuery extends PreparedDataSourceQuery
-		implements
-			IPreparedQuery
-{
+class PreparedScriptDSQuery extends PreparedDataSourceQuery implements IPreparedQuery {
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -54,225 +54,200 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 	 * @param appContext
 	 * @throws DataException
 	 */
-	PreparedScriptDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 
-			IBaseDataSetDesign dataSetDesign, Map appContext, IQueryContextVisitor contextVisitor ) throws DataException
-	{
-		super( dataEngine, queryDefn, dataSetDesign, appContext, contextVisitor );
-		Object[] params = {
-				dataEngine, queryDefn, dataSetDesign, appContext
-		};
-		logger.entering( PreparedScriptDSQuery.class.getName( ),
-				"PreparedScriptDSQuery",
-				params );
+	PreparedScriptDSQuery(DataEngineImpl dataEngine, IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
+			Map appContext, IQueryContextVisitor contextVisitor) throws DataException {
+		super(dataEngine, queryDefn, dataSetDesign, appContext, contextVisitor);
+		Object[] params = { dataEngine, queryDefn, dataSetDesign, appContext };
+		logger.entering(PreparedScriptDSQuery.class.getName(), "PreparedScriptDSQuery", params);
 
-		logger.exiting( PreparedScriptDSQuery.class.getName( ),
-				"PreparedScriptDSQueryss" );
-		logger.logp( Level.FINER,
-				PreparedScriptDSQuery.class.getName( ),
-				"PreparedScriptDSQuery",
-				"PreparedScriptDSQuery starts up." );
+		logger.exiting(PreparedScriptDSQuery.class.getName(), "PreparedScriptDSQueryss");
+		logger.logp(Level.FINER, PreparedScriptDSQuery.class.getName(), "PreparedScriptDSQuery",
+				"PreparedScriptDSQuery starts up.");
 	}
-		
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
-    public Collection getParameterMetaData() throws DataException
-	{
-		DataException e = new DataException( ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED );
-		logger.logp( Level.FINE,
-				PreparedDataSourceQuery.class.getName( ),
-				"getParameterMetaData",
-				"Cannot get parameter metadata for this type of data source.",
-				e );
+	@Override
+	public Collection getParameterMetaData() throws DataException {
+		DataException e = new DataException(ResourceConstants.PARAMETER_METADATA_NOT_SUPPORTED);
+		logger.logp(Level.FINE, PreparedDataSourceQuery.class.getName(), "getParameterMetaData",
+				"Cannot get parameter metadata for this type of data source.", e);
 		throw e;
 	}
-    
-    /*
-     * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
-     */
-	protected QueryExecutor newExecutor()
-	{
+
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#newExecutor()
+	 */
+	@Override
+	protected QueryExecutor newExecutor() {
 		return new ScriptDSQueryExecutor();
 	}
-	
+
 	/**
 	 * Concrete class of DSQueryExecutor used in PreparedScriptDSQuery
 	 */
-	class ScriptDSQueryExecutor extends DSQueryExecutor
-	{
+	class ScriptDSQueryExecutor extends DSQueryExecutor {
 		private ResultClass resultClass;
 		private CustomDataSet customDataSet;
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource(
+		 * )
 		 */
-		protected IDataSource createOdiDataSource( ) throws DataException
-		{
+		@Override
+		protected IDataSource createOdiDataSource() throws DataException {
 			// An empty odi data source is used for script data set
 			PreparedScriptDSQuery self = PreparedScriptDSQuery.this;
-			return DataSourceFactory.getFactory( )
-					.getDataSource( null,
-							null,
-							self.dataEngine.getSession( ));
+			return DataSourceFactory.getFactory().getDataSource(null, null, self.dataEngine.getSession());
 		}
-	
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
 		 */
-		protected IQuery createOdiQuery()  throws DataException
-		{
+		@Override
+		protected IQuery createOdiQuery() throws DataException {
 			assert odiDataSource != null;
-			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery( this.fromCache( ) );
+			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery(this.fromCache());
 			return candidateQuery;
 		}
-		
+
 		@Override
-		protected boolean fromCache() throws DataException
-		{
-			return super.fromCache( ) && ( this.dataSet.getDesign( ) instanceof IScriptDataSetDesign );
+		protected boolean fromCache() throws DataException {
+			return super.fromCache() && (this.dataSet.getDesign() instanceof IScriptDataSetDesign);
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()
 		 */
-		protected void populateOdiQuery( ) throws DataException
-		{
-			super.populateOdiQuery( );
-			
+		@Override
+		protected void populateOdiQuery() throws DataException {
+			super.populateOdiQuery();
+
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
 			assert candidateQuery != null;
-			
+
 			ScriptDataSetRuntime scriptDataSet = (ScriptDataSetRuntime) dataSet;
-			List resultHints = dataSet.getResultSetHints( );
+			List resultHints = dataSet.getResultSetHints();
 			List computedColumns = dataSet.getComputedColumns();
-			List columnsList = new ArrayList( );
-			
+			List columnsList = new ArrayList();
+
 			// Resolve parameter binding
-			resolveDataSetParameters( true );
-			
-			// If a "describe" script or handler exists and it 
-			// returns true, use dynamic metadata; 
+			resolveDataSetParameters(true);
+
+			// If a "describe" script or handler exists and it
+			// returns true, use dynamic metadata;
 			// otherwise use static columns defined in result hint
-			if ( scriptDataSet.describe() )
-			{
-				columnsList.addAll( scriptDataSet.getDescribedMetaData());
-			}
-			else
-			{
-				Iterator it = resultHints.iterator( );
-				for ( int j = 0; it.hasNext( ); j++ )
-				{
-					IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
-					
+			if (scriptDataSet.describe()) {
+				columnsList.addAll(scriptDataSet.getDescribedMetaData());
+			} else {
+				Iterator it = resultHints.iterator();
+				for (int j = 0; it.hasNext(); j++) {
+					IColumnDefinition columnDefn = (IColumnDefinition) it.next();
+
 					// All columns are declared as custom to allow as to set column value
 					// at runtime
-					ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
-							columnDefn.getColumnName( ),
-							columnDefn.getColumnName( ),
-							DataType.getClass( columnDefn.getDataType( ) ),
-							null /* nativeTypeName */,
-							true, columnDefn.getAnalysisType( ),
-							columnDefn.getAnalysisColumn( ),
-							columnDefn.isIndexColumn( ),
-							columnDefn.isCompressedColumn( ) );
-					columnsList.add( columnMetaData );
-					columnMetaData.setAlias( columnDefn.getAlias( ) );
+					ResultFieldMetadata columnMetaData = new ResultFieldMetadata(j + 1, columnDefn.getColumnName(),
+							columnDefn.getColumnName(), DataType.getClass(columnDefn.getDataType()),
+							null /* nativeTypeName */, true, columnDefn.getAnalysisType(),
+							columnDefn.getAnalysisColumn(), columnDefn.isIndexColumn(),
+							columnDefn.isCompressedColumn());
+					columnsList.add(columnMetaData);
+					columnMetaData.setAlias(columnDefn.getAlias());
 				}
 			}
-			
+
 			// Add computed columns
 			int count = columnsList.size();
 			Iterator it = computedColumns.iterator();
-			for ( int j = resultHints.size(); it.hasNext( ); j++ )
-			{
-			    IComputedColumn compColumn = (IComputedColumn)it.next();
-			    ResultFieldMetadata columnMetaData = new ResultFieldMetadata( 
-			    		++count,
-						compColumn.getName(),
-						compColumn.getName(),
-						DataType.getClass( compColumn.getDataType( ) ),
-						null /* nativeTypeName */, 
-						true, -1 );
-			    columnsList.add( columnMetaData );
+			for (int j = resultHints.size(); it.hasNext(); j++) {
+				IComputedColumn compColumn = (IComputedColumn) it.next();
+				ResultFieldMetadata columnMetaData = new ResultFieldMetadata(++count, compColumn.getName(),
+						compColumn.getName(), DataType.getClass(compColumn.getDataType()), null /* nativeTypeName */,
+						true, -1);
+				columnsList.add(columnMetaData);
 			}
-			
-			resultClass = new ResultClass( columnsList );
+
+			resultClass = new ResultClass(columnsList);
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#prepareOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#prepareOdiQuery()
 		 */
-		protected void prepareOdiQuery(  ) throws DataException
-		{
+		@Override
+		protected void prepareOdiQuery() throws DataException {
 			assert odiQuery != null;
 			assert resultClass != null;
 			assert dataSet instanceof ScriptDataSetRuntime;
-			
+
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
-			customDataSet = new CustomDataSet( );
-			candidateQuery.setCandidates( customDataSet );
+			customDataSet = new CustomDataSet();
+			candidateQuery.setCandidates(customDataSet);
 		}
-		
+
 		/*
-		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
-				throws DataException
-		{	
-			// prepareOdiQuery must be called before			
+		@Override
+		protected IResultIterator executeOdiQuery(IEventHandler eventHandler) throws DataException {
+			// prepareOdiQuery must be called before
 			customDataSet.open();
-			dataSetAfterOpen( );
+			dataSetAfterOpen();
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
-			return candidateQuery.execute( eventHandler );
+			return candidateQuery.execute(eventHandler);
 		}
-	
+
 		/**
-		 * 
+		 *
 		 */
-		private final class CustomDataSet implements ICustomDataSet
-		{
+		private final class CustomDataSet implements ICustomDataSet {
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#getResultClass()
 			 */
-			public IResultClass getResultClass( )
-			{
+			@Override
+			public IResultClass getResultClass() {
 				return resultClass;
 			}
-			
+
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#open()
 			 */
-			public void open( ) throws DataException
-			{
+			@Override
+			public void open() throws DataException {
 				((ScriptDataSetRuntime) dataSet).open();
 			}
-			
+
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#fetch()
 			 */
-			public IResultObject fetch( ) throws DataException
-			{
-				Object[] fields = new Object[resultClass.getFieldCount( )];
-				ResultObject resultObject = new ResultObject( resultClass,
-						fields );
-				
-				dataSet.setRowObject( resultObject, true );
+			@Override
+			public IResultObject fetch() throws DataException {
+				Object[] fields = new Object[resultClass.getFieldCount()];
+				ResultObject resultObject = new ResultObject(resultClass, fields);
+
+				dataSet.setRowObject(resultObject, true);
 				boolean evalResult = ((ScriptDataSetRuntime) dataSet).fetch();
-	
-				if ( ! evalResult )
+
+				if (!evalResult) {
 					resultObject = null;
-	
+				}
+
 				return resultObject;
 			}
-			
+
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 			 */
-			public void close( ) throws DataException
-			{
-				( (ScriptDataSetRuntime) dataSet ).close( );
+			@Override
+			public void close() throws DataException {
+				((ScriptDataSetRuntime) dataSet).close();
 			}
 		}
 	}
-	
+
 }

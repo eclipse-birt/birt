@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,18 +29,15 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * When data set miss its data source, this dialog allow user to link with its
  * available data source.
- * 
+ *
  */
-public class DataSourceSelectionDialog extends BaseDialog
-{
+public class DataSourceSelectionDialog extends BaseDialog {
 
 	private String[] dataSourceNames;
 	private Combo combo;
 
-	public DataSourceSelectionDialog( Shell parentShell, String title,
-			String[] names )
-	{
-		super( parentShell, title );
+	public DataSourceSelectionDialog(Shell parentShell, String title, String[] names) {
+		super(parentShell, title);
 		this.dataSourceNames = names;
 	}
 
@@ -46,34 +46,29 @@ public class DataSourceSelectionDialog extends BaseDialog
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
-		new Label( composite, SWT.NONE ).setText( Messages.getString( "dataset.editor.label.selectDataSource" ) ); //$NON-NLS-1$
-		combo = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		combo.setVisibleItemCount( 30 );
-		combo.setItems( dataSourceNames );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
+		new Label(composite, SWT.NONE).setText(Messages.getString("dataset.editor.label.selectDataSource")); //$NON-NLS-1$
+		combo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
+		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		combo.setVisibleItemCount(30);
+		combo.setItems(dataSourceNames);
 
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.ADD_DATA_SOURCE_SELECTION_DIALOG_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.ADD_DATA_SOURCE_SELECTION_DIALOG_ID);
 		return composite;
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
-	 * ()
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
-	protected boolean initDialog( )
-	{
-		if ( this.dataSourceNames == null || this.dataSourceNames.length == 0 )
-		{
-			this.getOkButton( ).setEnabled( false );
-		}
-		else
-		{
-			combo.select( 0 );
+	@Override
+	protected boolean initDialog() {
+		if (this.dataSourceNames == null || this.dataSourceNames.length == 0) {
+			this.getOkButton().setEnabled(false);
+		} else {
+			combo.select(0);
 		}
 		return true;
 	}
@@ -81,10 +76,10 @@ public class DataSourceSelectionDialog extends BaseDialog
 	/*
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		setResult( combo.getItem( combo.getSelectionIndex( ) ) );
-		super.okPressed( );
+	@Override
+	protected void okPressed() {
+		setResult(combo.getItem(combo.getSelectionIndex()));
+		super.okPressed();
 	}
 
 }

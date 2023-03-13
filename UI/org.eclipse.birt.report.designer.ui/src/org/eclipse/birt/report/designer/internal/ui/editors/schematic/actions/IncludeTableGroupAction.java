@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,157 +28,133 @@ import org.eclipse.jface.action.Action;
 
 /**
  * Show group row action
- * 
- *  
+ *
+ *
  */
-public abstract class IncludeTableGroupAction extends Action
-{
+public abstract class IncludeTableGroupAction extends Action {
 
 	protected Object selection;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param selection
 	 */
-	public IncludeTableGroupAction( Object selection )
-	{
-		super( "", AS_CHECK_BOX ); //$NON-NLS-1$
+	public IncludeTableGroupAction(Object selection) {
+		super("", AS_CHECK_BOX); //$NON-NLS-1$
 		this.selection = selection;
-		showAvailable( );
+		showAvailable();
 	}
 
-	private SlotHandle getRowContainer( )
-	{
-		if ( selection instanceof RowHandle )
-		{
-			return ( (RowHandle) selection ).getContainerSlotHandle( );
+	private SlotHandle getRowContainer() {
+		if (selection instanceof RowHandle) {
+			return ((RowHandle) selection).getContainerSlotHandle();
 		}
 		return null;
 	}
 
-	protected boolean isTableGroup( )
-	{
-		return getRowContainer( ) != null
-				&& getRowContainer( ).getElementHandle( ) instanceof TableGroupHandle;
+	protected boolean isTableGroup() {
+		return getRowContainer() != null && getRowContainer().getElementHandle() instanceof TableGroupHandle;
 	}
 
-	protected TableGroupHandle getTableGroup( )
-	{
-		if ( isTableGroup( ) )
-		{
-			return (TableGroupHandle) getRowContainer( ).getElementHandle( );
+	protected TableGroupHandle getTableGroup() {
+		if (isTableGroup()) {
+			return (TableGroupHandle) getRowContainer().getElementHandle();
 		}
 		return null;
 	}
 
-	private TableGroupHandleAdapter getTableGroupAdapter( )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getTableGroupHandleAdapter( getTableGroup( ) );
+	private TableGroupHandleAdapter getTableGroupAdapter() {
+		return HandleAdapterFactory.getInstance().getTableGroupHandleAdapter(getTableGroup());
 	}
 
-	private void includeSlotHandle( boolean bool, int id )
-	{
-		try
-		{
-			if ( bool )
-			{
-				getTableGroupAdapter( ).insertRowInSlotHandle( id );
+	private void includeSlotHandle(boolean bool, int id) {
+		try {
+			if (bool) {
+				getTableGroupAdapter().insertRowInSlotHandle(id);
+			} else {
+				getTableGroupAdapter().deleteRowInSlotHandle(id);
 			}
-			else
-			{
-				getTableGroupAdapter( ).deleteRowInSlotHandle( id );
-			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	@Override
+	public boolean isEnabled() {
 		return true;
 	}
 
 	/**
 	 * Runs action.
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Include table group action >> Run ..." ); //$NON-NLS-1$
+	@Override
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Include table group action >> Run ..."); //$NON-NLS-1$
 		}
-		includeSlotHandle( isChecked( ), getGroupSlotId( ) );
+		includeSlotHandle(isChecked(), getGroupSlotId());
 	}
 
-	private void showAvailable( )
-	{
-		if ( getRowContainer( ) != null )
-		{
-			setChecked( getTableGroupAdapter( ).hasSlotHandleRow( getGroupSlotId( ) ) );
+	private void showAvailable() {
+		if (getRowContainer() != null) {
+			setChecked(getTableGroupAdapter().hasSlotHandleRow(getGroupSlotId()));
 		}
 	}
 
-	abstract protected int getGroupSlotId( );
+	abstract protected int getGroupSlotId();
 
-	public static class IncludeTableGroupHeaderAction
-			extends
-				IncludeTableGroupAction
-	{
+	public static class IncludeTableGroupHeaderAction extends IncludeTableGroupAction {
 
-		private static final String ACTION_MSG_INCLUDE_HEADER = Messages.getString( "IncludeTableGroupHeaderAction.actionMsg.includeHeader" ); //$NON-NLS-1$
+		private static final String ACTION_MSG_INCLUDE_HEADER = Messages
+				.getString("IncludeTableGroupHeaderAction.actionMsg.includeHeader"); //$NON-NLS-1$
 
 		/**
 		 * @param selection
 		 */
-		public IncludeTableGroupHeaderAction( Object selection )
-		{
-			super( selection );
-			setText( ACTION_MSG_INCLUDE_HEADER );
+		public IncludeTableGroupHeaderAction(Object selection) {
+			super(selection);
+			setText(ACTION_MSG_INCLUDE_HEADER);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction#getGroupSlotId()
+		 *
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+		 * IncludeTableGroupAction#getGroupSlotId()
 		 */
-		protected int getGroupSlotId( )
-		{
+		@Override
+		protected int getGroupSlotId() {
 			return GroupHandle.HEADER_SLOT;
 		}
 	}
 
-	public static class IncludeTableGroupFooterAction
-			extends
-				IncludeTableGroupAction
-	{
+	public static class IncludeTableGroupFooterAction extends IncludeTableGroupAction {
 
-		private static final String ACTION_MSG_INCLUDE_HEADER = Messages.getString( "IncludeTableGroupFooterAction.actionMsg.includeFooter" ); //$NON-NLS-1$
+		private static final String ACTION_MSG_INCLUDE_HEADER = Messages
+				.getString("IncludeTableGroupFooterAction.actionMsg.includeFooter"); //$NON-NLS-1$
 
 		/**
 		 * @param selection
 		 */
-		public IncludeTableGroupFooterAction( Object selection )
-		{
-			super( selection );
-			setText( ACTION_MSG_INCLUDE_HEADER );
+		public IncludeTableGroupFooterAction(Object selection) {
+			super(selection);
+			setText(ACTION_MSG_INCLUDE_HEADER);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeTableGroupAction#getGroupSlotId()
+		 *
+		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+		 * IncludeTableGroupAction#getGroupSlotId()
 		 */
-		protected int getGroupSlotId( )
-		{
+		@Override
+		protected int getGroupSlotId() {
 			return GroupHandle.FOOTER_SLOT;
 		}
 	}

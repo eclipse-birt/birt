@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,44 +28,40 @@ import org.eclipse.emf.common.util.EList;
  * Chart Model helper is default implementation of IChartModelHelper.
  */
 
-public class ChartModelHelper implements IChartModelHelper
-{
+public class ChartModelHelper implements IChartModelHelper {
 
-	private static IChartModelHelper instance = new ChartModelHelper( );
+	private static IChartModelHelper instance = new ChartModelHelper();
 
-	protected ChartModelHelper( )
-	{
+	protected ChartModelHelper() {
 
 	}
 
-	public static void initInstance( IChartModelHelper newInstance )
-	{
+	public static void initInstance(IChartModelHelper newInstance) {
 		instance = newInstance;
 	}
 
-	public static IChartModelHelper instance( )
-	{
+	public static IChartModelHelper instance() {
 		return instance;
 	}
 
-	public void updateExtendedProperties( EList<ExtendedProperty> properties )
-	{
-		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty( );
-		extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
-		extendedProperty.setValue( Boolean.FALSE.toString( ) );
-		properties.add( extendedProperty );
+	@Override
+	public void updateExtendedProperties(EList<ExtendedProperty> properties) {
+		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty();
+		extendedProperty.setName(IDeviceRenderer.AREA_ALT_ENABLED);
+		extendedProperty.setValue(Boolean.FALSE.toString());
+		properties.add(extendedProperty);
 	}
 
-	public List<String> getBuiltInExtendedProperties( )
-	{
-		List<String> list = new ArrayList<String>( 3 );
-		list.add( IDeviceRenderer.AREA_ALT_ENABLED );
+	@Override
+	public List<String> getBuiltInExtendedProperties() {
+		List<String> list = new ArrayList<>(3);
+		list.add(IDeviceRenderer.AREA_ALT_ENABLED);
 		return list;
 	}
 
-	public ExpressionCodec createExpressionCodec( )
-	{
-		return new ExpressionCodec( );
+	@Override
+	public ExpressionCodec createExpressionCodec() {
+		return new ExpressionCodec();
 	}
 
 }

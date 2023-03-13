@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,11 +20,10 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 
 /**
- * 
+ *
  */
 
-public class SlotState extends AbstractParseState
-{
+public class SlotState extends AbstractParseState {
 
 	/**
 	 * Pointer to the design file parser handler.
@@ -30,61 +32,53 @@ public class SlotState extends AbstractParseState
 	protected ModuleParserHandler handler = null;
 
 	/**
-	 * 
+	 *
 	 */
 
 	protected int slotID;
 
 	/**
-	 * 
+	 *
 	 */
 
 	protected DesignElement container;
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param handler
-	 *            the parser handler
-	 * @param container
-	 *            the container element
-	 * @param slot
-	 *            the container slot number
+	 *
+	 * @param handler   the parser handler
+	 * @param container the container element
+	 * @param slot      the container slot number
 	 */
 
-	protected SlotState( ModuleParserHandler handler, DesignElement container,
-			int slot )
-	{
+	protected SlotState(ModuleParserHandler handler, DesignElement container, int slot) {
 		this.handler = handler;
 		this.container = container;
 		slotID = slot;
 
-		initLineNumber( );
+		initLineNumber();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
-	private void initLineNumber( )
-	{
-		ModuleParserHandler handler = (ModuleParserHandler) getHandler( );
-		if ( handler.markLineNumber )
-		{
-			ContainerContext context = new ContainerContext( container, slotID );
-			handler.tempLineNumbers.put( context, Integer.valueOf( handler
-					.getCurrentLineNo( ) ) );
+	private void initLineNumber() {
+		ModuleParserHandler handler = (ModuleParserHandler) getHandler();
+		if (handler.markLineNumber) {
+			ContainerContext context = new ContainerContext(container, slotID);
+			handler.tempLineNumbers.put(context, Integer.valueOf(handler.getCurrentLineNo()));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
-	public XMLParserHandler getHandler( )
-	{
+	@Override
+	public XMLParserHandler getHandler() {
 		return handler;
 	}
 

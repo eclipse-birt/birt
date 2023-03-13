@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +24,7 @@ import org.eclipse.jface.action.IAction;
 /**
  * The action used to add CSS resource to a report or library.
  */
-public class UseCSSAction extends ResourceAction
-{
+public class UseCSSAction extends ResourceAction {
 
 	/** The action used to add CSS resource to a report. */
 	private final IAction useCssInReportDesign;
@@ -32,55 +34,43 @@ public class UseCSSAction extends ResourceAction
 
 	/**
 	 * Constructs an action for use CSS resource.
-	 * 
-	 * @param page
-	 *            the resource explorer page
+	 *
+	 * @param page the resource explorer page
 	 */
-	public UseCSSAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "UseCSSAction.Text" ), page ); //$NON-NLS-1$
-		useCssInReportDesign = new UseCssInReportDesignAction( page );
-		useCssInTheme = new UseCssInThemeAction( page );
+	public UseCSSAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("UseCSSAction.Text"), page); //$NON-NLS-1$
+		useCssInReportDesign = new UseCssInReportDesignAction(page);
+		useCssInTheme = new UseCssInThemeAction(page);
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		if ( isAddingInReport( ) )
-		{
-			return useCssInReportDesign.isEnabled( );
-		}
-		else if ( isAddingInLibrary( ) )
-		{
-			return useCssInTheme.isEnabled( );
+	public boolean isEnabled() {
+		if (isAddingInReport()) {
+			return useCssInReportDesign.isEnabled();
+		} else if (isAddingInLibrary()) {
+			return useCssInTheme.isEnabled();
 		}
 		return false;
 	}
 
 	@Override
-	public void run( )
-	{
-		if ( isAddingInReport( ) )
-		{
-			useCssInReportDesign.run( );
-		}
-		else if ( isAddingInLibrary( ) )
-		{
-			useCssInTheme.run( );
+	public void run() {
+		if (isAddingInReport()) {
+			useCssInReportDesign.run();
+		} else if (isAddingInLibrary()) {
+			useCssInTheme.run();
 		}
 	}
 
 	/**
 	 * Returns <code>true</code> if is Adding in a report, <code>false</code>
 	 * otherwise.
-	 * 
+	 *
 	 * @return <code>true</code> if is Adding in a report, <code>false</code>
 	 *         otherwise.
 	 */
-	private boolean isAddingInReport( )
-	{
-		Object obj = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+	private boolean isAddingInReport() {
+		Object obj = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
 		return obj instanceof ReportDesignHandle;
 	}
@@ -88,14 +78,12 @@ public class UseCSSAction extends ResourceAction
 	/**
 	 * Returns <code>true</code> if is Adding in a library, <code>false</code>
 	 * otherwise.
-	 * 
+	 *
 	 * @return <code>true</code> if is Adding in a library, <code>false</code>
 	 *         otherwise.
 	 */
-	private boolean isAddingInLibrary( )
-	{
-		Object obj = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+	private boolean isAddingInLibrary() {
+		Object obj = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
 		return obj instanceof LibraryHandle;
 	}

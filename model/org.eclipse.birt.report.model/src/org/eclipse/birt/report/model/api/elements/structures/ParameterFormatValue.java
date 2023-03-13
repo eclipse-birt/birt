@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,57 +20,51 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 
 /**
  * Represents the format for the default value of scalar parameter.
- * 
+ *
  */
 
-public class ParameterFormatValue extends FormatValue
-{
+public class ParameterFormatValue extends FormatValue {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String FORMAT_VALUE_STRUCT = "ParameterFormatValue"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	@Override
+	public String getStructName() {
 		return FORMAT_VALUE_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 *
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	@Override
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/**
-	 * Return an <code>FormatValueHandle</code> to deal with the parameter
-	 * format.
-	 * 
-	 * @param valueHandle
-	 *            the property or member handle
+	 * Return an <code>FormatValueHandle</code> to deal with the parameter format.
+	 *
+	 * @param valueHandle the property or member handle
 	 * @return the structure handle
-	 * 
+	 *
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new FormatValueHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	@Override
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new FormatValueHandle(valueHandle.getElementHandle(), getContext());
 	}
 }

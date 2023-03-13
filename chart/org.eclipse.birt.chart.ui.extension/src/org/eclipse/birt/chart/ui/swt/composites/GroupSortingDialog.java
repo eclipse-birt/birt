@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -71,41 +74,39 @@ import com.ibm.icu.util.ULocale;
  * The dialog is responsible to set grouping and sort condition.
  */
 
-public class GroupSortingDialog extends TrayDialog implements Listener
-{
+public class GroupSortingDialog extends TrayDialog implements Listener {
 
-	protected static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
+	protected static final String UNSORTED_OPTION = Messages.getString("BaseSeriesDataSheetImpl.Choice.Unsorted"); //$NON-NLS-1$
 
 	protected static final String AUTO = Messages.getString("GroupSortingDialog.Sort.Locale.Auto"); //$NON-NLS-1$
-	
-	/** The default sort strength items.*/
+
+	/** The default sort strength items. */
 	public static final Map<String, Integer> STRENGTH_MAP;
 
 	private static final int ASCII_SORT_STRENGTH = -1;
-	
-	static
-	{
-		STRENGTH_MAP = new HashMap<String, Integer>( );
-		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.ASCII") , //$NON-NLS-1$
-				Integer.valueOf( ASCII_SORT_STRENGTH ) );
-		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.PRIMARY"), //$NON-NLS-1$
-				Integer.valueOf( Collator.PRIMARY ) );
-		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.SECONDARY"), //$NON-NLS-1$
-				Integer.valueOf( Collator.SECONDARY ) );
-		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.TERTIARY"), //$NON-NLS-1$
-				Integer.valueOf( Collator.TERTIARY ) );
-		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.QUATENARY"), //$NON-NLS-1$
-				Integer.valueOf( Collator.QUATERNARY ) );
+
+	static {
+		STRENGTH_MAP = new HashMap<>();
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.ASCII"), //$NON-NLS-1$
+				ASCII_SORT_STRENGTH);
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.PRIMARY"), //$NON-NLS-1$
+				Collator.PRIMARY);
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.SECONDARY"), //$NON-NLS-1$
+				Collator.SECONDARY);
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.TERTIARY"), //$NON-NLS-1$
+				Collator.TERTIARY);
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.QUATENARY"), //$NON-NLS-1$
+				Collator.QUATERNARY);
 		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.IDENTICAL"), //$NON-NLS-1$
-				Integer.valueOf( Collator.IDENTICAL ) );
+				Collator.IDENTICAL);
 	}
-	
+
 	protected ChartWizardContext wizardContext;
 
 	private SeriesDefinition sd;
 
 	protected Group cmpSortArea;
-	
+
 	protected Label lblSorting;
 
 	protected Label lblSortExpr;
@@ -119,7 +120,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	protected Combo cmbSortLocale;
 
 	protected Label lblSortStrength;
-	
+
 	protected Combo cmbSortStrength;
 
 	protected IExpressionButton btnSortExprBuilder;
@@ -129,25 +130,21 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	protected SeriesGroupingComposite fGroupingComposite;
 
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
-	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
-			SeriesDefinition sd )
-	{
-		super( shell );
-		setHelpAvailable( false );
-		setShellStyle( getShellStyle( ) | SWT.RESIZE );
+	public GroupSortingDialog(Shell shell, ChartWizardContext wizardContext, SeriesDefinition sd) {
+		super(shell);
+		setHelpAvailable(false);
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 	}
 
-	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
-			SeriesDefinition sd, boolean disableAggregation )
-	{
-		super( shell );
-		setHelpAvailable( false );
-		setShellStyle( getShellStyle( ) | SWT.RESIZE );
+	public GroupSortingDialog(Shell shell, ChartWizardContext wizardContext, SeriesDefinition sd,
+			boolean disableAggregation) {
+		super(shell);
+		setHelpAvailable(false);
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 		this.fEnableAggregation = disableAggregation;
@@ -155,194 +152,177 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	protected Control createContents( Composite parent )
-	{
-		Control c = super.createContents( parent );
+	@Override
+	protected Control createContents(Composite parent) {
+		Control c = super.createContents(parent);
 		// Pack shell for dynamic creating aggregate parameters widgets.
-		c.pack( );
+		c.pack();
 		return c;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_GROUP_AND_SORT );
-		getShell( ).setText( Messages.getString( "GroupSortingDialog.Label.GroupAndSorting" ) ); //$NON-NLS-1$
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_GROUP_AND_SORT);
+		getShell().setText(Messages.getString("GroupSortingDialog.Label.GroupAndSorting")); //$NON-NLS-1$
 
-		Composite cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite(parent, SWT.NONE);
 		{
-			GridLayout glContent = new GridLayout( 2, false );
-			cmpContent.setLayout( glContent );
-			GridData gd = new GridData( GridData.FILL_BOTH );
-			cmpContent.setLayoutData( gd );
+			GridLayout glContent = new GridLayout(2, false);
+			cmpContent.setLayout(glContent);
+			GridData gd = new GridData(GridData.FILL_BOTH);
+			cmpContent.setLayoutData(gd);
 		}
 
-		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
+		Composite cmpBasic = new Composite(cmpContent, SWT.NONE);
 		{
-			cmpBasic.setLayout( new GridLayout( 2, false ) );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cmpBasic.setLayoutData( gd );
+			cmpBasic.setLayout(new GridLayout(2, false));
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			cmpBasic.setLayoutData(gd);
 		}
 
-		createSortArea( cmpBasic );
+		createSortArea(cmpBasic);
 
-		if ( ChartUIUtil.isGroupingSupported( wizardContext ) )
-		{
-			createGroupArea( cmpBasic );
+		if (ChartUIUtil.isGroupingSupported(wizardContext)) {
+			createGroupArea(cmpBasic);
 		}
 
-		initSortKey( );
+		initSortKey();
 
-		populateLists( );		
-		
+		populateLists();
+
 		return cmpContent;
 	}
 
 	/**
 	 * Create composite of group area.
-	 * 
+	 *
 	 * @param cmpBasic
 	 */
-	protected void createGroupArea( Composite cmpBasic )
-	{
-		Composite cmpGrouping = new Composite( cmpBasic, SWT.NONE );
-		GridData gdCMPGrouping = new GridData( GridData.FILL_HORIZONTAL );
+	protected void createGroupArea(Composite cmpBasic) {
+		Composite cmpGrouping = new Composite(cmpBasic, SWT.NONE);
+		GridData gdCMPGrouping = new GridData(GridData.FILL_HORIZONTAL);
 		gdCMPGrouping.horizontalSpan = 2;
-		cmpGrouping.setLayoutData( gdCMPGrouping );
-		cmpGrouping.setLayout( new FillLayout( ) );
-		fGroupingComposite = createSeriesGroupingComposite( cmpGrouping );
+		cmpGrouping.setLayoutData(gdCMPGrouping);
+		cmpGrouping.setLayout(new FillLayout());
+		fGroupingComposite = createSeriesGroupingComposite(cmpGrouping);
 	}
 
 	/**
 	 * Create runtime instance of <code>SeriesGroupingComposite</code>.
-	 * 
+	 *
 	 * @param parent
 	 * @since 2.3
 	 */
-	protected SeriesGroupingComposite createSeriesGroupingComposite( Composite parent )
-	{
-		SeriesGrouping grouping = getSeriesDefinitionForProcessing( ).getGrouping( );
-		if ( grouping == null )
-		{
-			grouping = SeriesGroupingImpl.create( );
-			getSeriesDefinitionForProcessing( ).setGrouping( grouping );
+	protected SeriesGroupingComposite createSeriesGroupingComposite(Composite parent) {
+		SeriesGrouping grouping = getSeriesDefinitionForProcessing().getGrouping();
+		if (grouping == null) {
+			grouping = SeriesGroupingImpl.create();
+			getSeriesDefinitionForProcessing().setGrouping(grouping);
 		}
-		
-		return new SeriesGroupingComposite( parent,
-				SWT.NONE,
-				grouping,
-				fEnableAggregation,
-				wizardContext,
-				null );
+
+		return new SeriesGroupingComposite(parent, SWT.NONE, grouping, fEnableAggregation, wizardContext, null);
 	}
-	
-	protected void updateSortKey( )
-	{
-		String sExpr = btnSortExprBuilder.getExpression( );
-		btnSortExprBuilder.setExpression( sExpr );
-		getSeriesDefinitionForProcessing( ).getSortKey( ).setDefinition( sExpr );
+
+	protected void updateSortKey() {
+		String sExpr = btnSortExprBuilder.getExpression();
+		btnSortExprBuilder.setExpression(sExpr);
+		getSeriesDefinitionForProcessing().getSortKey().setDefinition(sExpr);
 	}
 
 	/**
 	 * Create composite of sort area.
-	 * 
+	 *
 	 * @param cmpBasic
 	 */
-	public void createSortArea( Composite parent )
-	{
-		cmpSortArea = new Group( parent, SWT.NONE );
+	public void createSortArea(Composite parent) {
+		cmpSortArea = new Group(parent, SWT.NONE);
 		{
-			cmpSortArea.setText( Messages.getString("GroupSortingDialog.Composite.Group.Sorting") ); //$NON-NLS-1$
-			cmpSortArea.setLayout( new GridLayout( 3, false ) );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			cmpSortArea.setText(Messages.getString("GroupSortingDialog.Composite.Group.Sorting")); //$NON-NLS-1$
+			cmpSortArea.setLayout(new GridLayout(3, false));
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 2;
 			gd.widthHint = 300;
-			cmpSortArea.setLayoutData( gd );
+			cmpSortArea.setLayoutData(gd);
 		}
-		lblSorting = new Label( cmpSortArea, SWT.NONE );
-		lblSorting.setText( Messages.getString( "BaseSeriesDataSheetImpl.Lbl.DataSorting" ) ); //$NON-NLS-1$
+		lblSorting = new Label(cmpSortArea, SWT.NONE);
+		lblSorting.setText(Messages.getString("BaseSeriesDataSheetImpl.Lbl.DataSorting")); //$NON-NLS-1$
 
-		cmbSorting = new Combo( cmpSortArea, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBSorting = new GridData( GridData.FILL_HORIZONTAL );
-		cmbSorting.setLayoutData( gdCMBSorting );
-		cmbSorting.addListener( SWT.Selection, this );
+		cmbSorting = new Combo(cmpSortArea, SWT.DROP_DOWN | SWT.READ_ONLY);
+		GridData gdCMBSorting = new GridData(GridData.FILL_HORIZONTAL);
+		cmbSorting.setLayoutData(gdCMBSorting);
+		cmbSorting.addListener(SWT.Selection, this);
 
-		new Label( cmpSortArea, SWT.NONE );
+		new Label(cmpSortArea, SWT.NONE);
 
 		// Add sort column selection composites.
-		lblSortExpr = new Label( cmpSortArea, SWT.NONE );
-		lblSortExpr.setText( Messages.getString( "BaseGroupSortingDialog.Label.SortOn" ) ); //$NON-NLS-1$
+		lblSortExpr = new Label(cmpSortArea, SWT.NONE);
+		lblSortExpr.setText(Messages.getString("BaseGroupSortingDialog.Label.SortOn")); //$NON-NLS-1$
 
-		cmbSortExpr = new Combo( cmpSortArea, SWT.DROP_DOWN );
-		GridData gdCMBSortExpr = new GridData( GridData.FILL_HORIZONTAL );
-		cmbSortExpr.setLayoutData( gdCMBSortExpr );
-		cmbSortExpr.addListener( SWT.Selection, this );
-		cmbSortExpr.addFocusListener( new FocusAdapter( ) {
+		cmbSortExpr = new Combo(cmpSortArea, SWT.DROP_DOWN);
+		GridData gdCMBSortExpr = new GridData(GridData.FILL_HORIZONTAL);
+		cmbSortExpr.setLayoutData(gdCMBSortExpr);
+		cmbSortExpr.addListener(SWT.Selection, this);
+		cmbSortExpr.addFocusListener(new FocusAdapter() {
 
-			public void focusLost( FocusEvent e )
-			{
-				updateSortKey( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				updateSortKey();
 			}
-		} );
-		
-		try
-		{
-			btnSortExprBuilder = (IExpressionButton) wizardContext.getUIServiceProvider( )
-					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
-							cmpSortArea,
-							cmbSortExpr,
-							wizardContext.getExtendedItem( ),
-							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							new Listener( ) {
+		});
 
-								public void handleEvent( Event event )
-								{
-									if ( event.data instanceof String[] )
-									{
-										handleBuilderAction( (String[]) event.data );
-									}
+		try {
+			btnSortExprBuilder = (IExpressionButton) wizardContext.getUIServiceProvider().invoke(
+					IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE, cmpSortArea, cmbSortExpr,
+					wizardContext.getExtendedItem(), IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+					new Listener() {
 
-								}
-							} );
+						@Override
+						public void handleEvent(Event event) {
+							if (event.data instanceof String[]) {
+								handleBuilderAction((String[]) event.data);
+							}
 
-			Query query = getSeriesDefinitionForProcessing( ).getSortKey( );
-			if ( query != null )
-			{
-				btnSortExprBuilder.setExpression( query.getDefinition( ) );
+						}
+					});
+
+			Query query = getSeriesDefinitionForProcessing().getSortKey();
+			if (query != null) {
+				btnSortExprBuilder.setExpression(query.getDefinition());
 			}
-		}
-		catch ( ChartException e )
-		{
-			WizardBase.displayException( e );
+		} catch (ChartException e) {
+			WizardBase.displayException(e);
 		}
 
-		lblSortLocale = new Label( cmpSortArea, SWT.NONE );
-		lblSortLocale.setText( Messages.getString("GroupSortingDialog.Composite.Label.SortLocale") ); //$NON-NLS-1$
-		cmbSortLocale = new Combo( cmpSortArea, SWT.READ_ONLY | SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		cmbSortLocale.setLayoutData( gd );
-		cmbSortLocale.setVisibleItemCount( 30 );
-		cmbSortLocale.addListener( SWT.Selection, this );
+		lblSortLocale = new Label(cmpSortArea, SWT.NONE);
+		lblSortLocale.setText(Messages.getString("GroupSortingDialog.Composite.Label.SortLocale")); //$NON-NLS-1$
+		cmbSortLocale = new Combo(cmpSortArea, SWT.READ_ONLY | SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmbSortLocale.setLayoutData(gd);
+		cmbSortLocale.setVisibleItemCount(30);
+		cmbSortLocale.addListener(SWT.Selection, this);
 
-		new Label( cmpSortArea, SWT.NONE );
-		lblSortStrength = new Label( cmpSortArea, SWT.NONE );
-		lblSortStrength.setText( Messages.getString("GroupSortingDialog.Composite.Label.SortStrength") ); //$NON-NLS-1$
-		cmbSortStrength = new Combo( cmpSortArea, SWT.READ_ONLY | SWT.BORDER );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		cmbSortStrength.setLayoutData( gd );
-		cmbSortStrength.setVisibleItemCount( 30 );
-		cmbSortStrength.addListener( SWT.Selection, this );
-		
-		if ( isInheritColumnsGroups( ) )
-		{
-			disableSorting( );
+		new Label(cmpSortArea, SWT.NONE);
+		lblSortStrength = new Label(cmpSortArea, SWT.NONE);
+		lblSortStrength.setText(Messages.getString("GroupSortingDialog.Composite.Label.SortStrength")); //$NON-NLS-1$
+		cmbSortStrength = new Combo(cmpSortArea, SWT.READ_ONLY | SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		cmbSortStrength.setLayoutData(gd);
+		cmbSortStrength.setVisibleItemCount(30);
+		cmbSortStrength.addListener(SWT.Selection, this);
+
+		if (isInheritColumnsGroups()) {
+			disableSorting();
 		}
 
 	}
@@ -350,387 +330,313 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	/**
 	 * Handle builder dialog action.
 	 */
-	protected void handleBuilderAction( String[] data )
-	{
-		if ( data.length != 4 || data[1].equals( data[0] ) )
-		{
+	protected void handleBuilderAction(String[] data) {
+		if (data.length != 4 || data[1].equals(data[0])) {
 			return;
 		}
-		updateSortKey( );
+		updateSortKey();
 	}
 
-	protected SeriesDefinition getSeriesDefinitionForProcessing( )
-	{
+	protected SeriesDefinition getSeriesDefinitionForProcessing() {
 		return sd;
 	}
 
 	/**
 	 * All combo lists
 	 */
-	protected void populateLists( )
-	{
-		populateSortList( );
-		populateSortKeyList( );
+	protected void populateLists() {
+		populateSortList();
+		populateSortKeyList();
 	}
 
 	/**
 	 * Populate sort direction list.
 	 */
-	protected void populateSortList( )
-	{
+	protected void populateSortList() {
 		// populate sorting combo
-		cmbSorting.add( UNSORTED_OPTION );
+		cmbSorting.add(UNSORTED_OPTION);
 
-		String[] nss = LiteralHelper.sortOptionSet.getDisplayNames( );
-		for ( int i = 0; i < nss.length; i++ )
-		{
-			cmbSorting.add( nss[i] );
+		String[] nss = LiteralHelper.sortOptionSet.getDisplayNames();
+		for (int i = 0; i < nss.length; i++) {
+			cmbSorting.add(nss[i]);
 		}
 
 		// Select value
-		if ( !getSeriesDefinitionForProcessing( ).isSetSorting( ) )
-		{
-			cmbSorting.select( 0 );
-		}
-		else
-		{
+		if (!getSeriesDefinitionForProcessing().isSetSorting()) {
+			cmbSorting.select(0);
+		} else {
 			// plus one for the first is unsorted option.
-			cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( getSeriesDefinitionForProcessing( ).getSorting( )
-					.getName( ) ) + 1 );
+			cmbSorting.select(
+					LiteralHelper.sortOptionSet.getNameIndex(getSeriesDefinitionForProcessing().getSorting().getName())
+							+ 1);
 		}
 
-		diableSortKeySelectionStateBySortDirection( );
+		diableSortKeySelectionStateBySortDirection();
 
 		// populate sort locale combo.
-		List<String> localeNames = new ArrayList<String>( );
-		localeNames.add( AUTO );
-		localeNames.addAll( ChartUIUtil.LOCALE_TABLE.keySet( ) );
-		cmbSortLocale.setItems( localeNames.toArray( new String[]{} ) );
-		if ( getSeriesDefinitionForProcessing( ).getSortLocale( ) == null )
-		{
-			cmbSortLocale.select( 0 );
-		}
-		else
-		{
+		List<String> localeNames = new ArrayList<>();
+		localeNames.add(AUTO);
+		localeNames.addAll(ChartUIUtil.LOCALE_TABLE.keySet());
+		cmbSortLocale.setItems(localeNames.toArray(new String[] {}));
+		if (getSeriesDefinitionForProcessing().getSortLocale() == null) {
+			cmbSortLocale.select(0);
+		} else {
 			String locale = null;
-			for ( Map.Entry<String, ULocale> entry : ChartUIUtil.LOCALE_TABLE.entrySet( ) )
-			{
-				if ( getSeriesDefinitionForProcessing( ).getSortLocale( )
-						.equals( entry.getValue( ).getName( ) ) )
-				{
-					locale = entry.getKey( );
+			for (Map.Entry<String, ULocale> entry : ChartUIUtil.LOCALE_TABLE.entrySet()) {
+				if (getSeriesDefinitionForProcessing().getSortLocale().equals(entry.getValue().getName())) {
+					locale = entry.getKey();
 					break;
 				}
 			}
-			if ( locale != null )
-			{
-				int index = cmbSortLocale.indexOf( locale );
-				cmbSortLocale.select( index < 0 ? 0 : index );
+			if (locale != null) {
+				int index = cmbSortLocale.indexOf(locale);
+				cmbSortLocale.select(index < 0 ? 0 : index);
 			}
 		}
 
 		// Populate sort strength combo.
-		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
-		Collections.sort( strengthNames, new Comparator<String>( ) {
+		List<String> strengthNames = new ArrayList<>(STRENGTH_MAP.keySet());
+		Collections.sort(strengthNames, new Comparator<String>() {
 
-			public int compare( String o1, String o2 )
-			{
-				return STRENGTH_MAP.get( o1 ) - STRENGTH_MAP.get( o2 );
+			@Override
+			public int compare(String o1, String o2) {
+				return STRENGTH_MAP.get(o1) - STRENGTH_MAP.get(o2);
 			}
-		} );
-		cmbSortStrength.setItems( strengthNames.toArray( new String[]{} ) );
-		if ( !getSeriesDefinitionForProcessing( ).isSetSortStrength( ) )
-		{
+		});
+		cmbSortStrength.setItems(strengthNames.toArray(new String[] {}));
+		if (!getSeriesDefinitionForProcessing().isSetSortStrength()) {
 			// If sort strength is not set, it should be the default value of
 			// <code>com.ibm.icu.text.Collator</code>.
-			cmbSortStrength.select( Collator.TERTIARY + 1);
-		}
-		else
-		{
+			cmbSortStrength.select(Collator.TERTIARY + 1);
+		} else {
 			String strength = null;
-			for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
-			{
-				if ( getSeriesDefinitionForProcessing( ).getSortStrength( ) == entry.getValue( )
-						.intValue( ) )
-				{
-					strength = entry.getKey( );
+			for (Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet()) {
+				if (getSeriesDefinitionForProcessing().getSortStrength() == entry.getValue().intValue()) {
+					strength = entry.getKey();
 				}
 			}
-			if ( strength != null )
-			{
-				int index = cmbSortStrength.indexOf( strength );
-				cmbSortStrength.select( index < 0 ? 0 : index );
+			if (strength != null) {
+				int index = cmbSortStrength.indexOf(strength);
+				cmbSortStrength.select(index < 0 ? 0 : index);
 			}
 		}
 	}
 
-	private Object[] getPredefinedQuery( Set<String> exprSet )
-	{
-		if ( !onlyCategoryExprAsCategorySortKey( ) )
-		{
-			Object[] queries = wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE );
-			Object[] predefinedQuery = new Object[queries.length
-					+ exprSet.size( )];
+	private Object[] getPredefinedQuery(Set<String> exprSet) {
+		if (!onlyCategoryExprAsCategorySortKey()) {
+			Object[] queries = wizardContext.getPredefinedQuery(ChartUIConstants.QUERY_VALUE);
+			Object[] predefinedQuery = new Object[queries.length + exprSet.size()];
 			int i = 0;
-			for ( Object obj : queries )
-			{
+			for (Object obj : queries) {
 				predefinedQuery[i++] = obj;
 			}
-			for ( String expr : exprSet )
-			{
-				predefinedQuery[i++] = new String[]{
-						expr, "expression"}; //$NON-NLS-1$
+			for (String expr : exprSet) {
+				predefinedQuery[i++] = new String[] { expr, "expression" }; //$NON-NLS-1$
 			}
 			return predefinedQuery;
 		}
-		
-		return exprSet.toArray( new String[exprSet.size( )] );
+
+		return exprSet.toArray(new String[exprSet.size()]);
 	}
 
-	protected void populateSortKeyList( )
-	{
-		initSortKey( );
+	protected void populateSortKeyList() {
+		initSortKey();
 		updateSortState();
-		
-		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-		{
-			getSeriesDefinitionForProcessing( ).unsetSorting( );
-			cmbSortExpr.removeAll( );
-		}
-		else
-		{
-			Set<String> exprSet = getSortKeySet( );
 
-			String sortExpr = this.getSeriesDefinitionForProcessing( )
-					.getSortKey( )
-					.getDefinition( );
+		if (cmbSorting.getText().equals(UNSORTED_OPTION)) {
+			getSeriesDefinitionForProcessing().unsetSorting();
+			cmbSortExpr.removeAll();
+		} else {
+			Set<String> exprSet = getSortKeySet();
 
-			btnSortExprBuilder.setPredefinedQuery( getPredefinedQuery( exprSet ) );
-			btnSortExprBuilder.setExpression( sortExpr );
+			String sortExpr = this.getSeriesDefinitionForProcessing().getSortKey().getDefinition();
 
-			if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
+			btnSortExprBuilder.setPredefinedQuery(getPredefinedQuery(exprSet));
+			btnSortExprBuilder.setExpression(sortExpr);
+
+			if (sortExpr != null && !"".equals(sortExpr)) //$NON-NLS-1$
 			{
-				exprSet.add( sortExpr );
-				btnSortExprBuilder.setExpression( sortExpr );
-			}
-			else if ( !exprSet.isEmpty( ) )
-			{
-				cmbSortExpr.select( 0 );
-				Event event = new Event( );
+				exprSet.add(sortExpr);
+				btnSortExprBuilder.setExpression(sortExpr);
+			} else if (!exprSet.isEmpty()) {
+				cmbSortExpr.select(0);
+				Event event = new Event();
 				event.type = SWT.Selection;
 				event.widget = cmbSortExpr;
-				cmbSortExpr.notifyListeners( SWT.Selection, event );
+				cmbSortExpr.notifyListeners(SWT.Selection, event);
 			}
 		}
 
-		setSortKeyInModel( );
+		setSortKeyInModel();
 	}
 
-	protected void updateSortState( )
-	{
-		updateSortKeySelectionState( );
-		
-		boolean sortEnabled = isSortEnabled( );
-		lblSortLocale.setEnabled( sortEnabled );
-		cmbSortLocale.setEnabled( sortEnabled );
-		lblSortStrength.setEnabled( sortEnabled );
-		cmbSortStrength.setEnabled( sortEnabled );
+	protected void updateSortState() {
+		updateSortKeySelectionState();
+
+		boolean sortEnabled = isSortEnabled();
+		lblSortLocale.setEnabled(sortEnabled);
+		cmbSortLocale.setEnabled(sortEnabled);
+		lblSortStrength.setEnabled(sortEnabled);
+		cmbSortStrength.setEnabled(sortEnabled);
 	}
 
-	protected boolean isSortEnabled( )
-	{
-		return !UNSORTED_OPTION.equals( cmbSorting.getText( ) );
+	protected boolean isSortEnabled() {
+		return !UNSORTED_OPTION.equals(cmbSorting.getText());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 *
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent( Event event )
-	{
-		if ( event.type == SWT.Selection )
-		{
-			if ( event.widget == cmbSorting )
-			{
+	@Override
+	public void handleEvent(Event event) {
+		if (event.type == SWT.Selection) {
+			if (event.widget == cmbSorting) {
 
-				diableSortKeySelectionStateBySortDirection( );
+				diableSortKeySelectionStateBySortDirection();
 
-				if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-				{
-					getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-					getSeriesDefinitionForProcessing( ).getSortKey( )
-							.setDefinition( null );
-				}
-				else
-				{
-					getSeriesDefinitionForProcessing( ).setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
+				if (cmbSorting.getText().equals(UNSORTED_OPTION)) {
+					getSeriesDefinitionForProcessing().eUnset(DataPackage.eINSTANCE.getSeriesDefinition_Sorting());
+					getSeriesDefinitionForProcessing().getSortKey().setDefinition(null);
+				} else {
+					getSeriesDefinitionForProcessing().setSorting(SortOption
+							.getByName(LiteralHelper.sortOptionSet.getNameByDisplayName(cmbSorting.getText())));
 				}
 
-				populateSortKeyList( );
-			}
-			else if ( event.widget == cmbSortLocale )
-			{
-				ULocale locale = ChartUIUtil.LOCALE_TABLE.get( cmbSortLocale.getText( ) );
-				if ( locale == null )
-				{
-					getSeriesDefinitionForProcessing().setSortLocale( null );
+				populateSortKeyList();
+			} else if (event.widget == cmbSortLocale) {
+				ULocale locale = ChartUIUtil.LOCALE_TABLE.get(cmbSortLocale.getText());
+				if (locale == null) {
+					getSeriesDefinitionForProcessing().setSortLocale(null);
+				} else {
+					getSeriesDefinitionForProcessing().setSortLocale(locale.getName());
 				}
-				else
-				{
-					getSeriesDefinitionForProcessing().setSortLocale( locale.getName( ) );
+			} else if (event.widget == cmbSortStrength) {
+				Integer sValue = STRENGTH_MAP.get(cmbSortStrength.getText());
+				if (sValue == null) {
+					getSeriesDefinitionForProcessing().setSortStrength(ASCII_SORT_STRENGTH);
+				} else {
+					getSeriesDefinitionForProcessing().setSortStrength(sValue.intValue());
 				}
 			}
-			else if ( event.widget == cmbSortStrength )
-			{
-				Integer sValue = STRENGTH_MAP.get( cmbSortStrength.getText( ) );
-				if ( sValue == null )
-				{
-					getSeriesDefinitionForProcessing().setSortStrength( ASCII_SORT_STRENGTH );
-				}
-				else
-				{
-					getSeriesDefinitionForProcessing().setSortStrength( sValue.intValue( ) );
-				}
-			}			
 		}
 	}
 
 	/**
 	 * Set state of SortKey components.
-	 * 
+	 *
 	 * @param enabled
 	 * @since BIRT 2.3
 	 */
-	protected void setSortKeySelectionState( boolean enabled )
-	{
-		lblSortExpr.setEnabled( enabled );
-		cmbSortExpr.setEnabled( enabled );
-		if ( btnSortExprBuilder != null )
-		{
-			btnSortExprBuilder.setEnabled( enabled );
+	protected void setSortKeySelectionState(boolean enabled) {
+		lblSortExpr.setEnabled(enabled);
+		cmbSortExpr.setEnabled(enabled);
+		if (btnSortExprBuilder != null) {
+			btnSortExprBuilder.setEnabled(enabled);
 		}
 	}
-	
-	protected void updateSortKeySelectionState( )
-	{
-		setSortKeySelectionState( !UNSORTED_OPTION.equals( cmbSorting.getText( ) ) );
+
+	protected void updateSortKeySelectionState() {
+		setSortKeySelectionState(!UNSORTED_OPTION.equals(cmbSorting.getText()));
 	}
 
 	/**
 	 * Disable SortKey selection state by check sort direction.
-	 * 
+	 *
 	 * @since BIRT 2.3
 	 */
-	protected void diableSortKeySelectionStateBySortDirection( )
-	{
-		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
-		{
-			setSortKeySelectionState( false );
+	protected void diableSortKeySelectionStateBySortDirection() {
+		if (cmbSorting.getText().equals(UNSORTED_OPTION)) {
+			setSortKeySelectionState(false);
 		}
 	}
 
 	/**
 	 * Initialize SortKey object of chart model if it doesn't exist.
-	 * 
+	 *
 	 * @since BIRT 2.3
 	 */
-	protected void initSortKey( )
-	{
-		if ( getSeriesDefinitionForProcessing( ).getSortKey( ) == null )
-		{
-			getSeriesDefinitionForProcessing( ).setSortKey( QueryImpl.create( (String) null ) );
+	protected void initSortKey() {
+		if (getSeriesDefinitionForProcessing().getSortKey() == null) {
+			getSeriesDefinitionForProcessing().setSortKey(QueryImpl.create((String) null));
 		}
 	}
 
 	/**
 	 * Check if Y grouping is enabled and current is using cube, only category
 	 * expression is allowed as category sort key.
-	 * 
+	 *
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected boolean onlyCategoryExprAsCategorySortKey( )
-	{
-		return ChartUIUtil.hasLimitOnCategorySortKey( wizardContext );
+	protected boolean onlyCategoryExprAsCategorySortKey() {
+		return ChartUIUtil.hasLimitOnCategorySortKey(wizardContext);
 	}
 
-	protected boolean isInheritColumnsGroups( )
-	{
-		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
-		return ( stateInfo & IDataServiceProvider.HAS_DATA_SET ) == 0
-				&& ( stateInfo & IDataServiceProvider.HAS_CUBE ) == 0
-				&& ( stateInfo & IDataServiceProvider.INHERIT_DATA_SET ) != 0
-				&& ( stateInfo & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != 0;
+	protected boolean isInheritColumnsGroups() {
+		int stateInfo = wizardContext.getDataServiceProvider().getState();
+		return (stateInfo & IDataServiceProvider.HAS_DATA_SET) == 0 && (stateInfo & IDataServiceProvider.HAS_CUBE) == 0
+				&& (stateInfo & IDataServiceProvider.INHERIT_DATA_SET) != 0
+				&& (stateInfo & IDataServiceProvider.INHERIT_COLUMNS_GROUPS) != 0;
 	}
 
-	protected void disableSorting( )
-	{
-		lblSorting.setEnabled( false );
-		cmbSorting.setEnabled( false );
-		lblSortExpr.setEnabled( false );
-		cmbSortExpr.setEnabled( false );
-		lblSortLocale.setEnabled( false );
-		cmbSortLocale.setEnabled( false );
-		lblSortStrength.setEnabled( false );
-		cmbSortStrength.setEnabled( false );
-		if ( btnSortExprBuilder != null )
-		{
-			btnSortExprBuilder.setEnabled( false );
+	protected void disableSorting() {
+		lblSorting.setEnabled(false);
+		cmbSorting.setEnabled(false);
+		lblSortExpr.setEnabled(false);
+		cmbSortExpr.setEnabled(false);
+		lblSortLocale.setEnabled(false);
+		cmbSortLocale.setEnabled(false);
+		lblSortStrength.setEnabled(false);
+		cmbSortStrength.setEnabled(false);
+		if (btnSortExprBuilder != null) {
+			btnSortExprBuilder.setEnabled(false);
 		}
 	}
 
 	/**
 	 * check if Y grouping is set.
-	 * 
+	 *
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected boolean isYGroupingEnabled( )
-	{
-		return ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) );
+	protected boolean isYGroupingEnabled() {
+		return ChartUtil.isSpecifiedYOptionalExpression(wizardContext.getModel());
 	}
-	
+
 	/**
 	 * Get expressions of base series.
-	 * 
+	 *
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected Set<String> getBaseSeriesExpression( )
-	{
-		Set<String> exprList = new LinkedHashSet<String>( );
-		Chart chart = wizardContext.getModel( );
-		if ( chart instanceof ChartWithAxes )
-		{
+	protected Set<String> getBaseSeriesExpression() {
+		Set<String> exprList = new LinkedHashSet<>();
+		Chart chart = wizardContext.getModel();
+		if (chart instanceof ChartWithAxes) {
 			// Add the expression of base series.
-			final Axis axPrimaryBase = ( (ChartWithAxes) chart ).getPrimaryBaseAxes( )[0];
-			EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
-			if ( elSD != null && elSD.size( ) >= 1 )
-			{
-				SeriesDefinition baseSD = elSD.get( 0 );
-				final Series seBase = baseSD.getDesignTimeSeries( );
-				EList<Query> elBaseSeries = seBase.getDataDefinition( );
-				if ( elBaseSeries != null && elBaseSeries.size( ) >= 1 )
-				{
-					String baseSeriesExpression = elBaseSeries.get( 0 ).getDefinition( );
-					exprList.add( baseSeriesExpression );
+			final Axis axPrimaryBase = ((ChartWithAxes) chart).getPrimaryBaseAxes()[0];
+			EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions();
+			if (elSD != null && elSD.size() >= 1) {
+				SeriesDefinition baseSD = elSD.get(0);
+				final Series seBase = baseSD.getDesignTimeSeries();
+				EList<Query> elBaseSeries = seBase.getDataDefinition();
+				if (elBaseSeries != null && elBaseSeries.size() >= 1) {
+					String baseSeriesExpression = elBaseSeries.get(0).getDefinition();
+					exprList.add(baseSeriesExpression);
 				}
 			}
-		}
-		else
-		{
-			EList<SeriesDefinition> lstSDs = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
-			for ( int i = 0; i < lstSDs.size( ); i++ )
-			{
+		} else {
+			EList<SeriesDefinition> lstSDs = ((ChartWithoutAxes) chart).getSeriesDefinitions();
+			for (int i = 0; i < lstSDs.size(); i++) {
 				// Add base expression.
-				SeriesDefinition sd = lstSDs.get( i );
-				Series series = sd.getDesignTimeSeries( );
-				for ( Query qSeries : series.getDataDefinition( ) )
-				{
-					if ( qSeries != null && qSeries.getDefinition( ) != null )
-					{
-						exprList.add( qSeries.getDefinition( ) );
+				SeriesDefinition sd = lstSDs.get(i);
+				Series series = sd.getDesignTimeSeries();
+				for (Query qSeries : series.getDataDefinition()) {
+					if (qSeries != null && qSeries.getDefinition() != null) {
+						exprList.add(qSeries.getDefinition());
 					}
 				}
 			}
@@ -740,59 +646,44 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	/**
 	 * Get the expressions of value series.
-	 * 
+	 *
 	 * @return
 	 * @since BIRT 2.3
 	 */
-	protected Set<String> getValueSeriesExpressions( )
-	{
-		Set<String> exprList = new LinkedHashSet<String>( );
-		Chart chart = wizardContext.getModel( );
-		if ( chart instanceof ChartWithAxes )
-		{
+	protected Set<String> getValueSeriesExpressions() {
+		Set<String> exprList = new LinkedHashSet<>();
+		Chart chart = wizardContext.getModel();
+		if (chart instanceof ChartWithAxes) {
 			ChartWithAxes cwa = (ChartWithAxes) chart;
-			final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+			final Axis axPrimaryBase = cwa.getPrimaryBaseAxes()[0];
 
 			// Add expressions of value series.
-			for ( Axis axOrthogonal : cwa.getOrthogonalAxes( axPrimaryBase,
-					true ) )
-			{
-				for ( SeriesDefinition orthoSD : axOrthogonal.getSeriesDefinitions( ) )
-				{
-					Series seOrthogonal = orthoSD.getDesignTimeSeries( );
-					for ( Query qOrthogonalSeries : seOrthogonal.getDataDefinition( ) )
-					{
-						if ( qOrthogonalSeries == null
-								|| qOrthogonalSeries.getDefinition( ) == null
-								|| qOrthogonalSeries.getDefinition( ).length( ) == 0 )
-						{
+			for (Axis axOrthogonal : cwa.getOrthogonalAxes(axPrimaryBase, true)) {
+				for (SeriesDefinition orthoSD : axOrthogonal.getSeriesDefinitions()) {
+					Series seOrthogonal = orthoSD.getDesignTimeSeries();
+					for (Query qOrthogonalSeries : seOrthogonal.getDataDefinition()) {
+						if (qOrthogonalSeries == null || qOrthogonalSeries.getDefinition() == null
+								|| qOrthogonalSeries.getDefinition().length() == 0) {
 							continue;
 						}
-						exprList.add( qOrthogonalSeries.getDefinition( ) );
+						exprList.add(qOrthogonalSeries.getDefinition());
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) chart;
 
-			for ( SeriesDefinition sd : cwoa.getSeriesDefinitions( ) )
-			{
+			for (SeriesDefinition sd : cwoa.getSeriesDefinitions()) {
 				// Add value series expressions.
-				for ( SeriesDefinition orthSD : sd.getSeriesDefinitions( ) )
-				{
-					Series orthSeries = orthSD.getDesignTimeSeries( );
+				for (SeriesDefinition orthSD : sd.getSeriesDefinitions()) {
+					Series orthSeries = orthSD.getDesignTimeSeries();
 
-					for ( Query qSeries : orthSeries.getDataDefinition( ) )
-					{
-						if ( qSeries == null
-								|| qSeries.getDefinition( ) == null
-								|| qSeries.getDefinition( ).length( ) == 0 )
-						{
+					for (Query qSeries : orthSeries.getDataDefinition()) {
+						if (qSeries == null || qSeries.getDefinition() == null
+								|| qSeries.getDefinition().length() == 0) {
 							continue;
 						}
-						exprList.add( qSeries.getDefinition( ) );
+						exprList.add(qSeries.getDefinition());
 					}
 				}
 			}
@@ -801,39 +692,30 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		return exprList;
 	}
 
-	protected Set<String> getSortKeySet( )
-	{
-		return Collections.emptySet( );
+	protected Set<String> getSortKeySet() {
+		return Collections.emptySet();
 	}
 
 	/**
 	 * Set SortKey attribute by UI value.
 	 */
-	protected void setSortKeyInModel( )
-	{
-		String sortKey = btnSortExprBuilder.getExpression( );
-		if ( "".equals( sortKey ) ) //$NON-NLS-1$
+	protected void setSortKeyInModel() {
+		String sortKey = btnSortExprBuilder.getExpression();
+		if ("".equals(sortKey)) //$NON-NLS-1$
 		{
 			sortKey = null;
 		}
 
-		getSeriesDefinitionForProcessing( ).getSortKey( )
-				.setDefinition( sortKey );
+		getSeriesDefinitionForProcessing().getSortKey().setDefinition(sortKey);
 	}
-	
+
 	@Override
-	protected void okPressed()
-	{
-		if ( !UNSORTED_OPTION.equals( cmbSorting.getText( ) )
-				&& cmbSortExpr.getText( ).isEmpty( ) )
-		{
-			MessageDialog.openWarning( null,
-					Messages.getString( "GroupSortingDialog.Sort.SortOn.Warning.Title" ), //$NON-NLS-1$
-					Messages.getString( "GroupSortingDialog.Sort.SortOn.Warning.Message" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			super.okPressed( );
+	protected void okPressed() {
+		if (!UNSORTED_OPTION.equals(cmbSorting.getText()) && cmbSortExpr.getText().isEmpty()) {
+			MessageDialog.openWarning(null, Messages.getString("GroupSortingDialog.Sort.SortOn.Warning.Title"), //$NON-NLS-1$
+					Messages.getString("GroupSortingDialog.Sort.SortOn.Warning.Message")); //$NON-NLS-1$
+		} else {
+			super.okPressed();
 		}
 	}
 }

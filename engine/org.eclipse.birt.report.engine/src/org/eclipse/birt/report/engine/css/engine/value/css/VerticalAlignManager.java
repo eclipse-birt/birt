@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,20 +47,23 @@ public class VerticalAlignManager extends AbstractLengthManager {
 	public VerticalAlignManager() {
 	}
 
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_VERTICAL_ALIGN_PROPERTY;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return false;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.BASELINE_VALUE;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -71,11 +77,11 @@ public class VerticalAlignManager extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	@Override
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			switch (value.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_IDENT:
@@ -83,10 +89,9 @@ public class VerticalAlignManager extends AbstractLengthManager {
 			case CSSPrimitiveValue.CSS_PERCENTAGE:
 				float scale = value.getFloatValue();
 				float fs = 0;
-				IStyle cs =  elt.getComputedStyle();
+				IStyle cs = elt.getComputedStyle();
 				assert cs != null;
-				Value lineHeight = (Value) cs
-						.getProperty(IStyle.STYLE_LINE_HEIGHT);
+				Value lineHeight = (Value) cs.getProperty(IStyle.STYLE_LINE_HEIGHT);
 				assert lineHeight != null;
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 
@@ -97,8 +102,7 @@ public class VerticalAlignManager extends AbstractLengthManager {
 				} else {
 					fs = lineHeight.getFloatValue();
 				}
-					return new FloatValue( fontSize.getPrimitiveType( ), fs
-							* scale );
+				return new FloatValue(fontSize.getPrimitiveType(), fs * scale);
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,68 +24,49 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 
-public class TocExpressionPropertyDescriptorProvider extends
-		ExpressionPropertyDescriptorProvider
-{
+public class TocExpressionPropertyDescriptorProvider extends ExpressionPropertyDescriptorProvider {
 
-	public TocExpressionPropertyDescriptorProvider( String property,
-			String element )
-	{
-		super( property, element );
+	public TocExpressionPropertyDescriptorProvider(String property, String element) {
+		super(property, element);
 	}
 
-	public Object load( )
-	{
-		Object value = super.load( );
-		if ( value instanceof TOC )
-		{
-			value = ( ( (TOC) value ).getExpressionProperty( TOC.TOC_EXPRESSION ) );
+	@Override
+	public Object load() {
+		Object value = super.load();
+		if (value instanceof TOC) {
+			value = (((TOC) value).getExpressionProperty(TOC.TOC_EXPRESSION));
 		}
 		return value;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		if ( isReadOnly( ) )
+	@Override
+	public void save(Object value) throws SemanticException {
+		if (isReadOnly()) {
 			return;
+		}
 
 		GroupElementHandle groupElementHandle = null;
-		if ( input instanceof GroupElementHandle )
-		{
+		if (input instanceof GroupElementHandle) {
 			groupElementHandle = (GroupElementHandle) input;
-		}
-		else if ( input instanceof List )
-		{
-			groupElementHandle = DEUtil.getGroupElementHandle( (List) input );
+		} else if (input instanceof List) {
+			groupElementHandle = DEUtil.getGroupElementHandle((List) input);
 		}
 
-		if ( groupElementHandle != null )
-		{
-			if ( groupElementHandle.getPropertyHandle( property ) != null )
-			{
-				Object propertyValue = groupElementHandle.getPropertyHandle( property )
-						.getValue( );
-				if ( propertyValue instanceof TOC )
-				{
-					( (ReportItemHandle) groupElementHandle.getElements( )
-							.get( 0 ) ).getTOC( )
-							.setExpressionProperty( TOC.TOC_EXPRESSION,
-									(Expression) value );
+		if (groupElementHandle != null) {
+			if (groupElementHandle.getPropertyHandle(property) != null) {
+				Object propertyValue = groupElementHandle.getPropertyHandle(property).getValue();
+				if (propertyValue instanceof TOC) {
+					((ReportItemHandle) groupElementHandle.getElements().get(0)).getTOC()
+							.setExpressionProperty(TOC.TOC_EXPRESSION, (Expression) value);
+				} else {
+					TOC toc = StructureFactory.createTOC();
+					toc.setExpressionProperty(TOC.TOC_EXPRESSION, (Expression) value);
+					groupElementHandle.setProperty(property, toc);
 				}
-				else
-				{
-					TOC toc = StructureFactory.createTOC( );
-					toc.setExpressionProperty( TOC.TOC_EXPRESSION,
-							(Expression) value );
-					groupElementHandle.setProperty( property, toc );
-				}
-			}
-			else
-			{
-				TOC toc = StructureFactory.createTOC( );
-				toc.setExpressionProperty( TOC.TOC_EXPRESSION,
-						(Expression) value );
-				groupElementHandle.setProperty( property, toc );
+			} else {
+				TOC toc = StructureFactory.createTOC();
+				toc.setExpressionProperty(TOC.TOC_EXPRESSION, (Expression) value);
+				groupElementHandle.setProperty(property, toc);
 			}
 		}
 	}

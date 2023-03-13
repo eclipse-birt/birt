@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,78 +31,77 @@ import org.eclipse.gef.tools.ResizeTracker;
  * Crosstab cell drag handle
  */
 
-public class TableCellDragHandle extends AbstractHandle
-{
+public class TableCellDragHandle extends AbstractHandle {
 	private int cursorDirection = 0;
 	private int start;
 
 	private int end;
-	
+
 	/**
 	 * @param owner
 	 * @param direction
 	 * @param start
 	 * @param end
 	 */
-	public TableCellDragHandle( TableCellEditPart owner, int direction,int start,
-			int end)
-	{
+	public TableCellDragHandle(TableCellEditPart owner, int direction, int start, int end) {
 		setOwner(owner);
 		setLocator(new CellDragoicator(owner.getFigure(), direction));
 		setCursor(Cursors.getDirectionalCursor(direction, owner.getFigure().isMirrored()));
 		cursorDirection = direction;
-		setOpaque( false );
-		
+		setOpaque(false);
+
 		this.start = start;
 		this.end = end;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
-		
-		if (cursorDirection == PositionConstants.EAST )
-		{
-			return new ColumnDragTracker(getOwner( ).getParent( ), start, end);
+	@Override
+	protected DragTracker createDragTracker() {
+
+		if (cursorDirection == PositionConstants.EAST) {
+			return new ColumnDragTracker(getOwner().getParent(), start, end);
 		}
-		if (cursorDirection == PositionConstants.SOUTH)
-		{
-			return new RowDragTracker(getOwner( ).getParent( ), start, end);
+		if (cursorDirection == PositionConstants.SOUTH) {
+			return new RowDragTracker(getOwner().getParent(), start, end);
 		}
-		//return null;
-		return new ResizeTracker( getOwner( ), cursorDirection )
-		{
-			protected void showTargetFeedback() 
-			{
-				
+		// return null;
+		return new ResizeTracker(getOwner(), cursorDirection) {
+			@Override
+			protected void showTargetFeedback() {
+
 			}
-			protected void eraseTargetFeedback() 
-			{
-			
+
+			@Override
+			protected void eraseTargetFeedback() {
+
 			}
-			
-			protected void showSourceFeedback( )
-			{
+
+			@Override
+			protected void showSourceFeedback() {
 			}
-			
-			protected void eraseSourceFeedback( )
-			{
+
+			@Override
+			protected void eraseSourceFeedback() {
 			}
-			
-			protected Command getCommand( )
-			{
+
+			@Override
+			protected Command getCommand() {
 				return UnexecutableCommand.INSTANCE;
 			}
 		};
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	public void paintFigure( Graphics g )
-	{
+	@Override
+	public void paintFigure(Graphics g) {
 //		Rectangle r = getBounds( );
 //		r.shrink( 1, 1 );
 //		try
@@ -114,30 +116,33 @@ public class TableCellDragHandle extends AbstractHandle
 //			// We don't really own rect 'r', so fix it.
 //			r.expand( 1, 1 );
 //		}
-		//do nothing 
+		// do nothing
 
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
-	public boolean containsPoint( int x, int y )
-	{
-		return getBounds( ).getCopy( ).shrink( -1, -1 ).contains( x, y );
+	@Override
+	public boolean containsPoint(int x, int y) {
+		return getBounds().getCopy().shrink(-1, -1).contains(x, y);
 	}
-		
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.Figure#setBounds(org.eclipse.draw2d.geometry.Rectangle)
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.draw2d.Figure#setBounds(org.eclipse.draw2d.geometry.Rectangle)
 	 */
-	public void setBounds( Rectangle rect )
-	{
-		if (start == end && cursorDirection == PositionConstants.SOUTH)
-		{
-			rect.y = rect.y - rect.height; 
-		}
-		else if (start == end && cursorDirection == PositionConstants.EAST)
-		{
+	@Override
+	public void setBounds(Rectangle rect) {
+		if (start == end && cursorDirection == PositionConstants.SOUTH) {
+			rect.y = rect.y - rect.height;
+		} else if (start == end && cursorDirection == PositionConstants.EAST) {
 			rect.x = rect.x - rect.width;
 		}
-		super.setBounds( rect );
+		super.setBounds(rect);
 	}
 }

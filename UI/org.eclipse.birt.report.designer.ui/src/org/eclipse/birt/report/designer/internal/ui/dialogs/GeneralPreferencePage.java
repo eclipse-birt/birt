@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,8 +47,7 @@ import org.eclipse.swt.widgets.Text;
  * Provides general preference page.
  */
 
-public class GeneralPreferencePage extends BaseStylePreferencePage
-{
+public class GeneralPreferencePage extends BaseStylePreferencePage {
 
 	private Object model;
 
@@ -69,317 +71,280 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param model
-	 *            , the model of preference page.
+	 *
+	 * @param model , the model of preference page.
 	 */
-	public GeneralPreferencePage( Object model )
-	{
-		this( model, null );
+	public GeneralPreferencePage(Object model) {
+		this(model, null);
 	}
 
 	/**
 	 * Constructor with theme.
-	 * 
+	 *
 	 * @param model
 	 * @param theme
 	 */
-	public GeneralPreferencePage( Object model, AbstractThemeHandle theme )
-	{
-		super( model );
+	public GeneralPreferencePage(Object model, AbstractThemeHandle theme) {
+		super(model);
 
 		this.model = model;
 		this.theme = theme;
 
-		if ( theme instanceof ReportItemThemeHandle )
+		if (theme instanceof ReportItemThemeHandle) {
 			isReportItemTheme = true;
+		}
 	}
 
 	/**
 	 * @see org.eclipse.jface.preference.
 	 *      FieldEditorPreferencePage#createFieldEditors()
 	 */
-	protected void createFieldEditors( )
-	{
+	@Override
+	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
-		createStyleNameControl( );
+		createStyleNameControl();
 
-		addField( new SeparatorFieldEditor( getFieldEditorParent( ) ) );
+		addField(new SeparatorFieldEditor(getFieldEditorParent()));
 
-		BooleanFieldEditor shrink = new BooleanFieldEditor( StyleHandle.CAN_SHRINK_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.CAN_SHRINK_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getFieldEditorParent( ) );
-		addField( shrink );
+		BooleanFieldEditor shrink = new BooleanFieldEditor(
+				StyleHandle.CAN_SHRINK_PROP, Messages.getString(((StyleHandle) model)
+						.getPropertyHandle(StyleHandle.CAN_SHRINK_PROP).getDefn().getDisplayNameID()),
+				getFieldEditorParent());
+		addField(shrink);
 
-		BooleanFieldEditor blank = new BooleanFieldEditor( StyleHandle.SHOW_IF_BLANK_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.SHOW_IF_BLANK_PROP )
-						.getDefn( )
-						.getDisplayNameID( ) ),
-				getFieldEditorParent( ) );
-		addField( blank );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
-				IHelpContextIds.STYLE_BUILDER_GERNERAL_ID );
+		BooleanFieldEditor blank = new BooleanFieldEditor(
+				StyleHandle.SHOW_IF_BLANK_PROP, Messages.getString(((StyleHandle) model)
+						.getPropertyHandle(StyleHandle.SHOW_IF_BLANK_PROP).getDefn().getDisplayNameID()),
+				getFieldEditorParent());
+		addField(blank);
+		UIUtil.bindHelp(getFieldEditorParent().getParent(), IHelpContextIds.STYLE_BUILDER_GERNERAL_ID);
 
-		Label note = new Label( getFieldEditorParent( ), SWT.NONE );
-		note.setText( Messages.getString( "GeneralPreferencePage.Label.Note" ) ); //$NON-NLS-1$
-		note.setForeground( note.getDisplay( )
-				.getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW ) );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		Label note = new Label(getFieldEditorParent(), SWT.NONE);
+		note.setText(Messages.getString("GeneralPreferencePage.Label.Note")); //$NON-NLS-1$
+		note.setForeground(note.getDisplay().getSystemColor(SWT.COLOR_WIDGET_DARK_SHADOW));
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.grabExcessVerticalSpace = true;
 		data.verticalAlignment = SWT.END;
 		data.horizontalSpan = 2;
-		note.setLayoutData( data );
+		note.setLayoutData(data);
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private void createStyleNameControl( )
-	{
-		Composite nameComp = new Composite( getFieldEditorParent( ), SWT.NULL );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+	private void createStyleNameControl() {
+		Composite nameComp = new Composite(getFieldEditorParent(), SWT.NULL);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
-		nameComp.setLayoutData( data );
-		nameComp.setLayout( new GridLayout( 2, false ) );
+		nameComp.setLayoutData(data);
+		nameComp.setLayout(new GridLayout(2, false));
 
-		preStyle = new Button( nameComp, SWT.RADIO );
-		preStyle.setText( " " ); //$NON-NLS-1$
-		int width = preStyle.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		preStyle = new Button(nameComp, SWT.RADIO);
+		preStyle.setText(" "); //$NON-NLS-1$
+		int width = preStyle.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 
-		preStyle.setText( Messages.getString( "GeneralPreferencePage.label.predefinedStyle" ) ); //$NON-NLS-1$
-		preStyle.addSelectionListener( new SelectionListener( ) {
+		preStyle.setText(Messages.getString("GeneralPreferencePage.label.predefinedStyle")); //$NON-NLS-1$
+		preStyle.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( preStyle.getSelection( ) == false )
-				{
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (!preStyle.getSelection()) {
 					return;
 				}
-				setPredefinedStyle( true );
-				preName.setFocus( );
-				if ( preName.getSelectionIndex( ) == -1 )
-				{
-					preName.select( 0 );
+				setPredefinedStyle(true);
+				preName.setFocus();
+				if (preName.getSelectionIndex() == -1) {
+					preName.select(0);
 				}
 				// selectedType = TYPE_PREDEFINED;
-				checkPageValid( );
+				checkPageValid();
 			}
-		} );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		});
+		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
-		preStyle.setLayoutData( data );
+		preStyle.setLayoutData(data);
 
-		preLabel = new Label( nameComp, SWT.NONE );
-		preLabel.setText( Messages.getString( "GeneralPreferencePage.Label.PreDefinedStyle" ) ); //$NON-NLS-1$
-		data = new GridData( );
+		preLabel = new Label(nameComp, SWT.NONE);
+		preLabel.setText(Messages.getString("GeneralPreferencePage.Label.PreDefinedStyle")); //$NON-NLS-1$
+		data = new GridData();
 		data.horizontalIndent = width;
-		preLabel.setLayoutData( data );
+		preLabel.setLayoutData(data);
 
-		preName = new Combo( nameComp, SWT.NULL | SWT.READ_ONLY );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		preName.setLayoutData( data );
-		preName.setVisibleItemCount( 30 );
-		if ( isReportItemTheme )
-		{
-			preName.setItems( getPredefinedStyleNames( ( (ReportItemThemeHandle) theme ).getType( ) ) );
+		preName = new Combo(nameComp, SWT.NULL | SWT.READ_ONLY);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		preName.setLayoutData(data);
+		preName.setVisibleItemCount(30);
+		if (isReportItemTheme) {
+			preName.setItems(getPredefinedStyleNames(((ReportItemThemeHandle) theme).getType()));
+		} else {
+			preName.setItems(getPredefinedStyleNames(null));
 		}
-		else
-		{
-			preName.setItems( getPredefinedStyleNames( null ) );
-		}
-		if(preName.getItemCount()==1){//If only one item,set default selected.
+		if (preName.getItemCount() == 1) {// If only one item,set default selected.
 			preName.select(0);
 		}
 
-		preName.addSelectionListener( new SelectionListener( ) {
+		preName.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				checkPageValid( );
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkPageValid();
 			}
-		} );
+		});
 
-		cusStyle = new Button( nameComp, SWT.RADIO );
-		cusStyle.setText( Messages.getString( "GeneralPreferencePage.label.customStyle" ) ); //$NON-NLS-1$
-		cusStyle.addSelectionListener( new SelectionListener( ) {
+		cusStyle = new Button(nameComp, SWT.RADIO);
+		cusStyle.setText(Messages.getString("GeneralPreferencePage.label.customStyle")); //$NON-NLS-1$
+		cusStyle.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( cusStyle.getSelection( ) == false )
-				{
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (!cusStyle.getSelection()) {
 					return;
 				}
-				setPredefinedStyle( false );
-				cusName.setFocus( );
+				setPredefinedStyle(false);
+				cusName.setFocus();
 				// selectedType = TYPE_CUSTOM;
-				checkPageValid( );
+				checkPageValid();
 			}
-		} );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		});
+		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
-		cusStyle.setLayoutData( data );
+		cusStyle.setLayoutData(data);
 
-		cusLabel = new Label( nameComp, SWT.NONE );
-		cusLabel.setText( Messages.getString( "GeneralPreferencePage.Label.CustomStyle" ) ); //$NON-NLS-1$
-		data = new GridData( );
+		cusLabel = new Label(nameComp, SWT.NONE);
+		cusLabel.setText(Messages.getString("GeneralPreferencePage.Label.CustomStyle")); //$NON-NLS-1$
+		data = new GridData();
 		data.horizontalIndent = width;
-		cusLabel.setLayoutData( data );
+		cusLabel.setLayoutData(data);
 
-		cusName = new Text( nameComp, SWT.SINGLE | SWT.BORDER );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		cusName.setLayoutData( data );
-		cusName.addModifyListener( new ModifyListener( ) {
+		cusName = new Text(nameComp, SWT.SINGLE | SWT.BORDER);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		cusName.setLayoutData(data);
+		cusName.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				checkPageValid( );
+			@Override
+			public void modifyText(ModifyEvent e) {
+				checkPageValid();
 
 			}
 
-		} );
+		});
 	}
 
-	private String[] getPredefinedStyleNames( String type )
-	{
+	private String[] getPredefinedStyleNames(String type) {
 		List preStyles = null;
-		if ( type == null )
-		{
-			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		if (type == null) {
+			preStyles = DEUtil.getMetaDataDictionary().getPredefinedStyles();
+		} else {
+			preStyles = DEUtil.getMetaDataDictionary().getPredefinedStyles(type);
 		}
-		else
-		{
-			preStyles = DEUtil.getMetaDataDictionary( )
-					.getPredefinedStyles( type );
+		if (preStyles == null) {
+			return new String[] {};
 		}
-		if ( preStyles == null )
-		{
-			return new String[]{};
+		String[] names = new String[preStyles.size()];
+		for (int i = 0; i < preStyles.size(); i++) {
+			names[i] = ((IPredefinedStyle) preStyles.get(i)).getName();
 		}
-		String[] names = new String[preStyles.size( )];
-		for ( int i = 0; i < preStyles.size( ); i++ )
-		{
-			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
-		}
-		Arrays.sort( names );
+		Arrays.sort(names);
 		return names;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#initialize()
 	 */
-	protected void initialize( )
-	{
-		if ( model instanceof StyleHandle )
-		{
-			if ( ( (StyleHandle) model ).isPredefined( ) || isReportItemTheme )
-			{
-				preStyle.setSelection( true );
-				setPredefinedStyle( true );
-				preName.setText( ( (StyleHandle) model ).getName( ) );
-			}
-			else
-			{
-				cusStyle.setSelection( true );
-				setPredefinedStyle( false );
-				if ( ( (StyleHandle) model ).getName( ) != null )
-				{
-					cusName.setText( ( (StyleHandle) model ).getName( ) );
+	@Override
+	protected void initialize() {
+		if (model instanceof StyleHandle) {
+			if (((StyleHandle) model).isPredefined() || isReportItemTheme) {
+				preStyle.setSelection(true);
+				setPredefinedStyle(true);
+				preName.setText(((StyleHandle) model).getName());
+			} else {
+				cusStyle.setSelection(true);
+				setPredefinedStyle(false);
+				if (((StyleHandle) model).getName() != null) {
+					cusName.setText(((StyleHandle) model).getName());
 				}
 			}
 		}
 
-		if ( isReportItemTheme )
-		{
-			cusStyle.setEnabled( false );
-			cusName.setEnabled( false );
+		if (isReportItemTheme) {
+			cusStyle.setEnabled(false);
+			cusName.setEnabled(false);
 		}
-		super.initialize( );
+		super.initialize();
 		initialized = true;
-		checkPageValid( );
+		checkPageValid();
 	}
 
-	private void setPredefinedStyle( boolean b )
-	{
-		preName.setEnabled( b );
-		preLabel.setEnabled( b );
-		cusName.setEnabled( !b );
-		cusLabel.setEnabled( !b );
+	private void setPredefinedStyle(boolean b) {
+		preName.setEnabled(b);
+		preLabel.setEnabled(b);
+		cusName.setEnabled(!b);
+		cusLabel.setEnabled(!b);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
 	 */
-	public boolean performOk( )
-	{
-		if ( storeName( ) )
-		{
-			return super.performOk( );
+	@Override
+	public boolean performOk() {
+		if (storeName()) {
+			return super.performOk();
 		}
-		cusName.setFocus( );
+		cusName.setFocus();
 		return false;
 	}
 
-	private boolean storeName( )
-	{
-		IPreferenceStore ps = getPreferenceStore( );
+	private boolean storeName() {
+		IPreferenceStore ps = getPreferenceStore();
 
-		( (StylePreferenceStore) ps ).clearError( );
+		((StylePreferenceStore) ps).clearError();
 
-		if ( !checkName( getName( ), true ) )
-		{
+		if (!checkName(getName(), true)) {
 			return false;
 		}
 
-		getPreferenceStore( ).setValue( StyleHandle.NAME_PROP, getName( ) );
+		getPreferenceStore().setValue(StyleHandle.NAME_PROP, getName());
 
-		return !( (StylePreferenceStore) ps ).hasError( );
+		return !((StylePreferenceStore) ps).hasError();
 	}
 
-	private boolean checkName( String name, boolean showError )
-	{
-		String trimName = name.trim( );
+	private boolean checkName(String name, boolean showError) {
+		String trimName = name.trim();
 		Iterator iterator = null;
 
-		if ( theme != null )
-		{
-			iterator = DEUtil.getStyles( theme );
-		}
-		else
-		{
-			iterator = DEUtil.getLocalStyles( );
+		if (theme != null) {
+			iterator = DEUtil.getStyles(theme);
+		} else {
+			iterator = DEUtil.getLocalStyles();
 		}
 
-		while ( iterator.hasNext( ) )
-		{
-			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+		while (iterator.hasNext()) {
+			SharedStyleHandle handle = (SharedStyleHandle) iterator.next();
 
-			if ( ( handle.getName( ) != null )
-					&& handle.getName( ).equals( trimName )
-					&& ( handle != model ) )
-			{
-				if ( showError )
-				{
-					ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
-							Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate", new String[]{name} ) ); //$NON-NLS-1$
+			if ((handle.getName() != null) && handle.getName().equals(trimName) && (handle != model)) {
+				if (showError) {
+					ExceptionHandler.openErrorMessageBox(
+							Messages.getString("GeneralPreferencePage.errorMsg.duplicate.styleName"), //$NON-NLS-1$
+							Messages.getFormattedString("GeneralPreferencePage.label.styleNameDuplicate", //$NON-NLS-1$
+									new String[] { name }));
 
 				}
 				return false;
@@ -389,105 +354,79 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		return true;
 	}
 
-	private String getName( )
-	{
-		if ( preStyle.getSelection( ) )
-		{
-			return preName.getText( );
+	private String getName() {
+		if (preStyle.getSelection()) {
+			return preName.getText();
 		}
-		return cusName.getText( );
+		return cusName.getText();
 	}
 
-	protected boolean checkPageValid( )
-	{
+	protected boolean checkPageValid() {
 		String name = null;
-		if ( preStyle.getSelection( ) )
-		{
-			name = preName.getText( ).trim( );
-		}
-		else
-		{
-			name = cusName.getText( ).trim( );
+		if (preStyle.getSelection()) {
+			name = preName.getText().trim();
+		} else {
+			name = cusName.getText().trim();
 		}
 
-		if ( name == null || name.length( ) == 0 )
-		{
-			setValid( false );
-			if ( initialized && ( !isValid( ) ) )
-			{
-				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" ); //$NON-NLS-1$
+		if (name == null || name.length() == 0) {
+			setValid(false);
+			if (initialized && (!isValid())) {
+				String errorMessage = Messages.getString("GeneralPreferencePage.label.nameEmpty"); //$NON-NLS-1$
 				// setMessage( errorMessage, PreferencePage.ERROR );
-				setErrorMessage( errorMessage );
+				setErrorMessage(errorMessage);
 			}
-		}
-		else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( name ) != null && !preStyle.getSelection( ))
-		{
-			setValid( false );
-			if ( initialized && ( !isValid( ) ) )
-			{
-				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNamePredefind", //$NON-NLS-1$
-						new String[]{
-							name
-						} ); 
+		} else if (MetaDataDictionary.getInstance().getPredefinedStyle(name) != null && !preStyle.getSelection()) {
+			setValid(false);
+			if (initialized && (!isValid())) {
+				String errorMessage = Messages.getFormattedString("GeneralPreferencePage.label.styleNamePredefind", //$NON-NLS-1$
+						new String[] { name });
 				// setMessage( errorMessage, PreferencePage.ERROR );
-				setErrorMessage( errorMessage );
+				setErrorMessage(errorMessage);
 			}
-		}
-		else
-		{
-			setValid( checkName( name, false ) );
-			if ( initialized && ( !isValid( ) ) )
-			{
-				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate", //$NON-NLS-1$
-						new String[]{
-							name
-						} );
+		} else {
+			setValid(checkName(name, false));
+			if (initialized && (!isValid())) {
+				String errorMessage = Messages.getFormattedString("GeneralPreferencePage.label.styleNameDuplicate", //$NON-NLS-1$
+						new String[] { name });
 				// setMessage( errorMessage, PreferencePage.ERROR );
-				setErrorMessage( errorMessage );
+				setErrorMessage(errorMessage);
 			}
 		}
 
-		if ( initialized && isValid( ) )
-		{
+		if (initialized && isValid()) {
 			// setMessage( null, PreferencePage.NONE );
-			setErrorMessage( null );
+			setErrorMessage(null);
 		}
 
-		return isValid( );
+		return isValid();
 	}
 
-	protected void checkState( )
-	{
-		boolean result = isValid( );
-		if ( result )
-		{
-			super.checkState( );
+	@Override
+	protected void checkState() {
+		boolean result = isValid();
+		if (result) {
+			super.checkState();
 		}
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IDialog.
 	 */
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		if ( visible )
-		{
-			if ( preStyle.getSelection( ) )
-			{
-				preName.setFocus( );
-			}
-			else
-			{
-				cusName.setFocus( );
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			if (preStyle.getSelection()) {
+				preName.setFocus();
+			} else {
+				cusName.setFocus();
 			}
 		}
 	}
 
-	protected String[] getPreferenceNames( )
-	{
-		return new String[]{
-				StyleHandle.CAN_SHRINK_PROP, StyleHandle.SHOW_IF_BLANK_PROP,
-		};
+	@Override
+	protected String[] getPreferenceNames() {
+		return new String[] { StyleHandle.CAN_SHRINK_PROP, StyleHandle.SHOW_IF_BLANK_PROP, };
 	}
 }

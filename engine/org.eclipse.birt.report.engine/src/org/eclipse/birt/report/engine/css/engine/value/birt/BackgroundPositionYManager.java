@@ -1,15 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.birt;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -23,7 +27,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-public class BackgroundPositionYManager  extends AbstractLengthManager {
+public class BackgroundPositionYManager extends AbstractLengthManager {
 
 	/**
 	 * The identifier values.
@@ -31,38 +35,37 @@ public class BackgroundPositionYManager  extends AbstractLengthManager {
 	protected final static StringMap values = new StringMap();
 	static {
 		values.put(CSSConstants.CSS_TOP_VALUE, CSSValueConstants.TOP_VALUE);
-		values.put(CSSConstants.CSS_CENTER_VALUE,
-				CSSValueConstants.CENTER_VALUE);
+		values.put(CSSConstants.CSS_CENTER_VALUE, CSSValueConstants.CENTER_VALUE);
 		values.put(CSSConstants.CSS_BOTTOM_VALUE, CSSValueConstants.BOTTOM_VALUE);
 	}
 
 	protected final static StringMap percentValues = new StringMap();
 	static {
-		percentValues.put(CSSConstants.CSS_TOP_VALUE,
-				CSSValueConstants.PERCENT_0);
-		percentValues.put(CSSConstants.CSS_CENTER_VALUE,
-				CSSValueConstants.PERCENT_50);
-		percentValues.put(CSSConstants.CSS_BOTTOM_VALUE,
-				CSSValueConstants.PERCENT_100);
+		percentValues.put(CSSConstants.CSS_TOP_VALUE, CSSValueConstants.PERCENT_0);
+		percentValues.put(CSSConstants.CSS_CENTER_VALUE, CSSValueConstants.PERCENT_50);
+		percentValues.put(CSSConstants.CSS_BOTTOM_VALUE, CSSValueConstants.PERCENT_100);
 	}
 
 	public BackgroundPositionYManager() {
 	}
 
+	@Override
 	public String getPropertyName() {
 		return BIRTConstants.BIRT_BACKGROUND_POSITION_Y_PROPERTY;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return false;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.PERCENT_0;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -76,20 +79,18 @@ public class BackgroundPositionYManager  extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	@Override
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			if (value.getPrimitiveType() == CSSPrimitiveValue.CSS_IDENT) {
-				Value percentage = (Value) percentValues.get(value
-						.getStringValue());
+				Value percentage = (Value) percentValues.get(value.getStringValue());
 				if (percentage != null) {
 					return percentage;
 				}
-				throw createInvalidIdentifierDOMException(value
-						.getStringValue());
+				throw createInvalidIdentifierDOMException(value.getStringValue());
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,8 +20,7 @@ import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
  * Implements <code>IChoiceDefinition</code> for testing
  */
 
-public class ChoiceDefinitionImpl implements IChoiceDefinition
-{
+public class ChoiceDefinitionImpl implements IChoiceDefinition {
 
 	String displayNameID = null;
 	Object value = null;
@@ -26,31 +28,31 @@ public class ChoiceDefinitionImpl implements IChoiceDefinition
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getDisplayName()
 	 */
-	public String getDisplayNameID( )
-	{
+	@Override
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getName()
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getValue()
 	 */
-	public Object getValue( )
-	{
+	@Override
+	public Object getValue() {
 		return value;
 	}
 

@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,132 +32,124 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
-{
+public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	protected ScatterSeriesImpl( )
-	{
-		super( );
+	protected ScatterSeriesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return TypePackage.Literals.SCATTER_SERIES;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
 	 */
-	public final boolean canBeStacked( )
-	{
+	@Override
+	public final boolean canBeStacked() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
 	 */
-	public final boolean canParticipateInCombination( )
-	{
+	@Override
+	public final boolean canParticipateInCombination() {
 		return false;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return
 	 */
-	public static Series create( )
-	{
-		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
-		( (ScatterSeriesImpl) ss ).initialize( );
+	public static Series create() {
+		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries();
+		((ScatterSeriesImpl) ss).initialize();
 		return ss;
 	}
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
-	protected void initialize( )
-	{
-		super.initialize( );
-		getLineAttributes( ).setVisible( false );
-		getMarkers( ).get( 0 ).setType( MarkerType.CROSSHAIR_LITERAL );
+	@Override
+	protected void initialize() {
+		super.initialize();
+		getLineAttributes().setVisible(false);
+		getMarkers().get(0).setType(MarkerType.CROSSHAIR_LITERAL);
 	}
-	
+
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return
 	 */
-	public static Series createDefault( )
-	{
-		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
-		( (ScatterSeriesImpl) ss ).initDefault( );
+	public static Series createDefault() {
+		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries();
+		((ScatterSeriesImpl) ss).initDefault();
 		return ss;
 	}
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
-	protected void initDefault( )
-	{
-		super.initDefault( );
-		try
-		{
-			ChartElementUtil.setDefaultValue( getLineAttributes( ),
-					"visible", false ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( getMarkers( ).get( 0 ),
-					"type", MarkerType.CROSSHAIR_LITERAL ); //$NON-NLS-1$
-		}
-		catch ( ChartException e )
-		{
+	@Override
+	protected void initDefault() {
+		super.initDefault();
+		try {
+			ChartElementUtil.setDefaultValue(getLineAttributes(), "visible", false); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue(getMarkers().get(0), "type", MarkerType.CROSSHAIR_LITERAL); //$NON-NLS-1$
+		} catch (ChartException e) {
 			// Do nothing.
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "ScatterSeriesImpl.displayName" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("ScatterSeriesImpl.displayName"); //$NON-NLS-1$
 	}
 
 	/**
 	 * @generated
 	 */
-	public ScatterSeries copyInstance( )
-	{
-		ScatterSeriesImpl dest = new ScatterSeriesImpl( );
-		dest.set( this );
+	@Override
+	public ScatterSeries copyInstance() {
+		ScatterSeriesImpl dest = new ScatterSeriesImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( ScatterSeries src )
-	{
+	protected void set(ScatterSeries src) {
 
-		super.set( src );
+		super.set(src);
 
 	}
 

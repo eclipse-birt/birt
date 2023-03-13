@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,75 +33,61 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 
-public class ChartEventHandlerPage extends AttributePage
-{
+public class ChartEventHandlerPage extends AttributePage {
 
 	/**
 	 * Category name for chart EventHandler page.
 	 */
 	public static final String CHARTEVENTHANDLER = "ChartEventHandler"; //$NON-NLS-1$
-	
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15 ) );
 
-		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP,
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-		TextAndButtonSection eventSection = new TextAndButtonSection( eventProvider.getDisplayName( ),
-				container,
-				true );
-		eventSection.setProvider( eventProvider );
-		eventSection.addSelectionListener( new SelectionAdapter( ) {
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5, 15));
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				ClassFinder finder = new ClassFinder( );
+		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider(
+				ReportDesignHandle.EVENT_HANDLER_CLASS_PROP, ReportDesignConstants.REPORT_DESIGN_ELEMENT);
+		TextAndButtonSection eventSection = new TextAndButtonSection(eventProvider.getDisplayName(), container, true);
+		eventSection.setProvider(eventProvider);
+		eventSection.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ClassFinder finder = new ClassFinder();
 				String className = null;
-				if ( input != null && ( (List) input ).size( ) > 0 )
-				{
-					if ( ( (List) input ).get( 0 ) instanceof DesignElementHandle )
-					{
-						className = getEventHandlerClassName( (DesignElementHandle) ( (List) input ).get( 0 ) );
+				if (input != null && ((List) input).size() > 0) {
+					if (((List) input).get(0) instanceof DesignElementHandle) {
+						className = getEventHandlerClassName((DesignElementHandle) ((List) input).get(0));
 
 					}
 				}
-				if ( className != null )
-				{
-					finder.setParentClassName( className );
-					GroupPropertyHandle handle = DEUtil.getMultiSelectionHandle( (List) input )
-							.getPropertyHandle( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP );
-					try
-					{
-						String finderClassName = finder.getFinderClassName( );
-						if ( finderClassName != null
-								&& finderClassName.trim( ).length( ) > 0 )
-						{
-							handle.setStringValue( finderClassName.trim( ) );
+				if (className != null) {
+					finder.setParentClassName(className);
+					GroupPropertyHandle handle = DEUtil.getMultiSelectionHandle((List) input)
+							.getPropertyHandle(ReportDesignHandle.EVENT_HANDLER_CLASS_PROP);
+					try {
+						String finderClassName = finder.getFinderClassName();
+						if (finderClassName != null && finderClassName.trim().length() > 0) {
+							handle.setStringValue(finderClassName.trim());
 						}
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionHandler.handle( e1 );
+					} catch (SemanticException e1) {
+						ExceptionHandler.handle(e1);
 					}
 				}
 			}
 
-		} );
-		eventSection.setWidth( 400 );
-		eventSection.setGridPlaceholder( 1, true );
-		eventSection.setButtonText( Messages.getString( "ChartEventHandlerPage.dialog.Browse" ) ); //$NON-NLS-1$
-		addSection(  ChartPageSectionId.HANDLER_EVENT, eventSection );
-		
-		createSections( );
-		layoutSections( );
+		});
+		eventSection.setWidth(400);
+		eventSection.setGridPlaceholder(1, true);
+		eventSection.setButtonText(Messages.getString("ChartEventHandlerPage.dialog.Browse")); //$NON-NLS-1$
+		addSection(ChartPageSectionId.HANDLER_EVENT, eventSection);
+
+		createSections();
+		layoutSections();
 	}
-	
-	private String getEventHandlerClassName( DesignElementHandle handle )
-	{
+
+	private String getEventHandlerClassName(DesignElementHandle handle) {
 		return "org.eclipse.birt.chart.script.IChartEventHandler"; //$NON-NLS-1$
 	}
-	
-	
 
 }

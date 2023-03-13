@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,56 +20,48 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelpe
 /**
  * A CalculatedMember is an Aggregation Object which need to be calculated in
  * olap.data
- * 
+ *
  */
-public class CalculatedMember
-{
+public class CalculatedMember {
 
 	private CubeAggrDefn aggrDefn;
 	private int rsID;
 	private IJSFacttableFilterEvalHelper filterEvalHelper;
 
-
 	/**
-	 * 
+	 *
 	 * @param aggrDefn
 	 * @param rsID
 	 */
-	CalculatedMember( CubeAggrDefn aggrDefn, int rsID )
-	{
+	CalculatedMember(CubeAggrDefn aggrDefn, int rsID) {
 		this.aggrDefn = aggrDefn;
 		this.rsID = rsID;
 	}
 
-
 	/**
-	 * 
+	 *
 	 * @param filterEvalHelper
 	 */
-	public void setFilterEvalHelper( IJSFacttableFilterEvalHelper filterEvalHelper )
-	{
+	public void setFilterEvalHelper(IJSFacttableFilterEvalHelper filterEvalHelper) {
 		this.filterEvalHelper = filterEvalHelper;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public IJSFacttableFilterEvalHelper getFilterEvalHelper( )
-	{
+	public IJSFacttableFilterEvalHelper getFilterEvalHelper() {
 		return this.filterEvalHelper;
 	}
-	
-	public CubeAggrDefn getCubeAggrDefn( )
-	{
+
+	public CubeAggrDefn getCubeAggrDefn() {
 		return aggrDefn;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	int getRsID( )
-	{
+	int getRsID() {
 		return this.rsID;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,101 +24,86 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of Sort Condition
- * 
+ *
  */
 
-public class SortConditionImpl implements ISortCondition
-{
+public class SortConditionImpl implements ISortCondition {
 
 	private org.eclipse.birt.report.model.api.simpleapi.ISortCondition sortConditionImpl;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( );
+	public SortConditionImpl() {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition();
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( SortKeyHandle sortHandle )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( sortHandle );
+	public SortConditionImpl(SortKeyHandle sortHandle) {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition(sortHandle);
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sort
 	 */
-	public SortConditionImpl( SortKey sort )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( sort );
+	public SortConditionImpl(SortKey sort) {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition(sort);
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
-	public SortConditionImpl(
-			org.eclipse.birt.report.model.api.simpleapi.ISortCondition condition )
-	{
+	public SortConditionImpl(org.eclipse.birt.report.model.api.simpleapi.ISortCondition condition) {
 		sortConditionImpl = condition;
 	}
 
-	public String getDirection( )
-	{
-		return sortConditionImpl.getDirection( );
+	@Override
+	public String getDirection() {
+		return sortConditionImpl.getDirection();
 	}
 
-	public String getKey( )
-	{
-		return sortConditionImpl.getKey( );
+	@Override
+	public String getKey() {
+		return sortConditionImpl.getKey();
 	}
 
-	public void setDirection( String direction ) throws ScriptException
-	{
-		try
-		{
-			sortConditionImpl.setDirection( direction );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	@Override
+	public void setDirection(String direction) throws ScriptException {
+		try {
+			sortConditionImpl.setDirection(direction);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public void setKey( String key ) throws ScriptException
-	{
+	@Override
+	public void setKey(String key) throws ScriptException {
 		// key is required
-		try
-		{
-			sortConditionImpl.setKey( key );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+		try {
+			sortConditionImpl.setKey(key);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public IStructure getStructure( )
-	{
-		return sortConditionImpl.getStructure( );
+	@Override
+	public IStructure getStructure() {
+		return sortConditionImpl.getStructure();
 	}
 
 }

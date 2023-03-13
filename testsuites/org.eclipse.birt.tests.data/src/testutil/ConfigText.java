@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,8 +26,7 @@ public class ConfigText {
 
 	private static final String BUNDLE_NAME = "testutil.messages";//$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
 	private static String tableNameString = ConfigText.createRandomString();
 
@@ -33,14 +35,13 @@ public class ConfigText {
 
 	/**
 	 * Get the value from Resource bundle
-	 * 
+	 *
 	 * @param key
 	 * @return kep mapped string
 	 */
 	public static String getString(String key) {
 		try {
-			return RESOURCE_BUNDLE.getString(key).replaceAll(
-					RESOURCE_BUNDLE.getString("TableNameParameter"),
+			return RESOURCE_BUNDLE.getString(key).replaceAll(RESOURCE_BUNDLE.getString("TableNameParameter"),
 					tableNameString);
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';
@@ -49,7 +50,7 @@ public class ConfigText {
 
 	/**
 	 * Create a dynamic random string for table name
-	 * 
+	 *
 	 * @return randomString
 	 */
 	private static String createRandomString() {

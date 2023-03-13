@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,12 +38,10 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.MultiPageEditorSite;
 
 /**
- * 
+ *
  */
 
-public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
-		IReportEditorPage
-{
+public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements IReportEditorPage {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.library.layout"; //$NON-NLS-1$
 
@@ -54,56 +55,52 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	private boolean alreadyShow = false;
 
-	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
+	private ActivityStackListener commandStackListener = new ActivityStackListener() {
 
-		public void stackChanged( ActivityStackEvent event )
-		{
-			updateStackActions( );
-			getEditor( ).editorDirtyStateChanged( );
+		@Override
+		public void stackChanged(ActivityStackEvent event) {
+			updateStackActions();
+			getEditor().editorDirtyStateChanged();
 			staleType = IPageStaleType.MODEL_CHANGED;
 		}
 	};
 
-	protected void configureGraphicalViewer( )
-	{
-		super.configureGraphicalViewer( );
-		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-		if ( stack != null )
-		{
-			stack.addCommandStackListener( getCommandStackListener( ) );
+	@Override
+	protected void configureGraphicalViewer() {
+		super.configureGraphicalViewer();
+		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+		if (stack != null) {
+			stack.addCommandStackListener(getCommandStackListener());
 		}
 	}
 
 	/**
 	 * returns command stack listener.
 	 */
-	public ActivityStackListener getCommandStackListener( )
-	{
+	public ActivityStackListener getCommandStackListener() {
 		return commandStackListener;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 *
+	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
-	public void initialize( FormEditor editor )
-	{
+	@Override
+	public void initialize(FormEditor editor) {
 		this.editor = editor;
 	}
 
-	public FormEditor getEditor( )
-	{
+	@Override
+	public FormEditor getEditor() {
 		return editor;
 	}
 
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.init( site, input );
-		initialize( (FormEditor) ( (MultiPageEditorSite) site ).getMultiPageEditor( ) );
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		super.init(site, input);
+		initialize((FormEditor) ((MultiPageEditorSite) site).getMultiPageEditor());
 		// Initializes command stack
 		// WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 		// if ( stack != null )
@@ -112,222 +109,194 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		// }
 	}
 
-	public IManagedForm getManagedForm( )
-	{
+	@Override
+	public IManagedForm getManagedForm() {
 		return null;
 	}
 
-	public void setActive( boolean active )
-	{
+	@Override
+	public void setActive(boolean active) {
 	}
 
-	public boolean isActive( )
-	{
+	@Override
+	public boolean isActive() {
 		return false;
 	}
 
-	public boolean canLeaveThePage( )
-	{
+	@Override
+	public boolean canLeaveThePage() {
 		return true;
 	}
 
-	public Control getPartControl( )
-	{
+	@Override
+	public Control getPartControl() {
 		return control;
 	}
 
-	public String getId( )
-	{
+	@Override
+	public String getId() {
 		return ID;
 	}
 
-	public int getIndex( )
-	{
+	@Override
+	public int getIndex() {
 		return index;
 	}
 
-	public void setIndex( int index )
-	{
+	@Override
+	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public boolean isEditor( )
-	{
+	@Override
+	public boolean isEditor() {
 		return true;
 	}
 
-	public boolean selectReveal( Object object )
-	{
+	@Override
+	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 *
+	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		super.createPartControl( parent );
-		Control[] children = parent.getChildren( );
+	@Override
+	public void createPartControl(Composite parent) {
+		super.createPartControl(parent);
+		Control[] children = parent.getChildren();
 		control = children[children.length - 1];
 	}
 
-	public boolean onBroughtToTop( IReportEditorPage page )
-	{
-		String prompt = ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+	@Override
+	public boolean onBroughtToTop(IReportEditorPage page) {
+		String prompt = ReportPlugin.getDefault().getPreferenceStore()
+				.getString(ReportPlugin.LIBRARY_WARNING_PREFERENCE);
 
-		if ( !alreadyShow
-				&& ( prompt == null || ( !ReportPlugin.getDefault( )
-						.getPreferenceStore( )
-						.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
-						.equals( MessageDialogWithToggle.NEVER ) ) ) )
-		{
+		if (!alreadyShow && (prompt == null || (!ReportPlugin.getDefault().getPreferenceStore()
+				.getString(ReportPlugin.LIBRARY_WARNING_PREFERENCE).equals(MessageDialogWithToggle.NEVER)))) {
 			alreadyShow = true;
-			MessageDialogWithToggle dialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
-					Messages.getString( "LibraryLayoutEditorFormPage.warning.title" ), //$NON-NLS-1$
-					Messages.getString( "LibraryLayoutEditorFormPage.warning.message" ), //$NON-NLS-1$
-					Messages.getString( "LibraryLayoutEditorFormPage.warning.prompt" ), //$NON-NLS-1$
-					false,
-					ReportPlugin.getDefault( ).getPreferenceStore( ),
-					ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+			MessageDialogWithToggle dialog = MessageDialogWithToggle.openInformation(UIUtil.getDefaultShell(),
+					Messages.getString("LibraryLayoutEditorFormPage.warning.title"), //$NON-NLS-1$
+					Messages.getString("LibraryLayoutEditorFormPage.warning.message"), //$NON-NLS-1$
+					Messages.getString("LibraryLayoutEditorFormPage.warning.prompt"), //$NON-NLS-1$
+					false, ReportPlugin.getDefault().getPreferenceStore(), ReportPlugin.LIBRARY_WARNING_PREFERENCE);
 			// if dialog.getToggleState() == true then means not show again.
-			if ( dialog.getToggleState( ) )
-			{
-				ReportPlugin.getDefault( )
-						.getPreferenceStore( )
-						.setValue( ReportPlugin.LIBRARY_WARNING_PREFERENCE,
-								MessageDialogWithToggle.NEVER );
+			if (dialog.getToggleState()) {
+				ReportPlugin.getDefault().getPreferenceStore().setValue(ReportPlugin.LIBRARY_WARNING_PREFERENCE,
+						MessageDialogWithToggle.NEVER);
 			}
 		}
 
 		// the three classes has the logic to rebuild the model, should be
 		// refactor.
-		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
+		ModuleHandle newModel = getProvider().queryReportModuleHandle();
 		boolean reload = false;
-		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
-		{
-			setModel( null );
-			doSave( null );
+		if (getStaleType() == IPageStaleType.MODEL_RELOAD) {
+			setModel(null);
+			doSave(null);
 			reload = true;
 		}
-		if ( ( newModel != null && getModel( ) != newModel ) || reload )
-		{
-			ModuleHandle oldModel = getModel( );
+		if ((newModel != null && getModel() != newModel) || reload) {
+			ModuleHandle oldModel = getModel();
 
-			setModel( newModel );
+			setModel(newModel);
 
-			rebuildReportDesign( oldModel );
-			if ( getModel( ) != null )
-			{
-				this.getGraphicalViewer( ).setContents( getModel( ) );
-				hookModelEventManager( getModel( ) );
-				markPageStale( IPageStaleType.NONE );
+			rebuildReportDesign(oldModel);
+			if (getModel() != null) {
+				this.getGraphicalViewer().setContents(getModel());
+				hookModelEventManager(getModel());
+				markPageStale(IPageStaleType.NONE);
 			}
-			updateStackActions( );
+			updateStackActions();
 		}
 		// reselect the selection
-		GraphicalViewer view = getGraphicalViewer( );
+		GraphicalViewer view = getGraphicalViewer();
 
-		if ( view != null )
-		{
-			UIUtil.resetViewSelection( view, true );
+		if (view != null) {
+			UIUtil.resetViewSelection(view, true);
 		}
 		return true;
 	}
 
 	/**
 	 * Rebuild report design model.
-	 * 
+	 *
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( ModuleHandle oldModel )
-	{
+	protected void rebuildReportDesign(ModuleHandle oldModel) {
 		// Initializes command stack
-		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-		if ( stack != null )
-		{
-			stack.removeCommandStackListener( getCommandStackListener( ) );
-			stack.setActivityStack( getModel( ).getCommandStack( ) );
-			stack.addCommandStackListener( getCommandStackListener( ) );
+		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+		if (stack != null) {
+			stack.removeCommandStackListener(getCommandStackListener());
+			stack.setActivityStack(getModel().getCommandStack());
+			stack.addCommandStackListener(getCommandStackListener());
 		}
 
 		// Resets the mediator
-		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
-				getModel( ) );
+		SessionHandleAdapter.getInstance().resetReportDesign(oldModel, getModel());
 
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
-		UIUtil.processSessionResourceFolder( getEditorInput( ),
-				UIUtil.getProjectFromInput( getEditorInput( ) ),
-				getModel( ) );
+		SessionHandleAdapter.getInstance().setReportDesignHandle(getModel());
+		UIUtil.processSessionResourceFolder(getEditorInput(), UIUtil.getProjectFromInput(getEditorInput()), getModel());
 
 	}
 
-	public void dispose( )
-	{
-		if ( getCommandStack( ) != null
-				&& getCommandStack( ) instanceof WrapperCommandStack )
-		{
-			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-			stack.removeCommandStackListener( getCommandStackListener( ) );
+	@Override
+	public void dispose() {
+		if (getCommandStack() != null && getCommandStack() instanceof WrapperCommandStack) {
+			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+			stack.removeCommandStackListener(getCommandStackListener());
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	public void markPageStale( int type )
-	{
+	@Override
+	public void markPageStale(int type) {
 		staleType = type;
 	}
 
-	public int getStaleType( )
-	{
+	@Override
+	public int getStaleType() {
 		return staleType;
 	}
 
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == IDataViewPage.class )
-		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
-			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IDataViewPage.class) {
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage(getModel());
+			getModelEventManager().addModelEventProcessor(page.getModelProcessor());
+			return page;
+		} else if (adapter == IAttributeViewPage.class) {
+			AttributeViewPage page = new AttributeViewPage(getModel());
 			return page;
 		}
-		else if ( adapter == IAttributeViewPage.class )
-		{
-			AttributeViewPage page = new AttributeViewPage( getModel( ) );
-			return page;
-		}
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
-	public void setInput( IEditorInput input )
-	{
-		super.setInput( input );
+	@Override
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		return (IReportProvider) editor.getAdapter( IReportProvider.class );
+	@Override
+	protected IReportProvider getProvider() {
+		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	protected void firePropertyChange( int type )
-	{
-		if ( type == PROP_DIRTY )
-		{
-			editor.editorDirtyStateChanged( );
-		}
-		else
-		{
-			super.firePropertyChange( type );
+	@Override
+	protected void firePropertyChange(int type) {
+		if (type == PROP_DIRTY) {
+			editor.editorDirtyStateChanged();
+		} else {
+			super.firePropertyChange(type);
 		}
 	}
 }

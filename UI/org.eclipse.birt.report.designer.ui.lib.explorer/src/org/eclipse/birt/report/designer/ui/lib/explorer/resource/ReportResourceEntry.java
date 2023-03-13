@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,55 +20,54 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 
-public abstract class ReportResourceEntry implements ResourceEntry
-{
+public abstract class ReportResourceEntry implements ResourceEntry {
 
-	public abstract Object getReportElement( );
+	public abstract Object getReportElement();
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 
 	}
 
-	public boolean hasChildren( )
-	{
+	@Override
+	public boolean hasChildren() {
 		return false;
 	}
 
-	public ResourceEntry[] getChildren( )
-	{
+	@Override
+	public ResourceEntry[] getChildren() {
 		return new ResourceEntry[0];
 	}
 
-	public ResourceEntry[] getChildren( Filter filter )
-	{
-		ResourceEntry[] children = getChildren( );
-		List childrenFiltered = new ArrayList( );
-		for ( int i = 0; i < children.length; i++ )
-		{
-			if ( filter.accept( children[i] ) )
-				childrenFiltered.add( children[i] );
+	@Override
+	public ResourceEntry[] getChildren(Filter filter) {
+		ResourceEntry[] children = getChildren();
+		List childrenFiltered = new ArrayList();
+		for (int i = 0; i < children.length; i++) {
+			if (filter.accept(children[i])) {
+				childrenFiltered.add(children[i]);
+			}
 		}
-		return (ResourceEntry[]) childrenFiltered.toArray( new ResourceEntry[childrenFiltered.size( )] );
+		return (ResourceEntry[]) childrenFiltered.toArray(new ResourceEntry[childrenFiltered.size()]);
 	}
 
-	public URL getURL( )
-	{
+	@Override
+	public URL getURL() {
 		return null;
 	}
 
-	public boolean isFile( )
-	{
+	@Override
+	public boolean isFile() {
 		return true;
 	}
 
-	public boolean isRoot( )
-	{
+	@Override
+	public boolean isRoot() {
 		return false;
 	}
 
-	public Object getAdapter( Class adapter )
-	{
+	@Override
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 

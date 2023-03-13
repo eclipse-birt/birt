@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,20 +40,23 @@ public class LineHeightManager extends AbstractLengthManager {
 	public LineHeightManager() {
 	}
 
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_LINE_HEIGHT_PROPERTY;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -60,16 +66,16 @@ public class LineHeightManager extends AbstractLengthManager {
 			}
 			return (Value) v;
 		}
-		return super.createValue( lu, engine );
+		return super.createValue(lu, engine);
 //		throw createInvalidLexicalUnitDOMException(lu.getLexicalUnitType());
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	@Override
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			switch (value.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_IDENT:
@@ -81,8 +87,7 @@ public class LineHeightManager extends AbstractLengthManager {
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 				assert fontSize != null;
 				float fs = fontSize.getFloatValue();
-					return new FloatValue( fontSize.getPrimitiveType( ), fs
-							* scale / 100.0f );
+				return new FloatValue(fontSize.getPrimitiveType(), fs * scale / 100.0f);
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,28 +21,27 @@ import org.eclipse.birt.chart.script.api.attribute.ILabel;
  * can be Axis, Series, Legend, and etc.
  */
 
-public interface IChartComponent
-{
+public interface IChartComponent {
 
 	/**
 	 * Checks if current component is visible
-	 * 
+	 *
 	 * @return visible or not
 	 */
-	boolean isVisible( );
+	boolean isVisible();
 
 	/**
 	 * Sets if current component is visible
-	 * 
+	 *
 	 * @param visible
 	 */
-	void setVisible( boolean visible );
+	void setVisible(boolean visible);
 
 	/**
 	 * Gets the title of component
-	 * 
+	 *
 	 * @return title string
 	 */
-	ILabel getTitle( );
+	ILabel getTitle();
 
 }

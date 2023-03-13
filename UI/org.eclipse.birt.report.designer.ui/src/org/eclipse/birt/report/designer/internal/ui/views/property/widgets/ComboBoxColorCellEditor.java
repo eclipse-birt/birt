@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,8 +48,7 @@ import org.eclipse.swt.widgets.Shell;
  * the comobox or click the builder button to open the color dialog to select
  * the right color.
  */
-public class ComboBoxColorCellEditor extends CDialogCellEditor
-{
+public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 	/**
 	 * The ComboBox to keep the system defined and customer defined colors
@@ -81,111 +83,90 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
-	 * 
-	 * @param parent
-	 *            the parent control
+	 *
+	 * @param parent the parent control
 	 */
-	public ComboBoxColorCellEditor( Composite parent )
-	{
-		super( parent );
-		setStyle( defaultStyle );
+	public ComboBoxColorCellEditor(Composite parent) {
+		super(parent);
+		setStyle(defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor parented under the given control. The
-	 * combo box box lists is initialized with the items parameter
-	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the initilizing combobox list
+	 * Creates a new dialog cell editor parented under the given control. The combo
+	 * box box lists is initialized with the items parameter
+	 *
+	 * @param parent the parent control
+	 * @param items  the initilizing combobox list
 	 */
-	public ComboBoxColorCellEditor( Composite parent, String[] items )
-	{
-		this( parent, items, defaultStyle );
+	public ComboBoxColorCellEditor(Composite parent, String[] items) {
+		this(parent, items, defaultStyle);
 	}
 
-	public ComboBoxColorCellEditor( Composite parent, String[] items,
-			String[] values )
-	{
-		this( parent, items, values, defaultStyle );
+	public ComboBoxColorCellEditor(Composite parent, String[] items, String[] values) {
+		this(parent, items, values, defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor parented under the given control and
-	 * givend style. The combo box box lists is initialized with the items
-	 * parameter
-	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the initilizing combobox list
-	 * @param style
-	 *            the style of this editor
+	 * Creates a new dialog cell editor parented under the given control and givend
+	 * style. The combo box box lists is initialized with the items parameter
+	 *
+	 * @param parent the parent control
+	 * @param items  the initilizing combobox list
+	 * @param style  the style of this editor
 	 */
-	public ComboBoxColorCellEditor( Composite parent, String[] items, int style )
-	{
-		this( parent, items, null, style );
+	public ComboBoxColorCellEditor(Composite parent, String[] items, int style) {
+		this(parent, items, null, style);
 	}
 
-	public ComboBoxColorCellEditor( Composite parent, String[] items,
-			String[] values, int style )
-	{
-		super( parent, style );
-		if ( items != null )
-		{
-			if ( values != null )
-			{
-				assert ( values.length == items.length );
-				itemKeyMap = new HashMap( );
-				valueKeyMap = new HashMap( );
-				for ( int i = 0; i < items.length; i++ )
-				{
-					itemKeyMap.put( items[i], values[i] );
-					valueKeyMap.put( values[i], items[i] );
+	public ComboBoxColorCellEditor(Composite parent, String[] items, String[] values, int style) {
+		super(parent, style);
+		if (items != null) {
+			if (values != null) {
+				assert (values.length == items.length);
+				itemKeyMap = new HashMap();
+				valueKeyMap = new HashMap();
+				for (int i = 0; i < items.length; i++) {
+					itemKeyMap.put(items[i], values[i]);
+					valueKeyMap.put(values[i], items[i]);
 				}
 
 			}
-			Arrays.sort( items );
+			Arrays.sort(items);
 		}
-		setItems( items );
+		setItems(items);
 	}
 
 	/**
 	 * Returns the list of choices for the combo box
-	 * 
+	 *
 	 * @return the list of choices for the combo box
 	 */
-	public String[] getItems( )
-	{
+	public String[] getItems() {
 		return this.items;
 	}
 
 	/**
 	 * Sets the list of choices for the combo box
-	 * 
-	 * @param items
-	 *            the list of choices for the combo box
+	 *
+	 * @param items the list of choices for the combo box
 	 */
-	public void setItems( String[] items )
-	{
-		Assert.isNotNull( items );
+	public void setItems(String[] items) {
+		Assert.isNotNull(items);
 		this.items = items;
-		populateComboBoxItems( );
+		populateComboBoxItems();
 	}
 
 	/**
 	 * Updates the list of choices for the combo box for the current control.
 	 */
-	private void populateComboBoxItems( )
-	{
-		if ( comboBox != null && items != null )
-		{
-			comboBox.removeAll( );
-			for ( int i = 0; i < items.length; i++ )
-				comboBox.add( items[i], i );
+	private void populateComboBoxItems() {
+		if (comboBox != null && items != null) {
+			comboBox.removeAll();
+			for (int i = 0; i < items.length; i++) {
+				comboBox.add(items[i], i);
+			}
 
-			setValueValid( true );
+			setValueValid(true);
 			selection = 0;
 		}
 	}
@@ -193,60 +174,58 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Control createContents( Composite cell )
-	{
+	@Override
+	protected Control createContents(Composite cell) {
 
-		Color bg = cell.getBackground( );
-		composite = new Composite( cell, getStyle( ) );
-		composite.setBackground( bg );
-		composite.setLayout( new FillLayout( ) );
+		Color bg = cell.getBackground();
+		composite = new Composite(cell, getStyle());
+		composite.setBackground(bg);
+		composite.setLayout(new FillLayout());
 
-		comboBox = new CCombo( composite, SWT.NONE );
-		comboBox.setVisibleItemCount( 30 );
-		comboBox.setBackground( bg );
-		comboBox.setFont( cell.getFont( ) );
+		comboBox = new CCombo(composite, SWT.NONE);
+		comboBox.setVisibleItemCount(30);
+		comboBox.setBackground(bg);
+		comboBox.setFont(cell.getFont());
 
-		comboBox.addSelectionListener( new SelectionAdapter( ) {
+		comboBox.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetDefaultSelected( SelectionEvent event )
-			{
-				applyEditorValueAndDeactivate( );
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+				applyEditorValueAndDeactivate();
 			}
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				applyEditorValueAndDeactivate( );
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				applyEditorValueAndDeactivate();
 			}
-		} );
+		});
 
-		comboBox.addKeyListener( new KeyAdapter( ) {
+		comboBox.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
-			public void keyPressed( KeyEvent e )
-			{
-				keyReleaseOccured( e );
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyReleaseOccured(e);
 			}
-		} );
+		});
 
-		comboBox.addTraverseListener( new TraverseListener( ) {
+		comboBox.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_ESCAPE
-						|| e.detail == SWT.TRAVERSE_RETURN )
-				{
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
 				}
 			}
-		} );
+		});
 
-		comboBox.addFocusListener( new FocusAdapter( ) {
+		comboBox.addFocusListener(new FocusAdapter() {
 
-			public void focusLost( FocusEvent e )
-			{
-				ComboBoxColorCellEditor.this.focusLost( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				ComboBoxColorCellEditor.this.focusLost();
 			}
-		} );
+		});
 
 		return composite;
 	}
@@ -254,54 +233,43 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	/**
 	 * Applies the currently selected value and deactiavates the cell editor
 	 */
-	void applyEditorValueAndDeactivate( )
-	{
+	void applyEditorValueAndDeactivate() {
 		inProcessing = 1;
 
-		doValueChanged( );
+		doValueChanged();
 
-		fireApplyEditorValue( );
-		deactivate( );
+		fireApplyEditorValue();
+		deactivate();
 		inProcessing = 0;
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	protected void doValueChanged( )
-	{
-		if ( selection != comboBox.getSelectionIndex( ) )
-		{
-			markDirty( );
+	@Override
+	protected void doValueChanged() {
+		if (selection != comboBox.getSelectionIndex()) {
+			markDirty();
 		}
 
 		// must set the selection before getting value
-		selection = comboBox.getSelectionIndex( );
+		selection = comboBox.getSelectionIndex();
 
 		Object newValue = null;
-		if ( selection == -1 )
-		{
-			newValue = comboBox.getText( );
-		}
-		else if ( itemKeyMap != null )
-		{
-			newValue = itemKeyMap.get( comboBox.getItem( selection ) );
-		}
-		else
-		{
-			newValue = comboBox.getItem( selection );
+		if (selection == -1) {
+			newValue = comboBox.getText();
+		} else if (itemKeyMap != null) {
+			newValue = itemKeyMap.get(comboBox.getItem(selection));
+		} else {
+			newValue = comboBox.getItem(selection);
 		}
 
-		if ( newValue != null )
-		{
-			boolean newValidState = isCorrect( newValue );
-			if ( newValidState )
-			{
-				doSetValue( newValue );
-				markDirty( );
-			}
-			else
-			{
+		if (newValue != null) {
+			boolean newValidState = isCorrect(newValue);
+			if (newValidState) {
+				doSetValue(newValue);
+				markDirty();
+			} else {
 				// try to insert the current value into the error message.
 				// setErrorMessage(MessageFormat.format(getErrorMessage(), new
 				// Object[] { newValue.toString()}));
@@ -312,142 +280,119 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
-		Shell shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
-		shell.setLocation( cellEditorWindow.toDisplay( 0, 0 ).x
-				+ cellEditorWindow.getBounds( ).width,
-				cellEditorWindow.toDisplay( 0, 0 ).y
-						- cellEditorWindow.getBounds( ).height );
-		ColorDialog dialog = new ColorDialog( shell, SWT.APPLICATION_MODAL );
-		RGB[] rgbs = ReportPlugin.getDefault( ).getCustomColorsPreference( );
-		if ( rgbs != null )
-		{
-			dialog.setRGBs( rgbs );
+	@Override
+	protected Object openDialogBox(Control cellEditorWindow) {
+		Shell shell = new Shell(Display.getCurrent(), SWT.SHELL_TRIM);
+		shell.setLocation(cellEditorWindow.toDisplay(0, 0).x + cellEditorWindow.getBounds().width,
+				cellEditorWindow.toDisplay(0, 0).y - cellEditorWindow.getBounds().height);
+		ColorDialog dialog = new ColorDialog(shell, SWT.APPLICATION_MODAL);
+		RGB[] rgbs = ReportPlugin.getDefault().getCustomColorsPreference();
+		if (rgbs != null) {
+			dialog.setRGBs(rgbs);
 		}
-		Object value = getValue( );
+		Object value = getValue();
 
-		try
-		{
+		try {
 			int color;
 
-			if ( value instanceof String )
-			{
-				color = ColorUtil.parseColor( (String) value );
-			}
-			else
-			{
-				color = ( (Integer) value ).intValue( );
+			if (value instanceof String) {
+				color = ColorUtil.parseColor((String) value);
+			} else {
+				color = ((Integer) value).intValue();
 			}
 
-			dialog.setRGB( DEUtil.getRGBValue( color ) );
+			dialog.setRGB(DEUtil.getRGBValue(color));
 
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// ignore.
 		}
 
-		value = dialog.open( );
-		ReportPlugin.getDefault( )
-				.setCustomColorsPreference( dialog.getRGBs( ) );
-		if ( value != null && dialog.getRGB( ) != null )
-		{
-			deactivate( );
-			return ColorUtil.format( ColorUtil.formRGB( dialog.getRGB( ).red,
-					dialog.getRGB( ).green,
-					dialog.getRGB( ).blue ), ColorUtil.HTML_FORMAT );
+		value = dialog.open();
+		ReportPlugin.getDefault().setCustomColorsPreference(dialog.getRGBs());
+		if (value != null && dialog.getRGB() != null) {
+			deactivate();
+			return ColorUtil.format(ColorUtil.formRGB(dialog.getRGB().red, dialog.getRGB().green, dialog.getRGB().blue),
+					ColorUtil.HTML_FORMAT);
 		}
-		comboBox.setFocus( );
-		shell.dispose( );
+		comboBox.setFocus();
+		shell.dispose();
 		return value;
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected void updateContents( Object value )
-	{
-		if ( comboBox == null )
+	@Override
+	protected void updateContents(Object value) {
+		if (comboBox == null) {
 			return;
+		}
 
 		String text = "";//$NON-NLS-1$
-		if ( value != null )
-		{
-			if ( value instanceof RGB )
-			{
+		if (value != null) {
+			if (value instanceof RGB) {
 				text = "0x" //$NON-NLS-1$
-						+ Integer.toHexString( DEUtil.getRGBInt( (RGB) value ) );
-			}
-			else
-			{
-				text = value.toString( );
+						+ Integer.toHexString(DEUtil.getRGBInt((RGB) value));
+			} else {
+				text = value.toString();
 			}
 		}
 
 		int index = -1;
-		if ( valueKeyMap != null )
-		{
-			String item = (String) valueKeyMap.get( value );
-			if ( item != null )
-			{
-				index = comboBox.indexOf( item );
+		if (valueKeyMap != null) {
+			String item = (String) valueKeyMap.get(value);
+			if (item != null) {
+				index = comboBox.indexOf(item);
 			}
 		}
-		if ( index >= 0 )
-		{
-			text = comboBox.getItem( index );
+		if (index >= 0) {
+			text = comboBox.getItem(index);
 		}
 
-		comboBox.setText( text );
+		comboBox.setText(text);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
+	 *
+	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
-	protected void keyReleaseOccured( KeyEvent keyEvent )
-	{
-		if ( keyEvent.character == '\u001b' )
-		{ // Escape character
-			fireCancelEditor( );
-		}
-		else if ( keyEvent.character == '\t' )
-		{ // tab key
-			applyEditorValueAndDeactivate( );
-		}
-		else if ( keyEvent.character == '\r' )
-		{ // Return key
-			applyEditorValueAndDeactivate( );
+	@Override
+	protected void keyReleaseOccured(KeyEvent keyEvent) {
+		if (keyEvent.character == '\u001b') { // Escape character
+			fireCancelEditor();
+		} else if (keyEvent.character == '\t') { // tab key
+			applyEditorValueAndDeactivate();
+		} else if (keyEvent.character == '\r') { // Return key
+			applyEditorValueAndDeactivate();
 		}
 	}
 
 	/**
 	 * Processes a focus lost event that occurred in this cell editor.
 	 * <p>
-	 * The default implementation of this framework method applies the current
-	 * value and deactivates the cell editor. Subclasses should call this method
-	 * at appropriate times. Subclasses may also extend or reimplement.
+	 * The default implementation of this framework method applies the current value
+	 * and deactivates the cell editor. Subclasses should call this method at
+	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
-	protected void focusLost( )
-	{
-		if ( inProcessing == 1 )
+	@Override
+	protected void focusLost() {
+		if (inProcessing == 1) {
 			return;
-		super.focusLost( );
+		}
+		super.focusLost();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		comboBox.setFocus( );
+	@Override
+	protected void doSetFocus() {
+		comboBox.setFocus();
 	}
 
 }

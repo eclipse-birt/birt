@@ -1,3 +1,16 @@
+
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,63 +23,62 @@ import java.util.Map;
 
 public class ConvertMapToPsf {
 
-	private static String birtMapTag="HEAD";
-	private static String dtpMapTag="HEAD";
+	private static String birtMapTag = "HEAD";
+	private static String dtpMapTag = "HEAD";
 	private File mapRoot = new File("../org.eclipse.birt.releng/maps");
 	private BufferedWriter curOut = null;
 	private BufferedWriter allOut = null;
-	private String psfFolder = "psf" ;
-	private final Map<String,String> reposLoc;
+	private String psfFolder = "psf";
+	private final Map<String, String> reposLoc;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		if (args.length < 2)
-		{
+
+		if (args.length < 2) {
 			System.out.println("Missing arguments: <birt map tag> <dtp map tag>");
 			System.exit(1);
 		}
-			
+
 		birtMapTag = args[0];
 		dtpMapTag = args[1];
-		
+
 		System.out.println("Start");
 		// TODO Auto-generated method stub
-		Map<String,String> rLoc = new HashMap();
+		Map<String, String> rLoc = new HashMap();
 		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/birt", birtMapTag);
 		rLoc.put(":pserver:dev.eclipse.org:/cvsroot/datatools", dtpMapTag);
-		
+
 		ConvertMapToPsf converter = new ConvertMapToPsf(rLoc);
 		try {
-			
+
 			converter.run();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		System.out.println("Finish");
 
 	}
-	
-	public ConvertMapToPsf(Map<String, String> reposLoc){
+
+	public ConvertMapToPsf(Map<String, String> reposLoc) {
 		this.reposLoc = reposLoc;
 	}
 
 	public void run() throws IOException {
-		if (mapRoot == null || mapRoot.exists() == false) {
+		if (mapRoot == null || !mapRoot.exists()) {
 			System.out.println("NO MAP FILES");
 		}
 		File allFile = new File(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
 		System.out.print(mapRoot.getParent() + "/" + psfFolder + "/all_files.psf");
-		if(allFile.exists() == false){
+		if (!allFile.exists()) {
 			allFile.createNewFile();
 		}
 		allOut = new BufferedWriter(new FileWriter(allFile));
 		initOutFile(allOut);
-		
+
 		String[] mapFiles = mapRoot.list(new MapFilter());
 		for (int i = 0; i < mapFiles.length; i++) {
 			buildPsfFile(mapFiles[i]);
@@ -74,8 +86,8 @@ public class ConvertMapToPsf {
 		closeOutFile(allOut);
 
 	}
-	
-	public void initOutFile (BufferedWriter oFile) throws IOException{
+
+	public void initOutFile(BufferedWriter oFile) throws IOException {
 		oFile.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		oFile.write("\n");
 		oFile.write("<psf version=\"2.0\">");
@@ -83,8 +95,8 @@ public class ConvertMapToPsf {
 		oFile.write("<provider id=\"org.eclipse.team.cvs.core.cvsnature\">");
 		oFile.write("\n");
 	}
-	
-	public void closeOutFile (BufferedWriter oFile ) throws IOException{
+
+	public void closeOutFile(BufferedWriter oFile) throws IOException {
 		oFile.write("</provider>");
 		oFile.write("\n");
 		oFile.write("</psf>");
@@ -96,9 +108,8 @@ public class ConvertMapToPsf {
 		String inFile = mapRoot.getPath() + "/" + fileName;
 		String outFilePath = mapRoot.getParent() + "/" + psfFolder;
 		File mapFile = new File(inFile);
-		if (mapFile.exists() == false) {
-			System.out.println("No Map File " + mapRoot.getPath() + "/"
-					+ fileName);
+		if (!mapFile.exists()) {
+			System.out.println("No Map File " + mapRoot.getPath() + "/" + fileName);
 			return;
 		}
 		File outFile = new File(outFilePath + "/" + fileName.replace(".map", ".psf"));
@@ -109,13 +120,14 @@ public class ConvertMapToPsf {
 		BufferedReader in = new BufferedReader(new FileReader(mapFile));
 
 		while (true) {
-			if (!in.ready())
+			if (!in.ready()) {
 				break;
+			}
 
 			String line = in.readLine();
 			String[] tokens = line.split("\\,");
 
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			if (tokens.length == 1 || line.indexOf("!***") > -1 || line.indexOf("GET") > 0) {
 				if (tokens[0] != null && tokens[0].length() > 0) {
 					sb.append("\t<!--");
@@ -126,23 +138,20 @@ public class ConvertMapToPsf {
 
 				sb.append("\t<project reference=\"1.0,");
 				String version = (tokens[0]);
-				version = version.substring(version.indexOf("=")+1);
+				version = version.substring(version.indexOf("=") + 1);
 				String srvr = tokens[1];
 				srvr = srvr.replace("anonymous@dev", "dev");
 				sb.append(srvr);
 				sb.append(",");
 				sb.append(tokens[3].trim());
 				sb.append(",");
-				String projName = tokens[3].substring(tokens[3].lastIndexOf("/")+1);
+				String projName = tokens[3].substring(tokens[3].lastIndexOf("/") + 1);
 				sb.append(projName.trim());
 				sb.append(",");
 				/*
-				for (int i = 1; i < tokens.length; i++) {
-					sb.append(" ");
-					sb.append(i);
-					sb.append("=");
-					sb.append(tokens[i]);
-				}*/
+				 * for (int i = 1; i < tokens.length; i++) { sb.append(" "); sb.append(i);
+				 * sb.append("="); sb.append(tokens[i]); }
+				 */
 				sb.append(getVersionFromMap(srvr));
 				sb.append("\"/>");
 			}
@@ -153,15 +162,16 @@ public class ConvertMapToPsf {
 		in.close();
 		closeOutFile(curOut);
 	}
-	
-	private String getVersionFromMap(String srvrName){
+
+	private String getVersionFromMap(String srvrName) {
 		return this.reposLoc.get(srvrName);
 	}
-	
-	public final void writeOut(String chars) throws IOException{
-		if (curOut == null || allOut == null)
+
+	public final void writeOut(String chars) throws IOException {
+		if (curOut == null || allOut == null) {
 			throw new IOException("output writers not ready");
-		
+		}
+
 		curOut.write(chars);
 		allOut.write(chars);
 	}
@@ -172,6 +182,7 @@ public class ConvertMapToPsf {
 		public MapFilter() {
 		}
 
+		@Override
 		public boolean accept(File dir, String name) {
 			return name.toLowerCase().endsWith(extension);
 		}

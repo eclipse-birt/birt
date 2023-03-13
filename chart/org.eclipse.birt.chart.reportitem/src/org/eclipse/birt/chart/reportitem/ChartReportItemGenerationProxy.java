@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,28 +32,25 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * implementation class according to Chart's context.
  */
 
-public class ChartReportItemGenerationProxy implements IReportItemGeneration
-{
+public class ChartReportItemGenerationProxy implements IReportItemGeneration {
 
 	private IReportItemGeneration impl;
 	private IReportItemGenerationInfo info;
-	
-	public void init( IReportItemGenerationInfo info )
-	{
-		if ( info == null )
-		{
-			throw new NullPointerException( );
+
+	@Override
+	public void init(IReportItemGenerationInfo info) {
+		if (info == null) {
+			throw new NullPointerException();
 		}
 		this.info = info;
-		setModelObject( info.getModelObject( ) );
-		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setScriptContext( info.getReportContext( ) );
-		setReportQueries( info.getReportQueries( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setModelObject(info.getModelObject());
+		setApplicationClassLoader(info.getApplicationClassLoader());
+		setScriptContext(info.getReportContext());
+		setReportQueries(info.getReportQueries());
+		setExtendedItemContent(info.getExtendedItemContent());
 	}
-	
-	private IReportItemGeneration createImpl( ExtendedItemHandle modelHandle )
-	{
+
+	private IReportItemGeneration createImpl(ExtendedItemHandle modelHandle) {
 //		DesignElementHandle handle = modelHandle.getContainer( );
 //		if ( handle instanceof ExtendedItemHandle )
 //		{
@@ -61,80 +61,80 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 //				return new ChartCrosstabItemGenerationImpl( );
 //			}
 //		}
-		return new ChartReportItemGenerationImpl( );
+		return new ChartReportItemGenerationImpl();
 	}
 
-	public boolean needSerialization( )
-	{
+	@Override
+	public boolean needSerialization() {
 		assert impl != null;
-		return impl.needSerialization( );
+		return impl.needSerialization();
 	}
 
-	public void onRowSets( IRowSet[] rowSets ) throws BirtException
-	{
+	@Override
+	public void onRowSets(IRowSet[] rowSets) throws BirtException {
 		assert impl != null;
-		impl.onRowSets( rowSets );
+		impl.onRowSets(rowSets);
 	}
 
-	public void serialize( OutputStream ostream ) throws BirtException
-	{
+	@Override
+	public void serialize(OutputStream ostream) throws BirtException {
 		assert impl != null;
-		impl.serialize( ostream );
+		impl.serialize(ostream);
 	}
 
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
-		impl = createImpl( modelHandle );
+	@Override
+	public void setModelObject(ExtendedItemHandle modelHandle) {
+		impl = createImpl(modelHandle);
 		assert impl != null;
-		impl.setModelObject( modelHandle );
+		impl.setModelObject(modelHandle);
 	}
 
-	public void finish( )
-	{
+	@Override
+	public void finish() {
 		assert impl != null;
-		impl.finish( );
+		impl.finish();
 	}
 
-	public Size getSize( )
-	{
+	@Override
+	public Size getSize() {
 		assert impl != null;
-		return impl.getSize( );
+		return impl.getSize();
 	}
 
-	public void setApplicationClassLoader( ClassLoader loader )
-	{
+	@Override
+	public void setApplicationClassLoader(ClassLoader loader) {
 		assert impl != null;
-		impl.setApplicationClassLoader( loader );
+		impl.setApplicationClassLoader(loader);
 	}
 
-	public void setReportQueries( IDataQueryDefinition[] queries )
-	{
+	@Override
+	public void setReportQueries(IDataQueryDefinition[] queries) {
 		assert impl != null;
-		impl.setReportQueries( queries );
+		impl.setReportQueries(queries);
 	}
 
-	public void setScriptContext( IReportContext context )
-	{
+	@Override
+	public void setScriptContext(IReportContext context) {
 		assert impl != null;
-		impl.setScriptContext( context );
+		impl.setScriptContext(context);
 	}
 
-	public void onRowSets( IBaseResultSet[] results ) throws BirtException
-	{
+	@Override
+	public void onRowSets(IBaseResultSet[] results) throws BirtException {
 		assert impl != null;
-		impl.onRowSets( results );
-		
+		impl.onRowSets(results);
+
 	}
 
-	public void setExtendedItemContent( IContent content )
-	{
+	@Override
+	public void setExtendedItemContent(IContent content) {
 		assert impl != null;
-		impl.setExtendedItemContent( content );
-		
+		impl.setExtendedItemContent(content);
+
 	}
 
-	public IReportItemGenerationInfo getGenerationConfig( )
-	{
+	@Override
+	public IReportItemGenerationInfo getGenerationConfig() {
 		return info;
 	}
 

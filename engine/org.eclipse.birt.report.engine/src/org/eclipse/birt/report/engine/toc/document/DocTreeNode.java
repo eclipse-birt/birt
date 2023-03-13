@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,8 +19,7 @@ import java.util.Collection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TreeNode;
 
-public class DocTreeNode extends TreeNode
-{
+public class DocTreeNode extends TreeNode {
 
 	static final int OFFSET_NEXT = 0;
 	static final int OFFSET_CHILD = 4;
@@ -31,27 +33,23 @@ public class DocTreeNode extends TreeNode
 
 	protected Collection<ITreeNode> children;
 
-	public DocTreeNode( )
-	{
+	public DocTreeNode() {
 	}
 
-	public DocTreeNode( TreeNode entry )
-	{
-		super( entry );
+	public DocTreeNode(TreeNode entry) {
+		super(entry);
 	}
 
-	public Collection<ITreeNode> getChildren( )
-	{
+	@Override
+	public Collection<ITreeNode> getChildren() {
 		return children;
 	}
 
-	public DocTreeNode getParent( )
-	{
+	public DocTreeNode getParent() {
 		return parent;
 	}
 
-	public void setParent( DocTreeNode parent )
-	{
+	public void setParent(DocTreeNode parent) {
 		this.parent = parent;
 	}
 }

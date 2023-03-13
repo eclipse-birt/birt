@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,30 +21,27 @@ import org.eclipse.jface.action.Action;
  * This is a AddStyleAction wrapper used in add style in Library Theme.
  */
 
-public class AddThemeStyleAction extends Action
-{
+public class AddThemeStyleAction extends Action {
 
 	private AddStyleAction addStyleAction;
 	private AbstractThemeHandle themeHandle;
 
-	public AddThemeStyleAction( AbstractThemeHandle themeHandle,
-			AddStyleAction addStyleAction )
-	{
+	public AddThemeStyleAction(AbstractThemeHandle themeHandle, AddStyleAction addStyleAction) {
 		this.themeHandle = themeHandle;
 		this.addStyleAction = addStyleAction;
-		setText( themeHandle.getName( ) );
+		setText(themeHandle.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		this.addStyleAction.setThemeHandle( themeHandle );
-		this.addStyleAction.run( );
-		this.addStyleAction.setThemeHandle( null );
+	@Override
+	public void run() {
+		this.addStyleAction.setThemeHandle(themeHandle);
+		this.addStyleAction.run();
+		this.addStyleAction.setThemeHandle(null);
 	}
 
 }

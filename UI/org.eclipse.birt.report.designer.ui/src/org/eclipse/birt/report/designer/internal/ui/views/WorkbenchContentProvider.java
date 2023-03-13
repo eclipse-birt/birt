@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,85 +40,67 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
  * </p>
  */
 
-public class WorkbenchContentProvider extends BaseWorkbenchContentProvider implements
-		IResourceChangeListener
-{
+public class WorkbenchContentProvider extends BaseWorkbenchContentProvider implements IResourceChangeListener {
 
 	private Viewer viewer;
 
 	/**
 	 * Creates the resource content provider.
 	 */
-	public WorkbenchContentProvider( )
-	{
-		super( );
+	public WorkbenchContentProvider() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IContentProvider.
 	 */
-	public void dispose( )
-	{
-		if ( viewer != null )
-		{
+	@Override
+	public void dispose() {
+		if (viewer != null) {
 			IWorkspace workspace = null;
-			Object obj = viewer.getInput( );
-			if ( obj instanceof IWorkspace )
-			{
+			Object obj = viewer.getInput();
+			if (obj instanceof IWorkspace) {
 				workspace = (IWorkspace) obj;
+			} else if (obj instanceof IContainer) {
+				workspace = ((IContainer) obj).getWorkspace();
 			}
-			else if ( obj instanceof IContainer )
-			{
-				workspace = ( (IContainer) obj ).getWorkspace( );
-			}
-			if ( workspace != null )
-			{
-				workspace.removeResourceChangeListener( this );
+			if (workspace != null) {
+				workspace.removeResourceChangeListener(this);
 			}
 		}
 
-		super.dispose( );
+		super.dispose();
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IContentProvider.
 	 */
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
-		super.inputChanged( viewer, oldInput, newInput );
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		super.inputChanged(viewer, oldInput, newInput);
 
 		this.viewer = viewer;
 		IWorkspace oldWorkspace = null;
 		IWorkspace newWorkspace = null;
 
-		if ( oldInput instanceof IWorkspace )
-		{
+		if (oldInput instanceof IWorkspace) {
 			oldWorkspace = (IWorkspace) oldInput;
-		}
-		else if ( oldInput instanceof IContainer )
-		{
-			oldWorkspace = ( (IContainer) oldInput ).getWorkspace( );
+		} else if (oldInput instanceof IContainer) {
+			oldWorkspace = ((IContainer) oldInput).getWorkspace();
 		}
 
-		if ( newInput instanceof IWorkspace )
-		{
+		if (newInput instanceof IWorkspace) {
 			newWorkspace = (IWorkspace) newInput;
-		}
-		else if ( newInput instanceof IContainer )
-		{
-			newWorkspace = ( (IContainer) newInput ).getWorkspace( );
+		} else if (newInput instanceof IContainer) {
+			newWorkspace = ((IContainer) newInput).getWorkspace();
 		}
 
-		if ( oldWorkspace != newWorkspace )
-		{
-			if ( oldWorkspace != null )
-			{
-				oldWorkspace.removeResourceChangeListener( this );
+		if (oldWorkspace != newWorkspace) {
+			if (oldWorkspace != null) {
+				oldWorkspace.removeResourceChangeListener(this);
 			}
-			if ( newWorkspace != null )
-			{
-				newWorkspace.addResourceChangeListener( this,
-						IResourceChangeEvent.POST_CHANGE );
+			if (newWorkspace != null) {
+				newWorkspace.addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
 			}
 		}
 	}
@@ -123,70 +108,67 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 	/*
 	 * (non-Javadoc) Method declared on IResourceChangeListener.
 	 */
-	public final void resourceChanged( final IResourceChangeEvent event )
-	{
+	@Override
+	public final void resourceChanged(final IResourceChangeEvent event) {
 
-		processDelta( event.getDelta( ) );
+		processDelta(event.getDelta());
 
 	}
 
 	/**
 	 * Process the resource delta.
-	 * 
+	 *
 	 * @param delta
 	 */
-	protected void processDelta( IResourceDelta delta )
-	{
+	protected void processDelta(IResourceDelta delta) {
 
-		Control ctrl = viewer.getControl( );
-		if ( ctrl == null || ctrl.isDisposed( ) )
+		Control ctrl = viewer.getControl();
+		if (ctrl == null || ctrl.isDisposed()) {
 			return;
+		}
 
-		final Collection runnables = new ArrayList( );
-		processDelta( delta, runnables );
+		final Collection runnables = new ArrayList();
+		processDelta(delta, runnables);
 
-		if ( runnables.isEmpty( ) )
+		if (runnables.isEmpty()) {
 			return;
+		}
 
 		// Are we in the UIThread? If so spin it until we are done
-		if ( ctrl.getDisplay( ).getThread( ) == Thread.currentThread( ) )
-		{
-			runUpdates( runnables );
-		}
-		else
-		{
-			ctrl.getDisplay( ).asyncExec( new Runnable( ) {
+		if (ctrl.getDisplay().getThread() == Thread.currentThread()) {
+			runUpdates(runnables);
+		} else {
+			ctrl.getDisplay().asyncExec(new Runnable() {
 
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see java.lang.Runnable#run()
 				 */
-				public void run( )
-				{
+				@Override
+				public void run() {
 					// Abort if this happens after disposes
-					Control ctrl = viewer.getControl( );
-					if ( ctrl == null || ctrl.isDisposed( ) )
+					Control ctrl = viewer.getControl();
+					if (ctrl == null || ctrl.isDisposed()) {
 						return;
+					}
 
-					runUpdates( runnables );
+					runUpdates(runnables);
 				}
-			} );
+			});
 		}
 
 	}
 
 	/**
 	 * Run all of the runnables that are the widget updates
-	 * 
+	 *
 	 * @param runnables
 	 */
-	private void runUpdates( Collection runnables )
-	{
-		Iterator runnableIterator = runnables.iterator( );
-		while ( runnableIterator.hasNext( ) )
-		{
-			( (Runnable) runnableIterator.next( ) ).run( );
+	private void runUpdates(Collection runnables) {
+		Iterator runnableIterator = runnables.iterator();
+		while (runnableIterator.hasNext()) {
+			((Runnable) runnableIterator.next()).run();
 		}
 
 	}
@@ -194,16 +176,16 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 	/**
 	 * Process a resource delta. Add any runnables
 	 */
-	private void processDelta( IResourceDelta delta, Collection runnables )
-	{
+	private void processDelta(IResourceDelta delta, Collection runnables) {
 		// he widget may have been destroyed
 		// by the time this is run. Check for this and do nothing if so.
-		Control ctrl = viewer.getControl( );
-		if ( ctrl == null || ctrl.isDisposed( ) )
+		Control ctrl = viewer.getControl();
+		if (ctrl == null || ctrl.isDisposed()) {
 			return;
+		}
 
 		// Get the affected resource
-		final IResource resource = delta.getResource( );
+		final IResource resource = delta.getResource();
 
 		// If any children have changed type, just do a full refresh of this
 		// parent,
@@ -212,12 +194,10 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		// The case is: folder A renamed to existing file B, answering yes
 		// to
 		// overwrite B.
-		IResourceDelta[] affectedChildren = delta.getAffectedChildren( IResourceDelta.CHANGED );
-		for ( int i = 0; i < affectedChildren.length; i++ )
-		{
-			if ( ( affectedChildren[i].getFlags( ) & IResourceDelta.TYPE ) != 0 )
-			{
-				runnables.add( getRefreshRunnable( resource ) );
+		IResourceDelta[] affectedChildren = delta.getAffectedChildren(IResourceDelta.CHANGED);
+		for (int i = 0; i < affectedChildren.length; i++) {
+			if ((affectedChildren[i].getFlags() & IResourceDelta.TYPE) != 0) {
+				runnables.add(getRefreshRunnable(resource));
 				return;
 			}
 		}
@@ -225,31 +205,27 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		// Check the flags for changes the Navigator cares about.
 		// See ResourceLabelProvider for the aspects it cares about.
 		// Notice we don't care about F_CONTENT or F_MARKERS currently.
-		int changeFlags = delta.getFlags( );
-		if ( ( changeFlags & ( IResourceDelta.OPEN
-				| IResourceDelta.SYNC
-				| IResourceDelta.TYPE | IResourceDelta.DESCRIPTION ) ) != 0 )
-		{
-			Runnable updateRunnable = new Runnable( ) {
+		int changeFlags = delta.getFlags();
+		if ((changeFlags & (IResourceDelta.OPEN | IResourceDelta.SYNC | IResourceDelta.TYPE
+				| IResourceDelta.DESCRIPTION)) != 0) {
+			Runnable updateRunnable = new Runnable() {
 
-				public void run( )
-				{
-					( (StructuredViewer) viewer ).update( resource, null );
+				@Override
+				public void run() {
+					((StructuredViewer) viewer).update(resource, null);
 				}
 			};
-			runnables.add( updateRunnable );
+			runnables.add(updateRunnable);
 		}
 		// Replacing a resource may affect its label and its children
-		if ( ( changeFlags & IResourceDelta.REPLACED ) != 0 )
-		{
-			runnables.add( getRefreshRunnable( resource ) );
+		if ((changeFlags & IResourceDelta.REPLACED) != 0) {
+			runnables.add(getRefreshRunnable(resource));
 			return;
 		}
 
 		// Handle changed children .
-		for ( int i = 0; i < affectedChildren.length; i++ )
-		{
-			processDelta( affectedChildren[i], runnables );
+		for (int i = 0; i < affectedChildren.length; i++) {
+			processDelta(affectedChildren[i], runnables);
 		}
 
 		// @issue several problems here:
@@ -271,11 +247,12 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		// add
 		// changes in one delta).
 
-		IResourceDelta[] addedChildren = delta.getAffectedChildren( IResourceDelta.ADDED );
-		IResourceDelta[] removedChildren = delta.getAffectedChildren( IResourceDelta.REMOVED );
+		IResourceDelta[] addedChildren = delta.getAffectedChildren(IResourceDelta.ADDED);
+		IResourceDelta[] removedChildren = delta.getAffectedChildren(IResourceDelta.REMOVED);
 
-		if ( addedChildren.length == 0 && removedChildren.length == 0 )
+		if (addedChildren.length == 0 && removedChildren.length == 0) {
 			return;
+		}
 
 		final Object[] addedObjects;
 		final Object[] removedObjects;
@@ -285,47 +262,38 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		// Handle added children. Issue one update for all insertions.
 		int numMovedFrom = 0;
 		int numMovedTo = 0;
-		if ( addedChildren.length > 0 )
-		{
+		if (addedChildren.length > 0) {
 			addedObjects = new Object[addedChildren.length];
-			for ( int i = 0; i < addedChildren.length; i++ )
-			{
-				addedObjects[i] = addedChildren[i].getResource( );
-				if ( ( addedChildren[i].getFlags( ) & IResourceDelta.MOVED_FROM ) != 0 )
-				{
+			for (int i = 0; i < addedChildren.length; i++) {
+				addedObjects[i] = addedChildren[i].getResource();
+				if ((addedChildren[i].getFlags() & IResourceDelta.MOVED_FROM) != 0) {
 					++numMovedFrom;
 				}
 			}
-		}
-		else
+		} else {
 			addedObjects = new Object[0];
+		}
 
 		// Handle removed children. Issue one update for all removals.
-		if ( removedChildren.length > 0 )
-		{
+		if (removedChildren.length > 0) {
 			removedObjects = new Object[removedChildren.length];
-			for ( int i = 0; i < removedChildren.length; i++ )
-			{
-				removedObjects[i] = removedChildren[i].getResource( );
-				if ( ( removedChildren[i].getFlags( ) & IResourceDelta.MOVED_TO ) != 0 )
-				{
+			for (int i = 0; i < removedChildren.length; i++) {
+				removedObjects[i] = removedChildren[i].getResource();
+				if ((removedChildren[i].getFlags() & IResourceDelta.MOVED_TO) != 0) {
 					++numMovedTo;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			removedObjects = new Object[0];
 		}
 		// heuristic test for items moving within same folder (i.e. renames)
 		final boolean hasRename = numMovedFrom > 0 && numMovedTo > 0;
 
-		Runnable addAndRemove = new Runnable( ) {
+		Runnable addAndRemove = new Runnable() {
 
-			public void run( )
-			{
-				if ( viewer instanceof AbstractTreeViewer )
-				{
+			@Override
+			public void run() {
+				if (viewer instanceof AbstractTreeViewer) {
 					AbstractTreeViewer treeViewer = (AbstractTreeViewer) viewer;
 					// Disable redraw until the operation is finished so we
 					// don't
@@ -335,47 +303,41 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 					// Only do this if we're both adding and removing files
 					// (the
 					// rename case)
-					if ( hasRename )
-					{
-						treeViewer.getControl( ).setRedraw( false );
+					if (hasRename) {
+						treeViewer.getControl().setRedraw(false);
 					}
-					try
-					{
-						if ( addedObjects.length > 0 )
-							treeViewer.add( resource, addedObjects );
-						if ( removedObjects.length > 0 )
-							treeViewer.remove( removedObjects );
-					}
-					finally
-					{
-						if ( hasRename )
-						{
-							treeViewer.getControl( ).setRedraw( true );
+					try {
+						if (addedObjects.length > 0) {
+							treeViewer.add(resource, addedObjects);
+						}
+						if (removedObjects.length > 0) {
+							treeViewer.remove(removedObjects);
+						}
+					} finally {
+						if (hasRename) {
+							treeViewer.getControl().setRedraw(true);
 						}
 					}
-				}
-				else
-				{
-					( (StructuredViewer) viewer ).refresh( resource );
+				} else {
+					((StructuredViewer) viewer).refresh(resource);
 				}
 			}
 		};
-		runnables.add( addAndRemove );
+		runnables.add(addAndRemove);
 	}
 
 	/**
 	 * Return a runnable for refreshing a resource.
-	 * 
+	 *
 	 * @param resource
 	 * @return Runnable
 	 */
-	private Runnable getRefreshRunnable( final IResource resource )
-	{
-		return new Runnable( ) {
+	private Runnable getRefreshRunnable(final IResource resource) {
+		return new Runnable() {
 
-			public void run( )
-			{
-				( (StructuredViewer) viewer ).refresh( resource );
+			@Override
+			public void run() {
+				((StructuredViewer) viewer).refresh(resource);
 			}
 		};
 	}

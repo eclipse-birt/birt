@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,100 +27,86 @@ import org.eclipse.gef.Request;
  * obtaining selection, and performing generic operations.
  */
 
-public class ReportRequest extends Request implements
-		IMediatorRequest,
-		ReportRequestConstants
-{
+public class ReportRequest extends Request implements IMediatorRequest, ReportRequestConstants {
 
 	private Object source;
 
 	private IRequestConverter converter;
 
-	private List selectionObject = new ArrayList( );
+	private List selectionObject = new ArrayList();
 
 	/**
 	 * Create a report request.
 	 */
-	public ReportRequest( )
-	{
-		this( null, SELECTION );
+	public ReportRequest() {
+		this(null, SELECTION);
 	}
 
-	public ReportRequest( String type )
-	{
-		this( null, type );
+	public ReportRequest(String type) {
+		this(null, type);
 	}
 
 	/**
 	 * Create a report request with give source object.
-	 * 
+	 *
 	 * @param source
 	 */
-	public ReportRequest( Object source )
-	{
-		this( source, SELECTION );
+	public ReportRequest(Object source) {
+		this(source, SELECTION);
 	}
 
-	public ReportRequest( Object source, String type )
-	{
-		super( );
-		setSource( source );
-		setType( type );
+	public ReportRequest(Object source, String type) {
+		super();
+		setSource(source);
+		setType(type);
 	}
 
 	/**
 	 * Get the source of request.
-	 * 
+	 *
 	 * @return Returns the source.
 	 */
-	public Object getSource( )
-	{
+	@Override
+	public Object getSource() {
 		return source;
 	}
 
 	/**
 	 * Set the source of request.
-	 * 
-	 * @param source
-	 *            The source to set.
+	 *
+	 * @param source The source to set.
 	 */
-	public void setSource( Object source )
-	{
+	public void setSource(Object source) {
 		this.source = source;
 	}
 
 	/**
 	 * Get the selection objcect of request source.
-	 * 
+	 *
 	 * @return Returns the selectionObject.
 	 */
-	public List getSelectionObject( )
-	{
+	public List getSelectionObject() {
 		return selectionObject;
 	}
 
 	/**
 	 * Get the selection objcect of request source.
-	 * 
+	 *
 	 * @return Returns the selectionObject.
 	 */
-	public List getSelectionModelList( )
-	{
-		if ( converter != null )
-		{
-			return converter.convertSelectionToModelLisr( getSelectionObject( ) );
+	public List getSelectionModelList() {
+		if (converter != null) {
+			return converter.convertSelectionToModelLisr(getSelectionObject());
 		}
-		return getSelectionObject( );
+		return getSelectionObject();
 	}
 
 	/**
 	 * Set the selection object of reqeust source
-	 * 
-	 * @param selectionObject
-	 *            The selectionObject to set.
+	 *
+	 * @param selectionObject The selectionObject to set.
 	 */
-	public void setSelectionObject( List selectionObject )
-	{
+	public void setSelectionObject(List selectionObject) {
 		assert selectionObject != null;
 		this.selectionObject = selectionObject;
 	}
@@ -125,49 +114,45 @@ public class ReportRequest extends Request implements
 	/**
 	 * @return Returns the request converter.
 	 */
-	public IRequestConverter getRequestConverter( )
-	{
+	public IRequestConverter getRequestConverter() {
 		return converter;
 	}
 
 	/**
-	 * @param convert
-	 *            The converter to set.
-	 * 
+	 * @param convert The converter to set.
+	 *
 	 * @deprecated use {@link #setRequestConverter(IRequestConverter)} instead.
 	 */
-	public void setRequestConvert( IRequestConvert converter )
-	{
+	@Deprecated
+	public void setRequestConvert(IRequestConvert converter) {
 		this.converter = converter;
 	}
 
 	/**
-	 * @param convert
-	 *            The converter to set.
+	 * @param convert The converter to set.
 	 */
-	public void setRequestConverter( IRequestConverter converter )
-	{
+	public void setRequestConverter(IRequestConverter converter) {
 		this.converter = converter;
 	}
 
-	public String getType( )
-	{
-		return String.valueOf( super.getType( ) );
+	@Override
+	public String getType() {
+		return String.valueOf(super.getType());
 	}
 
-	public Object getData( )
-	{
-		return getSelectionModelList( );
+	@Override
+	public Object getData() {
+		return getSelectionModelList();
 	}
 
-	public boolean isSticky( )
-	{
-		return SELECTION.equals( getType( ) );
+	@Override
+	public boolean isSticky() {
+		return SELECTION.equals(getType());
 	}
 
-	public Map<?, ?> getExtras( )
-	{
-		return getExtendedData( );
+	@Override
+	public Map<?, ?> getExtras() {
+		return getExtendedData();
 	}
 
 }

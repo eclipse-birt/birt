@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * semantic error has two levels: error and warning. The default level is error.
  */
 
-public class SemanticError extends SemanticException
-{
+public class SemanticError extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -33,16 +35,15 @@ public class SemanticError extends SemanticException
 
 	/**
 	 * Error code indicating the table has inconsistent column count. The column
-	 * count should match the maximum cell count in header, detail, and foot
-	 * slots.
+	 * count should match the maximum cell count in header, detail, and foot slots.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT;
 
 	/**
-	 * Error code indicating the table has inconsistent column count because of
-	 * drop effects of some cells. The column count should match the maximum
-	 * cell count in header, detail, and foot slots.
+	 * Error code indicating the table has inconsistent column count because of drop
+	 * effects of some cells. The column count should match the maximum cell count
+	 * in header, detail, and foot slots.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT_WITH_DROP = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT_COZ_DROP;
@@ -55,15 +56,15 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_GRID_COL_COUNT;
 
 	/**
-	 * Error code indicating the table has overlapping cells. Cell is forbidden
-	 * to overlap other cells.
+	 * Error code indicating the table has overlapping cells. Cell is forbidden to
+	 * overlap other cells.
 	 */
 
 	public static final String DESIGN_EXCEPTION_OVERLAPPING_CELLS = MessageConstants.SEMANTIC_ERROR_OVERLAPPING_CELLS;
 
 	/**
-	 * Error code indicating the table has a conflict among dropping cells in
-	 * group header of the table.
+	 * Error code indicating the table has a conflict among dropping cells in group
+	 * header of the table.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INCONSITENT_DROP_HEADINGS = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_DROP_HEADINGS;
@@ -139,22 +140,23 @@ public class SemanticError extends SemanticException
 
 	/**
 	 * Error code indicating the image file is not found.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST = MessageConstants.SEMANTIC_ERROR_IMAGE_FILE_NOT_EXIST;
 
 	/**
-	 * Error code indicating the property name of property mask does not be
-	 * defined on the element.
+	 * Error code indicating the property name of property mask does not be defined
+	 * on the element.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_NAME = MessageConstants.SEMANTIC_ERROR_INVALID_PROPERTY_NAME;
 
 	/**
-	 * Error code indicating the element is not supported, but implemented in
-	 * this release.
+	 * Error code indicating the element is not supported, but implemented in this
+	 * release.
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT = MessageConstants.SEMANTIC_ERROR_UNSUPPORTED_ELEMENT;
@@ -172,8 +174,8 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME = MessageConstants.SEMANTIC_ERROR_DUPLICATE_GROUP_NAME;
 
 	/**
-	 * Error code indicating the custom color name is the same as CSS standard
-	 * color name.
+	 * Error code indicating the custom color name is the same as CSS standard color
+	 * name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_CUSTOM_COLOR_NAME = MessageConstants.SEMANTIC_ERROR_INVALID_CUSTOM_COLOR_NAME;
@@ -257,8 +259,7 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_COLUMN_INSERT_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN;
 
 	/**
-	 * Error code indicating the a cascading parameter is not typed as
-	 * "dynamic".
+	 * Error code indicating the a cascading parameter is not typed as "dynamic".
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INVALID_SCALAR_PARAMETER_TYPE;
@@ -277,10 +278,9 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE = MessageConstants.SEMANTIC_ERROR_INVALID_LIBRARY_REFERENCE;
 
 	/**
-	 * Error code indicating default element or value element of template
-	 * parameter definition is incompatible the "allowedType" property defined
-	 * or the element types of default element and value element are not the
-	 * same.
+	 * Error code indicating default element or value element of template parameter
+	 * definition is incompatible the "allowedType" property defined or the element
+	 * types of default element and value element are not the same.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TEMPLATE_PARAMETER_TYPE;
@@ -292,8 +292,8 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID = MessageConstants.SEMANTIC_ERROR_INVALID_PROPERTY_BINDING_ID;
 
 	/**
-	 * The element is not in the design tree, so it is forbidden to set the
-	 * property binding.
+	 * The element is not in the design tree, so it is forbidden to set the property
+	 * binding.
 	 */
 
 	public static final String DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN = MessageConstants.SEMANTIC_ERROR_PROPERTY_BINDING_FORBIDDEN;
@@ -331,8 +331,8 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_MANIFEST = MessageConstants.SEMANTIC_ERROR_INVALID_MANIFEST;
 
 	/**
-	 * Image reference type is expression, but not both type expression and
-	 * value expression are present in the design file.
+	 * Image reference type is expression, but not both type expression and value
+	 * expression are present in the design file.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE;
@@ -371,14 +371,14 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE;
 
 	/**
-	 * Tries to compute table's width which contains multiple columns in
-	 * different relative unit.
+	 * Tries to compute table's width which contains multiple columns in different
+	 * relative unit.
 	 */
 	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT;
 
 	/**
-	 * Tries to compute table's width which the sum of columns's width is
-	 * greater than or equal to 100%.
+	 * Tries to compute table's width which the sum of columns's width is greater
+	 * than or equal to 100%.
 	 */
 	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE;
 
@@ -387,9 +387,10 @@ public class SemanticError extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE = MessageConstants.SEMANTIC_ERROR_CANNOT_SPECIFY_VALUE;
-	
+
 	/**
-	 * Error code indicating that the cube or data set can not be specified for the multiview.
+	 * Error code indicating that the cube or data set can not be specified for the
+	 * multiview.
 	 */
 
 	public static final String DESIGN_EXCEPTION_CANNOT_SPECIFY_DATA_OBJECT = MessageConstants.SEMANTIC_ERROR_CANNOT_SPECIFY_DATA_OBJECT;
@@ -414,191 +415,138 @@ public class SemanticError extends SemanticException
 
 	/**
 	 * Constructs a SemanticError with the default serious level.
-	 * 
-	 * @param element
-	 *            the element causing this semantic error
-	 * @param errCode
-	 *            the semantic error code
+	 *
+	 * @param element the element causing this semantic error
+	 * @param errCode the semantic error code
 	 */
 
-	public SemanticError( DesignElement element, String errCode )
-	{
-		super( element, errCode );
+	public SemanticError(DesignElement element, String errCode) {
+		super(element, errCode);
 	}
 
 	/**
 	 * Constructs a SemanticError with the default serious level.
-	 * 
-	 * @param element
-	 *            the element causing this semantic error
-	 * @param values
-	 *            value array used for error message
-	 * @param errCode
-	 *            the semantic error code
+	 *
+	 * @param element the element causing this semantic error
+	 * @param values  value array used for error message
+	 * @param errCode the semantic error code
 	 */
 
-	public SemanticError( DesignElement element, String[] values, String errCode )
-	{
-		super( element, values, errCode );
+	public SemanticError(DesignElement element, String[] values, String errCode) {
+		super(element, values, errCode);
 	}
 
 	/**
 	 * Constructs a SemanticError with the specified level.
-	 * 
-	 * @param element
-	 *            the element causing this semantic error
-	 * @param errCode
-	 *            the semantic error code
-	 * @param level
-	 *            the level of the error. Can be <code>ERROR</code> or
-	 *            <code>WARNING</code>.
+	 *
+	 * @param element the element causing this semantic error
+	 * @param errCode the semantic error code
+	 * @param level   the level of the error. Can be <code>ERROR</code> or
+	 *                <code>WARNING</code>.
 	 */
 
-	public SemanticError( DesignElement element, String errCode, int level )
-	{
-		super( element, errCode );
+	public SemanticError(DesignElement element, String errCode, int level) {
+		super(element, errCode);
 		errorLevel = level;
 	}
 
 	/**
 	 * Constructs a SemanticError with the specified level.
-	 * 
-	 * @param element
-	 *            the element causing this semantic error
-	 * @param values
-	 *            value array used for error message
-	 * @param errCode
-	 *            the semantic error code
-	 * @param level
-	 *            the level of the error. Can be <code>ERROR</code> or
-	 *            <code>WARNING</code>.
+	 *
+	 * @param element the element causing this semantic error
+	 * @param values  value array used for error message
+	 * @param errCode the semantic error code
+	 * @param level   the level of the error. Can be <code>ERROR</code> or
+	 *                <code>WARNING</code>.
 	 */
 
-	public SemanticError( DesignElement element, String[] values,
-			String errCode, int level )
-	{
-		super( element, values, errCode );
+	public SemanticError(DesignElement element, String[] values, String errCode, int level) {
+		super(element, values, errCode);
 		errorLevel = level;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT
-				|| sResourceKey == DESIGN_EXCEPTION_MISSING_EXTENSION )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{element.getElementName( )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_REF
-				|| sResourceKey == DESIGN_EXCEPTION_INVALID_STRUCTURE_REF )
-		{
+	@Override
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT
+				|| sResourceKey == DESIGN_EXCEPTION_MISSING_EXTENSION) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { element.getElementName() });
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_REF
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_STRUCTURE_REF) {
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{element.getIdentifier( ),
-							(String) oaMessageArguments[0],
-							(String) oaMessageArguments[1]} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME
+			return ModelMessages.getMessage(sResourceKey, new String[] { element.getIdentifier(),
+					(String) oaMessageArguments[0], (String) oaMessageArguments[1] });
+		} else if (sResourceKey == DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_EXTENSION_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_MISSING_COLUMN_BINDING )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_MISSING_COLUMN_BINDING) {
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{element.getIdentifier( ),
-							(String) oaMessageArguments[0]} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { element.getIdentifier(), (String) oaMessageArguments[0] });
+		} else if (sResourceKey == DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_NAME
-				|| sResourceKey == DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE) {
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					(String) oaMessageArguments[0], element.getIdentifier( )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CUSTOM_COLOR_NAME
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { (String) oaMessageArguments[0], element.getIdentifier() });
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_CUSTOM_COLOR_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_CUSTOM_COLOR_NAME
-				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN) {
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{(String) oaMessageArguments[0]} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_OVERLAPPING_CELLS )
-		{
+			return ModelMessages.getMessage(sResourceKey, new String[] { (String) oaMessageArguments[0] });
+		} else if (sResourceKey == DESIGN_EXCEPTION_OVERLAPPING_CELLS) {
 			assert oaMessageArguments != null;
-			if ( oaMessageArguments[1] == null
-					|| StringUtil.isBlank( oaMessageArguments[1].toString( ) ) )
-			{
-				return ModelMessages.getMessage( sResourceKey,
-						new String[]{(String) oaMessageArguments[0]} );
+			if (oaMessageArguments[1] == null || StringUtil.isBlank(oaMessageArguments[1].toString())) {
+				return ModelMessages.getMessage(sResourceKey, new String[] { (String) oaMessageArguments[0] });
 			}
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{(String) oaMessageArguments[0]
-							+ " \"" + (String) oaMessageArguments[1] + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_DATA_SET )
-		{
-			String name = element.getFullName( );
-			if ( StringUtil.isBlank( name ) )
-			{
-				return ModelMessages.getMessage( sResourceKey,
-						new String[]{"The " + element.getElementName( )} ); //$NON-NLS-1$
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { (String) oaMessageArguments[0] + " \"" + (String) oaMessageArguments[1] + "\"" }); //$NON-NLS-1$ //$NON-NLS-2$
+		} else if (sResourceKey == DESIGN_EXCEPTION_MISSING_DATA_SET) {
+			String name = element.getFullName();
+			if (StringUtil.isBlank(name)) {
+				return ModelMessages.getMessage(sResourceKey, new String[] { "The " + element.getElementName() }); //$NON-NLS-1$
 			}
-			return ModelMessages
-					.getMessage(
-							sResourceKey,
-							new String[]{"The " + element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID )
-		{
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { "The " + element.getElementName() + " \"" + name + "\"" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID) {
 			assert oaMessageArguments.length == 1;
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{element.getIdentifier( ),
-							(String) oaMessageArguments[0]} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE )
-		{
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { element.getIdentifier(), (String) oaMessageArguments[0] });
+		} else if (sResourceKey == DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE) {
 			int newArgsLen = 0;
 
-			if ( oaMessageArguments != null )
-			{
+			if (oaMessageArguments != null) {
 				newArgsLen = oaMessageArguments.length;
 			}
 
 			String[] newArgs = new String[newArgsLen + 1];
-			newArgs[0] = element.getIdentifier( );
-			System.arraycopy( oaMessageArguments, 0, newArgs, 1, newArgsLen );
+			newArgs[0] = element.getIdentifier();
+			System.arraycopy(oaMessageArguments, 0, newArgs, 1, newArgsLen);
 
-			return ModelMessages.getMessage( sResourceKey, newArgs );
-		}
-		else if ( oaMessageArguments != null )
-		{
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+			return ModelMessages.getMessage(sResourceKey, newArgs);
+		} else if (oaMessageArguments != null) {
+			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
 		}
 
-		return ModelMessages.getMessage( sResourceKey,
-				new String[]{element.getIdentifier( )} );
+		return ModelMessages.getMessage(sResourceKey, new String[] { element.getIdentifier() });
 	}
 
 	/**
 	 * Returns the level of the error. The level can be <code>ERROR</code> or
 	 * <code>WARNING</code>.
-	 * 
+	 *
 	 * @return the level of the error
 	 */
 
-	public int getErrorLevel( )
-	{
+	public int getErrorLevel() {
 		return errorLevel;
 	}
 }

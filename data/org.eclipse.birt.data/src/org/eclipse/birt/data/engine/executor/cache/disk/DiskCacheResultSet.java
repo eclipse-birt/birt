@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,22 +29,21 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * class to do data sorting and data soring to file. This class also provides
  * convinienent method to retrieve data from file.
  */
-class DiskCacheResultSet
-{
+class DiskCacheResultSet {
 	private Map infoMap;
 	private int dataCount;
-	
-	private DiskDataExport databaseExport;	
+
+	private DiskDataExport databaseExport;
 	protected ResultObjectUtil resultObjectUtil;
-	
+
 	private IRowIterator rowIterator;
-	
+
 	private DataEngineSession session;
+
 	/**
 	 * @param dataProvider
 	 */
-	DiskCacheResultSet( Map infoMap, DataEngineSession session )
-	{
+	DiskCacheResultSet(Map infoMap, DataEngineSession session) {
 		this.infoMap = infoMap;
 		this.session = session;
 	}
@@ -50,84 +52,75 @@ class DiskCacheResultSet
 	 * @param resultObjects
 	 * @param comparator
 	 * @param stopSign
-	 * @throws IOException, file writer exception
-	 * @throws DataException 
+	 * @throws IOException,  file writer exception
+	 * @throws DataException
 	 */
-	public void processStartResultObjects( IResultObject[] resultObjects,
-			Comparator comparator ) throws IOException, DataException
-	{
-		IResultClass rsMetaData = resultObjects[0].getResultClass( );
+	public void processStartResultObjects(IResultObject[] resultObjects, Comparator comparator)
+			throws IOException, DataException {
+		IResultClass rsMetaData = resultObjects[0].getResultClass();
 		assert rsMetaData != null;
-		this.resultObjectUtil = ResultObjectUtil.newInstance( rsMetaData, session );
-		
-		databaseExport = DiskDataExport.newInstance( infoMap,
-				comparator,
-				rsMetaData,
-				resultObjectUtil, session );		
-		databaseExport.exportStartDataToDisk( resultObjects );
+		this.resultObjectUtil = ResultObjectUtil.newInstance(rsMetaData, session);
+
+		databaseExport = DiskDataExport.newInstance(infoMap, comparator, rsMetaData, resultObjectUtil, session);
+		databaseExport.exportStartDataToDisk(resultObjects);
 		dataCount = resultObjects.length;
 	}
-	
+
 	/**
 	 * @param resultObject, the start resultObject
-	 * @param rs, follows the resultObject
+	 * @param rs,           follows the resultObject
 	 * @param stopSign
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public void processRestResultObjects( IResultObject resultObject,
-			IRowResultSet rs, int maxRows ) throws DataException, IOException
-	{
-		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs, maxRows );
-		rowIterator = databaseExport.getRowIterator( );
+	public void processRestResultObjects(IResultObject resultObject, IRowResultSet rs, int maxRows)
+			throws DataException, IOException {
+		dataCount += databaseExport.exportRestDataToDisk(resultObject, rs, maxRows);
+		rowIterator = databaseExport.getRowIterator();
 	}
-	
+
 	/**
 	 * @return the length of result set
 	 */
-	public int getCount( )
-	{
+	public int getCount() {
 		return dataCount;
 	}
-	
+
 	/**
 	 * This function must be called after goal file is generated.
-	 * 
+	 *
 	 * @return RowData
-	 * @throws IOException, file reader exception
-	 * @throws DataException 
+	 * @throws IOException,  file reader exception
+	 * @throws DataException
 	 */
-	public IResultObject nextRow( ) throws IOException, DataException
-	{
-		return rowIterator.fetch( );
+	public IResultObject nextRow() throws IOException, DataException {
+		return rowIterator.fetch();
 	}
-	
+
 	/**
 	 * Set the file reader to the start of the goal file
-	 * @throws DataException 
+	 *
+	 * @throws DataException
 	 */
-	public void reset( ) throws DataException
-	{
-		rowIterator.reset( );
+	public void reset() throws DataException {
+		rowIterator.reset();
 	}
-	
+
 	/**
 	 * Close result set
-	 * @throws DataException 
+	 *
+	 * @throws DataException
 	 */
-	public void close( ) throws DataException
-	{
-		if ( rowIterator != null )
-		{
-			rowIterator.close( );
+	public void close() throws DataException {
+		if (rowIterator != null) {
+			rowIterator.close();
 			rowIterator = null;
 		}
-		if ( databaseExport != null )
-		{
-			databaseExport.close( );
+		if (databaseExport != null) {
+			databaseExport.close();
 			databaseExport = null;
 		}
 		resultObjectUtil = null;
 	}
-	
+
 }

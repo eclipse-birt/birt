@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,73 +30,69 @@ import org.mozilla.javascript.Scriptable;
  * Wrap the service which is provided for IQueryResults to make IQueryResults
  * knows only these information it needes.
  */
-interface IServiceForQueryResults
-{
+interface IServiceForQueryResults {
 	/**
 	 * @return
 	 */
-	public DataEngineSession getSession( );
-	
-	
+	DataEngineSession getSession();
+
 	/**
 	 * @return
 	 */
-	public Scriptable getScope( );
+	Scriptable getScope();
 
 	/**
 	 * If it is a nested query, this value indicates which level this query is
 	 * placed.
-	 * 
+	 *
 	 * @return
 	 */
-	public int getNestedLevel( );
-	
+	int getNestedLevel();
+
 	/**
 	 * @return base query definition
 	 */
-	public IBaseQueryDefinition getQueryDefn( );
+	IBaseQueryDefinition getQueryDefn();
 
 	/**
 	 * @return
 	 */
-	public IPreparedQuery getPreparedQuery( );
-	
+	IPreparedQuery getPreparedQuery();
+
 	/**
-	 * If it is a sub query, this value indicates which group level this query
-	 * is placed.
-	 * 
+	 * If it is a sub query, this value indicates which group level this query is
+	 * placed.
+	 *
 	 * @return
 	 */
-	public int getGroupLevel( );
+	int getGroupLevel();
 
 	/**
 	 * Associated data set runtime instance.
-	 * 
+	 *
 	 * @return
 	 */
-	public DataSetRuntime getDataSetRuntime( );
-	
+	DataSetRuntime getDataSetRuntime();
+
 	/**
 	 * Associated data sets runtime, frou inner to outer.
-	 * 
-	 * @param count,
-	 *            how many levels needs to be traced.
+	 *
+	 * @param count, how many levels needs to be traced.
 	 * @return
 	 */
-	public DataSetRuntime[] getDataSetRuntimes( int count );
-	
+	DataSetRuntime[] getDataSetRuntimes(int count);
+
 	/**
 	 * @return meta data of data set
 	 * @throws DataException
 	 */
-	public IResultMetaData getResultMetaData( ) throws DataException;
-	
+	IResultMetaData getResultMetaData() throws DataException;
+
 	/**
 	 * @return
 	 */
-	public IResultIterator executeQuery( ) throws DataException;
+	IResultIterator executeQuery() throws DataException;
 
-	
 	/**
 	 * @param iterator
 	 * @param subQueryName
@@ -101,62 +100,63 @@ interface IServiceForQueryResults
 	 * @return
 	 * @throws DataException
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentQueryExecutor,
-			String subQueryName, Scriptable subScope ) throws DataException;
-	
+	IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentQueryExecutor, String subQueryName,
+			Scriptable subScope) throws DataException;
+
 	/**
 	 * close service
 	 */
-	public void close( );
-	
+	void close();
+
 	/**
 	 * @return the valid property of defined column bindings
 	 * @throws DataException
 	 */
-	public void validateQuery() throws DataException;
-	
+	void validateQuery() throws DataException;
+
 	/**
 	 * @param exprName
 	 * @return associated defined binding expression
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IBaseExpression getBindingExpr( String exprName ) throws DataException;
-	
+	IBaseExpression getBindingExpr(String exprName) throws DataException;
+
 	/**
 	 * @param exprName
 	 * @return associated defined auto binding expression
 	 */
-	public IScriptExpression getAutoBindingExpr( String exprName );
-	
+	IScriptExpression getAutoBindingExpr(String exprName);
+
 	/**
-	 * @return
-	 * {@link org.eclipse.birt.data.engine.impl.GroupBindingColumn}
+	 * @return {@link org.eclipse.birt.data.engine.impl.GroupBindingColumn}
 	 */
-	public List getAllBindingExprs( );
-	
+	List getAllBindingExprs();
+
 	/**
 	 * @return the map of <column name, associated expression>
 	 */
-	public Map getAllAutoBindingExprs( );
-	
+	Map getAllAutoBindingExprs();
+
 	/**
 	 * init auto binding at the start time
+	 *
 	 * @throws DataException
 	 */
-	public void initAutoBinding( ) throws DataException;
-	
+	void initAutoBinding() throws DataException;
+
 	/**
 	 * Return the query executor.
 	 */
-	public IQueryExecutor getQueryExecutor( ) throws DataException;
-	
+	IQueryExecutor getQueryExecutor() throws DataException;
+
 	/**
-	 * Return the starting raw id for the query results. For ordinary query the starting raw id will
-	 * always be 0. For subquery the starting raw id will be the very first row id of its parent result
-	 * iterator.
+	 * Return the starting raw id for the query results. For ordinary query the
+	 * starting raw id will always be 0. For subquery the starting raw id will be
+	 * the very first row id of its parent result iterator.
+	 *
 	 * @return
 	 * @throws DataException
 	 */
-	public int getStartingRawID( ) throws DataException;
-	
+	int getStartingRawID() throws DataException;
+
 }

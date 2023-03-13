@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -17,25 +20,20 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 /**
  * Standard presentation implementation for Chart
  */
-public final class ChartReportItemPresentationImpl
-		extends
-			ChartReportItemPresentationBase
-{
+public final class ChartReportItemPresentationImpl extends ChartReportItemPresentationBase {
 
-	protected Bounds computeBounds( )
-	{
-		final Bounds originalBounds = cm.getBlock( ).getBounds( );
+	@Override
+	protected Bounds computeBounds() {
+		final Bounds originalBounds = cm.getBlock().getBounds();
 
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
-		Bounds bounds = originalBounds.copyInstance( );
-		if ( !bounds.isSetHeight( ) )
-		{
-			bounds.setHeight( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
+		Bounds bounds = originalBounds.copyInstance();
+		if (!bounds.isSetHeight()) {
+			bounds.setHeight(ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT);
 		}
-		if ( !bounds.isSetWidth( ) )
-		{
-			bounds.setWidth( ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH );
+		if (!bounds.isSetWidth()) {
+			bounds.setWidth(ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH);
 		}
 		return bounds;
 	}

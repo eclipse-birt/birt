@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,10 +16,9 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * Action. Action include: hyperlink, drill through and bookmark.
- * 
+ *
  */
-public class ActionDesign
-{
+public class ActionDesign {
 
 	/**
 	 * hyperlink action
@@ -35,7 +37,7 @@ public class ActionDesign
 	 * action type, one of the hyperlink, bookmark drillthrough.
 	 */
 	protected int actionType;
-	
+
 	protected String tooltip;
 	/**
 	 * hyper link
@@ -55,22 +57,19 @@ public class ActionDesign
 	 * The name of a frame where a document is to be opened.
 	 */
 	protected String target = null;
-	
+
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression getBookmark( )
-	{
+	public Expression getBookmark() {
 		assert this.actionType == ACTION_BOOKMARK;
 		return bookmark;
 	}
 
 	/**
-	 * @param bookmark
-	 *            The bookmark to set.
+	 * @param bookmark The bookmark to set.
 	 */
-	public void setBookmark( Expression bookmark )
-	{
+	public void setBookmark(Expression bookmark) {
 		this.actionType = ActionDesign.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
 	}
@@ -78,18 +77,15 @@ public class ActionDesign
 	/**
 	 * @return Returns the hyperlink.
 	 */
-	public Expression getHyperlink( )
-	{
+	public Expression getHyperlink() {
 		assert this.actionType == ACTION_HYPERLINK;
 		return hyperlink;
 	}
 
 	/**
-	 * @param hyperlink
-	 *            The hyperlink to set.
+	 * @param hyperlink The hyperlink to set.
 	 */
-	public void setHyperlink( Expression hyperlink )
-	{
+	public void setHyperlink(Expression hyperlink) {
 		this.hyperlink = hyperlink;
 		this.actionType = ActionDesign.ACTION_HYPERLINK;
 	}
@@ -97,18 +93,15 @@ public class ActionDesign
 	/**
 	 * @return Returns the drillThrough.
 	 */
-	public DrillThroughActionDesign getDrillThrough( )
-	{
+	public DrillThroughActionDesign getDrillThrough() {
 		assert this.actionType == ACTION_DRILLTHROUGH;
 		return drillThrough;
 	}
 
 	/**
-	 * @param drillThrough
-	 *            The drillThrough to set.
+	 * @param drillThrough The drillThrough to set.
 	 */
-	public void setDrillThrough( DrillThroughActionDesign drillThrough )
-	{
+	public void setDrillThrough(DrillThroughActionDesign drillThrough) {
 		this.actionType = ACTION_DRILLTHROUGH;
 		this.drillThrough = drillThrough;
 	}
@@ -116,35 +109,29 @@ public class ActionDesign
 	/**
 	 * @return Returns the type.
 	 */
-	public int getActionType( )
-	{
+	public int getActionType() {
 		return actionType;
 	}
 
 	/**
 	 * @return the target window.
 	 */
-	public String getTargetWindow( )
-	{
+	public String getTargetWindow() {
 		return target;
 	}
 
 	/**
-	 * @param target
-	 *            The name of a frame where a document is to be opened.
+	 * @param target The name of a frame where a document is to be opened.
 	 */
-	public void setTargetWindow( String target )
-	{
+	public void setTargetWindow(String target) {
 		this.target = target;
 	}
-	
-	public void setTooltip(String tooltip)
-	{
+
+	public void setTooltip(String tooltip) {
 		this.tooltip = tooltip;
 	}
-	
-	public String getTooltip()
-	{
+
+	public String getTooltip() {
 		return tooltip;
 	}
 }

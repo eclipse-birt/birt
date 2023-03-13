@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,7 @@ import org.w3c.dom.css.CSSValue;
  * Provides the name/value pair of the property value in the style declaration.
  */
 
-public class Property implements Serializable
-{
+public class Property implements Serializable {
 
 	/**
 	 * Document for <code>serialVersionUID</code>.
@@ -31,36 +33,30 @@ public class Property implements Serializable
 
 	/**
 	 * Creates new Property.
-	 * 
-	 * @param name
-	 *            name of the property
-	 * @param value
-	 *            value of the property
+	 *
+	 * @param name  name of the property
+	 * @param value value of the property
 	 */
 
-	public Property( String name, CSSValue value )
-	{
+	public Property(String name, CSSValue value) {
 		this.name = name;
 		this.value = value;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public CSSValue getValue( )
-	{
+	public CSSValue getValue() {
 		return value;
 	}
 
-	public void setValue( CSSValue value )
-	{
+	public void setValue(CSSValue value) {
 		this.value = value;
 	}
 
-	public String toString( )
-	{
-		return name + ": " + value.toString( ); //$NON-NLS-1$
+	@Override
+	public String toString() {
+		return name + ": " + value.toString(); //$NON-NLS-1$
 	}
 }

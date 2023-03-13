@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -51,47 +54,45 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_134954 extends BaseTestCase
-{
+public class Regression_134954 extends BaseTestCase {
 
 	private final static String INPUT = "regression_134954.xml"; //$NON-NLS-1$
 	private final static String OUTPUT = "regression_134954_out"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	
-	public void test_regression_134954( ) throws DesignFileException, SemanticException,
-			IOException
-	{
-		openDesign( INPUT );
-		LibraryHandle lib = designHandle.getLibrary( "regression_134954" ); //$NON-NLS-1$
-		designHandle.dropLibrary( lib );
+
+	public void test_regression_134954() throws DesignFileException, SemanticException, IOException {
+		openDesign(INPUT);
+		LibraryHandle lib = designHandle.getLibrary("regression_134954"); //$NON-NLS-1$
+		designHandle.dropLibrary(lib);
 
 		// save the design and reopen it, make sure the included structure is
 		// cleared.
-		
-		
-		designHandle.saveAs( OUTPUT );
-		
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		//ReportDesignHandle designHandle = session.openDesign(getTempFolder()+File.separator+ OUTPUT_FOLDER+ File.separator+OUTPUT );
-		//ReportDesignHandle designHandle = session.openDesign(OUTPUT );
-		ReportDesignHandle designHandle = session.openDesign(OUTPUT );
-		
-		assertNull( designHandle
-				.getListProperty( ReportDesignHandle.LIBRARIES_PROP ) );
+
+		designHandle.saveAs(OUTPUT);
+
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		// ReportDesignHandle designHandle =
+		// session.openDesign(getTempFolder()+File.separator+ OUTPUT_FOLDER+
+		// File.separator+OUTPUT );
+		// ReportDesignHandle designHandle = session.openDesign(OUTPUT );
+		ReportDesignHandle designHandle = session.openDesign(OUTPUT);
+
+		assertNull(designHandle.getListProperty(ReportDesignHandle.LIBRARIES_PROP));
 	}
 }

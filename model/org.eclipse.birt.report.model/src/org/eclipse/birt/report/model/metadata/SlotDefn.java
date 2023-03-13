@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,16 +46,15 @@ import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
  * <p>
  * As with all meta-data objects, the set methods must be called only while
  * building the meta-data, before building the meta-data.
- * 
+ *
  */
 
-public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
-{
+public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider {
 
 	/**
-	 * The slot ID. The ID is unique to an element type. In implementation, it
-	 * may give the position of the slot within an array of slots. Each element
-	 * class defines the list of slot IDs for that element.
+	 * The slot ID. The ID is unique to an element type. In implementation, it may
+	 * give the position of the slot within an array of slots. Each element class
+	 * defines the list of slot IDs for that element.
 	 */
 
 	protected int slotID = DesignElement.NO_SLOT;
@@ -77,21 +79,21 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	protected String displayNameID = null;
 
 	/**
-	 * Pointers the the element meta data for the element types that the slot
-	 * can hold.
+	 * Pointers the the element meta data for the element types that the slot can
+	 * hold.
 	 */
 
-	protected ArrayList<IElementDefn> contentElements = new ArrayList<IElementDefn>( );
+	protected ArrayList<IElementDefn> contentElements = new ArrayList<>();
 
 	/**
 	 * List of one or more element type names that the slot can hold.
 	 */
 
-	protected ArrayList<String> contentTypes = new ArrayList<String>( );
+	protected ArrayList<String> contentTypes = new ArrayList<>();
 
 	/**
-	 * Predefined style for elements in this slot. Null means that the slot does
-	 * not define a predefined style.
+	 * Predefined style for elements in this slot. Null means that the slot does not
+	 * define a predefined style.
 	 */
 
 	protected String selector = null;
@@ -122,132 +124,118 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 */
 
 	protected boolean isManagedByNameSpace = true;
-	
+
 	protected NameConfig nameConfig;
-	
 
 	/**
 	 * Returns the slot cardinality.
-	 * 
+	 *
 	 * @return true if the cardinality is multiple, false if it is single
 	 */
 
-	public boolean isMultipleCardinality( )
-	{
+	@Override
+	public boolean isMultipleCardinality() {
 		return multipleCardinality;
 	}
 
 	/**
 	 * Sets whether to allow multiple cardinality.
-	 * 
-	 * @param flag
-	 *            The cardinality: multiple (true) or single (false).
+	 *
+	 * @param flag The cardinality: multiple (true) or single (false).
 	 */
 
-	void setMultipleCardinality( boolean flag )
-	{
+	void setMultipleCardinality(boolean flag) {
 		this.multipleCardinality = flag;
 	}
 
 	/**
 	 * Returns the localized display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		assert displayNameID != null;
-		return ModelMessages.getMessage( this.displayNameID );
+		return ModelMessages.getMessage(this.displayNameID);
 	}
 
 	/**
 	 * Returns the message ID for the display name.
-	 * 
+	 *
 	 * @return the message ID for the display name
 	 */
 
-	public String getDisplayNameID( )
-	{
+	@Override
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
 	/**
 	 * Sets the message ID for the display name.
-	 * 
-	 * @param msgID
-	 *            the message ID to set
+	 *
+	 * @param msgID the message ID to set
 	 */
 
-	void setDisplayNameID( String msgID )
-	{
+	void setDisplayNameID(String msgID) {
 		displayNameID = msgID;
 	}
 
 	/**
 	 * Returns the internal slot identifier.
-	 * 
+	 *
 	 * @return the slot identifier
 	 */
 
-	public int getSlotID( )
-	{
+	@Override
+	public int getSlotID() {
 		return slotID;
 	}
 
 	/**
 	 * Set the internal slot identifier.
-	 * 
-	 * @param id
-	 *            the slot ID to set
+	 *
+	 * @param id the slot ID to set
 	 */
 
-	void setSlotID( int id )
-	{
+	void setSlotID(int id) {
 		slotID = id;
 	}
 
 	/**
 	 * Returns the set of element types that can appear in the slot.
-	 * 
+	 *
 	 * @return the list of content elements.
 	 */
 
-	public List<IElementDefn> getContentElements( )
-	{
-		return new ArrayList<IElementDefn>( contentElements );
+	@Override
+	public List<IElementDefn> getContentElements() {
+		return new ArrayList<>(contentElements);
 	}
 
 	/**
 	 * Returns the set of element types that can appear in the slot. Extended
 	 * elements are replaced by actual extensions.
-	 * 
+	 *
 	 * @return the list of content elements.
 	 */
 
-	public List<IElementDefn> getContentExtendedElements( )
-	{
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		IElementDefn extendItem = dd
-				.getElement( ReportDesignConstants.EXTENDED_ITEM );
+	@Override
+	public List<IElementDefn> getContentExtendedElements() {
+		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		IElementDefn extendItem = dd.getElement(ReportDesignConstants.EXTENDED_ITEM);
 
-		ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<IElementDefn>( );
-		contentsWithExtensions.addAll( contentElements );
+		ArrayList<IElementDefn> contentsWithExtensions = new ArrayList<>(contentElements);
+		if (contentElements.contains(extendItem)) {
+			contentsWithExtensions.remove(extendItem);
 
-		if ( contentElements.contains( extendItem ) )
-		{
-			contentsWithExtensions.remove( extendItem );
-
-			for ( int i = 0; i < dd.getExtensions( ).size( ); i++ )
-			{
-				ExtensionElementDefn extension = (ExtensionElementDefn) dd
-						.getExtensions( ).get( i );
-				if ( extension.isKindOf( dd
-						.getElement( ReportDesignConstants.REPORT_ITEM ) )
-						&& PeerExtensionLoader.EXTENSION_POINT
-								.equals( extension.extensionPoint )
-						&& !contentsWithExtensions.contains( extension ) )
-					contentsWithExtensions.add( extension );
+			for (int i = 0; i < dd.getExtensions().size(); i++) {
+				ExtensionElementDefn extension = (ExtensionElementDefn) dd.getExtensions().get(i);
+				if (extension.isKindOf(dd.getElement(ReportDesignConstants.REPORT_ITEM))
+						&& PeerExtensionLoader.EXTENSION_POINT.equals(extension.extensionPoint)
+						&& !contentsWithExtensions.contains(extension)) {
+					contentsWithExtensions.add(extension);
+				}
 			}
 		}
 		return contentsWithExtensions;
@@ -256,86 +244,76 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	/**
 	 * Builds the semantic information for the slot.
-	 * 
-	 * @throws MetaDataException
-	 *             if any violation occurs during build of the slot.
+	 *
+	 * @throws MetaDataException if any violation occurs during build of the slot.
 	 */
 
-	protected void build( ) throws MetaDataException
-	{
-		if ( contentTypes.isEmpty( ) )
-			throw new MetaDataException( new String[]{this.name},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE );
+	protected void build() throws MetaDataException {
+		if (contentTypes.isEmpty()) {
+			throw new MetaDataException(new String[] { this.name },
+					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE);
+		}
 
 		// The display name should not be provided, but the display name
 		// ID must be provided.
-		if ( displayNameID == null )
-			throw new MetaDataException( new String[]{name},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_NAME );
+		if (displayNameID == null) {
+			throw new MetaDataException(new String[] { name }, MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_NAME);
+		}
 
 		// Translate the type names into element types.
 
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		contentElements.clear( );
-		Iterator<String> iter = contentTypes.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String name = iter.next( );
-			ElementDefn type = (ElementDefn) dd.getElement( name );
-			if ( type == null )
-				throw new MetaDataException( new String[]{name, this.name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
-			contentElements.add( type );
+		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		contentElements.clear();
+		Iterator<String> iter = contentTypes.iterator();
+		while (iter.hasNext()) {
+			String name = iter.next();
+			ElementDefn type = (ElementDefn) dd.getElement(name);
+			if (type == null) {
+				throw new MetaDataException(new String[] { name, this.name },
+						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE);
+			}
+			contentElements.add(type);
 		}
 
-		getTriggerDefnSet( ).build( );
+		getTriggerDefnSet().build();
 	}
 
 	/**
 	 * Determines if this slot can contain an element of the given type.
-	 * 
-	 * @param type
-	 *            the type to test
+	 *
+	 * @param type the type to test
 	 * @return true if the slot can contain the type, false otherwise
 	 */
 
-	public final boolean canContain( IElementDefn type )
-	{
-		if ( type == null )
+	@Override
+	public final boolean canContain(IElementDefn type) {
+		if (type == null) {
 			return false;
+		}
 
-		Iterator<IElementDefn> iter = contentElements.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ElementDefn element = (ElementDefn) iter.next( );
+		Iterator<IElementDefn> iter = contentElements.iterator();
+		while (iter.hasNext()) {
+			ElementDefn element = (ElementDefn) iter.next();
 
 			// if element is not "extended-item"
-			if ( !ReportDesignConstants.EXTENDED_ITEM
-					.equals( element.getName( ) ) )
-			{
-				if ( type.isKindOf( element ) )
+			if (!ReportDesignConstants.EXTENDED_ITEM.equals(element.getName())) {
+				if (type.isKindOf(element)) {
 					return true;
-			}
-			else
-			{
+				}
+			} else {
 				// type is reportItemModel extension and is kind of ReportItem.
-				if ( type instanceof ExtensionElementDefn )
-				{
+				if (type instanceof ExtensionElementDefn) {
 					ExtensionElementDefn extensionDefn = (ExtensionElementDefn) type;
-					if ( PeerExtensionLoader.EXTENSION_POINT
-							.equals( extensionDefn.getExtensionPoint( ) )
-							&& extensionDefn
-									.isKindOf( MetaDataDictionary
-											.getInstance( )
-											.getElement(
-													ReportDesignConstants.REPORT_ITEM ) ) )
+					if (PeerExtensionLoader.EXTENSION_POINT.equals(extensionDefn.getExtensionPoint()) && extensionDefn
+							.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.REPORT_ITEM))) {
 						return true;
+					}
 				}
 
 				// type is "ExtendedItem" itself
-				if ( ReportDesignConstants.EXTENDED_ITEM
-						.equals( type.getName( ) ) )
+				if (ReportDesignConstants.EXTENDED_ITEM.equals(type.getName())) {
 					return true;
+				}
 
 			}
 		}
@@ -344,62 +322,57 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	/**
 	 * Determines if an element can reside within this slot.
-	 * 
-	 * @param content
-	 *            the design element to check
+	 *
+	 * @param content the design element to check
 	 * @return true if the element can reside in the slot, false otherwise
 	 */
 
-	public final boolean canContain( DesignElement content )
-	{
-		return canContain( content.getDefn( ) );
+	@Override
+	public final boolean canContain(DesignElement content) {
+		return canContain(content.getDefn());
 	}
 
 	/**
 	 * Returns the internal name.
-	 * 
+	 *
 	 * @return the name
 	 */
 
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets the internal name.
-	 * 
-	 * @param name
-	 *            the name to set
+	 *
+	 * @param name the name to set
 	 */
 
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * Adds a content type.
-	 * 
-	 * @param type
-	 *            the element type to add
+	 *
+	 * @param type the element type to add
 	 */
 
-	void addType( String type )
-	{
-		if ( !contentTypes.contains( type ) )
-			contentTypes.add( type );
+	void addType(String type) {
+		if (!contentTypes.contains(type)) {
+			contentTypes.add(type);
+		}
 	}
 
 	/**
 	 * Returns the default style name.
-	 * 
+	 *
 	 * @return the default style name, or null if this slot does not define a
 	 *         default style
 	 */
 
-	public String getDefaultStyle( )
-	{
+	public String getDefaultStyle() {
 		// Default style is removed from rom.def, and we keep it for
 		// compatiblity.
 
@@ -408,162 +381,152 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	/**
 	 * Sets the predefined style name.
-	 * 
-	 * @param value
-	 *            the predefined style name to set
+	 *
+	 * @param value the predefined style name to set
 	 */
 
-	void setSelector( String value )
-	{
+	void setSelector(String value) {
 		selector = value;
 	}
 
 	/**
 	 * Returns the predefined style name.
-	 * 
+	 *
 	 * @return the predefined style name, or null if this slot does not define a
 	 *         predefined style
 	 */
 
-	public String getSelector( )
-	{
+	@Override
+	public String getSelector() {
 		return selector;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.metadata.ISemanticTriggerProvider#
 	 * getTriggerDefnSet()
 	 */
 
-	public SemanticTriggerDefnSet getTriggerDefnSet( )
-	{
-		if ( triggers == null )
-			triggers = new SemanticTriggerDefnSet( );
+	@Override
+	public SemanticTriggerDefnSet getTriggerDefnSet() {
+		if (triggers == null) {
+			triggers = new SemanticTriggerDefnSet();
+		}
 
 		return triggers;
 	}
 
 	/**
 	 * Set the version in which the slot was introduced.
-	 * 
-	 * @param value
-	 *            the version in which the slot was introduced
+	 *
+	 * @param value the version in which the slot was introduced
 	 */
 
-	public void setSince( String value )
-	{
+	public void setSince(String value) {
 		since = value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getSince()
 	 */
 
-	public String getSince( )
-	{
+	@Override
+	public String getSince() {
 		return since;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getXmlName()
 	 */
 
-	public String getXmlName( )
-	{
+	@Override
+	public String getXmlName() {
 		return xmlName;
 	}
 
 	/**
 	 * Set the name of the XML element used to hold the slot.
-	 * 
-	 * @param value
-	 *            the XML element name to set
+	 *
+	 * @param value the XML element name to set
 	 */
 
-	public void setXmlName( String value )
-	{
+	public void setXmlName(String value) {
 		xmlName = value;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	@Override
+	public String toString() {
+		if (!StringUtil.isBlank(getName())) {
+			return getName();
+		}
+		return super.toString();
 	}
 
 	/**
-	 * Returns the status whether to add the name of the contents in this slot
-	 * to the namespace.
-	 * 
-	 * @return true if add the name of the contents to namespace, otherwise
-	 *         false
+	 * Returns the status whether to add the name of the contents in this slot to
+	 * the namespace.
+	 *
+	 * @return true if add the name of the contents to namespace, otherwise false
 	 */
 
-	public boolean isManagedByNameSpace( )
-	{
+	public boolean isManagedByNameSpace() {
 		return isManagedByNameSpace;
 	}
 
 	/**
-	 * Sets the status whether to add the name of the contents in this slot to
-	 * the namespace.
-	 * 
-	 * @param isManagedByNameSpace
-	 *            true if add the name of the contents to the namespace,
-	 *            otherwise false
+	 * Sets the status whether to add the name of the contents in this slot to the
+	 * namespace.
+	 *
+	 * @param isManagedByNameSpace true if add the name of the contents to the
+	 *                             namespace, otherwise false
 	 */
 
-	public void setManagedByNameSpace( boolean isManagedByNameSpace )
-	{
+	public void setManagedByNameSpace(boolean isManagedByNameSpace) {
 		this.isManagedByNameSpace = isManagedByNameSpace;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
+	 *
+	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
 	 * ()
 	 */
-	public List<IElementDefn> getAllowedElements( )
-	{
-		return getAllowedElements( true );
+	@Override
+	public List<IElementDefn> getAllowedElements() {
+		return getAllowedElements(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
+	 *
+	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements
 	 * (boolean)
 	 */
-	public List<IElementDefn> getAllowedElements( boolean extractExtensions )
-	{
-		if ( extractExtensions )
-			return getContentExtendedElements( );
-		return getContentElements( );
+	@Override
+	public List<IElementDefn> getAllowedElements(boolean extractExtensions) {
+		if (extractExtensions) {
+			return getContentExtendedElements();
+		}
+		return getContentElements();
 	}
 
-	public NameConfig getNameConfig( )
-	{
+	@Override
+	public NameConfig getNameConfig() {
 		return nameConfig;
 	}
 
-	public void setNameConfig( NameConfig nameConfig )
-	{
+	public void setNameConfig(NameConfig nameConfig) {
 		this.nameConfig = nameConfig;
 	}
 

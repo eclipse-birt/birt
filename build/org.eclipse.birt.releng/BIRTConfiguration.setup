@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Configuration
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+    label="BIRT">
+  <annotation
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+    <detail
+        key="imageURI">
+      <value>https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt/eclipse32.png</value>
+    </detail>
+  </annotation>
+  <installation
+      name="birt.installation"
+      label="BIRT Installation">
+    <productVersion
+        href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='latest']"/>
+    <description>The tools needed for BIRT development.</description>
+  </installation>
+  <workspace
+      name="birt.workspace"
+      label="BIRT Workspace">
+    <stream
+        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='birt']/@streams[name='master']"/>
+    <description>The workspace needed for BIRT development.</description>
+  </workspace>
+  <description>
+    &lt;p>
+    The &lt;a href=&quot;https://www.eclipse.org/birt/&quot;/>BIRT&lt;/a> Development Environment configuration provisions a dedicated development environment 
+    for the complete set of source projects used by the BIRT developers.
+    &lt;/p>
+    &lt;p>
+    All the source projects from &lt;a href=&quot;https://github.com/eclipse/birt&quot;>BIRT's Git Repository&lt;/a>
+    are available, organized into working sets, and ready for contribution.
+    &lt;/p>
+    &lt;/p>
+    Please &lt;a href=&quot;https://wiki.eclipse.org/Eclipse_Platform_SDK_Provisioning&quot;>read the analogous tutorial instructions&lt;/a> for the Eclipse Platform SDK's configuration for more details.
+    &lt;/p>
+  </description>
+</setup:Configuration>

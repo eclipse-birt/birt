@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,43 +27,36 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
- * 
+ *
  */
 
-public class CrosstabMenuAdapterFactory implements IAdapterFactory
-{
+public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adaptableObject instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) adaptableObject ).getExtensionName( )
-						.equals( "Crosstab" )
-				&& adapterType == IMenuListener.class )
-		{
-			final ExtendedItemHandle handle = (ExtendedItemHandle)adaptableObject;
-			
-			return new ISchematicMenuListener( ) {
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adaptableObject instanceof ExtendedItemHandle
+				&& ((ExtendedItemHandle) adaptableObject).getExtensionName().equals("Crosstab")
+				&& adapterType == IMenuListener.class) {
+			final ExtendedItemHandle handle = (ExtendedItemHandle) adaptableObject;
 
-				public void menuAboutToShow( IMenuManager manager )
-				{
+			return new ISchematicMenuListener() {
+
+				@Override
+				public void menuAboutToShow(IMenuManager manager) {
 					CrosstabReportItemHandle crosstab = null;
-					try
-					{
-						crosstab = (CrosstabReportItemHandle)( (ExtendedItemHandle) handle ).getReportItem( );
-					}
-					catch ( ExtendedElementException e )
-					{
+					try {
+						crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) handle).getReportItem();
+					} catch (ExtendedElementException e) {
 						return;
 					}
-					//manager.appendToGroup( "additions", new AddComputedMeasureAction(  ); //$NON-NLS-1$
-					manager.appendToGroup( GEFActionConstants.GROUP_VIEW,
-							new AddComputedMeasureAction( crosstab ) );
-					manager.appendToGroup( GEFActionConstants.GROUP_VIEW,
-							new AddRelativeTimePeriodAction( handle ) );
+					// manager.appendToGroup( "additions", new AddComputedMeasureAction( );
+					// //$NON-NLS-1$
+					manager.appendToGroup(GEFActionConstants.GROUP_VIEW, new AddComputedMeasureAction(crosstab));
+					manager.appendToGroup(GEFActionConstants.GROUP_VIEW, new AddRelativeTimePeriodAction(handle));
 				}
 
-				public void setActionRegistry( ActionRegistry actionRegistry )
-				{
+				@Override
+				public void setActionRegistry(ActionRegistry actionRegistry) {
 
 				}
 			};
@@ -68,8 +64,8 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	@Override
+	public Class[] getAdapterList() {
 		return null;
 	}
 

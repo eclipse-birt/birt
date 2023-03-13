@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,11 +30,10 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
- * 
+ *
  */
 
-public class GlobalInsertAction extends AbstractGlobalSelectionAction
-{
+public class GlobalInsertAction extends AbstractGlobalSelectionAction {
 
 	private String dataType;
 
@@ -39,112 +41,90 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 	 * @param provider
 	 * @param id
 	 */
-	protected GlobalInsertAction( ISelectionProvider provider, String id,
-			String dataType )
-	{
-		super( provider, id );
+	protected GlobalInsertAction(ISelectionProvider provider, String id, String dataType) {
+		super(provider, id);
 		this.dataType = dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	@Override
+	protected boolean calculateEnabled() {
 
-		SlotHandle container = getContainer( );
-		if ( container != null )
-		{
-			return container.getElementHandle( )
-					.canContain( container.getSlotID( ), dataType ) ;
+		SlotHandle container = getContainer();
+		if (container != null) {
+			return container.getElementHandle().canContain(container.getSlotID(), dataType);
 		}
 
 		return false;
 	}
 
-	private SlotHandle getContainer( )
-	{
+	private SlotHandle getContainer() {
 		SlotHandle container = null;
-		if ( getSelectedObjects( ).size( ) == 1 )
-		{
-			Object selected = getSelectedObjects( ).get( 0 );
+		if (getSelectedObjects().size() == 1) {
+			Object selected = getSelectedObjects().get(0);
 
-			if ( selected instanceof SlotHandle )
-			{
+			if (selected instanceof SlotHandle) {
 				container = (SlotHandle) selected;
 			}
 //			else if ( selected instanceof ReportElementModel )
 //			{
 //				container = ( (ReportElementModel) selected ).getSlotHandle( );
 //			}
-			else if ( selected instanceof DesignElementHandle )
-			{
-				int slotId = DEUtil.getDefaultSlotID( selected );
-				if ( slotId != -1 )
-				{
-					container = ( (DesignElementHandle) selected ).getSlot( slotId );
+			else if (selected instanceof DesignElementHandle) {
+				int slotId = DEUtil.getDefaultSlotID(selected);
+				if (slotId != -1) {
+					container = ((DesignElementHandle) selected).getSlot(slotId);
 				}
 			}
 		}
 		return container;
 	}
 
-	public void run( )
-	{
-		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
-		{
+	@Override
+	public void run() {
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
 			return;
 		}
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getCommandStack( );
-		IElementProcessor processor = ElementProcessorFactory.createProcessor( dataType );
-		stack.startTrans( processor.getCreateTransactionLabel( ) );
-		DesignElementHandle handle = processor.createElement( null );
-		if ( handle == null )
-		{
-			stack.rollback( );
-		}
-		else
-		{
-			try
-			{
-				getContainer( ).add( handle );
-			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
-				ExceptionHandler.handle( e );
+		CommandStack stack = SessionHandleAdapter.getInstance().getReportDesignHandle().getCommandStack();
+		IElementProcessor processor = ElementProcessorFactory.createProcessor(dataType);
+		stack.startTrans(processor.getCreateTransactionLabel());
+		DesignElementHandle handle = processor.createElement(null);
+		if (handle == null) {
+			stack.rollback();
+		} else {
+			try {
+				getContainer().add(handle);
+			} catch (Exception e) {
+				stack.rollback();
+				ExceptionHandler.handle(e);
 				return;
 			}
-			
+
 		}
-		if ( handle instanceof ExtendedItemHandle )
-		{
-			if ( ElementProcessorFactory.createProcessor( handle ) != null
-					&& !ElementProcessorFactory.createProcessor( handle )
-							.editElement( handle ) )
-			{
-				stack.rollback( );
+		if (handle instanceof ExtendedItemHandle) {
+			if (ElementProcessorFactory.createProcessor(handle) != null
+					&& !ElementProcessorFactory.createProcessor(handle).editElement(handle)) {
+				stack.rollback();
 				return;
 			}
 		}
-		stack.commit( );
-		synWithMediator( handle );
-		super.run( );
+		stack.commit();
+		synWithMediator(handle);
+		super.run();
 	}
 
-	private void synWithMediator( DesignElementHandle handle )
-	{
-		List list = new ArrayList( );
+	private void synWithMediator(DesignElementHandle handle) {
+		List list = new ArrayList();
 
-		list.add( handle );
-		ReportRequest r = new ReportRequest( );
-		r.setType( ReportRequest.CREATE_ELEMENT );
+		list.add(handle);
+		ReportRequest r = new ReportRequest();
+		r.setType(ReportRequest.CREATE_ELEMENT);
 
-		r.setSelectionObject( list );
-		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest( r );
+		r.setSelectionObject(list);
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 	}
 }

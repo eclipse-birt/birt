@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,11 +36,10 @@ import org.eclipse.emf.common.util.EList;
  * Class to check all the result set column and result set column hint defined
  * by data set design.
  */
-class ResultSetsChecker
-{
+class ResultSetsChecker {
 
 	/**
-	 * 
+	 *
 	 */
 	private final DataSetDesign setDesign;
 
@@ -51,84 +53,78 @@ class ResultSetsChecker
 	 * @param setHandle
 	 */
 
-	ResultSetsChecker( DataSetDesign setDesign, OdaDataSetHandle setHandle )
-	{
+	ResultSetsChecker(DataSetDesign setDesign, OdaDataSetHandle setHandle) {
 		this.setDesign = setDesign;
-		this.setDefinedResultsIter = setHandle.resultSetIterator( );
-		this.columnHintsIter = setHandle.columnHintsIterator( );
+		this.setDefinedResultsIter = setHandle.resultSetIterator();
+		this.columnHintsIter = setHandle.columnHintsIterator();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
-	List<IAmbiguousResultSetNode> process( )
-	{
-		ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
-		if ( resultDefn == null )
-		{
-			ResultSets resultSets = setDesign.getResultSets( );
+	List<IAmbiguousResultSetNode> process() {
+		ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet();
+		if (resultDefn == null) {
+			ResultSets resultSets = setDesign.getResultSets();
 
-			if ( resultSets == null )
-				return Collections.emptyList( );
+			if (resultSets == null) {
+				return Collections.emptyList();
+			}
 
-			EList<ResultSetDefinition> definitions = resultSets
-					.getResultSetDefinitions( );
-			if ( definitions.isEmpty( ) )
-				return Collections.emptyList( );
+			EList<ResultSetDefinition> definitions = resultSets.getResultSetDefinitions();
+			if (definitions.isEmpty()) {
+				return Collections.emptyList();
+			}
 
-			resultDefn = definitions.get( 0 );
+			resultDefn = definitions.get(0);
 		}
 		assert resultDefn != null;
 
-		ResultSetColumns setColumns = resultDefn.getResultSetColumns( );
-		if ( setColumns == null )
-			return Collections.emptyList( );
+		ResultSetColumns setColumns = resultDefn.getResultSetColumns();
+		if (setColumns == null) {
+			return Collections.emptyList();
+		}
 
-		EList<ColumnDefinition> odaSetColumns = setColumns
-				.getResultColumnDefinitions( );
-		if ( odaSetColumns.isEmpty( ) )
-			return Collections.emptyList( );
+		EList<ColumnDefinition> odaSetColumns = setColumns.getResultColumnDefinitions();
+		if (odaSetColumns.isEmpty()) {
+			return Collections.emptyList();
+		}
 
-		List<IAmbiguousResultSetNode> ambiguousResultSets = new ArrayList<IAmbiguousResultSetNode>(
-				4 );
+		List<IAmbiguousResultSetNode> ambiguousResultSets = new ArrayList<>(4);
 
-		for ( int i = 0; i < odaSetColumns.size( ); i++ )
-		{
-			ColumnDefinition columnDefn = odaSetColumns.get( i );
+		for (int i = 0; i < odaSetColumns.size(); i++) {
+			ColumnDefinition columnDefn = odaSetColumns.get(i);
 			OdaResultSetColumnHandle existingColumnHandle = null;
 
-			DataElementAttributes dataAttrs = columnDefn.getAttributes( );
-			if ( dataAttrs != null )
-			{
-				String nativeName = dataAttrs.getName( );
-				Integer position = Integer.valueOf( dataAttrs.getPosition( ) );
-				Integer nativeDataType = Integer.valueOf( dataAttrs
-						.getNativeDataTypeCode( ) );
+			DataElementAttributes dataAttrs = columnDefn.getAttributes();
+			if (dataAttrs != null) {
+				String nativeName = dataAttrs.getName();
+				Integer position = dataAttrs.getPosition();
+				Integer nativeDataType = dataAttrs.getNativeDataTypeCode();
 
-				existingColumnHandle = ResultSetsAdapter
-						.findOdaResultSetColumn( setDefinedResultsIter,
-								nativeName, position, nativeDataType );
+				existingColumnHandle = ResultSetsAdapter.findOdaResultSetColumn(setDefinedResultsIter, nativeName,
+						position, nativeDataType);
 			}
 
 			// if not found the matched column handle, do nothing
-			if ( existingColumnHandle == null )
+			if (existingColumnHandle == null) {
 				continue;
-			
-			ColumnHintHandle existingColumnHintHandle = AdapterUtil
-					.findColumnHint( existingColumnHandle.getColumnName( ),
-							columnHintsIter );
+			}
 
-			ResultSetColumnChecker oneChecker = new ResultSetColumnChecker(
-					columnDefn, existingColumnHandle, existingColumnHintHandle );
+			ColumnHintHandle existingColumnHintHandle = AdapterUtil.findColumnHint(existingColumnHandle.getColumnName(),
+					columnHintsIter);
 
-			List<IAmbiguousAttribute> attrs = oneChecker.process( );
-			if ( attrs == null || attrs.isEmpty( ) )
+			ResultSetColumnChecker oneChecker = new ResultSetColumnChecker(columnDefn, existingColumnHandle,
+					existingColumnHintHandle);
+
+			List<IAmbiguousAttribute> attrs = oneChecker.process();
+			if (attrs == null || attrs.isEmpty()) {
 				continue;
+			}
 
-			IAmbiguousResultSetNode node = new AmbiguousResultSetNode(
-					existingColumnHandle, attrs );
-			ambiguousResultSets.add( node );
+			IAmbiguousResultSetNode node = new AmbiguousResultSetNode(existingColumnHandle, attrs);
+			ambiguousResultSets.add(node);
 		}
 
 		return ambiguousResultSets;

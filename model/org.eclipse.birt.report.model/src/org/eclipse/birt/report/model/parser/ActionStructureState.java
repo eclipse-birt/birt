@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,11 +61,10 @@ import org.xml.sax.SAXException;
  * <td>uri</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
-public class ActionStructureState extends CompatibleStructureState
-{
+public class ActionStructureState extends CompatibleStructureState {
 
 	final static String DRILLTHROUGH_REPORT_NAME_MEMBER = "drillThroughReportName"; //$NON-NLS-1$
 	final static String DRILLTHROUGH_BOOKMARK_LINK_MEMBER = "drillThroughBookmarkLink"; //$NON-NLS-1$
@@ -72,37 +74,37 @@ public class ActionStructureState extends CompatibleStructureState
 	final static String DRILLTHROUGH_PARAM_BINDINGS_MEMBER = "drillThroughParamBindings"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 */
-	public ActionStructureState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
-		struct = new Action( );
+	public ActionStructureState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
+		struct = new Action();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
-			return new CompatibleActionExpressionState( handler, element,
-					propDefn, struct );
-		if ( ParserSchemaConstants.PROPERTY_TAG == tagValue )
-			return new CompatibleActionPropertyState( handler, element,
-					propDefn, struct );
-		if ( ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue )
-			return new CompatibleActionListPropertyState( handler, element,
-					propDefn, struct );
+	@Override
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
+			return new CompatibleActionExpressionState(handler, element, propDefn, struct);
+		}
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
+			return new CompatibleActionPropertyState(handler, element, propDefn, struct);
+		}
+		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue) {
+			return new CompatibleActionListPropertyState(handler, element, propDefn, struct);
+		}
 
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 	}
 
 	/**
@@ -112,15 +114,11 @@ public class ActionStructureState extends CompatibleStructureState
 	 * <li>drillThroughParamBindings =>paramBindings
 	 */
 
-	static class CompatibleActionListPropertyState
-			extends
-				CompatibleListPropertyState
-	{
+	static class CompatibleActionListPropertyState extends CompatibleListPropertyState {
 
-		CompatibleActionListPropertyState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, IStructure struct )
-		{
-			super( theHandler, element, propDefn, struct );
+		CompatibleActionListPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+				IStructure struct) {
+			super(theHandler, element, propDefn, struct);
 		}
 	}
 
@@ -130,32 +128,28 @@ public class ActionStructureState extends CompatibleStructureState
 	 * <li>drillThroughReportName => reportName
 	 */
 
-	static class CompatibleActionPropertyState extends CompatiblePropertyState
-	{
+	static class CompatibleActionPropertyState extends CompatiblePropertyState {
 
-		CompatibleActionPropertyState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, IStructure struct )
-		{
-			super( theHandler, element, propDefn, struct );
+		CompatibleActionPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+				IStructure struct) {
+			super(theHandler, element, propDefn, struct);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			if ( DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase( name ) )
-			{
-				String value = text.toString( );
-				setMember( struct, propDefn.getName( ),
-						Action.REPORT_NAME_MEMBER, value );
+		@Override
+		public void end() throws SAXException {
+			if (DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase(name)) {
+				String value = text.toString();
+				setMember(struct, propDefn.getName(), Action.REPORT_NAME_MEMBER, value);
 				return;
 			}
 
-			super.end( );
+			super.end();
 		}
 	}
 
@@ -166,36 +160,21 @@ public class ActionStructureState extends CompatibleStructureState
 	 * <li>bookmarkLink/drillThroughBookmarkLink => targetBookmark
 	 */
 
-	static class CompatibleActionExpressionState
-			extends
-				CompatibleMiscExpressionState
-	{
+	static class CompatibleActionExpressionState extends CompatibleMiscExpressionState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+		 *
+		 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
+		 * versionConditionalJumpTo()
 		 */
 
-		protected AbstractParseState versionConditionalJumpTo( )
-		{
-			if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
-					&& ( Action.URI_MEMBER.equalsIgnoreCase( name ) ) )
-			{
-				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
-						handler, element );
-				state.setName( name );
-				state.struct = struct;
-				state.propDefn = propDefn;
-				return state;
-			}
-
-			if ( handler.versionNumber < VersionUtil.VERSION_3_2_1
-					&& Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase( name ) )
-			{
-				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(
-						handler, element );
-				state.setName( name );
+		@Override
+		protected AbstractParseState versionConditionalJumpTo() {
+			if ((handler.versionNumber < VersionUtil.VERSION_3_2_1 && (Action.URI_MEMBER.equalsIgnoreCase(name))) || (handler.versionNumber < VersionUtil.VERSION_3_2_1
+					&& Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase(name))) {
+				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(handler, element);
+				state.setName(name);
 				state.struct = struct;
 				state.propDefn = propDefn;
 				return state;
@@ -206,53 +185,48 @@ public class ActionStructureState extends CompatibleStructureState
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.CompatibleMiscExpressionState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			if ( handler.versionNumber < VersionUtil.VERSION_3_2_0 )
-				super.end( );
-			else
-			{
-				String value = text.toString( );
+		@Override
+		public void end() throws SAXException {
+			if (handler.versionNumber < VersionUtil.VERSION_3_2_0) {
+				super.end();
+			} else {
+				String value = text.toString();
 
-				if ( StringUtil.isBlank( value ) )
+				if (StringUtil.isBlank(value)) {
 					return;
+				}
 
-				doEnd( value );
+				doEnd(value);
 			}
 		}
 
-		CompatibleActionExpressionState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, IStructure struct )
-		{
-			super( theHandler, element, propDefn, struct );
+		CompatibleActionExpressionState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+				IStructure struct) {
+			super(theHandler, element, propDefn, struct);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.parser.ExpressionState#parseAttrs(org.xml.sax.Attributes)
+		 *
+		 * @see
+		 * org.eclipse.birt.report.model.parser.ExpressionState#parseAttrs(org.xml.sax.
+		 * Attributes)
 		 */
 
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			super.parseAttrs( attrs );
+		@Override
+		public void parseAttrs(Attributes attrs) throws XMLParserException {
+			super.parseAttrs(attrs);
 
-			if ( DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase( name ) )
-			{
+			if (DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase(name)) {
 				name = Action.REPORT_NAME_MEMBER;
-			}
-			else if ( BOOKMARK_LINK_MEMBER.equalsIgnoreCase( name )
-					|| DRILLTHROUGH_BOOKMARK_LINK_MEMBER
-							.equalsIgnoreCase( name ) )
-			{
+			} else if (BOOKMARK_LINK_MEMBER.equalsIgnoreCase(name)
+					|| DRILLTHROUGH_BOOKMARK_LINK_MEMBER.equalsIgnoreCase(name)) {
 				name = Action.TARGET_BOOKMARK_MEMBER;
-			}
-			else if ( HYPERLINK_MEMBER.equalsIgnoreCase( name ) )
-			{
+			} else if (HYPERLINK_MEMBER.equalsIgnoreCase(name)) {
 				name = Action.URI_MEMBER;
 			}
 		}

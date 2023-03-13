@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,24 +31,28 @@ public class MarginManager extends AbstractLengthManager {
 	}
 
 	String propertyName;
-	public MarginManager( String propertyName) {
+
+	public MarginManager(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
+	@Override
 	public String getPropertyName() {
 		return propertyName;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return false;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.NUMBER_0;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();

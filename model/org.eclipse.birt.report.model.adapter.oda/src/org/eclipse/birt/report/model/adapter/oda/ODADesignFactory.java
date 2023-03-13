@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,18 +22,16 @@ import org.eclipse.birt.core.framework.Platform;
 /**
  * The factory to create ODADesignFactory so that methods in ODA DesignFactory
  * can be used.
- * 
+ *
  */
 
-public class ODADesignFactory
-{
+public class ODADesignFactory {
 
 	/**
 	 * The logger for errors.
 	 */
 
-	protected static final Logger errorLogger = Logger
-			.getLogger( ODADesignFactory.class.getName( ) );
+	protected static final Logger errorLogger = Logger.getLogger(ODADesignFactory.class.getName());
 
 	private static IODADesignFactory factory = null;
 
@@ -38,26 +39,20 @@ public class ODADesignFactory
 	 * @return the factory
 	 */
 
-	public synchronized static IODADesignFactory getFactory( )
-	{
-		if ( factory != null )
+	public synchronized static IODADesignFactory getFactory() {
+		if (factory != null) {
 			return factory;
+		}
 
-		Object adapterFactory = Platform
-				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
+		Object adapterFactory = Platform.createFactoryObject(IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY);
 
-		if ( adapterFactory == null )
-		{
-			errorLogger
-					.log( Level.SEVERE,
-							"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
+		if (adapterFactory == null) {
+			errorLogger.log(Level.SEVERE, "The platform has not yet been started. Must start it first..."); //$NON-NLS-1$
 			return null;
 		}
 
-		if ( adapterFactory instanceof IAdapterFactory )
-		{
-			factory = ( (IAdapterFactory) adapterFactory )
-					.getODADesignFactory( );
+		if (adapterFactory instanceof IAdapterFactory) {
+			factory = ((IAdapterFactory) adapterFactory).getODADesignFactory();
 		}
 
 		return factory;

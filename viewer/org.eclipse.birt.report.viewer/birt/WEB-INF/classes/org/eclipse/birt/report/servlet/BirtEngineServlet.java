@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,8 +31,7 @@ import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.utility.BirtUtility;
 
-public class BirtEngineServlet extends BaseReportEngineServlet
-{
+public class BirtEngineServlet extends BaseReportEngineServlet {
 
 	/**
 	 * TODO: what's this?
@@ -39,101 +40,80 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 
 	/**
 	 * Local initialization.
-	 * 
+	 *
 	 * @return
 	 */
-	protected void __init( ServletConfig config )
-	{
-		BirtReportServiceFactory.init( new BirtViewerReportService( config
-				.getServletContext( ) ) );
+	@Override
+	protected void __init(ServletConfig config) {
+		BirtReportServiceFactory.init(new BirtViewerReportService(config.getServletContext()));
 
-		engine = new EngineFragment( );
+		engine = new EngineFragment();
 
-		requester = new RequesterFragment( );
-		requester.buildComposite( );
-		requester.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
+		requester = new RequesterFragment();
+		requester.buildComposite();
+		requester.setJSPRootPath("/webcontent/birt"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Init context.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 *
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception BirtException
 	 * @return IContext
 	 */
-	protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response ) throws BirtException
-	{
-		BirtReportServiceFactory.getReportService( ).setContext(
-				getServletContext( ), null );
-		return new BirtContext( request, response );
+	@Override
+	protected IContext __getContext(HttpServletRequest request, HttpServletResponse response) throws BirtException {
+		BirtReportServiceFactory.getReportService().setContext(getServletContext(), null);
+		return new BirtContext(request, response);
 	}
 
 	/**
 	 * Local authentication.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 *
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @return
 	 */
-	protected boolean __authenticate( HttpServletRequest request,
-			HttpServletResponse response )
-	{
+	@Override
+	protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response) {
 		return true;
 	}
 
 	/**
 	 * Local do get.
 	 */
-	protected void __doGet( IContext context ) throws ServletException,
-			IOException, BirtException
-	{
-		ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean( );
+	@Override
+	protected void __doGet(IContext context) throws ServletException, IOException, BirtException {
+		ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean();
 		assert bean != null;
 
-		if ( ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
-				.getRequest( ).getServletPath( ) )
-				|| IBirtConstants.SERVLET_PATH_DOCUMENT
-						.equalsIgnoreCase( context.getRequest( )
-								.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_OUTPUT
-				.equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) )
-				&& bean.isShowParameterPage( ) )
-		{
-			requester.service( context.getRequest( ), context.getResponse( ) );
-		}
-		else if ( IBirtConstants.SERVLET_PATH_PARAMETER
-				.equalsIgnoreCase( context.getRequest( ).getServletPath( ) ) )
-		{
-			requester.service( context.getRequest( ), context.getResponse( ) );
-		}
-		else
-		{
-			engine.service( context.getRequest( ), context.getResponse( ) );
+		if ((IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase(context.getRequest().getServletPath())
+				|| IBirtConstants.SERVLET_PATH_DOCUMENT.equalsIgnoreCase(context.getRequest().getServletPath())
+				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase(context.getRequest().getServletPath()))
+				&& bean.isShowParameterPage()) {
+			requester.service(context.getRequest(), context.getResponse());
+		} else if (IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(context.getRequest().getServletPath())) {
+			requester.service(context.getRequest(), context.getResponse());
+		} else {
+			engine.service(context.getRequest(), context.getResponse());
 		}
 	}
 
 	/**
 	 * Process exception for non soap request.
-	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 *
+	 * @param request   incoming http request
+	 * @param response  http response
 	 * @param exception
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void __handleNonSoapException( HttpServletRequest request,
-			HttpServletResponse response, Exception exception )
-			throws ServletException, IOException
-	{
-		exception.printStackTrace( );
-		response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-		BirtUtility.appendErrorMessage( response.getOutputStream( ), exception );
+	@Override
+	protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
+			Exception exception) throws ServletException, IOException {
+		exception.printStackTrace();
+		response.setContentType("text/html; charset=utf-8"); //$NON-NLS-1$
+		BirtUtility.appendErrorMessage(response.getOutputStream(), exception);
 	}
 }

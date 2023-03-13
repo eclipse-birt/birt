@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package utility;
@@ -21,112 +24,98 @@ import java.security.ProtectionDomain;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Renamer
-{
+public class Renamer {
 
-	Renamer( ) throws IOException
-	{
-		start( );
+	Renamer() throws IOException {
+		start();
 	}
 
-	public void start( ) throws IOException
-	{
-		String path = this.getClassFolder( );
-		File packDir = new File( path );
-		File[] regressionClasses = packDir.listFiles( new FileFilter( ) {
+	public void start() throws IOException {
+		String path = this.getClassFolder();
+		File packDir = new File(path);
+		File[] regressionClasses = packDir.listFiles(new FileFilter() {
 
-			public boolean accept( File pathname )
-			{
-				if ( pathname.isFile( )
-						&& pathname.getName( ).startsWith( "Regression_" ) )
+			@Override
+			public boolean accept(File pathname) {
+				if (pathname.isFile() && pathname.getName().startsWith("Regression_")) {
 					return true;
+				}
 				return false;
 			}
-		} );
+		});
 
-		for ( int i = 0; i < regressionClasses.length; i++ )
-		{
-			System.out.println( regressionClasses[i].getName( ) );
-			this.rename( regressionClasses[i] );
+		for (int i = 0; i < regressionClasses.length; i++) {
+			System.out.println(regressionClasses[i].getName());
+			this.rename(regressionClasses[i]);
 		}
 
-		this.rename( regressionClasses[0] );
+		this.rename(regressionClasses[0]);
 	}
 
-	protected String getClassFolder( )
-	{
+	protected String getClassFolder() {
 
 		String pathBase = null;
 
-		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
-		if ( domain != null )
-		{
-			CodeSource source = domain.getCodeSource( );
-			if ( source != null )
-			{
-				URL url = source.getLocation( );
-				pathBase = url.getPath( );
+		ProtectionDomain domain = this.getClass().getProtectionDomain();
+		if (domain != null) {
+			CodeSource source = domain.getCodeSource();
+			if (source != null) {
+				URL url = source.getLocation();
+				pathBase = url.getPath();
 
-				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
-				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
+					pathBase = pathBase.substring(0, pathBase.length() - 4);
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
+					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
 		pathBase = pathBase + "src/";
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-		className = pathBase + className.replace( '.', '/' );
+		String className = this.getClass().getName();
+		int lastDotIndex = className.lastIndexOf("."); //$NON-NLS-1$
+		className = className.substring(0, lastDotIndex);
+		className = pathBase + className.replace('.', '/');
 
 		return className;
 	}
 
-	boolean rename( File javaFile ) throws IOException
-	{
-		BufferedReader br = new BufferedReader( new FileReader( javaFile ) );
+	boolean rename(File javaFile) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(javaFile));
 
-		StringBuffer sb = new StringBuffer( );
-		Pattern pattern = Pattern.compile( ".*test_Regression_[\\d]+.*" ); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder();
+		Pattern pattern = Pattern.compile(".*test_Regression_[\\d]+.*"); //$NON-NLS-1$
 
 		String line = null;
-		while ( ( line = br.readLine( ) ) != null )
-		{
-			Matcher matcher = pattern.matcher( line );
-			if ( !matcher.matches( ) )
-			{
-				sb.append( line );
-				sb.append( '\n' );
-			}
-			else
-			{
-				String fileName = javaFile.getName( );
+		while ((line = br.readLine()) != null) {
+			Matcher matcher = pattern.matcher(line);
+			if (!matcher.matches()) {
+				sb.append(line);
+				sb.append('\n');
+			} else {
+				String fileName = javaFile.getName();
 
-				String caseNo = fileName.substring(
-						fileName.indexOf( '_' ) + 1,
-						fileName.indexOf( '.' ) );
+				String caseNo = fileName.substring(fileName.indexOf('_') + 1, fileName.indexOf('.'));
 
-				int start = line.indexOf( "test_Regression_" );
-				int end = line.indexOf( '(', start
-						+ "test_Regression_".length( ) );
-				System.out.println( line.substring( start, end ) );
+				int start = line.indexOf("test_Regression_");
+				int end = line.indexOf('(', start + "test_Regression_".length());
+				System.out.println(line.substring(start, end));
 
-				String newLine = line.substring( 0, start )
-						+ "test_regression_" + caseNo + line.substring( end );
-				System.out.println( newLine );
+				String newLine = line.substring(0, start) + "test_regression_" + caseNo + line.substring(end);
+				System.out.println(newLine);
 
-				sb.append( newLine );
-				sb.append( '\n' );
+				sb.append(newLine);
+				sb.append('\n');
 			}
 		}
 
-		br.close( );
+		br.close();
 
-		PrintWriter writer = new PrintWriter( new FileWriter( javaFile ) );
-		writer.print( sb.toString( ) );
-		writer.flush( );
-		writer.close( );
+		PrintWriter writer = new PrintWriter(new FileWriter(javaFile));
+		writer.print(sb.toString());
+		writer.flush();
+		writer.close();
 
 		return true;
 	}
@@ -135,9 +124,8 @@ public class Renamer
 	 * @param args
 	 * @throws IOException
 	 */
-	public static void main( String[] args ) throws IOException
-	{
-		new Renamer( ).start( );
+	public static void main(String[] args) throws IOException {
+		new Renamer().start();
 
 	}
 

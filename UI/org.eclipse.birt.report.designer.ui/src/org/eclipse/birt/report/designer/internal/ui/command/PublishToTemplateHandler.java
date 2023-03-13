@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,28 +24,28 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.WizardDialog;
 
 /**
- * 
+ *
  */
 
-public class PublishToTemplateHandler extends SelectionHandler
-{
+public class PublishToTemplateHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 		boolean retBoolean = true;
-		super.execute( event );
+		super.execute(event);
 
-		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-				new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) ) );
-		dialog.setPageSize( 500, 250 );
-		dialog.open( );
+		WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), new PublishTemplateWizard(
+				(ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle()));
+		dialog.setPageSize(500, 250);
+		dialog.open();
 
-		return Boolean.valueOf( retBoolean );
+		return Boolean.valueOf(retBoolean);
 	}
 }

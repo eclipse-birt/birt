@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,264 +28,236 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Provide the service of reading/writing objects from one file It makes the
  * reading/writing objects transparent to DiskMergeSort.
  */
-class RowFile implements IRowIterator, ICloseListener
-{
+class RowFile implements IRowIterator, ICloseListener {
 	private File tempFile = null;
-	
+
 	private ResultObjectUtil resultObjectUtil;
-	
+
 	private int readPos = 0;
 
 	private int rowCount = 0;
 	private IResultObject[] memoryRowCache = null;
-	
+
 	private DataFileReader dfr = null;
 	private DataFileWriter dfw = null;
-	
+
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @param resultObjectUtil
 	 * @param cacheSize
 	 */
-	RowFile( File file, ResultObjectUtil resultObjectUtil, int cacheSize )
-	{
+	RowFile(File file, ResultObjectUtil resultObjectUtil, int cacheSize) {
 		assert file != null;
-		
+
 		this.tempFile = file;
 		this.resultObjectUtil = resultObjectUtil;
-		setCacheSize( cacheSize );
-		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
+		setCacheSize(cacheSize);
+		DataEngineThreadLocal.getInstance().getCloseListener().add(this);
 	}
-	
-	//-------------------------write-----------------------
+
+	// -------------------------write-----------------------
 	/**
 	 * Set cache size and initialize cache.
+	 *
 	 * @param cacheSize
 	 */
-	private void setCacheSize( int cacheSize )
-	{
-		if ( cacheSize >= 0 )
+	private void setCacheSize(int cacheSize) {
+		if (cacheSize >= 0) {
 			memoryRowCache = new IResultObject[cacheSize];
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultObject
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	void write( IResultObject resultObject ) throws IOException, DataException
-	{
+	void write(IResultObject resultObject) throws IOException, DataException {
 		IResultObject[] resultObjects = new IResultObject[1];
 		resultObjects[0] = resultObject;
-		writeRows( resultObjects, 1 );
+		writeRows(resultObjects, 1);
 	}
 
 	/**
 	 * Write one object to file.
-	 *  
+	 *
 	 * @param resultObjects
 	 * @param count
 	 * @param stopSign
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	void writeRows( IResultObject[] resultObjects, int count )
-			throws IOException, DataException
-	{
+	void writeRows(IResultObject[] resultObjects, int count) throws IOException, DataException {
 		int cacheFreeSize = memoryRowCache.length - rowCount;
-		if ( cacheFreeSize >= count )
-		{
-			writeRowsToCache( resultObjects, 0, count );
-		}
-		else
-		{
-			if ( cacheFreeSize > 0 )
-			{
-				writeRowsToCache( resultObjects, 0, cacheFreeSize );
-				writeRowsToFile( resultObjects, cacheFreeSize, count
-						- cacheFreeSize );
-			}
-			else
-			{
-				writeRowsToFile( resultObjects, 0, count );
-			}
+		if (cacheFreeSize >= count) {
+			writeRowsToCache(resultObjects, 0, count);
+		} else if (cacheFreeSize > 0) {
+			writeRowsToCache(resultObjects, 0, cacheFreeSize);
+			writeRowsToFile(resultObjects, cacheFreeSize, count - cacheFreeSize);
+		} else {
+			writeRowsToFile(resultObjects, 0, count);
 		}
 	}
 
 	/**
 	 * Write objects to cache.
-	 * 
+	 *
 	 * @param resultObjects
 	 * @param count
 	 * @throws IOException
 	 */
-	private void writeRowsToCache( IResultObject[] resultObjects, int from,
-			int count ) throws IOException
-	{
-		System.arraycopy( resultObjects, from, memoryRowCache, rowCount, count );
+	private void writeRowsToCache(IResultObject[] resultObjects, int from, int count) throws IOException {
+		System.arraycopy(resultObjects, from, memoryRowCache, rowCount, count);
 		rowCount += count;
 	}
 
 	/**
-	 * Write objects to file. 
+	 * Write objects to file.
+	 *
 	 * @param resultObjects
 	 * @param from
 	 * @param count
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void writeRowsToFile( IResultObject[] resultObjects, int from,
-			int count ) throws IOException, DataException
-	{
-		if ( dfw == null )
-		{
-			createWriter( );
+	private void writeRowsToFile(IResultObject[] resultObjects, int from, int count) throws IOException, DataException {
+		if (dfw == null) {
+			createWriter();
 		}
-		dfw.write( getSubArray( resultObjects, from, count ), count );
+		dfw.write(getSubArray(resultObjects, from, count), count);
 		rowCount += count;
 	}
-	
+
 	/**
 	 * Get subarray of a object array
+	 *
 	 * @param resultObjects
 	 * @param count
 	 * @throws IOException
 	 */
-	private IResultObject[] getSubArray( IResultObject[] resultObjects, int from,
-			int count )
-	{
+	private IResultObject[] getSubArray(IResultObject[] resultObjects, int from, int count) {
 		IResultObject[] subArray = new IResultObject[count];
-		System.arraycopy( resultObjects, from, subArray, 0, count );
+		System.arraycopy(resultObjects, from, subArray, 0, count);
 		return subArray;
 	}
-	
+
 	/**
 	 * Create a instance of DataFileWriter
 	 *
 	 */
-	private void createWriter( )
-	{
-		dfw = DataFileWriter.newInstance( tempFile, resultObjectUtil );
+	private void createWriter() {
+		dfw = DataFileWriter.newInstance(tempFile, resultObjectUtil);
 	}
 
 	/**
 	 * End write operation. This mothed must be called before fetching row object.
 	 */
-	void endWrite( )
-	{
+	void endWrite() {
 		closeWriter();
 	}
-	
+
 	/**
 	 * Close current writer object
 	 */
-	private void closeWriter( )
-	{
-		if ( dfw != null )
-		{
-			dfw.close( );
+	private void closeWriter() {
+		if (dfw != null) {
+			dfw.close();
 			dfw = null;
 		}
 	}
-	
-	//	-------------------------read------------------------
+
+	// -------------------------read------------------------
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#first()
 	 */
-	public void reset( )
-	{
+	@Override
+	public void reset() {
 		readPos = 0;
-		createReader( );
+		createReader();
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
-	public IResultObject fetch( ) throws IOException, DataException
-	{
-		IResultObject resultObject = readRowFromCache( );
-		if ( resultObject == null )
-		{
-			resultObject = readRowFromFile( );
+	@Override
+	public IResultObject fetch() throws IOException, DataException {
+		IResultObject resultObject = readRowFromCache();
+		if (resultObject == null) {
+			resultObject = readRowFromFile();
 		}
-		
+
 		return resultObject;
 	}
 
 	/**
-	 * Read one object from cache. 
-	 * 
+	 * Read one object from cache.
+	 *
 	 * @return
 	 * @throws IOException
 	 */
-	private IResultObject readRowFromCache( ) throws IOException
-	{
-		if ( readPos >= memoryRowCache.length )
-		{
+	private IResultObject readRowFromCache() throws IOException {
+		if (readPos >= memoryRowCache.length) {
 			return null;
 		}
 		return memoryRowCache[readPos++];
 	}
 
 	/**
-	 * Read one object from file. 
-	 * 
+	 * Read one object from file.
+	 *
 	 * @return
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private IResultObject readRowFromFile( ) throws IOException, DataException
-	{
-		if ( readPos >= rowCount )
-		{
+	private IResultObject readRowFromFile() throws IOException, DataException {
+		if (readPos >= rowCount) {
 			return null;
 		}
-		if ( dfr == null )
-		{
-			createReader( );
+		if (dfr == null) {
+			createReader();
 		}
 		readPos++;
-		return ( dfr.read( 1 ) )[0];
+		return (dfr.read(1))[0];
 	}
-	
+
 	/**
 	 * Create a instance of DataFileReader
 	 *
 	 */
-	private void createReader( )
-	{
-		if ( dfr != null )
-			dfr.close( );
-		
-		dfr = DataFileReader.newInstance( tempFile, resultObjectUtil );
+	private void createReader() {
+		if (dfr != null) {
+			dfr.close();
+		}
+
+		dfr = DataFileReader.newInstance(tempFile, resultObjectUtil);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.disk.IRowIterator#close()
 	 */
-	public void close( )
-	{
-		closeWriter( );
-		closeReader( );
+	@Override
+	public void close() {
+		closeWriter();
+		closeReader();
 
-		if ( tempFile != null )
-			FileSecurity.fileDelete( tempFile );
+		if (tempFile != null) {
+			FileSecurity.fileDelete(tempFile);
+		}
 		memoryRowCache = null;
 	}
-	
+
 	/**
 	 * Close current reader object
 	 */
-	private void closeReader( )
-	{
-		if ( dfr != null )
-		{
-			dfr.close( );
+	private void closeReader() {
+		if (dfr != null) {
+			dfr.close();
 			dfr = null;
 		}
 	}
-	
+
 }

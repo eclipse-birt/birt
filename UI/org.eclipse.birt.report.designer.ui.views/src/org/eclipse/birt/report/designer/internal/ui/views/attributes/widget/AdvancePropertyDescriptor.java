@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -76,15 +79,14 @@ import org.eclipse.ui.IPageLayout;
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
- * 
+ *
  * @see IPropertySource
  */
-public class AdvancePropertyDescriptor extends PropertyDescriptor
-{
+public class AdvancePropertyDescriptor extends PropertyDescriptor {
 
-	private boolean isFormStyle;
-	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
-	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
+	private static final String COLUMN_TITLE_PROPERTY = Messages
+			.getString("ReportPropertySheetPage.Column.Title.Property"); //$NON-NLS-1$
+	private static final String COLUMN_TITLE_VALUE = Messages.getString("ReportPropertySheetPage.Column.Title.Value"); //$NON-NLS-1$
 
 	private CustomTreeViewer viewer;
 
@@ -102,120 +104,111 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 
 	private static final String SORTING_PREFERENCE_KEY = "AdvancePropertyDescriptor.preference.sorting.type"; //$NON-NLS-1$
 
-	public AdvancePropertyDescriptor( boolean formStyle )
-	{
-		this.isFormStyle = formStyle;
+	public AdvancePropertyDescriptor(boolean formStyle) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
-	 * )
+	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite )
 	 */
-	public Control createControl( Composite parent )
-	{
-		container = new Composite( parent, SWT.NONE );
-		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( 1, false );
+	@Override
+	public Control createControl(Composite parent) {
+		container = new Composite(parent, SWT.NONE);
+		GridLayout layout = UIUtil.createGridLayoutWithoutMargin(1, false);
 		layout.marginTop = 2;
 		layout.marginWidth = layout.marginBottom = 1;
-		container.setLayout( layout );
-		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		container.setLayout(layout);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		initSortingType( );
+		initSortingType();
 
-		viewer = new CustomTreeViewer( container, SWT.FULL_SELECTION );
+		viewer = new CustomTreeViewer(container, SWT.FULL_SELECTION);
 
-		tableTree = viewer.getTree( );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		tableTree.setLayoutData( gd );
-		tableTree.setHeaderVisible( true );
-		tableTree.setLinesVisible( true );
+		tableTree = viewer.getTree();
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		tableTree.setLayoutData(gd);
+		tableTree.setHeaderVisible(true);
+		tableTree.setLinesVisible(true);
 
-		viewer.setContentProvider( provider.getContentProvier( ) );
+		viewer.setContentProvider(provider.getContentProvier());
 
-		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY );
-		tvc1.getColumn( ).setWidth( 300 );
-		tvc1.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getNameLabelProvier( ) ) );
+		TreeViewerColumn tvc1 = new TreeViewerColumn(viewer, SWT.NONE);
+		tvc1.getColumn().setText(COLUMN_TITLE_PROPERTY);
+		tvc1.getColumn().setWidth(300);
+		tvc1.setLabelProvider(new DelegatingStyledCellLabelProvider(provider.getNameLabelProvier()));
 
-		TreeViewerColumn tvc2 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE );
-		tvc2.getColumn( ).setWidth( 400 );
-		tvc2.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getValueLabelProvier( ) ) );
+		TreeViewerColumn tvc2 = new TreeViewerColumn(viewer, SWT.NONE);
+		tvc2.getColumn().setText(COLUMN_TITLE_VALUE);
+		tvc2.getColumn().setWidth(400);
+		tvc2.setLabelProvider(new DelegatingStyledCellLabelProvider(provider.getValueLabelProvier()));
 
-		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
-		sorter.setAscending( true );
-		viewer.setSorter( sorter );
+		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter();
+		sorter.setAscending(true);
+		viewer.setSorter(sorter);
 
-		hookControl( );
+		hookControl();
 
 		// create a new table tree editor
-		tableTreeEditor = new TreeEditor( tableTree );
+		tableTreeEditor = new TreeEditor(tableTree);
 
 		// create the editor listener
-		createEditorListener( );
+		createEditorListener();
 
-		MementoBuilder builder = new MementoBuilder( );
-		if ( ( propertySheetMemento = builder.getRootMemento( )
-				.getChild( IPageLayout.ID_PROP_SHEET ) ) == null )
-		{
-			propertySheetMemento = builder.getRootMemento( )
-					.createChild( IPageLayout.ID_PROP_SHEET,
-							MementoElement.Type_View );
+		MementoBuilder builder = new MementoBuilder();
+		propertySheetMemento = builder.getRootMemento().getChild(IPageLayout.ID_PROP_SHEET);
+		if (propertySheetMemento == null) {
+			propertySheetMemento = builder.getRootMemento().createChild(IPageLayout.ID_PROP_SHEET,
+					MementoElement.Type_View);
 		}
 
-		if ( ( viewerMemento = propertySheetMemento.getChild( propertyViewerID ) ) == null )
-		{
-			viewerMemento = propertySheetMemento.createChild( propertyViewerID,
-					MementoElement.Type_Viewer );
+		if ((viewerMemento = propertySheetMemento.getChild(propertyViewerID)) == null) {
+			viewerMemento = propertySheetMemento.createChild(propertyViewerID, MementoElement.Type_Viewer);
 		}
 
 		return container;
 	}
 
-	public void setInput( Object input )
-	{
+	@Override
+	public void setInput(Object input) {
 
 		this.input = input;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private void expandToDefaultLevel( )
-	{
+	private void expandToDefaultLevel() {
 		// open the root node by default
 
-		viewer.expandToLevel( 2 );
+		viewer.expandToLevel(2);
 
 	}
 
 	/**
 	 * Creates a new cell editor listener.
 	 */
-	private void createEditorListener( )
-	{
-		editorListener = new ICellEditorListener( ) {
+	private void createEditorListener() {
+		editorListener = new ICellEditorListener() {
 
-			public void cancelEditor( )
-			{
-				deactivateCellEditor( );
+			@Override
+			public void cancelEditor() {
+				deactivateCellEditor();
 			}
 
-			public void editorValueChanged( boolean oldValidState,
-					boolean newValidState )
-			{
+			@Override
+			public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 
 			}
 
-			public void applyEditorValue( )
-			{
-				applyValue( );
-				if ( changed )
-					refresh( );
+			@Override
+			public void applyEditorValue() {
+				applyValue();
+				if (changed) {
+					refresh();
+				}
 			}
 		};
 	}
@@ -223,177 +216,159 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 	/**
 	 * Establish this viewer as a listener on the control
 	 */
-	private void hookControl( )
-	{
+	private void hookControl() {
 		// Handle selections in the TableTree
 		// Part1: Double click only (allow traversal via keyboard without
 		// activation
-		tableTree.addSelectionListener( new SelectionAdapter( ) {
+		tableTree.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 
-				handleSelect( (TreeItem) e.item );
+				handleSelect((TreeItem) e.item);
 			}
 
-		} );
+		});
 		// Part2: handle single click activation of cell editor
-		tableTree.addMouseListener( new MouseAdapter( ) {
+		tableTree.addMouseListener(new MouseAdapter() {
 
-			public void mouseDown( MouseEvent event )
-			{
+			@Override
+			public void mouseDown(MouseEvent event) {
 				// only activate if there is a cell editor
-				Point pt = new Point( event.x, event.y );
-				TreeItem item = tableTree.getItem( pt );
-				if ( item != null )
-				{
-					if ( tableTree.getColumn( 0 ).getWidth( ) < event.x )
-					{
-						handleSelect( item );
+				Point pt = new Point(event.x, event.y);
+				TreeItem item = tableTree.getItem(pt);
+				if (item != null) {
+					if (tableTree.getColumn(0).getWidth() < event.x) {
+						handleSelect(item);
+					} else {
+						saveSelection(item);
 					}
-					else
-						saveSelection( item );
 				}
 			}
-		} );
+		});
 
-		tableTree.addKeyListener( new KeyAdapter( ) {
+		tableTree.addKeyListener(new KeyAdapter() {
 
-			public void keyReleased( KeyEvent e )
-			{
-				if ( tableTree.getSelectionCount( ) > 0 )
-					saveSelection( tableTree.getSelection( )[0] );
-				if ( e.character == SWT.ESC )
-					deactivateCellEditor( );
-				else if ( e.keyCode == SWT.F5 )
-				{
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (tableTree.getSelectionCount() > 0) {
+					saveSelection(tableTree.getSelection()[0]);
+				}
+				if (e.character == SWT.ESC) {
+					deactivateCellEditor();
+				} else if (e.keyCode == SWT.F5) {
 					// Refresh the table when F5 pressed
 					// The following will simulate a reselect
-					viewer.setInput( input );
-					IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-					if ( memento != null && memento instanceof Memento )
-					{
-						expandToDefaultLevel( );
-						expandTreeFromMemento( (Memento) memento );
+					viewer.setInput(input);
+					IMemento memento = viewerMemento.getChild(provider.getElementType());
+					if (memento instanceof Memento) {
+						expandToDefaultLevel();
+						expandTreeFromMemento((Memento) memento);
 					}
 				}
 			}
-		} );
-		viewer.addDoubleClickListener( new IDoubleClickListener( ) {
+		});
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			public void doubleClick( DoubleClickEvent event )
-			{
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
-				Object element = selection.getFirstElement( );
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				Object element = selection.getFirstElement();
 
-				if ( viewer.isExpandable( element ) )
-				{
-					viewer.setExpandedState( element,
-							!viewer.getExpandedState( element ) );
+				if (viewer.isExpandable(element)) {
+					viewer.setExpandedState(element, !viewer.getExpandedState(element));
 					int style = SWT.Expand;
-					if ( !viewer.getExpandedState( element ) )
+					if (!viewer.getExpandedState(element)) {
 						style = SWT.Collapse;
-					Event e = new Event( );
+					}
+					Event e = new Event();
 					e.widget = tableTree;
-					if ( tableTree.getSelectionCount( ) > 0 )
-						e.item = tableTree.getSelection( )[0];
-					tableTree.notifyListeners( style, e );
+					if (tableTree.getSelectionCount() > 0) {
+						e.item = tableTree.getSelection()[0];
+					}
+					tableTree.notifyListeners(style, e);
 				}
 			}
-		} );
+		});
 
-		treeListener = new TreeListener( ) {
+		treeListener = new TreeListener() {
 
-			public void treeCollapsed( TreeEvent e )
-			{
-				if ( e.item instanceof TreeItem )
-				{
+			@Override
+			public void treeCollapsed(TreeEvent e) {
+				if (e.item instanceof TreeItem) {
 					TreeItem item = (TreeItem) e.item;
-					if ( input != null )
-					{
-						Object obj = DEUtil.getInputFirstElement( input );
-						if ( obj instanceof DesignElementHandle )
-						{
-							Memento element = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-							if ( element != null )
-							{
-								MementoElement[] path = createItemPath( item );
-								provider.removeNode( element, path );
+					if (input != null) {
+						Object obj = DEUtil.getInputFirstElement(input);
+						if (obj instanceof DesignElementHandle) {
+							Memento element = (Memento) viewerMemento.getChild(provider.getElementType());
+							if (element != null) {
+								MementoElement[] path = createItemPath(item);
+								provider.removeNode(element, path);
 							}
 						}
 					}
-					viewer.getTree( ).setSelection( item );
-					saveSelection( item );
+					viewer.getTree().setSelection(item);
+					saveSelection(item);
 				}
 			}
 
-			public void treeExpanded( TreeEvent e )
-			{
-				if ( e.item instanceof TreeItem )
-				{
+			@Override
+			public void treeExpanded(TreeEvent e) {
+				if (e.item instanceof TreeItem) {
 					TreeItem item = (TreeItem) e.item;
-					if ( input != null )
-					{
-						Object obj = DEUtil.getInputFirstElement( input );
-						if ( obj instanceof DesignElementHandle )
-						{
-							Memento element = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-							if ( element != null )
-							{
-								MementoElement[] path = createItemPath( item );
-								provider.addNode( element, path );
+					if (input != null) {
+						Object obj = DEUtil.getInputFirstElement(input);
+						if (obj instanceof DesignElementHandle) {
+							Memento element = (Memento) viewerMemento.getChild(provider.getElementType());
+							if (element != null) {
+								MementoElement[] path = createItemPath(item);
+								provider.addNode(element, path);
 							}
 						}
 					}
-					viewer.getTree( ).setSelection( item );
-					saveSelection( item );
+					viewer.getTree().setSelection(item);
+					saveSelection(item);
 				}
 
 			}
 
 		};
 
-		tableTree.addTreeListener( treeListener );
+		tableTree.addTreeListener(treeListener);
 	}
 
-	protected MementoElement[] createItemPath( TreeItem item )
-	{
+	protected MementoElement[] createItemPath(TreeItem item) {
 		MementoElement tempMemento = null;
-		while ( item.getParentItem( ) != null )
-		{
-			TreeItem parent = item.getParentItem( );
-			for ( int i = 0; i < parent.getItemCount( ); i++ )
-			{
-				if ( parent.getItem( i ) == item )
-				{
-					MementoElement memento = new MementoElement( item.getText( ),
-							Integer.valueOf( i ),
-							MementoElement.Type_Element );
-					if ( tempMemento != null )
-						memento.addChild( tempMemento );
+		while (item.getParentItem() != null) {
+			TreeItem parent = item.getParentItem();
+			for (int i = 0; i < parent.getItemCount(); i++) {
+				if (parent.getItem(i) == item) {
+					MementoElement memento = new MementoElement(item.getText(), Integer.valueOf(i),
+							MementoElement.Type_Element);
+					if (tempMemento != null) {
+						memento.addChild(tempMemento);
+					}
 					tempMemento = memento;
 					item = parent;
 					break;
 				}
 			}
 		}
-		MementoElement memento = new MementoElement( item.getText( ),
-				Integer.valueOf( 0 ),
-				MementoElement.Type_Element );
-		if ( tempMemento != null )
-			memento.addChild( tempMemento );
-		return provider.getNodePath( memento );
+		MementoElement memento = new MementoElement(item.getText(), Integer.valueOf(0), MementoElement.Type_Element);
+		if (tempMemento != null) {
+			memento.addChild(tempMemento);
+		}
+		return provider.getNodePath(memento);
 	}
 
-	private void deactivateCellEditor( )
-	{
-		tableTreeEditor.setEditor( null, null, columnToEdit );
-		if ( cellEditor != null )
-		{
-			cellEditor.deactivate( );
-			applyValue( );
-			if ( cellEditor != null )
-				cellEditor.removeListener( editorListener );
+	private void deactivateCellEditor() {
+		tableTreeEditor.setEditor(null, null, columnToEdit);
+		if (cellEditor != null) {
+			cellEditor.deactivate();
+			applyValue();
+			if (cellEditor != null) {
+				cellEditor.removeListener(editorListener);
+			}
 			cellEditor = null;
 		}
 	}
@@ -401,99 +376,70 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 	/**
 	 * @param item
 	 */
-	protected void handleSelect( TreeItem selection )
-	{
+	protected void handleSelect(TreeItem selection) {
 		// deactivate the current cell editor
-		if ( cellEditor != null )
-		{
+		if (cellEditor != null) {
 			// applyValue( );
-			deactivateCellEditor( );
+			deactivateCellEditor();
 		}
 
 		// get the new selection
-		TreeItem[] sel = new TreeItem[]{
-			selection
-		};
-		if ( sel.length == 0 )
-		{
+		TreeItem[] sel = { selection };
+		if (sel.length == 0) {
 
-		}
-		else
-		{
+		} else {
 			// activate a cell editor on the selection
 			// assume single selection
-			activateCellEditor( sel[0] );
+			activateCellEditor(sel[0]);
 		}
 
-		saveSelection( selection );
+		saveSelection(selection);
 	}
 
-	protected void saveSelection( TreeItem selection )
-	{
-		MementoElement[] selectPath = createItemPath( selection );
-		if ( input != null )
-		{
-			Object obj = DEUtil.getInputFirstElement( input );
-			if ( obj instanceof DesignElementHandle )
-			{
-				Memento element = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-				if ( element != null )
-				{
-					element.getMementoElement( )
-							.setAttribute( MementoElement.ATTRIBUTE_SELECTED,
-									selectPath );
+	protected void saveSelection(TreeItem selection) {
+		MementoElement[] selectPath = createItemPath(selection);
+		if (input != null) {
+			Object obj = DEUtil.getInputFirstElement(input);
+			if (obj instanceof DesignElementHandle) {
+				Memento element = (Memento) viewerMemento.getChild(provider.getElementType());
+				if (element != null) {
+					element.getMementoElement().setAttribute(MementoElement.ATTRIBUTE_SELECTED, selectPath);
 				}
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private void applyValue( )
-	{
-		if ( cellEditor == null || !cellEditor.isDirty( ) )
-		{
+	private void applyValue() {
+		if (cellEditor == null || !cellEditor.isDirty()) {
 			return;
 		}
 
-		if ( model instanceof GroupPropertyHandleWrapper )
-		{
-			try
-			{
-				GroupPropertyHandle handle = ( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) );
+		if (model instanceof GroupPropertyHandleWrapper) {
+			try {
+				GroupPropertyHandle handle = ((GroupPropertyHandle) ((GroupPropertyHandleWrapper) model).getModel());
 
-				if ( cellEditor.getValue( ) instanceof String )
-				{
-					if ( handle.getStringValue( ) != null
-							&& handle.getStringValue( )
-									.equals( cellEditor.getValue( ) ) )
+				if (cellEditor.getValue() instanceof String) {
+					if (handle.getStringValue() != null && handle.getStringValue().equals(cellEditor.getValue())) {
 						return;
+					}
+				} else if (handle.getValue() != null && handle.getValue().equals(cellEditor.getValue())) {
+					return;
 				}
-				else
-				{
-					if ( handle.getValue( ) != null
-							&& handle.getValue( )
-									.equals( cellEditor.getValue( ) ) )
-						return;
-				}
-				handle.setValue( cellEditor.getValue( ) );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionUtil.handle( e );
+				handle.setValue(cellEditor.getValue());
+			} catch (SemanticException e) {
+				ExceptionUtil.handle(e);
 
 				// get the new selection
-				TreeItem[] sel = viewer.getTree( ).getSelection( );
-				if ( sel.length == 0 )
-				{
+				TreeItem[] sel = viewer.getTree().getSelection();
+				if (sel.length == 0) {
 					// Do nothing
-				}
-				else
-				{
+				} else {
 					// activate a cell editor on the selection
 					// assume single selection
-					activateCellEditor( sel[0] );
+					activateCellEditor(sel[0]);
 				}
 			}
 		}
@@ -502,71 +448,67 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 	/**
 	 * @param item
 	 */
-	private void activateCellEditor( TreeItem sel )
-	{
+	private void activateCellEditor(TreeItem sel) {
 
-		if ( sel.isDisposed( ) )
+		if (sel.isDisposed()) {
 			return;
-		model = sel.getData( );
+		}
+		model = sel.getData();
 
 		// ensure the cell editor is visible
-		tableTree.showSelection( );
+		tableTree.showSelection();
 
-		cellEditor = createCellEditor( model );
+		cellEditor = createCellEditor(model);
 
-		if ( cellEditor == null )
+		if (cellEditor == null) {
 			// unable to create the editor
 			return;
+		}
 
 		// set the created editor as current editor
-		tableTreeEditor.setEditor( cellEditor.getControl( ) );
+		tableTreeEditor.setEditor(cellEditor.getControl());
 
 		// activate the cell editor
-		cellEditor.activate( );
+		cellEditor.activate();
 
 		// if the cell editor has no control we can stop now
-		Control control = cellEditor.getControl( );
-		if ( control == null )
-		{
-			cellEditor.deactivate( );
+		Control control = cellEditor.getControl();
+		if (control == null) {
+			cellEditor.deactivate();
 			cellEditor = null;
 			return;
 		}
 
 		// add our editor listener
-		cellEditor.addListener( editorListener );
+		cellEditor.addListener(editorListener);
 
 		// set the layout of the table tree editor to match the cell editor
-		CellEditor.LayoutData layout = cellEditor.getLayoutData( );
+		CellEditor.LayoutData layout = cellEditor.getLayoutData();
 		tableTreeEditor.horizontalAlignment = layout.horizontalAlignment;
 		tableTreeEditor.grabHorizontal = layout.grabHorizontal;
 		tableTreeEditor.minimumWidth = layout.minimumWidth;
-		tableTreeEditor.setEditor( control, sel, columnToEdit );
+		tableTreeEditor.setEditor(control, sel, columnToEdit);
 
 		// give focus to the cell editor
-		cellEditor.setFocus( );
+		cellEditor.setFocus();
 
 	}
 
 	/**
 	 * @param data
 	 */
-	private CellEditor createCellEditor( Object data )
-	{
+	private CellEditor createCellEditor(Object data) {
 		CellEditor editor = null;
-		if ( data instanceof GroupPropertyHandleWrapper
-				&& ( (GroupPropertyHandle) ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ) ).isVisible( ) )
-		{
-			editor = PropertyEditorFactory.getInstance( )
-					.createPropertyEditor( tableTree,
-							( (GroupPropertyHandleWrapper) data ).getModel( ) );
+		if (data instanceof GroupPropertyHandleWrapper
+				&& ((GroupPropertyHandle) (((GroupPropertyHandleWrapper) data)).getModel()).isVisible()) {
+			editor = PropertyEditorFactory.getInstance().createPropertyEditor(tableTree,
+					((GroupPropertyHandleWrapper) data).getModel());
 
-			if ( editor instanceof ExpressionCellEditor )
-			{
-				if ( DEUtil.getInputSize( input ) > 0 )
-				{
-					( (ExpressionCellEditor) editor ).setExpressionInput( new ExpressionProvider( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ),
-							DEUtil.getInputFirstElement( input ) );
+			if (editor instanceof ExpressionCellEditor) {
+				if (DEUtil.getInputSize(input) > 0) {
+					((ExpressionCellEditor) editor).setExpressionInput(
+							new ExpressionProvider((DesignElementHandle) DEUtil.getInputFirstElement(input)),
+							DEUtil.getInputFirstElement(input));
 				}
 			}
 
@@ -577,334 +519,286 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.IPage#getControl()
 	 */
-	public Control getControl( )
-	{
-		if ( container == null )
-			return null;
+	@Override
+	public Control getControl() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.IPage#setFocus()
 	 */
-	public void setFocus( )
-	{
-		getControl( ).setFocus( );
+	public void setFocus() {
+		getControl().setFocus();
 
-		if ( changed )
-			refresh( );
+		if (changed) {
+			refresh();
+		}
 
 	}
 
-	protected void refresh( )
-	{
-		viewer.getTree( ).deselectAll( );
+	protected void refresh() {
+		viewer.getTree().deselectAll();
 
-		viewer.refresh( true );
-		deactivateCellEditor( );
-		if ( input != null )
-		{
-			Object obj = DEUtil.getInputFirstElement( input );
-			if ( obj instanceof DesignElementHandle )
-			{
-				execMemento( );
+		viewer.refresh(true);
+		deactivateCellEditor();
+		if (input != null) {
+			Object obj = DEUtil.getInputFirstElement(input);
+			if (obj instanceof DesignElementHandle) {
+				execMemento();
 			}
 		}
 
 		changed = false;
 	}
 
-	private void expandTreeFromMemento( Memento memento )
-	{
-		if ( viewer.getTree( ).getItemCount( ) == 0 )
+	private void expandTreeFromMemento(Memento memento) {
+		if (viewer.getTree().getItemCount() == 0) {
 			return;
-		TreeItem root = viewer.getTree( ).getItem( 0 );
-		if ( memento.getMementoElement( ).getKey( ).equals( root.getText( ) ) )
-		{
-			restoreExpandedMemento( root, memento.getMementoElement( ) );
-			Object obj = memento.getMementoElement( )
-					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-			if ( obj != null )
-				restoreSelectedMemento( root, (MementoElement[]) obj );
+		}
+		TreeItem root = viewer.getTree().getItem(0);
+		if (memento.getMementoElement().getKey().equals(root.getText())) {
+			restoreExpandedMemento(root, memento.getMementoElement());
+			Object obj = memento.getMementoElement().getAttribute(MementoElement.ATTRIBUTE_SELECTED);
+			if (obj != null) {
+				restoreSelectedMemento(root, (MementoElement[]) obj);
+			}
 		}
 	}
 
-	private void restoreSelectedMemento( TreeItem root,
-			MementoElement[] selectedPath )
-	{
-		if ( selectedPath.length <= 1 )
+	private void restoreSelectedMemento(TreeItem root, MementoElement[] selectedPath) {
+		if (selectedPath.length <= 1) {
 			return;
-		for ( int i = 1; i < selectedPath.length; i++ )
-		{
+		}
+		for (int i = 1; i < selectedPath.length; i++) {
 			MementoElement element = selectedPath[i];
-			if ( !root.getExpanded( ) )
-			{
-				viewer.createChildren( root );
-				root.setExpanded( true );
+			if (!root.getExpanded()) {
+				viewer.createChildren(root);
+				root.setExpanded(true);
 			}
-			if ( root.getItemCount( ) > ( (Integer) element.getValue( ) ).intValue( ) )
-			{
-				root = root.getItem( ( (Integer) element.getValue( ) ).intValue( ) );
-			}
-			else
+			if (root.getItemCount() > ((Integer) element.getValue()).intValue()) {
+				root = root.getItem(((Integer) element.getValue()).intValue());
+			} else {
 				return;
+			}
 		}
-		viewer.getTree( ).setSelection( root );
+		viewer.getTree().setSelection(root);
 
 	}
 
-	private void restoreExpandedMemento( TreeItem root, MementoElement memento )
-	{
-		if ( memento.getKey( ).equals( root.getText( ) ) )
-		{
-			if ( !root.getExpanded( ) )
-				viewer.createChildren( root );
-			if ( root.getItemCount( ) > 0 )
-			{
-				if ( !root.getExpanded( ) )
-					root.setExpanded( true );
-				MementoElement[] children = memento.getChildren( );
-				for ( int i = 0; i < children.length; i++ )
-				{
+	private void restoreExpandedMemento(TreeItem root, MementoElement memento) {
+		if (memento.getKey().equals(root.getText())) {
+			if (!root.getExpanded()) {
+				viewer.createChildren(root);
+			}
+			if (root.getItemCount() > 0) {
+				if (!root.getExpanded()) {
+					root.setExpanded(true);
+				}
+				MementoElement[] children = memento.getChildren();
+				for (int i = 0; i < children.length; i++) {
 					MementoElement child = children[i];
-					int index = ( (Integer) child.getValue( ) ).intValue( );
-					if ( index >= 0 && index < root.getItemCount( ) )
-					{
-						TreeItem item = root.getItem( index );
-						restoreExpandedMemento( item, child );
+					int index = ((Integer) child.getValue()).intValue();
+					if (index >= 0 && index < root.getItemCount()) {
+						TreeItem item = root.getItem(index);
+						restoreExpandedMemento(item, child);
 					}
 				}
 			}
 		}
 	}
 
-	private static class CustomTreeViewer extends TreeViewer
-	{
+	private static class CustomTreeViewer extends TreeViewer {
 
-		public CustomTreeViewer( Composite parent, int style )
-		{
-			super( parent, style );
+		public CustomTreeViewer(Composite parent, int style) {
+			super(parent, style);
 		}
 
-		public void createChildren( Widget widget )
-		{
-			super.createChildren( widget );
+		@Override
+		public void createChildren(Widget widget) {
+			super.createChildren(widget);
 		}
 	}
 
-	public void load( )
-	{
+	@Override
+	public void load() {
 		// deRegisterEventManager( );
 
-		if ( viewer.getTree( ) != null && !viewer.getTree( ).isDisposed( ) )
-		{
-			viewer.getTree( ).deselectAll( );
-			if ( updateSorting )
-				viewer.getTree( ).removeAll( );
-			viewer.refresh( true );
+		if (viewer.getTree() != null && !viewer.getTree().isDisposed()) {
+			viewer.getTree().deselectAll();
+			if (updateSorting) {
+				viewer.getTree().removeAll();
+			}
+			viewer.refresh(true);
 		}
 
-		if ( !provider.isEnable( ) )
-		{
-			viewer.setInput( null );
+		if (!provider.isEnable()) {
+			viewer.setInput(null);
 			return;
 		}
 
-		if ( input == null || viewer.getInput( ) == null )
-		{
-			viewer.setInput( input );
+		if (input == null || viewer.getInput() == null) {
+			viewer.setInput(input);
+		} else if (input.equals(viewer.getInput())) {
+			viewer.refresh();
+		} else {
+			viewer.setInput(input);
 		}
-		else if ( input.equals( viewer.getInput( ) ) )
-		{
-			viewer.refresh( );
-		}
-		else
-			viewer.setInput( input );
 
 		// registerEventManager( );
-		execMemento( );
+		execMemento();
 	}
 
 	private boolean execMemento = false;
 
 	private int oldViewMode = -1;
 
-	private void execMemento( )
-	{
-		if ( !execMemento )
-		{
+	private void execMemento() {
+		if (!execMemento) {
 			execMemento = true;
 
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
+			Display.getCurrent().asyncExec(new Runnable() {
 
-				public void run( )
-				{
-					if ( !viewer.getTree( ).isDisposed( ) )
-					{
+				@Override
+				public void run() {
+					if (!viewer.getTree().isDisposed()) {
 						// deactivateCellEditor( );
-						IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-						if ( memento == null )
-						{
-							provider.setInput( input );
-							viewer.getTree( ).removeAll( );
-							viewer.refresh( );
+						IMemento memento = viewerMemento.getChild(provider.getElementType());
+						if (memento == null) {
+							provider.setInput(input);
+							viewer.getTree().removeAll();
+							viewer.refresh();
 
-							expandToDefaultLevel( );
+							expandToDefaultLevel();
 
-							if ( viewer.getTree( ).getItemCount( ) > 0 )
-							{
-								Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-										MementoElement.Type_Element );
-								elementMemento.getMementoElement( )
-										.setValue( Integer.valueOf( 0 ) );
+							if (viewer.getTree().getItemCount() > 0) {
+								Memento elementMemento = (Memento) viewerMemento.createChild(provider.getElementType(),
+										MementoElement.Type_Element);
+								elementMemento.getMementoElement().setValue(Integer.valueOf(0));
 							}
-						}
-						else if ( memento instanceof Memento )
-						{
+						} else if (memento instanceof Memento) {
 							// expandToDefaultLevel( );
 
-							if ( treeListener != null )
-								viewer.getTree( )
-										.removeTreeListener( treeListener );
-							if ( provider.getViewMode( ) != oldViewMode )
-							{
-								viewer.getTree( ).removeAll( );
-								oldViewMode = provider.getViewMode( );
+							if (treeListener != null) {
+								viewer.getTree().removeTreeListener(treeListener);
 							}
-							expandToDefaultLevel( );
-							if ( treeListener != null )
-								viewer.getTree( )
-										.addTreeListener( treeListener );
+							if (provider.getViewMode() != oldViewMode) {
+								viewer.getTree().removeAll();
+								oldViewMode = provider.getViewMode();
+							}
+							expandToDefaultLevel();
+							if (treeListener != null) {
+								viewer.getTree().addTreeListener(treeListener);
+							}
 
-							if ( provider.getViewMode( ) == AdvancePropertyDescriptorProvider.MODE_GROUPED )
-								expandTreeFromMemento( (Memento) memento );
+							if (provider.getViewMode() == AdvancePropertyDescriptorProvider.MODE_GROUPED) {
+								expandTreeFromMemento((Memento) memento);
+							}
 
-							Object obj = ( (Memento) memento ).getMementoElement( )
-									.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-							if ( obj != null )
-							{
-								restoreSelectedMemento( viewer.getTree( )
-										.getItem( 0 ), (MementoElement[]) obj );
+							Object obj = ((Memento) memento).getMementoElement()
+									.getAttribute(MementoElement.ATTRIBUTE_SELECTED);
+							if (obj != null) {
+								restoreSelectedMemento(viewer.getTree().getItem(0), (MementoElement[]) obj);
 							}
 						}
 
 					}
 					execMemento = false;
 				}
-			} );
+			});
 
 		}
 
 	}
 
-	private void initSortingType( )
-	{
-		PreferenceFactory.getInstance( )
-				.getPreferences( ReportViewsPlugin.getDefault( ) )
-				.setDefault( SORTING_PREFERENCE_KEY,
-						AdvancePropertyDescriptorProvider.MODE_GROUPED );
+	private void initSortingType() {
+		PreferenceFactory.getInstance().getPreferences(ReportViewsPlugin.getDefault())
+				.setDefault(SORTING_PREFERENCE_KEY, AdvancePropertyDescriptorProvider.MODE_GROUPED);
 
-		provider.selectViewMode( PreferenceFactory.getInstance( )
-				.getPreferences( ReportViewsPlugin.getDefault( ) )
-				.getInt( SORTING_PREFERENCE_KEY ) );
+		provider.selectViewMode(PreferenceFactory.getInstance().getPreferences(ReportViewsPlugin.getDefault())
+				.getInt(SORTING_PREFERENCE_KEY));
 	}
 
-	private void saveSortingType( )
-	{
-		PreferenceFactory.getInstance( )
-				.getPreferences( ReportViewsPlugin.getDefault( ) )
-				.setValue( SORTING_PREFERENCE_KEY, provider.getViewMode( ) );
+	private void saveSortingType() {
+		PreferenceFactory.getInstance().getPreferences(ReportViewsPlugin.getDefault()).setValue(SORTING_PREFERENCE_KEY,
+				provider.getViewMode());
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
+	@Override
+	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
-	};
+	}
 
 	private AdvancePropertyDescriptorProvider provider;
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
-	 * PropertyDescriptor
-	 * #setDescriptorProvider(org.eclipse.birt.report.designer.
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor #setDescriptorProvider(org.eclipse.birt.report.designer.
 	 * internal.ui.views.attributes.provider.IDescriptorProvider)
 	 */
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
-		if ( getDescriptorProvider( ) instanceof AdvancePropertyDescriptorProvider )
-		{
-			this.provider = (AdvancePropertyDescriptorProvider) getDescriptorProvider( );
+	@Override
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
+		if (getDescriptorProvider() instanceof AdvancePropertyDescriptorProvider) {
+			this.provider = (AdvancePropertyDescriptorProvider) getDescriptorProvider();
 		}
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		getControl( ).setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		getControl().setVisible(isVisible);
 
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( getControl( ), isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(getControl(), isHidden);
 	}
 
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
-
-	}
-
-	public void clear( )
-	{
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
-	public boolean isOverdued( )
-	{
-		return viewer.getTree( ) == null || viewer.getTree( ).isDisposed( );
+	public void clear() {
+
+	}
+
+	public boolean isOverdued() {
+		return viewer.getTree() == null || viewer.getTree().isDisposed();
 	}
 
 	private boolean changed = false;
 	private TreeListener treeListener;
 
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
 	boolean updateSorting = false;
 
-	public void updateSorting( int sortingType )
-	{
+	public void updateSorting(int sortingType) {
 		updateSorting = true;
-		if ( cellEditor != null )
-		{
-			cellEditor.deactivate( );
-			applyValue( );
+		if (cellEditor != null) {
+			cellEditor.deactivate();
+			applyValue();
 		}
-		deactivateCellEditor( );
-		Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-		if ( memento != null )
-		{
-			saveSortingType( );
+		deactivateCellEditor();
+		Memento memento = (Memento) viewerMemento.getChild(provider.getElementType());
+		if (memento != null) {
+			saveSortingType();
 
-			Object obj = ( (Memento) memento ).getMementoElement( )
-					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-			if ( obj != null )
-				( (Memento) memento ).getMementoElement( )
-						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
+			Object obj = ((Memento) memento).getMementoElement().getAttribute(MementoElement.ATTRIBUTE_SELECTED);
+			if (obj != null) {
+				((Memento) memento).getMementoElement().setAttribute(MementoElement.ATTRIBUTE_SELECTED, null);
+			}
 		}
-		deactivateCellEditor( );
-		execMemento( );
+		deactivateCellEditor();
+		execMemento();
 		updateSorting = false;
 	}
 }

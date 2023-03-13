@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,8 +32,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
  * <code>IParameter</code>
  */
 
-public class ParameterFactory
-{
+public class ParameterFactory {
 
 	private IGetParameterDefinitionTask task = null;
 
@@ -54,74 +56,65 @@ public class ParameterFactory
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param task
 	 */
 
-	public ParameterFactory( IGetParameterDefinitionTask task )
-	{
+	public ParameterFactory(IGetParameterDefinitionTask task) {
 		this.task = task;
 	}
 
 	/**
 	 * Gets children of root.
-	 * 
+	 *
 	 * @param task
 	 * @return children of root.
 	 */
 
-	public List getRootChildren( )
-	{
-		IReportRunnable runnable = task.getReportRunnable( );
-		if ( runnable == null )
+	public List getRootChildren() {
+		IReportRunnable runnable = task.getReportRunnable();
+		if (runnable == null) {
 			return null;
-		DesignElementHandle designHandle = runnable.getDesignHandle( );
-		if ( designHandle == null )
+		}
+		DesignElementHandle designHandle = runnable.getDesignHandle();
+		if (designHandle == null) {
 			return null;
+		}
 
-		assert designHandle.getRoot( ) != null;
+		assert designHandle.getRoot() != null;
 
-		List parameters = designHandle.getRoot( )
-				.getParametersAndParameterGroups( );
-		Iterator iterator = parameters.iterator( );
+		List parameters = designHandle.getRoot().getParametersAndParameterGroups();
+		Iterator iterator = parameters.iterator();
 
 		// The design handle of root is null.
 
-		List childrenList = new ArrayList( );
-		while ( iterator.hasNext( ) )
-		{
-			DesignElementHandle handle = (DesignElementHandle) iterator.next( );
+		List childrenList = new ArrayList();
+		while (iterator.hasNext()) {
+			DesignElementHandle handle = (DesignElementHandle) iterator.next();
 
-			if ( handle instanceof ScalarParameterHandle )
-			{
+			if (handle instanceof ScalarParameterHandle) {
 				// build parameter
 
-				IParameter param = createScalarParameter( (ScalarParameterHandle) handle );
-				childrenList.add( param );
-			}
-			else if ( handle instanceof ParameterHandle )
-			{
+				IParameter param = createScalarParameter((ScalarParameterHandle) handle);
+				childrenList.add(param);
+			} else if (handle instanceof ParameterHandle) {
 				// Now do nothing.
-			}
-			else if ( handle instanceof CascadingParameterGroupHandle )
-			{
+			} else if (handle instanceof CascadingParameterGroupHandle) {
 				// build cascading parameter
 
 				ParameterGroupHandle groupHandle = (ParameterGroupHandle) handle;
-				IParamGroup group = new CascadingGroup( groupHandle );
-				childrenList.add( group );
+				IParamGroup group = new CascadingGroup(groupHandle);
+				childrenList.add(group);
 
-				createParameterGroup( group, groupHandle );
-			}
-			else if ( handle instanceof ParameterGroupHandle )
-			{
+				createParameterGroup(group, groupHandle);
+			} else if (handle instanceof ParameterGroupHandle) {
 				// build parameter group
 
 				ParameterGroupHandle groupHandle = (ParameterGroupHandle) handle;
-				IParamGroup group = new ParamGroup( groupHandle );
-				childrenList.add( group );
+				IParamGroup group = new ParamGroup(groupHandle);
+				childrenList.add(group);
 
-				createParameterGroup( group, groupHandle );
+				createParameterGroup(group, groupHandle);
 			}
 		}
 
@@ -130,94 +123,78 @@ public class ParameterFactory
 
 	/**
 	 * Creates parameter group.
-	 * 
+	 *
 	 * @param group
 	 * @param task
 	 * @param groupHandle
 	 */
 
-	private void createParameterGroup( IParamGroup group,
-			ParameterGroupHandle groupHandle )
-	{
+	private void createParameterGroup(IParamGroup group, ParameterGroupHandle groupHandle) {
 		assert group != null;
 		assert groupHandle != null;
 
-		SlotHandle slotHandle = groupHandle.getSlot( ParameterGroupHandle.PARAMETERS_SLOT );
+		SlotHandle slotHandle = groupHandle.getSlot(ParameterGroupHandle.PARAMETERS_SLOT);
 
 		// Now parameter group only contains parameter. can't contain parameter
 		// group.
 
-		Iterator iterator = slotHandle.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			ParameterHandle handle = (ParameterHandle) iterator.next( );
-			createParameter( group, handle );
+		Iterator iterator = slotHandle.iterator();
+		while (iterator.hasNext()) {
+			ParameterHandle handle = (ParameterHandle) iterator.next();
+			createParameter(group, handle);
 		}
 	}
 
 	/**
 	 * Create parameter.
-	 * 
+	 *
 	 * @param parentGroup
 	 * @param paramHandle
 	 */
 
-	private IParameter createParameter( IParamGroup parentGroup,
-			ParameterHandle paramHandle )
-	{
+	private IParameter createParameter(IParamGroup parentGroup, ParameterHandle paramHandle) {
 		assert parentGroup != null;
 		assert paramHandle != null;
 
 		IParameter param = null;
 
-		if ( paramHandle instanceof ScalarParameterHandle )
-		{
-			param = createScalarParameter( (ScalarParameterHandle) paramHandle );
+		if (paramHandle instanceof ScalarParameterHandle) {
+			param = createScalarParameter((ScalarParameterHandle) paramHandle);
 		}
 
 		// TODO for other parameter type.
 
-		if ( param != null )
-		{
-			parentGroup.addParameter( param );
+		if (param != null) {
+			parentGroup.addParameter(param);
 		}
 		return param;
 	}
 
 	/**
 	 * Creates scalar parameter.
-	 * 
+	 *
 	 * @param paramHandle
 	 * @return scalar parameter.
 	 */
 
-	private ScalarParam createScalarParameter( ScalarParameterHandle paramHandle )
-	{
+	private ScalarParam createScalarParameter(ScalarParameterHandle paramHandle) {
 		ScalarParam param = null;
-		String controlType = paramHandle.getControlType( );
-		if ( controlType.equals( LIST_BOX ) )
-		{
-			boolean mustMatch = paramHandle.isMustMatch( );
-			if ( mustMatch )
-			{
+		String controlType = paramHandle.getControlType();
+		if (controlType.equals(LIST_BOX)) {
+			boolean mustMatch = paramHandle.isMustMatch();
+			if (mustMatch) {
 				// list - box
 
-				param = new ListBoxParam( paramHandle, task );
-			}
-			else
-			{
+				param = new ListBoxParam(paramHandle, task);
+			} else {
 				// combo-box
 
-				param = new ComboBoxParam( paramHandle, task );
+				param = new ComboBoxParam(paramHandle, task);
 			}
-		}
-		else if ( controlType.equals( TEXT_BOX ) )
-		{
-			param = new StaticTextParam( paramHandle, task );
-		}
-		else if ( controlType.equals( RADIO_BUTTON ) )
-		{
-			param = new RadioParam( paramHandle, task );
+		} else if (controlType.equals(TEXT_BOX)) {
+			param = new StaticTextParam(paramHandle, task);
+		} else if (controlType.equals(RADIO_BUTTON)) {
+			param = new RadioParam(paramHandle, task);
 		}
 
 		return param;

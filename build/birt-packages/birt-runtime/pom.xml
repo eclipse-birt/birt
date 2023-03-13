@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build.package</groupId>
 		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
@@ -47,7 +61,7 @@
 						<phase>clean</phase>
 						<configuration>
 							<target>
-								<ant antfile="build.xml" target="clean" dir="${basedir}"/>
+								<ant antfile="build.xml" target="clean" dir="${basedir}" />
 							</target>
 						</configuration>
 						<goals>
@@ -60,9 +74,9 @@
 						<configuration>
 							<target>
 								<ant antfile="build.xml" target="package" dir="${basedir}">
-									<property name="BIRT_VERSION" value="${unqualifiedVersion}-${maven.build.timestamp}"/>
+									<property name="BIRT_VERSION" value="${unqualifiedVersion}-${maven.build.timestamp}" />
 								</ant>
-								<attachartifact file="${project.build.directory}/birt-runtime-${unqualifiedVersion}-${maven.build.timestamp}.zip" type="zip"/>
+								<attachartifact file="${project.build.directory}/birt-runtime-${unqualifiedVersion}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>
@@ -70,7 +84,7 @@
 						</goals>
 					</execution>
 				</executions>
-		</plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>

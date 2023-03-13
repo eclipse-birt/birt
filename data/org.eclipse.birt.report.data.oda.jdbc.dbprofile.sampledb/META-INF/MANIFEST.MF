@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb;singleton:=true
-Bundle-Version: 4.9.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Version: 4.13.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,5.0.0)",
  org.eclipse.datatools.connectivity;bundle-version="[1.2.2,2.0.0)",
  org.eclipse.birt.report.data.oda.sampledb;bundle-version="[2.3.0,5.0.0)",
@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,5.0.0)",
  org.eclipse.datatools.connectivity.oda.consumer;bundle-version="[3.2.4,4.0.0)",
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.6,4.0.0)"
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb
+Export-Package: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nls;x-internal:=true

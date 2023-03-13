@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,92 +29,94 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * For the report topo edit part to process the model event through the GraphicsViewModelEventProcessor.
+ * For the report topo edit part to process the model event through the
+ * GraphicsViewModelEventProcessor.
  */
 
-public abstract class AbstractReportEditPart extends ReportElementEditPart implements
-		IAdvanceModelEventFactory
-{
+public abstract class AbstractReportEditPart extends ReportElementEditPart implements IAdvanceModelEventFactory {
 
 	public final static String MODEL_EVENT_DISPATCH = "model event dipatch";//$NON-NLS-1$
 	public final static String START = "start";//$NON-NLS-1$
 	public final static String END = "end";//$NON-NLS-1$
-	//private boolean isDispatch = false;
+	// private boolean isDispatch = false;
+
 	/**
 	 * @param model
 	 */
-	public AbstractReportEditPart( Object model )
-	{
-		super( model );
+	public AbstractReportEditPart(Object model) {
+		super(model);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
+	 * Class)
 	 */
-	public Object getAdapter( Class key )
-	{
-		if ( key == IModelEventProcessor.class )
-		{
-			return new GraphicsViewModelEventProcessor( this );
+	@Override
+	public Object getAdapter(Class key) {
+		if (key == IModelEventProcessor.class) {
+			return new GraphicsViewModelEventProcessor(this);
 		}
-		return super.getAdapter( key );
+		return super.getAdapter(key);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.IModelEventFactory#createModelEventRunnable(java.lang.Object, int, java.util.Map)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * GraphicsViewModelEventProcessor.IModelEventFactory#createModelEventRunnable(
+	 * java.lang.Object, int, java.util.Map)
 	 */
-	public Runnable createModelEventRunnable( Object focus, int type,
-			Map args )
-	{
-		switch ( type )
-		{
-			case NotificationEvent.CONTENT_REPLACE_EVENT :
-			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
-			case NotificationEvent.VIEWS_CONTENT_EVENT:
-			case NotificationEvent.CONTENT_EVENT :
-			{
-				return new EditpartReportEventRunnable( focus, type, args ) {
+	@Override
+	public Runnable createModelEventRunnable(Object focus, int type, Map args) {
+		switch (type) {
+		case NotificationEvent.CONTENT_REPLACE_EVENT:
+		case NotificationEvent.TEMPLATE_TRANSFORM_EVENT:
+		case NotificationEvent.VIEWS_CONTENT_EVENT:
+		case NotificationEvent.CONTENT_EVENT: {
+			return new EditpartReportEventRunnable(focus, type, args) {
 
-					public void runModelChange( )
-					{
-						contentChange( getFocus( ), getArgs( ) );
-					}
-				};
-			}
-			case NotificationEvent.NAME_EVENT :
-			case NotificationEvent.STYLE_EVENT :
-			case NotificationEvent.EXTENSION_PROPERTY_DEFINITION_EVENT :
-			case NotificationEvent.THEME_EVENT :
-			case NotificationEvent.LIBRARY_EVENT :
-			case NotificationEvent.ELEMENT_LOCALIZE_EVENT :
-			
-			case NotificationEvent.PROPERTY_EVENT :
-			{
-				return new EditpartReportEventRunnable( focus, type, args ) {
+				@Override
+				public void runModelChange() {
+					contentChange(getFocus(), getArgs());
+				}
+			};
+		}
+		case NotificationEvent.NAME_EVENT:
+		case NotificationEvent.STYLE_EVENT:
+		case NotificationEvent.EXTENSION_PROPERTY_DEFINITION_EVENT:
+		case NotificationEvent.THEME_EVENT:
+		case NotificationEvent.LIBRARY_EVENT:
+		case NotificationEvent.ELEMENT_LOCALIZE_EVENT:
 
-					public void runModelChange( )
-					{
-						propertyChange( getFocus( ), getArgs() );
-					}
-				};
-			}
-			
-			case NotificationEvent.CSS_RELOADED_EVENT:
-			case NotificationEvent.LIBRARY_RELOADED_EVENT:
-			case NotificationEvent.DATA_DESIGN_RELOADED_EVENT:
-			{
-				return new EditpartReportEventRunnable( focus, type, args ) {
+		case NotificationEvent.PROPERTY_EVENT: {
+			return new EditpartReportEventRunnable(focus, type, args) {
 
-					public void runModelChange( )
-					{
-						reloadTheChildren( );
-					}
-				};
+				@Override
+				public void runModelChange() {
+					propertyChange(getFocus(), getArgs());
+				}
+			};
+		}
 
-			}
+		case NotificationEvent.CSS_RELOADED_EVENT:
+		case NotificationEvent.LIBRARY_RELOADED_EVENT:
+		case NotificationEvent.DATA_DESIGN_RELOADED_EVENT: {
+			return new EditpartReportEventRunnable(focus, type, args) {
 
-			default :
-				break;
+				@Override
+				public void runModelChange() {
+					reloadTheChildren();
+				}
+			};
+
+		}
+
+		default:
+			break;
 		}
 		return null;
 	}
@@ -120,28 +125,23 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	 * @param focus
 	 * @param info
 	 */
-	protected void propertyChange( Object focus, Map info )
-	{
-		if (getViewer( )==null)
-		{
+	protected void propertyChange(Object focus, Map info) {
+		if (getViewer() == null) {
 			return;
 		}
-		Object obj = getViewer( ).getEditPartRegistry( ).get( focus );
-		if ( obj instanceof ReportElementEditPart && !((ReportElementEditPart)obj).isDelete( ))
-		{
-			( (ReportElementEditPart) obj ).propertyChange( info );
-			//return;
+		Object obj = getViewer().getEditPartRegistry().get(focus);
+		if (obj instanceof ReportElementEditPart && !((ReportElementEditPart) obj).isDelete()) {
+			((ReportElementEditPart) obj).propertyChange(info);
+			// return;
 		}
-		List temp = new ArrayList( );
-		getEditPartsFormModel( this, focus, temp );
-		int size = temp.size( );
+		List temp = new ArrayList();
+		getEditPartsFormModel(this, focus, temp);
+		int size = temp.size();
 
-		for ( int i = 0; i < size; i++ )
-		{
-			Object part = temp.get( i );
-			if ( part instanceof ReportElementEditPart && !((ReportElementEditPart)part).isDelete( ))
-			{
-				( (ReportElementEditPart) part ).propertyChange(info );
+		for (int i = 0; i < size; i++) {
+			Object part = temp.get(i);
+			if (part instanceof ReportElementEditPart && !((ReportElementEditPart) part).isDelete()) {
+				((ReportElementEditPart) part).propertyChange(info);
 			}
 		}
 	}
@@ -151,211 +151,186 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	 * @param model
 	 * @param list
 	 */
-	private void getEditPartsFormModel( ReportElementEditPart part, Object model, List list )
-	{		
-		if (!list.isEmpty( ))
-		{
+	private void getEditPartsFormModel(ReportElementEditPart part, Object model, List list) {
+		if (!list.isEmpty()) {
 			return;
 		}
-		List children = part.getChildren( );
-		int size = children.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Object chPart = (Object) children.get( i );
-			if (chPart instanceof ReportElementEditPart)
-			{
-				getEditPartsFormModel( (ReportElementEditPart)chPart, model, list );
+		List children = part.getChildren();
+		int size = children.size();
+		for (int i = 0; i < size; i++) {
+			Object chPart = (Object) children.get(i);
+			if (chPart instanceof ReportElementEditPart) {
+				getEditPartsFormModel((ReportElementEditPart) chPart, model, list);
 			}
 		}
-		if ( part.isinterest( model ))
-		{
-			list.add( part );
-			return;
+		if (part.isinterest(model)) {
+			list.add(part);
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
 
-	protected void reloadTheChildren( )
-	{
-		List list = new ArrayList( getChildren( ) );
-		int size = list.size( );
+	protected void reloadTheChildren() {
+		List list = new ArrayList(getChildren());
+		int size = list.size();
 
-		for ( int i = 0; i < size; i++ )
-		{
-			EditPart part = (EditPart) list.get( i );
+		for (int i = 0; i < size; i++) {
+			EditPart part = (EditPart) list.get(i);
 
-			removeChild( part );
+			removeChild(part);
 		}
 
-		list = getModelChildren( );
-		size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Object model = list.get( i );
-			addChild( createChild( model ), i );
+		list = getModelChildren();
+		size = list.size();
+		for (int i = 0; i < size; i++) {
+			Object model = list.get(i);
+			addChild(createChild(model), i);
 		}
-		
-		refreshVisuals( );
+
+		refreshVisuals();
 	}
 
 	/**
 	 * @param focus
 	 * @param info
 	 */
-	protected void contentChange( Object focus, Map info )
-	{
-		if (getViewer( )==null)
-		{
+	protected void contentChange(Object focus, Map info) {
+		if (getViewer() == null) {
 			return;
 		}
-		Object obj = getViewer( ).getEditPartRegistry( ).get( focus );
-		if ( obj instanceof ReportElementEditPart && !((ReportElementEditPart)obj).isDelete( ))
-		{
-			( (ReportElementEditPart) obj ).contentChange(info );
-			return ;
+		Object obj = getViewer().getEditPartRegistry().get(focus);
+		if (obj instanceof ReportElementEditPart && !((ReportElementEditPart) obj).isDelete()) {
+			((ReportElementEditPart) obj).contentChange(info);
+			return;
 		}
-		
-		List temp = new ArrayList( );
-		getEditPartsFormModel( this, focus, temp );
-		int size = temp.size( );
 
-		for ( int i = 0; i < size; i++ )
-		{
-			Object part =  temp.get( i );
-			if (part instanceof ReportElementEditPart && !((ReportElementEditPart)part).isDelete( ))
-			{
-				( (ReportElementEditPart) part ).contentChange(info );
+		List temp = new ArrayList();
+		getEditPartsFormModel(this, focus, temp);
+		int size = temp.size();
+
+		for (int i = 0; i < size; i++) {
+			Object part = temp.get(i);
+			if (part instanceof ReportElementEditPart && !((ReportElementEditPart) part).isDelete()) {
+				((ReportElementEditPart) part).contentChange(info);
 			}
 		}
 	}
 
-	private abstract  class EditpartReportEventRunnable extends ReportEventRunnable
-	{
-		public EditpartReportEventRunnable( Object focus, int type, Map args )
-		{
-			super(focus, type, args );
-			
+	private abstract class EditpartReportEventRunnable extends ReportEventRunnable {
+		public EditpartReportEventRunnable(Object focus, int type, Map args) {
+			super(focus, type, args);
+
 		}
 
-		public  void run( )
-		{
-			if (isDispose( ))
-			{
+		@Override
+		public void run() {
+			if (isDispose()) {
 				return;
 			}
 			runModelChange();
-			//When the model cahnge, the report design must layout one time.Because the table laout is
-			//complex, if the element in the table model change,must notify the table.
-			notifyModelChange(getFocus( ));
+			// When the model cahnge, the report design must layout one time.Because the
+			// table laout is
+			// complex, if the element in the table model change,must notify the table.
+			notifyModelChange(getFocus());
 		}
+
 		protected abstract void runModelChange();
 
 	}
 
-	protected void notifyModelChange(Object focus )
-	{
-		Object obj = getViewer( ).getEditPartRegistry( ).get( focus );
-		if ( obj instanceof ReportElementEditPart )
-		{
-			( (ReportElementEditPart) obj ).notifyModelChange( );
-			return ;
+	protected void notifyModelChange(Object focus) {
+		Object obj = getViewer().getEditPartRegistry().get(focus);
+		if (obj instanceof ReportElementEditPart) {
+			((ReportElementEditPart) obj).notifyModelChange();
+			return;
 		}
-		//if the edit part don't find, Maybe the model is the proxy model
-		List temp = new ArrayList( );
-		getEditPartsFormModel( this, focus, temp );
-		int size = temp.size( );
+		// if the edit part don't find, Maybe the model is the proxy model
+		List temp = new ArrayList();
+		getEditPartsFormModel(this, focus, temp);
+		int size = temp.size();
 
-		for ( int i = 0; i < size; i++ )
-		{
-			Object part =  temp.get( i );
-			if (part!= null &&part instanceof ReportElementEditPart)
-			{
-				((ReportElementEditPart)part).notifyModelChange( );
+		for (int i = 0; i < size; i++) {
+			Object part = temp.get(i);
+			if (part instanceof ReportElementEditPart) {
+				((ReportElementEditPart) part).notifyModelChange();
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory#isDispose()
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * AbstractModelEventProcessor.IModelEventFactory#isDispose()
 	 */
-	public boolean isDispose( )
-	{
-		return getParent()==null || getViewer( ).getControl( ).isDisposed( );
+	@Override
+	public boolean isDispose() {
+		return getParent() == null || getViewer().getControl().isDisposed();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
-	public void eventDispathStart()
-	{
-		getViewer( ).setProperty( MODEL_EVENT_DISPATCH, START );
+	@Override
+	public void eventDispathStart() {
+		getViewer().setProperty(MODEL_EVENT_DISPATCH, START);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
-	public void eventDispathEnd()
-	{
-		getViewer( ).setProperty( MODEL_EVENT_DISPATCH, END );
+	@Override
+	public void eventDispathEnd() {
+		getViewer().setProperty(MODEL_EVENT_DISPATCH, END);
 	}
-	
+
 	/**
 	 * @param color
 	 * @return
 	 */
-	protected Color getBackGroundColor(int color)
-	{
-		if (color == SWT.COLOR_LIST_BACKGROUND)
-		{
+	protected Color getBackGroundColor(int color) {
+		if (color == SWT.COLOR_LIST_BACKGROUND) {
 			return ReportColorConstants.ReportBackground;
 		}
-		if (color == SWT.COLOR_LIST_FOREGROUND)
-		{
+		if (color == SWT.COLOR_LIST_FOREGROUND) {
 			return ReportColorConstants.ReportForeground;
 		}
-		
-		return ColorManager.getColor( color );
+
+		return ColorManager.getColor(color);
 	}
-	
+
 	@Override
-	protected void propertyChange( Map info )
-	{
-		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null)
-		{
+	protected void propertyChange(Map info) {
+		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null) {
 			updateChildrenLayoutPreference(this);
-			getFigure( ).invalidateTree( );
-			getFigure( ).revalidate( );
+			getFigure().invalidateTree();
+			getFigure().revalidate();
 		}
-		super.propertyChange( info );
+		super.propertyChange(info);
 	}
-	
-	private void updateChildrenLayoutPreference(EditPart part)
-	{
-		if (part instanceof ReportElementEditPart)
-		{
-			((ReportElementEditPart)part).updateLayoutPreference( );
+
+	private void updateChildrenLayoutPreference(EditPart part) {
+		if (part instanceof ReportElementEditPart) {
+			((ReportElementEditPart) part).updateLayoutPreference();
 		}
-		List children = part.getChildren( );
-		int size = children.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Object chPart = children.get( i );
-			updateChildrenLayoutPreference( (EditPart)chPart);	
+		List children = part.getChildren();
+		int size = children.size();
+		for (int i = 0; i < size; i++) {
+			Object chPart = children.get(i);
+			updateChildrenLayoutPreference((EditPart) chPart);
 		}
 	}
-	
+
 	@Override
-	public void activate( )
-	{
-		super.activate( );
+	public void activate() {
+		super.activate();
 	}
-	
-	public void refreshMarginBorder( ReportDesignMarginBorder border )
-	{
-		//do nothing now
+
+	public void refreshMarginBorder(ReportDesignMarginBorder border) {
+		// do nothing now
 	}
 }

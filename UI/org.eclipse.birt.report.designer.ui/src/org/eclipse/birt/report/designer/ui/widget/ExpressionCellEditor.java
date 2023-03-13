@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,214 +39,204 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.4 $ $Date: 2007/08/28 03:28:27 $
  */
-public class ExpressionCellEditor extends DialogCellEditor
-{
+public class ExpressionCellEditor extends DialogCellEditor {
 
 	private transient Text editor;
 	private transient Button theButton;
 
 	/**
-	 * 
+	 *
 	 */
-	public ExpressionCellEditor( )
-	{
-		super( );
+	public ExpressionCellEditor() {
+		super();
 	}
 
 	/**
 	 * @param parent
 	 */
-	public ExpressionCellEditor( Composite parent )
-	{
-		super( parent );
+	public ExpressionCellEditor(Composite parent) {
+		super(parent);
 	}
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public ExpressionCellEditor( Composite parent, int style )
-	{
-		super( parent, style );
+	public ExpressionCellEditor(Composite parent, int style) {
+		super(parent, style);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.widgets.Control)
+	 *
+	 * @see
+	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.
+	 * widgets.Control)
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
-		ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				(String) getValue( ) );
-		dialog.setExpressionProvier( provider );
+	@Override
+	protected Object openDialogBox(Control cellEditorWindow) {
+		ExpressionBuilder dialog = new ExpressionBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				(String) getValue());
+		dialog.setExpressionProvier(provider);
 
-		if ( dialog.open( ) != Window.OK )
-		{
+		if (dialog.open() != Window.OK) {
 			// If editor dialog canceled, we need reset the focus to the text
 			// control, avoiding the button to gain focus.
-			editor.setFocus( );
+			editor.setFocus();
 		}
 
-		return dialog.getResult( );
+		return dialog.getResult();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#createContents(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see
+	 * org.eclipse.jface.viewers.DialogCellEditor#createContents(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	protected Control createContents( Composite cell )
-	{
-		editor = new Text( cell, SWT.NONE );
-		editor.addKeyListener( new KeyAdapter( ) {
+	@Override
+	protected Control createContents(Composite cell) {
+		editor = new Text(cell, SWT.NONE);
+		editor.addKeyListener(new KeyAdapter() {
 
-			public void keyReleased( KeyEvent e )
-			{
-				keyReleaseOccured( e );
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyReleaseOccured(e);
 			}
-		} );
-		editor.addSelectionListener( new SelectionAdapter( ) {
+		});
+		editor.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				fireApplyEditorValue( );
-				deactivate( );
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				fireApplyEditorValue();
+				deactivate();
 			}
-		} );
-		editor.addTraverseListener( new TraverseListener( ) {
+		});
+		editor.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_ESCAPE
-						|| e.detail == SWT.TRAVERSE_RETURN )
-				{
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
 				}
 			}
-		} );
-		editor.addFocusListener( new FocusAdapter( ) {
+		});
+		editor.addFocusListener(new FocusAdapter() {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+			 *
+			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
+			 * FocusEvent)
 			 */
-			public void focusLost( FocusEvent e )
-			{
-				ExpressionCellEditor.this.focusLost( );
+			@Override
+			public void focusLost(FocusEvent e) {
+				ExpressionCellEditor.this.focusLost();
 			}
 
-		} );
-		setValueValid( true );
+		});
+		setValueValid(true);
 
 		return editor;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#updateContents(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.jface.viewers.DialogCellEditor#updateContents(java.lang.Object)
 	 */
-	protected void updateContents( Object value )
-	{
-		if ( editor != null && value != null )
-		{
-			editor.setText( (String) value );
+	@Override
+	protected void updateContents(Object value) {
+		if (editor != null && value != null) {
+			editor.setText((String) value);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		if ( editor != null )
-		{
-			editor.setFocus( );
+	@Override
+	protected void doSetFocus() {
+		if (editor != null) {
+			editor.setFocus();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	protected Object doGetValue( )
-	{
-		if ( editor != null )
-		{
-			return editor.getText( );
+	@Override
+	protected Object doGetValue() {
+		if (editor != null) {
+			return editor.getText();
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetValue(java.lang.Object)
 	 */
-	protected void doSetValue( Object value )
-	{
-		if ( editor != null && value != null )
-		{
-			editor.setText( (String) value );
+	@Override
+	protected void doSetValue(Object value) {
+		if (editor != null && value != null) {
+			editor.setText((String) value);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#focusLost()
 	 */
-	protected void focusLost( )
-	{
-		if ( theButton != null
-				&& !theButton.isFocusControl( )
-				&& Display.getCurrent( ).getCursorControl( ) != theButton )
-		{
-			super.focusLost( );
+	@Override
+	protected void focusLost() {
+		if (theButton != null && !theButton.isFocusControl() && Display.getCurrent().getCursorControl() != theButton) {
+			super.focusLost();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#createButton(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see org.eclipse.jface.viewers.DialogCellEditor#createButton(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	protected Button createButton( Composite parent )
-	{
-		theButton = super.createButton( parent );
+	@Override
+	protected Button createButton(Composite parent) {
+		theButton = super.createButton(parent);
 
 		return theButton;
 	}
 
 	private IExpressionProvider provider;
 
-	public void setExpressionProvider( IExpressionProvider provider )
-	{
+	public void setExpressionProvider(IExpressionProvider provider) {
 		this.provider = provider;
 	}
 
 	/**
 	 * @deprecated Please use setExpressionProvider( IExpressionProvider ) instead
 	 */
-	public void addFilter( ExpressionFilter filter )
-	{
+	@Deprecated
+	public void addFilter(ExpressionFilter filter) {
 	}
 
 	/**
 	 * @deprecated Please use setExpressionProvider( IExpressionProvider ) instead
 	 */
-	public void setDataSetList( List dataSetList )
-	{
+	@Deprecated
+	public void setDataSetList(List dataSetList) {
 
 	}
 }

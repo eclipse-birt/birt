@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,72 +46,62 @@ import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * Supports dropping elements to outline view.
- * 
+ *
  */
-public class LibraryDropListener extends DesignerDropListener
-{
+public class LibraryDropListener extends DesignerDropListener {
 
-	private static List supportList = new ArrayList( );
+	private static List supportList = new ArrayList();
 
-	static
-	{
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_LABEL );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_TEXT );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_DATA );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_GRID );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_TABLE );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_LIST );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_IMAGE );
-		supportList.add( IReportElementConstants.REPORT_ELEMENT_TEXTDATA );
-		List exts = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoints( );
+	static {
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_LABEL);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_TEXT);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_DATA);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_GRID);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_TABLE);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_LIST);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_IMAGE);
+		supportList.add(IReportElementConstants.REPORT_ELEMENT_TEXTDATA);
+		List exts = ExtensionPointManager.getInstance().getExtendedElementPoints();
 
-		if ( exts != null )
-		{
-			for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
-			{
-				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
-				if ( point != null )
-				{
-					supportList.add( GuiExtensionManager.getExtendedPalletTemplateName( point ) );
+		if (exts != null) {
+			for (Iterator itor = exts.iterator(); itor.hasNext();) {
+				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next();
+				if (point != null) {
+					supportList.add(GuiExtensionManager.getExtendedPalletTemplateName(point));
 				}
 			}
 		}
 
-		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries( );
-		for ( int i = 0; i < paletteEntries.length; i++ )
-		{
-			supportList.add( IReportElementConstants.REPORT_ELEMENT_EXTENDED
-					+ paletteEntries[i].getItemName( ) );
+		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries();
+		for (int i = 0; i < paletteEntries.length; i++) {
+			supportList.add(IReportElementConstants.REPORT_ELEMENT_EXTENDED + paletteEntries[i].getItemName());
 		}
 	}
 
 	/**
 	 * @param viewer
 	 */
-	public LibraryDropListener( TreeViewer viewer )
-	{
-		super( viewer );
+	public LibraryDropListener(TreeViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#validateTarget(java.lang.Object,
-	 *      java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
+	 * validateTarget(java.lang.Object, java.lang.Object)
 	 */
-	protected boolean validateTarget( Object target, Object transfer )
-	{
+	@Override
+	protected boolean validateTarget(Object target, Object transfer) {
 		// if (!validateSameParent(target, transfer))
 		// {
 		// return false;
 		// }
 
-		boolean retValue = super.validateTarget( target, transfer );
-		if ( !retValue )
-		{
-			retValue = isSupportPalletType( target, transfer )
-					&& getCurrentLocation( ) == LOCATION_ON;
+		boolean retValue = super.validateTarget(target, transfer);
+		if (!retValue) {
+			retValue = isSupportPalletType(target, transfer) && getCurrentLocation() == LOCATION_ON;
 		}
 		return retValue;
 	}
@@ -154,98 +147,79 @@ public class LibraryDropListener extends DesignerDropListener
 	// return false;
 	// }
 
-	private boolean isSupportPalletType( Object target, Object transfer )
-	{
+	private boolean isSupportPalletType(Object target, Object transfer) {
 		boolean bool = false;
 		// if ( target instanceof ReportElementModel )
 		// {
 		// bool = ( (ReportElementModel) target ).getSlotId( ) ==
 		// ModuleHandle.COMPONENT_SLOT;
 		// }
-		if ( target instanceof SlotHandle )
-		{
-			bool = ( (SlotHandle) target ).getSlotID( ) == ModuleHandle.COMPONENT_SLOT;
-		}
-		else if ( target instanceof LibraryHandle )
-		{
+		if (target instanceof SlotHandle) {
+			bool = ((SlotHandle) target).getSlotID() == ModuleHandle.COMPONENT_SLOT;
+		} else if (target instanceof LibraryHandle) {
 			bool = true;
 		}
-		return bool && supportList.indexOf( transfer ) >= 0;
+		return bool && supportList.indexOf(transfer) >= 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#moveData(java.lang.Object,
-	 *      java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
+	 * moveData(java.lang.Object, java.lang.Object)
 	 */
-	protected boolean moveData( Object transfer, Object target )
-	{
+	@Override
+	protected boolean moveData(Object transfer, Object target) {
 		// execute creation in new extension
 		//
-		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries( );
-		for ( int i = 0; i < paletteEntries.length; i++ )
-		{
-			if ( ( IReportElementConstants.REPORT_ELEMENT_EXTENDED + paletteEntries[i].getItemName( ) ).equals( transfer ) )
-			{
-				CommandUtils.setVariable( "targetEditPart", //$NON-NLS-1$
-						getLibrartReportEditPart( ) );
-				try
-				{
-					Object newObj = paletteEntries[i].executeCreate( );
-					SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( newObj,
-							LibraryHandleAdapter.CREATE_ELEMENT );
-					command.execute( );
-				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
+		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries();
+		for (int i = 0; i < paletteEntries.length; i++) {
+			if ((IReportElementConstants.REPORT_ELEMENT_EXTENDED + paletteEntries[i].getItemName()).equals(transfer)) {
+				CommandUtils.setVariable("targetEditPart", //$NON-NLS-1$
+						getLibrartReportEditPart());
+				try {
+					Object newObj = paletteEntries[i].executeCreate();
+					SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(newObj,
+							LibraryHandleAdapter.CREATE_ELEMENT);
+					command.execute();
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 					return false;
 				}
 				return true;
 			}
 		}
 
-		if ( isSupportPalletType( target, transfer ) )
-		{
-			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( transfer );
-			ReportCreationTool tool = new ReportCreationTool( new ReportElementFactory( transfer ),
-					pre );
+		if (isSupportPalletType(target, transfer)) {
+			AbstractToolHandleExtends pre = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName(transfer);
+			ReportCreationTool tool = new ReportCreationTool(new ReportElementFactory(transfer), pre);
 
-			final EditDomain domain = UIUtil.getLayoutEditPartViewer( )
-					.getEditDomain( );
-			tool.setEditDomain( domain );
-			tool.setViewer( UIUtil.getLayoutEditPartViewer( ) );
-			tool.getTargetRequest( )
-					.getExtendedData( )
-					.put( DesignerConstants.DIRECT_CREATEITEM,
-							Boolean.valueOf( true ) );
-			tool.performCreation( getLibrartReportEditPart( ) );
-			Object obj = tool.getNewObjectFromRequest( );
-			if (obj instanceof DesignElementHandle)
-			{
-				DesignElementHandle handle = (DesignElementHandle)obj;
-				if (handle.getContainer( ) == null || handle.getRoot( ) == null)
-				{
+			final EditDomain domain = UIUtil.getLayoutEditPartViewer().getEditDomain();
+			tool.setEditDomain(domain);
+			tool.setViewer(UIUtil.getLayoutEditPartViewer());
+			tool.getTargetRequest().getExtendedData().put(DesignerConstants.DIRECT_CREATEITEM, Boolean.valueOf(true));
+			tool.performCreation(getLibrartReportEditPart());
+			Object obj = tool.getNewObjectFromRequest();
+			if (obj instanceof DesignElementHandle) {
+				DesignElementHandle handle = (DesignElementHandle) obj;
+				if (handle.getContainer() == null || handle.getRoot() == null) {
 					obj = null;
 				}
 			}
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj,
-					LibraryHandleAdapter.CREATE_ELEMENT );
-			command.execute( );
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(obj,
+					LibraryHandleAdapter.CREATE_ELEMENT);
+			command.execute();
 			return true;
 		}
 
-		return super.moveData( transfer, target );
+		return super.moveData(transfer, target);
 	}
 
-	private EditPart getLibrartReportEditPart( )
-	{
-		EditPart retValue = UIUtil.getCurrentEditPart( );
-		while ( retValue != null
-				&& !( retValue instanceof LibraryReportDesignEditPart ) )
-		{
-			retValue = retValue.getParent( );
+	private EditPart getLibrartReportEditPart() {
+		EditPart retValue = UIUtil.getCurrentEditPart();
+		while (retValue != null && !(retValue instanceof LibraryReportDesignEditPart)) {
+			retValue = retValue.getParent();
 		}
 		return retValue;
 	}

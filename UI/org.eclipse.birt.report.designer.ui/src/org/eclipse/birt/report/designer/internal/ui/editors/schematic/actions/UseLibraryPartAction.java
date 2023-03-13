@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,41 +19,40 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * Wrappers ImportLibraryPartAction from a viewer action to a part selection
  * action.
  */
 
-public class UseLibraryPartAction extends WrapperSelectionAction
-{
+public class UseLibraryPartAction extends WrapperSelectionAction {
 
-	public UseLibraryPartAction( IWorkbenchPart part )
-	{
-		super( part );
+	public UseLibraryPartAction(IWorkbenchPart part) {
+		super(part);
 
 		setText(ImportLibraryAction.ACTION_TEXT);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#calculateEnabled()
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	@Override
+	protected boolean calculateEnabled() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	public String getId( )
-	{
+	@Override
+	public String getId() {
 		return ImportLibraryAction.ID;
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		if ( actionHandler == null )
-		{
-			actionHandler = new ImportLibraryAction( );
+	@Override
+	protected IAction createActionHandler(ISelection model) {
+		if (actionHandler == null) {
+			actionHandler = new ImportLibraryAction();
 		}
 		return actionHandler;
 	}

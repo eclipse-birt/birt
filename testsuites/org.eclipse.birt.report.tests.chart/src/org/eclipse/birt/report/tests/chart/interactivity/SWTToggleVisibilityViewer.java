@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.interactivity;
@@ -42,11 +45,7 @@ import org.eclipse.swt.widgets.Shell;
  * The selector of charts in SWT.
  */
 public final class SWTToggleVisibilityViewer extends Composite
-		implements
-			PaintListener,
-			IUpdateNotifier,
-			SelectionListener
-{
+		implements PaintListener, IUpdateNotifier, SelectionListener {
 
 	private IDeviceRenderer idr = null;
 
@@ -64,235 +63,218 @@ public final class SWTToggleVisibilityViewer extends Composite
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		Display display = Display.getDefault( );
-		Shell shell = new Shell( display );
-		shell.setSize( 600, 400 );
-		shell.setLayout( new GridLayout( ) );
+	public static void main(String[] args) {
+		Display display = Display.getDefault();
+		Shell shell = new Shell(display);
+		shell.setSize(600, 400);
+		shell.setLayout(new GridLayout());
 
-		SWTToggleVisibilityViewer siv = new SWTToggleVisibilityViewer(
-				shell,
-				SWT.NO_BACKGROUND );
-		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		siv.addPaintListener( siv );
+		SWTToggleVisibilityViewer siv = new SWTToggleVisibilityViewer(shell, SWT.NO_BACKGROUND);
+		siv.setLayoutData(new GridData(GridData.FILL_BOTH));
+		siv.addPaintListener(siv);
 
-		Composite cBottom = new Composite( shell, SWT.NONE );
-		cBottom.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		cBottom.setLayout( new RowLayout( ) );
+		Composite cBottom = new Composite(shell, SWT.NONE);
+		cBottom.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cBottom.setLayout(new RowLayout());
 
-		Label la = new Label( cBottom, SWT.NONE );
+		Label la = new Label(cBottom, SWT.NONE);
 
-		la.setText( "Choose: " );//$NON-NLS-1$
-		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add( "Area Chart" );
-		cbType.add( "Bar Chart" );
-		cbType.add( "Line Chart" );
-		cbType.add( "Meter Chart" );
-		cbType.add( "Pie Chart" );
-		cbType.add( "Scatter Chart" );
-		cbType.add( "Stock Chart" );
-		cbType.select( 0 );
+		la.setText("Choose: ");//$NON-NLS-1$
+		cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
+		cbType.add("Area Chart");
+		cbType.add("Bar Chart");
+		cbType.add("Line Chart");
+		cbType.add("Meter Chart");
+		cbType.add("Pie Chart");
+		cbType.add("Scatter Chart");
+		cbType.add("Stock Chart");
+		cbType.select(0);
 
-		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
-		btn.addSelectionListener( siv );
+		btn = new Button(cBottom, SWT.NONE);
+		btn.setText("Update");//$NON-NLS-1$
+		btn.addSelectionListener(siv);
 
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !display.readAndDispatch( ) )
-				display.sleep( );
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
 		}
-		display.dispose( );
+		display.dispose();
 	}
 
 	/**
 	 * Get the connection with SWT device to render the graphics.
 	 */
-	SWTToggleVisibilityViewer( Composite parent, int style )
-	{
-		super( parent, style );
+	SWTToggleVisibilityViewer(Composite parent, int style) {
+		super(parent, style);
 
-		contextMap = new HashMap( );
+		contextMap = new HashMap();
 
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, this );
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			idr = ps.getDevice("dv.SWT");//$NON-NLS-1$
+			idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER, this);
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = PrimitiveCharts.toggleVisibility_AreaChart( );
+		cm = PrimitiveCharts.toggleVisibility_AreaChart();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
+	 * PaintEvent)
 	 */
-	public void paintControl( PaintEvent e )
-	{
-		Rectangle d = this.getClientArea( );
-		Image imgChart = new Image( this.getDisplay( ), d );
-		GC gcImage = new GC( imgChart );
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gcImage );
+	@Override
+	public void paintControl(PaintEvent e) {
+		Rectangle d = this.getClientArea();
+		Image imgChart = new Image(this.getDisplay(), d);
+		GC gcImage = new GC(imgChart);
+		idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, gcImage);
 
-		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
-		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
+		Bounds bo = BoundsImpl.create(0, 0, d.width, d.height);
+		bo.scale(72d / idr.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
-		if ( bNeedsGeneration )
-		{
+		Generator gr = Generator.instance();
+		if (bNeedsGeneration) {
 			bNeedsGeneration = false;
-			try
-			{
-				gcs = gr.build(
-						idr.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						null,
-						null );
-			}
-			catch ( ChartException ce )
-			{
-				ce.printStackTrace( );
+			try {
+				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, null, null);
+			} catch (ChartException ce) {
+				ce.printStackTrace();
 			}
 		}
 
-		try
-		{
-			gr.render( idr, gcs );
+		try {
+			gr.render(idr, gcs);
 			GC gc = e.gc;
-			gc.drawImage( imgChart, d.x, d.y );
-		}
-		catch ( ChartException ce )
-		{
-			ce.printStackTrace( );
+			gc.drawImage(imgChart, d.x, d.y);
+		} catch (ChartException ce) {
+			ce.printStackTrace();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget.equals( btn ) )
-		{
-			int iSelection = cbType.getSelectionIndex( );
-			switch ( iSelection )
-			{
-				case 0 :
-					cm = PrimitiveCharts.toggleVisibility_AreaChart( );
-					break;
-				case 1 :
-					cm = PrimitiveCharts.toggleVisibility_BarChart( );
-					break;
-				case 2 :
-					cm = PrimitiveCharts.toggleVisibility_3DLineChart( );
-					break;
-				case 3 :
-					cm = PrimitiveCharts.toggleVisibility_MeterChart( );
-					break;
-				case 4 :
-					cm = PrimitiveCharts.toggleVisibility_PieChart( );
-					break;
-				case 5 :
-					cm = PrimitiveCharts.toggleVisibility_ScatterChart( );
-					break;
-				case 6 :
-					cm = PrimitiveCharts.toggleVisibility_StockChart( );
-					break;
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		if (e.widget.equals(btn)) {
+			int iSelection = cbType.getSelectionIndex();
+			switch (iSelection) {
+			case 0:
+				cm = PrimitiveCharts.toggleVisibility_AreaChart();
+				break;
+			case 1:
+				cm = PrimitiveCharts.toggleVisibility_BarChart();
+				break;
+			case 2:
+				cm = PrimitiveCharts.toggleVisibility_3DLineChart();
+				break;
+			case 3:
+				cm = PrimitiveCharts.toggleVisibility_MeterChart();
+				break;
+			case 4:
+				cm = PrimitiveCharts.toggleVisibility_PieChart();
+				break;
+			case 5:
+				cm = PrimitiveCharts.toggleVisibility_ScatterChart();
+				break;
+			case 6:
+				cm = PrimitiveCharts.toggleVisibility_StockChart();
+				break;
 			}
 			bNeedsGeneration = true;
-			this.redraw( );
+			this.redraw();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 *
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel( )
-	{
+	@Override
+	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel( )
-	{
-		return gcs.getChartModel( );
+	@Override
+	public Chart getRunTimeModel() {
+		return gcs.getChartModel();
 	}
 
-	public Object peerInstance( )
-	{
+	@Override
+	public Object peerInstance() {
 		return this;
 	}
 
-	public void regenerateChart( )
-	{
+	@Override
+	public void regenerateChart() {
 		bNeedsGeneration = true;
-		redraw( );
+		redraw();
 	}
 
-	public void repaintChart( )
-	{
-		redraw( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
+	@Override
+	public void repaintChart() {
+		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
-	 *      java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
+	public Object getContext(Object key) {
+		return contextMap.get(key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
+	 * java.lang.Object)
 	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
+	public Object putContext(Object key, Object value) {
+		return contextMap.put(key, value);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 */
+	public Object removeContext(Object key) {
+		return contextMap.remove(key);
 	}
 
 }

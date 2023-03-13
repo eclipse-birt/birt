@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,156 +18,146 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 
-public class ImageContent extends AbstractContentWrapper implements IImageContent
-{
+public class ImageContent extends AbstractContentWrapper implements IImageContent {
 	IImageContent imageContent;
-	public ImageContent( IImageContent content )
-	{
-		super( content );
+
+	public ImageContent(IImageContent content) {
+		super(content);
 		imageContent = content;
 	}
 
-
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitImage( this, value );
+	@Override
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitImage(this, value);
 	}
 
-
-	public String getAltText( )
-	{
-		return imageContent.getAltText( );
+	@Override
+	public String getAltText() {
+		return imageContent.getAltText();
 	}
 
-
-	public String getAltTextKey( )
-	{
-		return imageContent.getAltTextKey( );
+	@Override
+	public String getAltTextKey() {
+		return imageContent.getAltTextKey();
 	}
 
-
-	public void setAltText( String altText )
-	{
+	@Override
+	public void setAltText(String altText) {
 		imageContent.setAltText(altText);
 	}
 
-
-	public void setAltTextKey( String key )
-	{
+	@Override
+	public void setAltTextKey(String key) {
 		imageContent.setAltTextKey(key);
 	}
 
-
-	public void setHelpKey( String key )
-	{
+	@Override
+	public void setHelpKey(String key) {
 		imageContent.setHelpText(key);
 	}
 
-
-	public String getHelpKey( )
-	{
+	@Override
+	public String getHelpKey() {
 		return imageContent.getHelpKey();
 	}
 
-
-	public byte[] getData( )
-	{
-		return imageContent.getData( );
+	@Override
+	public byte[] getData() {
+		return imageContent.getData();
 	}
 
-
-	public void setData( byte[] data )
-	{
-		imageContent.setData( data );
+	@Override
+	public void setData(byte[] data) {
+		imageContent.setData(data);
 	}
 
-
-	public String getExtension( )
-	{
-		return imageContent.getExtension( );
+	@Override
+	public String getExtension() {
+		return imageContent.getExtension();
 	}
 
-
-	public void setExtension( String extension )
-	{
-		imageContent.setExtension( extension);
+	@Override
+	public void setExtension(String extension) {
+		imageContent.setExtension(extension);
 	}
 
-
-	public String getURI( )
-	{
-		return imageContent.getURI( );
+	@Override
+	public String getURI() {
+		return imageContent.getURI();
 	}
 
-
-	public void setURI( String uri )
-	{
-		imageContent.setURI( uri );
+	@Override
+	public void setURI(String uri) {
+		imageContent.setURI(uri);
 	}
 
-
-	public int getImageSource( )
-	{
-		return imageContent.getImageSource( );
+	@Override
+	public int getImageSource() {
+		return imageContent.getImageSource();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#getImageMap()
 	 */
-	public Object getImageMap( )
-	{
-		return imageContent.getImageMap( );
+	@Override
+	public Object getImageMap() {
+		return imageContent.getImageMap();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#getMIMEType()
 	 */
-	public String getMIMEType( )
-	{
-		return imageContent.getMIMEType( );
+	@Override
+	public String getMIMEType() {
+		return imageContent.getMIMEType();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.IImageContent#setImageMap(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IImageContent#setImageMap(java.lang.
+	 * Object)
 	 */
-	public void setImageMap( Object map )
-	{
-		imageContent.setImageMap( map );
+	@Override
+	public void setImageMap(Object map) {
+		imageContent.setImageMap(map);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#setImageSource(int)
 	 */
-	public void setImageSource( int source )
-	{
-		imageContent.setImageSource( source );
+	@Override
+	public void setImageSource(int source) {
+		imageContent.setImageSource(source);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.IImageContent#setMIMEType(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IImageContent#setMIMEType(java.lang.
+	 * String)
 	 */
-	public void setMIMEType( String mimeType )
-	{
-		imageContent.setMIMEType( mimeType );
+	@Override
+	public void setMIMEType(String mimeType) {
+		imageContent.setMIMEType(mimeType);
 	}
 
-
-	public int getResolution( )
-	{
-		return imageContent.getResolution( );
+	@Override
+	public int getResolution() {
+		return imageContent.getResolution();
 	}
 
-
-	public void setResolution( int resolution )
-	{
-		imageContent.setResolution( resolution );
+	@Override
+	public void setResolution(int resolution) {
+		imageContent.setResolution(resolution);
 	}
 
-	
 }

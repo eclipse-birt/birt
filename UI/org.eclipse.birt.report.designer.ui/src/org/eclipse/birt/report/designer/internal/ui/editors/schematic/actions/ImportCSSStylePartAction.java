@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,24 +24,21 @@ import org.eclipse.ui.IWorkbenchPart;
  * action.
  */
 
-public class ImportCSSStylePartAction extends WrapperSelectionAction
-{
-	public ImportCSSStylePartAction( IWorkbenchPart part )
-	{
-		super( part );
+public class ImportCSSStylePartAction extends WrapperSelectionAction {
+	public ImportCSSStylePartAction(IWorkbenchPart part) {
+		super(part);
 		setText(ImportCSSStyleAction.ACTION_TEXT);
 	}
 
-	public String getId( )
-	{
+	@Override
+	public String getId() {
 		return ImportCSSStyleAction.ID;
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		if ( actionHandler == null )
-		{
-			actionHandler = new ImportCSSStyleAction( model );
+	@Override
+	protected IAction createActionHandler(ISelection model) {
+		if (actionHandler == null) {
+			actionHandler = new ImportCSSStyleAction(model);
 		}
 		return actionHandler;
 	}

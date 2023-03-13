@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,63 +22,59 @@ import org.eclipse.birt.chart.script.api.data.IDataElement;
 import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
- * 
+ *
  */
 
-public class MarkerRangeImpl implements IMarkerRange
-{
+public class MarkerRangeImpl implements IMarkerRange {
 
 	private MarkerRange range;
 
-	public MarkerRangeImpl( MarkerRange range )
-	{
+	public MarkerRangeImpl(MarkerRange range) {
 		this.range = range;
 	}
 
-	public IDataElement getEndValue( )
-	{
-		return ChartComponentUtil.convertDataElement( range.getEndValue( ) );
+	@Override
+	public IDataElement getEndValue() {
+		return ChartComponentUtil.convertDataElement(range.getEndValue());
 	}
 
-	public IDataElement getStartValue( )
-	{
-		return ChartComponentUtil.convertDataElement( range.getStartValue( ) );
+	@Override
+	public IDataElement getStartValue() {
+		return ChartComponentUtil.convertDataElement(range.getStartValue());
 	}
 
-	public void setEndValue( IDataElement value )
-	{
-		range.setEndValue( ChartComponentUtil.convertIDataElement( value ) );
+	@Override
+	public void setEndValue(IDataElement value) {
+		range.setEndValue(ChartComponentUtil.convertIDataElement(value));
 	}
 
-	public void setStartValue( IDataElement value )
-	{
-		range.setStartValue( ChartComponentUtil.convertIDataElement( value ) );
+	@Override
+	public void setStartValue(IDataElement value) {
+		range.setStartValue(ChartComponentUtil.convertIDataElement(value));
 	}
 
-	public ILabel getTitle( )
-	{
-		Label title = range.getLabel( );
-		if ( title == null )
-		{
-			title = ChartComponentUtil.createEMFLabel( );
-			range.setLabel( title );
+	@Override
+	public ILabel getTitle() {
+		Label title = range.getLabel();
+		if (title == null) {
+			title = ChartComponentUtil.createEMFLabel();
+			range.setLabel(title);
 		}
-		return ChartComponentUtil.convertLabel( title );
+		return ChartComponentUtil.convertLabel(title);
 	}
 
-	public boolean isVisible( )
-	{
-		return range.getOutline( ).isVisible( );
+	@Override
+	public boolean isVisible() {
+		return range.getOutline().isVisible();
 	}
 
-	public void setTitle( ILabel title )
-	{
-		range.setLabel( ChartComponentUtil.convertILabel( title ) );
+	public void setTitle(ILabel title) {
+		range.setLabel(ChartComponentUtil.convertILabel(title));
 	}
 
-	public void setVisible( boolean visible )
-	{
-		range.getOutline( ).setVisible( visible );
+	@Override
+	public void setVisible(boolean visible) {
+		range.getOutline().setVisible(visible);
 	}
 
 }

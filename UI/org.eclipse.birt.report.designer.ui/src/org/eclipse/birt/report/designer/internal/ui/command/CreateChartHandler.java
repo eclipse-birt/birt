@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,60 +28,55 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 
 /**
- * 
+ *
  */
 
-public class CreateChartHandler extends SelectionHandler
-{
-	
-	private static final String TEXT = Messages.getString( "CreateChartHandler.text" ); //$NON-NLS-1$
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.command.SelectionHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+public class CreateChartHandler extends SelectionHandler {
+
+	private static final String TEXT = Messages.getString("CreateChartHandler.text"); //$NON-NLS-1$
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.command.SelectionHandler#execute
+	 * (org.eclipse.core.commands.ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
-		
-		EditPart part = (EditPart)getSelectedObjects( ).get( 0 );
-		Object model = part.getModel( );
-		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable)
-		{
-			model = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
+
+		EditPart part = (EditPart) getSelectedObjects().get(0);
+		Object model = part.getModel();
+		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable) {
+			model = ((IAdaptable) model).getAdapter(DesignElementHandle.class);
 		}
-		
-		ReportItemHandle handle = (ReportItemHandle)model;
-		ModuleHandle module = handle.getModuleHandle( );
-		
-		
-		Object[] objs = ElementAdapterManager.getAdapters( handle,  IReportItemViewProvider.class);
-		if (objs == null || objs.length>1)
-		{
+
+		ReportItemHandle handle = (ReportItemHandle) model;
+		ModuleHandle module = handle.getModuleHandle();
+
+		Object[] objs = ElementAdapterManager.getAdapters(handle, IReportItemViewProvider.class);
+		if (objs == null || objs.length > 1) {
 			return Boolean.FALSE;
 		}
-		IReportItemViewProvider provider = (IReportItemViewProvider)objs[0];
-		
-		module.getCommandStack( ).startTrans( TEXT );
-		try
-		{
-			DesignElementHandle chart = provider.createView( handle );
-			handle.addView( chart );
-			
-			if ( ElementProcessorFactory.createProcessor( chart ) != null 
-					&& !ElementProcessorFactory.createProcessor( chart )
-					.editElement( chart ) )	
-			{
-				module.getCommandStack( ).rollbackAll( );
+		IReportItemViewProvider provider = (IReportItemViewProvider) objs[0];
+
+		module.getCommandStack().startTrans(TEXT);
+		try {
+			DesignElementHandle chart = provider.createView(handle);
+			handle.addView(chart);
+
+			if (ElementProcessorFactory.createProcessor(chart) != null
+					&& !ElementProcessorFactory.createProcessor(chart).editElement(chart)) {
+				module.getCommandStack().rollbackAll();
 				return Boolean.FALSE;
 			}
-		}
-		catch ( BirtException e )
-		{
-			module.getCommandStack( ).rollbackAll( );
+		} catch (BirtException e) {
+			module.getCommandStack().rollbackAll();
 			return Boolean.FALSE;
 		}
-		module.getCommandStack( ).commit( );
+		module.getCommandStack().commit();
 		return Boolean.TRUE;
 	}
-	
+
 }

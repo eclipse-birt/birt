@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,17 +25,17 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IEditorInput;
 
 /**
- * 
+ *
  */
 
-public class SaveReportAsWizard extends Wizard
-{
+public class SaveReportAsWizard extends Wizard {
 
-	private static final String SaveAsWizardWindowTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardWindowTitle" ); //$NON-NLS-1$
-	private static final String SaveAsWizardPageTitle = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageTitle" ); //$NON-NLS-1$
-	private static final String SaveAsWizardPageDesc = Messages.getString( "SaveReportAsWizard.SaveAsWizardPageDesc" ); //$NON-NLS-1$
-	private static final String ReportSettingPageTitle = Messages.getString( "SaveReportAsWizard.SettingPageTitle" ); //$NON-NLS-1$
-	private static final String ReportSettingPageMessage = Messages.getString( "SaveReportAsWizard.SettingPage.message" ); //$NON-NLS-1$
+	private static final String SaveAsWizardWindowTitle = Messages
+			.getString("SaveReportAsWizard.SaveAsWizardWindowTitle"); //$NON-NLS-1$
+	private static final String SaveAsWizardPageTitle = Messages.getString("SaveReportAsWizard.SaveAsWizardPageTitle"); //$NON-NLS-1$
+	private static final String SaveAsWizardPageDesc = Messages.getString("SaveReportAsWizard.SaveAsWizardPageDesc"); //$NON-NLS-1$
+	private static final String ReportSettingPageTitle = Messages.getString("SaveReportAsWizard.SettingPageTitle"); //$NON-NLS-1$
+	private static final String ReportSettingPageMessage = Messages.getString("SaveReportAsWizard.SettingPage.message"); //$NON-NLS-1$
 
 	private ModuleHandle model;
 	private IEditorInput orginalFile;
@@ -40,85 +43,76 @@ public class SaveReportAsWizard extends Wizard
 	private WizardReportSettingPage settingPage;
 	private IPath saveAsPath;
 
-	public SaveReportAsWizard( ModuleHandle model,
-			IEditorInput orginalFile )
-	{
-		setWindowTitle( SaveAsWizardWindowTitle );
+	public SaveReportAsWizard(ModuleHandle model, IEditorInput orginalFile) {
+		setWindowTitle(SaveAsWizardWindowTitle);
 		this.model = model;
 		this.orginalFile = orginalFile;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
-	public void addPages( )
-	{
+	@Override
+	public void addPages() {
 
-		saveAsPage = new WizardSaveAsPage( "WizardSaveAsPage" ); //$NON-NLS-1$
-		saveAsPage.setOriginalFile( orginalFile );
-		saveAsPage.setTitle( SaveAsWizardPageTitle );
-		saveAsPage.setMessage( SaveAsWizardPageDesc );
+		saveAsPage = new WizardSaveAsPage("WizardSaveAsPage"); //$NON-NLS-1$
+		saveAsPage.setOriginalFile(orginalFile);
+		saveAsPage.setTitle(SaveAsWizardPageTitle);
+		saveAsPage.setMessage(SaveAsWizardPageDesc);
 		// saveAsPage.setImageDescriptor(
 		// IDEInternalWorkbenchImages.getImageDescriptor(
 		// IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG ) );
-		addPage( saveAsPage );
-		if ( model instanceof ReportDesignHandle )
-		{
-			settingPage = new WizardReportSettingPage( (ReportDesignHandle)model );
-			settingPage.setTitle( ReportSettingPageTitle );
-			settingPage.setPageDesc( ReportSettingPageMessage );
+		addPage(saveAsPage);
+		if (model instanceof ReportDesignHandle) {
+			settingPage = new WizardReportSettingPage((ReportDesignHandle) model);
+			settingPage.setTitle(ReportSettingPageTitle);
+			settingPage.setPageDesc(ReportSettingPageMessage);
 
-			addPage( settingPage );
+			addPage(settingPage);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
 	 */
-	public boolean canFinish( )
-	{
-		return saveAsPage.validatePage( );
+	@Override
+	public boolean canFinish() {
+		return saveAsPage.validatePage();
 	}
 
-	public boolean performFinish( )
-	{
-		saveAsPath = saveAsPage.getResult( );
+	@Override
+	public boolean performFinish() {
+		saveAsPath = saveAsPage.getResult();
 
-		if ( saveAsPath != null && saveAsPath.isEmpty( ) )
-		{
+		if (saveAsPath != null && saveAsPath.isEmpty()) {
 			// Does nothing if the cancle button in overwrite dialog is
 			// selected, when the target file exists.
 			return false;
 		}
 
-		if ( saveAsPath != null && model instanceof ReportDesignHandle )
-		{
-			ReportDesignHandle reportHandle = (ReportDesignHandle)model;
-			try
-			{
-				reportHandle.setDisplayName( settingPage.getDisplayName( ) );
-				reportHandle.setDescription( settingPage.getDescription( ) );
-				if ( !settingPage.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
+		if (saveAsPath != null && model instanceof ReportDesignHandle) {
+			ReportDesignHandle reportHandle = (ReportDesignHandle) model;
+			try {
+				reportHandle.setDisplayName(settingPage.getDisplayName());
+				reportHandle.setDescription(settingPage.getDescription());
+				if (!settingPage.getPreviewImagePath().equals("")) //$NON-NLS-1$
 				{
-					reportHandle.setIconFile( settingPage.getPreviewImagePath( ) );
-					reportHandle.deleteThumbnail( );
+					reportHandle.setIconFile(settingPage.getPreviewImagePath());
+					reportHandle.deleteThumbnail();
 				}
-				reportHandle.setFileName( saveAsPath.toOSString( ) );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionUtil.handle( e );
+				reportHandle.setFileName(saveAsPath.toOSString());
+			} catch (SemanticException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 		return true;
 	}
 
-	public IPath getSaveAsPath( )
-	{
+	public IPath getSaveAsPath() {
 		return this.saveAsPath;
 	}
 }

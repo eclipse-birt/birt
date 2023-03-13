@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -43,33 +46,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * getIntValue() works well
  * <p>
  */
-public class Regression_161500 extends BaseTestCase
-{
+public class Regression_161500 extends BaseTestCase {
 
-	public void test_regression_161500( ) throws Exception
-	{
-		createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table" );
+	public void test_regression_161500() throws Exception {
+		createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table");
 
 		// Set the style on table
-		table.setProperty( IStyleModel.COLOR_PROP, "red" );
-		assertEquals( 16711680, table.getIntProperty( IStyleModel.COLOR_PROP ) );
-		assertEquals( 16711680, table
-				.getPropertyHandle( IStyleModel.COLOR_PROP )
-				.getIntValue( ) );
-		assertEquals( IColorConstants.RED, table.getPropertyHandle(
-				IStyleModel.COLOR_PROP ).getStringValue( ) );
-		assertEquals( IColorConstants.RED, table
-				.getStringProperty( IStyleModel.COLOR_PROP ) );
+		table.setProperty(IStyleModel.COLOR_PROP, "red");
+		assertEquals(16711680, table.getIntProperty(IStyleModel.COLOR_PROP));
+		assertEquals(16711680, table.getPropertyHandle(IStyleModel.COLOR_PROP).getIntValue());
+		assertEquals(IColorConstants.RED, table.getPropertyHandle(IStyleModel.COLOR_PROP).getStringValue());
+		assertEquals(IColorConstants.RED, table.getStringProperty(IStyleModel.COLOR_PROP));
 
 		// Set another style on table
-		table.setProperty( IStyleModel.COLOR_PROP, "blue" );
-		assertEquals( 255, table.getIntProperty( IStyleModel.COLOR_PROP ) );
-		assertEquals( 255, table
-				.getPropertyHandle( IStyleModel.COLOR_PROP )
-				.getIntValue( ) );
-		assertEquals( IColorConstants.BLUE, table.getPropertyHandle(
-				IStyleModel.COLOR_PROP ).getStringValue( ) );
+		table.setProperty(IStyleModel.COLOR_PROP, "blue");
+		assertEquals(255, table.getIntProperty(IStyleModel.COLOR_PROP));
+		assertEquals(255, table.getPropertyHandle(IStyleModel.COLOR_PROP).getIntValue());
+		assertEquals(IColorConstants.BLUE, table.getPropertyHandle(IStyleModel.COLOR_PROP).getStringValue());
 	}
 }

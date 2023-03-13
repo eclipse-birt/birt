@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,8 +51,7 @@ import org.eclipse.swt.widgets.Table;
 /**
  * Filter FormHandleProvider, provides Filter sensitive data and processes.
  */
-public class FilterHandleProvider implements IFormHandleProvider
-{
+public class FilterHandleProvider implements IFormHandleProvider {
 
 	/**
 	 * The current selections in outline or Editor.
@@ -59,24 +61,18 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/**
 	 * Column properties.
 	 */
-	protected String[] columnKeys = new String[]{
-			FilterCondition.EXPR_MEMBER,
-			FilterCondition.OPERATOR_MEMBER,
-			FilterCondition.VALUE1_MEMBER,
-			FilterCondition.VALUE2_MEMBER
-	};
+	protected String[] columnKeys = { FilterCondition.EXPR_MEMBER, FilterCondition.OPERATOR_MEMBER,
+			FilterCondition.VALUE1_MEMBER, FilterCondition.VALUE2_MEMBER };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[]{
-			200, 150, 200, 200
-	};
+	private static int[] columnWidth = { 200, 150, 200, 200 };
 
 	/**
 	 * Model processor, provide data process of Filter model.
 	 */
-	protected FilterModelProvider modelAdapter = new FilterModelProvider( );
+	protected FilterModelProvider modelAdapter = new FilterModelProvider();
 
 	/**
 	 * The display name of columns.
@@ -88,77 +84,71 @@ public class FilterHandleProvider implements IFormHandleProvider
 	 */
 	private CellEditor[] editors;
 
-	private List columnList = new ArrayList( );
+	private List columnList = new ArrayList();
 
 	protected ParamBindingHandle[] bindingParams = null;
 
 	/**
 	 * Gets all dataSet columns
-	 * 
-	 * @param obj
-	 *            DesignElementHandle object.
+	 *
+	 * @param obj DesignElementHandle object.
 	 */
-	private void getDataSetColumns( Object obj )
-	{
-		if ( obj instanceof DesignElementHandle )
-		{
-			columnList = new ArrayList( );
-			String[] columns = modelAdapter.getChoiceSet( obj,
-					FilterCondition.EXPR_MEMBER );
-			if ( columns != null )
-				columnList.addAll( Arrays.asList( columns ) );
+	private void getDataSetColumns(Object obj) {
+		if (obj instanceof DesignElementHandle) {
+			columnList = new ArrayList();
+			String[] columns = modelAdapter.getChoiceSet(obj, FilterCondition.EXPR_MEMBER);
+			if (columns != null) {
+				columnList.addAll(Arrays.asList(columns));
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public void setBindingParams( ParamBindingHandle[] params )
-	{
+	public void setBindingParams(ParamBindingHandle[] params) {
 		this.bindingParams = params;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
-		if ( columnNames == null )
-		{
-			columnNames = modelAdapter.getColumnNames( columnKeys );
+	@Override
+	public String[] getColumnNames() {
+		if (columnNames == null) {
+			columnNames = modelAdapter.getColumnNames(columnKeys);
 		}
 		return columnNames;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getTitle()
 	 */
-	public String getTitle( )
-	{
-		return Messages.getString( "FilterHandleProvider.Label.Filterby" ); //$NON-NLS-1$
+	@Override
+	public String getTitle() {
+		return Messages.getString("FilterHandleProvider.Label.Filterby"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( final Table table )
-	{
-		if ( editors == null )
-		{
+	@Override
+	public CellEditor[] getEditors(final Table table) {
+		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
-			editors[0] = new TextCellEditor( table );
-			editors[1] = new TextCellEditor( table );
-			editors[2] = new TextCellEditor( table );
-			editors[3] = new TextCellEditor( table );
+			editors[0] = new TextCellEditor(table);
+			editors[1] = new TextCellEditor(table);
+			editors[2] = new TextCellEditor(table);
+			editors[3] = new TextCellEditor(table);
 		}
 
 		return editors;
@@ -166,66 +156,55 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos )
-			throws PropertyValueException
-	{
-		return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
+	@Override
+	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
+		return modelAdapter.moveItem(input.get(0), oldPos, newPos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws PropertyValueException
-	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+	@Override
+	public boolean doDeleteItem(int pos) throws PropertyValueException {
+		return modelAdapter.deleteItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws SemanticException
-	{
+	@Override
+	public boolean doAddItem(int pos) throws SemanticException {
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
-		Object item = input.get( 0 );
-		if ( item instanceof DesignElementHandle )
-		{
-			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW,
-					FilterConditionBuilder.DLG_MESSAGE_NEW );
+		Object item = input.get(0);
+		if (item instanceof DesignElementHandle) {
+			FilterConditionBuilder dialog = new FilterConditionBuilder(UIUtil.getDefaultShell(),
+					FilterConditionBuilder.DLG_TITLE_NEW, FilterConditionBuilder.DLG_MESSAGE_NEW);
 			dialog.setUsedForEditGroup(isEditGroup());
-			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( null );
-			dialog.setBindingParams( bindingParams );
-			if ( item instanceof ReportItemHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) item );
-			}
-			else if ( item instanceof GroupHandle )
-			{
-				if ( ( (GroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+			dialog.setDesignHandle((DesignElementHandle) item);
+			dialog.setInput(null);
+			dialog.setBindingParams(bindingParams);
+			if (item instanceof ReportItemHandle) {
+				dialog.setReportElement((ReportItemHandle) item);
+			} else if (item instanceof GroupHandle) {
+				if (((GroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((GroupHandle) item).getContainer());
+				}
+			} else if (item instanceof DataGroupHandle) {
+				if (((DataGroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((DataGroupHandle) item).getContainer());
 				}
 			}
-			else if ( item instanceof DataGroupHandle )
-			{
-				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
-				}
-			}
-			if ( dialog.open( ) == Dialog.CANCEL )
-			{
+			if (dialog.open() == Dialog.CANCEL) {
 				return false;
 			}
 
@@ -235,51 +214,40 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
+	@Override
+	public boolean doEditItem(int pos) {
 
-		Object item = input.get( 0 );
-		if ( item instanceof DesignElementHandle )
-		{
+		Object item = input.get(0);
+		if (item instanceof DesignElementHandle) {
 			DesignElementHandle element = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.FILTER_PROP );
-			FilterConditionHandle filterHandle = (FilterConditionHandle) ( propertyHandle.getAt( pos ) );
-			if ( filterHandle == null )
-			{
+			PropertyHandle propertyHandle = element.getPropertyHandle(ListingHandle.FILTER_PROP);
+			FilterConditionHandle filterHandle = (FilterConditionHandle) (propertyHandle.getAt(pos));
+			if (filterHandle == null) {
 				return false;
 			}
 
-			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT,
-					FilterConditionBuilder.DLG_MESSAGE_EDIT );
+			FilterConditionBuilder dialog = new FilterConditionBuilder(UIUtil.getDefaultShell(),
+					FilterConditionBuilder.DLG_TITLE_EDIT, FilterConditionBuilder.DLG_MESSAGE_EDIT);
 			dialog.setUsedForEditGroup(isEditGroup());
-			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( filterHandle );
-			dialog.setBindingParams( bindingParams );
-			if ( item instanceof ReportItemHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) item );
-			}
-			else if ( item instanceof GroupHandle )
-			{
-				if ( ( (GroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+			dialog.setDesignHandle((DesignElementHandle) item);
+			dialog.setInput(filterHandle);
+			dialog.setBindingParams(bindingParams);
+			if (item instanceof ReportItemHandle) {
+				dialog.setReportElement((ReportItemHandle) item);
+			} else if (item instanceof GroupHandle) {
+				if (((GroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((GroupHandle) item).getContainer());
+				}
+			} else if (item instanceof DataGroupHandle) {
+				if (((DataGroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((DataGroupHandle) item).getContainer());
 				}
 			}
-			else if ( item instanceof DataGroupHandle )
-			{
-				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
-				}
-			}
-			if ( dialog.open( ) == Dialog.CANCEL )
-			{
+			if (dialog.open() == Dialog.CANCEL) {
 				return false;
 			}
 
@@ -289,130 +257,115 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
-		return modelAdapter.getText( element, key );
+		return modelAdapter.getText(element, key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
-	public String getImagePath( Object element, int columnIndex )
-	{
+	@Override
+	public String getImagePath(Object element, int columnIndex) {
 		return null;
 	}
 
-	public Image getImage( Object element, int columnIndex )
-	{
+	@Override
+	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-		{
+	@Override
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List) {
 			input = (List) inputElement;
+		} else {
+			input = new ArrayList();
+			input.add(inputElement);
 		}
-		else
-		{
-			input = new ArrayList( );
-			input.add( inputElement );
-		}
-		getDataSetColumns( DEUtil.getInputFirstElement( input ) );
-		Object[] elements = modelAdapter.getElements( input );
+		getDataSetColumns(DEUtil.getInputFirstElement(input));
+		Object[] elements = modelAdapter.getElements(input);
 		return elements;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	@Override
+	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
+	@Override
+	public Object getValue(Object element, String property) {
+		int index = Arrays.asList(columnNames).indexOf(property);
+		String columnText = getColumnText(element, index);
 
 		return columnText;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
 	 * java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws NameException, SemanticException
-	{
+	@Override
+	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 		// Clear the value of value2 when operator is not "between" or "not
 		// between"
 		// if ( property.equals( "Operator" ) )
-		if ( property.equals( modelAdapter.getColumnNames( columnKeys )[1] ) )
-		{
-			if ( !( value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
-					DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) ) || value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
-					DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) ) ) )
-			{
-				modelAdapter.setStringValue( input.get( 0 ),
-						data,
-						FilterCondition.VALUE2_MEMBER,
-						"" ); //$NON-NLS-1$
+		if (property.equals(modelAdapter.getColumnNames(columnKeys)[1])) {
+			if (!(value.equals(
+					getDisplayName(FilterCondition.OPERATOR_MEMBER, DesignChoiceConstants.FILTER_OPERATOR_BETWEEN))
+					|| value.equals(getDisplayName(FilterCondition.OPERATOR_MEMBER,
+							DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN)))) {
+				modelAdapter.setStringValue(input.get(0), data, FilterCondition.VALUE2_MEMBER, ""); //$NON-NLS-1$
 			}
 		}
 
-		int index = Arrays.asList( columnNames ).indexOf( property );
+		int index = Arrays.asList(columnNames).indexOf(property);
 		String key = columnKeys[index];
 
 		String strValue = ""; //$NON-NLS-1$
-		if ( value instanceof Integer )
-		{
-			int intValue = ( (Integer) value ).intValue( );
-			if ( intValue == -1 )
-			{
-				CCombo combo = (CCombo) editors[index].getControl( );
-				strValue = combo.getText( );
-			}
-			else
-			{
-				String[] choices = modelAdapter.getChoiceSet( input.get( 0 ),
-						columnKeys[index] );
+		if (value instanceof Integer) {
+			int intValue = ((Integer) value).intValue();
+			if (intValue == -1) {
+				CCombo combo = (CCombo) editors[index].getControl();
+				strValue = combo.getText();
+			} else {
+				String[] choices = modelAdapter.getChoiceSet(input.get(0), columnKeys[index]);
 				strValue = choices[intValue];
 			}
-		}
-		else
-		{
+		} else {
 			strValue = (String) value;
 		}
 
-		return modelAdapter.setStringValue( input.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue(input.get(0), data, key, strValue);
 	}
 
 	// private void updateValueCellEditor( String exp )
@@ -435,58 +388,52 @@ public class FilterHandleProvider implements IFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	@Override
+	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider
 	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof PropertyEvent )
-		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName ) )
-			{
-				getDataSetColumns( input.get( 0 ) );
+	@Override
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof PropertyEvent) {
+			String propertyName = ((PropertyEvent) event).getPropertyName();
+			if (ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals(propertyName)) {
+				getDataSetColumns(input.get(0));
 			}
 			return true;
 		}
 		return false;
 	}
 
-	private Object getDisplayName( final String key, final String value )
-	{
-		IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
-				key );
-		IChoice choice = choiceSet.findChoice( value );
-		if ( choice != null )
-		{
-			return choice.getDisplayName( );
+	private Object getDisplayName(final String key, final String value) {
+		IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet(FilterCondition.FILTER_COND_STRUCT, key);
+		IChoice choice = choiceSet.findChoice(value);
+		if (choice != null) {
+			return choice.getDisplayName();
 		}
 
 		return null;
 	}
 
-	public boolean isEditable( )
-	{
+	@Override
+	public boolean isEditable() {
 		return true;
 	}
-	
-	//used for edit group,sub class can overwrite this method
+
+	// used for edit group,sub class can overwrite this method
 	//
-	public boolean isEditGroup()
-	{
+	public boolean isEditGroup() {
 		return false;
 	}
 }

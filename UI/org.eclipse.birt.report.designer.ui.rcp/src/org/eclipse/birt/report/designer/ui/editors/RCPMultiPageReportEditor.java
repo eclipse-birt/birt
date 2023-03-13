@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +31,7 @@ import org.eclipse.ui.PartInitException;
 /**
  * RCPMultiPageReportEditor
  */
-public class RCPMultiPageReportEditor extends MultiPageReportEditor
-{
+public class RCPMultiPageReportEditor extends MultiPageReportEditor {
 
 	/**
 	 * The ID of the Report Editor
@@ -43,69 +45,58 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor
 	 * The ID of the Library Editor
 	 */
 	public static final String LIBRARY_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.LibraryEditor"; //$NON-NLS-1$
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#init(org.
+	 * eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.init( site, input );
-		getSite( ).getWorkbenchWindow( )
-				.getPartService( )
-				.addPartListener( this );
+	@Override
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		super.init(site, input);
+		getSite().getWorkbenchWindow().getPartService().addPartListener(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose()
 	 */
-	public void dispose( )
-	{
-		super.dispose( );
-		getSite( ).getWorkbenchWindow( )
-				.getPartService( )
-				.removePartListener( this );
+	@Override
+	public void dispose() {
+		super.dispose();
+		getSite().getWorkbenchWindow().getPartService().removePartListener(this);
 	}
-	
-	public void doSave( IProgressMonitor monitor )
-	{
-		super.doSave( monitor );
-		try
-		{
-			refreshMarkers( getEditorInput( ) );
-		}
-		catch ( CoreException e )
-		{
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		super.doSave(monitor);
+		try {
+			refreshMarkers(getEditorInput());
+		} catch (CoreException e) {
 		}
 	}
-	
+
+	@Override
 	public void doSaveAs() {
 		// TODO Auto-generated method stub
 		super.doSaveAs();
 
-		String resource = new Path(getModel().getFileName())
-				.removeLastSegments(1).toOSString();
+		String resource = new Path(getModel().getFileName()).removeLastSegments(1).toOSString();
 		getModel().setResourceFolder(resource);
-		SessionHandleAdapter
-				.getInstance()
-				.getSessionHandle()
-				.fireResourceChange(
-						new LibraryChangeEvent(getModel().getFileName()));
+		SessionHandleAdapter.getInstance().getSessionHandle()
+				.fireResourceChange(new LibraryChangeEvent(getModel().getFileName()));
 	}
 
 	@Override
-	public void refreshMarkers( IEditorInput input ) throws CoreException
-	{
-		ModuleHandle reportDesignHandle = getModel( );
-		if ( reportDesignHandle != null )
-		{
-			reportDesignHandle.checkReport( );
+	public void refreshMarkers(IEditorInput input) throws CoreException {
+		ModuleHandle reportDesignHandle = getModel();
+		if (reportDesignHandle != null) {
+			reportDesignHandle.checkReport();
 		}
 	}
-	
+
 }

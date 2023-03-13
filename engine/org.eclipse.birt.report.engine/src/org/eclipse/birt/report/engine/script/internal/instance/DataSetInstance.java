@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,22 +31,27 @@ public class DataSetInstance implements IDataSetInstance {
 		this.dataSet = dataSet;
 	}
 
+	@Override
 	public String getName() {
 		return dataSet.getName();
 	}
 
+	@Override
 	public IDataSourceInstance getDataSource() {
 		return new DataSourceInstance(dataSet.getDataSource());
 	}
 
+	@Override
 	public String getExtensionID() {
 		return dataSet.getExtensionID();
 	}
 
+	@Override
 	public String getQueryText() throws ScriptException {
 		return dataSet.getQueryText();
 	}
 
+	@Override
 	public void setQueryText(String queryText) throws ScriptException {
 		try {
 			dataSet.setQueryText(queryText);
@@ -52,6 +60,7 @@ public class DataSetInstance implements IDataSetInstance {
 		}
 	}
 
+	@Override
 	public IColumnMetaData getColumnMetaData() throws ScriptException {
 		try {
 			return new ColumnMetaData(dataSet.getResultMetaData());
@@ -63,6 +72,7 @@ public class DataSetInstance implements IDataSetInstance {
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getAllExtensionProperties()
 	 */
+	@Override
 	public Map getAllExtensionProperties() {
 		return dataSet.getAllExtensionProperties();
 	}
@@ -70,6 +80,7 @@ public class DataSetInstance implements IDataSetInstance {
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#getExtensionProperty(java.lang.String)
 	 */
+	@Override
 	public String getExtensionProperty(String name) {
 		return dataSet.getExtensionProperty(name);
 	}
@@ -78,84 +89,73 @@ public class DataSetInstance implements IDataSetInstance {
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance#setExtensionProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@Override
 	public void setExtensionProperty(String name, String value) {
 		dataSet.setExtensionProperty(name, value);
 	}
 
-
 	/**
-	 * Gets value of  a data set input parameter by name
+	 * Gets value of a data set input parameter by name
 	 */
-	public Object getInputParameterValue(String paramName)
-			throws ScriptException 
-	{
-		try 
-		{
+	@Override
+	public Object getInputParameterValue(String paramName) throws ScriptException {
+		try {
 			return dataSet.getInputParameterValue(paramName);
 		} catch (BirtException e) {
-			throw new ScriptException( e.getLocalizedMessage());
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
-	 * Gets value of a data set output parameter by name 
+	 * Gets value of a data set output parameter by name
 	 */
-	public Object getOutputParameterValue(String paramName)
-			throws ScriptException 
-	{
-		try 
-		{
+	@Override
+	public Object getOutputParameterValue(String paramName) throws ScriptException {
+		try {
 			return dataSet.getOutputParameterValue(paramName);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException( e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * Sets value of a data set input parameter
 	 */
-	public void setInputParameterValue(String paramName, Object paramValue)
-			throws ScriptException 
-	{
-		try 
-		{
+	@Override
+	public void setInputParameterValue(String paramName, Object paramValue) throws ScriptException {
+		try {
 			dataSet.setInputParameterValue(paramName, paramValue);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException (e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
-	
+
 	}
 
 	/**
 	 * Sets value of a data set output parameter
 	 */
-	public void setOutputParameterValue(String paramName, Object paramValue)
-			throws ScriptException 
-	{
-		try 
-		{
+	@Override
+	public void setOutputParameterValue(String paramName, Object paramValue) throws ScriptException {
+		try {
 			dataSet.setOutputParameterValue(paramName, paramValue);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException (e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * Gets name, value of all data set input parameters
 	 */
-	public Map getInputParameters() 
-	{
+	@Override
+	public Map getInputParameters() {
 		return dataSet.getInputParameters();
 	}
 
 	/**
 	 * Gets name, value of all data set output parameters
 	 */
-	public Map getOutputParameters() 
-	{
+	@Override
+	public Map getOutputParameters() {
 		return dataSet.getOutputParameters();
 	}
 

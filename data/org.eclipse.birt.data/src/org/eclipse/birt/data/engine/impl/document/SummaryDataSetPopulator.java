@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,55 +25,49 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * The populator class for summary result set.
- * 
+ *
  */
-public class SummaryDataSetPopulator implements IDataSetPopulator
-{
+public class SummaryDataSetPopulator implements IDataSetPopulator {
 	private org.eclipse.birt.data.engine.impl.document.ResultIterator docIt;
 	private IResultClass resultClass;
-	
-	public SummaryDataSetPopulator( IQueryDefinition queryDefn,
-			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt, IExprDataResultSet exprResultSet ) throws DataException
-	{
+
+	public SummaryDataSetPopulator(IQueryDefinition queryDefn,
+			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt, IExprDataResultSet exprResultSet)
+			throws DataException {
 		this.docIt = docIt;
-		
-		this.resultClass = exprResultSet.getResultClass( );
+
+		this.resultClass = exprResultSet.getResultClass();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		if ( !this.docIt.next( ) )
+	@Override
+	public IResultObject next() throws DataException {
+		if (!this.docIt.next()) {
 			return null;
+		}
 
-		Object[] field = new Object[this.resultClass.getFieldCount( )];
+		Object[] field = new Object[this.resultClass.getFieldCount()];
 
-		for ( int i = 0; i < field.length; i++ )
-		{
-			String columnName = this.resultClass.getFieldName( i + 1 );
+		for (int i = 0; i < field.length; i++) {
+			String columnName = this.resultClass.getFieldName(i + 1);
 
-			try
-			{
-				if ( ExprMetaUtil.POS_NAME.equals( columnName ) )
-				{
-					field[i] = this.docIt.getRowId( );
+			try {
+				if (ExprMetaUtil.POS_NAME.equals(columnName)) {
+					field[i] = this.docIt.getRowId();
+				} else {
+					field[i] = this.docIt.getValue(columnName);
 				}
-				else
-					field[i] = this.docIt.getValue( columnName );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
+			} catch (BirtException e) {
+				throw DataException.wrap(e);
 			}
 		}
 
-		return new ResultObject( this.resultClass, field );
+		return new ResultObject(this.resultClass, field);
 	}
 
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return this.resultClass;
 	}
 }

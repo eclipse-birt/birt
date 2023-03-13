@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +24,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * This IncreDataSetCacheObject serves for incremental data set cache.
  */
-public class IncreDataSetCacheObject implements IDataSetCacheObject
-{
+public class IncreDataSetCacheObject implements IDataSetCacheObject {
 
 	public static final String TIMESTAMP_DATA = "timestamp.data";
 	public static final String META_DATA = "meta.data";
@@ -31,69 +33,64 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	private String cacheDir;
 
 	/**
-	 * 
+	 *
 	 * @param cacheDir
 	 * @throws NoSuchAlgorithmException
 	 */
-	public IncreDataSetCacheObject( String cacheDir )
-	{
-		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode( ) ;
-		FileSecurity.fileMakeDirs( new File( this.cacheDir ));
+	public IncreDataSetCacheObject(String cacheDir) {
+		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode();
+		FileSecurity.fileMakeDirs(new File(this.cacheDir));
 	}
 
 	/**
-	 * 
+	 *
 	 * @return String persFolder
 	 */
-	public String getCacheDir( )
-	{
+	public String getCacheDir() {
 		return this.cacheDir;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public File getDataFile( )
-	{
-		return new File( cacheDir + PATH_SEP + DATA_DATA );
+	public File getDataFile() {
+		return new File(cacheDir + PATH_SEP + DATA_DATA);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public File getMetaFile( )
-	{
-		return new File( cacheDir + PATH_SEP + META_DATA );
+	public File getMetaFile() {
+		return new File(cacheDir + PATH_SEP + META_DATA);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public File getTimeStampFile( )
-	{
-		return new File( cacheDir + PATH_SEP + TIMESTAMP_DATA );
+	public File getTimeStampFile() {
+		return new File(cacheDir + PATH_SEP + TIMESTAMP_DATA);
 	}
 
-	public boolean isCachedDataReusable( int requiredMaxRowCount )
-	{
+	@Override
+	public boolean isCachedDataReusable(int requiredMaxRowCount) {
 		return true;
 	}
 
-	public boolean needUpdateCache( int requiredCapability )
-	{
+	@Override
+	public boolean needUpdateCache(int requiredCapability) {
 		return true;
 	}
 
-	public void release( )
-	{
-		DataSetCacheUtil.deleteFile( cacheDir );
+	@Override
+	public void release() {
+		DataSetCacheUtil.deleteFile(cacheDir);
 	}
 
-	public IResultClass getResultClass( )
-	{
+	@Override
+	public IResultClass getResultClass() {
 		return null;
 	}
 }

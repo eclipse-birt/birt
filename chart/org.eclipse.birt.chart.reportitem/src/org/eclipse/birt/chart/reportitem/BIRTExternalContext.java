@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,71 +25,60 @@ import org.mozilla.javascript.Scriptable;
 /**
  * An external context implementation for BIRT environment.
  */
-public class BIRTExternalContext implements IExternalContext
-{
+public class BIRTExternalContext implements IExternalContext {
 
 	private static final long serialVersionUID = 1L;
 
 	private transient IReportContext context;
 	private Scriptable scriptableContext;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
 	 */
-	public BIRTExternalContext( )
-	{
-		super( );
+	public BIRTExternalContext() {
+		super();
 	}
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param context
 	 */
-	public BIRTExternalContext( IReportContext context )
-	{
+	public BIRTExternalContext(IReportContext context) {
 		this.context = context;
 
-		final Context cx = Context.enter( );
+		final Context cx = Context.enter();
 
-		try
-		{
-			Scriptable scope = new ImporterTopLevel( cx );
+		try {
+			Scriptable scope = new ImporterTopLevel(cx);
 
-			scriptableContext = cx.getWrapFactory( ).wrapAsJavaObject( cx,
-					scope,
-					context,
-					null );
-		}
-		catch ( Exception e )
-		{
-			logger.log( e );
-		}
-		finally
-		{
-			Context.exit( );
+			scriptableContext = cx.getWrapFactory().wrapAsJavaObject(cx, scope, context, null);
+		} catch (Exception e) {
+			logger.log(e);
+		} finally {
+			Context.exit();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IExternalContext#getScriptable()
 	 */
-	public Scriptable getScriptable( )
-	{
+	@Override
+	public Scriptable getScriptable() {
 		return scriptableContext;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.script.IExternalContext#getObject()
 	 */
-	public Object getObject( )
-	{
+	@Override
+	public Object getObject() {
 		return context;
 	}
 

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,25 +27,21 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The borders attribute page of DE element.
  */
-public class BordersPage extends ResetAttributePage
-{
+public class BordersPage extends ResetAttributePage {
 
-	private static final String[] styles = {
-			DesignChoiceConstants.LINE_STYLE_SOLID,
-			DesignChoiceConstants.LINE_STYLE_DOTTED,
-			DesignChoiceConstants.LINE_STYLE_DASHED,
-			DesignChoiceConstants.LINE_STYLE_DOUBLE
-	};
+	private static final String[] styles = { DesignChoiceConstants.LINE_STYLE_SOLID,
+			DesignChoiceConstants.LINE_STYLE_DOTTED, DesignChoiceConstants.LINE_STYLE_DASHED,
+			DesignChoiceConstants.LINE_STYLE_DOUBLE };
 
 	BorderToggleDescriptorProvider[] providers;
-	private static final String LABEL_BORDER = Messages.getString( "BordersPage.Label.Borders" ); //$NON-NLS-1$
+	private static final String LABEL_BORDER = Messages.getString("BordersPage.Label.Borders"); //$NON-NLS-1$
 
 	private BorderSection borderSection;
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1, 15 ) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1, 15));
 
 		// BorderStyleDescriptorProvider styleProvider = new
 		// BorderStyleDescriptorProvider( );
@@ -88,12 +87,11 @@ public class BordersPage extends ResetAttributePage
 		// styleProvider, colorProvider, widthProvider
 		// };
 		//
-		providers = new BorderToggleDescriptorProvider[]{
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_TOP_STYLE_PROP ),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_BOTTOM_STYLE_PROP ),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_LEFT_STYLE_PROP ),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_RIGHT_STYLE_PROP )
-		};
+		providers = new BorderToggleDescriptorProvider[] {
+				new BorderToggleDescriptorProvider(StyleHandle.BORDER_TOP_STYLE_PROP),
+				new BorderToggleDescriptorProvider(StyleHandle.BORDER_BOTTOM_STYLE_PROP),
+				new BorderToggleDescriptorProvider(StyleHandle.BORDER_LEFT_STYLE_PROP),
+				new BorderToggleDescriptorProvider(StyleHandle.BORDER_RIGHT_STYLE_PROP) };
 		//
 		// TogglesSection borderSection = new TogglesSection( container,
 		// LABEL_BORDER );
@@ -101,40 +99,38 @@ public class BordersPage extends ResetAttributePage
 		// borderSection.setGridPlaceholder( 4, true );
 		// addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
 
-		borderSection = new BorderSection( LABEL_BORDER, container, true );
-		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider( );
-		styleProvider.setItems( styles );
-		borderSection.setStyleProvider( styleProvider );
+		borderSection = new BorderSection(LABEL_BORDER, container, true);
+		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider();
+		styleProvider.setItems(styles);
+		borderSection.setStyleProvider(styleProvider);
 
-		BorderColorDescriptorProvider colorProvider = new BorderColorDescriptorProvider( );
-		borderSection.setColorProvider( colorProvider );
+		BorderColorDescriptorProvider colorProvider = new BorderColorDescriptorProvider();
+		borderSection.setColorProvider(colorProvider);
 
-		BorderWidthDescriptorProvider widthProvider = new BorderWidthDescriptorProvider( );
-		borderSection.setWidthProvider( widthProvider );
+		BorderWidthDescriptorProvider widthProvider = new BorderWidthDescriptorProvider();
+		borderSection.setWidthProvider(widthProvider);
 
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			providers[i].enableReset( true );
+		for (int i = 0; i < providers.length; i++) {
+			providers[i].enableReset(true);
 		}
-		borderSection.setToggleProviders( providers );
+		borderSection.setToggleProviders(providers);
 
-		addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
+		addSection(PageSectionId.BORDERS_BORDER_STYLE, borderSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
-	private boolean checkControl( BorderSection border )
-	{
-		return border != null
-				&& border.getBorderControl( ) != null
-				&& !border.getBorderControl( ).getControl( ).isDisposed( );
+	private boolean checkControl(BorderSection border) {
+		return border != null && border.getBorderControl() != null
+				&& !border.getBorderControl().getControl().isDisposed();
 	}
 
-	public void postElementEvent( )
-	{
-		if ( checkControl( borderSection ) )
-			borderSection.getBorderControl( ).postElementEvent( );
+	@Override
+	public void postElementEvent() {
+		if (checkControl(borderSection)) {
+			borderSection.getBorderControl().postElementEvent();
+		}
 	}
 
 }

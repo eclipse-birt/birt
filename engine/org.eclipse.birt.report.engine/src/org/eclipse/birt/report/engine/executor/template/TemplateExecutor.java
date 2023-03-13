@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,275 +43,217 @@ import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
-public class TemplateExecutor implements TextTemplate.Visitor
-{
+public class TemplateExecutor implements TextTemplate.Visitor {
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( TemplateExecutor.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(TemplateExecutor.class.getName());
 
 	protected StringBuffer buffer;
 	protected HashMap<String, Object> values;
 	protected ExecutionContext context;
 	protected File imageFolder;
-	protected HashMap imageCaches = new HashMap( );
+	protected HashMap imageCaches = new HashMap();
 
-	public TemplateExecutor( ExecutionContext context )
-	{
+	public TemplateExecutor(ExecutionContext context) {
 		this.context = context;
 		String tmpDir = null;
-		if ( context != null )
-		{
-			IReportEngine engine = context.getEngine( );
-			if ( engine != null )
-			{
-				EngineConfig config = engine.getConfig( );
-				if ( config != null )
-				{
-					tmpDir = config.getTempDir( );
+		if (context != null) {
+			IReportEngine engine = context.getEngine();
+			if (engine != null) {
+				EngineConfig config = engine.getConfig();
+				if (config != null) {
+					tmpDir = config.getTempDir();
 				}
 			}
 		}
-		if ( tmpDir == null )
-		{
-			tmpDir = FileUtil.getJavaTmpDir( );
+		if (tmpDir == null) {
+			tmpDir = FileUtil.getJavaTmpDir();
 		}
-		if ( tmpDir == null )
-		{
+		if (tmpDir == null) {
 			tmpDir = ".";
 		}
-		imageFolder = new File( tmpDir );
+		imageFolder = new File(tmpDir);
 	}
 
-	public String execute( TextTemplate template, HashMap<String, Object> values )
-	{
-		this.buffer = new StringBuffer( );
+	public String execute(TextTemplate template, HashMap<String, Object> values) {
+		this.buffer = new StringBuffer();
 		this.values = values;
 
-		if ( template == null )
-		{
+		if (template == null) {
 			return "";
 		}
 
-		ArrayList nodes = template.getNodes( );
-		Iterator iter = nodes.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			TextTemplate.Node node = (TextTemplate.Node) iter.next( );
-			node.accept( this, null );
+		ArrayList nodes = template.getNodes();
+		Iterator iter = nodes.iterator();
+		while (iter.hasNext()) {
+			TextTemplate.Node node = (TextTemplate.Node) iter.next();
+			node.accept(this, null);
 		}
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
-	public Object visitNode( TextTemplate.Node node, Object value )
-	{
+	public Object visitNode(TextTemplate.Node node, Object value) {
 		return value;
 	}
 
-	public Object visitText( TextTemplate.TextNode node, Object value )
-	{
-		buffer.append( node.getContent( ) );
+	@Override
+	public Object visitText(TextTemplate.TextNode node, Object value) {
+		buffer.append(node.getContent());
 		return value;
 	}
 
-	public Object visitValue( TextTemplate.ValueNode node, Object value )
-	{
-		String expression = node.getValue( );
-		if ( expression != null )
-		{
-			expression = expression.trim( );
-			if ( "pageNumber".equals( expression )
-					|| "totalPage".equals( expression ) )
-			{
-				Object result = ExpressionUtil.evaluate( context,
-						Expression.newScript( expression ) );
-				String text = formatValue( node, result );
-				buffer.append( text );
-			}
-			else
-			{
+	@Override
+	public Object visitValue(TextTemplate.ValueNode node, Object value) {
+		String expression = node.getValue();
+		if (expression != null) {
+			expression = expression.trim();
+			if ("pageNumber".equals(expression) || "totalPage".equals(expression)) {
+				Object result = ExpressionUtil.evaluate(context, Expression.newScript(expression));
+				String text = formatValue(node, result);
+				buffer.append(text);
+			} else {
 				Object result = null;
-				if ( values != null )
-				{
-					String keyExpr = node.getValue( );
-					if ( keyExpr != null )
-					{
-						keyExpr = keyExpr.trim( );
+				if (values != null) {
+					String keyExpr = node.getValue();
+					if (keyExpr != null) {
+						keyExpr = keyExpr.trim();
 					}
-					result = values.get( keyExpr );
+					result = values.get(keyExpr);
 				}
 
-				String text = formatValue( node, result );
-				buffer.append( text );
+				String text = formatValue(node, result);
+				buffer.append(text);
 			}
 		}
 
 		return value;
 	}
 
-	public Object visitExpressionValue( ExpressionValueNode node,
-			Object value )
-	{
-		String expression = node.getValue( );
-		if ( expression != null )
-		{
-			expression = expression.trim( );
-			if ( expression.length( ) > 0 )
-			{
-				Object result = ExpressionUtil.evaluate( context, Expression
-						.newScript( expression ) );
-				String text = formatValue( node, result );
-				buffer.append( text );
+	@Override
+	public Object visitExpressionValue(ExpressionValueNode node, Object value) {
+		String expression = node.getValue();
+		if (expression != null) {
+			expression = expression.trim();
+			if (expression.length() > 0) {
+				Object result = ExpressionUtil.evaluate(context, Expression.newScript(expression));
+				String text = formatValue(node, result);
+				buffer.append(text);
 			}
 		}
 		return value;
 	}
 
-	private String formatValue( TextTemplate.ValueNode node, Object value )
-	{
+	private String formatValue(TextTemplate.ValueNode node, Object value) {
 		String text = "";
-		String format = node.getFormat( );
-		String formatExpression = node.getFormatExpression( );
-		if ( format == null && formatExpression != null )
-		{
-			String keyExpr = formatExpression.trim( );
-			Object formatValue = values.get( keyExpr );
-			if ( formatValue != null )
-			{
-				format = formatValue.toString( );
+		String format = node.getFormat();
+		String formatExpression = node.getFormatExpression();
+		if (format == null && formatExpression != null) {
+			String keyExpr = formatExpression.trim();
+			Object formatValue = values.get(keyExpr);
+			if (formatValue != null) {
+				format = formatValue.toString();
 			}
 		}
-		if ( "html".equalsIgnoreCase( format ) )
-		{
-			if ( value != null )
-			{
-				text = value.toString( );
+		if ("html".equalsIgnoreCase(format)) {
+			if (value != null) {
+				text = value.toString();
 			}
-		}
-		else
-		{
-			if ( value != null )
-			{
-				if ( value instanceof Number )
-				{
-					NumberFormatter fmt = context.getNumberFormatter( format );
-					text = fmt.format( (Number) value );
-				}
-				else if ( value instanceof String )
-				{
-					StringFormatter fmt = context.getStringFormatter( format );
-					text = fmt.format( (String) value );
+		} else {
+			if (value != null) {
+				if (value instanceof Number) {
+					NumberFormatter fmt = context.getNumberFormatter(format);
+					text = fmt.format((Number) value);
+				} else if (value instanceof String) {
+					StringFormatter fmt = context.getStringFormatter(format);
+					text = fmt.format((String) value);
 
-				}
-				else if ( value instanceof Date )
-				{
-					DateFormatter fmt = context.getDateFormatter( format );
-					text = fmt.format( (Date) value );
-				}
-				else
-				{
-					text = value.toString( );
+				} else if (value instanceof Date) {
+					DateFormatter fmt = context.getDateFormatter(format);
+					text = fmt.format((Date) value);
+				} else {
+					text = value.toString();
 				}
 			}
-			text = encodeHtmlText( text );
+			text = encodeHtmlText(text);
 		}
 		return text;
 	}
 
-	protected String encodeHtmlText( String text )
-	{
-		return text.replaceAll( "<", "&lt;" );
+	protected String encodeHtmlText(String text) {
+		return text.replace("<", "&lt;");
 	}
 
-	public Object visitImage( TextTemplate.ImageNode node, Object value )
-	{
+	@Override
+	public Object visitImage(TextTemplate.ImageNode node, Object value) {
 		String imageName = null;
 		String imageExt = null;
 		Object imageContent = null;
-		if ( TextTemplate.ImageNode.IMAGE_TYPE_EXPR == node.getType( ) )
-		{
-			imageContent = values.get( node.getExpr( ) );
-		}
-		else
-		{
-			imageName = node.getImageName( );
-			if ( context != null )
-			{
-				ModuleHandle design = context.getDesign( );
-				if ( design != null )
-				{
-					EmbeddedImage image = design.findImage( imageName );
-					if ( image != null )
-					{
-						imageContent = image.getData( design.getModule( ) );
-						imageExt = FileUtil.getExtFromFileName( imageName );
+		if (TextTemplate.ImageNode.IMAGE_TYPE_EXPR == node.getType()) {
+			imageContent = values.get(node.getExpr());
+		} else {
+			imageName = node.getImageName();
+			if (context != null) {
+				ModuleHandle design = context.getDesign();
+				if (design != null) {
+					EmbeddedImage image = design.findImage(imageName);
+					if (image != null) {
+						imageContent = image.getData(design.getModule());
+						imageExt = FileUtil.getExtFromFileName(imageName);
 					}
 				}
 			}
 		}
-		if ( imageContent instanceof byte[] )
-		{
-			String src = saveToFile( imageName, imageExt, (byte[]) imageContent );
-			if ( src != null )
-			{
-				buffer.append( "<img src=\"" );
-				buffer.append( src );
-				buffer.append( "\" " );
-				Iterator iter = node.getAttributes( ).entrySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					Map.Entry entry = (Map.Entry) iter.next( );
+		if (imageContent instanceof byte[]) {
+			String src = saveToFile(imageName, imageExt, (byte[]) imageContent);
+			if (src != null) {
+				buffer.append("<img src=\"");
+				buffer.append(src);
+				buffer.append("\" ");
+				Iterator iter = node.getAttributes().entrySet().iterator();
+				while (iter.hasNext()) {
+					Map.Entry entry = (Map.Entry) iter.next();
 
-					Object attrName = entry.getKey( );
-					Object attrValue = entry.getValue( );
-					if ( attrName != null && attrValue != null )
-					{
-						buffer.append( attrName.toString( ) );
-						buffer.append( "=\"" );
-						buffer.append( attrValue.toString( ) );
-						buffer.append( "\" " );
+					Object attrName = entry.getKey();
+					Object attrValue = entry.getValue();
+					if (attrName != null && attrValue != null) {
+						buffer.append(attrName.toString());
+						buffer.append("=\"");
+						buffer.append(attrValue.toString());
+						buffer.append("\" ");
 					}
 				}
-				buffer.append( ">" );
+				buffer.append(">");
 			}
 		}
 		return value;
 	}
 
-	protected String saveToFile( final String name, final String ext,
-			final byte[] content )
-	{
-		if ( name != null )
-		{
-			String file = (String) imageCaches.get( name );
-			if ( file != null )
-			{
+	protected String saveToFile(final String name, final String ext, final byte[] content) {
+		if (name != null) {
+			String file = (String) imageCaches.get(name);
+			if (file != null) {
 				return file;
 			}
 		}
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				try
-				{
-					File imageFile = File.createTempFile( "img", ext,
-							imageFolder );
-					OutputStream out = new FileOutputStream( imageFile );
-					out.write( content );
-					out.close( );
-					String fileName = imageFile.toURL( ).toExternalForm( );
-					imageCaches.put( name, fileName );
+			@Override
+			public String run() {
+				try {
+					File imageFile = File.createTempFile("img", ext, imageFolder);
+					OutputStream out = new FileOutputStream(imageFile);
+					out.write(content);
+					out.close();
+					String fileName = imageFile.toURL().toExternalForm();
+					imageCaches.put(name, fileName);
 					return fileName;
-				}
-				catch ( IOException ex )
-				{
-					logger.log( Level.WARNING, ex.getMessage( ), ex );
-					context.addException( new EngineException( ex
-							.getLocalizedMessage( ) ) );
+				} catch (IOException ex) {
+					logger.log(Level.WARNING, ex.getMessage(), ex);
+					context.addException(new EngineException(ex.getLocalizedMessage()));
 				}
 				return null;
 			}
-		} );
+		});
 	}
 }

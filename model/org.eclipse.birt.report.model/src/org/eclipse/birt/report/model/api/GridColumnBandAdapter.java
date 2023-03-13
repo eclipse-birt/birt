@@ -1,9 +1,12 @@
 /**
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,8 +25,7 @@ import org.eclipse.birt.report.model.elements.GridItem;
  * grids.
  */
 
-public final class GridColumnBandAdapter extends ColumnBandAdapter
-{
+public final class GridColumnBandAdapter extends ColumnBandAdapter {
 
 	/**
 	 * The element where the copy/paste operation occurs.
@@ -31,124 +33,119 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 
 	protected GridHandle element;
 
-	GridColumnBandAdapter( )
-	{
+	GridColumnBandAdapter() {
 	}
 
-	GridColumnBandAdapter( GridHandle element )
-	{
+	GridColumnBandAdapter(GridHandle element) {
 		this.element = element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getElement()
 	 */
 
-	protected ReportItemHandle getElementHandle( )
-	{
+	@Override
+	protected ReportItemHandle getElementHandle() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getColumns()
 	 */
 
-	protected SlotHandle getColumns( )
-	{
-		return element.getColumns( );
+	@Override
+	protected SlotHandle getColumns() {
+		return element.getColumns();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
-	 *      boolean)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellsUnderColumn(int,
+	 * boolean)
 	 */
 
-	protected List getCellsUnderColumn( int columnNumber,
-			boolean mustBeStartPosition )
-	{
-		return getCellsInSlot( element.getRows( ), columnNumber,
-				mustBeStartPosition );
+	@Override
+	protected List getCellsUnderColumn(int columnNumber, boolean mustBeStartPosition) {
+		return getCellsInSlot(element.getRows(), columnNumber, mustBeStartPosition);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellPosition(org.eclipse.birt.report.model.api.CellHandle)
+	 *
+	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getCellPosition(org.
+	 * eclipse.birt.report.model.api.CellHandle)
 	 */
 
-	protected int getCellPosition( CellHandle cell )
-	{
-		GridItem grid = (GridItem) element.getElement( );
-		return grid.getCellPositionInColumn( getModule( ), (Cell) cell
-				.getElement( ) );
+	@Override
+	protected int getCellPosition(CellHandle cell) {
+		GridItem grid = (GridItem) element.getElement();
+		return grid.getCellPositionInColumn(getModule(), (Cell) cell.getElement());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getNumberOfRows()
 	 */
 
-	protected int getRowCount( )
-	{
+	@Override
+	protected int getRowCount() {
 		// treat the table as a regular layout.
 
-		return element.getRows( ).getCount( );
+		return element.getRows().getCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getColumnCount()
 	 */
 
-	protected int getColumnCount( )
-	{
-		return element.getColumnCount( );
+	@Override
+	protected int getColumnCount() {
+		return element.getColumnCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#getRow(int, int,
-	 *      int)
+	 * int)
 	 */
 
-	protected RowHandle getRow( int slotId, int groupId, int rowNumber )
-	{
+	@Override
+	protected RowHandle getRow(int slotId, int groupId, int rowNumber) {
 		assert groupId == -1;
-		return (RowHandle) element.getSlot( slotId ).get( rowNumber );
+		return (RowHandle) element.getSlot(slotId).get(rowNumber);
 	}
 
 	/**
-	 * Always <code>false</code> since the "drop" property is disabled in
-	 * grid.
-	 * 
+	 * Always <code>false</code> since the "drop" property is disabled in grid.
+	 *
 	 * @see org.eclipse.birt.report.model.api.ColumnBandAdapter#hasDroppingCell(java.util.List)
 	 */
 
-	protected boolean hasDroppingCell( List cells )
-	{
+	@Override
+	protected boolean hasDroppingCell(List cells) {
 		return false;
 	}
 
-	protected List getRowContainerSlots( )
-	{
-		List list = new ArrayList( );
-		list.add( element.getRows( ) );
+	@Override
+	protected List getRowContainerSlots() {
+		List list = new ArrayList();
+		list.add(element.getRows());
 
 		return list;
 	}
 
 	@Override
-	protected boolean isDroppingCell( CellContextInfo cell )
-	{
+	protected boolean isDroppingCell(CellContextInfo cell) {
 		return false;
 	}
 

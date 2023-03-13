@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,64 +33,45 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 /**
  * Write a PojoQuery instance into a XML
  */
-public class PojoQueryWriter
-{
-	public static String write( PojoQuery query ) throws OdaException
-	{
-		if ( query == null )
-		{
+public class PojoQueryWriter {
+	public static String write(PojoQuery query) throws OdaException {
+		if (query == null) {
 			return null;
 		}
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
-		try
-		{
-			DocumentBuilder builder = factory.newDocumentBuilder( );
-			Document doc = builder.newDocument( );
-			Element root = doc.createElement( Constants.ELEMENT_ROOT );
-			doc.appendChild( root );
-			if ( query.getVersion( ) != null )
-			{
-				root.setAttribute( Constants.ATTR_POJOQUERY_VERSION, query.getVersion( ) );
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.newDocument();
+			Element root = doc.createElement(Constants.ELEMENT_ROOT);
+			doc.appendChild(root);
+			if (query.getVersion() != null) {
+				root.setAttribute(Constants.ATTR_POJOQUERY_VERSION, query.getVersion());
 			}
-			if ( query.getAppContextKey( ) != null )
-			{
-				root.setAttribute( Constants.ATTR_POJOQUERY_APPCONTEXTKEY, query.getAppContextKey( ) );
+			if (query.getAppContextKey() != null) {
+				root.setAttribute(Constants.ATTR_POJOQUERY_APPCONTEXTKEY, query.getAppContextKey());
 			}
-			if ( query.getDataSetClass( ) != null )
-			{
-				root.setAttribute( Constants.ATTR_POJOQUERY_DATASETCLASS, query.getDataSetClass( ) );
+			if (query.getDataSetClass() != null) {
+				root.setAttribute(Constants.ATTR_POJOQUERY_DATASETCLASS, query.getDataSetClass());
 			}
-			for ( IColumnsMapping cm : query.getColumnsMappings( ) )
-			{
-				root.appendChild( cm.createElement( doc ) );
+			for (IColumnsMapping cm : query.getColumnsMappings()) {
+				root.appendChild(cm.createElement(doc));
 			}
-			
-			TransformerFactory tff = TransformerFactory.newInstance( );
+
+			TransformerFactory tff = TransformerFactory.newInstance();
 			tff.setAttribute("indent-number", 4); //$NON-NLS-1$
-			Transformer tf = tff.newTransformer( );
-			tf.setOutputProperty( OutputKeys.INDENT, "yes" ); //$NON-NLS-1$
-			
-			StringWriter sw = new StringWriter( );
-			StreamResult sr = new StreamResult( sw );
-			DOMSource source = new DOMSource( doc );
-			tf.transform( source, sr );
-			return sw.toString( );
-		}
-		catch ( ParserConfigurationException e )
-		{
-			throw new OdaException( e );
-		}
-		catch ( TransformerConfigurationException e )
-		{
-			throw new OdaException( e );
-		}
-		catch ( TransformerException e )
-		{
-			throw new OdaException( e );
+			Transformer tf = tff.newTransformer();
+			tf.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
+
+			StringWriter sw = new StringWriter();
+			StreamResult sr = new StreamResult(sw);
+			DOMSource source = new DOMSource(doc);
+			tf.transform(source, sr);
+			return sw.toString();
+		} catch (ParserConfigurationException | TransformerException e) {
+			throw new OdaException(e);
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,27 +21,24 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 
 /**
  * An extension-point for data extraction.
- * 
- * It's recommended to extend DataExtractionExtensionBase intead
- * of implement directly.
+ *
+ * It's recommended to extend DataExtractionExtensionBase intead of implement
+ * directly.
  */
-public interface IDataExtractionExtension
-{
+public interface IDataExtractionExtension {
 
-	void initialize( IReportContext context, IDataExtractionOption option )
-			throws BirtException;
+	void initialize(IReportContext context, IDataExtractionOption option) throws BirtException;
 
 	/**
 	 * Outputs data defined in the result set.
-	 * 
-	 * @param results
-	 *            the result set.
+	 *
+	 * @param results the result set.
 	 */
-	void output( IExtractionResults results ) throws BirtException;
+	void output(IExtractionResults results) throws BirtException;
 
 	/**
 	 * Releases all resources allocated in the extension.
 	 */
-	void release( );
+	void release();
 
 }

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Testhelper Fragment
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model.testhelper
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Fragment-Host: org.eclipse.birt.report.model;bundle-version="2.2.0"
 Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.api;x-friends:="org.eclipse.birt.report.model.tests",
@@ -12,6 +12,6 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.metadata;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.writer;x-friends:="org.eclipse.birt.report.model.tests,com.actuate.birt.report.model.tests"
 Bundle-ClassPath: tests.jar
-Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: %Bundle-Vendor
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.model.testhelper

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -29,137 +32,119 @@ import org.eclipse.swt.SWTException;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision$ $Date$
  */
 
-public class DefaultDataSetWizard extends Wizard
-{
+public class DefaultDataSetWizard extends Wizard {
 
-	private static final String CREATE_DATA_SET_TRANS_NAME = Messages.getString( "AbstractDataSetWizard.ModelTrans.Create" ); //$NON-NLS-1$
+	private static final String CREATE_DATA_SET_TRANS_NAME = Messages
+			.getString("AbstractDataSetWizard.ModelTrans.Create"); //$NON-NLS-1$
 
 	private transient boolean useTransaction = true;
 	private DataSetBasePage dataSetPage;
 	private AdvancedColumnDefPage columnDefPage;
 
 	private DataSetHandle dataSetHandle;
-	
+
 	/**
-	 *  
+	 *
 	 */
-	public DefaultDataSetWizard( )
-	{
-		this( null, true );
+	public DefaultDataSetWizard() {
+		this(null, true);
 
 	}
 
-	public DefaultDataSetWizard( DataSourceHandle dataSourceHandle,
-			boolean useTransaction )
-	{
-		super( );
+	public DefaultDataSetWizard(DataSourceHandle dataSourceHandle, boolean useTransaction) {
+		super();
 		this.useTransaction = useTransaction;
-		dataSetPage = new DataSetBasePage( useTransaction );
-		dataSetPage.setNewDataSource( dataSourceHandle );
-		setForcePreviousAndNextButtons( true );
-		addPage( dataSetPage );
-		columnDefPage = new AdvancedColumnDefPage( );
-		addPage( columnDefPage );
+		dataSetPage = new DataSetBasePage(useTransaction);
+		dataSetPage.setNewDataSource(dataSourceHandle);
+		setForcePreviousAndNextButtons(true);
+		addPage(dataSetPage);
+		columnDefPage = new AdvancedColumnDefPage();
+		addPage(columnDefPage);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
-		if ( !canFinish( ) )
+	@Override
+	public boolean performFinish() {
+		if (!canFinish()) {
 			return false;
+		}
 
-		if ( useTransaction )
-		{
+		if (useTransaction) {
 			// Start the transaction
-			Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
+			Utility.getCommandStack().startTrans(CREATE_DATA_SET_TRANS_NAME);
 		}
-		dataSetHandle = dataSetPage.createSelectedDataSet( );
+		dataSetHandle = dataSetPage.createSelectedDataSet();
 
-		if ( dataSetHandle != null )
-		{
-			if ( dataSetHandle instanceof ScriptDataSetHandle )
-			{
-				columnDefPage.saveResult( dataSetHandle );
+		if (dataSetHandle != null) {
+			if (dataSetHandle instanceof ScriptDataSetHandle) {
+				columnDefPage.saveResult(dataSetHandle);
 			}
-			//If we are using transactions
-			//commit it
-			if ( useTransaction )
-			{
-				Utility.getCommandStack( ).commit( );
+			// If we are using transactions
+			// commit it
+			if (useTransaction) {
+				Utility.getCommandStack().commit();
 			}
-			try
-			{
-				createSelectedDataSetTearDown( dataSetHandle );
-				DataSetUIUtil.updateColumnCache( dataSetHandle, false );
-			}
-			catch ( Exception e )
-			{
-				if ( e instanceof SWTException )
-				{
+			try {
+				createSelectedDataSetTearDown(dataSetHandle);
+				DataSetUIUtil.updateColumnCache(dataSetHandle, false);
+			} catch (Exception e) {
+				if (e instanceof SWTException) {
 					SWTException swtException = (SWTException) e;
-					if ( swtException.code == SWT.ERROR_WIDGET_DISPOSED )
-						Utility.log( e );
+					if (swtException.code == SWT.ERROR_WIDGET_DISPOSED) {
+						Utility.log(e);
+					}
 				}
-				
-				Throwable cause = e.getCause( );
-				if ( cause != null && ( cause instanceof org.eclipse.birt.data.engine.core.DataException ) )
-				{
-					Logger logger = Logger.getLogger( DefaultDataSetWizard.class.getName( ) );
-					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
-				}
-				else
-				{
-					ExceptionHandler.handle( e );
+
+				Throwable cause = e.getCause();
+				if (cause != null && (cause instanceof org.eclipse.birt.data.engine.core.DataException)) {
+					Logger logger = Logger.getLogger(DefaultDataSetWizard.class.getName());
+					logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+				} else {
+					ExceptionHandler.handle(e);
 				}
 			}
-		}
-		else
-		{
-			//If we are using transactions
-			//rollback it
-			if ( useTransaction )
-			{
-				Utility.getCommandStack( ).rollback( );
+		} else {
+			// If we are using transactions
+			// rollback it
+			if (useTransaction) {
+				Utility.getCommandStack().rollback();
 			}
 			return false;
 		}
 		return true;
 	}
-	
-	public DataSetHandle getNewCreateDataSetHandle( )
-	{
+
+	public DataSetHandle getNewCreateDataSetHandle() {
 		return this.dataSetHandle;
 	}
-	
+
 	/**
-	 * Add DataSetHandle to SlotHandle 
+	 * Add DataSetHandle to SlotHandle
+	 *
 	 * @param dataSetHandle
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	private void createSelectedDataSetTearDown( DataSetHandle dataSetHandle )
-			throws ContentException, NameException
-	{
-		DesignElementHandle parentHandle = Utility.getReportModuleHandle( );
-		SlotHandle slotHandle = ( (ModuleHandle) parentHandle ).getDataSets( );
-		slotHandle.add( dataSetHandle );
-		if ( dataSetHandle instanceof ScriptDataSetHandle )
-		{
-			Utility.setScriptActivityEditor( );
+	private void createSelectedDataSetTearDown(DataSetHandle dataSetHandle) throws ContentException, NameException {
+		DesignElementHandle parentHandle = Utility.getReportModuleHandle();
+		SlotHandle slotHandle = ((ModuleHandle) parentHandle).getDataSets();
+		slotHandle.add(dataSetHandle);
+		if (dataSetHandle instanceof ScriptDataSetHandle) {
+			Utility.setScriptActivityEditor();
 		}
 	}
 
-	public boolean canFinish( )
-	{
-		dataSetPage.setPageFocus( );
-		return dataSetPage.canFinish( ) && columnDefPage.isPageComplete( );
+	@Override
+	public boolean canFinish() {
+		dataSetPage.setPageFocus();
+		return dataSetPage.canFinish() && columnDefPage.isPageComplete();
 	}
 }

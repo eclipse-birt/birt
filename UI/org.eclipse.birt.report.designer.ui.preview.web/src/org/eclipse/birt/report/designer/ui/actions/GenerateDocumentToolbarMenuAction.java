@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,76 +34,63 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * GenerateDocumentToolbarMenuAction
  */
-public class GenerateDocumentToolbarMenuAction implements
-		IWorkbenchWindowActionDelegate
-{
+public class GenerateDocumentToolbarMenuAction implements IWorkbenchWindowActionDelegate {
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 	}
 
-	public void init( IWorkbenchWindow window )
-	{
+	@Override
+	public void init(IWorkbenchWindow window) {
 	}
 
-	public void run( IAction action )
-	{
-		gendoc( action );
+	@Override
+	public void run(IAction action) {
+		gendoc(action);
 	}
 
-	public void selectionChanged( IAction action, ISelection selection )
-	{
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
-	private void gendoc( IAction action )
-	{
+	private void gendoc(IAction action) {
 		// cleanup system settings
 		PreviewUtil.clearSystemProperties();
 
-		FormEditor editor = UIUtil.getActiveReportEditor( false );
+		FormEditor editor = UIUtil.getActiveReportEditor(false);
 		ModuleHandle model = null;
-		if (model == null )
-		{
-			if (editor instanceof MultiPageReportEditor)
-			{
-				model = ((MultiPageReportEditor)editor).getModel( );
+		if (model == null) {
+			if (editor instanceof MultiPageReportEditor) {
+				model = ((MultiPageReportEditor) editor).getModel();
 			}
 		}
-		if (model == null)
-		{
+		if (model == null) {
 			return;
 		}
-		if ( editor != null )
-		{
-			if ( model.needsSave( ) )
-			{
-				editor.doSave( null );
+		if (editor != null) {
+			if (model.needsSave()) {
+				editor.doSave(null);
 			}
 		}
 
-		Map options = new HashMap( );
-		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
-				.getResourceFolder( ) );
-		options.put( WebViewer.SERVLET_NAME_KEY, WebViewer.VIEWER_DOCUMENT );
+		Map options = new HashMap();
+		options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder());
+		options.put(WebViewer.SERVLET_NAME_KEY, WebViewer.VIEWER_DOCUMENT);
 
-		Object adapter = ElementAdapterManager.getAdapter( action,
-				IPreviewAction.class );
+		Object adapter = ElementAdapterManager.getAdapter(action, IPreviewAction.class);
 
-		if ( adapter instanceof IPreviewAction )
-		{
+		if (adapter instanceof IPreviewAction) {
 			IPreviewAction delegate = (IPreviewAction) adapter;
 
-			delegate.setProperty( IPreviewConstants.REPORT_PREVIEW_OPTIONS,
-					options );
-			delegate.setProperty( IPreviewConstants.REPORT_FILE_PATH,
-					model.getFileName( ) );
+			delegate.setProperty(IPreviewConstants.REPORT_PREVIEW_OPTIONS, options);
+			delegate.setProperty(IPreviewConstants.REPORT_FILE_PATH, model.getFileName());
 
-			delegate.run( );
+			delegate.run();
 
 			return;
 		}
 
-		WebViewer.display( model.getFileName( ), options );
+		WebViewer.display(model.getFileName(), options);
 	}
 
 }

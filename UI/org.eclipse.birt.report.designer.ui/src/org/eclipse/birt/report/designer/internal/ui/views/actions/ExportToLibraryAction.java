@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,15 +43,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * 
+ *
  */
 
-public class ExportToLibraryAction extends AbstractViewAction
-{
+public class ExportToLibraryAction extends AbstractViewAction {
 
-	private static String windowTitle = Messages.getString( "ExportToLibraryAction.wizard.windowTitle" ); //$NON-NLS-1$
+	private static String windowTitle = Messages.getString("ExportToLibraryAction.wizard.windowTitle"); //$NON-NLS-1$
 
-	private static final String DISPLAY_TEXT = Messages.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
+	private static final String DISPLAY_TEXT = Messages.getString("ExportToLibraryAction.action.text"); //$NON-NLS-1$
 
 	/**
 	 * ExportToLibraryAction preference key.
@@ -70,209 +72,177 @@ public class ExportToLibraryAction extends AbstractViewAction
 	 */
 	public static final int PREF_PROMPT = 0;
 
-	private final static String DIALOG_TITLE = Messages.getString( "ExportToLibraryAction.Dialog.Title" ); //$NON-NLS-1$
-	private final static String DIALOG_MESSAGE = Messages.getString( "ExportToLibraryAction.Dialog.Message" ); //$NON-NLS-1$
-	private final static String BUTTON_YES = Messages.getString( "ExportToLibraryAction.Button.Yes" ); //$NON-NLS-1$
-	private final static String BUTTON_NO = Messages.getString( "ExportToLibraryAction.Button.No" ); //$NON-NLS-1$
-	private final static String BUTTON_CANCEL = Messages.getString( "ExportToLibraryAction.Button.Cancel" ); //$NON-NLS-1$
-	private final static String REMEMBER_DECISION = Messages.getString( "ExportToLibraryAction.Message.RememberDecision" ); //$NON-NLS-1$
+	private final static String DIALOG_TITLE = Messages.getString("ExportToLibraryAction.Dialog.Title"); //$NON-NLS-1$
+	private final static String DIALOG_MESSAGE = Messages.getString("ExportToLibraryAction.Dialog.Message"); //$NON-NLS-1$
+	private final static String BUTTON_YES = Messages.getString("ExportToLibraryAction.Button.Yes"); //$NON-NLS-1$
+	private final static String BUTTON_NO = Messages.getString("ExportToLibraryAction.Button.No"); //$NON-NLS-1$
+	private final static String BUTTON_CANCEL = Messages.getString("ExportToLibraryAction.Button.Cancel"); //$NON-NLS-1$
+	private final static String REMEMBER_DECISION = Messages
+			.getString("ExportToLibraryAction.Message.RememberDecision"); //$NON-NLS-1$
 
 	private boolean saveDecision;
 	private int pref;
 
-	public ExportToLibraryAction( Object selectedObject )
-	{
-		super( selectedObject, DISPLAY_TEXT );
+	public ExportToLibraryAction(Object selectedObject) {
+		super(selectedObject, DISPLAY_TEXT);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		if ( getSelection( ) instanceof ReportDesignHandle )
-		{
+	@Override
+	public boolean isEnabled() {
+		if (getSelection() instanceof ReportDesignHandle) {
 			return true;
-		}
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
+	@Override
+	public void run() {
 
-		ExportReportWizard exportReportWizard = new ExportReportWizard( );
-		WizardDialog wDialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-				exportReportWizard );
-		wDialog.setPageSize( 500, 250 );
-		wDialog.open( );
+		ExportReportWizard exportReportWizard = new ExportReportWizard();
+		WizardDialog wDialog = new BaseWizardDialog(UIUtil.getDefaultShell(), exportReportWizard);
+		wDialog.setPageSize(500, 250);
+		wDialog.open();
 	}
 
-	public class ExportReportWizard extends Wizard
-	{
+	public class ExportReportWizard extends Wizard {
 
 		private ExportReportWizardPage page;
 
 		/**
-		 * 
+		 *
 		 */
-		public ExportReportWizard( )
-		{
-			super( );
-			setWindowTitle( windowTitle );
-			page = new ExportReportWizardPage( "" ); //$NON-NLS-1$
-			addPage( page );
+		public ExportReportWizard() {
+			super();
+			setWindowTitle(windowTitle);
+			page = new ExportReportWizardPage(""); //$NON-NLS-1$
+			addPage(page);
 
 		}
 
-		public Image getDefaultPageImage( )
-		{
-			return ReportPlugin.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
+		@Override
+		public Image getDefaultPageImage() {
+			return ReportPlugin.getImage("/icons/wizban/create_project_wizard.gif"); //$NON-NLS-1$
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 		 */
 
-		public boolean performFinish( )
-		{
+		@Override
+		public boolean performFinish() {
 			// TODO Auto-generated method stub
 
-			try
-			{
-				String filename = page.getFullName( );
+			try {
+				String filename = page.getFullName();
 
-				if ( !filename.endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
+				if (!filename.endsWith(".rptlibrary")) //$NON-NLS-1$
 				{
 					filename += ".rptlibrary"; //$NON-NLS-1$
 				}
-				pref = ReportPlugin.getDefault( )
-						.getPreferenceStore( )
-						.getInt( PREF_KEY );
-				if ( filename != null )
-				{
+				pref = ReportPlugin.getDefault().getPreferenceStore().getInt(PREF_KEY);
+				if (filename != null) {
 
-					if ( pref == PREF_PROMPT && new File( filename ).exists( ) )
-					{
+					if (pref == PREF_PROMPT && new File(filename).exists()) {
 
-						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
-								DIALOG_TITLE,
-								null,
-								DIALOG_MESSAGE,
-								MessageDialog.INFORMATION,
-								new String[]{
-										BUTTON_YES, BUTTON_NO, BUTTON_CANCEL
-								},
-								0 ) {
+						MessageDialog prefDialog = new MessageDialog(UIUtil.getDefaultShell(), DIALOG_TITLE, null,
+								DIALOG_MESSAGE, MessageDialog.INFORMATION,
+								new String[] { BUTTON_YES, BUTTON_NO, BUTTON_CANCEL }, 0) {
 
 							/*
 							 * (non-Javadoc)
-							 * 
-							 * @seeorg.eclipse.jface.dialogs.MessageDialog#
-							 * createCustomArea
+							 *
+							 * @seeorg.eclipse.jface.dialogs.MessageDialog# createCustomArea
 							 * (org.eclipse.swt.widgets.Composite)
 							 */
-							protected Control createCustomArea( Composite parent )
-							{
-								Composite container = new Composite( parent,
-										SWT.NONE );
-								GridLayout gridLayout = new GridLayout( );
+							@Override
+							protected Control createCustomArea(Composite parent) {
+								Composite container = new Composite(parent, SWT.NONE);
+								GridLayout gridLayout = new GridLayout();
 								gridLayout.marginWidth = 20;
 								// gridLayout.marginTop = 15;
-								container.setLayout( gridLayout );
+								container.setLayout(gridLayout);
 
-								Button chkbox = new Button( container,
-										SWT.CHECK );
-								chkbox.setText( REMEMBER_DECISION );
-								chkbox.addSelectionListener( new SelectionListener( ) {
+								Button chkbox = new Button(container, SWT.CHECK);
+								chkbox.setText(REMEMBER_DECISION);
+								chkbox.addSelectionListener(new SelectionListener() {
 
-									public void widgetSelected( SelectionEvent e )
-									{
+									@Override
+									public void widgetSelected(SelectionEvent e) {
 										saveDecision = !saveDecision;
 									}
 
-									public void widgetDefaultSelected(
-											SelectionEvent e )
-									{
+									@Override
+									public void widgetDefaultSelected(SelectionEvent e) {
 										saveDecision = false;
 									}
-								} );
+								});
 
-								return super.createCustomArea( parent );
+								return super.createCustomArea(parent);
 							}
 
 							/*
 							 * (non-Javadoc)
-							 * 
-							 * @see
-							 * org.eclipse.jface.dialogs.MessageDialog#buttonPressed
-							 * (int)
+							 *
+							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed (int)
 							 */
-							protected void buttonPressed( int buttonId )
-							{
-								switch ( buttonId )
-								{
-									case 0 :
-										pref = PREF_OVERWRITE;
-										break;
-									case 1 :
-										pref = PREF_NOT_OVERWRITE;
-										break;
-									default :
-										break;
+							@Override
+							protected void buttonPressed(int buttonId) {
+								switch (buttonId) {
+								case 0:
+									pref = PREF_OVERWRITE;
+									break;
+								case 1:
+									pref = PREF_NOT_OVERWRITE;
+									break;
+								default:
+									break;
 								}
-								if ( saveDecision )
-								{
-									ReportPlugin.getDefault( )
-											.getPreferenceStore( )
-											.setValue( PREF_KEY, pref );
+								if (saveDecision) {
+									ReportPlugin.getDefault().getPreferenceStore().setValue(PREF_KEY, pref);
 								}
-								super.buttonPressed( buttonId );
+								super.buttonPressed(buttonId);
 							}
 
 						};
-						if ( prefDialog.open( ) == 2 )
+						if (prefDialog.open() == 2) {
 							return true;
+						}
 
 					}
-					if ( getSelection( ) instanceof ReportDesignHandle )
-					{
-						ElementExportUtil.exportDesign( (ReportDesignHandle) getSelection( ),
-								filename,
-								pref == PREF_OVERWRITE,
-								true );
-					}
-					else
-					{
-						ElementExportUtil.exportElement( (DesignElementHandle) getSelection( ),
-								filename,
-								pref == PREF_OVERWRITE );
+					if (getSelection() instanceof ReportDesignHandle) {
+						ElementExportUtil.exportDesign((ReportDesignHandle) getSelection(), filename,
+								pref == PREF_OVERWRITE, true);
+					} else {
+						ElementExportUtil.exportElement((DesignElementHandle) getSelection(), filename,
+								pref == PREF_OVERWRITE);
 					}
 
-					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-							.getResourceSynchronizerService( );
+					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault()
+							.getResourceSynchronizerService();
 
-					if ( synchronizer != null )
-					{
-						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-								Path.fromOSString( filename ), IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange ) );
-						synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
-								Path.fromOSString( filename ), IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString( filename ).toOSString( ) ) );
+					if (synchronizer != null) {
+						synchronizer.notifyResourceChanged(new ReportResourceChangeEvent(this,
+								Path.fromOSString(filename),
+								IReportResourceChangeEvent.NewResource | IReportResourceChangeEvent.LibraySaveChange));
+						synchronizer.notifyResourceChanged(new LibrarySaveChangeEvent(this, Path.fromOSString(filename),
+								IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString(filename).toOSString()));
 					}
 				}
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (Exception e) {
+				ExceptionHandler.handle(e);
 			}
 
 			return true;

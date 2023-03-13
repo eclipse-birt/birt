@@ -1,15 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Report Engine Emitter Html Tests Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.html.tests;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.html.tests.Activator
 Import-Package: org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.birt.report.engine,
- org.eclipse.birt.report.engine.emitter.html,
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.13.0",
+ org.eclipse.birt.report.engine.emitter.html;bundle-version="4.13.0",
  org.junit;bundle-version="4.7.0"
 Bundle-ClassPath: emitterhtmltests.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.html.tests
+Export-Package: org.eclipse.birt.report.engine.emitter.html;x-internal:=true,
+ org.eclipse.birt.report.engine.emitter.html.tests;x-internal:=true

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.api.script;
@@ -36,8 +39,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class AfterDataSetFilled extends ChartTestCase
-{
+public class AfterDataSetFilled extends ChartTestCase {
 
 	/**
 	 * A chart model instance
@@ -46,92 +48,80 @@ public class AfterDataSetFilled extends ChartTestCase
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new AfterDataSetFilled( );
+	public static void main(String[] args) {
+		new AfterDataSetFilled();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public AfterDataSetFilled( )
-	{
-		cm = createChart( );
-		bindGroupingData( cm );
+	public AfterDataSetFilled() {
+		cm = createChart();
+		bindGroupingData(cm);
 	}
 
-	private void bindGroupingData( Chart chart )
+	private void bindGroupingData(Chart chart)
 
 	{
 
 		// Data Set
-		final Object[][] data = new Object[][]{{"x1", new Integer( 1 ), "g1"},
-				{"x2", new Integer( 2 ), "g2"}, {"x3", new Integer( 3 ), "g1"},
-				{"x4", new Integer( 4 ), "g3"}, {"x5", new Integer( 5 ), "g2"},
-				{"x6", new Integer( 6 ), "g1"}, {"x7", new Integer( 7 ), "g3"},
-				{"x8", new Integer( 8 ), "g2"}, {"x9", new Integer( 9 ), "g2"},
-				{"x0", new Integer( 0 ), "g2"},};
-		try
-		{
-			Generator gr = Generator.instance( );
-			gr.bindData( new IDataRowExpressionEvaluator( ) {
+		final Object[][] data = { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
+				{ "x3", new Integer(3), "g1" }, { "x4", new Integer(4), "g3" }, { "x5", new Integer(5), "g2" },
+				{ "x6", new Integer(6), "g1" }, { "x7", new Integer(7), "g3" }, { "x8", new Integer(8), "g2" },
+				{ "x9", new Integer(9), "g2" }, { "x0", new Integer(0), "g2" }, };
+		try {
+			Generator gr = Generator.instance();
+			gr.bindData(new IDataRowExpressionEvaluator() {
 
 				int idx = 0;
 
-				public void close( )
-				{
+				@Override
+				public void close() {
 				}
 
-				public Object evaluate( String expression )
-				{
-					if ( "X".equals( expression ) )
-					{
+				@Override
+				public Object evaluate(String expression) {
+					if ("X".equals(expression)) {
 						return data[idx][0];
-					}
-					else if ( "Y".equals( expression ) )
-					{
+					} else if ("Y".equals(expression)) {
 						return data[idx][1];
-					}
-					else if ( "G".equals( expression ) )
-					{
+					} else if ("G".equals(expression)) {
 						return data[idx][2];
 					}
 					return null;
 				}
 
-				public Object evaluateGlobal( String expression )
-				{
-					return evaluate( expression );
+				@Override
+				public Object evaluateGlobal(String expression) {
+					return evaluate(expression);
 				}
 
-				public boolean first( )
-				{
+				@Override
+				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				public boolean next( )
-				{
+				@Override
+				public boolean next() {
 					idx++;
-					return ( idx < 9 );
+					return (idx < 9);
 				}
-			}, chart, new RunTimeContext( ) );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+			}, chart, new RunTimeContext());
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private Chart createChart( )
+	private Chart createChart()
 
 	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
-		cwaBar.setScript( "function afterDataSetFilled( series, idsp,Iicsc )" //$NON-NLS-1$
+		cwaBar.setScript("function afterDataSetFilled( series, idsp,Iicsc )" //$NON-NLS-1$
 				+ "{importPackage(Packages.java.lang); " //$NON-NLS-1$
 				+ "if (series.getLabel().isVisible() == true)" //$NON-NLS-1$
 				+ "{System.out.println(\"ok\");} " //$NON-NLS-1$
@@ -140,40 +130,40 @@ public class AfterDataSetFilled extends ChartTestCase
 		);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		Query xQ = QueryImpl.create( "G" );
-		seCategory.getDataDefinition( ).add( xQ );
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		Series seCategory = SeriesImpl.create();
+		Query xQ = QueryImpl.create("G");
+		seCategory.getDataDefinition().add(xQ);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// -------------------------------------------------------------
 
-		sdX.setSorting( SortOption.ASCENDING_LITERAL );
-		sdX.getGrouping( ).setEnabled( true );
-		sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
-		sdX.getGrouping( ).setAggregateExpression( "Sum" );
-		sdX.getGrouping( ).setGroupingInterval( 0 );
+		sdX.setSorting(SortOption.ASCENDING_LITERAL);
+		sdX.getGrouping().setEnabled(true);
+		sdX.getGrouping().setGroupType(DataType.TEXT_LITERAL);
+		sdX.getGrouping().setAggregateExpression("Sum");
+		sdX.getGrouping().setGroupingInterval(0);
 
 		// -------------------------------------------------------------
 
 		// Y-Series
-		LineSeries bs = (LineSeries) LineSeriesImpl.create( );
-		bs.getLabel( ).setVisible( true );
-		Query yQ = QueryImpl.create( "Y" );
-		bs.getDataDefinition( ).add( yQ );
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( 0 );
-		sdY.getSeries( ).add( bs );
+		LineSeries bs = (LineSeries) LineSeriesImpl.create();
+		bs.getLabel().setVisible(true);
+		Query yQ = QueryImpl.create("Y");
+		bs.getDataDefinition().add(yQ);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(0);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 

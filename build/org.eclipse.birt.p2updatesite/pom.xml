@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build</groupId>
 		<artifactId>org.eclipse.birt.build-parent</artifactId>
-		<version>4.9.0-SNAPSHOT</version>
+		<version>4.13.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -13,7 +27,7 @@
 	<packaging>eclipse-repository</packaging>
 
 	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->
-	<build>
+    <build>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -55,40 +69,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>deploy-update-site</id>
-			<!-- http://www.vogella.com/tutorials/EclipseTycho/article.html#deploy -->
-			<properties>
-				<!-- <birt-repository-url>birtdev/actu01/</birt-repository-url> -->
-			</properties>
-
-			<build>
-				<!-- Upload the repo to the server -->
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>wagon-maven-plugin</artifactId>
-						<version>1.0-beta-4</version>
-						<executions>
-							<execution>
-								<id>update-birt</id>
-								<phase>install</phase>
-								<goals>
-									<goal>upload</goal>
-								</goals>
-								<configuration>
-									<fromDir>./target/repository</fromDir>
-									<includes>**</includes>
-									<url>${birt-repository-url}</url>
-									<serverId>birt-repository</serverId>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

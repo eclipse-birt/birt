@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,43 +25,41 @@ import org.eclipse.birt.report.item.crosstab.core.script.internal.handler.Crosst
 /**
  * CrosstabCellExtendedItem
  */
-public class CrosstabCellExtendedItem implements IExtendedItem
-{
+public class CrosstabCellExtendedItem implements IExtendedItem {
 
 	private CrosstabHandlerCache handlerCache;
 
-	CrosstabCellExtendedItem( CrosstabHandlerCache handlerCache )
-	{
+	CrosstabCellExtendedItem(CrosstabHandlerCache handlerCache) {
 		this.handlerCache = handlerCache;
 	}
 
-	public IReportEventHandler createEventHandler( )
-	{
-		return new CrosstabCellReportEventHandler( handlerCache );
+	@Override
+	public IReportEventHandler createEventHandler() {
+		return new CrosstabCellReportEventHandler(handlerCache);
 	}
 
-	public IReportItemExecutor createExecutor( )
-	{
+	@Override
+	public IReportItemExecutor createExecutor() {
 		return null;
 	}
 
-	public IReportItemPreparation createPreparation( )
-	{
+	@Override
+	public IReportItemPreparation createPreparation() {
 		return null;
 	}
 
-	public IReportItemPresentation createPresentation( )
-	{
+	@Override
+	public IReportItemPresentation createPresentation() {
 		return null;
 	}
 
-	public IReportItemQuery createQuery( )
-	{
+	@Override
+	public IReportItemQuery createQuery() {
 		return null;
 	}
 
-	public void release( )
-	{
+	@Override
+	public void release() {
 		handlerCache = null;
 	}
 

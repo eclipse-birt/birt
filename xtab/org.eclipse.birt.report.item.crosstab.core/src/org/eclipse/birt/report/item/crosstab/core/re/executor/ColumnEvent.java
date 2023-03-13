@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,8 +17,7 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 /**
  * ColumnEvent
  */
-abstract class ColumnEvent
-{
+abstract class ColumnEvent {
 
 	static final int UNKNOWN_CHANGE = -1;
 	static final int ROW_EDGE_CHANGE = 1;
@@ -35,49 +37,41 @@ abstract class ColumnEvent
 
 }
 
-class RowEdgeColumnEvent extends ColumnEvent
-{
+class RowEdgeColumnEvent extends ColumnEvent {
 
-	RowEdgeColumnEvent( int dimensionIndex, int levelIndex )
-	{
+	RowEdgeColumnEvent(int dimensionIndex, int levelIndex) {
 		type = ROW_EDGE_CHANGE;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
 	}
 
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return "Type: ROW_EDGE, Dimension: " //$NON-NLS-1$
-				+ dimensionIndex
-				+ ", Level: " //$NON-NLS-1$
+				+ dimensionIndex + ", Level: " //$NON-NLS-1$
 				+ levelIndex;
 	}
 }
 
-class ColumnEdgeColumnEvent extends ColumnEvent
-{
+class ColumnEdgeColumnEvent extends ColumnEvent {
 
-	ColumnEdgeColumnEvent( int measureIndex )
-	{
+	ColumnEdgeColumnEvent(int measureIndex) {
 		type = COLUMN_EDGE_CHANGE;
 		this.measureIndex = measureIndex;
 	}
 
-	public String toString( )
-	{
-		return "Type: COLUMN_EDGE, Measure: " + measureIndex //$NON-NLS-1$ 
+	@Override
+	public String toString() {
+		return "Type: COLUMN_EDGE, Measure: " + measureIndex //$NON-NLS-1$
 				+ ", Data Position: " //$NON-NLS-1$
 				+ dataPosition;
 	}
 
 }
 
-class ColumnTotalColumnEvent extends ColumnEvent
-{
+class ColumnTotalColumnEvent extends ColumnEvent {
 
-	ColumnTotalColumnEvent( boolean isLocationBefore, int dimensionIndex,
-			int levelIndex, int measureIndex )
-	{
+	ColumnTotalColumnEvent(boolean isLocationBefore, int dimensionIndex, int levelIndex, int measureIndex) {
 		type = COLUMN_TOTAL_CHANGE;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
@@ -85,63 +79,54 @@ class ColumnTotalColumnEvent extends ColumnEvent
 		this.isLocationBefore = isLocationBefore;
 	}
 
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return "Type: COLUMN_TOTAL, Dimension: " //$NON-NLS-1$
-				+ dimensionIndex
-				+ ", Level: " //$NON-NLS-1$
-				+ levelIndex
-				+ ", Measure: " //$NON-NLS-1$
-				+ measureIndex
-				+ ", Location: " //$NON-NLS-1$
-				+ ( isLocationBefore ? "Before" : "After" ) //$NON-NLS-1$  //$NON-NLS-2$
+				+ dimensionIndex + ", Level: " //$NON-NLS-1$
+				+ levelIndex + ", Measure: " //$NON-NLS-1$
+				+ measureIndex + ", Location: " //$NON-NLS-1$
+				+ (isLocationBefore ? "Before" : "After") //$NON-NLS-1$ //$NON-NLS-2$
 				+ ", Data Position: " //$NON-NLS-1$
 				+ dataPosition;
 	}
 
 }
 
-class GrandTotalColumnEvent extends ColumnEvent
-{
+class GrandTotalColumnEvent extends ColumnEvent {
 
-	GrandTotalColumnEvent( int measureIndex )
-	{
+	GrandTotalColumnEvent(int measureIndex) {
 		type = GRAND_TOTAL_CHANGE;
 		this.measureIndex = measureIndex;
 	}
 
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return "Type: GRAND_TOTAL, Measure: " + measureIndex; //$NON-NLS-1$
 	}
 
 }
 
-class MeasureHeaderColumnEvent extends ColumnEvent
-{
+class MeasureHeaderColumnEvent extends ColumnEvent {
 
-	MeasureHeaderColumnEvent( )
-	{
+	MeasureHeaderColumnEvent() {
 		type = MEASURE_HEADER_CHANGE;
 	}
 
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return "Type: MEASURE_HEADER"; //$NON-NLS-1$
 	}
 }
 
-class MeasureColumnEvent extends ColumnEvent
-{
+class MeasureColumnEvent extends ColumnEvent {
 
-	MeasureColumnEvent( int measureIndex )
-	{
+	MeasureColumnEvent(int measureIndex) {
 		type = MEASURE_CHANGE;
 		this.measureIndex = measureIndex;
 	}
 
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return "Type: MEASURE, Measure: " + measureIndex; //$NON-NLS-1$
 	}
 

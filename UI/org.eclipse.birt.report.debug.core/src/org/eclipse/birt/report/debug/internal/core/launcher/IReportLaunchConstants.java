@@ -1,9 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,8 +16,7 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 /**
  * IReportLaunchConstants
  */
-public interface IReportLaunchConstants
-{
+public interface IReportLaunchConstants {
 
 	/**
 	 * Report launcher ID
@@ -61,7 +62,7 @@ public interface IReportLaunchConstants
 	 * Default eclipse home key
 	 */
 	String ATTR_USE_DEFULT_ENGINE_HOME = "use.default.engine.home"; //$NON-NLS-1$
-	
+
 	/**
 	 * Resource folder
 	 */
@@ -86,9 +87,9 @@ public interface IReportLaunchConstants
 	 * Parameter name key
 	 */
 	String ATTR_PARAMRTER = "param:"; //$NON-NLS-1$
-	
+
 	String ATTR_MULPARAMRTER = "mulparam:"; //$NON-NLS-1$
-	
+
 	String ATTR_DATA_LIMIT_SIZE = "data.limit";//$NON-NLS-1$
 	/**
 	 * Debug type for java classes.

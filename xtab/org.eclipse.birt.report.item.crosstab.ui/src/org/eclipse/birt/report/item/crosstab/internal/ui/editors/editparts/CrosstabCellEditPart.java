@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,8 +51,7 @@ import org.eclipse.gef.requests.GroupRequest;
  * Crosstab cell element editpart, the model is CrosstabCellAdapter
  */
 
-public class CrosstabCellEditPart extends AbstractCellEditPart
-{
+public class CrosstabCellEditPart extends AbstractCellEditPart {
 
 	/**
 	 * The all drag column and row handle
@@ -58,186 +60,156 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
-	public CrosstabCellEditPart( Object model )
-	{
-		super( model );
+	public CrosstabCellEditPart(Object model) {
+		super(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		return getCrosstabCellAdapter( ).getModelList( );
+	@Override
+	protected List getModelChildren() {
+		return getCrosstabCellAdapter().getModelList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) {
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
-					protected org.eclipse.gef.commands.Command createDeleteCommand(
-							GroupRequest deleteRequest )
-					{
-						return UnexecutableCommand.INSTANCE;
-					}
+			@Override
+			protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
+				return UnexecutableCommand.INSTANCE;
+			}
 
-					protected Command getOrphanCommand( )
-					{
-						return new Command( ) {
+			@Override
+			protected Command getOrphanCommand() {
+				return new Command() {
 
-						};
-					}
-				} );
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new CrosstabCellFlowLayoutEditPolicy( ) );
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new CrosstabCellContainerEditPolicy( ) );
+				};
+			}
+		});
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new CrosstabCellFlowLayoutEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new CrosstabCellContainerEditPolicy());
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
 	// TODO now only fresh the border and the background.
-	public void refreshFigure( )
-	{
-		CellBorder cborder = new CellBorder( );
+	@Override
+	public void refreshFigure() {
+		CellBorder cborder = new CellBorder();
 
-		if ( getFigure( ).getBorder( ) instanceof CellBorder )
-		{
-			cborder.setBorderInsets( ( (CellBorder) getFigure( ).getBorder( ) ).getBorderInsets( ) );
+		if (getFigure().getBorder() instanceof CellBorder) {
+			cborder.setBorderInsets(((CellBorder) getFigure().getBorder()).getBorderInsets());
 		}
 
-		refreshBorder( getCrosstabCellAdapter( ).getDesignElementHandle( ),
-				cborder );
-		refreshBackground( getCrosstabCellAdapter( ).getDesignElementHandle( ) );
-	
-		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
-		if (getCrosstabCellAdapter( ).getDesignElementHandle( ) != null)
-		{
-			setTextAliment(getCrosstabCellAdapter( ).getDesignElementHandle( ).getPrivateStyle()  );
+		refreshBorder(getCrosstabCellAdapter().getDesignElementHandle(), cborder);
+		refreshBackground(getCrosstabCellAdapter().getDesignElementHandle());
+
+		((CellFigure) getFigure()).setDirectionRTL(BidiUIUtils.INSTANCE.isDirectionRTL(getModel())); // bidi_hcg
+		if (getCrosstabCellAdapter().getDesignElementHandle() != null) {
+			setTextAliment(getCrosstabCellAdapter().getDesignElementHandle().getPrivateStyle());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#activate()
 	 */
-	public void activate( )
-	{
-		if ( handles == null )
-		{
-			handles = getHandleList( );
+	@Override
+	public void activate() {
+		if (handles == null) {
+			handles = getHandleList();
 		}
 		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
-		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
-		int size = handles.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Figure handle = (Figure) handles.get( i );
-			layer.add( handle );
+		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
+		int size = handles.size();
+		for (int i = 0; i < size; i++) {
+			Figure handle = (Figure) handles.get(i);
+			layer.add(handle);
 		}
-		super.activate( );
+		super.activate();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#deactivate()
 	 */
-	public void deactivate( )
-	{
+	@Override
+	public void deactivate() {
 		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
-		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
-		int size = handles.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Figure handle = (Figure) handles.get( i );
-			layer.remove( handle );
+		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
+		int size = handles.size();
+		for (int i = 0; i < size; i++) {
+			Figure handle = (Figure) handles.get(i);
+			layer.remove(handle);
 		}
-		super.deactivate( );
+		super.deactivate();
 	}
 
 	/**
 	 * Gets the column and rwo drag handle
-	 * 
+	 *
 	 * @return
 	 */
-	protected List getHandleList( )
-	{
-		List retValue = new ArrayList( );
-		CrosstabTableEditPart parent = (CrosstabTableEditPart) getParent( );
+	protected List getHandleList() {
+		List retValue = new ArrayList();
+		CrosstabTableEditPart parent = (CrosstabTableEditPart) getParent();
 
-		int columnNumner = parent.getColumnCount( );
-		int rowNumer = parent.getRowCount( );
-		if ( getColumnNumber( ) + getColSpan( ) - 1 < columnNumner )
-		{
-			CrosstavCellDragHandle column = new CrosstavCellDragHandle( this,
-					PositionConstants.EAST,
-					getColumnNumber( ) + getColSpan( ) - 1,
-					getColumnNumber( ) + getColSpan( ) );
-			retValue.add( column );
+		int columnNumner = parent.getColumnCount();
+		int rowNumer = parent.getRowCount();
+		if (getColumnNumber() + getColSpan() - 1 < columnNumner) {
+			CrosstavCellDragHandle column = new CrosstavCellDragHandle(this, PositionConstants.EAST,
+					getColumnNumber() + getColSpan() - 1, getColumnNumber() + getColSpan());
+			retValue.add(column);
+		} else {
+			CrosstavCellDragHandle column = new CrosstavCellDragHandle(this, PositionConstants.EAST,
+					getColumnNumber() + getColSpan() - 1, getColumnNumber() + getColSpan() - 1);
+			retValue.add(column);
 		}
-		else
-		{
-			CrosstavCellDragHandle column = new CrosstavCellDragHandle( this,
-					PositionConstants.EAST,
-					getColumnNumber( ) + getColSpan( ) - 1,
-					getColumnNumber( ) + getColSpan( ) - 1 );
-			retValue.add( column );
-		}
-		if ( getRowNumber( ) + getRowSpan( ) - 1 < rowNumer )
-		{
-			CrosstavCellDragHandle row = new CrosstavCellDragHandle( this,
-					PositionConstants.SOUTH,
-					getRowNumber( ) + getRowSpan( ) - 1,
-					getRowNumber( ) + getRowSpan( ) );
-			retValue.add( row );
-		}
-		else
-		{
-			CrosstavCellDragHandle row = new CrosstavCellDragHandle( this,
-					PositionConstants.SOUTH,
-					getRowNumber( ) + getRowSpan( ) - 1,
-					getRowNumber( ) + getRowSpan( ) - 1 );
-			retValue.add( row );
+		if (getRowNumber() + getRowSpan() - 1 < rowNumer) {
+			CrosstavCellDragHandle row = new CrosstavCellDragHandle(this, PositionConstants.SOUTH,
+					getRowNumber() + getRowSpan() - 1, getRowNumber() + getRowSpan());
+			retValue.add(row);
+		} else {
+			CrosstavCellDragHandle row = new CrosstavCellDragHandle(this, PositionConstants.SOUTH,
+					getRowNumber() + getRowSpan() - 1, getRowNumber() + getRowSpan() - 1);
+			retValue.add(row);
 		}
 		return retValue;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		CellFigure figure = new CrosstabCellFigure( );
-		ReportFlowLayout rflayout = new ReportFlowLayout( );
-		figure.setLayoutManager( rflayout );
-		figure.setOpaque( false );
+	@Override
+	protected IFigure createFigure() {
+		CellFigure figure = new CrosstabCellFigure();
+		ReportFlowLayout rflayout = new ReportFlowLayout();
+		figure.setLayoutManager(rflayout);
+		figure.setOpaque(false);
 
 		return figure;
 	}
@@ -245,115 +217,98 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 	/**
 	 * @return
 	 */
-	protected CrosstabCellAdapter getCrosstabCellAdapter( )
-	{
-		return (CrosstabCellAdapter) getModel( );
+	protected CrosstabCellAdapter getCrosstabCellAdapter() {
+		return (CrosstabCellAdapter) getModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getColSpan()
 	 */
-	public int getColSpan( )
-	{
-		return getCrosstabCellAdapter( ).getColumnSpan( );
+	@Override
+	public int getColSpan() {
+		return getCrosstabCellAdapter().getColumnSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getColumnNumber()
 	 */
-	public int getColumnNumber( )
-	{
-		return getCrosstabCellAdapter( ).getColumnNumber( );
+	@Override
+	public int getColumnNumber() {
+		return getCrosstabCellAdapter().getColumnNumber();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getRowNumber()
 	 */
-	public int getRowNumber( )
-	{
-		return getCrosstabCellAdapter( ).getRowNumber( );
+	@Override
+	public int getRowNumber() {
+		return getCrosstabCellAdapter().getRowNumber();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell#
 	 * getRowSpan()
 	 */
-	public int getRowSpan( )
-	{
-		return getCrosstabCellAdapter( ).getRowSpan( );
+	@Override
+	public int getRowSpan() {
+		return getCrosstabCellAdapter().getRowSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
 	 */
-	protected EditPart createChild( Object model )
-	{
-		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart( this,
-				model );
-		if ( part != null )
-		{
+	@Override
+	protected EditPart createChild(Object model) {
+		EditPart part = CrosstabGraphicsFactory.INSTANCEOF.createEditPart(this, model);
+		if (part != null) {
 			return part;
 		}
-		return super.createChild( model );
+		return super.createChild(model);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang
+	 *
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang
 	 * .Class)
 	 */
-	public Object getAdapter( Class key )
-	{
-		if ( key == ISelectionFilter.class )
-		{
-			return new ISelectionFilter( ) {
+	@Override
+	public Object getAdapter(Class key) {
+		if (key == ISelectionFilter.class) {
+			return new ISelectionFilter() {
 
-				public List filterEditpart( List editparts )
-				{
-					int size = editparts.size( );
-					List copy = new ArrayList( editparts );
+				@Override
+				public List filterEditpart(List editparts) {
+					int size = editparts.size();
+					List copy = new ArrayList(editparts);
 
 					boolean hasCell = false;
 					boolean hasOther = false;
-					for ( int i = 0; i < size; i++ )
-					{
-						if ( editparts.get( i ) instanceof CrosstabCellEditPart )
-						{
+					for (int i = 0; i < size; i++) {
+						if (editparts.get(i) instanceof CrosstabCellEditPart) {
 							hasCell = true;
-						}
-						else
-						{
+						} else {
 							hasOther = true;
 						}
 					}
-					if ( hasCell && hasOther )
-					{
+					if (hasCell && hasOther) {
 
-						for ( int i = 0; i < size; i++ )
-						{
-							if ( editparts.get( i ) instanceof CrosstabCellEditPart )
-							{
-								copy.remove( editparts.get( i ) );
+						for (int i = 0; i < size; i++) {
+							if (editparts.get(i) instanceof CrosstabCellEditPart) {
+								copy.remove(editparts.get(i));
 							}
 						}
 					}
@@ -363,93 +318,77 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 
 			};
 		}
-		if ( key == IBreadcrumbNodeProvider.class )
-		{
+		if (key == IBreadcrumbNodeProvider.class) {
 			return new CrosstabCellBreadcrumbNodeProvider();
 		}
-		return super.getAdapter( key );
+		return super.getAdapter(key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#contentChange(java.util.Map)
 	 */
-	protected void contentChange( Map info )
-	{
-		( (ReportElementEditPart) getParent( ) ).refresh( );
-		if ( getParent( ) != null )
-		{
-			super.contentChange( info );
+	@Override
+	protected void contentChange(Map info) {
+		((ReportElementEditPart) getParent()).refresh();
+		if (getParent() != null) {
+			super.contentChange(info);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
-	public void showTargetFeedback( Request request )
-	{
-		if ( this.getSelected( ) == 0
-				&& isActive( )
-				&& request.getType( ) == RequestConstants.REQ_SELECTION )
-		{
+	@Override
+	public void showTargetFeedback(Request request) {
+		if (this.getSelected() == 0 && isActive() && request.getType() == RequestConstants.REQ_SELECTION) {
 
-			if ( isFigureLeft( request ) )
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getLeftCellCursor( ) );
-			}
-			else
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getRightCellCursor( ) );
+			if (isFigureLeft(request)) {
+				this.getViewer().setCursor(ReportPlugin.getDefault().getLeftCellCursor());
+			} else {
+				this.getViewer().setCursor(ReportPlugin.getDefault().getRightCellCursor());
 			}
 		}
-		super.showTargetFeedback( request );
+		super.showTargetFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse
 	 * .gef.Request)
 	 */
-	public void eraseTargetFeedback( Request request )
-	{
-		if ( isActive( ) )
-		{
-			this.getViewer( ).setCursor( null );
+	@Override
+	public void eraseTargetFeedback(Request request) {
+		if (isActive()) {
+			this.getViewer().setCursor(null);
 		}
-		super.eraseTargetFeedback( request );
+		super.eraseTargetFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterestSelection(java.lang.Object)
 	 */
-	public boolean isinterestSelection( Object object )
-	{
-		if ( object instanceof DesignElementHandle )
-		{
-			return getCrosstabCellAdapter( ).getCrosstabCellHandle( )
-					.getModelHandle( ) == object;
+	@Override
+	public boolean isinterestSelection(Object object) {
+		if (object instanceof DesignElementHandle) {
+			return getCrosstabCellAdapter().getCrosstabCellHandle().getModelHandle() == object;
 		}
-		return super.isinterestSelection( object );
+		return super.isinterestSelection(object);
 	}
 
 	@Override
-	public boolean isFixLayout( )
-	{
-		return ( (CrosstabTableEditPart) getParent( ) ).isFixLayout( );
+	public boolean isFixLayout() {
+		return ((CrosstabTableEditPart) getParent()).isFixLayout();
 	}
 }

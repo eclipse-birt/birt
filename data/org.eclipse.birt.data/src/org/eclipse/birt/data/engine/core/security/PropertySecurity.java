@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,61 +20,56 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
-public class PropertySecurity
-{
+public class PropertySecurity {
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public static HashMap createHashMap( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<HashMap>( ) {
+	public static HashMap createHashMap() {
+		return AccessController.doPrivileged(new PrivilegedAction<HashMap>() {
 
-			public HashMap run( )
-			{
-				return new HashMap( );
+			@Override
+			public HashMap run() {
+				return new HashMap();
 			}
-		} );
+		});
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public static Hashtable createHashtable( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Hashtable>( ) {
+	public static Hashtable createHashtable() {
+		return AccessController.doPrivileged(new PrivilegedAction<Hashtable>() {
 
-			public Hashtable run( )
-			{
-				return new Hashtable( );
+			@Override
+			public Hashtable run() {
+				return new Hashtable();
 			}
-		} );
+		});
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public static Properties createProperties( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Properties>( ) {
+	public static Properties createProperties() {
+		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
 
-			public Properties run( )
-			{
-				return new Properties( );
+			@Override
+			public Properties run() {
+				return new Properties();
 			}
-		} );
+		});
 	}
 
-	public static String getSystemProperty( final String key )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+	public static String getSystemProperty(final String key) {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.getProperty( key );
+			@Override
+			public String run() {
+				return System.getProperty(key);
 			}
-		} );
+		});
 	}
 }

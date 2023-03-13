@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +31,7 @@ import org.eclipse.birt.report.model.api.ModelException;
  * keyed by its error code.
  */
 
-public class MetaDataException extends ModelException
-{
+public class MetaDataException extends ModelException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -138,15 +140,15 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_PROPERTY = "DUPLICATE_PROPERTY"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the element extends from another
-	 * element that was not found.
+	 * Error code constant indicating that the element extends from another element
+	 * that was not found.
 	 */
 
 	public static final String DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND = "ELEMENT_PARENT_NOT_FOUND"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the element has illegal style
-	 * properties defined on it. There are two possible reasons:
+	 * Error code constant indicating that the element has illegal style properties
+	 * defined on it. There are two possible reasons:
 	 * <ul>
 	 * <li>1. "hasStyle" attribute of an element is false, but it has
 	 * StyleProperties defined on it.</li>
@@ -158,8 +160,8 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS = "ILLEGAL_STYLE_PROPS"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that that an abstract element extends from
-	 * a non-abstract element.
+	 * Error code constant indicating that that an abstract element extends from a
+	 * non-abstract element.
 	 */
 
 	public static final String DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT = "ILLEGAL_ABSTRACT_ELEMENT"; //$NON-NLS-1$
@@ -171,22 +173,21 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_INVALID_NAME_OPTION = "INVALID_NAME_OPTION"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that an element other than the style
-	 * element attempted to define style properties.
+	 * Error code constant indicating that an element other than the style element
+	 * attempted to define style properties.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_STYLE_PROP_OPTION = "INVALID_STYLE_PROP_OPTION"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that an element definition referenced a
-	 * style property that was not actually defined on the style element.
+	 * Error code constant indicating that an element definition referenced a style
+	 * property that was not actually defined on the style element.
 	 */
 
 	public static final String DESIGN_EXCEPTION_STYLE_PROP_NOT_FOUND = "STYLE_PROP_NOT_FOUND"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that type of the property has not been
-	 * set.
+	 * Error code constant indicating that type of the property has not been set.
 	 */
 
 	public static final String DESIGN_EXCEPTION_PROP_TYPE_ERROR = "PROP_TYPE_ERROR"; //$NON-NLS-1$
@@ -198,8 +199,8 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_MISSING_PROP_CHOICES = "MISSING_PROP_CHOICES"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating missing slot content types for an element
-	 * slot definition.
+	 * Error code constant indicating missing slot content types for an element slot
+	 * definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_SLOT_TYPE = "MISSING_SLOT_TYPE"; //$NON-NLS-1$
@@ -211,8 +212,7 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_MISSING_SLOT_NAME = "MISSING_SLOT_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that content type for the a slot is
-	 * invalid.
+	 * Error code constant indicating that content type for the a slot is invalid.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_SLOT_TYPE = "INVALID_SLOT_TYPE"; //$NON-NLS-1$
@@ -242,8 +242,8 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_CHOICE_SET_NAME = "DUPLICATE_CHOICE_SET_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating a property visibility name defined on
-	 * element doesn't point to an existing property.
+	 * Error code constant indicating a property visibility name defined on element
+	 * doesn't point to an existing property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND = "VISIBILITY_PROPERTY_NOT_FOUND"; //$NON-NLS-1$
@@ -261,15 +261,15 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_STRUCT_NAME = "DUPLICATE_STRUCT_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating a missing structure definition for a
-	 * structure list type property.
+	 * Error code constant indicating a missing structure definition for a structure
+	 * list type property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_STRUCT_DEFN = "MISSING_STRUCT_DEFN"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating a structure definition is unreferencable
-	 * for a structure reference type property.
+	 * Error code constant indicating a structure definition is unreferencable for a
+	 * structure reference type property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN = "UNREFERENCABLE_STRUCT_DEFN"; //$NON-NLS-1$
@@ -282,15 +282,15 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE = "MISSING_ELEMENT_TYPE"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the element referenced by a property
-	 * is not defined.
+	 * Error code constant indicating that the element referenced by a property is
+	 * not defined.
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE = "UNDEFINED_ELEMENT_TYPE"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the element referenced by a property
-	 * is an unnamed element.
+	 * Error code constant indicating that the element referenced by a property is
+	 * an unnamed element.
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNNAMED_ELEMENT_TYPE = "UNNAMED_ELEMENT_TYPE"; //$NON-NLS-1$
@@ -303,47 +303,47 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE = "INCONSISTENT_PROP_TYPE"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating a missing Java class attribute for a
-	 * element definition that is not abstract.
+	 * Error code constant indicating a missing Java class attribute for a element
+	 * definition that is not abstract.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_JAVA_CLASS = "MISSING_JAVA_CLASS"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the specified element Java class
-	 * cannot be instantiated, possibly because it is an interface or is an
-	 * abstract class or that the specified java class doesn't not provide a
-	 * default constructor (or a constructor that takes no argument).
+	 * Error code constant indicating that the specified element Java class cannot
+	 * be instantiated, possibly because it is an interface or is an abstract class
+	 * or that the specified java class doesn't not provide a default constructor
+	 * (or a constructor that takes no argument).
 	 */
 
 	public static final String DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR = "JAVA_CLASS_INITIALIZE_ERROR"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the specified element Java class can
-	 * not be found in the current class path.
+	 * Error code constant indicating that the specified element Java class can not
+	 * be found in the current class path.
 	 */
 
 	public static final String DESIGN_EXCEPTION_JAVA_CLASS_LOAD_ERROR = "JAVA_CLASS_LOAD_ERROR"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the specified element Java class is
-	 * not a Design Element, that is, the class is not a kind of
+	 * Error code constant indicating that the specified element Java class is not a
+	 * Design Element, that is, the class is not a kind of
 	 * <code>DesignElement</code>.
 	 */
 
-	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS = "INVALID_ELEMENT_JAVA_CLASS"; //$NON-NLS-1$	
+	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS = "INVALID_ELEMENT_JAVA_CLASS"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating missing method name.
 	 */
 
-	public static final String DESIGN_EXCEPTION_MISSING_METHOD_NAME = "MISSING_METHOD_NAME"; //$NON-NLS-1$	
+	public static final String DESIGN_EXCEPTION_MISSING_METHOD_NAME = "MISSING_METHOD_NAME"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating duplicate method name.
 	 */
 
-	public static final String DESIGN_EXCEPTION_DUPLICATE_METHOD_NAME = "DUPLICATE_METHOD_NAME"; //$NON-NLS-1$	
+	public static final String DESIGN_EXCEPTION_DUPLICATE_METHOD_NAME = "DUPLICATE_METHOD_NAME"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating duplicate argument name.
@@ -352,8 +352,8 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME = "DUPLICATE_ARGUMENT_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the default value for a property is
-	 * not valid.
+	 * Error code constant indicating that the default value for a property is not
+	 * valid.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE = "INVALID_DEFAULT_VALUE"; //$NON-NLS-1$
@@ -401,15 +401,14 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_MISSING_VALIDATOR_NAME = "MISSING_VALIDATOR_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the validator duplicates an existing
-	 * one.
+	 * Error code constant indicating that the validator duplicates an existing one.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_VALIDATOR_NAME = "DUPLICATE_VALIDATOR_NAME"; //$NON-NLS-1$
 
 	/**
-	 * Error code constant indicating that the validator referenced by a
-	 * property is not found in the dictionary.
+	 * Error code constant indicating that the validator referenced by a property is
+	 * not found in the dictionary.
 	 */
 
 	public static final String DESIGN_EXCEPTION_VALIDATOR_NOT_FOUND = "VALIDATOR_NOT_FOUND"; //$NON-NLS-1$
@@ -439,8 +438,8 @@ public class MetaDataException extends ModelException
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE = "UNSUPPORTED_SUB_TYPE"; //$NON-NLS-1$
 
 	/**
-	 * Only when type is list, the sub-type can be set. Otherwise, sub-type must
-	 * be null.
+	 * Only when type is list, the sub-type can be set. Otherwise, sub-type must be
+	 * null.
 	 */
 
 	public static final String DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN = "SUB_TYPE_FORBIDDEN"; //$NON-NLS-1$
@@ -459,82 +458,64 @@ public class MetaDataException extends ModelException
 
 	/**
 	 * Constructs an exception given parameters and its error code.
-	 * 
-	 * @param params
-	 *            string arrays that will be placed into the error message.
-	 * @param errCode
-	 *            exception error code that identify the error.
+	 *
+	 * @param params  string arrays that will be placed into the error message.
+	 * @param errCode exception error code that identify the error.
 	 */
 
-	public MetaDataException( String[] params, String errCode )
-	{
-		this( params, errCode, null );
+	public MetaDataException(String[] params, String errCode) {
+		this(params, errCode, null);
 	}
 
 	/**
 	 * Constructs an exception given parameters, its error code and nested
 	 * exception.
-	 * 
-	 * @param params
-	 *            string arrays that will be placed into the error message.
-	 * @param errCode
-	 *            exception error code that identify the error.
-	 * @param cause
-	 *            the nested exception
+	 *
+	 * @param params  string arrays that will be placed into the error message.
+	 * @param errCode exception error code that identify the error.
+	 * @param cause   the nested exception
 	 */
 
-	public MetaDataException( String[] params, String errCode, Throwable cause )
-	{
-		super( errCode, params, null );
+	public MetaDataException(String[] params, String errCode, Throwable cause) {
+		super(errCode, params, null);
 
-		if ( props == null )
-		{
-			props = loadResourceFile( ERROR_FILE );
+		if (props == null) {
+			props = loadResourceFile(ERROR_FILE);
 		}
 
-		if ( props != null )
-		{
-			String msg = props.getProperty( errCode );
+		if (props != null) {
+			String msg = props.getProperty(errCode);
 
 			assert msg != null : "Error information for error code: " + errCode + " not found in MetaError.properties."; //$NON-NLS-1$ //$NON-NLS-2$
-			this.message = params == null ? msg : MessageFormat.format( msg,
-					(Object[]) params );
+			this.message = params == null ? msg : MessageFormat.format(msg, (Object[]) params);
 		}
 	}
 
 	/**
 	 * Constructs an exception given the error code.
-	 * 
-	 * @param errCode
-	 *            exception error code
+	 *
+	 * @param errCode exception error code
 	 */
 
-	public MetaDataException( String errCode )
-	{
-		this( null, errCode );
+	public MetaDataException(String errCode) {
+		this(null, errCode);
 	}
 
 	/**
 	 * Loads the resource string that describes the error messages.
-	 * 
-	 * @param fileName
-	 *            file name of the resource file.
+	 *
+	 * @param fileName file name of the resource file.
 	 * @return <code>Properties</code> that has load the resource file. Return
 	 *         <code>null</code> if error in loading the file.
 	 */
 
-	protected Properties loadResourceFile( String fileName )
-	{
-		Properties props = new Properties( );
-		try
-		{
-			InputStream in = MetaDataException.class
-					.getResourceAsStream( fileName );
-			props.load( in );
-			in.close( );
-		}
-		catch ( IOException e )
-		{
+	protected Properties loadResourceFile(String fileName) {
+		Properties props = new Properties();
+		try {
+			InputStream in = MetaDataException.class.getResourceAsStream(fileName);
+			props.load(in);
+			in.close();
+		} catch (IOException e) {
 			// ignore.
 			props = null;
 		}
@@ -543,33 +524,34 @@ public class MetaDataException extends ModelException
 	}
 
 	/**
-	 * Gets the content message for this exception. The return message will
-	 * contain the information of the error code and the detailed error message.
-	 * 
+	 * Gets the content message for this exception. The return message will contain
+	 * the information of the error code and the detailed error message.
+	 *
 	 * @return error message for this exception
 	 */
 
-	public String getMessage( )
-	{
-		StringBuffer sb = new StringBuffer( );
+	@Override
+	public String getMessage() {
+		StringBuilder sb = new StringBuilder();
 
 		String SEPARATOR = " "; //$NON-NLS-1$
 
-		if ( message != null )
-			sb.append( "Message:" ).append( message ).append( SEPARATOR ); //$NON-NLS-1$
+		if (message != null) {
+			sb.append("Message:").append(message).append(SEPARATOR); //$NON-NLS-1$
+		}
 
-		sb.append( "Error code:" ).append( sResourceKey ).append( SEPARATOR ); //$NON-NLS-1$
+		sb.append("Error code:").append(sResourceKey).append(SEPARATOR); //$NON-NLS-1$
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		return getMessage( );
+	@Override
+	public String getLocalizedMessage() {
+		return getMessage();
 	}
 }

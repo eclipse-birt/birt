@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,72 +34,52 @@ import org.eclipse.ui.IURIEditorInput;
 /**
  * IDEFileReportDocumentProvider
  */
-public class IDEFileReportDocumentProvider extends FileReportDocumentProvider
-{
+public class IDEFileReportDocumentProvider extends FileReportDocumentProvider {
 
-	protected IDocument createDocument( Object element ) throws CoreException
-	{
-		IDocument document = super.createDocument( element );
-		if ( document != null )
-		{
-			IDocumentPartitioner partitioner = new FastPartitioner( new XMLPartitionScanner( ),
-					new String[]{
-							XMLPartitionScanner.XML_TAG,
-							XMLPartitionScanner.XML_COMMENT
-					} );
-			partitioner.connect( document );
-			document.setDocumentPartitioner( partitioner );
+	@Override
+	protected IDocument createDocument(Object element) throws CoreException {
+		IDocument document = super.createDocument(element);
+		if (document != null) {
+			IDocumentPartitioner partitioner = new FastPartitioner(new XMLPartitionScanner(),
+					new String[] { XMLPartitionScanner.XML_TAG, XMLPartitionScanner.XML_COMMENT });
+			partitioner.connect(document);
+			document.setDocumentPartitioner(partitioner);
 		}
 		return document;
 	}
 
 	@Override
-	protected boolean setDocumentContent( IDocument document,
-			IEditorInput editorInput, String encoding ) throws CoreException
-	{
-		if ( super.setDocumentContent( document, editorInput, encoding ) )
-		{
+	protected boolean setDocumentContent(IDocument document, IEditorInput editorInput, String encoding)
+			throws CoreException {
+		if (super.setDocumentContent(document, editorInput, encoding)) {
 			return true;
 		}
 
 		IPath path = null;
 
-		if ( editorInput instanceof IPathEditorInput )
-		{
-			path = ( (IPathEditorInput) editorInput ).getPath( );
-		}
-		else if ( editorInput instanceof IURIEditorInput )
-		{
-			path = new Path( ( (IURIEditorInput) editorInput ).getURI( )
-					.getPath( ) );
+		if (editorInput instanceof IPathEditorInput) {
+			path = ((IPathEditorInput) editorInput).getPath();
+		} else if (editorInput instanceof IURIEditorInput) {
+			path = new Path(((IURIEditorInput) editorInput).getURI().getPath());
 		}
 
-		if ( path != null )
-		{
-			File file = path.toFile( );
+		if (path != null) {
+			File file = path.toFile();
 
-			if ( file != null && file.exists( ) )
-			{
+			if (file != null && file.exists()) {
 				InputStream stream = null;
-				try
-				{
-					stream = new FileInputStream( file );
-					setDocumentContent( document, stream, encoding );
+				try {
+					stream = new FileInputStream(file);
+					setDocumentContent(document, stream, encoding);
 					return true;
-				}
-				catch ( Exception e )
-				{
-				}
-				finally
-				{
-					if ( stream != null )
-						try
-						{
-							stream.close( );
+				} catch (Exception e) {
+				} finally {
+					if (stream != null) {
+						try {
+							stream.close();
+						} catch (IOException e) {
 						}
-						catch ( IOException e )
-						{
-						}
+					}
 				}
 			}
 		}

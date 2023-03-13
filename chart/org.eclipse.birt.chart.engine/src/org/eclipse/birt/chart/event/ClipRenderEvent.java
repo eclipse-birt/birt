@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -18,8 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
  * in a device. Support for clipped areas is limited to polygons. In the future,
  * it may be upgraded to support additional arbitrary shape definitions.
  */
-public final class ClipRenderEvent extends PrimitiveRenderEvent
-{
+public final class ClipRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = -1609479639743164885L;
 
@@ -28,37 +30,33 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public ClipRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public ClipRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * @return Returns the vertices associated with a polygon.
 	 */
-	public final Location[] getVertices( )
-	{
+	public Location[] getVertices() {
 		return _loa;
 	}
 
 	/**
 	 * Sets the vertices of the clip.
-	 * 
-	 * @param loa
-	 *            The vertices associated with the polygon area to be clipped
+	 *
+	 * @param loa The vertices associated with the polygon area to be clipped
 	 */
-	public final void setVertices( Location[] loa )
-	{
+	public void setVertices(Location[] loa) {
 		_loa = loa;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	@Override
+	public void reset() {
 		this._loa = null;
 
 	}

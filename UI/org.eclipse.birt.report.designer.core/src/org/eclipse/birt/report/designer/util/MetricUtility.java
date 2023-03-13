@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,108 +26,84 @@ import org.eclipse.swt.widgets.Display;
  * Converts measure from inch to pixel
  */
 
-public class MetricUtility
-{
+public class MetricUtility {
 
 	/**
 	 * the horizontal and vertical DPI
 	 */
 
-	public static final org.eclipse.swt.graphics.Point dpi = Display.getDefault( )
-			.getDPI( );
+	public static final org.eclipse.swt.graphics.Point dpi = Display.getDefault().getDPI();
 
 	/**
 	 * Transforms the inch to pixel
-	 * 
-	 * @param x
-	 *            the x
-	 * @param y
-	 *            the y
+	 *
+	 * @param x the x
+	 * @param y the y
 	 * @return a new point
 	 */
 
-	public static Point inchToPixel( double x, double y )
-	{
-		int xpixel = (int) ( inchToPixel( x ) );
-		int ypixel = (int) ( inchToPixel( y ) );
-		return new Point( xpixel, ypixel );
+	public static Point inchToPixel(double x, double y) {
+		int xpixel = (int) (inchToPixel(x));
+		int ypixel = (int) (inchToPixel(y));
+		return new Point(xpixel, ypixel);
 	}
 
 	/**
 	 * Transforms the inch to pixel
-	 * 
+	 *
 	 * @param x
 	 * @return pixel value
 	 */
-	public static double inchToPixel( double x )
-	{
-		return ( x * dpi.x );
+	public static double inchToPixel(double x) {
+		return (x * dpi.x);
 	}
 
 	/**
 	 * Transforms the pixel to inch
-	 * 
+	 *
 	 * @param x
 	 * @return pixel value
 	 */
-	public static double pixelToPixelInch( int x )
-	{
-		return ( ( (double) x ) / dpi.x );
+	public static double pixelToPixelInch(int x) {
+		return (((double) x) / dpi.x);
 	}
 
 	/**
 	 * Update dimension according to pixel size and unit
-	 * 
-	 * @param dim
-	 *            dimension to update
-	 * @param pixelSize
-	 *            pixel size
+	 *
+	 * @param dim       dimension to update
+	 * @param pixelSize pixel size
 	 * @throws SemanticException
 	 */
-	public static void updateDimension( DimensionHandle dim, double pixelSize )
-			throws SemanticException
-	{
-		updateDimension( dim, pixelSize, dim.getUnits( ) );
+	public static void updateDimension(DimensionHandle dim, double pixelSize) throws SemanticException {
+		updateDimension(dim, pixelSize, dim.getUnits());
 	}
 
 	/**
-	 * Update dimension according to the pixel size and keep the existing unit.
-	 * If unit is not set, use default unit.
-	 * 
-	 * @param dim
-	 *            dimension to update
-	 * @param pixelSize
-	 *            pixel size
+	 * Update dimension according to the pixel size and keep the existing unit. If
+	 * unit is not set, use default unit.
+	 *
+	 * @param dim        dimension to update
+	 * @param pixelSize  pixel size
 	 * @param targetUnit
 	 * @throws SemanticException
 	 */
-	public static void updateDimension( DimensionHandle dim, double pixelSize,
-			String targetUnit ) throws SemanticException
-	{
-		if ( targetUnit == null )
-		{
-			targetUnit = dim.getDefaultUnit( );
+	public static void updateDimension(DimensionHandle dim, double pixelSize, String targetUnit)
+			throws SemanticException {
+		if (targetUnit == null) {
+			targetUnit = dim.getDefaultUnit();
 		}
 		// Do not convert for pixel unit
-		if ( DesignChoiceConstants.UNITS_PX.equals( targetUnit ) )
-		{
-			dim.setValue( new DimensionValue( pixelSize,
-					DesignChoiceConstants.UNITS_PX ) );
-		}
-		else if ( DimensionUtil.isAbsoluteUnit( targetUnit ) )
-		{
+		if (DesignChoiceConstants.UNITS_PX.equals(targetUnit)) {
+			dim.setValue(new DimensionValue(pixelSize, DesignChoiceConstants.UNITS_PX));
+		} else if (DimensionUtil.isAbsoluteUnit(targetUnit)) {
 			// Keep the unit if it's absolute unit
-			double inchSize = MetricUtility.pixelToPixelInch( (int) pixelSize );
-			dim.setValue( DimensionUtil.convertTo( inchSize,
-					DesignChoiceConstants.UNITS_IN,
-					targetUnit ) );
-		}
-		else
-		{
+			double inchSize = MetricUtility.pixelToPixelInch((int) pixelSize);
+			dim.setValue(DimensionUtil.convertTo(inchSize, DesignChoiceConstants.UNITS_IN, targetUnit));
+		} else {
 			// otherwise use inch
-			double inchSize = MetricUtility.pixelToPixelInch( (int) pixelSize );
-			dim.setValue( new DimensionValue( inchSize,
-					DesignChoiceConstants.UNITS_IN ) );
+			double inchSize = MetricUtility.pixelToPixelInch((int) pixelSize);
+			dim.setValue(new DimensionValue(inchSize, DesignChoiceConstants.UNITS_IN));
 		}
 	}
 }

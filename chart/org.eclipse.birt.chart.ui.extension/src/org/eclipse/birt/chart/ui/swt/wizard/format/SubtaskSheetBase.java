@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,11 +29,9 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * UI constants for chart builder
- * 
+ *
  */
-public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardContext<C>> implements
-		ISubtaskSheet
-{
+public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardContext<C>> implements ISubtaskSheet {
 
 	private String sNodePath = ""; //$NON-NLS-1$
 
@@ -46,112 +47,102 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 
 	private ITask parentTask;
 
-	public SubtaskSheetBase( )
-	{
-		super( );
+	public SubtaskSheetBase() {
+		super();
 	}
 
-	public void createControl( Composite parent )
-	{
-		cmpContent = new Composite( parent, SWT.NONE );
-		FillLayout fillLayout = new FillLayout( );
-		cmpContent.setLayout( fillLayout );
+	@Override
+	public void createControl(Composite parent) {
+		cmpContent = new Composite(parent, SWT.NONE);
+		FillLayout fillLayout = new FillLayout();
+		cmpContent.setLayout(fillLayout);
 	}
 
-	public Object onHide( )
-	{
-		if ( cmpContent != null )
-		{
-			cmpContent.dispose( );
+	@Override
+	public Object onHide() {
+		if (cmpContent != null) {
+			cmpContent.dispose();
 		}
-		return getContext( );
+		return getContext();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public void onShow( Object context, Object container )
-	{
+	public void onShow(Object context, Object container) {
 		this.context = (CX) context;
 		this.wizard = (WizardBase) container;
 	}
 
-	protected C getChart( )
-	{
-		return context.getModel( );
+	protected C getChart() {
+		return context.getModel();
 	}
 
-	protected CX getContext( )
-	{
+	protected CX getContext() {
 		return context;
 	}
-	
-	protected void setContext( CX context )
-	{
+
+	protected void setContext(CX context) {
 		this.context = context;
 	}
 
-	protected WizardBase getWizard( )
-	{
+	protected WizardBase getWizard() {
 		return wizard;
 	}
 
-	protected void setWizard( WizardBase wizard )
-	{
+	protected void setWizard(WizardBase wizard) {
 		this.wizard = wizard;
 	}
 
-	public void setIndex( int index )
-	{
+	@Override
+	public void setIndex(int index) {
 		subtaskIndex = index;
 	}
 
-	protected int getIndex( )
-	{
+	protected int getIndex() {
 		return subtaskIndex;
 	}
 
-	public void setParentTask( ITask parentTask )
-	{
+	@Override
+	public void setParentTask(ITask parentTask) {
 		this.parentTask = parentTask;
 	}
 
-	protected ITask getParentTask( )
-	{
+	protected ITask getParentTask() {
 		return parentTask;
 	}
 
-	protected void switchTo( String subtaskPath )
-	{
-		if ( parentTask instanceof CompoundTask )
-		{
-			( (CompoundTask) parentTask ).switchTo( subtaskPath );
+	protected void switchTo(String subtaskPath) {
+		if (parentTask instanceof CompoundTask) {
+			((CompoundTask) parentTask).switchTo(subtaskPath);
 		}
 	}
 
-	public void setNodePath( String nodePath )
-	{
+	@Override
+	public void setNodePath(String nodePath) {
 		this.sNodePath = nodePath;
 	}
 
-	public String getNodePath( )
-	{
+	@Override
+	public String getNodePath() {
 		return sNodePath;
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		// To be overridden
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return cmpContent;
 	}
 
 	/**
 	 * @deprecated For later use
 	 */
-	public String getDescription( )
-	{
+	@Deprecated
+	@Override
+	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -159,8 +150,9 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public String getErrorMessage( )
-	{
+	@Deprecated
+	@Override
+	public String getErrorMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,8 +160,9 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public Image getImage( )
-	{
+	@Deprecated
+	@Override
+	public Image getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -177,22 +170,24 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public String getMessage( )
-	{
+	@Deprecated
+	@Override
+	public String getMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getTitle( )
-	{
+	@Override
+	public String getTitle() {
 		return this.sTitle;
 	}
 
 	/**
 	 * @deprecated For later use
 	 */
-	public void performHelp( )
-	{
+	@Deprecated
+	@Override
+	public void performHelp() {
 		// TODO Auto-generated method stub
 
 	}
@@ -200,8 +195,9 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public void setDescription( String description )
-	{
+	@Deprecated
+	@Override
+	public void setDescription(String description) {
 		// TODO Auto-generated method stub
 
 	}
@@ -209,30 +205,31 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public void setImageDescriptor( ImageDescriptor image )
-	{
+	@Deprecated
+	@Override
+	public void setImageDescriptor(ImageDescriptor image) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setTitle( String title )
-	{
+	@Override
+	public void setTitle(String title) {
 		this.sTitle = title;
 	}
 
-	public void setVisible( boolean visible )
-	{
-		getControl( ).setVisible( visible );
+	@Override
+	public void setVisible(boolean visible) {
+		getControl().setVisible(visible);
 	}
 
-	public boolean attachPopup( String popupID )
-	{
+	@Override
+	public boolean attachPopup(String popupID) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean detachPopup( )
-	{
+	@Override
+	public boolean detachPopup() {
 		return false;
 	}
 }

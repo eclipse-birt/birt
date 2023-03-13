@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2006 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -75,14 +77,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.ibm.icu.util.ULocale;
 
-public class StaticHTMLViewer extends SWTAbstractViewer
-{
+public class StaticHTMLViewer extends SWTAbstractViewer {
 
 	private static final String TITLE_MESSAGE = "Showing page {0} of {1}"; //$NON-NLS-1$
 
-	private final HTMLRenderOption renderOption = new HTMLRenderOption( );
-	private final EngineConfig engineConfig = new HyperlinkEngineConfig( );
-	private final IRenderOption drillRenderOption = new RenderOption( );
+	private final HTMLRenderOption renderOption = new HTMLRenderOption();
+	private final EngineConfig engineConfig = new HyperlinkEngineConfig();
+	private final IRenderOption drillRenderOption = new RenderOption();
 
 	/**
 	 * Embedded web browser.
@@ -109,7 +110,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	/**
 	 * The parameter values for current report design.
 	 */
-	private Map paramValues = new HashMap( );
+	private Map paramValues = new HashMap();
 
 	/**
 	 * The render output file path.
@@ -138,8 +139,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private List inputParameters;
 
-	private Action paramAction, tocAction, navFirstAction, navPreAction,
-			navNextAction, navLastAction, navGoAction, reRunReportAction;
+	private Action paramAction, tocAction, navFirstAction, navPreAction, navNextAction, navLastAction, navGoAction,
+			reRunReportAction;
 
 	private Text goPageInput;
 
@@ -147,414 +148,368 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	// end UI controls
 
-	public void init( )
-	{
-		super.init( );
-		configEngine( );
+	@Override
+	public void init() {
+		super.init();
+		configEngine();
 		// configRender( );
 	}
 
-	protected void configEngine( )
-	{
-		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
+	protected void configEngine() {
+		HTMLRenderOption emitterConfig = new HTMLRenderOption();
 
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
+		emitterConfig.setActionHandler(new HTMLActionHandler() {
 
-			public String getURL( IAction actionDefn, Object context )
-			{
-				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
+			@Override
+			public String getURL(IAction actionDefn, Object context) {
+				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH) {
 					return "birt://" //$NON-NLS-1$
-							+ URLEncoder.encode( super.getURL( actionDefn,
-									context ) );
-				return super.getURL( actionDefn, context );
+							+ URLEncoder.encode(super.getURL(actionDefn, context));
+				}
+				return super.getURL(actionDefn, context);
 			}
 
-		} );
+		});
 		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
 		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
-		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig );
+		engineConfig.getEmitterConfigs().put(RenderOption.OUTPUT_FORMAT_HTML, emitterConfig);
 	}
 
-	protected void configRender( )
-	{
-		renderOption.setOutputFormat( RenderOption.OUTPUT_FORMAT_HTML );
-		renderOption.setEmitterID( "org.eclipse.birt.report.engine.emitter.html" ); //$NON-NLS-1$
+	protected void configRender() {
+		renderOption.setOutputFormat(RenderOption.OUTPUT_FORMAT_HTML);
+		renderOption.setEmitterID("org.eclipse.birt.report.engine.emitter.html"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#createUI(org.eclipse.swt.widgets.Composite)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#createUI(org.
+	 * eclipse.swt.widgets.Composite)
 	 */
-	public Control createUI( Composite parent )
-	{
-		if ( parent == null )
-		{
+	@Override
+	public Control createUI(Composite parent) {
+		if (parent == null) {
 			return null;
 		}
-		toolkit = new FormToolkit( parent.getDisplay( ) );
-		form = toolkit.createForm( parent );
+		toolkit = new FormToolkit(parent.getDisplay());
+		form = toolkit.createForm(parent);
 
-		form.setFont( JFaceResources.getFontRegistry( )
-				.get( JFaceResources.BANNER_FONT ) );
-		form.setImage( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.get( StaticHTMLPrviewPlugin.IMG_FORM_TITLE ) );
+		form.setFont(JFaceResources.getFontRegistry().get(JFaceResources.BANNER_FONT));
+		form.setImage(
+				StaticHTMLPrviewPlugin.getDefault().getImageRegistry().get(StaticHTMLPrviewPlugin.IMG_FORM_TITLE));
 
-		toolkit.decorateFormHeading( form );
-		form.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		toolkit.decorateFormHeading(form);
+		form.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
-		form.getBody( ).setLayout( layout );
+		form.getBody().setLayout(layout);
 
 		// Re-run the report action
-		reRunReportAction = new Action( "Re-run the report", //$NON-NLS-1$
-				Action.AS_PUSH_BUTTON ) {
+		reRunReportAction = new Action("Re-run the report", //$NON-NLS-1$
+				Action.AS_PUSH_BUTTON) {
 
-			public void run( )
-			{
-				render( );
+			@Override
+			public void run() {
+				render();
 			}
 		};
-		reRunReportAction.setToolTipText( "Re-run the report" ); //$NON-NLS-1$
-		reRunReportAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_RE_RUN ) );
-		form.getToolBarManager( ).add( reRunReportAction );
+		reRunReportAction.setToolTipText("Re-run the report"); //$NON-NLS-1$
+		reRunReportAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_RE_RUN));
+		form.getToolBarManager().add(reRunReportAction);
 
 		// paramAction
-		paramAction = new Action( "Enter parameter", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		paramAction = new Action("Enter parameter", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
-				render( );
+			@Override
+			public void run() {
+				render();
 			}
 		};
-		paramAction.setToolTipText( "Open Parameters Dialog" ); //$NON-NLS-1$
-		paramAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_PARAMS ) );
-		form.getToolBarManager( ).add( paramAction );
+		paramAction.setToolTipText("Open Parameters Dialog"); //$NON-NLS-1$
+		paramAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_PARAMS));
+		form.getToolBarManager().add(paramAction);
 
 		// tocAction
-		tocAction = new Action( "TOC", Action.AS_RADIO_BUTTON ) { //$NON-NLS-1$
+		tocAction = new Action("TOC", Action.AS_RADIO_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
-				if ( sashForm.getMaximizedControl( ) != null )
-				{
-					sashForm.setMaximizedControl( null );
-					setChecked( true );
-				}
-				else
-				{
-					sashForm.setMaximizedControl( browserContainer );
-					setChecked( false );
+			@Override
+			public void run() {
+				if (sashForm.getMaximizedControl() != null) {
+					sashForm.setMaximizedControl(null);
+					setChecked(true);
+				} else {
+					sashForm.setMaximizedControl(browserContainer);
+					setChecked(false);
 				}
 			}
 		};
-		tocAction.setToolTipText( "Show TOC" ); //$NON-NLS-1$
-		tocAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_TOC ) );
-		tocAction.setChecked( false );
-		form.getToolBarManager( ).add( tocAction );
+		tocAction.setToolTipText("Show TOC"); //$NON-NLS-1$
+		tocAction.setImageDescriptor(
+				StaticHTMLPrviewPlugin.getDefault().getImageRegistry().getDescriptor(StaticHTMLPrviewPlugin.IMG_TOC));
+		tocAction.setChecked(false);
+		form.getToolBarManager().add(tocAction);
 
-		form.getToolBarManager( ).add( new Separator( ) );
+		form.getToolBarManager().add(new Separator());
 
 		// navFirstAction
-		navFirstAction = new Action( "First", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navFirstAction = new Action("First", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
+			@Override
+			public void run() {
 				currentPageNum = 1;
-				renderWithoutAskingForParams( );
+				renderWithoutAskingForParams();
 			}
 		};
-		navFirstAction.setToolTipText( "First" ); //$NON-NLS-1$
-		navFirstAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_FIRST ) );
-		form.getToolBarManager( ).add( navFirstAction );
+		navFirstAction.setToolTipText("First"); //$NON-NLS-1$
+		navFirstAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_NAV_FIRST));
+		form.getToolBarManager().add(navFirstAction);
 
 		// navPreAction
-		navPreAction = new Action( "Previous", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navPreAction = new Action("Previous", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
-				if ( currentPageNum > 1 )
-				{
+			@Override
+			public void run() {
+				if (currentPageNum > 1) {
 					currentPageNum--;
-					renderWithoutAskingForParams( );
+					renderWithoutAskingForParams();
 				}
 			}
 		};
 
-		navPreAction.setToolTipText( "Previous" ); //$NON-NLS-1$
-		navPreAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_PRE ) );
-		form.getToolBarManager( ).add( navPreAction );
+		navPreAction.setToolTipText("Previous"); //$NON-NLS-1$
+		navPreAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_NAV_PRE));
+		form.getToolBarManager().add(navPreAction);
 
 		// navNextAction
-		navNextAction = new Action( "Next", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navNextAction = new Action("Next", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
-				if ( currentPageNum < totalPageNum )
-				{
+			@Override
+			public void run() {
+				if (currentPageNum < totalPageNum) {
 					currentPageNum++;
-					renderWithoutAskingForParams( );
+					renderWithoutAskingForParams();
 				}
 			}
 		};
 
-		navNextAction.setToolTipText( "Next" ); //$NON-NLS-1$
-		navNextAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_NEXT ) );
-		form.getToolBarManager( ).add( navNextAction );
+		navNextAction.setToolTipText("Next"); //$NON-NLS-1$
+		navNextAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_NAV_NEXT));
+		form.getToolBarManager().add(navNextAction);
 
 		// navLastAction
-		navLastAction = new Action( "Last", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navLastAction = new Action("Last", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
+			@Override
+			public void run() {
 				currentPageNum = totalPageNum;
-				renderWithoutAskingForParams( );
+				renderWithoutAskingForParams();
 			}
 		};
 
-		navLastAction.setToolTipText( "Last" ); //$NON-NLS-1$
-		navLastAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_LAST ) );
-		form.getToolBarManager( ).add( navLastAction );
+		navLastAction.setToolTipText("Last"); //$NON-NLS-1$
+		navLastAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_NAV_LAST));
+		form.getToolBarManager().add(navLastAction);
 
-		form.getToolBarManager( ).add( new Separator( ) );
+		form.getToolBarManager().add(new Separator());
 
-		ContributionItem inputText = new ContributionItem( ) {
+		ContributionItem inputText = new ContributionItem() {
 
-			public void fill( ToolBar parent, int index )
-			{
-				ToolItem toolitem = new ToolItem( parent, SWT.SEPARATOR, index );
-				Composite container = new Composite( parent, SWT.NULL );
+			@Override
+			public void fill(ToolBar parent, int index) {
+				ToolItem toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
+				Composite container = new Composite(parent, SWT.NULL);
 				// container.setFont( JFaceResources.getFontRegistry( )
 				// .get( JFaceResources.TEXT_FONT ) );
-				GridLayout layout = new GridLayout( );
+				GridLayout layout = new GridLayout();
 				layout.numColumns = 2;
 				layout.marginWidth = layout.marginHeight = 1;
-				container.setLayout( layout );
-				Label label = new Label( container, SWT.NULL );
-				label.setFont( container.getFont( ) );
-				label.setText( "Go to page:" ); //$NON-NLS-1$
+				container.setLayout(layout);
+				Label label = new Label(container, SWT.NULL);
+				label.setFont(container.getFont());
+				label.setText("Go to page:"); //$NON-NLS-1$
 
-				goPageInput = toolkit.createText( container, "", SWT.BORDER ); //$NON-NLS-1$
-				goPageInput.setFont( container.getFont( ) );
+				goPageInput = toolkit.createText(container, "", SWT.BORDER); //$NON-NLS-1$
+				goPageInput.setFont(container.getFont());
 
-				goPageInput.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-				goPageInput.addKeyListener( new KeyAdapter( ) {
+				goPageInput.setLayoutData(new GridData(GridData.FILL_BOTH));
+				goPageInput.addKeyListener(new KeyAdapter() {
 
-					public void keyPressed( KeyEvent e )
-					{
-						if ( e.character == SWT.LF || e.character == SWT.CR )
-						{
-							if ( navGoAction.isEnabled( ) )
-							{
-								currentPageNum = Long.parseLong( goPageInput.getText( ) );
-								renderWithoutAskingForParams( );
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.character == SWT.LF || e.character == SWT.CR) {
+							if (navGoAction.isEnabled()) {
+								currentPageNum = Long.parseLong(goPageInput.getText());
+								renderWithoutAskingForParams();
 							}
 						}
 					}
 
-				} );
+				});
 
-				goPageInput.addModifyListener( new ModifyListener( ) {
+				goPageInput.addModifyListener(new ModifyListener() {
 
 					/**
 					 * last valid status
 					 */
 					private boolean isValid = true;
 
-					public void modifyText( ModifyEvent e )
-					{
-						if ( !"".equals( goPageInput.getText( ) ) ) //$NON-NLS-1$
+					@Override
+					public void modifyText(ModifyEvent e) {
+						if (!"".equals(goPageInput.getText())) //$NON-NLS-1$
 						{
-							try
-							{
-								long page = Long.parseLong( goPageInput.getText( ) );
-								if ( page > 0 && page <= totalPageNum )
-								{
-									if ( !isValid )
-									{
-										form.setMessage( null );
+							try {
+								long page = Long.parseLong(goPageInput.getText());
+								if (page > 0 && page <= totalPageNum) {
+									if (!isValid) {
+										form.setMessage(null);
 										isValid = true;
 									}
-									navGoAction.setEnabled( true );
-								}
-								else
-								{
-									form.setMessage( "Page Number '" //$NON-NLS-1$
-											+ page
-											+ "' is invalid!", //$NON-NLS-1$
-											IMessageProvider.ERROR );
+									navGoAction.setEnabled(true);
+								} else {
+									form.setMessage("Page Number '" //$NON-NLS-1$
+											+ page + "' is invalid!", //$NON-NLS-1$
+											IMessageProvider.ERROR);
 									isValid = false;
-									navGoAction.setEnabled( false );
+									navGoAction.setEnabled(false);
 								}
-							}
-							catch ( NumberFormatException e1 )
-							{
-								form.setMessage( "Page Number '" //$NON-NLS-1$
-										+ goPageInput.getText( )
-										+ "' is invalid!", //$NON-NLS-1$
-										IMessageProvider.ERROR );
+							} catch (NumberFormatException e1) {
+								form.setMessage("Page Number '" //$NON-NLS-1$
+										+ goPageInput.getText() + "' is invalid!", //$NON-NLS-1$
+										IMessageProvider.ERROR);
 								isValid = false;
-								navGoAction.setEnabled( false );
+								navGoAction.setEnabled(false);
 							}
-						}
-						else
-						{
-							form.setMessage( null );
+						} else {
+							form.setMessage(null);
 							isValid = true;
 						}
 					}
-				} );
+				});
 
-				toolitem.setWidth( label.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 40 );
-				toolitem.setControl( container );
+				toolitem.setWidth(label.computeSize(SWT.DEFAULT, SWT.DEFAULT).x + 40);
+				toolitem.setControl(container);
 			}
 
 		};
-		inputText.setVisible( true );
-		form.getToolBarManager( ).add( inputText );
+		inputText.setVisible(true);
+		form.getToolBarManager().add(inputText);
 
 		// navSelectAction
-		navGoAction = new Action( "Go to page", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navGoAction = new Action("Go to page", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 
-			public void run( )
-			{
-				if ( goPageInput != null && !goPageInput.isDisposed( ) )
-				{
-					currentPageNum = Long.parseLong( goPageInput.getText( ) );
+			@Override
+			public void run() {
+				if (goPageInput != null && !goPageInput.isDisposed()) {
+					currentPageNum = Long.parseLong(goPageInput.getText());
 					// render( );
-					renderWithoutAskingForParams( );
+					renderWithoutAskingForParams();
 				}
 			}
 		};
 
-		navGoAction.setToolTipText( "Go to page" ); //$NON-NLS-1$
-		navGoAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_GO ) );
-		form.getToolBarManager( ).add( navGoAction );
+		navGoAction.setToolTipText("Go to page"); //$NON-NLS-1$
+		navGoAction.setImageDescriptor(StaticHTMLPrviewPlugin.getDefault().getImageRegistry()
+				.getDescriptor(StaticHTMLPrviewPlugin.IMG_NAV_GO));
+		form.getToolBarManager().add(navGoAction);
 
-		form.updateToolBar( );
+		form.updateToolBar();
 
-		sashForm = new SashForm( form.getBody( ), SWT.NULL );
-		sashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		sashForm.setLayout( layout );
-		toolkit.adapt( sashForm, false, false );
+		sashForm = new SashForm(form.getBody(), SWT.NULL);
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+		sashForm.setLayout(layout);
+		toolkit.adapt(sashForm, false, false);
 
-		createTOCSection( sashForm );
-		createBrowserSection( sashForm );
+		createTOCSection(sashForm);
+		createBrowserSection(sashForm);
 
-		sashForm.setWeights( new int[]{
-				2, 8
-		} );
+		sashForm.setWeights(new int[] { 2, 8 });
 
-		toolkit.paintBordersFor( form.getBody( ) );
+		toolkit.paintBordersFor(form.getBody());
 
 		return this.form;
 	}
 
-	private void createBrowserSection( Composite parent )
-	{
-		browserContainer = toolkit.createComposite( parent );
-		browserContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		GridLayout layout = new GridLayout( );
+	private void createBrowserSection(Composite parent) {
+		browserContainer = toolkit.createComposite(parent);
+		browserContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.horizontalSpacing = 0;
 		layout.verticalSpacing = 0;
 		layout.numColumns = 1;
-		browserContainer.setLayout( layout );
+		browserContainer.setLayout(layout);
 
-		browser = new Browser( browserContainer, SWT.NONE );
-		browser.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		browser = new Browser(browserContainer, SWT.NONE);
+		browser.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		browser.addLocationListener( new ReportLocationListener( this ) );
-		sashForm.setMaximizedControl( browserContainer );
+		browser.addLocationListener(new ReportLocationListener(this));
+		sashForm.setMaximizedControl(browserContainer);
 	}
 
-	private void createTOCSection( Composite parent )
-	{
-		Composite toc = toolkit.createComposite( parent );
-		toc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		GridLayout layout = new GridLayout( );
+	private void createTOCSection(Composite parent) {
+		Composite toc = toolkit.createComposite(parent);
+		toc.setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.horizontalSpacing = 0;
 		layout.verticalSpacing = 0;
 		layout.numColumns = 1;
-		toc.setLayout( new GridLayout( ) );
+		toc.setLayout(new GridLayout());
 
-		toolkit.createLabel( toc, "Table of Contents:" ); //$NON-NLS-1$
-		Tree t = toolkit.createTree( toc, SWT.NULL );
-		t.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		tocViewer = new TreeViewer( t );
+		toolkit.createLabel(toc, "Table of Contents:"); //$NON-NLS-1$
+		Tree t = toolkit.createTree(toc, SWT.NULL);
+		t.setLayoutData(new GridData(GridData.FILL_BOTH));
+		tocViewer = new TreeViewer(t);
 		// TODO config viewer
 
-		tocViewer.setLabelProvider( new TOCLableProvider( ) {
-		} );
-		tocViewer.setContentProvider( new TOCContentProvider( ) {
-		} );
+		tocViewer.setLabelProvider(new TOCLableProvider() {
+		});
+		tocViewer.setContentProvider(new TOCContentProvider() {
+		});
 
-		tocViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		tocViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				if ( reportDocumentFile != null )
-				{
-					StructuredSelection selection = (StructuredSelection) event.getSelection( );
-					TOCNode node = (TOCNode) selection.getFirstElement( );
-					try
-					{
-						IReportDocument document = openReportDocument( reportDocumentFile );
-						setCurrentPage( document.getPageNumber( node.getBookmark( ) ) );
-						document.close( );
-						renderWithoutAskingForParams( );
-					}
-					catch ( EngineException e )
-					{
-						ExceptionUtil.handle( e );
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (reportDocumentFile != null) {
+					StructuredSelection selection = (StructuredSelection) event.getSelection();
+					TOCNode node = (TOCNode) selection.getFirstElement();
+					try {
+						IReportDocument document = openReportDocument(reportDocumentFile);
+						setCurrentPage(document.getPageNumber(node.getBookmark()));
+						document.close();
+						renderWithoutAskingForParams();
+					} catch (EngineException e) {
+						ExceptionUtil.handle(e);
 					}
 				}
 			}
-		} );
+		});
 
-		toolkit.paintBordersFor( toc );
+		toolkit.paintBordersFor(toc);
 	}
 
-	protected void refreshTOC( )
-	{
-		if ( !this.isTocUpdate )
-		{
-			if ( reportDocumentFile != null )
-			{
-				try
-				{
-					IReportDocument document = openReportDocument( reportDocumentFile );
-					tocViewer.setInput( document.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
-							ULocale.getDefault( ) )
-							.getRoot( ) );
-					document.close( );
-				}
-				catch ( EngineException e )
-				{
-					ExceptionUtil.handle( e );
+	protected void refreshTOC() {
+		if (!this.isTocUpdate) {
+			if (reportDocumentFile != null) {
+				try {
+					IReportDocument document = openReportDocument(reportDocumentFile);
+					tocViewer.setInput(document
+							.getTOCTree(DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale.getDefault()).getRoot());
+					document.close();
+				} catch (EngineException e) {
+					ExceptionUtil.handle(e);
 				}
 			}
 			this.isTocUpdate = true;
@@ -563,33 +518,36 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getUI()
 	 */
-	public Control getUI( )
-	{
+	@Override
+	public Control getUI() {
 		return this.form;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getEngingConfig()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getEngingConfig
+	 * ()
 	 */
-	public EngineConfig getEngineConfig( )
-	{
+	@Override
+	public EngineConfig getEngineConfig() {
 		return engineConfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getRenderOption()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getRenderOption
+	 * ()
 	 */
-	public IRenderOption getRenderOption( )
-	{
-		if ( isDrillThrough )
-		{
+	@Override
+	public IRenderOption getRenderOption() {
+		if (isDrillThrough) {
 			isDrillThrough = false;
 			return drillRenderOption;
 		}
@@ -598,341 +556,284 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#setInput(java.lang.Object)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.extension.IViewer#setInput(java.
+	 * lang.Object)
 	 */
-	public void setInput( final Object input )
-	{
-		if ( input instanceof String )
-			setReportDesignFile( (String) input );
+	@Override
+	public void setInput(final Object input) {
+		if (input instanceof String) {
+			setReportDesignFile((String) input);
+		}
 	}
 
-	public void setParamValues( Map paramValues )
-	{
+	public void setParamValues(Map paramValues) {
 		this.paramValues = paramValues;
 		this.assignParamValues = true;
 		isDrillThrough = true;
-		drillRenderOption.setOption( RenderOption.OUTPUT_FORMAT,
-				paramValues.get( "__format" ) ); //$NON-NLS-1$
+		drillRenderOption.setOption(RenderOption.OUTPUT_FORMAT, paramValues.get("__format")); //$NON-NLS-1$
 	}
 
-	public void setReportDesignFile( String reportDesignFile )
-	{
+	public void setReportDesignFile(String reportDesignFile) {
 		this.reportDesignFile = reportDesignFile;
 		this.isTocUpdate = false;
 	}
 
 	/**
 	 * Get the path of the report design file to be rendered.
-	 * 
+	 *
 	 * @return
 	 */
-	public String getReportDesignFile( )
-	{
+	public String getReportDesignFile() {
 		return reportDesignFile;
 	}
 
 	/**
-	 * Get the parameters pair values for current report design. This method
-	 * will raise a dialog if the report design has some parameters. TODO change
-	 * to check if there are any required parameters not set then open dialog.
-	 * 
+	 * Get the parameters pair values for current report design. This method will
+	 * raise a dialog if the report design has some parameters. TODO change to check
+	 * if there are any required parameters not set then open dialog.
+	 *
 	 * @return
 	 */
-	public void getParameterValues( List params )
-	{
-		if ( params != null && params.size( ) > 0 )
-		{
+	public void getParameterValues(List params) {
+		if (params != null && params.size() > 0) {
 			this.hasParas = true;
 			// Parameters have been set values, this is case for hyperlink
 			// drill-through
-			if ( assignParamValues && checkParamsValues( params ) )
+			if (assignParamValues && checkParamsValues(params)) {
 				return;
+			}
 			// assignParamValues = false;
-			InputParameterDialog dialog = new InputParameterDialog( Display.getCurrent( )
-					.getActiveShell( ),
-					params,
-					paramValues );
-			if ( dialog.open( ) == Window.OK )
-			{
-				paramValues = dialog.getParameters( );
+			InputParameterDialog dialog = new InputParameterDialog(Display.getCurrent().getActiveShell(), params,
+					paramValues);
+			if (dialog.open() == Window.OK) {
+				paramValues = dialog.getParameters();
 				assignParamValues = true;
 			}
-		}
-		else
-		{
+		} else {
 			this.hasParas = false;
-			paramAction.setToolTipText( "No Parameters" ); //$NON-NLS-1$
+			paramAction.setToolTipText("No Parameters"); //$NON-NLS-1$
 		}
 	}
 
-	private boolean checkParamsValues( List params )
-	{
-		for ( Iterator ite = params.iterator( ); ite.hasNext( ); )
-		{
-			Object obj = ite.next( );
-			if ( obj instanceof ScalarParam
-					&& !( (ScalarParam) obj ).getHandle( ).isHidden( ) )
-			{
-				if ( !paramValues.containsKey( ( ( (ScalarParam) obj ).getHandle( ).getName( ) ) ) )
+	private boolean checkParamsValues(List params) {
+		for (Iterator ite = params.iterator(); ite.hasNext();) {
+			Object obj = ite.next();
+			if (obj instanceof ScalarParam && !((ScalarParam) obj).getHandle().isHidden()) {
+				if (!paramValues.containsKey((((ScalarParam) obj).getHandle().getName()))) {
 					return false;
-			}
-			else if ( obj instanceof AbstractParamGroup )
-			{
+				}
+			} else if (obj instanceof AbstractParamGroup) {
 				AbstractParamGroup group = (AbstractParamGroup) obj;
-				checkParamsValues( group.getChildren( ) );
+				checkParamsValues(group.getChildren());
 			}
 		}
 		return true;
 	}
 
-	public void renderReport( IProgressMonitor monitor )
-	{
-		if ( hasParas && !assignParamValues )
+	public void renderReport(IProgressMonitor monitor) {
+		if (hasParas && !assignParamValues) {
 			return;
+		}
 		assignParamValues = false;
 
-		monitor.subTask( "Collecting parameters" ); //$NON-NLS-1$
+		monitor.subTask("Collecting parameters"); //$NON-NLS-1$
 		// getParameterValues( );
 
-		if ( monitor.isCanceled( ) )
-		{
+		if (monitor.isCanceled()) {
 			return;
 		}
-		monitor.worked( 1 );
+		monitor.worked(1);
 
-		monitor.subTask( "Rendering report" ); //$NON-NLS-1$
-		if ( monitor.isCanceled( ) )
-		{
+		monitor.subTask("Rendering report"); //$NON-NLS-1$
+		if (monitor.isCanceled()) {
 			return;
 		}
 
-		File reportFile = new File( reportDesignFile );
-		String outputFolder = getOutputFolder( reportFile );
+		File reportFile = new File(reportDesignFile);
+		String outputFolder = getOutputFolder(reportFile);
 
 		String outputFormat = "html"; //$NON-NLS-1$
-		if ( isDrillThrough )
-		{
-			outputFormat = drillRenderOption.getOutputFormat( );
+		if (isDrillThrough) {
+			outputFormat = drillRenderOption.getOutputFormat();
 		}
-		this.outputLocation = outputFolder
-				+ File.separator
-				+ reportFile.getName( )
-				+ "." //$NON-NLS-1$
+		this.outputLocation = outputFolder + File.separator + reportFile.getName() + "." //$NON-NLS-1$
 				+ outputFormat;
-		try
-		{
-			if ( currentPageNum > 0 )
-			{
-				try
-				{
-					this.reportDocumentFile = createReportDocument( reportDesignFile,
-							outputFolder,
-							this.paramValues );
-					this.totalPageNum = createReportOutput( this.reportDocumentFile,
-							this.outputLocation,
-							currentPageNum );
-				}
-				catch ( EngineException e )
-				{
-					e.printStackTrace( );
+		try {
+			if (currentPageNum > 0) {
+				try {
+					this.reportDocumentFile = createReportDocument(reportDesignFile, outputFolder, this.paramValues);
+					this.totalPageNum = createReportOutput(this.reportDocumentFile, this.outputLocation,
+							currentPageNum);
+				} catch (EngineException e) {
+					e.printStackTrace();
 				}
 			}
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		if ( monitor.isCanceled( ) )
-		{
+		if (monitor.isCanceled()) {
 			return;
 		}
-		monitor.worked( 3 );
+		monitor.worked(3);
 	}
 
-	private String getOutputFolder( File file )
-	{
-		return StaticHTMLPrviewPlugin.getDefault( ).getTempFolder( )
-				+ File.separator
-				+ file.getName( );
+	private String getOutputFolder(File file) {
+		return StaticHTMLPrviewPlugin.getDefault().getTempFolder() + File.separator + file.getName();
 	}
 
-	private void setControlStatus( )
-	{
-		form.setText( "Running report..." ); //$NON-NLS-1$
-		form.setBusy( true );
+	private void setControlStatus() {
+		form.setText("Running report..."); //$NON-NLS-1$
+		form.setBusy(true);
 
-		paramAction.setEnabled( false );
-		reRunReportAction.setEnabled( false );
-		tocAction.setEnabled( false );
-		navFirstAction.setEnabled( false );
-		navPreAction.setEnabled( false );
-		navNextAction.setEnabled( false );
-		navLastAction.setEnabled( false );
-		navGoAction.setEnabled( false );
+		paramAction.setEnabled(false);
+		reRunReportAction.setEnabled(false);
+		tocAction.setEnabled(false);
+		navFirstAction.setEnabled(false);
+		navPreAction.setEnabled(false);
+		navNextAction.setEnabled(false);
+		navLastAction.setEnabled(false);
+		navGoAction.setEnabled(false);
 	}
 
-	public void render( )
-	{
-		setControlStatus( );
+	@Override
+	public void render() {
+		setControlStatus();
 
-		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
-		initJob( jobRule );
-		getParamValuesJob( jobRule );
-		renderJob( jobRule );
-		showReportOutputJob( jobRule );
-		updateFormJob( jobRule );
+		RenderJobRule jobRule = new RenderJobRule(this.reportDesignFile);
+		initJob(jobRule);
+		getParamValuesJob(jobRule);
+		renderJob(jobRule);
+		showReportOutputJob(jobRule);
+		updateFormJob(jobRule);
 	}
 
-	public void renderWithoutAskingForParams( )
-	{
-		setControlStatus( );
+	public void renderWithoutAskingForParams() {
+		setControlStatus();
 
-		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
-		renderJob( jobRule );
-		showReportOutputJob( jobRule );
-		updateFormJob( jobRule );
+		RenderJobRule jobRule = new RenderJobRule(this.reportDesignFile);
+		renderJob(jobRule);
+		showReportOutputJob(jobRule);
+		updateFormJob(jobRule);
 	}
 
-	private void initJob( RenderJobRule jobRule )
-	{
-		Job initJob = new AbstractJob( "Initialize engine", //$NON-NLS-1$
-				this.reportDesignFile ) {
+	private void initJob(RenderJobRule jobRule) {
+		Job initJob = new AbstractJob("Initialize engine", //$NON-NLS-1$
+				this.reportDesignFile) {
 
-			public void work( IProgressMonitor monitor )
-			{
-				if ( !isInitialize )
-				{
-					monitor.subTask( "Initialize engine" ); //$NON-NLS-1$
-					init( );
+			@Override
+			public void work(IProgressMonitor monitor) {
+				if (!isInitialize) {
+					monitor.subTask("Initialize engine"); //$NON-NLS-1$
+					init();
 					isInitialize = true;
 				}
-				monitor.subTask( "Prepair collect parameters" ); //$NON-NLS-1$
-				setParameters( getInputParameters( reportDesignFile ) );
+				monitor.subTask("Prepair collect parameters"); //$NON-NLS-1$
+				setParameters(getInputParameters(reportDesignFile));
 			}
 		};
-		RenderJobRunner.runRenderJob( initJob, jobRule );
+		RenderJobRunner.runRenderJob(initJob, jobRule);
 	}
 
-	private void getParamValuesJob( RenderJobRule jobRule )
-	{
-		Job getParameterJob = new AbstractUIJob( "Collecting parameters", //$NON-NLS-1$
-				this.reportDesignFile ) {
+	private void getParamValuesJob(RenderJobRule jobRule) {
+		Job getParameterJob = new AbstractUIJob("Collecting parameters", //$NON-NLS-1$
+				this.reportDesignFile) {
 
-			public void work( IProgressMonitor monitor )
-			{
-				monitor.subTask( "Collecting parameters" ); //$NON-NLS-1$
-				getParameterValues( inputParameters );
+			@Override
+			public void work(IProgressMonitor monitor) {
+				monitor.subTask("Collecting parameters"); //$NON-NLS-1$
+				getParameterValues(inputParameters);
 			}
 		};
-		getParameterJob.setSystem( true );
-		RenderJobRunner.runRenderJob( getParameterJob, jobRule );
+		getParameterJob.setSystem(true);
+		RenderJobRunner.runRenderJob(getParameterJob, jobRule);
 	}
 
-	private void renderJob( RenderJobRule jobRule )
-	{
-		Job renderJob = new AbstractJob( "Rendering report", //$NON-NLS-1$
-				this.reportDesignFile ) {
+	private void renderJob(RenderJobRule jobRule) {
+		Job renderJob = new AbstractJob("Rendering report", //$NON-NLS-1$
+				this.reportDesignFile) {
 
-			public void work( IProgressMonitor monitor )
-			{
-				monitor.subTask( reportDesignFile );
-				renderReport( monitor );
+			@Override
+			public void work(IProgressMonitor monitor) {
+				monitor.subTask(reportDesignFile);
+				renderReport(monitor);
 			}
 		};
-		RenderJobRunner.runRenderJob( renderJob, jobRule );
+		RenderJobRunner.runRenderJob(renderJob, jobRule);
 	}
 
-	private void showReportOutputJob( RenderJobRule jobRule )
-	{
-		Job showJob = new AbstractUIJob( "Showing report", //$NON-NLS-1$
-				this.reportDesignFile ) {
+	private void showReportOutputJob(RenderJobRule jobRule) {
+		Job showJob = new AbstractUIJob("Showing report", //$NON-NLS-1$
+				this.reportDesignFile) {
 
-			public void work( IProgressMonitor monitor )
-			{
-				monitor.subTask( "Show report in Browser" ); //$NON-NLS-1$
-				if ( !form.isDisposed( ) )
-				{
+			@Override
+			public void work(IProgressMonitor monitor) {
+				monitor.subTask("Show report in Browser"); //$NON-NLS-1$
+				if (!form.isDisposed()) {
 					// browser.setUrl( outputLocation
 					// + ( currentBookmark == null ? ""
 					// : ( "#" + currentBookmark ) ) );
-					browser.setUrl( outputLocation );
+					browser.setUrl(outputLocation);
 					// if special the anchor, SWT browser will not refresh
 					// browser.refresh( );
-					if ( currentPageNum < totalPageNum )
-					{
-						navNextAction.setEnabled( true );
-						navLastAction.setEnabled( true );
+					if (currentPageNum < totalPageNum) {
+						navNextAction.setEnabled(true);
+						navLastAction.setEnabled(true);
+					} else {
+						navNextAction.setEnabled(false);
+						navLastAction.setEnabled(false);
 					}
-					else
-					{
-						navNextAction.setEnabled( false );
-						navLastAction.setEnabled( false );
+					if (currentPageNum > 1) {
+						navPreAction.setEnabled(true);
+						navFirstAction.setEnabled(true);
+					} else {
+						navPreAction.setEnabled(false);
+						navFirstAction.setEnabled(false);
 					}
-					if ( currentPageNum > 1 )
-					{
-						navPreAction.setEnabled( true );
-						navFirstAction.setEnabled( true );
-					}
-					else
-					{
-						navPreAction.setEnabled( false );
-						navFirstAction.setEnabled( false );
-					}
-					goPageInput.setText( currentPageNum + "" ); //$NON-NLS-1$
-					refreshTOC( );
+					goPageInput.setText(currentPageNum + ""); //$NON-NLS-1$
+					refreshTOC();
 				}
 			}
 		};
-		showJob.setSystem( true );
-		RenderJobRunner.runRenderJob( showJob, jobRule );
+		showJob.setSystem(true);
+		RenderJobRunner.runRenderJob(showJob, jobRule);
 	}
 
-	private void updateFormJob( RenderJobRule jobRule )
-	{
-		Job updateFormJob = new AbstractUIJob( "Update", "" ) { //$NON-NLS-1$ //$NON-NLS-2$
+	private void updateFormJob(RenderJobRule jobRule) {
+		Job updateFormJob = new AbstractUIJob("Update", "") { //$NON-NLS-1$ //$NON-NLS-2$
 
-			public void work( IProgressMonitor monitor )
-			{
-				if ( !form.isDisposed( ) )
-				{
-					form.setBusy( false );
-					form.setText( MessageFormat.format( TITLE_MESSAGE,
-							new Object[]{
-									Long.valueOf( currentPageNum ),
-									Long.valueOf( totalPageNum )
-							} ) );
-					reRunReportAction.setEnabled( true );
-					paramAction.setEnabled( hasParas );
-					navGoAction.setEnabled( true );
-					tocAction.setEnabled( true );
-					if ( hasParas
-							&& !assignParamValues
-							&& paramValues.isEmpty( ) )
-					{
-						navGoAction.setEnabled( false );
-						tocAction.setEnabled( false );
+			@Override
+			public void work(IProgressMonitor monitor) {
+				if (!form.isDisposed()) {
+					form.setBusy(false);
+					form.setText(MessageFormat.format(TITLE_MESSAGE,
+							new Object[] { Long.valueOf(currentPageNum), Long.valueOf(totalPageNum) }));
+					reRunReportAction.setEnabled(true);
+					paramAction.setEnabled(hasParas);
+					navGoAction.setEnabled(true);
+					tocAction.setEnabled(true);
+					if (hasParas && !assignParamValues && paramValues.isEmpty()) {
+						navGoAction.setEnabled(false);
+						tocAction.setEnabled(false);
 					}
 				}
 			}
 		};
-		updateFormJob.setSystem( true );
-		RenderJobRunner.runRenderJob( updateFormJob, jobRule );
+		updateFormJob.setSystem(true);
+		RenderJobRunner.runRenderJob(updateFormJob, jobRule);
 	}
 
-	protected void setParameters( List inputParameters )
-	{
+	protected void setParameters(List inputParameters) {
 		this.inputParameters = inputParameters;
 	}
 
-	public void setCurrentPage( long page )
-	{
+	public void setCurrentPage(long page) {
 		this.currentPageNum = page;
 	}
 
-	public long getCurrentPage( )
-	{
+	public long getCurrentPage() {
 		return this.currentPageNum;
 	}
 
@@ -941,8 +842,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 /**
  * A engine config class, is used to create a hyperlink preview.
  */
-class HyperlinkEngineConfig extends EngineConfig
-{
+class HyperlinkEngineConfig extends EngineConfig {
 
 	/** Path of image files. */
 	public static final String IMAGE_PATH = "image"; //$NON-NLS-1$
@@ -950,12 +850,11 @@ class HyperlinkEngineConfig extends EngineConfig
 	/**
 	 * constructor
 	 */
-	public HyperlinkEngineConfig( )
-	{
-		super( );
+	public HyperlinkEngineConfig() {
+		super();
 
-		HTMLRenderOption emitterConfig = (HTMLRenderOption) getEmitterConfigs( ).get( RenderOption.OUTPUT_FORMAT_HTML );
+		HTMLRenderOption emitterConfig = (HTMLRenderOption) getEmitterConfigs().get(RenderOption.OUTPUT_FORMAT_HTML);
 
-		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
+		emitterConfig.setImageHandler(new HTMLCompleteImageHandler());
 	}
 }

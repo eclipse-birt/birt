@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,75 +20,67 @@ import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizard
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 
-
-
-
 /**
  * POJO DataSourceWizardPage to define the data source class paths
- * 
+ *
  */
 
-public class ClassPathsWizardPage extends DataSourceWizardPage
-{
+public class ClassPathsWizardPage extends DataSourceWizardPage {
 	private Properties properties;
 	private ClassPathsPageHelper helper;
 
-	public ClassPathsWizardPage( String pageName )
-	{
-		super( pageName );
-		this.setMessage( ClassPathsPageHelper.DEFAULT_MSG );
-		helper = new ClassPathsPageHelper( this.getHostResourceIdentifiers( ) );
-		helper.setWizardPage( this );
-	}
-	
-	
-
-	public ClassPathsWizardPage( String pageName, String title,
-			ImageDescriptor titleImage )
-	{
-		super( pageName, title, titleImage );
-		this.setMessage( ClassPathsPageHelper.DEFAULT_MSG );
-		helper = new ClassPathsPageHelper( this.getHostResourceIdentifiers( ) );
-		helper.setWizardPage( this );		
+	public ClassPathsWizardPage(String pageName) {
+		super(pageName);
+		this.setMessage(ClassPathsPageHelper.DEFAULT_MSG);
+		helper = new ClassPathsPageHelper(this.getHostResourceIdentifiers());
+		helper.setWizardPage(this);
 	}
 
-
-	public Properties collectCustomProperties( )
-	{
-		if ( properties == null )
-			properties = new Properties( );
-		
-		return helper.collectCustomProperties( properties );
+	public ClassPathsWizardPage(String pageName, String title, ImageDescriptor titleImage) {
+		super(pageName, title, titleImage);
+		this.setMessage(ClassPathsPageHelper.DEFAULT_MSG);
+		helper = new ClassPathsPageHelper(this.getHostResourceIdentifiers());
+		helper.setWizardPage(this);
 	}
 
-	public void setInitialProperties( Properties dataSourceProps )
-	{
+	@Override
+	public Properties collectCustomProperties() {
+		if (properties == null) {
+			properties = new Properties();
+		}
+
+		return helper.collectCustomProperties(properties);
+	}
+
+	@Override
+	public void setInitialProperties(Properties dataSourceProps) {
 		properties = dataSourceProps;
-		if ( properties == null )
-			properties = new Properties( );
+		if (properties == null) {
+			properties = new Properties();
+		}
 
-		if ( helper == null )
+		if (helper == null) {
 			return; // ignore, wait till createPageCustomControl to initialize
-		helper.setInitialProperties( properties );
+		}
+		helper.setInitialProperties(properties);
 	}
 
-	public void refresh( )
-	{
-		if ( helper != null )
-		{
-			helper.refresh( );
+	@Override
+	public void refresh() {
+		if (helper != null) {
+			helper.refresh();
 		}
 	}
-	    
-	protected Runnable createTestConnectionRunnable( final IConnectionProfile profile )
-	{
-		return helper.createTestConnectionRunnable( profile );
+
+	@Override
+	protected Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
+		return helper.createTestConnectionRunnable(profile);
 	}
 
-	public void createPageCustomControl( Composite parent )
-	{
-		helper.setResourceIdentifiers( this.getHostResourceIdentifiers( ) );
-		helper.createPageCustomControl( parent );
+	@Override
+	public void createPageCustomControl(Composite parent) {
+		helper.setResourceIdentifiers(this.getHostResourceIdentifiers());
+		helper.createPageCustomControl(parent);
 	}
 
 }

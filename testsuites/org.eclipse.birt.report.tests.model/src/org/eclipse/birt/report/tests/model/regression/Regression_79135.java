@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -33,38 +36,33 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_79135 extends BaseTestCase
-{
+public class Regression_79135 extends BaseTestCase {
 
 	private String filename = "Regression_79135.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	@Override
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
-	
-	
-	
-	public void test_regression_79135( ) throws DesignFileException
-	{
-		openDesign( filename );
-		ImageHandle image = (ImageHandle) designHandle.findElement( "image" ); //$NON-NLS-1$
-		ActionHandle action = image.getActionHandle( );
-		assertEquals( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, action
-				.getTargetWindow( ) );
-		assertNull( action.getTargetFileType( ) );
+
+	public void test_regression_79135() throws DesignFileException {
+		openDesign(filename);
+		ImageHandle image = (ImageHandle) designHandle.findElement("image"); //$NON-NLS-1$
+		ActionHandle action = image.getActionHandle();
+		assertEquals(DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, action.getTargetWindow());
+		assertNull(action.getTargetFileType());
 
 	}
 }

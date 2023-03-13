@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,350 +72,352 @@ import org.eclipse.birt.report.model.simpleapi.Style;
  * The factory class to create scriptable objects.
  */
 
-public class SimpleElementFactory implements ISimpleElementFactory
-{
+public class SimpleElementFactory implements ISimpleElementFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.script.IScriptElementFactory#getElement
 	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
-	public IReportItem wrapExtensionElement( ExtendedItemHandle handle, int type )
-	{
-		if ( handle == null )
+	@Override
+	public IReportItem wrapExtensionElement(ExtendedItemHandle handle, int type) {
+		if (handle == null) {
 			return null;
+		}
 
-		if ( type == MULTI_ROW_ITEM )
-			return new MultiRowItem( handle );
+		if (type == MULTI_ROW_ITEM) {
+			return new MultiRowItem(handle);
+		}
 
-		if ( type == SIMPLE_ROW_ITEM )
-			return new ReportItem( handle );
+		if (type == SIMPLE_ROW_ITEM) {
+			return new ReportItem(handle);
+		}
 
-		return new ReportItem( handle );
+		return new ReportItem(handle);
 	}
 
 	/**
 	 * Create <code>IHideRule</code> instance
-	 * 
+	 *
 	 * @return IHideRule
 	 */
 
-	public IHideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
-		IHideRule rule = new HideRuleImpl( r );
+	@Override
+	public IHideRule createHideRule() {
+		HideRule r = new HideRule();
+		IHideRule rule = new HideRuleImpl(r);
 		return rule;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createHideRule(org.eclipse.birt.report.model.api.core.IStructure)
 	 */
 
-	public IHideRule createHideRule( HideRule rule )
-	{
-		IHideRule hideRule = new HideRuleImpl( rule );
+	@Override
+	public IHideRule createHideRule(HideRule rule) {
+		IHideRule hideRule = new HideRuleImpl(rule);
 		return hideRule;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createHideRule(org.eclipse.birt.report.model.api.HideRuleHandle)
 	 */
 
-	public IHideRule createHideRule( HideRuleHandle handle )
-	{
-		return new HideRuleImpl( handle );
+	@Override
+	public IHideRule createHideRule(HideRuleHandle handle) {
+		return new HideRuleImpl(handle);
 	}
 
 	/**
 	 * Create <code>IFilterCondition</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IFilterCondition createFilterCondition( )
-	{
-		FilterCondition c = new FilterCondition( );
-		IFilterCondition condition = new FilterConditionImpl( c );
+	@Override
+	public IFilterCondition createFilterCondition() {
+		FilterCondition c = new FilterCondition();
+		IFilterCondition condition = new FilterConditionImpl(c);
 		return condition;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createFilterCondition
 	 * (org.eclipse.birt.report.model.api.elements.structures.FilterCondition)
 	 */
 
-	public IFilterCondition createFilterCondition( FilterCondition condition )
-	{
-		return new FilterConditionImpl( condition );
+	@Override
+	public IFilterCondition createFilterCondition(FilterCondition condition) {
+		return new FilterConditionImpl(condition);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createFilterCondition
 	 * (org.eclipse.birt.report.model.api.FilterConditionHandle)
 	 */
 
-	public IFilterCondition createFilterCondition( FilterConditionHandle handle )
-	{
-		return new FilterConditionImpl( handle );
+	@Override
+	public IFilterCondition createFilterCondition(FilterConditionHandle handle) {
+		return new FilterConditionImpl(handle);
 	}
 
 	/**
 	 * Create <code>IDataBinding</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( )
-	{
-		ComputedColumn c = new ComputedColumn( );
-		IDataBinding binding = new DataBindingImpl( c );
+	@Override
+	public IDataBinding createDataBinding() {
+		ComputedColumn c = new ComputedColumn();
+		IDataBinding binding = new DataBindingImpl(c);
 		return binding;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createDataBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
 
-	public IDataBinding createDataBinding( ComputedColumnHandle columnHandle )
-	{
-		return new DataBindingImpl( columnHandle );
+	@Override
+	public IDataBinding createDataBinding(ComputedColumnHandle columnHandle) {
+		return new DataBindingImpl(columnHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createDataBinding
 	 * (org.eclipse.birt.report.model.api.elements.structures.ComputedColumn)
 	 */
 
-	public IDataBinding createDataBinding( ComputedColumn column )
-	{
-		return new DataBindingImpl( column );
+	@Override
+	public IDataBinding createDataBinding(ComputedColumn column) {
+		return new DataBindingImpl(column);
 	}
 
 	/**
 	 * Create <code>ISortCondition</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	public ISortCondition createSortCondition( )
-	{
-		return new SortConditionImpl( );
+	@Override
+	public ISortCondition createSortCondition() {
+		return new SortConditionImpl();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createSortCondition
 	 * (org.eclipse.birt.report.model.api.elements.structures.SortKey)
 	 */
 
-	public ISortCondition createSortCondition( SortKey sort )
-	{
-		return new SortConditionImpl( sort );
+	@Override
+	public ISortCondition createSortCondition(SortKey sort) {
+		return new SortConditionImpl(sort);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createSortCondition(org.eclipse.birt.report.model.api.SortKeyHandle)
 	 */
 
-	public ISortCondition createSortCondition( SortKeyHandle sortHandle )
-	{
-		return new SortConditionImpl( sortHandle );
+	@Override
+	public ISortCondition createSortCondition(SortKeyHandle sortHandle) {
+		return new SortConditionImpl(sortHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createAction(org.eclipse.birt.report.model.api.ActionHandle,
 	 * org.eclipse.birt.report.model.api.ReportItemHandle)
 	 */
 
-	public IAction createAction( ActionHandle action, ReportItemHandle handle )
-	{
-		return new ActionImpl( action, handle );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createAction()
-	 */
-	public IAction createAction( )
-	{
-		return new ActionImpl( );
+	@Override
+	public IAction createAction(ActionHandle action, ReportItemHandle handle) {
+		return new ActionImpl(action, handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createAction()
+	 */
+	@Override
+	public IAction createAction() {
+		return new ActionImpl();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#getElement
 	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
-	public IDesignElement getElement( DesignElementHandle handle )
-	{
-		return ElementUtil.getElement( handle );
+	@Override
+	public IDesignElement getElement(DesignElementHandle handle) {
+		return ElementUtil.getElement(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
 
-	public IDataSet createDataSet( DataSetHandle handle )
-	{
-		return new DataSet( handle );
+	@Override
+	public IDataSet createDataSet(DataSetHandle handle) {
+		return new DataSet(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createResultSetColumn
 	 * (org.eclipse.birt.report.model.api.ResultSetColumnHandle)
 	 */
 
-	public IResultSetColumn createResultSetColumn(
-			ResultSetColumnHandle columnHandle )
-	{
-		return new ResultSetColumnImpl( columnHandle );
+	@Override
+	public IResultSetColumn createResultSetColumn(ResultSetColumnHandle columnHandle) {
+		return new ResultSetColumnImpl(columnHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createResultSetColumn()
 	 */
 
-	public IResultSetColumn createResultSetColumn( )
-	{
-		return new ResultSetColumnImpl( );
+	@Override
+	public IResultSetColumn createResultSetColumn() {
+		return new ResultSetColumnImpl();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
 
-	public IDataSource createDataSource( DataSourceHandle handle )
-	{
-		return new DataSource( handle );
+	@Override
+	public IDataSource createDataSource(DataSourceHandle handle) {
+		return new DataSource(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createHighlightRule()
 	 */
 
-	public IHighlightRule createHighlightRule( )
-	{
-		return new HighlightRuleImpl( );
+	@Override
+	public IHighlightRule createHighlightRule() {
+		return new HighlightRuleImpl();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createHighlightRule
 	 * (org.eclipse.birt.report.model.api.elements.structures.HighlightRule)
 	 */
 
-	public IHighlightRule createHighlightRule( HighlightRule highlightRule )
-	{
-		return new HighlightRuleImpl( highlightRule );
+	@Override
+	public IHighlightRule createHighlightRule(HighlightRule highlightRule) {
+		return new HighlightRuleImpl(highlightRule);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
-	 * createHighlightRule
-	 * (org.eclipse.birt.report.model.api.HighlightRuleHandle)
+	 * createHighlightRule (org.eclipse.birt.report.model.api.HighlightRuleHandle)
 	 */
 
-	public IHighlightRule createHighlightRule( HighlightRuleHandle handle )
-	{
-		return new HighlightRuleImpl( handle );
+	@Override
+	public IHighlightRule createHighlightRule(HighlightRuleHandle handle) {
+		return new HighlightRuleImpl(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createStyle
 	 * (org.eclipse.birt.report.model.api.StyleHandle)
 	 */
-	public IStyle createStyle( StyleHandle style )
-	{
-		return new Style( style );
+	@Override
+	public IStyle createStyle(StyleHandle style) {
+		return new Style(style);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createFilterConditionElement
 	 * (org.eclipse.birt.report.model.api.FilterConditionElementHandle)
 	 */
-	public IFilterConditionElement createFilterConditionElement(
-			FilterConditionElementHandle handle )
-	{
-		return new FilterConditionElement( handle );
+	@Override
+	public IFilterConditionElement createFilterConditionElement(FilterConditionElementHandle handle) {
+		return new FilterConditionElement(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createSortElement(org.eclipse.birt.report.model.api.SortElementHandle)
 	 */
-	public ISortElement createSortElement( SortElementHandle handle )
-	{
-		return new SortElement( handle );
+	@Override
+	public ISortElement createSortElement(SortElementHandle handle) {
+		return new SortElement(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createExpression()
 	 */
 
-	public IExpression createExpression( )
-	{
-		return new ExpressionImpl( new Expression( null, null ) );
+	@Override
+	public IExpression createExpression() {
+		return new ExpressionImpl(new Expression(null, null));
 	}
 
 }

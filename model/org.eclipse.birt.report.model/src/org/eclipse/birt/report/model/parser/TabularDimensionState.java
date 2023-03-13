@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,11 +25,10 @@ import org.xml.sax.SAXException;
 
 /**
  * This class parses a Dimension element within a cube.
- * 
+ *
  */
 
-public class TabularDimensionState extends ReportElementState
-{
+public class TabularDimensionState extends ReportElementState {
 
 	/**
 	 * The dimension being created.
@@ -37,100 +39,86 @@ public class TabularDimensionState extends ReportElementState
 	/**
 	 * Constructs dimension state with the design parser handler, the container
 	 * element and the container property name of the report element.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 *
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public TabularDimensionState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public TabularDimensionState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/**
 	 * Constructs the data source state with the design parser handler, the
 	 * container element and the container slot of the data source.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 *
+	 * @param handler the design file parser handler
 	 */
 
-	public TabularDimensionState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, handler.getModule( ), slot );
+	public TabularDimensionState(ModuleParserHandler handler, int slot) {
+		super(handler, handler.getModule(), slot);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	@Override
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 *
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TabularDimension( );
-		initElement( attrs, true );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TabularDimension();
+		initElement(attrs, true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
-	public void end( ) throws SAXException
-	{
+	@Override
+	public void end() throws SAXException {
 
-		super.end( );
+		super.end();
 
 		// if shared dimension is not null, then remove the element from name
 		// space
-		NameSpace ns = handler.module.getNameHelper( ).getNameSpace(
-				Module.DIMENSION_NAME_SPACE );
-		DesignElement foundElement = ns.getElement( element.getName( ) );
+		NameSpace ns = handler.module.getNameHelper().getNameSpace(Module.DIMENSION_NAME_SPACE);
+		DesignElement foundElement = ns.getElement(element.getName());
 
-		if ( element.isManagedByNameSpace( ) )
-		{
-			if ( container instanceof Module )
+		if (element.isManagedByNameSpace()) {
+			if (container instanceof Module) {
 				assert foundElement == element;
-			else
-			{
+			} else {
 				assert foundElement == null;
-				ns.insert( element );
+				ns.insert(element);
 			}
-		}
-		else
-		{
+		} else {
 			assert foundElement == null
-					|| foundElement == TabularDimensionPropSearchStrategy
-							.getSharedDimension( handler.module, element );
+					|| foundElement == TabularDimensionPropSearchStrategy.getSharedDimension(handler.module, element);
 		}
 
 		// update layout to do localization
-		if ( element.hasSharedDimension( handler.module ) )
-		{
+		if (element.hasSharedDimension(handler.module)) {
 			// update the layout properties and handle the id for children
-			handler.unhandleCubeDimensions.add( element );
+			handler.unhandleCubeDimensions.add(element);
 
-			if ( !handler.unhandleIDElements.contains( element ) )
-				handler.unhandleIDElements.add( element );
+			if (!handler.unhandleIDElements.contains(element)) {
+				handler.unhandleIDElements.add(element);
+			}
 		}
 	}
 

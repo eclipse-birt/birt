@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,137 +40,130 @@ import org.eclipse.birt.data.engine.impl.document.stream.WrapperedRAInputStream;
  * This class handles the storage of aggregation results in report document.
  */
 
-public class RDAggrUtil implements IRDAggrUtil
-{
+public class RDAggrUtil implements IRDAggrUtil {
 
-	private HashMap<String, RDAggrValueHolder> holders = new HashMap<String, RDAggrValueHolder>( );
+	private HashMap<String, RDAggrValueHolder> holders = new HashMap<>();
 	private IBaseQueryDefinition qd;
 	private RAInputStream aggrIndexStream;
 	private DataInputStream valueStream;
-	
-	public RDAggrUtil( StreamManager manager, IBaseQueryDefinition qd ) throws DataException
-	{
-		this.qd = qd;
-		try
-		{
-			aggrIndexStream = manager.getInStream( DataEngineContext.AGGR_INDEX_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE );
-			int aggrSize = IOUtil.readInt( aggrIndexStream );
-			DataInputStream aggrIndexDis = new DataInputStream( aggrIndexStream );
-			valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE ),
-					0,
-					-1 ) );
 
-			for ( int i = 0; i < aggrSize; i++ )
-			{
-				RDAggrValueHolder holder = new RDAggrValueHolder( valueStream );
-				holders.put( holder.getName( ), holder );
-				if ( i < aggrSize - 1 )
-				{
-					long offset = IOUtil.readLong( aggrIndexDis );
-					//for backward compatibilty issue
-					if( manager.getVersion( ) >= VersionManager.VERSION_2_5_2_1 )
-					{
-						valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
-								StreamManager.ROOT_STREAM,
-								StreamManager.SELF_SCOPE ),
-								offset,
-								-1 ) );						
-					}
-					else
-					{
-						valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
-								StreamManager.ROOT_STREAM,
-								StreamManager.SELF_SCOPE ),
-								offset + 1,
-								-1 ) );
+	public RDAggrUtil(StreamManager manager, IBaseQueryDefinition qd) throws DataException {
+		this.qd = qd;
+		try {
+			aggrIndexStream = manager.getInStream(DataEngineContext.AGGR_INDEX_STREAM, StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE);
+			int aggrSize = IOUtil.readInt(aggrIndexStream);
+			DataInputStream aggrIndexDis = new DataInputStream(aggrIndexStream);
+			valueStream = new DataInputStream(new WrapperedRAInputStream(manager.getInStream(
+					DataEngineContext.AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE), 0, -1));
+
+			for (int i = 0; i < aggrSize; i++) {
+				RDAggrValueHolder holder = new RDAggrValueHolder(valueStream);
+				holders.put(holder.getName(), holder);
+				if (i < aggrSize - 1) {
+					long offset = IOUtil.readLong(aggrIndexDis);
+					// for backward compatibilty issue
+					if (manager.getVersion() >= VersionManager.VERSION_2_5_2_1) {
+						valueStream = new DataInputStream(
+								new WrapperedRAInputStream(manager.getInStream(DataEngineContext.AGGR_VALUE_STREAM,
+										StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE), offset, -1));
+					} else {
+						valueStream = new DataInputStream(
+								new WrapperedRAInputStream(manager.getInStream(DataEngineContext.AGGR_VALUE_STREAM,
+										StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE), offset + 1, -1));
 					}
 				}
 			}
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( e.getLocalizedMessage( ), e );
+		} catch (IOException e) {
+			throw new DataException(e.getLocalizedMessage(), e);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#contains(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#contains(java.lang.
+	 * String)
 	 */
-	public boolean contains( String aggrName )
-	{
-		return holders.containsKey( aggrName );
+	@Override
+	public boolean contains(String aggrName) {
+		return holders.containsKey(aggrName);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getGroupLevel(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getGroupLevel(java.
+	 * lang.String)
 	 */
-	public int getGroupLevel( String aggrName )
-	{
-		if ( this.contains( aggrName ) )
-			return this.holders.get( aggrName ).getGroupLevel( );
+	@Override
+	public int getGroupLevel(String aggrName) {
+		if (this.contains(aggrName)) {
+			return this.holders.get(aggrName).getGroupLevel();
+		}
 		return -1;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#isRunningAggr(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#isRunningAggr(java.
+	 * lang.String)
 	 */
-	public boolean isRunningAggr( String aggrName )
-	{
-		if ( this.contains( aggrName ) )
-			return this.holders.get( aggrName ).isRunningAggr( );
+	@Override
+	public boolean isRunningAggr(String aggrName) {
+		if (this.contains(aggrName)) {
+			return this.holders.get(aggrName).isRunningAggr();
+		}
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getValue(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getValue(java.lang.
+	 * String, int)
 	 */
-	public Object getValue( String aggrName, int groupInstanceIndex )
-			throws DataException
-	{
-		try
-		{
-			if ( this.contains( aggrName ) )
-			{
-				Object value = holders.get( aggrName ).get( groupInstanceIndex );
+	@Override
+	public Object getValue(String aggrName, int groupInstanceIndex) throws DataException {
+		try {
+			if (this.contains(aggrName)) {
+				Object value = holders.get(aggrName).get(groupInstanceIndex);
 
-				if ( value != null && value instanceof BirtException )
+				if (value instanceof BirtException) {
 					throw (BirtException) value;
-				
-				if ( qd != null && qd.getBindings( ).containsKey( aggrName ))
-				{
-					IBinding b = (IBinding)qd.getBindings( ).get( aggrName );
-					
-					//convert the value to the target type got from the original binding
-					value = DataTypeUtil.convert( value, b.getDataType( ) );
+				}
+
+				if (qd != null && qd.getBindings().containsKey(aggrName)) {
+					IBinding b = (IBinding) qd.getBindings().get(aggrName);
+
+					// convert the value to the target type got from the original binding
+					value = DataTypeUtil.convert(value, b.getDataType());
 				}
 				return value;
 			}
 
 			return null;
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( e.getLocalizedMessage( ), e );
-		}
-		catch ( BirtException e )
-		{
-			if( e instanceof DataException )
-				throw new DataException( e.getErrorCode( ), ( (DataException)e ).getArgument( ) );
-			throw new DataException( e.getErrorCode( ), e );
+		} catch (IOException e) {
+			throw new DataException(e.getLocalizedMessage(), e);
+		} catch (BirtException e) {
+			if (e instanceof DataException) {
+				throw new DataException(e.getErrorCode(), ((DataException) e).getArgument());
+			}
+			throw new DataException(e.getErrorCode(), e);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Administrator
-	 * 
+	 *
 	 */
-	private static class RDAggrValueHolder
-	{
+	private static class RDAggrValueHolder {
 
 		private int groupInstanceIndex = 0;
 		private int size = 0;
@@ -178,91 +174,75 @@ public class RDAggrUtil implements IRDAggrUtil
 		private String bindingName;
 		private Object currentValue;
 
-		public RDAggrValueHolder( DataInputStream valueStream )
-				throws IOException, DataException
-		{
-			this.bindingName = IOUtil.readString( valueStream );
-			populateRunningAggrInfo( valueStream );
-			this.groupLevel = IOUtil.readInt( valueStream );
-			this.size = IOUtil.readInt( valueStream );
+		public RDAggrValueHolder(DataInputStream valueStream) throws IOException, DataException {
+			this.bindingName = IOUtil.readString(valueStream);
+			populateRunningAggrInfo(valueStream);
+			this.groupLevel = IOUtil.readInt(valueStream);
+			this.size = IOUtil.readInt(valueStream);
 			this.valueStream = valueStream;
-			if ( size > 0 )
-			{
-				this.currentValue = IOUtil.readObject( valueStream, DataEngineSession.getCurrentClassLoader( ) );
+			if (size > 0) {
+				this.currentValue = IOUtil.readObject(valueStream, DataEngineSession.getCurrentClassLoader());
 			}
 		}
 
-		private void populateRunningAggrInfo( DataInputStream valueStream )
-				throws IOException, DataException
-		{
-			String aggrName = IOUtil.readString( valueStream );
-			if ( AggregationManager.getInstance( ).getAggregation( aggrName ) == null )
-				throw new DataException( ResourceConstants.INVALID_AGGR, aggrName );
-			this.isRunningAggr = AggregationManager.getInstance( )
-					.getAggregation( aggrName )
-					.getType( ) == IAggrFunction.RUNNING_AGGR;
+		private void populateRunningAggrInfo(DataInputStream valueStream) throws IOException, DataException {
+			String aggrName = IOUtil.readString(valueStream);
+			if (AggregationManager.getInstance().getAggregation(aggrName) == null) {
+				throw new DataException(ResourceConstants.INVALID_AGGR, aggrName);
+			}
+			this.isRunningAggr = AggregationManager.getInstance().getAggregation(aggrName)
+					.getType() == IAggrFunction.RUNNING_AGGR;
 		}
 
-		public String getName( )
-		{
+		public String getName() {
 			return this.bindingName;
 		}
 
-		public boolean isRunningAggr( )
-		{
+		public boolean isRunningAggr() {
 			return this.isRunningAggr;
 		}
 
-		public int getGroupLevel( )
-		{
+		public int getGroupLevel() {
 			return this.groupLevel;
 		}
 
-		public Object get( int index ) throws IOException
-		{
-			if ( index == groupInstanceIndex )
+		public Object get(int index) throws IOException {
+			if (index == groupInstanceIndex) {
 				return currentValue;
+			}
 			// If try to go backward, simply return null;
-			if ( index < groupInstanceIndex || index >= size )
+			if (index < groupInstanceIndex || index >= size) {
 				return null;
-			while ( groupInstanceIndex < index )
-			{
-				this.currentValue = IOUtil.readObject( valueStream, DataEngineSession.getCurrentClassLoader( ) );
+			}
+			while (groupInstanceIndex < index) {
+				this.currentValue = IOUtil.readObject(valueStream, DataEngineSession.getCurrentClassLoader());
 				groupInstanceIndex++;
 			}
 
 			return this.currentValue;
 		}
-		
-		public void close( ) throws IOException
-		{
-			if( valueStream!= null )
-			{
-				valueStream.close( );
+
+		public void close() throws IOException {
+			if (valueStream != null) {
+				valueStream.close();
 			}
 		}
 	}
 
-	public void close( ) throws DataException
-	{
-		try
-		{
-			if ( !this.holders.isEmpty( ) )
-			{
-				Collection<RDAggrValueHolder> values = this.holders.values( );
-				Iterator<RDAggrValueHolder> iter = values.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					iter.next( ).close( );
+	@Override
+	public void close() throws DataException {
+		try {
+			if (!this.holders.isEmpty()) {
+				Collection<RDAggrValueHolder> values = this.holders.values();
+				Iterator<RDAggrValueHolder> iter = values.iterator();
+				while (iter.hasNext()) {
+					iter.next().close();
 				}
 			}
-			if ( aggrIndexStream != null )
-			{
-				aggrIndexStream.close( );
+			if (aggrIndexStream != null) {
+				aggrIndexStream.close();
 			}
-		}
-		catch ( IOException ex )
-		{
+		} catch (IOException ex) {
 		}
 	}
 }

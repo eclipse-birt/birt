@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -19,110 +21,106 @@ import org.eclipse.gef.commands.CommandStackListener;
 
 /**
  * @author David Michonneau
- * 
+ *
  *         This class is a command stack for the GEF framework. It internally
  *         access the ActivityStack class of the DE. No commands are pushed to
  *         the command stack or ActivityStack here since the Design handles take
  *         care of that when executed. Commands are executed as transactions.
  */
-public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
-{
+public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 
 	private CommandStack ar;
 
 	/**
 	 * @deprecated use {@link #WrapperCommandStack(CommandStack)}
 	 */
-	public WrapperCommandStack( )
-	{
-		this( SessionHandleAdapter.getInstance( ).getCommandStack( ) );
+	@Deprecated
+	public WrapperCommandStack() {
+		this(SessionHandleAdapter.getInstance().getCommandStack());
 	}
 
-	public WrapperCommandStack(
-			org.eclipse.birt.report.model.api.CommandStack ar )
-	{
+	public WrapperCommandStack(org.eclipse.birt.report.model.api.CommandStack ar) {
 		this.ar = ar;
 	}
 
-	public boolean canUndo( )
-	{
-		return ar.canUndo( );
+	@Override
+	public boolean canUndo() {
+		return ar.canUndo();
 	}
 
-	public boolean canRedo( )
-	{
-		return ar.canRedo( );
+	@Override
+	public boolean canRedo() {
+		return ar.canRedo();
 	}
 
-	public void undo( )
-	{
-		if ( canUndo( ) )
-			ar.undo( );
+	@Override
+	public void undo() {
+		if (canUndo()) {
+			ar.undo();
+		}
 	}
 
-	public void redo( )
-	{
-		if ( canRedo( ) )
-			ar.redo( );
+	@Override
+	public void redo() {
+		if (canRedo()) {
+			ar.redo();
+		}
 	}
 
-	public void flush( )
-	{
-		ar.flush( );
+	@Override
+	public void flush() {
+		ar.flush();
 	}
 
-	public Command getRedoCommand( )
-	{
-		return new CommandWrap4DE( ar.getRedoRecord( ) );
+	@Override
+	public Command getRedoCommand() {
+		return new CommandWrap4DE(ar.getRedoRecord());
 	}
 
-	public Command getUndoCommand( )
-	{
-		return new CommandWrap4DE( ar.getUndoRecord( ) );
+	@Override
+	public Command getUndoCommand() {
+		return new CommandWrap4DE(ar.getUndoRecord());
 	}
 
-	public void execute( Command command )
-	{
-		if ( command == null )
-		{
+	@Override
+	public void execute(Command command) {
+		if (command == null) {
 			return;
 		}
 
-		if ( command.getLabel( ) == null )
-		{
-			command.setLabel( "" ); //$NON-NLS-1$
+		if (command.getLabel() == null) {
+			command.setLabel(""); //$NON-NLS-1$
 		}
-		ar.startTrans( command.getLabel( ) );
-		command.execute( );
-		ar.commit( );
+		ar.startTrans(command.getLabel());
+		command.execute();
+		ar.commit();
 
 	}
 
-	public void setUndoLimit( int undoLimit )
-	{
-		ar.setStackLimit( undoLimit );
+	@Override
+	public void setUndoLimit(int undoLimit) {
+		ar.setStackLimit(undoLimit);
 	}
 
-	public void addCommandStackListener( ActivityStackListener listener )
-	{
-		ar.addListener( listener );
+	public void addCommandStackListener(ActivityStackListener listener) {
+		ar.addListener(listener);
 	}
 
-	public void removeCommandStackListener( ActivityStackListener listener )
-	{
-		ar.removeListener( listener );
+	public void removeCommandStackListener(ActivityStackListener listener) {
+		ar.removeListener(listener);
 	}
 
 	/**
 	 * @deprecated
-	 * 
-	 *             Do not use, use
-	 *             addCommandStackListener(ActivityStackListener) instead
-	 * 
+	 *
+	 *             Do not use, use addCommandStackListener(ActivityStackListener)
+	 *             instead
+	 *
 	 * @see org.eclipse.gef.commands.CommandStack#addCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */
-	public void addCommandStackListener( CommandStackListener listener )
-	{
+	@Deprecated
+	@Override
+	public void addCommandStackListener(CommandStackListener listener) {
 		// use addCommandStackListener(ActivityStackListener) instead
 		// this method will called by GEF.
 		// can't assert false.
@@ -132,29 +130,29 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 
 	/**
 	 * @deprecated
-	 * 
-	 *             Do not use, use
-	 *             removeCommandStackListener(ActivityStackListener) instead
-	 * 
+	 *
+	 *             Do not use, use removeCommandStackListener(ActivityStackListener)
+	 *             instead
+	 *
 	 * @see org.eclipse.gef.commands.CommandStack#removeCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */
-	public void removeCommandStackListener( CommandStackListener listener )
-	{
+	@Deprecated
+	@Override
+	public void removeCommandStackListener(CommandStackListener listener) {
 		// use removeCommandStackListener(ActivityStackListener) instead
 		// assert false;
 	}
 
-	public void setActivityStack( CommandStack ar )
-	{
+	public void setActivityStack(CommandStack ar) {
 		this.ar = ar;
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		// TODO Auto-generated method stub
-		super.dispose( );
-		ar.flush( );
-		ar.clearListeners( );
+		super.dispose();
+		ar.flush();
+		ar.clearListeners();
 		ar = null;
 	}
 }

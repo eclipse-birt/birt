@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,11 +24,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Describes where to send out the event.
- * 
+ *
  */
 
-public class ContentElementInfo
-{
+public class ContentElementInfo {
 
 	private DesignElement element;
 
@@ -37,126 +39,116 @@ public class ContentElementInfo
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param element
-	 *            the element
-	 * @param propDefn
-	 *            the property definition
+	 *
+	 * @param element  the element
+	 * @param propDefn the property definition
 	 */
 
-	public ContentElementInfo( DesignElement element, PropertyDefn propDefn )
-	{
+	public ContentElementInfo(DesignElement element, PropertyDefn propDefn) {
 		this.element = element;
 		this.propDefn = propDefn;
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param enablePath
-	 *            <code>true</code> to enable path trace
+	 *
+	 * @param enablePath <code>true</code> to enable path trace
 	 */
 
-	public ContentElementInfo( boolean enablePath )
-	{
+	public ContentElementInfo(boolean enablePath) {
 		this.enablePath = enablePath;
-		path = new ArrayList<Step>( );
+		path = new ArrayList<>();
 	}
 
 	/**
 	 * Returns the event destination.
-	 * 
+	 *
 	 * @return the element
 	 */
 
-	public DesignElement getElement( )
-	{
-		if ( element != null )
-			return element;
-
-		return null;
+	public DesignElement getElement() {
+		return element;
 	}
 
 	/**
 	 * Returns the property name of the target event.
-	 * 
+	 *
 	 * @return the property name
 	 */
 
-	public String getPropName( )
-	{
-		if ( propDefn != null )
-			return propDefn.getName( );
+	public String getPropName() {
+		if (propDefn != null) {
+			return propDefn.getName();
+		}
 
-		if ( path.isEmpty( ) )
+		if (path.isEmpty()) {
 			return null;
+		}
 
-		Step topStep = path.get( path.size( ) - 1 );
+		Step topStep = path.get(path.size() - 1);
 		propDefn = topStep.stepPropDefn;
-		return propDefn.getName( );
+		return propDefn.getName();
 
 	}
 
 	/**
 	 * Adds one step.
-	 * 
+	 *
 	 * @param stepPropDefn
 	 * @param index
 	 */
 
-	public void pushStep( PropertyDefn stepPropDefn, int index )
-	{
-		if ( enablePath )
-			path.add( new Step( stepPropDefn, index ) );
+	public void pushStep(PropertyDefn stepPropDefn, int index) {
+		if (enablePath) {
+			path.add(new Step(stepPropDefn, index));
+		}
 	}
 
 	/**
 	 * Sets the top container that is not content element.
-	 * 
+	 *
 	 * @param topElement
 	 */
 
-	public void setTopElement( DesignElement topElement )
-	{
-		assert !( topElement instanceof ContentElement );
+	public void setTopElement(DesignElement topElement) {
+		assert !(topElement instanceof ContentElement);
 		element = topElement;
 	}
 
 	/**
 	 * Returns the iterator for the steps.
-	 * 
+	 *
 	 * @return the list of the step
 	 */
 
-	public List<Step> stepIterator( )
-	{
-		if ( path == null )
-			return Collections.emptyList( );
+	public List<Step> stepIterator() {
+		if (path == null) {
+			return Collections.emptyList();
+		}
 
 		return path;
 	}
 
 	/**
 	 * Copies the path from the target to this info.
-	 * 
+	 *
 	 * @param target
 	 */
 
-	public void copyPath( ContentElementInfo target )
-	{
-		if ( target == null )
+	public void copyPath(ContentElementInfo target) {
+		if (target == null) {
 			return;
+		}
 
 		path = target.path;
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
-	static class Step
-	{
+	static class Step {
 
 		/**
 		 * The property definition or member definition.
@@ -173,8 +165,7 @@ public class ContentElementInfo
 		 * @param index
 		 */
 
-		Step( PropertyDefn propDefn, int index )
-		{
+		Step(PropertyDefn propDefn, int index) {
 			this.stepPropDefn = propDefn;
 			this.index = index;
 		}

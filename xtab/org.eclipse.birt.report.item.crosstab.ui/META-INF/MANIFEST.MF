@@ -1,34 +1,40 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Crosstab UI Plug-in
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.ui;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.core,
- org.eclipse.birt.report.model,
- org.eclipse.birt.report.designer.core,
- org.eclipse.birt.report.designer.ui,
- org.eclipse.birt.report.item.crosstab.core,
- org.eclipse.draw2d,
- org.eclipse.gef,
- org.eclipse.jface,
- org.eclipse.ui,
- org.eclipse.birt.report.designer.ui.cubebuilder,
- org.eclipse.birt.report.designer.ui.views,
- org.eclipse.birt.report.designer.ui.ide;resolution:=optional,
- org.eclipse.core.expressions,
- org.eclipse.birt.report.engine,
- org.eclipse.birt.report.designer.ui.data
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
+ org.eclipse.birt.report.model;bundle-version="4.13.0",
+ org.eclipse.birt.report.designer.core;bundle-version="4.13.0",
+ org.eclipse.birt.report.designer.ui;bundle-version="4.13.0",
+ org.eclipse.birt.report.item.crosstab.core;bundle-version="4.13.0",
+ org.eclipse.draw2d;bundle-version="3.10.100",
+ org.eclipse.gef;bundle-version="3.11.0",
+ org.eclipse.jface;bundle-version="3.23.0",
+ org.eclipse.ui;bundle-version="3.119.100",
+ org.eclipse.birt.report.designer.ui.cubebuilder;bundle-version="4.13.0",
+ org.eclipse.birt.report.designer.ui.views;bundle-version="4.13.0",
+ org.eclipse.birt.report.designer.ui.ide;bundle-version="4.13.0";resolution:=optional,
+ org.eclipse.core.expressions;bundle-version="3.8.0",
+ org.eclipse.birt.report.engine;bundle-version="4.13.0",
+ org.eclipse.birt.report.designer.ui.data;bundle-version="4.13.0"
 Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.editors.action,
  org.eclipse.birt.report.item.crosstab.internal.ui.editors.model,
  org.eclipse.birt.report.item.crosstab.internal.ui.util,
  org.eclipse.birt.report.item.crosstab.internal.ui.views.provider,
+ org.eclipse.birt.report.item.crosstab.plugin;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.extension,
+ org.eclipse.birt.report.item.crosstab.ui.i18n;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.preference,
+ org.eclipse.birt.report.item.crosstab.ui.views.attributes;x-internal:=true,
+ org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider,
+ org.eclipse.birt.report.item.crosstab.ui.views.attributes.section;x-internal:=true,
+ org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.views.dialogs
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.item.crosstab.ui

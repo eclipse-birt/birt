@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -27,46 +29,40 @@ import org.eclipse.jface.action.IAction;
  * EditGroup Action to be used in cheat sheet with the template grouped_listing.
  * The first parameter is the table name, the second parameter is the name of
  * the group to edit.
- *  
+ *
  */
-public class TemplateEditGroupAction extends TemplateBaseAction
-{
+public class TemplateEditGroupAction extends TemplateBaseAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.TemplateBaseDesignerAction#getActionID()
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
+	 * TemplateBaseDesignerAction#getActionID()
 	 */
-	protected IAction getAction( ReportLayoutEditor reportDesigner )
-	{
+	@Override
+	protected IAction getAction(ReportLayoutEditor reportDesigner) {
 		AbstractEditPart part = (AbstractEditPart) selection;
-		ListingHandle handle = (ListingHandle) part.getModel( );
+		ListingHandle handle = (ListingHandle) part.getModel();
 
-		SlotHandle groups = handle.getGroups( );
-		Iterator iter = groups.iterator( );
+		SlotHandle groups = handle.getGroups();
+		Iterator iter = groups.iterator();
 		GroupHandle groupToEdit = null;
 
 		// look for the group with the right name
-		while ( iter.hasNext( ) )
-		{
-			GroupHandle group = (GroupHandle) iter.next( );
-			if ( group.getName( ) != null
-					&& group.getName( ).equals( params[1] ) )
-			{
+		while (iter.hasNext()) {
+			GroupHandle group = (GroupHandle) iter.next();
+			if (group.getName() != null && group.getName().equals(params[1])) {
 				groupToEdit = group;
 				break;
 			}
 		}
 
 		// no group with the right name found, use the first one if any
-		if ( groupToEdit == null && groups.getCount( ) > 0 )
-		{
-			groupToEdit = (GroupHandle) groups.iterator( ).next( );
+		if (groupToEdit == null && groups.getCount() > 0) {
+			groupToEdit = (GroupHandle) groups.iterator().next();
 		}
-		if ( groupToEdit != null )
-		{
-			EditGroupAction action = new EditGroupAction( reportDesigner,
-					groupToEdit );
+		if (groupToEdit != null) {
+			EditGroupAction action = new EditGroupAction(reportDesigner, groupToEdit);
 			return action;
 		}
 		return null;
@@ -74,21 +70,26 @@ public class TemplateEditGroupAction extends TemplateBaseAction
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.TemplateBaseDesignerAction#showErrorWrongElementSelection()
+	 *
+	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
+	 * TemplateBaseDesignerAction#showErrorWrongElementSelection()
 	 */
-	protected void showErrorWrongElementSelection( )
-	{
+	@Override
+	protected void showErrorWrongElementSelection() {
 		// TODO Auto-generated method stub
 
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.actions.cheatsheets.TemplateBaseAction#checkType(java.lang.Class)
-     */
-    protected boolean checkType( Class class1 )
-    {
-        return ( class1 == TableEditPart.class || class1 == ListEditPart.class );
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.actions.cheatsheets.TemplateBaseAction#
+	 * checkType(java.lang.Class)
+	 */
+	@Override
+	protected boolean checkType(Class class1) {
+		return (class1 == TableEditPart.class || class1 == ListEditPart.class);
+	}
 
 }

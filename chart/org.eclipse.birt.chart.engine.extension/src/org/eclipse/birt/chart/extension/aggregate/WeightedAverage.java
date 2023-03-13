@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -18,27 +21,30 @@ import org.eclipse.birt.core.data.DataType;
 /**
  * @since BIRT 2.3
  */
-public class WeightedAverage extends AggregateFunctionAdapter
-{
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
+public class WeightedAverage extends AggregateFunctionAdapter {
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
-	public String[] getDisplayParameters( )
-	{
-		return new String[]{Messages.getString("WeightedAverage.AggregateFunction.Parameters.Label.Weight")}; //$NON-NLS-1$
+	@Override
+	public String[] getDisplayParameters() {
+		return new String[] { Messages.getString("WeightedAverage.AggregateFunction.Parameters.Label.Weight") }; //$NON-NLS-1$
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
-	public int getParametersCount( )
-	{
+	@Override
+	public int getParametersCount() {
 		return 1;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 }

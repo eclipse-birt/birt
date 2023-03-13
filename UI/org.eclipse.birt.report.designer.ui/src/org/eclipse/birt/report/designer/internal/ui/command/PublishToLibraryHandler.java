@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,44 +25,43 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.jface.wizard.WizardDialog;
 
 /**
- * 
+ *
  */
 
-public class PublishToLibraryHandler extends SelectionHandler
-{
+public class PublishToLibraryHandler extends SelectionHandler {
 
-	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		super.execute( event );
-		
+		super.execute(event);
+
 //		String filePath = SessionHandleAdapter.getInstance( )
 //				.getReportDesignHandle( )
 //				.getFileName( );
 //		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		String fileName = (String)UIUtil.getVariableFromContext( context, ICommandParameterNameContants.PUBLISH_LIBRARY_FILENAME);
-		LibraryHandle libHandle = (LibraryHandle) UIUtil.getVariableFromContext( context, ICommandParameterNameContants.PUBLISH_LIBRARY_LIBRARY_HANDLE);
-	
-		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
-				fileName,
-				ReportPlugin.getDefault( ).getResourceFolder( ) );
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		String fileName = (String) UIUtil.getVariableFromContext(context,
+				ICommandParameterNameContants.PUBLISH_LIBRARY_FILENAME);
+		LibraryHandle libHandle = (LibraryHandle) UIUtil.getVariableFromContext(context,
+				ICommandParameterNameContants.PUBLISH_LIBRARY_LIBRARY_HANDLE);
 
-		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-				publishLibrary );
+		PublishLibraryWizard publishLibrary = new PublishLibraryWizard(libHandle, fileName,
+				ReportPlugin.getDefault().getResourceFolder());
 
-		dialog.setPageSize( 500, 250 );
-		dialog.open( );
-		
+		WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), publishLibrary);
+
+		dialog.setPageSize(500, 250);
+		dialog.open();
+
 		return Boolean.TRUE;
 	}
-	
 
 }

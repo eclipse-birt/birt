@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +24,7 @@ import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
-public class OSGIPolicy extends Policy
-{
+public class OSGIPolicy extends Policy {
 
 	// The policy that this EclipsePolicy is replacing
 	private Policy policy;
@@ -34,90 +36,90 @@ public class OSGIPolicy extends Policy
 	private PermissionCollection allPermissions;
 
 	// The AllPermission permission
-	Permission allPermission = new AllPermission( );
+	Permission allPermission = new AllPermission();
 
-	OSGIPolicy( Policy policy, URL[] urls )
-	{
+	OSGIPolicy(Policy policy, URL[] urls) {
 		this.policy = policy;
 		this.urls = urls;
-		allPermissions = new PermissionCollection( ) {
+		allPermissions = new PermissionCollection() {
 
 			private static final long serialVersionUID = 3258131349494708277L;
 
 			// A simple PermissionCollection that only has AllPermission
-			public void add( Permission permission )
-			{
+			@Override
+			public void add(Permission permission) {
 				// no adding to this policy
 			}
 
-			public boolean implies( Permission permission )
-			{
+			@Override
+			public boolean implies(Permission permission) {
 				return true;
 			}
 
-			public Enumeration elements( )
-			{
-				return new Enumeration( ) {
+			@Override
+			public Enumeration elements() {
+				return new Enumeration() {
 
 					int cur = 0;
 
-					public boolean hasMoreElements( )
-					{
+					@Override
+					public boolean hasMoreElements() {
 						return cur < 1;
 					}
 
-					public Object nextElement( )
-					{
-						if ( cur == 0 )
-						{
+					@Override
+					public Object nextElement() {
+						if (cur == 0) {
 							cur = 1;
 							return allPermission;
 						}
-						throw new NoSuchElementException( );
+						throw new NoSuchElementException();
 					}
 				};
 			}
 		};
 	}
 
-	public PermissionCollection getPermissions( CodeSource codesource )
-	{
-		if ( contains( codesource.getLocation( ) ) )
+	@Override
+	public PermissionCollection getPermissions(CodeSource codesource) {
+		if (contains(codesource.getLocation())) {
 			return allPermissions;
-		return policy == null ? allPermissions : policy
-				.getPermissions( codesource );
+		}
+		return policy == null ? allPermissions : policy.getPermissions(codesource);
 	}
 
-	public PermissionCollection getPermissions( ProtectionDomain domain )
-	{
-		if ( contains( domain.getCodeSource( ).getLocation( ) ) )
+	@Override
+	public PermissionCollection getPermissions(ProtectionDomain domain) {
+		if (contains(domain.getCodeSource().getLocation())) {
 			return allPermissions;
-		return policy == null ? allPermissions : policy.getPermissions( domain );
+		}
+		return policy == null ? allPermissions : policy.getPermissions(domain);
 	}
 
-	public boolean implies( ProtectionDomain domain, Permission permission )
-	{
-		if ( contains( domain.getCodeSource( ).getLocation( ) ) )
+	@Override
+	public boolean implies(ProtectionDomain domain, Permission permission) {
+		if (contains(domain.getCodeSource().getLocation())) {
 			return true;
-		return policy == null ? true : policy.implies( domain, permission );
+		}
+		return policy == null ? true : policy.implies(domain, permission);
 	}
 
-	public void refresh( )
-	{
-		if ( policy != null )
-			policy.refresh( );
+	@Override
+	public void refresh() {
+		if (policy != null) {
+			policy.refresh();
+		}
 	}
 
-	private boolean contains( URL url )
-	{
+	private boolean contains(URL url) {
 		// Check to see if this URL is in our set of URLs to give AllPermissions
 		// to.
-		for ( int i = 0; i < urls.length; i++ )
-		{
+		for (int i = 0; i < urls.length; i++) {
 			// We do simple equals test here because we assume the URLs will be
 			// the same objects.
-			if ( urls[i] == url )
+			if (urls[i] == url) {
 				return true;
+			}
 		}
 		return false;
 	}

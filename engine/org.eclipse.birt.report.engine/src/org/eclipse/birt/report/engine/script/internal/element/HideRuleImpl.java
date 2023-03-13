@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,90 +26,77 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
  * Implements of Hide Rule.
  */
 
-public class HideRuleImpl implements IHideRule
-{
+public class HideRuleImpl implements IHideRule {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRuleImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRuleImpl;
 
-    /**
-     * Constructor
-     * 
-     * @param ruleHandle
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param ruleHandle
+	 */
 
-    public HideRuleImpl()
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule();
-    }
+	public HideRuleImpl() {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule();
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param ruleHandle
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param ruleHandle
+	 */
 
-    public HideRuleImpl( HideRuleHandle ruleHandle )
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(
-                ruleHandle );
-    }
+	public HideRuleImpl(HideRuleHandle ruleHandle) {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(ruleHandle);
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param rule
-     */
-    public HideRuleImpl( HideRule rule )
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule( rule );
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param rule
+	 */
+	public HideRuleImpl(HideRule rule) {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(rule);
+	}
 
-    public HideRuleImpl(
-            org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRule )
-    {
-        hideRuleImpl = hideRule;
-    }
+	public HideRuleImpl(org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRule) {
+		hideRuleImpl = hideRule;
+	}
 
-    public String getFormat()
-    {
-        return hideRuleImpl.getFormat();
-    }
+	@Override
+	public String getFormat() {
+		return hideRuleImpl.getFormat();
+	}
 
-    public String getValueExpr()
-    {
-        return hideRuleImpl.getValueExpr();
-    }
+	@Override
+	public String getValueExpr() {
+		return hideRuleImpl.getValueExpr();
+	}
 
-    public void setFormat( String format )  throws ScriptException
-    {
-    	try
-		{    		
-            hideRuleImpl.setFormat( format );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	@Override
+	public void setFormat(String format) throws ScriptException {
+		try {
+			hideRuleImpl.setFormat(format);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public void setValueExpr( String valueExpr ) throws ScriptException
-    {
-    	try
-		{    		
-    		
-            hideRuleImpl.setValueExpr( valueExpr );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	@Override
+	public void setValueExpr(String valueExpr) throws ScriptException {
+		try {
+
+			hideRuleImpl.setValueExpr(valueExpr);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public IStructure getStructure()
-    {
-        return hideRuleImpl.getStructure();
-    }
+	@Override
+	public IStructure getStructure() {
+		return hideRuleImpl.getStructure();
+	}
 
 }

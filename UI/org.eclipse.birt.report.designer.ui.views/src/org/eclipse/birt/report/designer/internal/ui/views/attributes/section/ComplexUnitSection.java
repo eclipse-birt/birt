@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,197 +30,179 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ComplexUnitSection extends Section
-{
+public class ComplexUnitSection extends Section {
 
-	public ComplexUnitSection( String labelText, Composite parent, boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public ComplexUnitSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 		// TODO Auto-generated constructor stub
 	}
 
 	protected ComplexUnitPropertyDescriptor unit;
 
-	public void createSection( )
-	{
-		getLabelControl( parent );
-		getUnitComboControl( parent );
-		getGridPlaceholder( parent );
+	@Override
+	public void createSection() {
+		getLabelControl(parent);
+		getUnitComboControl(parent);
+		getGridPlaceholder(parent);
 
 	}
 
-	public ComplexUnitPropertyDescriptor getUnitComboControl( )
-	{
+	public ComplexUnitPropertyDescriptor getUnitComboControl() {
 		return unit;
 	}
 
-	protected ComplexUnitPropertyDescriptor getUnitComboControl(
-			Composite parent )
-	{
-		if ( unit == null )
-		{
-			if ( customUnit != null )
+	protected ComplexUnitPropertyDescriptor getUnitComboControl(Composite parent) {
+		if (unit == null) {
+			if (customUnit != null) {
 				unit = customUnit;
-			else
-				unit = DescriptorToolkit.createComplexUnitPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				unit.setDescriptorProvider( getProvider( ) );
-			unit.createControl( parent );
-			unit.getControl( ).setLayoutData( new GridData( ) );
-			unit.getControl( ).addDisposeListener( new DisposeListener( ) {
+			} else {
+				unit = DescriptorToolkit.createComplexUnitPropertyDescriptor(true);
+			}
+			if (getProvider() != null) {
+				unit.setDescriptorProvider(getProvider());
+			}
+			unit.createControl(parent);
+			unit.getControl().setLayoutData(new GridData());
+			unit.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				@Override
+				public void widgetDisposed(DisposeEvent event) {
 					unit = null;
 				}
-			} );
+			});
 
-			setAccessible( unit.getControl( ) );
-		}
-		else
-		{
-			checkParent( unit.getControl( ), parent );
+			setAccessible(unit.getControl());
+		} else {
+			checkParent(unit.getControl(), parent);
 		}
 		return unit;
 	}
 
-	private void setAccessible( final Control control )
-	{
-		if ( control instanceof Composite )
-		{
+	private void setAccessible(final Control control) {
+		if (control instanceof Composite) {
 			Composite parent = (Composite) control;
-			if ( parent != null && parent.getTabList( ) != null )
-			{
-				Control[] children = parent.getTabList( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					setAccessible( children[i] );
+			if (parent != null && parent.getTabList() != null) {
+				Control[] children = parent.getTabList();
+				for (int i = 0; i < children.length; i++) {
+					setAccessible(children[i]);
 				}
 			}
-		}
-		else
-		{
-			control.getAccessible( )
-					.addAccessibleListener( new AccessibleAdapter( ) {
+		} else {
+			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-						public void getName( AccessibleEvent e )
-						{
-							Label lbl = getLabelControl( );
-							if ( lbl != null )
-							{
-								if (control instanceof Text)
-								{
-									e.result = UIUtil.stripMnemonic( getLabelControl( ).getText( ) )
-										+ ((Text) control).getText( );
-								}
-							}
+				@Override
+				public void getName(AccessibleEvent e) {
+					Label lbl = getLabelControl();
+					if (lbl != null) {
+						if (control instanceof Text) {
+							e.result = UIUtil.stripMnemonic(getLabelControl().getText()) + ((Text) control).getText();
 						}
+					}
+				}
 
-					} );
+			});
 		}
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) unit.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
-		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 1
-					- placeholder;
-		if ( width > -1 )
-		{
+	@Override
+	public void layout() {
+		GridData gd = (GridData) unit.getControl().getLayoutData();
+		if (getLayoutNum() > 0) {
+			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
+		} else {
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else {
 			gd.grabExcessHorizontalSpace = fillUnit;
+		}
 
 	}
 
-	public void load( )
-	{
-		if ( unit != null && !unit.getControl( ).isDisposed( ) )
-			unit.load( );
+	@Override
+	public void load() {
+		if (unit != null && !unit.getControl().isDisposed()) {
+			unit.load();
+		}
 	}
 
-	public void reset( )
-	{
-		if ( unit != null && !unit.getControl( ).isDisposed( ) )
-		{
-			unit.reset( );
+	@Override
+	public void reset() {
+		if (unit != null && !unit.getControl().isDisposed()) {
+			unit.reset();
 		}
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( unit != null )
-			unit.setDescriptorProvider( provider );
+		if (unit != null) {
+			unit.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		unit.setInput( input );
+	@Override
+	public void setInput(Object input) {
+		assert (input != null);
+		unit.setInput(input);
 	}
 
 	boolean fillUnit = false;
 
-	public boolean isFillUnit( )
-	{
+	public boolean isFillUnit() {
 		return fillUnit;
 	}
 
-	public void setFillUnit( boolean fillUnit )
-	{
+	public void setFillUnit(boolean fillUnit) {
 		this.fillUnit = fillUnit;
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( unit != null )
-			unit.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	@Override
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null) {
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		}
+		if (unit != null) {
+			unit.setHidden(isHidden);
+		}
+		if (placeholderLabel != null) {
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( unit != null )
-			unit.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	@Override
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null) {
+			displayLabel.setVisible(isVisible);
+		}
+		if (unit != null) {
+			unit.setVisible(isVisible);
+		}
+		if (placeholderLabel != null) {
+			placeholderLabel.setVisible(isVisible);
+		}
 	}
 
 	ComplexUnitPropertyDescriptor customUnit;
 
-	public void setUnit( ComplexUnitPropertyDescriptor unit )
-	{
+	public void setUnit(ComplexUnitPropertyDescriptor unit) {
 		this.customUnit = unit;
 	}
 }

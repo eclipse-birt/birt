@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,12 +35,9 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 /**
  * Implement a wizard for creating a new BIRT Web Project. This wizard extends
  * "Dynamic Web Project" wizard.
- * 
+ *
  */
-public class BirtWebProjectWizard extends WebProjectWizard
-		implements
-			IBirtWizardConstants
-{
+public class BirtWebProjectWizard extends WebProjectWizard implements IBirtWizardConstants {
 
 	/**
 	 * Configuration Element of birt wizard
@@ -57,134 +56,120 @@ public class BirtWebProjectWizard extends WebProjectWizard
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
-	public BirtWebProjectWizard( )
-	{
-		super( );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
-		properties = new HashMap( );
+	public BirtWebProjectWizard() {
+		super();
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
+		properties = new HashMap();
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
-	public BirtWebProjectWizard( IDataModel model )
-	{
-		super( model );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
-		properties = new HashMap( );
+	public BirtWebProjectWizard(IDataModel model) {
+		super(model);
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
+		properties = new HashMap();
 	}
 
 	/**
 	 * Get template for project facets selection
 	 */
-	protected IFacetedProjectTemplate getTemplate( )
-	{
-		return ProjectFacetsManager.getTemplate( "template.birt.chart.runtime" ); //$NON-NLS-1$
+	@Override
+	protected IFacetedProjectTemplate getTemplate() {
+		return ProjectFacetsManager.getTemplate("template.birt.chart.runtime"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Initialize wizard
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 *      org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	public void init( IWorkbench workbench, IStructuredSelection selection )
-	{
-		super.init( workbench, selection );
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		super.init(workbench, selection);
 
 		// find configuration element of new wizard
-		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(
-				NEW_WIZARDS_EXTENSION_POINT, BIRT_WIZARD_ID );
+		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(NEW_WIZARDS_EXTENSION_POINT,
+				BIRT_WIZARD_ID);
 
 		// set window title
-		String title = wizardConfigElement.getAttribute( "name" ); //$NON-NLS-1$
-		if ( title != null )
-			setWindowTitle( title );
+		String title = wizardConfigElement.getAttribute("name"); //$NON-NLS-1$
+		if (title != null) {
+			setWindowTitle(title);
+		}
 
 		// initialize webapp settings
-		BirtWizardUtil.initWebapp( this.properties );
+		BirtWizardUtil.initWebapp(this.properties);
 	}
 
 	/**
 	 * Do perform finish
-	 * 
+	 *
 	 * @see org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard#performFinish(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	protected void performFinish( IProgressMonitor monitor )
-			throws CoreException
-	{
-		super.performFinish( monitor );
+	@Override
+	protected void performFinish(IProgressMonitor monitor) throws CoreException {
+		super.performFinish(monitor);
 
 		// get web content folder
-		configFolder = BirtWizardUtil.getConfigFolder( getDataModel( ) );
-		if ( configFolder == null )
-		{
+		configFolder = BirtWizardUtil.getConfigFolder(getDataModel());
+		if (configFolder == null) {
 			String message = BirtWTPMessages.BIRTErrors_wrong_webcontent;
-			Logger.log( Logger.ERROR, message );
-			throw ChartIntegrationException.getException( message, null );
+			Logger.log(Logger.ERROR, message);
+			throw ChartIntegrationException.getException(message, null);
 		}
 
 		// process BIRT Configuration
-		preConfiguration( monitor );
-		processConfiguration( monitor );
+		preConfiguration(monitor);
+		processConfiguration(monitor);
 
 		// done
-		monitor.done( );
+		monitor.done();
 	}
 
 	/**
 	 * Action before process configuration
-	 * 
+	 *
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void preConfiguration( IProgressMonitor monitor )
-			throws CoreException
-	{
+	protected void preConfiguration(IProgressMonitor monitor) throws CoreException {
 		// check folder settings
-		BirtWizardUtil.processCheckFolder( properties, this.getFacetedProject( )
-				.getProject( ), configFolder, monitor );
+		BirtWizardUtil.processCheckFolder(properties, this.getFacetedProject().getProject(), configFolder, monitor);
 	}
 
 	/**
 	 * Process BIRT deployment configuration.
 	 * <p>
 	 * Save user-defined settings into web.xml file.
-	 * 
+	 *
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void processConfiguration( IProgressMonitor monitor )
-			throws CoreException
-	{
-		IProject project = this.getFacetedProject( ).getProject( );
+	protected void processConfiguration(IProgressMonitor monitor) throws CoreException {
+		IProject project = this.getFacetedProject().getProject();
 
 		// Simple OverwriteQuery
-		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery();
 
 		// configure WebArtifact
-		WebArtifactUtil.configureWebApp( (WebAppBean) properties
-				.get( EXT_WEBAPP ), project, query, monitor );
+		WebArtifactUtil.configureWebApp((WebAppBean) properties.get(EXT_WEBAPP), project, query, monitor);
 
-		WebArtifactUtil.configureContextParam( (Map) properties
-				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
+		WebArtifactUtil.configureContextParam((Map) properties.get(EXT_CONTEXT_PARAM), project, query, monitor);
 
-		WebArtifactUtil.configureListener(
-				(Map) properties.get( EXT_LISTENER ), project, query, monitor );
+		WebArtifactUtil.configureListener((Map) properties.get(EXT_LISTENER), project, query, monitor);
 
-		WebArtifactUtil.configureServlet( (Map) properties.get( EXT_SERVLET ),
-				project, query, monitor );
+		WebArtifactUtil.configureServlet((Map) properties.get(EXT_SERVLET), project, query, monitor);
 
-		WebArtifactUtil.configureServletMapping( (Map) properties
-				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
+		WebArtifactUtil.configureServletMapping((Map) properties.get(EXT_SERVLET_MAPPING), project, query, monitor);
 
-		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
-				project, query, monitor );
+		WebArtifactUtil.configureTaglib((Map) properties.get(EXT_TAGLIB), project, query, monitor);
 	}
 }

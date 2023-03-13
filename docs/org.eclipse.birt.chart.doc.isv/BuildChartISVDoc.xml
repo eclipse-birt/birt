@@ -2,10 +2,13 @@
 <!--
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -244,10 +247,10 @@
 	</scriptdef>
 
 	<target name="javadoc_check">
+		<property name="javadoc.doclint.none" value=""></property>
                 <!-- 
                 Java8 introduced a HTML checker 'doclint' which is very strict and breaks 
                 the build if there is a HTML error in the JavaDoc.
-                -->
 		<java_version_check/>
 		<available property="jdk1.8+" classname="java.lang.reflect.Executable"/>
 		<condition 
@@ -257,6 +260,7 @@
 			<isset property="jdk1.8+"/>
 		</condition>
 		<echo>${jdk1.8+}:${javadoc.doclint.none}</echo>
+                -->
 	</target>	
 	
 	<target name="chartJavadoc" depends="javadoc_check">
@@ -272,7 +276,7 @@
 			doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v ${doc.version}" 
 			windowtitle="BIRT Chart Engine API" 
 			destdir="${chartengine.javadoc.dir}" 
-                        source="1.5" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+                        source="1.8" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
                         additionalparam="${javadoc.doclint.none}"
 		packagenames="
 					org.eclipse.birt.chart.api,
@@ -333,7 +337,7 @@
 				 use="true" 
 				 windowtitle="BIRT Chart UI Extension Interfaces"
 				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v ${doc.version}" 
-				 source="1.5"
+				 source="1.8"
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
 				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" 
                                  noindex="false"
@@ -353,7 +357,7 @@
 				 use="true" 
 				 windowtitle="BIRT Chart Simple API"
 				 doctitle="BIRT Chart Simple API Specification v ${doc.version}" 
-				 source="1.5"
+				 source="1.8"
 				 packagenames="
 			org.eclipse.birt.chart.script.api,
 			org.eclipse.birt.chart.script.api.attribute,

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,10 +20,9 @@ import java.io.PrintStream;
 
 /**
  * Write css schema
- * 
+ *
  */
-public class CssSchemaWriter implements ISchemaWriter
-{
+public class CssSchemaWriter implements ISchemaWriter {
 
 	/**
 	 * The output stream.
@@ -35,149 +37,128 @@ public class CssSchemaWriter implements ISchemaWriter
 	protected final static String OUTPUT_ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	/**
-	 * Protected constructor
-	 * 
-	 */
-
-	private CssSchemaWriter( )
-	{
-	}
-
-	/**
 	 * Constructor
-	 * 
-	 * @param outputFile
-	 *            file name
-	 * @throws java.io.IOException
-	 *             if write orror occurs
-	 * 
+	 *
+	 * @param outputFile file name
+	 * @throws java.io.IOException if write orror occurs
+	 *
 	 */
-	public CssSchemaWriter( File outputFile ) throws java.io.IOException
-	{
-		FileOutputStream stream = new FileOutputStream( outputFile );
-		out = new PrintStream( stream, false, OUTPUT_ENCODING );
+	public CssSchemaWriter(File outputFile) throws java.io.IOException {
+		FileOutputStream stream = new FileOutputStream(outputFile);
+		out = new PrintStream(stream, false, OUTPUT_ENCODING);
 	}
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param outputFile
-	 *            the file to write
-	 * @param signature
-	 *            the UTF signature
-	 * @throws java.io.IOException
-	 *             if write error occurs
+	 *
+	 * @param outputFile the file to write
+	 * @param signature  the UTF signature
+	 * @throws java.io.IOException if write error occurs
 	 */
 
-	public CssSchemaWriter( File outputFile, String signature )
-			throws java.io.IOException
-	{
-		FileOutputStream stream = new FileOutputStream( outputFile );
-		out = new PrintStream( stream, false, signature );
+	public CssSchemaWriter(File outputFile, String signature) throws java.io.IOException {
+		FileOutputStream stream = new FileOutputStream(outputFile);
+		out = new PrintStream(stream, false, signature);
 	}
 
 	/**
 	 * Close the write at the completion of the file.
 	 */
 
-	public void close( )
-	{
-		out.close( );
+	@Override
+	public void close() {
+		out.close();
 		out = null;
 	}
 
 	/**
 	 * start writing schema
 	 */
-	public void startHtml( )
-	{
-		out.print( "<html>" ); //$NON-NLS-1$
-		printLine( );
-		out.print( "<body>" ); //$NON-NLS-1$
+	@Override
+	public void startHtml() {
+		out.print("<html>"); //$NON-NLS-1$
 		printLine();
-		out.print(  "<h1>BIRT Css full property table" );//$NON-NLS-1$
+		out.print("<body>"); //$NON-NLS-1$
 		printLine();
-		initTable( );
+		out.print("<h1>BIRT Css full property table");//$NON-NLS-1$
+		printLine();
+		initTable();
 	}
-
 
 	/**
 	 * write table header.
-	 * 
+	 *
 	 */
-	private void initTable( )
-	{
-		out.print( "<table border = 1> " );//$NON-NLS-1$
-		printLine( );
-		out.print( "<thead><tr align=center>" );//$NON-NLS-1$
-		out.print( "<th>Name</th>" );//$NON-NLS-1$
-		out.print( "<th>W3C Values</th>" );//$NON-NLS-1$
-		out.print( "<th>Default Value</th>" );//$NON-NLS-1$
-		out.print( "<th>BIRT Choice Values</th>");//$NON-NLS-1$
-		out.print( "</tr></thead>" );//$NON-NLS-1$
-		printLine( );
+	private void initTable() {
+		out.print("<table border = 1> ");//$NON-NLS-1$
+		printLine();
+		out.print("<thead><tr align=center>");//$NON-NLS-1$
+		out.print("<th>Name</th>");//$NON-NLS-1$
+		out.print("<th>W3C Values</th>");//$NON-NLS-1$
+		out.print("<th>Default Value</th>");//$NON-NLS-1$
+		out.print("<th>BIRT Choice Values</th>");//$NON-NLS-1$
+		out.print("</tr></thead>");//$NON-NLS-1$
+		printLine();
 	}
 
 	/**
 	 * close writing schema
 	 */
-	public void closeHtml( )
-	{
-		out.print( "</table>" );//$NON-NLS-1$
-		printLine( );
-		out.print( "</body>" );//$NON-NLS-1$
-		printLine( );
-		out.print( "</html>" );//$NON-NLS-1$
-		printLine( );
+	@Override
+	public void closeHtml() {
+		out.print("</table>");//$NON-NLS-1$
+		printLine();
+		out.print("</body>");//$NON-NLS-1$
+		printLine();
+		out.print("</html>");//$NON-NLS-1$
+		printLine();
 	}
 
 	/**
 	 * Write table row
-	 * 
+	 *
 	 * @param name
 	 * @param allowedValue
 	 * @param defaultValue
 	 */
-	public void writeRow( CssType css )
-	{
+	@Override
+	public void writeRow(CssType css) {
 		assert css != null;
-		
-		String allowedValue = css.getBirtChoiceValues( );
-		String defaultValue = css.getInitialValues( ) ;
-		String htmlValue = css.getValues( );
-		String name = css.getName( );
-		
-		if ( SchemaUtil.isBlank( name ) )
-		{
+
+		String allowedValue = css.getBirtChoiceValues();
+		String defaultValue = css.getInitialValues();
+		String htmlValue = css.getValues();
+		String name = css.getName();
+
+		if (SchemaUtil.isBlank(name)) {
 			return;
 		}
-		StringBuffer buffer = new StringBuffer( );
-		buffer.append( "<tr><td>" ); //$NON-NLS-1$
-		buffer.append( name );
-		
-		appendColumn( buffer , htmlValue );
-		appendColumn( buffer , defaultValue );
-		appendColumn( buffer , allowedValue );
-		
-		out.print( buffer.toString( ) );
-		printLine( );
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("<tr><td>"); //$NON-NLS-1$
+		buffer.append(name);
+
+		appendColumn(buffer, htmlValue);
+		appendColumn(buffer, defaultValue);
+		appendColumn(buffer, allowedValue);
+
+		out.print(buffer.toString());
+		printLine();
 	}
+
 	/**
-	 * append '<td>' tag with value.
+	 * append '
+	 * <td>' tag with value.
+	 *
 	 * @param buffer
 	 * @param value
 	 */
-	
-	private void appendColumn( StringBuffer buffer , String value )
-	{
-		if ( !SchemaUtil.isBlank( value ) )
-		{
-			buffer.append( "<td>" );//$NON-NLS-1$
-			buffer.append( value );
-		}
-		else
-		{
-			buffer.append( "<td>&nbsp;" );//$NON-NLS-1$
+
+	private void appendColumn(StringBuffer buffer, String value) {
+		if (!SchemaUtil.isBlank(value)) {
+			buffer.append("<td>");//$NON-NLS-1$
+			buffer.append(value);
+		} else {
+			buffer.append("<td>&nbsp;");//$NON-NLS-1$
 		}
 	}
 
@@ -185,9 +166,8 @@ public class CssSchemaWriter implements ISchemaWriter
 	 * Prints '\n', and plus the line conter.
 	 */
 
-	private void printLine( )
-	{
-		out.print( '\n' );
+	private void printLine() {
+		out.print('\n');
 	}
 
 }

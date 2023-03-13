@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,57 +28,49 @@ import org.eclipse.gef.Request;
 import org.eclipse.jface.window.Window;
 
 /**
- * 
+ *
  */
 
-public class InsertExpressionHandler extends BaseInsertHandler
-{
+public class InsertExpressionHandler extends BaseInsertHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 *
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert expression menu action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert expression menu action >> Run ..."); //$NON-NLS-1$
 		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( );
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder();
 
-		if ( slotHandle != null )
-		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( slotHandle.getElementHandle( ) ) );
+		if (slotHandle != null) {
+			expressionBuilder.setExpressionProvier(new ExpressionProvider(slotHandle.getElementHandle()));
 
 		}
-		if ( expressionBuilder.open( ) == Window.OK )
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( STACK_MSG_INSERT_ELEMENT );
+		if (expressionBuilder.open() == Window.OK) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			stack.startTrans(STACK_MSG_INSERT_ELEMENT);
 
-			try
-			{
-				Request req = insertElement( );
-				Object obj = req.getExtendedData( )
-						.get( IRequestConstants.REQUEST_KEY_RESULT );
+			try {
+				Request req = insertElement();
+				Object obj = req.getExtendedData().get(IRequestConstants.REQUEST_KEY_RESULT);
 
-				if ( obj instanceof DataItemHandle )
-				{
-					( (DataItemHandle) obj ).setResultSetColumn( expressionBuilder.getResult( ) );
+				if (obj instanceof DataItemHandle) {
+					((DataItemHandle) obj).setResultSetColumn(expressionBuilder.getResult());
 				}
 
-				stack.commit( );
+				stack.commit();
 
-				selectElement( obj, false );
-			}
-			catch ( Exception e )
-			{
-				stack.rollbackAll( );
-				ExceptionHandler.handle( e );
+				selectElement(obj, false);
+			} catch (Exception e) {
+				stack.rollbackAll();
+				ExceptionHandler.handle(e);
 			}
 		}
 

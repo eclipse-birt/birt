@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,58 +25,44 @@ import org.eclipse.swt.widgets.Display;
 /**
  * The Figure representing a Column in a Table, on the Joins page of the Data
  * Set Wizard
- * 
+ *
  */
-public class ColumnFigure extends Figure
-{
+public class ColumnFigure extends Figure {
 
 	// on windows, only one fontdata in array, not true for X-font
-	private static final FontData fontData = Display.getCurrent( )
-			.getSystemFont( )
-			.getFontData( )[0];
+	private static final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
 
-	protected final Font selectedFont = FontManager.getFont( fontData.getName( ),
-			fontData.getHeight( ),
-			SWT.BOLD );
+	protected final Font selectedFont = FontManager.getFont(fontData.getName(), fontData.getHeight(), SWT.BOLD);
 
 	/**
 	 * Sets the background and foreground color when the Column is selected.
 	 */
-	public void setSelectedColors( )
-	{
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+	public void setSelectedColors() {
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION));
 	}
 
 	/**
 	 * Sets the background and foreground color when the Column is deselected.
 	 */
-	public void setDeselectedColors( )
-	{
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
+	public void setDeselectedColors() {
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_FOREGROUND));
 	}
 
 	/**
 	 * Sets the Font when the column is selected
 	 */
-	public void setSelectedFonts( )
-	{
-		( (IFigure) this.getChildren( ).get( 0 ) ).setFont( selectedFont );
-		repaint( );
+	public void setSelectedFonts() {
+		((IFigure) this.getChildren().get(0)).setFont(selectedFont);
+		repaint();
 	}
 
 	/**
 	 * Sets the Font when the Column is deselected
 	 */
-	public void setDeselectedFonts( )
-	{
-		( (IFigure) this.getChildren( ).get( 0 ) ).setFont( Display.getCurrent( )
-				.getSystemFont( ) );
-		repaint( );
+	public void setDeselectedFonts() {
+		((IFigure) this.getChildren().get(0)).setFont(Display.getCurrent().getSystemFont());
+		repaint();
 	}
 }

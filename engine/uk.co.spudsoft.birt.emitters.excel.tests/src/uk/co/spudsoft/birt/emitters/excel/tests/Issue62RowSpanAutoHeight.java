@@ -1,11 +1,13 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -13,7 +15,9 @@
 
 package uk.co.spudsoft.birt.emitters.excel.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +30,7 @@ import org.junit.Test;
 import uk.co.spudsoft.birt.emitters.excel.ExcelEmitter;
 
 public class Issue62RowSpanAutoHeight extends ReportRunner {
-	
+
 	@Test
 	public void testIssue62NoOption() throws BirtException, IOException {
 
@@ -38,18 +42,18 @@ public class Issue62RowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));
-			
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight()> sheet.getRow(8).getHeight() );
-			
+			assertEquals(9, this.lastRow(sheet));
+
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight());
+			assertEquals(sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
+
 		} finally {
 			inputStream.close();
 		}
@@ -66,17 +70,17 @@ public class Issue62RowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));			
-			
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight() );			
+			assertEquals(9, this.lastRow(sheet));
+
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight());
+			assertEquals(sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
 		} finally {
 			inputStream.close();
 		}
@@ -93,17 +97,17 @@ public class Issue62RowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));
-			
-			assertTrue( sheet.getRow(0).getHeight() > sheet.getRow(1).getHeight() );
-			assertTrue( sheet.getRow(3).getHeight() > sheet.getRow(4).getHeight() );			
-			assertTrue( sheet.getRow(6).getHeight() > sheet.getRow(7).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight() );
-			
+			assertEquals(9, this.lastRow(sheet));
+
+			assertTrue(sheet.getRow(0).getHeight() > sheet.getRow(1).getHeight());
+			assertTrue(sheet.getRow(3).getHeight() > sheet.getRow(4).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() > sheet.getRow(7).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
+
 		} finally {
 			inputStream.close();
 		}
@@ -120,18 +124,18 @@ public class Issue62RowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));
 
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(3).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(4).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(6).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(8).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight() );						
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			Sheet sheet = workbook.getSheetAt(0);
+			assertEquals(9, this.lastRow(sheet));
+
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight());
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(3).getHeight());
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(4).getHeight());
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(6).getHeight());
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(8).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
 		} finally {
 			inputStream.close();
 		}
@@ -148,17 +152,17 @@ public class Issue62RowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));	
-			
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight() );		
+			assertEquals(9, this.lastRow(sheet));
+
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight());
+			assertEquals(sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
 		} finally {
 			inputStream.close();
 		}

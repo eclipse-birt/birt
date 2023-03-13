@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -13,12 +16,11 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * Column define.
- * 
+ *
  * @see TableItemDesign
  * @see GridItemDesign
  */
-public class ColumnDesign extends StyledElementDesign
-{
+public class ColumnDesign extends StyledElementDesign {
 
 	/**
 	 * width of this column
@@ -47,87 +49,73 @@ public class ColumnDesign extends StyledElementDesign
 
 	/*
 	 * Set the column header state.
-	 * 
+	 *
 	 * @param isColumnHeader this column is a column header or not.
 	 */
-	public void setColumnHeaderState( boolean isColumnHeader )
-	{
+	public void setColumnHeaderState(boolean isColumnHeader) {
 		this.isColumnHeader = isColumnHeader;
 	}
 
 	/*
 	 * Return this column is a column header or not.
 	 */
-	public boolean isColumnHeader( )
-	{
+	public boolean isColumnHeader() {
 		return isColumnHeader;
 	}
 
 	/**
 	 * @return Returns the width.
 	 */
-	public DimensionType getWidth( )
-	{
+	public DimensionType getWidth() {
 		return width;
 	}
 
 	/**
-	 * @param width
-	 *            The width to set.
+	 * @param width The width to set.
 	 */
-	public void setWidth( DimensionType width )
-	{
+	public void setWidth(DimensionType width) {
 		this.width = width;
 	}
 
 	/**
-	 * @param suppress
-	 *            The suppressDuplicate to set.
+	 * @param suppress The suppressDuplicate to set.
 	 */
-	public void setSuppressDuplicate( boolean suppress )
-	{
+	public void setSuppressDuplicate(boolean suppress) {
 		suppressDuplicate = suppress;
 	}
 
 	/**
 	 * @return Returns the suppressDuplicate.
 	 */
-	public boolean getSuppressDuplicate( )
-	{
+	public boolean getSuppressDuplicate() {
 		return suppressDuplicate;
 	}
 
 	/**
 	 * @return Returns the visibility.
 	 */
-	public VisibilityDesign getVisibility( )
-	{
+	public VisibilityDesign getVisibility() {
 		return visibility;
 	}
 
 	/**
-	 * @param visibility
-	 *            The visibility to set.
+	 * @param visibility The visibility to set.
 	 */
-	public void setVisibility( VisibilityDesign visibility )
-	{
+	public void setVisibility(VisibilityDesign visibility) {
 		this.visibility = visibility;
 	}
 
 	/**
 	 * @return the hasDataItemsInDetail
 	 */
-	public boolean hasDataItemsInDetail( )
-	{
+	public boolean hasDataItemsInDetail() {
 		return hasDataItemsInDetail;
 	}
 
 	/**
-	 * @param hasDataItemsInDetail
-	 *            the hasDataItemsInDetail to set
+	 * @param hasDataItemsInDetail the hasDataItemsInDetail to set
 	 */
-	public void setHasDataItemsInDetail( boolean hasDataItemsInDetail )
-	{
+	public void setHasDataItemsInDetail(boolean hasDataItemsInDetail) {
 		this.hasDataItemsInDetail = hasDataItemsInDetail;
 	}
 }

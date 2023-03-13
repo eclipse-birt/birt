@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -24,8 +27,8 @@ import org.eclipse.birt.report.model.core.Module;
 
 /**
  * An implementation of a command stack, called an "activity stack" here. The
- * activity stack manages the execution, undo, and redo of
- * {@link ActivityRecord activity records}.
+ * activity stack manages the execution, undo, and redo of {@link ActivityRecord
+ * activity records}.
  * <p>
  * Executed records are pushed onto the undo stack. Records that are undone are
  * popped off the undo stack and pushed onto the redo stack. Records that are
@@ -35,9 +38,9 @@ import org.eclipse.birt.report.model.core.Module;
  * <p>
  * The record stack imposes a limit on the undo stack. When the undo stack grows
  * beyond this limit, the oldest record is flushed.
- * 
+ *
  * <h3>Theory of Operation</h3>
- * 
+ *
  * The record mechanism relies on accurate implementation of each record.
  * Records change the state of the model, and rely on accurate model state
  * transitions so that undo and redo can be done The following rules must hold:
@@ -50,14 +53,14 @@ import org.eclipse.birt.report.model.core.Module;
  * will have S0 as its initial state. ActivityRecord C1 moves the model into
  * state S1, the final state of record C1. A later record C2 will move the model
  * into a new state, S2, and so on.</li>
- * 
+ *
  * <li>Both the initial and final states must be <em>valid</em> model states. A
  * valid state is one that satisfies all the semantic constraints of the model.
  * (For example that if an element has a value for property P, then P is a
  * property defined on that element.) Therefore, the record should assume that
  * the model starts out in a valid form, and must leave the model in a valid
  * form.</li>
- * 
+ *
  * <li>While the record executes, is undone, or is redone, the model may
  * temporarily be in an invalid <em>transition</em> state. No application logic
  * should execute during the transition state. This state must be seen
@@ -65,16 +68,16 @@ import org.eclipse.birt.report.model.core.Module;
  * understands this state.</li>
  * <li>The undo of a record must transition the model from the final state back
  * to the initial state.</li>
- * 
+ *
  * <li>The redo of a record must again transition the model from the initial
  * state to the final state.</li>
- * 
+ *
  * <li>Suppose the application issues three records in succession: C1, C2 and
  * C3. Then the final state of C1 is the initial state of C2. And the final
  * state of C2 is the initial state of C3.</li>
- * 
+ *
  * <li>Whenever a new record is executed, the redo stack is flushed.</li>
- * 
+ *
  * <li><strong>All </strong> changes to the model are done by records.</li>
  * </ul>
  * <p>
@@ -109,9 +112,9 @@ import org.eclipse.birt.report.model.core.Module;
  * result is that the model has changed from state Sn to state Sn+1. However,
  * the record at the top of the undo state still expects the model to be in its
  * final state: state Sn.
- * 
+ *
  * <h3>Notifications</h3>
- * 
+ *
  * The stack is responsible for sending out notification events as records
  * execute (do, undo or redo). Each record sends out a notification event at the
  * request of the stack. ActivityRecord in the stacks have a state that must
@@ -132,9 +135,9 @@ import org.eclipse.birt.report.model.core.Module;
  * notifications. The {@link AbstractElementRecord simple record}class automates
  * notifications for this case. More complex implementations are possible, but
  * the use of a transaction (or compound record) may be simpler in many cases.
- * 
+ *
  * <h3>Scope of Change and Transactions</h3>
- * 
+ *
  * Each record affects a single element. However, many application-level
  * operations affect multiple elements. For example, an element may be
  * referenced by multiple elements. If the application wants to delete this
@@ -171,9 +174,9 @@ import org.eclipse.birt.report.model.core.Module;
  * is part of a transaction or not, the effect on the model state is identical.
  * This model is important to allow code to work directly with the model,
  * knowing that the model reflects the series of records executed previously.
- * 
+ *
  * <h3>Error Handling</h3>
- * 
+ *
  * The record stack is a low-level operation primarily responsible for managing
  * record history. Records are defined to always work. That is, when a record is
  * told to execute, undo or redo, the record operation must succeed. If there
@@ -188,15 +191,15 @@ import org.eclipse.birt.report.model.core.Module;
  * application-level exceptions: they must succeed. Any exceptions thrown would
  * be system-level exceptions such as null- pointer violations, out-of-memory
  * errors and other generic problems.
- * 
+ *
  * <h3>Persistence Support</h3>
- * 
+ *
  * The record stack contains a dirty property. This property can be used to
  * determine when persisting the Records' changes is required. Upon
  * construction, the undo stack is empty, and is not dirty.
- * 
+ *
  * <h3>Dirty State Support</h3>
- * 
+ *
  * A design is considered <em>dirty</em> if the in-memory state differs from
  * that on disk. There are three primary considerations:
  * <p>
@@ -228,9 +231,9 @@ import org.eclipse.birt.report.model.core.Module;
  * <p>
  * With the above, it is very easy to detect a dirty design: a design is dirty
  * if and only if its save state differs from the current transaction number.
- * 
+ *
  * <h3>Notification</h3>
- * 
+ *
  * Any class interested in the activity stack can implement the interface
  * <code>ActivityStackListener</code>. And {@link #addListener}and
  * {@link #removeListener}methods add and remove listeners. The listener class
@@ -238,11 +241,10 @@ import org.eclipse.birt.report.model.core.Module;
  * {@link #undo()}, or {@link #redo()}is called. The event
  * <code>ActivityStackEvent</code> contains the cause of the activity stack
  * change.
- * 
+ *
  */
 
-public class ActivityStack implements CommandStack
-{
+public class ActivityStack implements CommandStack {
 
 	/**
 	 * The default stack size limit.
@@ -254,19 +256,19 @@ public class ActivityStack implements CommandStack
 	 * The undo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack<ActivityRecord> undoStack = new Stack<ActivityRecord>( );
+	protected Stack<ActivityRecord> undoStack = new Stack<>();
 
 	/**
 	 * The redo stack. Entries are of type ActivityRecord.
 	 */
 
-	protected Stack<ActivityRecord> redoStack = new Stack<ActivityRecord>( );
+	protected Stack<ActivityRecord> redoStack = new Stack<>();
 
 	/**
 	 * The active transaction stack. Entries are of type CompoundCommand.
 	 */
 
-	protected Stack<CompoundRecord> transStack = new Stack<CompoundRecord>( );
+	protected Stack<CompoundRecord> transStack = new Stack<>();
 
 	/**
 	 * The adapter for the specified compound records.
@@ -276,8 +278,8 @@ public class ActivityStack implements CommandStack
 
 	/**
 	 * The stack size limit. The limit applies to the undo stack. Since the redo
-	 * stack holds items from the undo stack, by definition the redo stack can
-	 * never hold more items than the undo stack once held.
+	 * stack holds items from the undo stack, by definition the redo stack can never
+	 * hold more items than the undo stack once held.
 	 */
 
 	private int stackLimit = DEFAULT_STACK_LIMIT;
@@ -290,8 +292,8 @@ public class ActivityStack implements CommandStack
 	private int transCount = 0;
 
 	/**
-	 * Listeners are the objects that want to be notified of events. Contents
-	 * are of type Listener. Created only when needed.
+	 * Listeners are the objects that want to be notified of events. Contents are of
+	 * type Listener. Created only when needed.
 	 */
 
 	protected ArrayList<ActivityStackListener> listeners = null;
@@ -306,82 +308,75 @@ public class ActivityStack implements CommandStack
 	 * Default constructor.
 	 */
 
-	public ActivityStack( Module module )
-	{
-		adapter = new TransactionAdapter( this );
+	public ActivityStack(Module module) {
+		adapter = new TransactionAdapter(this);
 		this.module = module;
 	}
 
 	/**
-	 * Executes the specified extended element command. The command must be
-	 * ready to execute. As noted above, any required checks must have already
-	 * been done. Flushes the redo stack.
-	 * 
-	 * @param command
-	 *            the ActivityRecord to execute
+	 * Executes the specified extended element command. The command must be ready to
+	 * execute. As noted above, any required checks must have already been done.
+	 * Flushes the redo stack.
+	 *
+	 * @param command the ActivityRecord to execute
 	 */
 
-	public void execute( IElementCommand command )
-	{
-		ExtensionActivityRecord record = new ExtensionActivityRecord( command );
+	@Override
+	public void execute(IElementCommand command) {
+		ExtensionActivityRecord record = new ExtensionActivityRecord(command);
 
 		// The record must exist and must be in the initial state.
 
-		execute( record );
+		execute(record);
 	}
 
 	/**
-	 * Executes the specified record. The record must be ready to execute. As
-	 * noted above, any required checks must have already been done. Flushes the
-	 * redo stack.
-	 * 
-	 * @param executeRecord
-	 *            the ActivityRecord to execute
+	 * Executes the specified record. The record must be ready to execute. As noted
+	 * above, any required checks must have already been done. Flushes the redo
+	 * stack.
+	 *
+	 * @param executeRecord the ActivityRecord to execute
 	 */
 
-	public void execute( IActivityRecord executeRecord )
-	{
+	@Override
+	public void execute(IActivityRecord executeRecord) {
 		ActivityRecord record = (ActivityRecord) executeRecord;
 
 		// The record must exist and must be in the initial state.
 
 		assert record != null;
-		assert record.getState( ) == ActivityRecord.INITIAL_STATE;
+		assert record.getState() == ActivityRecord.INITIAL_STATE;
 
 		// Execute the record and push it onto the undo stack.
 
-		record.execute( );
-		record.setState( ActivityRecord.DONE_STATE );
+		record.execute();
+		record.setState(ActivityRecord.DONE_STATE);
 
 		// if module is in the caching state and any record is executed, then
 		// the cache must be disabled
-		clearCachedValues( );
+		clearCachedValues();
 
-		assert !( record instanceof CompoundRecord );
+		assert !(record instanceof CompoundRecord);
 
-		record.performPostTasks( transStack );
+		record.performPostTasks(transStack);
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
 
-		if ( transStack.isEmpty( ) )
-		{
+		if (transStack.isEmpty()) {
 			// Flush the redo stack.
 
-			destroyRecords( redoStack );
+			destroyRecords(redoStack);
 
-			record.setTransNo( ++transCount );
-			undoStack.push( record );
-			trimUndoStack( );
+			record.setTransNo(++transCount);
+			undoStack.push(record);
+			trimUndoStack();
 
-			sendNotifcations( new ActivityStackEvent( this,
-					ActivityStackEvent.DONE ) );
+			sendNotifcations(new ActivityStackEvent(this, ActivityStackEvent.DONE));
 
-		}
-		else
-		{
-			CompoundRecord trans = transStack.lastElement( );
-			trans.append( record );
+		} else {
+			CompoundRecord trans = transStack.lastElement();
+			trans.append(record);
 		}
 
 	}
@@ -389,55 +384,51 @@ public class ActivityStack implements CommandStack
 	/**
 	 * Sets the cache status and clear the cached values.
 	 */
-	private void clearCachedValues( )
-	{
+	private void clearCachedValues() {
 		// if module is in the caching state and any record is executed, then
 		// the cache must be disabled
-		if ( module != null && module.isCached( ) )
-		{
-			module.setIsCached( false );
+		if (module != null && module.isCached()) {
+			module.setIsCached(false);
 		}
 	}
 
 	/**
-	 * Undoes the most recently executed (or redone) record. The record is
-	 * popped from the undo stack to and pushed onto the redo stack. This method
-	 * should only be called when {@link #canUndo()}returns <code>true</code>.
-	 * Undo <em>cannot</em> be called while a transaction is active.
+	 * Undoes the most recently executed (or redone) record. The record is popped
+	 * from the undo stack to and pushed onto the redo stack. This method should
+	 * only be called when {@link #canUndo()}returns <code>true</code>. Undo
+	 * <em>cannot</em> be called while a transaction is active.
 	 * <p>
 	 * <em><strong>Note</strong>: It is possible to redefine undo( ) to reverse the
-	 * action of a record within a transaction. We defer implementation
-	 * of this feature until it the application has a demonstrated need
-	 * for this feature.</em>
+	 * action of a record within a transaction. We defer implementation of this
+	 * feature until it the application has a demonstrated need for this
+	 * feature.</em>
 	 */
 
-	public void undo( )
-	{
+	@Override
+	public void undo() {
 		// Should only be called when there is a record to redo.
 
-		assert canUndo( );
+		assert canUndo();
 
 		// Redo the record.
 
-		ActivityRecord record = undoStack.pop( );
-		assert record.getState( ) == ActivityRecord.DONE_STATE
-				|| record.getState( ) == ActivityRecord.REDONE_STATE;
-		record.undo( );
-		record.setState( ActivityRecord.UNDONE_STATE );
+		ActivityRecord record = undoStack.pop();
+		assert record.getState() == ActivityRecord.DONE_STATE || record.getState() == ActivityRecord.REDONE_STATE;
+		record.undo();
+		record.setState(ActivityRecord.UNDONE_STATE);
 
 		// clear cached values
-		clearCachedValues( );
+		clearCachedValues();
 
 		// Push the record onto the redo stack.
 
-		redoStack.push( record );
+		redoStack.push(record);
 
-		record.performPostTasks( transStack );
+		record.performPostTasks(transStack);
 
 		// listener, transaction, not go into transaction stack
 
-		sendNotifcations( new ActivityStackEvent( this,
-				ActivityStackEvent.UNDONE ) );
+		sendNotifcations(new ActivityStackEvent(this, ActivityStackEvent.UNDONE));
 	}
 
 	/**
@@ -446,34 +437,33 @@ public class ActivityStack implements CommandStack
 	 * {@link #canUndo()}returns <code>true</code>.
 	 */
 
-	public void redo( )
-	{
+	@Override
+	public void redo() {
 		// Should only be called when there is a record to redo.
 
-		assert canRedo( );
+		assert canRedo();
 
 		// Redo the record.
 
-		ActivityRecord record = redoStack.pop( );
-		assert record.getState( ) == ActivityRecord.UNDONE_STATE;
-		record.redo( );
-		record.setState( ActivityRecord.REDONE_STATE );
+		ActivityRecord record = redoStack.pop();
+		assert record.getState() == ActivityRecord.UNDONE_STATE;
+		record.redo();
+		record.setState(ActivityRecord.REDONE_STATE);
 
 		// clear cached values
-		clearCachedValues( );
+		clearCachedValues();
 
 		// Push the record back onto the undo stack. No need to check
 		// stack size here, it can't get any larger than it was when
 		// we originally executed the record.
 
-		undoStack.push( record );
+		undoStack.push(record);
 
-		record.performPostTasks( transStack );
+		record.performPostTasks(transStack);
 
 		// Send notifications.
 
-		sendNotifcations( new ActivityStackEvent( this,
-				ActivityStackEvent.REDONE ) );
+		sendNotifcations(new ActivityStackEvent(this, ActivityStackEvent.REDONE));
 	}
 
 	/**
@@ -484,20 +474,19 @@ public class ActivityStack implements CommandStack
 	 * <li>the undo stack is not empty, and
 	 * <li>the top record can be undone.</li>
 	 * </nl>
-	 * 
+	 *
 	 * @return <code>true</code> if {@link #undo()}can be called
 	 */
 
-	public boolean canUndo( )
-	{
-		if ( !transStack.isEmpty( ) )
+	@Override
+	public boolean canUndo() {
+		if (!transStack.isEmpty()) {
 			return false;
-		else if ( undoStack.size( ) == 0 )
+		} else if (undoStack.size() == 0) {
 			return false;
-		else
-		{
-			ActivityRecord record = undoStack.lastElement( );
-			return record.canUndo( );
+		} else {
+			ActivityRecord record = undoStack.lastElement();
+			return record.canUndo();
 		}
 	}
 
@@ -509,20 +498,19 @@ public class ActivityStack implements CommandStack
 	 * <li>the redo stack is not empty, and</li>
 	 * <li>the top record can be redone.</li>
 	 * </nl>
-	 * 
+	 *
 	 * @return <code>true</code> if {@link #redo()}can be called.
 	 */
 
-	public boolean canRedo( )
-	{
-		if ( !transStack.isEmpty( ) )
+	@Override
+	public boolean canRedo() {
+		if (!transStack.isEmpty()) {
 			return false;
-		else if ( redoStack.size( ) == 0 )
+		} else if (redoStack.size() == 0) {
 			return false;
-		else
-		{
-			ActivityRecord record = redoStack.lastElement( );
-			return record.canUndo( );
+		} else {
+			ActivityRecord record = redoStack.lastElement();
+			return record.canUndo();
 		}
 	}
 
@@ -530,14 +518,12 @@ public class ActivityStack implements CommandStack
 	 * If the undo stack has grown too large, discard the oldest entries.
 	 */
 
-	protected void trimUndoStack( )
-	{
-		while ( undoStack.size( ) > stackLimit )
-		{
-			ActivityRecord cmd = undoStack.remove( 0 );
-			assert cmd.getState( ) != ActivityRecord.DISCARD_STATE;
-			cmd.destroy( );
-			cmd.setState( ActivityRecord.DISCARD_STATE );
+	protected void trimUndoStack() {
+		while (undoStack.size() > stackLimit) {
+			ActivityRecord cmd = undoStack.remove(0);
+			assert cmd.getState() != ActivityRecord.DISCARD_STATE;
+			cmd.destroy();
+			cmd.setState(ActivityRecord.DISCARD_STATE);
 		}
 	}
 
@@ -545,105 +531,101 @@ public class ActivityStack implements CommandStack
 	 * Clears the record stack.
 	 */
 
-	public void flush( )
-	{
-		destroyRecords( redoStack );
-		destroyRecords( undoStack );
+	@Override
+	public void flush() {
+		destroyRecords(redoStack);
+		destroyRecords(undoStack);
 	}
 
 	/**
 	 * Private method to remove all records on a stack.
-	 * 
+	 *
 	 * @param stack
 	 */
 
-	private void destroyRecords( Stack<ActivityRecord> stack )
-	{
-		Iterator<ActivityRecord> iter = stack.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ActivityRecord cmd = iter.next( );
-			assert cmd.getState( ) != ActivityRecord.DISCARD_STATE;
-			cmd.destroy( );
-			cmd.setState( ActivityRecord.DISCARD_STATE );
+	private void destroyRecords(Stack<ActivityRecord> stack) {
+		Iterator<ActivityRecord> iter = stack.iterator();
+		while (iter.hasNext()) {
+			ActivityRecord cmd = iter.next();
+			assert cmd.getState() != ActivityRecord.DISCARD_STATE;
+			cmd.destroy();
+			cmd.setState(ActivityRecord.DISCARD_STATE);
 		}
-		stack.removeAllElements( );
+		stack.removeAllElements();
 	}
 
 	/**
-	 * Sets the stack size limit. If the stack already exceeds the new limit
-	 * then the excess records are flushed.
-	 * 
-	 * @param limit
-	 *            The new stack size limit.
+	 * Sets the stack size limit. If the stack already exceeds the new limit then
+	 * the excess records are flushed.
+	 *
+	 * @param limit The new stack size limit.
 	 */
 
-	public void setStackLimit( int limit )
-	{
+	@Override
+	public void setStackLimit(int limit) {
 		assert limit >= 0;
 		stackLimit = limit;
-		trimUndoStack( );
+		trimUndoStack();
 	}
 
 	/**
-	 * Returns an array of the records in the order they were executed. This
-	 * method is useful for debugging only, since the list contains no marker to
-	 * note which records have been undone.
-	 * 
+	 * Returns an array of the records in the order they were executed. This method
+	 * is useful for debugging only, since the list contains no marker to note which
+	 * records have been undone.
+	 *
 	 * @return An array containing all records in the order they were executed.
 	 */
 
-	public Object[] getRecords( )
-	{
-		List<ActivityRecord> records = new ArrayList<ActivityRecord>( undoStack );
-		for ( int i = redoStack.size( ) - 1; i >= 0; i-- )
-		{
-			records.add( redoStack.get( i ) );
+	public Object[] getRecords() {
+		List<ActivityRecord> records = new ArrayList<>(undoStack);
+		for (int i = redoStack.size() - 1; i >= 0; i--) {
+			records.add(redoStack.get(i));
 		}
-		return records.toArray( );
+		return records.toArray();
 	}
 
 	/**
 	 * Peeks at the top of the redo stack.
-	 * 
-	 * @return The record at the top of the redo stack, or null if there is no
-	 *         such record.
+	 *
+	 * @return The record at the top of the redo stack, or null if there is no such
+	 *         record.
 	 */
 
-	public IActivityRecord getRedoRecord( )
-	{
-		return redoStack.isEmpty( ) ? null : redoStack.peek( );
+	@Override
+	public IActivityRecord getRedoRecord() {
+		return redoStack.isEmpty() ? null : redoStack.peek();
 	}
 
 	/**
 	 * Peeks at the top of the undo stack.
-	 * 
-	 * @return The record at the top of the undo stack, or null if there is no
-	 *         such record.
+	 *
+	 * @return The record at the top of the undo stack, or null if there is no such
+	 *         record.
 	 */
 
-	public IActivityRecord getUndoRecord( )
-	{
-		return undoStack.isEmpty( ) ? null : undoStack.peek( );
+	@Override
+	public IActivityRecord getUndoRecord() {
+		return undoStack.isEmpty() ? null : undoStack.peek();
 	}
 
 	/**
 	 * Returns the label of the record at the top of the undo stack. The label
 	 * describes the next operation to be undone.
-	 * 
+	 *
 	 * @return The undo label, or null if there is no record to be undone.
 	 */
 
-	public String getUndoLabel( )
-	{
-		IActivityRecord cmd = getUndoRecord( );
-		if ( cmd == null )
+	@Override
+	public String getUndoLabel() {
+		IActivityRecord cmd = getUndoRecord();
+		if (cmd == null) {
 			return null;
+		}
 
 		// Get the label. The label cannot be null when a record
 		// is available to undo.
 
-		String label = cmd.getLabel( );
+		String label = cmd.getLabel();
 		assert label != null;
 		return label;
 	}
@@ -651,381 +633,349 @@ public class ActivityStack implements CommandStack
 	/**
 	 * Returns the label of the record at the top of the redo stack. The label
 	 * describes the next operation to be redone.
-	 * 
+	 *
 	 * @return The redo label, or null if there is no record to be redone.
 	 */
 
-	public String getRedoLabel( )
-	{
-		IActivityRecord cmd = getRedoRecord( );
-		if ( cmd == null )
+	@Override
+	public String getRedoLabel() {
+		IActivityRecord cmd = getRedoRecord();
+		if (cmd == null) {
 			return null;
+		}
 
 		// Get the label. The label cannot be null when a record
 		// is available to redo.
 
-		String label = cmd.getLabel( );
+		String label = cmd.getLabel();
 		assert label != null;
 		return label;
 	}
 
 	/**
-	 * Starts a transaction. The application provides the message ID for a label
-	 * to associate with the transaction.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
-	 * 
+	 * Starts a transaction. The application provides the message ID for a label to
+	 * associate with the transaction.
+	 *
+	 * @param label localized label for the transaction
+	 *
 	 * @see #commit
 	 */
 
-	public void startTrans( String label )
-	{
+	@Override
+	public void startTrans(String label) {
 		// Create a compound record to implement the transaction.
 
-		transStack.push( adapter.createNewRecord(
-				TransactionAdapter.DEFAULT_RECORD, label ) );
+		transStack.push(adapter.createNewRecord(TransactionAdapter.DEFAULT_RECORD, label));
 
 	}
 
 	/**
-	 * Starts a transaction. The application provides the message ID for a label
-	 * to associate with the transaction.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
-	 * @param options
-	 *            the transaction options
-	 * 
+	 * Starts a transaction. The application provides the message ID for a label to
+	 * associate with the transaction.
+	 *
+	 * @param label   localized label for the transaction
+	 * @param options the transaction options
+	 *
 	 * @see #commit
 	 */
 
-	public void startTrans( String label, TransactionOption options )
-	{
-		startTrans( label );
+	public void startTrans(String label, TransactionOption options) {
+		startTrans(label);
 
-		CompoundRecord tmpRecord = transStack.peek( );
-		tmpRecord.setOptions( options );
+		CompoundRecord tmpRecord = transStack.peek();
+		tmpRecord.setOptions(options);
 	}
 
 	/**
 	 * Commits the current transaction. There must be an active transaction. If
 	 * nested transactions are active, this method will finish the inner- most
 	 * transaction.
-	 * 
+	 *
 	 * @see #startTrans()
 	 * @see #startTrans(String)
 	 * @see #rollback
 	 */
 
-	public void commit( )
-	{
-		assert ( !transStack.empty( ) );
-		CompoundRecord transaction = transStack.pop( );
+	@Override
+	public void commit() {
+		assert (!transStack.empty());
+		CompoundRecord transaction = transStack.pop();
 
 		// If the compound record is empty, then we have a null
 		// transaction. Just ignore this transaction, don't put it
 		// onto the undo stack.
 
-		if ( transaction.isEmpty( ) )
-		{
-			transaction.destroy( );
+		if (transaction.isEmpty()) {
+			transaction.destroy();
 			return;
 		}
-		transaction.setState( ActivityRecord.DONE_STATE );
+		transaction.setState(ActivityRecord.DONE_STATE);
 
 		// Handle the special case of a transaction with one item.
 
 		ActivityRecord record = transaction;
-		record.performPostTasks( transStack );
+		record.performPostTasks(transStack);
 
-		if ( transStack.empty( ) )
-		{
+		if (transStack.empty()) {
 
 			// Flush the redo stack.
 
-			destroyRecords( redoStack );
+			destroyRecords(redoStack);
 
 			// This is the outermost transaction. Add it to the undo stack
 			// and send out notifications.
 
-			record.setTransNo( ++transCount );
+			record.setTransNo(++transCount);
 
-			adapter.handleCommit( record );
+			adapter.handleCommit(record);
 
-			sendNotifcations( new ActivityStackEvent( this,
-					ActivityStackEvent.DONE ) );
-		}
-		else
-		{
+			sendNotifcations(new ActivityStackEvent(this, ActivityStackEvent.DONE));
+		} else {
 			// This is a nested transaction. Add it to the parent
 			// transaction.
 
-			CompoundRecord outer = transStack.lastElement( );
-			outer.append( record );
+			CompoundRecord outer = transStack.lastElement();
+			outer.append(record);
 
 		}
 
 	}
 
 	/**
-	 * Undoes all actions done so far in the innermost transaction. Does not
-	 * undo any parent transactions.
+	 * Undoes all actions done so far in the innermost transaction. Does not undo
+	 * any parent transactions.
 	 */
 
-	public void rollback( )
-	{
-		assert transStack.size( ) > 0;
-		CompoundRecord trans = transStack.pop( );
+	@Override
+	public void rollback() {
+		assert transStack.size() > 0;
+		CompoundRecord trans = transStack.pop();
 
 		// silent task do not perform tasks here since values on elements
 		// are not changed.
 
-		trans.rollback( );
-		trans.destroy( );
+		trans.rollback();
+		trans.destroy();
 
-		adapter.handleRollback( trans );
+		adapter.handleRollback(trans);
 
 		// if the trans stack is empty now, then send the notifications
 
-		if ( transStack.empty( ) )
-		{
-			sendNotifcations( new ActivityStackEvent( this,
-					ActivityStackEvent.ROLL_BACK ) );
+		if (transStack.empty()) {
+			sendNotifcations(new ActivityStackEvent(this, ActivityStackEvent.ROLL_BACK));
 		}
 	}
 
 	/**
-	 * Undoes an entire uncommitted transaction. Provides the application a way
-	 * to reverse a set of operations that must be abandoned. For example, the
-	 * application may implement a user-level operation as a series of
-	 * operations. If any of the operations fail, the application wants to undo
-	 * all the changes made so far in that transaction.
+	 * Undoes an entire uncommitted transaction. Provides the application a way to
+	 * reverse a set of operations that must be abandoned. For example, the
+	 * application may implement a user-level operation as a series of operations.
+	 * If any of the operations fail, the application wants to undo all the changes
+	 * made so far in that transaction.
 	 */
 
-	public void rollbackAll( )
-	{
-		while ( !transStack.isEmpty( ) )
-			rollback( );
+	@Override
+	public void rollbackAll() {
+		while (!transStack.isEmpty()) {
+			rollback();
+		}
 	}
 
 	/**
 	 * Returns the current transaction number. This is either the command just
 	 * completed (the one on the top of the undo stack),or <code>0</code> if the
 	 * undo stack is empty.
-	 * 
+	 *
 	 * @return the current transaction number
 	 */
 
-	public int getCurrentTransNo( )
-	{
-		if ( undoStack.isEmpty( ) )
+	public int getCurrentTransNo() {
+		if (undoStack.isEmpty()) {
 			return 0;
-		return ( undoStack.lastElement( ) ).getTransNo( );
+		}
+		return (undoStack.lastElement()).getTransNo();
 	}
 
 	/**
-	 * Registers a listener. A listener can be registered any number of times,
-	 * but will receive each event only once.
+	 * Registers a listener. A listener can be registered any number of times, but
+	 * will receive each event only once.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
-	 * @param obj
-	 *            the activity stack listener to register
+	 *
+	 * @param obj the activity stack listener to register
 	 */
 
-	public void addListener( ActivityStackListener obj )
-	{
-		if ( listeners == null )
-			listeners = new ArrayList<ActivityStackListener>( );
-		if ( obj != null && !listeners.contains( obj ) )
-			listeners.add( obj );
+	@Override
+	public void addListener(ActivityStackListener obj) {
+		if (listeners == null) {
+			listeners = new ArrayList<>();
+		}
+		if (obj != null && !listeners.contains(obj)) {
+			listeners.add(obj);
+		}
 	}
 
 	/**
-	 * Removes a listener. The listener is removed from the list of listeners.
-	 * If the item is not in the list, then the request is silently ignored.
+	 * Removes a listener. The listener is removed from the list of listeners. If
+	 * the item is not in the list, then the request is silently ignored.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
-	 * @param obj
-	 *            the activity stack listener to remove
+	 *
+	 * @param obj the activity stack listener to remove
 	 */
 
-	public void removeListener( ActivityStackListener obj )
-	{
-		if ( listeners == null )
+	@Override
+	public void removeListener(ActivityStackListener obj) {
+		if (listeners == null) {
 			return;
-		int posn = listeners.indexOf( obj );
-		if ( posn != -1 )
-			listeners.remove( posn );
+		}
+		int posn = listeners.indexOf(obj);
+		if (posn != -1) {
+			listeners.remove(posn);
+		}
 	}
 
 	/**
-	 * Sends the notifications. This method check the current record state, and
-	 * fire event to corresponding method of listener.
-	 * 
-	 * @param event
-	 *            activity stack event.
+	 * Sends the notifications. This method check the current record state, and fire
+	 * event to corresponding method of listener.
+	 *
+	 * @param event activity stack event.
 	 */
 
-	public void sendNotifcations( ActivityStackEvent event )
-	{
+	public void sendNotifcations(ActivityStackEvent event) {
 		// Send to all direct listeners.
 
-		if ( listeners != null )
-		{
-			List<ActivityStackListener> tmpList = new ArrayList<ActivityStackListener>( );
-			tmpList.addAll( listeners );
+		if (listeners != null) {
+			List<ActivityStackListener> tmpList = new ArrayList<>(listeners);
+			Iterator<ActivityStackListener> iter = tmpList.iterator();
+			while (iter.hasNext()) {
+				ActivityStackListener listener = iter.next();
 
-			Iterator<ActivityStackListener> iter = tmpList.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				ActivityStackListener listener = iter.next( );
-
-				listener.stackChanged( event );
+				listener.stackChanged(event);
 			}
 		}
 
 		// clear module namehelper
-		if ( module != null )
-		{
-			module.getNameHelper( ).clear( );
+		if (module != null) {
+			module.getNameHelper().clear();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java
+	 *
+	 * @see org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java
 	 * .lang.String)
 	 */
 
-	public void startPersistentTrans( String label )
-	{
-		transStack.push( adapter.createNewRecord(
-				TransactionAdapter.PERSISTENT_RECORD, label ) );
+	@Override
+	public void startPersistentTrans(String label) {
+		transStack.push(adapter.createNewRecord(TransactionAdapter.PERSISTENT_RECORD, label));
 	}
 
 	/**
-	 * Starts a persistent transaction. Once the transaction is committed, it
-	 * will never be undone with all calls to rollback( ) or rollbackAll( ). To
-	 * make the transaction undone is just to call undo( ).
+	 * Starts a persistent transaction. Once the transaction is committed, it will
+	 * never be undone with all calls to rollback( ) or rollbackAll( ). To make the
+	 * transaction undone is just to call undo( ).
 	 */
 
-	public void startPersistentTrans( )
-	{
-		startPersistentTrans( null );
+	public void startPersistentTrans() {
+		startPersistentTrans(null);
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the transaction will not be
-	 * sent out.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
+	 * Starts a silent transaction. All events in the transaction will not be sent
+	 * out.
+	 *
+	 * @param label localized label for the transaction
 	 */
-	public void startSilentTrans( String label )
-	{
-		startSilentTrans( label, false );
+	public void startSilentTrans(String label) {
+		startSilentTrans(label, false);
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the transaction will not be
-	 * sent out.
-	 * 
-	 * @param filterAll
-	 *            status to filter all events or not
-	 * 
+	 * Starts a silent transaction. All events in the transaction will not be sent
+	 * out.
+	 *
+	 * @param filterAll status to filter all events or not
+	 *
 	 */
 
-	public void startSilentTrans( boolean filterAll )
-	{
-		startSilentTrans( null, filterAll );
+	public void startSilentTrans(boolean filterAll) {
+		startSilentTrans(null, filterAll);
 	}
 
 	/**
-	 * Starts a silent transaction. All events in the transaction will not be
-	 * sent out.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
+	 * Starts a silent transaction. All events in the transaction will not be sent
+	 * out.
+	 *
+	 * @param label     localized label for the transaction
 	 * @param filterAll
 	 */
 
-	protected void startSilentTrans( String label, boolean filterAll )
-	{
+	protected void startSilentTrans(String label, boolean filterAll) {
 		LayoutCompoundRecord cmpRecord = (LayoutCompoundRecord) adapter
-				.createNewRecord( TransactionAdapter.LAYOUT_RECORD, label );
-		cmpRecord.setFilterAll( filterAll );
+				.createNewRecord(TransactionAdapter.LAYOUT_RECORD, label);
+		cmpRecord.setFilterAll(filterAll);
 
-		transStack.push( cmpRecord );
+		transStack.push(cmpRecord);
 
 	}
 
 	/**
 	 * Starts a filter events transaction, all the events within the transaction
-	 * will be holden. They will be filtered and sent out once the transaction
-	 * is committed.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
+	 * will be holden. They will be filtered and sent out once the transaction is
+	 * committed.
+	 *
+	 * @param label localized label for the transaction
 	 */
 
-	public void startFilterEventTrans( String label )
-	{
-		transStack.push( adapter.createNewRecord(
-				TransactionAdapter.FILTER_RECORD, label ) );
+	public void startFilterEventTrans(String label) {
+		transStack.push(adapter.createNewRecord(TransactionAdapter.FILTER_RECORD, label));
 	}
 
 	/**
-	 * Starts a non-undo/redo compound record. This is primary to use in the
-	 * simple api script environment.
-	 * 
-	 * @param label
-	 *            localized label for the transaction
+	 * Starts a non-undo/redo compound record. This is primary to use in the simple
+	 * api script environment.
+	 *
+	 * @param label localized label for the transaction
 	 */
 
-	public void startNonUndoableTrans( String label )
-	{
-		transStack.push( adapter.createNewRecord(
-				TransactionAdapter.NONUNDOABLE_RECORD, label ) );
+	public void startNonUndoableTrans(String label) {
+		transStack.push(adapter.createNewRecord(TransactionAdapter.NONUNDOABLE_RECORD, label));
 	}
 
 	/**
 	 * Removes all listeners on the ActivityStack.
 	 */
 
-	public void clearListeners( )
-	{
-		if ( listeners != null )
-			listeners.clear( );
+	@Override
+	public void clearListeners() {
+		if (listeners != null) {
+			listeners.clear();
+		}
 		listeners = null;
 	}
 
 	/**
 	 * Increase the transaction count for the transaction stack.
-	 * 
+	 *
 	 * @return the increased transaction count
 	 */
 
-	protected int increaseTransCount( )
-	{
+	protected int increaseTransCount() {
 		return ++transCount;
 	}
-	
+
 	/**
-	 * Returns the last element from transaction stack 
-	 * 
+	 * Returns the last element from transaction stack
+	 *
 	 * @return
 	 */
-	public CompoundRecord getTopTransaction( )
-	{
-		if ( transStack.isEmpty( ) )
-		{
+	public CompoundRecord getTopTransaction() {
+		if (transStack.isEmpty()) {
 			return null;
 		}
-		return this.transStack.lastElement( );
+		return this.transStack.lastElement();
 	}
 }

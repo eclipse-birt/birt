@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,283 +24,240 @@ import org.eclipse.birt.report.model.metadata.MetaDataException;
  * name ID, and tool tip ID.
  */
 
-public class ClassInfo implements IClassInfo
-{
+public class ClassInfo implements IClassInfo {
 
 	private final IClassInfo classInfo;
 	private String toolTip;
 
-	public ClassInfo( )
-	{
-		classInfo = new org.eclipse.birt.report.model.metadata.ClassInfo( );
+	public ClassInfo() {
+		classInfo = new org.eclipse.birt.report.model.metadata.ClassInfo();
 	}
 
 	/**
 	 * Adds one method definition to this class definition.
-	 * 
-	 * @param methodInfo
-	 *            the definition of the method to add
-	 * @throws MetaDataException
-	 *             if the duplicate method name exists.
+	 *
+	 * @param methodInfo the definition of the method to add
+	 * @throws MetaDataException if the duplicate method name exists.
 	 */
 
-	protected void addMethod( IMethodInfo methodInfo )
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-					.addMethod( methodInfo );
-		}
-		catch ( MetaDataException e )
-		{
+	protected void addMethod(IMethodInfo methodInfo) {
+		try {
+			((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).addMethod(methodInfo);
+		} catch (MetaDataException e) {
 
 		}
 	}
 
 	/**
 	 * Adds one member definition to this class definition.
-	 * 
-	 * @param memberDefn
-	 *            the definition of the member to add
-	 * @throws MetaDataException
-	 *             if the duplicate member name exists.
+	 *
+	 * @param memberDefn the definition of the member to add
+	 * @throws MetaDataException if the duplicate member name exists.
 	 */
 
-	protected void addMember( IMemberInfo memberDefn )
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-					.addMemberDefn( memberDefn );
-		}
-		catch ( MetaDataException e )
-		{
+	protected void addMember(IMemberInfo memberDefn) {
+		try {
+			((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).addMemberDefn(memberDefn);
+		} catch (MetaDataException e) {
 
 		}
 	}
 
 	/**
-	 * Returns the method definition list. For methods that have the same name,
-	 * only return one method.
-	 * 
+	 * Returns the method definition list. For methods that have the same name, only
+	 * return one method.
+	 *
 	 * @return a list of method definitions
 	 */
 
-	public List<IMethodInfo> getMethods( )
-	{
-		return classInfo.getMethods( );
+	@Override
+	public List<IMethodInfo> getMethods() {
+		return classInfo.getMethods();
 	}
 
 	/**
 	 * Get the method definition given the method name.
-	 * 
-	 * @param name
-	 *            the name of the method to get
+	 *
+	 * @param name the name of the method to get
 	 * @return the definition of the method to get
 	 */
 
-	public IMethodInfo getMethod( String name )
-	{
-		return classInfo.getMethod( name );
+	@Override
+	public IMethodInfo getMethod(String name) {
+		return classInfo.getMethod(name);
 	}
 
 	/**
 	 * Returns the list of member definitions.
-	 * 
+	 *
 	 * @return the list of member definitions
 	 */
 
-	public List<IMemberInfo> getMembers( )
-	{
-		return classInfo.getMembers( );
+	@Override
+	public List<IMemberInfo> getMembers() {
+		return classInfo.getMembers();
 	}
 
 	/**
 	 * Returns the member definition given method name.
-	 * 
-	 * @param name
-	 *            name of the member to get
+	 *
+	 * @param name name of the member to get
 	 * @return the member definition to get
 	 */
 
-	public IMemberInfo getMember( String name )
-	{
-		return classInfo.getMember( name );
+	@Override
+	public IMemberInfo getMember(String name) {
+		return classInfo.getMember(name);
 	}
 
 	/**
 	 * Returns the constructor definition.
-	 * 
+	 *
 	 * @return the constructor definition
 	 */
 
-	public IMethodInfo getConstructor( )
-	{
-		return classInfo.getConstructor( );
+	@Override
+	public IMethodInfo getConstructor() {
+		return classInfo.getConstructor();
 	}
 
 	/**
 	 * Adds constructor since some class has more than one constructor with
 	 * different arguments.
-	 * 
-	 * @param constructor
-	 *            the constructor definition to add
-	 * @throws MetaDataException
-	 *             if the constructor's name is empty.
+	 *
+	 * @param constructor the constructor definition to add
+	 * @throws MetaDataException if the constructor's name is empty.
 	 */
 
-	protected void setConstructor( IMethodInfo constructor )
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-					.setConstructor( constructor );
-		}
-		catch ( MetaDataException e )
-		{
+	protected void setConstructor(IMethodInfo constructor) {
+		try {
+			((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).setConstructor(constructor);
+		} catch (MetaDataException e) {
 
 		}
 	}
 
 	/**
 	 * Returns whether a class object is native.
-	 * 
+	 *
 	 * @return <code>true</code> if an object of this class is native, otherwise
 	 *         <code>false</code>
 	 */
 
-	public boolean isNative( )
-	{
-		return classInfo.isNative( );
+	@Override
+	public boolean isNative() {
+		return classInfo.isNative();
 	}
 
 	/**
 	 * Sets the native attribute of this class.
-	 * 
-	 * @param isNative
-	 *            <code>Boolean.TRUE</code> if an object of this class is
-	 *            native, otherwise <code>Boolean.FALSE</code>
+	 *
+	 * @param isNative <code>Boolean.TRUE</code> if an object of this class is
+	 *                 native, otherwise <code>Boolean.FALSE</code>
 	 */
 
-	protected void setNative( boolean isNative )
-	{
-		( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-				.setNative( isNative );
+	protected void setNative(boolean isNative) {
+		((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).setNative(isNative);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayNameKey
 	 * ()
 	 */
 
-	public String getDisplayNameKey( )
-	{
-		String retValue = classInfo.getDisplayNameKey( );
+	@Override
+	public String getDisplayNameKey() {
+		String retValue = classInfo.getDisplayNameKey();
 		return retValue != null ? retValue : ""; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 *
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
-	public String getName( )
-	{
-		return classInfo.getName( );
+	@Override
+	public String getName() {
+		return classInfo.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey ()
 	 */
-	public String getToolTipKey( )
-	{
-		return classInfo.getToolTipKey( );
+	@Override
+	public String getToolTipKey() {
+		return classInfo.getToolTipKey();
 	}
 
 	/**
 	 * Sets the resource key for display name.
-	 * 
-	 * @param displayNameKey
-	 *            the resource key to set
+	 *
+	 * @param displayNameKey the resource key to set
 	 */
 
-	protected void setDisplayNameKey( String displayNameKey )
-	{
-		( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-				.setDisplayNameKey( displayNameKey );
+	protected void setDisplayNameKey(String displayNameKey) {
+		((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).setDisplayNameKey(displayNameKey);
 	}
 
 	/**
 	 * Sets the definition name.
-	 * 
-	 * @param name
-	 *            the name to set
+	 *
+	 * @param name the name to set
 	 */
 
-	protected void setName( String name )
-	{
-		( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-				.setName( name );
+	protected void setName(String name) {
+		((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).setName(name);
 	}
 
 	/**
 	 * Sets the resource key for tool tip.
-	 * 
-	 * @param toolTipKey
-	 *            the resource key to set
+	 *
+	 * @param toolTipKey the resource key to set
 	 */
 
-	protected void setToolTipKey( String toolTipKey )
-	{
-		( (org.eclipse.birt.report.model.metadata.ClassInfo) classInfo )
-				.setToolTipKey( toolTipKey );
+	protected void setToolTipKey(String toolTipKey) {
+		((org.eclipse.birt.report.model.metadata.ClassInfo) classInfo).setToolTipKey(toolTipKey);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	public String getToolTip( )
-	{
+	@Override
+	public String getToolTip() {
 		return toolTip;
 	}
 
 	/**
 	 * Sets the display string for the tool tip of this method.
-	 * 
-	 * @param toolTip
-	 *            the user-visible, localized display name for the tool tip of
-	 *            this method.
+	 *
+	 * @param toolTip the user-visible, localized display name for the tool tip of
+	 *                this method.
 	 */
 
-	protected void setToolTip( String toolTip )
-	{
+	protected void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
 	}
 }

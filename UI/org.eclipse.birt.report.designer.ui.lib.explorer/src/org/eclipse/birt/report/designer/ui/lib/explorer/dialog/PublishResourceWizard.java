@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,14 +39,13 @@ import org.eclipse.jface.wizard.Wizard;
 /**
  * PublishResourceWizard
  */
-public class PublishResourceWizard extends Wizard
-{
+public class PublishResourceWizard extends Wizard {
 
-	private static String windowTitle = Messages.getString( "PublishResourceDialog.ShellText" ); //$NON-NLS-1$
-	private static String PAGE_TITLE = Messages.getString( "PublishResourceDialog.TitleArea" ); //$NON-NLS-1$
-	private static String PAGE_DESC = Messages.getString( "PublishResourceDialog.Message" ); //$NON-NLS-1$
+	private static String windowTitle = Messages.getString("PublishResourceDialog.ShellText"); //$NON-NLS-1$
+	private static String PAGE_TITLE = Messages.getString("PublishResourceDialog.TitleArea"); //$NON-NLS-1$
+	private static String PAGE_DESC = Messages.getString("PublishResourceDialog.Message"); //$NON-NLS-1$
 
-	private static String addLibraryTitle = Messages.getString( "PublishResourceDialog.AddResource" ); //$NON-NLS-1$
+	private static String addLibraryTitle = Messages.getString("PublishResourceDialog.AddResource"); //$NON-NLS-1$
 
 	private String filePath;
 	private String fileName;
@@ -63,24 +65,21 @@ public class PublishResourceWizard extends Wizard
 	private IRunnableWithProgress copyFileRunnable = null;
 
 	/**
-	 * 
+	 *
 	 */
-	public PublishResourceWizard( LibraryHandle handle, String fileName,
-			String folderName )
-	{
-		setWindowTitle( windowTitle );
+	public PublishResourceWizard(LibraryHandle handle, String fileName, String folderName) {
+		setWindowTitle(windowTitle);
 		this.fileName = fileName;
 		this.folderName = folderName;
-		this.filePath = handle.getFileName( );
+		this.filePath = handle.getFileName();
 		type = HAVE_HANDLE;
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public PublishResourceWizard( String folderName )
-	{
-		setWindowTitle( addLibraryTitle );
+	public PublishResourceWizard(String folderName) {
+		setWindowTitle(addLibraryTitle);
 		this.fileName = null;
 		this.folderName = folderName;
 		type = HAVE_NO_HANDLE;
@@ -88,129 +87,105 @@ public class PublishResourceWizard extends Wizard
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
-	public void addPages( )
-	{
-		page = new WizardResourceSettingPage( type );
+	@Override
+	public void addPages() {
+		page = new WizardResourceSettingPage(type);
 
-		if ( type == HAVE_HANDLE )
-		{
+		if (type == HAVE_HANDLE) {
 
-			page.setTitle( PAGE_TITLE );
-			page.setMessage( PAGE_DESC );
+			page.setTitle(PAGE_TITLE);
+			page.setMessage(PAGE_DESC);
 
-			page.setFileName( fileName );
-			page.setfolderName( folderName );
+			page.setFileName(fileName);
+			page.setfolderName(folderName);
+		} else if (type == HAVE_NO_HANDLE) {
+			page.setTitle(Messages.getString("PublishResourceDialog.AddText")); //$NON-NLS-1$
+			page.setMessage(Messages.getString("PublishResourceDialog.AddMessage")); //$NON-NLS-1$
+			page.setfolderName(folderName);
 		}
-		else if ( type == HAVE_NO_HANDLE )
-		{
-			page.setTitle( Messages.getString( "PublishResourceDialog.AddText" ) ); //$NON-NLS-1$
-			page.setMessage( Messages.getString( "PublishResourceDialog.AddMessage" ) ); //$NON-NLS-1$
-			page.setfolderName( folderName );
-		}
-		page.setType( type );
-		addPage( page );
+		page.setType(type);
+		addPage(page);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
-		fileName = page.getFileName( );
-		folderName = page.getFolder( );
-		filePath = getSourceFile( ).getAbsolutePath( );
-		return publishiLibrary( );
+	@Override
+	public boolean performFinish() {
+		fileName = page.getFileName();
+		folderName = page.getFolder();
+		filePath = getSourceFile().getAbsolutePath();
+		return publishiLibrary();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
-	public boolean canFinish( )
-	{
-		return page.canFinish( );
+	@Override
+	public boolean canFinish() {
+		return page.canFinish();
 	}
 
-	private boolean publishiLibrary( )
-	{
+	private boolean publishiLibrary() {
 		// copy to library folder
 
-		if ( !( new File( filePath ).exists( ) ) )
-		{
-			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishResourceAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
+		if (!(new File(filePath).exists())) {
+			ExceptionUtil.openError(Messages.getString("PublishResourceAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishResourceAction.wizard.message.SourceFileNotExist")); //$NON-NLS-1$
 
 			return false;
 		}
 
-		File targetFile = getTargetFile( );
+		File targetFile = getTargetFile();
 
-		if ( targetFile == null )
-		{
-			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishResourceAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+		if (targetFile == null) {
+			ExceptionUtil.openError(Messages.getString("PublishResourceAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishResourceAction.wizard.notvalidfolder")); //$NON-NLS-1$
 
 			return false;
 		}
 
-		if ( new File( filePath ).compareTo( targetFile ) == 0 )
-		{
-			ExceptionUtil.openError( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishResourceAction.wizard.message" ) ); //$NON-NLS-1$
+		if (new File(filePath).compareTo(targetFile) == 0) {
+			ExceptionUtil.openError(Messages.getString("PublishResourceAction.wizard.errorTitle"), //$NON-NLS-1$
+					Messages.getString("PublishResourceAction.wizard.message")); //$NON-NLS-1$
 			return false;
 		}
 
 		int overwrite = Window.OK;
-		try
-		{
-			if ( targetFile.exists( ) )
-			{
-				String[] buttons = new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL
-				};
+		try {
+			if (targetFile.exists()) {
+				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL };
 
-				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
-						new Object[]{
-							targetFile.getAbsolutePath( )
-						} );
+				String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[] { targetFile.getAbsolutePath() });
 
-				MessageDialog d = new MessageDialog( UIUtil.getDefaultShell( ),
-						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
-						null,
-						question,
-						MessageDialog.QUESTION,
-						buttons,
-						0 );
+				MessageDialog d = new MessageDialog(UIUtil.getDefaultShell(),
+						Messages.getString("SaveAsDialog.Question"), //$NON-NLS-1$
+						null, question, MessageDialog.QUESTION, buttons, 0);
 
-				overwrite = d.open( );
+				overwrite = d.open();
 			}
-			if ( overwrite == Window.OK
-					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
-			{
-				doCopy( filePath, targetFile );
+			if (overwrite == Window.OK
+					&& (targetFile.exists() || (!targetFile.exists() && targetFile.createNewFile()))) {
+				doCopy(filePath, targetFile);
 
-				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-						.getResourceSynchronizerService( );
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault().getResourceSynchronizerService();
 
-				if ( synchronizer != null )
-				{
-					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( targetFile.getAbsolutePath( ) ),
-							IReportResourceChangeEvent.NewResource ) );
+				if (synchronizer != null) {
+					synchronizer.notifyResourceChanged(new ReportResourceChangeEvent(this,
+							Path.fromOSString(targetFile.getAbsolutePath()), IReportResourceChangeEvent.NewResource));
 				}
 			}
-		}
-		catch ( IOException e )
-		{
-			ExceptionUtil.handle( e );
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
 		}
 
 		return overwrite != 2;
@@ -218,101 +193,76 @@ public class PublishResourceWizard extends Wizard
 
 	/**
 	 * Copies files in a monitor dialog.
-	 * 
-	 * @param filePath
-	 *            the file path
-	 * @param targetFile
-	 *            the target file
-	 * @throws IOException
-	 *             if an I/O error occurs.
+	 *
+	 * @param filePath   the file path
+	 * @param targetFile the target file
+	 * @throws IOException if an I/O error occurs.
 	 */
-	private void doCopy( final String filePath, final File targetFile )
-			throws IOException
-	{
-		if ( copyFileRunnable == null )
-		{
-			copyFile( filePath, targetFile );
+	private void doCopy(final String filePath, final File targetFile) throws IOException {
+		if (copyFileRunnable == null) {
+			copyFile(filePath, targetFile);
 			return;
 		}
 
-		try
-		{
-			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true,
-					copyFileRunnable );
-		}
-		catch ( InvocationTargetException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			new ProgressMonitorDialog(UIUtil.getDefaultShell()).run(false, true, copyFileRunnable);
+		} catch (InvocationTargetException | InterruptedException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
-	private void copyFile( String in, File targetFile ) throws IOException
-	{
-		FileInputStream fis = new FileInputStream( in );
-		FileOutputStream fos = new FileOutputStream( targetFile );
+	private void copyFile(String in, File targetFile) throws IOException {
+		FileInputStream fis = new FileInputStream(in);
+		FileOutputStream fos = new FileOutputStream(targetFile);
 		byte[] buf = new byte[1024];
 		int i = 0;
-		while ( ( i = fis.read( buf ) ) != -1 )
-		{
-			fos.write( buf, 0, i );
+		while ((i = fis.read(buf)) != -1) {
+			fos.write(buf, 0, i);
 		}
-		fis.close( );
-		fos.close( );
+		fis.close();
+		fos.close();
 	}
 
 	/**
 	 * Returns the source file.
-	 * 
+	 *
 	 * @return the source file.
 	 */
-	public File getSourceFile( )
-	{
-		if ( type == HAVE_NO_HANDLE )
-		{
-			return new File( page.getSourceFileName( ) );
+	public File getSourceFile() {
+		if (type == HAVE_NO_HANDLE) {
+			return new File(page.getSourceFileName());
 		}
-		return new File( filePath );
+		return new File(filePath);
 	}
 
 	/**
 	 * Returns the target file.
-	 * 
+	 *
 	 * @return the target file.
 	 */
-	public File getTargetFile( )
-	{
-		File targetFolder = new File( folderName );
+	public File getTargetFile() {
+		File targetFolder = new File(folderName);
 
-		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
-		{
+		if (targetFolder.exists() && (!targetFolder.isDirectory())) {
 			return null;
 		}
 
-		if ( !targetFolder.exists( ) )
-		{
-			if ( !targetFolder.mkdirs( ) )
-			{
+		if (!targetFolder.exists()) {
+			if (!targetFolder.mkdirs()) {
 				return null;
 			}
 		}
 
-		return new File( targetFolder, fileName );
+		return new File(targetFolder, fileName);
 	}
 
 	/**
-	 * Set the specified instance of <code>IRunnableWithProgress</code> using
-	 * the progress monitor for this progress dialog, to copy files.
-	 * 
-	 * @param runnable
-	 *            the specified instance of <code>IRunnableWithProgress</code>.
+	 * Set the specified instance of <code>IRunnableWithProgress</code> using the
+	 * progress monitor for this progress dialog, to copy files.
+	 *
+	 * @param runnable the specified instance of <code>IRunnableWithProgress</code>.
 	 */
-	public void setCopyFileRunnable( IRunnableWithProgress runnable )
-	{
+	public void setCopyFileRunnable(IRunnableWithProgress runnable) {
 		this.copyFileRunnable = runnable;
 	}
 }

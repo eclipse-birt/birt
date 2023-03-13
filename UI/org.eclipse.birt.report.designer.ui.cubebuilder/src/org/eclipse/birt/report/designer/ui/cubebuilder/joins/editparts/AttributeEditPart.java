@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2005 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -40,13 +43,13 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * The Edit Part corresponding to the Column of a Table
- * 
+ *
  * @see
- * <p>
- * NodeDditPartHelper
- * <p>
- * for other methods defined here
- * 
+ *      <p>
+ *      NodeDditPartHelper
+ *      <p>
+ *      for other methods defined here
+ *
  */
 public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
@@ -61,38 +64,36 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 
 	private TabularHierarchyHandle hierarchy;
 
-	public AttributeEditPart( EditPart parent, LevelAttributeHandle attribute )
-	{
-		setParent( parent );
-		setModel( attribute );
-		this.cube = ( (HierarchyNodeEditPart) getParent( ) ).getCube( );
-		this.hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) getParent( ) ).getModel( );
+	public AttributeEditPart(EditPart parent, LevelAttributeHandle attribute) {
+		setParent(parent);
+		setModel(attribute);
+		this.cube = ((HierarchyNodeEditPart) getParent()).getCube();
+		this.hierarchy = (TabularHierarchyHandle) ((HierarchyNodeEditPart) getParent()).getModel();
 	}
 
 	private TabularCubeHandle cube;
 
-	public TabularCubeHandle getCube( )
-	{
+	public TabularCubeHandle getCube() {
 		return cube;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
+	@Override
+	protected IFigure createFigure() {
 
-		ColumnFigure columnFigure = null;
-		columnFigure = new AttributeFigure( );
-		FlowLayout layout = new FlowLayout( );
-		layout.setMinorSpacing( 2 );
-		columnFigure.setLayoutManager( layout );
-		columnFigure.setOpaque( true );
-		String name = OlapUtil.getDataFieldDisplayName( getColumn( ) );
-		label = new Label( name );
-		columnFigure.add( label );
+		ColumnFigure columnFigure;
+		columnFigure = new AttributeFigure();
+		FlowLayout layout = new FlowLayout();
+		layout.setMinorSpacing(2);
+		columnFigure.setLayoutManager(layout);
+		columnFigure.setOpaque(true);
+		String name = OlapUtil.getDataFieldDisplayName(getColumn());
+		label = new Label(name);
+		columnFigure.add(label);
 		return columnFigure;
 
 	}
@@ -100,56 +101,46 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 	/**
 	 * @return Gets the Model object represented by this Edit Part
 	 */
-	private ResultSetColumnHandle getColumn( )
-	{
-		return OlapUtil.getDataField( hierarchy.getDataSet( ),
-				( (LevelAttributeHandle) getModel( ) ).getName( ) );
+	private ResultSetColumnHandle getColumn() {
+		return OlapUtil.getDataField(hierarchy.getDataSet(), ((LevelAttributeHandle) getModel()).getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
+	@Override
+	protected void createEditPolicies() {
 		// // TODO Auto-generated method stub
-		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy( );
-		this.installEditPolicy( "Selection Policy", colEditPol ); //$NON-NLS-1$
-		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ConnectionCreationEditPolicy( ) );
+		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
+		this.installEditPolicy("Selection Policy", colEditPol); //$NON-NLS-1$
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ConnectionCreationEditPolicy());
 
 	}
 
-	public IFigure getChopFigure( )
-	{
-		return ( (AbstractGraphicalEditPart) this.getParent( ) ).getFigure( );
+	@Override
+	public IFigure getChopFigure() {
+		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
-	protected List getModelSourceConnections( )
-	{
-		List sourcejoins = new ArrayList( );
+	@Override
+	protected List getModelSourceConnections() {
+		List sourcejoins = new ArrayList();
 
-		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent( );
-		Iterator iter = hierarchyEditpart.getCube( ).joinConditionsIterator( );
-		while ( iter.hasNext( ) )
-		{
-			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-			HierarchyHandle conditionHierarchy = condition.getHierarchy( );
-			if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
-					(HierarchyHandle) hierarchyEditpart.getModel( ) ) )
-			{
-				Iterator conditionIter = condition.getJoinConditions( )
-						.iterator( );
-				while ( conditionIter.hasNext( ) )
-				{
-					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-					if ( joinCondition.getHierarchyKey( )
-							.equals( getColumnName( ) )
-							&& OlapUtil.getDataField( cube.getDataSet( ),
-									joinCondition.getCubeKey( ) ) != null )
-					{
-						sourcejoins.add( joinCondition );
+		HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent();
+		Iterator iter = hierarchyEditpart.getCube().joinConditionsIterator();
+		while (iter.hasNext()) {
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
+			HierarchyHandle conditionHierarchy = condition.getHierarchy();
+			if (ModuleUtil.isEqualHierarchiesForJointCondition(conditionHierarchy,
+					(HierarchyHandle) hierarchyEditpart.getModel())) {
+				Iterator conditionIter = condition.getJoinConditions().iterator();
+				while (conditionIter.hasNext()) {
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next();
+					if (joinCondition.getHierarchyKey().equals(getColumnName())
+							&& OlapUtil.getDataField(cube.getDataSet(), joinCondition.getCubeKey()) != null) {
+						sourcejoins.add(joinCondition);
 					}
 				}
 			}
@@ -158,44 +149,42 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 		return sourcejoins;
 	}
 
-	public DragTracker getDragTracker( Request request )
-	{
+	@Override
+	public DragTracker getDragTracker(Request request) {
 
-		List connectionList = getModelSourceConnections( );
-		for ( int i = 0; i < connectionList.size( ); i++ )
-		{
-			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get( i );
-			if ( joinCondition.getHierarchyKey( ).equals( getColumnName( ) ) )
-				return super.getDragTracker( request );
+		List connectionList = getModelSourceConnections();
+		for (int i = 0; i < connectionList.size(); i++) {
+			DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) connectionList.get(i);
+			if (joinCondition.getHierarchyKey().equals(getColumnName())) {
+				return super.getDragTracker(request);
+			}
 		}
 
-		ConnectionCreation connection = new ConnectionCreation( this );
+		ConnectionCreation connection = new ConnectionCreation(this);
 		return connection;
 
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( isActive( ) && !isDelete( ) )
-		{
-			refreshSourceConnections( );
+	@Override
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (isActive() && !isDelete()) {
+			refreshSourceConnections();
 		}
 	}
 
-	public void deactivate( )
-	{
-		super.deactivate( );
-		cube.removeListener( this );
+	@Override
+	public void deactivate() {
+		super.deactivate();
+		cube.removeListener(this);
 	}
 
-	public void activate( )
-	{
-		super.activate( );
-		cube.addListener( this );
+	@Override
+	public void activate() {
+		super.activate();
+		cube.addListener(this);
 	}
 
-	public String getColumnName( )
-	{
-		return getColumn( ).getColumnName( );
+	public String getColumnName() {
+		return getColumn().getColumnName();
 	}
 }

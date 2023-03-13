@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,94 +19,104 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 /**
  * AggregationCellViewAdapter
  */
-public abstract class AggregationCellViewAdapter implements
-		IAggregationCellViewProvider
-{
+public abstract class AggregationCellViewAdapter implements IAggregationCellViewProvider {
 
 	protected int defalutUpdateType = SWITCH_VIEW_TYPE;
-	
-	public void setDefaultUpdateType(int type)
-	{
+
+	public void setDefaultUpdateType(int type) {
 		defalutUpdateType = type;
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.
+	 * core.de.AggregationCellHandle)
 	 */
-	public boolean matchView( AggregationCellHandle cell )
-	{
+	@Override
+	public boolean matchView(AggregationCellHandle cell) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.
+	 * crosstab.core.de.AggregationCellHandle)
 	 */
-	public void restoreView( AggregationCellHandle cell )
-	{
+	@Override
+	public void restoreView(AggregationCellHandle cell) {
 	}
 
 	/**
 	 * @deprecated use {@link #switchView(SwitchCellInfo)}
 	 */
-	public void switchView( AggregationCellHandle cell )
-	{
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
-	 */
-	public void switchView( SwitchCellInfo info )
-	{
+	@Deprecated
+	@Override
+	public void switchView(AggregationCellHandle cell) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#updateView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab
+	 * .ui.extension.SwitchCellInfo)
 	 */
-	public void updateView( AggregationCellHandle cell )
-	{
+	@Override
+	public void switchView(SwitchCellInfo info) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#updateView(org.eclipse.birt.report.item.crosstab
+	 * .core.de.AggregationCellHandle)
+	 */
+	@Override
+	public void updateView(AggregationCellHandle cell) {
 		updateView(cell, defalutUpdateType);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#updateView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle, int)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#updateView(org.eclipse.birt.report.item.crosstab
+	 * .core.de.AggregationCellHandle, int)
 	 */
-	public void updateView( AggregationCellHandle cell, int type )
-	{
-		
+	@Override
+	public void updateView(AggregationCellHandle cell, int type) {
+
 	}
-	
+
 	/**
-	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
-	*/
-	public boolean canSwitch( AggregationCellHandle cell )
-	{
+	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}
+	 */
+	@Deprecated
+	@Override
+	public boolean canSwitch(AggregationCellHandle cell) {
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.
+	 * ui.extension.SwitchCellInfo)
 	 */
-	public boolean canSwitch( SwitchCellInfo info )
-	{
+	@Override
+	public boolean canSwitch(SwitchCellInfo info) {
 		return true;
 	}
-	
-	public int getDefaultUpdateType()
-	{
+
+	@Override
+	public int getDefaultUpdateType() {
 		return defalutUpdateType;
-	};
-	
-	
-	
+	}
+
 }

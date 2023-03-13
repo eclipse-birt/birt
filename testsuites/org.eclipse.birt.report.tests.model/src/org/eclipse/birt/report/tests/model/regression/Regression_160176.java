@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
- * initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -31,34 +34,32 @@ import com.ibm.icu.util.ULocale;
  * Test method createDesignFromTemplate in DesignSession
  * <p>
  */
-public class Regression_160176 extends BaseTestCase
-{
+public class Regression_160176 extends BaseTestCase {
 
 	private final static String REPORT = "regression_160176.rpttemplate"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	@Override
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_160176( ) throws DesignFileException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
+	public void test_regression_160176() throws DesignFileException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
 		ReportDesignHandle designHandle = session
-				.createDesignFromTemplate( getTempFolder() + "/"
-						+ INPUT_FOLDER + "/" + REPORT );
-		assertNotNull( designHandle );
+				.createDesignFromTemplate(getTempFolder() + "/" + INPUT_FOLDER + "/" + REPORT);
+		assertNotNull(designHandle);
 	}
 }

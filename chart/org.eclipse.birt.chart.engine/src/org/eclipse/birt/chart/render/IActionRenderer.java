@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +22,7 @@ import org.eclipse.birt.chart.model.data.Action;
  * This interface defines the methods to process the trigger actions during
  * rendering.
  */
-public interface IActionRenderer
-{
+public interface IActionRenderer {
 
 	String LEGEND_ITEM_DATA = "legendItemData";//$NON-NLS-1$
 
@@ -35,26 +37,22 @@ public interface IActionRenderer
 
 	/**
 	 * Process the action with given source object.
-	 * 
-	 * @param action
-	 *            Action Object.
-	 * @param source
-	 *            Source Object
-	 * @param rtc
-	 *            chart runtime context
+	 *
+	 * @param action Action Object.
+	 * @param source Source Object
+	 * @param rtc    chart runtime context
 	 */
 	void processAction(Action action, StructureSource source, RunTimeContext rtc);
-	
+
 	/**
 	 * Process the action with given source object.
-	 * 
-	 * @param action
-	 *            Action Object.
-	 * @param source
-	 *            Source Object
+	 *
+	 * @param action Action Object.
+	 * @param source Source Object
 	 * @deprecated use
 	 *             {@link #processAction(Action, StructureSource, RunTimeContext)}
 	 *             instead
 	 */
+	@Deprecated
 	void processAction(Action action, StructureSource source);
 }

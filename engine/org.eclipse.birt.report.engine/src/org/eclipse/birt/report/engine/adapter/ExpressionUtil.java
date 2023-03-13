@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,116 +41,95 @@ import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * This class help to manipulate expressions.
- * 
+ *
  */
-public final class ExpressionUtil
-{
-	private static Logger logger = Logger.getLogger( ExpressionUtil.class.getName());
-	
+public final class ExpressionUtil {
+	private static Logger logger = Logger.getLogger(ExpressionUtil.class.getName());
+
 	private static final String TOTAL_PREFIX = "TOTAL_COLUMN_";
 
 	private int totalColumnSuffix = 0;
-	
+
 	private IModelAdapter adapter = null;
-	
-	public ITotalExprBindings prepareTotalExpressions( List<Expression> exprs, IDataQueryDefinition queryDefn ) throws EngineException
-	{
-		return prepareTotalExpressions( exprs, null, queryDefn );
+
+	public ITotalExprBindings prepareTotalExpressions(List<Expression> exprs, IDataQueryDefinition queryDefn)
+			throws EngineException {
+		return prepareTotalExpressions(exprs, null, queryDefn);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param exprs
 	 * @return
-	 * @throws EngineException 
+	 * @throws EngineException
 	 */
-	public ITotalExprBindings prepareTotalExpressions( List<Expression> exprs,
-			String groupName, IDataQueryDefinition queryDefn )
-			throws EngineException
-	{
-		
+	public ITotalExprBindings prepareTotalExpressions(List<Expression> exprs, String groupName,
+			IDataQueryDefinition queryDefn) throws EngineException {
 
-		TotalExprBinding result = new TotalExprBinding( );
-		List l = new ArrayList( );
+		TotalExprBinding result = new TotalExprBinding();
+		List l = new ArrayList();
 		boolean isCube = false;
 
-		if ( queryDefn instanceof IBaseCubeQueryDefinition )
-		{
+		if (queryDefn instanceof IBaseCubeQueryDefinition) {
 			isCube = true;
 		}
 
-		for ( int i = 0; i < exprs.size( ); i++ )
-		{
+		for (int i = 0; i < exprs.size(); i++) {
 
-			Expression expr = exprs.get( i );
+			Expression expr = exprs.get(i);
 
-			result.addColumnBindings( l );
+			result.addColumnBindings(l);
 
-			if ( expr == null )
-			{
-				result.addNewExpression( null );
-			}
-			else
-			{
-				switch ( expr.getType( ) )
-				{
-					case Expression.CONSTANT :
-						result.addNewExpression( expr );
-						break;
-					case Expression.SCRIPT :
-						String newExpr = prepareTotalExpression( expr
-								.getScriptText( ), l, groupName, isCube );
-						result.addColumnBindings( l );
-						expr.setScriptText( newExpr );
-						result.addNewExpression( expr );
-						break;
-					case Expression.CONDITIONAL :
-						addConditionalExprBindings( result,
-								(Expression.Conditional) expr, l, groupName,
-								isCube );
-						break;
-					default :
-						throw new IllegalStateException(
-								"invalid expression type:" + expr.getType( ) );
+			if (expr == null) {
+				result.addNewExpression(null);
+			} else {
+				switch (expr.getType()) {
+				case Expression.CONSTANT:
+					result.addNewExpression(expr);
+					break;
+				case Expression.SCRIPT:
+					String newExpr = prepareTotalExpression(expr.getScriptText(), l, groupName, isCube);
+					result.addColumnBindings(l);
+					expr.setScriptText(newExpr);
+					result.addNewExpression(expr);
+					break;
+				case Expression.CONDITIONAL:
+					addConditionalExprBindings(result, (Expression.Conditional) expr, l, groupName, isCube);
+					break;
+				default:
+					throw new IllegalStateException("invalid expression type:" + expr.getType());
 				}
 			}
 		}
 		return result;
 	}
-	
+
 	/**
-	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is
-	 * set, transform it to
-	 * Total.TopN/Total.TopPercent/Total.BottomN/Total.BottomPercent
+	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is set,
+	 * transform it to Total.TopN/Total.TopPercent/Total.BottomN/Total.BottomPercent
 	 * aggregations with "isTrue" operator.
-	 * 
+	 *
 	 * @param ce
 	 * @return
 	 */
-	public static IConditionalExpression transformConditionalExpression(
-			IConditionalExpression ce )
-	{
+	public static IConditionalExpression transformConditionalExpression(IConditionalExpression ce) {
 		boolean needTransform = false;
-		
-		switch ( ce.getOperator( ) )
-		{
-			case IConditionalExpression.OP_TOP_N :
-			case IConditionalExpression.OP_BOTTOM_N :
-			case IConditionalExpression.OP_TOP_PERCENT :
-			case IConditionalExpression.OP_BOTTOM_PERCENT :	 
-			 		 needTransform = true;
-			 		 break;
-			default:
-				needTransform = false;
-				break;
+
+		switch (ce.getOperator()) {
+		case IConditionalExpression.OP_TOP_N:
+		case IConditionalExpression.OP_BOTTOM_N:
+		case IConditionalExpression.OP_TOP_PERCENT:
+		case IConditionalExpression.OP_BOTTOM_PERCENT:
+			needTransform = true;
+			break;
+		default:
+			needTransform = false;
+			break;
 		}
-		
-		if( needTransform )
-		{
-			ce = new ToBeTransformTopBottomConditionalExpression( ce.getExpression( ),
-					ce.getOperator( ),
-					ce.getOperand1( ),
-					ce.getOperand2( ) );
+
+		if (needTransform) {
+			ce = new ToBeTransformTopBottomConditionalExpression(ce.getExpression(), ce.getOperator(), ce.getOperand1(),
+					ce.getOperand2());
 		}
 		return ce;
 	}
@@ -155,95 +137,73 @@ public final class ExpressionUtil
 	/**
 	 * @param result
 	 * @param key
-	 * @throws EngineException 
+	 * @throws EngineException
 	 */
-	private void addConditionalExprBindings( TotalExprBinding result,
-			Expression.Conditional key, List bindings, String groupName, boolean isCube ) throws EngineException
-	{
-		try
-		{
-			IConditionalExpression ce = key.getConditionalExpression( );
+	private void addConditionalExprBindings(TotalExprBinding result, Expression.Conditional key, List bindings,
+			String groupName, boolean isCube) throws EngineException {
+		try {
+			IConditionalExpression ce = key.getConditionalExpression();
 
-			if ( !hasAggregationInFilter( ce ) && !(ce instanceof ToBeTransformTopBottomConditionalExpression) )
-			{
-				result.addNewExpression( key );
+			if (!hasAggregationInFilter(ce) && !(ce instanceof ToBeTransformTopBottomConditionalExpression)) {
+				result.addNewExpression(key);
 				return;
 			}
-			if ( groupName != null )
-				ce.setGroupName( groupName );
+			if (groupName != null) {
+				ce.setGroupName(groupName);
+			}
 
 			String bindingName = TOTAL_PREFIX + totalColumnSuffix;
 			totalColumnSuffix++;
 
-			if( ce instanceof ToBeTransformTopBottomConditionalExpression)
-			{
-				List allColumnBindings = new ArrayList( );
+			if (ce instanceof ToBeTransformTopBottomConditionalExpression) {
+				List allColumnBindings = new ArrayList();
 
-				allColumnBindings.add( ((ToBeTransformTopBottomConditionalExpression)ce).transform( bindingName, groupName ) );
-				result.addColumnBindings( allColumnBindings );
-				
-				result.addNewExpression(Expression.newScript( org.eclipse.birt.core.data.ExpressionUtil
-						.createJSRowExpression( bindingName ) ));
+				allColumnBindings
+						.add(((ToBeTransformTopBottomConditionalExpression) ce).transform(bindingName, groupName));
+				result.addColumnBindings(allColumnBindings);
+
+				result.addNewExpression(Expression
+						.newScript(org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression(bindingName)));
 				return;
 			}
-			Binding columnBinding = new Binding( bindingName, ce );
+			Binding columnBinding = new Binding(bindingName, ce);
 
-			if ( groupName != null )
-			{
-				columnBinding.addAggregateOn( groupName );
+			if (groupName != null) {
+				columnBinding.addAggregateOn(groupName);
 			}
 
-			List allColumnBindings = new ArrayList( );
+			List allColumnBindings = new ArrayList();
 
-			allColumnBindings.add( columnBinding );
+			allColumnBindings.add(columnBinding);
 
-			result.addColumnBindings( allColumnBindings );
+			result.addColumnBindings(allColumnBindings);
 
-			if ( !isCube )
-			{
-				String script = org.eclipse.birt.core.data.ExpressionUtil
-						.createJSRowExpression( bindingName );
-				result.addNewExpression( Expression.newScript( script ) );
+			if (!isCube) {
+				String script = org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression(bindingName);
+				result.addNewExpression(Expression.newScript(script));
+			} else {
+				String script = org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression(bindingName);
+				result.addNewExpression(Expression.newScript(script));
 			}
-			else
-			{
-				String script = org.eclipse.birt.core.data.ExpressionUtil
-						.createJSDataExpression( bindingName );
-				result.addNewExpression( Expression.newScript( script ) );
-			}
-		}
-		catch ( DataException e )
-		{
-			throw new EngineException( e );
+		} catch (DataException e) {
+			throw new EngineException(e);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
-	private boolean hasAggregationInFilter( IBaseExpression expr )
-	{
-		if ( expr == null )
+	private boolean hasAggregationInFilter(IBaseExpression expr) {
+		if (expr == null) {
 			return false;
-		if ( expr instanceof IScriptExpression )
-		{
-			return org.eclipse.birt.core.data.ExpressionUtil.hasAggregation( ( (ScriptExpression) expr ).getText( ) );
 		}
-		else if ( expr instanceof IConditionalExpression )
-		{
+		if (expr instanceof IScriptExpression) {
+			return org.eclipse.birt.core.data.ExpressionUtil.hasAggregation(((ScriptExpression) expr).getText());
+		} else if (expr instanceof IConditionalExpression) {
 			IConditionalExpression ce = (IConditionalExpression) expr;
-			if ( hasAggregationInFilter( ce.getExpression( ) ) )
-			{
-				return true;
-			}
-			if ( hasAggregationInFilter( ce.getOperand1( ) ) )
-			{
-				return true;
-			}
-			if ( hasAggregationInFilter( ce.getOperand2( ) ) )
-			{
+			if (hasAggregationInFilter(ce.getExpression()) || hasAggregationInFilter(ce.getOperand1()) || hasAggregationInFilter(ce.getOperand2())) {
 				return true;
 			}
 		}
@@ -251,122 +211,92 @@ public final class ExpressionUtil
 	}
 
 	/**
-	 * Translate the old expression with "row" as indicator to new expression
-	 * using "dataSetRow" as indicator.
-	 * 
+	 * Translate the old expression with "row" as indicator to new expression using
+	 * "dataSetRow" as indicator.
+	 *
 	 * @param oldExpression
 	 * @return
 	 * @throws DataException
 	 */
-	private String prepareTotalExpression( String oldExpression,
-			List columnBindings, String groupName, boolean isCube ) throws EngineException
-	{
-		try
-		{
-			if ( oldExpression == null )
+	private String prepareTotalExpression(String oldExpression, List columnBindings, String groupName, boolean isCube)
+			throws EngineException {
+		try {
+			if (oldExpression == null) {
 				return null;
+			}
 
-			char[] chars = oldExpression.toCharArray( );
+			char[] chars = oldExpression.toCharArray();
 
 			// 5 is the minium length of expression that can cantain a row
 			// expression
-			if ( chars.length < 8 )
+			if (chars.length < 8) {
 				return oldExpression;
-			else
-			{
-				ParseIndicator indicator = new ParseIndicator( 0,
-						0,
-						false,
-						false,
-						true,
-						true );
-				for ( int i = 0; i < chars.length; i++ )
-				{
-					indicator = getParseIndicator( chars,
-							i,
-							indicator.omitNextQuote( ),
-							indicator.getCandidateKey1( ),
-							indicator.getCandidateKey2( ) );
+			} else {
+				ParseIndicator indicator = new ParseIndicator(0, 0, false, false, true, true);
+				for (int i = 0; i < chars.length; i++) {
+					indicator = getParseIndicator(chars, i, indicator.omitNextQuote(), indicator.getCandidateKey1(),
+							indicator.getCandidateKey2());
 
-					i = indicator.getNewIndex( );
+					i = indicator.getNewIndex();
 
-					if ( i >= indicator.getRetrieveSize( ) + 6 )
-					{
-						if ( indicator.isCandidateKey( )
-								&& chars[i - indicator.getRetrieveSize( ) - 6] == 'T'
-								&& chars[i - indicator.getRetrieveSize( ) - 5] == 'o'
-								&& chars[i - indicator.getRetrieveSize( ) - 4] == 't'
-								&& chars[i - indicator.getRetrieveSize( ) - 3] == 'a'
-								&& chars[i - indicator.getRetrieveSize( ) - 2] == 'l'
-								&& chars[i - indicator.getRetrieveSize( ) - 1] == '.' )
-						{
-							if ( i - indicator.getRetrieveSize( ) - 7 <= 0
-									|| isValidProceeding( chars[i
-											- indicator.getRetrieveSize( ) - 7] ) )
-							{
-								String firstPart = oldExpression.substring( 0,
-										i - indicator.getRetrieveSize( ) - 6 );
+					if (i >= indicator.getRetrieveSize() + 6) {
+						if (indicator.isCandidateKey() && chars[i - indicator.getRetrieveSize() - 6] == 'T'
+								&& chars[i - indicator.getRetrieveSize() - 5] == 'o'
+								&& chars[i - indicator.getRetrieveSize() - 4] == 't'
+								&& chars[i - indicator.getRetrieveSize() - 3] == 'a'
+								&& chars[i - indicator.getRetrieveSize() - 2] == 'l'
+								&& chars[i - indicator.getRetrieveSize() - 1] == '.') {
+							if (i - indicator.getRetrieveSize() - 7 <= 0
+									|| isValidProceeding(chars[i - indicator.getRetrieveSize() - 7])) {
+								String firstPart = oldExpression.substring(0, i - indicator.getRetrieveSize() - 6);
 
-								int startIndex = i
-										- indicator.getRetrieveSize( ) - 6;
-								i = advanceToNextValidEncloser( chars, i );
+								int startIndex = i - indicator.getRetrieveSize() - 6;
+								i = advanceToNextValidEncloser(chars, i);
 								String secondPart = "";
 								String name = "";
 								String expr = "";
 
-								if ( i < chars.length )
-								{
+								if (i < chars.length) {
 									int endIndex = i + 1;
 
-									expr = oldExpression.substring( startIndex,
-											endIndex );
+									expr = oldExpression.substring(startIndex, endIndex);
 
-									secondPart = prepareTotalExpression( oldExpression.substring( i
-											+ 1 - indicator.getRetrieveSize( ) ),
-											columnBindings,
-											groupName, isCube );
-								}
-								else
-								{
-									expr = oldExpression.substring( startIndex );
+									secondPart = prepareTotalExpression(
+											oldExpression.substring(i + 1 - indicator.getRetrieveSize()),
+											columnBindings, groupName, isCube);
+								} else {
+									expr = oldExpression.substring(startIndex);
 								}
 
 								boolean shouldAddToList = true;
-								for ( int j = 0; j < columnBindings.size( ); j++ )
-								{
-									IBaseExpression expression = ( (IBinding) columnBindings.get( j ) ).getExpression( );
-									if ( expression instanceof IScriptExpression )
-									{
-										if ( oldExpression.equals( ( (IScriptExpression) expression ).getText( ) ) )
-										{
+								for (int j = 0; j < columnBindings.size(); j++) {
+									IBaseExpression expression = ((IBinding) columnBindings.get(j)).getExpression();
+									if (expression instanceof IScriptExpression) {
+										if (oldExpression.equals(((IScriptExpression) expression).getText())) {
 											shouldAddToList = false;
-											name = ( (IBinding) columnBindings.get( j ) ).getBindingName( );
+											name = ((IBinding) columnBindings.get(j)).getBindingName();
 											break;
 										}
 									}
 								}
-								if ( shouldAddToList )
-								{
+								if (shouldAddToList) {
 									name = TOTAL_PREFIX + totalColumnSuffix;
 									totalColumnSuffix++;
-									ScriptExpression se = new ScriptExpression( expr );
-									se.setGroupName( groupName );
-									
-									Binding columnBinding = new Binding( name, se );
-									
-									columnBindings.add( columnBinding );
+									ScriptExpression se = new ScriptExpression(expr);
+									se.setGroupName(groupName);
+
+									Binding columnBinding = new Binding(name, se);
+
+									columnBindings.add(columnBinding);
 								}
 								String newExpression = null;
-								if ( !isCube )
-								{
+								if (!isCube) {
 									newExpression = firstPart
-											+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
+											+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression(name)
 											+ secondPart;
-								}
-								else
-								{
+								} else {
 									newExpression = firstPart
-											+ org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( name )
+											+ org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression(name)
 											+ secondPart;
 								}
 
@@ -380,70 +310,59 @@ public final class ExpressionUtil
 			}
 
 			return oldExpression;
-		}
-		catch ( DataException e )
-		{
-			throw new EngineException( e );
+		} catch (DataException e) {
+			throw new EngineException(e);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param chars
 	 * @param i
 	 * @return
 	 */
-	private static int advanceToNextValidEncloser( char[] chars, int i )
-	{
+	private static int advanceToNextValidEncloser(char[] chars, int i) {
 		boolean isTotalConstants = true;
 		int numberOfOpenBracket = 0;
-		while ( i < chars.length )
-		{
-			ParseIndicator pid = getParseIndicator( chars, i, false, true,true);
-			i = pid.getNewIndex( );
-			if( pid.isCandidateKey( ))
-			if ( chars[i] == '(' )
-			{
-				isTotalConstants = false;
-				numberOfOpenBracket ++;
+		while (i < chars.length) {
+			ParseIndicator pid = getParseIndicator(chars, i, false, true, true);
+			i = pid.getNewIndex();
+			if (pid.isCandidateKey()) {
+				if (chars[i] == '(') {
+					isTotalConstants = false;
+					numberOfOpenBracket++;
+				}
 			}
 
-			if ( isTotalConstants )
-			{
-				if ( !isValidProceeding( chars[i] ) )
+			if (isTotalConstants) {
+				if (!isValidProceeding(chars[i])) {
 					i++;
-				else
+				} else {
 					break;
-			}
-			else
-			{
-				if ( chars[i] != ')' )
+				}
+			} else if (chars[i] != ')') {
+				i++;
+			} else {
+				if (chars[i] == ')') {
+					numberOfOpenBracket--;
+				}
+				if (numberOfOpenBracket == 0) {
+					break;
+				} else {
 					i++;
-				else
-				{
-					if( chars[i] == ')')
-					{
-						numberOfOpenBracket--;
-					}
-					if( numberOfOpenBracket == 0)
-					{
-						break;
-					}else
-					{
-						i++;
-					}
 				}
 			}
 		}
 
-		if ( isTotalConstants )
+		if (isTotalConstants) {
 			i--;
+		}
 		return i;
 	}
 
 	/**
 	 * This method is used to provide information necessary for next step parsing.
-	 * 
+	 *
 	 * @param chars
 	 * @param i
 	 * @param omitNextQuote
@@ -451,41 +370,31 @@ public final class ExpressionUtil
 	 * @param candidateKey2
 	 * @return
 	 */
-	private static ParseIndicator getParseIndicator( char[] chars, int i,
-			boolean omitNextQuote, boolean candidateKey1, boolean candidateKey2 )
-	{
+	private static ParseIndicator getParseIndicator(char[] chars, int i, boolean omitNextQuote, boolean candidateKey1,
+			boolean candidateKey2) {
 		int retrieveSize = 0;
 
-		if ( chars[i] == '/' )
-		{
-			if ( i > 0 && chars[i - 1] == '/' )
-			{
+		if (chars[i] == '/') {
+			if (i > 0 && chars[i - 1] == '/') {
 				retrieveSize++;
-				while ( i < chars.length - 2 )
-				{
+				while (i < chars.length - 2) {
 					i++;
 					retrieveSize++;
-					if ( chars[i] == '\n' )
-					{
+					if (chars[i] == '\n') {
 						break;
 					}
 				}
 				retrieveSize++;
 				i++;
 			}
-		}
-		else if ( chars[i] == '*' )
-		{
-			if ( i > 0 && chars[i - 1] == '/' )
-			{
+		} else if (chars[i] == '*') {
+			if (i > 0 && chars[i - 1] == '/') {
 				i++;
 				retrieveSize = retrieveSize + 2;
-				while ( i < chars.length - 2 )
-				{
+				while (i < chars.length - 2) {
 					i++;
 					retrieveSize++;
-					if ( chars[i - 1] == '*' && chars[i] == '/' )
-					{
+					if (chars[i - 1] == '*' && chars[i] == '/') {
 						break;
 					}
 				}
@@ -494,190 +403,152 @@ public final class ExpressionUtil
 			}
 		}
 
-		if ( ( !omitNextQuote ) && chars[i] == '"' )
-		{
+		if ((!omitNextQuote) && chars[i] == '"') {
 			candidateKey1 = !candidateKey1;
-			if ( candidateKey1 )
+			if (candidateKey1) {
 				candidateKey2 = true;
+			}
 		}
-		if ( ( !omitNextQuote ) && chars[i] == '\'' )
-		{
+		if ((!omitNextQuote) && chars[i] == '\'') {
 			candidateKey2 = !candidateKey2;
-			if ( candidateKey2 )
+			if (candidateKey2) {
 				candidateKey1 = true;
+			}
 		}
-		if ( chars[i] == '\\' )
+		if (chars[i] == '\\') {
 			omitNextQuote = true;
-		else
+		} else {
 			omitNextQuote = false;
+		}
 
-		return new ParseIndicator( retrieveSize,
-				i,
-				candidateKey1,
-				omitNextQuote,
-				candidateKey1,
-				candidateKey2 );
+		return new ParseIndicator(retrieveSize, i, candidateKey1, omitNextQuote, candidateKey1, candidateKey2);
 	}
 
 	/**
-	 * Test whether the char immediately before the candidate "row" key is
-	 * valid.
-	 * 
+	 * Test whether the char immediately before the candidate "row" key is valid.
+	 *
 	 * @param operator
 	 * @return
 	 */
-	private static boolean isValidProceeding( char operator )
-	{
-		if ( ( operator >= 'A' && operator <= 'Z' )
-				|| ( operator >= 'a' && operator <= 'z' ) || operator == '_' )
+	private static boolean isValidProceeding(char operator) {
+		if ((operator >= 'A' && operator <= 'Z') || (operator >= 'a' && operator <= 'z') || operator == '_') {
 			return false;
+		}
 
 		return true;
 	}
-	
-	private IScriptExpression adapterExpression(Expression expr)
-	{
-		if ( expr instanceof Expression.Script && 
-				! Expression.SCRIPT_JAVASCRIPT.equals( 
-						( (Expression.Script) expr ).getLanguage( ) ) )
-		{
+
+	private IScriptExpression adapterExpression(Expression expr) {
+		if (expr instanceof Expression.Script
+				&& !Expression.SCRIPT_JAVASCRIPT.equals(((Expression.Script) expr).getLanguage())) {
 			// Adapts non-JS scripts using ModelAdapter service
 			ScriptExpression scriptExpr = null;
-			try
-			{
-				scriptExpr = getModelAdapter( ).adaptJSExpression(
-						expr.getScriptText( ),
-						( (Expression.Script) expr ).getLanguage( ) );
-				return new ScriptExpression( scriptExpr.getText( ) );
-			}
-			catch ( Exception ex )
-			{
+			try {
+				scriptExpr = getModelAdapter().adaptJSExpression(expr.getScriptText(),
+						((Expression.Script) expr).getLanguage());
+				return new ScriptExpression(scriptExpr.getText());
+			} catch (Exception ex) {
 				logger.log(Level.WARNING, "Error adapting expr " + expr.getScriptText(), ex);
 			}
+		} else if (expr.getType() == Expression.CONSTANT) {
+			ScriptExpression jsExpr = new ScriptExpression(expr.getScriptText());
+			jsExpr.setScriptId(BaseExpression.constantId);
+			jsExpr.setHandle(expr.getScriptText());
+			return jsExpr;
 		}
-		else
-		{
-
-			if ( expr.getType( ) == Expression.CONSTANT )
-			{
-				ScriptExpression jsExpr = new ScriptExpression(
-						expr.getScriptText( ) );
-				jsExpr.setScriptId( BaseExpression.constantId );
-				jsExpr.setHandle( expr.getScriptText( ) );
-				return jsExpr;
-			}
-
-		}
-		return new ScriptExpression( expr.getScriptText( ) );
+		return new ScriptExpression(expr.getScriptText());
 	}
-	
-	public IConditionalExpression createConditionalExpression(
-			Expression testExpression, String operator, Expression value1,
-			Expression value2 )
-	{
+
+	public IConditionalExpression createConditionalExpression(Expression testExpression, String operator,
+			Expression value1, Expression value2) {
 		IScriptExpression expr = null, tempV1 = null, tempV2 = null;
-		if ( testExpression != null )
-		{
-			expr = adapterExpression( testExpression );
+		if (testExpression != null) {
+			expr = adapterExpression(testExpression);
 		}
-		if ( value1 != null )
-		{
-			tempV1 = adapterExpression( value1 );
+		if (value1 != null) {
+			tempV1 = adapterExpression(value1);
 		}
-		if ( value2 != null )
-		{
-			tempV2 = adapterExpression( value2 );
+		if (value2 != null) {
+			tempV2 = adapterExpression(value2);
 		}
-		ConditionalExpression expression = new ConditionalExpression( expr,
-				DataAdapterUtil.adaptModelFilterOperator( operator ), tempV1,
-				tempV2 );
-		return ExpressionUtil.transformConditionalExpression( expression );
+		ConditionalExpression expression = new ConditionalExpression(expr,
+				DataAdapterUtil.adaptModelFilterOperator(operator), tempV1, tempV2);
+		return ExpressionUtil.transformConditionalExpression(expression);
 	}
 
-	public IConditionalExpression createConditionExpression(
-			Expression testExpression, String operator,
-			List<Expression> valueList )
-	{
-		ArrayList<IScriptExpression> values = new ArrayList<IScriptExpression>( valueList.size( ) );
-		for ( Expression expr : valueList )
-		{
-			values.add( adapterExpression( expr ) );
+	public IConditionalExpression createConditionExpression(Expression testExpression, String operator,
+			List<Expression> valueList) {
+		ArrayList<IScriptExpression> values = new ArrayList<>(valueList.size());
+		for (Expression expr : valueList) {
+			values.add(adapterExpression(expr));
 		}
 		IScriptExpression expr = null;
-		if ( testExpression != null )
-		{
-			expr = adapterExpression( testExpression );
+		if (testExpression != null) {
+			expr = adapterExpression(testExpression);
 		}
-		ConditionalExpression expression = new ConditionalExpression( expr,
-				DataAdapterUtil.adaptModelFilterOperator( operator ), values );
-		return ExpressionUtil.transformConditionalExpression( expression );
+		ConditionalExpression expression = new ConditionalExpression(expr,
+				DataAdapterUtil.adaptModelFilterOperator(operator), values);
+		return ExpressionUtil.transformConditionalExpression(expression);
 	}
 
-	private IModelAdapter getModelAdapter( ) throws BirtException
-	{
-		if ( adapter == null )
-		{
-			DataRequestSession session = new DataRequestSessionImpl( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			adapter = session.getModelAdaptor( );
+	private IModelAdapter getModelAdapter() throws BirtException {
+		if (adapter == null) {
+			DataRequestSession session = new DataRequestSessionImpl(
+					new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION));
+			adapter = session.getModelAdaptor();
 		}
 		return adapter;
 	}
 }
 
 /**
- * 
+ *
  */
-class TotalExprBinding implements ITotalExprBindings
-{
+class TotalExprBinding implements ITotalExprBindings {
 
 	/**
-	 * 
+	 *
 	 */
 	private List newExprs;
 	private List columnBindings;
 
-	TotalExprBinding()
-	{
+	TotalExprBinding() {
 		this.newExprs = new ArrayList();
 		this.columnBindings = new ArrayList();
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.data.ITotalExprBindings#getNewExpression()
 	 */
-	public List getNewExpression( )
-	{
+	@Override
+	public List getNewExpression() {
 		return this.newExprs;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.data.ITotalExprBindings#getColumnBindings()
 	 */
-	public IBinding[] getColumnBindings( )
-	{
+	@Override
+	public IBinding[] getColumnBindings() {
 		IBinding[] result = new IBinding[columnBindings.size()];
-		for ( int i = 0; i < result.length; i++ )
-		{
-			result[i] = (IBinding) columnBindings.get( i );
+		for (int i = 0; i < result.length; i++) {
+			result[i] = (IBinding) columnBindings.get(i);
 		}
 		return result;
 	}
-	
-	public void addNewExpression( Object expr )
-	{
-		this.newExprs.add( expr );
+
+	public void addNewExpression(Object expr) {
+		this.newExprs.add(expr);
 	}
 
-	public void addColumnBindings( List columnBindingList )
-	{
-		for( int i = 0; i < columnBindingList.size( ); i++ )
-		{
-			if( !this.columnBindings.contains( columnBindingList.get( i ) ))
-			{
-				this.columnBindings.add( columnBindingList.get( i ) );
+	public void addColumnBindings(List columnBindingList) {
+		for (int i = 0; i < columnBindingList.size(); i++) {
+			if (!this.columnBindings.contains(columnBindingList.get(i))) {
+				this.columnBindings.add(columnBindingList.get(i));
 			}
 		}
 	}
@@ -685,10 +556,9 @@ class TotalExprBinding implements ITotalExprBindings
 
 /**
  * A utility class for internal use only.
- * 
+ *
  */
-class ParseIndicator
-{
+class ParseIndicator {
 
 	private int retrieveSize;
 	private int newIndex;
@@ -697,9 +567,8 @@ class ParseIndicator
 	private boolean candidateKey1;
 	private boolean candidateKey2;
 
-	ParseIndicator( int retrieveSize, int newIndex, boolean isCandidateKey,
-			boolean omitNextQuote, boolean candidateKey1, boolean candidateKey2 )
-	{
+	ParseIndicator(int retrieveSize, int newIndex, boolean isCandidateKey, boolean omitNextQuote, boolean candidateKey1,
+			boolean candidateKey2) {
 		this.retrieveSize = retrieveSize;
 		this.newIndex = newIndex;
 		this.isCandidateKey = isCandidateKey;
@@ -708,34 +577,27 @@ class ParseIndicator
 		this.candidateKey2 = candidateKey2;
 	}
 
-	public int getRetrieveSize( )
-	{
+	public int getRetrieveSize() {
 		return this.retrieveSize;
 	}
 
-	public int getNewIndex( )
-	{
+	public int getNewIndex() {
 		return this.newIndex;
 	}
 
-	public boolean isCandidateKey( )
-	{
+	public boolean isCandidateKey() {
 		return this.isCandidateKey;
 	}
 
-	public boolean omitNextQuote( )
-	{
+	public boolean omitNextQuote() {
 		return this.omitNextQuote;
 	}
 
-	public boolean getCandidateKey1( )
-	{
+	public boolean getCandidateKey1() {
 		return this.candidateKey1;
 	}
 
-	public boolean getCandidateKey2( )
-	{
+	public boolean getCandidateKey2() {
 		return this.candidateKey2;
 	}
 }
-

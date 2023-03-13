@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,73 +22,67 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout;
 
-public class PDFTableRegionLM extends PDFTableLM
-		implements
-			IBlockStackingLayoutManager
+public class PDFTableRegionLM extends PDFTableLM implements IBlockStackingLayoutManager
 
 {
 	protected int groupLevel = 0;
-	
-	public PDFTableRegionLM( PDFLayoutEngineContext context, IContent content,
-			TableLayoutInfo layoutInfo, TableAreaLayout regionLayout )
-	{
-		super( context, null, content, null );
+
+	public PDFTableRegionLM(PDFLayoutEngineContext context, IContent content, TableLayoutInfo layoutInfo,
+			TableAreaLayout regionLayout) {
+		super(context, null, content, null);
 		this.layoutInfo = layoutInfo;
 		this.layout = regionLayout;
 	}
-	
-	protected int getGroupLevel()
-	{
+
+	@Override
+	protected int getGroupLevel() {
 		return groupLevel;
 	}
 
-	public void setGroupLevel(int groupLevel)
-	{
+	public void setGroupLevel(int groupLevel) {
 		this.groupLevel = groupLevel;
 	}
-	
-	public void initialize( ITableBandContent content ) throws BirtException
-	{
-		this.executor = new DOMReportItemExecutor( content );
-		this.executor.execute( );
+
+	public void initialize(ITableBandContent content) throws BirtException {
+		this.executor = new DOMReportItemExecutor(content);
+		this.executor.execute();
 		status = STATUS_START;
 	}
-	
-	protected void initialize()
-	{
-		super.initialize( );
-		maxAvaHeight = getAvaHeight( );
-		//this.layout.setUnresolvedRow( lastRow );
+
+	@Override
+	protected void initialize() {
+		super.initialize();
+		maxAvaHeight = getAvaHeight();
+		// this.layout.setUnresolvedRow( lastRow );
 	}
-	protected int getAvaHeight( )
-	{
+
+	protected int getAvaHeight() {
 		return Integer.MAX_VALUE;
 	}
 
-	protected void buildTableLayoutInfo( )
-	{
+	@Override
+	protected void buildTableLayoutInfo() {
 
 	}
-	
-	protected void closeLayout( )
-	{
+
+	@Override
+	protected void closeLayout() {
 		// FIXME
-		if ( root == null )
-		{
+		if (root == null) {
 			return;
 		}
 
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) );
+		root.setHeight(getCurrentBP() + getOffsetY());
 
 	}
 
-	protected IReportItemExecutor createExecutor( )
-	{
+	@Override
+	protected IReportItemExecutor createExecutor() {
 		return this.executor;
 	}
 
-	protected void repeat( )
-	{
+	@Override
+	protected void repeat() {
 
 	}
 }

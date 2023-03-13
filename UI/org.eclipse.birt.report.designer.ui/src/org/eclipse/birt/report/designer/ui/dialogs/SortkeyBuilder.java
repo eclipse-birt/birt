@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,15 +67,14 @@ import com.ibm.icu.util.ULocale;
 /**
  * SortkeyBuilder
  */
-public class SortkeyBuilder extends BaseTitleAreaDialog
-{
+public class SortkeyBuilder extends BaseTitleAreaDialog {
 
-	protected Logger logger = Logger.getLogger( SortkeyBuilder.class.getName( ) );
+	protected Logger logger = Logger.getLogger(SortkeyBuilder.class.getName());
 
-	public static final String DLG_TITLE_NEW = Messages.getString( "SortkeyBuilder.DialogTitle.New" ); //$NON-NLS-1$
-	public static final String DLG_MESSAGE_NEW = Messages.getString( "SortkeyBuilder.DialogMessage.New" ); //$NON-NLS-1$
-	public static final String DLG_TITLE_EDIT = Messages.getString( "SortkeyBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
-	public static final String DLG_MESSAGE_EDIT = Messages.getString( "SortkeyBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
+	public static final String DLG_TITLE_NEW = Messages.getString("SortkeyBuilder.DialogTitle.New"); //$NON-NLS-1$
+	public static final String DLG_MESSAGE_NEW = Messages.getString("SortkeyBuilder.DialogMessage.New"); //$NON-NLS-1$
+	public static final String DLG_TITLE_EDIT = Messages.getString("SortkeyBuilder.DialogTitle.Edit"); //$NON-NLS-1$
+	public static final String DLG_MESSAGE_EDIT = Messages.getString("SortkeyBuilder.DialogMessage.Edit"); //$NON-NLS-1$
 	protected SortKeyHandle sortKey;
 
 	protected DesignElementHandle handle;
@@ -87,33 +89,25 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	private static final String[] EMPTY = {};
 
 	public static final Map<String, Integer> STRENGTH_MAP;
 
-	static
-	{
-		STRENGTH_MAP = new HashMap<String, Integer>( );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.ASCII" ),
-				ISortDefinition.ASCII_SORT_STRENGTH );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.PRIMARY" ),
-				Collator.PRIMARY );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.SECONDARY" ),
-				Collator.SECONDARY );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.TERTIARY" ),
-				Collator.TERTIARY );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.QUATERNARY" ),
-				Collator.QUATERNARY );
-		STRENGTH_MAP.put( Messages.getString( "SortkeyBuilder.Strength.IDENTICAL" ),
-				Collator.IDENTICAL );
+	static {
+		STRENGTH_MAP = new HashMap<>();
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.ASCII"), ISortDefinition.ASCII_SORT_STRENGTH);
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.PRIMARY"), Collator.PRIMARY);
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.SECONDARY"), Collator.SECONDARY);
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.TERTIARY"), Collator.TERTIARY);
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.QUATERNARY"), Collator.QUATERNARY);
+		STRENGTH_MAP.put(Messages.getString("SortkeyBuilder.Strength.IDENTICAL"), Collator.IDENTICAL);
 	}
 
 	/**
 	 * @param title
 	 */
-	public SortkeyBuilder( String title, String message )
-	{
-		this( UIUtil.getDefaultShell( ), title, message );
+	public SortkeyBuilder(String title, String message) {
+		this(UIUtil.getDefaultShell(), title, message);
 	}
 
 	/**
@@ -126,191 +120,174 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 	private Combo comboStrength;
 
-	public SortkeyBuilder( Shell parentShell, String title, String message )
-	{
-		super( parentShell );
+	public SortkeyBuilder(Shell parentShell, String title, String message) {
+		super(parentShell);
 		this.title = title;
 		this.message = message;
-		choiceSet = ChoiceSetFactory.getStructChoiceSet( SortKey.SORT_STRUCT,
-				SortKey.DIRECTION_MEMBER );
+		choiceSet = ChoiceSetFactory.getStructChoiceSet(SortKey.SORT_STRUCT, SortKey.DIRECTION_MEMBER);
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		UIUtil.bindHelp( parent, IHelpContextIds.INSERT_EDIT_SORTKEY_DIALOG_ID );
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_SORTKEY_DIALOG_ID);
 
-		Composite area = (Composite) super.createDialogArea( parent );
-		Composite contents = new Composite( area, SWT.NONE );
-		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		contents.setLayout( new GridLayout( ) );
+		Composite area = (Composite) super.createDialogArea(parent);
+		Composite contents = new Composite(area, SWT.NONE);
+		contents.setLayoutData(new GridData(GridData.FILL_BOTH));
+		contents.setLayout(new GridLayout());
 
-		this.setTitle( title );
-		this.setMessage( message );
-		getShell( ).setText( title );
+		this.setTitle(title);
+		this.setMessage(message);
+		getShell().setText(title);
 
-		applyDialogFont( contents );
-		initializeDialogUnits( area );
-		createInputContents( contents );
+		applyDialogFont(contents);
+		initializeDialogUnits(area);
+		createInputContents(contents);
 
-		Composite space = new Composite( contents, SWT.NONE );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		Composite space = new Composite(contents, SWT.NONE);
+		GridData gdata = new GridData(GridData.FILL_HORIZONTAL);
 		gdata.heightHint = 10;
-		space.setLayoutData( gdata );
+		space.setLayoutData(gdata);
 
-		Label lb = new Label( contents, SWT.SEPARATOR | SWT.HORIZONTAL );
-		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Label lb = new Label(contents, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lb.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return area;
 	}
 
-	protected Composite createInputContents( Composite parent )
-	{
-		Label lb = new Label( parent, SWT.NONE );
-		lb.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Prompt" ) ); //$NON-NLS-1$
+	protected Composite createInputContents(Composite parent) {
+		Label lb = new Label(parent, SWT.NONE);
+		lb.setText(Messages.getString("SortkeyBuilder.DialogTitle.Label.Prompt")); //$NON-NLS-1$
 
-		Composite content = new Composite( parent, SWT.NONE );
-		content.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		GridLayout glayout = new GridLayout( 3, false );
-		content.setLayout( glayout );
+		Composite content = new Composite(parent, SWT.NONE);
+		content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		GridLayout glayout = new GridLayout(3, false);
+		content.setLayout(glayout);
 
-		Label labelKey = new Label( content, SWT.NONE );
-		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) ); //$NON-NLS-1$
-		comboKey = new Combo( content, SWT.BORDER );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		Label labelKey = new Label(content, SWT.NONE);
+		labelKey.setText(Messages.getString("SortkeyBuilder.DialogTitle.Label.Key")); //$NON-NLS-1$
+		comboKey = new Combo(content, SWT.BORDER);
+		GridData gdata = new GridData(GridData.FILL_HORIZONTAL);
 		gdata.widthHint = 240;
-		comboKey.setLayoutData( gdata );
-		comboKey.setVisibleItemCount( 30 );
-		comboKey.setItems( getDataSetColumns( ) );
-		if ( comboKey.getItemCount( ) == 0 )
-		{
-			comboKey.add( DEUtil.resolveNull( null ) );
+		comboKey.setLayoutData(gdata);
+		comboKey.setVisibleItemCount(30);
+		comboKey.setItems(getDataSetColumns());
+		if (comboKey.getItemCount() == 0) {
+			comboKey.add(DEUtil.resolveNull(null));
 		}
-		comboKey.addListener( SWT.Selection, comboKeyModify );
-		comboKey.addModifyListener( new ModifyListener( ) {
+		comboKey.addListener(SWT.Selection, comboKeyModify);
+		comboKey.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updateButtons();
 			}
-		} );
+		});
 
-		Listener listener = new Listener( ) {
+		Listener listener = new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				updateButtons( );
+			@Override
+			public void handleEvent(Event event) {
+				updateButtons();
 			}
 
 		};
-		ExpressionButtonUtil.createExpressionButton( content,
-				comboKey,
-				getExpressionProvider( ),
-				handle,
-				listener );
+		ExpressionButtonUtil.createExpressionButton(content, comboKey, getExpressionProvider(), handle, listener);
 
-		Label labelDirection = new Label( content, SWT.NONE );
-		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
+		Label labelDirection = new Label(content, SWT.NONE);
+		labelDirection.setText(Messages.getString("SortkeyBuilder.DialogTitle.Label.Direction")); //$NON-NLS-1$
 
-		comboDirection = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
-		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
-		comboDirection.setVisibleItemCount( 30 );
-		comboDirection.setItems( displayNames );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		comboDirection.setLayoutData( gdata );
+		comboDirection = new Combo(content, SWT.READ_ONLY | SWT.BORDER);
+		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet(choiceSet);
+		comboDirection.setVisibleItemCount(30);
+		comboDirection.setItems(displayNames);
+		gdata = new GridData(GridData.FILL_HORIZONTAL);
+		comboDirection.setLayoutData(gdata);
 
-		new Label( content, SWT.NONE );
-		Label labelLocale = new Label( content, SWT.NONE );
-		labelLocale.setText( Messages.getString( "SortkeyBuilder.Label.Locale" ) );
-		comboLocale = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		comboLocale.setLayoutData( gdata );
-		comboLocale.setVisibleItemCount( 30 );
-		List<String> localeNames = new ArrayList<String>( );
-		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) );
-		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
-		comboLocale.setItems( localeNames.toArray( new String[]{} ) );
-		comboLocale.select( 0 );
+		new Label(content, SWT.NONE);
+		Label labelLocale = new Label(content, SWT.NONE);
+		labelLocale.setText(Messages.getString("SortkeyBuilder.Label.Locale"));
+		comboLocale = new Combo(content, SWT.READ_ONLY | SWT.BORDER);
+		gdata = new GridData(GridData.FILL_HORIZONTAL);
+		comboLocale.setLayoutData(gdata);
+		comboLocale.setVisibleItemCount(30);
+		List<String> localeNames = new ArrayList<>();
+		localeNames.add(Messages.getString("SortkeyBuilder.Locale.Auto"));
+		localeNames.addAll(FormatAdapter.LOCALE_TABLE.keySet());
+		comboLocale.setItems(localeNames.toArray(new String[] {}));
+		comboLocale.select(0);
 
-		new Label( content, SWT.NONE );
-		Label labelStrength = new Label( content, SWT.NONE );
-		labelStrength.setText( Messages.getString( "SortkeyBuilder.Label.Strength" ) );
-		comboStrength = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		comboStrength.setLayoutData( gdata );
-		comboStrength.setVisibleItemCount( 30 );
-		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
-		Collections.sort( strengthNames, new Comparator<String>( ) {
+		new Label(content, SWT.NONE);
+		Label labelStrength = new Label(content, SWT.NONE);
+		labelStrength.setText(Messages.getString("SortkeyBuilder.Label.Strength"));
+		comboStrength = new Combo(content, SWT.READ_ONLY | SWT.BORDER);
+		gdata = new GridData(GridData.FILL_HORIZONTAL);
+		comboStrength.setLayoutData(gdata);
+		comboStrength.setVisibleItemCount(30);
+		List<String> strengthNames = new ArrayList<>(STRENGTH_MAP.keySet());
+		Collections.sort(strengthNames, new Comparator<String>() {
 
-			public int compare( String o1, String o2 )
-			{
-				return STRENGTH_MAP.get( o1 ) - STRENGTH_MAP.get( o2 );
+			@Override
+			public int compare(String o1, String o2) {
+				return STRENGTH_MAP.get(o1) - STRENGTH_MAP.get(o2);
 			}
-		} );
-		comboStrength.setItems( strengthNames.toArray( new String[]{} ) );
-		comboStrength.select( 0 );
+		});
+		comboStrength.setItems(strengthNames.toArray(new String[] {}));
+		comboStrength.select(0);
 
 		return content;
 	}
 
-	protected ExpressionProvider getExpressionProvider( )
-	{
-		return new ExpressionProvider( handle );
+	protected ExpressionProvider getExpressionProvider() {
+		return new ExpressionProvider(handle);
 	}
 
-	protected Listener comboKeyModify = new Listener( ) {
+	protected Listener comboKeyModify = new Listener() {
 
-		public void handleEvent( Event e )
-		{
+		@Override
+		public void handleEvent(Event e) {
 			assert e.widget instanceof Combo;
 			Combo combo = (Combo) e.widget;
-			String newValue = combo.getText( );
+			String newValue = combo.getText();
 
-			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( combo );
-			if ( converter != null )
-			{
-				String value = ExpressionUtility.getExpression( getResultSetColumn( newValue ),
-						converter );
-				if ( value != null )
+			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(combo);
+			if (converter != null) {
+				String value = ExpressionUtility.getExpression(getResultSetColumn(newValue), converter);
+				if (value != null) {
 					newValue = value;
+				}
 			}
 
-			combo.setText( newValue );
-			updateButtons( );
+			combo.setText(newValue);
+			updateButtons();
 		}
 	};
 
-	private Object getResultSetColumn( String name )
-	{
-		if ( columnList == null || columnList.isEmpty( ) )
-		{
+	private Object getResultSetColumn(String name) {
+		if (columnList == null || columnList.isEmpty()) {
 			return null;
 		}
-		for ( int i = 0; i < columnList.size( ); i++ )
-		{
-			ComputedColumnHandle column = columnList.get( i );
-			if ( column.getName( ).equals( name ) )
-			{
+		for (int i = 0; i < columnList.size(); i++) {
+			ComputedColumnHandle column = columnList.get(i);
+			if (column.getName().equals(name)) {
 				return column;
 			}
 		}
 		return null;
 	}
 
-	public int open( )
-	{
-		if ( getShell( ) == null )
-		{
+	@Override
+	public int open() {
+		if (getShell() == null) {
 			// create the window
-			create( );
+			create();
 		}
-		if ( initDialog( ) )
-		{
-			if ( Policy.TRACING_DIALOGS )
-			{
-				String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
-				System.out.println( "Dialog >> Open " //$NON-NLS-1$
-						+ result[result.length - 1] );
+		if (initDialog()) {
+			if (Policy.TRACING_DIALOGS) {
+				String[] result = this.getClass().getName().split("\\."); //$NON-NLS-1$
+				System.out.println("Dialog >> Open " //$NON-NLS-1$
+						+ result[result.length - 1]);
 			}
-			return super.open( );
+			return super.open();
 		}
 
 		return Dialog.CANCEL;
@@ -318,96 +295,80 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
-	 * ()
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
-	protected boolean initDialog( )
-	{
-		if ( sortKey == null )
-		{
-			comboKey.setText( "" ); //$NON-NLS-1$
-			comboDirection.select( 0 );
+	@Override
+	protected boolean initDialog() {
+		if (sortKey == null) {
+			comboKey.setText(""); //$NON-NLS-1$
+			comboDirection.select(0);
 			return true;
 		}
 
-		ExpressionButtonUtil.initExpressionButtonControl( comboKey,
-				sortKey,
-				SortKey.KEY_MEMBER );
+		ExpressionButtonUtil.initExpressionButtonControl(comboKey, sortKey, SortKey.KEY_MEMBER);
 
-		if ( sortKey.getDirection( ) != null
-				&& sortKey.getDirection( ).trim( ).length( ) != 0 )
-		{
-			String value = sortKey.getDirection( ).trim( );
-			IChoice choice = choiceSet.findChoice( value );
-			if ( choice != null )
-				value = choice.getDisplayName( );
+		if (sortKey.getDirection() != null && sortKey.getDirection().trim().length() != 0) {
+			String value = sortKey.getDirection().trim();
+			IChoice choice = choiceSet.findChoice(value);
+			if (choice != null) {
+				value = choice.getDisplayName();
+			}
 			int index;
-			index = comboDirection.indexOf( value );
+			index = comboDirection.indexOf(value);
 			index = index < 0 ? 0 : index;
-			comboDirection.select( index );
+			comboDirection.select(index);
 		}
 
-		if ( sortKey.getLocale( ) != null )
-		{
+		if (sortKey.getLocale() != null) {
 			String locale = null;
-			for ( Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet( ) )
-			{
-				if ( sortKey.getLocale( ).equals( entry.getValue( ) ) )
-				{
-					locale = entry.getKey( );
+			for (Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet()) {
+				if (sortKey.getLocale().equals(entry.getValue())) {
+					locale = entry.getKey();
 				}
 			}
-			if ( locale != null )
-			{
-				int index = comboLocale.indexOf( locale );
-				comboLocale.select( index < 0 ? 0 : index );
+			if (locale != null) {
+				int index = comboLocale.indexOf(locale);
+				comboLocale.select(index < 0 ? 0 : index);
 			}
 		}
 
 		String strength = null;
-		for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
-		{
-			if ( sortKey.getStrength( ) == entry.getValue( ) )
-			{
-				strength = entry.getKey( );
+		for (Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet()) {
+			if (sortKey.getStrength() == entry.getValue()) {
+				strength = entry.getKey();
 			}
 		}
-		if ( strength != null )
-		{
-			int index = comboStrength.indexOf( strength );
-			comboStrength.select( index < 0 ? 0 : index );
+		if (strength != null) {
+			int index = comboStrength.indexOf(strength);
+			comboStrength.select(index < 0 ? 0 : index);
 		}
-		updateButtons( );
+		updateButtons();
 		return true;
 	}
 
-	protected String[] getDataSetColumns( )
-	{
-		if ( columnList.isEmpty( ) )
-		{
+	protected String[] getDataSetColumns() {
+		if (columnList.isEmpty()) {
 			return EMPTY;
 		}
-		List<String> valueList = new ArrayList<String>( );
-		for ( int i = 0; i < columnList.size( ); i++ )
-		{
-			ComputedColumnHandle columnHandle = columnList.get( i );
-			if ( columnHandle.getAggregateFunction( ) == null )
-				valueList.add( columnHandle.getName( ) );
+		List<String> valueList = new ArrayList<>();
+		for (int i = 0; i < columnList.size(); i++) {
+			ComputedColumnHandle columnHandle = columnList.get(i);
+			if (columnHandle.getAggregateFunction() == null) {
+				valueList.add(columnHandle.getName());
+			}
 		}
-		return valueList.toArray( new String[valueList.size( )] );
+		return valueList.toArray(new String[valueList.size()]);
 	}
 
-	public void setHandle( DesignElementHandle handle )
-	{
+	public void setHandle(DesignElementHandle handle) {
 		this.handle = handle;
-		inilializeColumnList( handle );
+		inilializeColumnList(handle);
 	}
 
-	protected void inilializeColumnList( DesignElementHandle handle )
-	{
-		columnList = DEUtil.getVisiableColumnBindingsList( handle );
+	protected void inilializeColumnList(DesignElementHandle handle) {
+		columnList = DEUtil.getVisiableColumnBindingsList(handle);
 	}
 
 	/**
@@ -418,121 +379,90 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	 * Subclasses may override.
 	 * </p>
 	 */
-	protected void okPressed( )
-	{
-		String direction = comboDirection.getText( );
-		IChoice choice = choiceSet.findChoiceByDisplayName( direction );
-		if ( choice != null )
-			direction = choice.getDisplayName( );
+	@Override
+	protected void okPressed() {
+		String direction = comboDirection.getText();
+		IChoice choice = choiceSet.findChoiceByDisplayName(direction);
+		if (choice != null) {
+			direction = choice.getDisplayName();
+		}
 		int index;
-		index = comboDirection.indexOf( direction );
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( title );
-		try
-		{
-			if ( sortKey == null )
-			{
-				SortKey sortKey = StructureFactory.createSortKey( );
-				ExpressionButtonUtil.saveExpressionButtonControl( comboKey,
-						sortKey,
-						SortKey.KEY_MEMBER );
-				if ( index >= 0 )
-				{
-					sortKey.setDirection( choice.getName( ) );
+		index = comboDirection.indexOf(direction);
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(title);
+		try {
+			if (sortKey == null) {
+				SortKey sortKey = StructureFactory.createSortKey();
+				ExpressionButtonUtil.saveExpressionButtonControl(comboKey, sortKey, SortKey.KEY_MEMBER);
+				if (index >= 0) {
+					sortKey.setDirection(choice.getName());
 				}
 
-				String locale = comboLocale.getText( );
-				if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
-				{
-					sortKey.setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
-				}
-				else
-				{
-					sortKey.setLocale( null );
+				String locale = comboLocale.getText();
+				if (FormatAdapter.LOCALE_TABLE.containsKey(locale)) {
+					sortKey.setLocale(FormatAdapter.LOCALE_TABLE.get(locale));
+				} else {
+					sortKey.setLocale(null);
 				}
 
-				String strength = comboStrength.getText( );
-				if ( STRENGTH_MAP.containsKey( strength ) )
-				{
-					sortKey.setStrength( STRENGTH_MAP.get( strength ) );
-				}
-				else
-				{
-					sortKey.setStrength( ISortDefinition.ASCII_SORT_STRENGTH );
+				String strength = comboStrength.getText();
+				if (STRENGTH_MAP.containsKey(strength)) {
+					sortKey.setStrength(STRENGTH_MAP.get(strength));
+				} else {
+					sortKey.setStrength(ISortDefinition.ASCII_SORT_STRENGTH);
 				}
 
-				PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.SORT_PROP );
-				propertyHandle.addItem( sortKey );
-			}
-			else
-			{
+				PropertyHandle propertyHandle = handle.getPropertyHandle(ListingHandle.SORT_PROP);
+				propertyHandle.addItem(sortKey);
+			} else {
 				// edit
-				ExpressionButtonUtil.saveExpressionButtonControl( comboKey,
-						sortKey,
-						SortKey.KEY_MEMBER );
+				ExpressionButtonUtil.saveExpressionButtonControl(comboKey, sortKey, SortKey.KEY_MEMBER);
 
-				if ( index >= 0 )
-				{
-					sortKey.setDirection( choice.getName( ) );
+				if (index >= 0) {
+					sortKey.setDirection(choice.getName());
 				}
 
-				String locale = comboLocale.getText( );
-				if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
-				{
-					sortKey.setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
-				}
-				else
-				{
-					sortKey.setLocale( null );
+				String locale = comboLocale.getText();
+				if (FormatAdapter.LOCALE_TABLE.containsKey(locale)) {
+					sortKey.setLocale(FormatAdapter.LOCALE_TABLE.get(locale));
+				} else {
+					sortKey.setLocale(null);
 				}
 
-				String strength = comboStrength.getText( );
-				if ( STRENGTH_MAP.containsKey( strength ) )
-				{
-					sortKey.setStrength( STRENGTH_MAP.get( strength ) );
-				}
-				else
-				{
-					sortKey.setStrength( ISortDefinition.ASCII_SORT_STRENGTH );
+				String strength = comboStrength.getText();
+				if (STRENGTH_MAP.containsKey(strength)) {
+					sortKey.setStrength(STRENGTH_MAP.get(strength));
+				} else {
+					sortKey.setStrength(ISortDefinition.ASCII_SORT_STRENGTH);
 				}
 			}
 
-			stack.commit( );
+			stack.commit();
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e, Messages.getString("SortkeyBuilder.DialogTitle.Error.SetSortKey.Title"), //$NON-NLS-1$
+					e.getLocalizedMessage());
+			stack.rollback();
 		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e,
-					Messages.getString( "SortkeyBuilder.DialogTitle.Error.SetSortKey.Title" ), //$NON-NLS-1$
-					e.getLocalizedMessage( ) );
-			stack.rollback( );
-		}
-		super.okPressed( );
+		super.okPressed();
 	}
 
-	public boolean performCancel( )
-	{
+	public boolean performCancel() {
 		return true;
 	}
 
-	public boolean performOk( )
-	{
+	public boolean performOk() {
 		return true;
 	}
 
 	/**
 	 * Sets the model input.
-	 * 
+	 *
 	 * @param input
 	 */
-	public void setInput( Object input )
-	{
-		if ( input instanceof SortKeyHandle )
-		{
+	public void setInput(Object input) {
+		if (input instanceof SortKeyHandle) {
 			this.sortKey = (SortKeyHandle) input;
-		}
-		else
-		{
+		} else {
 			this.sortKey = null;
 		}
 
@@ -540,17 +470,15 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 	/**
 	 * Refreshes the OK button state.
-	 * 
+	 *
 	 */
-	protected void updateButtons( )
-	{
-		getButton( IDialogConstants.OK_ID ).setEnabled( isConditionOK( ) );
+	@Override
+	protected void updateButtons() {
+		getButton(IDialogConstants.OK_ID).setEnabled(isConditionOK());
 	}
 
-	protected boolean isConditionOK( )
-	{
-		if ( comboKey.getText( ).trim( ).length( ) == 0 )
-		{
+	protected boolean isConditionOK() {
+		if (comboKey.getText().trim().length() == 0) {
 			return false;
 		}
 		return true;

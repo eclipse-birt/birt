@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,215 +34,172 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ColumnHandleAdapter responds to model ColumnHandle
  */
-public class ColumnHandleAdapter extends DesignElementHandleAdapter
-{
+public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	public static final int DEFAULT_MINWIDTH = 20;
 
 	/**
 	 * Constructor
-	 * @param handle
-	 * 	The Columnhandle
+	 *
+	 * @param handle The Columnhandle
 	 */
-	public ColumnHandleAdapter( ColumnHandle column )
-	{
-		this( column, null );
+	public ColumnHandleAdapter(ColumnHandle column) {
+		this(column, null);
 	}
 
 	/**
 	 * Constructor
-	 * 
-	 * @param column
-	 * 	The columeHandle
-	 * @param mark
-	 * 	The help mark
+	 *
+	 * @param column The columeHandle
+	 * @param mark   The help mark
 	 */
-	public ColumnHandleAdapter( ColumnHandle column, IModelAdapterHelper mark )
-	{
-		super( column, mark );
+	public ColumnHandleAdapter(ColumnHandle column, IModelAdapterHelper mark) {
+		super(column, mark);
 	}
 
 	/**
 	 * Gets the width
-	 * 
+	 *
 	 * @return the width
 	 */
-	public int getWidth( )
-	{
-		DimensionHandle handle = getColumnHandle( ).getWidth( );
+	public int getWidth() {
+		DimensionHandle handle = getColumnHandle().getWidth();
 
-		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
-			Object obj = getTableParent( );
+		if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(handle.getUnits())) {
+			Object obj = getTableParent();
 
-			if ( obj instanceof GridHandle )
-			{
-				obj = HandleAdapterFactory.getInstance( )
-						.getGridHandleAdapter( obj );
-			}
-			else
-			{
-				obj = HandleAdapterFactory.getInstance( )
-						.getTableHandleAdapter( obj );
+			if (obj instanceof GridHandle) {
+				obj = HandleAdapterFactory.getInstance().getGridHandleAdapter(obj);
+			} else {
+				obj = HandleAdapterFactory.getInstance().getTableHandleAdapter(obj);
 			}
 
-			if ( obj instanceof TableHandleAdapter )
-			{
-				int containerWidth = ( (TableHandleAdapter) obj ).getClientAreaSize( ).width;
+			if (obj instanceof TableHandleAdapter) {
+				int containerWidth = ((TableHandleAdapter) obj).getClientAreaSize().width;
 
-				return (int) ( handle.getMeasure( ) * containerWidth / 100 );
+				return (int) (handle.getMeasure() * containerWidth / 100);
 			}
 		}
 
-		int px = (int) DEUtil.convertoToPixel( handle );
-		if ( px <= 0 )
-		{
-			if (handle.isSet( ))
-			{
+		int px = (int) DEUtil.convertoToPixel(handle);
+		if (px <= 0) {
+			if (handle.isSet()) {
 				return 1;
 			}
-			TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableParent( ) );
-			return adapter.getDefaultWidth( getColumnNumber( ) );
+			TableHandleAdapter adapter = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+			return adapter.getDefaultWidth(getColumnNumber());
 		}
 
 		return px;
 	}
 
 	/**
-	 * Returns the raw column with, if it's a fix value, covert it to Pixel
-	 * unit, if it's a relative value or none, retain it.
-	 * 
+	 * Returns the raw column with, if it's a fix value, covert it to Pixel unit, if
+	 * it's a relative value or none, retain it.
+	 *
 	 * @return The raw width
 	 */
-	public String getRawWidth( )
-	{
-		DimensionHandle handle = getColumnHandle( ).getWidth( );
+	public String getRawWidth() {
+		DimensionHandle handle = getColumnHandle().getWidth();
 
-		String unit = handle.getUnits( );
+		String unit = handle.getUnits();
 
-		if ( unit == null || unit.length( ) == 0 )
-		{
+		if (unit == null || unit.length() == 0) {
 			return ""; //$NON-NLS-1$
-		}
-		else if ( unit.equals( DesignChoiceConstants.UNITS_PERCENTAGE ) )
-		{
-			return String.valueOf( handle.getMeasure( ) ) + unit;
-		}
-		else
-		{
-			int px = (int) DEUtil.convertoToPixel( handle );
-			
-			if ( px <= 0 )
-			{
-				if (handle.isSet( ))
-				{
+		} else if (unit.equals(DesignChoiceConstants.UNITS_PERCENTAGE)) {
+			return String.valueOf(handle.getMeasure()) + unit;
+		} else {
+			int px = (int) DEUtil.convertoToPixel(handle);
+
+			if (px <= 0) {
+				if (handle.isSet()) {
 					px = 1;
-				}
-				else
-				{
-					TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-							.getTableHandleAdapter( getTableParent( ) );
-	
-					return String.valueOf( adapter.getDefaultWidth( getColumnNumber( ) ) );
+				} else {
+					TableHandleAdapter adapter = HandleAdapterFactory.getInstance()
+							.getTableHandleAdapter(getTableParent());
+
+					return String.valueOf(adapter.getDefaultWidth(getColumnNumber()));
 				}
 			}
 
-			return String.valueOf( px );
+			return String.valueOf(px);
 		}
 	}
 
 	/**
 	 * If the user define the row height
-	 * 
-	 * @return
-	 *  <code>true</code> if defined, else false
+	 *
+	 * @return <code>true</code> if defined, else false
 	 */
-	public boolean isCustomWidth( )
-	{
-		DimensionHandle handle = getColumnHandle( ).getWidth( );
-		return handle.getMeasure( ) > 0;
+	public boolean isCustomWidth() {
+		DimensionHandle handle = getColumnHandle().getWidth();
+		return handle.getMeasure() > 0;
 	}
 
 	/**
 	 * Gets the columns number
-	 * 
+	 *
 	 * @return column number
 	 */
-	public int getColumnNumber( )
-	{
+	public int getColumnNumber() {
 
-		TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableParent( ) );
-		return adapter.getColumns( ).indexOf( getColumnHandle( ) ) + 1;
+		TableHandleAdapter adapter = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+		return adapter.getColumns().indexOf(getColumnHandle()) + 1;
 	}
 
 	/**
 	 * Get table parent
-	 * @return
-	 * 	The table parent
+	 *
+	 * @return The table parent
 	 */
-	public Object getTableParent( )
-	{
-		DesignElementHandle element = getColumnHandle( ).getContainer( );
-		if ( element instanceof TableGroupHandle )
-		{
-			element = element.getContainer( );
+	public Object getTableParent() {
+		DesignElementHandle element = getColumnHandle().getContainer();
+		if (element instanceof TableGroupHandle) {
+			element = element.getContainer();
 		}
 		return element;
 	}
 
 	/**
 	 * Get column handle
-	 * @return
-	 *  The column handle
+	 *
+	 * @return The column handle
 	 */
-	private ColumnHandle getColumnHandle( )
-	{
-		return (ColumnHandle) getHandle( );
+	private ColumnHandle getColumnHandle() {
+		return (ColumnHandle) getHandle();
 	}
 
-	/**Set width
-	 * @param columnWidth
-	 *  Column width
+	/**
+	 * Set width
+	 *
+	 * @param columnWidth Column width
 	 * @throws SemanticException
 	 */
-	public void setWidth( int columnWidth, String units )
-			throws SemanticException
-	{
-		MetricUtility.updateDimension( getColumnHandle( ).getWidth( ),
-				columnWidth,
-				units );
+	public void setWidth(int columnWidth, String units) throws SemanticException {
+		MetricUtility.updateDimension(getColumnHandle().getWidth(), columnWidth, units);
 	}
 
-	public void setWidth( int columnWidth ) throws SemanticException
-	{
-		MetricUtility.updateDimension( getColumnHandle( ).getWidth( ),
-				columnWidth );
+	public void setWidth(int columnWidth) throws SemanticException {
+		MetricUtility.updateDimension(getColumnHandle().getWidth(), columnWidth);
 	}
 
 	/**
 	 * copy a column
-	 * 
+	 *
 	 * @returnSemanticException
 	 */
-	public Object copy( ) throws SemanticException
-	{
-		SlotHandle slotHandle = getColumnHandle( ).getContainerSlotHandle( );
+	public Object copy() throws SemanticException {
+		SlotHandle slotHandle = getColumnHandle().getContainerSlotHandle();
 
-		ColumnHandle retValue = slotHandle.getElementHandle( )
-				.getElementFactory( )
-				.newTableColumn( );
+		ColumnHandle retValue = slotHandle.getElementHandle().getElementFactory().newTableColumn();
 
-		Iterator iter = getColumnHandle( ).getPropertyIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyHandle handle = (PropertyHandle) iter.next( );
-			String key = handle.getDefn( ).getName( );
-			if ( handle.isLocal( ) )
-			{
-				//retValue.setProperty( key, getColumnHandle( ).getProperty( key ) );
-				getColumnHandle( ).copyPropertyTo( key, retValue );
+		Iterator iter = getColumnHandle().getPropertyIterator();
+		while (iter.hasNext()) {
+			PropertyHandle handle = (PropertyHandle) iter.next();
+			String key = handle.getDefn().getName();
+			if (handle.isLocal()) {
+				// retValue.setProperty( key, getColumnHandle( ).getProperty( key ) );
+				getColumnHandle().copyPropertyTo(key, retValue);
 			}
 		}
 		return retValue;

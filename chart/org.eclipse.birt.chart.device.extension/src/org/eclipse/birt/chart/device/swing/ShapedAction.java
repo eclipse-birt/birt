@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -30,76 +33,62 @@ import org.eclipse.birt.chart.model.data.Action;
  * This class provides a shape definition and an associated action that is
  * invoked when interaction occurs with a chart rendered on a SWING device.
  */
-public final class ShapedAction
-{
+public final class ShapedAction {
 
 	private final StructureSource _oSource;
 
 	private final Shape _sh;
 
-	private final Map<TriggerCondition, Action> _triggers = new HashMap<TriggerCondition, Action>();
+	private final Map<TriggerCondition, Action> _triggers = new HashMap<>();
 
 	private Cursor cursor;
-	
+
 	private int zOrder = 0;
 
 	/**
 	 * This constructor supports polygon shapes Future shapes (and corresponding
 	 * constructors) will be added later
-	 * 
+	 *
 	 * @param source
 	 * @param loa
 	 * @param clipping
 	 */
-	public ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
-	{
+	public ShapedAction(StructureSource oSource, Location[] loa, Shape clipping) {
 		_oSource = oSource;
-		if ( clipping != null )
-		{
-			Area ar1 = new Area( clipping );
-			Area ar2 = new Area( G2dRendererBase.getPolygon2D( loa ) );
-			ar2.intersect( ar1 );
+		if (clipping != null) {
+			Area ar1 = new Area(clipping);
+			Area ar2 = new Area(G2dRendererBase.getPolygon2D(loa));
+			ar2.intersect(ar1);
 			_sh = ar2;
-		}
-		else
-		{
-			_sh = G2dRendererBase.getPolygon2D( loa );
+		} else {
+			_sh = G2dRendererBase.getPolygon2D(loa);
 		}
 	}
 
-
 	/**
 	 * This constructor supports shape definition via an ellipse
-	 * 
+	 *
 	 * @param oSource
 	 * @param boEllipse
 	 * @param clipping
 	 */
-	public ShapedAction( StructureSource oSource, Bounds boEllipse,
-			Shape clipping )
-	{
+	public ShapedAction(StructureSource oSource, Bounds boEllipse, Shape clipping) {
 		_oSource = oSource;
-		if ( clipping != null )
-		{
-			Area ar1 = new Area( clipping );
-			Area ar2 = new Area( new Ellipse2D.Double( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ) ) );
-			ar2.intersect( ar1 );
+		if (clipping != null) {
+			Area ar1 = new Area(clipping);
+			Area ar2 = new Area(new Ellipse2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(),
+					boEllipse.getHeight()));
+			ar2.intersect(ar1);
 			_sh = ar2;
-		}
-		else
-		{
-			_sh = new Ellipse2D.Double( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ) );
+		} else {
+			_sh = new Ellipse2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(),
+					boEllipse.getHeight());
 		}
 	}
 
 	/**
 	 * This constructor supports shape definition via an elliptical arc
+	 *
 	 * @param oSource
 	 * @param boEllipse
 	 * @param dStart
@@ -107,111 +96,86 @@ public final class ShapedAction
 	 * @param iArcType
 	 * @param clipping
 	 */
-	public ShapedAction( StructureSource oSource, Bounds boEllipse,
-			double dStart,
-			double dExtent, int iArcType,  Shape clipping )
-	{
+	public ShapedAction(StructureSource oSource, Bounds boEllipse, double dStart, double dExtent, int iArcType,
+			Shape clipping) {
 		_oSource = oSource;
-		if ( clipping != null )
-		{
-			Area ar1 = new Area( clipping );
-			Area ar2 = new Area( new Arc2D.Double( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ),
-					dStart,
-					dExtent,
-					iArcType ) );
-			ar2.intersect( ar1 );
+		if (clipping != null) {
+			Area ar1 = new Area(clipping);
+			Area ar2 = new Area(new Arc2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(),
+					boEllipse.getHeight(), dStart, dExtent, iArcType));
+			ar2.intersect(ar1);
 			_sh = ar2;
-		}
-		else
-		{
-			_sh = new Arc2D.Double( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ),
-					dStart,
-					dExtent,
-					iArcType );
+		} else {
+			_sh = new Arc2D.Double(boEllipse.getLeft(), boEllipse.getTop(), boEllipse.getWidth(), boEllipse.getHeight(),
+					dStart, dExtent, iArcType);
 		}
 	}
 
-
 	/**
 	 * Returns the shape associated with current ShapedAction.
-	 * 
+	 *
 	 * @return shape
 	 */
-	public final Shape getShape( )
-	{
+	public Shape getShape() {
 		return _sh;
 	}
 
 	/**
 	 * Returns the action associated with current ShapedAction.
-	 * 
+	 *
 	 * @return action
 	 */
-	public final Action getActionForCondition( TriggerCondition condition )
-	{
-		return _triggers.get( condition );
+	public Action getActionForCondition(TriggerCondition condition) {
+		return _triggers.get(condition);
 	}
-
 
 	/**
 	 * Returns the source object associated with current ShapedAction.
-	 * 
+	 *
 	 * @return source object
 	 */
-	public final StructureSource getSource( )
-	{
+	public StructureSource getSource() {
 		return _oSource;
 	}
 
-	public void add( TriggerCondition tc, Action ac )
-	{
-		_triggers.put( tc, ac );
-		
+	public void add(TriggerCondition tc, Action ac) {
+		_triggers.put(tc, ac);
+
 	}
 
 	/**
 	 * Returns cursor.
-	 * 
+	 *
 	 * @return cursor
 	 */
-	public Cursor getCursor( )
-	{
+	public Cursor getCursor() {
 		return cursor;
 	}
-	
+
 	/**
 	 * Sets cursor.
-	 * 
+	 *
 	 * @param cursor
 	 */
-	public void setCursor( Cursor cursor )
-	{
+	public void setCursor(Cursor cursor) {
 		this.cursor = cursor;
 	}
 
 	/**
 	 * Returns z-order
-	 * 
+	 *
 	 * @return zOrder
 	 */
-	public int getZOrder( )
-	{
+	public int getZOrder() {
 		return zOrder;
 	}
 
 	/**
 	 * Sets z-order
-	 * 
+	 *
 	 * @param zOrder
 	 */
-	public void setZOrder( int zOrder )
-	{
+	public void setZOrder(int zOrder) {
 		this.zOrder = zOrder;
 	}
 }

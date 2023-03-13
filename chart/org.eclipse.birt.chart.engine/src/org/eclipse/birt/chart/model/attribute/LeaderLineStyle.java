@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -21,39 +24,37 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Leader Line Style</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type defines the forms of leader lines.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLeaderLineStyle()
  * @model
  * @generated
  */
 public enum LeaderLineStyle implements Enumerator {
 	/**
-	 * The '<em><b>Fixed Length</b></em>' literal object. <!--
-	 * begin-user-doc -->
+	 * The '<em><b>Fixed Length</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Fixed Length</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Fixed Length</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #FIXED_LENGTH
 	 * @generated
 	 * @ordered
 	 */
 	FIXED_LENGTH_LITERAL(0, "FixedLength", "Fixed_Length"),
 	/**
-	 * The '<em><b>Stretch To Side</b></em>' literal object. <!--
-	 * begin-user-doc -->
+	 * The '<em><b>Stretch To Side</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Stretch To Side</b></em>' literal object
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Stretch To Side</b></em>' literal object isn't
+	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRETCH_TO_SIDE
 	 * @generated
 	 * @ordered
@@ -61,9 +62,9 @@ public enum LeaderLineStyle implements Enumerator {
 	STRETCH_TO_SIDE_LITERAL(1, "StretchToSide", "Stretch_To_Side");
 
 	/**
-	 * The '<em><b>Fixed Length</b></em>' literal value. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The '<em><b>Fixed Length</b></em>' literal value. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
 	 * @see #FIXED_LENGTH_LITERAL
 	 * @model name="Fixed_Length"
 	 * @generated
@@ -72,9 +73,9 @@ public enum LeaderLineStyle implements Enumerator {
 	public static final int FIXED_LENGTH = 0;
 
 	/**
-	 * The '<em><b>Stretch To Side</b></em>' literal value. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The '<em><b>Stretch To Side</b></em>' literal value. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
 	 * @see #STRETCH_TO_SIDE_LITERAL
 	 * @model name="Stretch_To_Side"
 	 * @generated
@@ -83,33 +84,31 @@ public enum LeaderLineStyle implements Enumerator {
 	public static final int STRETCH_TO_SIDE = 1;
 
 	/**
-	 * An array of all the '<em><b>Leader Line Style</b></em>' enumerators.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * An array of all the '<em><b>Leader Line Style</b></em>' enumerators. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	private static final LeaderLineStyle[] VALUES_ARRAY = new LeaderLineStyle[]{
-			FIXED_LENGTH_LITERAL, STRETCH_TO_SIDE_LITERAL,
-	};
+	private static final LeaderLineStyle[] VALUES_ARRAY = { FIXED_LENGTH_LITERAL, STRETCH_TO_SIDE_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * A public read-only list of all the '<em><b>Leader Line Style</b></em>'
+	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static final List<LeaderLineStyle> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<LeaderLineStyle> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
+	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LeaderLineStyle get( String literal )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static LeaderLineStyle get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			LeaderLineStyle result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( literal ) )
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -117,18 +116,15 @@ public enum LeaderLineStyle implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
+	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LeaderLineStyle getByName( String name )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static LeaderLineStyle getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			LeaderLineStyle result = VALUES_ARRAY[i];
-			if ( result.getName( ).equals( name ) )
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -136,95 +132,92 @@ public enum LeaderLineStyle implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified
+	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static LeaderLineStyle get( int value )
-	{
-		switch ( value )
-		{
-			case FIXED_LENGTH :
-				return FIXED_LENGTH_LITERAL;
-			case STRETCH_TO_SIDE :
-				return STRETCH_TO_SIDE_LITERAL;
+	public static LeaderLineStyle get(int value) {
+		switch (value) {
+		case FIXED_LENGTH:
+			return FIXED_LENGTH_LITERAL;
+		case STRETCH_TO_SIDE:
+			return STRETCH_TO_SIDE_LITERAL;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @generated
 	 */
-	private LeaderLineStyle( int value, String name, String literal )
-	{
+	LeaderLineStyle(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public int getValue( )
-	{
+	@Override
+	public int getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getLiteral( )
-	{
+	@Override
+	public String getLiteral() {
 		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
+	public String toString() {
 		return literal;
 	}
 }

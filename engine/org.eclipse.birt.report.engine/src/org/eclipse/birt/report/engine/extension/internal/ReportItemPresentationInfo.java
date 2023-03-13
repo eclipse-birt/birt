@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.extension.internal;
 
@@ -11,8 +23,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public class ReportItemPresentationInfo implements IReportItemPresentationInfo
-{
+public class ReportItemPresentationInfo implements IReportItemPresentationInfo {
 
 	private ExtendedItemHandle modelHandle = null;
 	private IHTMLActionHandler ah = null;
@@ -24,109 +35,98 @@ public class ReportItemPresentationInfo implements IReportItemPresentationInfo
 	private IReportContext context = null;
 	private String supportedImageFormats = null;
 
-	public void setActionHandler( IHTMLActionHandler ah )
-	{
+	public void setActionHandler(IHTMLActionHandler ah) {
 		this.ah = ah;
 	}
 
-	public IHTMLActionHandler getActionHandler( )
-	{
+	@Override
+	public IHTMLActionHandler getActionHandler() {
 		return ah;
 	}
 
-	public void setApplicationClassLoader( ClassLoader loader )
-	{
+	public void setApplicationClassLoader(ClassLoader loader) {
 		this.loader = loader;
 	}
 
-	public ClassLoader getApplicationClassLoader( )
-	{
+	@Override
+	public ClassLoader getApplicationClassLoader() {
 		return loader;
 	}
 
-	public IStyle getDynamicStyle( )
-	{
-		if ( content != null )
-			return content.getComputedStyle( );
-		return null;
-	}
-
-	public void setExtendedItemContent( IContent content )
-	{
-		this.content = content;
-	}
-
-	public IContent getExtendedItemContent( )
-	{
-		return content;
-	}
-
-	public Locale getLocale( )
-	{
-		if ( context != null )
-		{
-			return context.getLocale( );
+	public IStyle getDynamicStyle() {
+		if (content != null) {
+			return content.getComputedStyle();
 		}
 		return null;
 	}
 
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
+	public void setExtendedItemContent(IContent content) {
+		this.content = content;
+	}
+
+	@Override
+	public IContent getExtendedItemContent() {
+		return content;
+	}
+
+	public Locale getLocale() {
+		if (context != null) {
+			return context.getLocale();
+		}
+		return null;
+	}
+
+	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
-	public ExtendedItemHandle getModelObject( )
-	{
+	@Override
+	public ExtendedItemHandle getModelObject() {
 		return modelHandle;
 	}
 
-	public void setOutputFormat( String outputFormat )
-	{
+	public void setOutputFormat(String outputFormat) {
 		this.outputFormat = outputFormat;
 	}
 
-	public String getOutputFormat( )
-	{
+	@Override
+	public String getOutputFormat() {
 		return outputFormat;
 	}
 
-	public void setReportQueries( IDataQueryDefinition[] queries )
-	{
+	public void setReportQueries(IDataQueryDefinition[] queries) {
 		this.queries = queries;
 	}
 
-	public IDataQueryDefinition[] getReportQueries( )
-	{
+	@Override
+	public IDataQueryDefinition[] getReportQueries() {
 		return queries;
 	}
 
-	public void setResolution( int dpi )
-	{
+	public void setResolution(int dpi) {
 		this.dpi = dpi;
 	}
 
-	public int getResolution( )
-	{
+	@Override
+	public int getResolution() {
 		return dpi;
 	}
 
-	public void setReportContext( IReportContext context )
-	{
+	public void setReportContext(IReportContext context) {
 		this.context = context;
 	}
 
-	public IReportContext getReportContext( )
-	{
+	@Override
+	public IReportContext getReportContext() {
 		return context;
 	}
 
-	public void setSupportedImageFormats( String supportedImageFormats )
-	{
+	public void setSupportedImageFormats(String supportedImageFormats) {
 		this.supportedImageFormats = supportedImageFormats;
 	}
 
-	public String getSupportedImageFormats( )
-	{
+	@Override
+	public String getSupportedImageFormats() {
 		return supportedImageFormats;
 	}
 }

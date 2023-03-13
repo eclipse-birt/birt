@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -11,9 +14,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-
-public class DefaultWordRecognizer implements IWordRecognizer
-{
+public class DefaultWordRecognizer implements IWordRecognizer {
 
 	final static char SPACE = ' ';
 
@@ -27,80 +28,65 @@ public class DefaultWordRecognizer implements IWordRecognizer
 
 	protected Word currentWord = null;
 
-	public DefaultWordRecognizer( String text )
-	{
+	public DefaultWordRecognizer(String text) {
 		this.text = text;
 
 	}
 
-	public int getLastWordEnd( )
-	{
-		return lastWord == null ? 0 : lastWord.getEnd( );
+	public int getLastWordEnd() {
+		return lastWord == null ? 0 : lastWord.getEnd();
 	}
 
-	public boolean hasWord()
-	{
-		return getLastWordEnd( ) != text.length( );
+	@Override
+	public boolean hasWord() {
+		return getLastWordEnd() != text.length();
 	}
-	
-	public Word getNextWord( )
-	{
+
+	@Override
+	public Word getNextWord() {
 		lastWord = currentWord;
-		if ( start > text.length( ) - 1 )
-		{
+		if (start > text.length() - 1) {
 			return null;
 		}
 
-		for ( int i = start; i < text.length( ); i++ )
-		{
-			char c = text.charAt( i );
-			if (  c == SPACE )
-			{
-				currentWord = new Word( text, start, i + 1 );
+		for (int i = start; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (c == SPACE) {
+				currentWord = new Word(text, start, i + 1);
 				start = i + 1;
 				return currentWord;
-			}
-			else
-			{
+			} else {
 				int lineBreakLength = getLineBreakLength(text, i);
-				if (lineBreakLength == 0)
+				if (lineBreakLength == 0) {
 					continue;
-				if(i==start)
-				{
+				}
+				if (i == start) {
 					currentWord = new Word(text, start, i + lineBreakLength);
 					start = i + lineBreakLength;
 					return currentWord;
-				}
-				else
-				{
-					currentWord = new Word( text, start, i );
+				} else {
+					currentWord = new Word(text, start, i);
 					start = i;
 					return currentWord;
 				}
 			}
 		}
-		currentWord = new Word( text, start, text.length( ) );
-		start = text.length( );
+		currentWord = new Word(text, start, text.length());
+		start = text.length();
 
 		return currentWord;
 
 	}
 
-	private int getLineBreakLength( String text, int index )
-	{
+	private int getLineBreakLength(String text, int index) {
 		char c = text.charAt(index);
-		if ( c == '\n' )
-		{
+		if (c == '\n') {
 			return 1;
 		}
-		if ( c == '\r')
-		{
-			if ( index + 1 < text.length() && text.charAt(index + 1) == '\n' )
-			{
+		if (c == '\r') {
+			if (index + 1 < text.length() && text.charAt(index + 1) == '\n') {
 				return 2;
-			}
-			else
-			{
+			} else {
 				return 1;
 			}
 		}

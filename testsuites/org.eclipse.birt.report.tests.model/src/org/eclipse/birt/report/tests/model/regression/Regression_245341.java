@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -15,8 +18,10 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
- * <b>Bug description: </b> 
- * <p>Exception was thrown out when move library to sub-folder.</p>
+ * <b>Bug description: </b>
+ * <p>
+ * Exception was thrown out when move library to sub-folder.
+ * </p>
  * <b> Test description:</b>
  * <p>
  * Make sure correct exception is thrown out instead of design syntax error
@@ -30,10 +35,9 @@ public class Regression_245341 extends BaseTestCase {
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
-	public void test_regression_117978() throws DesignFileException,
-			SemanticException {
+	public void test_regression_117978() throws DesignFileException, SemanticException {
 		openDesign(INPUT);
 		ModuleHandle moduleHandle = designHandle.getModuleHandle();
 		try {

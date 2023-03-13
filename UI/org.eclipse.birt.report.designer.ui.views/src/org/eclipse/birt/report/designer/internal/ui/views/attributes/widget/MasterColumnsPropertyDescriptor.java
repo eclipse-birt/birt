@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,15 +36,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * 
+ *
  */
 
-public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
-{
+public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
 
-	public MasterColumnsPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public MasterColumnsPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
 	private Composite content;
@@ -51,260 +52,217 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 	private Button customColumnsButton;
 	private Spinner spinner;
 
-	SelectionAdapter listener = new SelectionAdapter( ) {
+	SelectionAdapter listener = new SelectionAdapter() {
 
-		public void widgetSelected( SelectionEvent e )
-		{
-			if ( ( (Button) e.widget ).getSelection( ) )
-				checkButtonSelection( (Button) e.widget, true );
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			if (((Button) e.widget).getSelection()) {
+				checkButtonSelection((Button) e.widget, true);
+			}
 		}
 
 	};
 
-	public Control createControl( Composite parent )
-	{
-		content = new Composite( parent, SWT.NONE );
+	@Override
+	public Control createControl(Composite parent) {
+		content = new Composite(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 8;
-		content.setLayout( layout );
+		content.setLayout(layout);
 
-		GridData spanGd = new GridData( );
+		GridData spanGd = new GridData();
 		spanGd.widthHint = 40;
 		spanGd.verticalSpan = 2;
 
-		oneColumnsButton = FormWidgetFactory.getInstance( )
-				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		oneColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.OneColumn" ) ); //$NON-NLS-1$
-		oneColumnsButton.addKeyListener( new KeyAdapter( ) {
-		} );
-		oneColumnsButton.addSelectionListener( listener );
+		oneColumnsButton = FormWidgetFactory.getInstance().createButton(content, SWT.RADIO, isFormStyle());
+		oneColumnsButton.setText(Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.OneColumn")); //$NON-NLS-1$
+		oneColumnsButton.addKeyListener(new KeyAdapter() {
+		});
+		oneColumnsButton.addSelectionListener(listener);
 
-		FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) )
-				.setLayoutData( spanGd );
+		FormWidgetFactory.getInstance().createLabel(content, isFormStyle()).setLayoutData(spanGd);
 
-		twoColumnsButton = FormWidgetFactory.getInstance( )
-				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		twoColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.TwoColumns" ) ); //$NON-NLS-1$
-		twoColumnsButton.addSelectionListener( listener );
-		twoColumnsButton.addKeyListener( new KeyAdapter( ) {
-		} );
+		twoColumnsButton = FormWidgetFactory.getInstance().createButton(content, SWT.RADIO, isFormStyle());
+		twoColumnsButton.setText(Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.TwoColumns")); //$NON-NLS-1$
+		twoColumnsButton.addSelectionListener(listener);
+		twoColumnsButton.addKeyListener(new KeyAdapter() {
+		});
 
-		FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) )
-				.setLayoutData( spanGd );
+		FormWidgetFactory.getInstance().createLabel(content, isFormStyle()).setLayoutData(spanGd);
 
-		threeColumnsButton = FormWidgetFactory.getInstance( )
-				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		threeColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns" ) ); //$NON-NLS-1$
-		threeColumnsButton.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		threeColumnsButton.addSelectionListener( listener );
-		threeColumnsButton.addKeyListener( new KeyAdapter( ) {
-		} );
+		threeColumnsButton = FormWidgetFactory.getInstance().createButton(content, SWT.RADIO, isFormStyle());
+		threeColumnsButton.setText(Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns")); //$NON-NLS-1$
+		threeColumnsButton.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		threeColumnsButton.addSelectionListener(listener);
+		threeColumnsButton.addKeyListener(new KeyAdapter() {
+		});
 
-		FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) )
-				.setLayoutData( spanGd );
+		FormWidgetFactory.getInstance().createLabel(content, isFormStyle()).setLayoutData(spanGd);
 
-		customColumnsButton = FormWidgetFactory.getInstance( )
-				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		customColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.Custom" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
+		customColumnsButton = FormWidgetFactory.getInstance().createButton(content, SWT.RADIO, isFormStyle());
+		customColumnsButton.setText(Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.Custom")); //$NON-NLS-1$
+		GridData gd = new GridData();
 		gd.horizontalSpan = 2;
-		customColumnsButton.setLayoutData( gd );
-		customColumnsButton.addSelectionListener( listener );
-		customColumnsButton.addKeyListener( new KeyAdapter( ) {
-		} );
+		customColumnsButton.setLayoutData(gd);
+		customColumnsButton.addSelectionListener(listener);
+		customColumnsButton.addKeyListener(new KeyAdapter() {
+		});
 
-		Label oneColumnLabel = FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) );
-		oneColumnLabel.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_ONE_COLUMN ) );
+		Label oneColumnLabel = FormWidgetFactory.getInstance().createLabel(content, isFormStyle());
+		oneColumnLabel.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ATTRIBUTE_ONE_COLUMN));
 
-		Label twoColumnLabel = FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) );
-		twoColumnLabel.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_TWO_COLUMNS ) );
+		Label twoColumnLabel = FormWidgetFactory.getInstance().createLabel(content, isFormStyle());
+		twoColumnLabel.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ATTRIBUTE_TWO_COLUMNS));
 
-		Label threeColumnLabel = FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) );
-		threeColumnLabel.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_THTREE_COLUMNS ) );
+		Label threeColumnLabel = FormWidgetFactory.getInstance().createLabel(content, isFormStyle());
+		threeColumnLabel
+				.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ATTRIBUTE_THTREE_COLUMNS));
 
-		Label customNumberLabel = FormWidgetFactory.getInstance( )
-				.createLabel( content, isFormStyle( ) );
-		customNumberLabel.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		customNumberLabel.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Combo.Text.Column.Number" ) ); //$NON-NLS-1$
-		if ( isFormStyle( ) )
-		{
-			spinner = FormWidgetFactory.getInstance( ).createSpinner( content,
-					SWT.NONE );
+		Label customNumberLabel = FormWidgetFactory.getInstance().createLabel(content, isFormStyle());
+		customNumberLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		customNumberLabel.setText(Messages.getString("MasterColumnsPropertyDescriptor.Combo.Text.Column.Number")); //$NON-NLS-1$
+		if (isFormStyle()) {
+			spinner = FormWidgetFactory.getInstance().createSpinner(content, SWT.NONE);
+		} else {
+			spinner = new Spinner(content, SWT.BORDER);
 		}
-		else
-			spinner = new Spinner( content, SWT.BORDER );
-		spinner.setEnabled( false );
-		spinner.addFocusListener( new FocusAdapter( ) {
+		spinner.setEnabled(false);
+		spinner.addFocusListener(new FocusAdapter() {
 
-			public void focusLost( FocusEvent e )
-			{
-				if ( customColumnsButton.getSelection( ) )
-				{
-					try
-					{
-						save( spinner.getText( ) );
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionUtil.handle( e1 );
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (customColumnsButton.getSelection()) {
+					try {
+						save(spinner.getText());
+					} catch (SemanticException e1) {
+						ExceptionUtil.handle(e1);
 					}
 				}
 			}
 
-		} );
-		gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		});
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 60;
-		spinner.setLayoutData( gd );
-		spinner.setMinimum( 4 );
+		spinner.setLayoutData(gd);
+		spinner.setMinimum(4);
 		return content;
 	}
 
-	private void checkButtonSelection( Button button )
-	{
-		checkButtonSelection( button, false );
+	private void checkButtonSelection(Button button) {
+		checkButtonSelection(button, false);
 	}
 
-	private void checkButtonSelection( Button button, boolean save )
-	{
-		try
-		{
-			if ( oneColumnsButton == button && oneColumnsButton.getSelection( ) )
-			{
-				oneColumnsButton.setSelection( true );
-				twoColumnsButton.setSelection( false );
-				threeColumnsButton.setSelection( false );
-				customColumnsButton.setSelection( false );
-				spinner.setEnabled( false );
-				if ( save )
-					save( MasterColumnsDescriptorProvider.ONE_COLUMN );
+	private void checkButtonSelection(Button button, boolean save) {
+		try {
+			if (oneColumnsButton == button && oneColumnsButton.getSelection()) {
+				oneColumnsButton.setSelection(true);
+				twoColumnsButton.setSelection(false);
+				threeColumnsButton.setSelection(false);
+				customColumnsButton.setSelection(false);
+				spinner.setEnabled(false);
+				if (save) {
+					save(MasterColumnsDescriptorProvider.ONE_COLUMN);
+				}
+			} else if (twoColumnsButton == button && twoColumnsButton.getSelection()) {
+				twoColumnsButton.setSelection(true);
+				oneColumnsButton.setSelection(false);
+				threeColumnsButton.setSelection(false);
+				customColumnsButton.setSelection(false);
+				spinner.setEnabled(false);
+				if (save) {
+					save(MasterColumnsDescriptorProvider.TWO_COLUMNS);
+				}
+			} else if (threeColumnsButton == button && threeColumnsButton.getSelection()) {
+				threeColumnsButton.setSelection(true);
+				oneColumnsButton.setSelection(false);
+				twoColumnsButton.setSelection(false);
+				customColumnsButton.setSelection(false);
+				spinner.setEnabled(false);
+				if (save) {
+					save(MasterColumnsDescriptorProvider.THREE_COLUMNS);
+				}
+			} else if (customColumnsButton == button && customColumnsButton.getSelection()) {
+				customColumnsButton.setSelection(true);
+				oneColumnsButton.setSelection(false);
+				twoColumnsButton.setSelection(false);
+				threeColumnsButton.setSelection(false);
+				spinner.setEnabled(true);
+				if (save) {
+					save(spinner.getText());
+				}
 			}
-			else if ( twoColumnsButton == button
-					&& twoColumnsButton.getSelection( ) )
-			{
-				twoColumnsButton.setSelection( true );
-				oneColumnsButton.setSelection( false );
-				threeColumnsButton.setSelection( false );
-				customColumnsButton.setSelection( false );
-				spinner.setEnabled( false );
-				if ( save )
-					save( MasterColumnsDescriptorProvider.TWO_COLUMNS );
-			}
-			else if ( threeColumnsButton == button
-					&& threeColumnsButton.getSelection( ) )
-			{
-				threeColumnsButton.setSelection( true );
-				oneColumnsButton.setSelection( false );
-				twoColumnsButton.setSelection( false );
-				customColumnsButton.setSelection( false );
-				spinner.setEnabled( false );
-				if ( save )
-					save( MasterColumnsDescriptorProvider.THREE_COLUMNS );
-			}
-			else if ( customColumnsButton == button
-					&& customColumnsButton.getSelection( ) )
-			{
-				customColumnsButton.setSelection( true );
-				oneColumnsButton.setSelection( false );
-				twoColumnsButton.setSelection( false );
-				threeColumnsButton.setSelection( false );
-				spinner.setEnabled( true );
-				if ( save )
-					save( spinner.getText( ) );
-			}
-		}
-		catch ( SemanticException e1 )
-		{
-			ExceptionUtil.handle( e1 );
+		} catch (SemanticException e1) {
+			ExceptionUtil.handle(e1);
 		}
 	}
 
-	public Control getControl( )
-	{
+	@Override
+	public Control getControl() {
 		return content;
 	}
 
-	public void load( )
-	{
-		if ( getDescriptorProvider( ) != null )
-		{
+	@Override
+	public void load() {
+		if (getDescriptorProvider() != null) {
 
-			Object value = getDescriptorProvider( ).load( );
-			if ( value != null )
-			{
-				try
-				{
-					int columns = Integer.parseInt( value.toString( ) );
-					if ( columns == 1 )
-					{
-						oneColumnsButton.setSelection( true );
-						checkButtonSelection( oneColumnsButton );
+			Object value = getDescriptorProvider().load();
+			if (value != null) {
+				try {
+					int columns = Integer.parseInt(value.toString());
+					if (columns == 1) {
+						oneColumnsButton.setSelection(true);
+						checkButtonSelection(oneColumnsButton);
+					} else if (columns == 2) {
+						twoColumnsButton.setSelection(true);
+						checkButtonSelection(twoColumnsButton);
+					} else if (columns == 3) {
+						threeColumnsButton.setSelection(true);
+						checkButtonSelection(threeColumnsButton);
+					} else if (columns > 1) {
+						customColumnsButton.setSelection(true);
+						spinner.setSelection(columns);
+						spinner.setEnabled(true);
+						checkButtonSelection(customColumnsButton);
+					} else {
+						oneColumnsButton.setSelection(true);
+						checkButtonSelection(oneColumnsButton);
 					}
-					else if ( columns == 2 )
-					{
-						twoColumnsButton.setSelection( true );
-						checkButtonSelection( twoColumnsButton );
-					}
-					else if ( columns == 3 )
-					{
-						threeColumnsButton.setSelection( true );
-						checkButtonSelection( threeColumnsButton );
-					}
-					else if ( columns > 1 )
-					{
-						customColumnsButton.setSelection( true );
-						spinner.setSelection( columns );
-						spinner.setEnabled( true );
-						checkButtonSelection( customColumnsButton );
-					}
-					else
-					{
-						oneColumnsButton.setSelection( true );
-						checkButtonSelection( oneColumnsButton );
-					}
+				} catch (NumberFormatException e) {
+					oneColumnsButton.setSelection(true);
+					checkButtonSelection(oneColumnsButton);
 				}
-				catch ( NumberFormatException e )
-				{
-					oneColumnsButton.setSelection( true );
-					checkButtonSelection( oneColumnsButton );
-				}
+			} else {
+				oneColumnsButton.setSelection(true);
+				checkButtonSelection(oneColumnsButton);
 			}
-			else
-			{
-				oneColumnsButton.setSelection( true );
-				checkButtonSelection( oneColumnsButton );
-			}
-			spinner.setEnabled( customColumnsButton.getSelection( ) );
+			spinner.setEnabled(customColumnsButton.getSelection());
 
 		}
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		if ( oneColumnsButton.getSelection( ) )
-			getDescriptorProvider( ).save( MasterColumnsDescriptorProvider.ONE_COLUMN );
-		if ( twoColumnsButton.getSelection( ) )
-			getDescriptorProvider( ).save( MasterColumnsDescriptorProvider.TWO_COLUMNS );
-		if ( threeColumnsButton.getSelection( ) )
-			getDescriptorProvider( ).save( MasterColumnsDescriptorProvider.THREE_COLUMNS );
-		else if ( customColumnsButton.getSelection( ) )
-		{
-			if ( spinner.getText( ).trim( ).length( ) == 0 )
-				getDescriptorProvider( ).save( null );
-			else
-				getDescriptorProvider( ).save( spinner.getText( ).trim( ) );
+	@Override
+	public void save(Object obj) throws SemanticException {
+		if (oneColumnsButton.getSelection()) {
+			getDescriptorProvider().save(MasterColumnsDescriptorProvider.ONE_COLUMN);
+		}
+		if (twoColumnsButton.getSelection()) {
+			getDescriptorProvider().save(MasterColumnsDescriptorProvider.TWO_COLUMNS);
+		}
+		if (threeColumnsButton.getSelection()) {
+			getDescriptorProvider().save(MasterColumnsDescriptorProvider.THREE_COLUMNS);
+		} else if (customColumnsButton.getSelection()) {
+			if (spinner.getText().trim().length() == 0) {
+				getDescriptorProvider().save(null);
+			} else {
+				getDescriptorProvider().save(spinner.getText().trim());
+			}
 		}
 	}
 
-	public void setInput( Object handle )
-	{
-		getDescriptorProvider( ).setInput( handle );
+	@Override
+	public void setInput(Object handle) {
+		getDescriptorProvider().setInput(handle);
 	}
 
 }

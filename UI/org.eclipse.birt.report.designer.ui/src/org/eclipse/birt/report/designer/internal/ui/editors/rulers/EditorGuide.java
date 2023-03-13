@@ -1,13 +1,13 @@
 /*******************************************************************************
 * Copyright (c) 2004 Actuate Corporation .
 * All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
+* are made available under the terms of the Eclipse Public License v2.0
 * which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
+* http://www.eclipse.org/legal/epl-2.0.html
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
@@ -22,18 +22,17 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
-
 /**
  * add comment here
- * 
+ *
  */
-public class EditorGuide
-{
+public class EditorGuide {
 
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
 	/**
-	 * Property used to notify listeners when the parts attached to a guide are changed
+	 * Property used to notify listeners when the parts attached to a guide are
+	 * changed
 	 */
 	public static final String PROPERTY_CHILDREN = "subparts changed"; //$NON-NLS-1$
 	/**
@@ -42,20 +41,18 @@ public class EditorGuide
 	public static final String PROPERTY_POSITION = "position changed"; //$NON-NLS-1$
 
 	static final long serialVersionUID = 1;
-		
+
 	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 	private Map map;
 	private int position;
 	private boolean horizontal;
 	private int direction;
 
-	
-
 	/**
 	 * Constructor
-	 * 
-	 * @param	isHorizontal	<code>true</code> if the guide is horizontal (i.e., placed on
-	 * 							a vertical ruler)
+	 *
+	 * @param isHorizontal <code>true</code> if the guide is horizontal (i.e.,
+	 *                     placed on a vertical ruler)
 	 */
 	public EditorGuide(boolean isHorizontal, int direction) {
 		setHorizontal(isHorizontal);
@@ -63,34 +60,36 @@ public class EditorGuide
 	}
 
 	/**
-	 * @see	PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+	 * @see PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		listeners.addPropertyChangeListener(listener);
 	}
 
-
 	/**
-	 * This methods returns the edge along which the given part is attached to this guide.
-	 * This information is used by 
-	 * {@link org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy LogicXYLayoutEditPolicy}
-	 * to determine whether to attach or detach a part from a guide during resize operations.
-	 * 
-	 * @param	part	The part whose alignment has to be found
-	 * @return	an int representing the edge along which the given part is attached to this 
-	 * 			guide; 1 is bottom or right; 0, center; -1, top or left; -2 if the part is not
-	 * 			attached to this guide
-	 * @see		org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy#createChangeConstraintCommand(ChangeBoundsRequest, EditPart, Object)
+	 * This methods returns the edge along which the given part is attached to this
+	 * guide. This information is used by
+	 * {@link org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy
+	 * LogicXYLayoutEditPolicy} to determine whether to attach or detach a part from
+	 * a guide during resize operations.
+	 *
+	 * @param part The part whose alignment has to be found
+	 * @return an int representing the edge along which the given part is attached
+	 *         to this guide; 1 is bottom or right; 0, center; -1, top or left; -2
+	 *         if the part is not attached to this guide
+	 * @see org.eclipse.gef.examples.logicdesigner.edit.LogicXYLayoutEditPolicy#createChangeConstraintCommand(ChangeBoundsRequest,
+	 *      EditPart, Object)
 	 */
 	public int getAlignment(EditorRuler part) {
-		if (getMap().get(part) != null)
-			return ((Integer)getMap().get(part)).intValue();
+		if (getMap().get(part) != null) {
+			return ((Integer) getMap().get(part)).intValue();
+		}
 		return -2;
 	}
 
 	/**
-	 * @return	The Map containing all the parts attached to this guide, and their alignments;
-	 * 			the keys are LogicSubparts and values are Integers
+	 * @return The Map containing all the parts attached to this guide, and their
+	 *         alignments; the keys are LogicSubparts and values are Integers
 	 */
 	public Map getMap() {
 		if (map == null) {
@@ -100,29 +99,30 @@ public class EditorGuide
 	}
 
 	/**
-	 * @return	the set of all the parts attached to this guide; a set is used because a part
-	 * 			can only be attached to a guide along one edge.
+	 * @return the set of all the parts attached to this guide; a set is used
+	 *         because a part can only be attached to a guide along one edge.
 	 */
 	public Set getParts() {
 		return getMap().keySet();
 	}
 
 	/**
-	 * @return	the position/location of the guide (in pixels)
+	 * @return the position/location of the guide (in pixels)
 	 */
 	public int getPosition() {
 		return position;
 	}
 
 	/**
-	 * @return	<code>true</code> if the guide is horizontal (i.e., placed on a vertical ruler)
+	 * @return <code>true</code> if the guide is horizontal (i.e., placed on a
+	 *         vertical ruler)
 	 */
 	public boolean isHorizontal() {
 		return horizontal;
 	}
 
 	/**
-	 * @see	PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
+	 * @see PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		listeners.removePropertyChangeListener(listener);
@@ -130,9 +130,9 @@ public class EditorGuide
 
 	/**
 	 * Sets the orientation of the guide
-	 * 
-	 * @param	isHorizontal	<code>true</code> if this guide is to be placed on a vertical
-	 * 							ruler
+	 *
+	 * @param isHorizontal <code>true</code> if this guide is to be placed on a
+	 *                     vertical ruler
 	 */
 	public void setHorizontal(boolean isHorizontal) {
 		horizontal = isHorizontal;
@@ -140,70 +140,52 @@ public class EditorGuide
 
 	/**
 	 * Sets the location of the guide
-	 * 
-	 * @param	offset		The location of the guide (in pixels)
+	 *
+	 * @param offset The location of the guide (in pixels)
 	 */
 	public void setPosition(int offset) {
 		if (position != offset) {
 			int oldValue = position;
 			position = offset;
-			listeners.firePropertyChange(PROPERTY_POSITION, Integer.valueOf(oldValue), 
-					Integer.valueOf(position));
+			listeners.firePropertyChange(PROPERTY_POSITION, Integer.valueOf(oldValue), Integer.valueOf(position));
 		}
 	}
 
 	/**
 	 * @return Returns the direction.
 	 */
-	public int getDirection( )
-	{
+	public int getDirection() {
 		return direction;
 	}
+
 	/**
 	 * @param direction The direction to set.
 	 */
-	public void setDirection( int direction )
-	{
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-	
-	public String getPropertyName()
-	{
-		if (getDirection() == LEFT && !isHorizontal())
-		{
+
+	public String getPropertyName() {
+		if (getDirection() == LEFT && !isHorizontal()) {
 			return MasterPageHandle.LEFT_MARGIN_PROP;
-		}
-		else if (getDirection() == RIGHT && !isHorizontal())
-		{
+		} else if (getDirection() == RIGHT && !isHorizontal()) {
 			return MasterPageHandle.RIGHT_MARGIN_PROP;
-		}
-		else if (getDirection() == LEFT && isHorizontal())
-		{
+		} else if (getDirection() == LEFT && isHorizontal()) {
 			return MasterPageHandle.TOP_MARGIN_PROP;
-		}
-		else if (getDirection() == RIGHT && isHorizontal())
-		{
+		} else if (getDirection() == RIGHT && isHorizontal()) {
 			return MasterPageHandle.BOTTOM_MARGIN_PROP;
 		}
 		return null;
 	}
-	
-	public String getPrefixLabel()
-	{
-		if (getDirection() == LEFT && !isHorizontal())
-		{
+
+	public String getPrefixLabel() {
+		if (getDirection() == LEFT && !isHorizontal()) {
 			return Messages.getString("EditorGuide.left.label"); //$NON-NLS-1$
-		}
-		else if (getDirection() == RIGHT && !isHorizontal())
-		{
+		} else if (getDirection() == RIGHT && !isHorizontal()) {
 			return Messages.getString("EditorGuide.right.label"); //$NON-NLS-1$
-		}
-		else if (getDirection() == LEFT && isHorizontal())
-		{
+		} else if (getDirection() == LEFT && isHorizontal()) {
 			return Messages.getString("EditorGuide.top.label"); //$NON-NLS-1$
-		}
-		else if (getDirection() == RIGHT && isHorizontal())
-		{
+		} else if (getDirection() == RIGHT && isHorizontal()) {
 			return Messages.getString("EditorGuide.bottom.label"); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$

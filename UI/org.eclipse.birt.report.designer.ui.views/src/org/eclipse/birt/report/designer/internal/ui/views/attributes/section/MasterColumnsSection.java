@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
@@ -10,99 +22,92 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class MasterColumnsSection extends Section
-{
+public class MasterColumnsSection extends Section {
 
-	public MasterColumnsSection( Composite parent, boolean isFormStyle )
-	{
-		super( " ", parent, isFormStyle ); //$NON-NLS-1$
+	public MasterColumnsSection(Composite parent, boolean isFormStyle) {
+		super(" ", parent, isFormStyle); //$NON-NLS-1$
 	}
 
 	protected MasterColumnsPropertyDescriptor columns;
 
-	public void createSection( )
-	{
-		getcolumnsControl( parent );
-		getGridPlaceholder( parent );
+	@Override
+	public void createSection() {
+		getcolumnsControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public MasterColumnsPropertyDescriptor getcolumnsControl( )
-	{
+	public MasterColumnsPropertyDescriptor getcolumnsControl() {
 		return columns;
 	}
 
-	protected MasterColumnsPropertyDescriptor getcolumnsControl(
-			Composite parent )
-	{
-		if ( columns == null )
-		{
-			columns = new MasterColumnsPropertyDescriptor( isFormStyle );
-			columns.setDescriptorProvider( provider );
-			columns.createControl( parent );
-			columns.getControl( )
-					.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			columns.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected MasterColumnsPropertyDescriptor getcolumnsControl(Composite parent) {
+		if (columns == null) {
+			columns = new MasterColumnsPropertyDescriptor(isFormStyle);
+			columns.setDescriptorProvider(provider);
+			columns.createControl(parent);
+			columns.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			columns.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				@Override
+				public void widgetDisposed(DisposeEvent event) {
 					columns = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( columns.getControl( ), parent );
+			});
+		} else {
+			checkParent(columns.getControl(), parent);
 		}
 		return columns;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) columns.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
-		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
+	@Override
+	public void layout() {
+		GridData gd = (GridData) columns.getControl().getLayoutData();
+		if (getLayoutNum() > 0) {
+			gd.horizontalSpan = getLayoutNum() - placeholder;
+		} else {
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 	}
 
-	public void load( )
-	{
-		if ( columns != null && !columns.getControl( ).isDisposed( ) )
-			columns.load( );
+	@Override
+	public void load() {
+		if (columns != null && !columns.getControl().isDisposed()) {
+			columns.load();
+		}
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( columns != null )
-			columns.setDescriptorProvider( provider );
+		if (columns != null) {
+			columns.setDescriptorProvider(provider);
+		}
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		columns.setInput( input );
+	@Override
+	public void setInput(Object input) {
+		assert (input != null);
+		columns.setInput(input);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( columns != null )
-			WidgetUtil.setExcludeGridData( columns.getControl( ), isHidden );
+	@Override
+	public void setHidden(boolean isHidden) {
+		if (columns != null) {
+			WidgetUtil.setExcludeGridData(columns.getControl(), isHidden);
+		}
 
 	}
 
-	public void setVisible( boolean isVisable )
-	{
-		if ( columns != null )
-			columns.getControl( ).setVisible( isVisable );
+	@Override
+	public void setVisible(boolean isVisable) {
+		if (columns != null) {
+			columns.getControl().setVisible(isVisable);
+		}
 
 	}
 

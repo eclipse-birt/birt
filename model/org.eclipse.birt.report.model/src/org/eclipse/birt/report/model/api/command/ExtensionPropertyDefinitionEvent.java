@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,30 +19,29 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Notification event to send when the dynamic property list is changed after
- * setting an extension property value. 
+ * setting an extension property value.
  */
 
-public class ExtensionPropertyDefinitionEvent extends NotificationEvent
-{
+public class ExtensionPropertyDefinitionEvent extends NotificationEvent {
 	/**
 	 * Constructor.
-	 * 
-	 * @param target
-	 *            the target element.
+	 *
+	 * @param target the target element.
 	 */
 
-	public ExtensionPropertyDefinitionEvent( DesignElement target )
-	{
-		super( target );
+	public ExtensionPropertyDefinitionEvent(DesignElement target) {
+		super(target);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	@Override
+	public int getEventType() {
 		return EXTENSION_PROPERTY_DEFINITION_EVENT;
 	}
 

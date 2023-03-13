@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,83 +21,77 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Preferences;
 
-public class IDEReportPreferenceFactory implements IReportPreferenceFactory
-{
+public class IDEReportPreferenceFactory implements IReportPreferenceFactory {
 
 	private String pluginId = ""; //$NON-NLS-1$
 
-	public IDEReportPreferenceFactory( Plugin plugin )
-	{
-		this.pluginId = plugin.getBundle( ).getSymbolicName( );
+	public IDEReportPreferenceFactory(Plugin plugin) {
+		this.pluginId = plugin.getBundle().getSymbolicName();
 	}
 
-	protected HashMap prefsMap = new HashMap( );
+	protected HashMap prefsMap = new HashMap();
 
-	public boolean hasSpecialSettings( Object adaptable, String name )
-	{
-		IProject project = getProject( adaptable );
-		if ( project == null )
+	@Override
+	public boolean hasSpecialSettings(Object adaptable, String name) {
+		IProject project = getProject(adaptable);
+		if (project == null) {
 			return false;
-		else
-		{
-			Preferences preference = getReportPreference( adaptable );
-			if ( preference != null )
-				return !preference.isDefault( name );
-			else
+		} else {
+			Preferences preference = getReportPreference(adaptable);
+			if (preference != null) {
+				return !preference.isDefault(name);
+			} else {
 				return false;
+			}
 		}
 	}
 
-	public Preferences getReportPreference( Object adaptable )
-	{
-		IProject project = getProject( adaptable );
-		if ( project == null )
+	@Override
+	public Preferences getReportPreference(Object adaptable) {
+		IProject project = getProject(adaptable);
+		if (project == null) {
 			return null;
-		else if ( !containsReportPreference( adaptable ) )
-		{
-			ReportProjectPreference prefs = new ReportProjectPreference( pluginId,
-					project );
-			prefsMap.put( project.getFullPath( ).toOSString( ), prefs );
+		} else if (!containsReportPreference(adaptable)) {
+			ReportProjectPreference prefs = new ReportProjectPreference(pluginId, project);
+			prefsMap.put(project.getFullPath().toOSString(), prefs);
 		}
-		return (ReportProjectPreference) prefsMap.get( project.getFullPath( )
-				.toOSString( ) );
+		return (ReportProjectPreference) prefsMap.get(project.getFullPath().toOSString());
 	}
 
-	public boolean containsReportPreference( Object adaptable )
-	{
-		IProject project = getProject( adaptable );
-		if ( project == null )
+	public boolean containsReportPreference(Object adaptable) {
+		IProject project = getProject(adaptable);
+		if (project == null) {
 			return false;
-		return prefsMap.containsKey( project.getFullPath( ).toOSString( ) );
+		}
+		return prefsMap.containsKey(project.getFullPath().toOSString());
 	}
 
-	public boolean saveReportPreference( Object adaptable )
-	{
-		ReportProjectPreference prefs = (ReportProjectPreference) getReportPreference( adaptable );
-		if ( prefs == null )
+	@Override
+	public boolean saveReportPreference(Object adaptable) {
+		ReportProjectPreference prefs = (ReportProjectPreference) getReportPreference(adaptable);
+		if (prefs == null) {
 			return true;
-		else
-			return prefs.save( );
+		} else {
+			return prefs.save();
+		}
 	}
 
-	public boolean removeReportPreference( Object adaptable )
-	{
-		if ( containsReportPreference( adaptable ) )
-		{
-			IProject project = getProject( adaptable );
-			ReportProjectPreference prefs = (ReportProjectPreference) prefsMap.get( project.getFullPath( )
-					.toOSString( ) );
-			prefsMap.remove( project.getFullPath( ).toOSString( ) );
-			return prefs.delete( );
+	@Override
+	public boolean removeReportPreference(Object adaptable) {
+		if (containsReportPreference(adaptable)) {
+			IProject project = getProject(adaptable);
+			ReportProjectPreference prefs = (ReportProjectPreference) prefsMap.get(project.getFullPath().toOSString());
+			prefsMap.remove(project.getFullPath().toOSString());
+			return prefs.delete();
 		}
 		return true;
 	}
 
-	private IProject getProject( Object adaptable )
-	{
-		if ( adaptable instanceof IProject && adaptable != null )
+	private IProject getProject(Object adaptable) {
+		if (adaptable instanceof IProject && adaptable != null) {
 			return (IProject) adaptable;
-		else
+		} else {
 			return null;
+		}
 	}
 }

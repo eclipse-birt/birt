@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,166 +34,148 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * AggregationCellTextViewProvider
  */
-public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
-{
+public class AggregationCellTextViewProvider extends AggregationCellViewAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#getViewName()
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#getViewName()
 	 */
-	public String getViewName( )
-	{
+	@Override
+	public String getViewName() {
 		return "Text"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.
+	 * core.de.AggregationCellHandle)
 	 */
-	public boolean matchView( AggregationCellHandle cell )
-	{
-		List contents = cell.getContents( );
-		if ( contents != null && contents.size( ) == 1 )
-		{
-			Object content = contents.get( 0 );
+	@Override
+	public boolean matchView(AggregationCellHandle cell) {
+		List contents = cell.getContents();
+		if (contents != null && contents.size() == 1) {
+			Object content = contents.get(0);
 
-			return ( content instanceof DataItemHandle );
+			return (content instanceof DataItemHandle);
 		}
 		return false;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab
+	 * .ui.extension.SwitchCellInfo)
 	 */
-	public void switchView( SwitchCellInfo info )
-	{
-		switchView( info.getAggregationCell( ) );
+	@Override
+	public void switchView(SwitchCellInfo info) {
+		switchView(info.getAggregationCell());
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab
+	 * .core.de.AggregationCellHandle)
 	 */
-	public void switchView( AggregationCellHandle cell )
-	{
-		if ( cell == null || (!canSwitch(cell)))
-		{
+	@Override
+	public void switchView(AggregationCellHandle cell) {
+		if (cell == null || (!canSwitch(cell))) {
 			return;
 		}
 
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( "Switch to Text View" ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans("Switch to Text View"); //$NON-NLS-1$
 
-		try
-		{
+		try {
 			// clear span over
-			cell.setSpanOverOnColumn( null );
-			cell.setSpanOverOnRow( null );
+			cell.setSpanOverOnColumn(null);
+			cell.setSpanOverOnRow(null);
 
-			List contents = cell.getContents( );
+			List contents = cell.getContents();
 
-			for ( int i = 0; i < contents.size( ); i++ )
-			{
-				( (DesignElementHandle) contents.get( i ) ).drop( );
+			for (int i = 0; i < contents.size(); i++) {
+				((DesignElementHandle) contents.get(i)).drop();
 			}
 
 			// create text view
-			createTextView( cell );
+			createTextView(cell);
 
-			stack.commit( );
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			ExceptionUtil.handle( e );
+			stack.commit();
+		} catch (Exception e) {
+			stack.rollback();
+			ExceptionUtil.handle(e);
 		}
 	}
-	
-	
 
-	private void createTextView( AggregationCellHandle cell )
-			throws SemanticException
-	{
-		CrosstabReportItemHandle crosstab = cell.getCrosstab( );
+	private void createTextView(AggregationCellHandle cell) throws SemanticException {
+		CrosstabReportItemHandle crosstab = cell.getCrosstab();
 
-		MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
+		MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer();
 
-		LevelHandle rowLevelHandle = cell.getAggregationOnRow( );
-		LevelHandle colLevelHandle = cell.getAggregationOnColumn( );
+		LevelHandle rowLevelHandle = cell.getAggregationOnRow();
+		LevelHandle colLevelHandle = cell.getAggregationOnColumn();
 
-		String rowLevel = rowLevelHandle == null ? null
-				: rowLevelHandle.getFullName( );
-		String colLevel = colLevelHandle == null ? null
-				: colLevelHandle.getFullName( );
+		String rowLevel = rowLevelHandle == null ? null : rowLevelHandle.getFullName();
+		String colLevel = colLevelHandle == null ? null : colLevelHandle.getFullName();
 
 		String rowDimension = null;
 		String colDimension = null;
 
-		if ( rowLevelHandle != null
-				&& rowLevelHandle.getContainer( ) != null
-				&& rowLevelHandle.getContainer( ).getContainer( ) != null )
-		{
-			rowDimension = rowLevelHandle.getContainer( )
-					.getContainer( )
-					.getFullName( );
+		if (rowLevelHandle != null && rowLevelHandle.getContainer() != null
+				&& rowLevelHandle.getContainer().getContainer() != null) {
+			rowDimension = rowLevelHandle.getContainer().getContainer().getFullName();
 		}
 
-		if ( colLevelHandle != null
-				&& colLevelHandle.getContainer( ) != null
-				&& colLevelHandle.getContainer( ).getContainer( ) != null )
-		{
-			colDimension = colLevelHandle.getContainer( )
-					.getContainer( )
-					.getFullName( );
+		if (colLevelHandle != null && colLevelHandle.getContainer() != null
+				&& colLevelHandle.getContainer().getContainer() != null) {
+			colDimension = colLevelHandle.getContainer().getContainer().getFullName();
 		}
 
-		CrosstabUtil.addDataItem( crosstab,
-				cell,
-				measureView,
-				null,
-				rowDimension,
-				rowLevel,
-				colDimension,
-				colLevel );
+		CrosstabUtil.addDataItem(crosstab, cell, measureView, null, rowDimension, rowLevel, colDimension, colLevel);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.
+	 * crosstab.core.de.AggregationCellHandle)
 	 */
-	public void restoreView( AggregationCellHandle cell )
-	{
+	@Override
+	public void restoreView(AggregationCellHandle cell) {
 	}
-	
+
 	/**
-	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
-	*/
-	public boolean canSwitch( AggregationCellHandle cell )
-	{
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}
 	 */
-	public boolean canSwitch( SwitchCellInfo info )
-	{
+	@Deprecated
+	@Override
+	public boolean canSwitch(AggregationCellHandle cell) {
 		return true;
 	}
 
-	public String getViewDisplayName( )
-	{
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
+	 * IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.
+	 * ui.extension.SwitchCellInfo)
+	 */
+	@Override
+	public boolean canSwitch(SwitchCellInfo info) {
+		return true;
+	}
+
+	@Override
+	public String getViewDisplayName() {
 		// TODO Auto-generated method stub
-		return Messages.getString( "AggregationCellTextViewProvider.displayName" );
+		return Messages.getString("AggregationCellTextViewProvider.displayName");
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -29,9 +32,9 @@ import com.ibm.icu.util.ULocale;
  * Steps to reproduce:
  * <ol>
  * <li>Create a template file.
- * <li> Add a table.
- * <li> Right click on the table and create a template item.
- * <li> Exception is thrown out.
+ * <li>Add a table.
+ * <li>Right click on the table and create a template item.
+ * <li>Exception is thrown out.
  * </ol>
  * </p>
  * Test description:
@@ -39,31 +42,27 @@ import com.ibm.icu.util.ULocale;
  * Follow the steps, ensure that no exception will be thrown out.
  * </p>
  */
-public class Regression_116756 extends BaseTestCase
-{
+public class Regression_116756 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
-	public void test_regression_116756( ) throws SemanticException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle template = sessionHandle.createDesign( );
+	public void test_regression_116756() throws SemanticException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle template = sessionHandle.createDesign();
 
-		ElementFactory factory = template.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table1", 1 ); //$NON-NLS-1$
+		ElementFactory factory = template.getElementFactory();
+		TableHandle table = factory.newTableItem("table1", 1); //$NON-NLS-1$
 
-		template.getBody( ).add( table );
+		template.getBody().add(table);
 
 		// create template table.
-		
-		TableHandle tableHandle = (TableHandle) template.findElement( "table1" ); //$NON-NLS-1$
-		tableHandle.createTemplateElement( "templateTable" ); //$NON-NLS-1$
 
-		TemplateReportItemHandle templateTable = (TemplateReportItemHandle)template
-				.findElement( "templateTable" ); //$NON-NLS-1$
-		assertNotNull( templateTable );
+		TableHandle tableHandle = (TableHandle) template.findElement("table1"); //$NON-NLS-1$
+		tableHandle.createTemplateElement("templateTable"); //$NON-NLS-1$
+
+		TemplateReportItemHandle templateTable = (TemplateReportItemHandle) template.findElement("templateTable"); //$NON-NLS-1$
+		assertNotNull(templateTable);
 	}
 }

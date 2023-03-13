@@ -1,21 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SpudSoft BIRT Excel Emitters Tests
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.co.spudsoft.birt.emitters.excel.tests
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.tests.framework.Activator
-Bundle-Vendor: SpudSoft
-Require-Bundle: org.eclipse.core.runtime,
- org.junit,
- org.eclipse.birt.report.engine,
+Bundle-Vendor: %Bundle-Vendor
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
+ org.junit;bundle-version="4.13.0",
+ org.eclipse.birt.report.engine;bundle-version="4.13.0",
  com.ibm.icu;bundle-version="4.4.2",
- org.apache.poi;bundle-version="[3.9.0,4.0.0)",
- org.apache.poi.ooxml;bundle-version="[3.9.0,4.0.0)",
- org.apache.poi.ooxml.schemas;bundle-version="[3.9.0,4.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.apache.poi;bundle-version="[4.1.1,5.0.0)",
+ org.apache.poi.ooxml;bundle-version="[4.1.1,5.0.0)",
+ org.apache.poi.ooxml.schemas;bundle-version="[4.1.1,5.0.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/commons-codec-1.5.jar
-Import-Package: uk.co.spudsoft.birt.emitters.excel
+Import-Package: uk.co.spudsoft.birt.emitters.excel, org.apache.xmlbeans
 Eclipse-BundleShape: dir
 Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel.tests
+Export-Package: uk.co.spudsoft.birt.emitters.bugfix;x-internal:=true,
+ uk.co.spudsoft.birt.emitters.excel.tests;x-internal:=true,
+ uk.co.spudsoft.birt.emitters.excel.tests.framework;x-internal:=true

@@ -1,11 +1,13 @@
 /*******************************************************************************
  * Copyright (c) 2005 Sybase, Inc.
- * 
- * All rights reserved. This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License v1.0 which
- * accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: mbarrett - initial API and implementation
  ******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
@@ -31,7 +33,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Exception dialog that displays an exception message in a message box, and
  * prints a stack trace in an expandable text box.
- * 
+ *
  * @author mbarrett
  */
 public class ExceptionDialog extends IconAndMessageDialog {
@@ -46,26 +48,24 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	/**
 	 * @param parentShell
 	 */
-	protected ExceptionDialog(Shell parentShell, String title, String msg,
-								Throwable ex) {
-		super( parentShell );
+	protected ExceptionDialog(Shell parentShell, String title, String msg, Throwable ex) {
+		super(parentShell);
 		this._title = title;
 		this.message = msg;
 		this._exception = ex;
-		if ( parentShell != null )
-			this._display = parentShell.getDisplay( );
-		else
-			this._display = PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( )
-					.getDisplay( );
+		if (parentShell != null) {
+			this._display = parentShell.getDisplay();
+		} else {
+			this._display = PlatformUI.getWorkbench().getDisplay().getActiveShell().getDisplay();
+		}
 
-		setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
 	/*
 	 * (non-Javadoc) Method declared in Window.
 	 */
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(_title);
@@ -73,9 +73,10 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
 	 */
+	@Override
 	protected Image getImage() {
 		return _display.getSystemImage(SWT.ICON_ERROR);
 	}
@@ -83,22 +84,21 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Details buttons
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
-		_detailsButton = createButton(parent, IDialogConstants.DETAILS_ID,
-				IDialogConstants.SHOW_DETAILS_LABEL, false);
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		_detailsButton = createButton(parent, IDialogConstants.DETAILS_ID, IDialogConstants.SHOW_DETAILS_LABEL, false);
 	}
 
 	// If Details button is pressed, toggle the detail area
 	// Otherwise, call the super handler
+	@Override
 	protected void buttonPressed(int id) {
 		if (id == IDialogConstants.DETAILS_ID) {
 			// was the details button pressed?
 			toggleDetailsArea();
-		}
-		else {
+		} else {
 			super.buttonPressed(id);
 		}
 	}
@@ -115,21 +115,18 @@ public class ExceptionDialog extends IconAndMessageDialog {
 			_textArea.dispose();
 			_textCreated = false;
 			_detailsButton.setText(IDialogConstants.SHOW_DETAILS_LABEL);
-		}
-		else {
+		} else {
 			_textArea = createTextArea((Composite) getContents());
 			_detailsButton.setText(IDialogConstants.HIDE_DETAILS_LABEL);
 		}
 
 		Point newSize = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-		getShell()
-				.setSize(
-						new Point(windowSize.x, windowSize.y
-								+ (newSize.y - oldSize.y)));
+		getShell().setSize(new Point(windowSize.x, windowSize.y + (newSize.y - oldSize.y)));
 
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		createMessageArea(parent);
@@ -152,8 +149,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	}
 
 	protected Text createTextArea(Composite parent) {
-		_textArea = new Text(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.MULTI);
+		_textArea = new Text(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI);
 
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -161,9 +157,8 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 		_textArea.setText(sw.toString());
 
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL
-				| GridData.GRAB_VERTICAL);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL);
 		data.heightHint = 200;
 		data.horizontalSpan = 2;
 		_textArea.setLayoutData(data);

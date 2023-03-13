@@ -1,15 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's FontWeightManager.java to support BIRT's CSS rules
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
+import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -22,10 +26,9 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-
 /**
  * This class provides a manager for the 'font-weight' property values.
- * 
+ *
  */
 public class FontWeightManager extends IdentifierManager {
 
@@ -36,15 +39,14 @@ public class FontWeightManager extends IdentifierManager {
 	static {
 		values.put(CSSConstants.CSS_BOLD_VALUE, CSSValueConstants.BOLD_VALUE);
 		values.put(CSSConstants.CSS_BOLDER_VALUE, CSSValueConstants.BOLDER_VALUE);
-		values
-				.put(CSSConstants.CSS_LIGHTER_VALUE,
-						CSSValueConstants.LIGHTER_VALUE);
+		values.put(CSSConstants.CSS_LIGHTER_VALUE, CSSValueConstants.LIGHTER_VALUE);
 		values.put(CSSConstants.CSS_NORMAL_VALUE, CSSValueConstants.NORMAL_VALUE);
 	}
 
 	/**
 	 * Implements {@link ValueManager#isInheritedProperty()}.
 	 */
+	@Override
 	public boolean isInheritedProperty() {
 		return true;
 	}
@@ -52,6 +54,7 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#getPropertyName()}.
 	 */
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_FONT_WEIGHT_PROPERTY;
 	}
@@ -59,6 +62,7 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#getDefaultValue()}.
 	 */
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
@@ -66,8 +70,8 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	@Override
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_INTEGER) {
 			int i = lu.getIntegerValue();
 			switch (i) {
@@ -98,8 +102,7 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link ValueManager#createFloatValue(short,float)}.
 	 */
-	public Value createFloatValue(short type, float floatValue)
-			throws DOMException {
+	public Value createFloatValue(short type, float floatValue) throws DOMException {
 		if (type == CSSPrimitiveValue.CSS_NUMBER) {
 			int i = (int) floatValue;
 			if (floatValue == i) {
@@ -129,40 +132,40 @@ public class FontWeightManager extends IdentifierManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
 	public CSSValue computeValue(CSSStylableElement elt, CSSEngine engine, int idx, CSSValue value) {
-        if (value == CSSValueConstants.BOLDER_VALUE) {
+		if (value == CSSValueConstants.BOLDER_VALUE) {
 
-            CSSContext ctx = engine.getCSSContext();
-            CSSStylableElement p = (CSSStylableElement)elt.getParent();
-            float fw;
-            if (p == null) {
-                fw = 400;
-            } else {
-                Value v = (Value)p.getComputedStyle().getProperty(idx);
-                fw = v.getFloatValue();
-            }
-            return createFontWeight(ctx.getBolderFontWeight(fw));
-        } else if (value == CSSValueConstants.LIGHTER_VALUE) {
+			CSSContext ctx = engine.getCSSContext();
+			CSSStylableElement p = (CSSStylableElement) elt.getParent();
+			float fw;
+			if (p == null) {
+				fw = 400;
+			} else {
+				Value v = (Value) p.getComputedStyle().getProperty(idx);
+				fw = v.getFloatValue();
+			}
+			return createFontWeight(ctx.getBolderFontWeight(fw));
+		} else if (value == CSSValueConstants.LIGHTER_VALUE) {
 
-            CSSContext ctx = engine.getCSSContext();
-            CSSStylableElement p = (CSSStylableElement)elt.getParent();
-            float fw;
-            if (p == null) {
-                fw = 400;
-            } else {
-                Value v = (Value)p.getComputedStyle().getProperty(idx);
-                fw = v.getFloatValue();
-            }
-            return createFontWeight(ctx.getLighterFontWeight(fw));
-        } else if (value == CSSValueConstants.NORMAL_VALUE) {
-            return CSSValueConstants.NUMBER_400;
-        } else if (value == CSSValueConstants.BOLD_VALUE) {
-            return CSSValueConstants.NUMBER_700;
-        }
-        return value;
+			CSSContext ctx = engine.getCSSContext();
+			CSSStylableElement p = (CSSStylableElement) elt.getParent();
+			float fw;
+			if (p == null) {
+				fw = 400;
+			} else {
+				Value v = (Value) p.getComputedStyle().getProperty(idx);
+				fw = v.getFloatValue();
+			}
+			return createFontWeight(ctx.getLighterFontWeight(fw));
+		} else if (value == CSSValueConstants.NORMAL_VALUE) {
+			return CSSValueConstants.NUMBER_400;
+		} else if (value == CSSValueConstants.BOLD_VALUE) {
+			return CSSValueConstants.NUMBER_700;
+		}
+		return value;
 	}
 
 	/**
@@ -194,6 +197,7 @@ public class FontWeightManager extends IdentifierManager {
 	/**
 	 * Implements {@link IdentifierManager#getIdentifiers()}.
 	 */
+	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}

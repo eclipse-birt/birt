@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,47 +19,46 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 
 /**
  * Represents the design of an HighRule in the scripting environment
- * 
+ *
  */
 
-public interface IHideRule
-{
+public interface IHideRule {
 
 	/**
 	 * Returns format
-	 * 
+	 *
 	 * @return format
 	 */
-	public String getFormat( );
+	String getFormat();
 
 	/**
 	 * Sets format
-	 * 
+	 *
 	 * @param format
 	 * @throws ScriptException
 	 */
-	public void setFormat( String format ) throws ScriptException;
+	void setFormat(String format) throws ScriptException;
 
 	/**
 	 * Returns value expression
-	 * 
+	 *
 	 * @return value expression
 	 */
-	public String getValueExpr( );
+	String getValueExpr();
 
 	/**
 	 * Sets value expression.
-	 * 
+	 *
 	 * @param valueExpr
 	 * @throws ScriptException
 	 */
-	public void setValueExpr( String valueExpr ) throws ScriptException;
+	void setValueExpr(String valueExpr) throws ScriptException;
 
 	/**
 	 * Returns structure.
-	 * 
+	 *
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	IStructure getStructure();
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,43 +24,37 @@ import org.eclipse.gef.handles.MoveHandle;
 /**
  * A Handle used for moving {@link GraphicalEditPart}s.
  */
-public class ReportMoveHandle extends MoveHandle
-{
+public class ReportMoveHandle extends MoveHandle {
 
 	/**
-	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using
-	 * a default {@link Locator}.
-	 * 
-	 * @param owner
-	 *            The GraphicalEditPart to be moved by this handle.
+	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using a
+	 * default {@link Locator}.
+	 *
+	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 */
-	public ReportMoveHandle( GraphicalEditPart owner )
-	{
-		super( owner );
+	public ReportMoveHandle(GraphicalEditPart owner) {
+		super(owner);
 	}
 
 	/**
-	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using
-	 * the given <code>Locator</code>.
-	 * 
-	 * @param owner
-	 *            The GraphicalEditPart to be moved by this handle.
-	 * @param loc
-	 *            The Locator used to place the handle.
+	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using the
+	 * given <code>Locator</code>.
+	 *
+	 * @param owner The GraphicalEditPart to be moved by this handle.
+	 * @param loc   The Locator used to place the handle.
 	 */
-	public ReportMoveHandle( GraphicalEditPart owner, Locator loc )
-	{
-		super( owner, loc );
+	public ReportMoveHandle(GraphicalEditPart owner, Locator loc) {
+		super(owner, loc);
 	}
 
 	/**
 	 * Initializes the handle. Sets the {@link DragTracker} and DragCursor.
 	 */
-	protected void initialize( )
-	{
-		setOpaque( false );
-		setBorder( new SelectionBorder( 1 ) );
-		setCursor( Cursors.SIZEALL );
+	@Override
+	protected void initialize() {
+		setOpaque(false);
+		setBorder(new SelectionBorder(1));
+		setCursor(Cursors.SIZEALL);
 	}
 
 }

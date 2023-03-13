@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,70 +25,67 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.3 $ $Date: 2007/04/23 03:30:22 $
  */
-public class EditCubeMeasureGroupAction extends AbstractElementAction
-{
+public class EditCubeMeasureGroupAction extends AbstractElementAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.EditCubeMeasureGroupAction"; //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeMeasureGroupAction( Object selectedObject )
-	{
-		super( selectedObject );
-		setId( ID );
+	public EditCubeMeasureGroupAction(Object selectedObject) {
+		super(selectedObject);
+		setId(ID);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public EditCubeMeasureGroupAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		setId( ID );
+	public EditCubeMeasureGroupAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		setId(ID);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit Measure Group action >> Runs ..." ); //$NON-NLS-1$
+	@Override
+	protected boolean doAction() throws Exception {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit Measure Group action >> Runs ..."); //$NON-NLS-1$
 		}
-		MeasureGroupHandle MeasureGroupHandle = (MeasureGroupHandle) getSelection( );
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				(TabularCubeHandle) MeasureGroupHandle.getContainer( ) );
-		dialog.showPage( CubeBuilder.GROUPPAGE );
-		return ( dialog.open( ) == IDialogConstants.OK_ID );
+		MeasureGroupHandle MeasureGroupHandle = (MeasureGroupHandle) getSelection();
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				(TabularCubeHandle) MeasureGroupHandle.getContainer());
+		dialog.showPage(CubeBuilder.GROUPPAGE);
+		return (dialog.open() == IDialogConstants.OK_ID);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return ( (MeasureGroupHandle) getSelection( ) ).canEdit( );
+	@Override
+	public boolean isEnabled() {
+		return ((MeasureGroupHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
-	protected String getTransactionLabel( )
-	{
-		return Messages.getFormattedString( "cube.measuregroup.edit", new String[]{( (MeasureGroupHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+	@Override
+	protected String getTransactionLabel() {
+		return Messages.getFormattedString("cube.measuregroup.edit", //$NON-NLS-1$
+				new String[] { ((MeasureGroupHandle) getSelection()).getName() });
 	}
 }

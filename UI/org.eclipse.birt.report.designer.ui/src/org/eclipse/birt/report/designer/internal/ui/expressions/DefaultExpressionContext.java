@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,44 +24,40 @@ import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
 /**
  * DefaultExpressionContext
  */
-public class DefaultExpressionContext implements
-		IExpressionContext,
-		IExpressionFilterSupport
-{
+public class DefaultExpressionContext implements IExpressionContext, IExpressionFilterSupport {
 
 	private Object contextObject;
 
 	private List<ExpressionFilter> filters;
 
-	private Map<String, Object> extras = new HashMap<String, Object>( );
+	private Map<String, Object> extras = new HashMap<>();
 
-	public DefaultExpressionContext( Object contextObject )
-	{
+	public DefaultExpressionContext(Object contextObject) {
 		this.contextObject = contextObject;
 	}
 
-	public Object getContextObject( )
-	{
+	@Override
+	public Object getContextObject() {
 		return contextObject;
 	}
 
-	public void setFilters( List<ExpressionFilter> filters )
-	{
+	@Override
+	public void setFilters(List<ExpressionFilter> filters) {
 		this.filters = filters;
 	}
 
-	public java.util.List<ExpressionFilter> getFilters( )
-	{
+	@Override
+	public java.util.List<ExpressionFilter> getFilters() {
 		return filters;
 	}
 
-	public Object getExtra( String key )
-	{
-		return extras.get( key );
+	@Override
+	public Object getExtra(String key) {
+		return extras.get(key);
 	}
 
-	public void putExtra( String key, Object value )
-	{
-		extras.put( key, value );
+	@Override
+	public void putExtra(String key, Object value) {
+		extras.put(key, value);
 	}
 }

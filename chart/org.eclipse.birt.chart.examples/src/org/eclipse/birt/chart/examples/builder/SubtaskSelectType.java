@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,48 +24,41 @@ import org.eclipse.swt.widgets.Composite;
  * Subtask to wrap TaskFormatType
  */
 
-public class SubtaskSelectType extends SubtaskSheetImpl
-{
+public class SubtaskSelectType extends SubtaskSheetImpl {
 
 	final private ITask task;
 
-	public SubtaskSelectType( )
-	{
-		task = new TaskSelectType( ) {
+	public SubtaskSelectType() {
+		task = new TaskSelectType() {
 
 			@Override
-			public void createControl( Composite parent )
-			{
+			public void createControl(Composite parent) {
 				// Use zero margin in subtask
 				pageMargin = 0;
-				super.createControl( parent );
+				super.createControl(parent);
 			}
 
 			@Override
-			public void widgetSelected( SelectionEvent e )
-			{
-				super.widgetSelected( e );
-				if ( e.widget == cbMultipleY )
-				{
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				if (e.widget == cbMultipleY) {
 					// Update tree when axes added
-					getParentTask( ).updateTree( );
+					getParentTask().updateTree();
 				}
 			}
 		};
 	}
 
 	@Override
-	public void createControl( Composite parent )
-	{
-		task.setContext( getContext( ) );
-		task.setUIProvider( getWizard( ) );
-		task.createControl( parent );
-		cmpContent = (Composite) task.getControl( );
+	public void createControl(Composite parent) {
+		task.setContext(getContext());
+		task.setUIProvider(getWizard());
+		task.createControl(parent);
+		cmpContent = (Composite) task.getControl();
 	}
 
 	@Override
-	public boolean isPreviewable( )
-	{
+	public boolean isPreviewable() {
 		// Has internal preview canvas
 		return true;
 	}

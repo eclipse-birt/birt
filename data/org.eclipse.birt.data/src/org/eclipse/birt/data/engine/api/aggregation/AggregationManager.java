@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,15 +30,13 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.api.aggregation.AggrFunctionWrapper.ParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * 
+ *
  */
 
-public class AggregationManager
-{
+public class AggregationManager {
 
 	private static final String ELEMENT_AGGREGATION_FACTORY = "AggregationFactory";//$NON-NLS-1$
 	private static final String ATTRIBUTE_AGGREGATION_CLASS = "aggregationClass";//$NON-NLS-1$
@@ -51,27 +52,15 @@ public class AggregationManager
 	public static Map aggrMap;
 
 	// log instance
-	private static Logger logger = Logger.getLogger( AggregationManager.class.getName( ) );
-	
+	private static Logger logger = Logger.getLogger(AggregationManager.class.getName());
+
 	/**
 	 * allowed aggregation function names in x-tab
 	 */
-	private static String[] xTabAggrNames = new String[]{
-			"SUM",
-			"AVE",
-			"MAX",
-			"MIN",
-			"FIRST",
-			"LAST",
-			"COUNT",
-			"COUNTDISTINCT",
-			"MEDIAN",
-			"MODE",
-			"STDDEV",
-			"VARIANCE",
-			"RANGE",
-	//		"RANK",
-	//		"RUNNINGSUM"
+	private static String[] xTabAggrNames = { "SUM", "AVE", "MAX", "MIN", "FIRST", "LAST", "COUNT", "COUNTDISTINCT",
+			"MEDIAN", "MODE", "STDDEV", "VARIANCE", "RANGE",
+			// "RANK",
+			// "RUNNINGSUM"
 	};
 
 	public static final int AGGR_TABULAR = 0;
@@ -81,35 +70,30 @@ public class AggregationManager
 	/**
 	 * allowed aggregation function names in cube measure.
 	 */
-	private static String[] measureAggrNames = new String[]{
-			"SUM",//$NON-NLS-1$
+	private static String[] measureAggrNames = { "SUM", //$NON-NLS-1$
 			"MAX", //$NON-NLS-1$
 			"MIN", //$NON-NLS-1$
 			"FIRST", //$NON-NLS-1$
 			"LAST", //$NON-NLS-1$
 			"COUNT" //$NON-NLS-1$
 //			"RANGE", //$NON-NLS-1$
-//			"COUNTDISTINCT"//$NON-NLS-1$	// Temporarily remove count distinct aggregation function. 
+//			"COUNTDISTINCT"//$NON-NLS-1$	// Temporarily remove count distinct aggregation function.
 	};
 
-	private static List allAggrNames = new ArrayList( );
+	private static List allAggrNames = new ArrayList();
 
 	/**
 	 * Return a shared instance of AggregationManager.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
-	public static AggregationManager getInstance( ) throws DataException
-	{
-		if ( instance == null )
-		{
-			synchronized ( AggregationManager.class )
-			{
-				if ( instance == null )
-				{
-					aggrMap = new HashMap( );
-					instance = new AggregationManager( );
+	public static AggregationManager getInstance() throws DataException {
+		if (instance == null) {
+			synchronized (AggregationManager.class) {
+				if (instance == null) {
+					aggrMap = new HashMap();
+					instance = new AggregationManager();
 				}
 			}
 		}
@@ -118,43 +102,41 @@ public class AggregationManager
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private AggregationManager( ) throws DataException
-	{
-		populateAggregations( );
+	private AggregationManager() throws DataException {
+		populateAggregations();
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
-	private void populateAggregations( ) throws DataException
-	{
-		IExtensionRegistry extReg = Platform.getExtensionRegistry( );
-		IExtensionPoint extPoint = extReg.getExtensionPoint( EXTENSION_POINT );
+	private void populateAggregations() throws DataException {
+		IExtensionRegistry extReg = Platform.getExtensionRegistry();
+		IExtensionPoint extPoint = extReg.getExtensionPoint(EXTENSION_POINT);
 
-		if ( extPoint == null )
+		if (extPoint == null) {
 			return;
+		}
 
-		IExtension[] exts = extPoint.getExtensions( );
-		if ( exts == null )
+		IExtension[] exts = extPoint.getExtensions();
+		if (exts == null) {
 			return;
+		}
 
-		for ( int e = 0; e < exts.length; e++ )
-		{
-			IConfigurationElement[] configElems = exts[e].getConfigurationElements( );
-			if ( configElems == null )
+		for (int e = 0; e < exts.length; e++) {
+			IConfigurationElement[] configElems = exts[e].getConfigurationElements();
+			if (configElems == null) {
 				continue;
+			}
 
-			for ( int i = 0; i < configElems.length; i++ )
-			{
-				if ( configElems[i].getName( ).equals( ELEMENT_AGGREGATIONS ) )
-				{
-					IConfigurationElement[] subElems = configElems[i].getChildren( ELEMENT_AGGREGATION_FACTORY );
-					populateFactoryAggregations( subElems );
-					subElems = configElems[i].getChildren( ELEMENT_AGGREGATION );
-					populateDeprecatedAggregations( subElems );
+			for (int i = 0; i < configElems.length; i++) {
+				if (configElems[i].getName().equals(ELEMENT_AGGREGATIONS)) {
+					IConfigurationElement[] subElems = configElems[i].getChildren(ELEMENT_AGGREGATION_FACTORY);
+					populateFactoryAggregations(subElems);
+					subElems = configElems[i].getChildren(ELEMENT_AGGREGATION);
+					populateDeprecatedAggregations(subElems);
 				}
 			}
 		}
@@ -162,33 +144,27 @@ public class AggregationManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @param subElems
 	 * @throws DataException
 	 */
-	private void populateFactoryAggregations( IConfigurationElement[] subElems )
-			throws DataException
-	{
-		if ( subElems == null )
+	private void populateFactoryAggregations(IConfigurationElement[] subElems) throws DataException {
+		if (subElems == null) {
 			return;
-		for ( int j = 0; j < subElems.length; j++ )
-		{
-			try
-			{
-				IAggregationFactory factory = (IAggregationFactory) subElems[j].createExecutableExtension( "class" );
-				List functions = factory.getAggregations( );
-				for ( Iterator itr = functions.iterator( ); itr.hasNext( ); )
-				{
-					IAggrFunction aggrFunc = (IAggrFunction) itr.next( );
-					String name = aggrFunc.getName( ).toUpperCase( );
-					if ( aggrMap.put( name, aggrFunc ) != null )
-						throw new DataException( ResourceConstants.DUPLICATE_AGGREGATION_NAME,
-								name );
-					allAggrNames.add( name );
+		}
+		for (int j = 0; j < subElems.length; j++) {
+			try {
+				IAggregationFactory factory = (IAggregationFactory) subElems[j].createExecutableExtension("class");
+				List functions = factory.getAggregations();
+				for (Iterator itr = functions.iterator(); itr.hasNext();) {
+					IAggrFunction aggrFunc = (IAggrFunction) itr.next();
+					String name = aggrFunc.getName().toUpperCase();
+					if (aggrMap.put(name, aggrFunc) != null) {
+						throw new DataException(ResourceConstants.DUPLICATE_AGGREGATION_NAME, name);
+					}
+					allAggrNames.add(name);
 				}
-			}
-			catch ( FrameworkException exception )
-			{
+			} catch (FrameworkException exception) {
 				// TODO: log this exception or provide public
 				// interface for the user to get uninstantiated
 				// function names
@@ -198,168 +174,127 @@ public class AggregationManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @param subElems
 	 * @throws DataException
 	 */
-	private void populateDeprecatedAggregations(
-			IConfigurationElement[] subElems ) throws DataException
-	{
-		if ( subElems == null )
+	private void populateDeprecatedAggregations(IConfigurationElement[] subElems) throws DataException {
+		if (subElems == null) {
 			return;
-		for ( int j = 0; j < subElems.length; j++ )
-		{
-			try
-			{
-				IAggregation aggrFunc = (IAggregation) subElems[j].createExecutableExtension( ATTRIBUTE_AGGREGATION_CLASS );
-				String name = aggrFunc.getName( ).toUpperCase( );
-				
-				AggrFunctionWrapper aggrWrapper = new AggrFunctionWrapper( aggrFunc );
-				populateExtendedAggrInfo( name,
-						aggrFunc,
-						subElems[j],
-						aggrWrapper );
-				
-				if ( aggrMap.put( name, aggrWrapper ) != null )
-					throw new DataException( ResourceConstants.DUPLICATE_AGGREGATION_NAME,
-							name );
-				allAggrNames.add( name );
-			}
-			catch ( Exception e )
-			{
-				logger.logp( Level.WARNING,
-						AggrFunctionWrapper.class.getName( ),
-						"populateDeprecatedAggregations",
-						"Exception in aggregation extension loading.",
-						e );
+		}
+		for (int j = 0; j < subElems.length; j++) {
+			try {
+				IAggregation aggrFunc = (IAggregation) subElems[j]
+						.createExecutableExtension(ATTRIBUTE_AGGREGATION_CLASS);
+				String name = aggrFunc.getName().toUpperCase();
+
+				AggrFunctionWrapper aggrWrapper = new AggrFunctionWrapper(aggrFunc);
+				populateExtendedAggrInfo(name, aggrFunc, subElems[j], aggrWrapper);
+
+				if (aggrMap.put(name, aggrWrapper) != null) {
+					throw new DataException(ResourceConstants.DUPLICATE_AGGREGATION_NAME, name);
+				}
+				allAggrNames.add(name);
+			} catch (Exception e) {
+				logger.logp(Level.WARNING, AggrFunctionWrapper.class.getName(), "populateDeprecatedAggregations",
+						"Exception in aggregation extension loading.", e);
 			}
 		}
 	}
 
 	/**
 	 * populate the extended extensions information.
-	 * 
+	 *
 	 * @param name
 	 * @param aggrFunc
 	 * @param elem
-	 * @param aggrWrapper 
+	 * @param aggrWrapper
 	 */
-	private void populateExtendedAggrInfo( String name, IAggregation aggrFunc,
-			IConfigurationElement elem, AggrFunctionWrapper aggrWrapper ) throws DataException
-	{
-		IConfigurationElement[] uiInfo = elem.getChildren( ELEMENT_UIINFO );
-		assert ( uiInfo != null && uiInfo.length == 1 );
-		String paramInfo = uiInfo[0].getAttribute( ATTRIBUTE_PARAMETER_META_INFO );
-		String textInfo = uiInfo[0].getAttribute( ATTRIBUTE_TEXT_DATA );
-		aggrWrapper.setDisplayName( textInfo );
+	private void populateExtendedAggrInfo(String name, IAggregation aggrFunc, IConfigurationElement elem,
+			AggrFunctionWrapper aggrWrapper) throws DataException {
+		IConfigurationElement[] uiInfo = elem.getChildren(ELEMENT_UIINFO);
+		assert (uiInfo != null && uiInfo.length == 1);
+		String paramInfo = uiInfo[0].getAttribute(ATTRIBUTE_PARAMETER_META_INFO);
+		String textInfo = uiInfo[0].getAttribute(ATTRIBUTE_TEXT_DATA);
+		aggrWrapper.setDisplayName(textInfo);
 		// populate parameters to the aggrWrapper
-		List paramList = new ArrayList( );
-		String[] paramInfos = paramInfo.split( "," );//$NON-NLS-1$
-		boolean[] paramFlags = aggrFunc.getParameterDefn( );
-		if ( paramInfos != null && paramInfos.length > 0 && paramFlags != null )
-		{
-			if( paramInfos.length != paramFlags.length )
-				throw new DataException( ResourceConstants.INCONSISTENT_AGGREGATION_ARGUMENT_DEFINITION );
-			//populateDataFiledParameterDefn( paramList );
-			for ( int k = 0; k < paramInfos.length; k++ )
-			{
-				final String s = paramInfos[k].trim( );
-				int index = s.indexOf( ' ' );
+		List paramList = new ArrayList();
+		String[] paramInfos = paramInfo.split(",");//$NON-NLS-1$
+		boolean[] paramFlags = aggrFunc.getParameterDefn();
+		if (paramInfos != null && paramInfos.length > 0 && paramFlags != null) {
+			if (paramInfos.length != paramFlags.length) {
+				throw new DataException(ResourceConstants.INCONSISTENT_AGGREGATION_ARGUMENT_DEFINITION);
+			}
+			// populateDataFiledParameterDefn( paramList );
+			for (int k = 0; k < paramInfos.length; k++) {
+				final String s = paramInfos[k].trim();
+				int index = s.indexOf(' ');
 				String paramName = null;
-				if ( index > 0 )
-				{
-					paramName = s.substring( index + 1 ).trim( );
-				}
-				else
-				{
+				if (index > 0) {
+					paramName = s.substring(index + 1).trim();
+				} else {
 					paramName = paramInfos[k];
 				}
-				
-				ParameterDefn paramDefn = new ParameterDefn( paramName,
-						paramName,
-						!paramFlags[k],
-						true );
-				paramList.add( paramDefn );
+
+				ParameterDefn paramDefn = new ParameterDefn(paramName, paramName, !paramFlags[k], true);
+				paramList.add(paramDefn);
 			}
 		}
-		IParameterDefn[] params = new IParameterDefn[paramList.size( )];
-		paramList.toArray( params );
-		aggrWrapper.setParameterDefn( params );
-	}
-
-	/**
-	 * populate the default expression parameter definition to the paramList.
-	 * 
-	 * @param paramList
-	 */
-	private void populateDataFiledParameterDefn( List paramList )
-	{
-		String expression = DataResourceHandle.getInstance( )
-				.getMessage( ResourceConstants.AGGREGATION_EXPRESSION_DISPLAY_NAME );
-		ParameterDefn expressionDefn = new ParameterDefn( "Expression",//$NON-NLS-1$
-				expression,
-				false,
-				true );
-		paramList.add( expressionDefn );
+		IParameterDefn[] params = new IParameterDefn[paramList.size()];
+		paramList.toArray(params);
+		aggrWrapper.setParameterDefn(params);
 	}
 
 	/**
 	 * Destroy shared instance of AggregationManager.
-	 * 
+	 *
 	 */
-	public static void destroyInstance( )
-	{
+	public static void destroyInstance() {
 		instance = null;
 		aggrMap = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregationManager#getAggrFunction(java.lang.String)
+	 *
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregationManager#
+	 * getAggrFunction(java.lang.String)
 	 */
-	public IAggrFunction getAggregation( String name )
-	{
-		return name != null ? (IAggrFunction) aggrMap.get( name.toUpperCase( ) )
-				: null;
+	public IAggrFunction getAggregation(String name) {
+		return name != null ? (IAggrFunction) aggrMap.get(name.toUpperCase()) : null;
 	}
 
 	/**
-	 * get a list of IAggrFunction instances for the specified type, which must
-	 * be one of the values below:
+	 * get a list of IAggrFunction instances for the specified type, which must be
+	 * one of the values below:
 	 * AggregationManager.AGGR_TABULAR,AggregationManager.AGGR_XTAB,AggregationManager.AGGR_MEASURE.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
-	public List getAggregations( int type )
-	{
-		switch ( type )
-		{
-			case AGGR_TABULAR :
-				return getResult( allAggrNames.toArray( ) );
-			case AGGR_XTAB :
-				return getResult( xTabAggrNames );
-			case AGGR_MEASURE :
-				return getResult( measureAggrNames );
+	public List getAggregations(int type) {
+		switch (type) {
+		case AGGR_TABULAR:
+			return getResult(allAggrNames.toArray());
+		case AGGR_XTAB:
+			return getResult(xTabAggrNames);
+		case AGGR_MEASURE:
+			return getResult(measureAggrNames);
 		}
-		return new ArrayList( );
+		return new ArrayList();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param names
 	 * @return
 	 */
-	private List getResult( Object[] names )
-	{
-		List list = new ArrayList( );
-		for ( int i = 0; i < names.length; i++ )
-		{
-			Object aggrFunc = aggrMap.get( names[i] );
-			if ( aggrFunc != null )
-			{
-				list.add( aggrFunc );
+	private List getResult(Object[] names) {
+		List list = new ArrayList();
+		for (int i = 0; i < names.length; i++) {
+			Object aggrFunc = aggrMap.get(names[i]);
+			if (aggrFunc != null) {
+				list.add(aggrFunc);
 			}
 		}
 		return list;
@@ -368,17 +303,15 @@ public class AggregationManager
 	/**
 	 * get a list of IAggrFunction instances which contains all the aggregations
 	 * function.
-	 * 
+	 *
 	 * @return
 	 */
-	public List getAggregations( )
-	{
-		return getResult( allAggrNames.toArray( ) );
+	public List getAggregations() {
+		return getResult(allAggrNames.toArray());
 	}
 }
 
-class AggrFunctionWrapper implements IAggrFunction
-{
+class AggrFunctionWrapper implements IAggrFunction {
 
 	private IAggregation aggrFunc;
 	private String displayName;
@@ -387,156 +320,153 @@ class AggrFunctionWrapper implements IAggrFunction
 	/**
 	 * @param aggrFunc
 	 */
-	public AggrFunctionWrapper( IAggregation aggrFunc )
-	{
+	public AggrFunctionWrapper(IAggregation aggrFunc) {
 		this.aggrFunc = aggrFunc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDataType()
 	 */
-	public int getDataType( )
-	{
-		return aggrFunc.getDataType( );
+	@Override
+	public int getDataType() {
+		return aggrFunc.getDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDefaultValue()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	@Override
+	public Object getDefaultValue() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
+	@Override
+	public String getDescription() {
 		return "";
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	@Override
+	public String getDisplayName() {
 		return this.displayName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getName()
 	 */
-	public String getName( )
-	{
-		return aggrFunc.getName( );
+	@Override
+	public String getName() {
+		return aggrFunc.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getNumberOfPasses()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getNumberOfPasses(
+	 * )
 	 */
-	public int getNumberOfPasses( )
-	{
-		if ( aggrFunc instanceof Aggregation )
-		{
-			return ( (Aggregation) aggrFunc ).getNumberOfPasses( );
+	@Override
+	public int getNumberOfPasses() {
+		if (aggrFunc instanceof Aggregation) {
+			return ((Aggregation) aggrFunc).getNumberOfPasses();
 		}
 		return 1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
+	@Override
+	public IParameterDefn[] getParameterDefn() {
 		return this.parameterDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getType()
 	 */
-	public int getType( )
-	{
-		return aggrFunc.getType( );
+	@Override
+	public int getType() {
+		return aggrFunc.getType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#isDataOrderSensitive()
+	 *
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#
+	 * isDataOrderSensitive()
 	 */
-	public boolean isDataOrderSensitive( )
-	{
+	@Override
+	public boolean isDataOrderSensitive() {
 		return false;
 	}
 
 	/**
-	 * @param displayName
-	 *            the displayName to set
+	 * @param displayName the displayName to set
 	 */
-	public void setDisplayName( String displayName )
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
-	
 	/**
 	 * @param parameterDefn the parameterDefn to set
 	 */
-	public void setParameterDefn( IParameterDefn[] parameterDefn )
-	{
+	public void setParameterDefn(IParameterDefn[] parameterDefn) {
 		this.parameterDefn = parameterDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#newAccumulator()
+	 *
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return aggrFunc.newAccumulator( );
+	@Override
+	public Accumulator newAccumulator() {
+		return aggrFunc.newAccumulator();
 	}
-	
-	
+
 	/**
 	 *
 	 */
-	public static class ParameterDefn implements IParameterDefn
-	{
+	public static class ParameterDefn implements IParameterDefn {
 		String name;
 		String displayName;
 		String description = "";//$NON-NLS-1$
 		boolean isDataField;
 		boolean isOptional;
 
-
 		/**
-		 * 
+		 *
 		 * @param name
 		 * @param displayName
 		 * @param isOptional
 		 * @param isDataField
 		 */
-		public ParameterDefn( String name, String displayName, boolean isOptional,
-				boolean isDataField )
-		{
+		public ParameterDefn(String name, String displayName, boolean isOptional, boolean isDataField) {
 			this.name = name;
 			this.displayName = displayName;
 			this.isDataField = isDataField;
@@ -545,58 +475,68 @@ class AggrFunctionWrapper implements IAggrFunction
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
 		 */
-		public String getDescription( )
-		{
+		@Override
+		public String getDescription() {
 			return description;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
 		 */
-		public String getDisplayName( )
-		{
+		@Override
+		public String getDisplayName() {
 			return displayName;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
 		 */
-		public boolean isDataField( )
-		{
+		@Override
+		public boolean isDataField() {
 			return isDataField;
 		}
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isOptional()
 		 */
-		public boolean isOptional( )
-		{
+		@Override
+		public boolean isOptional() {
 			return isOptional;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(int)
+		 *
+		 * @see
+		 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(
+		 * int)
 		 */
-		public boolean supportDataType( int dataType )
-		{
+		@Override
+		public boolean supportDataType(int dataType) {
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
+		 *
 		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getName()
 		 */
-		public String getName( )
-		{
+		@Override
+		public String getName() {
 			return name;
 		}
 
 	}
 }
-

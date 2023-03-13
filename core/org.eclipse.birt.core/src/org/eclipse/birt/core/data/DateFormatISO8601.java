@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,13 +32,12 @@ import com.ibm.icu.util.TimeZone;
  * according to date format defined by ISO8601.
  */
 
-public class DateFormatISO8601
-{
+public class DateFormatISO8601 {
 
-	private static Pattern T_PATTERN = Pattern.compile( "T" );
-	//Time pattern matches the time part similar to 02:15:01.999620
-	private static Pattern TIME_PART_PATTERN = Pattern.compile( "\\d\\d:\\d\\d:\\d\\d\\.\\d+" );
-	
+	private static Pattern T_PATTERN = Pattern.compile("T");
+	// Time pattern matches the time part similar to 02:15:01.999620
+	private static Pattern TIME_PART_PATTERN = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\.\\d+");
+
 	/**
 	 * Parse a date/time string.
 	 *
@@ -43,30 +45,21 @@ public class DateFormatISO8601
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Date parse( String source, TimeZone timeZone ) throws BirtException,
-			ParseException
-	{
-		DateFormat dateFormat = getSimpleDateFormat( source, timeZone );
+	public static Date parse(String source, TimeZone timeZone) throws BirtException, ParseException {
+		DateFormat dateFormat = getSimpleDateFormat(source, timeZone);
 		TimeZone savedTimeZone = dateFormat.getTimeZone();
 		Date resultDate = null;
-		try
-		{
-			if ( timeZone != null )
-			{
-				dateFormat.setTimeZone( timeZone );
+		try {
+			if (timeZone != null) {
+				dateFormat.setTimeZone(timeZone);
 			}
-			if ( dateFormat != null )
-			{
+			if (dateFormat != null) {
 				resultDate = dateFormat.parse(cleanDate(source));
 			}
 			return resultDate;
-		}
-		catch ( ParseException e )
-		{
-			throw new CoreException( ResourceConstants.CONVERT_FAILS,
-					new Object[]{source.toString( ), "Date"} );
-		}
-		finally {
+		} catch (ParseException e) {
+			throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Date" });
+		} finally {
 			dateFormat.setTimeZone(savedTimeZone);
 		}
 	}
@@ -74,8 +67,8 @@ public class DateFormatISO8601
 	/**
 	 * @deprecated use getSimpleDateFormat instead
 	 */
-	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException
-	{
+	@Deprecated
+	public static SimpleDateFormat getDateFormat(String source, TimeZone timeZone) throws BirtException {
 		// SimpleDateFormat must be cloned here, to prevent write-through to the cache
 		// of the underlying DateFormatFactory
 		return (SimpleDateFormat) getSimpleDateFormat(source, timeZone).clone();
@@ -83,6 +76,7 @@ public class DateFormatISO8601
 
 	/**
 	 * Get a date format object that can parse the given date/time string
+	 *
 	 * @since 4.8
 	 *
 	 * @param source
@@ -91,167 +85,108 @@ public class DateFormatISO8601
 	 * @throws BirtException
 	 * @throws ParseException
 	 */
-	public static SimpleDateFormat getSimpleDateFormat( String source, TimeZone timeZone ) throws BirtException
-	{
-		if ( source == null || source.trim( ).length( ) == 0 )
-		{
+	public static SimpleDateFormat getSimpleDateFormat(String source, TimeZone timeZone) throws BirtException {
+		if (source == null || source.trim().length() == 0) {
 			return null;
 		}
 		SimpleDateFormat dateFormat = null;
 		Date resultDate = null;
-		source = cleanDate( source );
-		Object simpleDateFormatter = DateFormatFactory.getPatternInstance( PatternKey.getPatterKey( source ) );
-		if ( simpleDateFormatter != null )
-		{
+		source = cleanDate(source);
+		Object simpleDateFormatter = DateFormatFactory.getPatternInstance(PatternKey.getPatterKey(source));
+		if (simpleDateFormatter != null) {
 			dateFormat = (SimpleDateFormat) simpleDateFormatter;
 			TimeZone savedTimeZone = null;
-			try
-			{
-				if ( timeZone != null )
-				{
-					savedTimeZone = dateFormat.getTimeZone( );
-					dateFormat.setTimeZone( timeZone );
+			try {
+				if (timeZone != null) {
+					savedTimeZone = dateFormat.getTimeZone();
+					dateFormat.setTimeZone(timeZone);
 				}
-				resultDate = dateFormat.parse( source );
+				resultDate = dateFormat.parse(source);
 				return dateFormat;
-			}
-			catch ( ParseException e1 )
-			{
-			}
-			finally
-			{
-				if ( savedTimeZone != null )
-					dateFormat.setTimeZone( savedTimeZone );
+			} catch (ParseException e1) {
+			} finally {
+				if (savedTimeZone != null) {
+					dateFormat.setTimeZone(savedTimeZone);
+				}
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
-		if ( resultDate == null )
-		{
-			throw new CoreException( ResourceConstants.CONVERT_FAILS,
-					new Object[]{source.toString( ), "Date"} );
+		if (resultDate == null) {
+			throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { source.toString(), "Date" });
 		}
 
 		// never access here
 		return dateFormat;
 	}
-	
+
 	/**
 	 * Format a date/time object.
-	 * 
+	 *
 	 * @param date
 	 * @param timeZone
 	 * @return
 	 * @throws BirtException
 	 */
-	public static String format( Date date, TimeZone timeZone ) throws BirtException
-	{
-		if ( date == null  )
-		{
+	public static String format(Date date, TimeZone timeZone) throws BirtException {
+		if (date == null) {
 			return null;
 		}
-		
-		SimpleDateFormat simpleDateFormatter =
-				DateFormatFactory.getPatternInstance(PatternKey.getPatterKey("yyyy-MM-dd HH:mm:ss.sZ"));
+
+		SimpleDateFormat simpleDateFormatter = DateFormatFactory
+				.getPatternInstance(PatternKey.getPatterKey("yyyy-MM-dd HH:mm:ss.sZ"));
 		TimeZone savedTimeZone = simpleDateFormatter.getTimeZone();
-		if ( simpleDateFormatter != null )
-		{
-			try
-			{
+		if (simpleDateFormatter != null) {
+			try {
 				simpleDateFormatter.setTimeZone(timeZone);
 				return simpleDateFormatter.format(date);
-			}
-			catch ( Exception e1 )
-			{
-			}
-			finally {
+			} catch (Exception e1) {
+			} finally {
 				simpleDateFormatter.setTimeZone(savedTimeZone);
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
-		throw new CoreException( ResourceConstants.CONVERT_FAILS, new Object[]{
-				date.toString( ), "ISO8601 Format"
-		} );
+		throw new CoreException(ResourceConstants.CONVERT_FAILS, new Object[] { date.toString(), "ISO8601 Format" });
 	}
-	
+
 	/**
 	 * Parse a date/time string.
+	 *
 	 * @param source
 	 * @return
 	 * @throws ParseException
 	 */
-	public static String format( Date date ) throws BirtException
-	{
-		return format( date, TimeZone.getDefault( ) );
+	public static String format(Date date) throws BirtException {
+		return format(date, TimeZone.getDefault());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
-	private static String cleanDate( String s )
-	{
-		s = s.trim( );
-		if ( s.indexOf( 'T' ) < 12 )
-		{
-			s = T_PATTERN.matcher( s ).replaceFirst( " " );//$NON-NLS-1$ //$NON-NLS-2$
+	private static String cleanDate(String s) {
+		s = s.trim();
+		if (s.indexOf('T') < 12) {
+			s = T_PATTERN.matcher(s).replaceFirst(" ");//$NON-NLS-1$
 		}
-		
-		int zoneIndex = s.indexOf( 'Z' );
-		if ( zoneIndex == -1 )
-		{
+
+		int zoneIndex = s.indexOf('Z');
+		if (zoneIndex == -1) {
 			zoneIndex = s.indexOf('z');
 		}
-		if ( zoneIndex == s.length( ) - 1 )
-		{
-			return s.substring( 0, zoneIndex ).trim( );
+		if (zoneIndex == s.length() - 1) {
+			return s.substring(0, zoneIndex).trim();
 		}
-		
+
 		Matcher m = TIME_PART_PATTERN.matcher(s);
-		if ( m.find( ) )
-		{
-			String timePart = m.group( );
-			if ( timePart.length( ) > 12 )
-			{
-				s = m.replaceFirst(timePart.substring( 0, 12 ) );
+		if (m.find()) {
+			String timePart = m.group();
+			if (timePart.length() > 12) {
+				s = m.replaceFirst(timePart.substring(0, 12));
 			}
 		}
-		
+
 		return s;
 	}
-
-	/**
-	 * 
-	 * @param s
-	 * @return
-	 */
-	private static int getZoneIndex( String s )
-	{
-		int index = s.indexOf( '+' );
-		if ( index > 0 )
-		{
-			return index;
-		}
-		
-		index = s.indexOf( '-' ); //first '-'
-		if ( index > 0 )
-		{
-			index = s.indexOf( '-', index + 1 ); //second '-'
-		}
-		else
-		{
-			return index;
-		}
-		if ( index > 0 )
-		{
-			index = s.indexOf( '-', index + 1 ); //third '-'
-		}
-		else
-		{
-			return index;
-		}
-		return index;
-	}
-	
 
 }

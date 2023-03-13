@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,12 +24,11 @@ public class BackgroundAttachmentManager extends IdentifierManager {
 	 */
 	protected final static StringMap values = new StringMap();
 	static {
-		values.put(CSSConstants.CSS_SCROLL_VALUE,
-				CSSValueConstants.SCROLL_VALUE);
-		values.put(CSSConstants.CSS_FIXED_VALUE,
-				CSSValueConstants.FIXED_VALUE);
+		values.put(CSSConstants.CSS_SCROLL_VALUE, CSSValueConstants.SCROLL_VALUE);
+		values.put(CSSConstants.CSS_FIXED_VALUE, CSSValueConstants.FIXED_VALUE);
 	}
 
+	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}
@@ -34,16 +36,18 @@ public class BackgroundAttachmentManager extends IdentifierManager {
 	public BackgroundAttachmentManager() {
 	}
 
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_BACKGROUND_ATTACHMENT_PROPERTY;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return false;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.SCROLL_VALUE;
 	}
 }
-

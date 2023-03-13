@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,17 +19,16 @@ import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSuppo
 /**
  * IExpressionButtonProvider
  */
-public interface IExpressionCellEditorProvider
-{
-	public void setInput( ExpressionCellEditor input );
+public interface IExpressionCellEditorProvider {
+	void setInput(ExpressionCellEditor input);
 
-	public String[] getExpressionTypes( );
+	String[] getExpressionTypes();
 
-	public void handleSelectionEvent( String exprType );
-	
-	public IExpressionSupport getExpressionSupport(String exprType);
+	void handleSelectionEvent(String exprType);
 
-	public String getText( String exprType );
+	IExpressionSupport getExpressionSupport(String exprType);
 
-	public String getTooltipText( String exprType );
+	String getText(String exprType);
+
+	String getTooltipText(String exprType);
 }

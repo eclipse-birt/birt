@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +24,7 @@ import org.xml.sax.Attributes;
  * This class parses a cube element within a report design.
  */
 
-public class OdaCubeState extends ReportElementState
-{
+public class OdaCubeState extends ReportElementState {
 
 	/**
 	 * The cube being created.
@@ -33,41 +35,38 @@ public class OdaCubeState extends ReportElementState
 	/**
 	 * Constructs the cube state with the design parser handler, the container
 	 * element and the container slot of the cube.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 *
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public OdaCubeState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public OdaCubeState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	@Override
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 *
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new OdaCube( );
-		initElement( attrs, true );
+	@Override
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new OdaCube();
+		initElement(attrs, true);
 	}
 }

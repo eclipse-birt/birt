@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 /*
  * Created on 2005-3-25
  *
@@ -8,17 +20,14 @@ package org.eclipse.birt.core.framework;
 
 import java.net.URL;
 
-
-
 /**
  *
  */
-public interface IBundle
-{
-	 Class loadClass(String name) throws ClassNotFoundException;
+public interface IBundle {
+	Class loadClass(String name) throws ClassNotFoundException;
 
-	URL getEntry( String name );
+	URL getEntry(String name);
 
-	//	 Enumeration getEntryPaths(String path);
-	String getStateLocation( );
+	// Enumeration getEntryPaths(String path);
+	String getStateLocation();
 }

@@ -23,7 +23,6 @@
    <windowImages/>
 
    <launcher name="BIRT">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -34,33 +33,34 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.text"/>
+      <plugin id="com.github.librepdf.openpdf"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.el"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
-      <plugin id="javax.wsdl" version="1.5.1.qualifier"/>
+      <plugin id="javax.wsdl"/>
       <plugin id="javax.xml"/>
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
       <plugin id="javax.xml.stream"/>
       <plugin id="org.apache.axis"/>
-      <plugin id="org.apache.batik.bridge" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.css" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.dom" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.dom.svg" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.ext.awt" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.parser" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.svggen" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.transcoder" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.util" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.util.gui" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.xml" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.bridge"/>
+      <plugin id="org.apache.batik.css"/>
+      <plugin id="org.apache.batik.dom"/>
+      <plugin id="org.apache.batik.dom.svg"/>
+      <plugin id="org.apache.batik.ext.awt"/>
+      <plugin id="org.apache.batik.parser"/>
+      <plugin id="org.apache.batik.svggen"/>
+      <plugin id="org.apache.batik.transcoder"/>
+      <plugin id="org.apache.batik.util"/>
+      <plugin id="org.apache.batik.util.gui"/>
+      <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
+      <plugin id="org.apache.felix.scr"/>
       <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
@@ -232,7 +232,6 @@
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
-      <plugin id="org.apache.felix.scr"/>
       <plugin id="org.eclipse.equinox.event"/>
       <plugin id="org.eclipse.equinox.frameworkadmin"/>
       <plugin id="org.eclipse.equinox.frameworkadmin.equinox"/>

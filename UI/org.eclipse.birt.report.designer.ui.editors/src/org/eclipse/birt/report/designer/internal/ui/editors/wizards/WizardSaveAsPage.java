@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,135 +35,107 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 
 /**
- * 
+ *
  */
 
-public class WizardSaveAsPage extends WizardPage
-{
+public class WizardSaveAsPage extends WizardPage {
 
 	private NewReportPageSupport support;
 
-	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.locationDirectory" ); //$NON-NLS-1$
-	private static final String MSG_EMPTY_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.name" ); //$NON-NLS-1$
+	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages
+			.getString("WizardNewReportCreationPage.msg.empty.file.locationDirectory"); //$NON-NLS-1$
+	private static final String MSG_EMPTY_FILE_NAME = Messages
+			.getString("WizardNewReportCreationPage.msg.empty.file.name"); //$NON-NLS-1$
 
-	private Listener locationModifyListener = new Listener( ) {
+	private Listener locationModifyListener = new Listener() {
 
-		public void handleEvent( Event e )
-		{
-			validatePage( );
-			getContainer( ).updateButtons( );
+		@Override
+		public void handleEvent(Event e) {
+			validatePage();
+			getContainer().updateButtons();
 		}
 	};
 
-	public WizardSaveAsPage( String pageName )
-	{
-		super( pageName );
-		support = new NewReportPageSupport( );
+	public WizardSaveAsPage(String pageName) {
+		super(pageName);
+		support = new NewReportPageSupport();
 	}
 
-	public void createControl( Composite parent )
-	{
+	@Override
+	public void createControl(Composite parent) {
 
-		Composite composite = support.createComposite( parent );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		composite.setFont( parent.getFont( ) );
+		Composite composite = support.createComposite(parent);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		composite.setFont(parent.getFont());
 
-		support.getFileNameField( ).setFocus( );
-		support.getFileNameField( ).addListener( SWT.Modify,
-				locationModifyListener );
-		support.getLocationPathField( ).addListener( SWT.Modify,
-				locationModifyListener );
+		support.getFileNameField().setFocus();
+		support.getFileNameField().addListener(SWT.Modify, locationModifyListener);
+		support.getLocationPathField().addListener(SWT.Modify, locationModifyListener);
 
-		setControl( composite );
-		UIUtil.bindHelp( getControl( ), IHelpContextIds.SAVE_AS_WIZARD_ID );
+		setControl(composite);
+		UIUtil.bindHelp(getControl(), IHelpContextIds.SAVE_AS_WIZARD_ID);
 	}
 
-	public void setOriginalFile( IEditorInput input )
-	{
-		String container = ( (IPathEditorInput) input ).getPath( )
-				.removeLastSegments( 1 )
-				.toOSString( );
-		support.setInitialFileLocation( container );
-		support.setInitialFileName( input.getName( ) );
+	public void setOriginalFile(IEditorInput input) {
+		String container = ((IPathEditorInput) input).getPath().removeLastSegments(1).toOSString();
+		support.setInitialFileLocation(container);
+		support.setInitialFileName(input.getName());
 	}
 
-	public boolean validatePage( )
-	{
-		if ( support.getFileName( ).equals( "" ) )//$NON-NLS-1$
+	public boolean validatePage() {
+		if (support.getFileName().equals(""))//$NON-NLS-1$
 		{
-			setErrorMessage( null );
-			setMessage( MSG_EMPTY_FILE_NAME );
+			setErrorMessage(null);
+			setMessage(MSG_EMPTY_FILE_NAME);
 			return false;
 		}
 
-		String location = support.getFileLocationFullPath( ).toOSString( );
+		String location = support.getFileLocationFullPath().toOSString();
 
-		if ( location.equals( "" ) ) //$NON-NLS-1$
+		if (location.equals("")) //$NON-NLS-1$
 		{
-			setErrorMessage( null );
-			setMessage( MSG_EMPTY_FILE_LOCATION_DIRECTORY );
+			setErrorMessage(null);
+			setMessage(MSG_EMPTY_FILE_LOCATION_DIRECTORY);
 			return false;
 		}
 
-		setErrorMessage( null );
+		setErrorMessage(null);
 		return true;
 	}
 
-	public IPath getResult( )
-	{
+	public IPath getResult() {
 
-		IPath path = support.getFileLocationFullPath( )
-				.append( support.getFileName( ) );
+		IPath path = support.getFileLocationFullPath().append(support.getFileName());
 
 		// If the user does not supply a file extension and if the save
 		// as dialog was provided a default file name append the extension
 		// of the default filename to the new name
-		if ( ReportPlugin.getDefault( )
-				.isReportDesignFile( support.getInitialFileName( ) )
-				&& !ReportPlugin.getDefault( )
-						.isReportDesignFile( path.toOSString( ) ) )
-		{
-			String[] parts = support.getInitialFileName( ).split( "\\." ); //$NON-NLS-1$
-			path = path.addFileExtension( parts[parts.length - 1] );
-		}
-		else if ( support.getInitialFileName( )
-				.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION )
-				&& !path.toOSString( )
-						.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) )
-		{
-			path = path.addFileExtension( "rpttemplate" ); //$NON-NLS-1$
+		if (ReportPlugin.getDefault().isReportDesignFile(support.getInitialFileName())
+				&& !ReportPlugin.getDefault().isReportDesignFile(path.toOSString())) {
+			String[] parts = support.getInitialFileName().split("\\."); //$NON-NLS-1$
+			path = path.addFileExtension(parts[parts.length - 1]);
+		} else if (support.getInitialFileName().endsWith(IReportEditorContants.TEMPLATE_FILE_EXTENTION)
+				&& !path.toOSString().endsWith(IReportEditorContants.TEMPLATE_FILE_EXTENTION)) {
+			path = path.addFileExtension("rpttemplate"); //$NON-NLS-1$
 		}
 		// If the path already exists then confirm overwrite.
-		File file = path.toFile( );
-		if ( file.exists( ) )
-		{
-			String[] buttons = new String[]{
-					IDialogConstants.YES_LABEL,
-					IDialogConstants.NO_LABEL,
-					IDialogConstants.CANCEL_LABEL
-			};
+		File file = path.toFile();
+		if (file.exists()) {
+			String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
 
-			String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
-					new Object[]{
-						path.toOSString( )
-					} );
-			MessageDialog d = new MessageDialog( getShell( ),
-					Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
-					null,
-					question,
-					MessageDialog.QUESTION,
-					buttons,
-					0 );
-			int overwrite = d.open( );
-			switch ( overwrite )
-			{
-				case 0 : // Yes
-					break;
-				case 1 : // No
-					return null;
-				case 2 : // Cancel
-				default :
-					return Path.EMPTY;
+			String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+					new Object[] { path.toOSString() });
+			MessageDialog d = new MessageDialog(getShell(), Messages.getString("SaveAsDialog.Question"), //$NON-NLS-1$
+					null, question, MessageDialog.QUESTION, buttons, 0);
+			int overwrite = d.open();
+			switch (overwrite) {
+			case 0: // Yes
+				break;
+			case 1: // No
+				return null;
+			case 2: // Cancel
+			default:
+				return Path.EMPTY;
 			}
 		}
 

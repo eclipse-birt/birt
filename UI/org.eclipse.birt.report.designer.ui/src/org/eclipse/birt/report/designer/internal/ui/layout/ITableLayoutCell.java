@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,35 +19,40 @@ import org.eclipse.draw2d.IFigure;
 /**
  * Cell layout interface for the table layout
  */
-public interface ITableLayoutCell
-{
+public interface ITableLayoutCell {
 
 	/**
 	 * Gets the row number.
-	 * 
+	 *
 	 * @return
 	 */
-	int getRowNumber( );
+	int getRowNumber();
 
 	/**
 	 * Gets the column number.
-	 * 
+	 *
 	 * @return
 	 */
-	int getColumnNumber( );
+	int getColumnNumber();
 
-	/**Gets the row span.
+	/**
+	 * Gets the row span.
+	 *
 	 * @return
 	 */
-	int getRowSpan( );
+	int getRowSpan();
 
-	/**Gets the cloumn span.
+	/**
+	 * Gets the cloumn span.
+	 *
 	 * @return
 	 */
-	int getColSpan( );
+	int getColSpan();
 
-	/**Gets the cell figure.
+	/**
+	 * Gets the cell figure.
+	 *
 	 * @return
 	 */
-	IFigure getFigure( );
+	IFigure getFigure();
 }

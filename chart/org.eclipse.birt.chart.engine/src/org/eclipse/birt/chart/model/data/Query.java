@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -15,20 +18,24 @@ import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Query</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Query</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents design-time definition for the dataset in a series.
- * 			
+ *
+ * This type represents design-time definition for the dataset in a series.
+ *
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.Query#getRules <em>Rules</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Query#getDefinition
+ * <em>Definition</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Query#getRules
+ * <em>Rules</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.Query#getGrouping
+ * <em>Grouping</em>}</li>
  * </ul>
  * </p>
  *
@@ -37,41 +44,46 @@ import org.eclipse.emf.common.util.EList;
  * @extends IChartObject
  * @generated
  */
-public interface Query extends IChartObject
-{
+public interface Query extends IChartObject {
 
 	/**
-	 * Returns the value of the '<em><b>Definition</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * Returns the value of the '<em><b>Definition</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @return the value of the '<em>Definition</em>' attribute.
 	 * @see #setDefinition(String)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Definition()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        required="true"
 	 * @generated
 	 */
-	String getDefinition( );
+	String getDefinition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.data.Query#getDefinition
+	 * <em>Definition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 *
 	 * @param value the new value of the '<em>Definition</em>' attribute.
 	 * @see #getDefinition()
 	 * @generated
 	 */
-	void setDefinition( String value );
+	void setDefinition(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.birt.chart.model.data.Rule}.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @return the value of the '<em>Rules</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Rules()
-	 * @model type="org.eclipse.birt.chart.model.data.Rule" containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='Rules'"
+	 * @model type="org.eclipse.birt.chart.model.data.Rule" containment="true"
+	 *        required="true" extendedMetaData="kind='element' name='Rules'"
 	 * @deprecated only reserved for compatibility
 	 */
-	EList<Rule> getRules( );
+	@Deprecated
+	EList<Rule> getRules();
 
 	/**
 	 * Returns the value of the '<em><b>Grouping</b></em>' containment reference.
@@ -81,48 +93,52 @@ public interface Query extends IChartObject
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @return the value of the '<em>Grouping</em>' containment reference.
 	 * @see #setGrouping(SeriesGrouping)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Grouping()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='Grouping'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='Grouping'"
 	 * @generated
 	 */
-	SeriesGrouping getGrouping( );
+	SeriesGrouping getGrouping();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.data.Query#getGrouping
+	 * <em>Grouping</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @param value the new value of the '<em>Grouping</em>' containment reference.
 	 * @see #getGrouping()
 	 * @generated
 	 */
-	void setGrouping( SeriesGrouping value );
+	void setGrouping(SeriesGrouping value);
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	boolean isDefined( );
+	boolean isDefined();
 
 	/**
 	 * @generated
 	 */
-	Query copyInstance( );
+	@Override
+	Query copyInstance();
 
 	/*
 	 * Get definition expression.
-	 * 
+	 *
 	 * @return expression the definition expression.
 	 */
-	ScriptExpression getDefinitionExpression( );
-	
+	ScriptExpression getDefinitionExpression();
+
 	/*
 	 * Set definition expression.
-	 * 
+	 *
 	 * @param expression the definition expression.
 	 */
-	void setDefinitionExpression( ScriptExpression expression );
+	void setDefinitionExpression(ScriptExpression expression);
 
 } // Query

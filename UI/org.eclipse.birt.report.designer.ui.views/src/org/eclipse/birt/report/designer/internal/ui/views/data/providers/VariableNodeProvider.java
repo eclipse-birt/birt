@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,59 +28,51 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
- * 
+ *
  */
 
-public class VariableNodeProvider extends DefaultNodeProvider
-{
+public class VariableNodeProvider extends DefaultNodeProvider {
 
 	@Override
-	public Object getParent( Object model )
-	{
-		if ( model != null
-				&& ( (VariableElementHandle) model ).getRoot( ) != null )
-			return ( (VariableElementHandle) model ).getRoot( )
-					.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP );
+	public Object getParent(Object model) {
+		if (model != null && ((VariableElementHandle) model).getRoot() != null) {
+			return ((VariableElementHandle) model).getRoot().getPropertyHandle(IReportDesignModel.PAGE_VARIABLES_PROP);
+		}
 		return null;
 	}
 
-	public Object[] getChildren( Object model )
-	{
+	@Override
+	public Object[] getChildren(Object model) {
 		return new Object[0];
 	}
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry for the given object and adds them to the menu
-	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 *
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		super.createContextMenu( sourceViewer, object, menu );
+	@Override
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		super.createContextMenu(sourceViewer, object, menu);
 		// menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 		// new EditVariableAction( object ) );
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditAction( object,
-						Messages.getString( "ParameterNodeProvider.menu.text.edit" ) ) );
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+				new EditAction(object, Messages.getString("ParameterNodeProvider.menu.text.edit")));
 	}
 
-	public String getNodeDisplayName( Object object )
-	{
-		return ( (VariableElementHandle) object ).getDisplayLabel( );
+	@Override
+	public String getNodeDisplayName(Object object) {
+		return ((VariableElementHandle) object).getDisplayLabel();
 	}
 
-	protected boolean performEdit( ContentElementHandle handle )
-	{
-		VariableDialog dialog = new VariableDialog( Messages.getString( "VariableNodeProvider.DialogTitle" ), //$NON-NLS-1$
-				(ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ),
-				(VariableElementHandle) handle );
-		dialog.open( );
+	@Override
+	protected boolean performEdit(ContentElementHandle handle) {
+		VariableDialog dialog = new VariableDialog(Messages.getString("VariableNodeProvider.DialogTitle"), //$NON-NLS-1$
+				(ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle(),
+				(VariableElementHandle) handle);
+		dialog.open();
 		return true;
 	}
 

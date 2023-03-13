@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -40,137 +42,110 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 /**
  * Fragment help rendering parameter page in side bar.
  * <p>
- * 
+ *
  * @see BaseFragment
  */
-public class ParameterDialogFragment extends BaseDialogFragment
-{
+public class ParameterDialogFragment extends BaseDialogFragment {
 
 	/**
 	 * Get unique id of the corresponding UI gesture.
-	 * 
+	 *
 	 * @return id
 	 */
-	public String getClientId( )
-	{
+	@Override
+	public String getClientId() {
 		return "parameterDialog"; //$NON-NLS-1$
 	}
 
 	/**
 	 * Get name of the corresponding UI gesture.
-	 * 
+	 *
 	 * @return id
 	 */
-	public String getClientName( )
-	{
+	@Override
+	public String getClientName() {
 		return "Parameter"; //$NON-NLS-1$
 	}
 
 	/**
 	 * Gets the title ID for the html page.
-	 * 
+	 *
 	 * @return title id
 	 */
 
-	public String getTitle( )
-	{
-		return BirtResources
-				.getMessage( ResourceConstants.PARAMETER_DIALOG_TITLE );
+	@Override
+	public String getTitle() {
+		return BirtResources.getMessage(ResourceConstants.PARAMETER_DIALOG_TITLE);
 	}
 
-	protected void doService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		Collection fragments = new ArrayList( );
-		IViewerReportService service = getReportService( );
+	@Override
+	protected void doService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Collection fragments = new ArrayList();
+		IViewerReportService service = getReportService();
 		Collection parameters = null;
 
-		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
 		assert attrBean != null;
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, request);
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
 
-		try
-		{
-			parameters = service.getParameterDefinitions( attrBean
-					.getReportDesignHandle( request ), options, true );
-		}
-		catch ( ReportServiceException e )
-		{
+		try {
+			parameters = service.getParameterDefinitions(attrBean.getReportDesignHandle(request), options, true);
+		} catch (ReportServiceException e) {
 			// TODO What to do here???
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 
-		if ( parameters != null )
-		{
-			Iterator iParameters = parameters.iterator( );
-			while ( iParameters != null && iParameters.hasNext( ) )
-			{
-				Object parameter = iParameters.next( );
-				if ( parameter == null )
-				{
+		if (parameters != null) {
+			Iterator iParameters = parameters.iterator();
+			while (iParameters != null && iParameters.hasNext()) {
+				Object parameter = iParameters.next();
+				if (parameter == null) {
 					continue;
 				}
 
 				IFragment fragment = null;
-				if ( parameter instanceof ParameterGroupDefinition )
-				{
-					fragment = new ParameterGroupFragment(
-							(ParameterGroupDefinition) parameter );
-				}
-				else if ( parameter instanceof ParameterDefinition )
-				{
+				if (parameter instanceof ParameterGroupDefinition) {
+					fragment = new ParameterGroupFragment((ParameterGroupDefinition) parameter);
+				} else if (parameter instanceof ParameterDefinition) {
 					ParameterDefinition scalarParameter = (ParameterDefinition) parameter;
 
-					if ( !scalarParameter.isHidden( ) )
-					{
-						switch ( scalarParameter.getControlType( ) )
-						{
-							case ParameterDefinition.TEXT_BOX :
-							{
-								fragment = new TextBoxParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.LIST_BOX :
-							{
-								fragment = new ComboBoxParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.RADIO_BUTTON :
-							{
-								fragment = new RadioButtonParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.CHECK_BOX :
-							{
-								fragment = new CheckboxParameterFragment(
-										scalarParameter );
-								break;
-							}
+					if (!scalarParameter.isHidden()) {
+						switch (scalarParameter.getControlType()) {
+						case ParameterDefinition.TEXT_BOX: {
+							fragment = new TextBoxParameterFragment(scalarParameter);
+							break;
 						}
-					}
-					else
-					{
+						case ParameterDefinition.LIST_BOX: {
+							fragment = new ComboBoxParameterFragment(scalarParameter);
+							break;
+						}
+						case ParameterDefinition.RADIO_BUTTON: {
+							fragment = new RadioButtonParameterFragment(scalarParameter);
+							break;
+						}
+						case ParameterDefinition.CHECK_BOX: {
+							fragment = new CheckboxParameterFragment(scalarParameter);
+							break;
+						}
+						}
+					} else {
 						// handle hidden parameter
-						fragment = new HiddenParameterFragment( scalarParameter );
+						fragment = new HiddenParameterFragment(scalarParameter);
 					}
 				}
 
-				if ( fragment != null )
-				{
-					fragment.setJSPRootPath( JSPRootPath );
-					fragments.add( fragment );
+				if (fragment != null) {
+					fragment.setJSPRootPath(JSPRootPath);
+					fragments.add(fragment);
 				}
 			}
 		}
 
-		request.setAttribute( "fragments", fragments ); //$NON-NLS-1$
+		request.setAttribute("fragments", fragments); //$NON-NLS-1$
 	}
 }

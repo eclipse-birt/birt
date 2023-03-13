@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,24 +22,21 @@ import org.eclipse.ui.forms.editor.IFormPage;
  * multi-page editors.
  */
 
-public interface IMultiPageEditorActionBarContributor extends
-		IEditorActionBarContributor
-{
+public interface IMultiPageEditorActionBarContributor extends IEditorActionBarContributor {
 
 	/**
 	 * Sets the active page of the the multi-page editor to be the given editor.
-	 * Redirect actions to the given editor if actions are not already being
-	 * sent to it.
+	 * Redirect actions to the given editor if actions are not already being sent to
+	 * it.
 	 * <p>
-	 * This method is called whenever the page changes. Subclasses must
-	 * implement this method to redirect actions to the given editor (if not
-	 * already directed to it).
+	 * This method is called whenever the page changes. Subclasses must implement
+	 * this method to redirect actions to the given editor (if not already directed
+	 * to it).
 	 * </p>
-	 * 
-	 * @param page
-	 *            the new active page
+	 *
+	 * @param page the new active page
 	 */
 
-	public void setActivePage( IFormPage page );
+	void setActivePage(IFormPage page);
 
 }

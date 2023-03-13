@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,11 +35,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
- * 
+ *
  */
 
-public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
-{
+public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider {
 
 	/**
 	 * The current selections in outline or Editor.
@@ -46,25 +48,18 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = new String[]{
-			ILevelViewConstants.LEVEL_PROP,
-			ISortElementModel.KEY_PROP,
-			ISortElementModel.DIRECTION_PROP,
-			SortKey.LOCALE_MEMBER,
-			SortKey.STRENGTH_MEMBER
-	};
+	private String[] columnKeys = { ILevelViewConstants.LEVEL_PROP, ISortElementModel.KEY_PROP,
+			ISortElementModel.DIRECTION_PROP, SortKey.LOCALE_MEMBER, SortKey.STRENGTH_MEMBER };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[]{
-			250, 250, 100, 100, 100
-	};
+	private static int[] columnWidth = { 250, 250, 100, 100, 100 };
 
 	/**
 	 * Model processor, provide data process of Sorting model.
 	 */
-	private CrosstabSortingModelProvider modelAdapter = new CrosstabSortingModelProvider( );
+	private CrosstabSortingModelProvider modelAdapter = new CrosstabSortingModelProvider();
 
 	/**
 	 * The display name of columns.
@@ -78,56 +73,56 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnNames()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
-		if ( columnNames == null )
-		{
-			columnNames = modelAdapter.getColumnNames( columnKeys );
+	@Override
+	public String[] getColumnNames() {
+		if (columnNames == null) {
+			columnNames = modelAdapter.getColumnNames(columnKeys);
 		}
 		return columnNames;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getTitle()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getTitle()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "SortingHandleProvider.Label.SortOn" ); //$NON-NLS-1$
+	@Override
+	public String getDisplayName() {
+		return Messages.getString("SortingHandleProvider.Label.SortOn"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( Table table )
-	{
-		if ( editors == null )
-		{
+	@Override
+	public CellEditor[] getEditors(Table table) {
+		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
-			editors[0] = new TextCellEditor( table );
-			editors[1] = new TextCellEditor( table );
-			editors[2] = new TextCellEditor( table );
-			editors[3] = new TextCellEditor( table );
-			editors[4] = new TextCellEditor( table );
+			editors[0] = new TextCellEditor(table);
+			editors[1] = new TextCellEditor(table);
+			editors[2] = new TextCellEditor(table);
+			editors[3] = new TextCellEditor(table);
+			editors[4] = new TextCellEditor(table);
 		}
 		return editors;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doMoveItem(int,
-	 *      int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos )
-			throws PropertyValueException
-	{
+	@Override
+	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
 		// return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
 		// According Model's advice: Can not move up or down
 		return false;
@@ -135,139 +130,142 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doDeleteItem(int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws PropertyValueException
-	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+	@Override
+	public boolean doDeleteItem(int pos) throws PropertyValueException {
+		return modelAdapter.deleteItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doAddItem(int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws SemanticException
-	{
-		return modelAdapter.doAddItem( input.get( 0 ), pos );
+	@Override
+	public boolean doAddItem(int pos) throws SemanticException {
+		return modelAdapter.doAddItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doEditItem(int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
-		return modelAdapter.doEditItem( input.get( 0 ), pos );
+	@Override
+	public boolean doEditItem(int pos) {
+		return modelAdapter.doEditItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
-		return modelAdapter.getText( element, key );
+		return modelAdapter.getText(element, key);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
-	public Image getImage( Object element, int columnIndex )
-	{
+	@Override
+	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-		{
+	@Override
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List) {
 			input = (List) inputElement;
+		} else {
+			input = new ArrayList();
+			input.add(inputElement);
 		}
-		else
-		{
-			input = new ArrayList( );
-			input.add( inputElement );
-		}
-		Object[] elements = modelAdapter.getElements( input );
+		Object[] elements = modelAdapter.getElements(input);
 		return elements;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	@Override
+	public boolean canModify(Object element, String property) {
 		// Can not modify
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
+	@Override
+	public Object getValue(Object element, String property) {
+		int index = Arrays.asList(columnNames).indexOf(property);
+		String columnText = getColumnText(element, index);
 
 		return columnText;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws NameException, SemanticException
-	{
+	@Override
+	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 		// Can not modify
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	@Override
+	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 *
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
+	 * NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof PropertyEvent )
-		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( ListingHandle.SORT_PROP.equals( propertyName )
-					|| ILevelViewConstants.SORT_PROP.equals( propertyName ) )
+	@Override
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof PropertyEvent) {
+			String propertyName = ((PropertyEvent) event).getPropertyName();
+			if (ListingHandle.SORT_PROP.equals(propertyName) || ILevelViewConstants.SORT_PROP.equals(propertyName)) {
 				return true;
+			}
 		}
 		return false;
 	}

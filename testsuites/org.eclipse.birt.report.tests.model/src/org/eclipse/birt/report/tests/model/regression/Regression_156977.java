@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,19 +31,18 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * ScriptDataSetHandle ds = design.getElementFactory().newScriptDataSet(
  * dataSetName ); ...
- * 
+ *
  * <pre>
- * PropertyHandle ph = ds.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
- * for ( int i = 0; i &lt; columns.length; i++ )
- * {
- * 	ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
- * 	rsc.setPosition( new Integer( i + 1 ) );
- * 	rsc.setColumnName( columns[i].getName( ) );
- * 	rsc.setDataType( columns[i].getType( ).dataType );
- * 	ph.addItem( rsc ); //&lt;= NPE 
+ * PropertyHandle ph = ds.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
+ * for (int i = 0; i &lt; columns.length; i++) {
+ * 	ResultSetColumn rsc = StructureFactory.createResultSetColumn();
+ * 	rsc.setPosition(new Integer(i + 1));
+ * 	rsc.setColumnName(columns[i].getName());
+ * 	rsc.setDataType(columns[i].getType().dataType);
+ * 	ph.addItem(rsc); // &lt;= NPE
  * }
  * </pre>
- * 
+ *
  * <b>Test description:</b>
  * <p>
  * In ScriptDataSet, result set hints has replaced the result set property.
@@ -48,7 +50,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Test if getPropertyHandle(RESULT_SET_PROP) returns
  * getPropertyHandle(RESULT_SET_HINTS_PROP) and no exception
- * 
+ *
  */
 public class Regression_156977 extends BaseTestCase
 
@@ -57,26 +59,22 @@ public class Regression_156977 extends BaseTestCase
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_156977( ) throws SemanticException
-	{
-		createDesign( );
+	public void test_regression_156977() throws SemanticException {
+		createDesign();
 
-		ScriptDataSetHandle ds = designHandle.getElementFactory( )
-				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
+		ScriptDataSetHandle ds = designHandle.getElementFactory().newScriptDataSet("dataSet1"); //$NON-NLS-1$
 
-		PropertyHandle ph = ds
-				.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
+		PropertyHandle ph = ds.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
 
-		assertNotNull( ph );
+		assertNotNull(ph);
 
-		for ( int i = 0; i < 2; i++ )
-		{
-			ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-			rsc.setPosition( new Integer( i + 1 ) );
-			rsc.setColumnName( "COLUMN_" + i ); //$NON-NLS-1$
-			rsc.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL );
+		for (int i = 0; i < 2; i++) {
+			ResultSetColumn rsc = StructureFactory.createResultSetColumn();
+			rsc.setPosition(new Integer(i + 1));
+			rsc.setColumnName("COLUMN_" + i); //$NON-NLS-1$
+			rsc.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL);
 
-			ph.addItem( rsc );
+			ph.addItem(rsc);
 		}
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -28,13 +31,13 @@ import com.ibm.icu.util.ULocale;
  * Regression description:
  * </p>
  * Details: Different preview on list
- * 
+ *
  * Step:
  * <ol>
  * <li>New a report design, create datasource and dataset.
  * <li>Add a list, bending the dataset, add a data with column of dataset into
  * detail row.
- * <li> Change the data to template item and input some word in Instructions.
+ * <li>Change the data to template item and input some word in Instructions.
  * <li>New another report design, create the same datasource and dataset.
  * <li>Copy the list from the 1st report to the 2nd report.
  * <li>Preview these report design
@@ -52,48 +55,40 @@ import com.ibm.icu.util.ULocale;
  * are also copied.
  * </p>
  */
-public class Regression_132641 extends BaseTestCase
-{
+public class Regression_132641 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
-	 * 
+	 *
 	 */
-	public void test_regression_132641( ) throws SemanticException, IOException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle1 = session.createDesign( );
+	public void test_regression_132641() throws SemanticException, IOException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle1 = session.createDesign();
 
-		ElementFactory factory = designHandle1.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		label.setText( "abc" ); //$NON-NLS-1$
-		designHandle1.getBody( ).add( label );
+		ElementFactory factory = designHandle1.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+		label.setText("abc"); //$NON-NLS-1$
+		designHandle1.getBody().add(label);
 
 		// convert to template element.
 
-		designHandle1
-				.findElement( "label" ).createTemplateElement( "templateLabel" ); //$NON-NLS-1$//$NON-NLS-2$
-		IDesignElement copy = designHandle1.findElement( "templateLabel" ) //$NON-NLS-1$
-				.copy( );
+		designHandle1.findElement("label").createTemplateElement("templateLabel"); //$NON-NLS-1$//$NON-NLS-2$
+		IDesignElement copy = designHandle1.findElement("templateLabel") //$NON-NLS-1$
+				.copy();
 
-		ReportDesignHandle designHandle2 = session.createDesign( );
-		designHandle2.getBody( ).paste( copy );
+		ReportDesignHandle designHandle2 = session.createDesign();
+		designHandle2.getBody().paste(copy);
 
-		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) designHandle2
-				.findElement( "templateLabel" ); //$NON-NLS-1$
+		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) designHandle2.findElement("templateLabel"); //$NON-NLS-1$
 
-		assertNotNull( templateLabel );
-		assertEquals(
-				"NewTemplateParameterDefinition", //$NON-NLS-1$
-				templateLabel
-						.getStringProperty( TemplateReportItemHandle.REF_TEMPLATE_PARAMETER_PROP ) );
+		assertNotNull(templateLabel);
+		assertEquals("NewTemplateParameterDefinition", //$NON-NLS-1$
+				templateLabel.getStringProperty(TemplateReportItemHandle.REF_TEMPLATE_PARAMETER_PROP));
 
 		// make sure the template definition is also copied.
 
-		assertNotNull( designHandle2.getModule( )
-				.findTemplateParameterDefinition(
-						"NewTemplateParameterDefinition" ) ); //$NON-NLS-1$
+		assertNotNull(designHandle2.getModule().findTemplateParameterDefinition("NewTemplateParameterDefinition")); //$NON-NLS-1$
 	}
 }

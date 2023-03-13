@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,8 +32,7 @@ import org.osgi.framework.BundleContext;
 /**
  * DebugUI
  */
-public class DebugUI extends AbstractUIPlugin
-{
+public class DebugUI extends AbstractUIPlugin {
 
 	/**
 	 * Plug in ID
@@ -42,78 +44,69 @@ public class DebugUI extends AbstractUIPlugin
 	private static DebugUI plugin;
 	private ResourceBundle resourceBundle;
 
-	public static String getUniqueIdentifier( )
-	{
+	public static String getUniqueIdentifier() {
 		return ID_PLUGIN;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public DebugUI( )
-	{
+	public DebugUI() {
 		plugin = this;
-		try
-		{
-			resourceBundle = ResourceBundle.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" ); //$NON-NLS-1$
-		}
-		catch ( MissingResourceException _ex )
-		{
+		try {
+			resourceBundle = ResourceBundle.getBundle("org.eclipse.bird.report.debug.ui.DebugUIResources"); //$NON-NLS-1$
+		} catch (MissingResourceException _ex) {
 			resourceBundle = null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 *
+	 * @see
+	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 
-		declareImage( IMAGE_DEBUGGER_ICON_NAME, IMAGE_DEBUGGER_ICON_NAME );
-		
-		ScriptEvaluationContextManager.startup( );
+		declareImage(IMAGE_DEBUGGER_ICON_NAME, IMAGE_DEBUGGER_ICON_NAME);
+
+		ScriptEvaluationContextManager.startup();
 	}
 
-	private void declareImage( String key, String path )
-	{
+	private void declareImage(String key, String path) {
 		URL url = null;
-		try
-		{
-			url = new URL( getBundle( ).getEntry( "/" ), //$NON-NLS-1$
-					path );
-		}
-		catch ( MalformedURLException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			url = new URL(getBundle().getEntry("/"), //$NON-NLS-1$
+					path);
+		} catch (MalformedURLException e) {
+			ExceptionUtil.handle(e);
 			return;
 		}
 
-		ImageDescriptor desc = ImageDescriptor.createFromURL( url );
+		ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 
-		getImageRegistry( ).put( key, desc );
+		getImageRegistry().put(key, desc);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 *
+	 * @see
+	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 	}
 
 	/**
 	 * @return
 	 */
-	public static DebugUI getDefault( )
-	{	
-		if ( plugin == null )
-		{
-			plugin = new DebugUI( );
+	public static DebugUI getDefault() {
+		if (plugin == null) {
+			plugin = new DebugUI();
 		}
 		return plugin;
 	}
@@ -122,15 +115,11 @@ public class DebugUI extends AbstractUIPlugin
 	 * @param key
 	 * @return
 	 */
-	public static String getResourceString( String key )
-	{
-		ResourceBundle bundle = getDefault( ).getResourceBundle( );
-		try
-		{
-			return bundle == null ? key : bundle.getString( key );
-		}
-		catch ( MissingResourceException _ex )
-		{
+	public static String getResourceString(String key) {
+		ResourceBundle bundle = getDefault().getResourceBundle();
+		try {
+			return bundle == null ? key : bundle.getString(key);
+		} catch (MissingResourceException _ex) {
 			return key;
 		}
 	}
@@ -138,42 +127,34 @@ public class DebugUI extends AbstractUIPlugin
 	/**
 	 * @return
 	 */
-	public ResourceBundle getResourceBundle( )
-	{
+	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
 
 	/**
 	 * @return
 	 */
-	public static Display getStandardDisplay( )
-	{
+	public static Display getStandardDisplay() {
 		Display display;
-		display = Display.getCurrent( );
-		if ( display == null )
-			display = Display.getDefault( );
+		display = Display.getCurrent();
+		if (display == null) {
+			display = Display.getDefault();
+		}
 		return display;
 	}
 
 	/**
 	 * @return
 	 */
-	public static Shell getShell( )
-	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
-		if ( window == null )
-		{
-			IWorkbenchWindow[] windows = PlatformUI.getWorkbench( )
-					.getWorkbenchWindows( );
-			if ( windows.length > 0 )
-			{
-				return windows[0].getShell( );
+	public static Shell getShell() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window == null) {
+			IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+			if (windows.length > 0) {
+				return windows[0].getShell();
 			}
-		}
-		else
-		{
-			return window.getShell( );
+		} else {
+			return window.getShell();
 		}
 		return null;
 	}

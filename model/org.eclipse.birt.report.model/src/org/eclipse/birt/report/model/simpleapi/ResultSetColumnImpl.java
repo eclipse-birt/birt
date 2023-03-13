@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,13 +19,12 @@ import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
 
 /**
- * 
+ *
  * Implements of ResultSetColumn.
- * 
+ *
  */
 
-public class ResultSetColumnImpl extends Structure implements IResultSetColumn
-{
+public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/**
 	 * ResultSetColumn instance.
@@ -32,95 +34,88 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
 
-	public ResultSetColumnImpl( )
-	{
-		super( null );
-		this.column = createResultSetColumn( );
+	public ResultSetColumnImpl() {
+		super(null);
+		this.column = createResultSetColumn();
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
-	public ResultSetColumnImpl( ResultSetColumnHandle columnHandle )
-	{
-		super( columnHandle );
+	public ResultSetColumnImpl(ResultSetColumnHandle columnHandle) {
+		super(columnHandle);
 
-		if ( columnHandle == null )
-		{
-			this.column = createResultSetColumn( );
-		}
-		else
-		{
+		if (columnHandle == null) {
+			this.column = createResultSetColumn();
+		} else {
 			structureHandle = columnHandle;
-			this.column = (ResultSetColumn) columnHandle.getStructure( );
+			this.column = (ResultSetColumn) columnHandle.getStructure();
 		}
 	}
 
 	/**
 	 * Create instance of <code>ResultSetColumn</code>
-	 * 
+	 *
 	 * @return instance
 	 */
 
-	private ResultSetColumn createResultSetColumn( )
-	{
-		ResultSetColumn c = new ResultSetColumn( );
+	private ResultSetColumn createResultSetColumn() {
+		ResultSetColumn c = new ResultSetColumn();
 		return c;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getColumnDataType()
 	 */
 
-	public String getColumnDataType( )
-	{
-		return column.getDataType( );
+	@Override
+	public String getColumnDataType() {
+		return column.getDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName ()
 	 */
 
-	public String getName( )
-	{
-		return column.getColumnName( );
+	@Override
+	public String getName() {
+		return column.getColumnName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getNativeDataType()
 	 */
 
-	public Integer getNativeDataType( )
-	{
-		return column.getNativeDataType( );
+	@Override
+	public Integer getNativeDataType() {
+		return column.getNativeDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
 	 * getPosition()
 	 */
 
-	public Integer getPosition( )
-	{
-		return column.getPosition( );
+	@Override
+	public Integer getPosition() {
+		return column.getPosition();
 	}
 
 }

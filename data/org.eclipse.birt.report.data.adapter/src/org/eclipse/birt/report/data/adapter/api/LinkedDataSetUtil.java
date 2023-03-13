@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.api;
 
 import java.lang.reflect.Method;
@@ -14,70 +26,51 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
-
-public class LinkedDataSetUtil
-{
+public class LinkedDataSetUtil {
 	private static String GET_LINKED_DATA_MODEL_METHOD = "getLinkedDataModel"; //$NON-NLS-1$
 	private static String GET_MEASURES_METHOD = "getMeasures"; //$NON-NLS-1$
-	private static String GET_NAME_METHOD = "getName";  //$NON-NLS-1$
-	
-	public static boolean bindToLinkedDataSet( ReportItemHandle reportItemHandle )
-	{
-		Method[] methods = reportItemHandle.getClass( ).getMethods( );
-		for ( int i = 0; i < methods.length; i++ )
-		{
-			String name = methods[i].getName( );
-			if ( name.equals( GET_LINKED_DATA_MODEL_METHOD ) )
-			{
-				Object result = null ;
-				try
-				{
-					result = methods[i].invoke( reportItemHandle );
-				}
-				catch ( Exception e )
-				{
+	private static String GET_NAME_METHOD = "getName"; //$NON-NLS-1$
+
+	public static boolean bindToLinkedDataSet(ReportItemHandle reportItemHandle) {
+		Method[] methods = reportItemHandle.getClass().getMethods();
+		for (int i = 0; i < methods.length; i++) {
+			String name = methods[i].getName();
+			if (name.equals(GET_LINKED_DATA_MODEL_METHOD)) {
+				Object result = null;
+				try {
+					result = methods[i].invoke(reportItemHandle);
+				} catch (Exception e) {
 					return false;
 				}
-				if ( result != null )
+				if (result != null) {
 					return true;
+				}
 			}
 		}
 		return false;
 	}
-	
-	public static boolean measureHasItsOwnAggregation( ReportItemHandle reportItemHandle,
-			MeasureHandle cubeMeasure ) throws Exception
-	{
-		Method[] methods = reportItemHandle.getClass( ).getMethods( );
-		for ( int i = 0; i < methods.length; i++ )
-		{
-			String name = methods[i].getName( );
-			if ( name.equals( GET_LINKED_DATA_MODEL_METHOD ) )
-			{
-				Object result = methods[i].invoke( reportItemHandle );
-				if ( result != null )
-				{
-					methods = result.getClass( ).getMethods( );
-					for ( Method method : methods )
-					{
-						if ( method.getName( ).equals( GET_MEASURES_METHOD ) )
-						{
-							result = method.invoke( result );
-							if ( result != null && result instanceof List<?> )
-							{
-								List<?> list = (List<?>)result;
-								for ( Object object : list )
-								{
-									Method[] objectMethods = object.getClass( ).getMethods( );
-									for ( Method objectMethod : objectMethods )
-									{
-										if ( objectMethod.getName( ).equals( GET_NAME_METHOD ) )
-										{
-											result = objectMethod.invoke( object );
-											if ( result != null && result instanceof String )
-											{
-												if ( result.toString( ).equals( cubeMeasure.getName( ) ) )
-												{
+
+	public static boolean measureHasItsOwnAggregation(ReportItemHandle reportItemHandle, MeasureHandle cubeMeasure)
+			throws Exception {
+		Method[] methods = reportItemHandle.getClass().getMethods();
+		for (int i = 0; i < methods.length; i++) {
+			String name = methods[i].getName();
+			if (name.equals(GET_LINKED_DATA_MODEL_METHOD)) {
+				Object result = methods[i].invoke(reportItemHandle);
+				if (result != null) {
+					methods = result.getClass().getMethods();
+					for (Method method : methods) {
+						if (method.getName().equals(GET_MEASURES_METHOD)) {
+							result = method.invoke(result);
+							if (result instanceof List<?>) {
+								List<?> list = (List<?>) result;
+								for (Object object : list) {
+									Method[] objectMethods = object.getClass().getMethods();
+									for (Method objectMethod : objectMethods) {
+										if (objectMethod.getName().equals(GET_NAME_METHOD)) {
+											result = objectMethod.invoke(object);
+											if (result instanceof String) {
+												if (result.toString().equals(cubeMeasure.getName())) {
 													return true;
 												}
 											}
@@ -92,60 +85,51 @@ public class LinkedDataSetUtil
 		}
 		return false;
 	}
-	
-	public static boolean isAggregationBinding( ComputedColumnHandle computed, ReportItemHandle handle )
-	{
-		if( computed.getAggregateFunction( ) != null )
+
+	public static boolean isAggregationBinding(ComputedColumnHandle computed, ReportItemHandle handle) {
+		if (computed.getAggregateFunction() != null) {
 			return true;
-		try
-		{
-			Iterator iter = handle.columnBindingsIterator( );
-			Set aggregationBinding = new HashSet( );
-			populateAggregationBindingNames( aggregationBinding, iter );
+		}
+		try {
+			Iterator iter = handle.columnBindingsIterator();
+			Set aggregationBinding = new HashSet();
+			populateAggregationBindingNames(aggregationBinding, iter);
 			DataSetHandle dataSet = handle.getDataSet();
-			if( dataSet != null )
-			{
+			if (dataSet != null) {
 				iter = dataSet.computedColumnsIterator();
-				if( iter != null )
-					populateAggregationBindingNames( aggregationBinding, iter );
+				if (iter != null) {
+					populateAggregationBindingNames(aggregationBinding, iter);
+				}
 			}
-			
-			List referedColumn = new ArrayList();
-			referedColumn.addAll( ExpressionUtil.extractColumnExpressions( computed.getExpression( ), ExpressionUtil.DATASET_ROW_INDICATOR ) );
-			referedColumn.addAll( ExpressionUtil.extractColumnExpressions( computed.getExpression( ), ExpressionUtil.ROW_INDICATOR ) );
-			for( int i = 0 ; i < referedColumn.size( ); i++ )
-			{
-				if( aggregationBinding.contains( referedColumn.get( i ) ) )
-				{
+
+			List referedColumn = new ArrayList(ExpressionUtil.extractColumnExpressions(computed.getExpression(),
+					ExpressionUtil.DATASET_ROW_INDICATOR));
+			referedColumn.addAll(
+					ExpressionUtil.extractColumnExpressions(computed.getExpression(), ExpressionUtil.ROW_INDICATOR));
+			for (int i = 0; i < referedColumn.size(); i++) {
+				if (aggregationBinding.contains(referedColumn.get(i))) {
 					return true;
 				}
 			}
-		}
-		catch( BirtException ex )
-		{
+		} catch (BirtException ex) {
 			return false;
 		}
 		return false;
 	}
-	
-	private static void populateAggregationBindingNames( Set aggregationBinding, Iterator iter ) throws BirtException
-	{
-		while( iter.hasNext() )
-		{
-			ComputedColumnHandle computedHandle = (ComputedColumnHandle)iter.next( );
-			if( computedHandle.getAggregateFunction( ) != null )
-			{
-				String columnName = null;
-				columnName = ExpressionUtil.getColumnName( computedHandle.getExpression( ) );
-				if( columnName == null )
-				{
-					columnName = ExpressionUtil.getColumnBindingName( computedHandle.getExpression( ) );
-					if( columnName != null )
-						aggregationBinding.add( columnName );
-				}
-				else
-				{
-					aggregationBinding.add( columnName );
+
+	private static void populateAggregationBindingNames(Set aggregationBinding, Iterator iter) throws BirtException {
+		while (iter.hasNext()) {
+			ComputedColumnHandle computedHandle = (ComputedColumnHandle) iter.next();
+			if (computedHandle.getAggregateFunction() != null) {
+				String columnName;
+				columnName = ExpressionUtil.getColumnName(computedHandle.getExpression());
+				if (columnName == null) {
+					columnName = ExpressionUtil.getColumnBindingName(computedHandle.getExpression());
+					if (columnName != null) {
+						aggregationBinding.add(columnName);
+					}
+				} else {
+					aggregationBinding.add(columnName);
 				}
 			}
 		}

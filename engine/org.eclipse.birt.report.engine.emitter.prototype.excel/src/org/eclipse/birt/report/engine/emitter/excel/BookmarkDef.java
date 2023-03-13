@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -11,8 +14,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-public class BookmarkDef
-{
+public class BookmarkDef {
 
 	private String name;
 	private int startRow, endRow;
@@ -22,78 +24,63 @@ public class BookmarkDef
 	// after page is finished.
 	private int startColumn, endColumn = -1;
 
-	public String getValidName( )
-	{
+	public String getValidName() {
 		return generatedName == null ? name : generatedName;
 	}
 
-	public void setGeneratedName( String generatedName )
-	{
+	public void setGeneratedName(String generatedName) {
 		this.generatedName = generatedName;
 	}
 
-	public BookmarkDef( String name )
-	{
+	public BookmarkDef(String name) {
 		this.name = name;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getStartRow( )
-	{
+	public int getStartRow() {
 		return startRow;
 	}
 
-	public void setStartRow( int startRow )
-	{
+	public void setStartRow(int startRow) {
 		this.startRow = startRow;
 	}
 
-	public int getEndRow( )
-	{
+	public int getEndRow() {
 		return endRow;
 	}
 
-	public void setEndRow( int endRow )
-	{
+	public void setEndRow(int endRow) {
 		this.endRow = endRow;
 	}
 
-	public void setStartColumn( int startColumn )
-	{
+	public void setStartColumn(int startColumn) {
 		this.startColumn = startColumn;
 	}
 
-	public int getStartColumn( )
-	{
+	public int getStartColumn() {
 		return startColumn;
 	}
 
-	public int getEndColumn( )
-	{
+	public int getEndColumn() {
 		return endColumn;
 	}
 
-	public void setEndColumn( int endColumn )
-	{
+	public void setEndColumn(int endColumn) {
 		this.endColumn = endColumn;
 	}
 
-	public String getSheetName( )
-	{
+	public String getSheetName() {
 		return sheetName;
 	}
 
-	public void setSheetName( String sheetName )
-	{
+	public void setSheetName(String sheetName) {
 		this.sheetName = sheetName;
 	}
 }

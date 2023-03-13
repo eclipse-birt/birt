@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -13,8 +16,7 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 
-public class SpanInfo
-{
+public class SpanInfo {
 
 	private int columnId = 0;
 
@@ -26,9 +28,7 @@ public class SpanInfo
 
 	private IStyle style = null;
 
-	public SpanInfo( int columnId, int columnSpan, int cellWidth,
-			boolean start, IStyle style )
-	{
+	public SpanInfo(int columnId, int columnSpan, int cellWidth, boolean start, IStyle style) {
 		this.columnId = columnId;
 		this.columnSpan = columnSpan;
 		this.cellWidth = cellWidth;
@@ -36,28 +36,23 @@ public class SpanInfo
 		this.style = style;
 	}
 
-	public int getColumnId( )
-	{
+	public int getColumnId() {
 		return this.columnId;
 	}
 
-	public int getColumnSpan( )
-	{
+	public int getColumnSpan() {
 		return this.columnSpan;
 	}
 
-	public int getCellWidth( )
-	{
+	public int getCellWidth() {
 		return this.cellWidth;
 	}
 
-	public boolean isStart( )
-	{
+	public boolean isStart() {
 		return this.start;
 	}
 
-	public IStyle getStyle( )
-	{
+	public IStyle getStyle() {
 		return this.style;
 	}
 }

@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,64 +35,55 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
  * Data transforms are most frequently defined by report items that use the data
  * set, and are applied to the result set by BIRT.
  * </ul>
- * 
- * 
+ *
+ *
  */
 
-public abstract class SimpleDataSet extends DataSet
-		implements
-			ISimpleDataSetModel
-{
+public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public SimpleDataSet( )
-	{
+	public SimpleDataSet() {
 	}
 
 	/**
 	 * Constructs the data set with a required name.
-	 * 
-	 * @param theName
-	 *            the required name
+	 *
+	 * @param theName the required name
 	 */
 
-	public SimpleDataSet( String theName )
-	{
-		super( theName );
+	public SimpleDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 *
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	@Override
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
 		// Check the data source value is required
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
-				this, DATA_SOURCE_PROP ) );
+		list.addAll(ValueRequiredValidator.getInstance().validate(module, this, DATA_SOURCE_PROP));
 
 		// Check the element reference of dataSource property
 
-		list.addAll( ElementReferenceValidator.getInstance( ).validate( module,
-				this, DATA_SOURCE_PROP ) );
+		list.addAll(ElementReferenceValidator.getInstance().validate(module, this, DATA_SOURCE_PROP));
 
 		// Check input parameter structure list
 
-		list.addAll( validateStructureList( module, PARAMETERS_PROP ) );
-		list.addAll( validateStructureList( module, PARAM_BINDINGS_PROP ) );
-		list.addAll( validateStructureList( module, COMPUTED_COLUMNS_PROP ) );
-		list.addAll( validateStructureList( module, COLUMN_HINTS_PROP ) );
-		list.addAll( validateStructureList( module, FILTER_PROP ) );
+		list.addAll(validateStructureList(module, PARAMETERS_PROP));
+		list.addAll(validateStructureList(module, PARAM_BINDINGS_PROP));
+		list.addAll(validateStructureList(module, COMPUTED_COLUMNS_PROP));
+		list.addAll(validateStructureList(module, COLUMN_HINTS_PROP));
+		list.addAll(validateStructureList(module, FILTER_PROP));
 
 		return list;
 	}

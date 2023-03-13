@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.report.model.api;
 
 import java.util.List;
@@ -18,14 +30,10 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.StyleUtil;
 
-public abstract class LibraryHandleImpl extends LayoutModuleHandle
-		implements
-			ILibraryModel
-{
+public abstract class LibraryHandleImpl extends LayoutModuleHandle implements ILibraryModel {
 
-	public LibraryHandleImpl( Module module )
-	{
-		super( module );
+	public LibraryHandleImpl(Module module) {
+		super(module);
 	}
 
 	/**
@@ -33,34 +41,32 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle
 	 * 
 	 * @return the host handle which include this library.
 	 */
-	public ModuleHandle getHostHandle( )
-	{
-		Module host = ( (Library) getElement( ) ).getHost( );
-		if ( host == null )
+	public ModuleHandle getHostHandle() {
+		Module host = ((Library) getElement()).getHost();
+		if (host == null) {
 			return null;
-		return (ModuleHandle) host.getHandle( getModule( ) );
+		}
+		return (ModuleHandle) host.getHandle(getModule());
 	}
 
 	/**
-	 * Returns the library namespace, which identifies one library unqiuely in
-	 * one design file.
+	 * Returns the library namespace, which identifies one library unqiuely in one
+	 * design file.
 	 * 
 	 * @return the library namespace
 	 */
-	public String getNamespace( )
-	{
-		return ( (Library) module ).getNamespace( );
+	public String getNamespace() {
+		return ((Library) module).getNamespace();
 	}
 
 	/**
-	 * Returns a slot handle to work with the themes within the library. Note
-	 * that the order of the data sets within the slot is unimportant.
+	 * Returns a slot handle to work with the themes within the library. Note that
+	 * the order of the data sets within the slot is unimportant.
 	 * 
 	 * @return A handle for working with the themes.
 	 */
-	public SlotHandle getThemes( )
-	{
-		return getSlot( THEMES_SLOT );
+	public SlotHandle getThemes() {
+		return getSlot(THEMES_SLOT);
 	}
 
 	/**
@@ -70,171 +76,147 @@ public abstract class LibraryHandleImpl extends LayoutModuleHandle
 	 *         library has no values for the theme property
 	 * @deprecated uses the theme instead
 	 */
-	public SlotHandle getStyles( )
-	{
-		ThemeHandle theme = getTheme( );
-		if ( theme == null )
+	@Deprecated
+	@Override
+	public SlotHandle getStyles() {
+		ThemeHandle theme = getTheme();
+		if (theme == null) {
 			return null;
+		}
 
-		return theme.getStyles( );
+		return theme.getStyles();
 	}
 
 	/**
 	 * Import css file to theme.
 	 * 
-	 * @param stylesheet
-	 *            the style sheet handle that contains all the selected styles
-	 * @param selectedStyles
-	 *            the selected style list
+	 * @param stylesheet     the style sheet handle that contains all the selected
+	 *                       styles
+	 * @param selectedStyles the selected style list
 	 */
-	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles )
-	{
-		String themeName = ( (Module) getElement( ) ).getThemeName( );
+	@Override
+	public void importCssStyles(CssStyleSheetHandle stylesheet, List selectedStyles) {
+		String themeName = ((Module) getElement()).getThemeName();
 
-		if ( themeName == null )
-			themeName = CommandLabelFactory.getCommandLabel( IThemeModel.DEFAULT_THEME_NAME );
+		if (themeName == null) {
+			themeName = CommandLabelFactory.getCommandLabel(IThemeModel.DEFAULT_THEME_NAME);
+		}
 
-		importCssStyles( stylesheet, selectedStyles, themeName );
+		importCssStyles(stylesheet, selectedStyles, themeName);
 
 	}
 
 	/**
-	 * Creates the theme with the given name if it does not exist. Sets the
-	 * theme value of the library to the given name if this value was
-	 * <code>null</code>.
+	 * Creates the theme with the given name if it does not exist. Sets the theme
+	 * value of the library to the given name if this value was <code>null</code>.
 	 * 
-	 * @param themeName
-	 *            the theme name
+	 * @param themeName the theme name
 	 * @return the theme handle
 	 */
-	private ThemeHandle setupTheme( String themeName )
-	{
-		Library libElement = (Library) getElement( ).getRoot( );
-		Theme theme = libElement.findNativeTheme( themeName );
+	private ThemeHandle setupTheme(String themeName) {
+		Library libElement = (Library) getElement().getRoot();
+		Theme theme = libElement.findNativeTheme(themeName);
 
-		if ( theme == null )
-		{
-			ThemeHandle newTheme = getModuleHandle( ).getElementFactory( )
-					.newTheme( themeName );
-			try
-			{
-				getThemes( ).add( newTheme );
-			}
-			catch ( ContentException e )
-			{
+		if (theme == null) {
+			ThemeHandle newTheme = getModuleHandle().getElementFactory().newTheme(themeName);
+			try {
+				getThemes().add(newTheme);
+			} catch (ContentException | NameException e) {
 				assert false;
 			}
-			catch ( NameException e )
-			{
-				assert false;
-			}
-			theme = (Theme) newTheme.getElement( );
+			theme = (Theme) newTheme.getElement();
 		}
 
-		try
-		{
-			if ( libElement.getThemeName( ) == null )
-				setThemeName( themeName );
-		}
-		catch ( SemanticException e )
-		{
+		try {
+			if (libElement.getThemeName() == null) {
+				setThemeName(themeName);
+			}
+		} catch (SemanticException e) {
 			assert false;
 		}
 
-		return (ThemeHandle) theme.getHandle( module );
+		return (ThemeHandle) theme.getHandle(module);
 	}
 
 	/**
 	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to the
 	 * given theme of the library. Each in the list is instance of
-	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate
-	 * name with that of one style already existing in the report design, this
-	 * method will rename it and then add it to the design.
+	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate name
+	 * with that of one style already existing in the report design, this method
+	 * will rename it and then add it to the design.
 	 * 
-	 * @param stylesheet
-	 *            the style sheet handle that contains all the selected styles
-	 * @param selectedStyles
-	 *            the selected style list
-	 * @param themeName
-	 *            the name of the theme to put styles
+	 * @param stylesheet     the style sheet handle that contains all the selected
+	 *                       styles
+	 * @param selectedStyles the selected style list
+	 * @param themeName      the name of the theme to put styles
 	 */
-	public void importCssStyles( CssStyleSheetHandle stylesheet,
-			List selectedStyles, String themeName )
-	{
-		if ( StringUtil.isBlank( themeName ) )
+	public void importCssStyles(CssStyleSheetHandle stylesheet, List selectedStyles, String themeName) {
+		if (StringUtil.isBlank(themeName)) {
 			return;
+		}
 
-		ActivityStack stack = module.getActivityStack( );
-		stack.startTrans( CommandLabelFactory.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
+		ActivityStack stack = module.getActivityStack();
+		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.IMPORT_CSS_STYLES_MESSAGE));
 
 		// creates the theme if it does not exist
 
-		ThemeHandle themeHandle = setupTheme( themeName );
+		ThemeHandle themeHandle = setupTheme(themeName);
 
-		for ( int i = 0; i < selectedStyles.size( ); i++ )
-		{
-			SharedStyleHandle style = (SharedStyleHandle) selectedStyles.get( i );
-			if ( stylesheet.findStyle( style.getName( ) ) != null )
-			{
-				try
-				{
+		for (int i = 0; i < selectedStyles.size(); i++) {
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyles.get(i);
+			if (stylesheet.findStyle(style.getName()) != null) {
+				try {
 					// Copy CssStyle to Style
 
-					SharedStyleHandle newStyle = StyleUtil.transferCssStyleToSharedStyle( module,
-							style );
+					SharedStyleHandle newStyle = StyleUtil.transferCssStyleToSharedStyle(module, style);
 
-					if ( newStyle == null )
+					if (newStyle == null) {
 						continue;
-					newStyle.getElement( )
-							.setName( themeHandle.makeUniqueStyleName( newStyle.getName( ) ) );
+					}
+					newStyle.getElement().setName(themeHandle.makeUniqueStyleName(newStyle.getName()));
 
-					themeHandle.getStyles( ).add( newStyle );
-				}
-				catch ( ContentException e )
-				{
-					assert false;
-				}
-				catch ( NameException e )
-				{
+					themeHandle.getStyles().add(newStyle);
+				} catch (ContentException | NameException e) {
 					assert false;
 				}
 			}
 		}
 
-		stack.commit( );
+		stack.commit();
 	}
 
-	public SlotHandle getCubes( )
-	{
-		return getSlot( CUBE_SLOT );
+	@Override
+	public SlotHandle getCubes() {
+		return getSlot(CUBE_SLOT);
 	}
 
 	/**
-	 * If this library is included by a module, return the relative file name
-	 * that is defined in the host's xml file.
+	 * If this library is included by a module, return the relative file name that
+	 * is defined in the host's xml file.
 	 * 
 	 * @return the relative file name that is defined in the host's xml file
 	 */
-	public String getRelativeFileName( )
-	{
-		ModuleHandle hostHandle = getHostHandle( );
-		if ( hostHandle == null )
+	public String getRelativeFileName() {
+		ModuleHandle hostHandle = getHostHandle();
+		if (hostHandle == null) {
 			return null;
+		}
 
-		Module host = (Module) hostHandle.getElement( );
-		if ( host == null )
+		Module host = (Module) hostHandle.getElement();
+		if (host == null) {
 			return null;
+		}
 
-		IncludedLibrary libStruct = host.findIncludedLibrary( getNamespace( ) );
-		if ( libStruct != null )
-			return libStruct.getFileName( );
+		IncludedLibrary libStruct = host.findIncludedLibrary(getNamespace());
+		if (libStruct != null) {
+			return libStruct.getFileName();
+		}
 
 		return null;
 	}
 
-	public boolean isDirectionRTL( )
-	{
+	@Override
+	public boolean isDirectionRTL() {
 		return false;
 	}
 

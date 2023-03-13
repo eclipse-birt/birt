@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Core UI
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.core.ui; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.13.0.qualifier
 Bundle-Activator: org.eclipse.birt.core.ui.plugin.CoreUIPlugin
-Bundle-Vendor: Eclipse BIRT Project
+Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.ui.frameworks.errordisplay,
  org.eclipse.birt.core.ui.frameworks.taskwizard,
@@ -16,7 +16,5 @@ Require-Bundle: org.eclipse.swt;bundle-version="[3.2.0,4.0.0)";visibility:=reexp
  org.eclipse.jface;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.core.ui

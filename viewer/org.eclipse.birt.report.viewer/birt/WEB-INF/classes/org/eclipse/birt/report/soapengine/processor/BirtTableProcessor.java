@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -19,60 +21,56 @@ import org.eclipse.birt.report.service.actionhandler.IActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public class BirtTableProcessor extends AbstractBaseTableProcessor
-{	
+public class BirtTableProcessor extends AbstractBaseTableProcessor {
 	/**
 	 * Operator list definition.
 	 */
-	static final protected String[] opList = new String[] {
-	};
+	static final protected String[] opList = {};
 
 	/**
 	 * Operator mapping.
 	 */
-	static protected Hashtable operatorMap = new Hashtable( );
+	static protected Hashtable operatorMap = new Hashtable();
 
 	/**
 	 * Constructor.
 	 */
-	public BirtTableProcessor( )
-	{
-		super( );
+	public BirtTableProcessor() {
+		super();
 	}
 
 	/**
 	 * Access the operator map.
-	 * 
+	 *
 	 * @return Hashtable
 	 */
-	protected Hashtable getOpMap( )
-	{
+	@Override
+	protected Hashtable getOpMap() {
 		return operatorMap;
 	}
 
 	/**
 	 * Access the operator list.
-	 * 
+	 *
 	 * @return String[]
 	 */
-	protected String[] getOperatorList( )
-	{
+	@Override
+	protected String[] getOperatorList() {
 		return opList;
 	}
 
 	/**
 	 * Local execution.
-	 * 
+	 *
 	 * @param action
 	 * @param context
 	 * @param op
 	 * @param response
 	 */
-	protected void __executeAction( IActionHandler action, IContext context, 
-			Operation op, GetUpdatedObjectsResponse response ) throws RemoteException
-	{
-		if ( action != null && action.canExecute( ) )
-		{
+	@Override
+	protected void __executeAction(IActionHandler action, IContext context, Operation op,
+			GetUpdatedObjectsResponse response) throws RemoteException {
+		if (action != null && action.canExecute()) {
 			action.execute();
 		}
 	}

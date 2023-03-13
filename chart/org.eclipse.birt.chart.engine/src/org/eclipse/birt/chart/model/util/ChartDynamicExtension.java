@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,43 +33,34 @@ import org.eclipse.emf.ecore.EPackage;
 /**
  * This class loads and registers extended classes/implementations of chart
  * model element.
- * 
+ *
  * @since 3.7
  */
 
-public class ChartDynamicExtension
-{
+public class ChartDynamicExtension {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/trace"); //$NON-NLS-1$
 
 	protected static final List<EPackage> extendedPackages;
 
 	protected static final Set<EClass> extendedEClasses;
 
-	static
-	{
+	static {
 		// Registers extended chart packages.
-		registerExtendedChartPackages( );
-		extendedPackages = Collections.unmodifiableList( findExtendedPackages( ) );
-		extendedEClasses = getEClasses( extendedPackages );
+		registerExtendedChartPackages();
+		extendedPackages = Collections.unmodifiableList(findExtendedPackages());
+		extendedEClasses = getEClasses(extendedPackages);
 	}
 
-	private static List<EPackage> findExtendedPackages( )
-	{
-		List<EPackage> pkgs = new ArrayList<EPackage>( );
+	private static List<EPackage> findExtendedPackages() {
+		List<EPackage> pkgs = new ArrayList<>();
 
-		try
-		{
-			for ( Map.Entry<String, Object> e : PluginSettings.instance( )
-					.getExtChartModelPackages( )
-					.entrySet( ) )
-			{
-				pkgs.add( (EPackage) e.getValue( ) );
+		try {
+			for (Map.Entry<String, Object> e : PluginSettings.instance().getExtChartModelPackages().entrySet()) {
+				pkgs.add((EPackage) e.getValue());
 			}
-		}
-		catch ( ChartException e )
-		{
-			logger.log( e );
+		} catch (ChartException e) {
+			logger.log(e);
 		}
 
 		return pkgs;
@@ -74,26 +68,20 @@ public class ChartDynamicExtension
 
 	/**
 	 * Checks if specified chart element is an extended classes of chart model.
-	 * 
-	 * @param eObj
-	 *            the instance of chart element.
+	 *
+	 * @param eObj the instance of chart element.
 	 * @return
 	 */
-	public static boolean isExtended( EObject eObj )
-	{
-		return eObj != null && extendedEClasses.contains( eObj.eClass( ) );
+	public static boolean isExtended(EObject eObj) {
+		return eObj != null && extendedEClasses.contains(eObj.eClass());
 	}
 
-	private static Set<EClass> getEClasses( List<EPackage> packages )
-	{
-		Set<EClass> set = new HashSet<EClass>( );
-		for ( EPackage pkg : packages )
-		{
-			for ( EClassifier eClassifier : pkg.getEClassifiers( ) )
-			{
-				if ( eClassifier instanceof EClass )
-				{
-					set.add( (EClass) eClassifier );
+	private static Set<EClass> getEClasses(List<EPackage> packages) {
+		Set<EClass> set = new HashSet<>();
+		for (EPackage pkg : packages) {
+			for (EClassifier eClassifier : pkg.getEClassifiers()) {
+				if (eClassifier instanceof EClass) {
+					set.add((EClass) eClassifier);
 				}
 			}
 		}
@@ -101,20 +89,13 @@ public class ChartDynamicExtension
 		return set;
 	}
 
-	private static void registerExtendedChartPackages( )
-	{
-		try
-		{
-			for ( Map.Entry<String, Object> e : PluginSettings.instance( )
-					.getExtChartModelPackages( )
-					.entrySet( ) )
-			{
-				EPackage.Registry.INSTANCE.put( e.getKey( ), e.getValue( ) );
+	private static void registerExtendedChartPackages() {
+		try {
+			for (Map.Entry<String, Object> e : PluginSettings.instance().getExtChartModelPackages().entrySet()) {
+				EPackage.Registry.INSTANCE.put(e.getKey(), e.getValue());
 			}
-		}
-		catch ( ChartException e )
-		{
-			logger.log( e );
+		} catch (ChartException e) {
+			logger.log(e);
 		}
 	}
 }

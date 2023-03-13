@@ -1,10 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,15 +19,14 @@ import java.io.Serializable;
 /**
  * Driver information including driver name ,display name ,URL template
  */
-public class DriverInfo implements Serializable
-{
+public class DriverInfo implements Serializable {
 	/**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = -6628864223068044321L;
 
 	/**
-	 * Diver Name 
+	 * Diver Name
 	 */
 	private String driverName;
 
@@ -40,60 +42,57 @@ public class DriverInfo implements Serializable
 
 	/**
 	 * Constractor
+	 *
 	 * @param driverName
 	 * @param displayName
 	 * @param urlTemplate
 	 */
-	public DriverInfo( String driverName, String displayName, String urlTemplate )
-	{
+	public DriverInfo(String driverName, String displayName, String urlTemplate) {
 		this.driverName = driverName;
-		if ( displayName == null )
+		if (displayName == null) {
 			this.displayName = "";
-		else
+		} else {
 			this.displayName = displayName;
-		if ( urlTemplate == null )
+		}
+		if (urlTemplate == null) {
 			this.urlTemplate = "";
-		else
+		} else {
 			this.urlTemplate = urlTemplate;
+		}
 	}
 
 	/**
 	 * getter for displayName
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
-	
+
 	/**
 	 * setter for displayName
 	 */
-	public void setDisplayName( String displayName )
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
 	/**
 	 * getter for urlTemplate
 	 */
-	public String getUrlTemplate( )
-	{
+	public String getUrlTemplate() {
 		return urlTemplate;
 	}
 
 	/**
 	 * setter for urlTemplate
 	 */
-	public void setUrlTemplate( String urlTemplate )
-	{
+	public void setUrlTemplate(String urlTemplate) {
 		this.urlTemplate = urlTemplate;
 	}
 
 	/**
 	 * getter for driverName
 	 */
-	public String getDriverName( )
-	{
+	public String getDriverName() {
 		return driverName;
 	}
 }

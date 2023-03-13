@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,10 +18,9 @@ import org.w3c.dom.DOMException;
 
 /**
  * This class represents string values.
- * 
+ *
  */
-public class StringValue extends Value
-{
+public class StringValue extends Value {
 	/**
 	 * The value of the string
 	 */
@@ -32,8 +34,7 @@ public class StringValue extends Value
 	/**
 	 * Creates a new StringValue.
 	 */
-	public StringValue( short type, String s )
-	{
+	public StringValue(short type, String s) {
 		unitType = type;
 		value = s;
 	}
@@ -41,41 +42,32 @@ public class StringValue extends Value
 	/**
 	 * The type of the value.
 	 */
-	public short getPrimitiveType( )
-	{
+	@Override
+	public short getPrimitiveType() {
 		return unitType;
 	}
 
 	/**
 	 * Indicates whether some other object is "equal to" this one.
-	 * @param obj
-	 *            the reference object with which to compare.
+	 *
+	 * @param obj the reference object with which to compare.
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
-		{
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if ( obj == null || !( obj instanceof StringValue ) )
-		{
+		if (obj == null || !(obj instanceof StringValue)) {
 			return false;
 		}
 		StringValue v = (StringValue) obj;
-		if ( unitType != v.unitType )
-		{
+		if (unitType != v.unitType) {
 			return false;
 		}
-		if ( value != null )
-		{
-			return value.equals( v.value );
-		}
-		else
-		{
-			if ( v.value == null )
-			{
-				return true;
-			}
+		if (value != null) {
+			return value.equals(v.value);
+		} else if (v.value == null) {
+			return true;
 		}
 		return false;
 
@@ -84,28 +76,27 @@ public class StringValue extends Value
 	/**
 	 * A string representation of the current value.
 	 */
-	public String getCssText( )
-	{
+	@Override
+	public String getCssText() {
 		return value;
 	}
 
 	/**
 	 * This method is used to get the string value.
-	 * 
-	 * @exception DOMException
-	 *                INVALID_ACCESS_ERR: Raised if the value doesn't contain a
-	 *                string value.
+	 *
+	 * @exception DOMException INVALID_ACCESS_ERR: Raised if the value doesn't
+	 *                         contain a string value.
 	 */
-	public String getStringValue( ) throws DOMException
-	{
+	@Override
+	public String getStringValue() throws DOMException {
 		return value;
 	}
 
 	/**
 	 * Returns a printable representation of this value.
 	 */
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return value;
 	}
 }

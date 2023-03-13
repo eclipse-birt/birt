@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -20,84 +23,71 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 /**
- *  Internal representation of a plugin.xml.
+ * Internal representation of a plugin.xml.
  *
- *  @author Rock Yu
+ * @author Rock Yu
  */
 
-public class PluginWrapper
-{
+public class PluginWrapper {
 
 	File pluginFile = null;
 	String pluginID = null;
 	String pluginVersion = null;
 
-	public PluginWrapper( )
-	{
+	public PluginWrapper() {
 	}
 
 	/**
 	 * @param pluginXML
 	 */
-	public PluginWrapper( File pluginXML )
-	{
+	public PluginWrapper(File pluginXML) {
 		this.pluginFile = pluginXML;
-		parse( );
+		parse();
 	}
 
-	private void parse( )
-	{
-		try
-		{
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance( )
-					.newDocumentBuilder( );
-			Document doc = builder.parse( pluginFile );
+	private void parse() {
+		try {
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = builder.parse(pluginFile);
 
-			NodeList nodes = doc.getElementsByTagName( "plugin" ); //$NON-NLS-1$
-			for ( int i = 0; i < nodes.getLength( ); i++ )
-			{
-				Node node = nodes.item( i );
-				NamedNodeMap map = node.getAttributes( );
+			NodeList nodes = doc.getElementsByTagName("plugin"); //$NON-NLS-1$
+			for (int i = 0; i < nodes.getLength(); i++) {
+				Node node = nodes.item(i);
+				NamedNodeMap map = node.getAttributes();
 
-				Node idNode = map.getNamedItem( "id" ); //$NON-NLS-1$
-				Node versionNode = map.getNamedItem( "version" ); //$NON-NLS-1$
+				Node idNode = map.getNamedItem("id"); //$NON-NLS-1$
+				Node versionNode = map.getNamedItem("version"); //$NON-NLS-1$
 
-				if ( idNode != null )
-					this.pluginID = StringUtil.trimString( idNode
-							.getNodeValue( ) ); //$NON-NLS-1$
+				if (idNode != null) {
+					this.pluginID = StringUtil.trimString(idNode.getNodeValue()); // $NON-NLS-1$
+				}
 
-				if ( versionNode != null )
-					this.pluginVersion = StringUtil.trimString( versionNode
-							.getNodeValue( ) );
+				if (versionNode != null) {
+					this.pluginVersion = StringUtil.trimString(versionNode.getNodeValue());
+				}
 			}
-		}
-		catch ( Exception e )
-		{
-			throw new BuildException(
-					"Exception occured when parsing :" + pluginFile + ". " + e ); //$NON-NLS-1$
+		} catch (Exception e) {
+			throw new BuildException("Exception occured when parsing :" + pluginFile + ". " + e); //$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * Load and parse an "plugin.xml file
+	 *
 	 * @param pluginXML
 	 */
-	
-	public void load( File pluginXML )
-	{
+
+	public void load(File pluginXML) {
 		this.pluginFile = pluginXML;
-		this.parse( );
+		this.parse();
 	}
 
-	public String getPluginID( )
-	{
+	public String getPluginID() {
 		return pluginID;
 	}
 
-	public String getPluginVersion( )
-	{
+	public String getPluginVersion() {
 		return pluginVersion;
 	}
 }

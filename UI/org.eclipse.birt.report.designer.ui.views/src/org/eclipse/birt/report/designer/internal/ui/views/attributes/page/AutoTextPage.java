@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,23 +19,20 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Com
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
-public class AutoTextPage extends LabelPage
-{
+public class AutoTextPage extends LabelPage {
 
-	public void applyCustomSections( )
-	{
+	@Override
+	public void applyCustomSections() {
 
-		removeSection( PageSectionId.LABEL_DISPLAY );
+		removeSection(PageSectionId.LABEL_DISPLAY);
 
-		ComboPropertyDescriptorProvider styleProvider = new ComboPropertyDescriptorProvider( AutoTextHandle.AUTOTEXT_TYPE_PROP,
-				ReportDesignConstants.AUTOTEXT_ITEM );
-		ComboSection styleSection = new ComboSection( styleProvider.getDisplayName( ),
-				container,
-				true );
-		styleSection.setProvider( styleProvider );
-		styleSection.setLayoutNum( 4 );
-		styleSection.setGridPlaceholder( 2, true );
-		styleSection.setWidth( 200 );
-		addSection( PageSectionId.AUTOTEXT_STYLE, styleSection );
+		ComboPropertyDescriptorProvider styleProvider = new ComboPropertyDescriptorProvider(
+				AutoTextHandle.AUTOTEXT_TYPE_PROP, ReportDesignConstants.AUTOTEXT_ITEM);
+		ComboSection styleSection = new ComboSection(styleProvider.getDisplayName(), container, true);
+		styleSection.setProvider(styleProvider);
+		styleSection.setLayoutNum(4);
+		styleSection.setGridPlaceholder(2, true);
+		styleSection.setWidth(200);
+		addSection(PageSectionId.AUTOTEXT_STYLE, styleSection);
 	}
 }

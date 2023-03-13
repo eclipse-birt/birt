@@ -1,9 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ * Copyright (c) 2004 Actuate Corporation.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -30,45 +33,44 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * should be provided for Joint-dataset to datasets references.
  * </p>
  */
-public class Regression_135202 extends BaseTestCase
-{
+public class Regression_135202 extends BaseTestCase {
 
 	private final static String INPUT = "regression_135202.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
-	public void test_regression_135202( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_regression_135202() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
-		DataSetHandle jointDS = designHandle.findDataSet( "jointDS" ); //$NON-NLS-1$
-		DataSetHandle ds1 = designHandle.findDataSet( "ds1" ); //$NON-NLS-1$
-		DataSetHandle ds2 = designHandle.findDataSet( "ds1" ); //$NON-NLS-1$
+		DataSetHandle jointDS = designHandle.findDataSet("jointDS"); //$NON-NLS-1$
+		DataSetHandle ds1 = designHandle.findDataSet("ds1"); //$NON-NLS-1$
+		DataSetHandle ds2 = designHandle.findDataSet("ds1"); //$NON-NLS-1$
 
-		Iterator client1 = ds1.clientsIterator( );
-		Iterator client2 = ds2.clientsIterator( );
+		Iterator client1 = ds1.clientsIterator();
+		Iterator client2 = ds2.clientsIterator();
 
 		// ensure they have references
 
-		assertTrue( client1.hasNext( ) );
-		assertTrue( client2.hasNext( ) );
+		assertTrue(client1.hasNext());
+		assertTrue(client2.hasNext());
 
 		// ensure client refers to joint ds.
 
-		assertEquals( jointDS, client1.next( ) );
-		assertEquals( jointDS, client2.next( ) );
+		assertEquals(jointDS, client1.next());
+		assertEquals(jointDS, client2.next());
 	}
 }

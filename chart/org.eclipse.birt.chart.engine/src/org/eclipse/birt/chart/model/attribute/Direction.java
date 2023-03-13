@@ -1,9 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -19,41 +22,39 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
- * <em><b>Direction</b></em>', and utility methods for working with them.
- * <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ * <em><b>Direction</b></em>', and utility methods for working with them. <!--
+ * end-user-doc --> <!-- begin-model-doc -->
+ *
  * This type represents the options available for directions.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDirection()
  * @model
  * @generated
  */
 public enum Direction implements Enumerator {
 	/**
-	 * The '<em><b>Left Right</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
+	 * The '<em><b>Left Right</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Left Right</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Left Right</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @see #LEFT_RIGHT
 	 * @generated
 	 * @ordered
 	 */
 	LEFT_RIGHT_LITERAL(0, "LeftRight", "Left_Right"),
 	/**
-	 * The '<em><b>Top Bottom</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
+	 * The '<em><b>Top Bottom</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Top Bottom</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Top Bottom</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 *
 	 * @see #TOP_BOTTOM
 	 * @generated
 	 * @ordered
@@ -61,9 +62,9 @@ public enum Direction implements Enumerator {
 	TOP_BOTTOM_LITERAL(1, "TopBottom", "Top_Bottom");
 
 	/**
-	 * The '<em><b>Left Right</b></em>' literal value.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The '<em><b>Left Right</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #LEFT_RIGHT_LITERAL
 	 * @model name="LeftRight" literal="Left_Right"
 	 * @generated
@@ -72,9 +73,9 @@ public enum Direction implements Enumerator {
 	public static final int LEFT_RIGHT = 0;
 
 	/**
-	 * The '<em><b>Top Bottom</b></em>' literal value.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The '<em><b>Top Bottom</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @see #TOP_BOTTOM_LITERAL
 	 * @model name="TopBottom" literal="Top_Bottom"
 	 * @generated
@@ -85,32 +86,29 @@ public enum Direction implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Direction</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final Direction[] VALUES_ARRAY = new Direction[]{
-			LEFT_RIGHT_LITERAL, TOP_BOTTOM_LITERAL,
-	};
+	private static final Direction[] VALUES_ARRAY = { LEFT_RIGHT_LITERAL, TOP_BOTTOM_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Direction</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static final List<Direction> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<Direction> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified literal
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static Direction get( String literal )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static Direction get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			Direction result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( literal ) )
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -118,18 +116,15 @@ public enum Direction implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified name. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static Direction getByName( String name )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static Direction getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			Direction result = VALUES_ARRAY[i];
-			if ( result.getName( ).equals( name ) )
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -137,95 +132,92 @@ public enum Direction implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified integer
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public static Direction get( int value )
-	{
-		switch ( value )
-		{
-			case LEFT_RIGHT :
-				return LEFT_RIGHT_LITERAL;
-			case TOP_BOTTOM :
-				return TOP_BOTTOM_LITERAL;
+	public static Direction get(int value) {
+		switch (value) {
+		case LEFT_RIGHT:
+			return LEFT_RIGHT_LITERAL;
+		case TOP_BOTTOM:
+			return TOP_BOTTOM_LITERAL;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
 	 * @generated
 	 */
-	private Direction( int value, String name, String literal )
-	{
+	Direction(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public int getValue( )
-	{
+	@Override
+	public int getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getName( )
-	{
+	@Override
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
-	public String getLiteral( )
-	{
+	@Override
+	public String getLiteral() {
 		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
+	public String toString() {
 		return literal;
 	}
 }

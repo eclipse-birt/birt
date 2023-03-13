@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -23,12 +25,9 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 /**
  * Implement a wizard for creating a new BIRT Web Project. This wizard extends
  * "Dynamic Web Project" wizard.
- * 
+ *
  */
-public class BirtWebProjectWizard extends WebProjectWizard
-		implements
-			IBirtWizardConstants
-{
+public class BirtWebProjectWizard extends WebProjectWizard implements IBirtWizardConstants {
 
 	/**
 	 * Configuration Element of birt wizard
@@ -37,53 +36,52 @@ public class BirtWebProjectWizard extends WebProjectWizard
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
-	public BirtWebProjectWizard( )
-	{
-		super( );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
+	public BirtWebProjectWizard() {
+		super();
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
-	public BirtWebProjectWizard( IDataModel model )
-	{
-		super( model );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
+	public BirtWebProjectWizard(IDataModel model) {
+		super(model);
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
 	}
 
 	/**
 	 * Get template for project facets selection
 	 */
-	protected IFacetedProjectTemplate getTemplate( )
-	{
-		return ProjectFacetsManager.getTemplate( "template.birt.runtime" ); //$NON-NLS-1$
+	@Override
+	protected IFacetedProjectTemplate getTemplate() {
+		return ProjectFacetsManager.getTemplate("template.birt.runtime"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Initialize wizard
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 *      org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	public void init( IWorkbench workbench, IStructuredSelection selection )
-	{
-		super.init( workbench, selection );
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		super.init(workbench, selection);
 
 		// find configuration element of new wizard
-		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(
-				NEW_WIZARDS_EXTENSION_POINT, BIRT_WIZARD_ID );
+		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(NEW_WIZARDS_EXTENSION_POINT,
+				BIRT_WIZARD_ID);
 
 		// set window title
-		String title = wizardConfigElement.getAttribute( "name" ); //$NON-NLS-1$
-		if ( title != null )
-			setWindowTitle( title );
+		String title = wizardConfigElement.getAttribute("name"); //$NON-NLS-1$
+		if (title != null) {
+			setWindowTitle(title);
+		}
 
 	}
 }

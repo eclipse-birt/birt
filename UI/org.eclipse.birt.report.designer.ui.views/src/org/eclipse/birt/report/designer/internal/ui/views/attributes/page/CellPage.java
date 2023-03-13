@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,103 +35,89 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Cell element.
  */
-public class CellPage extends GeneralFontPage
-{
+public class CellPage extends GeneralFontPage {
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
+	@Override
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(6, 15));
 
 		// Defines providers.
 
-		IDescriptorProvider dropProvider = new ComboPropertyDescriptorProvider( CellHandle.DROP_PROP,
-				ReportDesignConstants.CELL_ELEMENT );
+		IDescriptorProvider dropProvider = new ComboPropertyDescriptorProvider(CellHandle.DROP_PROP,
+				ReportDesignConstants.CELL_ELEMENT);
 
-		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		backgroundProvider.enableReset( true );
+		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider(
+				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		backgroundProvider.enableReset(true);
 
-		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		vAlignProvider.enableReset( true );
+		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.VERTICAL_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		vAlignProvider.enableReset(true);
 
-		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
-				ReportDesignConstants.CELL_ELEMENT );
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+				ReportDesignConstants.CELL_ELEMENT);
 
 		// Defines sections.
 
-		ComboSection dropSection = new ComboSection( dropProvider.getDisplayName( ),
-				container,
-				true );
+		ComboSection dropSection = new ComboSection(dropProvider.getDisplayName(), container, true);
 
-		ColorSection backgroundSection = new ColorSection( backgroundProvider.getDisplayName( ),
-				container,
-				true );
+		ColorSection backgroundSection = new ColorSection(backgroundProvider.getDisplayName(), container, true);
 
-		ComboSection vAlignSection = new ComboSection( vAlignProvider.getDisplayName( ),
-				container,
-				true );
+		ComboSection vAlignSection = new ComboSection(vAlignProvider.getDisplayName(), container, true);
 
-		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
 
-		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
-				container,
-				true );
+		SimpleComboSection styleSection = new SimpleComboSection(styleProvider.getDisplayName(), container, true);
 
 		// Sets providers.
 
-		dropSection.setProvider( dropProvider );
-		backgroundSection.setProvider( backgroundProvider );
-		vAlignSection.setProvider( vAlignProvider );
-		styleSection.setProvider( styleProvider );
+		dropSection.setProvider(dropProvider);
+		backgroundSection.setProvider(backgroundProvider);
+		vAlignSection.setProvider(vAlignProvider);
+		styleSection.setProvider(styleProvider);
 
 		// Sets widths.
 
-		dropSection.setWidth( 200 );
-		backgroundSection.setWidth( 200 );
-		vAlignSection.setWidth( 200 );
-		styleSection.setWidth( 200 );
+		dropSection.setWidth(200);
+		backgroundSection.setWidth(200);
+		vAlignSection.setWidth(200);
+		styleSection.setWidth(200);
 
 		// Sets layout num.
 
-		dropSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 4 );
-		vAlignSection.setLayoutNum( 2 );
-		styleSection.setLayoutNum( 4 );
+		dropSection.setLayoutNum(2);
+		backgroundSection.setLayoutNum(4);
+		vAlignSection.setLayoutNum(2);
+		styleSection.setLayoutNum(4);
 
 		// Sets fill grid num.
 
-		dropSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 2, true );
-		vAlignSection.setGridPlaceholder( 0, true );
-		styleSection.setGridPlaceholder( 2, true );
+		dropSection.setGridPlaceholder(0, true);
+		backgroundSection.setGridPlaceholder(2, true);
+		vAlignSection.setGridPlaceholder(0, true);
+		styleSection.setGridPlaceholder(2, true);
 
 		// Adds sections into this page.
 
-		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
-		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
-				container,
-				true );
-		elementIdSection.setProvider( elementIdProvider );
-		elementIdSection.setWidth( 200 );
-		elementIdSection.setLayoutNum( 6 );
-		elementIdSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.CELL_ELEMENT_ID, elementIdSection );
-		
-		addSection( PageSectionId.CELL_DROP, dropSection ); //$NON-NLS-1$
-		addSection( PageSectionId.CELL_BACKGROUND, backgroundSection ); //$NON-NLS-1$
-		addSection( PageSectionId.CELL_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		addSection( PageSectionId.CELL_STYLE, styleSection ); //$NON-NLS-1$
-		
-		addSection( PageSectionId.CELL_SEPERATOR, seperatorSection ); //$NON-NLS-1$
-		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
+		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
+		elementIdSection.setProvider(elementIdProvider);
+		elementIdSection.setWidth(200);
+		elementIdSection.setLayoutNum(6);
+		elementIdSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.CELL_ELEMENT_ID, elementIdSection);
 
-		addFontsSection( );
-		
+		addSection(PageSectionId.CELL_DROP, dropSection); // $NON-NLS-1$
+		addSection(PageSectionId.CELL_BACKGROUND, backgroundSection); // $NON-NLS-1$
+		addSection(PageSectionId.CELL_VERTICAL_ALIGN, vAlignSection); // $NON-NLS-1$
+		addSection(PageSectionId.CELL_STYLE, styleSection); // $NON-NLS-1$
 
+		addSection(PageSectionId.CELL_SEPERATOR, seperatorSection); // $NON-NLS-1$
 
-		createSections( );
-		layoutSections( );
+		addFontsSection();
+
+		createSections();
+		layoutSections();
 	}
 }

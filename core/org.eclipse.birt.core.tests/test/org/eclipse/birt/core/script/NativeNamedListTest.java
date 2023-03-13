@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *   See git history
+ *******************************************************************************/
 package org.eclipse.birt.core.script;
 
 import java.util.Date;
@@ -11,9 +23,7 @@ import org.mozilla.javascript.Scriptable;
 
 import junit.framework.TestCase;
 
-
-public class NativeNamedListTest extends TestCase
-{
+public class NativeNamedListTest extends TestCase {
 	/**
 	 * Create a Context instance
 	 */
@@ -30,125 +40,120 @@ public class NativeNamedListTest extends TestCase
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
-    public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		/*
-		 * Creates and enters a Context. The Context stores information about
-		 * the execution environment of a script.
+		 * Creates and enters a Context. The Context stores information about the
+		 * execution environment of a script.
 		 */
 
-		cx = Context.enter( );
+		cx = Context.enter();
 		/*
-		 * Initialize the standard objects (Object, Function, etc.) This must be
-		 * done before scripts can be executed. Returns a scope object that we
-		 * use in later calls.
+		 * Initialize the standard objects (Object, Function, etc.) This must be done
+		 * before scripts can be executed. Returns a scope object that we use in later
+		 * calls.
 		 */
-		scope = cx.initStandardObjects( );
+		scope = cx.initStandardObjects();
 
-		//ScriptableObject.defineClass(scope, NativeNamedList.class);
-		
+		// ScriptableObject.defineClass(scope, NativeNamedList.class);
+
 		registerBeans();
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	@After
-    public void tearDown()
-	{
-		Context.exit( );
+	public void tearDown() {
+		Context.exit();
 	}
 
 	/**
 	 * Evaluate a JavaScript source string.
-	 * 
+	 *
 	 * @param script
 	 * @return the result
 	 */
-	protected Object evaluate( String script )
-	{
-		try
-		{
+	protected Object evaluate(String script) {
+		try {
 			hasException = false;
-			return cx.evaluateString( scope, script, "inline", 1, null );
-		}
-		catch ( Throwable ex )
-		{
+			return cx.evaluateString(scope, script, "inline", 1, null);
+		} catch (Throwable ex) {
 			hasException = true;
 		}
 		return null;
 	}
 
 	StringBuffer buffer = new StringBuffer();
-	
-	protected void registerBeans( )
-	{
-		String[] names = new String[] {"a", "b", "c", "d"};
+
+	protected void registerBeans() {
+		String[] names = { "a", "b", "c", "d" };
 		HashMap values = new HashMap();
 		values.put("a", new Integer(123));
 		values.put("b", "STRING");
 		values.put("c", new Date());
 		values.put("d", null);
-		
+
 		NativeNamedList params = new NativeNamedList(scope, names, values);
 		scope.put("params", scope, params);
-		scope.put("buffer", scope, Context.javaToJS(buffer,scope));
+		scope.put("buffer", scope, Context.javaToJS(buffer, scope));
 	}
+
 	@Test
-    public void testIn()
-	{
+	public void testIn() {
 		String script = "for (var a in params) { buffer.append(a); }";
 		buffer.setLength(0);
 		evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("abcd", buffer.toString());
 	}
+
 	@Test
-    public void testLength()
-	{
+	public void testLength() {
 		String script = "params.length";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
-		assertEquals(4, ((Number)value).intValue());
+		assertEquals(4, ((Number) value).intValue());
 	}
+
 	@Test
-    public void testNameAccess()
-	{
+	public void testNameAccess() {
 		String script = "params['a'] + params.b";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("123STRING", value.toString());
 	}
+
 	@Test
-    public void testIndexAccess()
-	{
+	public void testIndexAccess() {
 		String script = "params[0] + params[params.length-3]";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("123STRING", value.toString());
 	}
+
 	@Test
-    public void testEntryName()
-	{
+	public void testEntryName() {
 		String script = "params[0].name";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("a", value.toString());
 	}
+
 	@Test
-    public void testEntryValue()
-	{
+	public void testEntryValue() {
 		String script = "params[0].value + params[0]";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
-		assertEquals(246, ((Number)value).intValue());
+		assertEquals(246, ((Number) value).intValue());
 	}
-	
+
 }

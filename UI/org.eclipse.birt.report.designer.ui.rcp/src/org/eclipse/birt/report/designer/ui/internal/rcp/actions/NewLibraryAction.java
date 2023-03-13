@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2014 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -26,45 +29,41 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
  * The action to create a new library
  */
 
-public class NewLibraryAction extends Action implements IWorkbenchAction
-{
+public class NewLibraryAction extends Action implements IWorkbenchAction {
 
 	private IWorkbenchWindow fWindow;
 
-	public NewLibraryAction( IWorkbenchWindow window )
-	{
-		init( window );
-		setId( "org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewLibraryAction" ); //$NON-NLS-1$
-		setText( DesignerWorkbenchMessages.Action_newLibrary );
-		setToolTipText( DesignerWorkbenchMessages.Action_newLibrary );
+	public NewLibraryAction(IWorkbenchWindow window) {
+		init(window);
+		setId("org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewLibraryAction"); //$NON-NLS-1$
+		setText(DesignerWorkbenchMessages.Action_newLibrary);
+		setToolTipText(DesignerWorkbenchMessages.Action_newLibrary);
 	}
 
 	/*
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
-		if ( window == null )
-		{
-			throw new IllegalArgumentException( );
+	public void init(IWorkbenchWindow window) {
+		if (window == null) {
+			throw new IllegalArgumentException();
 		}
 		fWindow = window;
 	}
 
-	public void run( )
-	{
-		Dialog dialog = new BaseWizardDialog( fWindow.getShell( ),
-				new NewLibraryWizard( ) );
-		dialog.open( );
+	@Override
+	public void run() {
+		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewLibraryWizard());
+		dialog.open();
 	}
 
-	public void dispose( )
-	{
+	@Override
+	public void dispose() {
 		fWindow = null;
 	}
 
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY);
+	@Override
+	public ImageDescriptor getImageDescriptor() {
+		return ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_LIBRARY);
 	}
 }

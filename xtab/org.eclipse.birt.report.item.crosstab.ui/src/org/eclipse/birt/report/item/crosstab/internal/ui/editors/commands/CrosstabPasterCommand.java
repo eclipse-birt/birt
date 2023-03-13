@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,8 +27,7 @@ import org.eclipse.gef.commands.Command;
  * Paster the count to the crosscell handle
  */
 
-public class CrosstabPasterCommand extends Command
-{
+public class CrosstabPasterCommand extends Command {
 
 	private DesignElementHandle sourceHandle;
 	private IElementCopy cloneElement;
@@ -46,16 +48,15 @@ public class CrosstabPasterCommand extends Command
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceHandle
 	 * @param newContainer
 	 * @param afterHandle
 	 */
-	public CrosstabPasterCommand( DesignElementHandle sourceHandle,
-			DesignElementHandle newContainer, DesignElementHandle afterHandle )
-	{
+	public CrosstabPasterCommand(DesignElementHandle sourceHandle, DesignElementHandle newContainer,
+			DesignElementHandle afterHandle) {
 		this.sourceHandle = sourceHandle;
-		this.cloneElement = CopyUtil.copy( sourceHandle );
+		this.cloneElement = CopyUtil.copy(sourceHandle);
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
 	}
@@ -63,71 +64,57 @@ public class CrosstabPasterCommand extends Command
 	/**
 	 * @return <code>true</code> if the command can be executed
 	 */
-	public boolean canExecute( )
-	{
+	@Override
+	public boolean canExecute() {
 		DesignElementHandle childHandle = sourceHandle;
 
-		return DNDUtil.handleValidateTargetCanContain( newContainer,
-				childHandle )
-				&& DNDUtil.handleValidateTargetCanContainMore( newContainer, 1 );
+		return DNDUtil.handleValidateTargetCanContain(newContainer, childHandle)
+				&& DNDUtil.handleValidateTargetCanContainMore(newContainer, 1);
 	}
 
 	/**
 	 * Executes the Command.
 	 */
-	public void execute( )
-	{
-		try
-		{
-			calculatePositionAndSlotId( );
-			CopyUtil.paste( cloneElement,
-					newContainer,
-					getContentName( ),
-					position );
-		}
-		catch ( Exception e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteCommand >> Failed." ); //$NON-NLS-1$
+	@Override
+	public void execute() {
+		try {
+			calculatePositionAndSlotId();
+			CopyUtil.paste(cloneElement, newContainer, getContentName(), position);
+		} catch (Exception e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteCommand >> Failed."); //$NON-NLS-1$
 			}
-			ExceptionUtil.handle( e );
+			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
 	 * Caculate the paste position
 	 */
-	private void calculatePositionAndSlotId( )
-	{
-		if ( contentName == null )
-		{
-			contentName = DEUtil.getDefaultContentName( newContainer );
+	private void calculatePositionAndSlotId() {
+		if (contentName == null) {
+			contentName = DEUtil.getDefaultContentName(newContainer);
 		}
 
-		position = DEUtil.findInsertPosition( newContainer,
-				afterHandle,
-				getContentName( ) );
+		position = DEUtil.findInsertPosition(newContainer, afterHandle, getContentName());
 
 	}
 
 	/**
 	 * Gets the content name
-	 * 
+	 *
 	 * @return
 	 */
-	public String getContentName( )
-	{
+	public String getContentName() {
 		return contentName;
 	}
 
 	/**
 	 * Sets the conten name
-	 * 
+	 *
 	 * @param contentName
 	 */
-	public void setContentName( String contentName )
-	{
+	public void setContentName(String contentName) {
 		this.contentName = contentName;
 	}
 }

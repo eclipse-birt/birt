@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,8 +39,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
-public class CubeResultSet implements ICubeResultSet
-{
+public class CubeResultSet implements ICubeResultSet {
 
 	protected IBaseResultSet parent;
 
@@ -57,199 +59,165 @@ public class CubeResultSet implements ICubeResultSet
 	private ICubeCursor cube;
 
 	private ICubeQueryResults queryResults;
-	
+
 	/**
 	 * DTE's QueryResults's ID.
 	 */
 	private String queryResultsID;
 
-	protected static Logger logger = Logger.getLogger( CubeResultSet.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger(CubeResultSet.class.getName());
 
 	// Top level query results
-	public CubeResultSet( IDataEngine dataEngine, ExecutionContext context,
-			ICubeQueryDefinition queryDefn, ICubeQueryResults rsets )
-			throws BirtException
-	{
+	public CubeResultSet(IDataEngine dataEngine, ExecutionContext context, ICubeQueryDefinition queryDefn,
+			ICubeQueryResults rsets) throws BirtException {
 		this.parent = null;
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
-		this.cube = rsets.getCubeCursor( );
-		if ( rsets.getID( ) != null )
-		{
-			this.id = new DataSetID( rsets.getID( ) );
-		}
-		else
-		{
-			this.id = new DataSetID( "cube" );
+		this.cube = rsets.getCubeCursor();
+		if (rsets.getID() != null) {
+			this.id = new DataSetID(rsets.getID());
+		} else {
+			this.id = new DataSetID("cube");
 		}
 		this.queryResults = rsets;
-		this.queryResultsID = rsets.getID( );
+		this.queryResultsID = rsets.getID();
 	}
 
 	// Nest query
-	public CubeResultSet( IDataEngine dataEngine, ExecutionContext context,
-			IBaseResultSet parent, ICubeQueryDefinition queryDefn,
-			ICubeQueryResults rsets ) throws BirtException
-	{
+	public CubeResultSet(IDataEngine dataEngine, ExecutionContext context, IBaseResultSet parent,
+			ICubeQueryDefinition queryDefn, ICubeQueryResults rsets) throws BirtException {
 		assert parent != null;
 		this.parent = parent;
-		this.cube = rsets.getCubeCursor( );
-		if ( rsets.getID( ) != null )
-		{
-			this.id = new DataSetID( rsets.getID( ) );
-		}
-		else
-		{
-			this.id = new DataSetID( "cube" );
+		this.cube = rsets.getCubeCursor();
+		if (rsets.getID() != null) {
+			this.id = new DataSetID(rsets.getID());
+		} else {
+			this.id = new DataSetID("cube");
 		}
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
 		this.queryResults = rsets;
-		this.queryResultsID = rsets.getID( );
+		this.queryResultsID = rsets.getID();
 	}
-	
+
 	// Sub cube query
-	public CubeResultSet( IDataEngine dataEngine, ExecutionContext context,
-			IBaseResultSet parent, ISubCubeQueryDefinition queryDefn,
-			ICubeQueryResults rsets ) throws BirtException
-	{
+	public CubeResultSet(IDataEngine dataEngine, ExecutionContext context, IBaseResultSet parent,
+			ISubCubeQueryDefinition queryDefn, ICubeQueryResults rsets) throws BirtException {
 		assert parent != null;
 		this.parent = parent;
-		this.cube = rsets.getCubeCursor( );
-		if ( rsets.getID( ) != null )
-		{
-			this.id = new DataSetID( rsets.getID( ) );
-		}
-		else
-		{
-			this.id = new DataSetID( "cube" );
+		this.cube = rsets.getCubeCursor();
+		if (rsets.getID() != null) {
+			this.id = new DataSetID(rsets.getID());
+		} else {
+			this.id = new DataSetID("cube");
 		}
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
 		this.queryResults = rsets;
-		this.queryResultsID = rsets.getID( );
+		this.queryResultsID = rsets.getID();
 	}
-	
-	public String getQueryResultsID( )
-	{
+
+	public String getQueryResultsID() {
 		return queryResultsID;
 	}
 
-	public CubeCursor getCubeCursor( )
-	{
+	@Override
+	public CubeCursor getCubeCursor() {
 		return cube;
 	}
 
-	public String getCellIndex( )
-	{
-		try
-		{
-			cellId = CubeUtil.getPositionID( cube );
-		}
-		catch ( OLAPException e )
-		{
-			context.addException( new EngineException(
-					MessageConstants.CUBE_POSITION_ERROR, e ) );
+	@Override
+	public String getCellIndex() {
+		try {
+			cellId = CubeUtil.getPositionID(cube);
+		} catch (OLAPException e) {
+			context.addException(new EngineException(MessageConstants.CUBE_POSITION_ERROR, e));
 		}
 		return cellId;
 	}
 
-	public void close( )
-	{
+	@Override
+	public void close() {
 		// remove the data set from the data set list
-		try
-		{
-			if ( queryResults != null )
-			{
-				queryResults.close( );
+		try {
+			if (queryResults != null) {
+				queryResults.close();
 			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, ex.getMessage(), ex);
 			// context.addException( ex );
 		}
-		try
-		{
-			if ( cube != null )
-			{
-				cube.close( );
+		try {
+			if (cube != null) {
+				cube.close();
 			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, ex.getMessage(), ex);
 			// context.addException( ex );
 		}
 	}
 
-	public Object evaluate( String expr ) throws BirtException
-	{
-		return context.evaluate( expr );
-	}
-	
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
-		return context.evaluateInlineScript( language, expr );
+	@Override
+	public Object evaluate(String expr) throws BirtException {
+		return context.evaluate(expr);
 	}
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
-		if ( expr instanceof IScriptExpression )
-		{
+	@Override
+	public Object evaluate(String language, String expr) throws BirtException {
+		return context.evaluateInlineScript(language, expr);
+	}
+
+	@Override
+	public Object evaluate(IBaseExpression expr) throws BirtException {
+		if (expr instanceof IScriptExpression) {
 			IScriptExpression scriptExpression = (IScriptExpression) expr;
-			return context.evaluate( scriptExpression.getText( ) );
+			return context.evaluate(scriptExpression.getText());
 		}
-		if ( expr instanceof IConditionalExpression )
-		{
-			return context.evaluateCondExpr( (IConditionalExpression) expr );
+		if (expr instanceof IConditionalExpression) {
+			return context.evaluateCondExpr((IConditionalExpression) expr);
 		}
 		return null;
 	}
 
-	public DataSetID getID( )
-	{
+	@Override
+	public DataSetID getID() {
 		return id;
 	}
 
-	public IBaseResultSet getParent( )
-	{
+	@Override
+	public IBaseResultSet getParent() {
 		return parent;
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
+	@Override
+	public IBaseQueryResults getQueryResults() {
 		return queryResults;
 	}
 
-	public String getRawID( )
-	{
-		return getCellIndex( );
+	@Override
+	public String getRawID() {
+		return getCellIndex();
 	}
 
-	public int getType( )
-	{
+	@Override
+	public int getType() {
 		return CUBE_RESULTSET;
 	}
 
-	public void skipTo( String cellIndex ) throws BirtException
-	{
-		try
-		{
-			CubeUtil.positionCursor( cube, cellIndex );
-		}
-		catch ( OLAPException e )
-		{
-			throw new EngineException( MessageConstants.SKIP_ERROR, e );
+	@Override
+	public void skipTo(String cellIndex) throws BirtException {
+		try {
+			CubeUtil.positionCursor(cube, cellIndex);
+		} catch (OLAPException e) {
+			throw new EngineException(MessageConstants.SKIP_ERROR, e);
 		}
 	}
 
-	public IBaseCubeQueryDefinition getCubeQuery( )
-	{
+	@Override
+	public IBaseCubeQueryDefinition getCubeQuery() {
 		return this.queryDefn;
 	}
 

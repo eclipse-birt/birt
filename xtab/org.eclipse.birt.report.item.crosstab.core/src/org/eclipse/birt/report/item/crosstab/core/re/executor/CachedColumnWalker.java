@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,53 +25,44 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 /**
  * CachedColumnWalker
  */
-class CachedColumnWalker implements IColumnWalker
-{
+class CachedColumnWalker implements IColumnWalker {
 
 	private ColumnWalker worker;
 	private boolean cacheMode;
 	private List cache;
 	private int pos;
 
-	CachedColumnWalker( CrosstabReportItemHandle item,
-			EdgeCursor columnEdgeCursor )
-	{
-		worker = new ColumnWalker( item, columnEdgeCursor );
+	CachedColumnWalker(CrosstabReportItemHandle item, EdgeCursor columnEdgeCursor) {
+		worker = new ColumnWalker(item, columnEdgeCursor);
 
-		cache = new ArrayList( );
+		cache = new ArrayList();
 		cacheMode = false;
 	}
 
-	public void reload( )
-	{
+	@Override
+	public void reload() {
 		cacheMode = true;
 		pos = 0;
 	}
 
-	public boolean hasNext( ) throws OLAPException
-	{
-		if ( cacheMode )
-		{
-			return pos < cache.size( );
-		}
-		else
-		{
-			return worker.hasNext( );
+	@Override
+	public boolean hasNext() throws OLAPException {
+		if (cacheMode) {
+			return pos < cache.size();
+		} else {
+			return worker.hasNext();
 		}
 	}
 
-	public ColumnEvent next( ) throws OLAPException
-	{
+	@Override
+	public ColumnEvent next() throws OLAPException {
 		ColumnEvent ev;
 
-		if ( cacheMode )
-		{
-			ev = (ColumnEvent) cache.get( pos++ );
-		}
-		else
-		{
-			ev = worker.next( );
-			cache.add( ev );
+		if (cacheMode) {
+			ev = (ColumnEvent) cache.get(pos++);
+		} else {
+			ev = worker.next();
+			cache.add(ev);
 		}
 
 		return ev;

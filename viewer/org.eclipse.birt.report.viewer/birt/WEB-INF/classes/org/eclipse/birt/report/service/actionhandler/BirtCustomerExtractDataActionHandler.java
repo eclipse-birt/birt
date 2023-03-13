@@ -1,10 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -27,81 +29,68 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * This action handle is used to support user extended data extraction
- * 
+ *
  */
-public class BirtCustomerExtractDataActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public class BirtCustomerExtractDataActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Default constructor
-	 * 
+	 *
 	 * @param context
 	 * @param operation
 	 * @param response
 	 */
-	public BirtCustomerExtractDataActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtCustomerExtractDataActionHandler(IContext context, Operation operation,
+			GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
 	 * Execute action
 	 */
-	protected void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		String docName = attrBean.getReportDocumentName( );
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
+	@Override
+	protected void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
+		String docName = attrBean.getReportDocumentName();
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
 
-		String extractFormat = ParameterAccessor.getExtractFormat( context
-				.getRequest( ) );
-		String extractExtension = ParameterAccessor
-				.getExtractExtension( context.getRequest( ) );
+		String extractFormat = ParameterAccessor.getExtractFormat(context.getRequest());
+		String extractExtension = ParameterAccessor.getExtractExtension(context.getRequest());
 
-		if ( extractExtension != null )
-		{
+		if (extractExtension != null) {
 			// check extract extension
-			boolean flag = ParameterAccessor
-					.validateExtractExtension( extractExtension );
-			if ( !flag )
-			{
-				AxisFault fault = new AxisFault( );
-				fault
-						.setFaultReason( BirtResources
-								.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION ) );
+			boolean flag = ParameterAccessor.validateExtractExtension(extractExtension);
+			if (!flag) {
+				AxisFault fault = new AxisFault();
+				fault.setFaultReason(
+						BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION));
 				throw fault;
 			}
 
-			extractFormat = ParameterAccessor
-					.getExtractFormat( extractExtension );
+			extractFormat = ParameterAccessor.getExtractFormat(extractExtension);
 		}
 
 		// check extract format
-		boolean flag = ParameterAccessor.validateExtractFormat( extractFormat );
-		if ( !flag )
-		{
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT ) );
+		boolean flag = ParameterAccessor.validateExtractFormat(extractFormat);
+		if (!flag) {
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(
+					BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT));
 			throw fault;
 		}
 
-		ServletOutputStream out = context.getResponse( ).getOutputStream( );
-		getReportService( ).extractData( docName, options, out );
+		ServletOutputStream out = context.getResponse().getOutputStream();
+		getReportService().extractData(docName, options, out);
 	}
 
 	/**
 	 * Returns Viewer Report Service
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	@Override
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

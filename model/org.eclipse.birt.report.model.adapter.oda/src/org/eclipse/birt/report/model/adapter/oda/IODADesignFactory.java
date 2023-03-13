@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,91 +57,90 @@ import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 
 /**
  * The wrapper class for ODA DesignFactory.
- * 
+ *
  */
 
-public interface IODADesignFactory
-{
+public interface IODADesignFactory {
 
-	ColumnDefinition createColumnDefinition( );
+	ColumnDefinition createColumnDefinition();
 
-	DataAccessDesign createDataAccessDesign( );
+	DataAccessDesign createDataAccessDesign();
 
-	DataElementAttributes createDataElementAttributes( );
+	DataElementAttributes createDataElementAttributes();
 
-	DataSetDesign createDataSetDesign( );
+	DataSetDesign createDataSetDesign();
 
-	DataSetParameters createDataSetParameters( );
+	DataSetParameters createDataSetParameters();
 
-	DataSetQuery createDataSetQuery( );
+	DataSetQuery createDataSetQuery();
 
-	DataSourceDesign createDataSourceDesign( );
+	DataSourceDesign createDataSourceDesign();
 
-	DesignSessionRequest createDesignSessionRequest( );
+	DesignSessionRequest createDesignSessionRequest();
 
-	OdaDesignSession createOdaDesignSession( );
+	OdaDesignSession createOdaDesignSession();
 
-	ParameterDefinition createParameterDefinition( );
+	ParameterDefinition createParameterDefinition();
 
-	Properties createProperties( );
+	Properties createProperties();
 
-	ResultSets createResultSets( );
+	ResultSets createResultSets();
 
-	ResultSetColumns createResultSetColumns( );
+	ResultSetColumns createResultSetColumns();
 
-	ResultSetDefinition createResultSetDefinition( );
-	
-	InputParameterAttributes createInputParameterAttributes( );
-	
-    InputElementAttributes createInputElementAttributes();
-    
-    DesignerState createDesignerState();
-    
-    DesignerStateContent createDesignerStateContent();
-    
-    DataElementUIHints createDataElementUIHints();
-    
-    ScalarValueChoices createScalarValueChoices();
-    
-    ScalarValueDefinition createScalarValueDefinition();
-    
-    DynamicValuesQuery createDynamicValuesQuery();
-    
-    InputElementUIHints createInputElementUIHints();
-    
-    InputParameterUIHints createInputParameterUIHints();
-    
-    OutputElementAttributes createOutputElementAttributes();
-    
-    ValueFormatHints createValueFormatHints();
-    
-    void validateObject(org.eclipse.emf.ecore.EObject eObject);
-    
-    DesignSessionResponse createDesignSessionResponse();
-    
-    StaticValues createStaticValues();
-    
-    FilterExpressionType createFilterExpressionType();
-    
-    ResultSetCriteria createResultSetCriteria();
-    
-    AndExpression createAndExpression();
-    
-    SortSpecification createSortSpecification();
-    
-    SortKey createSortKey();
-    
-    CustomFilterExpression createCustomFilterExpression();
-    
-    ExpressionVariable createExpressionVariable();
-    
-    DynamicFilterExpression createDynamicFilterExpression();
-    
-    ExpressionArguments createExpressionArguments();
-    
-    CustomData createCustomData();
+	ResultSetDefinition createResultSetDefinition();
 
-	AxisAttributes createAxisAttributes( );
+	InputParameterAttributes createInputParameterAttributes();
 
-	ResultSubset createResultSubset( );
+	InputElementAttributes createInputElementAttributes();
+
+	DesignerState createDesignerState();
+
+	DesignerStateContent createDesignerStateContent();
+
+	DataElementUIHints createDataElementUIHints();
+
+	ScalarValueChoices createScalarValueChoices();
+
+	ScalarValueDefinition createScalarValueDefinition();
+
+	DynamicValuesQuery createDynamicValuesQuery();
+
+	InputElementUIHints createInputElementUIHints();
+
+	InputParameterUIHints createInputParameterUIHints();
+
+	OutputElementAttributes createOutputElementAttributes();
+
+	ValueFormatHints createValueFormatHints();
+
+	void validateObject(org.eclipse.emf.ecore.EObject eObject);
+
+	DesignSessionResponse createDesignSessionResponse();
+
+	StaticValues createStaticValues();
+
+	FilterExpressionType createFilterExpressionType();
+
+	ResultSetCriteria createResultSetCriteria();
+
+	AndExpression createAndExpression();
+
+	SortSpecification createSortSpecification();
+
+	SortKey createSortKey();
+
+	CustomFilterExpression createCustomFilterExpression();
+
+	ExpressionVariable createExpressionVariable();
+
+	DynamicFilterExpression createDynamicFilterExpression();
+
+	ExpressionArguments createExpressionArguments();
+
+	CustomData createCustomData();
+
+	AxisAttributes createAxisAttributes();
+
+	ResultSubset createResultSubset();
 }
