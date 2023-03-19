@@ -42,7 +42,7 @@ public class EngineIRIOTest extends EngineCase {
 		Class<?> clz = i == 0 ? this.getClass() : org.eclipse.birt.report.engine.parser.EngineIRParserTest.class;
 		InputStream input = clz.getResourceAsStream(designName);
 		Report report = new ReportParser().parse(".", input);
-		assertTrue(report != null);
+		assertTrue("EngineIRIOTest, doTestIO(report exists) - designName: " + designName, report != null);
 
 		// write it into the stream
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -66,7 +66,7 @@ public class EngineIRIOTest extends EngineCase {
 		String golden = new String(out1.toByteArray());
 		String value = new String(out2.toByteArray());
 
-		assertEquals(golden, value);
+		assertEquals("EngineIRIOTest, doTestIO(compare: golden, value) - designName: " + designName, golden, value);
 	}
 
 }
