@@ -27,10 +27,10 @@ public class EngineIRIOTest extends EngineCase {
 	// "org/eclipse/birt/report/engine/ir/ir_io_test.rptdesign";
 
 	public void testIO() throws Exception {
-		String[] designStreams = { "ir_io_test.rptdesign", "action_test.rptdesign", "bookmark_test.rptdesign",
+		String[] designStreams = { "action_test.rptdesign", "bookmark_test.rptdesign",
 				"cell_test.rptdesign", "highlight_test.rptdesign", "image_test.rptdesign", "map_test.rptdesign",
 				"report_item_test.rptdesign", "text_test.rptdesign", "toc_test.rptdesign",
-				"user_property_test.rptdesign", "visibility_test.rptdesign" };
+				"user_property_test.rptdesign", "visibility_test.rptdesign", "ir_io_test.rptdesign" };
 
 		for (int i = 0; i < designStreams.length; i++) {
 			doTestIO(designStreams[i], i);
