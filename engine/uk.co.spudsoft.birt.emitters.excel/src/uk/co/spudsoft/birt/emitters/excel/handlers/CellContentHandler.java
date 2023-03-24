@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -115,6 +116,10 @@ public class CellContentHandler extends AbstractHandler {
 	 * Bookmark that this cell should hyperlink to
 	 */
 	protected String hyperlinkBookmark;
+
+	private static String DATA_PROTOCOL = "data:";
+
+	private static String DATA_PROTOCOL_BASE = ";base64,";
 
 	public CellContentHandler(IContentEmitter emitter, Logger log, IHandler parent, ICellContent cell) {
 		super(log, parent, cell);
@@ -524,20 +529,29 @@ public class CellContentHandler extends AbstractHandler {
 		Workbook wb = state.getWb();
 		String mimeType = image.getMIMEType();
 		if ((data == null) && (image.getURI() != null)) {
-			try {
-				URL imageUrl = new URL(image.getURI());
-				URLConnection conn = imageUrl.openConnection();
-				conn.connect();
-				mimeType = conn.getContentType();
-				int imageType = smu.poiImageTypeFromMimeType(mimeType, null);
-				if (imageType == 0) {
-					log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
-				} else {
-					data = smu.downloadImage(conn);
+			String stringURI = image.getURI().toString().toLowerCase();
+			if (stringURI.startsWith(DATA_PROTOCOL) && stringURI.contains(DATA_PROTOCOL_BASE)) {
+				String base64[] = image.getURI().toString().split(DATA_PROTOCOL_BASE);
+				if (base64.length >= 2) {
+					data = Base64.decodeBase64(base64[1]);
 				}
-			} catch (IOException ex) {
-				log.debug(ex.getClass(), ": ", ex.getMessage());
-				ex.printStackTrace();
+			} else {
+				try {
+					URL imageUrl = new URL(image.getURI());
+					URLConnection conn = imageUrl.openConnection();
+					conn.connect();
+					mimeType = conn.getContentType();
+					int imageType = smu.poiImageTypeFromMimeType(mimeType, null);
+					if (imageType == 0) {
+						log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
+					} else {
+						data = smu.downloadImage(conn);
+						image.setData(data);
+					}
+				} catch (IOException ex) {
+					log.debug(ex.getClass(), ": ", ex.getMessage());
+					ex.printStackTrace();
+				}
 			}
 		}
 		if (data != null) {
