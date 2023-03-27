@@ -7,7 +7,7 @@
     <booleanAttribute key="automaticValidate" value="true"/>
     <stringAttribute key="bootstrap" value=""/>
     <stringAttribute key="checked" value="[NONE]"/>
-    <booleanAttribute key="clearConfig" value="false"/>
+    <booleanAttribute key="clearConfig" value="true"/>
     <booleanAttribute key="clearws" value="true"/>
     <booleanAttribute key="clearwslog" value="false"/>
     <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/BIRT all-in-one"/>
@@ -24,22 +24,23 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE for JavaSE-11"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -console -debug"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true&#13;&#10;-Dorg.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog&#13;&#10;-Dorg.eclipse.jetty.LEVEL=DEBUG&#10;-Dosgi.debug=${project_loc:org.eclipse.birt.target}/debug.options&#13;&#10;-Dorg.eclipse.jetty.websocket.LEVEL=DEBUG&#13;&#10; --add-modules=ALL-SYSTEM"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.platform.ide"/>
     <setAttribute key="selected_target_bundles">
+        <setEntry value="bcpg@default:default"/>
+        <setEntry value="bcprov@default:default"/>
         <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="com.google.guava@default:default"/>
         <setEntry value="com.google.javascript@default:default"/>
         <setEntry value="com.google.protobuf@default:default"/>
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
-        <setEntry value="com.ibm.icu*70.1.0@default:default"/>
+        <setEntry value="com.ibm.icu*72.1.0@default:default"/>
         <setEntry value="com.jcraft.jsch@default:default"/>
-        <setEntry value="com.sun.el@default:default"/>
         <setEntry value="com.sun.jna.platform@default:default"/>
         <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
@@ -49,7 +50,7 @@
         <setEntry value="jakarta.servlet@default:default"/>
         <setEntry value="javax.activation@default:default"/>
         <setEntry value="javax.annotation@default:default"/>
-        <setEntry value="javax.el@default:default"/>
+        <setEntry value="javax.el-api@default:default"/>
         <setEntry value="javax.inject@default:default"/>
         <setEntry value="javax.mail@default:default"/>
         <setEntry value="javax.servlet-api@default:default"/>
@@ -61,18 +62,6 @@
         <setEntry value="javax.xml.soap@default:default"/>
         <setEntry value="javax.xml.stream@default:default"/>
         <setEntry value="javax.xml@default:default"/>
-        <setEntry value="junit-jupiter-api@default:default"/>
-        <setEntry value="junit-jupiter-engine@default:default"/>
-        <setEntry value="junit-jupiter-migrationsupport@default:default"/>
-        <setEntry value="junit-jupiter-params@default:default"/>
-        <setEntry value="junit-platform-commons@default:default"/>
-        <setEntry value="junit-platform-engine@default:default"/>
-        <setEntry value="junit-platform-launcher@default:default"/>
-        <setEntry value="junit-platform-runner@default:default"/>
-        <setEntry value="junit-platform-suite-api@default:default"/>
-        <setEntry value="junit-platform-suite-commons@default:default"/>
-        <setEntry value="junit-platform-suite-engine@default:default"/>
-        <setEntry value="junit-vintage-engine@default:default"/>
         <setEntry value="net.sourceforge.lpg.lpgjavaruntime@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.aries.spifly.dynamic.bundle@default:default"/>
@@ -81,7 +70,8 @@
         <setEntry value="org.apache.batik.awt.util@default:default"/>
         <setEntry value="org.apache.batik.bridge@default:default"/>
         <setEntry value="org.apache.batik.codec@default:default"/>
-        <setEntry value="org.apache.batik.constants@default:default"/>
+        <setEntry value="org.apache.batik.constants*1.14.0.v20210324-0332@default:default"/>
+        <setEntry value="org.apache.batik.constants*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.css@default:default"/>
         <setEntry value="org.apache.batik.dom.svg@default:default"/>
         <setEntry value="org.apache.batik.dom@default:default"/>
@@ -93,9 +83,9 @@
         <setEntry value="org.apache.batik.shared.resources@default:default"/>
         <setEntry value="org.apache.batik.svggen@default:default"/>
         <setEntry value="org.apache.batik.transcoder@default:default"/>
-        <setEntry value="org.apache.batik.util@default:default"/>
+        <setEntry value="org.apache.batik.util*1.16.0.v20221027-0840@default:default"/>
         <setEntry value="org.apache.batik.xml@default:default"/>
-        <setEntry value="org.apache.commons.codec@default:default"/>
+        <setEntry value="org.apache.commons.codec*1.14.0.v20221112-0806@default:default"/>
         <setEntry value="org.apache.commons.collections4@default:default"/>
         <setEntry value="org.apache.commons.compress@default:default"/>
         <setEntry value="org.apache.commons.discovery@default:default"/>
@@ -115,6 +105,8 @@
         <setEntry value="org.apache.httpcomponents.httpclient@default:default"/>
         <setEntry value="org.apache.httpcomponents.httpcore@default:default"/>
         <setEntry value="org.apache.jasper.glassfish@default:default"/>
+        <setEntry value="org.apache.lucene.analysis-common@default:default"/>
+        <setEntry value="org.apache.lucene.analysis-smartcn@default:default"/>
         <setEntry value="org.apache.lucene.analysis@default:default"/>
         <setEntry value="org.apache.lucene.analyzers-common*7.5.0.v20181003-1532@default:default"/>
         <setEntry value="org.apache.lucene.analyzers-common*8.4.1.v20200122-1459@default:default"/>
@@ -122,6 +114,7 @@
         <setEntry value="org.apache.lucene.core*3.5.0.v20120725-1805@default:default"/>
         <setEntry value="org.apache.lucene.core*7.5.0.v20181003-1532@default:default"/>
         <setEntry value="org.apache.lucene.core*8.4.1.v20200122-1459@default:default"/>
+        <setEntry value="org.apache.lucene.core*9.4.2.v20221211-0752@default:default"/>
         <setEntry value="org.apache.lucene.misc@default:default"/>
         <setEntry value="org.apache.lucene.queryparser@default:default"/>
         <setEntry value="org.apache.poi.ooxml.schemas@default:default"/>
@@ -136,8 +129,6 @@
         <setEntry value="org.apache.xmlgraphics.batik-ext@default:default"/>
         <setEntry value="org.apache.xmlgraphics@default:default"/>
         <setEntry value="org.apiguardian.api@default:default"/>
-        <setEntry value="org.bouncycastle.bcpg@default:default"/>
-        <setEntry value="org.bouncycastle.bcprov@default:default"/>
         <setEntry value="org.dom4j@default:default"/>
         <setEntry value="org.eclipse.ant.core@default:default"/>
         <setEntry value="org.eclipse.ant.launching@default:default"/>
@@ -418,9 +409,7 @@
         <setEntry value="org.eclipse.jdt.apt.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.pluggable.core@default:default"/>
         <setEntry value="org.eclipse.jdt.apt.ui@default:default"/>
-        <setEntry value="org.eclipse.jdt.compiler.apt@default:false"/>
-        <setEntry value="org.eclipse.jdt.compiler.tool@default:false"/>
-        <setEntry value="org.eclipse.jdt.core.compiler.batch@default:default"/>
+        <setEntry value="org.eclipse.jdt.core.compiler.batch*3.33.0.v20230218-1114@default:default"/>
         <setEntry value="org.eclipse.jdt.core.formatterapp@default:default"/>
         <setEntry value="org.eclipse.jdt.core.manipulation@default:default"/>
         <setEntry value="org.eclipse.jdt.core@default:default"/>
@@ -429,8 +418,6 @@
         <setEntry value="org.eclipse.jdt.doc.user@default:default"/>
         <setEntry value="org.eclipse.jdt.junit.core@default:default"/>
         <setEntry value="org.eclipse.jdt.junit.runtime@default:default"/>
-        <setEntry value="org.eclipse.jdt.junit4.runtime@default:default"/>
-        <setEntry value="org.eclipse.jdt.junit5.runtime@default:default"/>
         <setEntry value="org.eclipse.jdt.junit@default:default"/>
         <setEntry value="org.eclipse.jdt.launching@default:default"/>
         <setEntry value="org.eclipse.jdt.ui@default:default"/>
@@ -445,19 +432,20 @@
         <setEntry value="org.eclipse.jetty.annotations@default:default"/>
         <setEntry value="org.eclipse.jetty.apache-jsp@default:default"/>
         <setEntry value="org.eclipse.jetty.deploy@default:default"/>
-        <setEntry value="org.eclipse.jetty.http@default:default"/>
-        <setEntry value="org.eclipse.jetty.io@default:default"/>
+        <setEntry value="org.eclipse.jetty.http*10.0.13@default:default"/>
+        <setEntry value="org.eclipse.jetty.http*10.0.14@default:default"/>
+        <setEntry value="org.eclipse.jetty.io*10.0.14@default:default"/>
         <setEntry value="org.eclipse.jetty.jmx@default:default"/>
         <setEntry value="org.eclipse.jetty.jndi@default:default"/>
         <setEntry value="org.eclipse.jetty.osgi.boot@default:default"/>
         <setEntry value="org.eclipse.jetty.plus@default:default"/>
         <setEntry value="org.eclipse.jetty.schemas@default:default"/>
-        <setEntry value="org.eclipse.jetty.security@default:default"/>
-        <setEntry value="org.eclipse.jetty.server@default:default"/>
+        <setEntry value="org.eclipse.jetty.security*10.0.14@default:default"/>
+        <setEntry value="org.eclipse.jetty.server*10.0.14@default:default"/>
+        <setEntry value="org.eclipse.jetty.servlet*10.0.14@default:default"/>
         <setEntry value="org.eclipse.jetty.servlet-api@default:default"/>
-        <setEntry value="org.eclipse.jetty.servlet@default:default"/>
-        <setEntry value="org.eclipse.jetty.util.ajax@default:default"/>
-        <setEntry value="org.eclipse.jetty.util@default:default"/>
+        <setEntry value="org.eclipse.jetty.util*10.0.14@default:default"/>
+        <setEntry value="org.eclipse.jetty.util.ajax*10.0.14@default:default"/>
         <setEntry value="org.eclipse.jetty.webapp@default:default"/>
         <setEntry value="org.eclipse.jetty.xml@default:default"/>
         <setEntry value="org.eclipse.jface.databinding@default:default"/>
@@ -529,10 +517,9 @@
         <setEntry value="org.eclipse.ltk.core.refactoring@default:default"/>
         <setEntry value="org.eclipse.ltk.ui.refactoring@default:default"/>
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
-        <setEntry value="org.eclipse.osgi*3.18.100.v20220817-1601@1:true"/>
+        <setEntry value="org.eclipse.osgi*3.18.300.v20230220-1352@1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
-        <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@default:default"/>
-        <setEntry value="org.eclipse.osgi.services*3.11.0.v20220618-0838@default:default"/>
+        <setEntry value="org.eclipse.osgi.services@default:default"/>
         <setEntry value="org.eclipse.osgi.util@default:default"/>
         <setEntry value="org.eclipse.pde.api.tools.annotations@default:default"/>
         <setEntry value="org.eclipse.pde.api.tools.ui@default:default"/>
@@ -544,7 +531,6 @@
         <setEntry value="org.eclipse.pde.ds.core@default:default"/>
         <setEntry value="org.eclipse.pde.ds.ui@default:default"/>
         <setEntry value="org.eclipse.pde.genericeditor.extension@default:default"/>
-        <setEntry value="org.eclipse.pde.junit.runtime@default:default"/>
         <setEntry value="org.eclipse.pde.launching@default:default"/>
         <setEntry value="org.eclipse.pde.runtime@default:default"/>
         <setEntry value="org.eclipse.pde.spy.bundle@default:default"/>
@@ -708,12 +694,11 @@
         <setEntry value="org.objectweb.asm.tree@default:default"/>
         <setEntry value="org.objectweb.asm.util@default:default"/>
         <setEntry value="org.objectweb.asm@default:default"/>
-        <setEntry value="org.opentest4j@default:default"/>
         <setEntry value="org.osgi.annotation.bundle@default:default"/>
         <setEntry value="org.osgi.annotation.versioning@default:default"/>
         <setEntry value="org.osgi.service.cm@default:default"/>
+        <setEntry value="org.osgi.service.component*1.5.1.202212101352@default:default"/>
         <setEntry value="org.osgi.service.component.annotations@default:default"/>
-        <setEntry value="org.osgi.service.component@default:default"/>
         <setEntry value="org.osgi.service.device@default:default"/>
         <setEntry value="org.osgi.service.event@default:default"/>
         <setEntry value="org.osgi.service.metatype@default:default"/>
@@ -725,17 +710,20 @@
         <setEntry value="org.osgi.util.function@default:default"/>
         <setEntry value="org.osgi.util.measurement@default:default"/>
         <setEntry value="org.osgi.util.position@default:default"/>
-        <setEntry value="org.osgi.util.promise@default:default"/>
+        <setEntry value="org.osgi.util.promise*1.3.0.202212101352@default:default"/>
+        <setEntry value="org.osgi.util.tracker@default:default"/>
         <setEntry value="org.osgi.util.xml@default:default"/>
         <setEntry value="org.sat4j.core@default:default"/>
         <setEntry value="org.sat4j.pb@default:default"/>
-        <setEntry value="org.slf4j.api@default:default"/>
+        <setEntry value="org.slf4j.api*2.0.6@default:default"/>
+        <setEntry value="org.slf4j.simple@default:default"/>
         <setEntry value="org.tukaani.xz@default:default"/>
         <setEntry value="org.uddi4j@default:default"/>
         <setEntry value="org.w3c.css.sac@default:default"/>
         <setEntry value="org.w3c.dom.events@default:default"/>
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
+        <setEntry value="slf4j.api@default:default"/>
         <setEntry value="wrapped.org.apache.xmlgraphics.fop@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
@@ -778,7 +766,6 @@
         <setEntry value="org.eclipse.birt.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.script.function@default:default"/>
-        <setEntry value="org.eclipse.birt.core.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.core.ui@default:default"/>
         <setEntry value="org.eclipse.birt.core@default:default"/>
@@ -913,7 +900,6 @@
         <setEntry value="org.eclipse.birt.report.engine.odf@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.ooxml@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine.script.javascript@default:default"/>
-        <setEntry value="org.eclipse.birt.report.engine.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.nl1@default:false"/>
@@ -922,8 +908,6 @@
         <setEntry value="org.eclipse.birt.report.item.crosstab.ui@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.adapter.oda@default:default"/>
         <setEntry value="org.eclipse.birt.report.model.nl1@default:false"/>
-        <setEntry value="org.eclipse.birt.report.model.testhelper@default:false"/>
-        <setEntry value="org.eclipse.birt.report.model.testresources@default:false"/>
         <setEntry value="org.eclipse.birt.report.model@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewer@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewers.nl1@default:false"/>
