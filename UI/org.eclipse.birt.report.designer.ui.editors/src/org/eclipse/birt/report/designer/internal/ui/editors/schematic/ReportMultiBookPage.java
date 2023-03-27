@@ -38,7 +38,7 @@ import org.eclipse.ui.part.Page;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-public class ReportMultiBookPage extends Page implements IContentOutlinePage, ISelectionChangedListener {
+public class ReportMultiBookPage extends Page implements PalettePage, IContentOutlinePage, ISelectionChangedListener {
 
 	private PageBook pagebook;
 	private ISelection selection;
