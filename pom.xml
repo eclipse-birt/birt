@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- *******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+*******************************************************************************
+* Copyright (c) 2021 Contributors to the Eclipse Foundation
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  *   See git history
- *******************************************************************************
+*******************************************************************************
 -->
-<!-- Copyright (c) 2015, 2021 Eclipse BIRT contributors and others This program 
-	and the accompanying materials are made available under the terms of the 
+<!-- Copyright (c) 2015, 2021 Eclipse BIRT contributors and others This program
+and the accompanying materials are made available under the terms of the 
 	Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/. 
-	SPDX-License-Identifier: EPL-2.0 -->
+SPDX-License-Identifier: EPL-2.0 -->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
@@ -33,7 +33,7 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
 		<required-java-version>11</required-java-version>
-		<required-maven-version>3.6.3</required-maven-version>
+		<required-maven-version>3.8.5</required-maven-version>
 		<junit-version>4.13.2</junit-version>
 		<maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
 		<maven-surefire-plugin-version>2.22.0</maven-surefire-plugin-version>
@@ -55,15 +55,15 @@
 				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
 				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
 				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-				<jetty.version>10.0.14</jetty.version>
+				<jetty.version>10.0.13</jetty.version>
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
-				<lucene.version>[3.0.0,9.0.0)</lucene.version>
+				<lucene.version>[3.0.0,9.5.0)</lucene.version>
 			</properties>
 		</profile>
 
 
-		<!-- "build-server" profile only gets run inside eclipse so it can sign 
-			with their key -->
+		<!-- "build-server" profile only gets run inside eclipse so it can sign
+		with their key -->
 		<profile>
 			<id>build-server</id>
 			<build>
@@ -279,7 +279,7 @@
 						</artifact>
 					</target>
 					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
-					<!-- 
+					<!--
 					<resolveWithExecutionEnvironmentConstraints>false</resolveWithExecutionEnvironmentConstraints>
 					-->
 					<includePackedArtifacts>false</includePackedArtifacts>
@@ -305,19 +305,19 @@
 							<arch>aarch64</arch>
 						</environment>
 					</environments>
- 				<!-- 	<dependency-resolution>
+					<!-- 	<dependency-resolution>
 						<profileProperties>
-							<org.eclipse.justj.buildtime>true</org.eclipse.justj.buildtime>
-						</profileProperties>
+					<org.eclipse.justj.buildtime>true</org.eclipse.justj.buildtime>
+					</profileProperties>
 					</dependency-resolution>
 	-->
 					<filters>
 						<!-- restrict Jetty bundles to specific version only -->
 						<!-- filter>
 							<type>eclipse-plugin</type>
-							<id>org.eclipse.jetty.continuation</id>
+						<id>org.eclipse.jetty.continuation</id>
 							<restrictTo>
-								<version>${jetty.version}</version>
+						<version>${jetty.version}</version>
 							</restrictTo>
 						</filter -->
 						<filter>
@@ -469,7 +469,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- build source plugins -->
+			<!-- build source for plugins and features -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-source-plugin</artifactId>
