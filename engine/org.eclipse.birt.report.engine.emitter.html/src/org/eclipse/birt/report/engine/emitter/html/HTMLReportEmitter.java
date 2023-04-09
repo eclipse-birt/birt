@@ -1491,7 +1491,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		StringBuffer sb = new StringBuffer();
 		sb.append("width:").append(pageWidth).append(";");
 		sb.append("height:").append(pageHeight).append(";");
-		AttributeBuilder.buildBackground(sb, style, this);
+		AttributeBuilder.buildBackground(sb, style, this, null);
 		sb.append("background-size:").append(backgroundWidth).append(" ").append(backgroundHeight).append(";");
 		writer.attribute(HTMLTags.ATTR_STYLE, sb.toString());
 	}
@@ -2586,7 +2586,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 				if (attrValue != null) {
 					if ("img".equalsIgnoreCase(nodeName) && "src".equalsIgnoreCase(attrName)) {
-						String attrValueTrue = handleStyleImage(attrValue);
+						String attrValueTrue = handleStyleImage(attrValue).getUri();
 						if (attrValueTrue != null) {
 							attrValue = attrValueTrue;
 						}
@@ -2610,7 +2610,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				buffer.append(key);
 				buffer.append(":");
 				if ("background-image".equalsIgnoreCase(key)) {
-					String valueTrue = handleStyleImage(value, true);
+					String valueTrue = handleStyleImage(value, true).getUri();
 					if (valueTrue != null) {
 						value = valueTrue;
 					}
@@ -3163,7 +3163,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param uri uri in style image
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri) {
+	public BackgroundImageInfo handleStyleImage(String uri) {
 		return handleStyleImage(uri, false, null);
 	}
 
@@ -3174,7 +3174,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param isBackground Is this image a used for a background?
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri, boolean isBackground) {
+	public BackgroundImageInfo handleStyleImage(String uri, boolean isBackground) {
 		return handleStyleImage(uri, isBackground, null);
 	}
 
@@ -3185,7 +3185,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param isBackground Is this image a used for a background?
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(IStyle style, boolean isBackground) {
+	public BackgroundImageInfo handleStyleImage(IStyle style, boolean isBackground) {
 		return handleStyleImage(null, isBackground, style);
 	}
 
@@ -3196,34 +3196,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	/**
 	 * Handle the style of image
 	 *
-	 * @param uri          uri in style image
+	 * @param uri          URI in style image
 	 * @param isBackground Is this image a used for a background?
 	 * @param imageStyle   Style of the image
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri, boolean isBackground, IStyle imageStyle) {
+	public BackgroundImageInfo handleStyleImage(String uri, boolean isBackground, IStyle imageStyle) {
 
 		ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
 		URL url = design.findResource(uri, IResourceLocator.IMAGE, reportContext.getAppContext());
 		String fileExtension = null;
 
-		Module module = null;
+		Module module = design.getModule();
 		BackgroundImageInfo backgroundImage = null;
 
 		if (isBackground && imageStyle != null) {
-			module = design.getModule();
 			ResourceLocatorWrapper rl = null;
 			ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
 			if (exeContext != null) {
 				rl = exeContext.getResourceLocator();
 			}
-
 			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
 					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
 
 			backgroundImage = new BackgroundImageInfo(uriString,
-					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, module,
-					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, module, imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(imageStyle);
 
 			if (backgroundImage.getSourceType().equalsIgnoreCase(CSSConstants.CSS_EMBED_VALUE)) {
 				uri = backgroundImage.getDataUrl();
@@ -3235,7 +3236,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
 		}
 		if (url == null) {
-			return uri;
+			return backgroundImage;
 		}
 		uri = url.toExternalForm();
 		Image image = null;
@@ -3278,9 +3279,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			default:
 				assert (false);
 			}
-			// imgUri = imgUri.replace( File.separatorChar, '/' );
+			backgroundImage.setUri(imgUri);
 		}
-		return imgUri;
+		return backgroundImage;
 	}
 
 	/**

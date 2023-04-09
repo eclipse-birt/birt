@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,13 +29,18 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
@@ -50,6 +58,14 @@ import org.eclipse.swt.graphics.Image;
 public class TableGridLayer extends GridLayer {
 
 	private TableEditPart source;
+
+	private Image img;
+
+	private Dimension size = new Dimension();
+
+	private Dimension propertySize = new Dimension();
+
+	private int backgroundImageDPI = 0;
 
 	/**
 	 * Constructor
@@ -151,6 +167,39 @@ public class TableGridLayer extends GridLayer {
 			}
 
 			if (image != null) {
+
+				this.backgroundImageDPI = getImageDpi(backGroundImage);
+
+				int pxBackgroundHeight = 0;
+				int pxBackgroundWidth = 0;
+				String defaultUnit = this.source.getTableAdapter().getModuleHandle().getDefaultUnits(); // default: mm
+
+				// calculate the background image height dimension
+				String str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+				if (!DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(str)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
+					DimensionValue propertyBackgroundHeight = (DimensionValue) handle
+							.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+					DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
+							defaultUnit, DesignChoiceConstants.UNITS_IN);
+					pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+				}
+
+				// calculate the background image width dimension
+				str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+				if (!DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(str)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
+					DimensionValue propertyBackgroundWidth = (DimensionValue) handle
+							.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+					DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
+							defaultUnit, DesignChoiceConstants.UNITS_IN);
+					pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+				}
+
+				this.setImage(image, pxBackgroundHeight, pxBackgroundWidth);
+
 				Rectangle rectangle = new Rectangle(x, y, width, height);
 
 				Object[] backGroundPosition = getBackgroundPosition(handle);
@@ -185,7 +234,7 @@ public class TableGridLayer extends GridLayer {
 				}
 
 				int tx, ty;
-				Dimension size = new Rectangle(image.getBounds()).getSize();
+				Dimension size = this.size; // new Rectangle(image.getBounds()).getSize();
 
 				// Calculates X
 				if (position != null && position.x != -1) {
@@ -227,14 +276,104 @@ public class TableGridLayer extends GridLayer {
 				Rectangle rect = new Rectangle();
 				g.getClip(rect);
 				g.setClip(rectangle);
+
+				Dimension imageSize = new Rectangle(image.getBounds()).getSize();
 				while (iter.hasNext()) {
 					Point point = iter.next();
-					g.drawImage(image, point);
+					g.drawImage(image, 0, 0, imageSize.width, imageSize.height, point.x, point.y, size.width,
+							size.height);
 				}
 				g.setClip(rect);
 				xyList.clear();
 			}
 		}
+	}
+
+	private int getImageDpi(String backGroundImage) {
+		if (!(this.source.getTableAdapter().getModuleHandle() != null)) {
+			return 0;
+		}
+		int dpi = 96;
+		DesignElementHandle model = this.source.getTableAdapter().getModuleHandle();
+
+		InputStream in = null;
+		URL temp = null;
+		try {
+			if (URIUtil.isValidResourcePath(backGroundImage)) {
+				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(),
+						URIUtil.getLocalPath(backGroundImage));
+
+			} else {
+				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(), backGroundImage);
+			}
+			if (temp != null) {
+				in = temp.openStream();
+			}
+
+		} catch (IOException e) {
+			in = null;
+		}
+
+		dpi = UIUtil.getImageResolution(in)[0];
+		if (in != null) {
+			try {
+				in.close();
+			} catch (IOException e) {
+				ExceptionHandler.handle(e);
+			}
+		}
+		return dpi;
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be null.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 */
+	private void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth) {
+		if (img == image && propertySize.height == backGroundImageHeight
+				&& propertySize.width == backGroundImageWidth) {
+			return;
+		}
+		img = image;
+		if (img != null) {
+			propertySize.height = backGroundImageHeight;
+			propertySize.width = backGroundImageWidth;
+			if (backgroundImageDPI > 0 && backGroundImageHeight <= 0 && backGroundImageWidth > 0) {
+
+				double inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) MetricUtility.inchToPixel(inch);
+				size.width = backGroundImageWidth;
+
+			} else if (backgroundImageDPI > 0 && backGroundImageWidth <= 0 && backGroundImageHeight > 0) {
+
+				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) MetricUtility.inchToPixel(inch);
+				size.height = backGroundImageHeight;
+
+			} else if (backgroundImageDPI > 0 && (backGroundImageHeight <= 0 && backGroundImageWidth <= 0)) {
+
+				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) MetricUtility.inchToPixel(inch);
+
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) MetricUtility.inchToPixel(inch);
+
+			} else if (backGroundImageHeight > 0 && backGroundImageWidth > 0) {
+
+				size.height = backGroundImageHeight;
+				size.width = backGroundImageWidth;
+
+			} else {
+				size = new Rectangle(image.getBounds()).getSize();
+			}
+		} else {
+			size = new Dimension();
+		}
+		revalidate();
+		repaint();
 	}
 
 	/**

@@ -108,7 +108,6 @@
         <setEntry value="org.apache.commons.collections4@default:default"/>
         <setEntry value="org.apache.commons.compress@default:default"/>
         <setEntry value="org.apache.commons.discovery@default:default"/>
-        <setEntry value="org.apache.commons.io@default:default"/>
         <setEntry value="org.apache.commons.jxpath@default:default"/>
         <setEntry value="org.apache.commons.logging@default:default"/>
         <setEntry value="org.apache.commons.math3@default:default"/>
@@ -731,6 +730,7 @@
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.apache.derby.core@default:default"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
+        <setEntry value="org.eclipse.birt.branding@default:default"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>
         <setEntry value="org.eclipse.birt.chart.device.extension.nl1@default:false"/>
@@ -917,6 +917,7 @@
         <setEntry value="org.eclipse.birt.report.engine.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.engine.tests@default:default"/>
         <setEntry value="org.eclipse.birt.report.engine@default:default"/>
+        <setEntry value="org.eclipse.birt.report.extension.tutorial_1@default:default"/>
         <setEntry value="org.eclipse.birt.report.extension.tutorial_2@default:default"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.item.crosstab.core.tests@default:false"/>

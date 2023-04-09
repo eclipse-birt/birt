@@ -46,16 +46,28 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	private Dimension size = new Dimension();
 
+	private Dimension propertySize = new Dimension();
+
 	private Rectangle clip;
 
 	private static final Rectangle OLD_CLIP = new Rectangle();
 
 	private int backgroundImageDPI = 0;
 
+	/**
+	 * Get the background image dpi
+	 *
+	 * @return get the background image dpi
+	 */
 	public int getBackgroundImageDPI() {
 		return backgroundImageDPI;
 	}
 
+	/**
+	 * Set the background image dpi
+	 *
+	 * @param backgroundImageDPI background image dpi
+	 */
 	public void setBackgroundImageDPI(int backgroundImageDPI) {
 		this.backgroundImageDPI = backgroundImageDPI;
 	}
@@ -100,6 +112,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		return img;
 	}
 
+	/**
+	 * Set page clip
+	 *
+	 * @param clip rectangle to clip page
+	 */
 	public void setPageClip(Rectangle clip) {
 		this.clip = clip;
 	}
@@ -202,10 +219,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
 	 */
-	private ArrayList createImageList(int x, int y) {
+	private ArrayList<Point> createImageList(int x, int y) {
 		Rectangle area = getBounds();
 
-		ArrayList yList = new ArrayList();
+		ArrayList<Point> yList = new ArrayList<Point>();
 
 		if ((repeat & ImageConstants.REPEAT_Y) == 0) {
 			yList.add(new Point(x, y));
@@ -223,11 +240,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = new ArrayList();
+		ArrayList<Point> xyList = new ArrayList<Point>();
 
-		Iterator iter = yList.iterator();
+		Iterator<Point> iter = yList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 
 			if ((repeat & ImageConstants.REPEAT_X) == 0) {
 				xyList.add(point);
@@ -308,17 +325,52 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 */
 	@Override
 	public void setImage(Image image) {
-		if (img == image) {
+		setImage(image, 0, 0);
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 */
+	@Override
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth) {
+		if (img == image && propertySize.height == backGroundImageHeight
+				&& propertySize.width == backGroundImageWidth) {
 			return;
 		}
 		img = image;
 		if (img != null) {
-			if (backgroundImageDPI > 0) {
+			propertySize.height = backGroundImageHeight;
+			propertySize.width = backGroundImageWidth;
+			if (backgroundImageDPI > 0 && backGroundImageHeight <= 0 && backGroundImageWidth > 0) {
+
+				double inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) MetricUtility.inchToPixel(inch);
+				size.width = backGroundImageWidth;
+
+			} else if (backgroundImageDPI > 0 && backGroundImageWidth <= 0 && backGroundImageHeight > 0) {
+
+				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) MetricUtility.inchToPixel(inch);
+				size.height = backGroundImageHeight;
+
+			} else if (backgroundImageDPI > 0 && (backGroundImageHeight <= 0 && backGroundImageWidth <= 0)) {
+
 				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
 				size.width = (int) MetricUtility.inchToPixel(inch);
 
 				inch = ((double) image.getBounds().height) / backgroundImageDPI;
 				size.height = (int) MetricUtility.inchToPixel(inch);
+
+			} else if (backGroundImageHeight > 0 && backGroundImageWidth > 0) {
+
+				size.height = backGroundImageHeight;
+				size.width = backGroundImageWidth;
+
 			} else {
 				size = new Rectangle(image.getBounds()).getSize();
 			}
@@ -359,7 +411,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return
+	 * @return margin of the element
 	 */
 	@Override
 	public Insets getMargin() {
@@ -399,7 +451,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	}
 
 	/**
-	 * @param backGroundImageWidth
+	 * Set the Background image size
+	 *
+	 * @param backGroundImageWidth  width of the background image
+	 * @param backGroundImageHeight height of background image
 	 */
 	public void setBackGroundImageSize(int backGroundImageWidth, int backGroundImageHeight) {
 

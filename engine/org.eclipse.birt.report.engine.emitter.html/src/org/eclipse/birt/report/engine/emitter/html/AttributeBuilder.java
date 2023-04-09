@@ -20,6 +20,8 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 //FIXME: code review: We should list all the properties according the CSS.
@@ -100,21 +102,67 @@ public class AttributeBuilder {
 	 * @param style       The style object.
 	 * @param emitter     The <code>HTMLReportEmitter</code> object which provides
 	 *                    resource manager and hyperlink builder objects.
+	 * @param parentSize  The size of the parent container
 	 */
-	public static void buildBackground(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter) {
+	public static void buildBackground(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter,
+			DimensionType[] parentSize) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor());
 
 		String image = style.getBackgroundImage();
 		if (image == null || "none".equalsIgnoreCase(image)) //$NON-NLS-1$
 		{
+			if (style.getBackgroundHeight() != null || style.getBackgroundWidth() != null) {
+				addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
+				if (style.getBackgroundWidth() != null) {
+					addPropValue(styleBuffer, style.getBackgroundWidth());
+				} else {
+					addPropValue(styleBuffer, "100%");
+				}
+				if (style.getBackgroundHeight() != null) {
+					addPropValue(styleBuffer, style.getBackgroundHeight());
+				} else {
+					addPropValue(styleBuffer, "100%");
+				}
+				styleBuffer.append(';');
+			}
 			return;
 		}
+		BackgroundImageInfo backgroundImage = emitter.handleStyleImage(image, true, style);
 
-		image = emitter.handleStyleImage(image, true, style);
+		image = backgroundImage.getUri();
 		if (image != null && image.length() > 0) {
 			buildURLProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image);
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat());
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style.getBackgroundAttachment());
+
+			DimensionType height = null;
+			DimensionType width = null;
+			if (parentSize != null && parentSize.length == 2) {
+				height = parentSize[0];
+				width = parentSize[1];
+			}
+			addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
+
+			String h = backgroundImage.getHeight() + "px";
+			String w = backgroundImage.getWidth() + "px";
+			String propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
+			if (propertyValue != null && (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+					|| DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue))) {
+				if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+					h = "auto";
+					if (width != null) {
+						w = width.toString();
+					}
+				} else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)) {
+					if (height != null) {
+						h = height.toString();
+					}
+					w = "auto";
+				}
+			}
+			addPropValue(styleBuffer, w);
+			addPropValue(styleBuffer, h);
+			styleBuffer.append(';');
 
 			String x = style.getBackgroundPositionX();
 			String y = style.getBackgroundPositionY();

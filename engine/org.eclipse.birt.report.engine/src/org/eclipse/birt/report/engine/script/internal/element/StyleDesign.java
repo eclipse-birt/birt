@@ -121,6 +121,58 @@ public class StyleDesign implements IScriptStyleDesign {
 	 * (non-Javadoc)
 	 *
 	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundHeight()
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return styleImpl.getBackgroundHeight();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundHeight(java.lang.String)
+	 */
+	@Override
+	public void setBackgroundHeight(String value) throws ScriptException {
+		try {
+			styleImpl.setBackgroundHeight(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundWidth()
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return styleImpl.getBackgroundWidth();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundWidth(java.lang.String)
+	 */
+	@Override
+	public void setBackgroundWidth(String value) throws ScriptException {
+		try {
+			styleImpl.setBackgroundWidth(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * getBorderBottomStyle()
 	 */
 

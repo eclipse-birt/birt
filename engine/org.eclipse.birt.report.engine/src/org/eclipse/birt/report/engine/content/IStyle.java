@@ -351,4 +351,18 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	 * @param imageType
 	 */
 	void setBackgroundImageType(String imageType);
+
+	/**
+	 * Set the image background height
+	 *
+	 * @param background image height
+	 */
+	void setBackgroundHeight(String height);
+
+	/**
+	 * Set the image background width
+	 *
+	 * @param background image width
+	 */
+	void setBackgroundWidth(String width);
 }

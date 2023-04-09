@@ -23,14 +23,32 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+import java.util.Iterator;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
+
+import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Image;
@@ -46,49 +64,92 @@ public class BackgroundImageInfo extends AreaConstants {
 	protected int xOffset = 0;
 	protected int yOffset = 0;
 	protected int repeatedMode;
-	protected int width = 0;
-	protected int height = 0;
 	protected String url;
+	protected String uri;
 	protected String dataUrl;
 	protected byte[] imageData;
 	protected String sourceType;
 	protected String mimeType;
 	protected String fileExtension;
+	protected int[] dpi = { 96, 96 };
 
+	// width & height in pixel
+	protected int width = 0;
+	protected int height = 0;
+
+	// width & height in Metric unit
+	protected int widthMetricPt = 0;
+	protected int heightMetricPt = 0;
+
+	// width & height based on designer properties
+	protected String propertyWidth = "auto";
+	protected String propertyHeight = "auto";
+
+	/**
+	 * URL type of data protocol
+	 */
 	private final static String DATA_PROTOCOL = "data:";
 
+	/**
+	 * Base64 key string of the URL data protocol
+	 */
 	private final static String DATA_URL_BASE64 = ";base64,";
 
-	// mapping based on image extension: to MIME-type to default extension
+	/**
+	 * default DPI resolution of the background image
+	 */
+	private final static int BGI_DPI_DEFAULT = 96;
+
+	/**
+	 * default metric DPI converting due to different pixel converters
+	 */
+	private final static int BGI_DPI_METRIC_PT = 72000; // (720 + 28);
+
+	/**
+	 * Mapping based on image extension: to MIME-type to default extension
+	 */
 	private final static String[][] SUPPORTED_MIME_TYPES = { { ".jpg", "image/jpeg", "jpg" },
 			{ ".jpe", "image/jpeg", "jpg" }, { ".jpeg", "image/jpeg", "jpg" }, { ".tiff", "image/tiff", "tiff" },
 			{ ".svg", "image/svg+xml", "svg" }, { ".png", "image/png", "png" }, { ".gif", "image/gif", "gif" } };
 
+	/**
+	 * Default source type URL
+	 */
 	protected final static String BGI_SRC_TYPE_DEFAULT = BGI_SRC_TYPE_URL;
 
+	/**
+	 * Module handle of the background image
+	 */
 	private Module module = null;
 
+	/**
+	 * Image object of the background image himself
+	 */
 	private Image image = null;
 
+	/**
+	 * Resource locator of the background
+	 */
 	private ResourceLocatorWrapper rl = null;
 
 	/**
 	 * constructor 01 of background image
 	 *
-	 * @param url
-	 * @param repeatedMode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 * @param module
-	 * @param sourceType
+	 * @param url          URL of the background image
+	 * @param repeatedMode repeat mode of the background image
+	 * @param xOffset      offset position x of the background image
+	 * @param yOffset      offset position y of the background image
+	 * @param height       height of the background image
+	 * @param width        width of the background image
+	 * @param rl           resource locator
+	 * @param module       module handle of the background image
+	 * @param sourceType   source type of the background image
+	 * @param dpi          resolution of the background image
 	 *
 	 * @since 4.13
 	 */
 	public BackgroundImageInfo(String url, int repeatedMode, int xOffset, int yOffset, int height, int width,
-			ResourceLocatorWrapper rl, Module module, String sourceType) {
+			ResourceLocatorWrapper rl, Module module, String sourceType, int dpi) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.repeatedMode = repeatedMode;
@@ -103,12 +164,19 @@ public class BackgroundImageInfo extends AreaConstants {
 			this.sourceType = BGI_SRC_TYPE_DEFAULT;
 		}
 		prepareImageByteArray();
+
+		if (dpi <= 0) {
+			this.dpi = this.getImageDpi();
+		} else {
+			this.dpi[0] = dpi;
+			this.dpi[1] = dpi;
+		}
 	}
 
 	/**
 	 * constructor 02 of background image
 	 *
-	 * @param bgi
+	 * @param bgi object of background image
 	 */
 	public BackgroundImageInfo(BackgroundImageInfo bgi) {
 		this.xOffset = bgi.xOffset;
@@ -120,6 +188,7 @@ public class BackgroundImageInfo extends AreaConstants {
 		this.imageData = bgi.imageData;
 		this.image = bgi.image;
 		this.rl = bgi.rl;
+		this.dpi = bgi.dpi;
 		if (bgi.sourceType != null) {
 			this.sourceType = bgi.sourceType;
 		} else {
@@ -130,39 +199,39 @@ public class BackgroundImageInfo extends AreaConstants {
 	/**
 	 * constructor 03 of background image
 	 *
-	 * @param url
-	 * @param mode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 * @param module
+	 * @param url     URL of the background image
+	 * @param mode    repeat mode of the background image
+	 * @param xOffset offset position x of the background image
+	 * @param yOffset offset position y of the background image
+	 * @param height  height of the background image
+	 * @param width   width of the background image
+	 * @param rl      resource locator
+	 * @param module  module handle of the background image
 	 */
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl, Module module) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
-				BGI_SRC_TYPE_DEFAULT);
+				BGI_SRC_TYPE_DEFAULT, 0);
 	}
 
 	/**
 	 * constructor 04 of background image
 	 *
-	 * @param url
-	 * @param mode
-	 * @param xOffset
-	 * @param yOffset
-	 * @param height
-	 * @param width
-	 * @param rl
-	 * @param module
-	 * @param sourceType
+	 * @param url        URL of the background image
+	 * @param mode       repeat mode of the background image
+	 * @param xOffset    offset position x of the background image
+	 * @param yOffset    offset position y of the background image
+	 * @param height     height of the background image
+	 * @param width      width of the background image
+	 * @param rl         resource locator
+	 * @param module     module handle of the background image
+	 * @param sourceType source type of the background image
 	 */
 	public BackgroundImageInfo(String url, CSSValue mode, int xOffset, int yOffset, int height, int width,
 			ResourceLocatorWrapper rl, Module module, CSSValue sourceType) {
 		this(url, mode != null ? repeatMap.get(mode) : REPEAT, xOffset, yOffset, height, width, rl, module,
 				sourceType != null ? bgiSourceTypeMap.get(sourceType)
-						: BGI_SRC_TYPE_URL);
+						: BGI_SRC_TYPE_URL,	0);
 	}
 
 	/**
@@ -384,7 +453,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @return Return the background image height
 	 */
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	/**
@@ -402,7 +471,7 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @return Return the background image width
 	 */
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	/**
@@ -481,4 +550,303 @@ public class BackgroundImageInfo extends AreaConstants {
 		return this.imageData;
 	}
 
+	/**
+	 * Set the URI string
+	 *
+	 * @param uri representation of the image URI
+	 * @since 4.14
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	/**
+	 * Get the URI string
+	 *
+	 * @return Return the URI string
+	 * @since 4.14
+	 */
+	public String getUri() {
+		if (this.uri == null) {
+			return this.getDataUrl();
+		}
+		return this.uri;
+	}
+
+	/**
+	 * Get property width of background image based on set designer property size
+	 *
+	 * @return Return the property height of background image based on designer
+	 *         property
+	 * @since 4.14
+	 */
+	public String getPropertyHeight() {
+		return this.propertyHeight;
+	}
+
+	/**
+	 * Get property width of background image based on set designer property size
+	 *
+	 * @return Return the property width of background image based on designer
+	 *         property
+	 * @since 4.14
+	 */
+	public String getPropertyWidth() {
+		return this.propertyWidth;
+	}
+
+	/**
+	 * Get height metric of background image (used e.g. PDF emitter)
+	 *
+	 * @return Return the height metric of background image
+	 * @since 4.14
+	 */
+	public int getHeightMetricPt() {
+		return this.heightMetricPt;
+	}
+
+	/**
+	 * Set the height metric of background image
+	 *
+	 * @param height height metric of background image
+	 * @since 4.14
+	 */
+	public void setHeightMetricPt(int height) {
+		this.heightMetricPt = height;
+	}
+
+	/**
+	 * Get width metric of background image (used e.g. PDF emitter)
+	 *
+	 * @return Return the width metric of background image
+	 * @since 4.14
+	 */
+	public int getWidthMetricPt() {
+		return this.widthMetricPt;
+	}
+
+	/**
+	 * Set the width metric of background image
+	 *
+	 * @param width width metric of background image
+	 * @since 4.14
+	 */
+	public void setWidthMetricPt(int width) {
+		this.widthMetricPt = width;
+	}
+
+	/**
+	 * Set image dpi with horizontal and vertical resolution
+	 *
+	 *
+	 * @param dpi set the resolution of the image (horizontal & vertical resolution
+	 *            in dpi) resolution
+	 * @since 4.14
+	 */
+	public void setDpi(int[] dpi) {
+		if (dpi.length != 2) {
+			dpi = new int[2];
+			dpi[0] = BGI_DPI_DEFAULT;
+			dpi[1] = BGI_DPI_DEFAULT;
+		}
+		this.dpi = dpi;
+	}
+
+	/**
+	 * Get image dpi with horizontal and vertical resolution
+	 *
+	 *
+	 * @return Return an array of the image dpi for the horizontal and vertical
+	 *         resolution
+	 * @since 4.14
+	 */
+	public int[] getDpi() {
+		return this.dpi;
+	}
+
+	/**
+	 * Get image dpi with horizontal and vertical resolution
+	 *
+	 * @return Return an array of the image dpi for the horizontal and vertical
+	 *         resolution
+	 */
+	private int[] getImageDpi() {
+		InputStream in = null;
+		URL temp = null;
+		DesignElementHandle model = this.module.getModuleHandle();
+
+		try {
+			if (org.eclipse.birt.report.model.api.util.URIUtil.isValidResourcePath(this.url)) {
+				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(),
+						org.eclipse.birt.report.model.api.util.URIUtil.getLocalPath(this.url));
+			} else {
+				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(), this.url);
+			}
+			if (temp != null) {
+				in = temp.openStream();
+			}
+
+		} catch (IOException e) {
+			in = null;
+		}
+
+		int[] dpi = getImageResolution(in);
+		if (in != null) {
+			try {
+				in.close();
+			} catch (IOException e) {
+			}
+		}
+		if (dpi == null || dpi.length != 2) {
+			dpi = new int[2];
+			dpi[0] = BGI_DPI_DEFAULT;
+			dpi[1] = BGI_DPI_DEFAULT;
+		} else {
+			if (dpi[0] <= 0) {
+				dpi[0] = BGI_DPI_DEFAULT;
+			}
+			if (dpi[1] <= 0) {
+				dpi[1] = BGI_DPI_DEFAULT;
+			}
+		}
+		return dpi;
+	}
+
+	/**
+	 * Returns the DPI info of given image if applicable.
+	 *
+	 * @param imageStream
+	 *
+	 * @return the DPI values in format of {hdpi/widthdpi, vdpi/heightdpi}
+	 */
+	private int[] getImageResolution(InputStream imageStream) {
+		int[] dpi = { BGI_DPI_DEFAULT, BGI_DPI_DEFAULT };
+
+		if (imageStream != null) {
+			try {
+				ImageInputStream iis = ImageIO.createImageInputStream(imageStream);
+				Iterator<ImageReader> i = ImageIO.getImageReaders(iis);
+				ImageReader r = i.next();
+				r.setInput(iis);
+				r.read(0);
+
+				IIOMetadata meta = r.getImageMetadata(0);
+
+				if (meta != null) {
+					double mm2inch = 25.4;
+
+					NodeList lst;
+					Element node = (Element) meta.getAsTree("javax_imageio_1.0"); //$NON-NLS-1$
+					lst = node.getElementsByTagName("HorizontalPixelSize"); //$NON-NLS-1$
+					if (lst != null && lst.getLength() == 1) {
+						dpi[0] = (int) (mm2inch / Float.parseFloat(((Element) lst.item(0)).getAttribute("value"))); //$NON-NLS-1$
+					}
+
+					lst = node.getElementsByTagName("VerticalPixelSize"); //$NON-NLS-1$
+					if (lst != null && lst.getLength() == 1) {
+						dpi[1] = (int) (mm2inch / Float.parseFloat(((Element) lst.item(0)).getAttribute("value"))); //$NON-NLS-1$
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return dpi;
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param style style of the background image
+	 * @since 4.14
+	 */
+	public void setImageSize(IStyle style) {
+		String defaultUnit = this.module.getModuleHandle().getDefaultUnits();
+		String propertyValue = null;
+		int pxBackgroundHeight = 0;
+		int pxBackgroundWidth = 0;
+		double percentageHeight = 1d;
+		double percentageWidth = 1d;
+
+		if (style != null) {
+
+			// calculate the background image height
+			propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
+			CSSValue dimensionValueHeight = style.getPropertyCSSValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
+			this.heightMetricPt = PropertyUtil.getDimensionValue(dimensionValueHeight);
+			this.propertyHeight = propertyValue;
+
+			if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+					&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+					&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+				try {
+					if (propertyValue.endsWith("%")) {
+						percentageHeight = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+					} else {
+						DimensionValue propertyBackgroundHeight = StringUtil.parse(propertyValue);
+						DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
+								defaultUnit, DesignChoiceConstants.UNITS_IN);
+						pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			// calculate the background image width
+			propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY);
+			CSSValue dimensionValueWidth = style.getPropertyCSSValue(CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY);
+			this.widthMetricPt = PropertyUtil.getDimensionValue(dimensionValueWidth);
+			this.propertyWidth = propertyValue;
+
+			if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+					&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+					&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+				try {
+					if (propertyValue.endsWith("%")) {
+						percentageWidth = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+					} else {
+						DimensionValue propertyBackgroundWidth = StringUtil.parse(propertyValue);
+						DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
+								defaultUnit, DesignChoiceConstants.UNITS_IN);
+						pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+					}
+				} catch (Exception e) {
+				}
+			}
+		}
+		this.height = pxBackgroundHeight;
+		this.width = pxBackgroundWidth;
+
+		if (this.image != null) {
+			int dpi = this.dpi[0];
+
+			if (dpi > 0 && this.height <= 0) {
+				double height = this.image.getHeight();
+				double inch = height / dpi;
+				this.height = (int) MetricUtility.inchToPixel(inch);
+				this.heightMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+			}
+
+			if (dpi > 0 && this.width <= 0) {
+				double width = this.image.getWidth();
+				double inch = width / dpi;
+				this.width = (int) MetricUtility.inchToPixel(inch);
+				this.widthMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+			}
+
+			if (dpi <= 0 && this.height <= 0 && this.width <= 0) {
+				this.heightMetricPt = (int) (this.image.getHeight() * BGI_DPI_METRIC_PT / 100);
+				this.heightMetricPt = (int) (this.image.getWidth() * BGI_DPI_METRIC_PT / 100);
+
+				this.height = this.heightMetricPt;
+				this.width = this.widthMetricPt;
+			}
+		}
+		this.height = (int) (this.height * percentageHeight);
+		this.width = (int) (this.width * percentageWidth);
+		this.heightMetricPt = (int) (this.heightMetricPt * percentageHeight);
+		this.widthMetricPt = (int) (this.widthMetricPt * percentageWidth);
+
+	}
 }
