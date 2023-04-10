@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64.Decoder;
@@ -30,19 +31,20 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
-import org.eclipse.birt.report.designer.util.ImageManager;
-import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -61,6 +63,12 @@ import com.lowagie.text.Image;
  *
  */
 public class BackgroundImageInfo extends AreaConstants {
+
+	/**
+	 * the horizontal and vertical DPI
+	 */
+	private final static int graphicDpi = 96;
+
 	protected int xOffset = 0;
 	protected int yOffset = 0;
 	protected int repeatedMode;
@@ -677,15 +685,14 @@ public class BackgroundImageInfo extends AreaConstants {
 
 		try {
 			if (org.eclipse.birt.report.model.api.util.URIUtil.isValidResourcePath(this.url)) {
-				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(),
+				temp = this.generateURL(model.getModuleHandle(),
 						org.eclipse.birt.report.model.api.util.URIUtil.getLocalPath(this.url));
 			} else {
-				temp = ImageManager.getInstance().generateURL(model.getModuleHandle(), this.url);
+				temp = this.generateURL(model.getModuleHandle(), this.url);
 			}
 			if (temp != null) {
 				in = temp.openStream();
 			}
-
 		} catch (IOException e) {
 			in = null;
 		}
@@ -787,7 +794,7 @@ public class BackgroundImageInfo extends AreaConstants {
 						DimensionValue propertyBackgroundHeight = StringUtil.parse(propertyValue);
 						DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
 								defaultUnit, DesignChoiceConstants.UNITS_IN);
-						pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+						pxBackgroundHeight = (int) this.inchToPixel(backgroundHeight.getMeasure());
 					}
 				} catch (Exception e) {
 				}
@@ -809,7 +816,7 @@ public class BackgroundImageInfo extends AreaConstants {
 						DimensionValue propertyBackgroundWidth = StringUtil.parse(propertyValue);
 						DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
 								defaultUnit, DesignChoiceConstants.UNITS_IN);
-						pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+						pxBackgroundWidth = (int) this.inchToPixel(backgroundWidth.getMeasure());
 					}
 				} catch (Exception e) {
 				}
@@ -824,14 +831,14 @@ public class BackgroundImageInfo extends AreaConstants {
 			if (dpi > 0 && this.height <= 0) {
 				double height = this.image.getHeight();
 				double inch = height / dpi;
-				this.height = (int) MetricUtility.inchToPixel(inch);
+				this.height = (int) this.inchToPixel(inch);
 				this.heightMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
 			}
 
 			if (dpi > 0 && this.width <= 0) {
 				double width = this.image.getWidth();
 				double inch = width / dpi;
-				this.width = (int) MetricUtility.inchToPixel(inch);
+				this.width = (int) this.inchToPixel(inch);
 				this.widthMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
 			}
 
@@ -848,5 +855,35 @@ public class BackgroundImageInfo extends AreaConstants {
 		this.heightMetricPt = (int) (this.heightMetricPt * percentageHeight);
 		this.widthMetricPt = (int) (this.widthMetricPt * percentageWidth);
 
+	}
+
+	/**
+	 * Generate the image URL (based on method ImageManager.getInstance().generateURL)
+	 *
+	 * @param designHandle handle of the report
+	 * @param uri          of the image
+	 * @return Return the URL of the image
+	 * @throws MalformedURLException
+	 */
+	private URL generateURL(ModuleHandle designHandle, String uri) throws MalformedURLException {
+		try {
+			return new URL(uri);
+		} catch (MalformedURLException e) {
+			String path = URIUtil.getLocalPath(uri);
+			if (path != null && designHandle != null) {
+				return designHandle.findResource(path, IResourceLocator.IMAGE);
+			}
+			return URI.create(uri).toURL();
+		}
+	}
+
+	/**
+	 * Transforms the inch to pixel (based on method MetricUtility.inchToPixel)
+	 *
+	 * @param inch size of inch
+	 * @return pixel value
+	 */
+	private static double inchToPixel(double inch) {
+		return (inch * graphicDpi);
 	}
 }
