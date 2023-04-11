@@ -14,14 +14,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderColorDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderStyleDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderToggleDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderWidthDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BorderSection;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -41,7 +44,7 @@ public class BordersPage extends ResetAttributePage {
 	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
-		container.setLayout(WidgetUtil.createGridLayout(1, 15));
+		container.setLayout(org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil.createGridLayout(1, 15));
 
 		// BorderStyleDescriptorProvider styleProvider = new
 		// BorderStyleDescriptorProvider( );
@@ -86,18 +89,25 @@ public class BordersPage extends ResetAttributePage {
 		// BorderDescriptorProvider[]{
 		// styleProvider, colorProvider, widthProvider
 		// };
-		//
-		providers = new BorderToggleDescriptorProvider[] {
-				new BorderToggleDescriptorProvider(StyleHandle.BORDER_TOP_STYLE_PROP),
-				new BorderToggleDescriptorProvider(StyleHandle.BORDER_BOTTOM_STYLE_PROP),
-				new BorderToggleDescriptorProvider(StyleHandle.BORDER_LEFT_STYLE_PROP),
-				new BorderToggleDescriptorProvider(StyleHandle.BORDER_RIGHT_STYLE_PROP) };
-		//
-		// TogglesSection borderSection = new TogglesSection( container,
-		// LABEL_BORDER );
-		// borderSection.setProviders( providers );
-		// borderSection.setGridPlaceholder( 4, true );
-		// addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
+
+		// diagonal and antidiagonal buttons only added on cell object (cell handle)
+		if (input != null && ((List<?>) input).size() >= 1 && ((List<?>) input).get(0) instanceof CellHandle) {
+			providers = new BorderToggleDescriptorProvider[] {
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_TOP_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_BOTTOM_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_LEFT_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_RIGHT_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_DIAGONAL_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP)
+			};
+
+		} else {
+			providers = new BorderToggleDescriptorProvider[] {
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_TOP_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_BOTTOM_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_LEFT_STYLE_PROP),
+					new BorderToggleDescriptorProvider(IStyleModel.BORDER_RIGHT_STYLE_PROP) };
+		}
 
 		borderSection = new BorderSection(LABEL_BORDER, container, true);
 		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider();

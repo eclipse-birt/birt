@@ -351,4 +351,116 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	 * @param imageType
 	 */
 	void setBackgroundImageType(String imageType);
+
+	/**
+	 * Get the diagonal line number
+	 *
+	 * @return Return the diagonal line number
+	 */
+	int getDiagonalNumber();
+
+	/**
+	 * Set the diagonal line number
+	 *
+	 * @param number
+	 */
+	void setDiagonalNumber(Integer number);
+
+	/**
+	 * Get the diagonal style
+	 *
+	 * @return Return the diagonal style
+	 */
+	String getDiagonalStyle();
+
+	/**
+	 * Set the diagonal style
+	 *
+	 * @param style
+	 */
+	void setDiagonalStyle(String style);
+
+	/**
+	 * Get the diagonal width
+	 *
+	 * @return Return the diagonal width
+	 */
+	String getDiagonalWidth();
+
+	/**
+	 * Set the diagonal width
+	 *
+	 * @param width
+	 */
+	void setDiagonalWidth(String width);
+
+	/**
+	 * Get the diagonal color
+	 *
+	 * @return Return the diagonal color
+	 */
+	String getDiagonalColor();
+
+	/**
+	 * Set the diagonal color
+	 *
+	 * @param color
+	 */
+	void setDiagonalColor(String color);
+
+	/**
+	 * Get the antidiagonal line number
+	 *
+	 * @return Return the antidiagonal line number
+	 */
+	int getAntidiagonalNumber();
+
+	/**
+	 * Set the antidiagonal line number
+	 *
+	 * @param number
+	 */
+	void setAntidiagonalNumber(Integer number);
+
+	/**
+	 * Get the antidiagonal style
+	 *
+	 * @return Return the antidiagonal style
+	 */
+	String getAntidiagonalStyle();
+
+	/**
+	 * Set the antidiagonal style
+	 *
+	 * @param style
+	 */
+	void setAntidiagonalStyle(String style);
+
+	/**
+	 * Get the antidiagonal width
+	 *
+	 * @return Return the diagonal width
+	 */
+	String getAntidiagonalWidth();
+
+	/**
+	 * Set the antidiagonal width
+	 *
+	 * @param width
+	 */
+	void setAntidiagonalWidth(String width);
+
+	/**
+	 * Get the antidiagonal color
+	 *
+	 * @return Return the diagonal color
+	 */
+	String getAntidiagonalColor();
+
+	/**
+	 * Set the antidiagonal color
+	 *
+	 * @param color
+	 */
+	void setAntidiagonalColor(String color);
 }

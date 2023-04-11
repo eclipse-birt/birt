@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -23,20 +23,30 @@ import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.Units;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.model.ThemesTable;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.IndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorder;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTBorderPr;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTXf;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STBorderStyle;
 import org.w3c.dom.css.CSSValue;
 
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
@@ -57,6 +67,11 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		}
 	};
 
+	/**
+	 * Get the factory of the style manager
+	 *
+	 * @return Return factory of style manager
+	 */
 	public static Factory getFactory() {
 		return factory;
 	}
@@ -111,9 +126,9 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		} else if ("dashed".equals(birtBorder)) {
 			if (pxWidth < 2.9) {
 				return BorderStyle.DASHED;
-			} else {
-				return BorderStyle.MEDIUM_DASHED;
 			}
+			return BorderStyle.MEDIUM_DASHED;
+
 		} else if ("dotted".equals(birtBorder)) {
 			return BorderStyle.DOTTED;
 		} else if ("double".equals(birtBorder)) {
@@ -124,47 +139,184 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		return BorderStyle.NONE;
 	}
 
+	/**
+	 * Create e new cell border object
+	 *
+	 * @param stylesSource original workbook style source
+	 * @param cellXf       cell object of the workbook to be styled
+	 * @return Return the border object of cell
+	 * @since 4.13
+	 */
+	private CTBorder getCTBorder(StylesTable stylesSource, CTXf cellXf) {
+		CTBorder ct;
+		if (cellXf.getApplyBorder()) {
+			int idx = (int) cellXf.getBorderId();
+			XSSFCellBorder cf = stylesSource.getBorderAt(idx);
+			ct = (CTBorder) cf.getCTBorder().copy();
+		} else {
+			ct = CTBorder.Factory.newInstance();
+		}
+		return ct;
+	}
+
+	/**
+	 * Set all border lines to the cell
+	 *
+	 * @param stylesSource workbook style sheet source
+	 * @param cellXf       cell object
+	 * @param theme        color theme object
+	 * @param birtStyle    birt cell style with all border information
+	 * @since 4.13
+	 */
+	public void setBorderAll(StylesTable stylesSource, CTXf cellXf, ThemesTable theme, BirtStyle birtStyle) {
+
+		String borderTopColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR ) == null ? "rgb(0,0,0)" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR).getCssText());
+		String borderTopStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE) == null ? "none"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE).getCssText());
+		String borderTopWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH ) == null ? "medium" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH).getCssText());
+
+		String borderBottomColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) == null ? "rgb(0,0,0)" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR).getCssText());
+		String borderBottomStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE) == null ? "none"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE).getCssText());
+		String borderBottomWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) == null ? "medium" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH).getCssText());
+
+		String borderLeftColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR ) == null ? "rgb(0,0,0)" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR).getCssText());
+		String borderLeftStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE) == null ? "none"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE).getCssText());
+		String borderLeftWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH ) == null ? "medium" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH).getCssText());
+
+		String borderRightColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR ) == null ? "rgb(0,0,0)" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR).getCssText());
+		String borderRightStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE) == null ? "none"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE).getCssText());
+		String borderRightWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) == null ? "medium" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH).getCssText());
+
+		String diagonalColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR ) == null ? "rgb(0,0,0)" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR).getCssText());
+		String diagonalStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE) == null ? "none"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE).getCssText());
+		String diagonalWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH ) == null ? "medium" : birtStyle.getProperty(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH).getCssText());
+
+		String antidiagonalColor = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR) == null
+				? "rgb(0,0,0)"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR).getCssText());
+		String antidiagonalStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE) == null
+				? "solid"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE).getCssText());
+		String antidiagonalWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH) == null
+				? "medium"
+				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH).getCssText());
+
+		CTBorder ct = getCTBorder(stylesSource, cellXf);
+		CTBorderPr pr = ct.isSetDiagonal() ? ct.getDiagonal() : ct.addNewDiagonal();
+		BorderStyle border = null;
+		XSSFColor xBorderColour = null;
+
+		// border get the used color map
+		IndexedColorMap colorMap = stylesSource.getIndexedColors();
+		XSSFCellBorderExtended cb = new XSSFCellBorderExtended(ct, theme, colorMap);
+
+		// border: diagonal & antidiagonal
+		BorderStyle borderDiagonal = poiBorderStyleFromBirt(diagonalStyle, diagonalWidth);
+		BorderStyle borderAntidiagonal = poiBorderStyleFromBirt(antidiagonalStyle, antidiagonalWidth);
+
+		if (borderDiagonal == BorderStyle.NONE && ct.isSetDiagonalDown())
+			ct.unsetDiagonalDown();
+		if (borderAntidiagonal == BorderStyle.NONE && ct.isSetDiagonalUp())
+			ct.unsetDiagonalUp();
+
+		if (borderDiagonal != BorderStyle.NONE || borderAntidiagonal != BorderStyle.NONE) {
+			if (borderDiagonal != BorderStyle.NONE) {
+				xBorderColour = getXColour(diagonalColor);
+				border = borderDiagonal;
+				ct.setDiagonalDown(true);
+				cb.setDiagonal(true);
+				cb.setDiagonalColor(xBorderColour);
+				cb.setDiagonalStyle(border);
+			}
+			if (borderAntidiagonal != BorderStyle.NONE) {
+				if (xBorderColour == null)
+					xBorderColour = getXColour(antidiagonalColor);
+				if (border == null)
+					border = borderAntidiagonal;
+				ct.setDiagonalUp(true);
+				cb.setAntidiagonal(true);
+				cb.setAntidiagonalColor(xBorderColour);
+				cb.setAntidiagonalStyle(border);
+			}
+			ct.setDiagonal(pr);
+
+			// border style & width
+			pr.setStyle(STBorderStyle.Enum.forInt(border.getCode() + 1));
+
+			// border color
+			pr.addNewColor().setRgb(xBorderColour.getRGB());
+		}
+
+		// border: top
+		border = poiBorderStyleFromBirt(borderTopStyle, borderTopWidth);
+		if (border != BorderStyle.NONE) {
+			xBorderColour = getXColour(borderTopColor);
+			cb.setBorderStyle(BorderSide.TOP, border);
+			cb.setBorderColor(BorderSide.TOP, xBorderColour);
+		}
+
+		// border: bottom
+		border = poiBorderStyleFromBirt(borderBottomStyle, borderBottomWidth);
+		if (border != BorderStyle.NONE) {
+			xBorderColour = getXColour(borderBottomColor);
+			cb.setBorderStyle(BorderSide.BOTTOM, border);
+			cb.setBorderColor(BorderSide.BOTTOM, xBorderColour);
+		}
+
+		// border: left
+		border = poiBorderStyleFromBirt(borderLeftStyle, borderLeftWidth);
+		if (border != BorderStyle.NONE) {
+			xBorderColour = getXColour(borderLeftColor);
+			cb.setBorderStyle(BorderSide.LEFT, border);
+			cb.setBorderColor(BorderSide.LEFT, xBorderColour);
+		}
+
+		// border: right
+		border = poiBorderStyleFromBirt(borderRightStyle, borderRightWidth);
+		if (border != BorderStyle.NONE) {
+			xBorderColour = getXColour(borderRightColor);
+			cb.setBorderStyle(BorderSide.RIGHT, border);
+			cb.setBorderColor(BorderSide.RIGHT, xBorderColour);
+		}
+
+		// assign border to cell
+		int idx = stylesSource.putBorder(cb);
+		cellXf.setBorderId(idx);
+		cellXf.setApplyBorder(true);
+	}
+
 	@Override
 	public void applyBorderStyle(Workbook workbook, CellStyle style, BorderSide side, CSSValue colour,
 			CSSValue borderStyle, CSSValue width) {
-		if ((colour != null) || (borderStyle != null) || (width != null)) {
-			String colourString = colour == null ? "rgb(0,0,0)" : colour.getCssText();
-			String borderStyleString = borderStyle == null ? "solid" : borderStyle.getCssText();
-			String widthString = width == null ? "medium" : width.getCssText();
+		// method due to compatibility reasons of StyleManagerUtil & StyleManager
+	}
 
-			if (style instanceof XSSFCellStyle) {
-				XSSFCellStyle xStyle = (XSSFCellStyle) style;
+	@Override
+	public void applyBorderStyle(Workbook workbook, CellStyle style, BirtStyle birtStyle) {
+		applyBorderStyleToCell(workbook, style, birtStyle);
+	}
 
-				BorderStyle xBorderStyle = poiBorderStyleFromBirt(borderStyleString, widthString);
-				XSSFColor xBorderColour = getXColour(colourString);
-				if (xBorderStyle != BorderStyle.NONE) {
-					switch (side) {
-					case TOP:
-						xStyle.setBorderTop(xBorderStyle);
-						xStyle.setTopBorderColor(xBorderColour);
-						// log.debug( "Top border: " + xStyle.getBorderTop() + " / " +
-						// xStyle.getTopBorderXSSFColor().getARGBHex() );
-						break;
-					case LEFT:
-						xStyle.setBorderLeft(xBorderStyle);
-						xStyle.setLeftBorderColor(xBorderColour);
-						// log.debug( "Left border: " + xStyle.getBorderLeft() + " / " +
-						// xStyle.getLeftBorderXSSFColor().getARGBHex() );
-						break;
-					case RIGHT:
-						xStyle.setBorderRight(xBorderStyle);
-						xStyle.setRightBorderColor(xBorderColour);
-						// log.debug( "Right border: " + xStyle.getBorderRight() + " / " +
-						// xStyle.getRightBorderXSSFColor().getARGBHex() );
-						break;
-					case BOTTOM:
-						xStyle.setBorderBottom(xBorderStyle);
-						xStyle.setBottomBorderColor(xBorderColour);
-						// log.debug( "Bottom border: " + xStyle.getBorderBottom() + " / " +
-						// xStyle.getBottomBorderXSSFColor().getARGBHex() );
-						break;
-					}
+	private void applyBorderStyleToCell(Workbook workbook, CellStyle style, BirtStyle birtStyle) {
+
+		if (style instanceof XSSFCellStyle) {
+			XSSFCellStyle xStyle = (XSSFCellStyle) style;
+			StylesTable stylesSource = null;
+			if (stylesSource == null) {
+				if (workbook instanceof SXSSFWorkbook) {
+					stylesSource = ((SXSSFWorkbook) workbook).getXSSFWorkbook().getStylesSource();
+				} else if (workbook instanceof XSSFWorkbook) {
+					stylesSource = ((XSSFWorkbook) workbook).getStylesSource();
 				}
+			}
+				// style based on style & width
+			if (stylesSource != null) {
+				ThemesTable theme = stylesSource.getTheme();
+				CTXf cellXf = xStyle.getCoreXf();
+				setBorderAll(stylesSource, cellXf, theme, birtStyle);
 			}
 		}
 	}
@@ -185,7 +337,7 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 
 	@Override
 	public void addColourToFont(Workbook workbook, Font font, String colour) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if ((colour == null) || CSSValueConstants.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (font instanceof XSSFFont) {
@@ -200,7 +352,7 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 
 	@Override
 	public void addBackgroundColourToStyle(Workbook workbook, CellStyle style, String colour) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if ((colour == null) || CSSValueConstants.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (style instanceof XSSFCellStyle) {
@@ -233,9 +385,8 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 			addedStyle.setColor(contrastColour(bgRgb));
 
 			return fm.getFontWithExtraStyle(font, addedStyle);
-		} else {
-			return font;
 		}
+		return font;
 	}
 
 	@Override

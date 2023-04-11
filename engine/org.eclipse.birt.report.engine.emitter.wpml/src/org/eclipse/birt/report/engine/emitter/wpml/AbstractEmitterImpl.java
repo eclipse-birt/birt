@@ -115,6 +115,14 @@ public abstract class AbstractEmitterImpl {
 		nonInherityStyles.add(IStyle.STYLE_BORDER_RIGHT_COLOR);
 		nonInherityStyles.add(IStyle.STYLE_BORDER_RIGHT_STYLE);
 		nonInherityStyles.add(IStyle.STYLE_BORDER_RIGHT_WIDTH);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_DIAGONAL_NUMBER);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_DIAGONAL_COLOR);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_DIAGONAL_STYLE);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_DIAGONAL_WIDTH);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_ANTIDIAGONAL_NUMBER);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_ANTIDIAGONAL_COLOR);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_ANTIDIAGONAL_STYLE);
+		nonInherityStyles.add(IStyle.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
 	}
 
 	private static final HashMap<String, String> genericFontMapping = new HashMap<>();
@@ -399,7 +407,7 @@ public abstract class AbstractEmitterImpl {
 		context.startCell();
 		wordWriter.startTableRow(-1);
 		IStyle style = computeStyle(list.getComputedStyle());
-		wordWriter.startTableCell(context.getCurrentWidth(), style, null);
+		wordWriter.startTableCell(context.getCurrentWidth(), style, null, null);
 		writeTableToc();
 	}
 
@@ -450,25 +458,157 @@ public abstract class AbstractEmitterImpl {
 		int rowSpan = cell.getRowSpan();
 		int cellWidth = context.getCellWidth(columnId, columnSpan);
 
-		IStyle style = computeStyle(cell.getComputedStyle());
-//		style.get
+		IStyle cellStyle = computeStyle(cell.getComputedStyle());
+		Boolean[] inheritedStyleFromRow = inheritCellStyle(cell);
 
 		if (rowSpan > 1) {
-			context.addSpan(columnId, columnSpan, cellWidth, rowSpan, style);
+			context.addSpan(columnId, columnSpan, cellWidth, rowSpan, cellStyle);
 		}
 
 		SpanInfo info = null;
 
 		if (columnSpan > 1 || rowSpan > 1) {
-			info = new SpanInfo(columnId, columnSpan, cellWidth, true, style);
+			info = new SpanInfo(columnId, columnSpan, cellWidth, true, cellStyle);
 		}
-		wordWriter.startTableCell(cellWidth, style, info);
-		context.addWidth(getCellWidth(cellWidth, style));
+		DiagonalLineInfo diagonalLineInfo = createDiagonalLineInfo(cell, WordUtil.twipToPt(cellWidth));
+		wordWriter.startTableCell(cellWidth, cellStyle, info, diagonalLineInfo);
+		context.addWidth(getCellWidth(cellWidth, cellStyle));
 		writeTableToc();
-		if (cell.getDiagonalNumber() != 0 && cell.getDiagonalStyle() != null
-				&& !"none".equalsIgnoreCase(cell.getDiagonalStyle())) {
-			drawDiagonalLine(cell, WordUtil.twipToPt(cellWidth));
+
+		resetInheritedStyle(cellStyle, inheritedStyleFromRow);
+	}
+
+	private void resetInheritedStyle(IStyle cellStyle, Boolean[] inheritedStyleFromRow) {
+
+		// border style top
+		if (inheritedStyleFromRow[0]) {
+			cellStyle.setBorderTopStyle(null);
+			cellStyle.setBorderTopColor(null);
+			cellStyle.setBorderTopWidth(null);
 		}
+		// border style bottom
+		if (inheritedStyleFromRow[1]) {
+			cellStyle.setBorderBottomStyle(null);
+			cellStyle.setBorderBottomColor(null);
+			cellStyle.setBorderBottomWidth(null);
+		}
+		// border style left
+		if (inheritedStyleFromRow[2]) {
+			cellStyle.setBorderLeftStyle(null);
+			cellStyle.setBorderLeftColor(null);
+			cellStyle.setBorderLeftWidth(null);
+		}
+		// border style right
+		if (inheritedStyleFromRow[3]) {
+			cellStyle.setBorderRightStyle(null);
+			cellStyle.setBorderRightColor(null);
+			cellStyle.setBorderRightWidth(null);
+		}
+	}
+
+	private Boolean[] inheritCellStyle(ICellContent cell) {
+
+		// cell border inherited from row, order: top, bottom, left, right
+		Boolean[] inheritedStyleFromRow = { false, false, false, false };
+
+		IRowContent row = (IRowContent) cell.getParent();
+		IStyle rowStyle = row.getComputedStyle();
+		IStyle cellStyle = computeStyle(cell.getComputedStyle());
+
+		// border top: inherited from the row line top
+		if ("none".equals(cellStyle.getBorderTopStyle())) {
+			cellStyle.setBorderTopStyle(rowStyle.getBorderTopStyle());
+			cellStyle.setBorderTopWidth(rowStyle.getBorderTopWidth());
+			cellStyle.setBorderTopColor(rowStyle.getBorderTopColor());
+			inheritedStyleFromRow[0] = true;
+		}
+		// border bottom: inherited from the row line bottom
+		if ("none".equals(cellStyle.getBorderBottomStyle())) {
+			cellStyle.setBorderBottomStyle(rowStyle.getBorderBottomStyle());
+			cellStyle.setBorderBottomWidth(rowStyle.getBorderBottomWidth());
+			cellStyle.setBorderBottomColor(rowStyle.getBorderBottomColor());
+			inheritedStyleFromRow[1] = true;
+		}
+		// 1st cell of row: inherited left border style if cell style is "none"
+		if (cell.getColumn() == 0 && "none".equals(cellStyle.getBorderLeftStyle())) {
+			cellStyle.setBorderLeftStyle(rowStyle.getBorderLeftStyle());
+			cellStyle.setBorderLeftWidth(rowStyle.getBorderLeftWidth());
+			cellStyle.setBorderLeftColor(rowStyle.getBorderLeftColor());
+			inheritedStyleFromRow[2] = true;
+		}
+		// last cell of row: inherited left border style if cell style is "none"
+		if (cell.isLastChild() && "none".equals(cellStyle.getBorderRightStyle())) {
+			cellStyle.setBorderRightStyle(rowStyle.getBorderRightStyle());
+			cellStyle.setBorderRightWidth(rowStyle.getBorderRightWidth());
+			cellStyle.setBorderRightColor(rowStyle.getBorderRightColor());
+			inheritedStyleFromRow[3] = true;
+		}
+		return inheritedStyleFromRow;
+	}
+
+	private DiagonalLineInfo createDiagonalLineInfo(ICellContent cell, double cellWidth) {
+		int cellHeight = WordUtil.convertTo(getCellHeight(cell), 0, reportDpi) / 20;
+
+		int diagonalSourceType = 0;
+		int antidiagonalSourceType = 0;
+
+		if (cell.getDiagonalNumber() > 0 && cell.getDiagonalStyle() != null
+				&& !"none".equalsIgnoreCase(cell.getDiagonalStyle())) {
+			diagonalSourceType = 1;
+		}
+		if (cell.getAntidiagonalNumber() > 0 && cell.getAntidiagonalStyle() != null
+				&& !"none".equalsIgnoreCase(cell.getAntidiagonalStyle())) {
+			antidiagonalSourceType = 1;
+		}
+
+		if (diagonalSourceType == 0 && antidiagonalSourceType == 0)
+			return null;
+
+		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo();
+
+		int cellDiagonalNumber = 0;
+		DimensionType cellDiagonalWidth = null;
+		String cellDiagonalStyle = null;
+		String cellDiagonalColor = null;
+
+		if (diagonalSourceType == 1) {
+			cellDiagonalNumber = cell.getDiagonalNumber();
+			cellDiagonalStyle = cell.getDiagonalStyle();
+			cellDiagonalWidth = cell.getDiagonalWidth();
+			if (cell.getDiagonalColor() != null) {
+				cellDiagonalColor = cell.getDiagonalColor();
+			} else {
+				cellDiagonalColor = WordUtil.parseColor(cell.getDiagonalColor());
+			}
+			diagonalLineInfo.setDiagonalColor(cellDiagonalColor);
+		}
+
+		int cellAntidiagonalNumber = 0;
+		DimensionType cellAntidiagonalWidth = null;
+		String cellAntidiagonalStyle = null;
+		String cellAntidiagonalColor = null;
+
+		if (antidiagonalSourceType == 1) {
+			cellAntidiagonalNumber = cell.getAntidiagonalNumber();
+			cellAntidiagonalStyle = cell.getAntidiagonalStyle();
+			cellAntidiagonalWidth = cell.getAntidiagonalWidth();
+			if (cell.getAntidiagonalColor() != null) {
+				cellAntidiagonalColor = cell.getAntidiagonalColor();
+			} else {
+				cellAntidiagonalColor = WordUtil.parseColor(cell.getAntidiagonalColor());
+			}
+			diagonalLineInfo.setAntidiagonalColor(cellAntidiagonalColor);
+		}
+
+		int diagonalWidth = PropertyUtil.getDimensionValue(cell, cellDiagonalWidth, (int) cellWidth) / 1000;
+		diagonalLineInfo.setDiagonalLine(cellDiagonalNumber, cellDiagonalStyle, diagonalWidth);
+
+		int antidiagonalWidth = PropertyUtil.getDimensionValue(cell, cellAntidiagonalWidth, (int) cellWidth) / 1000;
+		diagonalLineInfo.setAntidiagonalLine(cellAntidiagonalNumber, cellAntidiagonalStyle, antidiagonalWidth);
+
+		diagonalLineInfo.setCoordinateSize(cellWidth, cellHeight);
+
+		return diagonalLineInfo;
 	}
 
 	private void drawDiagonalLine(ICellContent cell, double cellWidth) {
@@ -479,9 +619,10 @@ public abstract class AbstractEmitterImpl {
 		if (cellHeight == 0) {
 			return;
 		}
+		DimensionType cellDiagonalWidth = cell.getDiagonalWidth();
 
 		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo();
-		int diagonalWidth = PropertyUtil.getDimensionValue(cell, cell.getDiagonalWidth(), (int) cellWidth) / 1000;
+		int diagonalWidth = PropertyUtil.getDimensionValue(cell, cellDiagonalWidth, (int) cellWidth) / 1000;
 		diagonalLineInfo.setDiagonalLine(cell.getDiagonalNumber(), cell.getDiagonalStyle(), diagonalWidth);
 		diagonalLineInfo.setAntidiagonalLine(0, null, 0);
 		diagonalLineInfo.setCoordinateSize(cellWidth, cellHeight);

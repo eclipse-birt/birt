@@ -272,7 +272,7 @@ public class StyleInstance implements IScriptStyle {
 	 */
 	@Override
 	public String getBackgroundImageType() {
-		return style.getBackgroundImage();
+		return style.getBackgroundImageType();
 	}
 
 	/**
@@ -280,7 +280,7 @@ public class StyleInstance implements IScriptStyle {
 	 */
 	@Override
 	public void setBackgroundImageType(String imageSourceType) {
-		style.setBackgroundImage(imageSourceType);
+		style.setBackgroundImageType(imageSourceType);
 	}
 
 	/**
@@ -1002,4 +1002,83 @@ public class StyleInstance implements IScriptStyle {
 		value.setStringFormat(oldValue == null ? null : oldValue.getStringPattern(), locale);
 	}
 
+	@Override
+	public int getDiagonalNumber() {
+		return this.style.getDiagonalNumber();
+	}
+
+	@Override
+	public void setDiagonalNumber(int number) {
+		this.style.setDiagonalNumber(number);
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return this.style.getDiagonalStyle();
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		this.style.setDiagonalStyle(style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return this.style.getDiagonalWidth();
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		this.style.setDiagonalWidth(width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return this.style.getDiagonalColor();
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		this.style.setDiagonalColor(color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return this.style.getAntidiagonalNumber();
+	}
+
+	@Override
+	public void setAntidiagonalNumber(int number) {
+		this.style.setAntidiagonalNumber(number);
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return this.style.getAntidiagonalStyle();
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		this.style.setAntidiagonalStyle(style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return this.style.getAntidiagonalWidth();
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		this.style.setAntidiagonalWidth(width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return this.style.getAntidiagonalColor();
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		this.style.setAntidiagonalColor(color);
+	}
 }

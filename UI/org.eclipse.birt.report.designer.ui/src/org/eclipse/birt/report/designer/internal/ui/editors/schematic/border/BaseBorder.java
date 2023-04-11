@@ -98,11 +98,45 @@ public abstract class BaseBorder extends AbstractBorder {
 	 * Right border color.
 	 */
 	public int rightColor;
+	/**
+	 * Diagonal number.
+	 */
+	public int diagonalNumber;
+	/**
+	 * Diagonal width.
+	 */
+	public String diagonalWidth;
+	/**
+	 * Diagonal style.
+	 */
+	public String diagonalStyle;
+	/**
+	 * Diagonal color.
+	 */
+	public int diagonalColor;
+	/**
+	 * Antidiagonal number.
+	 */
+	public int antidiagonalNumber;
+	/**
+	 * Antidiagonal width.
+	 */
+	public String antidiagonalWidth;
+	/**
+	 * Antidiagonal style.
+	 */
+	public String antidiagonalStyle;
+	/**
+	 * Antidiagonal color.
+	 */
+	public int antidiagonalColor;
 
 	protected int i_bottom_style, i_bottom_width = 1;
 	protected int i_top_style, i_top_width = 1;
 	protected int i_left_style, i_left_width = 1;
 	protected int i_right_style, i_right_width = 1;
+	protected int i_diagonal_style, i_diagonal_width = 1;
+	protected int i_antidiagonal_style, i_antidiagonal_width = 1;
 
 	private static final HashMap<String, Integer> styleMap = new HashMap<>();
 	private static final HashMap<String, Integer> widthMap = new HashMap<>();
@@ -227,7 +261,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border style directly.
 	 *
-	 * @return
+	 * @return Return the specified border style directly.
 	 */
 	public int getLeftBorderStyle() {
 		return getBorderStyle(leftStyle);
@@ -236,7 +270,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border style directly.
 	 *
-	 * @return
+	 * @return Return the specified border style directly.
 	 */
 	public int getRightBorderStyle() {
 		return getBorderStyle(rightStyle);
@@ -245,7 +279,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border style directly.
 	 *
-	 * @return
+	 * @return Return the specified border style directly.
 	 */
 	public int getTopBorderStyle() {
 		return getBorderStyle(topStyle);
@@ -254,7 +288,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border style directly.
 	 *
-	 * @return
+	 * @return Return the specified border style directly.
 	 */
 	public int getBottomBorderStyle() {
 		return getBorderStyle(bottomStyle);
@@ -263,7 +297,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border width directly.
 	 *
-	 * @return
+	 * @return Return the specified border width directly.
 	 */
 	public int getLeftBorderWidth() {
 		return getBorderWidth(leftWidth);
@@ -272,7 +306,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border width directly.
 	 *
-	 * @return
+	 * @return Return the specified border width directly.
 	 */
 	public int getRightBorderWidth() {
 		return getBorderWidth(rightWidth);
@@ -281,7 +315,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border width directly.
 	 *
-	 * @return
+	 * @return Return the specified border width directly.
 	 */
 	public int getTopBorderWidth() {
 		return getBorderWidth(topWidth);
@@ -290,7 +324,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border width directly.
 	 *
-	 * @return
+	 * @return Return the specified border width directly.
 	 */
 	public int getBottomBorderWidth() {
 		return getBorderWidth(bottomWidth);
@@ -299,7 +333,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border color directly.
 	 *
-	 * @return
+	 * @return Return the specified border color directly.
 	 */
 	public int getLeftBorderColor() {
 		// return ColorUtil.parseColor( leftColor );
@@ -309,7 +343,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border color directly.
 	 *
-	 * @return
+	 * @return Return the specified border color directly.
 	 */
 	public int getRightBorderColor() {
 		// return ColorUtil.parseColor( rightColor );
@@ -319,7 +353,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border color directly.
 	 *
-	 * @return
+	 * @return Return the specified border color directly.
 	 */
 	public int getTopBorderColor() {
 		// return ColorUtil.parseColor( topColor );
@@ -329,11 +363,83 @@ public abstract class BaseBorder extends AbstractBorder {
 	/**
 	 * Convenient method to return the specified border color directly.
 	 *
-	 * @return
+	 * @return Return the specified border color directly.
 	 */
 	public int getBottomBorderColor() {
 		// return ColorUtil.parseColor( bottomColor );
 		return bottomColor;
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 *
+	 * @return Return the specified border style directly.
+	 */
+	public int getDiagonalNumber() {
+		return diagonalNumber;
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 *
+	 * @return Return the specified border style directly.
+	 */
+	public int getDiagonalStyle() {
+		return getBorderStyle(diagonalStyle);
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 *
+	 * @return Return the specified border width directly.
+	 */
+	public int getDiagonalWidth() {
+		return getBorderWidth(diagonalWidth);
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 *
+	 * @return Return the specified border color directly.
+	 */
+	public int getDiagonalColor() {
+		return diagonalColor;
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 *
+	 * @return Return the specified border style directly.
+	 */
+	public int getAntidiagonalNumber() {
+		return antidiagonalNumber;
+	}
+
+	/**
+	 * Convenient method to return the specified border style directly.
+	 *
+	 * @return Return the specified border style directly.
+	 */
+	public int getAntidiagonalStyle() {
+		return getBorderStyle(antidiagonalStyle);
+	}
+
+	/**
+	 * Convenient method to return the specified border width directly.
+	 *
+	 * @return Return the specified border width directly.
+	 */
+	public int getAntidiagonalWidth() {
+		return getBorderWidth(antidiagonalWidth);
+	}
+
+	/**
+	 * Convenient method to return the specified border color directly.
+	 *
+	 * @return Return the specified border color directly.
+	 */
+	public int getAntidiagonalColor() {
+		return antidiagonalColor;
 	}
 
 }
