@@ -18,11 +18,11 @@ public class PerfectHash {
 	// bidi_hcg: Aligned with generated token.cpp after the "direction" keyword
 	// was added.
 
-	final static int TOTAL_KEYWORDS = 62;
+	final static int TOTAL_KEYWORDS = 70;
 
 	final static int MIN_WORD_LENGTH = 5;
 
-	final static int MAX_WORD_LENGTH = 21;
+	final static int MAX_WORD_LENGTH = 25;
 
 	final static int MIN_HASH_VALUE = 10;
 
@@ -35,7 +35,8 @@ public class PerfectHash {
 			112, 112, 112, 112, 112, 112, 112, 45, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
 			112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
 			112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 52, 5, 0, 0, 15, 40, 20, 0,
-			40, 112, 15, 0, 20, 5, 0, 5, 112, 5, 40, 0, 112, 15, 45, 30, 36, 112, 112, 112, 112, 112, 112, 112 };
+			40, 112, 15, 0, 20, 5, 0, 5, 112, 5, 40, 0, 112, 15, 45, 30, 36, 112, 112, 112, 112, 112, 112, 112, 112,
+			112, 112, 112, 112, 112, 112 };
 
 	public static int hash(String str) {
 		int hashValue = str.length();
@@ -62,7 +63,8 @@ public class PerfectHash {
 
 	static int lengthtable[] = { 5, 11, 11, 12, 13, 9, 11, 17, 16, 17, 18, 19, 10, 16, 18, 19, 11, 12, 14, 10, 11, 18,
 			19, 10, 6, 12, 5, 16, 7, 11, 12, 13, 21, 17, 13, 14, 16, 21, 8, 9, 10, 16, 17, 13, 14, 16, 17, 21, 14, 16,
-			7, 11, 17, 14, 6, 11, 17, 16, 14, 12, 11, 21 };
+			7, 11, 17, 14, 6, 11, 17, 16, 14, 12, 11, 21, 22, 21, 21, 21, 26, 25, 25, 25 };
+
 	static String wordlist[] = { "color" /* hash value = 10, index = 0 */,
 			"data-format" /* hash value = 11, index = 1 */, "line-height" /* hash value = 16, index = 2 */,
 			"padding-left" /* hash value = 17, index = 3 */, "padding-right" /* hash value = 18, index = 4 */,
@@ -97,14 +99,22 @@ public class PerfectHash {
 			"widows" /* hash value = 91, index = 54 */, "font-family" /* hash value = 92, index = 55 */,
 			"page-break-inside" /* hash value = 97, index = 56 */, "page-break-after" /* hash value = 98, index = 57 */,
 			"text-underline" /* hash value = 99, index = 58 */, "word-spacing" /* hash value = 102, index = 59 */,
-			"white-space" /* hash value = 111, index = 60 */, "background-image-type" /* hash value = ??, index = 61 */
+			"white-space" /* hash value = 111, index = 60 */, "background-image-type" /* hash value = ??, index = 61 */,
+			"border-diagonal-number" /* hash value = ??, index = 62 */,
+			"border-diagonal-width" /* hash value = ??, index = 63 */,
+			"border-diagonal-color" /* hash value = ??, index = 64 */,
+			"border-diagonal-style" /* hash value = ??, index = 65 */,
+			"border-antidiagonal-number" /* hash value = ??, index = 66 */,
+			"border-antidiagonal-width" /* hash value = ??, index = 67 */,
+			"border-antidiagonal-color" /* hash value = ??, index = 68 */,
+			"border-antidiagonal-style" /* hash value = ??, index = 69 */
 	};
 
 	static short lookup[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, -1, -1, -1, -1, 2, 3, 4, 5, -1, 6, 7, -1,
 			-1, -1, 8, 9, 10, 11, 12, 13, -1, 14, 15, -1, 16, 17, -1, 18, 19, 20, -1, 21, 22, 23, 24, 25, -1, -1, 26,
 			27, 28, -1, -1, -1, 29, 30, 31, -1, -1, 32, 33, 34, 35, -1, 36, 37, 38, 39, 40, 41, 42, 43, 44, -1, 45, 46,
 			47, 48, -1, 49, -1, 50, -1, -1, 51, 52, -1, 53, -1, 54, 55, -1, -1, -1, -1, 56, 57, 58, -1, -1, 59, -1, -1,
-			-1, -1, -1, -1, -1, -1, 60, -1 };
+			-1, -1, -1, -1, -1, -1, 60, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
 	public static int in_word_set(String str) {
 		int len = str.length();

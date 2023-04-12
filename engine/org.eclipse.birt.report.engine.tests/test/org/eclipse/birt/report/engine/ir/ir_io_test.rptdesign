@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.qualifier Build &lt;@BUILD@></property>
-    <property name="units">in</property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.24" id="1">
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.13.0.qualifier</property>
+    <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
@@ -128,8 +128,8 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
-from CLASSICMODELS.OFFICES</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.OFFICES]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>1.0</Version>
@@ -288,6 +288,10 @@ from CLASSICMODELS.OFFICES</property>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -347,6 +351,7 @@ from CLASSICMODELS.OFFICES</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="55"/>
             <column id="56"/>
             <column id="57"/>
@@ -410,6 +415,9 @@ from CLASSICMODELS.OFFICES</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["COUNTRY"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["COUNTRY"]</expression>
+                </structure>
                 <property name="repeatHeader">true</property>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">auto</property>
@@ -532,68 +540,21 @@ from CLASSICMODELS.OFFICES</property>
         <image id="92">
             <property name="source">url</property>
             <expression name="uri">"http://www.google.com"</expression>
-            <structure name="action">
-                <property name="formatType">pdf</property>
-                <property name="linkType">drill-through</property>
-                <property name="reportName">1grouping.rptdesign</property>
-                <expression name="targetBookmark">row["CUSTOMERNUMBER"]</expression>
-                <property name="targetBookmarkType">bookmark</property>
-                <property name="targetWindow">_self</property>
-                <property name="targetFileType">report-design</property>
-            </structure>
-        </image>
-        <extended-item extensionName="Chart" id="93">
-            <property name="height">130pt</property>
-            <property name="width">212pt</property>
-            <property name="dataSet">Data Set</property>
-            <list-property name="boundDataColumns">
+            <list-property name="action">
                 <structure>
-                    <property name="name">OFFICECODE</property>
-                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CITY</property>
-                    <expression name="expression">dataSetRow["CITY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PHONE</property>
-                    <expression name="expression">dataSetRow["PHONE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE1</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ADDRESSLINE2</property>
-                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">STATE</property>
-                    <expression name="expression">dataSetRow["STATE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">COUNTRY</property>
-                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">POSTALCODE</property>
-                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">TERRITORY</property>
-                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
-                    <property name="dataType">string</property>
+                    <property name="formatType">pdf</property>
+                    <property name="linkType">drill-through</property>
+                    <property name="reportName">1grouping.rptdesign</property>
+                    <expression name="targetBookmark">row["CUSTOMERNUMBER"]</expression>
+                    <property name="targetBookmarkType">bookmark</property>
+                    <property name="targetWindow">_self</property>
+                    <property name="targetFileType">report-design</property>
                 </structure>
             </list-property>
+        </image>
+        <extended-item extensionName="Chart" id="93">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Version>2.6.1</Version>
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -855,6 +816,10 @@ from CLASSICMODELS.OFFICES</property>
   <Dimension>Two_Dimensional</Dimension>
   <Units>Points</Units>
   <SeriesThickness>10.0</SeriesThickness>
+  <ExtendedProperties>
+    <Name>enable.area.alt</Name>
+    <Value>false</Value>
+  </ExtendedProperties>
   <SampleData>
     <BaseSampleData>
       <DataSetRepresentation>A, B, C</DataSetRepresentation>
@@ -865,6 +830,41 @@ from CLASSICMODELS.OFFICES</property>
     </OrthogonalSampleData>
   </SampleData>
   <Interactivity/>
+  <EmptyMessage>
+    <Caption>
+      <Value>This chart contains no data.</Value>
+      <Font>
+        <Alignment>
+          <horizontalAlignment>Center</horizontalAlignment>
+          <verticalAlignment>Center</verticalAlignment>
+        </Alignment>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+      <Visible>true</Visible>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -1033,7 +1033,11 @@ from CLASSICMODELS.OFFICES</property>
             <Visible>true</Visible>
           </Label>
           <DataDefinition>
-            <Definition>row[&quot;OFFICECODE&quot;]</Definition>
+            <Definition>row[&quot;OFFICECODE&quot;]*1</Definition>
+            <Grouping>
+              <GroupType>Text</GroupType>
+              <AggregateExpression>Sum</AggregateExpression>
+            </Grouping>
           </DataDefinition>
           <SeriesIdentifier></SeriesIdentifier>
           <DataPoint>
@@ -1048,7 +1052,7 @@ from CLASSICMODELS.OFFICES</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -1263,7 +1267,7 @@ from CLASSICMODELS.OFFICES</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -1381,6 +1385,57 @@ from CLASSICMODELS.OFFICES</property>
 </model:ChartWithAxes>
 ]]></xml-property>
             <property name="outputFormat">SVG</property>
+            <property name="inheritColumns">false</property>
+            <property name="height">130pt</property>
+            <property name="width">212pt</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OFFICECODE</property>
+                    <expression name="expression">dataSetRow["OFFICECODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TERRITORY</property>
+                    <expression name="expression">dataSetRow["TERRITORY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
         </extended-item>
         <grid id="94">
             <property name="width">100%</property>
@@ -1408,7 +1463,7 @@ from CLASSICMODELS.OFFICES</property>
                 <structure>
                     <property name="name">A</property>
                     <property name="type">expression</property>
-                    <property name="default">"Expression"</property>
+                    <expression name="default" type="javascript">"Expression"</expression>
                 </structure>
             </list-property>
             <list-property name="highlightRules">
@@ -1417,7 +1472,9 @@ from CLASSICMODELS.OFFICES</property>
                     <property name="backgroundColor">#000000</property>
                     <property name="color">#000000</property>
                     <expression name="testExpr">1</expression>
-                    <expression name="value1">A</expression>
+                    <simple-property-list name="value1">
+                        <value>A</value>
+                    </simple-property-list>
                     <expression name="value2">B</expression>
                 </structure>
             </list-property>
@@ -1425,12 +1482,15 @@ from CLASSICMODELS.OFFICES</property>
                 <structure>
                     <expression name="testExpr">"TEST"</expression>
                     <property name="operator">eq</property>
-                    <expression name="value1">"DD"</expression>
+                    <simple-property-list name="value1">
+                        <value>"DD"</value>
+                    </simple-property-list>
                     <text-property name="display">"orginal value"</text-property>
                 </structure>
             </list-property>
         </data>
         <text-data id="111">
+            <expression name="valueExpr">"dynamic-test"</expression>
             <property name="contentType">html</property>
         </text-data>
     </body>

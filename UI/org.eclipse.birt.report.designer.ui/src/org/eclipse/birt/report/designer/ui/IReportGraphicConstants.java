@@ -277,6 +277,10 @@ public interface IReportGraphicConstants {
 
 	String ICON_BORDER_TOP = "Top border"; //$NON-NLS-1$
 
+	String ICON_BORDER_DIAGONAL = "Diagonal border"; //$NON-NLS-1$
+
+	String ICON_BORDER_ANTIDIAGONAL = "Antidiagonal border"; //$NON-NLS-1$
+
 	// missing image icon
 	String ICON_MISSING_IMG = "Missing image"; //$NON-NLS-1$
 
@@ -378,6 +382,10 @@ public interface IReportGraphicConstants {
 	String ICON_ATTRIBUTE_BORDER_TOP = "BORDER_TOP";//$NON-NLS-1$
 
 	String ICON_ATTRIBUTE_BORDER_BOTTOM = "BORDER_BOTTOM";//$NON-NLS-1$
+
+	String ICON_ATTRIBUTE_BORDER_DIAGONAL = "BORDER_DIAGONAL";//$NON-NLS-1$
+
+	String ICON_ATTRIBUTE_BORDER_ANTIDIAGONAL = "BORDER_ANTIDIAGONAL";//$NON-NLS-1$
 
 	String ICON_ATTRIBUTE_TEXT_ALIGN_CENTER = DesignChoiceConstants.TEXT_ALIGN_CENTER;
 

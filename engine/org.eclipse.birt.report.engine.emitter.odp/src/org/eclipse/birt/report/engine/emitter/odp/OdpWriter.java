@@ -196,10 +196,6 @@ public class OdpWriter extends AbstractOdfWriter {
 	 * @param color  the color of the line
 	 */
 	private void drawRawLine(double startX, double startY, double endX, double endY, StyleEntry lineStyle) {
-		boolean needflip = false;
-		if (endX > startX && endY < startY || endX < startX && endY > startY) {
-			needflip = true;
-		}
 
 		writer.openTag("draw:line");
 		writer.attribute("draw:layer", "layout");
@@ -212,17 +208,10 @@ public class OdpWriter extends AbstractOdfWriter {
 		endX /= OdfUtil.INCH_PT;
 		endY /= OdfUtil.INCH_PT;
 
-		if (needflip) {
-			writer.attribute("svg:x1", startX + "in");
-			writer.attribute("svg:y1", endY + "in");
-			writer.attribute("svg:x2", endX + "in");
-			writer.attribute("svg:y2", startY + "in");
-		} else {
-			writer.attribute("svg:x1", startX + "in");
-			writer.attribute("svg:y1", startY + "in");
-			writer.attribute("svg:x2", endX + "in");
-			writer.attribute("svg:y2", endY + "in");
-		}
+		writer.attribute("svg:x1", startX + "in");
+		writer.attribute("svg:y1", startY + "in");
+		writer.attribute("svg:x2", endX + "in");
+		writer.attribute("svg:y2", endY + "in");
 
 		writer.closeTag("draw:line");
 	}

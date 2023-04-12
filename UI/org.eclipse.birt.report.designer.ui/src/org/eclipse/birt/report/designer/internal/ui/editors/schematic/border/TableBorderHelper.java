@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
@@ -33,10 +34,15 @@ public class TableBorderHelper {
 
 	/**
 	 * Use to store all actual border drawing data, array size:
-	 * [2*colCount*rowCount+colCount+rowCount][5], the last dimension arranged as:
-	 * [style][width][color][rowIndex][colIndex], index is Zero-based.
+	 * [2*colCount*rowCount+colCount+rowCount][7], the last dimension arranged as:
+	 * [style][width][color][rowIndex][colIndex][type][diagonals], index is
+	 * Zero-based.
 	 */
 	private int[][] borderData;
+
+	private HashMap<Integer, int[]> diagonalData = new HashMap<>();
+
+	private HashMap<Integer, int[]> antidiagonalData = new HashMap<>();
 
 	/**
 	 * The constructor.
@@ -57,7 +63,7 @@ public class TableBorderHelper {
 		heights = new int[colCount][rowCount + 1];
 		widths = new int[rowCount][colCount + 1];
 
-		borderData = new int[2 * colCount * rowCount + colCount + rowCount][6];
+		borderData = new int[2 * colCount * rowCount + colCount + rowCount][7];
 
 		// initialize all index data as -1.
 		for (int i = 0; i < rowCount; i++) {
@@ -99,7 +105,7 @@ public class TableBorderHelper {
 		}
 
 		// initialize all other border data.
-		for (Iterator itr = owner.getChildren().iterator(); itr.hasNext();) {
+		for (Iterator<?> itr = owner.getChildren().iterator(); itr.hasNext();) {
 			ITableLayoutCell cellPart = (ITableLayoutCell) itr.next();
 
 			int rowIndex = cellPart.getRowNumber();
@@ -128,14 +134,30 @@ public class TableBorderHelper {
 			int rightWidth = border.getRightBorderWidth();
 			int rightColor = border.getRightBorderColor();
 
+			int diagonaltNumber = border.getDiagonalNumber();
+			int diagonaltStyle = border.getDiagonalStyle();
+			int diagonalWidth = border.getDiagonalWidth();
+			int diagonalColor = border.getDiagonalColor();
+
+			int antidiagonaltNumber = border.getAntidiagonalNumber();
+			int antidiagonaltStyle = border.getAntidiagonalStyle();
+			int antidiagonalWidth = border.getAntidiagonalWidth();
+			int antidiagonalColor = border.getAntidiagonalColor();
+
+			// diagonal, antidiagonal: line data
+			int[] diagonal = { diagonaltNumber, diagonaltStyle, diagonalWidth, diagonalColor };
+			int[] antidiagonal = { antidiagonaltNumber, antidiagonaltStyle, antidiagonalWidth, antidiagonalColor };
+
 			for (int i = 0; i < colSpan; i++) {
 				// update border data using collision arbiter.
+				int topIndex = (rowIndex - 1) * (2 * colCount + 1) + colIndex - 1 + i;
 				TableBorderCollisionArbiter.refreshBorderData(
-						borderData[(rowIndex - 1) * (2 * colCount + 1) + colIndex - 1 + i], topStyle, topWidth,
+						borderData[topIndex], topStyle, topWidth,
 						topColor, rowIndex - 1, colIndex - 1 + i, topFrom);
 
+				int bottomIndex = (rowIndex + rowSpan - 1) * (2 * colCount + 1) + colIndex - 1 + i;
 				TableBorderCollisionArbiter.refreshBorderData(
-						borderData[(rowIndex + rowSpan - 1) * (2 * colCount + 1) + colIndex - 1 + i], bottomStyle,
+						borderData[bottomIndex], bottomStyle,
 						bottomWidth, bottomColor, rowIndex - 1 + rowSpan - 1, colIndex - 1 + i, bottomFrom);
 
 				// update border insets data.
@@ -146,12 +168,18 @@ public class TableBorderHelper {
 
 			for (int i = 0; i < rowSpan; i++) {
 				// update border data using collision arbiter.
+				int leftIndex = (rowIndex - 1 + i) * (2 * colCount + 1) + colCount + colIndex - 1;
 				TableBorderCollisionArbiter.refreshBorderData(
-						borderData[(rowIndex - 1 + i) * (2 * colCount + 1) + colCount + colIndex - 1], leftStyle,
+						borderData[leftIndex], leftStyle,
 						leftWidth, leftColor, rowIndex - 1 + i, colIndex - 1);
 
+				// left index to be used like key of diagonal list
+				diagonalData.put(leftIndex, diagonal);
+				antidiagonalData.put(leftIndex, antidiagonal);
+
+				int rightIndex = (rowIndex - 1 + i) * (2 * colCount + 1) + colCount + colIndex + colSpan - 1;
 				TableBorderCollisionArbiter.refreshBorderData(
-						borderData[(rowIndex - 1 + i) * (2 * colCount + 1) + colCount + colIndex + colSpan - 1],
+						borderData[rightIndex],
 						rightStyle, rightWidth, rightColor, rowIndex - 1 + i, colIndex - 1 + colSpan - 1);
 
 				// update border insets data.
@@ -231,7 +259,7 @@ public class TableBorderHelper {
 		int rowCount = owner.getRowCount();
 		int colCount = owner.getColumnCount();
 
-		for (Iterator itr = owner.getChildren().iterator(); itr.hasNext();) {
+		for (Iterator<?> itr = owner.getChildren().iterator(); itr.hasNext();) {
 			ITableLayoutCell cellPart = (ITableLayoutCell) itr.next();
 
 			int rowIndex = cellPart.getRowNumber();
@@ -384,7 +412,8 @@ public class TableBorderHelper {
 	/**
 	 * Returns the actual border drawing data. especially for TableBorderLayer.
 	 *
-	 * @return
+	 * @return Returns the actual border drawing data. especially for
+	 *         TableBorderLayer
 	 */
 	public int[][] getBorderData() {
 		if (borderData == null) {
@@ -394,4 +423,24 @@ public class TableBorderHelper {
 		return borderData;
 	}
 
+	/**
+	 * Returns the diagonal drawing data. especially for TableBorderLayer.
+	 *
+	 * @return Returns the diagonal drawing data. especially for TableBorderLayer.
+	 * @sine 4.13
+	 */
+	public HashMap<Integer, int[]> getDiagonalData() {
+		return diagonalData;
+	}
+
+	/**
+	 * Returns the antidiagonal drawing data. especially for TableBorderLayer.
+	 *
+	 * @return Returns the antidiagonal drawing data. especially for
+	 *         TableBorderLayer.
+	 * @sine 4.13
+	 */
+	public HashMap<Integer, int[]> getAntidiagonalData() {
+		return antidiagonalData;
+	}
 }

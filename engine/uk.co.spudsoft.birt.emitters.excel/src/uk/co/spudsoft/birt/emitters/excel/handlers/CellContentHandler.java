@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import uk.co.spudsoft.birt.emitters.excel.Area;
@@ -229,12 +230,41 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		}
 
+		if (birtCell != null && birtCell.getDiagonalNumber() >= 1
+				&& !"none".equalsIgnoreCase(birtCell.getDiagonalStyle())) {
+			String diagonalWidth = null;
+			if (birtCell.getDiagonalWidth() != null) {
+				diagonalWidth = birtCell.getDiagonalWidth().toString();
+			}
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, diagonalWidth));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getDiagonalColor()));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getDiagonalStyle()));
+		}
+
+		if (birtCell != null && birtCell.getAntidiagonalNumber() >= 1
+				&& !"none".equalsIgnoreCase(birtCell.getAntidiagonalStyle())) {
+			String antidiagonalWidth = null;
+			if (birtCell.getAntidiagonalWidth() != null) {
+				antidiagonalWidth = birtCell.getAntidiagonalWidth().toString();
+			}
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, antidiagonalWidth));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getAntidiagonalColor()));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getAntidiagonalStyle()));
+
+		}
+
 		int colIndex = cell.getColumnIndex();
 		state.getSmu().applyAreaBordersToCell(state.areaBorders, cell, birtCellStyle, state.rowNum, colIndex);
 
 		if ((birtCell != null) && ((birtCell.getColSpan() > 1) || (birtCell.getRowSpan() > 1))) {
 			AreaBorders mergedRegionBorders = AreaBorders.createForMergedCells(state.rowNum + birtCell.getRowSpan() - 1,
-					colIndex, colIndex + birtCell.getColSpan() - 1, state.rowNum, birtCellStyle);
+					colIndex, colIndex + birtCell.getColSpan() - 1, state.rowNum, 1, 1, birtCellStyle);
 			if (mergedRegionBorders != null) {
 				state.insertBorderOverload(mergedRegionBorders);
 			}
