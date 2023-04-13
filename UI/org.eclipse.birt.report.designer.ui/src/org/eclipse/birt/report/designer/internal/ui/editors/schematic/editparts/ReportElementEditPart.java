@@ -707,18 +707,29 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 		int pxBackgroundHeight = 0;
 		int pxBackgroundWidth = 0;
-		String defaultUnit = getModelAdapter().getModuleHandle().getDefaultUnits(); // default: mm
+		double percentageHeight = 1d;
+		double percentageWidth = 1d;
 
 		// calculate the background image height dimension
 		String propertyValue = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
 		if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
 				&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
 				&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
-			DimensionValue propertyBackgroundHeight = (DimensionValue) handle
-					.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
-			DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
-					defaultUnit, DesignChoiceConstants.UNITS_IN);
-			pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+
+			if (propertyValue.endsWith("%")) {
+				percentageHeight = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+			} else {
+				DimensionValue propertyBackgroundHeight = (DimensionValue) handle
+						.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+
+				if (propertyBackgroundHeight.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+					pxBackgroundHeight = (int) propertyBackgroundHeight.getMeasure();
+				} else {
+					DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
+							propertyBackgroundHeight.getUnits(), DesignChoiceConstants.UNITS_IN);
+					pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+				}
+			}
 		}
 
 		// calculate the background image width dimension
@@ -726,14 +737,23 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
 				&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
 				&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
-			DimensionValue propertyBackgroundWidth = (DimensionValue) handle
-					.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
-			DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(), defaultUnit,
-					DesignChoiceConstants.UNITS_IN);
-			pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
-		}
 
-		figure.setImage(image, pxBackgroundHeight, pxBackgroundWidth);
+			if (propertyValue.endsWith("%")) {
+				percentageWidth = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+			} else {
+				DimensionValue propertyBackgroundWidth = (DimensionValue) handle
+						.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+
+				if (propertyBackgroundWidth.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+					pxBackgroundWidth = (int) propertyBackgroundWidth.getMeasure();
+				} else {
+					DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
+							propertyBackgroundWidth.getUnits(), DesignChoiceConstants.UNITS_IN);
+					pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+				}
+			}
+		}
+		figure.setImage(image, pxBackgroundHeight, pxBackgroundWidth, percentageHeight, percentageWidth);
 
 		Object[] backGroundPosition = getBackgroundPosition(handle);
 		int backGroundRepeat = getBackgroundRepeat(handle);

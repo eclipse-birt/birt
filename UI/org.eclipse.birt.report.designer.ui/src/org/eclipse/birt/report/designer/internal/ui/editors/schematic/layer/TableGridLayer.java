@@ -65,6 +65,10 @@ public class TableGridLayer extends GridLayer {
 
 	private Dimension propertySize = new Dimension();
 
+	private double percentageHeight = 1;
+
+	private double percentageWidth = 1;
+
 	private int backgroundImageDPI = 0;
 
 	/**
@@ -172,33 +176,55 @@ public class TableGridLayer extends GridLayer {
 
 				int pxBackgroundHeight = 0;
 				int pxBackgroundWidth = 0;
-				String defaultUnit = this.source.getTableAdapter().getModuleHandle().getDefaultUnits(); // default: mm
+				double percentageHeight = 1d;
+				double percentageWidth = 1d;
 
 				// calculate the background image height dimension
-				String str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
-				if (!DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(str)
-						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)
-						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
-					DimensionValue propertyBackgroundHeight = (DimensionValue) handle
-							.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
-					DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
-							defaultUnit, DesignChoiceConstants.UNITS_IN);
-					pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+				String propertyValue = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+				if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+
+					if (propertyValue.endsWith("%")) {
+						percentageHeight = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+					} else {
+						DimensionValue propertyBackgroundHeight = (DimensionValue) handle
+								.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+
+						if (propertyBackgroundHeight.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+							pxBackgroundHeight = (int) propertyBackgroundHeight.getMeasure();
+						} else {
+							DimensionValue backgroundHeight = DimensionUtil.convertTo(
+									propertyBackgroundHeight.getMeasure(), propertyBackgroundHeight.getUnits(),
+									DesignChoiceConstants.UNITS_IN);
+							pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+						}
+					}
 				}
 
 				// calculate the background image width dimension
-				str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
-				if (!DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(str)
-						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)
-						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
-					DimensionValue propertyBackgroundWidth = (DimensionValue) handle
-							.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
-					DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
-							defaultUnit, DesignChoiceConstants.UNITS_IN);
-					pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
-				}
+				propertyValue = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+				if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+						&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
 
-				this.setImage(image, pxBackgroundHeight, pxBackgroundWidth);
+					if (propertyValue.endsWith("%")) {
+						percentageWidth = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+					} else {
+						DimensionValue propertyBackgroundWidth = (DimensionValue) handle
+								.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+
+						if (propertyBackgroundWidth.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+							pxBackgroundWidth = (int) propertyBackgroundWidth.getMeasure();
+						} else {
+							DimensionValue backgroundWidth = DimensionUtil.convertTo(
+									propertyBackgroundWidth.getMeasure(), propertyBackgroundWidth.getUnits(),
+									DesignChoiceConstants.UNITS_IN);
+							pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+						}
+					}
+				}
+				this.setImage(image, pxBackgroundHeight, pxBackgroundWidth, percentageHeight, percentageWidth);
 
 				Rectangle rectangle = new Rectangle(x, y, width, height);
 
@@ -332,25 +358,43 @@ public class TableGridLayer extends GridLayer {
 	 * @param backGroundImageHeight height of the image
 	 * @param backGroundImageWidth  width of the image
 	 */
-	private void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth) {
-		if (img == image && propertySize.height == backGroundImageHeight
-				&& propertySize.width == backGroundImageWidth) {
+	private void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth, double percentageHeight,
+			double percentageWidth) {
+		if (img == image && propertySize.height == backGroundImageHeight && propertySize.width == backGroundImageWidth
+				&& this.percentageHeight == percentageHeight && this.percentageWidth == percentageWidth) {
 			return;
 		}
 		img = image;
 		if (img != null) {
 			propertySize.height = backGroundImageHeight;
 			propertySize.width = backGroundImageWidth;
+			this.percentageHeight = percentageHeight;
+			this.percentageWidth = percentageWidth;
+
 			if (backgroundImageDPI > 0 && backGroundImageHeight <= 0 && backGroundImageWidth > 0) {
 
-				double inch = ((double) image.getBounds().height) / backgroundImageDPI;
-				size.height = (int) MetricUtility.inchToPixel(inch);
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image width
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				int originalWidth = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageWidth / originalWidth;
+
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
 				size.width = backGroundImageWidth;
 
 			} else if (backgroundImageDPI > 0 && backGroundImageWidth <= 0 && backGroundImageHeight > 0) {
 
-				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
-				size.width = (int) MetricUtility.inchToPixel(inch);
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image height
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				int originalHeight = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageHeight / originalHeight;
+
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
 				size.height = backGroundImageHeight;
 
 			} else if (backgroundImageDPI > 0 && (backGroundImageHeight <= 0 && backGroundImageWidth <= 0)) {
@@ -372,6 +416,14 @@ public class TableGridLayer extends GridLayer {
 		} else {
 			size = new Dimension();
 		}
+		// auto scaling of percentage if one percentage is set and the image size is unset
+		if (percentageHeight != 1.0 && percentageWidth == 1.0 && backGroundImageWidth == 0) {
+			percentageWidth = percentageHeight;
+		} else if (percentageWidth != 1.0 && percentageHeight == 1.0 && backGroundImageHeight == 0) {
+			percentageHeight = percentageWidth;
+		}
+		size.height = (int) (size.height * percentageHeight);
+		size.width = (int) (size.width * percentageWidth);
 		revalidate();
 		repaint();
 	}

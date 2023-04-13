@@ -83,6 +83,19 @@ public interface IReportElementFigure {
 	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth);
 
 	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 * @param percentageHeight      percentage of height of the image to base 1.0
+	 * @param percentageWidth       percentage of width of the image to base 1.0
+	 */
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth, double percentageHeight,
+			double percentageWidth);
+
+	/**
 	 * Sets the margin of current figure.
 	 *
 	 * @param margin

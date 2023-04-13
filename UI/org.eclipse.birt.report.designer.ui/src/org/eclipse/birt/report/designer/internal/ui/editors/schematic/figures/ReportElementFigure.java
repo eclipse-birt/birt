@@ -48,6 +48,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	private Dimension propertySize = new Dimension();
 
+	private double percentageHeight = 1;
+
+	private double percentageWidth = 1;
+
 	private Rectangle clip;
 
 	private static final Rectangle OLD_CLIP = new Rectangle();
@@ -198,9 +202,9 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = createImageList(x, y);
+		ArrayList<?> xyList = createImageList(x, y);
 
-		Iterator iter = xyList.iterator();
+		Iterator<?> iter = xyList.iterator();
 		Dimension imageSize = new Rectangle(image.getBounds()).getSize();
 		while (iter.hasNext()) {
 			Point point = (Point) iter.next();
@@ -325,7 +329,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 */
 	@Override
 	public void setImage(Image image) {
-		setImage(image, 0, 0);
+		this.setImage(image, 0, 0);
 	}
 
 	/**
@@ -338,24 +342,57 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 */
 	@Override
 	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth) {
-		if (img == image && propertySize.height == backGroundImageHeight
-				&& propertySize.width == backGroundImageWidth) {
+		this.setImage(image, 0, 0, 1, 1);
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 * @param percentageHeight      percentage of height of the image to base 1.0
+	 * @param percentageWidth       percentage of width of the image to base 1.0
+	 */
+	@Override
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth, double percentageHeight,
+			double percentageWidth) {
+		if (img == image && propertySize.height == backGroundImageHeight && propertySize.width == backGroundImageWidth
+				&& this.percentageHeight == percentageHeight && this.percentageWidth == percentageWidth) {
 			return;
 		}
 		img = image;
 		if (img != null) {
 			propertySize.height = backGroundImageHeight;
 			propertySize.width = backGroundImageWidth;
+			this.percentageHeight = percentageHeight;
+			this.percentageWidth = percentageWidth;
+
 			if (backgroundImageDPI > 0 && backGroundImageHeight <= 0 && backGroundImageWidth > 0) {
 
-				double inch = ((double) image.getBounds().height) / backgroundImageDPI;
-				size.height = (int) MetricUtility.inchToPixel(inch);
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image width
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				int originalWidth = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageWidth / originalWidth;
+
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
 				size.width = backGroundImageWidth;
 
 			} else if (backgroundImageDPI > 0 && backGroundImageWidth <= 0 && backGroundImageHeight > 0) {
 
-				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
-				size.width = (int) MetricUtility.inchToPixel(inch);
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image height
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				int originalHeight = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageHeight / originalHeight;
+
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
 				size.height = backGroundImageHeight;
 
 			} else if (backgroundImageDPI > 0 && (backGroundImageHeight <= 0 && backGroundImageWidth <= 0)) {
@@ -377,6 +414,14 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		} else {
 			size = new Dimension();
 		}
+		// auto scaling of percentage if one percentage is set and the image size is unset
+		if (percentageHeight != 1.0 && percentageWidth == 1.0 && backGroundImageWidth == 0) {
+			percentageWidth = percentageHeight;
+		} else if (percentageWidth != 1.0 && percentageHeight == 1.0 && backGroundImageHeight == 0) {
+			percentageHeight = percentageWidth;
+		}
+		size.height = (int) (size.height * percentageHeight);
+		size.width = (int) (size.width * percentageWidth);
 		revalidate();
 		repaint();
 	}

@@ -769,7 +769,6 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @since 4.14
 	 */
 	public void setImageSize(IStyle style) {
-		String defaultUnit = this.module.getModuleHandle().getDefaultUnits();
 		String propertyValue = null;
 		int pxBackgroundHeight = 0;
 		int pxBackgroundWidth = 0;
@@ -792,9 +791,15 @@ public class BackgroundImageInfo extends AreaConstants {
 						percentageHeight = Double.parseDouble(propertyValue.replace("%", "")) / 100;
 					} else {
 						DimensionValue propertyBackgroundHeight = StringUtil.parse(propertyValue);
-						DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
-								defaultUnit, DesignChoiceConstants.UNITS_IN);
-						pxBackgroundHeight = (int) this.inchToPixel(backgroundHeight.getMeasure());
+
+						if (propertyBackgroundHeight.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+							pxBackgroundHeight = (int) propertyBackgroundHeight.getMeasure();
+						} else {
+							DimensionValue backgroundHeight = DimensionUtil.convertTo(
+									propertyBackgroundHeight.getMeasure(), propertyBackgroundHeight.getUnits(),
+									DesignChoiceConstants.UNITS_IN);
+							pxBackgroundHeight = (int) BackgroundImageInfo.inchToPixel(backgroundHeight.getMeasure());
+						}
 					}
 				} catch (Exception e) {
 				}
@@ -814,9 +819,15 @@ public class BackgroundImageInfo extends AreaConstants {
 						percentageWidth = Double.parseDouble(propertyValue.replace("%", "")) / 100;
 					} else {
 						DimensionValue propertyBackgroundWidth = StringUtil.parse(propertyValue);
-						DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
-								defaultUnit, DesignChoiceConstants.UNITS_IN);
-						pxBackgroundWidth = (int) this.inchToPixel(backgroundWidth.getMeasure());
+
+						if (propertyBackgroundWidth.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+							pxBackgroundWidth = (int) propertyBackgroundWidth.getMeasure();
+						} else {
+							DimensionValue backgroundWidth = DimensionUtil.convertTo(
+									propertyBackgroundWidth.getMeasure(), propertyBackgroundWidth.getUnits(),
+									DesignChoiceConstants.UNITS_IN);
+							pxBackgroundWidth = (int) BackgroundImageInfo.inchToPixel(backgroundWidth.getMeasure());
+						}
 					}
 				} catch (Exception e) {
 				}
@@ -824,22 +835,34 @@ public class BackgroundImageInfo extends AreaConstants {
 		}
 		this.height = pxBackgroundHeight;
 		this.width = pxBackgroundWidth;
+		double scaleFactorHeight = 1d;
+		double scaleFactorWidth = 1d;
 
 		if (this.image != null) {
 			int dpi = this.dpi[0];
+			double imageHeight = this.image.getHeight();
+			double imageWidth = this.image.getWidth();
 
-			if (dpi > 0 && this.height <= 0) {
-				double height = this.image.getHeight();
-				double inch = height / dpi;
-				this.height = (int) this.inchToPixel(inch);
-				this.heightMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+			if (dpi > 0) {
+				if (this.height <= 0) {
+					double inch = imageHeight / dpi;
+					this.height = (int) BackgroundImageInfo.inchToPixel(inch);
+					this.heightMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+				} else if (pxBackgroundHeight > 0 && pxBackgroundWidth <= 0) {
+					double inch = imageHeight / dpi;
+					scaleFactorWidth = this.height / (BackgroundImageInfo.inchToPixel(inch));
+				}
 			}
 
-			if (dpi > 0 && this.width <= 0) {
-				double width = this.image.getWidth();
-				double inch = width / dpi;
-				this.width = (int) this.inchToPixel(inch);
-				this.widthMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+			if (dpi > 0) {
+				if (this.width <= 0) {
+					double inch = imageWidth / dpi;
+					this.width = (int) BackgroundImageInfo.inchToPixel(inch);
+					this.widthMetricPt = (int) (inch * BGI_DPI_METRIC_PT);
+				} else if (pxBackgroundHeight <= 0 && pxBackgroundWidth > 0) {
+					double inch = imageWidth / dpi;
+					scaleFactorHeight = this.width / (BackgroundImageInfo.inchToPixel(inch));
+				}
 			}
 
 			if (dpi <= 0 && this.height <= 0 && this.width <= 0) {
@@ -850,10 +873,16 @@ public class BackgroundImageInfo extends AreaConstants {
 				this.width = this.widthMetricPt;
 			}
 		}
-		this.height = (int) (this.height * percentageHeight);
-		this.width = (int) (this.width * percentageWidth);
-		this.heightMetricPt = (int) (this.heightMetricPt * percentageHeight);
-		this.widthMetricPt = (int) (this.widthMetricPt * percentageWidth);
+		// auto scaling of percentage if one percentage is set and the image size is unset  
+		if (percentageHeight != 1.0 && percentageWidth == 1.0 && pxBackgroundWidth == 0) {
+			percentageWidth = percentageHeight;
+		} else if (percentageWidth != 1.0 && percentageHeight == 1.0 && pxBackgroundHeight == 0) {
+			percentageHeight = percentageWidth;
+		}
+		this.height = (int) (this.height * percentageHeight * scaleFactorHeight);
+		this.width = (int) (this.width * percentageWidth * scaleFactorWidth);
+		this.heightMetricPt = (int) (this.heightMetricPt * percentageHeight * scaleFactorHeight);
+		this.widthMetricPt = (int) (this.widthMetricPt * percentageWidth * scaleFactorWidth);
 
 	}
 

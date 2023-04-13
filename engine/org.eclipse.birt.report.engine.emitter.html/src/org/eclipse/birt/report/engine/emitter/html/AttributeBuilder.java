@@ -113,16 +113,23 @@ public class AttributeBuilder {
 		{
 			if (style.getBackgroundHeight() != null || style.getBackgroundWidth() != null) {
 				addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
+
+				if (style.getBackgroundWidth() != null && style.getBackgroundHeight() != null) {
+					addPropValue(styleBuffer, "100%");
+					addPropValue(styleBuffer, "auto");
+					addPropValue(styleBuffer, "auto");
+				} else {
 				if (style.getBackgroundWidth() != null) {
 					addPropValue(styleBuffer, style.getBackgroundWidth());
 				} else {
-					addPropValue(styleBuffer, "100%");
+					addPropValue(styleBuffer, "auto");
 				}
 				if (style.getBackgroundHeight() != null) {
 					addPropValue(styleBuffer, style.getBackgroundHeight());
 				} else {
-					addPropValue(styleBuffer, "100%");
+					addPropValue(styleBuffer, "auto");
 				}
+			}
 				styleBuffer.append(';');
 			}
 			return;
@@ -146,6 +153,7 @@ public class AttributeBuilder {
 			String h = backgroundImage.getHeight() + "px";
 			String w = backgroundImage.getWidth() + "px";
 			String propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
+			String propertyValue2 = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY);
 			if (propertyValue != null && (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
 					|| DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue))) {
 				if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
