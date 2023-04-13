@@ -172,8 +172,8 @@ public class GridItemParseTest extends ParserTestCase {
 		CellHandle cell = (CellHandle) cells.get(0);
 		assertEquals(DesignChoiceConstants.LINE_STYLE_NONE, cell.getDiagonalStyle());
 		assertEquals(DesignChoiceConstants.LINE_STYLE_NONE, cell.getAntidiagonalStyle());
-		assertEquals(0, cell.getDiagonalNumber());
-		assertEquals(0, cell.getAntidiagonalNumber());
+		assertEquals(1, cell.getDiagonalNumber());
+		assertEquals(1, cell.getAntidiagonalNumber());
 		assertEquals(ColorPropertyType.BLACK, cell.getDiagonalColor().getStringValue()); // $NON-NLS-1$
 		assertEquals(ColorPropertyType.BLACK, cell.getAntidiagonalColor().getStringValue()); // $NON-NLS-1$
 		DimensionHandle dimensionHandle = cell.getDiagonalThickness();

@@ -1260,8 +1260,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		int diagonalNumber = handle.getDiagonalNumber();
 		if (diagonalNumber > 0) {
 			// The default diagonalNumber value from Model is 0.
-			cell.setDiagonalNumber(diagonalNumber);
 			cell.setDiagonalStyle(handle.getDiagonalStyle());
+			cell.setDiagonalNumber(diagonalNumber);
 			cell.setDiagonalWidth(createDimension(handle.getDiagonalThickness(), true));
 			ColorHandle colorHandle = handle.getDiagonalColor();
 			if (colorHandle != null) {
@@ -1271,8 +1271,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		int antidiagonalNumber = handle.getAntidiagonalNumber();
 		if (antidiagonalNumber > 0) {
 			// The default antidiagonalNumber value from Model is 0.
-			cell.setAntidiagonalNumber(antidiagonalNumber);
 			cell.setAntidiagonalStyle(handle.getAntidiagonalStyle());
+			cell.setAntidiagonalNumber(antidiagonalNumber);
 			cell.setAntidiagonalWidth(createDimension(handle.getAntidiagonalThickness(), true));
 			ColorHandle colorHandle = handle.getAntidiagonalColor();
 			if (colorHandle != null) {
@@ -2069,13 +2069,13 @@ public class EngineIRVisitor extends DesignVisitor {
 		StyleDeclaration style = new StyleDeclaration(cssEngine);
 		Set<String> styles = StyleUtil.styleName2Index.keySet();
 		for (String propertyName : styles) {
-			populateElementProperty(handle, design, style, propertyName);
+			populateElementProperty(handle, style, propertyName);
 		}
 		createDataFormat(handle, style);
 		return style;
 	}
 
-	private void populateElementProperty(ReportElementHandle handle, StyledElementDesign design, StyleDeclaration style,
+	private void populateElementProperty(ReportElementHandle handle, StyleDeclaration style,
 			String propertyName) {
 		boolean isColorProperty = StyleUtil.colorProperties.contains(propertyName);
 		String elementProperty = getElementProperty(handle, propertyName, isColorProperty);

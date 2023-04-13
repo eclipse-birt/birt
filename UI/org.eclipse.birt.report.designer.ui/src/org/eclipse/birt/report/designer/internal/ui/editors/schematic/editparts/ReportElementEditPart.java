@@ -892,6 +892,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		updateTopBorder(handle, border);
 		updateLeftBorder(handle, border);
 		updateRightBorder(handle, border);
+		updateDiagonalBorder(handle, border);
+		updateAntidiagonalBorder(handle, border);
 	}
 
 	protected void updateBottomBorder(DesignElementHandle handle, BaseBorder border) {
@@ -917,6 +919,56 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		border.rightColor = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_COLOR_PROP).getIntValue();
 		border.rightStyle = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_STYLE_PROP).getStringValue();
 		border.rightWidth = handle.getPropertyHandle(IStyleModel.BORDER_RIGHT_WIDTH_PROP).getStringValue();
+	}
+
+	protected void updateDiagonalBorder(DesignElementHandle handle, BaseBorder border) {
+		border.diagonalNumber = 0;
+		border.diagonalColor = 0;
+		border.diagonalStyle = null;
+		border.diagonalWidth = null;
+
+		if (handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_NUMBER_PROP) != null) {
+			border.diagonalNumber = handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_NUMBER_PROP).getIntValue();
+		}
+		if (border.diagonalNumber > 0) {
+			if (handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_COLOR_PROP) != null) {
+				border.diagonalColor = handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_COLOR_PROP).getIntValue();
+			}
+			if (handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_STYLE_PROP) != null) {
+				border.diagonalStyle = handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_STYLE_PROP)
+						.getStringValue();
+			}
+			if (handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_WIDTH_PROP) != null) {
+				border.diagonalWidth = handle.getPropertyHandle(IStyleModel.BORDER_DIAGONAL_WIDTH_PROP)
+						.getStringValue();
+			}
+		}
+	}
+
+	protected void updateAntidiagonalBorder(DesignElementHandle handle, BaseBorder border) {
+		border.antidiagonalNumber = 0;
+		border.antidiagonalColor = 0;
+		border.antidiagonalStyle = null;
+		border.antidiagonalWidth = null;
+
+		if (handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_NUMBER_PROP) != null) {
+			border.antidiagonalNumber = handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_NUMBER_PROP)
+					.getIntValue();
+		}
+		if (border.antidiagonalNumber > 0) {
+			if (handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_COLOR_PROP) != null) {
+				border.antidiagonalColor = handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_COLOR_PROP)
+						.getIntValue();
+			}
+			if (handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP) != null) {
+				border.antidiagonalStyle = handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP)
+						.getStringValue();
+			}
+			if (handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_WIDTH_PROP) != null) {
+				border.antidiagonalWidth = handle.getPropertyHandle(IStyleModel.BORDER_ANTIDIAGONAL_WIDTH_PROP)
+						.getStringValue();
+			}
+		}
 	}
 
 	protected void refreshBorder(DesignElementHandle handle, BaseBorder border) {

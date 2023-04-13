@@ -367,6 +367,11 @@ public class ReportPlatformUIImages {
 
 		declareImage(IReportGraphicConstants.ICON_BORDER_RIGHT, ICONS_PATH + OBJ16_PATH + "border_right.gif"); //$NON-NLS-1$
 
+		declareImage(IReportGraphicConstants.ICON_BORDER_DIAGONAL, ICONS_PATH + OBJ16_PATH + "border_diagonal.gif"); //$NON-NLS-1$
+
+		declareImage(IReportGraphicConstants.ICON_BORDER_ANTIDIAGONAL,
+				ICONS_PATH + OBJ16_PATH + "border_antidiagonal.gif"); //$NON-NLS-1$
+
 		declareImage(IReportGraphicConstants.ICON_BORDER_NOBORDER, ICONS_PATH + OBJ16_PATH + "border_none.gif"); //$NON-NLS-1$
 
 		// missing image icons
@@ -450,6 +455,10 @@ public class ReportPlatformUIImages {
 		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_TOP, ICONS_PATH + OBJ16_PATH + "border_top.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_BOTTOM,
 				ICONS_PATH + OBJ16_PATH + "border_bottom.gif"); //$NON-NLS-1$
+		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_DIAGONAL,
+				ICONS_PATH + OBJ16_PATH + "border_diagonal.gif"); //$NON-NLS-1$
+		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_ANTIDIAGONAL,
+				ICONS_PATH + OBJ16_PATH + "border_antidiagonal.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER,
 				ICONS_PATH + OBJ16_PATH + "center_align.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER + IReportGraphicConstants.DIS,

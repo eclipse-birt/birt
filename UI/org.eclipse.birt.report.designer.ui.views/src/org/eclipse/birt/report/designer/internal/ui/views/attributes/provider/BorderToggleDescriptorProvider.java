@@ -38,6 +38,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
 			return BorderInfomation.BORDER_BOTTOM;
 		}
+		if (property.equals(StyleHandle.BORDER_DIAGONAL_STYLE_PROP)) {
+			return BorderInfomation.BORDER_DIAGONAL;
+		}
+		if (property.equals(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP)) {
+			return BorderInfomation.BORDER_ANTIDIAGONAL;
+		}
 		return null;
 	}
 
@@ -58,6 +64,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		}
 		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_BOTTOM;
+		}
+		if (property.equals(StyleHandle.BORDER_DIAGONAL_STYLE_PROP)) {
+			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_DIAGONAL;
+		}
+		if (property.equals(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP)) {
+			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_ANTIDIAGONAL;
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -80,6 +92,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 		}
 		if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
 			return Messages.getString("BordersPage.Tooltip.Bottom"); //$NON-NLS-1$
+		}
+		if (property.equals(StyleHandle.BORDER_DIAGONAL_STYLE_PROP)) {
+			return Messages.getString("BordersPage.Tooltip.Diagonal"); //$NON-NLS-1$
+		}
+		if (property.equals(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP)) {
+			return Messages.getString("BordersPage.Tooltip.Antidiagonal"); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -113,6 +131,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setInheritedStyle(getDisplayValue(StyleHandle.BORDER_LEFT_STYLE_PROP));
 			info.setInheritedWidth(getDisplayValue(StyleHandle.BORDER_LEFT_WIDTH_PROP));
 			info.setInheritedColor(convertToRGB(getDisplayValue(StyleHandle.BORDER_LEFT_COLOR_PROP)));
+
 		} else if (property.equals(StyleHandle.BORDER_RIGHT_STYLE_PROP)) {
 			info.setPosition(BorderInfomation.BORDER_RIGHT);
 			info.setStyle(getLocalStringValue(StyleHandle.BORDER_RIGHT_STYLE_PROP));
@@ -136,6 +155,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setInheritedStyle(getDisplayValue(StyleHandle.BORDER_TOP_STYLE_PROP));
 			info.setInheritedWidth(getDisplayValue(StyleHandle.BORDER_TOP_WIDTH_PROP));
 			info.setInheritedColor(convertToRGB(getDisplayValue(StyleHandle.BORDER_TOP_COLOR_PROP)));
+
 		} else if (property.equals(StyleHandle.BORDER_BOTTOM_STYLE_PROP)) {
 			info.setPosition(BorderInfomation.BORDER_BOTTOM);
 			info.setStyle(getLocalStringValue(StyleHandle.BORDER_BOTTOM_STYLE_PROP));
@@ -147,6 +167,30 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setInheritedStyle(getDisplayValue(StyleHandle.BORDER_BOTTOM_STYLE_PROP));
 			info.setInheritedWidth(getDisplayValue(StyleHandle.BORDER_BOTTOM_WIDTH_PROP));
 			info.setInheritedColor(convertToRGB(getDisplayValue(StyleHandle.BORDER_BOTTOM_COLOR_PROP)));
+
+		} else if (property.equals(StyleHandle.BORDER_DIAGONAL_STYLE_PROP)) {
+			info.setPosition(BorderInfomation.BORDER_DIAGONAL);
+			info.setStyle(getLocalStringValue(StyleHandle.BORDER_DIAGONAL_STYLE_PROP));
+			info.setWidth(getLocalStringValue(StyleHandle.BORDER_DIAGONAL_WIDTH_PROP));
+			info.setColor(convertToRGB(getLocalStringValue(StyleHandle.BORDER_DIAGONAL_COLOR_PROP)));
+			info.setDefaultStyle(getDefaultStringValue(StyleHandle.BORDER_DIAGONAL_STYLE_PROP));
+			info.setDefaultWidth(getDefaultStringValue(StyleHandle.BORDER_DIAGONAL_WIDTH_PROP));
+			info.setDefaultColor(convertToRGB(getDefaultStringValue(StyleHandle.BORDER_DIAGONAL_COLOR_PROP)));
+			info.setInheritedStyle(getDisplayValue(StyleHandle.BORDER_DIAGONAL_STYLE_PROP));
+			info.setInheritedWidth(getDisplayValue(StyleHandle.BORDER_DIAGONAL_WIDTH_PROP));
+			info.setInheritedColor(convertToRGB(getDisplayValue(StyleHandle.BORDER_DIAGONAL_COLOR_PROP)));
+
+		} else if (property.equals(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP)) {
+			info.setPosition(BorderInfomation.BORDER_ANTIDIAGONAL);
+			info.setStyle(getLocalStringValue(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP));
+			info.setWidth(getLocalStringValue(StyleHandle.BORDER_ANTIDIAGONAL_WIDTH_PROP));
+			info.setColor(convertToRGB(getLocalStringValue(StyleHandle.BORDER_ANTIDIAGONAL_COLOR_PROP)));
+			info.setDefaultStyle(getDefaultStringValue(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP));
+			info.setDefaultWidth(getDefaultStringValue(StyleHandle.BORDER_ANTIDIAGONAL_WIDTH_PROP));
+			info.setDefaultColor(convertToRGB(getDefaultStringValue(StyleHandle.BORDER_ANTIDIAGONAL_COLOR_PROP)));
+			info.setInheritedStyle(getDisplayValue(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP));
+			info.setInheritedWidth(getDisplayValue(StyleHandle.BORDER_ANTIDIAGONAL_WIDTH_PROP));
+			info.setInheritedColor(convertToRGB(getDisplayValue(StyleHandle.BORDER_ANTIDIAGONAL_COLOR_PROP)));
 		}
 		return info;
 	}
@@ -181,6 +225,14 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			save(StyleHandle.BORDER_RIGHT_STYLE_PROP, info.getOriginStyle());
 			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, color);
 			save(StyleHandle.BORDER_RIGHT_WIDTH_PROP, info.getOriginWidth());
+		} else if (info.getPosition().equals(BorderInfomation.BORDER_DIAGONAL)) {
+			save(StyleHandle.BORDER_DIAGONAL_STYLE_PROP, info.getOriginStyle());
+			save(StyleHandle.BORDER_DIAGONAL_COLOR_PROP, color);
+			save(StyleHandle.BORDER_DIAGONAL_WIDTH_PROP, info.getOriginWidth());
+		} else if (info.getPosition().equals(BorderInfomation.BORDER_ANTIDIAGONAL)) {
+			save(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP, info.getOriginStyle());
+			save(StyleHandle.BORDER_ANTIDIAGONAL_COLOR_PROP, color);
+			save(StyleHandle.BORDER_ANTIDIAGONAL_WIDTH_PROP, info.getOriginWidth());
 		}
 
 	}
@@ -209,6 +261,14 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			save(StyleHandle.BORDER_RIGHT_STYLE_PROP, null);
 			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, null);
 			save(StyleHandle.BORDER_RIGHT_WIDTH_PROP, null);
+		} else if (getPosition().equals(BorderInfomation.BORDER_DIAGONAL)) {
+			save(StyleHandle.BORDER_DIAGONAL_STYLE_PROP, null);
+			save(StyleHandle.BORDER_DIAGONAL_COLOR_PROP, null);
+			save(StyleHandle.BORDER_DIAGONAL_WIDTH_PROP, null);
+		} else if (getPosition().equals(BorderInfomation.BORDER_ANTIDIAGONAL)) {
+			save(StyleHandle.BORDER_ANTIDIAGONAL_STYLE_PROP, null);
+			save(StyleHandle.BORDER_ANTIDIAGONAL_COLOR_PROP, null);
+			save(StyleHandle.BORDER_ANTIDIAGONAL_WIDTH_PROP, null);
 		}
 
 	}

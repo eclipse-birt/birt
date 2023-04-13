@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -48,8 +48,8 @@ public class BirtStyle {
 			"MASTER_PAGE", "orphans", "font-size", "font-style", "border-top-style", "page-break-before",
 			"SHOW_IF_BLANK", "background-image", "BACKGROUND_POSITION_Y", "word-spacing", "background-attachment",
 			"TEXT_UNDERLINE", "display", "font-family", "letter-spacing", "page-break-inside", "page-break-after"
-
-			, "Rotation" };
+			, "Rotation", "border-diagonal-color", "border-diagonal-width", "border-diagonal-style",
+			"border-antidiagonal-color", "border-antidiagonal-width", "border-antidiagonal-style" };
 
 	private IStyle elemStyle;
 	private CSSValue[] propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
@@ -186,6 +186,12 @@ public class BirtStyle {
 		result.set(StyleConstants.STYLE_BORDER_TOP_STYLE);
 		result.set(StyleConstants.STYLE_BORDER_TOP_WIDTH);
 		result.set(StyleConstants.STYLE_BORDER_TOP_COLOR);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR);
 		result.set(StyleConstants.STYLE_VERTICAL_ALIGN);
 		result.set(StyleConstants.STYLE_DATA_FORMAT);
 		return result;
@@ -218,7 +224,7 @@ public class BirtStyle {
 			}
 		}
 
-		// Background colour, only overlay if not null and not transparent
+		// Background color, only overlay if not null and not transparent
 		CSSValue overlayBgColour = style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR);
 		CSSValue localBgColour = getProperty(StyleConstants.STYLE_BACKGROUND_COLOR);
 		if ((overlayBgColour != null) && (!CSSConstants.CSS_TRANSPARENT_VALUE.equals(overlayBgColour.getCssText()))

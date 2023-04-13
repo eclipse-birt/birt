@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -97,7 +97,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 				width = Math.min(width, context.getCurrentWidth());
 				wordWriter.startTable(foreign.getComputedStyle(), width, true);
 				wordWriter.startTableRow(-1);
-				wordWriter.startTableCell(width, foreign.getComputedStyle(), null);
+				wordWriter.startTableCell(width, foreign.getComputedStyle(), null, null);
 				// TODO:need text paser for foreign raw value
 				wordWriter.writeForeign(foreign);
 				if (isInSpannedCell(foreign)) {

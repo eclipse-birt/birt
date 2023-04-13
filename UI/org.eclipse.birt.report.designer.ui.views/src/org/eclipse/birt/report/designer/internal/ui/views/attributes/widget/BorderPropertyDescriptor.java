@@ -201,6 +201,11 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IFastConsu
 					// }
 					for (int i = 0; i < toggleProviders.length; i++) {
 						BorderInfomation oldInfo = (BorderInfomation) toggleProviders[i].load();
+
+						if (oldInfo.getPosition().equals(BorderInfomation.BORDER_DIAGONAL)
+								|| oldInfo.getPosition().equals(BorderInfomation.BORDER_ANTIDIAGONAL)) {
+							continue;
+						}
 						BorderInfomation information = new BorderInfomation();
 						information.setPosition(toggleProviders[i].getPosition());
 						information.setColor(selectedColor);
@@ -230,6 +235,11 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IFastConsu
 					boolean reset = true;
 					for (int i = 0; i < toggleProviders.length; i++) {
 						BorderInfomation info = (BorderInfomation) toggleProviders[i].load();
+						if (info.getPosition().equals(BorderInfomation.BORDER_DIAGONAL)
+								|| info.getPosition().equals(BorderInfomation.BORDER_ANTIDIAGONAL)) {
+							continue;
+						}
+
 						oldColor = info.getOriginColor();
 						selectedColor = builder.getRGB();
 						// if ( oldColor == null )
@@ -270,6 +280,10 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IFastConsu
 
 						for (int i = 0; i < toggleProviders.length; i++) {
 							BorderInfomation oldInfo = (BorderInfomation) toggleProviders[i].load();
+							if (oldInfo.getPosition().equals(BorderInfomation.BORDER_DIAGONAL)
+									|| oldInfo.getPosition().equals(BorderInfomation.BORDER_ANTIDIAGONAL)) {
+								continue;
+							}
 							BorderInfomation information = new BorderInfomation();
 							information.setPosition(toggleProviders[i].getPosition());
 							information.setColor(builder.getRGB());
@@ -407,15 +421,16 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IFastConsu
 
 	@Override
 	public void load() {
-		// for ( int i = toggleProviders.length - 1; i >= 0; i-- )
 		for (int i = 0; i < toggleProviders.length; i++) {
 			BorderInfomation info = (BorderInfomation) toggleProviders[i].load();
 			previewCanvas.setBorderInfomation(info);
-			if (!info.getStyle().equals("") && !DesignChoiceConstants.LINE_STYLE_NONE.equals(info.getStyle())) //$NON-NLS-1$
-			{
-				toggles[i].setSelection(true);
-			} else {
-				toggles[i].setSelection(false);
+			if (info.getStyle() != null) {
+				if (!info.getStyle().equals("") && !DesignChoiceConstants.LINE_STYLE_NONE.equals(info.getStyle())) //$NON-NLS-1$
+				{
+					toggles[i].setSelection(true);
+				} else {
+					toggles[i].setSelection(false);
+				}
 			}
 		}
 		previewCanvas.redraw();

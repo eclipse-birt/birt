@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BorderUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
@@ -45,6 +47,10 @@ public class TableBorderLayer extends FreeformLayer {
 	 */
 	private int[][] borderData;
 
+	private HashMap<Integer, int[]> diagonalData;
+
+	private HashMap<Integer, int[]> antidiagonalData;
+
 	/**
 	 * The constructor.
 	 *
@@ -72,7 +78,19 @@ public class TableBorderLayer extends FreeformLayer {
 			return;
 		}
 
+		/**
+		 * store all actual border drawing data, array size:
+		 * [2*colCount*rowCount+colCount+rowCount][6], the last dimension arranged as:
+		 * [style][width][color][rowIndex][colIndex][type]
+		 */
 		borderData = helper.getBorderData();
+
+		/**
+		 * store all diagonal drawing data, array size: <key-index of
+		 * cell>[style][width][color]
+		 */
+		diagonalData = helper.getDiagonalData();
+		antidiagonalData = helper.getAntidiagonalData();
 
 		rowCount = source.getRowCount();
 		colCount = source.getColumnCount();
@@ -97,9 +115,15 @@ public class TableBorderLayer extends FreeformLayer {
 				// Only need to draw the right/bottom edge for single line
 				// pattern.
 
+				// systematic of parameters
+				// graphics, i = rowIndex, j = colIndex, x = colPos-Left, y = rowPos-Top
+				// w = visWidth, h = visHeight, borderData = border information
+
+				int[] diagonal = diagonalData.get(leftIndex);
+				int[] antidiagonal = antidiagonalData.get(leftIndex);
 				// if ( j < colCount - 1 )
 				if (j == 0) {
-					drawLeft(graphics, i, j, x, y, w, h, borderData[leftIndex]);
+					drawLeft(graphics, i, j, x, y, h, borderData[leftIndex]);
 				}
 
 				drawRight(graphics, i, j, x, y, w, h, borderData[rightIndex]);
@@ -111,7 +135,57 @@ public class TableBorderLayer extends FreeformLayer {
 
 				drawBottom(graphics, i, j, x, y, w, h, borderData[bottomIndex]);
 
+				if (diagonal != null && diagonal[0] > 0) {
+					Rectangle rDiagonal = new Rectangle(x, y, w, h);
+					drawDiagonal(graphics, rDiagonal, diagonal);
+				}
+
+				if (antidiagonal != null && antidiagonal[0] > 0) {
+					Rectangle rAntidiagonal = new Rectangle(x, y, w, h);
+					drawAntidiagonal(graphics, rAntidiagonal, antidiagonal);
+				}
 			}
+		}
+	}
+
+	/**
+	 * Draw the diagonal line of the designer cell
+	 *
+	 * @param g     graphic object to be used for drawing
+	 * @param rLeft drawn rectangle of left border for calculation base
+	 * @param rTop  drawn rectangle of top border for calculation base
+	 * @param data  [number][style][width][color]
+	 * @sine 4.13
+	 */
+	private void drawDiagonal(Graphics g, Rectangle rDiagonal, int[] data) {
+		// data: number, style, width, color
+		int style = data[1];
+		int[] widths = { data[2] };
+
+		if (data[1] != 0) {
+			g.setForegroundColor(ColorManager.getColor(data[3]));
+			BorderUtil.drawSingleLine(g, BorderUtil.DIAGONAL, style, widths, rDiagonal);
+		}
+	}
+
+	/**
+	 * Draw the antidiagonal line of the designer cell
+	 *
+	 * @param g     graphic object to be used for drawing
+	 * @param rLeft drawn rectangle of left border for calculation base
+	 * @param rTop  drawn rectangle of top border for calculation base
+	 * @param data  [number][style][width][color]
+	 *
+	 * @sine 4.13
+	 */
+	private void drawAntidiagonal(Graphics g, Rectangle antidiagonal, int[] data) {
+		// data: number, style, width, color
+		int style = data[1];
+		int[] widths = { data[2] };
+
+		if (data[1] != 0) {
+			g.setForegroundColor(ColorManager.getColor(data[3]));
+			BorderUtil.drawSingleLine(g, BorderUtil.ANTIDIAGONAL, style, widths, antidiagonal);
 		}
 	}
 
@@ -150,9 +224,9 @@ public class TableBorderLayer extends FreeformLayer {
 	 * @param colIndex
 	 * @param data     [style][width][color][rowIndex][colIndex].
 	 */
-	private void drawBottom(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
+	private Rectangle drawBottom(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
 		if (data[0] == 0 && data[1] == 0) {
-			return;
+			return null;
 		}
 
 		int nLeftWidth = 0;
@@ -325,6 +399,7 @@ public class TableBorderLayer extends FreeformLayer {
 			g.setForegroundColor(ReportColorConstants.ShadowLineColor);
 			BorderUtil.drawDefaultLine(g, direction, r);
 		}
+		return r;
 	}
 
 	/**
@@ -333,9 +408,9 @@ public class TableBorderLayer extends FreeformLayer {
 	 * @param colIndex
 	 * @param data     [style][width][color][rowIndex][colIndex].
 	 */
-	private void drawRight(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
+	private Rectangle drawRight(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
 		if (data[0] == 0 && data[1] == 0) {
-			return;
+			return null;
 		}
 
 		int nTopWidth = 0;
@@ -508,6 +583,7 @@ public class TableBorderLayer extends FreeformLayer {
 			g.setForegroundColor(ReportColorConstants.ShadowLineColor);
 			BorderUtil.drawDefaultLine(g, direction, r);
 		}
+		return r;
 	}
 
 	/**
@@ -516,9 +592,9 @@ public class TableBorderLayer extends FreeformLayer {
 	 * @param colIndex
 	 * @param data     [style][width][color][rowIndex][colIndex].
 	 */
-	private void drawTop(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
+	private Rectangle drawTop(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
 		if (data[0] == 0 && data[1] == 0) {
-			return;
+			return null;
 		}
 
 		int nLeftWidth = 0;
@@ -683,25 +759,29 @@ public class TableBorderLayer extends FreeformLayer {
 			r.y = y;
 		}
 
-		if (data[0] != 0) {
-			g.setForegroundColor(ColorManager.getColor(data[2]));
-			BorderUtil.drawBorderLine(g, direction, data[0], widths, r);
-		} else if (data[1] > 0) {
-			// draw default border;
-			g.setForegroundColor(ReportColorConstants.ShadowLineColor);
-			BorderUtil.drawDefaultLine(g, direction, r);
+		if (g != null) {
+			if (data[0] != 0) {
+				g.setForegroundColor(ColorManager.getColor(data[2]));
+				// graphic, direction TBLR-DA, style, width, rectangle
+				BorderUtil.drawBorderLine(g, direction, data[0], widths, r);
+			} else if (data[1] > 0) {
+				// draw default border;
+				g.setForegroundColor(ReportColorConstants.ShadowLineColor);
+				BorderUtil.drawDefaultLine(g, direction, r);
+			}
 		}
+		return r;
 	}
 
 	/**
 	 * @param g
 	 * @param rowIndex
 	 * @param colIndex
-	 * @param data     [style][width][color][rowIndex][colIndex].
+	 * @param data     [style][width][color][rowIndex][colIndex][type]
 	 */
-	private void drawLeft(Graphics g, int rowIndex, int colIndex, int x, int y, int w, int h, int[] data) {
+	private Rectangle drawLeft(Graphics g, int rowIndex, int colIndex, int x, int y, int h, int[] data) {
 		if (data[0] == 0 && data[1] == 0) {
-			return;
+			return null;
 		}
 
 		int nTopWidth = 0;
@@ -866,13 +946,16 @@ public class TableBorderLayer extends FreeformLayer {
 			r.x = x;
 		}
 
-		if (data[0] != 0) {
-			g.setForegroundColor(ColorManager.getColor(data[2]));
-			BorderUtil.drawBorderLine(g, direction, data[0], widths, r);
-		} else if (data[1] > 0) {
-			// draw default border;
-			g.setForegroundColor(ReportColorConstants.ShadowLineColor);
-			BorderUtil.drawDefaultLine(g, direction, r);
+		if (g != null) {
+			if (data[0] != 0) {
+				g.setForegroundColor(ColorManager.getColor(data[2]));
+				BorderUtil.drawBorderLine(g, direction, data[0], widths, r);
+			} else if (data[1] > 0) {
+				// draw default border;
+				g.setForegroundColor(ReportColorConstants.ShadowLineColor);
+				BorderUtil.drawDefaultLine(g, direction, r);
+			}
 		}
+		return r;
 	}
 }

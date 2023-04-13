@@ -209,7 +209,31 @@ public interface StyleConstants {
 	/** style property: background image type */
 	int STYLE_BACKGROUND_IMAGE_TYPE = 61;
 
+	/** style property: border diagonal number */
+	int STYLE_BORDER_DIAGONAL_NUMBER = 62;
+
+	/** style property: border diagonal style */
+	int STYLE_BORDER_DIAGONAL_STYLE = 63;
+
+	/** style property: border diagonal width */
+	int STYLE_BORDER_DIAGONAL_WIDTH = 64;
+
+	/** style property: border diagonal color */
+	int STYLE_BORDER_DIAGONAL_COLOR = 65;
+
+
+	/** style property: border antidiagonal number */
+	int STYLE_BORDER_ANTIDIAGONAL_NUMBER = 66;
+
+	/** style property: border antidiagonal style */
+	int STYLE_BORDER_ANTIDIAGONAL_STYLE = 67;
+
+	/** style property: border antidiagonal width */
+	int STYLE_BORDER_ANTIDIAGONAL_WIDTH = 68;
+
+	/** style property: border antidiagonal color */
+	int STYLE_BORDER_ANTIDIAGONAL_COLOR = 69;
 
 	/** number (count) of style constants */
-	int NUMBER_OF_STYLE = 62;
+	int NUMBER_OF_STYLE = 70;
 }

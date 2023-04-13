@@ -274,7 +274,8 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			int height = getHeight(cell);
 			int dw = diagonalInfo.getDiagonalWidth();
 			int ds = diagonalInfo.getDiagonalStyle();
-			// support double style, use solid style instead.
+
+			// unsupported double line style, use solid style instead
 			if (ds == AreaConstants.BORDER_STYLE_DOUBLE) {
 				ds = AreaConstants.BORDER_STYLE_SOLID;
 			}
@@ -299,37 +300,39 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 						getScaledValue(dw), diagonalInfo.getDiagonalColor(), ds);
 				break;
 			}
-			// currently only support diagonal line, do not support antidiagonal line
-			/*
-			 * dw = diagonalInfo.getAntidiagonalWidth( ); ds =
-			 * diagonalInfo.getAntidiagonalStyle( ); // support double style, use solid
-			 * style instead. if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE ) { ds =
-			 * DiagonalInfo.BORDER_STYLE_SOLID; } switch (
-			 * diagonalInfo.getAntidiagonalNumber( ) ) {
-			 *
-			 * case 2 : pageGraphic .drawLine( startX, startY + height - dw / 2, startX +
-			 * width / 2, startY + dw / 2, getScaledValue( diagonalInfo
-			 * .getAntidiagonalWidth( ) ), diagonalInfo.getColor( ), ds ); pageGraphic
-			 * .drawLine( startX, startY + height - dw / 2, startX + width, startY + height
-			 * / 2, getScaledValue( diagonalInfo .getAntidiagonalWidth( ) ),
-			 * diagonalInfo.getColor( ), ds ); break; case 3 : pageGraphic .drawLine(
-			 * startX, startY + height - dw / 2, startX + width / 2, startY + dw / 2,
-			 * getScaledValue( diagonalInfo .getAntidiagonalWidth( ) ),
-			 * diagonalInfo.getColor( ), ds ); pageGraphic .drawLine( startX, startY +
-			 * height - dw / 2, startX + width, startY + height / 2, getScaledValue(
-			 * diagonalInfo .getAntidiagonalWidth( ) ), diagonalInfo.getColor( ), ds );
-			 * pageGraphic .drawLine( startX, startY + height - dw / 2, startX + width,
-			 * startY + dw / 2, getScaledValue( diagonalInfo .getAntidiagonalWidth( ) ),
-			 * diagonalInfo.getColor( ), ds ); break; default : pageGraphic .drawLine(
-			 * startX, startY + height - dw / 2, startX + width, startY + dw / 2,
-			 * getScaledValue( diagonalInfo .getAntidiagonalWidth( ) ),
-			 * diagonalInfo.getColor( ), ds ); break; }
-			 */
+			
+			// support diagonal line and antidiagonal line
+			int adw = diagonalInfo.getAntidiagonalWidth();
+			int ads = diagonalInfo.getAntidiagonalStyle();
+			Color adc = diagonalInfo.getAntidiagonalColor();
+			// unsupport double style, use solid style instead
+			if (ads == DiagonalInfo.BORDER_STYLE_DOUBLE) {
+				ads = DiagonalInfo.BORDER_STYLE_SOLID;
+			}
+			switch (diagonalInfo.getAntidiagonalNumber()) {
+			case 2:
+				pageGraphic.drawLine(startX, startY + height - dw / 2, startX + width / 2, startY + dw / 2,
+						getScaledValue(adw), adc, ads);
+				pageGraphic.drawLine(startX, startY + height - dw / 2, startX + width, startY + height / 2,
+						getScaledValue(adw), adc, ads);
+				break;
+			case 3:
+				pageGraphic.drawLine(startX, startY + height - dw / 2, startX + width / 2, startY + dw / 2,
+						getScaledValue(adw), adc, ads);
+				pageGraphic.drawLine(startX, startY + height - dw / 2, startX + width, startY + height / 2,
+						getScaledValue(adw), adc, ads);
+				pageGraphic.drawLine(startX, startY + height - dw / 2, startX + width, startY + dw / 2,
+						getScaledValue(adw), adc, ads);
+				break;
+			default:
+				pageGraphic.drawLine(startX + 100, startY + height - dw / 2, startX + width, startY + dw / 2,
+						getScaledValue(adw), adc, ads);
+				break;
+			}
 		}
 	}
 
 	protected void drawCell(CellArea container) {
-		drawCellDiagonal(container);
 		Color rowbc = null;
 		BackgroundImageInfo rowbi = null;
 		BoxStyle rowStyle = null;
@@ -374,7 +377,8 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 				drawBackgroundImage(bi, startX, startY, width, height);
 			}
 		}
-
+		// print diagonal like overlay
+		drawCellDiagonal(container);
 	}
 
 	/**

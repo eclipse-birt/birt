@@ -60,7 +60,17 @@ public interface IWordWriter {
 
 	void endTableRow();
 
-	void startTableCell(int width, IStyle style, SpanInfo info);
+	// void startTableCell(int width, IStyle style, SpanInfo info);
+
+	/**
+	 * Create the table start tag of cell element
+	 *
+	 * @param width
+	 * @param style
+	 * @param info
+	 * @param diagonalLineInfo
+	 */
+	void startTableCell(int width, IStyle style, SpanInfo info, DiagonalLineInfo diagonalLineInfo);
 
 	void endTableCell(boolean needEmptyP);
 

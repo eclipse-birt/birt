@@ -21,6 +21,8 @@ public class BorderInfomation {
 	public static final String BORDER_TOP = "top"; //$NON-NLS-1$
 	public static final String BORDER_RIGHT = "right"; //$NON-NLS-1$
 	public static final String BORDER_BOTTOM = "bottom"; //$NON-NLS-1$
+	public static final String BORDER_DIAGONAL = "diagonal"; //$NON-NLS-1$
+	public static final String BORDER_ANTIDIAGONAL = "antidiagonal"; //$NON-NLS-1$
 
 	public static String getBorderBottom() {
 		return BORDER_BOTTOM;
