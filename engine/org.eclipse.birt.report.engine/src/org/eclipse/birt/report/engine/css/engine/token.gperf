@@ -1,10 +1,11 @@
 #
 # input file for gperf to create the prefect hash function.
-# gperf -d -7 -l -D -L C++ token.gperf > token.java
+# gperf -d -7 -l -D -L C++ token.gperf > token.cpp
 #     -d debug
 #     -7 handle 7bit ascii
+#     -l compare lengths before trying a string comparison
 #     -D handle duplicate keyword
-#     -L Java generate in Java
+#     -L C++ generate in C++
 #
 background-attachment
 background-color
