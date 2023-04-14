@@ -15,6 +15,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +28,8 @@ import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -118,6 +121,13 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 						.getPropertyHandle(StyleHandle.SHOW_IF_BLANK_PROP).getDefn().getDisplayNameID()),
 				getFieldEditorParent());
 		addField(blank);
+
+		ComboBoxFieldEditor overflow = new ComboBoxFieldEditor(
+				StyleHandle.OVERFLOW_PROP, Messages.getString(((StyleHandle) model)
+						.getPropertyHandle(StyleHandle.OVERFLOW_PROP).getDefn().getDisplayNameID()),
+				getChoiceArray(DesignChoiceConstants.CHOICE_OVERFLOW), getFieldEditorParent());
+		addField(overflow);
+
 		UIUtil.bindHelp(getFieldEditorParent().getParent(), IHelpContextIds.STYLE_BUILDER_GERNERAL_ID);
 
 		Label note = new Label(getFieldEditorParent(), SWT.NONE);
@@ -429,4 +439,40 @@ public class GeneralPreferencePage extends BaseStylePreferencePage {
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.CAN_SHRINK_PROP, StyleHandle.SHOW_IF_BLANK_PROP, };
 	}
+
+	/**
+	 * Gets choice array of the given property name ( key ).
+	 *
+	 * @param key The given property name.
+	 * @return String[][]: The choice array of the key, which contains he names
+	 *         (labels) and underlying values, will be arranged as: { {name1,
+	 *         value1}, {name2, value2}, ...}
+	 */
+	private String[][] getChoiceArray(String key) {
+		return getChoiceArray(key, null);
+	}
+
+	/**
+	 * Gets choice array of the given property name ( key ).
+	 *
+	 * @param key The given property name.
+	 * @return String[][]: The choice array of the key, which contains he names
+	 *         (labels) and underlying values, will be arranged as: { {name1,
+	 *         value1}, {name2, value2}, ...}
+	 */
+	private String[][] getChoiceArray(String key, Comparator comparator) {
+		IChoice[] choices = DEUtil.getMetaDataDictionary().getChoiceSet(key).getChoices(comparator);
+
+		String[][] names = null;
+		if (choices.length > 0) {
+			names = new String[choices.length][2];
+			for (int i = 0; i < choices.length; i++) {
+				names[i][0] = choices[i].getDisplayName();
+				names[i][1] = choices[i].getName();
+			}
+		}
+		return names;
+	}
+
 }
+
