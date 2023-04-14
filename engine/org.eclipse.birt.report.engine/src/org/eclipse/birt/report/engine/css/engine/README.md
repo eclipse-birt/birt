@@ -26,13 +26,12 @@ Additional files which are required for the correct creation:
 
 ###2. Step: Build the source template token.cpp
 * Required is the build of the intermediate file token.cpp with a working version of the GNU gperf utility.
-* Under MS Windows and option would is "cygwin" (https://www.cygwin.com/install.html). This tool is an Unix terminal command line simulator.
-* Open a command line, inside the directory containing token.gperf
+* Under MS Windows and option would is [cygwin] (https://www.cygwin.com/install.html). This tool is an Unix terminal command line simulator.
+* Open a command line and go to inside the directory containing token.gperf
 * Execute the following command line:
+<br/><br/><div style="background-color:silver;padding:8px;">
 	gperf -d -7 -l -D -L C++ token.gperf > token.cpp
-or used by path settings
-	gperf -d -7 -l -D -L C++ /home/token.gperf > /home/token.cpp
-	
+</div><br/>
 * The result is the created token.cpp like an intermediate file.
 
 ###3. Step: Renew the java-files
