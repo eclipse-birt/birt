@@ -23,6 +23,8 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
@@ -79,7 +81,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, null);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -226,9 +228,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] tableSize = { table.getHeight(), table.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, tableSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -267,9 +270,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] columnSize = { null, column.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, columnSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -290,12 +294,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 	public void buildRowStyle(IRowContent row, StringBuffer styleBuffer) {
 		buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, row.getHeight()); // $NON-NLS-1$
 
-		// The method getStyle( ) will nevel return a null value;
+		// The method getStyle( ) will never return a null value;
 		IStyle style = row.getStyle();
 
 		// output the none value of the display
-		CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
-		if (IStyle.NONE_VALUE == display) {
+		CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
+		if (CSSValueConstants.NONE_VALUE == display) {
 			styleBuffer.append(" display: none;");
 		}
 
@@ -304,9 +308,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] rowSize = { row.getHeight(), row.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, rowSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -367,6 +372,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] cellSize = { cell.getHeight(), cell.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildMargins(styleBuffer, style);
 		if (fixedCellHeight) {
@@ -376,7 +382,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			AttributeBuilder.buildPaddings(styleBuffer, style);
 		}
 		AttributeBuilder.buildBorders(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, cellSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -422,9 +428,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] containerSize = { container.getHeight(), container.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, containerSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -474,9 +481,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] textSize = { text.getHeight(), text.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, textSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -511,9 +519,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] foreignSize = { foreign.getHeight(), foreign.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, foreignSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);
@@ -547,9 +556,10 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] imageSize = { image.getHeight(), image.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, imageSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildTextDecoration(styleBuffer, style);

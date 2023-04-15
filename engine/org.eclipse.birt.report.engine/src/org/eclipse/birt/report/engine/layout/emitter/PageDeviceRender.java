@@ -595,7 +595,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 	 */
 	public void drawBackgroundImage(BackgroundImageInfo bi, int startX, int startY, int width, int height) {
 		try {
-			pageGraphic.drawBackgroundImage(startX, startY, width, height, bi.getWidth(), bi.getHeight(),
+			pageGraphic.drawBackgroundImage(startX, startY, width, height, bi.getWidthMetricPt(), bi.getHeightMetricPt(),
 					bi.getRepeatedMode(), bi.getUrl(), bi.getImageData(), getScaledValue(bi.getXOffset()),
 					getScaledValue(bi.getYOffset()));
 		} catch (Exception e) {

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Bas
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.IGuideFeedBackHost;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -55,6 +57,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.IFigure;
@@ -690,17 +693,67 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 			// Should not be ExceptionHandler.handle(e), see SCR#73730
 			image = null;
 		}
-
 		if (image == null) {
 			figure.setImage(null);
 			return;
 		}
-		int dpi = getImageDPI(backGroundImage);
 
+		int dpi = getImageDPI(backGroundImage);
 		if (figure instanceof ReportElementFigure) {
 			((ReportElementFigure) figure).setBackgroundImageDPI(dpi);
+		} else if (figure instanceof TableFigure) {
+			((TableFigure) figure).setBackgroundImageDPI(dpi);
 		}
-		figure.setImage(image);
+
+		int pxBackgroundHeight = 0;
+		int pxBackgroundWidth = 0;
+		double percentageHeight = 1d;
+		double percentageWidth = 1d;
+
+		// calculate the background image height dimension
+		String propertyValue = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+		if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+				&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+				&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+
+			if (propertyValue.endsWith("%")) {
+				percentageHeight = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+			} else {
+				DimensionValue propertyBackgroundHeight = (DimensionValue) handle
+						.getProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
+
+				if (propertyBackgroundHeight.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+					pxBackgroundHeight = (int) propertyBackgroundHeight.getMeasure();
+				} else {
+					DimensionValue backgroundHeight = DimensionUtil.convertTo(propertyBackgroundHeight.getMeasure(),
+							propertyBackgroundHeight.getUnits(), DesignChoiceConstants.UNITS_IN);
+					pxBackgroundHeight = (int) MetricUtility.inchToPixel(backgroundHeight.getMeasure());
+				}
+			}
+		}
+
+		// calculate the background image width dimension
+		propertyValue = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+		if (propertyValue != null && !DesignChoiceConstants.BACKGROUND_SIZE_AUTO.equals(propertyValue)
+				&& !DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+				&& !DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+
+			if (propertyValue.endsWith("%")) {
+				percentageWidth = Double.parseDouble(propertyValue.replace("%", "")) / 100;
+			} else {
+				DimensionValue propertyBackgroundWidth = (DimensionValue) handle
+						.getProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+
+				if (propertyBackgroundWidth.getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+					pxBackgroundWidth = (int) propertyBackgroundWidth.getMeasure();
+				} else {
+					DimensionValue backgroundWidth = DimensionUtil.convertTo(propertyBackgroundWidth.getMeasure(),
+							propertyBackgroundWidth.getUnits(), DesignChoiceConstants.UNITS_IN);
+					pxBackgroundWidth = (int) MetricUtility.inchToPixel(backgroundWidth.getMeasure());
+				}
+			}
+		}
+		figure.setImage(image, pxBackgroundHeight, pxBackgroundWidth, percentageHeight, percentageWidth);
 
 		Object[] backGroundPosition = getBackgroundPosition(handle);
 		int backGroundRepeat = getBackgroundRepeat(handle);
@@ -952,6 +1005,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 
 	protected int getBackgroundRepeat(DesignElementHandle handle) {
 		return getModelAdapter().getBackgroundRepeat(handle);
+	}
+
+	protected int getBackgroundHeight(DesignElementHandle handle) {
+		return 0;
+//		return getModelAdapter().getBackgroundImageHeight(handle, getPreferredSize(), null);
 	}
 
 	protected boolean isFigureLeft(Request request) {

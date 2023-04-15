@@ -547,6 +547,16 @@ abstract public class AbstractStyle implements IStyle {
 		setCssText(STYLE_BACKGROUND_REPEAT, backgroundRepeat);
 	}
 
+	@Override
+	public void setBackgroundHeight(String height) {
+		setCssText(STYLE_BACKGROUND_HEIGHT, height);
+	}
+
+	@Override
+	public void setBackgroundWidth(String width) {
+		setCssText(STYLE_BACKGROUND_WIDTH, width);
+	}
+
 	/**
 	 * @param borderBottomColor The borderBottomColor to set.
 	 */

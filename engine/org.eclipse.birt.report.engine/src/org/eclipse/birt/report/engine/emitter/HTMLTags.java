@@ -49,6 +49,7 @@ public class HTMLTags {
 	public static final String ATTR_BACKGROUND_REPEAT = "background-repeat"; //$NON-NLS-1$
 	public static final String ATTR_BACKGROUND_ATTACHEMNT = "background-attachment"; //$NON-NLS-1$
 	public static final String ATTR_BACKGROUND_POSITION = "background-position"; //$NON-NLS-1$
+	public static final String ATTR_BACKGROUND_SIZE = "background-size"; //$NON-NLS-1$
 
 	public static final String ATTR_PADDING = "padding"; //$NON-NLS-1$
 	public static final String ATTR_PADDING_TOP = "padding-top"; //$NON-NLS-1$
