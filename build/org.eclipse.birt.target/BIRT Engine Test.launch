@@ -17,7 +17,7 @@
     <stringAttribute key="location" value="${workspace_loc}/../junit-workspace"/>
     <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/org.eclipse.birt.report.engine.tests/test/org/eclipse/birt/report/engine/AllTests.java"/>
+        <listEntry value="/org.eclipse.birt.report.tests.engine/src/org/eclipse/birt/report/tests/engine/AllTests.java"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="1"/>
@@ -28,15 +28,15 @@
         <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
     </listAttribute>
     <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
-    <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
     <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.birt.report.engine.AllTests"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.birt.report.tests.engine.AllTests"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.birt.report.engine.tests"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.birt.report.tests.engine"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true"/>
     <stringAttribute key="pde.version" value="3.3"/>
@@ -693,10 +693,10 @@
         <setEntry value="org.objectweb.asm.util@default:default"/>
         <setEntry value="org.objectweb.asm@default:default"/>
         <setEntry value="org.opentest4j@default:default"/>
-        <setEntry value="org.osgi.service.cm@default:default"/>
         <setEntry value="org.osgi.service.component.annotations@default:default"/>
         <setEntry value="org.osgi.service.component@default:default"/>
         <setEntry value="org.osgi.service.prefs@default:default"/>
+        <setEntry value="org.osgi.service.provisioning@default:default"/>
         <setEntry value="org.osgi.util.function@default:default"/>
         <setEntry value="org.osgi.util.measurement@default:default"/>
         <setEntry value="org.osgi.util.position@default:default"/>

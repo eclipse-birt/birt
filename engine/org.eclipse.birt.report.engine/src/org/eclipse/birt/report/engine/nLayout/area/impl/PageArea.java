@@ -316,8 +316,12 @@ public class PageArea extends BlockContainerArea {
 
 		IStyle cs = pageContent.getComputedStyle();
 		BackgroundImageInfo backgroundImage = null;
-		backgroundImage = new BackgroundImageInfo(url, cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0,
-				0, rl, module, cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+		backgroundImage = new BackgroundImageInfo(url, cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+				PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+				PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+				0, 0, rl, module, cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+		backgroundImage.setImageSize(cs);
+
 		Image img = backgroundImage.getImageInstance();
 
 		IStyle style = pageContent.getStyle();
@@ -359,27 +363,12 @@ public class PageArea extends BlockContainerArea {
 						actualWidth = (int) (imageWidth * height / imageHeight);
 					}
 				} else {
-					DimensionType widthDim = DimensionType.parserUnit(widthStr);
-					DimensionType heightDim = DimensionType.parserUnit(heightStr);
-					if (widthDim != null) {
-						actualWidth = PropertyUtil.getDimensionValue(content, widthDim);
-						if (heightDim == null) {
-							actualHeight = (int) (imageHeight * actualWidth / imageWidth);
-						} else {
-							actualHeight = PropertyUtil.getDimensionValue(content, heightDim);
-						}
-					} else if (heightDim != null) {
-						actualHeight = PropertyUtil.getDimensionValue(content, heightDim);
-						if (widthDim == null) {
-							actualWidth = (int) (imageWidth * actualHeight / imageHeight);
-						} else {
-							actualWidth = PropertyUtil.getDimensionValue(content, widthDim);
-						}
-					} else {
-						actualHeight = (int) imageHeight;
-						actualWidth = (int) imageWidth;
-					}
+					actualHeight = backgroundImage.getHeightMetricPt();
+					actualWidth = backgroundImage.getWidthMetricPt();
 				}
+			} else {
+				actualHeight = backgroundImage.getHeightMetricPt();
+				actualWidth = backgroundImage.getWidthMetricPt();
 			}
 
 			backgroundImage.setXOffset(
@@ -387,8 +376,9 @@ public class PageArea extends BlockContainerArea {
 			backgroundImage.setYOffset(
 					getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y),
 							height - actualHeight));
-			backgroundImage.setHeight(actualHeight);
-			backgroundImage.setWidth(actualWidth);
+			backgroundImage.setHeightMetricPt(actualHeight);
+			backgroundImage.setWidthMetricPt(actualWidth);
+
 			return backgroundImage;
 		}
 		return null;

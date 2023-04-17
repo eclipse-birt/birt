@@ -302,6 +302,38 @@ public class StyleInstance implements IScriptStyle {
 	}
 
 	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return style.getBackgroundHeight();
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		style.setBackgroundHeight(height);
+	}
+
+	/**
+	 * Get the background image width
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return style.getBackgroundWidth();
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		style.setBackgroundWidth(width);
+	}
+
+	/**
 	 * Get the bottom border color
 	 */
 	@Override

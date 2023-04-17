@@ -184,8 +184,6 @@ public class PDFPage extends AbstractPage {
 
 		boolean xExtended = (repeat & AreaConstants.REPEAT_X) == AreaConstants.REPEAT_X;
 		boolean yExtended = (repeat & AreaConstants.REPEAT_Y) == AreaConstants.REPEAT_Y;
-		imageWidth = image.getWidth();
-		imageHeight = image.getHeight();
 
 		float originalX = offsetX;
 		float originalY = offsetY;

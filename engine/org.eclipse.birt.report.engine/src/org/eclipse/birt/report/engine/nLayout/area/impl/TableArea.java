@@ -175,8 +175,12 @@ public class TableArea extends RepeatableArea {
 					rl = exeContext.getResourceLocator();
 				}
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
-						style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl,
-						this.getCurrentModule(), style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+						style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+						PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+						PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+						0, 0, rl, this.getCurrentModule(),
+						style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+				backgroundImage.setImageSize(style);
 				boxStyle.setBackgroundImage(backgroundImage);
 			}
 			localProperties = new LocalProperties();

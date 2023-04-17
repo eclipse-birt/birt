@@ -159,9 +159,9 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 		assertEquals("10px", style1.getBorderBottomWidth().getDisplayValue());//$NON-NLS-1$
 
 		assertEquals("test", style3.getName()); //$NON-NLS-1$
-		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, style3.getBackgroundSizeWidth().getStringValue());
+		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, style3.getBackgroundWidth().getStringValue());
 
-		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_AUTO, style3.getBackgroundSizeHeight().getStringValue());
+		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_AUTO, style3.getBackgroundHeight().getStringValue());
 
 	}
 

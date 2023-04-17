@@ -600,6 +600,7 @@ public class TableWriter {
 		drawCellAntidiagonal(cell);
 
 		BoxStyle style = cell.getBoxStyle();
+		IStyle contentStyle = cell.getContent().getStyle();
 		Color backgroundcolor = style.getBackgroundColor();
 		BackgroundImageInfo bgimginfo = style.getBackgroundImage();
 
@@ -615,17 +616,19 @@ public class TableWriter {
 			}
 		}
 		String imageRelationship = canvas.getImageRelationship(bgimginfo);
-
+		if (bgimginfo != null) {
+			bgimginfo.setImageSize(contentStyle);
+		}
 		if (imageRelationship != null) {
 			float offsetY = 0;
 			float offsetX = 0;
 			int repeatmode = bgimginfo.getRepeatedMode();
 
 			if (repeatmode == BackgroundImageInfo.NO_REPEAT) {
-				int imgheight = PPTXUtil.pixelToEmu((int) bgimginfo.getImageInstance().getHeight(),
-						bgimginfo.getImageInstance().getDpiY());
-				int imgwidth = PPTXUtil.pixelToEmu((int) bgimginfo.getImageInstance().getWidth(),
-						bgimginfo.getImageInstance().getDpiX());
+
+				int imgheight = PPTXUtil.convertToEnums(bgimginfo.getHeightMetricPt());
+				int imgwidth = PPTXUtil.convertToEnums(bgimginfo.getWidthMetricPt());
+
 				int cellheight = PPTXUtil.convertToEnums(canvas.getScaledValue(cell.getHeight()));
 				int cellwidth = PPTXUtil.convertToEnums(canvas.getScaledValue(cell.getWidth()));
 				offsetY = PPTXUtil.parsePercentageOffset(cellheight, imgheight);

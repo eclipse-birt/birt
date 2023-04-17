@@ -1,12 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -124,7 +123,8 @@ public abstract class HTMLEmitter {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle();
 		if (!needOutputBackgroundSize) {
-			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+			DimensionType[] pageSize = { page.getPageHeight(), page.getPageWidth() };
+			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, pageSize);
 		} else {
 			AttributeBuilder.buildBackgroundColor(styleBuffer, style, reportEmitter);
 		}

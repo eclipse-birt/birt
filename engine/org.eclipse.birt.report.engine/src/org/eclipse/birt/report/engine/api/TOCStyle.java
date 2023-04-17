@@ -51,6 +51,14 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	public static final String BACKGROUND_IMAGE_TYPE = "background-image-type";
 	/**
+	 * Style property: background image height
+	 */
+	public static final String BACKGROUND_SIZE_HEIGHT = "background-size-height";
+	/**
+	 * Style property: background image width
+	 */
+	public static final String BACKGROUND_SIZE_WIDTH = "background-size-width";
+	/**
 	 * Style property: background-position-x
 	 */
 	public static final String BACKGROUND_POSITION_X = "background-position-x";
@@ -376,6 +384,22 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public String getBackgroundRepeat() {
 		return properties.get(BACKGROUND_REPEAT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return properties.get(BACKGROUND_SIZE_HEIGHT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return properties.get(BACKGROUND_SIZE_WIDTH);
 	}
 
 	/**
@@ -862,6 +886,22 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public void setBackgroundRepeat(String repeat) {
 		setProperty(BACKGROUND_REPEAT, repeat);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		setProperty(BACKGROUND_SIZE_HEIGHT, height);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		setProperty(BACKGROUND_SIZE_WIDTH, width);
 	}
 
 	/**
