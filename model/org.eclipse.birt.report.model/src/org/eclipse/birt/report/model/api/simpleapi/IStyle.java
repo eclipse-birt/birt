@@ -112,6 +112,36 @@ public interface IStyle {
 	void setBackgroundRepeat(String value) throws SemanticException;
 
 	/**
+	 * Set the background height of the background image.
+	 *
+	 * @param value the new background image height
+	 * @throws SemanticException
+	 */
+	void setBackgroundHeight(String value) throws SemanticException;
+
+	/**
+	 * Returns the height of the background image.
+	 *
+	 * @return the background image height
+	 */
+	String getBackgroundHeight();
+
+	/**
+	 * Set the background width of the background image.
+	 *
+	 * @param value the new background image width
+	 * @throws SemanticException
+	 */
+	void setBackgroundWidth(String value) throws SemanticException;
+
+	/**
+	 * Returns the width of the background image.
+	 *
+	 * @return the background image width
+	 */
+	String getBackgroundWidth();
+
+	/**
 	 * Returns the style of the bottom line of the border. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>

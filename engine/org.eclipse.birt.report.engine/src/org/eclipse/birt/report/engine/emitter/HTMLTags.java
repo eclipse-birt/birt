@@ -76,6 +76,7 @@ public class HTMLTags {
 	public static final String ATTR_BACKGROUND_ATTACHEMNT = "background-attachment"; //$NON-NLS-1$
 	/** html tag attribute: background-position */
 	public static final String ATTR_BACKGROUND_POSITION = "background-position"; //$NON-NLS-1$
+	public static final String ATTR_BACKGROUND_SIZE = "background-size"; //$NON-NLS-1$
 
 	/** html tag attribute: padding */
 	public static final String ATTR_PADDING = "padding"; //$NON-NLS-1$

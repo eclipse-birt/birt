@@ -283,6 +283,36 @@ public interface IScriptStyle {
 	void setBackgroundRepeat(String repeat);
 
 	/**
+	 * Set the background height of the background image.
+	 *
+	 * @param value the new background image height
+	 * @throws ScriptException if the property is locked
+	 */
+	void setBackgroundHeight(String value) throws ScriptException;
+
+	/**
+	 * Returns the height of the background image.
+	 *
+	 * @return the background image height
+	 */
+	String getBackgroundHeight();
+
+	/**
+	 * Set the background width of the background image.
+	 *
+	 * @param value the new background image width
+	 * @throws ScriptException if the property is locked
+	 */
+	void setBackgroundWidth(String value) throws ScriptException;
+
+	/**
+	 * Returns the width of the background image.
+	 *
+	 * @return the background image width
+	 */
+	String getBackgroundWidth();
+
+	/**
 	 * Get the bottom border color
 	 *
 	 * @return Return the bottom border color

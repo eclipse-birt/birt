@@ -7,7 +7,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  *
- *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -233,7 +232,8 @@ public abstract class HTMLEmitter {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle();
 		if (!needOutputBackgroundSize) {
-			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+			DimensionType[] pageSize = { page.getPageHeight(), page.getPageWidth() };
+			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, pageSize);
 		} else {
 			AttributeBuilder.buildBackgroundColor(styleBuffer, style, reportEmitter);
 		}

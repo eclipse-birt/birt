@@ -782,8 +782,8 @@ public class StyleHandleTest extends BaseTestCase {
 	 */
 	private void comparedBackgroundSize(StyleHandle styleHandle, String propName, String value, String expectedWidth,
 			String expectedHeight) throws Exception {
-		DimensionHandle width = styleHandle.getBackgroundSizeWidth();
-		DimensionHandle height = styleHandle.getBackgroundSizeHeight();
+		DimensionHandle width = styleHandle.getBackgroundWidth();
+		DimensionHandle height = styleHandle.getBackgroundHeight();
 
 		String oldWidth = width.getStringValue();
 		String oldHeight = height.getStringValue();

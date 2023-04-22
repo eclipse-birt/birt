@@ -383,10 +383,10 @@ public class StyleParseTest extends BaseTestCase {
 		assertNotNull(iter.next());
 		assertNotNull(iter.next());
 
-		DimensionHandle handle = sh.getBackgroundSizeWidth();
+		DimensionHandle handle = sh.getBackgroundWidth();
 		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, handle.getStringValue());
 
-		handle = sh.getBackgroundSizeHeight();
+		handle = sh.getBackgroundHeight();
 		assertEquals(DesignChoiceConstants.BACKGROUND_SIZE_COVER, handle.getStringValue());
 
 		style = design.findStyle("test"); //$NON-NLS-1$
@@ -602,9 +602,9 @@ public class StyleParseTest extends BaseTestCase {
 		style.setTextDirection(DesignChoiceConstants.BIDI_DIRECTION_LTR);
 		style.setBackgroundImageType(DesignChoiceConstants.IMAGE_REF_TYPE_URL);
 
-		DimensionHandle handle = style.getBackgroundSizeHeight();
+		DimensionHandle handle = style.getBackgroundHeight();
 		handle.setStringValue("19pt"); //$NON-NLS-1$
-		handle = style.getBackgroundSizeWidth();
+		handle = style.getBackgroundWidth();
 		handle.setStringValue("0.5in"); //$NON-NLS-1$
 
 		// Overflow

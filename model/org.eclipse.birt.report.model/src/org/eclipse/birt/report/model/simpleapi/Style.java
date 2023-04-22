@@ -168,6 +168,74 @@ public class Style implements IStyle {
 	 * (non-Javadoc)
 	 *
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundHeight()
+	 */
+
+	@Override
+	public String getBackgroundHeight() {
+		return style.getBackgroundHeight().getStringValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundHeight(java.lang.String)
+	 */
+
+	@Override
+	public void setBackgroundHeight(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
+
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundHeight(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
+			throw e;
+		}
+
+		cmdStack.commit();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundHeight()
+	 */
+
+	@Override
+	public String getBackgroundWidth() {
+		return style.getBackgroundWidth().getStringValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundHeight(java.lang.String)
+	 */
+
+	@Override
+	public void setBackgroundWidth(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
+
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundWidth(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
+			throw e;
+		}
+
+		cmdStack.commit();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * getBorderBottomStyle()
 	 */
 
