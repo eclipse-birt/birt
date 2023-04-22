@@ -97,6 +97,14 @@ public class DiagonalLineImage {
 	 */
 	private static int DEFAULT_IMAGE_DPI = 96;
 
+	/**
+	 * Set diagonal line
+	 *
+	 * @param diagonalNumber number of diagonal lines
+	 * @param diagonalStyle  style of diagonal lines
+	 * @param diagonalWidth  width of diagonal lines
+	 * @param diagonalColor  color of diagonal lines
+	 */
 	public void setDiagonalLine(int diagonalNumber, String diagonalStyle, DimensionType diagonalWidth,
 			String diagonalColor) {
 		this.diagonalNumber = diagonalNumber;
@@ -105,6 +113,14 @@ public class DiagonalLineImage {
 		this.diagonalColor = diagonalColor;
 	}
 
+	/**
+	 * Set antidiagonal line
+	 *
+	 * @param antidiagonalNumber number of antidiagonal lines
+	 * @param antidiagonalStyle  style of antidiagonal lines
+	 * @param antidiagonalWidth  width of antidiagonal lines
+	 * @param antidiagonalColor  color of antidiagonal lines
+	 */
 	public void setAntidiagonalLine(int antidiagonalNumber, String antidiagonalStyle, DimensionType antidiagonalWidth,
 			String antidiagonalColor) {
 		this.antidiagonalNumber = antidiagonalNumber;
@@ -113,19 +129,41 @@ public class DiagonalLineImage {
 		this.antidiagonalColor = antidiagonalColor;
 	}
 
+	/**
+	 * Set diagonal color
+	 *
+	 * @param color color of diagonal
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
+	/**
+	 * Set diagonal dpi
+	 *
+	 * @param dpi dpi of diagonal
+	 */
 	public void setImageDpi(int dpi) {
 		this.imageDpi = dpi;
 	}
 
+	/**
+	 * Set mage size
+	 *
+	 * @param imageWidth  image width
+	 * @param imageHeight image height
+	 */
 	public void setImageSize(DimensionType imageWidth, DimensionType imageHeight) {
 		this.imageWidth = imageWidth;
 		this.imageHeight = imageHeight;
 	}
 
+	/**
+	 * Draw image
+	 *
+	 * @return Return the image like byte array
+	 * @throws IOException
+	 */
 	public byte[] drawImage() throws IOException {
 		if (diagonalNumber <= 0 && antidiagonalNumber <= 0) {
 			return null;

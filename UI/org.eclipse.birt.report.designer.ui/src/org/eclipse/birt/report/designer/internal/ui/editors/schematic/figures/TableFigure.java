@@ -192,11 +192,11 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 			}
 		}
 
-		ArrayList xyList = createImageList(x, y);
+		ArrayList<Point> xyList = createImageList(x, y);
 
-		Iterator iter = xyList.iterator();
+		Iterator<Point> iter = xyList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 			graphics.drawImage(image, point);
 		}
 		xyList.clear();
@@ -209,11 +209,11 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
 	 */
-	private ArrayList createImageList(int x, int y) {
+	private ArrayList<Point> createImageList(int x, int y) {
 		// Rectangle area = getOriginalClientArea( );
 		Rectangle area = getBounds();
 
-		ArrayList yList = new ArrayList();
+		ArrayList<Point> yList = new ArrayList<Point>();
 
 		if ((repeat & ImageConstants.REPEAT_Y) == 0) {
 			yList.add(new Point(x, y));
@@ -231,11 +231,11 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 			}
 		}
 
-		ArrayList xyList = new ArrayList();
+		ArrayList<Point> xyList = new ArrayList<Point>();
 
-		Iterator iter = yList.iterator();
+		Iterator<Point> iter = yList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 
 			if ((repeat & ImageConstants.REPEAT_X) == 0) {
 				xyList.add(point);

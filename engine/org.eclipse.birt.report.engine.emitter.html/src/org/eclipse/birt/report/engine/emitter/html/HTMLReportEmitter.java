@@ -2397,7 +2397,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		htmlEmitter.buildTextStyle(text, styleBuffer, display);
 		writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
 
-		htmlEmitter.handleVerticalAlignBegin(text);
+		htmlEmitter.handleTextVerticalAlignBegin(text);
 
 		String url = validate(text.getHyperlinkAction());
 		if (url != null && !isBlank) {
@@ -2524,7 +2524,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		String rawType = foreign.getRawType();
 		boolean isHtml = IForeignContent.HTML_TYPE.equalsIgnoreCase(rawType);
 		if (isHtml) {
-			htmlEmitter.handleVerticalAlignBegin(foreign);
+			htmlEmitter.handleTextVerticalAlignBegin(foreign);
 			String url = validate(foreign.getHyperlinkAction());
 			if (url != null) {
 				outputAction(foreign.getHyperlinkAction(), url);
@@ -3103,12 +3103,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	protected int checkElementType(DimensionType x, DimensionType y, DimensionType width, DimensionType height,
 			IStyle style, StringBuffer styleBuffer) {
-		// if ( x != null || y != null )
-		// {
-		// styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
-		// AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
-		// AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_TOP, y );
-		// }
 		return getElementType(x, y, width, height, style);
 	}
 

@@ -196,6 +196,11 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return 0;
 	}
 
+	/**
+	 * Set te drop property
+	 *
+	 * @param drop drop value
+	 */
 	public void setDrop(String drop) {
 		this.drop = drop;
 	}

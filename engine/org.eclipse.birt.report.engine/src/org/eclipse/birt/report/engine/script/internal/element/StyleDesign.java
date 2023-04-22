@@ -19,14 +19,30 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
+/**
+ * Style design
+ *
+ * @since 3.3
+ *
+ */
 public class StyleDesign implements IScriptStyleDesign {
 
 	private org.eclipse.birt.report.model.api.simpleapi.IStyle styleImpl;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style style handle
+	 */
 	public StyleDesign(StyleHandle style) {
 		styleImpl = SimpleElementFactory.getInstance().createStyle(style);
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param style style
+	 */
 	public StyleDesign(org.eclipse.birt.report.model.api.simpleapi.IStyle style) {
 		styleImpl = style;
 	}

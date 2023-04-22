@@ -38,11 +38,11 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sep
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
-import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -60,28 +60,28 @@ public class GridPage extends GeneralPage {
 	protected void buildContent() {
 		// Defines providers.
 
-		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(IDesignElementModel.NAME_PROP,
 				ReportDesignConstants.GRID_ITEM);
 
-		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider(ReportItemHandle.WIDTH_PROP,
+		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider(IInternalReportItemModel.WIDTH_PROP,
 				ReportDesignConstants.GRID_ITEM);
 
-		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider(ReportItemHandle.HEIGHT_PROP,
+		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider(IInternalReportItemModel.HEIGHT_PROP,
 				ReportDesignConstants.GRID_ITEM);
 
-		PropertyDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider(StyleHandle.CAN_SHRINK_PROP,
+		PropertyDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider(IStyleModel.CAN_SHRINK_PROP,
 				ReportDesignConstants.GRID_ITEM);
 		canShrinkProvider.enableReset(true);
 
 		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.VERTICAL_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.VERTICAL_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		vAlignProvider.enableReset(true);
 
-		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(IStyledElementModel.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM);
 
 		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider(
-				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		backgroundProvider.enableReset(true);
 
 		// Defines sections.
@@ -161,7 +161,7 @@ public class GridPage extends GeneralPage {
 		addSection(PageSectionId.GRID_SEPERATOR1, seperatorSection1); // $NON-NLS-1$
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontFamilyProvider.enableReset(true);
 		ComboSection fontFamilySection = new ComboSection(fontFamilyProvider.getDisplayName(), container, true);
 		fontFamilySection.setProvider(fontFamilyProvider);
@@ -170,7 +170,7 @@ public class GridPage extends GeneralPage {
 		addSection(PageSectionId.FONT_FAMILY, fontFamilySection);
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider(
-				StyleHandle.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontSizeProvider.enableReset(true);
 		FontSizeSection fontSizeSection = new FontSizeSection(fontSizeProvider.getDisplayName(), container, true);
 		fontSizeSection.setProvider(fontSizeProvider);
@@ -179,7 +179,7 @@ public class GridPage extends GeneralPage {
 		fontSizeSection.setGridPlaceholder(2, true);
 		addSection(PageSectionId.FONT_SIZE, fontSizeSection);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(StyleHandle.COLOR_PROP,
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(IStyleModel.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT);
 		colorProvider.enableReset(true);
 		ColorSection colorSection = new ColorSection(colorProvider.getDisplayName(), container, true);
@@ -198,7 +198,7 @@ public class GridPage extends GeneralPage {
 		addSection(PageSectionId.FONT_STYLE, fontStyleSection);
 
 		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		wordwrapProvider.enableReset(true);
 		RadioGroupSection wordwrapSection = new RadioGroupSection(wordwrapProvider.getDisplayName(), container, true);
 		wordwrapSection.setProvider(wordwrapProvider);
@@ -224,19 +224,19 @@ public class GridPage extends GeneralPage {
 	private IDescriptorProvider[] createFontStyleProviders() {
 		IDescriptorProvider[] providers = {
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_STYLE_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.FONT_STYLE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_UNDERLINE_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.TEXT_UNDERLINE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_LINE_THROUGH_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.TEXT_LINE_THROUGH_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
+				new PropertyDescriptorProvider(IStyleModel.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
 
 		for (int i = 0; i < providers.length; i++) {
 			if (providers[i] instanceof PropertyDescriptorProvider) {
@@ -256,7 +256,7 @@ public class GridPage extends GeneralPage {
 				if (helperProvider != null) {
 					ISectionHelper helper = helperProvider.createHelper(this, PageConstants.THEME_HELPER_KEY);
 					if (helper != null) {
-						Section section = helper.createSection(container, GridHandle.THEME_PROP,
+						Section section = helper.createSection(container, IInternalReportItemModel.THEME_PROP,
 								ReportDesignConstants.GRID_ITEM, true);
 						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);

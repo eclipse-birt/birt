@@ -28,7 +28,8 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -112,7 +113,7 @@ public final class ContainerContext {
 			throw new IllegalArgumentException("The property \"" + propName + "\" is not defined"); //$NON-NLS-1$//$NON-NLS-2$
 		}
 		this.isSlot = false;
-		this.containerSlotID = DesignElement.NO_SLOT;
+		this.containerSlotID = IDesignElementModel.NO_SLOT;
 		this.slotDefn = null;
 	}
 
@@ -664,6 +665,17 @@ public final class ContainerContext {
 		return isSlot;
 	}
 
+	/**
+	 * Check if the element is a valid container element
+	 *
+	 * @param module           module
+	 * @param containerElement container element
+	 * @param item             item
+	 * @param dataSet          data set
+	 * @param cube             cube
+	 * @return Return the result of the check whether the element is a valid
+	 *         container element
+	 */
 	public static boolean isValidContainerment(Module module, DesignElement containerElement, ReportItem item,
 			DataSet dataSet, Cube cube) {
 		if (dataSet != null || cube != null) {
@@ -683,7 +695,7 @@ public final class ContainerContext {
 
 					// if any of its container defines different data object and
 					// multi-view, then it is invalid containement
-					if (containerItem.getProperty(module, IReportItemModel.MULTI_VIEWS_PROP) != null) {
+					if (containerItem.getProperty(module, IInternalReportItemModel.MULTI_VIEWS_PROP) != null) {
 						return false;
 					}
 

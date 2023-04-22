@@ -30,10 +30,15 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
  */
 public interface IBandContent extends IContainerContent {
 
+	/** property: band header */
 	int BAND_HEADER = BandDesign.BAND_HEADER;
+	/** property: band footer */
 	int BAND_FOOTER = BandDesign.BAND_FOOTER;
+	/** property: band group header */
 	int BAND_GROUP_HEADER = BandDesign.GROUP_HEADER;
+	/** property: band group footer */
 	int BAND_GROUP_FOOTER = BandDesign.GROUP_FOOTER;
+	/** property: band detail */
 	int BAND_DETAIL = BandDesign.BAND_DETAIL;
 
 	/**

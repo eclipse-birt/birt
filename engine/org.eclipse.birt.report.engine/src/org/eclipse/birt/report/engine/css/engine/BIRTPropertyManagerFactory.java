@@ -56,14 +56,16 @@ import org.eclipse.birt.report.engine.css.engine.value.css.VerticalAlignManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.WhiteSpaceManager;
 
 /**
- * provide engine a utilitis to parser the styles.
- *
+ * Provide engine a utilities to parser the styles.
  *
  */
 public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 
 	ValueManager[] vms;
 
+	/**
+	 * Constructor
+	 */
 	public BIRTPropertyManagerFactory() {
 		vms = new ValueManager[PerfectHash.TOTAL_KEYWORDS];
 

@@ -56,6 +56,11 @@ public class FormWidgetFactory extends FormToolkit {
 
 	private static FormWidgetFactory factory;
 
+	/**
+	 * Get an Instance of the form widget factory
+	 *
+	 * @return Return the form widget factory
+	 */
 	public synchronized static FormWidgetFactory getInstance() {
 		if (factory == null) {
 			factory = new FormWidgetFactory();
@@ -64,6 +69,9 @@ public class FormWidgetFactory extends FormToolkit {
 		return factory;
 	}
 
+	/**
+	 * Close the form widget factory
+	 */
 	public synchronized static void close() {
 		if (factory != null) {
 			factory.dispose();
@@ -119,6 +127,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return c;
 	}
 
+	/**
+	 * Create button
+	 *
+	 * @param parent      parent component
+	 * @param style       style
+	 * @param isFormStyle is form style
+	 * @return Return a button
+	 */
 	public Button createButton(Composite parent, int style, boolean isFormStyle) {
 		Button b;
 		if (isFormStyle) {
@@ -129,6 +145,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return b;
 	}
 
+	/**
+	 * Create menu button
+	 *
+	 * @param parent parent component
+	 * @param text   button text
+	 * @param style  style
+	 * @return Return a menu button
+	 */
 	public MenuButton createMenuButton(Composite parent, String text, int style) {
 		MenuButton button = new MenuButton(parent, style | SWT.FLAT);
 		if (text != null) {
@@ -138,6 +162,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return button;
 	}
 
+	/**
+	 * Create split button
+	 *
+	 * @param parent      parent component
+	 * @param style       button style
+	 * @param isFormStyle is form style
+	 * @return Return a split button
+	 */
 	public MenuButton createSplitButton(Composite parent, int style, boolean isFormStyle) {
 		MenuButton b;
 		if (isFormStyle) {
@@ -148,6 +180,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return b;
 	}
 
+	/**
+	 * Create label
+	 *
+	 * @param parent      parent component
+	 * @param style       button style
+	 * @param isFormStyle is form style
+	 * @return Return a label
+	 */
 	public Label createLabel(Composite parent, int style, boolean isFormStyle) {
 		Label l;
 		if (isFormStyle) {
@@ -158,6 +198,13 @@ public class FormWidgetFactory extends FormToolkit {
 		return l;
 	}
 
+	/**
+	 * Create label
+	 *
+	 * @param parent      parent component
+	 * @param isFormStyle is form style
+	 * @return Return a label
+	 */
 	public Label createLabel(Composite parent, boolean isFormStyle) {
 		Label l;
 		if (isFormStyle) {
@@ -168,6 +215,14 @@ public class FormWidgetFactory extends FormToolkit {
 		return l;
 	}
 
+	/**
+	 * Create Clabel
+	 *
+	 * @param parent      parent component
+	 * @param style       button style
+	 * @param isFormStyle is form style
+	 * @return Return a label
+	 */
 	public CLabel createCLabel(Composite parent, int style, boolean isFormStyle) {
 		CLabel l;
 		if (isFormStyle) {
@@ -178,6 +233,13 @@ public class FormWidgetFactory extends FormToolkit {
 		return l;
 	}
 
+	/**
+	 * Create Clabel
+	 *
+	 * @param parent      parent component
+	 * @param isFormStyle is form style
+	 * @return Return a label
+	 */
 	public CLabel createCLabel(Composite parent, boolean isFormStyle) {
 		CLabel l;
 		if (isFormStyle) {
@@ -207,13 +269,21 @@ public class FormWidgetFactory extends FormToolkit {
 	 *
 	 * @param parent the composite parent.
 	 * @param style  the composite style.
-	 * @return the composite.
+	 * @return Return the composite.
 	 */
 	public ScrolledComposite createScrolledComposite(Composite parent, int style) {
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, style);
 		return scrolledComposite;
 	}
 
+	/**
+	 * Create a styled combo box
+	 *
+	 * @param parent     parent composite
+	 * @param comboStyle combo style
+	 * @param provider   combo provider
+	 * @return Return a style combo box
+	 */
 	public StyleCombo createStyleCombo(Composite parent, int comboStyle, IComboProvider provider) {
 		StyleCombo combo = new StyleCombo(parent, comboStyle, provider);
 		adapt(combo, true, false);
@@ -223,27 +293,54 @@ public class FormWidgetFactory extends FormToolkit {
 	/**
 	 * Creates a combo box as a part of the form.
 	 *
-	 * @param parent the combo box parent.
-	 * @return the combo box.
+	 * @param parent   parent composite
+	 * @param provider combo provider
+	 * @return Return a combo box.
 	 */
 	public StyleCombo createStyleCombo(Composite parent, IComboProvider provider) {
 		return createStyleCombo(parent, SWT.FLAT, provider);
 	}
 
+	/**
+	 * Create spinner
+	 *
+	 * @param parent parent composite
+	 * @return Return a spinner
+	 */
 	public Spinner createSpinner(Composite parent) {
 		return createSpinner(parent, SWT.FLAT);
 	}
 
+	/**
+	 * Create spinner
+	 *
+	 * @param parent       parent composite
+	 * @param spinnerStyle spinner style
+	 * @return Return a spinner
+	 */
 	public Spinner createSpinner(Composite parent, int spinnerStyle) {
 		Spinner spinner = new Spinner(parent, spinnerStyle);
 		adapt(spinner, true, false);
 		return spinner;
 	}
 
+	/**
+	 * Create CSpinner
+	 *
+	 * @param parent parent composite
+	 * @return Return a CSpinner
+	 */
 	public CSpinner createCSpinner(Composite parent) {
 		return createCSpinner(parent, SWT.FLAT);
 	}
 
+	/**
+	 * Create CSpinner
+	 *
+	 * @param parent       parent composite
+	 * @param spinnerStyle spinner style
+	 * @return Return a CSpinner
+	 */
 	public CSpinner createCSpinner(Composite parent, int spinnerStyle) {
 		CSpinner spinner = new CSpinner(parent, spinnerStyle);
 		adapt(spinner, true, false);
@@ -274,14 +371,27 @@ public class FormWidgetFactory extends FormToolkit {
 		return createCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
 	}
 
+	/**
+	 * Create CCombo box
+	 *
+	 * @param parent     parent composite
+	 * @param isReadOnly read only flag
+	 * @return Return a CCombo box
+	 */
 	public CCombo createCCombo(Composite parent, boolean isReadOnly) {
 		if (isReadOnly) {
 			return createCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
-		} else {
-			return createCCombo(parent, SWT.FLAT);
 		}
+		return createCCombo(parent, SWT.FLAT);
 	}
 
+	/**
+	 * Create Birt CCombo box
+	 *
+	 * @param parent     parent composite
+	 * @param comboStyle combo box style
+	 * @return Return a Birt CCombo box
+	 */
 	public org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo createBirtCCombo(Composite parent,
 			int comboStyle) {
 		org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo combo = new org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo(
@@ -300,13 +410,19 @@ public class FormWidgetFactory extends FormToolkit {
 		return createBirtCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
 	}
 
+	/**
+	 * Creates a combo box as a part of the form.
+	 *
+	 * @param parent     the combo box parent.
+	 * @param isReadOnly read only flag
+	 * @return Return the combo box.
+	 */
 	public org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo createBirtCCombo(Composite parent,
 			boolean isReadOnly) {
 		if (isReadOnly) {
 			return createBirtCCombo(parent, SWT.FLAT | SWT.READ_ONLY);
-		} else {
-			return createBirtCCombo(parent, SWT.FLAT);
 		}
+		return createBirtCCombo(parent, SWT.FLAT);
 	}
 
 	/**
@@ -372,6 +488,11 @@ public class FormWidgetFactory extends FormToolkit {
 		factory = null;
 	}
 
+	/**
+	 * Paint the form style
+	 *
+	 * @param composite composite elements
+	 */
 	public void paintFormStyle(Composite composite) {
 		if (composite instanceof TabbedPropertyTitle) {
 			return;
@@ -472,6 +593,12 @@ public class FormWidgetFactory extends FormToolkit {
 		parent.addPaintListener(borderPainter);
 	}
 
+	/**
+	 * Create complex unit
+	 *
+	 * @param parent parent composite
+	 * @return Return the complex unit
+	 */
 	public ComplexUnit createComplexUnit(Composite parent) {
 		return createComplexUnit(parent, SWT.FLAT);
 	}

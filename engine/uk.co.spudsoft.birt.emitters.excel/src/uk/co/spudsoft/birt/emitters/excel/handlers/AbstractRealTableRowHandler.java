@@ -45,6 +45,14 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 	private BirtStyle rowStyle;
 	private AreaBorders borderDefn;
 
+	/**
+	 * Constructor
+	 *
+	 * @param log      log object
+	 * @param parent   parent handler
+	 * @param row      row content
+	 * @param startCol start column
+	 */
 	public AbstractRealTableRowHandler(Logger log, IHandler parent, IRowContent row, int startCol) {
 		super(log, parent, row);
 		this.startCol = startCol;
@@ -75,6 +83,11 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 
 	protected abstract boolean isNested();
 
+	/**
+	 * Resume row
+	 *
+	 * @param state handler state
+	 */
 	public void resumeRow(HandlerState state) {
 		log.debug("Resume row at ", state.rowNum);
 
@@ -87,7 +100,7 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		}
 		state.requiredRowHeightInPoints = 0;
 
-		rowStyle = new BirtStyle((IRowContent) element);
+		rowStyle = new BirtStyle(element);
 		borderDefn = AreaBorders.create(myRow, 0, ((IRowContent) element).getTable().getColumnCount() - 1, myRow, -1,
 				-1,
 				rowStyle);

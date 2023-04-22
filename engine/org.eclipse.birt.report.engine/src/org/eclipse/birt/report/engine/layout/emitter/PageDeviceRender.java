@@ -300,14 +300,14 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 						getScaledValue(dw), diagonalInfo.getDiagonalColor(), ds);
 				break;
 			}
-			
+
 			// support diagonal line and antidiagonal line
 			int adw = diagonalInfo.getAntidiagonalWidth();
 			int ads = diagonalInfo.getAntidiagonalStyle();
 			Color adc = diagonalInfo.getAntidiagonalColor();
 			// unsupport double style, use solid style instead
-			if (ads == DiagonalInfo.BORDER_STYLE_DOUBLE) {
-				ads = DiagonalInfo.BORDER_STYLE_SOLID;
+			if (ads == AreaConstants.BORDER_STYLE_DOUBLE) {
+				ads = AreaConstants.BORDER_STYLE_SOLID;
 			}
 			switch (diagonalInfo.getAntidiagonalNumber()) {
 			case 2:

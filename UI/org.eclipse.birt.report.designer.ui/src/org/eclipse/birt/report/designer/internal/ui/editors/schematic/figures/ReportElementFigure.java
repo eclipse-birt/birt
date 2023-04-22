@@ -52,10 +52,20 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	private int backgroundImageDPI = 0;
 
+	/**
+	 * Get Background image dpi
+	 *
+	 * @return Return Get Background image dpi
+	 */
 	public int getBackgroundImageDPI() {
 		return backgroundImageDPI;
 	}
 
+	/**
+	 * Set background image dpi
+	 *
+	 * @param backgroundImageDPI background image dpi
+	 */
 	public void setBackgroundImageDPI(int backgroundImageDPI) {
 		this.backgroundImageDPI = backgroundImageDPI;
 	}
@@ -100,6 +110,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		return img;
 	}
 
+	/**
+	 * Set page clip
+	 *
+	 * @param clip rectangle
+	 */
 	public void setPageClip(Rectangle clip) {
 		this.clip = clip;
 	}
@@ -181,12 +196,12 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = createImageList(x, y);
+		ArrayList<Point> xyList = createImageList(x, y);
 
-		Iterator iter = xyList.iterator();
+		Iterator<Point> iter = xyList.iterator();
 		Dimension imageSize = new Rectangle(image.getBounds()).getSize();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 			graphics.drawImage(image, 0, 0, imageSize.width, imageSize.height, point.x, point.y, size.width,
 					size.height);
 		}
@@ -202,10 +217,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
 	 */
-	private ArrayList createImageList(int x, int y) {
+	private ArrayList<Point> createImageList(int x, int y) {
 		Rectangle area = getBounds();
 
-		ArrayList yList = new ArrayList();
+		ArrayList<Point> yList = new ArrayList<Point>();
 
 		if ((repeat & ImageConstants.REPEAT_Y) == 0) {
 			yList.add(new Point(x, y));
@@ -223,11 +238,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = new ArrayList();
+		ArrayList<Point> xyList = new ArrayList<Point>();
 
-		Iterator iter = yList.iterator();
+		Iterator<Point> iter = yList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 
 			if ((repeat & ImageConstants.REPEAT_X) == 0) {
 				xyList.add(point);
@@ -359,7 +374,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return
+	 * @return Returns the margin of current figure.
 	 */
 	@Override
 	public Insets getMargin() {
@@ -399,7 +414,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	}
 
 	/**
-	 * @param backGroundImageWidth
+	 * Set background image size
+	 *
+	 * @param backGroundImageWidth  background image width
+	 * @param backGroundImageHeight background image height
 	 */
 	public void setBackGroundImageSize(int backGroundImageWidth, int backGroundImageHeight) {
 

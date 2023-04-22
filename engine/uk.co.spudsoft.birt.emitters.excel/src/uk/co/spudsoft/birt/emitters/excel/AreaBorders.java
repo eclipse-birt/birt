@@ -19,18 +19,34 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Area borders class
+ *
+ * @since 3.3
+ *
+ */
 public class AreaBorders {
-	public boolean isMergedCells;
 
+	/** property: area is merged cell */
+	public boolean isMergedCells;
+	/** property: border bottom */
 	public int bottom;
+	/** property: border left */
 	public int left;
+	/** property: border right */
 	public int right;
+	/** property: border top */
 	public int top;
+	/** property: border diagonal */
 	public int diagonal;
+	/** property: border antidiagonal */
 	public int antidiagonal;
 
+	/** property: css style array */
 	public CSSValue[] cssStyle = new CSSValue[6];
+	/** property: css width array */
 	public CSSValue[] cssWidth = new CSSValue[6];
+	/** property: css color array */
 	public CSSValue[] cssColour = new CSSValue[6];
 
 	private AreaBorders(boolean isMergedCells, int bottom, int left, int right, int top, int diagonal, int antidiagonal,
@@ -48,16 +64,56 @@ public class AreaBorders {
 		this.cssColour = cssColour;
 	}
 
+	/**
+	 * Create area borders and area is normal area/cell
+	 *
+	 * @param bottom       bottom border
+	 * @param left         left border
+	 * @param right        right border
+	 * @param top          top border
+	 * @param diagonal     diagonal border
+	 * @param antidiagonal antidiagonal border
+	 * @param borderStyle  border style
+	 *
+	 * @return Return the created area borders
+	 */
 	public static AreaBorders create(int bottom, int left, int right, int top, int diagonal, int antidiagonal,
 			BirtStyle borderStyle) {
 		return create(false, bottom, left, right, top, diagonal, antidiagonal, borderStyle);
 	}
 
+	/**
+	 * Create area borders and area is a merged cell
+	 *
+	 * @param bottom       bottom border
+	 * @param left         left border
+	 * @param right        right border
+	 * @param top          top border
+	 * @param diagonal     diagonal border
+	 * @param antidiagonal antidiagonal border
+	 * @param borderStyle  border style
+	 *
+	 * @return Return the created area borders
+	 */
 	public static AreaBorders createForMergedCells(int bottom, int left, int right, int top, int diagonal,
 			int antidiagonal, BirtStyle borderStyle) {
 		return create(true, bottom, left, right, top, diagonal, antidiagonal, borderStyle);
 	}
 
+	/**
+	 * Create area borders in dependency of the merged cell flag
+	 *
+	 * @param isMergedCells cell merged flag
+	 * @param bottom        bottom border
+	 * @param left          left border
+	 * @param right         right border
+	 * @param top           top border
+	 * @param diagonal      diagonal border
+	 * @param antidiagonal  antidiagonal border
+	 * @param borderStyle   border style
+	 *
+	 * @return Return the created area borders
+	 */
 	public static AreaBorders create(boolean isMergedCells, int bottom, int left, int right, int top, int diagonal,
 			int antidiagonal,
 			BirtStyle borderStyle) {
@@ -81,17 +137,7 @@ public class AreaBorders {
 		CSSValue borderStyleAntidiagonal = borderStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE);
 		CSSValue borderWidthAntidiagonal = borderStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
 		CSSValue borderColourAntidiagonal = borderStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR);
-		/*
-		 * borderMsg.append( ", Bottom:" ).append( borderStyleBottom ).append( "/"
-		 * ).append( borderWidthBottom ).append( "/" + borderColourBottom );
-		 * borderMsg.append( ", Left:" ).append( borderStyleLeft ).append( "/" ).append(
-		 * borderWidthLeft ).append( "/" + borderColourLeft ); borderMsg.append(
-		 * ", Right:" ).append( borderStyleRight ).append( "/" ).append(
-		 * borderWidthRight ).append( "/" ).append( borderColourRight );
-		 * borderMsg.append( ", Top:" ).append( borderStyleTop ).append( "/" ).append(
-		 * borderWidthTop ).append( "/" ).append( borderColourTop ); log.debug(
-		 * borderMsg.toString() );
-		 */
+
 		if ((borderStyleBottom == null) || (CSSConstants.CSS_NONE_VALUE.equals(borderStyleBottom.getCssText()))
 				|| (borderWidthBottom == null) || ("0".equals(borderWidthBottom.getCssText()))
 				|| (borderColourBottom == null)

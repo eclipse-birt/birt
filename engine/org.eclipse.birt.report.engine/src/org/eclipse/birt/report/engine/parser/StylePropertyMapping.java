@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  */
 public class StylePropertyMapping {
 
-	protected static final HashMap nameMapping = new HashMap();
+	protected static final HashMap<String, Integer> nameMapping = new HashMap<String, Integer>();
 
 	static {
 		nameMapping.put(IStyleModel.FONT_FAMILY_PROP, Integer.valueOf(StyleConstants.STYLE_FONT_FAMILY));
@@ -142,6 +142,12 @@ public class StylePropertyMapping {
 		return false;
 	}
 
+	/**
+	 * Get default value
+	 *
+	 * @param name name of property
+	 * @return Return default value
+	 */
 	public static Object getDefaultValue(String name) {
 		IElementPropertyDefn defn = getStyleDefn().getProperty(name);
 		if (defn != null) {
@@ -151,9 +157,11 @@ public class StylePropertyMapping {
 	}
 
 	/**
-	 * @param name
-	 * @param handle
-	 * @return
+	 * Get default value
+	 *
+	 * @param name   name of property
+	 * @param handle report handle
+	 * @return Return the default value
 	 * @author bidi_hcg
 	 */
 	public static Object getDefaultValue(String name, ReportDesignHandle handle) {
@@ -167,10 +175,22 @@ public class StylePropertyMapping {
 		return value;
 	}
 
+	/**
+	 * Get default value
+	 *
+	 * @param index property index
+	 * @return Return the default value
+	 */
 	public static Object getDefaultValue(int index) {
 		return getDefaultValue(nameMapping.get(Integer.valueOf(index)).toString());
 	}
 
+	/**
+	 * Get the property id
+	 *
+	 * @param name name of property
+	 * @return Return the property ID
+	 */
 	public static int getPropertyID(String name) {
 		int id = -1;
 		Object obj = nameMapping.get(name);
@@ -180,7 +200,12 @@ public class StylePropertyMapping {
 		return id;
 	}
 
-	public static Set getPropertyMapping() {
+	/**
+	 * Get property mapping
+	 *
+	 * @return Return a set with the property mapping
+	 */
+	public static Set<?> getPropertyMapping() {
 		return nameMapping.entrySet();
 	}
 
