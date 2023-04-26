@@ -109,7 +109,6 @@
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.rcp.feature"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,features/org.eclipse.birt.rcp.nl.feature"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.releng.birtbuilder"/>
-<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.releng.util"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.adapter"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,nl/org.eclipse.birt.report.data.adapter.nl"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,data/org.eclipse.birt.report.data.bidi.utils"/>
@@ -294,7 +293,6 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-source" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-publish" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-runtime" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.releng.util" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.report.designer.rcp" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.p2updatesite" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/birt-tests-suite" type="4"/>
