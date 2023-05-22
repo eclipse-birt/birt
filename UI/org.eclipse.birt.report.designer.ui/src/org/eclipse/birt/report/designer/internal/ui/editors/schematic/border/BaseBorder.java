@@ -29,25 +29,47 @@ import org.eclipse.swt.SWT;
 public abstract class BaseBorder extends AbstractBorder {
 
 	// Defines keys for line style.
+
+	/** style property: no style */
 	public static final String STYLE_NONO = DesignChoiceConstants.LINE_STYLE_NONE;
+	/** style property: solid style */
 	public static final String STYLE_SOLID = DesignChoiceConstants.LINE_STYLE_SOLID;
+	/** style property: dotted style */
 	public static final String STYLE_DOTTED = DesignChoiceConstants.LINE_STYLE_DOTTED;
+	/** style property: dashed style */
 	public static final String STYLE_DASHED = DesignChoiceConstants.LINE_STYLE_DASHED;
+	/** style property: double style */
 	public static final String STYLE_DOUBLE = DesignChoiceConstants.LINE_STYLE_DOUBLE;
+	/** style property: ridge style */
 	public static final String STYLE_RIDGE = DesignChoiceConstants.LINE_STYLE_RIDGE;
+	/** style property: groove style */
 	public static final String STYLE_GROOVE = DesignChoiceConstants.LINE_STYLE_GROOVE;
+	/** style property: inset style */
 	public static final String STYLE_INSET = DesignChoiceConstants.LINE_STYLE_INSET;
+	/** style property: outset style */
 	public static final String STYLE_OUTSET = DesignChoiceConstants.LINE_STYLE_OUTSET;
 
+
 	// Defines line styles for painting.
+
+	/** style property: line style solid */
 	public static final int LINE_STYLE_SOLID = SWT.LINE_SOLID;
+	/** style property: line style doted */
 	public static final int LINE_STYLE_DOTTED = SWT.LINE_DOT;
+	/** style property: line style dashed */
 	public static final int LINE_STYLE_DASHED = SWT.LINE_DASH;
+
+	/** style property: line style no */
 	public static final int LINE_STYLE_NONE = 0;
+	/** style property: line style double */
 	public static final int LINE_STYLE_DOUBLE = -2;
+	/** style property: line style ridge */
 	public static final int LINE_STYLE_RIDGE = -3;
+	/** style property: line style groove */
 	public static final int LINE_STYLE_GROOVE = -4;
+	/** style property: line style inset */
 	public static final int LINE_STYLE_INSET = -5;
+	/** style property: line style outset */
 	public static final int LINE_STYLE_OUTSET = -6;
 
 	/**
@@ -197,12 +219,12 @@ public abstract class BaseBorder extends AbstractBorder {
 	 * Returns the border style.
 	 *
 	 * @param obj
-	 * @return
+	 * @return Returns the border style
 	 */
 	protected int getBorderStyle(Object obj) {
 		Integer retValue = styleMap.get(obj);
 		if (retValue == null) {
-			// fix bug 168627.the default style is silid.
+			// fix bug 168627.the default style is solid.
 			return SWT.LINE_SOLID;
 			// return SWT.LINE_DASH;
 		}
@@ -214,7 +236,7 @@ public abstract class BaseBorder extends AbstractBorder {
 	 * Returns the border width as pixel.
 	 *
 	 * @param obj
-	 * @return
+	 * @return Return the border width as pixel
 	 */
 	protected int getBorderWidth(Object obj) {
 		// handle predefined values.

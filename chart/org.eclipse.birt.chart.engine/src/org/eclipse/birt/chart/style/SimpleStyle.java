@@ -57,9 +57,10 @@ public final class SimpleStyle implements IStyle {
 	/**
 	 * The constructor.
 	 *
-	 * @param font
-	 * @param backcolor
-	 * @param backimage
+	 * @param font      font
+	 * @param color     color
+	 * @param backcolor background color
+	 * @param backimage background image
 	 * @param padding
 	 */
 	public SimpleStyle(FontDefinition font, ColorDefinition color, ColorDefinition backcolor, Image backimage,
@@ -112,7 +113,7 @@ public final class SimpleStyle implements IStyle {
 	/**
 	 * Returns a copy of current instance.
 	 *
-	 * @return
+	 * @return Returns a copy of current instance.
 	 */
 	public SimpleStyle copy() {
 		SimpleStyle ss = new SimpleStyle();
@@ -287,6 +288,11 @@ public final class SimpleStyle implements IStyle {
 		return dateTimeFormat;
 	}
 
+	/**
+	 * Set the date time format
+	 *
+	 * @param df date time format
+	 */
 	public void setDateTimeFormat(FormatSpecifier df) {
 		this.dateTimeFormat = df;
 	}
@@ -296,6 +302,11 @@ public final class SimpleStyle implements IStyle {
 		return numberFormat;
 	}
 
+	/**
+	 * Set the number format
+	 *
+	 * @param nf number format
+	 */
 	public void setNumberFormat(FormatSpecifier nf) {
 		this.numberFormat = nf;
 	}
@@ -305,6 +316,11 @@ public final class SimpleStyle implements IStyle {
 		return stringFormat;
 	}
 
+	/**
+	 * Set the string format
+	 *
+	 * @param sf string format
+	 */
 	public void setStringFormat(FormatSpecifier sf) {
 		this.stringFormat = sf;
 	}

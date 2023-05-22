@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -61,9 +61,10 @@ public class FontManager {
 	private CSSEngine cssEngine;
 
 	/**
-	 * @param workbook The workbook for which fonts are being tracked.
-	 * @param smu      The StyleManagerUtils instance that will be used in the
-	 *                 comparison of styles and manipulation of colours.
+	 * @param cssEngine CSS engine
+	 * @param workbook  The workbook for which fonts are being tracked.
+	 * @param smu       The StyleManagerUtils instance that will be used in the
+	 *                  comparison of styles and manipulation of colours.
 	 */
 	public FontManager(CSSEngine cssEngine, Workbook workbook, StyleManagerUtils smu) {
 		this.cssEngine = cssEngine;
@@ -256,7 +257,7 @@ public class FontManager {
 
 		BirtStyle birtStyle = birtStyleFromFont(source);
 
-		for (int i = 0; i < IStyle.NUMBER_OF_STYLE; ++i) {
+		for (int i = 0; i < StyleConstants.NUMBER_OF_STYLE; ++i) {
 			CSSValue value = birtExtraStyle.getProperty(i);
 			if (value != null) {
 				birtStyle.setProperty(i, value);

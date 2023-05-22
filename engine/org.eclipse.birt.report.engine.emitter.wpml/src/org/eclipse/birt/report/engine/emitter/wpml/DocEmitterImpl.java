@@ -31,6 +31,12 @@ import org.eclipse.birt.report.engine.emitter.wpml.writer.DocWriter;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
+/**
+ * Doc emitter implementation
+ *
+ * @since 3.3
+ *
+ */
 public class DocEmitterImpl extends AbstractEmitterImpl {
 
 	private static final String OUTPUT_FORMAT = "doc";
@@ -41,6 +47,11 @@ public class DocEmitterImpl extends AbstractEmitterImpl {
 
 	private boolean hasPInside = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param contentVisitor content visitor
+	 */
 	public DocEmitterImpl(ContentEmitterVisitor contentVisitor) {
 		this.contentVisitor = contentVisitor;
 	}
@@ -173,7 +184,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl {
 		} else {
 			Object rawValue = foreign.getRawValue();
 			String text = rawValue == null ? "" : rawValue.toString();
-			writeContent(DocEmitterImpl.NORMAL, text, foreign);
+			writeContent(AbstractEmitterImpl.NORMAL, text, foreign);
 		}
 	}
 
@@ -224,7 +235,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl {
 				style.setProperty(i, null);
 
 				for (int p = inlineStyles.size() - 1; p >= 0; p--) {
-					IStyle pstyle = (IStyle) inlineStyles.get(p);
+					IStyle pstyle = inlineStyles.get(p);
 
 					if (!isNullValue(pstyle.getProperty(i))) {
 						style.setProperty(i, pstyle.getProperty(i));

@@ -98,6 +98,21 @@ public class TableBorderCollisionArbiter {
 	 * This method implemented the border collision algorithm in the cross point
 	 * during actual drawing according to the CSS2.0 specification. This is the part
 	 * 2 of the algorithm.
+	 *
+	 * @param data
+	 * @param extNBWidth
+	 * @param extNBStyle
+	 * @param leftHandWidth
+	 * @param leftHandStyle
+	 * @param leftHandX
+	 * @param leftHandY
+	 * @param rightHandWidth
+	 * @param rightHandStyle
+	 * @param rightHandX
+	 * @param rightHandY
+	 * @param isHead
+	 * @param isVertical
+	 * @return Return the evaluation result
 	 */
 	public static boolean canExtend(int[] data, int extNBWidth, int extNBStyle, int leftHandWidth, int leftHandStyle,
 			int leftHandX, int leftHandY, int rightHandWidth, int rightHandStyle, int rightHandX, int rightHandY,
@@ -453,6 +468,23 @@ public class TableBorderCollisionArbiter {
 	/**
 	 * This is the part 3 of the border collision algorithm according to the CSS2.0
 	 * specification. This part is used to fix some side-situation.
+	 *
+	 * @param data
+	 * @param extNBWidth
+	 * @param extNBStyle
+	 * @param extNBX
+	 * @param extNBY
+	 * @param leftHandWidth
+	 * @param leftHandStyle
+	 * @param leftHandX
+	 * @param leftHandY
+	 * @param rightHandWidth
+	 * @param rightHandStyle
+	 * @param rightHandX
+	 * @param rightHandY
+	 * @param isHead
+	 * @param isVertical
+	 * @return Return the evaluation result
 	 */
 	public static boolean isBrotherWin(int[] data, int extNBWidth, int extNBStyle, int extNBX, int extNBY,
 			int leftHandWidth, int leftHandStyle, int leftHandX, int leftHandY, int rightHandWidth, int rightHandStyle,

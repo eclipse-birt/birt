@@ -443,7 +443,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	public void testMapRules() throws SemanticException {
 		StyleHandle styleHandle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
-		Iterator iter = styleHandle.mapRulesIterator();
+		Iterator<?> iter = styleHandle.mapRulesIterator();
 
 		MapRuleHandle ruleHandle = (MapRuleHandle) iter.next();
 		assertEquals("Closed", ruleHandle.getDisplay()); //$NON-NLS-1$
@@ -560,7 +560,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	public void testHightlightRules() {
 		TableHandle table = (TableHandle) designHandle.findElement("My Table"); //$NON-NLS-1$
-		Iterator highlightRules = table.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP).iterator();
+		Iterator<?> highlightRules = table.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP).iterator();
 		HighlightRuleHandle highLight = (HighlightRuleHandle) highlightRules.next();
 		assertNotNull(highLight);
 		assertEquals("#C0C0C0", highLight.getBackgroundColor().getStringValue()); //$NON-NLS-1$

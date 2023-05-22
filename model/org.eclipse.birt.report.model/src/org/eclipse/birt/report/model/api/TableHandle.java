@@ -472,6 +472,14 @@ public class TableHandle extends ListingHandle implements ITableItemModel {
 		shiftColumn(sourceColumn, destColumn, true);
 	}
 
+	/**
+	 * Shift column
+	 *
+	 * @param sourceColumn the source column ranging from 1 to the column number
+	 * @param destColumn   the target column ranging from 0 to the column number
+	 * @param weakMode
+	 * @throws SemanticException if the chosen column band is forbidden to shift
+	 */
 	public void shiftColumn(int sourceColumn, int destColumn, boolean weakMode) throws SemanticException {
 		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(new TableColumnBandAdapter(this), weakMode);
 		shiftAction.shiftColumnBand(sourceColumn, destColumn);

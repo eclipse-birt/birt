@@ -22,12 +22,21 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
+/**
+ * Border description provider
+ *
+ * @since 3.3
+ *
+ */
 public abstract class BorderDescriptorProvider extends AbstractDescriptorProvider {
 
 	protected Object input;
 
-	protected HashMap<String, Boolean> styleMap = new HashMap();
+	protected HashMap<String, Boolean> styleMap = new HashMap<String, Boolean>();
 
+	/**
+	 * Constructor
+	 */
 	public BorderDescriptorProvider() {
 		styleMap.put(IStyleModel.BORDER_LEFT_STYLE_PROP, Boolean.FALSE);
 		styleMap.put(IStyleModel.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE);
@@ -37,6 +46,12 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		styleMap.put(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP, Boolean.FALSE);
 	}
 
+	/**
+	 * Set style property
+	 *
+	 * @param style style property name
+	 * @param value property value
+	 */
 	public void setStyleProperty(String style, Boolean value) {
 		styleMap.put(style, value);
 	}

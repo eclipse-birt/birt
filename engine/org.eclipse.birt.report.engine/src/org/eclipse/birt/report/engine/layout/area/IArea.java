@@ -16,6 +16,12 @@ package org.eclipse.birt.report.engine.layout.area;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 
+/**
+ * Area interface
+ *
+ * @since 3.3
+ *
+ */
 public interface IArea {
 	/**
 	 * Gets the content object of the area.
@@ -59,6 +65,11 @@ public interface IArea {
 	 */
 	int getHeight();
 
+	/**
+	 * Accept area visitor
+	 *
+	 * @param visitor area visitor
+	 */
 	void accept(IAreaVisitor visitor);
 
 	/**

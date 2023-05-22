@@ -61,19 +61,33 @@ public class ReportPlatformUIImages {
 
 	public final static String ICONS_PATH = "icons/";//$NON-NLS-1$
 
+	/** path constant: dobj16 */
 	public final static String DOBJ16_PATH = "dobj16/";//$NON-NLS-1$
+	/** path constant: dtool16 */
 	public final static String DTOOL16_PATH = "dtool16/";//$NON-NLS-1$
+	/** path constant: etool16 */
 	public final static String ETOOL16_PATH = "etool16/";//$NON-NLS-1$
+	/** path constant: eview16 */
 	public final static String EVIEW16_PATH = "eview16/";//$NON-NLS-1$
+	/** path constant: obj16 */
 	public final static String OBJ16_PATH = "obj16/";//$NON-NLS-1$
+	/** path constant: pal */
 	public final static String PAL_PATH = "pal/";//$NON-NLS-1$
+	/** path constant: progress */
 	public final static String PROGRESS_PATH = "progress/";//$NON-NLS-1$
+	/** path constant: misc */
 	public final static String MISC_PATH = "misc/";//$NON-NLS-1$
+	/** path constant: wizban */
 	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
+	/** path constant: lib */
 	public final static String LINK_PATH = "lib/";//$NON-NLS-1$
+	/** path constant: data */
 	public final static String DATA_PATH = "data/"; //$NON-NLS-1$
+	/** path constant: others */
 	public final static String OTHERS_PATH = "others/"; //$NON-NLS-1$
+	/** path constant: ovr16 */
 	public final static String OVR16_PATH = "ovr16/"; //$NON-NLS-1$
+	/** path constant: layout16 */
 	public final static String LAYOUT16_PATH = "layout16/"; //$NON-NLS-1$
 
 	static {
@@ -650,6 +664,9 @@ public class ReportPlatformUIImages {
 	 *
 	 * This method is essentially a convenient short form of
 	 * WorkbenchImages.getImageRegistry.get(symbolicName).
+	 *
+	 * @param symbolicName symbolic name
+	 * @return Return the image
 	 */
 	public static Image getImage(String symbolicName) {
 		return getImageRegistry().get(symbolicName);
@@ -663,6 +680,9 @@ public class ReportPlatformUIImages {
 	 * The class also "caches" commonly used images in the image registry. If you
 	 * are looking for one of these common images it is recommended you use the
 	 * getImage() method instead.
+	 *
+	 * @param symbolicName symbolic name
+	 * @return Return the image description
 	 */
 	public static ImageDescriptor getImageDescriptor(String symbolicName) {
 		return imageRegistry.getDescriptor(symbolicName);
@@ -688,20 +708,9 @@ public class ReportPlatformUIImages {
 			VariableElementHandle variable = (VariableElementHandle) model;
 			if (DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals(variable.getType())) {
 				return getImage(IReportGraphicConstants.ICON_ELEMENT_VARIABLE_REPORT);
-			} else {
-				return getImage(IReportGraphicConstants.ICON_ELEMENT_VARIABLE_PAGE);
 			}
+			return getImage(IReportGraphicConstants.ICON_ELEMENT_VARIABLE_PAGE);
 		} else if (model instanceof DesignElementHandle) {// the icon name for elements is just the same as the element
-															// name
-//			if ( isLinkImg( (DesignElementHandle) model ) == true )
-//			{
-//				image = getImage( ( (DesignElementHandle) model ).getElement( )
-//						.getDefn( )
-//						.getName( )
-//						+ "_" //$NON-NLS-1$
-//						+ IReportGraphicConstants.LINK );
-//			}
-//			else
 			{
 				image = getImage(((DesignElementHandle) model).getElement().getDefn().getName());
 			}
@@ -751,7 +760,6 @@ public class ReportPlatformUIImages {
 	 * @return Returns the proper icon image descriptor for the given model, or null
 	 *         if no proper one exists
 	 */
-
 	public static ImageDescriptor getImageDescriptor(Object model) {
 		ImageDescriptor imageDescriptor = null;
 		if (model instanceof ExtendedItemHandle) {
@@ -782,6 +790,8 @@ public class ReportPlatformUIImages {
 
 	/**
 	 * Returns the ImageRegistry.
+	 *
+	 * @return Return the image registry
 	 */
 	public static ImageRegistry getImageRegistry() {
 		return imageRegistry;
@@ -802,6 +812,8 @@ public class ReportPlatformUIImages {
 	 * location as this plug-in class. This may mean the same package directory as
 	 * the package holding this class. The images are declared using this.getClass()
 	 * to ensure they are looked up via this plug-in class.
+	 *
+	 * @return Return the image registry
 	 *
 	 */
 	public static ImageRegistry initializeImageRegistry() {

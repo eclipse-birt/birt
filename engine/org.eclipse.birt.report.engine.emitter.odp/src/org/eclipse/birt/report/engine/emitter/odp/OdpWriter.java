@@ -39,10 +39,23 @@ public class OdpWriter extends AbstractOdfWriter {
 
 	protected float pageWidth, pageHeight;
 
+	/**
+	 * Constructor
+	 *
+	 * @param out output stream
+	 * @throws Exception
+	 */
 	public OdpWriter(OutputStream out) throws Exception {
 		this(out, "UTF-8");
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param out      output stream
+	 * @param encoding encoding
+	 * @throws Exception
+	 */
 	public OdpWriter(OutputStream out, String encoding) throws Exception {
 		writer = new XMLWriter();
 		// no indent or newlines, because newlines inside paragraphs are
@@ -74,6 +87,9 @@ public class OdpWriter extends AbstractOdfWriter {
 		}
 	}
 
+	/**
+	 * Create end page
+	 */
 	public void endPage() {
 		writer.closeTag("draw:page");
 	}
@@ -81,7 +97,10 @@ public class OdpWriter extends AbstractOdfWriter {
 	/**
 	 * Creates a new page.
 	 *
-	 * @param page the PageArea specified from layout
+	 * @param pageWidth       page width
+	 * @param pageHeight      page height
+	 * @param backgroundColor background color
+	 * @param mpName          name
 	 */
 	public void newPage(float pageWidth, float pageHeight, Color backgroundColor, String mpName) {
 		currentPageNum++;
@@ -104,13 +123,14 @@ public class OdpWriter extends AbstractOdfWriter {
 	/**
 	 * Draws a chunk of text.
 	 *
-	 * @param text              the textArea to be drawn.
-	 * @param textX             the X position of the textArea relative to current
-	 *                          page.
-	 * @param textY             the Y position of the textArea relative to current
-	 *                          page.
-	 * @param contentByte       the content byte to draw the text.
-	 * @param contentByteHeight the height of the content byte.
+	 * @param text       the textArea to be drawn.
+	 * @param textX      the X position of the textArea relative to current page.
+	 * @param textY      the Y position of the textArea relative to current page.
+	 * @param width      text width
+	 * @param height     text height
+	 * @param frameStyle frame style
+	 * @param style      style
+	 * @param link       hyper link
 	 */
 	public void drawText(String text, float textX, float textY, float width, float height, StyleEntry frameStyle,
 			StyleEntry style, HyperlinkInfo link) {
@@ -152,6 +172,20 @@ public class OdpWriter extends AbstractOdfWriter {
 		writer.closeTag("draw:frame");
 	}
 
+	/**
+	 * Draw image
+	 *
+	 * @param imageId   image id
+	 * @param imageData image data
+	 * @param imageUrl  image URL
+	 * @param extension image extension
+	 * @param imageX    image position X
+	 * @param imageY    image position Y
+	 * @param height    image height
+	 * @param width     image width
+	 * @param helpText  help text
+	 * @param link      hyperlink
+	 */
 	public void drawImage(String imageId, byte[] imageData, String imageUrl, String extension, float imageX,
 			float imageY, float height, float width, String helpText, HyperlinkInfo link) {
 		openHyperlink(link, "draw");
@@ -170,13 +204,11 @@ public class OdpWriter extends AbstractOdfWriter {
 	 * Draws a line from the start position to the end position with the given line
 	 * width, color, and style
 	 *
-	 * @param startX    the start X coordinate of the line
-	 * @param startY    the start Y coordinate of the line
-	 * @param endX      the end X coordinate of the line
-	 * @param endY      the end Y coordinate of the line
-	 * @param width     the lineWidth
-	 * @param color     the color of the line
-	 * @param lineStyle the given line style
+	 * @param startX     the start X coordinate of the line
+	 * @param startY     the start Y coordinate of the line
+	 * @param endX       the end X coordinate of the line
+	 * @param endY       the end Y coordinate of the line
+	 * @param styleEntry the style entry
 	 */
 	public void drawLine(double startX, double startY, double endX, double endY, StyleEntry styleEntry) {
 		drawRawLine(startX, startY, endX, endY, styleEntry);
@@ -219,11 +251,11 @@ public class OdpWriter extends AbstractOdfWriter {
 	/**
 	 * Draws the background color.
 	 *
-	 * @param color  the color to be drawn
-	 * @param x      the start X coordinate
-	 * @param y      the start Y coordinate
-	 * @param width  the width of the background dimension
-	 * @param height the height of the background dimension
+	 * @param x         the start X coordinate
+	 * @param y         the start Y coordinate
+	 * @param width     the width of the background dimension
+	 * @param height    the height of the background dimension
+	 * @param rectStyle rectangle style
 	 */
 	public void drawBackgroundColor(double x, double y, double width, double height, StyleEntry rectStyle) {
 		writer.openTag("draw:rect");
@@ -252,11 +284,11 @@ public class OdpWriter extends AbstractOdfWriter {
 	 * @param y         the start Y coordinate where the image is positioned
 	 * @param width     the width of the background dimension
 	 * @param height    the height of the background dimension
+	 * @param iWidth    image width
+	 * @param iHeight   image height
 	 * @param positionX the offset X percentage relating to start X
 	 * @param positionY the offset Y percentage relating to start Y
 	 * @param repeat    the background-repeat property
-	 * @param xMode     whether the horizontal position is a percentage value or not
-	 * @param yMode     whether the vertical position is a percentage value or not
 	 */
 	public void drawBackgroundImage(String imageURI, float x, float y, float width, float height, float iWidth,
 			float iHeight, float positionX, float positionY, int repeat) {

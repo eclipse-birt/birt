@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,23 +20,36 @@ package org.eclipse.birt.chart.viewer.internal.util;
 
 public class ImageHTMLEmitter
 {
-
+	/** image property: id */
 	public String id = ""; //$NON-NLS-1$
+	/** image property: image type */
 	public String ext = "PNG"; //$NON-NLS-1$
+	/** image property: source */
 	public String src = ""; //$NON-NLS-1$
+	/** image property: alt */
 	public String alt = ""; //$NON-NLS-1$
+	/** image property: image map */
 	public String imageMap;
-
+	/** image property: width */
 	public int width = 0;
+	/** image property: height */
 	public int height = 0;
 
 	private StringBuffer html = null;
 
+	/**
+	 * Constructor
+	 */
 	public ImageHTMLEmitter( )
 	{
 		html = new StringBuffer( );
 	}
 
+	/**
+	 * Generate HTML
+	 *
+	 * @return Return generated HTML
+	 */
 	public String generateHTML( )
 	{
 		if ( isSVG( ) )
@@ -122,11 +135,21 @@ public class ImageHTMLEmitter
 		html.append( "</script>" ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Check is SVG
+	 *
+	 * @return Return the check result of SVG
+	 */
 	public boolean isSVG( )
 	{
 		return "SVG".equalsIgnoreCase( ext ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Check is PDF
+	 *
+	 * @return Return the check result of PDF
+	 */
 	public boolean isPDF( )
 	{
 		return "PDF".equalsIgnoreCase( ext ); //$NON-NLS-1$

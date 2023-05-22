@@ -202,12 +202,12 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList<?> xyList = createImageList(x, y);
+		ArrayList<Point> xyList = createImageList(x, y);
 
-		Iterator<?> iter = xyList.iterator();
+		Iterator<Point> iter = xyList.iterator();
 		Dimension imageSize = new Rectangle(image.getBounds()).getSize();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 			graphics.drawImage(image, 0, 0, imageSize.width, imageSize.height, point.x, point.y, size.width,
 					size.height);
 		}
@@ -456,7 +456,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return margin of the element
+	 * @return Returns the margin of current figure.
 	 */
 	@Override
 	public Insets getMargin() {

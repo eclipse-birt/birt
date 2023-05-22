@@ -16,6 +16,12 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Image;
 
+/**
+ * Report element figure interface
+ *
+ * @since 3.3
+ *
+ */
 public interface IReportElementFigure {
 
 	/**
@@ -105,15 +111,16 @@ public interface IReportElementFigure {
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return
+	 * @return Returns the margin of current figure.
 	 */
 	Insets getMargin();
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * org.eclipse.draw2d.IFigure#setLocation(org.eclipse.draw2d.geometry.Point)
+	 * @param p point
+	 *
+	 * @see org.eclipse.draw2d.IFigure#setLocation(org.eclipse.draw2d.geometry.Point)
 	 */
 	void setLocation(Point p);
 }

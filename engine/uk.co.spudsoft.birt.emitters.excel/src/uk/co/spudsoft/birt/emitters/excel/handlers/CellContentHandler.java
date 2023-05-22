@@ -65,6 +65,12 @@ import uk.co.spudsoft.birt.emitters.excel.StyleManager;
 import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Cell content handler
+ *
+ * @since 3.3
+ *
+ */
 public class CellContentHandler extends AbstractHandler {
 
 	/**
@@ -121,6 +127,14 @@ public class CellContentHandler extends AbstractHandler {
 
 	private static String DATA_PROTOCOL_BASE = ";base64,";
 
+	/**
+	 * Constructor
+	 *
+	 * @param emitter content emitter
+	 * @param log     log object
+	 * @param parent  parent handler
+	 * @param cell    cell content
+	 */
 	public CellContentHandler(IContentEmitter emitter, Logger log, IHandler parent, ICellContent cell) {
 		super(log, parent, cell);
 		contentVisitor = new ContentEmitterVisitor(emitter);
@@ -214,12 +228,12 @@ public class CellContentHandler extends AbstractHandler {
 				if (lastString.contains("\n")) {
 					if (!CSSConstants.CSS_NOWRAP_VALUE.equals(lastElement.getStyle().getWhiteSpace())) {
 						birtCellStyle.setProperty(StyleConstants.STYLE_WHITE_SPACE,
-								new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
+								new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
 					}
 				}
 				if (!richTextRuns.isEmpty()) {
 					birtCellStyle.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN,
-							new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
+							new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
 				}
 				if (preferredAlignment != null) {
 					birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_ALIGN, preferredAlignment);
@@ -426,7 +440,7 @@ public class CellContentHandler extends AbstractHandler {
 	private CSSValue preferredAlignment(BirtStyle elementStyle) {
 		CSSValue newAlign = elementStyle.getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		if (newAlign == null) {
-			newAlign = new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_LEFT_VALUE);
+			newAlign = new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_LEFT_VALUE);
 		}
 		if (preferredAlignment == null) {
 			return newAlign;
@@ -436,12 +450,10 @@ public class CellContentHandler extends AbstractHandler {
 		} else if (CSSConstants.CSS_RIGHT_VALUE.equals(newAlign.getCssText())) {
 			if (CSSConstants.CSS_CENTER_VALUE.equals(preferredAlignment.getCssText())) {
 				return newAlign;
-			} else {
-				return preferredAlignment;
 			}
-		} else {
 			return preferredAlignment;
 		}
+		return preferredAlignment;
 	}
 
 	/**
@@ -519,6 +531,15 @@ public class CellContentHandler extends AbstractHandler {
 		hyperlinkUrl = null;
 	}
 
+	/**
+	 * Record image
+	 *
+	 * @param state       handler state
+	 * @param location    location coordinate
+	 * @param image       image content
+	 * @param spanColumns columns are spanned
+	 * @throws BirtException
+	 */
 	public void recordImage(HandlerState state, Coordinate location, IImageContent image, boolean spanColumns)
 			throws BirtException {
 		byte[] data = image.getData();

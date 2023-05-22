@@ -33,6 +33,12 @@ import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
+/**
+ * DOXC writer
+ *
+ * @since 3.3
+ *
+ */
 public class DocxWriter implements IWordWriter {
 
 	private Package pkg;
@@ -47,6 +53,14 @@ public class DocxWriter implements IWordWriter {
 
 	private int wordVersion;
 
+	/**
+	 * Constructor
+	 *
+	 * @param out             output stream
+	 * @param tempFileDir     temporary file directory
+	 * @param compressionMode compression mode
+	 * @param wordVersion     word version
+	 */
 	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion) {
 		pkg = Package.createInstance(out, tempFileDir, compressionMode);
 		pkg.setExtensionData(new ImageManager());

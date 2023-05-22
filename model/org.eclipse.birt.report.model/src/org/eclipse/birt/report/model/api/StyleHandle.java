@@ -1292,7 +1292,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * @return the iterator of map rule structure list
 	 */
 
-	public Iterator mapRulesIterator() {
+	public Iterator<?> mapRulesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IStyleModel.MAP_RULES_PROP);
 		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
@@ -1966,7 +1966,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets the value of height property.
 	 *
-	 * @param value the new height value
+	 * @param height the new height value
 	 * @throws SemanticException
 	 */
 	public void setHeight(String height) throws SemanticException {
@@ -1985,7 +1985,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets the value of width property.
 	 *
-	 * @param value the new width value
+	 * @param width the new width value
 	 * @throws SemanticException
 	 */
 	public void setWidth(String width) throws SemanticException {

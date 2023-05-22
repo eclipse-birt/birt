@@ -18,8 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.IComboProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
@@ -37,6 +37,9 @@ import org.eclipse.swt.widgets.Display;
  */
 public abstract class StyleComboProvider extends BorderDescriptorProvider implements IComboProvider {
 
+	/**
+	 * Constructor
+	 */
 	public StyleComboProvider() {
 		super();
 	}
@@ -134,8 +137,8 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 				gc.setLineWidth(3);
 			} else {
 				try {
-					int customWidth = (int) DimensionValue.parse(key).getMeasure();
-					if (DimensionValue.parse(key).getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
+					int customWidth = (int) StringUtil.parse(key).getMeasure();
+					if (StringUtil.parse(key).getUnits().equals(DesignChoiceConstants.UNITS_PX)) {
 						gc.setLineWidth(customWidth);
 					}
 				} catch (Exception e) {

@@ -554,7 +554,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel {
 	/**
 	 * Sets the tag type of this label item.
 	 *
-	 * @param tag type the tag type
+	 * @param tagType type the tag type
 	 *
 	 * @throws SemanticException if the property is locked.
 	 */

@@ -33,12 +33,23 @@ import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
+/**
+ * Docx emitter implementation
+ *
+ * @since 3.3
+ *
+ */
 public class DocxEmitterImpl extends AbstractEmitterImpl {
 
 	private static final String OUTPUT_FORMAT = "docx";
 
 	private boolean embedHtml = true;
 
+	/**
+	 * Constructor
+	 *
+	 * @param contentVisitor content visitor
+	 */
 	public DocxEmitterImpl(ContentEmitterVisitor contentVisitor) {
 		this.contentVisitor = contentVisitor;
 	}

@@ -27,7 +27,8 @@ public interface IStyleProcessor {
 	/**
 	 * Returns the style as per given component name.
 	 *
-	 * @param name
+	 * @param model chart model
+	 * @param name  style component
 	 * @return style element
 	 */
 	IStyle getStyle(Chart model, StyledComponent name);
@@ -43,7 +44,7 @@ public interface IStyleProcessor {
 	/**
 	 * To set the default background color.
 	 *
-	 * @param color default background color
+	 * @param cd default background color
 	 */
 	void setDefaultBackgroundColor(ColorDefinition cd);
 
@@ -67,7 +68,7 @@ public interface IStyleProcessor {
 	/**
 	 * Indicates if chart need to inherit some basic styles from container.
 	 *
-	 * @return
+	 * @return Return the need of interited styles
 	 */
 	boolean needInheritingStyles();
 }

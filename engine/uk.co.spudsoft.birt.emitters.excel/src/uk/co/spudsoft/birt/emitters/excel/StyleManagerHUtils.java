@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.w3c.dom.css.CSSValue;
@@ -57,6 +58,11 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 		}
 	};
 
+	/**
+	 * Get factory object
+	 *
+	 * @return Return a factory object
+	 */
 	public static Factory getFactory() {
 		return factory;
 	}
@@ -101,9 +107,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 		} else if ("dashed".equals(birtBorder)) {
 			if (pxWidth < 2.9) {
 				return BorderStyle.DASHED; // CellStyle.BORDER_DASHED;
-			} else {
-				return BorderStyle.MEDIUM_DASHED; // CellStyle.BORDER_MEDIUM_DASHED;
 			}
+			return BorderStyle.MEDIUM_DASHED; // CellStyle.BORDER_MEDIUM_DASHED;
 		} else if ("dotted".equals(birtBorder)) {
 			return BorderStyle.DOTTED; // CellStyle.BORDER_DOTTED;
 		} else if ("double".equals(birtBorder)) {
@@ -140,9 +145,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 				--paletteIndex;
 				palette.setColorAtIndex(paletteIndex, rgbByte[0], rgbByte[1], rgbByte[2]);
 				return paletteIndex;
-			} else {
-				result = palette.findSimilarColor(rgbByte[0], rgbByte[1], rgbByte[2]);
 			}
+			result = palette.findSimilarColor(rgbByte[0], rgbByte[1], rgbByte[2]);
 		}
 		return result.getIndex();
 	}
@@ -203,7 +207,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	@Override
 	public void addColourToFont(Workbook workbook, Font font, String colour) {
 		// if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.getCssText().equals(colour)) {
+		if ((colour == null) || CSSValueConstants.TRANSPARENT_VALUE.getCssText().equals(colour)) {
 			return;
 		}
 		if (font instanceof HSSFFont) {
@@ -217,7 +221,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 
 	@Override
 	public void addBackgroundColourToStyle(Workbook workbook, CellStyle style, String colour) {
-		if ((colour == null) || IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if ((colour == null) || CSSValueConstants.TRANSPARENT_VALUE.equals(colour)) {
 			return;
 		}
 		if (style instanceof HSSFCellStyle) {
@@ -255,9 +259,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 			addedStyle.setColor(contrastColour(bgRgb));
 
 			return fm.getFontWithExtraStyle(font, addedStyle);
-		} else {
-			return font;
 		}
+		return font;
 	}
 
 	@Override
