@@ -31,7 +31,7 @@
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build> -->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
+		<tycho.scmUrl>scm:git:https://github.com/eclipse-birt/birt.git</tycho.scmUrl>
 		<required-java-version>11</required-java-version>
 		<required-maven-version>3.6.3</required-maven-version>
 		<junit-version>4.13.2</junit-version>

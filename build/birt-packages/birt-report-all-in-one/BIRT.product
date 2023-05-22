@@ -14,15 +14,15 @@ that can be embedded into web applications and rich clients.
 BIRT is maintained by a small number of volunteers. Please consider
 contributing. The contribution guide can be found here:
 
-https://github.com/eclipse/birt/blob/master/CONTRIBUTING.md
+https://github.com/eclipse-birt/birt/blob/master/CONTRIBUTING.md
  
 
 BIRT is an open source project under control of the Eclipse Foundation
 
-- Support: https://github.com/eclipse/birt/discussions
-- Issues: https://github.com/eclipse/birt/issues
+- Support: https://github.com/eclipse-birt/birt/discussions
+- Issues: https://github.com/eclipse-birt/birt/issues
 - Website https://eclipse.org/birt
-- Source: https://github.com/eclipse/birt
+- Source: https://github.com/eclipse-birt/birt
 
 
 
