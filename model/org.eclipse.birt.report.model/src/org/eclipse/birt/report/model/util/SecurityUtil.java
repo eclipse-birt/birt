@@ -17,18 +17,12 @@ package org.eclipse.birt.report.model.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URI;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Properties;
 
 /**
- *
+ * @version 4.14 remove the AccessController due to deprecated usage
  */
-
 public class SecurityUtil {
 
 	/**
@@ -41,13 +35,7 @@ public class SecurityUtil {
 	 */
 
 	public static String getSystemProperty(final String name, final String def) {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-			@Override
-			public String run() {
-				return System.getProperty(name, def);
-			}
-		});
+		return System.getProperty(name, def);
 	}
 
 	/**
@@ -55,15 +43,8 @@ public class SecurityUtil {
 	 *
 	 * @return the system properties
 	 */
-
 	public static Properties getSystemProperties() {
-		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
-
-			@Override
-			public Properties run() {
-				return System.getProperties();
-			}
-		});
+		return System.getProperties();
 	}
 
 	/**
@@ -72,19 +53,12 @@ public class SecurityUtil {
 	 * @param f the file instance
 	 * @return the URI schema part
 	 */
-
 	public static String getFiletoURISchemaPart(final File f) {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-			@Override
-			public String run() {
-				URI uri = f.toURI();
-				if (uri != null) {
-					return uri.getScheme();
-				}
-				return null;
-			}
-		});
+		URI uri = f.toURI();
+		if (uri != null) {
+			return uri.getScheme();
+		}
+		return null;
 	}
 
 	/**
@@ -93,15 +67,8 @@ public class SecurityUtil {
 	 * @param f the file instance
 	 * @return the absolute path
 	 */
-
 	public static String getFileAbsolutePath(final File f) {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-			@Override
-			public String run() {
-				return f.getAbsolutePath();
-			}
-		});
+		return f.getAbsolutePath();
 	}
 
 	/**
@@ -112,15 +79,7 @@ public class SecurityUtil {
 	 */
 
 	public static File getAbsoluteFile(final File f) {
-
-		return AccessController.doPrivileged(new PrivilegedAction<File>() {
-
-			@Override
-			public File run() {
-				return f.getAbsoluteFile();
-			}
-		});
-
+		return f.getAbsoluteFile();
 	}
 
 	/**
@@ -129,19 +88,8 @@ public class SecurityUtil {
 	 * @param f the file instance
 	 * @return the canonical path
 	 */
-
 	public static File getCanonicalFile(final File f) {
-		try {
-			return AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
-
-				@Override
-				public File run() throws IOException {
-					return f.getAbsoluteFile();
-				}
-			});
-		} catch (PrivilegedActionException e) {
-			return null;
-		}
+		return f.getAbsoluteFile();
 	}
 
 	/**
@@ -150,15 +98,8 @@ public class SecurityUtil {
 	 * @param f the file instance
 	 * @return the URI
 	 */
-
 	public static URI fileToURI(final File f) {
-		return AccessController.doPrivileged(new PrivilegedAction<URI>() {
-
-			@Override
-			public URI run() {
-				return f.toURI();
-			}
-		});
+		return f.toURI();
 	}
 
 	/**
@@ -171,19 +112,11 @@ public class SecurityUtil {
 	 *                               be created, or cannot be opened for any other
 	 *                               reason
 	 */
-
 	public static FileOutputStream createFileOutputStream(final File f) throws FileNotFoundException {
 		try {
-
-			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileOutputStream>() {
-
-				@Override
-				public FileOutputStream run() throws FileNotFoundException {
-					return new FileOutputStream(f, false);
-				}
-			});
-		} catch (PrivilegedActionException e) {
-			throw (FileNotFoundException) e.getException();
+			return new FileOutputStream(f, false);
+		} catch (FileNotFoundException e) {
+			throw e;
 		}
 	}
 
@@ -194,16 +127,8 @@ public class SecurityUtil {
 	 * @return true if and only if the file or directory denoted by this abstract
 	 *         pathname exists; false otherwise
 	 */
-
 	public static boolean exists(final File f) {
-		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-
-			@Override
-			public Boolean run() {
-				boolean exists = f.exists();
-				return exists;
-			}
-		});
+		Boolean exists = f.exists();
 		return exists.booleanValue();
 	}
 
@@ -214,16 +139,8 @@ public class SecurityUtil {
 	 * @return true if and only if the file denoted by this abstract pathname exists
 	 *         and is a normal file; false otherwise
 	 */
-
 	public static boolean isFile(final File f) {
-		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-
-			@Override
-			public Boolean run() {
-				boolean exists = f.isFile();
-				return exists;
-			}
-		});
+		Boolean exists = f.isFile();
 		return exists.booleanValue();
 	}
 
@@ -236,14 +153,7 @@ public class SecurityUtil {
 	 */
 
 	public static boolean isDirectory(final File f) {
-		Boolean exists = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-
-			@Override
-			public Boolean run() {
-				boolean exists = f.isDirectory();
-				return exists;
-			}
-		});
+		Boolean exists = f.isDirectory();
 		return exists.booleanValue();
 	}
 }

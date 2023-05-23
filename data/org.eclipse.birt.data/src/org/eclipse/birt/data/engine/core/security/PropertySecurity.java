@@ -14,62 +14,51 @@
 
 package org.eclipse.birt.data.engine.core.security;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
+/**
+ * Property security class
+ *
+ * @since 3.3
+ *
+ */
 public class PropertySecurity {
 	/**
+	 * Create a HashMap
 	 *
-	 * @return
+	 * @return Return a new HashMap
 	 */
 	public static HashMap createHashMap() {
-		return AccessController.doPrivileged(new PrivilegedAction<HashMap>() {
-
-			@Override
-			public HashMap run() {
-				return new HashMap();
-			}
-		});
+		return new HashMap();
 	}
 
 	/**
+	 * Create a HashTable
 	 *
-	 * @return
+	 * @return Return a HashTable
 	 */
 	public static Hashtable createHashtable() {
-		return AccessController.doPrivileged(new PrivilegedAction<Hashtable>() {
-
-			@Override
-			public Hashtable run() {
-				return new Hashtable();
-			}
-		});
+		return new Hashtable();
 	}
 
 	/**
+	 * Create properties
 	 *
-	 * @return
+	 * @return Return properties
 	 */
 	public static Properties createProperties() {
-		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
-
-			@Override
-			public Properties run() {
-				return new Properties();
-			}
-		});
+		return new Properties();
 	}
 
+	/**
+	 * Get system property
+	 *
+	 * @param key
+	 * @return Return system property
+	 */
 	public static String getSystemProperty(final String key) {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-			@Override
-			public String run() {
-				return System.getProperty(key);
-			}
-		});
+		return System.getProperty(key);
 	}
 }
