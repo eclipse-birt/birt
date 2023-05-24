@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.1"?>
+<?pde version="3.5"?>
 
 <product name="Report Engine SDK" id="org.eclipse.birt.report.engine.ReportEngineSDK" application="org.eclipse.birt.report.engine.ReportExecutor" useFeatures="false">
 
@@ -22,13 +22,14 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.itext"/>
-      <plugin id="org.apache.batik"/>
+      <plugin id="org.apache.batik.css"/>
+      <plugin id="org.apache.batik.i18n"/>
+      <plugin id="org.apache.batik.transcoder"/>
+      <plugin id="org.apache.batik.util"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.eclipse.birt.core"/>
       <plugin id="org.eclipse.birt.data"/>
-      <plugin id="org.eclipse.birt.data.oda"/>
       <plugin id="org.eclipse.birt.report.engine"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
@@ -38,21 +39,16 @@
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
-      <plugin id="org.eclipse.core.runtime.compatibility"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.datatools.connectivity.oda"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.consumer"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
-      <plugin id="org.eclipse.equinox.servlet.api"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.junit"/>
-      <plugin id="org.mozilla.rhino"/>
       <plugin id="org.w3c.sac"/>
    </plugins>
 

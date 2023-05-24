@@ -23,16 +23,4 @@
 	</parent>
 	<artifactId>org.eclipse.birt.integration.wtp</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho.extras</groupId>
-				<artifactId>tycho-source-feature-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>

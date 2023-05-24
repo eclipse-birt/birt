@@ -32,33 +32,33 @@ jobs:
        access_token: ${{ github.token }}
     - name: Checkout
       uses: actions/checkout@v1
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v1
       with:
-        java-version: 11
+        java-version: 17
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
         maven-version: 3.8.5        
     - name: Set up Maven 2
-      run: echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
+      run: echo "MAVEN_OPTS='-Xmx4096m'" > ~/.mavenrc
     - name: Build with Maven
-      run: mvn clean install --no-transfer-progress -U -DskipTests
-    - name: Data Test
-      run: mvn -B -pl :org.eclipse.birt.data.tests integration-test
-    - name: Model Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.model.tests integration-test
-    - name: Model Regression Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.model integration-test
-    - name: Report Engine Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.engine.tests integration-test
-    - name: Charts Core Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.chart.tests integration-test
-    - name: Charts Regression Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.chart integration-test
-    - name: Engine Regression Test
-      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
-#    - name: Test Core
+      run: mvn clean verify --fail-at-end --no-transfer-progress -U -DskipTests=false
+#    - name: Data Test
+#      run: mvn -B -pl :org.eclipse.birt.data.tests integration-test
+#    - name: Model Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.model.tests integration-test
+#    - name: Model Regression Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.model integration-test
+#    - name: Report Engine Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.engine.tests integration-test
+#    - name: Charts Core Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.chart.tests integration-test
+#    - name: Charts Regression Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.chart integration-test
+#    - name: Engine Regression Test
+#      run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
+##    - name: Test Core
 #      run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
 
     - name: Archive BIRT Update Site

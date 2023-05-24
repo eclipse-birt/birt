@@ -23,4 +23,18 @@
 	</parent>
 	<artifactId>org.eclipse.birt.report.engine.dataextraction.csv.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<argLine>-Duser.country=us -Duser.language=en -Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

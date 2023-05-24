@@ -27,7 +27,7 @@ public class DateSymbolTest extends TestCase {
 		assertEquals("'a", ExcelUtil.parse(null, "'''a'", ULocale.US));
 		assertEquals("M/d/yy", ExcelUtil.parse(null, "Short Date", ULocale.US));
 		// .getDefault( ) ) );
-		assertEquals("MMM d, yyyy h:mm AM/PM", ExcelUtil.parse(null, null, ULocale.US));
+		assertEquals("MMM d, yyyy h:mm AM/PM", ExcelUtil.parse(null, null, ULocale.US).replace("\u202f", " "));
 		assertEquals("yyyy.MM.dd  at HH:mm:ss ", ExcelUtil.parse(null, "yyyy.MM.dd G 'at' HH:mm:ss z", ULocale.US));
 		assertEquals("hh o'clock AM/PM ", ExcelUtil.parse(null, "hh 'o''clock' a z", ULocale.US));
 		assertEquals("yyyy-MM-ddTHH:mm:ss.SSS", ExcelUtil.parse(null, "yyyy-MM-dd'T'HH:mm:ss.SSSZ", ULocale.US));

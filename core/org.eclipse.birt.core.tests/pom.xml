@@ -51,6 +51,16 @@
 					</dependency-resolution>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<testClass>org.eclipse.birt.core.AllTests</testClass>
+					<skipTests>${skipTests}</skipTests>
+					<argLine>-Duser.country=us -Duser.language=en -Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

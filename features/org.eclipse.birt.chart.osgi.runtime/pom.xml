@@ -23,29 +23,4 @@
 	</parent>
 	<artifactId>org.eclipse.birt.chart.osgi.runtime</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho.extras</groupId>
-				<artifactId>tycho-source-feature-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<plugin id="org.apache.axis" />
-						<plugin id="org.apache.commons.discovery" />
-						<plugin id="org.apache.xerces" />
-						<plugin id="org.apache.xml.resolver" />
-						<plugin id="org.apache.xml.serializer" />
-						<plugin id="javax.xml" />
-						<plugin id="javax.xml.rpc" />
-						<plugin id="javax.xml.soap" />
-						<plugin id="javax.wsdl" />
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>
