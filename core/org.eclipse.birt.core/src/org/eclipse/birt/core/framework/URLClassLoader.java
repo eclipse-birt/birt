@@ -129,13 +129,11 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 	@Override
 	protected Class<?> findClass(final String name) throws ClassNotFoundException {
-		Class<?> piTemp0 = null;
 		try {
-			piTemp0 = findClass1(name);
+			return (Class<?>) findClass1(name);
 		} catch (ClassNotFoundException e) {
-			throw (ClassNotFoundException) e.getException();
+			throw (ClassNotFoundException) e;
 		}
-		return piTemp0;
 	}
 
 	protected Class<?> findClass1(String name) throws ClassNotFoundException {
