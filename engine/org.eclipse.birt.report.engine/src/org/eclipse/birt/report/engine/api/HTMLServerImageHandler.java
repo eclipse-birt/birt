@@ -16,9 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -233,15 +230,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 	 */
 	protected String handleTempImage(final IImage image, final String prefix, boolean needMap) {
 		try {
-			String fileName = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
-
-				@Override
-				public String run() throws IOException {
-					File tempFile = File.createTempFile(prefix, ".img");
-					image.writeImage(tempFile);
-					return tempFile.getAbsolutePath();
-				}
-			});
+			File tempFile = File.createTempFile(prefix, ".img");
+			image.writeImage(tempFile);
+			String fileName = tempFile.getAbsolutePath();
 
 			if (needMap) {
 				String mapID = getImageMapID(image);
@@ -250,7 +241,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 				}
 			}
 			return fileName;
-		} catch (PrivilegedActionException e) {
+		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return "unknow.img";

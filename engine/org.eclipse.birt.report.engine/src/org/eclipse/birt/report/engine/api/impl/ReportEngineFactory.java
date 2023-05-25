@@ -21,12 +21,6 @@ public class ReportEngineFactory implements IReportEngineFactory {
 
 	@Override
 	public IReportEngine createReportEngine(final EngineConfig config) {
-		return java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<IReportEngine>() {
-
-			@Override
-			public IReportEngine run() {
-				return new ReportEngine(config);
-			}
-		});
+		return new ReportEngine(config);
 	}
 }

@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.core.framework;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,13 +117,7 @@ public class PlatformConfig implements IPlatformConfig {
 	public String getTempDir() {
 		String tempDir = (String) getProperty(TEMP_DIR);
 		if (tempDir == null) {
-			return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-				@Override
-				public String run() {
-					return System.getProperty("java.io.tmpdir");
-				}
-			});
+			return System.getProperty("java.io.tmpdir");
 		}
 		return tempDir;
 	}

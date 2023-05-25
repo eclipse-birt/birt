@@ -18,8 +18,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +48,11 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 
 	private ClassLoader classLoader;
 
+	/**
+	 * Constructor
+	 *
+	 * @param classLoader
+	 */
 	public BIRTScriptClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
@@ -115,12 +118,10 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 		return c;
 	}
 
-	private static Class<?> getClassUsingCustomClassPath(final String className, final String classPathKey,
+	private static Class<?> getClassUsingCustomClassPath(final String className,
+			final String classPathKey,
 			final ClassLoader parentLoader) {
-		return AccessController.doPrivileged(new PrivilegedAction<Class<?>>() {
-
-			@Override
-			public Class<?> run() {
+		Class<?> c = null;
 				String classPath = System.getProperty(classPathKey);
 				if (classPath == null || classPath.length() == 0 || className == null) {
 					return null;
@@ -133,7 +134,7 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 						String cpValue = classPathArray[i];
 						File file = new File(cpValue);
 						try {
-							l.add(file.toURL());
+							l.add(file.toURI().toURL());
 						} catch (MalformedURLException e) {
 							e.printStackTrace();
 						}
@@ -146,7 +147,7 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 							IReportEngine.class.getClassLoader());
 					ClassLoader cl = new URLClassLoader(urls, cmLoader);
 					try {
-						return cl.loadClass(className);
+						c = cl.loadClass(className);
 						// Note: If the class can
 						// not even be loadded by this
 						// loader either, null will be returned
@@ -154,10 +155,7 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter {
 						// Ignore
 					}
 				}
-				return null;
-			}
-		});
-
+				return c;
 	}
 
 }

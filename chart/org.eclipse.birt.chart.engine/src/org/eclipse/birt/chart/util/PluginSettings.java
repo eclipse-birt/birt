@@ -17,8 +17,6 @@ package org.eclipse.birt.chart.util;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -648,24 +646,19 @@ public final class PluginSettings {
 	 * @return display name of series.
 	 */
 	public String getSeriesDisplayName(final String seriesClassName) {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-
-			@Override
-			public String run() {
-				String sDisplayName = seriesClassName;
-				try {
-					Class<?> seriesClass = Class.forName(seriesClassName);
-					Method createMethod = seriesClass.getDeclaredMethod("create", new Class[] {}); //$NON-NLS-1$
-					Series newSeries = (Series) createMethod.invoke(seriesClass, new Object[] {});
-					Method mDisplayName = seriesClass.getDeclaredMethod("getDisplayName", new Class[] {}); //$NON-NLS-1$
-					Object oName = mDisplayName.invoke(newSeries, new Object[] {});
-					sDisplayName = (String) oName;
-				} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				return sDisplayName;
-			}
-		});
+		String sDisplayName = seriesClassName;
+		try {
+			Class<?> seriesClass = Class.forName(seriesClassName);
+			Method createMethod = seriesClass.getDeclaredMethod("create", new Class[] {}); //$NON-NLS-1$
+			Series newSeries = (Series) createMethod.invoke(seriesClass, new Object[] {});
+			Method mDisplayName = seriesClass.getDeclaredMethod("getDisplayName", new Class[] {}); //$NON-NLS-1$
+			Object oName = mDisplayName.invoke(newSeries, new Object[] {});
+			sDisplayName = (String) oName;
+		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return sDisplayName;
 	}
 
 	/**

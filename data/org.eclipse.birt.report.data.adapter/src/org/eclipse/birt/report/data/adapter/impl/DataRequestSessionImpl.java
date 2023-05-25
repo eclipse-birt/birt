@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1665,12 +1663,7 @@ public class DataRequestSessionImpl extends DataRequestSession {
 				identifiers.setDesignResourceBaseURI(handle.getSystemId().toURI());
 			}
 			if (handle.getResourceFolder() != null) {
-				URI uri = AccessController.doPrivileged(new PrivilegedAction<URI>() {
-					@Override
-					public URI run() {
-						return new File(handle.getModule().getSession().getResourceFolder()).toURI();
-					}
-				});
+				URI uri = new File(handle.getModule().getSession().getResourceFolder()).toURI();
 
 				identifiers.setApplResourceBaseURI(uri);
 			}
