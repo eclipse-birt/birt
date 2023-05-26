@@ -579,27 +579,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	protected void addCellDiagonalSpecial() {
 		writer.writeCode("<script type=\"text/javascript\">");
-
-		String fctDiagonal = "";
-		fctDiagonal += "\nfunction combineBgImageAndDiagonal(id, diagUri) {";
-		fctDiagonal += "\n	var nTd = document.getElementById(id);";
-		fctDiagonal += "\n	if (nTd) {";
-		fctDiagonal += "\n		var nStyle = getComputedStyle(nTd);";
-		fctDiagonal += "\n		if (nStyle && nStyle.backgroundImage) {";
-		fctDiagonal += "\n			var bgStyle = '';";
-		fctDiagonal += "\n			bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;";
-		fctDiagonal += "\n			bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;";
-		fctDiagonal += "\n			bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;";
-		fctDiagonal += "\n			bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;";
-		fctDiagonal += "\n			bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;";
-		fctDiagonal += "\n			bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;";
-		fctDiagonal += "\n			bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;";
-		fctDiagonal += "\n			bgStyle += 'overflow:hidden;';";
-		fctDiagonal += "\n			nTd.setAttribute('style' , bgStyle);";
-		fctDiagonal += "\n		}";
-		fctDiagonal += "\n	}";
-		fctDiagonal += "\n}";
-		writer.writeCode(fctDiagonal);
+		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
+		writer.writeCode("   function combineBgImageAndDiagonal(id, diagUri) {");
+		writer.writeCode("     var nTd = document.getElementById(id);");
+		writer.writeCode("     if (nTd) {");
+		writer.writeCode("       var nStyle = getComputedStyle(nTd);");
+		writer.writeCode("       if (nStyle && nStyle.backgroundImage) {");
+		writer.writeCode("         var bgStyle = '';");
+		writer.writeCode("         bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;");
+		writer.writeCode("         bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;");
+		writer.writeCode("         bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;");
+		writer.writeCode("         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;");
+		writer.writeCode("         bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;");
+		writer.writeCode("         bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;");
+		writer.writeCode("         bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;");
+		writer.writeCode("         bgStyle += 'overflow:hidden;';");
+		writer.writeCode("         nTd.setAttribute('style' , bgStyle);");
+		writer.writeCode("       }");
+		writer.writeCode("     }");
+		writer.writeCode("   }");
+		writer.writeCode(" //]]>"); //$NON-NLS-1$
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
 
@@ -712,18 +711,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			htmlEmitter = new HTMLVisionOptimize(this, writer, fixedReport, enableInlineStyle, htmlRtLFlag,
 					browserVersion);
 		}
-		// diagonal & antidiagonal special function
-		addCellDiagonalSpecial();
 
 		if (isEmbeddable) {
+			openRootTag();
+			writeBidiFlag();
 			outputCSSStyles(reportDesign, designHandle);
+
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
 			fixRedirect();
 
-			openRootTag();
-			writeBidiFlag();
 			// output the report default style
 			if (report != null) {
 				String defaultStyleName = report.getDesign().getRootStyleName();
@@ -743,6 +741,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				}
 			}
 
+			// diagonal & antidiagonal special function
+			addCellDiagonalSpecial();
+
 			outputDIVTitle(report);
 			outputClientScript(report);
 
@@ -752,6 +753,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		openRootTag();
 		writeBidiFlag();
 		writer.openTag(HTMLTags.TAG_HEAD);
+
 
 		// write the title of the report in html.
 		outputReportTitle(report);
@@ -776,11 +778,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 
+
 		outputCSSStyles(reportDesign, designHandle);
 
 		if (needFixTransparentPNG) {
 			fixTransparentPNG();
 		}
+
+		// diagonal & antidiagonal special function
+		addCellDiagonalSpecial();
 
 		fixRedirect();
 		// client initialize

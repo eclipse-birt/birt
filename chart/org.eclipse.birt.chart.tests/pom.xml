@@ -30,7 +30,9 @@
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+					<skipTests>${skipTests}</skipTests>
 					<testClass>org.eclipse.birt.chart.tests.AllTests</testClass>
+					<argLine>-Duser.country=us -Duser.language=en</argLine>
 				</configuration>
 			</plugin>
             <plugin>

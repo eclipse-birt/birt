@@ -51,9 +51,9 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.jetty.servlet;bundle-version="10.0.11",
  org.eclipse.jetty.http;bundle-version="10.0.11",
  org.eclipse.jetty.osgi.boot;bundle-version="10.0.11",
- org.mortbay.jasper.apache-jsp;bundle-version="9.0.29",
+ org.mortbay.jasper.apache-jsp;bundle-version="[9.0.29,10.0.0)",
  org.eclipse.jetty.apache-jsp;bundle-version="10.0.11",
- org.mortbay.jasper.apache-el;bundle-version="9.0.29",
+ org.mortbay.jasper.apache-el;bundle-version="[9.0.29,10.0.0)",
  javax.xml.rpc;bundle-version="1.1.2"
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered

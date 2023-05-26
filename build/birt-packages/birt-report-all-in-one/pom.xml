@@ -25,14 +25,6 @@
 	<artifactId>birt-report-all-in-one</artifactId>
 	<packaging>eclipse-repository</packaging>
 
-	<repositories>
-		<repository>
-			<id>mylyn</id>
-			<url>http://download.eclipse.org/mylyn/releases/latest</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
-
 	<profiles>
 		<profile>
 			<id>build-server</id>

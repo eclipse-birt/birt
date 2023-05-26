@@ -33,6 +33,19 @@
     </detail>
   </annotation>
   <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Xmx"
+      value="4048m"
+      vm="true">
+    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="jdt:JRETask"
+      version="JavaSE-17"
+      location="${jre.location-17}">
+    <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
       xsi:type="setup:CompoundTask"
       name="User Preferences">
     <annotation
@@ -57,10 +70,6 @@
           key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup">
         <value>record</value>
       </detail>
-      <detail
-          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference">
-        <value>record</value>
-      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -77,14 +86,6 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup"
           value="false"/>
-    </setupTask>
-    <setupTask
-        xsi:type="setup:CompoundTask"
-        name="org.eclipse.jdt.core">
-      <setupTask
-          xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference"
-          value="warning"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -110,13 +111,6 @@
           key="/instance/org.eclipse.pde.api.tools/missing_default_api_profile"
           value="Warning"/>
     </setupTask>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-Xmx"
-      value="2048m"
-      vm="true">
-    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
@@ -155,7 +149,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="git.clone.birt"
-      remoteURI="eclipse/birt">
+      remoteURI="eclipse-birt/birt">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
@@ -174,13 +168,15 @@
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
-      xsi:type="projects:ProjectsImportTask">
+      xsi:type="projects:ProjectsImportTask"
+      disabled="true">
     <sourceLocator
         rootFolder="${git.clone.birt.location}"
         locateNestedProjects="true"/>
   </setupTask>
   <setupTask
       xsi:type="pde:TargetPlatformTask"
+      disabled="true"
       name="BIRT Target"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
@@ -301,121 +297,108 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern="pptx_project|org\.eclipse\.birt\.site|.*birt.ext"/>
+            pattern="pptx_project|org\.eclipse\.birt\.site"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for  BIRT</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.targlets:TargletTask">
+    <targlet
+        name="BIRT">
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
+        <detail
+            key="location">
+          <value>${git.clone.birt.location/build/org.eclipse.birt.target/org.eclipse.birt.target.target}</value>
+        </detail>
+        <detail
+            key="extraUnits">
+          <value>org.eclipse.equinox.executable.feature.group</value>
+        </detail>
+        <detail
+            key="singleLocation">
+          <value>false</value>
+        </detail>
+        <detail
+            key="sortLocations">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeAllPlatforms">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeSource">
+          <value>true</value>
+        </detail>
+        <detail
+            key="ignoreJavaRequirements">
+          <value>false</value>
+        </detail>
+        <detail
+            key="generateVersions">
+          <value>false</value>
+        </detail>
+        <detail
+            key="minimizeImplicitUnits">
+          <value>true</value>
+        </detail>
+        <detail
+            key="generateImplicitUnits">
+          <value>true</value>
+        </detail>
+      </annotation>
+      <requirement
+          name="org.eclipse.sdk.feature.group"/>
+      <requirement
+          name="*"/>
+      <sourceLocator
+          rootFolder="${git.clone.birt.location}"
+          locateNestedProjects="true"/>
+      <repositoryList>
+        <repository
+            url="https://download.eclipse.org/cbi/updates/license"/>
+        <repository
+            url="https://download.eclipse.org/oomph/simrel-orbit/2023-06"/>
+        <repository
+            url="https://download.eclipse.org/datatools/updates/1.14.300-SNAPSHOT/repository"/>
+        <repository
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
+        <repository
+            url="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/webtools/repository/latest"/>
+        <repository
+            url="https://download.eclipse.org/tools/orbit/downloads/drops/R20201118194144/repository"/>
+        <repository
+            url="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
+        <repository
+            url="https://download.eclipse.org/oomph/simrel-maven/nightly/latest"/>
+        <repository
+            url="https://download.eclipse.org/justj/epp/release/latest/"/>
+        <repository
+            url="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
+      </repositoryList>
+    </targlet>
   </setupTask>
   <stream name="master"
       label="Workspace setup for branch master">
     <setupTask
         xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.birt"
+        option="-Doomph.redirection.birt.old"
         value="=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
     <setupTask
-        xsi:type="jdt:JRETask"
-        version="JavaSE-11"
-        location="${jre.location-11}"
-        name="JRE for JavaSE-11">
-      <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
-    </setupTask>
-  </stream>
-  <stream name="disabled until we can add maven locations to modular target">
-    <setupTask
-        xsi:type="setup.targlets:TargletTask"
-        activateTarget="false">
-      <targlet
-          name="${scope.project.label}">
-        <requirement
-            name="a.jre.javase"
-            versionRange="11.0.0"/>
-        <requirement
-            name="org.eclipse.datatools.common.doc.user.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.apache.derby.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.hsqldb.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.ibm.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.ingres.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.jdbc.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.jdt.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.msft.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.mysql.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oda.designer.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oda.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oracle.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.postgresql.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sap.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sqlite.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sybase.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.intro.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.data.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.ddl.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.sqlbuilder.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqltools.doc.user.feature.group"/>
-        <requirement
-            name="org.eclipse.equinox.executable.feature.group"/>
-        <requirement
-            name="org.eclipse.platform.sdk"/>
-        <requirement
-            name="org.eclipse.rcp.configuration.feature.group"/>
-        <requirement
-            name="jakarta.servlet"/>
-        <requirement
-            name="*"/>
-        <sourceLocator
-            rootFolder="${git.clone.birt.location}"
-            locateNestedProjects="true"/>
-        <repositoryList>
-          <repository
-              url="https://download.eclipse.org/cbi/updates/license"/>
-          <repository
-              url="https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/"/>
-          <repository
-              url="https://download.eclipse.org/eclipse/updates/4.24-I-builds/"/>
-          <repository
-              url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest/"/>
-          <repository
-              url="https://download.eclipse.org/tools/gef/updates/legacy/releases/4.0.0_gef-master_1952/"/>
-          <repository
-              url="https://download.eclipse.org/tools/orbit/downloads/latest-R/"/>
-          <repository
-              url="https://download.eclipse.org/webtools/repository/latest/"/>
-        </repositoryList>
-      </targlet>
+        xsi:type="setup:EclipseIniTask"
+        option="-Doomph.redirection.birt"
+        value="=https://raw.githubusercontent.com/eclipse-birt/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
+        vm="true">
+      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
   </stream>
   <logicalProjectContainer
