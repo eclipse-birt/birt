@@ -1,3 +1,5 @@
 bin/
 /.reviewboardrc
 target
+meta.log
+build.log
