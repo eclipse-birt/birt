@@ -14,6 +14,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.RunnableMonitor;
@@ -280,7 +281,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 	}
 
 	int THREAD_COUNT = 20;
-	int runningThread;
+	AtomicInteger runningThread = new AtomicInteger();
 
 	public void testMutipleThreadRenderShareDocument() throws Exception {
 		IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
@@ -297,7 +298,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 			new Thread(renders[i]).start();
 		}
 		long waitingTime = 0;
-		while (runningThread > 0) {
+		while (runningThread.get() > 0) {
 			Thread.sleep(200);
 			waitingTime += 200;
 			if (waitingTime > 200000) {
@@ -323,7 +324,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 			this.engine = engine;
 			this.document = document;
 			this.output = new ByteArrayOutputStream();
-			runningThread++;
+			runningThread.incrementAndGet();
 		}
 
 		@Override
@@ -346,7 +347,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 			} catch (Exception ex) {
 				fail();
 			} finally {
-				runningThread--;
+				runningThread.decrementAndGet();
 			}
 		}
 	}

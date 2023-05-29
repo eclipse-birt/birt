@@ -5,3 +5,5 @@ target
 /test-engine.jar
 derby.log
 report.html
+/custom*
+

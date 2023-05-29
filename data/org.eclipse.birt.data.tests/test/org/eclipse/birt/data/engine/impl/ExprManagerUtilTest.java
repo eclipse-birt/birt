@@ -27,10 +27,8 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mozilla.javascript.Context;
 
 public class ExprManagerUtilTest {
 	ScriptContext cx;
@@ -38,11 +36,6 @@ public class ExprManagerUtilTest {
 	@Before
 	public void exprManagerUtilSetUp() throws Exception {
 		cx = new ScriptContext();
-	}
-
-	@After
-	public void exprManagerUtilTearDown() throws Exception {
-		Context.exit();
 	}
 
 	private Map getBindingMap(Map exprMap) throws DataException {
