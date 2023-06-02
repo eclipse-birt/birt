@@ -54,6 +54,7 @@ public class LineArea extends InlineStackingArea {
 		super(parent, context, null);
 		assert (parent != null);
 		isInInlineStacking = parent.isInInlineStacking;
+		System.out.println("Created a new LineArea.");
 	}
 
 	/**
@@ -66,6 +67,7 @@ public class LineArea extends InlineStackingArea {
 		this.baseLevel = area.baseLevel;
 		this.isInlineStacking = true;
 		this.isInInlineStacking = area.isInInlineStacking;
+		System.out.println("Created a new LineArea as a clone.");
 	}
 
 	/**
@@ -120,6 +122,7 @@ public class LineArea extends InlineStackingArea {
 		// single line
 		if ((isRightAligned || CSSValueConstants.CENTER_VALUE.equals(align))) {
 			int spacing = width - currentIP;
+			spacing -= adjustSpacingForSoftHyphen();
 			Iterator<IArea> iter = getChildren();
 			while (iter.hasNext()) {
 				AbstractArea area = (AbstractArea) iter.next();
@@ -144,26 +147,28 @@ public class LineArea extends InlineStackingArea {
 		verticalAlign();
 	}
 
+	private int adjustSpacingForSoftHyphen() {
+		if (lastTextArea != null) {
+			System.out.println("LineArea.adjustSpacingForSoftHyphen for " + lastTextArea);
+			int softHyphenWidth = lastTextArea.getSoftHyphenWidth();
+			// lastTextArea.addSoftHyphenWidth();
+			return softHyphenWidth;
+		}
+		return 0;
+	}
+
 	private int ignoreRightMostWhiteSpace() {
-		AbstractArea area = this;
-		while (area instanceof ContainerArea) {
-			ArrayList<IArea> children = ((ContainerArea) area).children;
-			if (children != null && children.size() > 0) {
-				area = (AbstractArea) children.get(children.size() - 1);
-			} else {
-				return 0;
-			}
-			if (area instanceof TextArea) {
-				String text = ((TextArea) area).getText();
-				if (null != text) {
-					char[] charArray = text.toCharArray();
-					int len = charArray.length;
-					while (len > 0 && (charArray[len - 1] <= ' ')) {
-						len--;
-					}
-					if (len != charArray.length) {
-						return ((TextArea) area).getTextWidth(text.substring(len));
-					}
+		if (lastTextArea != null) {
+			String text = lastTextArea.getText();
+			System.out.println("LineArea.ignoreRightMostWhiteSpace for " + lastTextArea);
+			if (null != text) {
+				char[] charArray = text.toCharArray();
+				int len = charArray.length;
+				while (len > 0 && (charArray[len - 1] <= ' ')) {
+					len--;
+				}
+				if (len != charArray.length) {
+					return lastTextArea.getTextWidth(text.substring(len));
 				}
 			}
 		}
@@ -240,6 +245,11 @@ public class LineArea extends InlineStackingArea {
 	private TextArea lastTextAreaForJustify = null;
 
 	/**
+	 * The last text area in a line.
+	 */
+	private TextArea lastTextArea = null;
+
+	/**
 	 * Gets the white space number, and the right most white spaces are ignored.
 	 *
 	 * @param line
@@ -249,6 +259,7 @@ public class LineArea extends InlineStackingArea {
 		int count = getWhiteSpaceRawNumber(line);
 		if (lastTextAreaForJustify != null) {
 			String text = lastTextAreaForJustify.getText();
+			System.out.println("lastTextAreaForJustify with text=" + text);
 			if (null != text) {
 				char[] charArray = text.toCharArray();
 				int len = charArray.length;
@@ -269,6 +280,8 @@ public class LineArea extends InlineStackingArea {
 
 	/**
 	 * Gets the white space number.
+	 *
+	 * This is a recursive function.
 	 *
 	 * @param area
 	 * @return
@@ -316,6 +329,7 @@ public class LineArea extends InlineStackingArea {
 		// counted.
 		// 2. adjust the position for every text area in the line and ignore the right
 		// most white space by modifying the text.
+		System.out.println("justify for" + this.hashCode());
 		int spacing = width - currentIP;
 		int whiteSpaceNumber = getWhiteSpaceNumber(this);
 		if (whiteSpaceNumber > 0) {
@@ -380,6 +394,7 @@ public class LineArea extends InlineStackingArea {
 
 	@Override
 	public void endLine(boolean endParagraph) throws BirtException {
+
 		close(false, endParagraph);
 		// initialize( );
 		currentIP = 0;
@@ -418,6 +433,15 @@ public class LineArea extends InlineStackingArea {
 		if (children.size() == 0) {
 			return;
 		}
+
+		// Handle Soft Hyphen:
+		// Mark the last TextArea as "lastInLine".
+		lastTextArea = findLastNonEmptyTextArea(this);
+		System.out.println("close LineArea, lastTextArea=" + lastTextArea);
+		if (lastTextArea != null) {
+			lastTextArea.markAsLastInLine();
+		}
+
 		int lineHeight = ((BlockContainerArea) parent).getLineHeight();
 		if (lineHeight != 0) {
 			height = lineHeight;
@@ -555,4 +579,32 @@ public class LineArea extends InlineStackingArea {
 	public boolean isPageBreakInsideAvoid() {
 		return false;
 	}
+
+	/**
+	 * Gets the last TextArea actually containing some text.
+	 *
+	 * This is a recursive function. It is first called with this LineArea itself.
+	 *
+	 */
+	private TextArea findLastNonEmptyTextArea(ContainerArea area) {
+		TextArea last = null;
+		TextArea candidate;
+		Iterator<IArea> iter = area.getChildren();
+		while (iter.hasNext()) {
+			AbstractArea child = (AbstractArea) iter.next();
+			if (child instanceof TextArea) {
+				candidate = (TextArea) child;
+				if (candidate.textLength > 0) {
+					last = candidate;
+				}
+			} else if (child instanceof ContainerArea) {
+				candidate = findLastNonEmptyTextArea((ContainerArea) child);
+				if (candidate != null) {
+					last = candidate;
+				}
+			}
+		}
+		return last;
+	}
+
 }

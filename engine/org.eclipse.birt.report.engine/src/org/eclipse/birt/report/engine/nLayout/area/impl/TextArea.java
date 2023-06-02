@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.text.Bidi;
-import com.ibm.icu.text.BreakIterator;
 
 /**
  * <p>
@@ -64,20 +63,24 @@ public class TextArea extends AbstractArea implements ITextArea {
 	private boolean removeSoftHyphens = "true".equals(System.getProperty("org.eclipse.birt.softhyphen.remove", "true")); // $NON-NLS-1
 
 	/**
-	 * <p>
-	 * This controls if a Unicode SOFT HYPHEN at the end of the text area should be
-	 * kept in the output or removed with the other SOFT HYPHENs when
-	 * {@link #removeSoftHyphens} is set.
-	 * </p>
-	 * <p>
-	 * Note that sometimes the same visible line of text can consist of more than
-	 * one TextAreas. The text content of these text areas are the result of a
-	 * {@link BreakIterator}. A pre-hyphenated word, e.g. "extra\u00adordinary" will
-	 * be split by the {@link BreakIterator} into two
-	 * {@link org.eclipse.birt.report.engine.layout.pdf.hyphen.Word "words"} can
-	 * result in two TextAreas with the texts "
+	 * Is this the last TextArea in a line (of TextAreas)?
 	 */
-	private boolean keepTrailingSoftHyphen = true;
+	private boolean lastInLine = false;
+
+	/**
+	 * Mark this TextArea as being the last in a line.
+	 */
+	public void markAsLastInLine() {
+		lastInLine = true;
+	}
+
+	@Override
+	public int getWidth() {
+		if (lastInLine) {
+			return width + softHyphenWidth; // TODO What about letter spacing?
+		}
+		return width;
+	}
 
 	protected int runLevel;
 
@@ -117,6 +120,15 @@ public class TextArea extends AbstractArea implements ITextArea {
 	protected int whiteSpaceNumber;
 
 	protected boolean needClip = false;
+
+	private int softHyphenWidth = 0;
+
+	/**
+	 * @return Returns the softHyphenWidth.
+	 */
+	public int getSoftHyphenWidth() {
+		return softHyphenWidth;
+	}
 
 	TextArea(TextArea area) {
 		super(area);
@@ -189,17 +201,21 @@ public class TextArea extends AbstractArea implements ITextArea {
 			int indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN);
 			for (; indxSoftHyphen >= 0; indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN)) {
 				String remaining = textResult.substring(indxSoftHyphen + 1);
-				if (keepTrailingSoftHyphen && remaining.strip().length() == 0)
+				if (lastInLine && remaining.strip().length() == 0)
 					break;
 				textResult = textResult.substring(0, indxSoftHyphen) + remaining;
 			}
 		}
+		System.out.println(
+				"calculateText for #" + hashCode() + "(lineBreak=" + String.valueOf(lineBreak) + ", lastInLine="
+						+ String.valueOf(lastInLine) + ", textResult=" + textResult);
 		return textResult;
 	}
 
-	public void addWord(int textLength, float wordWidth) {
+	public void addWord(int textLength, WordWidth wordWidth) {
 		this.textLength += textLength;
-		this.width += wordWidth;
+		this.width += wordWidth.width;
+		this.softHyphenWidth = wordWidth.softHyphenWidth;
 	}
 
 	public void addWordUsingMaxWidth(int textLength) {
@@ -312,29 +328,13 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return needClip;
 	}
 
-	/**
-	 * Whether a Unicode SOFT HYPHEN at the end of the text area should be kept in
-	 * the output or removed.
-	 *
-	 * @see #keepTrailingSoftHyphen
-	 *
-	 * @return true if the soft hyphen shall be kept.
-	 */
-	public boolean isKeepTrailingSoftHyphen() {
-		return keepTrailingSoftHyphen;
+	@Override
+	public String toString() {
+		return "TextArea [removeSoftHyphens=" + removeSoftHyphens
+				+ ", lastInLine=" + lastInLine + ", runLevel=" + runLevel + ", , textLength=" + textLength + ", text="
+				+ (text != null ? text.substring(offset, offset + textLength) : "(null)")
+				+ ", lineBreak=" + lineBreak + ", blankLine=" + blankLine + ", maxWidth=" + maxWidth
+				+ ", whiteSpaceNumber=" + whiteSpaceNumber + ", needClip=" + needClip + "]";
 	}
-
-	/**
-	 * Control whether a Unicode SOFT HYPHEN at the end of the text area should be
-	 * kept in the output or removed.
-	 *
-	 * @see #keepTrailingSoftHyphen
-	 *
-	 * @param keepTrailingSoftHyphen true if the soft hyphen shall be kept.
-	 */
-	public void setKeepTrailingSoftHyphen(boolean keepTrailingSoftHyphen) {
-		this.keepTrailingSoftHyphen = keepTrailingSoftHyphen;
-	}
-
 
 }
