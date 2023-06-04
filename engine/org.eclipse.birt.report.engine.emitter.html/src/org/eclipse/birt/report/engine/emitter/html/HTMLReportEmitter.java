@@ -577,7 +577,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
 
-	protected void addCellDiagonalSpecial() {
+	protected void addCellDiagonalSpecialJs() {
 		writer.writeCode("<script type=\"text/javascript\">");
 		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
 		writer.writeCode("   function combineBgImageAndDiagonal(id, diagUri) {");
@@ -712,15 +712,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					browserVersion);
 		}
 
+		// diagonal & antidiagonal special function
+		addCellDiagonalSpecialJs();
+
 		if (isEmbeddable) {
-			openRootTag();
-			writeBidiFlag();
 			outputCSSStyles(reportDesign, designHandle);
 
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
 			fixRedirect();
+
+			openRootTag();
+			writeBidiFlag();
 
 			// output the report default style
 			if (report != null) {
@@ -742,7 +746,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 
 			// diagonal & antidiagonal special function
-			addCellDiagonalSpecial();
+			// TGXXXXaddCellDiagonalSpecial();
 
 			outputDIVTitle(report);
 			outputClientScript(report);
@@ -786,7 +790,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		}
 
 		// diagonal & antidiagonal special function
-		addCellDiagonalSpecial();
+		// TGXXXX addCellDiagonalSpecial();
 
 		fixRedirect();
 		// client initialize
