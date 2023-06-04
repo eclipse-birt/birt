@@ -745,9 +745,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				}
 			}
 
-			// diagonal & antidiagonal special function
-			// TGXXXXaddCellDiagonalSpecial();
-
 			outputDIVTitle(report);
 			outputClientScript(report);
 
@@ -788,9 +785,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (needFixTransparentPNG) {
 			fixTransparentPNG();
 		}
-
-		// diagonal & antidiagonal special function
-		// TGXXXX addCellDiagonalSpecial();
 
 		fixRedirect();
 		// client initialize
