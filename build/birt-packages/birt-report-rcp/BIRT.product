@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.13.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.14.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.birt.branding/images/about.png"/>
@@ -54,7 +54,6 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
