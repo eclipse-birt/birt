@@ -712,15 +712,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					browserVersion);
 		}
 
-		// diagonal & antidiagonal special function
-		addCellDiagonalSpecialJs();
-
+		/*
+		 * if the BIRT-preview called the emitter then the scripts will be added on a
+		 * div-tag (there won't be created a full HTML-document)
+		 */
 		if (isEmbeddable) {
 			outputCSSStyles(reportDesign, designHandle);
 
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
+			// diagonal & antidiagonal special function
+			addCellDiagonalSpecialJs();
+
 			fixRedirect();
 
 			openRootTag();
@@ -755,7 +759,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writeBidiFlag();
 		writer.openTag(HTMLTags.TAG_HEAD);
 
-
+		
 		// write the title of the report in html.
 		outputReportTitle(report);
 
@@ -779,12 +783,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 
-
+		
 		outputCSSStyles(reportDesign, designHandle);
 
 		if (needFixTransparentPNG) {
 			fixTransparentPNG();
 		}
+		// diagonal & antidiagonal special function
+		addCellDiagonalSpecialJs();
 
 		fixRedirect();
 		// client initialize
