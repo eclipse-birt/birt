@@ -280,7 +280,7 @@ public class TextCompositor {
 			runLevel = chunk.getRunLevel();
 			remainWords = new WordRecognizerWrapper(chunk.getText(), context.getLocale());
 		}
-		// new an empty text area.
+		// new and empty text area.
 		TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
 		textArea.setMaxWidth(maxLineWidth);
 		textArea.setWidth(0);

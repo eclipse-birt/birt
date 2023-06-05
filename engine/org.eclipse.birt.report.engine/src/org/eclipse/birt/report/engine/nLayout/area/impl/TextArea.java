@@ -63,9 +63,21 @@ public class TextArea extends AbstractArea implements ITextArea {
 	private boolean removeSoftHyphens = "true".equals(System.getProperty("org.eclipse.birt.softhyphen.remove", "true")); // $NON-NLS-1
 
 	/**
-	 * Is this the last TextArea in a line (of TextAreas)?
+	 * Is this the first TextArea in a LineArea?
+	 */
+	private boolean firstInLine = false;
+
+	/**
+	 * Is this the last TextArea in a LineArea?
 	 */
 	private boolean lastInLine = false;
+
+	/**
+	 * Mark this TextArea as being the last in a line.
+	 */
+	public void markAsFirstInLine() {
+		firstInLine = true;
+	}
 
 	/**
 	 * Mark this TextArea as being the last in a line.
@@ -73,6 +85,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 	public void markAsLastInLine() {
 		lastInLine = true;
 	}
+
 
 	@Override
 	public int getWidth() {
@@ -195,6 +208,16 @@ public class TextArea extends AbstractArea implements ITextArea {
 			return "";
 		}
 		String textResult = text.substring(offset, offset + textLength);
+//		if (firstInLine) {
+//			// Remove leading spaces.
+//			int indx = 0;
+//			while (indx < textLength && textResult.charAt(indx) == ' ') {
+//				indx++;
+//			}
+//			if (indx > 0) {
+//				textResult = textResult.substring(indx);
+//			}
+//		}
 		if (removeSoftHyphens) {
 			// Remove all Unicode SOFT HYPHEN symbols except a trailing one.
 			// FIXME: This is possibly worth performance tuning!
@@ -208,7 +231,8 @@ public class TextArea extends AbstractArea implements ITextArea {
 		}
 		System.out.println(
 				"calculateText for #" + hashCode() + "(lineBreak=" + String.valueOf(lineBreak) + ", lastInLine="
-						+ String.valueOf(lastInLine) + ", textResult=" + textResult);
+						+ String.valueOf(lastInLine) + ", firstInLine=" + String.valueOf(firstInLine) + ", textResult=<"
+						+ textResult + ">");
 		return textResult;
 	}
 
@@ -331,7 +355,8 @@ public class TextArea extends AbstractArea implements ITextArea {
 	@Override
 	public String toString() {
 		return "TextArea [removeSoftHyphens=" + removeSoftHyphens
-				+ ", lastInLine=" + lastInLine + ", runLevel=" + runLevel + ", , textLength=" + textLength + ", text="
+				+ ",firstInLine=" + firstInLine + ", lastInLine=" + lastInLine + ", runLevel=" + runLevel
+				+ ", textLength=" + textLength + ", text="
 				+ (text != null ? text.substring(offset, offset + textLength) : "(null)")
 				+ ", lineBreak=" + lineBreak + ", blankLine=" + blankLine + ", maxWidth=" + maxWidth
 				+ ", whiteSpaceNumber=" + whiteSpaceNumber + ", needClip=" + needClip + "]";
