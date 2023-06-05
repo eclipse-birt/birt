@@ -75,7 +75,7 @@
 					<plugin>
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
 						<artifactId>eclipse-jarsigner-plugin</artifactId>
-						<version>${jarsigner.version}</version>
+						<version>${cbi-version}</version>
 						<executions>
 							<execution>
 								<id>sign</id>
