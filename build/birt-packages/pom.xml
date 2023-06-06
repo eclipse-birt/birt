@@ -16,8 +16,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<!-- just for filenames beneath this directory -->
-		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
 		<birtpackages.basedir>${project.basedir}</birtpackages.basedir>
 	</properties>
 

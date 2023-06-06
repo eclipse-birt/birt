@@ -363,7 +363,7 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern=".*-parent.*"/>
+            pattern=".*-parent.*|.*promotion"/>
       </predicate>
     </workingSet>
     <workingSet

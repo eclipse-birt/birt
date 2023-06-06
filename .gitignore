@@ -3,3 +3,5 @@ bin/
 target
 meta.log
 build.log
+/updates/
+/workspace/
