@@ -262,7 +262,6 @@ public class TextCompositor {
 		// iterate the remainWords.
 		if (null == remainWords || !remainWords.hasWord()) {
 			Chunk chunk = remainChunks.getNext();
-			System.out.println("Got next chunk: " + chunk.getClass().getName() + " with text: " + chunk.getText());
 			if (chunk instanceof LineBreakChunk) {
 				// Return a hard line break. The line height is decided by
 				// the current font's height.

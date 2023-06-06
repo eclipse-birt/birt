@@ -63,7 +63,6 @@ public class TextAreaLayout implements ILayout {
 	}
 
 	public TextAreaLayout(ContainerArea parent, LayoutContext context, IContent content) {
-		System.out.println("Created TextAreaLayout " + hashCode());
 		parentLM = (InlineStackingArea) parent;
 		ITextContent textContent = (ITextContent) content;
 		parentLM.setTextIndent(textContent);
@@ -77,7 +76,6 @@ public class TextAreaLayout implements ILayout {
 
 		this.textContent = textContent;
 		comp = new TextCompositor(textContent, context.getFontManager(), context, blankText);
-		System.out.println("Created new TextCompositor in TextAreaLayout constructor.");
 		// checks whether the current line is empty or not.
 		boolean isEmptyLine = isEmptyLine();
 		comp.setNewLineStatus(isEmptyLine);
@@ -157,16 +155,12 @@ public class TextAreaLayout implements ILayout {
 			// for a textArea which just has a line break. We should not add TextArea into
 			// the line.
 			if (area != null) {
-				System.out.println("TextAreaLayout layoutChildren for " + area.hashCode() + ": " + area);
-
 				addTextArea(area);
 				comp.setNewLineStatus(false);
 				if (area.isLineBreak()) {
 					newLine(area.blankLine);
 					comp.setNewLineStatus(true);
 				}
-			} else {
-				System.err.println("TextAreaLayout layoutChildren for null");
 			}
 		}
 	}
@@ -192,7 +186,6 @@ public class TextAreaLayout implements ILayout {
 	 * true if succeed to new a line.
 	 */
 	public void newLine(boolean endParagraph) throws BirtException {
-		System.out.println("TextAreaLayout newLine " + String.valueOf(endParagraph));
 		parentLM.endLine(endParagraph);
 		if (listenerList != null) {
 			for (Iterator<ITextListener> i = listenerList.iterator(); i.hasNext();) {

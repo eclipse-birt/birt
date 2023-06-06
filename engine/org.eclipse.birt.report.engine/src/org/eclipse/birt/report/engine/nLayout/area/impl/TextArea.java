@@ -126,11 +126,18 @@ public class TextArea extends AbstractArea implements ITextArea {
 	protected int maxWidth;
 
 	/**
-	 * The whiteSpaceNumber indicates the number of white spaces(except for the
+	 * The whiteSpaceCount indicates the number of white spaces(except for the left
+	 * most and right most white space) in current text area. This field is used to
+	 * justify the textArea.
+	 */
+	protected int whiteSpaceCount = 0;
+
+	/**
+	 * The characterCount indicates the number of characters (except left most and
 	 * right most white space) in current text area. This field is used to justify
 	 * the textArea.
 	 */
-	protected int whiteSpaceNumber;
+	protected int characterCount = 0;
 
 	protected boolean needClip = false;
 
@@ -208,16 +215,6 @@ public class TextArea extends AbstractArea implements ITextArea {
 			return "";
 		}
 		String textResult = text.substring(offset, offset + textLength);
-//		if (firstInLine) {
-//			// Remove leading spaces.
-//			int indx = 0;
-//			while (indx < textLength && textResult.charAt(indx) == ' ') {
-//				indx++;
-//			}
-//			if (indx > 0) {
-//				textResult = textResult.substring(indx);
-//			}
-//		}
 		if (removeSoftHyphens) {
 			// Remove all Unicode SOFT HYPHEN symbols except a trailing one.
 			// FIXME: This is possibly worth performance tuning!
@@ -229,10 +226,6 @@ public class TextArea extends AbstractArea implements ITextArea {
 				textResult = textResult.substring(0, indxSoftHyphen) + remaining;
 			}
 		}
-		System.out.println(
-				"calculateText for #" + hashCode() + "(lineBreak=" + String.valueOf(lineBreak) + ", lastInLine="
-						+ String.valueOf(lastInLine) + ", firstInLine=" + String.valueOf(firstInLine) + ", textResult=<"
-						+ textResult + ">");
 		return textResult;
 	}
 
@@ -339,12 +332,55 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return new TextArea(this);
 	}
 
-	public int getWhiteSpaceNumber() {
-		return whiteSpaceNumber;
+	public int getWhiteSpaceCount() {
+		return whiteSpaceCount;
 	}
 
-	public void setWhiteSpaceNumber(int whiteSpaceNumber) {
-		this.whiteSpaceNumber = whiteSpaceNumber;
+	public int getCharactertCount() {
+		return characterCount;
+	}
+
+	/**
+	 * Counts characters and whitespace. Whitespace at the beginning or the end of a
+	 * line is ignored.
+	 */
+	public void countCharactersAndWhiteSpace() {
+		this.whiteSpaceCount = 0;
+		this.characterCount = 0;
+		String text = getText();
+		if (text == null) {
+			return;
+		}
+		int len = text.length();
+		int countWhiteSpace = 0;
+		int countCharacters = 0;
+		// Whitespace can occur at the beginning or at the end.
+		// We don't count whitespace at the beginning if we're at the first word,
+		// and we don't count whitespace at the end if we're at the last word.
+		boolean atStart = true;
+		for (int i = 0; i < len; i++) {
+			if (text.charAt(i) <= ' ') {
+				if (!firstInLine || !atStart) {
+					countWhiteSpace++;
+					countCharacters++;
+				}
+			} else {
+				atStart = false;
+				countCharacters++;
+			}
+		}
+		if (lastInLine) {
+			for (int i = len - 1; i >= 0; i--) {
+				if (text.charAt(i) <= ' ') {
+					countWhiteSpace--;
+					countCharacters--;
+				} else {
+					break;
+				}
+			}
+		}
+		this.whiteSpaceCount = countWhiteSpace;
+		this.characterCount = countCharacters;
 	}
 
 	@Override
@@ -359,7 +395,22 @@ public class TextArea extends AbstractArea implements ITextArea {
 				+ ", textLength=" + textLength + ", text="
 				+ (text != null ? text.substring(offset, offset + textLength) : "(null)")
 				+ ", lineBreak=" + lineBreak + ", blankLine=" + blankLine + ", maxWidth=" + maxWidth
-				+ ", whiteSpaceNumber=" + whiteSpaceNumber + ", needClip=" + needClip + "]";
+				+ ", whiteSpaceCount" + whiteSpaceCount + ", characterCount=" + characterCount + ", needClip="
+				+ needClip + "]";
+	}
+
+	/**
+	 * @return Returns the firstInLine.
+	 */
+	public boolean isFirstInLine() {
+		return firstInLine;
+	}
+
+	/**
+	 * @return Returns the lastInLine.
+	 */
+	public boolean isLastInLine() {
+		return lastInLine;
 	}
 
 }

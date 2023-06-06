@@ -54,7 +54,6 @@ public class LineArea extends InlineStackingArea {
 		super(parent, context, null);
 		assert (parent != null);
 		isInInlineStacking = parent.isInInlineStacking;
-		System.out.println("Created a new LineArea.");
 	}
 
 	/**
@@ -67,7 +66,6 @@ public class LineArea extends InlineStackingArea {
 		this.baseLevel = area.baseLevel;
 		this.isInlineStacking = true;
 		this.isInInlineStacking = area.isInInlineStacking;
-		System.out.println("Created a new LineArea as a clone.");
 	}
 
 	/**
@@ -165,7 +163,6 @@ public class LineArea extends InlineStackingArea {
 
 	private int adjustSpacingForSoftHyphen() {
 		if (lastTextArea != null) {
-			System.out.println("LineArea.adjustSpacingForSoftHyphen for " + lastTextArea);
 			int softHyphenWidth = lastTextArea.getSoftHyphenWidth();
 			return softHyphenWidth;
 		}
@@ -175,7 +172,6 @@ public class LineArea extends InlineStackingArea {
 	private int ignoreRightMostWhiteSpace() {
 		if (lastTextArea != null) {
 			String text = lastTextArea.getText();
-			System.out.println("LineArea.ignoreRightMostWhiteSpace for " + lastTextArea);
 			if (null != text) {
 				char[] charArray = text.toCharArray();
 				int len = charArray.length;
@@ -194,7 +190,6 @@ public class LineArea extends InlineStackingArea {
 		TextArea firstTextArea = findFirstNonEmptyTextArea(this);
 		if (firstTextArea != null) {
 			String text = firstTextArea.getText();
-			System.out.println("LineArea.ignoreLeftMostWhiteSpace for " + firstTextArea);
 			if (null != text) {
 				char[] charArray = text.toCharArray();
 				int len = 0;
@@ -219,14 +214,31 @@ public class LineArea extends InlineStackingArea {
 			AbstractArea child = (AbstractArea) iter.next();
 			if (child instanceof TextArea) {
 				TextArea textArea = (TextArea) child;
-				int whiteSpaceNumber = textArea.getWhiteSpaceNumber();
-				if (whiteSpaceNumber > 0) {
+				int whiteSpaceCount = textArea.getWhiteSpaceCount();
+				if (whiteSpaceCount > 0) {
 					TextStyle style = new TextStyle(textArea.getStyle());
 					int original = style.getWordSpacing();
 					style.setWordSpacing(original + wordSpacing);
 					textArea.setStyle(style);
-					int spacing = wordSpacing * whiteSpaceNumber;
+					int spacing = wordSpacing * whiteSpaceCount;
 					child.setWidth(child.getWidth() + spacing);
+					// If the text area is the first in the line,
+					// and it starts with white space, then we must
+					// remove that white space because otherwise this
+					// results in the text starting to far right due
+					// to a wordSpacing to the left.
+					if (textArea.isFirstInLine()) {
+						String text = textArea.getText();
+						if (text != null && text.length() > 0) {
+							for (int i = 0; i < text.length(); i++) {
+								if (text.charAt(i) <= 32) {
+									delta -= spacing;
+								} else {
+									break;
+								}
+							}
+						}
+					}
 					child.setPosition(child.getX() + delta, child.getY());
 					delta += spacing;
 				}
@@ -273,12 +285,6 @@ public class LineArea extends InlineStackingArea {
 	}
 
 	/**
-	 * The last text area in a line. This field is only used for text alignment
-	 * "justify".
-	 */
-	private TextArea lastTextAreaForJustify = null;
-
-	/**
 	 * The first text area in a line.
 	 */
 	private TextArea firstTextArea = null;
@@ -288,89 +294,53 @@ public class LineArea extends InlineStackingArea {
 	 */
 	private TextArea lastTextArea = null;
 
-	/**
-	 * Gets the white space number, and the right most white spaces are ignored.
-	 *
-	 * @param line
-	 * @return
-	 */
-	private int getWhiteSpaceNumber(LineArea line) {
+	private static class IntTupleCounter {
+		public int first;
+		public int second;
 
-		// FIXME This doesn't work correctly in all cases.
-		int count = getWhiteSpaceRawNumber(line);
-		if (lastTextAreaForJustify != null) {
-			String text = lastTextAreaForJustify.getText();
-			System.out.println("lastTextAreaForJustify with text=" + text);
-			if (null != text) {
-				char[] charArray = text.toCharArray();
-				int len = charArray.length;
-				while (len > 0 && (charArray[len - 1] <= ' ')) {
-					len--;
-				}
-				if (len != charArray.length) {
-					count = count - (charArray.length - len);
-					lastTextAreaForJustify.setWhiteSpaceNumber(
-							lastTextAreaForJustify.getWhiteSpaceNumber() - (charArray.length - len));
-					lastTextAreaForJustify.setText(text.substring(0, len));
-					lastTextAreaForJustify = null;
-				}
-			}
+		public IntTupleCounter() {
+			first = 0;
+			second = 0;
 		}
-		return count;
+
+		public void add(IntTupleCounter other) {
+			first += other.first;
+			second += other.second;
+		}
+
 	}
 
 	/**
-	 * Gets the white space number.
+	 * Count the characters and white spaces.
 	 *
 	 * This is a recursive function.
 	 *
 	 * @param area
 	 * @return
 	 */
-	private int getWhiteSpaceRawNumber(ContainerArea area) {
-		int count = 0;
+	private IntTupleCounter countCharactersAndWhiteSpace(ContainerArea area) {
+		IntTupleCounter count = new IntTupleCounter();
 		Iterator<IArea> iter = area.getChildren();
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
 			if (child instanceof TextArea) {
-				int innerCount = 0;
-				String text = ((TextArea) child).getText();
-				for (int i = 0; i < text.length(); i++) {
-					if (text.charAt(i) <= ' ') {
-						innerCount++;
-					}
-				}
-				count += innerCount;
-				((TextArea) child).setWhiteSpaceNumber(innerCount);
-				lastTextAreaForJustify = (TextArea) child;
+				TextArea taChild = (TextArea) child;
+				taChild.countCharactersAndWhiteSpace();
+				count.first += taChild.getCharactertCount();
+				count.second += taChild.getWhiteSpaceCount();
 			} else if (child instanceof ContainerArea) {
-				count += getWhiteSpaceRawNumber((ContainerArea) child);
+				count.add(countCharactersAndWhiteSpace((ContainerArea) child));
 			}
 		}
 		return count;
 	}
 
-	private int getLetterNumber(ContainerArea area) {
-		int count = 0;
-		Iterator<IArea> iter = area.getChildren();
-		while (iter.hasNext()) {
-			AbstractArea child = (AbstractArea) iter.next();
-			if (child instanceof TextArea) {
-				String text = ((TextArea) child).getText();
-				count = text.length();
-			} else if (child instanceof ContainerArea) {
-				count += getLetterNumber((ContainerArea) child);
-			}
-		}
-		return count;
-	}
 
 	protected void justify(int spacing, int adjustLeftWhiteSpace, int adjustRightWhiteSpace) {
 		// 1. Gets the white space number. The last white space of a line should not be
 		// counted.
 		// 2. adjust the position for every text area in the line and ignore the right
 		// most white space by modifying the text.
-		System.out.println("justify for" + this.hashCode());
 		spacing = spacing + adjustLeftWhiteSpace + adjustRightWhiteSpace;
 		if (adjustLeftWhiteSpace > 0) {
 			if (!parent.content.isDirectionRTL()) {
@@ -383,14 +353,15 @@ public class LineArea extends InlineStackingArea {
 				}
 			}
 		}
-		int whiteSpaceNumber = getWhiteSpaceNumber(this);
-		if (whiteSpaceNumber > 0) {
-			int wordSpacing = spacing / whiteSpaceNumber;
+		IntTupleCounter count = countCharactersAndWhiteSpace(this);
+		int charactersCount = count.first;
+		int whiteSpaceCount = count.second;
+		if (whiteSpaceCount > 0) {
+			int wordSpacing = spacing / whiteSpaceCount;
 			adjustWordSpacing(wordSpacing, this);
 		} else {
-			int letterNumber = getLetterNumber(this);
-			if (letterNumber > 1) {
-				int letterSpacing = spacing / (letterNumber - 1);
+			if (charactersCount > 1) {
+				int letterSpacing = spacing / (charactersCount - 1);
 				adjustLetterSpacing(letterSpacing, this);
 			}
 		}
@@ -488,7 +459,6 @@ public class LineArea extends InlineStackingArea {
 
 		// Mark the first TextArea as "firstInLine".
 		firstTextArea = findFirstNonEmptyTextArea(this);
-		System.out.println("close LineArea, firstTextArea=" + firstTextArea);
 		if (firstTextArea != null) {
 			firstTextArea.markAsFirstInLine();
 		}
@@ -496,7 +466,6 @@ public class LineArea extends InlineStackingArea {
 		// Handle Soft Hyphen:
 		// Mark the last TextArea as "lastInLine".
 		lastTextArea = findLastNonEmptyTextArea(this);
-		System.out.println("close LineArea, lastTextArea=" + lastTextArea);
 		if (lastTextArea != null) {
 			lastTextArea.markAsLastInLine();
 		}
