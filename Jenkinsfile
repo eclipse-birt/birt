@@ -1,6 +1,6 @@
 pipeline {
   options {
-    timeout(time: 60, unit: 'MINUTES')
+    timeout(time: 90, unit: 'MINUTES')
     buildDiscarder(logRotator(numToKeepStr:'10'))
     disableConcurrentBuilds(abortPrevious: true)
   }
@@ -121,11 +121,11 @@ def void mvn() {
       verify \
       -B \
       $MAVEN_PROFILES \
+      -DtestOnCentos=true \
       -Dmaven.repo.local=$WORKSPACE/.m2/repository \
       -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
       -Dbuild.type=$BUILD_TYPE \
       -Dgit.commit=$GIT_COMMIT \
-      -Dgit.commit.${CLONE_URL}/commit/ \
       -Dorg.eclipse.storage.user=genie.birt \
       -Dorg.eclipse.justj.p2.manager.relative=updates-tmp
     '''
