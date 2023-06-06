@@ -43,7 +43,7 @@ jobs:
     - name: Set up Maven 2
       run: echo "MAVEN_OPTS='-Xmx4096m'" > ~/.mavenrc
     - name: Build with Maven
-      run: mvn clean verify --fail-at-end --no-transfer-progress -U -DskipTests=false
+      run: mvn clean verify --no-transfer-progress -U -DskipTests=false
 #    - name: Data Test
 #      run: mvn -B -pl :org.eclipse.birt.data.tests integration-test
 #    - name: Model Test

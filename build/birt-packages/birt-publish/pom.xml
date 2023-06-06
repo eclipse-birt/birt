@@ -32,7 +32,6 @@
 				<!-- to be overridden in CBI hudson by
 				     -Drelease.base.dir=/home/data/httpd/download.eclipse.org/birt -->
 				<release.base.dir>${project.basedir}</release.base.dir>
-				<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 				<release.type>I</release.type>
 				<release.package.dir>${release.type}-R1-${birt.version}-${maven.build.timestamp}</release.package.dir>
 				<release.package.path>${release.base.dir}/downloads/drops/${release.package.dir}</release.package.path>
