@@ -353,7 +353,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 				dateValue, ULocale.FRANCE));
 		// no format, then we display in (medium, short) pattern
 		assertEquals("Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATETIME, null, dateValue));
+				DesignChoiceConstants.PARAM_TYPE_DATETIME, null, dateValue).replace("\u202f", " "));
 
 		// date type
 		dateValue = new java.sql.Date(100, 0, 1);
@@ -375,7 +375,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		java.sql.Time timeValue = new java.sql.Time(14, 20, 30);
 		assertEquals("2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-				timeValue, ULocale.ENGLISH));
+				timeValue, ULocale.ENGLISH).replace("\u202f", " "));
 
 		assertEquals("14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
@@ -383,7 +383,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 		// no format
 		assertEquals("2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_TIME, null, timeValue));
+				DesignChoiceConstants.PARAM_TYPE_TIME, null, timeValue).replace("\u202f", " "));
 
 		// float type
 		Double doubleValue = new Double("12345.456"); //$NON-NLS-1$

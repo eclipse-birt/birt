@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -617,13 +615,7 @@ public class ReportEngine implements IReportEngine {
 			return (ClassLoader) appLoader;
 		}
 
-		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-			@Override
-			public ClassLoader run() {
-				return IReportEngine.class.getClassLoader();
-			}
-		});
+		return IReportEngine.class.getClassLoader();
 	}
 
 	@Override

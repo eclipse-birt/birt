@@ -37,9 +37,9 @@ public class ReportParameterConverterTest extends TestCase {
 		String strTime = converter.format(time);
 		String strDate = converter.format(date);
 
-		assertEquals("9/13/1998, 8:01:44 PM", strDateTime);
+		assertEquals("9/13/1998, 8:01:44 PM", strDateTime.replace("\u202f", " "));
 		assertEquals("9/13/1998", strDate);
-		assertEquals("8:01:44 PM", strTime);
+		assertEquals("8:01:44 PM", strTime.replace("\u202f", " "));
 
 		Date newDateTime = (java.util.Date) converter.parse(strDateTime, IScalarParameterDefn.TYPE_DATE_TIME);
 		java.sql.Date newDate = (java.sql.Date) converter.parse(strDate, IScalarParameterDefn.TYPE_DATE);

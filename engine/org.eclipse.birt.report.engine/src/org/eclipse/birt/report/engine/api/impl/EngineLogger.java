@@ -99,14 +99,7 @@ public class EngineLogger {
 	 * see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4775533 for detail.
 	 */
 	private static void stopEngineLogging() {
-		java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				doStopEngineLogging();
-				return null;
-			}
-		});
+		doStopEngineLogging();
 	}
 
 	private static void doStopEngineLogging() {

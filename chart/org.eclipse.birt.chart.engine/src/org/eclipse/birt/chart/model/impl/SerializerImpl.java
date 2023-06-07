@@ -22,10 +22,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -314,54 +310,47 @@ public class SerializerImpl implements Serializer {
 	public Chart readEmbedded(final URI uri) throws IOException {
 		Chart chart = null;
 		try {
-			chart = AccessController.doPrivileged(new PrivilegedExceptionAction<Chart>() {
+			// Create and setup local ResourceSet
+			ResourceSet rsChart = new ResourceSetImpl();
+			rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", //$NON-NLS-1$
+					new ModelResourceFactoryImpl());
 
-				@Override
-				public Chart run() throws Exception {
-					// Create and setup local ResourceSet
-					ResourceSet rsChart = new ResourceSetImpl();
-					rsChart.getResourceFactoryRegistry().getExtensionToFactoryMap().put("chart", //$NON-NLS-1$
-							new ModelResourceFactoryImpl());
+			// Create resources to represent the disk files to be used
+			// to store the
+			// models
+			Resource rChart = null;
 
-					// Create resources to represent the disk files to be used
-					// to store the
-					// models
-					Resource rChart = null;
+			StringBuffer sb = null;
+			InputStream fis = null;
+			FileWriter writer = null;
+			try {
+				fis = new FileInputStream(uri.toFileString());
+				sb = getChartStringFromStream(fis);
 
-					StringBuffer sb = null;
-					InputStream fis = null;
-					FileWriter writer = null;
-					try {
-						fis = new FileInputStream(uri.toFileString());
-						sb = getChartStringFromStream(fis);
+				File fTmp = File.createTempFile("_ChartResource", ".chart"); //$NON-NLS-1$ //$NON-NLS-2$
+				writer = new FileWriter(fTmp);
+				writer.write(sb.toString());
+				writer.flush();
 
-						File fTmp = File.createTempFile("_ChartResource", ".chart"); //$NON-NLS-1$ //$NON-NLS-2$
-						writer = new FileWriter(fTmp);
-						writer.write(sb.toString());
-						writer.flush();
+				URI uriEmbeddedModel = URI.createFileURI(fTmp.getAbsolutePath());
+				rChart = rsChart.getResource(uriEmbeddedModel, true);
 
-						URI uriEmbeddedModel = URI.createFileURI(fTmp.getAbsolutePath());
-						rChart = rsChart.getResource(uriEmbeddedModel, true);
+				rChart.load(Collections.EMPTY_MAP);
 
-						rChart.load(Collections.EMPTY_MAP);
-
-						// Delete the temporary file once the model is loaded.
-						if (fTmp.exists()) {
-							fTmp.delete();
-						}
-						return (Chart) rChart.getContents().get(0);
-					} finally {
-						if (writer != null) {
-							writer.close();
-						}
-						if (fis != null) {
-							fis.close();
-						}
-					}
+				// Delete the temporary file once the model is loaded.
+				if (fTmp.exists()) {
+					fTmp.delete();
 				}
-			});
-		} catch (PrivilegedActionException e) {
-			Exception typedException = e.getException();
+				chart = (Chart) rChart.getContents().get(0);
+			} finally {
+				if (writer != null) {
+					writer.close();
+				}
+				if (fis != null) {
+					fis.close();
+				}
+			}
+		} catch (Exception typedException) {
 			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}

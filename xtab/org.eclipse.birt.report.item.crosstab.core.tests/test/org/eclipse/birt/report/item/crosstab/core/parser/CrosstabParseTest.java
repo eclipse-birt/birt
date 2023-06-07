@@ -82,6 +82,10 @@ public class CrosstabParseTest extends BaseTestCase {
 
 	public void testWriter() throws Exception {
 		createDesign();
+
+		designHandle.getModule().getRoot().getNameHelper().getNameSpace("style").getElements().get(0)
+				.setProperty("fontFamily", "sans-serif");
+
 		CubeHandle cubeHandle = prepareCube();
 
 		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory.createCrosstabReportItem(designHandle.getRoot(),

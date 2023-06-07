@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.13.0-SNAPSHOT</version>
+		<version>4.14.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
@@ -30,7 +30,7 @@
 			<plugin>
 				<groupId>org.eclipse.cbi.maven.plugins</groupId>
 				<artifactId>eclipse-jarsigner-plugin</artifactId>
-				<version>1.1.3</version>
+				<version>${cbi-version}</version>
 				<configuration>
 					<skip>true</skip>
 				</configuration>

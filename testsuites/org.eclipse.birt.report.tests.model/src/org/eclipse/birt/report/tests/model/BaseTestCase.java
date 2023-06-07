@@ -179,6 +179,7 @@ public abstract class BaseTestCase extends TestCase {
 	protected void tearDown() throws Exception {
 		if (designHandle != null) {
 			designHandle.close();
+			designHandle = null;
 		}
 
 		super.tearDown();

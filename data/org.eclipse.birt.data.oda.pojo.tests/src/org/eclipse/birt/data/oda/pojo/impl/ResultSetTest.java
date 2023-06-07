@@ -410,7 +410,7 @@ public class ResultSetTest {
 		// when run in "JUnit Plugin Test" point to "bin" dir
 		if (!result.endsWith("classes") && !result.endsWith("bin")) //$NON-NLS-1$
 		{
-			result += "/bin"; //$NON-NLS-1$
+			result += "/target/classes"; //$NON-NLS-1$
 		}
 		return result;
 	}

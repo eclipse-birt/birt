@@ -1,6 +1,6 @@
 stringColumn,integerColumn,dateColumn,decimalColumn
 String,Integer,DateTime,Decimal
-myString1,5,8 août 2008 10:30,"25,689"
+myString1,5,"8 août 2008, 10:30","25,689"
 ,-12,,
-"my,str;in	g|3",,1 janv. 2007 15:30,"-987,654321"
+"my,str;in	g|3",,"1 janv. 2007, 15:30","-987,654321"
 ü你ßé,0,,0

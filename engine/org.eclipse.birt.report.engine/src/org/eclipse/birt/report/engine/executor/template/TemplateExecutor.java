@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +51,7 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 	protected HashMap<String, Object> values;
 	protected ExecutionContext context;
 	protected File imageFolder;
-	protected HashMap imageCaches = new HashMap();
+	protected HashMap<String, String> imageCaches = new HashMap();
 
 	public TemplateExecutor(ExecutionContext context) {
 		this.context = context;
@@ -231,29 +229,24 @@ public class TemplateExecutor implements TextTemplate.Visitor {
 
 	protected String saveToFile(final String name, final String ext, final byte[] content) {
 		if (name != null) {
-			String file = (String) imageCaches.get(name);
+			String file = imageCaches.get(name);
 			if (file != null) {
 				return file;
 			}
 		}
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			@Override
-			public String run() {
-				try {
-					File imageFile = File.createTempFile("img", ext, imageFolder);
-					OutputStream out = new FileOutputStream(imageFile);
-					out.write(content);
-					out.close();
-					String fileName = imageFile.toURL().toExternalForm();
-					imageCaches.put(name, fileName);
-					return fileName;
-				} catch (IOException ex) {
-					logger.log(Level.WARNING, ex.getMessage(), ex);
-					context.addException(new EngineException(ex.getLocalizedMessage()));
-				}
-				return null;
-			}
-		});
+		try {
+			File imageFile = File.createTempFile("img", ext, imageFolder);
+			OutputStream out = new FileOutputStream(imageFile);
+			out.write(content);
+			out.close();
+			String fileName = imageFile.toURI().toURL().toExternalForm();
+			imageCaches.put(name, fileName);
+			return fileName;
+		} catch (IOException ex) {
+			logger.log(Level.WARNING, ex.getMessage(), ex);
+			context.addException(new EngineException(ex.getLocalizedMessage()));
+		}
+		return null;
 	}
 }

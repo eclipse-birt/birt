@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.build
-Bundle-Version: 4.13.0.qualifier
+Bundle-Version: 4.14.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
 Require-Bundle: org.apache.ant;bundle-version="[1.10.11,2.0.0)"

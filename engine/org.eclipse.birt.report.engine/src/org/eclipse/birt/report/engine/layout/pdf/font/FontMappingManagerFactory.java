@@ -17,8 +17,6 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -192,16 +190,9 @@ public class FontMappingManagerFactory {
 	}
 
 	private void registerJavaFonts() {
-		AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				String javaHome = System.getProperty("java.home");
-				String fontsFolder = javaHome + File.separatorChar + "lib" + File.separatorChar + "fonts";
-				FontFactory.registerDirectory(fontsFolder);
-				return null;
-			}
-		});
+		String javaHome = System.getProperty("java.home");
+		String fontsFolder = javaHome + File.separatorChar + "lib" + File.separatorChar + "fonts";
+		FontFactory.registerDirectory(fontsFolder);
 	}
 
 	protected FontMappingManager createFontMappingManager(String format, Locale locale) {
@@ -452,24 +443,17 @@ public class FontMappingManagerFactory {
 	}
 
 	private static void registerFontPath(final String fontPath) {
-		AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				long start = System.currentTimeMillis();
-				File file = new File(fontPath);
-				if (file.exists()) {
-					if (file.isDirectory()) {
-						FontFactory.registerDirectory(fontPath);
-					} else {
-						FontFactory.register(fontPath);
-					}
-				}
-				long end = System.currentTimeMillis();
-				logger.info("register fonts in " + fontPath + " cost:" + (end - start) + "ms");
-				return null;
+		long start = System.currentTimeMillis();
+		File file = new File(fontPath);
+		if (file.exists()) {
+			if (file.isDirectory()) {
+				FontFactory.registerDirectory(fontPath);
+			} else {
+				FontFactory.register(fontPath);
 			}
-		});
+		}
+		long end = System.currentTimeMillis();
+		logger.info("register fonts in " + fontPath + " cost:" + (end - start) + "ms");
 	}
 
 	protected String getEmbededFontPath() {

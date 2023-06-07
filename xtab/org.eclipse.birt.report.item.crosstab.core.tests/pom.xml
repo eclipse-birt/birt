@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.13.0-SNAPSHOT</version>
+		<version>4.14.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.item.crosstab.core.tests</artifactId>
@@ -37,8 +37,23 @@
 								<id>org.eclipse.birt.osgi.runtime</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.report.modelextension.tests</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<testClass>org.eclipse.birt.report.item.crosstab.core.AllTests</testClass>
+					<skipTests>${skipTests}</skipTests>
+					<argLine>-Duser.country=us -Duser.language=en</argLine>
 				</configuration>
 			</plugin>
 		</plugins>
