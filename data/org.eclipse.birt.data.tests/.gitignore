@@ -3,3 +3,4 @@ target
 dataenginetests.jar
 DtETest
 derby.log
+testdatabase/table1

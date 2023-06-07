@@ -18,10 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
@@ -201,19 +197,11 @@ public final class DefaultsManager {
 	 */
 	public void read() throws IOException, InvalidPreferencesFormatException {
 		try {
-			pr = AccessController.doPrivileged(new PrivilegedExceptionAction<Preferences>() {
-
-				@Override
-				public Preferences run() throws Exception {
-					try (FileInputStream fis = new FileInputStream(sLocation)) {
-						Preferences.importPreferences(fis);
-						return Preferences.userRoot();
-					}
-				}
-
-			});
-		} catch (PrivilegedActionException e) {
-			Exception typedException = e.getException();
+			try (FileInputStream fis = new FileInputStream(sLocation)) {
+				Preferences.importPreferences(fis);
+				pr = Preferences.userRoot();
+			}
+		} catch (Exception typedException) {
 			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			} else if (typedException instanceof InvalidPreferencesFormatException) {
@@ -228,14 +216,6 @@ public final class DefaultsManager {
 	 */
 	private boolean exists() {
 		final File f = new File(sLocation);
-
-		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-
-			@Override
-			public Boolean run() {
-				return (f.exists() && f.isFile());
-			}
-
-		});
+		return (f.exists() && f.isFile());
 	}
 }

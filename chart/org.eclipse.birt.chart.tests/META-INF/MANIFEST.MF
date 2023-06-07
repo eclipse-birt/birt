@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.tests;singleton:=true
-Bundle-Version: 4.13.0.qualifier
+Bundle-Version: 4.14.0.qualifier
 Bundle-ClassPath: charttests.jar
 Bundle-Activator: org.eclipse.birt.chart.tests.TestsPlugin
 Bundle-Vendor: %Bundle-Vendor
@@ -38,6 +38,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
  org.eclipse.birt.tests.core;bundle-version="4.13.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: org.apache.batik.transcoder;version="[1.14.0,1.15.0)",
- org.apache.batik.transcoder.image;version="[1.14.0,1.15.0)"
+Import-Package: org.apache.batik.transcoder;version="[1.14.0,2.0.0)",
+ org.apache.batik.transcoder.image;version="[1.14.0,2.0.0)"
 Automatic-Module-Name: org.eclipse.birt.chart.tests

@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Batik Transcoder Extension
 Bundle-SymbolicName: org.apache.batik.transcoder.birt.ext;singleton:=true
 Bundle-Version: 1.14.0.qualifier
-Fragment-Host: org.apache.batik.transcoder;bundle-version="[1.14.0,1.15.0)"
+Fragment-Host: org.apache.batik.transcoder;bundle-version="[1.16.0,1.17.0)"
 Bundle-Vendor: Eclipse BIRT
 Automatic-Module-Name: org.apache.batik.ext.awt.extension
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.apache.batik.codec;bundle-version="[1.14.0,1.15.0)"
+Require-Bundle: org.apache.batik.codec;bundle-version="[1.16.0,1.17.0)"

@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1
-Bundle-Version: 4.13.0.qualifier
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Version: 4.14.0.qualifier
 Fragment-Host: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb;bundle-version="[2.1.0,5.0.0)"
-Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nls;x-internal:=true

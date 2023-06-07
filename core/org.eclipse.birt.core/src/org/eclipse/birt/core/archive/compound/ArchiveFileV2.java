@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -602,13 +600,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants {
 	}
 
 	int getDefaultBlockSize() {
-		String value = (String) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				return System.getProperty(PROPERTY_DEFAULT_BLOCK_SIZE);
-			}
-		});
+		String value = System.getProperty(PROPERTY_DEFAULT_BLOCK_SIZE);
 
 		if (value != null) {
 			try {

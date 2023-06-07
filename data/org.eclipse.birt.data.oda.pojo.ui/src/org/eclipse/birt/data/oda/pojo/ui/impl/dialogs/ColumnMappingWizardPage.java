@@ -17,8 +17,6 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.dialogs;
 import java.lang.reflect.Member;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -291,7 +289,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 		pageComposite.setLayout(new FillLayout());
 
 		SashForm sf = new SashForm(pageComposite, SWT.HORIZONTAL);
-		createLeftComposite(pageComposite, sf);
+		createLeftComposite(sf);
 
 		createRightComposite(sf);
 
@@ -445,7 +443,7 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 
 	}
 
-	private void createLeftComposite(Composite topComposite, SashForm sf) {
+	private void createLeftComposite(SashForm sf) {
 		Composite left = new Composite(sf, SWT.NONE);
 		left.setLayout(new GridLayout(2, false));
 
@@ -726,14 +724,9 @@ public class ColumnMappingWizardPage extends DataSetWizardPage {
 			try {
 				final URL[] urls = Utils.createURLParser(this.getHostResourceIdentifiers()).parse(pojoClassPath);
 
-				ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-					@Override
-					public ClassLoader run() {
-						return new URLClassLoader(urls,
+				ClassLoader cl = new URLClassLoader(urls,
 								// so cl can also load classes in pojo driver plugin
 								Activator.class.getClassLoader());
-					}
-				});
 				Class c = cl.loadClass(pojoRootClass.trim());
 				classStructureTree.setContentProvider(new ClassTreeContentProvider(splits, cl));
 				classStructureTree.setLabelProvider(new ClassTreeLabelProvider());

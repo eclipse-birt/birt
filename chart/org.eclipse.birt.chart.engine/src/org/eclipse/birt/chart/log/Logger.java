@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.chart.log;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
@@ -84,19 +82,13 @@ final public class Logger {
 
 	private static StreamHandler getTracingHandler() {
 		if (tracingHandler == null) {
-			tracingHandler = AccessController.doPrivileged(new PrivilegedAction<StreamHandler>() {
-
-				@Override
-				public StreamHandler run() {
-					StreamHandler handler = new StreamHandler(System.out, new SimpleFormatter());
-					try {
-						tracingHandler.setLevel(Level.ALL);
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					}
-					return handler;
-				}
-			});
+			StreamHandler handler = new StreamHandler(System.out, new SimpleFormatter());
+			try {
+				tracingHandler.setLevel(Level.ALL);
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			}
+			tracingHandler = handler;
 		}
 		return tracingHandler;
 	}

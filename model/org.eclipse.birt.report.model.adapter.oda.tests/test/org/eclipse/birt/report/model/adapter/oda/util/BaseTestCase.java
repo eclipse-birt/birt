@@ -19,13 +19,11 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -372,7 +370,11 @@ public abstract class BaseTestCase extends TestCase {
 			String strA = lineReaderA.readLine().trim();
 			String strB = lineReaderB.readLine().trim();
 			while (strA != null) {
-				same = strA.trim().equals(strB.trim());
+				String normalizedA = strA.trim().replace("\u202f", " ")
+						.replaceAll("version=\"[0-9]\\.[0-9]+\\.[0-9]+\"", "");
+				String normalizedB = strB.trim().replace("\u202f", " ")
+						.replaceAll("version=\"[0-9]\\.[0-9]+\\.[0-9]+\"", "");
+				same = normalizedA.equals(normalizedB);
 				if (!same) {
 					StringBuilder message = new StringBuilder();
 

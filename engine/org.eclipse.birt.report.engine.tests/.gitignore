@@ -12,4 +12,5 @@ reportdocument
 reportdocument.folder
 script.jar
 test.archive
-
+meta.log
+performance.txt

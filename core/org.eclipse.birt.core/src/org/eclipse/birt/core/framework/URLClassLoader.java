@@ -29,8 +29,6 @@ import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.CodeSigner;
 import java.security.CodeSource;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -132,15 +130,9 @@ public class URLClassLoader extends java.net.URLClassLoader {
 	@Override
 	protected Class<?> findClass(final String name) throws ClassNotFoundException {
 		try {
-			return (Class<?>) AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
-
-				@Override
-				public Class<?> run() throws ClassNotFoundException {
-					return findClass1(name);
-				}
-			}, acc);
-		} catch (java.security.PrivilegedActionException pae) {
-			throw (ClassNotFoundException) pae.getException();
+			return (Class<?>) findClass1(name);
+		} catch (ClassNotFoundException e) {
+			throw (ClassNotFoundException) e;
 		}
 	}
 
@@ -190,13 +182,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 	@Override
 	public URL findResource(final String name) {
-		return AccessController.doPrivileged(new PrivilegedAction<URL>() {
-
-			@Override
-			public URL run() {
-				return findResource1(name);
-			}
-		}, acc);
+		return findResource1(name);
 	}
 
 	protected URL findResource1(String name) {
@@ -216,13 +202,7 @@ public class URLClassLoader extends java.net.URLClassLoader {
 
 	@Override
 	public Enumeration<URL> findResources(final String name) {
-		return AccessController.doPrivileged(new PrivilegedAction<Enumeration<URL>>() {
-
-			@Override
-			public Enumeration<URL> run() {
-				return findResources1(name);
-			}
-		}, acc);
+		return findResources1(name);
 	}
 
 	protected Enumeration<URL> findResources1(String name) {
