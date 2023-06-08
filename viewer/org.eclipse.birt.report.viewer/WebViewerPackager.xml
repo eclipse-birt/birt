@@ -472,6 +472,7 @@
 				<include name="org.eclipse.emf.ecore_*.jar" />
 				<include name="org.eclipse.emf_*.jar" />
 				<include name="org.apache.commons.logging_*.jar" />
+				<include name="org.apache.derby_*.jar" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.dom_*.jar"/>
@@ -485,9 +486,6 @@
 				<include name="org.apache.poi_*.jar"/>
 			</fileset>
 			<fileset dir="../org.eclipse.birt.report.engine/lib">
-				<include name="*.jar"/>
-			</fileset>
-			<fileset dir="../org.apache.derby.core">
 				<include name="*.jar"/>
 			</fileset>
 			<fileset dir="../org.w3c.sac/lib">
@@ -641,7 +639,6 @@
 		<copy todir="${export.dir}/plugins">
 		<fileset dir="${integrate.dir}/plugins">
 			<!-- 3rd party bundles -->
-			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
 			<include name="org.mozilla.javascript_*/**" />
 			<include name="com.lowagie.text_*/**" />
