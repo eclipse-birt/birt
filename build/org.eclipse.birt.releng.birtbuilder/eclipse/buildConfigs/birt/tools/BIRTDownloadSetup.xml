@@ -172,7 +172,6 @@
 		<exclude name="org.apache.commons.codec_*/**" />
 		<exclude name="org.w3c.sac_*/**" />
 		<exclude name="org.mozilla.javascript*/**" />
-		<exclude name="org.apache.derby.core_*/**" />
 		<exclude name="org.eclipse.birt.chart.runtime*/**" />
 		<exclude name="org.eclipse.birt.crosstab*/**" />
 		<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**" />
