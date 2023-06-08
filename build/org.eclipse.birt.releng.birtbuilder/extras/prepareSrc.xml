@@ -14,8 +14,6 @@
 -->
 <project name="test" default="prepareSrc">
 
-	<!-- ${dtp.mapCvsRoot}and ${dtp.mapVersionTag} will be overwriten by value 
-		in bootstrap.sh -->
 	<property name="dtp.mapGitRoot" value="ssh://xgu@git.eclipse.org/gitroot/datatools" />
 	<property name="dtp.mapVersionTag" value="master" />
 
