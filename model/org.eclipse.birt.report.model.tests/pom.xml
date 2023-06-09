@@ -66,7 +66,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!-- unbind jarsigner because this plugin contains nested jars which break it -->
+
 	<profiles>
 		<profile>
 			<id>build-server</id>
@@ -76,12 +76,9 @@
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
 						<artifactId>eclipse-jarsigner-plugin</artifactId>
 						<version>${cbi-version}</version>
-						<executions>
-							<execution>
-								<id>sign</id>
-								<phase />
-							</execution>
-						</executions>
+						<configuration>
+							<excludeInnerJars>true</excludeInnerJars>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

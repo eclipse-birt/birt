@@ -331,10 +331,6 @@
     version="latest">
   </feature>
   <feature 
-    id="org.apache.derby.core" 
-    version="latest">
-  </feature>
-  <feature 
     id="org.mozilla.rhino" 
     version="latest">
   </feature>

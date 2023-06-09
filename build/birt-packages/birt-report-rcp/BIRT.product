@@ -59,7 +59,7 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
    </vm>
 
    <license>
-        <url>http://www.eclipse.org/legal/epl-2.0.html</url>
+        <url>http://eclipse.org/legal/epl/notice.php</url>
         <text>
    Eclipse Foundation Software User Agreement
 
@@ -96,7 +96,7 @@ downloadable archives (&quot;Downloads&quot;).
     include plug-ins (&quot;Plug-ins&quot;), plug-in fragments (&quot;Fragments&quot;), and
     features (&quot;Features&quot;).
 -   Each Plug-in or Fragment may be packaged as a sub-directory or JAR
-    (Java\u2122 ARchive) in a directory named &quot;plugins&quot;.
+    (Java™ ARchive) in a directory named &quot;plugins&quot;.
 -   A Feature is a bundle of one or more Plug-ins and/or Fragments and
     associated material. Each Feature may be packaged as a sub-directory in a
     directory named &quot;features&quot;. Within a Feature, files named &quot;feature.xml&quot; may
@@ -134,8 +134,8 @@ THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY REFER TO THE EPL
 OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS AND CONDITIONS. SOME OF THESE
 OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):
 
--   Eclipse Public License Version 2.0 (available at
-    http://www.eclipse.org/legal/epl-2.0.html)
+-   Eclipse Public License Version 1.0 (available at
+    http://www.eclipse.org/legal/epl-v10.html)
 -   Eclipse Distribution License Version 1.0 (available at
     http://www.eclipse.org/licenses/edl-v1.0.html)
 -   Common Public License Version 1.0 (available at
