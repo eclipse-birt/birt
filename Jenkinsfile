@@ -1,6 +1,6 @@
 pipeline {
   options {
-    timeout(time: 100, unit: 'MINUTES')
+    timeout(time: 120, unit: 'MINUTES')
     buildDiscarder(logRotator(numToKeepStr:'10'))
     disableConcurrentBuilds(abortPrevious: true)
   }
@@ -15,7 +15,7 @@ pipeline {
   }
 
   environment {
-    CHECKOUT = 'true'
+    CHECKOUT = 'false'
     CLONE_URL = 'https://github.com/eclipse-birt/birt'
     CLONE_BRANCH = 'master'
   }
@@ -32,7 +32,7 @@ pipeline {
 
     booleanParam(
       name: 'PROMOTE',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Whether to promote the build to the download server.'
     )
   }
@@ -105,8 +105,7 @@ pipeline {
 
       post {
         always {
-          archiveArtifacts artifacts: '**/target/repository/**/*,**/target/*.zip,**/target/work/data/.metadata/.log'
-          junit '**/target/surefire-reports/TEST-*.xml'
+          junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true
         }
       }
     }
@@ -127,7 +126,7 @@ def void mvn() {
       -Dbuild.type=$BUILD_TYPE \
       -Dgit.commit=$GIT_COMMIT \
       -Dorg.eclipse.storage.user=genie.birt \
-      -Dorg.eclipse.justj.p2.manager.relative=updates-tmp
+      -Dorg.eclipse.justj.p2.manager.relative=updates
     '''
   }
 }

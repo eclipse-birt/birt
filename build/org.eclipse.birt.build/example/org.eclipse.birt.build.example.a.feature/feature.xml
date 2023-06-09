@@ -18,7 +18,9 @@
       label="Build Example Feature A"
       version="2.2.0.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.birt.build.example.a">
+      plugin="org.eclipse.birt.build.example.a"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description
