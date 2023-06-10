@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="10">
+<target name="Generated from BIRT" sequenceNumber="12">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
@@ -146,7 +146,24 @@
       <repository location="https://download.eclipse.org/oomph/simrel-orbit/2023-06"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="javax.el" version="0.0.0"/>
+      <unit id="javax.mail" version="0.0.0"/>
+      <unit id="javax.servlet" version="0.0.0"/>
+      <unit id="javax.servlet.jsp" version="0.0.0"/>
+      <unit id="javax.transaction" version="0.0.0"/>
+      <unit id="javax.xml" version="0.0.0"/>
+      <unit id="javax.xml.soap" version="0.0.0"/>
+      <unit id="javax.xml.stream" version="0.0.0"/>
       <unit id="net.sourceforge.lpg.lpgjavaruntime" version="0.0.0"/>
+      <unit id="org.apache.commons.jxpath" version="0.0.0"/>
+      <unit id="org.apache.derby" version="0.0.0"/>
+      <unit id="org.apache.jasper.glassfish" version="0.0.0"/>
+      <unit id="org.apache.lucene.analysis" version="0.0.0"/>
+      <unit id="org.apache.lucene.core" version="0.0.0"/>
+      <unit id="org.apache.xml.serializer" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.lucene.analysis-common" version="0.0.0"/>
       <unit id="org.apache.lucene.analysis-smartcn" version="0.0.0"/>
       <unit id="org.apache.lucene.core" version="0.0.0"/>
@@ -200,7 +217,6 @@
       <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="javax.xml.stream" version="0.0.0"/>
       <unit id="org.eclipse.mylyn.bugzilla_feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.mylyn.commons.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.mylyn.commons.identity.feature.group" version="0.0.0"/>
@@ -219,8 +235,6 @@
       <repository location="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="javax.mail" version="0.0.0"/>
-      <unit id="javax.xml.soap" version="0.0.0"/>
       <unit id="org.eclipse.jem" version="0.0.0"/>
       <unit id="org.eclipse.jem.beaninfo" version="0.0.0"/>
       <unit id="org.eclipse.jem.beaninfo.vm" version="0.0.0"/>
@@ -314,18 +328,6 @@
       <unit id="org.eclipse.wst.wsi.ui" version="0.0.0"/>
       <unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="javax.el" version="0.0.0"/>
-      <unit id="javax.servlet" version="0.0.0"/>
-      <unit id="javax.servlet.jsp" version="0.0.0"/>
-      <unit id="javax.transaction" version="0.0.0"/>
-      <unit id="org.apache.commons.jxpath" version="0.0.0"/>
-      <unit id="org.apache.derby" version="0.0.0"/>
-      <unit id="org.apache.jasper.glassfish" version="0.0.0"/>
-      <unit id="org.apache.lucene.analysis" version="0.0.0"/>
-      <unit id="org.apache.lucene.core" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.apache-jsp" version="0.0.0"/>
