@@ -27,7 +27,7 @@
 	<TABLE CELLSPACING="2" CELLPADDING="2" ID="parameter_table" CLASS="birtviewer_dialog_body">
 		<TR VALIGN="top">
 			<TD>
-				<TABLE STYLE="font-size:8pt">
+				<TABLE>
 					<TR HEIGHT="5px"><TD></TD></TR>
 					<%
 					if ( fragments.size( ) <= 0 )

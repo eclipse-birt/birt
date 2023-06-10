@@ -15,7 +15,7 @@
 .dialogTitleBar
 {
 	height: 20px;
-	background-color: #4E6DA4;
+	background-color: #4682b4;
 	cursor: move;	
 }
 
@@ -85,7 +85,7 @@
 /* Background of dialog below title bar */
 .dialogBackground
 {
-	background-color: #ECE9D8;
+	background-color:#F9F9F9;
 	margin-bottom: 1px;
 }
 
