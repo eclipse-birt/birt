@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="8">
+<target name="Generated from BIRT" sequenceNumber="9">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
@@ -343,6 +343,10 @@
       <unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.xml" version="0.0.0"/>
       <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.justj.epp.feature.group" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/latest/"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>

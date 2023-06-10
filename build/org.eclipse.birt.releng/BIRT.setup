@@ -430,6 +430,8 @@
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
+          name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
+      <requirement
           name="*"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
