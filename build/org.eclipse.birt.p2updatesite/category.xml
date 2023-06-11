@@ -74,7 +74,7 @@
    <category-def name="Birt" label="BIRT Reporting SDK"/>
    <category-def name="Chart" label="BIRT Charting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
-   <category-def name="wtpIntegration" label="BIRT WTP Integration SDK"/>
+   <category-def name="wtpIntegration" label="BIRT Web Tools Integration SDK"/>
    <category-def name="BirtTest" label="BIRT Unit Test"/>
    <category-def name="BirtNL" label="BIRT Language Package"/>
    <category-def name="BirtRcp" label="BIRT RCP - Do not install in your IDE">
