@@ -128,9 +128,6 @@ public class TextCompositor {
 	 */
 	private boolean textWrapping;
 
-	private TextArea previousTextArea;
-	private TextArea currentTextArea;
-
 	public TextCompositor(ITextContent textContent, FontMappingManager fontManager, LayoutContext context) {
 		this.textContent = textContent;
 		this.fontManager = fontManager;
@@ -185,8 +182,6 @@ public class TextCompositor {
 			throw new RuntimeException("No more text.");
 		}
 		TextArea textArea = getNextTextArea(maxLineWidth);
-		previousTextArea = currentTextArea;
-		currentTextArea = textArea;
 		if (textArea != null) {
 			offset += textArea.getTextLength();
 		}
@@ -480,13 +475,6 @@ public class TextCompositor {
 
 	private void addWord(TextArea textArea, int textLength) {
 		textArea.addWordUsingMaxWidth(textLength);
-	}
-
-	/**
-	 * @return Returns the previousTextArea.
-	 */
-	public TextArea getPreviousTextArea() {
-		return previousTextArea;
 	}
 
 }

@@ -11,6 +11,8 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
  * Second, the width needed to display the soft hyphen if the word ends with a
  * Unicode SOFT HYPHEN and the word is shown at the end of a line.
  *
+ * @since 4.14
+ *
  */
 public final class WordWidth {
 

@@ -74,6 +74,8 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	/**
 	 * Mark this TextArea as being the last in a line.
+	 *
+	 * @since 4.14
 	 */
 	public void markAsFirstInLine() {
 		firstInLine = true;
@@ -81,6 +83,8 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	/**
 	 * Mark this TextArea as being the last in a line.
+	 *
+	 * @since 4.14
 	 */
 	public void markAsLastInLine() {
 		lastInLine = true;
@@ -145,6 +149,8 @@ public class TextArea extends AbstractArea implements ITextArea {
 
 	/**
 	 * @return Returns the softHyphenWidth.
+	 *
+	 * @since 4.14
 	 */
 	public int getSoftHyphenWidth() {
 		return softHyphenWidth;
@@ -217,7 +223,7 @@ public class TextArea extends AbstractArea implements ITextArea {
 		String textResult = text.substring(offset, offset + textLength);
 		if (removeSoftHyphens) {
 			// Remove all Unicode SOFT HYPHEN symbols except a trailing one.
-			// FIXME: This is possibly worth performance tuning!
+			// This is possibly worth performance tuning!
 			int indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN);
 			for (; indxSoftHyphen >= 0; indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN)) {
 				String remaining = textResult.substring(indxSoftHyphen + 1);
@@ -229,6 +235,14 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return textResult;
 	}
 
+	/*
+	 * Add a piece of text (character length and width).
+	 *
+	 * Until BIRT 4.13, the second argument was a scalar value. Beginning with BIRT
+	 * 4.14, the type changed to support Unicode SOFT HYPHENs.
+	 *
+	 * @since 4.14
+	 */
 	public void addWord(int textLength, WordWidth wordWidth) {
 		this.textLength += textLength;
 		this.width += wordWidth.width;
@@ -332,17 +346,34 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return new TextArea(this);
 	}
 
+	/**
+	 * Returns the number of white space characters.
+	 *
+	 * @return number of white space characters.
+	 *
+	 * @since 4.14
+	 */
 	public int getWhiteSpaceCount() {
 		return whiteSpaceCount;
 	}
 
-	public int getCharactertCount() {
+	/**
+	 * Returns the number of characters.
+	 *
+	 * @return number of characters.
+	 *
+	 * @since 4.14
+	 */
+	public int getCharacterCount() {
 		return characterCount;
 	}
 
 	/**
-	 * Counts characters and whitespace. Whitespace at the beginning or the end of a
-	 * line is ignored.
+	 * Counts characters and whitespace.
+	 *
+	 * Whitespace at the beginning or the end of a line is ignored.
+	 *
+	 * @since 4.14
 	 */
 	public void countCharactersAndWhiteSpace() {
 		this.whiteSpaceCount = 0;

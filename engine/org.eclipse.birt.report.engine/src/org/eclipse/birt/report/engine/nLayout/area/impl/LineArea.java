@@ -326,7 +326,7 @@ public class LineArea extends InlineStackingArea {
 			if (child instanceof TextArea) {
 				TextArea taChild = (TextArea) child;
 				taChild.countCharactersAndWhiteSpace();
-				count.first += taChild.getCharactertCount();
+				count.first += taChild.getCharacterCount();
 				count.second += taChild.getWhiteSpaceCount();
 			} else if (child instanceof ContainerArea) {
 				count.add(countCharactersAndWhiteSpace((ContainerArea) child));
