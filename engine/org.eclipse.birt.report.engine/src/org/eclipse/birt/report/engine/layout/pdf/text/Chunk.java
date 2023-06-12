@@ -22,8 +22,6 @@ import com.ibm.icu.text.Bidi;
  * A Chunk is a piece of text and formatting metadata like what font to use and
  * BIDI setting. The font info is needed for computing width and height.
  *
- * @since 3.3
- *
  */
 public class Chunk {
 	private String text;
