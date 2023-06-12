@@ -430,6 +430,8 @@
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
+          name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
+      <requirement
           name="*"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
@@ -440,6 +442,8 @@
         <repository
             url="https://download.eclipse.org/oomph/simrel-orbit/2023-06"/>
         <repository
+            url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
+        <repository
             url="https://download.eclipse.org/datatools/updates/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
@@ -449,8 +453,6 @@
             url="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
-        <repository
-            url="https://download.eclipse.org/tools/orbit/downloads/drops/R20201118194144/repository"/>
         <repository
             url="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
         <repository

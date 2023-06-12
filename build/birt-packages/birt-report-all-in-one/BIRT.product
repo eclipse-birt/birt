@@ -307,7 +307,7 @@ United States, other countries, or both.
       <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
       <feature id="org.eclipse.xsd.edit" installMode="root"/>
       <feature id="org.eclipse.xsd" installMode="root"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
+      <feature id="org.eclipse.justj.epp" installMode="root"/>
    </features>
 
    <configurations>
@@ -320,13 +320,6 @@ United States, other countries, or both.
       <property name="org.eclipse.update.reconcile" value="false" />
       <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
    </configurations>
-
-   <repositories>
-      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
-   </repositories>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>

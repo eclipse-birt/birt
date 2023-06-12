@@ -83,6 +83,7 @@ SPDX-License-Identifier: EPL-2.0
                 -relative ${org.eclipse.justj.p2.manager.relative}
                 -version-iu org.eclipse.birt.feature
                 -iu-filter-pattern org.eclipse.birt.*(?&lt;!.nl1)
+                -excluded-categories-pattern .*\.BirtTest
                 -commit https://github.com/eclipse-birt/birt/commit/${git.commit}
                 -target-url https://download.eclipse.org/birt
                 -promote ${project.basedir}/../build/org.eclipse.birt.p2updatesite/target/repository
@@ -108,9 +109,9 @@ SPDX-License-Identifier: EPL-2.0
                 ${project.basedir}/../build/birt-packages/birt-source/target/birt-source-${birt.version}-${maven.build.timestamp}.zip
                 ${project.basedir}/../build/birt-packages/birt-tests-suite/target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip
                 -breadcrumb "BIRT https://www.eclipse.org/birt"
-                -favicon https://raw.githubusercontent.com/eclipse-birt/birt/master/build/org.eclipse.birt.chart/eclipse32.png
+                -favicon https://eclipse-birt.github.io/birt-website/img/BIRT-Icon.ico
                 -title-image https://eclipse-birt.github.io/birt-website/img/BIRT-Logo.png
-                -body-image https://raw.githubusercontent.com/eclipse-birt/birt/master/build/org.eclipse.birt.chart/eclipse32.png
+                -body-image https://eclipse-birt.github.io/birt-website/img/BIRT-Icon-large.png
                 -mapping birt->BIRT
                 ${org.eclipse.justj.p2.manager.extra.args}
               </appArgLine>

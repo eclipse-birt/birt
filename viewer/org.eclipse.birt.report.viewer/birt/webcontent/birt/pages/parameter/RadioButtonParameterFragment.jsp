@@ -32,7 +32,7 @@
 %>
 <TR>
 	<TD NOWRAP>
-		<IMG SRC="birt/images/parameter.gif" ALT="<%= parameterBean.getDisplayName( ) %>" TITLE="<%= parameterBean.getToolTip( ) %>"/>
+		<IMG class="icon_parameter" SRC="birt/images/Parameter.png" ALT="<%= parameterBean.getDisplayName( ) %>" TITLE="<%= parameterBean.getToolTip( ) %>"/>
 	</TD>
 	<TD NOWRAP>
 		<LABEL TITLE="<%= parameterBean.getToolTip( ) %>" ID="id_<%= parameterBean.getName()%>" FOR="<%=encodedParameterName%>" + "0"><%= parameterBean.getDisplayName( ) %>:</LABEL>
@@ -41,7 +41,7 @@
 		if ( parameterBean.isRequired( ) )
 		{
 		%>
-			<FONT COLOR="red">*</FONT>
+			<SPAN style="color:red;">*</SPAN>
 		<%
 		}
 		%>

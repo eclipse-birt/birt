@@ -19,7 +19,7 @@
  *****************************************************************************/
 .BirtViewer_Highlight_Label
 {
-	font:Verdana;
+	font-family: Arial;
 	color:red;
 }
 
@@ -28,31 +28,42 @@
  *****************************************************************************/
 .birtviewer_parameter_dialog
 {
-	height:100%;
-	overflow:auto;
-	height:350px;
+	height: 100%;
+	overflow: auto;
+	height: 350px;
 }
 
+.BirtViewer_parameter_dialog_Input_old
+{
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 2px;
+	width: 250px;
+}
 .BirtViewer_parameter_dialog_Input
 {
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:2px;
-	width:250px;
+	font-family: Arial;
+	font-size: 8pt;
+	width: 68%;
+	padding: 3px 4px;
+	margin: 4px 0;
+	border: 1px solid #ccc;
+	border-radius: 2px; /* !important;*/
+	box-sizing: border-box;
 }
 
 .birtviewer_parameter_dialog_Select
 {
-	font:Verdana;
-	font-size:8pt;
-	width:250px;
+	font-family: Arial;
+	font-size: 8pt;
+	width: 68%;
 }
 
 .birtviewer_parameter_dialog_Label
 {
-	font:Verdana;
-	font-size:8pt;
+	font-family: Arial;
+	font-size: 8pt;
 }
 
 /******************************************************************************
@@ -60,17 +71,17 @@
  *****************************************************************************/
 .birtviewer_exception_dialog
 {
-	border-style:solid;
-	border-color:#cccccc;
-	background-color:#ffffef;
-	border-width:1px;
+	border-style: solid;
+	border-color: #cccccc;
+	background-color: #ffffef;
+	border-width: 1px;
 } 
 
 .birtviewer_exception_dialog_container
 {
-	border-left-style:solid;
-	border-left-width:1px;
-	border-left-color:#cccccc;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: #cccccc;
 } 
 
 .birtviewer_exception_dialog_label
@@ -90,13 +101,13 @@
 
 .birtviewer_exception_dialog_detail
 {
-	padding:2px;
-	overflow:auto; 
-	height:150px;
-	border-top-color:#cccccc;
-	border-top-style:solid;
-	border-top-width:1px;
-	font-size:8pt;
+	padding: 2px;
+	overflow: auto; 
+	height: 150px;
+	border-top-color: #cccccc;
+	border-top-style: solid;
+	border-top-width: 1px;
+	font-size: 8pt;
 }
 
 /******************************************************************************
@@ -104,30 +115,30 @@
  *****************************************************************************/
 .birtviewer_exportdata_dialog_single_select
 {
-	width:250px;
-	font-size:8pt;
+	width: 250px;
+	font-size: 8pt;
 }
 
 .birtviewer_exportdata_dialog_select
 {
-	width:180px;
-	font-size:8pt;
+	width: 180px;
+	font-size: 8pt;
 }
 
 .birtviewer_exportdata_dialog_button
 {
-	width:16px;
-	height:16px;
-	cursor:pointer;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
 }
 
 .birtviewer_exportdata_dialog_input
 {
-	width:80px;
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:1px;	
+	width: 80px;
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 1px;	
 }
 
 /******************************************************************************
@@ -135,18 +146,18 @@
  *****************************************************************************/
 .birtviewer_exportreport_dialog_select
 {
-	width:120px;
-	font:Verdana;
-	font-size:8pt;
+	width: 120px;
+	font-family: Arial;
+	font-size: 8pt;
 } 
  
 .birtviewer_exportreport_dialog_input
 {
-	width:120px;
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:1px;	
+	width: 120px;
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 1px;	
 } 
 
 /******************************************************************************
@@ -154,18 +165,18 @@
  *****************************************************************************/
 .birtviewer_printreport_dialog_select
 {
-	width:150px;
-	font:Verdana;
-	font-size:8pt;
+	width: 150px;
+	font-family: Arial;
+	font-size: 8pt;
 } 
 
 .birtviewer_printreport_dialog_input
 {
-	width:120px;
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:1px;	
+	width: 120px;
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 1px;	
 }
 
 /******************************************************************************
@@ -173,27 +184,27 @@
  *****************************************************************************/
 .birtviewer_printreportserver_dialog_select
 {
-	width:200px;
-	font:Verdana;
-	font-size:8pt;
+	width: 200px;
+	font-family: Arial;
+	font-size: 8pt;
 } 
  
 .birtviewer_printreportserver_dialog_input
 {
-	width:120px;
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:1px;	
+	width: 120px;
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 1px;	
 } 
 
 .birtviewer_printreportserver_dialog_input_short
 {
-	width:60px;
-	font:Verdana;
-	font-size:8pt;
-	border-style:inset;
-	border-width:1px;	
+	width: 60px;
+	font-family: Arial;
+	font-size: 8pt;
+	border-style: inset;
+	border-width: 1px;	
 } 
 
 /******************************************************************************
@@ -201,15 +212,15 @@
  *****************************************************************************/
 .birtviewer_confirmation_dialog_iframe
 {
-	width:450px;
-	height:100px
+	width: 450px;
+	height: 100px
 } 
 
 .birtviewer_progresspage
 {
-	font-family:Verdana;
-	font-size:8pt;
-	cursor:default;	
+	font-family: Arial;
+	font-size: 8pt;
+	cursor: default;	
 }
   
 /******************************************************************************
@@ -217,63 +228,61 @@
  *****************************************************************************/
 .birtviewer_dialog
 {
-	font-family:Verdana;
-	background-color:#dbe4ee;
-	border-width:2px;
-	border-style:outset;
-	font-size:8pt;
-	cursor:default;
+	font-family: Arial;
+	background-color: #dbe4ee;
+	border-width: 2px;
+	border-style: outset;
+	font-size: 8pt;
+	cursor: default;
 }
 
 .birtviewer_dialog_caption
 {
-	width:100%;
-	font-size:12px;
-	color:white;
-	background-color:#4682b4;
+	width: 100%;
+	font-size: 12px;
+	color: white;
+	background-color: #4682b4;
 }
 
 .birtviewer_dialog_body
 {
 	/*background-color:#dbe4ee;*/
-	border-width:1px;
-	border-style:inset;
-	width:100%;
-	height:100%;
-	font-family:arial;
-	font-size:8pt;
+	border-width: 1px;
+	border-style: inset;
+	width: 100%;
+	height: 100%;
+	font-family: Arial;
+	font-size: 8pt;
 }
 
 .birtviewer_dialog_button
 {
-	width:100px;
-	font-family:verdana;
-	font-size:8pt;
-	background-color:white;
-	border-style:outset;
-	border-width:1px;
-	cursor:hand;
-	cursor:pointer;
+	width: 100px;
+	font-family: Arial;
+	font-size: 8pt;
+	background-color: white;
+	border-style: outset;
+	border-width: 1px;
+	cursor: pointer;
 }
 
 .birtviewer_dialog_tab_selected
 {
-	border-color:#ffffff;
-	border-width:1px;
-	border-style:solid;
-	font-size:7pt;
-	font-weight:bold;
+	border-color: #ffffff;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 7pt;
+	font-weight: bold;
 }
 
 .birtviewer_dialog_tab_normal
 {
-	border-color:white;
-	border-width:1px;
-	border-style:solid;
-	cursor:hand;
-	cursor:pointer;
-	font-size:7pt;
-	font-weight:bold;
+	border-color: white;
+	border-width: 1px;
+	border-style: solid;
+	cursor: pointer;
+	font-size: 7pt;
+	font-weight: bold;
 }
 
 /******************************************************************************
@@ -281,15 +290,15 @@
  *****************************************************************************/
 .body_caption_top
 {
-	height:4px;
-	background-color:#DDAA03;
+	height: 4px;
+	background-color: #DDAA03;
 }
 
 .body_caption
 {
-	height:30px;
-	font-family:Verdana;
-	font-size:10pt;
+	height: 30px;
+	font-family: Arial;
+	font-size: 10pt;
 }
 
 /******************************************************************************
@@ -297,16 +306,16 @@
  ******************************************************************************/
 .birtviewer_toolbar
 {
-	height:26px;
-	background-color:#CBCB97;
-	font-family:Verdana;
-	font-size:8pt;
-	border-top-width:1px;
-	border-top-style:solid;
-	border-top-color:#808080;
-	border-bottom-width:1px;
-	border-bottom-style:solid;
-	border-bottom-color:#808080;
+	height: 26px;
+	background-color: #4682b4;
+	font-family: Arial;
+	font-size: 8pt;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #808080;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #808080;
 }
 
 /******************************************************************************
@@ -314,20 +323,20 @@
  ******************************************************************************/
 .birtviewer_navbar
 {
-	height:26px;
-	background-color:#E6E6C6;
-	font-family:Verdana;
-	font-size:8pt;
-	border-left-color:#808080;
-	border-left-style:solid;
-	border-left-width:1px;
+	height: 26px;
+	background-color: #F9F9F9;
+	font-family: Arial;
+	font-size: 8pt;
+	border-left-color: #808080;
+	border-left-style: solid;
+	border-left-width: 1px;
 }
 
 .birtviewer_navbar_input
 {
-	font:icon;
-	border-style:inset;
-	border-width:2px;
+	font: icon;
+	border-style: inset;
+	border-width: 2px;
 }
 
 /******************************************************************************
@@ -335,13 +344,13 @@
  ******************************************************************************/
 .birtviewer_progressbar
 {
-	font-family:Verdana;
-	font-size:8pt;
-	background:#FFFFFF;
-	border-width:2px;
-	border-style:solid;
-	border-color:#FF912F;
-	cursor:default;
+	font-family: Arial;
+	font-size: 8pt;
+	background-color:#FFFFFF;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #FF912F;
+	cursor: default;
 }
 
 .birtviewer_progressbar_button
@@ -350,21 +359,21 @@
 	height: 24px;
 	width: 100px;
 	overflow: hidden;
-	color: black; /* Font color */ 
+	color: black;
 }
 /******************************************************************************
  * Toc
  ******************************************************************************/
 .birtviewer_toc
 {
-	width:100%;
-	height:100%;
-	background-color:#FFFFFF;
-	font-family:Verdana;
-	font-size:8pt;
-	border-width:1px;
-	border-style:none;
-	border-color:gray;
+	width: 100%;
+	height: 100%;
+	background-color: #FFFFFF;
+	font-family: Arial;
+	font-size: 8pt;
+	border-width: 1px;
+	border-style: none;
+	border-color: gray;
 }
 
 /******************************************************************************
@@ -372,12 +381,12 @@
  ******************************************************************************/
 .birtviewer_contextmenu
 {
-	width:150px;
-	background-color:#d0d0d0;
-	border-style:outset;
-	border-color:#cccccc;
-	cursor:default;
-	border-width:2px;
+	width: 150px;
+	background-color: #d0d0d0;
+	border-style: outset;
+	border-color: #cccccc;
+	cursor: default;
+	border-width: 2px;
 }
 
 /******************************************************************************
@@ -385,8 +394,8 @@
  *****************************************************************************/
 .birtviewer_document_fragment
 {
-	overflow:auto;
-	position:relative;
+	overflow: auto;
+	position: relative;
 	border-style: solid;
 	border-width: 2px;
 	border-top-color: #404040;
@@ -400,19 +409,35 @@
  ******************************************************************************/
 .birtviewer_clickable
 {
-	border-style:none;
-	cursor:hand;
-	cursor:pointer;
+	border-style: none;
+	cursor: pointer;
+}
+
+.icon_main_functions
+{
+	height: 28px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.icon_parameter
+{
+	height: 16px;
+}
+
+.icon_parameter_group
+{
+	height: 20px;
 }
 
 .birtviewer_hidden_label 
 {
-	position:absolute;
-	left:0px
-	top:-100px;
-	width:1px; 
-	height:1px; 
-	overflow:hidden;
+	position: absolute;
+	left: 0px;
+	top: -100px;
+	width: 1px; 
+	height: 1px; 
+	overflow: hidden;
 }
 
 .birtviewer_exception_dialog_detail #faultdetail

@@ -14,24 +14,21 @@ BIRT is built with [Apache Maven](http://maven.apache.org) through [Tycho](https
 
 To build BIRT with the latest Eclipse platform, run:
 
-    mvn package -DskipTests 
+    mvn clean verify -DskipTests=true
     
 ### Building environment
-* JDK 11
-* Maven 3.6.3
+* JDK 17
+* Maven 3.9.0
 
 ## Eclipse Version
-If you want to install BIRT as a plugin, please be aware that BIRT 4.12 requires Eclipse 4.25 and higher
+If you want to install BIRT as a plug-in, please be aware that BIRT 4.13 requires Eclipse 4.25 and higher
 
 ## Latest version 4.13.0
-* https://download.eclipse.org/birt/downloads/drops/latest
-* https://download.eclipse.org/birt/update-site/latest
+* https://download.eclipse.org/birt/updates/release/latest
 
 ## Current version 4.13.0
-* https://download.eclipse.org/birt/downloads/drops/R-R1-4.13.0-202303022006/
-* https://download.eclipse.org/birt/update-site/4.13.0/
+* https://download.eclipse.org/birt/updates/release/4.13.0/
 
 ## Latest snapshots towards 4.14.0
-* https://download.eclipse.org/birt/downloads/drops/snapshot/
-* https://download.eclipse.org/birt/update-site/snapshot/
+* https://download.eclipse.org/birt/updates/nightly/latest
 
