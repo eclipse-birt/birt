@@ -18,7 +18,7 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the Text Content Text content contains several
  * paragraphs which shares the same style properties.
  *
- * If the text contain serveral return characters and the display is inline, it
+ * If the text contain several return characters and the display is inline, it
  * is treated as "INLINE-BLOCK" otherwise it is "INLINE".
  *
  * If the display is "block", it is "BLOCK" always.

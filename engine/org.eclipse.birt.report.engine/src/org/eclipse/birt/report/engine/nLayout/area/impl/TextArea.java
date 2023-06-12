@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.text.Bidi;
-import com.ibm.icu.text.BreakIterator;
 
 /**
  * <p>
@@ -64,20 +63,41 @@ public class TextArea extends AbstractArea implements ITextArea {
 	private boolean removeSoftHyphens = "true".equals(System.getProperty("org.eclipse.birt.softhyphen.remove", "true")); // $NON-NLS-1
 
 	/**
-	 * <p>
-	 * This controls if a Unicode SOFT HYPHEN at the end of the text area should be
-	 * kept in the output or removed with the other SOFT HYPHENs when
-	 * {@link #removeSoftHyphens} is set.
-	 * </p>
-	 * <p>
-	 * Note that sometimes the same visible line of text can consist of more than
-	 * one TextAreas. The text content of these text areas are the result of a
-	 * {@link BreakIterator}. A pre-hyphenated word, e.g. "extra\u00adordinary" will
-	 * be split by the {@link BreakIterator} into two
-	 * {@link org.eclipse.birt.report.engine.layout.pdf.hyphen.Word "words"} can
-	 * result in two TextAreas with the texts "
+	 * Is this the first TextArea in a LineArea?
 	 */
-	private boolean keepTrailingSoftHyphen = true;
+	private boolean firstInLine = false;
+
+	/**
+	 * Is this the last TextArea in a LineArea?
+	 */
+	private boolean lastInLine = false;
+
+	/**
+	 * Mark this TextArea as being the last in a line.
+	 *
+	 * @since 4.14
+	 */
+	public void markAsFirstInLine() {
+		firstInLine = true;
+	}
+
+	/**
+	 * Mark this TextArea as being the last in a line.
+	 *
+	 * @since 4.14
+	 */
+	public void markAsLastInLine() {
+		lastInLine = true;
+	}
+
+
+	@Override
+	public int getWidth() {
+		if (lastInLine) {
+			return width + softHyphenWidth; // TODO What about letter spacing?
+		}
+		return width;
+	}
 
 	protected int runLevel;
 
@@ -110,13 +130,31 @@ public class TextArea extends AbstractArea implements ITextArea {
 	protected int maxWidth;
 
 	/**
-	 * The whiteSpaceNumber indicates the number of white spaces(except for the
+	 * The whiteSpaceCount indicates the number of white spaces(except for the left
+	 * most and right most white space) in current text area. This field is used to
+	 * justify the textArea.
+	 */
+	protected int whiteSpaceCount = 0;
+
+	/**
+	 * The characterCount indicates the number of characters (except left most and
 	 * right most white space) in current text area. This field is used to justify
 	 * the textArea.
 	 */
-	protected int whiteSpaceNumber;
+	protected int characterCount = 0;
 
 	protected boolean needClip = false;
+
+	private int softHyphenWidth = 0;
+
+	/**
+	 * @return Returns the softHyphenWidth.
+	 *
+	 * @since 4.14
+	 */
+	public int getSoftHyphenWidth() {
+		return softHyphenWidth;
+	}
 
 	TextArea(TextArea area) {
 		super(area);
@@ -185,11 +223,11 @@ public class TextArea extends AbstractArea implements ITextArea {
 		String textResult = text.substring(offset, offset + textLength);
 		if (removeSoftHyphens) {
 			// Remove all Unicode SOFT HYPHEN symbols except a trailing one.
-			// FIXME: This is possibly worth performance tuning!
+			// This is possibly worth performance tuning!
 			int indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN);
 			for (; indxSoftHyphen >= 0; indxSoftHyphen = textResult.indexOf(SOFT_HYPHEN)) {
 				String remaining = textResult.substring(indxSoftHyphen + 1);
-				if (keepTrailingSoftHyphen && remaining.strip().length() == 0)
+				if (lastInLine && remaining.strip().length() == 0)
 					break;
 				textResult = textResult.substring(0, indxSoftHyphen) + remaining;
 			}
@@ -197,9 +235,18 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return textResult;
 	}
 
-	public void addWord(int textLength, float wordWidth) {
+	/*
+	 * Add a piece of text (character length and width).
+	 *
+	 * Until BIRT 4.13, the second argument was a scalar value. Beginning with BIRT
+	 * 4.14, the type changed to support Unicode SOFT HYPHENs.
+	 *
+	 * @since 4.14
+	 */
+	public void addWord(int textLength, WordWidth wordWidth) {
 		this.textLength += textLength;
-		this.width += wordWidth;
+		this.width += wordWidth.width;
+		this.softHyphenWidth = wordWidth.softHyphenWidth;
 	}
 
 	public void addWordUsingMaxWidth(int textLength) {
@@ -299,12 +346,72 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return new TextArea(this);
 	}
 
-	public int getWhiteSpaceNumber() {
-		return whiteSpaceNumber;
+	/**
+	 * Returns the number of white space characters.
+	 *
+	 * @return number of white space characters.
+	 *
+	 * @since 4.14
+	 */
+	public int getWhiteSpaceCount() {
+		return whiteSpaceCount;
 	}
 
-	public void setWhiteSpaceNumber(int whiteSpaceNumber) {
-		this.whiteSpaceNumber = whiteSpaceNumber;
+	/**
+	 * Returns the number of characters.
+	 *
+	 * @return number of characters.
+	 *
+	 * @since 4.14
+	 */
+	public int getCharacterCount() {
+		return characterCount;
+	}
+
+	/**
+	 * Counts characters and whitespace.
+	 *
+	 * Whitespace at the beginning or the end of a line is ignored.
+	 *
+	 * @since 4.14
+	 */
+	public void countCharactersAndWhiteSpace() {
+		this.whiteSpaceCount = 0;
+		this.characterCount = 0;
+		String text = getText();
+		if (text == null) {
+			return;
+		}
+		int len = text.length();
+		int countWhiteSpace = 0;
+		int countCharacters = 0;
+		// Whitespace can occur at the beginning or at the end.
+		// We don't count whitespace at the beginning if we're at the first word,
+		// and we don't count whitespace at the end if we're at the last word.
+		boolean atStart = true;
+		for (int i = 0; i < len; i++) {
+			if (text.charAt(i) <= ' ') {
+				if (!firstInLine || !atStart) {
+					countWhiteSpace++;
+					countCharacters++;
+				}
+			} else {
+				atStart = false;
+				countCharacters++;
+			}
+		}
+		if (lastInLine) {
+			for (int i = len - 1; i >= 0; i--) {
+				if (text.charAt(i) <= ' ') {
+					countWhiteSpace--;
+					countCharacters--;
+				} else {
+					break;
+				}
+			}
+		}
+		this.whiteSpaceCount = countWhiteSpace;
+		this.characterCount = countCharacters;
 	}
 
 	@Override
@@ -312,29 +419,29 @@ public class TextArea extends AbstractArea implements ITextArea {
 		return needClip;
 	}
 
-	/**
-	 * Whether a Unicode SOFT HYPHEN at the end of the text area should be kept in
-	 * the output or removed.
-	 *
-	 * @see #keepTrailingSoftHyphen
-	 *
-	 * @return true if the soft hyphen shall be kept.
-	 */
-	public boolean isKeepTrailingSoftHyphen() {
-		return keepTrailingSoftHyphen;
+	@Override
+	public String toString() {
+		return "TextArea [removeSoftHyphens=" + removeSoftHyphens
+				+ ",firstInLine=" + firstInLine + ", lastInLine=" + lastInLine + ", runLevel=" + runLevel
+				+ ", textLength=" + textLength + ", text="
+				+ (text != null ? text.substring(offset, offset + textLength) : "(null)")
+				+ ", lineBreak=" + lineBreak + ", blankLine=" + blankLine + ", maxWidth=" + maxWidth
+				+ ", whiteSpaceCount" + whiteSpaceCount + ", characterCount=" + characterCount + ", needClip="
+				+ needClip + "]";
 	}
 
 	/**
-	 * Control whether a Unicode SOFT HYPHEN at the end of the text area should be
-	 * kept in the output or removed.
-	 *
-	 * @see #keepTrailingSoftHyphen
-	 *
-	 * @param keepTrailingSoftHyphen true if the soft hyphen shall be kept.
+	 * @return Returns the firstInLine.
 	 */
-	public void setKeepTrailingSoftHyphen(boolean keepTrailingSoftHyphen) {
-		this.keepTrailingSoftHyphen = keepTrailingSoftHyphen;
+	public boolean isFirstInLine() {
+		return firstInLine;
 	}
 
+	/**
+	 * @return Returns the lastInLine.
+	 */
+	public boolean isLastInLine() {
+		return lastInLine;
+	}
 
 }

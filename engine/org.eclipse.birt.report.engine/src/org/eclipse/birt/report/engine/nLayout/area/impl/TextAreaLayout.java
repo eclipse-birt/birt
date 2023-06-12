@@ -50,6 +50,10 @@ public class TextAreaLayout implements ILayout {
 
 	private ArrayList<ITextListener> listenerList = null;
 
+	/**
+	 * Denotes if the text content is empty (in this case a single blank space is
+	 * used as a replacement text).
+	 */
 	private boolean blankText = false;
 
 	static {
@@ -165,7 +169,7 @@ public class TextAreaLayout implements ILayout {
 		return false;
 	}
 
-	public void addTextArea(AbstractArea textArea) throws BirtException {
+	public void addTextArea(TextArea textArea) throws BirtException {
 		parentLM.add(textArea);
 		textArea.setParent(parentLM);
 		parentLM.update(textArea);
