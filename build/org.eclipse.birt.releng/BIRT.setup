@@ -444,6 +444,8 @@
         <repository
             url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
         <repository
+            url="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
+        <repository
             url="https://download.eclipse.org/datatools/updates/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
@@ -453,8 +455,6 @@
             url="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
-        <repository
-            url="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
         <repository
             url="https://download.eclipse.org/justj/epp/release/latest/"/>
         <repository
