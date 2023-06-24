@@ -32,6 +32,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	 __neh_click_radio_closure : null,
 	 __neh_change_select_closure : null,
+	 __neh_click_checkbox_closure : null,
 	 
 	/**
 	 *	Initialize dialog base.
@@ -41,9 +42,13 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	{
 		this.__initBase( id, '500px' );
 		this.__z_index = 200;
-		
+
+		// event to handle radio-button click action
 	    this.__neh_click_radio_closure = this.__neh_click_radio.bindAsEventListener( this );
+		// event to handle select-list change action
 	    this.__neh_change_select_closure = this.__neh_change_select.bindAsEventListener( this );
+		// event to handle checkbox click action 
+		this.__neh_click_checkbox_closure = this.__neh_click_checkbox.bindAsEventListener( this );
 
 	    this.__local_installEventHandlers(id);
 	},
@@ -168,17 +173,21 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			var flag = false;
 			for( var j = 0; j < oInput.length; j++ )
 			{
-				if( oInput[j].type == "radio" && !flag )
+				if( (oInput[j].type == "radio" || oInput[j].type == "checkbox") && !flag )
 				{
 					var tempRadio = oInput[j];
 					flag = true;
 					continue;
 				}
-	  
-				if( oInput[j].type == "radio" && tempRadio != {} && oInput[j].id != tempRadio.id )
+				if( flag && tempRadio.required && tempRadio.type == "checkbox" || oInput[j].type == "radio" && tempRadio != {} && oInput[j].id != tempRadio.id )
 				{
-					Event.observe( tempRadio, 'click', this.__neh_click_radio_closure, false );
-					Event.observe( oInput[j], 'click', this.__neh_click_radio_closure, false );
+					if( oInput[j].type == "radio" ) {
+						Event.observe( tempRadio, 'click', this.__neh_click_radio_closure, false );
+						Event.observe( oInput[j], 'click', this.__neh_click_radio_closure, false );
+					}
+					if( tempRadio.type == "checkbox") {
+						Event.observe( tempRadio, 'click', this.__neh_click_checkbox_closure, false );
+					}
 				}
 			}
 		}

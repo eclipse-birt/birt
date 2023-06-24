@@ -344,9 +344,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				this.__parameter[k] = { };
 			}
 			
-			//input element collection
+			//input element collection (IEC)
 			var oIEC = oTRC[i].getElementsByTagName( "input" );
-			//select element collection
+			//select element collection (SEC)
 			var oSEC = oTRC[i].getElementsByTagName( "select" );
 			//avoid group parameter
 			var oTable = oTRC[i].getElementsByTagName( "table" );
@@ -391,22 +391,31 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// deal with "text" parameter
 			if( oType == 'text' )
 			{
-				// data type of current parameter
-				var dataType = oIEC[1].value;
-				
-				// allow null
-				if( oIEC[2] && oIEC[2].type == 'radio' )
-				{
-					if( oIEC[2].checked )
-					{
-						var paramName = oIEC[3].name;
-						var paramValue = oIEC[4].value;
-						var displayText = oIEC[5].value;
+				const idxControlType	= 0;	// input#control_type
+				const idxDataType		= 1;	// input#data_type
+				const idxBIRTParam		= 2;	// input#<param>.BirtViewer_parameter_dialog_Input
+				const idxNullOption		= 3;	// input#<param>_checkbox 
+				const idxParamValue		= 4;	// input#<param>_value
+				const idxDisplayText	= 5;	// input#<param>_displayText
+				const idxIsRequired		= 6;	// input#isRequired
 
-						if( displayText != oIEC[3].value )
+				// data type of current parameter
+				var dataType = oIEC[idxDataType].value;
+
+				// allow null
+				if( oIEC[idxNullOption] && oIEC[idxNullOption].type == 'checkbox' )
+				{
+					// checkbox: null value is unchecked then param value is to be used
+					if( !oIEC[idxNullOption].checked )
+					{
+						var paramName	= oIEC[idxBIRTParam].name;
+						var paramValue	= oIEC[idxParamValue].value;
+						var displayText	= oIEC[idxDisplayText].value;
+
+						if( displayText != oIEC[idxBIRTParam].value )
 						{
-							// change the text field value,regard as a locale string
-							paramValue = oIEC[3].value;
+							// change the text field value, regard as a locale string
+							paramValue = oIEC[idxBIRTParam].value;
 							
 							// set isLocale flag							
 							this.__parameter[k].name = this.__islocale;
@@ -418,7 +427,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						if( this.__is_parameter_required( oIEC ) 
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							oIEC[3].focus( );
+							oIEC[idxBIRTParam].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}
@@ -427,7 +436,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						if( !this.__is_parameter_allowblank( dataType )
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							oIEC[3].focus( );
+							oIEC[idxBIRTParam].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 							return false;							
 						}	
@@ -447,14 +456,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							this.__parameter[k] = { };
 						}
 						this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-						this.__parameter[k].value = oIEC[3].value;
-						k++;						
+						this.__parameter[k].value = oIEC[idxBIRTParam].value;
+						k++;
 					}
 					else
 					{
 						// select null value
 						this.__parameter[k].name = this.__isnull;
-						this.__parameter[k].value = oIEC[2].value;
+						this.__parameter[k].value = oIEC[idxNullOption].value;
 						k++;
 					}										
 				}
@@ -1226,10 +1235,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				}
 			}
 			// if i points to the element that must be disabled
-			else if( oInput[i].type == "radio" && oInput[i].id != temp.id )			
+			else if( oInput[i].type == "radio" && oInput[i].id != temp.id )
 			{				
-				var element = oInput[i+1];
-				//disable the next component and clear the radio
+				var element = oInput[i + 1];
+				// disable the next component and clear the radio
 				oInput[i].checked = false;
 				if( element && ( element.type == "text" || element.type == "password" ) )
 				{
@@ -1254,6 +1263,83 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		}
 	},
 	
+	/**
+	 *	Handle clicking on checkbox.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 *
+	 *  @since 4.14 
+	 */	
+	__neh_click_checkbox : function( event )
+	{
+		var temp = Event.element( event );
+		var oInput = temp.parentNode.getElementsByTagName( "input" );
+		var oSelect = temp.parentNode.getElementsByTagName( "select" );
+		
+		// check if current parameter is cascading parameter
+		var oCascadeFlag = false;
+		if ( oInput && oInput.length > 0 )
+		{
+			var oLastInput = oInput[oInput.length - 1];
+			if ( oLastInput.id == "isCascade" )
+				oCascadeFlag = ( oLastInput.value == "true" );
+		}
+		var oSelectElement = oSelect[0];
+		
+		for( var i = 0; i < oInput.length; i++ )
+		{
+			if( oInput[i].id == temp.id )
+			{
+				var element = oInput[i - 1];
+
+				if( !oInput[i].checked ) {
+					if(element && ( element.type == "text" || element.type == "password" ) )
+					{
+						element.disabled = false;
+						element.focus( );
+						if ( oCascadeFlag )
+						{
+							// refresh cascading elements (remove the "_input" suffix)
+							this.__clearSubCascadingParameterByName(element.id.substr(0, element.id.length - 6));
+						}
+					}
+					else if( oSelectElement )
+					{
+						oSelectElement.selectedIndex = 0;
+						oSelectElement.disabled = false;
+						oSelectElement.focus( );
+						if ( oCascadeFlag )
+						{
+							// refresh cascading elements (remove the "_selection" suffix)
+							this.__clearSubCascadingParameterByName(oSelectElement.id.substr(0, oSelectElement.id.length - 10));
+						}
+					}
+				} else {
+					if( element && ( element.type == "text" || element.type == "password" ) )
+					{
+						element.disabled = true;
+						// if cascading parameter, clear value 
+						if ( oCascadeFlag )
+						{
+							element.value = "";
+						}
+					}
+					else if( oSelectElement )
+					{
+						oSelectElement.disabled = true;
+						// if cascading parameter, clear value
+						if ( oCascadeFlag )
+						{
+							oSelectElement.selectedIndex = -1;
+							oSelectElement.title = "";
+						}
+					}
+				}
+			}
+		}
+	},
+
 	/**
 	 * Check whether obj is the last select control
 	 */
