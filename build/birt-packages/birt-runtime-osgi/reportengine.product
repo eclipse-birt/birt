@@ -169,6 +169,7 @@ United States, other countries, or both.
 
    <features>
       <feature id="org.eclipse.birt.engine.runtime"/>
+      <feature id="org.eclipse.birt.chart.osgi.runtime"/>
    </features>
 
    <configurations>

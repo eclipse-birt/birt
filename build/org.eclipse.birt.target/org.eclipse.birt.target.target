@@ -161,6 +161,23 @@
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.jetty.apache-jsp" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.http" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.io" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.jndi" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.osgi.boot" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.security" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.server" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.util" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.util.ajax" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.xml" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.lucene.analysis-common" version="0.0.0"/>
       <unit id="org.apache.lucene.analysis-smartcn" version="0.0.0"/>
       <unit id="org.apache.lucene.core" version="0.0.0"/>
