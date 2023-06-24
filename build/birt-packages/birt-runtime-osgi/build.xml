@@ -71,7 +71,10 @@
     </copy>
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
       <fileset dir="${ENGINE_DIR}/platform/plugins">
+        <include name="jakarta.xml.bind_*.jar"/>
         <include name="javax.wsdl_*.jar"/>
+        <include name="org.apache.commons.logging_*.jar"/>
+        <include name="org.apache.commons.discovery_*/lib/*.jar"/>
       </fileset>
       <fileset dir="${REPOSITORY_DIR}/plugins">
         <include name="javax.xml.soap_*.jar"/>
