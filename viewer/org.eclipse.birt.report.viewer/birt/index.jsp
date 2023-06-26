@@ -77,7 +77,7 @@
 						<a class="birt" href="http://www.eclipse.org/birt" target="blank">
 							<!-- Temporary BIRT header -->
 							<div style="text-align:right; padding-right:10px; font-weight:bold; font-size:20px; color:#e8e8ff;">
-								<img src="webcontent/birt/images/BIRT-Logo.png" alt="BIT Logo" style="margin-right:12px; height:48px; margin-top:8px; margin-bottom:8px; background-color: white;border: 4px solid white; border-radius: 4px;">
+								<img src="webcontent/birt/images/BIRT-Logo.png" alt="BIRT Logo" style="margin-right:12px; height:48px; margin-top:8px; margin-bottom:8px; background-color: white;border: 4px solid white; border-radius: 4px;">
 							</div>
 						</a> 
 					</td>
@@ -90,7 +90,7 @@
 				<tr>
 					<td class="content" style="padding:10px;" >
 						<!-- Page title -->
-						<div class="installed_message"><img src="webcontent/birt/images/BIRT-Icon-large.png" alt="BIT Logo" style="vertical-align:middle; border:0; margin-right:12px; height:48px;">BIRT viewer has been installed.</div>
+						<div class="installed_message"><img src="webcontent/birt/images/BIRT-Icon-large.png" alt="BIRT Logo" style="vertical-align:middle; border:0; margin-right:12px; height:48px;">BIRT viewer has been installed.</div>
 						<!-- Content area -->
 						<div style="background-color:#4682b4; color:white; padding:8px 8px 8px 16px; font-weight:bold;">Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</div>
 						<div>
