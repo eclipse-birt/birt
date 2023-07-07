@@ -57,12 +57,12 @@
 			<%
 				if (parameterBean.getParameter().getCategory().equals("Date Picker")					) {
 			%>
-			TYPE="date" 
+			TYPE="date"
 			<%
 				} else if (		parameterBean.getParameter().getDataType() == ParameterDefinition.TYPE_DATE_TIME
 							&&	parameterBean.getParameter().getCategory().startsWith("Date Picker")	) {
 			%>
-			TYPE="datetime-local" 
+			TYPE="datetime-local"
 				<% if (parameterBean.getParameter().getCategory().contains("Medium Time")) { %>
 					step="1"
 				<%} %>
