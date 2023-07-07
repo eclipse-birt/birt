@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 4.0 transitional//EN">
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Eclipse BIRT Home</title>

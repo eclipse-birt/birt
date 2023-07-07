@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 
 import com.ibm.icu.util.ULocale;
@@ -32,15 +33,15 @@ import com.ibm.icu.util.ULocale;
  */
 public final class FormatDateTimeAdapter extends FormatAdapter {
 
-	private static final String[] DATETIME_FORMAT_TYPES = { DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-			DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
-			DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE,
-			DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME,
-			DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
-			DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME };
+	private static final String[] DATETIME_FORMAT_TYPES = { DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE,
+			DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE,
+			DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE,
+			DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE, DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME,
+			DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME,
+			DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME };
 
 	private static final String[] DATE_FORMAT_TYPES = { DesignChoiceConstants.DATE_FORMAT_TYPE_GENERAL_DATE,
-			DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE, DesignChoiceConstants.DATE_FORMAT_TYPE_MUDIUM_DATE,
+			DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE, DesignChoiceConstants.DATE_FORMAT_TYPE_MEDIUM_DATE,
 			DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE };
 
 	private static final String[] TIME_FORMAT_TYPES = { DesignChoiceConstants.TIME_FORMAT_TYPE_LONG_TIME,
@@ -56,6 +57,11 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 
 	private String[] formatTypes = null;
 
+	/**
+	 * Constructor
+	 *
+	 * @param type date time type
+	 */
 	public FormatDateTimeAdapter(int type) {
 		this.type = type;
 		init();
@@ -64,10 +70,9 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 	private void init() {
 		switch (type) {
 		case FormatBuilder.DATETIME:
-			UNFORMATTED_DISPLAYNAME = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
-			CUSTOM = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM;
+			UNFORMATTED_DISPLAYNAME = DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED;
+			CUSTOM = DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM;
 			UNFORMATTED_NAME = DateFormatter.DATETIME_UNFORMATTED;
-
 			break;
 		case FormatBuilder.DATE:
 			UNFORMATTED_DISPLAYNAME = DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED;
@@ -82,6 +87,11 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 		}
 	}
 
+	/**
+	 * Method to return the date time format types
+	 *
+	 * @return Return the date time format types
+	 */
 	public String[] getSimpleDateTimeFormatTypes() {
 		if (type == FormatBuilder.DATETIME) {
 			return DATETIME_FORMAT_TYPES;
@@ -96,19 +106,21 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 
 	/**
 	 * Returns the choiceArray of this choice element from model.
+	 *
+	 * @return Return the choiceArray of this choice element from model.
 	 */
 	public String[][] getFormatTypeChoiceSet() {
 		String structName, property;
 
 		if (type == FormatBuilder.DATETIME) {
 			structName = DateTimeFormatValue.FORMAT_VALUE_STRUCT;
-			property = DateTimeFormatValue.CATEGORY_MEMBER;
+			property = FormatValue.CATEGORY_MEMBER;
 		} else if (type == FormatBuilder.DATE) {
 			structName = DateFormatValue.FORMAT_VALUE_STRUCT;
-			property = DateFormatValue.CATEGORY_MEMBER;
+			property = FormatValue.CATEGORY_MEMBER;
 		} else {
 			structName = TimeFormatValue.FORMAT_VALUE_STRUCT;
-			property = TimeFormatValue.CATEGORY_MEMBER;
+			property = FormatValue.CATEGORY_MEMBER;
 		}
 
 		return getChoiceArray(structName, property);
@@ -121,15 +133,15 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 			case FormatBuilder.DATETIME:
 			default:
 				categoryChoiceArray = getChoiceArray(DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-						DateTimeFormatValue.CATEGORY_MEMBER);
+						FormatValue.CATEGORY_MEMBER);
 				break;
 			case FormatBuilder.DATE:
 				categoryChoiceArray = getChoiceArray(DateFormatValue.FORMAT_VALUE_STRUCT,
-						DateFormatValue.CATEGORY_MEMBER);
+						FormatValue.CATEGORY_MEMBER);
 				break;
 			case FormatBuilder.TIME:
 				categoryChoiceArray = getChoiceArray(TimeFormatValue.FORMAT_VALUE_STRUCT,
-						TimeFormatValue.CATEGORY_MEMBER);
+						FormatValue.CATEGORY_MEMBER);
 				break;
 			}
 		}
@@ -151,7 +163,7 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 	@Override
 	public String getDisplayName4Category(String category) {
 		return ChoiceSetFactory.getStructDisplayName(DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-				DateTimeFormatValue.CATEGORY_MEMBER, category);
+				FormatValue.CATEGORY_MEMBER, category);
 	}
 
 	@Override
@@ -162,7 +174,8 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 			for (int i = 0; i < categoryChoiceArray.length; i++) {
 				String fmtStr = ""; //$NON-NLS-1$
 				String category = categoryChoiceArray[i][1];
-				if (category.equals(CUSTOM) || category.equals(UNFORMATTED_DISPLAYNAME)) {
+				if (category.equals(CUSTOM) || category.equals(UNFORMATTED_DISPLAYNAME)
+						|| category.startsWith("Date Picker") || category.startsWith("Time Picker")) {
 					fmtStr = categoryChoiceArray[i][0];
 				} else {
 					// uses UI specified display names.
@@ -194,18 +207,27 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 	@Override
 	public String getPattern4DisplayName(String displayName, ULocale locale) {
 		String category = ChoiceSetFactory.getStructPropValue(DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-				DateTimeFormatValue.CATEGORY_MEMBER, displayName);
+				FormatValue.CATEGORY_MEMBER, displayName);
 		return FormatDateTimePattern.getPatternForCategory(category);
 	}
 
+	/**
+	 * @return
+	 */
 	public String getUnformattedCategoryDisplayName() {
 		return UNFORMATTED_DISPLAYNAME;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getCustomCategoryName() {
 		return CUSTOM;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getUnformattedCategoryName() {
 		return UNFORMATTED_NAME;
 	}

@@ -725,7 +725,7 @@ public class StyleParseTest extends BaseTestCase {
 
 		highlightHandle.setNumberFormat("$000,000");//$NON-NLS-1$
 
-		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE);
+		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE);
 		highlightHandle.setDateTimeFormat("mm dd, yyyy"); //$NON-NLS-1$
 
 		try {

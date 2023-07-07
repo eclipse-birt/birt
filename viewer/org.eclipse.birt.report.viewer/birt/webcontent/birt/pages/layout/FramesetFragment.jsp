@@ -37,13 +37,14 @@
 <%-----------------------------------------------------------------------------
 	Viewer root fragment
 -----------------------------------------------------------------------------%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<!DOCTYPE HTML>
 <HTML lang="<%= ParameterAccessor.htmlEncode( attributeBean.getLanguage() ) %>">
 	<HEAD>
 		<TITLE><%= ParameterAccessor.htmlEncode( attributeBean.getReportTitle( ) ) %></TITLE>
 		<BASE href="<%= baseHref %>" >
 		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
+		<LINK href="https://eclipse-birt.github.io/birt-website/img/BIRT-Icon.ico" type=image/x-icon rel="shortcut icon">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
 		<%
 		if( attributeBean.isRtl() )

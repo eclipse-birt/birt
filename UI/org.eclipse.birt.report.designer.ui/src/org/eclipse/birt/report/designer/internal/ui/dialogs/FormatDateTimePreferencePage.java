@@ -71,6 +71,8 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage implem
 
 	/**
 	 * Gets the preference name.
+	 *
+	 * @return Return the preference name
 	 */
 	public String getPreferenceName() {
 		return name;
@@ -125,7 +127,7 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage implem
 	/**
 	 * Stores the result pattern string into Preference Store.
 	 *
-	 * @return
+	 * @return Return the result pattern string into Preference Store.
 	 */
 	protected boolean doStore() {
 		if (formatPage == null || !formatPage.isFormatModified() || !formatPage.isDirty()) {

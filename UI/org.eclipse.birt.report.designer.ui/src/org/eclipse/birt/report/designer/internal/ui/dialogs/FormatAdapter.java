@@ -49,9 +49,8 @@ public abstract class FormatAdapter {
 	public static String getLocaleDisplayName(ULocale locale) {
 		if (locale == null) {
 			return NONE;
-		} else {
-			return locale.getDisplayName();
 		}
+		return locale.getDisplayName();
 	}
 
 	public static String[] getLocaleDisplayNames() {

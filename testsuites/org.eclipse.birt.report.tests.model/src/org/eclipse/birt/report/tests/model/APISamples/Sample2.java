@@ -816,17 +816,17 @@ public class Sample2 {
 		// style "year"
 		SharedStyleHandle year = libraryFactory.newStyle("year");
 		year.setDateTimeFormat("yyyy");
-		year.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		year.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 
 		// style "Month"
 		SharedStyleHandle month = libraryFactory.newStyle("month");
 		month.setDateTimeFormat("MM");
-		month.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		month.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 
 		// style "day"
 		SharedStyleHandle day = libraryFactory.newStyle("day");
 		day.setDateTimeFormat("dd");
-		day.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		day.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 
 		// style "TransactionType"
 		SharedStyleHandle transaction = libraryFactory.newStyle("TransactionType");

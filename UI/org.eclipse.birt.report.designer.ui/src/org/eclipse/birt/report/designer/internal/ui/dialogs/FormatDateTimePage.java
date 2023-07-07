@@ -25,12 +25,12 @@ public class FormatDateTimePage extends FormatPage {
 
 	/**
 	 * Constructs a page for formatting date time, default aligns the page
-	 * virtically.
+	 * vertically.
 	 *
 	 * @param parent The container
+	 * @param type
 	 * @param style  The style of the page
 	 */
-
 	public FormatDateTimePage(Composite parent, int type, int style) {
 		this(parent, type, style, PAGE_ALIGN_VIRTICAL, true);
 	}
@@ -39,11 +39,12 @@ public class FormatDateTimePage extends FormatPage {
 	 * Constructs a page for formatting date time.
 	 *
 	 * @param parent        The container
+	 * @param type
 	 * @param style         The style of the page
-	 * @param pageAlignment Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 * @param pageAlignment Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
 	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale
 	 */
-
 	public FormatDateTimePage(Composite parent, int type, int style, int pageAlignment, boolean showLocale) {
 		super(parent, style);
 

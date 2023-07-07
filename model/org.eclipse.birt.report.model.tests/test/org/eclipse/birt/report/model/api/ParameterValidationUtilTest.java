@@ -177,13 +177,13 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		String value1 = "12:30:31"; //$NON-NLS-1$
 
 		java.sql.Time date = (java.sql.Time) ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_TIME,
-				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value1);
+				DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, value1);
 		assertEquals("12:30:31", date.toString());//$NON-NLS-1$
 
 		String value2 = "122a:30:31";//$NON-NLS-1$
 		try {
 			ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_TIME,
-					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value2);
+					DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, value2);
 			fail();
 		} catch (ValidationValueException e) {
 			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
@@ -201,13 +201,13 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		String value1 = "1998-09-13"; //$NON-NLS-1$
 
 		java.sql.Date date = (java.sql.Date) ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_DATE,
-				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value1);
+				DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, value1);
 		assertEquals("1998-09-13", date.toString());//$NON-NLS-1$
 
 		String value2 = "1992a-123-12";//$NON-NLS-1$
 		try {
 			ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_DATE,
-					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value2);
+					DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, value2);
 			fail();
 		} catch (ValidationValueException e) {
 			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
@@ -228,20 +228,20 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		// date time
 
 		String value1 = "1998-09-13 20:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, value1);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, value1);
 		String value2 = "1998-09-13 00:00:00"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, value2);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE, value2);
 		String value3 = "1998-09-13 00:00:00"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE, value3);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE, value3);
 		String value4 = "1998-09-13 00:00:00"; //$NON-NLS-1$
 
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE, value4);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE, value4);
 		String value5 = "1970-01-01 19:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME, value5);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME, value5);
 		String value6 = "1970-01-01 20:01:44"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME, value6);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME, value6);
 		String value7 = "1970-01-01 20:01:00"; //$NON-NLS-1$
-		testDateTimeByFormat(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME, value7);
+		testDateTimeByFormat(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME, value7);
 	}
 
 	/**
@@ -349,7 +349,7 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		Date dateValue = dateCal.getTime();
 
 		assertEquals("13 septembre 1998", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATETIME, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				DesignChoiceConstants.PARAM_TYPE_DATETIME, DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE,
 				dateValue, ULocale.FRANCE));
 		// no format, then we display in (medium, short) pattern
 		assertEquals("Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
@@ -359,11 +359,11 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 		dateValue = new java.sql.Date(100, 0, 1);
 
 		assertEquals("1 janvier 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATE, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, dateValue,
+				DesignChoiceConstants.PARAM_TYPE_DATE, DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE, dateValue,
 				ULocale.FRANCE));
 
 		assertEquals("January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_DATE, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, dateValue,
+				DesignChoiceConstants.PARAM_TYPE_DATE, DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE, dateValue,
 				ULocale.ENGLISH));
 
 		// no format
@@ -374,11 +374,11 @@ public class ParameterValidationUtilTest extends BaseTestCase {
 
 		java.sql.Time timeValue = new java.sql.Time(14, 20, 30);
 		assertEquals("2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
+				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME,
 				timeValue, ULocale.ENGLISH).replace("\u202f", " "));
 
 		assertEquals("14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
+				DesignChoiceConstants.PARAM_TYPE_TIME, DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME,
 				timeValue, ULocale.FRANCE));
 
 		// no format

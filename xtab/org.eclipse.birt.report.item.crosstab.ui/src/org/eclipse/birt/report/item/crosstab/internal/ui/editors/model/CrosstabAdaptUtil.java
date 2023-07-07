@@ -182,7 +182,7 @@ public class CrosstabAdaptUtil {
 							levelHandle.getName(), LevelAttribute.DATE_TIME_ATTRIBUTE_NAME));
 
 					dataHandle.getPrivateStyle()
-							.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+							.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 					dataHandle.getPrivateStyle().setDateTimeFormat(levelHandle.getDateTimeFormat());
 				}
 			}
@@ -228,7 +228,7 @@ public class CrosstabAdaptUtil {
 
 		if (LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals(levelAttrHandle.getName())) {
 			bindingHandle.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME);
-			dataHandle.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+			dataHandle.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 			dataHandle.getPrivateStyle().setDateTimeFormat(levelHandle.getDateTimeFormat());
 		} else {
 			bindingHandle.setDataType(levelAttrHandle.getDataType());

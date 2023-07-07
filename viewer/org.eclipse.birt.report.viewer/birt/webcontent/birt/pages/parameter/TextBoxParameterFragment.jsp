@@ -12,7 +12,8 @@
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.utility.ParameterAccessor,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
-				 org.eclipse.birt.report.context.ScalarParameterBean"
+				 org.eclipse.birt.report.context.ScalarParameterBean,
+				 org.eclipse.birt.report.service.api.ParameterDefinition"
 				 %>
 
 <%-----------------------------------------------------------------------------
@@ -49,8 +50,41 @@
 	<TD NOWRAP WIDTH="100%">
 		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="text">
 		<INPUT TYPE="HIDDEN" ID="data_type" VALUE="<%="" + parameterBean.getParameter( ).getDataType( ) %>">
-		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
-			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
+		<INPUT CLASS="BirtViewer_parameter_dialog_Input" 
+			category="<%= parameterBean.getParameter().getCategory()%>"
+			pattern="<%= parameterBean.getParameter().getPattern()%>"
+			
+			<%
+				if (parameterBean.getParameter().getCategory().equals("Date Picker")					) {
+			%>
+			TYPE="date" 
+			<%
+				} else if (		parameterBean.getParameter().getDataType() == ParameterDefinition.TYPE_DATE_TIME
+							&&	parameterBean.getParameter().getCategory().startsWith("Date Picker")	) {
+			%>
+			TYPE="datetime-local" 
+				<% if (parameterBean.getParameter().getCategory().contains("Medium Time")) { %>
+					step="1"
+				<%} %>
+			<%
+				} else if (		parameterBean.getParameter().getDataType() == ParameterDefinition.TYPE_TIME
+							&&	parameterBean.getParameter().getCategory().startsWith("Time Picker")	) {
+			%>
+			TYPE="time"
+				<% if (parameterBean.getParameter().getCategory().contains("Medium Time")) { %>
+					step="1"
+				<%} %>
+			<%
+				} else if ( parameterBean.isValueConcealed() ) { 
+			%>
+			TYPE="password" 
+			<%
+				} else {
+			%>
+			TYPE="text"
+			<%
+				}
+			%>
 			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName %>" 
 			TITLE="<%= parameterBean.getToolTip( ) %>"
