@@ -428,6 +428,9 @@
   </ChoiceType>
   <ChoiceType name="dateTimeFormat">
     <Choice displayNameID="Choices.dateTimeFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.mediumDate" name="Date Picker"/>
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.shortTime"  name="Date Picker, Short Time"/>
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.mediumTime" name="Date Picker, Medium Time"/>
 	<Choice displayNameID="Choices.dateTimeFormat.generalDate" name="General Date"/>
     <Choice displayNameID="Choices.dateTimeFormat.longDate" name="Long Date"/>
     <Choice displayNameID="Choices.dateTimeFormat.mediumDate" name="Medium Date"/>
@@ -439,14 +442,17 @@
   </ChoiceType>
   <ChoiceType name="dateFormat">
     <Choice displayNameID="Choices.dateFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.dateFormat.datePicker.mediumDate" name="Date Picker"/>
 	<Choice displayNameID="Choices.dateFormat.generalDate" name="General Date"/>
     <Choice displayNameID="Choices.dateFormat.longDate" name="Long Date"/>
     <Choice displayNameID="Choices.dateFormat.mediumDate" name="Medium Date"/>
     <Choice displayNameID="Choices.dateFormat.shortDate" name="Short Date"/>		
-	<Choice displayNameID="Choices.dateFormat.custom" name="Custom"/>    
+	<Choice displayNameID="Choices.dateFormat.custom" name="Custom"/>
   </ChoiceType>
   <ChoiceType name="timeFormat">
     <Choice displayNameID="Choices.timeFormat.unformatted" name="Unformatted"/>        
+    <Choice displayNameID="Choices.timeFormat.timePicker.shortTime" name="Time Picker, Short Time"/>        
+    <Choice displayNameID="Choices.timeFormat.timePicker.mediumTime" name="Time Picker, Medium Time"/>        
 	<Choice displayNameID="Choices.timeFormat.longTime" name="Long Time"/>
     <Choice displayNameID="Choices.timeFormat.mediumTime" name="Medium Time"/>
     <Choice displayNameID="Choices.timeFormat.shortTime" name="Short Time"/>			

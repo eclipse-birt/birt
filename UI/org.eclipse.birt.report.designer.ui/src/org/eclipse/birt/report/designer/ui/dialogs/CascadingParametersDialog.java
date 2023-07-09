@@ -2000,7 +2000,7 @@ public class CascadingParametersDialog extends BaseDialog {
 			if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(selectedDataType)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(selectedDataType)) {
-				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED).getName();
+				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(selectedDataType)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(selectedDataType)) {
@@ -2156,7 +2156,7 @@ public class CascadingParametersDialog extends BaseDialog {
 	private boolean isCustom() {
 		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
+				|| DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals(formatCategroy)) {
@@ -2172,7 +2172,7 @@ public class CascadingParametersDialog extends BaseDialog {
 		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
 			formatStr = new StringFormatter(pattern, locale).format(DEFAULT_PREVIEW_STRING);
 		} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
-			pattern = pattern.equals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED)
+			pattern = pattern.equals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED)
 					? DateFormatter.DATETIME_UNFORMATTED
 					: pattern;
 			formatStr = new DateFormatter(pattern, locale).format(new Date());

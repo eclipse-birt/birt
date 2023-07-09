@@ -98,7 +98,7 @@ public class FormatDateTimePattern {
 	}
 
 	/**
-	 * Retrieves format pattern from arrays given format type categorys.
+	 * Retrieves format pattern from arrays given format type categories.
 	 *
 	 * @param category Given format type category.
 	 * @return The corresponding format pattern string.
@@ -106,27 +106,53 @@ public class FormatDateTimePattern {
 
 	public static String getPatternForCategory(String category) {
 		String pattern;
-		if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals(category)
+		if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE.equals(category)
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_GENERAL_DATE.equals(category)) {
 			pattern = "General Date"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals(category)
-				|| DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE.equals(category)) {
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE.equals(category)
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE.equals(category)
+		) {
 			pattern = "Long Date"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals(category)
-				|| DesignChoiceConstants.DATE_FORMAT_TYPE_MUDIUM_DATE.equals(category)) {
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE.equals(category)
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_MEDIUM_DATE.equals(category)
+		) {
 			pattern = "Medium Date"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals(category)
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE.equals(category)
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE.equals(category)) {
 			pattern = "Short Date"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals(category)
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME.equals(category)
 				|| DesignChoiceConstants.TIME_FORMAT_TYPE_LONG_TIME.equals(category)) {
 			pattern = "Long Time"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals(category)
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_MEDIUM_TIME.equals(category)) {
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME.equals(category)
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_MEDIUM_TIME.equals(category)
+		) {
 			pattern = "Medium Time"; //$NON-NLS-1$
-		} else if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals(category)
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME.equals(category)) {
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME.equals(category)
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME.equals(category)
+		) {
 			pattern = "Short Time"; //$NON-NLS-1$
+
+		} else if (DesignChoiceConstants.TIME_FORMAT_TYPE_TIME_PICKER_SHORT_TIME.equals(category)) {
+			pattern = "HH:mm"; //$NON-NLS-1$
+
+		} else if (DesignChoiceConstants.TIME_FORMAT_TYPE_TIME_PICKER_MEDIUM_TIME.equals(category)) {
+			pattern = "HH:mm:ss"; //$NON-NLS-1$
+
+		} else if (DesignChoiceConstants.DATE_FORMAT_TYPE_DATE_PICKER.equals(category)
+				|| DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_PICKER.equals(category)) {
+			pattern = "yyyy-MM-dd"; //$NON-NLS-1$
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_SHORT_TIME.equals(category)) {
+			pattern = "yyyy-MM-dd HH:mm"; //$NON-NLS-1$
+
+		} else if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_MEDIUM_TIME.equals(category)) {
+			pattern = "yyyy-MM-dd HH:mm:ss"; //$NON-NLS-1$
+
 		} else {
 			// default, unformatted.
 			pattern = ""; //$NON-NLS-1$

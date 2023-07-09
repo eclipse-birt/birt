@@ -1288,7 +1288,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
-				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED).getName();
+				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
@@ -3416,7 +3416,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 			if (type.equals(DesignChoiceConstants.PARAM_TYPE_DATETIME)) {
 				previewString = new DateFormatter(ParameterUtil.isCustomCategory(formatCategroy) ? formatPattern
-						: (formatCategroy.equals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED)
+						: (formatCategroy.equals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED)
 								? DateFormatter.DATETIME_UNFORMATTED
 								: formatCategroy),
 						locale).format(new Date());

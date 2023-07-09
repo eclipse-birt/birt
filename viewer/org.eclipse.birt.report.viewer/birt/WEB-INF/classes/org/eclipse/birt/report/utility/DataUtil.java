@@ -286,7 +286,7 @@ public class DataUtil {
 				} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equalsIgnoreCase(dataType)) {
 					format = ParameterValidationUtil.DISPLAY_TIME_FORMAT;
 				} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equalsIgnoreCase(dataType)) {
-					format = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
+					format = DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED;
 				}
 			}
 

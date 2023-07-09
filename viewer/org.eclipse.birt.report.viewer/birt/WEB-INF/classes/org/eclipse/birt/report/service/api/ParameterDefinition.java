@@ -50,6 +50,8 @@ public class ParameterDefinition {
 
 	private String name;
 
+	private String category;
+
 	private String pattern;
 
 	private String displayFormat;
@@ -86,12 +88,14 @@ public class ParameterDefinition {
 
 	private Collection selectionList;
 
-	public ParameterDefinition(long id, String name, String pattern, String displayFormat, String displayName,
+	public ParameterDefinition(long id, String name, String category, String pattern, String displayFormat,
+			String displayName,
 			String helpText, String promptText, int dataType, String valueExpr, int controlType, boolean hidden,
 			boolean allowNull, boolean allowBlank, boolean isRequired, boolean mustMatch, boolean concealValue,
 			boolean distinct, boolean isMultiValue, ParameterGroupDefinition group, Collection selectionList) {
 		this.id = id;
 		this.name = name;
+		this.category = category;
 		this.pattern = pattern;
 		this.displayFormat = displayFormat;
 		this.displayName = displayName;
@@ -121,6 +125,10 @@ public class ParameterDefinition {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getCategory() {
+		return category;
 	}
 
 	public String getPattern() {

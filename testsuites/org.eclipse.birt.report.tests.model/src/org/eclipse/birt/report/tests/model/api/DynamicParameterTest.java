@@ -104,8 +104,8 @@ public class DynamicParameterTest extends BaseTestCase {
 		handle.setDefaultValue("10/15/2005");
 		assertEquals("10/15/2005", handle.getDefaultValue());
 
-		handle.setCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE);
-		assertEquals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, handle.getCategory());
+		handle.setCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE);
+		assertEquals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE, handle.getCategory());
 
 		handle.setListlimit(20);
 		assertEquals(20, handle.getListlimit());

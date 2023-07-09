@@ -1276,6 +1276,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		var temp = Event.element( event );
 		var oInput = temp.parentNode.getElementsByTagName( "input" );
 		var oSelect = temp.parentNode.getElementsByTagName( "select" );
+		var aInputTextTypes = ["text", "password", "date", "datetime", "datetime-local", "time"];
 		
 		// check if current parameter is cascading parameter
 		var oCascadeFlag = false;
@@ -1294,7 +1295,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				var element = oInput[i - 1];
 
 				if( !oInput[i].checked ) {
-					if(element && ( element.type == "text" || element.type == "password" ) )
+					if(element && aInputTextTypes.includes(element.type))
 					{
 						element.disabled = false;
 						element.focus( );
@@ -1316,7 +1317,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						}
 					}
 				} else {
-					if( element && ( element.type == "text" || element.type == "password" ) )
+					if( element && aInputTextTypes.includes(element.type))
 					{
 						element.disabled = true;
 						// if cascading parameter, clear value 

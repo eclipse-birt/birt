@@ -243,7 +243,7 @@ public class StyleHandleTest extends BaseTestCase {
 		styleHandle.setStringFormat("***"); //$NON-NLS-1$
 		assertEquals("***", styleHandle.getStringFormat()); //$NON-NLS-1$
 
-		styleHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE);
+		styleHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE);
 		styleHandle.setDateTimeFormat("MM/DD/YYYY"); //$NON-NLS-1$
 		assertEquals("MM/DD/YYYY", styleHandle.getDateTimeFormat()); //$NON-NLS-1$
 
@@ -395,7 +395,7 @@ public class StyleHandleTest extends BaseTestCase {
 		highlightHandle.setNumberFormatCategory(DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY);
 		highlightHandle.setNumberFormat("$000,000"); //$NON-NLS-1$
 
-		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE);
+		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE);
 		highlightHandle.setDateTimeFormat("mm dd, yyyy"); //$NON-NLS-1$
 
 		highlightHandle.setStringFormatCategory(DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE);
