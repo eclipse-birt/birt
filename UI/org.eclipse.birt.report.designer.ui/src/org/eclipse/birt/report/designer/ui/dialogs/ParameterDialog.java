@@ -285,6 +285,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 	public static final String PARAM_CONTROL_COMBO = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX + "/Combo"; //$NON-NLS-1$
 
+	private static final String PARAM_CONTROL_RADIO = DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON; // $NON-NLS-1$
+
 	public static final String DISPLAY_NAME_CONTROL_LIST = Messages.getString("ParameterDialog.DisplayLabel.List"); //$NON-NLS-1$
 
 	public static final String DISPLAY_NAME_CONTROL_COMBO = Messages.getString("ParameterDialog.DisplayLabel.Combo"); //$NON-NLS-1$
@@ -1628,8 +1630,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 		updateCheckBoxArea();
 		boolean radioEnable = false;
-		if (PARAM_CONTROL_COMBO.equals(getSelectedControlType()) || (PARAM_CONTROL_LIST.equals(getSelectedControlType())
-				&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(getSelectedDataType()))) {
+		if (PARAM_CONTROL_COMBO.equals(type) || ((PARAM_CONTROL_LIST.equals(type) || PARAM_CONTROL_RADIO.equals(type))
+						&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(getSelectedDataType()))) {
 			radioEnable = true;
 		}
 		if (radioEnable != staticRadio.isEnabled()) {
