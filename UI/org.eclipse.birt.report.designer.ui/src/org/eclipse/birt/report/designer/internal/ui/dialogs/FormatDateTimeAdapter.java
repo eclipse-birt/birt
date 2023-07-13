@@ -212,21 +212,27 @@ public final class FormatDateTimeAdapter extends FormatAdapter {
 	}
 
 	/**
-	 * @return
+	 * Get the display name of unformatted category
+	 *
+	 * @return Return the display name of unformatted category
 	 */
 	public String getUnformattedCategoryDisplayName() {
 		return UNFORMATTED_DISPLAYNAME;
 	}
 
 	/**
-	 * @return
+	 * Get the category name of custom
+	 *
+	 * @return Return the category name of custom
 	 */
 	public String getCustomCategoryName() {
 		return CUSTOM;
 	}
 
 	/**
-	 * @return
+	 * Get the category name of unformatted
+	 *
+	 * @return Return the category name of unformatted
 	 */
 	public String getUnformattedCategoryName() {
 		return UNFORMATTED_NAME;

@@ -34,9 +34,9 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
@@ -111,7 +111,7 @@ abstract class AbstractReportParameterAdapter {
 
 		// should not convert report parameter name here.
 
-		Object defaultValue = dataSetParam.getExpressionProperty(OdaDataSetParameter.DEFAULT_VALUE_MEMBER).getValue();
+		Object defaultValue = dataSetParam.getExpressionProperty(DataSetParameter.DEFAULT_VALUE_MEMBER).getValue();
 		String paramName = dataSetParam.getParamName();
 
 		if (StringUtil.isBlank(paramName)) {
@@ -204,12 +204,10 @@ abstract class AbstractReportParameterAdapter {
 	 * Returns the matched ODA data set parameter by the given ROM data set
 	 * parameter and data set design.
 	 *
-	 * @param param         the ROM data set parameter
+	 * @param param     the ROM data set parameter
 	 * @param odaParams
-	 * @param dataSetDesign the oda data set design
-	 * @return the matched ODA parameter defintion
+	 * @return the matched ODA parameter definition
 	 */
-
 	protected static ParameterDefinition getValidParameterDefinition(OdaDataSetParameterHandle param,
 			DataSetParameters odaParams) {
 		if (param == null || odaParams == null || odaParams.getParameterDefinitions().isEmpty()) {
@@ -532,7 +530,7 @@ abstract class AbstractReportParameterAdapter {
 		inputAttrs.setOptional(getReportParamAllowMumble(paramHandle, ALLOW_BLANK_PROP_NAME));
 
 		ScalarValueChoices staticChoices = null;
-		Iterator selectionList = paramHandle.choiceIterator();
+		Iterator<?> selectionList = paramHandle.choiceIterator();
 		while (selectionList.hasNext()) {
 			if (staticChoices == null) {
 				staticChoices = designFactory.createScalarValueChoices();
@@ -554,8 +552,10 @@ abstract class AbstractReportParameterAdapter {
 		}
 		inputAttrs.setStaticValueChoices(staticChoices);
 
-		ExpressionHandle valueExpr = paramHandle.getExpressionProperty(IAbstractScalarParameterModel.VALUE_EXPR_PROP);
-		ExpressionHandle labelExpr = paramHandle.getExpressionProperty(IAbstractScalarParameterModel.LABEL_EXPR_PROP);
+		ExpressionHandle valueExpr = paramHandle
+				.getExpressionProperty(IInternalAbstractScalarParameterModel.VALUE_EXPR_PROP);
+		ExpressionHandle labelExpr = paramHandle
+				.getExpressionProperty(IInternalAbstractScalarParameterModel.LABEL_EXPR_PROP);
 
 		DynamicValuesQuery valueQuery = updateDynamicValueQuery(paramHandle.getDataSet(), valueExpr.getValue(),
 				labelExpr.getValue(), dataSetDesign,
@@ -590,7 +590,7 @@ abstract class AbstractReportParameterAdapter {
 			valueQuery = designFactory.createDynamicValuesQuery();
 
 			if (dataSetDesign != null) {
-				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil.copy(dataSetDesign);
+				DataSetDesign targetDataSetDesign = EcoreUtil.copy(dataSetDesign);
 				if (!setHandle.getName().equals(dataSetDesign.getName())) {
 					targetDataSetDesign = new ModelOdaAdapter().createDataSetDesign((OdaDataSetHandle) setHandle);
 				}
@@ -609,11 +609,11 @@ abstract class AbstractReportParameterAdapter {
 	}
 
 	/**
-	 * @param inputAttrs
-	 * @param inputParamAttrs
-	 * @param paramHandle
+	 * Update default static values
+	 *
+	 * @param inputAttrs  attributes of the input element
+	 * @param paramHandle parameter handle
 	 */
-
 	protected void updateDefaultStaticValues(InputElementAttributes inputAttrs,
 			AbstractScalarParameterHandle paramHandle) {
 		// update default values.
