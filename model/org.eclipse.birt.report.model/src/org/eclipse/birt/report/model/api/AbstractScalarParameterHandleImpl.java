@@ -323,7 +323,7 @@ public abstract class AbstractScalarParameterHandleImpl extends ParameterHandle
 	 * @see org.eclipse.birt.report.model.api.elements.structures.SelectionChoice
 	 */
 
-	public Iterator choiceIterator() {
+	public Iterator<?> choiceIterator() {
 		PropertyHandle propHandle = getPropertyHandle(SELECTION_LIST_PROP);
 		return propHandle.iterator();
 	}
@@ -373,7 +373,6 @@ public abstract class AbstractScalarParameterHandleImpl extends ParameterHandle
 	 *
 	 * @return the default value
 	 */
-
 	public List getDefaultValueList() {
 		return getListProperty(DEFAULT_VALUE_PROP);
 	}

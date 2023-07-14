@@ -397,9 +397,9 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		String[] customPatterns = FormatDateTimePattern.getCustormPatternCategorys();
 		for (int i = 0; i < customPatterns.length; i++) {
 			itemList.add(new String[] { FormatDateTimePattern.getDisplayName4CustomCategory(customPatterns[i]),
-					new DateFormatter(FormatDateTimePattern.getCustormFormatPattern(customPatterns[i], locale), locale)
+					new DateFormatter(FormatDateTimePattern.getCustomFormatPattern(customPatterns[i], locale), locale)
 							.format(defaultDate),
-					FormatDateTimePattern.getCustormFormatPattern(customPatterns[i], locale) });
+					FormatDateTimePattern.getCustomFormatPattern(customPatterns[i], locale) });
 		}
 		return itemList.toArray(new String[0][3]);
 	}
