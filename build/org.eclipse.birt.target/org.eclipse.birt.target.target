@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="13">
+<target name="Generated from BIRT" sequenceNumber="14">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="bcpg" version="0.0.0"/>
-      <unit id="bcprov" version="0.0.0"/>
-      <unit id="biz.aQute.bnd.util" version="0.0.0"/>
-      <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.google.gson" version="0.0.0"/>
       <unit id="com.google.guava" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
       <unit id="com.google.javascript" version="0.0.0"/>
       <unit id="com.google.protobuf" version="0.0.0"/>
-      <unit id="com.ibm.icu" version="0.0.0"/>
       <unit id="com.jcraft.jsch" version="0.0.0"/>
       <unit id="com.sun.el.javax.el" version="0.0.0"/>
       <unit id="com.sun.jna" version="0.0.0"/>
@@ -231,21 +226,18 @@
       <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.mylyn.bugzilla_feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.identity.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.net" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.notifications.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.repositories.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.commons.xmlrpc" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.context_feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.discovery.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.ide_feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.java_feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.monitor.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.tasks.ide.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn.team_feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.mylyn_feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.bugzilla.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.commons.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.commons.identity.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.commons.notifications.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.commons.repositories.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.context.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.discovery.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.ide.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.jdt.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.monitor.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.tasks.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.mylyn.team.feature.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -255,15 +247,6 @@
       <unit id="org.eclipse.jem.beaninfo.vm.common" version="0.0.0"/>
       <unit id="org.eclipse.jem.proxy" version="0.0.0"/>
       <unit id="org.eclipse.jem.workbench" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.http" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.io" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.security" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.util" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.xml" version="0.0.0"/>
       <unit id="org.eclipse.jst.common.annotations.controller" version="0.0.0"/>
       <unit id="org.eclipse.jst.common.annotations.core" version="0.0.0"/>
       <unit id="org.eclipse.jst.common.annotations.ui" version="0.0.0"/>
@@ -353,14 +336,6 @@
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.apache-jsp" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.jndi" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.osgi.boot" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.util.ajax" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.justj.epp.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/justj/epp/release/latest/"/>
     </location>
@@ -369,6 +344,10 @@
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="bcpg" version="0.0.0"/>
+      <unit id="bcprov" version="0.0.0"/>
+      <unit id="biz.aQute.bnd.util" version="0.0.0"/>
+      <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="org.eclipse.e4.tools.emf.ui" version="0.0.0"/>
       <unit id="org.eclipse.e4.tools.services" version="0.0.0"/>
       <unit id="org.eclipse.ecf.core.feature.feature.group" version="0.0.0"/>
