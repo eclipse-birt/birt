@@ -750,10 +750,20 @@ public class Statement implements IQuery {
 		try {
 			java.sql.ParameterMetaData pm = this.preStat.getParameterMetaData();
 			if (pm == null) {
-				this.preStat.setNull(parameterId, java.sql.Types.OTHER);
+				try {
+					this.preStat.setNull(parameterId, java.sql.Types.OTHER);
+				} catch (SQLException e) {
+					// fallback, set the null value with SQL default null type
+					this.preStat.setNull(parameterId, java.sql.Types.NULL);
+				}
 				addLog("setNull", parameterId, "null");
 			} else {
-				this.preStat.setNull(parameterId, pm.getParameterType(parameterId));
+				try {
+					this.preStat.setNull(parameterId, pm.getParameterType(parameterId));
+				} catch (SQLException e) {
+					// fallback, set the null value with SQL default null type
+					this.preStat.setNull(parameterId, java.sql.Types.NULL);
+				}
 			}
 		} catch (SQLException e) {
 			throw new JDBCException(ResourceConstants.PREPARESTATEMENT_CANNOT_SET_NULL_VALUE, e);
