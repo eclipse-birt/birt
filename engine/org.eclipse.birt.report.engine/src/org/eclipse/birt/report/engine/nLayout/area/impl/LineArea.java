@@ -145,7 +145,7 @@ public class LineArea extends InlineStackingArea {
 			justify(spacing, adjustLeftWhiteSpace, adjustRightWhiteSpace);
 		} else {
 			// is left aligned
-			if (!parent.content.isDirectionRTL()) {
+			if (parent.content != null && !parent.content.isDirectionRTL()) {
 				if (adjustLeftWhiteSpace != 0) {
 					Iterator<IArea> iter = getChildren();
 					while (iter.hasNext()) {
