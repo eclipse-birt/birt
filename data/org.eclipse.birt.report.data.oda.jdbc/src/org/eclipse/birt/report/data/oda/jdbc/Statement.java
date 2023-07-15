@@ -897,7 +897,7 @@ public class Statement implements IQuery {
 	/**
 	 * This API is meant to execute the update/DML sql query.
 	 *
-	 * @return
+	 * @return Return the execution status
 	 * @throws OdaException
 	 */
 	public int executeUpdate() throws OdaException {
