@@ -15,7 +15,7 @@
 	Constants.error.columnRequired = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.columnrequired" )%>';
 	Constants.error.printPreviewAlreadyOpen = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.dialog.print.printpreviewalreadyopen" )%>';
 	Constants.error.confirmCancelTask = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.progressbar.confirmcanceltask" )%>';
-	Constants.error.copyTrace = '<%= BirtResources.getMessage( ResourceConstants.ERROR_STACK_TRACE_COPY ) %>';
-	Constants.error.traceCopied = '<%= BirtResources.getMessage( ResourceConstants.ERROR_STACK_TRACE_COPIED ) %>';
+	Constants.error.copyTrace = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.stacktrace.copy" ) %>';
+	Constants.error.traceCopied = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.stacktrace.copy.done" ) %>';
 // ]]>
 </script>
