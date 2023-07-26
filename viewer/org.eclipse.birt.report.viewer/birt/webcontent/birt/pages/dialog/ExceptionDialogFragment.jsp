@@ -41,12 +41,10 @@
 							</TR>
 							<TR>
 								<TD>
-									<DIV ID="showTraceLabel" CLASS="birtviewer_exception_dialog_label">
-										<%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_SHOW_STACK_TRACE ) %> 
-									</DIV>																				
-									<DIV ID="hideTraceLabel" CLASS="birtviewer_exception_dialog_label" STYLE="display:none">
-										<%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_HIDE_STACK_TRACE ) %> 
-									</DIV>									
+									<DIV ID="showTraceLabel" CLASS="birtviewer_exception_dialog_label"><%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_SHOW_STACK_TRACE ) %></DIV>
+									<DIV ID="hideTraceLabel" CLASS="birtviewer_exception_dialog_label" style="display:none"><%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_HIDE_STACK_TRACE ) %></DIV>
+									<div id="copyTraceToClipBoard" CLASS="birtviewer_exception_dialog_copy_label"><img style="height:16px;margin-right:4px;" src="birt/images/DataCopy.png" title="<%= BirtResources.getMessage( ResourceConstants.ERROR_STACK_TRACE_COPY ) %>">
+									<em id="copyTraceLabel"><%= BirtResources.getMessage( ResourceConstants.ERROR_STACK_TRACE_COPY ) %></em></img></div>
 								</TD>
 							</TR>
 							<TR>

@@ -130,7 +130,7 @@ input[type="text"]:focus {
 {
 	border-style: solid;
 	border-color: #cccccc;
-	background-color: #ffffef;
+	background-color: #ffffff;
 	border-width: 1px;
 } 
 
@@ -148,6 +148,17 @@ input[type="text"]:focus {
 	color: gray;
 	font-weight: bold;
 	text-decoration: underline;
+	min-width: 164px;
+}
+
+.birtviewer_exception_dialog_copy_label
+{
+	cursor: pointer;
+	font-size: 8pt;
+	color: gray;
+	font-weight: bold;
+	display: inline-flex;
+	vertical-align: middle;
 }
 
 .birtviewer_exception_dialog_message
@@ -160,7 +171,7 @@ input[type="text"]:focus {
 {
 	padding: 2px;
 	overflow: auto; 
-	height: 150px;
+	height: 320px;
 	border-top-color: #cccccc;
 	border-top-style: solid;
 	border-top-width: 1px;
