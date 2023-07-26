@@ -759,7 +759,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writeBidiFlag();
 		writer.openTag(HTMLTags.TAG_HEAD);
 
-		
+
 		// write the title of the report in html.
 		outputReportTitle(report);
 
@@ -2661,9 +2661,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 				if (attrValue != null) {
 					if ("img".equalsIgnoreCase(nodeName) && "src".equalsIgnoreCase(attrName)) {
-						String attrValueTrue = handleStyleImage(attrValue).getUri();
-						if (attrValueTrue != null) {
-							attrValue = attrValueTrue;
+						BackgroundImageInfo img = handleStyleImage(attrValue);
+						String attrValueTrue = null;
+						if (img != null) {
+							attrValueTrue = handleStyleImage(attrValue).getUri();
+							if (attrValueTrue != null) {
+								attrValue = attrValueTrue;
+							}
 						}
 					}
 					writer.attribute(attrName, attrValue);
