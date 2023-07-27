@@ -783,7 +783,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 
-		
+
 		outputCSSStyles(reportDesign, designHandle);
 
 		if (needFixTransparentPNG) {
@@ -2664,7 +2664,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 						BackgroundImageInfo img = handleStyleImage(attrValue);
 						String attrValueTrue = null;
 						if (img != null) {
-							attrValueTrue = handleStyleImage(attrValue).getUri();
+							attrValueTrue = img.getUri();
 							if (attrValueTrue != null) {
 								attrValue = attrValueTrue;
 							}
