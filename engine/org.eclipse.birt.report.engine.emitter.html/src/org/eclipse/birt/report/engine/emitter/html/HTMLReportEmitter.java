@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -361,6 +363,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * Default image pixel height.
 	 */
 	private static int DEFAULT_IMAGE_PX_HEIGHT = 200;
+
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 
 	/**
 	 * the constructor
@@ -2995,10 +3000,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	protected String getImageURI(IImageContent image) {
 		String imgUri = null;
+		String tmpImgUri = null;
 		if (imageHandler != null) {
-			if (image.getImageSource() == IImageContent.IMAGE_URL) {
-				return image.getURI();
+			imgUri = image.getURI();
+
+			// embedded images w/o URI check
+			if (image.getImageSource() != IImageContent.IMAGE_NAME) {
+				tmpImgUri = this.verifyURI(imgUri);
+				if (imgUri != tmpImgUri) {
+					imgUri = tmpImgUri;
+					image.setURI(tmpImgUri);
+				}
 			}
+
+			// image URI with http/https
+			if (image.getImageSource() == IImageContent.IMAGE_URL && !imgUri.contains(URL_PROTOCOL_TYPE_FILE)) {
+				return imgUri;
+			}
+
 			Image img = new Image(image);
 			img.setRenderOption(renderOption);
 			img.setReportRunnable(runnable);
@@ -3558,6 +3577,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				htmlOption.setHtmlRtLFlag(htmlRtLFlag); // not necessary though
 			}
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 }
 

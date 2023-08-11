@@ -16,6 +16,9 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -254,6 +257,10 @@ public abstract class AbstractEmitterImpl {
 	private int wordVersion = 2010;
 
 	protected static final String EMPTY_FOOTER = " ";
+
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 
 	/**
 	 * Initialize of the service
@@ -1005,7 +1012,7 @@ public abstract class AbstractEmitterImpl {
 	public void startImage(IImageContent image) {
 		IStyle style = image.getComputedStyle();
 		InlineFlag inlineFlag = getInlineFlag(style);
-		String uri = image.getURI();
+		String uri = this.verifyURI(image.getURI());
 		String mimeType = image.getMIMEType();
 		String extension = image.getExtension();
 		String altText = image.getAltText();
@@ -1494,4 +1501,25 @@ public abstract class AbstractEmitterImpl {
 			this.tocLevel = tocLevel;
 		}
 	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
+	}
+
 }

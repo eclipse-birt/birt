@@ -18,6 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -58,6 +60,9 @@ public class ImageReader {
 
 	protected static Logger logger = Logger.getLogger(ImageReader.class.getName());
 
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+
 	public ImageReader(IImageContent content, String supportedImageFormats) {
 		this.content = content;
 		this.supportedImageFormats = supportedImageFormats;
@@ -70,7 +75,7 @@ public class ImageReader {
 	public int read() {
 		buffer = null;
 		checkObjectType(content);
-		String uri = content.getURI();
+		String uri = this.verifyURI(content.getURI());
 		try {
 			switch (content.getImageSource()) {
 			case IImageContent.IMAGE_FILE:
@@ -178,9 +183,13 @@ public class ImageReader {
 				byte[] bytes = null;
 				if (Objects.equals(parseDataUrl.getEncoding(), "base64")) { //$NON-NLS-1$
 					bytes = Base64.getDecoder().decode(parseDataUrl.getData());
-				} else if (parseDataUrl.getEncoding() == null) {
+				} else {
 					/* The case of no encoding, the data is a string on the URL */
 					bytes = parseDataUrl.getData().getBytes(StandardCharsets.UTF_8); /* Charset of the SVG file */
+				}
+				if (this.objectType == TYPE_SVG_OBJECT) {
+					String decodedImg = java.net.URLDecoder.decode(new String(bytes), StandardCharsets.UTF_8);
+					bytes = decodedImg.getBytes(StandardCharsets.UTF_8);
 				}
 
 				if (bytes != null) {
@@ -253,5 +262,25 @@ public class ImageReader {
 			buffer = null;
 			status = UNSUPPORTED_OBJECTS;
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 }

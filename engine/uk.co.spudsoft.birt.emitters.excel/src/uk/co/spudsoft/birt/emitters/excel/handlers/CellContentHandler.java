@@ -15,16 +15,20 @@
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -48,6 +52,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
@@ -123,9 +128,11 @@ public class CellContentHandler extends AbstractHandler {
 	 */
 	protected String hyperlinkBookmark;
 
-	private static String DATA_PROTOCOL = "data:";
-
-	private static String DATA_PROTOCOL_BASE = ";base64,";
+	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
+	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
 
 	/**
 	 * Constructor
@@ -549,30 +556,73 @@ public class CellContentHandler extends AbstractHandler {
 		StyleManagerUtils smu = state.getSmu();
 		Workbook wb = state.getWb();
 		String mimeType = image.getMIMEType();
-		if ((data == null) && (image.getURI() != null)) {
-			String stringURI = image.getURI().toString().toLowerCase();
-			if (stringURI.startsWith(DATA_PROTOCOL) && stringURI.contains(DATA_PROTOCOL_BASE)) {
-				String base64[] = image.getURI().toString().split(DATA_PROTOCOL_BASE);
-				if (base64.length >= 2) {
-					data = Base64.decodeBase64(base64[1]);
-				}
-			} else {
-				try {
-					URL imageUrl = new URL(image.getURI());
-					URLConnection conn = imageUrl.openConnection();
-					conn.connect();
-					mimeType = conn.getContentType();
-					int imageType = smu.poiImageTypeFromMimeType(mimeType, null);
-					if (imageType == 0) {
-						log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
-					} else {
+		String stringURI = image.getURI();
+
+		if (stringURI != null
+				&& (stringURI.toLowerCase().endsWith(".svg") || stringURI.toLowerCase().contains(URL_IMAGE_TYPE_SVG))
+				|| mimeType != null && mimeType.toLowerCase().equals(URL_IMAGE_TYPE_SVG)) {
+
+			try {
+				String encodedImg = null;
+				String decodedImg = null;
+				if (stringURI != null && stringURI.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
+					// svg: url stream image
+					String svgSplitter = "svg\\+xml,";
+					if (stringURI.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_UTF8)) {
+						svgSplitter = "svg\\+xml;utf8,";
+					} else if (stringURI.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_BASE)) {
+						svgSplitter = "svg\\+xml;base64,";
+					}
+					String[] uriParts = stringURI.split(svgSplitter);
+					if (uriParts.length >= 2) {
+						encodedImg = uriParts[1];
+						decodedImg = encodedImg;
+						if (stringURI.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+							decodedImg = new String(
+									Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
+						}
+					}
+				} else {
+					// svg: url file load
+					if (data == null && stringURI != null) {
+						String uri = this.verifyURI(stringURI); // URL(this.id);
+						URL imageUrl = new URL(uri);
+						URLConnection conn = imageUrl.openConnection();
+						conn.connect();
 						data = smu.downloadImage(conn);
 						image.setData(data);
 					}
-				} catch (IOException ex) {
-					log.debug(ex.getClass(), ": ", ex.getMessage());
-					ex.printStackTrace();
+					decodedImg = new String(image.getData());
 				}
+				decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+				data = SvgFile.transSvgToArray(new ByteArrayInputStream(decodedImg.getBytes()));
+
+			} catch (Exception e) {
+				// invalid svg image, default handling
+			}
+
+		} else if (stringURI != null && stringURI.startsWith(URL_PROTOCOL_TYPE_DATA)
+				&& stringURI.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+			String base64[] = image.getURI().toString().split(URL_PROTOCOL_TYPE_DATA_BASE);
+			if (base64.length >= 2) {
+				data = Base64.getDecoder().decode(base64[1]);
+			}
+		} else if ((data == null) && (image.getURI() != null)) {
+			try {
+				URL imageUrl = new URL(this.verifyURI(image.getURI()));
+				URLConnection conn = imageUrl.openConnection();
+				conn.connect();
+				mimeType = conn.getContentType();
+				int imageType = smu.poiImageTypeFromMimeType(mimeType, null);
+				if (imageType == 0) {
+					log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
+				} else {
+					data = smu.downloadImage(conn);
+					image.setData(data);
+				}
+			} catch (IOException ex) {
+				log.debug(ex.getClass(), ": ", ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 		if (data != null) {
@@ -628,6 +678,26 @@ public class CellContentHandler extends AbstractHandler {
 				iter.remove();
 			}
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:///"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 
 }
