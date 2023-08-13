@@ -56,7 +56,9 @@ public class ImageManager {
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
 
 	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
+
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+
 	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
 
 	private static final ImageManager instance = new ImageManager();
@@ -71,7 +73,7 @@ public class ImageManager {
 	/**
 	 * Gets the instance of the image manager
 	 *
-	 * @return Returns the instanceof the image manager
+	 * @return Returns the instance of the image manager
 	 */
 	public static ImageManager getInstance() {
 		return instance;

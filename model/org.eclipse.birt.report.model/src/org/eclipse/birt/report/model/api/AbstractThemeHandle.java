@@ -76,13 +76,13 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	 * @return all styles.each item is <code>StyleHandle</code>
 	 */
 
-	public final List getAllStyles() {
+	public final List<DesignElementHandle> getAllStyles() {
 		AbstractTheme theme = (AbstractTheme) getElement();
-		List styles = new ArrayList();
-		List styleList = theme.getAllStyles();
-		Iterator iter = styleList.iterator();
+		List<DesignElementHandle> styles = new ArrayList<DesignElementHandle>();
+		List<StyleElement> styleList = theme.getAllStyles();
+		Iterator<StyleElement> iter = styleList.iterator();
 		while (iter.hasNext()) {
-			StyleElement style = (StyleElement) iter.next();
+			StyleElement style = iter.next();
 			styles.add(style.getHandle(module));
 		}
 		return styles;
@@ -117,7 +117,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 		assert this != null;
 
 		SlotHandle styles = getStyles();
-		Set set = new HashSet();
+		Set<String> set = new HashSet<String>();
 		for (int i = 0; i < styles.getCount(); i++) {
 			StyleHandle style = (StyleHandle) styles.get(i);
 			set.add(style.getName());
@@ -127,7 +127,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 
 		PropertyHandle propHandle = getPropertyHandle(IAbstractThemeModel.CSSES_PROP);
 		if (propHandle != null) {
-			Iterator iterator = propHandle.iterator();
+			Iterator<?> iterator = propHandle.iterator();
 			while (iterator.hasNext()) {
 				IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) iterator.next();
 				set.add(handle.getFileName());
@@ -171,7 +171,6 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	 *
 	 * @return the iterator over all included css style sheets.
 	 */
-
 	public final Iterator includeCssesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(CSSES_PROP);
 		return propHandle == null ? Collections.emptyList().iterator() : propHandle.iterator();
@@ -182,13 +181,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	 *
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
-
-	public List getAllCssStyleSheets() {
+	public List<CssStyleSheetHandle> getAllCssStyleSheets() {
 		AbstractTheme theme = (AbstractTheme) getElement();
-		List allStyles = new ArrayList();
-		List csses = theme.getCsses();
+		List<CssStyleSheetHandle> allStyles = new ArrayList<CssStyleSheetHandle>();
+		List<CssStyleSheet> csses = theme.getCsses();
 		for (int i = 0; csses != null && i < csses.size(); ++i) {
-			CssStyleSheet sheet = (CssStyleSheet) csses.get(i);
+			CssStyleSheet sheet = csses.get(i);
 			allStyles.add(sheet.handle(getModule()));
 		}
 		return allStyles;
@@ -197,10 +195,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	/**
 	 * (non-Javadoc)
 	 *
+	 * @param sheetHandle
+	 * @throws SemanticException
+	 *
 	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(org.eclipse
 	 *      .birt.report.model.api.css.CssStyleSheetHandle)
 	 */
-
 	public void addCss(CssStyleSheetHandle sheetHandle) throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		adapter.addCss(sheetHandle);
@@ -209,10 +209,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	/**
 	 * (non-Javadoc)
 	 *
+	 * @param cssStruct
+	 * @throws SemanticException
+	 *
 	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(org.eclipse
 	 *      .birt.report.model.api.elements.structures.IncludedCssStyleSheet)
 	 */
-
 	public void addCss(IncludedCssStyleSheet cssStruct) throws SemanticException {
 		if (cssStruct == null) {
 			return;
@@ -223,11 +225,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Add css based on file
+	 *
+	 * @param fileName file name of the css style sheet
+	 * @throws SemanticException
 	 *
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#addCssByFileName(java.lang
-	 *      .String)
 	 */
 	@Deprecated
 	public void addCss(String fileName) throws SemanticException {
@@ -235,12 +238,13 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 		adapter.addCss(fileName);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Add css based on properties
 	 *
-	 * @see
-	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCssByProerties(java.
-	 * lang .String)
+	 * @param fileName         file name of the css file
+	 * @param externalCssURI   external css uri
+	 * @param isUseExternalCss use external css
+	 * @throws SemanticException
 	 */
 	public void addCssByProerties(String fileName, String externalCssURI, boolean isUseExternalCss)
 			throws SemanticException {
@@ -249,22 +253,21 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Check if the css style sheet can be dropped based on sheet handle
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#dropCss(org.eclipse
-	 *      .birt.report.model.api.css.CssStyleSheetHandle)
+	 * @param sheetHandle
+	 * @throws SemanticException
 	 */
-
 	public void dropCss(CssStyleSheetHandle sheetHandle) throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		adapter.dropCss(sheetHandle);
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Check if the css style sheet can be dropped based on sheet handle
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#canDropCssStyleSheet
-	 *      (org.eclipse.birt.report.model.api.css.CssStyleSheetHandle)
+	 * @param sheetHandle sheet handle to be validated
+	 * @return Return the value of drop option of css style sheet
 	 */
 	public boolean canDropCssStyleSheet(CssStyleSheetHandle sheetHandle) {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
@@ -272,23 +275,23 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Check if the css style sheet can be added based on sheet handle
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheet
-	 *      (org.eclipse.birt.report.model.api.css.CssStyleSheetHandle)
+	 * @param sheetHandle sheet handle to be validated
+	 * @return Return the validation result of the add option
 	 */
-
 	public boolean canAddCssStyleSheet(CssStyleSheetHandle sheetHandle) {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		return adapter.canAddCssStyleSheet(sheetHandle);
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Check if the css style sheet can be added based on file name
+	 *
+	 * @param fileName file name of the css style sheet
+	 * @return Return the validation result of the add option
 	 *
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheet
-	 *      (java.lang.String)
 	 */
 	@Deprecated
 	public boolean canAddCssStyleSheet(String fileName) {
@@ -297,35 +300,36 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Check if the css style sheet can be added based on properties
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheetByProperties
-	 *      (java.lang.String)
+	 * @param fileName       file name of the css file
+	 * @param externalCssURI external css uri
+	 * @param useExternalCss use external css
+	 * @return Give the value of add option of css sytle sheet
 	 */
 	public boolean canAddCssStyleSheetByProperties(String fileName, String externalCssURI, boolean useExternalCss) {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		return adapter.canAddCssStyleSheetByProperties(fileName, externalCssURI, useExternalCss);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Reload the css style
 	 *
-	 * @see
-	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#reloadCss(org.eclipse
-	 * .birt.report.model.api.css.CssStyleSheetHandle)
+	 * @param sheetHandle css style sheet handle to be reloaded
+	 * @throws SemanticException
 	 */
-
 	public void reloadCss(CssStyleSheetHandle sheetHandle) throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
 		adapter.reloadCss(sheetHandle);
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Find the css style sheet handle based on file name
+	 *
+	 * @param fileName file name of the css style sheet
+	 * @return Return the css style sheet handle
 	 *
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
-	 *      findCssStyleSheetHandleByName(java.lang.String)
 	 */
 	@Deprecated
 	public CssStyleSheetHandle findCssStyleSheetHandleByName(String fileName) {
@@ -335,11 +339,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Find the css style sheet handle based on properties
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
-	 *      findCssStyleSheetHandleByProperties(java.lang.String, java.lang.String,
-	 *      java.lang.Boolean)
+	 * @param fileName       file name of the css
+	 * @param externalCssURI external css uri
+	 * @param useExternalCss use external css
+	 * @return Return the css style sheet handle
 	 */
 	public CssStyleSheetHandle findCssStyleSheetHandleByProperties(String fileName, String externalCssURI,
 			boolean useExternalCss) {
@@ -349,11 +354,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Find the included css style sheet handle based on file name
+	 *
+	 * @param fileName file name of the css
+	 * @return Return the css style sheet handle
 	 *
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
-	 *      findIncludedCssStyleSheetHandleByName(java.lang.String)
 	 */
 	@Deprecated
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByName(String fileName) {
@@ -362,11 +368,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Find the included css style sheet handle based on properties
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
-	 *      findIncludedCssStyleSheetHandleByProperties(java.lang.String,
-	 *      java.lang.String, java.lang.Boolean)
+	 * @param fileName       file name of the css
+	 * @param externalCssURI external css uri
+	 * @param useExternalCss use external css
+	 * @return Return the css style sheet handle
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByProperties(String fileName,
 			String externalCssURI, boolean useExternalCss) {
@@ -375,11 +382,13 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Rename css properties based on file name
+	 *
+	 * @param handle      css sytle sheet handle
+	 * @param newFileName new file name
+	 * @throws SemanticException
 	 *
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#renameCss(org.eclipse
-	 *      .birt.report.model.api.IncludedCssStyleSheetHandle, java.lang.String)
 	 */
 	@Deprecated
 	public void renameCss(IncludedCssStyleSheetHandle handle, String newFileName) throws SemanticException {
@@ -389,11 +398,14 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Rename css properties based on properties
 	 *
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#renameCssByProperties(org.eclipse
-	 *      .birt.report.model.api.IncludedCssStyleSheetHandle, java.lang.String,
-	 *      java.lang.String, java.lang.Boolean)
+	 * @param handle         css style sheet handle
+	 * @param newFileName    new file name
+	 * @param externalCssURI external css uri
+	 * @param useExternalCss use external css
+	 * @throws SemanticException
+	 *
 	 */
 	public void renameCssByProperties(IncludedCssStyleSheetHandle handle, String newFileName, String externalCssURI,
 			boolean useExternalCss) throws SemanticException {
@@ -403,12 +415,13 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Verify if the css could be renamed by file name
 	 *
+	 * @param handle      css style sheet handle
+	 * @param newFileName new file name
+	 * @return Verification result of renaming
+	 * @throws SemanticException
 	 * @deprecated
-	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#canRenameCss(org
-	 *      .eclipse.birt.report.model.api.IncludedCssStyleSheetHandle,
-	 *      java.lang.String)
 	 */
 	@Deprecated
 	public boolean canRenameCss(IncludedCssStyleSheetHandle handle, String newFileName) throws SemanticException {
@@ -417,12 +430,13 @@ public abstract class AbstractThemeHandle extends ReportElementHandle implements
 	}
 
 	/**
+	 * Verify if the css could be renamed by property
 	 *
-	 * @param handle
-	 * @param newFileName
-	 * @param externalCssURI
-	 * @param useExternalCss
-	 * @return
+	 * @param handle         css style sheet handle
+	 * @param newFileName    new file name
+	 * @param externalCssURI external css uri
+	 * @param useExternalCss use external css
+	 * @return Verification result of renaming
 	 * @throws SemanticException
 	 */
 	public boolean canRenameCssByProperties(IncludedCssStyleSheetHandle handle, String newFileName,

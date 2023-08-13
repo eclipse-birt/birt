@@ -12,6 +12,12 @@
  *******************************************************************************/
 package org.eclipse.birt.report.model.elements.interfaces;
 
+/**
+ * The interface for the internal report item model
+ *
+ * @since 3.3
+ *
+ */
 public interface IInternalReportItemModel {
 
 	/**
