@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,6 +116,11 @@ public class Image extends ReportPart implements IImage {
 		mimeType = FileUtil.getTypeFromExt(extension);
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param content content environment of the image
+	 */
 	public Image(IImageContent content) {
 		String imgUri = content.getURI();
 		byte[] imgData = content.getData();
@@ -185,6 +189,11 @@ public class Image extends ReportPart implements IImage {
 		return source;
 	}
 
+	/**
+	 * Set the image source
+	 *
+	 * @param source image source
+	 */
 	public void setSource(int source) {
 		this.source = source;
 	}
@@ -248,6 +257,11 @@ public class Image extends ReportPart implements IImage {
 		return mimeType;
 	}
 
+	/**
+	 * Set mime type
+	 *
+	 * @param mimeType mime type of the image
+	 */
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
 	}
@@ -257,6 +271,11 @@ public class Image extends ReportPart implements IImage {
 		return imageMap;
 	}
 
+	/**
+	 * Set the image mape
+	 *
+	 * @param imageMap image map
+	 */
 	public void setImageMap(String imageMap) {
 		this.imageMap = imageMap;
 	}
@@ -267,7 +286,7 @@ public class Image extends ReportPart implements IImage {
 	 * @see org.eclipse.birt.report.engine.api2.IImage#writeImage(java.io.File)
 	 */
 	@Override
-	public void writeImage(File dest) throws IOException {
+	public void writeImage(File dest) {
 		if (source == IImage.INVALID_IMAGE) {
 			logger.log(Level.SEVERE, "image source {0} is not valid!", id); //$NON-NLS-1$
 			return;
@@ -278,8 +297,6 @@ public class Image extends ReportPart implements IImage {
 			logger.log(Level.SEVERE, "image source {0} is not found!", id); //$NON-NLS-1$
 			return;
 		}
-		// if(!dest.exists())
-		// {
 
 		String parent = new File(dest.getAbsolutePath()).getParent();
 		File parentDir = new File(parent);
@@ -308,8 +325,6 @@ public class Image extends ReportPart implements IImage {
 				}
 			}
 		}
-		// }
-
 	}
 
 	/**
@@ -341,6 +356,11 @@ public class Image extends ReportPart implements IImage {
 		return extension;
 	}
 
+	/**
+	 * Set image size
+	 *
+	 * @param size image size
+	 */
 	public void setImageSize(ImageSize size) {
 		imageSize = size;
 	}
