@@ -23,7 +23,7 @@
 		rtl = Boolean.getBoolean(rtlParam);
 	}
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <HTML>
 	<HEAD>
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">

@@ -1311,32 +1311,41 @@ public interface DesignChoiceConstants {
 	/** design constant: choice datetime format type */
 	String CHOICE_DATETIME_FORMAT_TYPE = "dateTimeFormat"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type unformatted */
-	String DATETIEM_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
+	/** design constant: datetime format type unformatted */
+	String DATETIME_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type general date */
-	String DATETIEM_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
+	/** design constant: datetime format type medium date */
+	String DATETIME_FORMAT_TYPE_DATE_PICKER = "Date Picker"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type long date */
-	String DATETIEM_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
+	/** design constant: datetime format type medium date with short time */
+	String DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_SHORT_TIME = "Date Picker, Short Time"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type mudium date */
-	String DATETIEM_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$
+	/** design constant: datetime format type general date with medium time */
+	String DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_MEDIUM_TIME = "Date Picker, Medium Time"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type short date */
-	String DATETIEM_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
+	/** design constant: datetime format type general date */
+	String DATETIME_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type long time */
-	String DATETIEM_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
+	/** design constant: datetime format type long date */
+	String DATETIME_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type medium time */
-	String DATETIEM_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
+	/** design constant: datetime format type mudium date */
+	String DATETIME_FORMAT_TYPE_MEDIUM_DATE = "Medium Date"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type short time */
-	String DATETIEM_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
+	/** design constant: datetime format type short date */
+	String DATETIME_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
 
-	/** design constant: datetiem format type custom */
-	String DATETIEM_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
+	/** design constant: datetime format type long time */
+	String DATETIME_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
+
+	/** design constant: datetime format type medium time */
+	String DATETIME_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
+
+	/** design constant: datetime format type short time */
+	String DATETIME_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
+
+	/** design constant: datetime format type custom */
+	String DATETIME_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 
 
 	/**
@@ -1349,13 +1358,16 @@ public interface DesignChoiceConstants {
 	String DATE_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 
 	/** design constant: date format type general date */
+	String DATE_FORMAT_TYPE_DATE_PICKER = "Date Picker"; //$NON-NLS-1$
+
+	/** design constant: date format type general date */
 	String DATE_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
 
 	/** design constant: date format type long date */
 	String DATE_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
 
 	/** design constant: date format type mudium date */
-	String DATE_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$
+	String DATE_FORMAT_TYPE_MEDIUM_DATE = "Medium Date"; //$NON-NLS-1$
 
 	/** design constant: date format type short date */
 	String DATE_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
@@ -1369,6 +1381,12 @@ public interface DesignChoiceConstants {
 	 */
 	/** design constant: choice time format type */
 	String CHOICE_TIME_FORMAT_TYPE = "timeFormat"; //$NON-NLS-1$
+
+	/** design constant: date format type general date */
+	String TIME_FORMAT_TYPE_TIME_PICKER_SHORT_TIME = "Time Picker, Short Time"; //$NON-NLS-1$
+
+	/** design constant: date format type general date */
+	String TIME_FORMAT_TYPE_TIME_PICKER_MEDIUM_TIME = "Time Picker, Medium Time"; //$NON-NLS-1$
 
 	/** design constant: time format type long time */
 	String TIME_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$

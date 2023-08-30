@@ -28,7 +28,6 @@ public class DateTimeFormatValue extends FormatValue {
 	/**
 	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
-
 	public static final String FORMAT_VALUE_STRUCT = "DateTimeFormatValue"; //$NON-NLS-1$
 
 	@Override

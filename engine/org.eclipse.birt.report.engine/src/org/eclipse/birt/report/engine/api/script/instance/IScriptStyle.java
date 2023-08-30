@@ -283,6 +283,36 @@ public interface IScriptStyle {
 	void setBackgroundRepeat(String repeat);
 
 	/**
+	 * Set the background height of the background image.
+	 *
+	 * @param value the new background image height
+	 * @throws ScriptException if the property is locked
+	 */
+	void setBackgroundHeight(String value) throws ScriptException;
+
+	/**
+	 * Returns the height of the background image.
+	 *
+	 * @return the background image height
+	 */
+	String getBackgroundHeight();
+
+	/**
+	 * Set the background width of the background image.
+	 *
+	 * @param value the new background image width
+	 * @throws ScriptException if the property is locked
+	 */
+	void setBackgroundWidth(String value) throws ScriptException;
+
+	/**
+	 * Returns the width of the background image.
+	 *
+	 * @return the background image width
+	 */
+	String getBackgroundWidth();
+
+	/**
 	 * Get the bottom border color
 	 *
 	 * @return Return the bottom border color
@@ -898,4 +928,115 @@ public interface IScriptStyle {
 	 */
 	void setBackgroundPositionY(String y) throws ScriptException;
 
+	/**
+	 * Get the diagonal line number
+	 *
+	 * @return Return the diagonal line number
+	 */
+	int getDiagonalNumber();
+
+	/**
+	 * Set the diagonal line number
+	 *
+	 * @param number
+	 */
+	void setDiagonalNumber(int number);
+
+	/**
+	 * Get the diagonal color
+	 *
+	 * @return Return the diagonal color
+	 */
+	String getDiagonalColor();
+
+	/**
+	 * Set the diagonal color
+	 *
+	 * @param color
+	 */
+	void setDiagonalColor(String color);
+
+	/**
+	 * Get the diagonal style
+	 *
+	 * @return Return the diagonal style
+	 */
+	String getDiagonalStyle();
+
+	/**
+	 * Set the diagonal style
+	 *
+	 * @param style
+	 */
+	void setDiagonalStyle(String style);
+
+	/**
+	 * Get the diagonal width
+	 *
+	 * @return Return the diagonal width
+	 */
+	String getDiagonalWidth();
+
+	/**
+	 * Set the diagonal width
+	 *
+	 * @param width
+	 */
+	void setDiagonalWidth(String width);
+
+	/**
+	 * Get the antidiagonal line number
+	 *
+	 * @return Return the antidiagonal line number
+	 */
+	int getAntidiagonalNumber();
+
+	/**
+	 * Set the antidiagonal line number
+	 *
+	 * @param number
+	 */
+	void setAntidiagonalNumber(int number);
+
+	/**
+	 * Get the antidiagonal color
+	 *
+	 * @return Return the antidiagonal color
+	 */
+	String getAntidiagonalColor();
+
+	/**
+	 * Set the antidiagonal color
+	 *
+	 * @param color
+	 */
+	void setAntidiagonalColor(String color);
+
+	/**
+	 * Get the antidiagonal style
+	 *
+	 * @return Return the antidiagonal style
+	 */
+	String getAntidiagonalStyle();
+
+	/**
+	 * Set the antidiagonal style
+	 *
+	 * @param style
+	 */
+	void setAntidiagonalStyle(String style);
+
+	/**
+	 * Get the antidiagonal width
+	 *
+	 * @return Return the antidiagonal width
+	 */
+	String getAntidiagonalWidth();
+
+	/**
+	 * Set the antidiagonal width
+	 *
+	 * @param width
+	 */
+	void setAntidiagonalWidth(String width);
 }

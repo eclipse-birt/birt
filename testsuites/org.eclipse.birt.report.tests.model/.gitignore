@@ -6,3 +6,4 @@ Attic
 utestreports
 target
 /tests-model.jar
+regression_*

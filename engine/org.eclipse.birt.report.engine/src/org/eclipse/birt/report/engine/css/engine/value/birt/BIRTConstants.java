@@ -73,6 +73,40 @@ public interface BIRTConstants extends CSSConstants {
 	 */
 	String BIRT_STYLE_DATA_FORMAT = "data-format";
 
+	/**
+	 * BIRT property: border-diagonal-number
+	 */
+	String BIRT_BORDER_DIAGONAL_NUMBER = "border-diagonal-number";
+	/**
+	 * BIRT property: border-diagonal-style
+	 */
+	String BIRT_BORDER_DIAGONAL_STYLE = "border-diagonal-style";
+	/**
+	 * BIRT property: border-diagonal-width
+	 */
+	String BIRT_BORDER_DIAGONAL_WIDTH = "border-diagonal-width";
+	/**
+	 * BIRT property: border-diagonal-color
+	 */
+	String BIRT_BORDER_DIAGONAL_COLOR = "border-diagonal-color";
+
+	/**
+	 * BIRT property: border-antidiagonal-number
+	 */
+	String BIRT_BORDER_ANTIDIAGONAL_NUMBER = "border-antidiagonal-number";
+	/**
+	 * BIRT property: border-antidiagonal-style
+	 */
+	String BIRT_BORDER_ANTIDIAGONAL_STYLE = "border-antidiagonal-style";
+	/**
+	 * BIRT property: border-antidiagonal-width
+	 */
+	String BIRT_BORDER_ANTIDIAGONAL_WIDTH = "border-antidiagonal-width";
+	/**
+	 * BIRT property: border-antidiagonal-color
+	 */
+	String BIRT_BORDER_ANTIDIAGONAL_COLOR = "border-antidiagonal-color";
+
 	///////////////////////////////////////////////////////////////////////
 	// Deprecated format constants, they are replaced by data-format
 	//////////////////////////////////////////////////////////////////////

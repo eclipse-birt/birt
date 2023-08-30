@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.poi.ss.util.SheetUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
@@ -34,6 +35,12 @@ import uk.co.spudsoft.birt.emitters.excel.FilteredSheet;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Abstract real table handler
+ *
+ * @since 3.3
+ *
+ */
 public class AbstractRealTableHandler extends AbstractHandler implements ITableHandler, NestedTableContainer {
 
 	protected int startRow;
@@ -46,6 +53,13 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 
 	private List<NestedTableHandler> nestedTables;
 
+	/**
+	 * Constructor
+	 *
+	 * @param log    log object
+	 * @param parent parent handler
+	 * @param table  table content
+	 */
 	public AbstractRealTableHandler(Logger log, IHandler parent, ITableContent table) {
 		super(log, parent, table);
 	}
@@ -114,7 +128,8 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		}
 
 		tableStyle = new BirtStyle(table);
-		borderDefn = AreaBorders.create(-1, startCol, startCol + table.getColumnCount() - 1, startRow, tableStyle);
+		borderDefn = AreaBorders.create(-1, startCol, startCol + table.getColumnCount() - 1, startRow, -1, -1,
+				tableStyle);
 		if (borderDefn != null) {
 			state.insertBorderOverload(borderDefn);
 		}
@@ -188,14 +203,14 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 
 	@Override
 	public void startTableBand(HandlerState state, ITableBandContent band) throws BirtException {
-		if ((band.getBandType() == ITableBandContent.BAND_DETAIL) && (startDetailsRow < 0)) {
+		if ((band.getBandType() == IBandContent.BAND_DETAIL) && (startDetailsRow < 0)) {
 			startDetailsRow = state.rowNum;
 		}
 	}
 
 	@Override
 	public void endTableBand(HandlerState state, ITableBandContent band) throws BirtException {
-		if (band.getBandType() == ITableBandContent.BAND_DETAIL) {
+		if (band.getBandType() == IBandContent.BAND_DETAIL) {
 			endDetailsRow = state.rowNum - 1;
 		}
 	}

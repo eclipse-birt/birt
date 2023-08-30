@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
@@ -109,6 +110,11 @@ public abstract class AbstractArea implements IArea {
 
 	protected float scale = 1.0f;
 
+	/**
+	 * Set the scale
+	 *
+	 * @param scale scale value
+	 */
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
@@ -158,8 +164,8 @@ public abstract class AbstractArea implements IArea {
 			int totalMarginWidth = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT))
 					+ PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
 			if (totalMarginWidth >= aWidth) {
-				style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
-				style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
+				style.setProperty(StyleConstants.STYLE_MARGIN_LEFT, CSSValueConstants.NUMBER_0);
+				style.setProperty(StyleConstants.STYLE_MARGIN_RIGHT, CSSValueConstants.NUMBER_0);
 				width = aWidth;
 			} else {
 				width = aWidth - totalMarginWidth;
@@ -169,6 +175,11 @@ public abstract class AbstractArea implements IArea {
 		}
 	}
 
+	/**
+	 * Set content height
+	 *
+	 * @param cHeight content height
+	 */
 	public void setContentHeight(int cHeight) {
 		if (hasBoxProperty) {
 			height = cHeight + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH))
@@ -180,6 +191,11 @@ public abstract class AbstractArea implements IArea {
 		}
 	}
 
+	/**
+	 * Set content width
+	 *
+	 * @param cWidth content width
+	 */
 	public void setContentWidth(int cWidth) {
 		if (hasBoxProperty) {
 			width = cWidth + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH))
@@ -192,35 +208,33 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * set allocated X position
+	 * Get allocated X position
 	 *
-	 * @return
+	 * @return Return the allocated X position
 	 */
 	public int getAllocatedX() {
 		if (hasBoxProperty) {
 			return x - PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT));
-		} else {
-			return x;
 		}
+		return x;
 	}
 
 	/**
-	 * set allocated Y position
+	 * Get allocated Y position
 	 *
-	 * @return
+	 * @return Return the allocated Y position
 	 */
 	public int getAllocatedY() {
 		if (hasBoxProperty) {
 			return y - PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_TOP));
-		} else {
-			return y;
 		}
+		return y;
 	}
 
 	/**
-	 * get content width
+	 * Get content width
 	 *
-	 * @return
+	 * @return Return the content width
 	 */
 	public int getContentWidth() {
 		if (hasBoxProperty) {
@@ -230,21 +244,19 @@ public abstract class AbstractArea implements IArea {
 					.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH))
 					+ PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
 			if (width <= totalPaddngWidth) {
-				style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-				style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
+				style.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
+				style.setProperty(StyleConstants.STYLE_PADDING_RIGHT, CSSValueConstants.NUMBER_0);
 				return width - totalBorderWidth;
-			} else {
-				return width - totalPaddngWidth - totalBorderWidth;
 			}
-		} else {
-			return width;
+			return width - totalPaddngWidth - totalBorderWidth;
 		}
+		return width;
 	}
 
 	/**
-	 * get content height
+	 * Get content height
 	 *
-	 * @return
+	 * @return Return the content height
 	 */
 	public int getContentHeight() {
 		if (hasBoxProperty) {
@@ -252,41 +264,38 @@ public abstract class AbstractArea implements IArea {
 					- PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH))
 					- PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_TOP))
 					- PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
-		} else {
-			return height;
 		}
+		return height;
 	}
 
 	/**
-	 * get allocated width
+	 * Get allocated width
 	 *
-	 * @return
+	 * @return Return the allocated width
 	 */
 	public int getAllocatedWidth() {
 		if (hasBoxProperty) {
 			return width + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT))
 					+ PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
-		} else {
-			return width;
 		}
+		return width;
 	}
 
 	/**
-	 * get allocated height
+	 * Get allocated height
 	 *
-	 * @return
+	 * @return Return the allocated height
 	 */
 	public int getAllocatedHeight() {
 		if (hasBoxProperty) {
 			return height + PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_TOP))
 					+ PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM));
-		} else {
-			return height;
 		}
+		return height;
 	}
 
 	/**
-	 * get style of this area
+	 * Get style of this area
 	 */
 	@Override
 	public IStyle getStyle() {
@@ -294,7 +303,7 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * get X position of this area
+	 * Get X position of this area
 	 */
 	@Override
 	public int getX() {
@@ -302,20 +311,26 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * get Y position of this area
+	 * Get Y position of this area
 	 */
 	@Override
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Set the position
+	 *
+	 * @param x
+	 * @param y
+	 */
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	/**
-	 * set width of this area
+	 * Set width of this area
 	 *
 	 * @param width
 	 */
@@ -324,7 +339,7 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * set width of this area
+	 * Set width of this area
 	 */
 	@Override
 	public int getWidth() {
@@ -332,7 +347,7 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * get height of this area
+	 * Get height of this area
 	 */
 	@Override
 	public int getHeight() {
@@ -340,7 +355,7 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	/**
-	 * set height of this area
+	 * Set height of this area
 	 *
 	 * @param height
 	 */
@@ -365,10 +380,8 @@ public abstract class AbstractArea implements IArea {
 	public int getBaseLine() {
 		if (baseLine == 0) {
 			return height;
-		} else {
-			return baseLine;
 		}
-
+		return baseLine;
 	}
 
 	/**
@@ -380,25 +393,25 @@ public abstract class AbstractArea implements IArea {
 	}
 
 	protected void removeMargin() {
-		style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_MARGIN_LEFT, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_MARGIN_RIGHT, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_MARGIN_TOP, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_MARGIN_BOTTOM, CSSValueConstants.NUMBER_0);
 
 	}
 
 	protected void removeBorder() {
-		style.setProperty(IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH, CSSValueConstants.NUMBER_0);
 	}
 
 	protected void removePadding() {
-		style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0);
-		style.setProperty(IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_PADDING_RIGHT, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_PADDING_TOP, CSSValueConstants.NUMBER_0);
+		style.setProperty(StyleConstants.STYLE_PADDING_BOTTOM, CSSValueConstants.NUMBER_0);
 	}
 
 	class WrappedAreaStyle extends AbstractStyle implements IStyle {

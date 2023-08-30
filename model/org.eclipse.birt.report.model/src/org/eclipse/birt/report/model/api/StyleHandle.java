@@ -1292,7 +1292,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * @return the iterator of map rule structure list
 	 */
 
-	public Iterator mapRulesIterator() {
+	public Iterator<?> mapRulesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IStyleModel.MAP_RULES_PROP);
 		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
@@ -1851,35 +1851,43 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	}
 
 	/**
-	 * Gets a dimension handle to deal with the size height for the background.
-	 * Besides the dimension value, the dimension handle may return one of constants
-	 * defined in <code>DesignChoiceConstants</code>:
-	 * <ul>
-	 * <li><code>BACKGROUND_SIZE_AUTO</code>
-	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
-	 * <li><code>BACKGROUND_SIZE_COVER</code>
-	 * </ul>
+	 * Get the height of the background image.
 	 *
 	 * @return a DimensionHandle for the background size height.
 	 */
-	public DimensionHandle getBackgroundSizeHeight() {
+	public DimensionHandle getBackgroundHeight() {
 		return getDimensionProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
 	}
 
 	/**
-	 * Gets a dimension handle to deal with the size width for the background.
-	 * Besides the dimension value, the dimension handle may return one of constants
-	 * defined in <code>DesignChoiceConstants</code>:
-	 * <ul>
-	 * <li><code>BACKGROUND_SIZE_AUTO</code>
-	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
-	 * <li><code>BACKGROUND_SIZE_COVER</code>
-	 * </ul>
+	 * Sets the height of the background image.
+	 *
+	 * @param height the new width of the background image
+	 * @throws SemanticException if the given type is not defined
+	 */
+
+	public void setBackgroundHeight(String height) throws SemanticException {
+		setStringProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT, height);
+	}
+
+	/**
+	 * Get the width of the background image.
 	 *
 	 * @return a DimensionHandle for the background size width.
 	 */
-	public DimensionHandle getBackgroundSizeWidth() {
+	public DimensionHandle getBackgroundWidth() {
 		return getDimensionProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
+	}
+
+	/**
+	 * Sets the width of the background image.
+	 *
+	 * @param width the new width of the background image
+	 * @throws SemanticException if the given type is not defined
+	 */
+
+	public void setBackgroundWidth(String width) throws SemanticException {
+		setStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH, width);
 	}
 
 	/**
@@ -1958,7 +1966,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets the value of height property.
 	 *
-	 * @param value the new height value
+	 * @param height the new height value
 	 * @throws SemanticException
 	 */
 	public void setHeight(String height) throws SemanticException {
@@ -1977,7 +1985,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets the value of width property.
 	 *
-	 * @param value the new width value
+	 * @param width the new width value
 	 * @throws SemanticException
 	 */
 	public void setWidth(String width) throws SemanticException {

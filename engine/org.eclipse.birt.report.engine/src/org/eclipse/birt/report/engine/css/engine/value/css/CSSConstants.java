@@ -1216,4 +1216,57 @@ public interface CSSConstants {
 	 * CSS property value: independent
 	 */
 	public final static String CSS_INDEPENDENT_VALUE = "independent";
+
+	/**
+	 * CSS property value: cell border diagonal usage
+	 */
+	public final static String CSS_BORDER_DIAGONAL = "border-diagonal";
+	/**
+	 * CSS property value: cell border diagonal number
+	 */
+	public final static String CSS_BORDER_DIAGONAL_NUMBER_PROPERTY = "border-diagonal-number";
+	/**
+	 * CSS property value: cell border diagonal width
+	 */
+	public final static String CSS_BORDER_DIAGONAL_WIDTH_PROPERTY = "border-diagonal-width";
+	/**
+	 * CSS property value: cell border diagonal color
+	 */
+	public final static String CSS_BORDER_DIAGONAL_COLOR_PROPERTY = "border-diagonal-color";
+	/**
+	 * CSS property value: cell border diagonal style
+	 */
+	public final static String CSS_BORDER_DIAGONAL_STYLE_PROPERTY = "border-diagonal-style";
+
+	/**
+	 * CSS property value: cell border diagonal usage
+	 */
+	public final static String CSS_BORDER_ANTIDIAGONAL = "border-antidiagonal";
+	/**
+	 * CSS property value: cell border diagonal number
+	 */
+	public final static String CSS_BORDER_ANTIDIAGONAL_NUMBER_PROPERTY = "border-antidiagonal-number";
+	/**
+	 * CSS property value: cell border antidiagonal width
+	 */
+	public final static String CSS_BORDER_ANTIDIAGONAL_WIDTH_PROPERTY = "border-antidiagonal-width";
+	/**
+	 * CSS property value: cell border antidiagonal color
+	 */
+	public final static String CSS_BORDER_ANTIDIAGONAL_COLOR_PROPERTY = "border-antidiagonal-color";
+	/**
+	 * CSS property value: cell border antidiagonal style
+	 */
+	public final static String CSS_BORDER_ANTIDIAGONAL_STYLE_PROPERTY = "border-antidiagonal-style";
+
+	/**
+	 * CSS property value: cell border cross-diagonal usage
+	 */
+	public final static String CSS_BORDER_CROSS_DIAGONAL_XLSX = "border-cross-diagonal";
+
+	/**
+	 * CSS property value: cell border diagonal line number
+	 */
+	public final static String CSS_BORDER_DIAGONAL_LINE_NUMBER_VALUE = "1";
+
 }

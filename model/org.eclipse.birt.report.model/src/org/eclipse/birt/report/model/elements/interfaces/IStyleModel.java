@@ -20,7 +20,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  */
 public interface IStyleModel {
 
-	// Property names: 58
+	// Property names: 66
 
 	/**
 	 * Property name: background attachment
@@ -106,6 +106,38 @@ public interface IStyleModel {
 	 * Property name: border top width
 	 */
 	String BORDER_TOP_WIDTH_PROP = "borderTopWidth"; //$NON-NLS-1$
+  /**
+	 * Property name: border diagonal color
+	 */
+	String BORDER_DIAGONAL_NUMBER_PROP = "diagonalNumber"; //$NON-NLS-1$
+	/**
+	 * Property name: border diagonal color
+	 */
+	String BORDER_DIAGONAL_COLOR_PROP = "diagonalColor"; //$NON-NLS-1$
+	/**
+	 * Property name: border diagonal style
+	 */
+	String BORDER_DIAGONAL_STYLE_PROP = "diagonalStyle"; //$NON-NLS-1$
+	/**
+	 * Property name: border diagonal width
+	 */
+	String BORDER_DIAGONAL_WIDTH_PROP = "diagonalThickness"; //$NON-NLS-1$
+	/**
+	 * Property name: border antidiagonal color
+	 */
+	String BORDER_ANTIDIAGONAL_NUMBER_PROP = "antidiagonalNumber"; //$NON-NLS-1$
+	/**
+	 * Property name: border antidiagonal color
+	 */
+	String BORDER_ANTIDIAGONAL_COLOR_PROP = "antidiagonalColor"; //$NON-NLS-1$
+	/**
+	 * Property name: border antidiagonal style
+	 */
+	String BORDER_ANTIDIAGONAL_STYLE_PROP = "antidiagonalStyle"; //$NON-NLS-1$
+	/**
+	 * Property name: border antidiagonal width
+	 */
+	String BORDER_ANTIDIAGONAL_WIDTH_PROP = "antidiagonalThickness"; //$NON-NLS-1$
 
 	/**
 	 * Property name: margin bottom

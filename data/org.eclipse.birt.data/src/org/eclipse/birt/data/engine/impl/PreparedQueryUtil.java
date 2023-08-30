@@ -14,13 +14,10 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -508,14 +505,8 @@ public class PreparedQueryUtil {
 						pscDataSet.setFormatPattern(formatPattern);
 						adaptedDesign = pscDataSet;
 					} else {
-						String message = (String) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-							@Override
-							public Object run() {
-								return MessageFormat.format(ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
-										new Object[] { mode });
-							}
-						});
-
+						String message = MessageFormat.format(ResourceConstants.UNSUPPORTED_INCRE_CACHE_MODE,
+								new Object[] { mode });
 						throw new UnsupportedOperationException(message);
 					}
 				}

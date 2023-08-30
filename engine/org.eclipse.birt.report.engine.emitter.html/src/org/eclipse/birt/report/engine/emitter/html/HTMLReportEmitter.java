@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -260,7 +263,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	protected Stack<?> stack = new Stack<Object>();
 
-	HashMap<Long, String> diagonalCellImageMap = new HashMap<Long, String>();
+	HashMap<String, String> diagonalCellImageMap = new HashMap<String, String>();
 
 	/**
 	 * An Log object that <code>HTMLReportEmitter</code> use to log the error,
@@ -351,6 +354,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected ITableContent cachedStartTable = null;
 
 	protected TableLayout tableLayout = new TableLayout(this);
+
+	/**
+	 * Default image pixel width.
+	 */
+	private static int DEFAULT_IMAGE_PX_WIDTH = 200;
+	/**
+	 * Default image pixel height.
+	 */
+	private static int DEFAULT_IMAGE_PX_HEIGHT = 200;
+
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 
 	/**
 	 * the constructor
@@ -567,6 +582,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
 
+	protected void addCellDiagonalSpecialJs() {
+		writer.writeCode("<script type=\"text/javascript\">");
+		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
+		writer.writeCode("   function combineBgImageAndDiagonal(id, diagUri) {");
+		writer.writeCode("     var nTd = document.getElementById(id);");
+		writer.writeCode("     if (nTd) {");
+		writer.writeCode("       var nStyle = getComputedStyle(nTd);");
+		writer.writeCode("       if (nStyle && nStyle.backgroundImage) {");
+		writer.writeCode("         var bgStyle = '';");
+		writer.writeCode("         bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;");
+		writer.writeCode("         bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;");
+		writer.writeCode("         bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;");
+		writer.writeCode("         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;");
+		writer.writeCode("         bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;");
+		writer.writeCode("         bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;");
+		writer.writeCode("         bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;");
+		writer.writeCode("         bgStyle += 'overflow:hidden;';");
+		writer.writeCode("         nTd.setAttribute('style' , bgStyle);");
+		writer.writeCode("       }");
+		writer.writeCode("     }");
+		writer.writeCode("   }");
+		writer.writeCode(" //]]>"); //$NON-NLS-1$
+		writer.writeCode("</script>"); //$NON-NLS-1$
+	}
+
 	protected void outputBirtJs() {
 		writer.writeCode("<script type=\"text/javascript\">");
 		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
@@ -605,7 +645,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				"return d};d.ready(b,function(){g()&&m(x.ALL,function(a){r(a)});d.feature&&d.feature(\"domloaded\",!0)});if(\"complete\"===b.readyState)p();else if(b.addEventListener)b.addEventListener(\"DOMContentLoaded\",c,!1),a.addEventListener(\"load\",p,!1);else{b.attachEvent(\"onreadystatechange\",c);a.attachEvent(\"onload\",p);var z=!1;try{z=null==a.frameElement&&b.documentElement}catch(F){}z&&z.doScroll&&function E(){if(!u){try{z.doScroll(\"left\")}catch(b){a.clearTimeout(d.readyTimeout);d.readyTimeout=a.setTimeout(E,50);");// 16
 		writer.writeCode("return}p()}}()}setTimeout(function(){l=!0;m(v,function(a){a()})},300)})(window);");
 		writer.writeCode("birt={loader:head};");
-
 		writer.writeCode(" //]]>"); //$NON-NLS-1$
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
@@ -678,15 +717,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					browserVersion);
 		}
 
+		/*
+		 * if the BIRT-preview called the emitter then the scripts will be added on a
+		 * div-tag (there won't be created a full HTML-document)
+		 */
 		if (isEmbeddable) {
 			outputCSSStyles(reportDesign, designHandle);
+
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
+			// diagonal & antidiagonal special function
+			addCellDiagonalSpecialJs();
+
 			fixRedirect();
 
 			openRootTag();
 			writeBidiFlag();
+
 			// output the report default style
 			if (report != null) {
 				String defaultStyleName = report.getDesign().getRootStyleName();
@@ -716,6 +764,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writeBidiFlag();
 		writer.openTag(HTMLTags.TAG_HEAD);
 
+
 		// write the title of the report in html.
 		outputReportTitle(report);
 
@@ -739,11 +788,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			}
 		}
 
+
 		outputCSSStyles(reportDesign, designHandle);
 
 		if (needFixTransparentPNG) {
 			fixTransparentPNG();
 		}
+		// diagonal & antidiagonal special function
+		addCellDiagonalSpecialJs();
 
 		fixRedirect();
 		// client initialize
@@ -1491,7 +1543,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		StringBuffer sb = new StringBuffer();
 		sb.append("width:").append(pageWidth).append(";");
 		sb.append("height:").append(pageHeight).append(";");
-		AttributeBuilder.buildBackground(sb, style, this);
+		AttributeBuilder.buildBackground(sb, style, this, null);
 		sb.append("background-size:").append(backgroundWidth).append(" ").append(backgroundHeight).append(";");
 		writer.attribute(HTMLTags.ATTR_STYLE, sb.toString());
 	}
@@ -2024,15 +2076,50 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		boolean fixedCellHeight = useFixedCellHeight(cell);
 
 		StringBuffer styleBuffer = new StringBuffer();
+
+		// handling of diagonal lines
+		String tdDiagonalUriCaller = "";
+		String tdDiagonalUUID = "";
+		Boolean tdDiagonalSpecial = false;
+		if (cell.hasDiagonalLine()) {
+			DimensionType cellHeight = null;
+			if (fixedCellHeight) {
+				cellHeight = fixedRowHeightStack.peek();
+			} else {
+				cellHeight = getCellHeight(cell);
+			}
+			tdDiagonalUUID = "bg-img-diag-" + UUID.randomUUID().toString();
+			writer.attribute(HTMLTags.ATTR_ID, tdDiagonalUUID);
+			String imgUri = "url(" + outputDiagonalImageUri(cell, cellHeight) + ")";
+			if (imgUri != null) {
+				// line image direct on td-cell level
+				if (cell.getStyle().getBackgroundImage() == null) {
+					styleBuffer.append("background-image:" + imgUri + " ;");
+					styleBuffer.append("background-repeat:no-repeat;");
+					styleBuffer.append("background-position:center;");
+					styleBuffer.append("background-size:100% 100%;");
+				} else {
+					tdDiagonalUriCaller = "combineBgImageAndDiagonal('" + tdDiagonalUUID + "','" + imgUri + "');";
+					tdDiagonalSpecial = true;
+				}
+			}
+		}
 		htmlEmitter.buildCellStyle(cell, styleBuffer, isHead, fixedCellHeight);
 		writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
 
 		htmlEmitter.handleCellAlign(cell);
 		if (fixedCellHeight) {
-			// Fixed cell height requires the vertical aline must be top.
+			// Fixed cell height requires the vertical align must be top.
 			writer.attribute(HTMLTags.ATTR_VALIGN, "top");
 		} else {
 			htmlEmitter.handleCellVAlign(cell);
+		}
+
+		// CSS function necessary on diagonal and background image at same time
+		if (tdDiagonalSpecial) {
+			writer.openTag(HTMLTags.TAG_SCRIPT);
+			writer.cdata(tdDiagonalUriCaller);
+			writer.closeTag(HTMLTags.TAG_SCRIPT);
 		}
 
 		boolean bookmarkOutput = false;
@@ -2066,7 +2153,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			writer.attribute(HTMLTags.ATTR_STYLE, "position: relative; height: 100%;");
 			DimensionType cellHeight = fixedRowHeightStack.peek();
 			if (cell.hasDiagonalLine()) {
-				outputDiagonalImage(cell, cellHeight);
+				outputDiagonalImageUri(cell, cellHeight);
 			}
 			writer.openTag(HTMLTags.TAG_DIV);
 			styleBuffer.setLength(0);
@@ -2075,13 +2162,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			styleBuffer.append("; width: 100%; position: absolute; left: 0px;");
 			HTMLEmitterUtil.buildOverflowStyle(styleBuffer, cell.getStyle(), true);
 			writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
-		} else if (cell.hasDiagonalLine()) {
-			DimensionType cellHeight = getCellHeight(cell);
-			if (cellHeight != null && !"%".equals(cellHeight.getUnits())) {
-				writer.openTag(HTMLTags.TAG_DIV);
-				writer.attribute(HTMLTags.ATTR_STYLE, "position: relative; height: 100%;");
-				outputDiagonalImage(cell, cellHeight);
-			}
 		}
 
 		if (enableMetadata) {
@@ -2099,7 +2179,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			if (style != null) {
 				String overflow = style.getOverflow();
 				if (CSSConstants.CSS_OVERFLOW_SCROLL_VALUE.equals(overflow)) {
-					DimensionType cellHeight = (DimensionType) fixedRowHeightStack.peek();
+					DimensionType cellHeight = fixedRowHeightStack.peek();
 					if (cellHeight != null) {
 						return true;
 					}
@@ -2109,10 +2189,38 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		return false;
 	}
 
-	protected void outputDiagonalImage(ICellContent cell, DimensionType cellHeight) {
-		String imgUri = diagonalCellImageMap.get(cell.getInstanceID().getComponentID());
+	/**
+	 * Create the uri of the diagonal line image
+	 *
+	 * @param cell       context of cell
+	 * @param cellHeight height of the cell element
+	 * @return Return the uri of the diagonal line image
+	 * @since 4.13
+	 */
+	protected String outputDiagonalImageUri(ICellContent cell, DimensionType cellHeight) {
+
+		String componentPropertyId = "";
+		// componend id with property value key parts
+		componentPropertyId += "ciidcid:" + cell.getInstanceID().getComponentID() + ";";
+		componentPropertyId += "cdn:" + cell.getDiagonalNumber() + ";cds:" + cell.getDiagonalStyle() + ";";
+		componentPropertyId += "cdw:" + cell.getDiagonalWidth() + ";cdc:" + cell.getDiagonalColor() + ";";
+		componentPropertyId += "cadn:" + cell.getAntidiagonalNumber() + ";cads:" + cell.getAntidiagonalStyle() + ";";
+		componentPropertyId += "cadw:" + cell.getAntidiagonalWidth() + ";cadc:" + cell.getAntidiagonalColor() + ";";
+
+		String imgUri = diagonalCellImageMap.get(componentPropertyId);
+
 		if (imgUri == null) {
-			// prepare to get the diagnal line image.
+
+			// prepare width and height of diagonal image
+			DimensionType cellWidth = cell.getWidth();
+			if (cellWidth == null || cellWidth.getMeasure() == 0.0d) {
+				cellWidth = new DimensionType(DEFAULT_IMAGE_PX_WIDTH, "px");
+			}
+			if (cellHeight == null || cellHeight.getMeasure() == 0.0d) {
+				cellHeight = new DimensionType(DEFAULT_IMAGE_PX_HEIGHT, "px");
+			}
+
+			// prepare to get the diagonal line image.
 			DiagonalLineImage imageCreater = new DiagonalLineImage();
 			imageCreater.setDiagonalLine(cell.getDiagonalNumber(), cell.getDiagonalStyle(), cell.getDiagonalWidth(),
 					cell.getDiagonalColor());
@@ -2125,7 +2233,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			imageCreater.setColor(PropertyUtil.getColor(strColor));
 			byte[] imageByteArray = null;
 			try {
-				// draw the diagnal line image.
+				// draw the diagonal & antidiagonal line image.
 				imageByteArray = imageCreater.drawImage();
 			} catch (IOException e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
@@ -2138,33 +2246,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				imgUri = imageHandler.onCustomImage(image, reportContext);
 				if (imgUri != null) {
 					// Cache the image URI.
-					diagonalCellImageMap.put(cell.getInstanceID().getComponentID(), imgUri);
+					diagonalCellImageMap.put(componentPropertyId, imgUri);
 				}
 			}
 		}
-
-		// FIXME: We should continue to improve the HTML source of how to output
-		// the diagonal line image.
-		// FIXME: We still need to solve the confilct between the cell's
-		// background and the diagonal line imag.
-		if (imgUri != null) {
-			writer.openTag(HTMLTags.TAG_IMAGE);
-			writer.attributeAllowEmpty(HTMLTags.ATTR_ALT, "");
-			writer.attribute(HTMLTags.ATTR_SRC, imgUri);
-			StringBuilder styleBuffer = new StringBuilder();
-			styleBuffer.append(" min-height: ");
-			styleBuffer.append(cellHeight.toString());
-			styleBuffer.append("; height: 100%; width: 100%; position: absolute; z-index: auto; left: 0px;");
-			writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
-			if (needFixTransparentPNG) {
-				if (null == htmlIDNamespace) {
-					writer.attribute(HTMLTags.ATTR_ONLOAD, "fixPNG(this)"); //$NON-NLS-1$
-				} else {
-					writer.attribute(HTMLTags.ATTR_ONLOAD, htmlIDNamespace + "fixPNG(this)"); //$NON-NLS-1$
-				}
-			}
-			writer.closeTag(HTMLTags.TAG_IMAGE);
-		}
+		return imgUri;
 	}
 
 	protected DimensionType getCellWidth(ICellContent cell) {
@@ -2201,11 +2287,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (useFixedCellHeight(cell)) {
 			writer.closeTag(HTMLTags.TAG_DIV);
 			writer.closeTag(HTMLTags.TAG_DIV);
-		} else if (cell.hasDiagonalLine()) {
-			DimensionType cellHeight = getCellHeight(cell);
-			if (cellHeight != null && !"%".equals(cellHeight.getUnits())) {
-				writer.closeTag(HTMLTags.TAG_DIV);
-			}
 		}
 
 		if (isCellInHead(cell)) {
@@ -2299,7 +2380,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			textValue = " "; //$NON-NLS-1$
 			isBlank = true;
 		}
-
 		int display = htmlEmitter.getTextElementType(x, y, width, height, mergedStyle);
 		// bidi_hcg: fix for bug 307327. If text content is Bidi, treat it as
 		// a inline-block element
@@ -2332,7 +2412,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		htmlEmitter.buildTextStyle(text, styleBuffer, display);
 		writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
 
-		htmlEmitter.handleVerticalAlignBegin(text);
+		htmlEmitter.handleTextVerticalAlignBegin(text);
 
 		String url = validate(text.getHyperlinkAction());
 		if (url != null && !isBlank) {
@@ -2459,7 +2539,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		String rawType = foreign.getRawType();
 		boolean isHtml = IForeignContent.HTML_TYPE.equalsIgnoreCase(rawType);
 		if (isHtml) {
-			htmlEmitter.handleVerticalAlignBegin(foreign);
+			htmlEmitter.handleTextVerticalAlignBegin(foreign);
 			String url = validate(foreign.getHyperlinkAction());
 			if (url != null) {
 				outputAction(foreign.getHyperlinkAction(), url);
@@ -2586,9 +2666,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 				if (attrValue != null) {
 					if ("img".equalsIgnoreCase(nodeName) && "src".equalsIgnoreCase(attrName)) {
-						String attrValueTrue = handleStyleImage(attrValue);
-						if (attrValueTrue != null) {
-							attrValue = attrValueTrue;
+						BackgroundImageInfo img = handleStyleImage(attrValue);
+						String attrValueTrue = null;
+						if (img != null) {
+							attrValueTrue = img.getUri();
+							if (attrValueTrue != null) {
+								attrValue = attrValueTrue;
+							}
 						}
 					}
 					writer.attribute(attrName, attrValue);
@@ -2610,7 +2694,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				buffer.append(key);
 				buffer.append(":");
 				if ("background-image".equalsIgnoreCase(key)) {
-					String valueTrue = handleStyleImage(value, true);
+					String valueTrue = handleStyleImage(value, true).getUri();
 					if (valueTrue != null) {
 						value = valueTrue;
 					}
@@ -2916,10 +3000,24 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	protected String getImageURI(IImageContent image) {
 		String imgUri = null;
+		String tmpImgUri = null;
 		if (imageHandler != null) {
-			if (image.getImageSource() == IImageContent.IMAGE_URL) {
-				return image.getURI();
+			imgUri = image.getURI();
+
+			// embedded images w/o URI check
+			if (image.getImageSource() != IImageContent.IMAGE_NAME) {
+				tmpImgUri = this.verifyURI(imgUri);
+				if (imgUri != tmpImgUri) {
+					imgUri = tmpImgUri;
+					image.setURI(tmpImgUri);
+				}
 			}
+
+			// image URI with http/https
+			if (image.getImageSource() == IImageContent.IMAGE_URL && !imgUri.contains(URL_PROTOCOL_TYPE_FILE)) {
+				return imgUri;
+			}
+
 			Image img = new Image(image);
 			img.setRenderOption(renderOption);
 			img.setReportRunnable(runnable);
@@ -3038,12 +3136,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	protected int checkElementType(DimensionType x, DimensionType y, DimensionType width, DimensionType height,
 			IStyle style, StringBuffer styleBuffer) {
-		// if ( x != null || y != null )
-		// {
-		// styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
-		// AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
-		// AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_TOP, y );
-		// }
 		return getElementType(x, y, width, height, style);
 	}
 
@@ -3163,7 +3255,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param uri uri in style image
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri) {
+	public BackgroundImageInfo handleStyleImage(String uri) {
 		return handleStyleImage(uri, false, null);
 	}
 
@@ -3174,7 +3266,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param isBackground Is this image a used for a background?
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri, boolean isBackground) {
+	public BackgroundImageInfo handleStyleImage(String uri, boolean isBackground) {
 		return handleStyleImage(uri, isBackground, null);
 	}
 
@@ -3185,7 +3277,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 * @param isBackground Is this image a used for a background?
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(IStyle style, boolean isBackground) {
+	public BackgroundImageInfo handleStyleImage(IStyle style, boolean isBackground) {
 		return handleStyleImage(null, isBackground, style);
 	}
 
@@ -3196,34 +3288,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	/**
 	 * Handle the style of image
 	 *
-	 * @param uri          uri in style image
+	 * @param uri          URI in style image
 	 * @param isBackground Is this image a used for a background?
 	 * @param imageStyle   Style of the image
 	 * @return Return the image URI
 	 */
-	public String handleStyleImage(String uri, boolean isBackground, IStyle imageStyle) {
+	public BackgroundImageInfo handleStyleImage(String uri, boolean isBackground, IStyle imageStyle) {
 
 		ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
 		URL url = design.findResource(uri, IResourceLocator.IMAGE, reportContext.getAppContext());
 		String fileExtension = null;
 
-		Module module = null;
+		Module module = design.getModule();
 		BackgroundImageInfo backgroundImage = null;
 
 		if (isBackground && imageStyle != null) {
-			module = design.getModule();
 			ResourceLocatorWrapper rl = null;
 			ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
 			if (exeContext != null) {
 				rl = exeContext.getResourceLocator();
 			}
-
 			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
 					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
 
 			backgroundImage = new BackgroundImageInfo(uriString,
-					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, module,
-					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, module, imageStyle.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(imageStyle);
 
 			if (backgroundImage.getSourceType().equalsIgnoreCase(CSSConstants.CSS_EMBED_VALUE)) {
 				uri = backgroundImage.getDataUrl();
@@ -3235,7 +3328,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			fileExtension = uri.substring(uri.lastIndexOf(".") + 1);
 		}
 		if (url == null) {
-			return uri;
+			return backgroundImage;
 		}
 		uri = url.toExternalForm();
 		Image image = null;
@@ -3278,9 +3371,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			default:
 				assert (false);
 			}
-			// imgUri = imgUri.replace( File.separatorChar, '/' );
+			backgroundImage.setUri(imgUri);
 		}
-		return imgUri;
+		return backgroundImage;
 	}
 
 	/**
@@ -3484,6 +3577,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				htmlOption.setHtmlRtLFlag(htmlRtLFlag); // not necessary though
 			}
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 }
 

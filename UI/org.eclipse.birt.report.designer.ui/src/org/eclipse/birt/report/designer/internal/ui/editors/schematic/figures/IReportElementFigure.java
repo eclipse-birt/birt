@@ -16,6 +16,12 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Image;
 
+/**
+ * Report element figure interface
+ *
+ * @since 3.3
+ *
+ */
 public interface IReportElementFigure {
 
 	/**
@@ -73,6 +79,29 @@ public interface IReportElementFigure {
 	void setImage(Image image);
 
 	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 */
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth);
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 * @param percentageHeight      percentage of height of the image to base 1.0
+	 * @param percentageWidth       percentage of width of the image to base 1.0
+	 */
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth, double percentageHeight,
+			double percentageWidth);
+
+	/**
 	 * Sets the margin of current figure.
 	 *
 	 * @param margin
@@ -82,15 +111,16 @@ public interface IReportElementFigure {
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return
+	 * @return Returns the margin of current figure.
 	 */
 	Insets getMargin();
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * org.eclipse.draw2d.IFigure#setLocation(org.eclipse.draw2d.geometry.Point)
+	 * @param p point
+	 *
+	 * @see org.eclipse.draw2d.IFigure#setLocation(org.eclipse.draw2d.geometry.Point)
 	 */
 	void setLocation(Point p);
 }

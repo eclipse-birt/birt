@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -43,12 +43,26 @@ import uk.co.spudsoft.birt.emitters.excel.ExcelEmitter;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Abstract real table cell handler
+ *
+ * @since 3.3
+ *
+ */
 public class AbstractRealTableCellHandler extends CellContentHandler {
 
 	protected int column;
 	private AbstractRealTableRowHandler parentRow;
 	private boolean containsTable;
 
+	/**
+	 * Constructor
+	 *
+	 * @param emitter content emitter
+	 * @param log     log object
+	 * @param parent  parent handler
+	 * @param cell    cell content
+	 */
 	public AbstractRealTableCellHandler(IContentEmitter emitter, Logger log, IHandler parent, ICellContent cell) {
 		super(emitter, log, parent, cell);
 		column = cell.getColumn();
@@ -81,9 +95,21 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		interruptCell(state, !containsTable);
 	}
 
+	/**
+	 * Resume cell
+	 *
+	 * @param state handler state
+	 */
 	public void resumeCell(HandlerState state) {
 	}
 
+	/**
+	 * Interrupt cell
+	 *
+	 * @param state             handler state
+	 * @param includeFormatOnly include format only
+	 * @throws BirtException
+	 */
 	public void interruptCell(HandlerState state, boolean includeFormatOnly) throws BirtException {
 
 		if (state == null) {

@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -47,6 +48,21 @@ public class XlsxEmitter extends ExcelEmitter {
 	@Override
 	protected Workbook createWorkbook() {
 		return new XSSFWorkbook();
+	}
+
+	/**
+	 * Create a workbook of xlsx with streaming support
+	 *
+	 * @return xlsx workbook for streaming
+	 *
+	 * @since 4.14
+	 */
+	public Workbook createSWorkbook() {
+		SXSSFWorkbook swb = new SXSSFWorkbook();
+		// temp files will be gzipped
+		swb.setCompressTempFiles(true);
+
+		return swb;
 	}
 
 	@Override

@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -70,12 +70,11 @@ public class StyleManager {
 
 	/**
 	 * @param workbook   The workbook for which styles are being tracked.
-	 * @param styleStack A style stack, to allow cells to inherit properties from
-	 *                   container elements.
 	 * @param log        Logger to be used during processing.
 	 * @param smu        Set of functions for carrying out conversions between BIRT
 	 *                   and POI.
 	 * @param cssEngine  BIRT CSS Engine for creating BIRT styles.
+	 * @param locale     Locale of the workbook
 	 */
 	public StyleManager(Workbook workbook, Logger log, StyleManagerUtils smu, CSSEngine cssEngine, Locale locale) {
 		this.workbook = workbook;
@@ -86,10 +85,20 @@ public class StyleManager {
 		this.locale = locale;
 	}
 
+	/**
+	 * Get the font manager of the style
+	 *
+	 * @return Return the font manager of the style
+	 */
 	public FontManager getFontManager() {
 		return fm;
 	}
 
+	/**
+	 * Get the CSS engine of the style
+	 *
+	 * @return Return the CSS engine of the style
+	 */
 	public CSSEngine getCssEngine() {
 		return cssEngine;
 	}
@@ -101,6 +110,10 @@ public class StyleManager {
 			StyleConstants.STYLE_BORDER_RIGHT_STYLE, StyleConstants.STYLE_BORDER_RIGHT_WIDTH,
 			StyleConstants.STYLE_BORDER_RIGHT_COLOR, StyleConstants.STYLE_BORDER_BOTTOM_STYLE,
 			StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, StyleConstants.STYLE_BORDER_BOTTOM_COLOR,
+			StyleConstants.STYLE_BORDER_DIAGONAL_NUMBER, StyleConstants.STYLE_BORDER_DIAGONAL_STYLE,
+			StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH, StyleConstants.STYLE_BORDER_DIAGONAL_COLOR,
+			StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER, StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE,
+			StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH, StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR,
 			StyleConstants.STYLE_WHITE_SPACE, StyleConstants.STYLE_VERTICAL_ALIGN, };
 
 	/**
@@ -129,7 +142,6 @@ public class StyleManager {
 				return false;
 			}
 		}
-		
 
 		// Number format
 		// Font
@@ -156,6 +168,7 @@ public class StyleManager {
 		if (font != null) {
 			poiStyle.setFont(font);
 		}
+
 		// Alignment
 		// poiStyle.setAlignment(smu.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN)));
 		HorizontalAlignment alignment = smu
@@ -163,26 +176,38 @@ public class StyleManager {
 		poiStyle.setAlignment(alignment);
 		// Background colour
 		smu.addBackgroundColourToStyle(workbook, poiStyle, birtStyle.getString(StyleConstants.STYLE_BACKGROUND_COLOR));
-		// Top border
-		smu.applyBorderStyle(workbook, poiStyle, BorderSide.TOP,
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
-		// Left border
-		smu.applyBorderStyle(workbook, poiStyle, BorderSide.LEFT,
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
-		// Right border
-		smu.applyBorderStyle(workbook, poiStyle, BorderSide.RIGHT,
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
-		// Bottom border
-		smu.applyBorderStyle(workbook, poiStyle, BorderSide.BOTTOM,
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE),
-				birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
+
+		if (smu instanceof StyleManagerXUtils) {
+
+			// border will be applied at once
+			smu.applyBorderStyle(workbook, poiStyle, birtStyle);
+
+		} else {
+			// Top border
+			smu.applyBorderStyle(workbook, poiStyle, BorderSide.TOP,
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
+
+			// Left border
+			smu.applyBorderStyle(workbook, poiStyle, BorderSide.LEFT,
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
+
+			// Right border
+			smu.applyBorderStyle(workbook, poiStyle, BorderSide.RIGHT,
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
+
+			// Bottom border
+			smu.applyBorderStyle(workbook, poiStyle, BorderSide.BOTTOM,
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE),
+			birtStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
+		}
+
 		// Number format
 		smu.applyNumberFormat(workbook, birtStyle, poiStyle, locale);
 		// Whitespace/wrap
@@ -202,16 +227,21 @@ public class StyleManager {
 		if (rotation instanceof FloatValue) {
 			poiStyle.setRotation((short) ((FloatValue) rotation).getFloatValue());
 		}
-
 		styles.add(new StylePair(birtStyle.clone(), poiStyle));
 		return poiStyle;
 	}
 
+	/**
+	 * Get the cell style based on the BIRT style
+	 *
+	 * @param birtStyle style of the BIRT element
+	 * @return Return the cell style based on the BIRT style
+	 */
 	public CellStyle getStyle(BirtStyle birtStyle) {
 		for (StylePair stylePair : styles) {
 			if (stylesEquivalent(birtStyle, stylePair.birtStyle)) {
-				// System.err.println( "Equivalent :\n\t" + birtStyle + "\n\t" +
-				// stylePair.birtStyle );
+				// System.err.println("Equivalent :\n\t" + birtStyle + "\n\t" +
+				// stylePair.birtStyle);
 				return stylePair.poiStyle;
 			}
 		}
@@ -233,26 +263,34 @@ public class StyleManager {
 	 * Given a POI CellStyle, add border definitions to it and obtain a CellStyle
 	 * (from the cache or newly created) based upon that.
 	 *
-	 * @param source             The POI CellStyle to form the base style.
-	 * @param borderStyleBottom  The BIRT style of the bottom border.
-	 * @param borderWidthBottom  The BIRT with of the bottom border.
-	 * @param borderColourBottom The BIRT colour of the bottom border.
-	 * @param borderStyleLeft    The BIRT style of the left border.
-	 * @param borderWidthLeft    The BIRT width of the left border.
-	 * @param borderColourLeft   The BIRT colour of the left border.
-	 * @param borderStyleRight   The BIRT width of the right border.
-	 * @param borderWidthRight   The BIRT colour of the right border.
-	 * @param borderColourRight  The BIRT style of the right border.
-	 * @param borderStyleTop     The BIRT style of the top border.
-	 * @param borderWidthTop     The BIRT width of the top border.
-	 * @param borderColourTop    The BIRT colour of the top border.
+	 * @param source                   The POI CellStyle to form the base style.
+	 * @param borderStyleBottom        The BIRT style of the bottom border.
+	 * @param borderWidthBottom        The BIRT with of the bottom border.
+	 * @param borderColourBottom       The BIRT colour of the bottom border.
+	 * @param borderStyleLeft          The BIRT style of the left border.
+	 * @param borderWidthLeft          The BIRT width of the left border.
+	 * @param borderColourLeft         The BIRT colour of the left border.
+	 * @param borderStyleRight         The BIRT style of the right border.
+	 * @param borderWidthRight         The BIRT width of the right border.
+	 * @param borderColourRight        The BIRT color of the right border.
+	 * @param borderStyleTop           The BIRT style of the top border.
+	 * @param borderWidthTop           The BIRT width of the top border.
+	 * @param borderColourTop          The BIRT colour of the top border.
+	 * @param borderStyleDiagonal      The BIRT style of the diagonal.
+	 * @param borderWidthDiagonal      The BIRT width of the diagonal.
+	 * @param borderColourDiagonal     The BIRT colour of the diagonal.
+	 * @param borderStyleAntidiagonal  The BIRT style of the antidiagonal.
+	 * @param borderWidthAntidiagonal  The BIRT width of the antidiagonal.
+	 * @param borderColourAntidiagonal The BIRT colour of the antidiagonal.
 	 * @return A POI CellStyle equivalent to the source CellStyle with all the
 	 *         defined borders added to it.
 	 */
 	public CellStyle getStyleWithBorders(CellStyle source, CSSValue borderStyleBottom, CSSValue borderWidthBottom,
 			CSSValue borderColourBottom, CSSValue borderStyleLeft, CSSValue borderWidthLeft, CSSValue borderColourLeft,
 			CSSValue borderStyleRight, CSSValue borderWidthRight, CSSValue borderColourRight, CSSValue borderStyleTop,
-			CSSValue borderWidthTop, CSSValue borderColourTop) {
+			CSSValue borderWidthTop, CSSValue borderColourTop, CSSValue borderStyleDiagonal,
+			CSSValue borderWidthDiagonal, CSSValue borderColourDiagonal, CSSValue borderStyleAntidiagonal,
+			CSSValue borderWidthAntidiagonal, CSSValue borderColourAntidiagonal) {
 
 		BirtStyle birtStyle = birtStyleFromCellStyle(source);
 		if ((borderStyleBottom != null) && (borderWidthBottom != null) && (borderColourBottom != null)) {
@@ -274,6 +312,17 @@ public class StyleManager {
 			birtStyle.setProperty(StyleConstants.STYLE_BORDER_TOP_STYLE, borderStyleTop);
 			birtStyle.setProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH, borderWidthTop);
 			birtStyle.setProperty(StyleConstants.STYLE_BORDER_TOP_COLOR, borderColourTop);
+		}
+		if ((borderStyleDiagonal != null) && (borderWidthDiagonal != null) && (borderColourDiagonal != null)) {
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE, borderStyleDiagonal);
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH, borderWidthDiagonal);
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR, borderColourDiagonal);
+		}
+		if ((borderStyleAntidiagonal != null) && (borderWidthAntidiagonal != null)
+				&& (borderColourAntidiagonal != null)) {
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE, borderStyleAntidiagonal);
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH, borderWidthAntidiagonal);
+			birtStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR, borderColourAntidiagonal);
 		}
 
 		CellStyle newStyle = getStyle(birtStyle);

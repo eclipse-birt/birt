@@ -14,9 +14,6 @@
 
 package org.eclipse.birt.core.internal.plugin;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl;
@@ -33,13 +30,7 @@ public class CorePlugin extends BIRTPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		ClassLoader contextClassLoader = (ClassLoader) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				return Thread.currentThread().getContextClassLoader();
-			}
-		});
+		ClassLoader contextClassLoader = (ClassLoader) Thread.currentThread().getContextClassLoader();
 
 		Platform.setPlatform(new EclipsePlatform(context, contextClassLoader));
 		FunctionProvider.setFunctionProvider(new FunctionProviderImpl());

@@ -37,6 +37,8 @@ public interface ResourceConstants {
 	String GENERAL_ERROR_VIEWING_SESSION_EXPIRED = "birt.viewer.error.viewingsessionexpired"; //$NON-NLS-1$
 	String GENERAL_ERROR_VIEWING_SESSION_LOCKED = "birt.viewer.error.viewingsessionlocked"; //$NON-NLS-1$
 	String GENERAL_ERROR_VIEWING_SESSION_MAX_REACHED = "birt.viewer.error.viewingsessionmaxreached"; //$NON-NLS-1$
+	String ERROR_STACK_TRACE_COPY = "birt.viewer.error.stacktrace.copy"; //$NON-NLS-1$
+	String ERROR_STACK_TRACE_COPIED = "birt.viewer.error.stacktrace.copy.done"; //$NON-NLS-1$
 	String ERROR_INVALID_EXTENSION_FOR_DOCUMENT_PARAMETER = "birt.viewer.error.invalidextfordocumentparam"; //$NON-NLS-1$
 
 	// general exception

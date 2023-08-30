@@ -23,7 +23,7 @@
             <property name="odaDriverClass">net.sourceforge.jtds.jdbc.Driver</property>
             <property name="odaURL">jdbc:jtds:sqlserver://spmdb:1433/test</property>
             <property name="odaUser">sa</property>
-            <encrypted-property name="odaPassword"> sa </encrypted-property>
+            <encrypted-property name="odaPassword"> 0000 </encrypted-property>
         </oda-data-source>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="354">
             <text-property name="displayName"></text-property>

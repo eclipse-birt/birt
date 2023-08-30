@@ -223,7 +223,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			int diagonalNumber = cellContent.getDiagonalNumber();
 			int diagonalWidth = PropertyUtil.getDimensionValue(cellContent, cellContent.getDiagonalWidth(), width);
 			String diagonalStyle = cellContent.getDiagonalStyle();
-			if (diagonalNumber > 0 && diagonalWidth > 0 && diagonalStyle != null) {
+			if (diagonalNumber > 0 && diagonalWidth > 0 && diagonalStyle != null && !"none".equals(diagonalStyle)) {
 				Color dc = PropertyUtil.getColor(cellContent.getDiagonalColor());
 				if (dc == null) {
 					dc = PropertyUtil.getColor(cellContent.getComputedStyle().getProperty(StyleConstants.STYLE_COLOR));
@@ -235,7 +235,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			int antidiagonalWidth = PropertyUtil.getDimensionValue(cellContent, cellContent.getAntidiagonalWidth(),
 					width);
 			String antidiagonalStyle = cellContent.getAntidiagonalStyle();
-			if (antidiagonalNumber > 0 && antidiagonalWidth > 0 && antidiagonalStyle != null) {
+			if (antidiagonalNumber > 0 && antidiagonalWidth > 0 && antidiagonalStyle != null
+					&& !"none".equals(antidiagonalStyle)) {
 				if (diagonalInfo == null) {
 					diagonalInfo = new DiagonalInfo();
 				}
@@ -265,8 +266,12 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 				rl = exeContext.getResourceLocator();
 			}
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, this.getCurrentModule(), style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(style);
+
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 		localProperties = new LocalProperties();

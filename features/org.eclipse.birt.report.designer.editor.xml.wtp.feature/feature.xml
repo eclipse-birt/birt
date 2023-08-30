@@ -16,10 +16,11 @@
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="4.13.0.qualifier"
+      version="4.14.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
-      image="eclipse_update_120.jpg">
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -144,7 +145,7 @@
          id="com.github.librepdf.openpdf"
          download-size="0"
          install-size="0"
-         version="1.3.26"
+         version="0"
          unpack="false"/>
 
    <plugin

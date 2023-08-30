@@ -277,7 +277,7 @@ public class GroupOnRowTest extends APITestCase {
 	 */
 	@Test
 	public void testGroupOnMinute() throws Exception {
-		groupOnMinute("2005-1-1");
+		groupOnMinute("2005-01-01");
 	}
 
 	/**
@@ -332,7 +332,7 @@ public class GroupOnRowTest extends APITestCase {
 	 */
 	@Test
 	public void testGroupOnSecond() throws Exception {
-		groupOnSecond("2005-1-1");
+		groupOnSecond("2005-01-01");
 
 	}
 

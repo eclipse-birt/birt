@@ -26,8 +26,10 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
@@ -40,9 +42,9 @@ import org.w3c.dom.css.CSSValue;
  */
 
 public class HTMLVisionOptimize extends HTMLEmitter {
-	private static HashMap borderStyleMap = null;
+	private static HashMap<String, Integer> borderStyleMap = null;
 	static {
-		borderStyleMap = new HashMap();
+		borderStyleMap = new HashMap<String, Integer>();
 		borderStyleMap.put(CSSConstants.CSS_NONE_VALUE, Integer.valueOf(0));
 		borderStyleMap.put(CSSConstants.CSS_INSET_VALUE, Integer.valueOf(1));
 		borderStyleMap.put(CSSConstants.CSS_GROOVE_VALUE, Integer.valueOf(2));
@@ -56,6 +58,16 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 	protected boolean htmlRtLFlag = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param reportEmitter     report emitter
+	 * @param writer            HTML writer
+	 * @param fixedReport       fixed report
+	 * @param enableInlineStyle enabled inline style
+	 * @param htmlRtLFlag       HTML flag rtl
+	 * @param browserVersion    browser version
+	 */
 	public HTMLVisionOptimize(HTMLReportEmitter reportEmitter, HTMLWriter writer, boolean fixedReport,
 			boolean enableInlineStyle, boolean htmlRtLFlag, int browserVersion) {
 		super(reportEmitter, writer, fixedReport, enableInlineStyle, browserVersion);
@@ -95,7 +107,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, null);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 		AttributeBuilder.buildSize(styleBuffer, style);
@@ -142,10 +154,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 		boolean isInline = false;
 		// output the display
-		CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
-		if (IStyle.NONE_VALUE == display) {
+		CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
+		if (CSSValueConstants.NONE_VALUE == display) {
 			styleBuffer.append(" display: none;");
-		} else if (IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display) {
+		} else if (CSSValueConstants.INLINE_VALUE == display || CSSValueConstants.INLINE_BLOCK_VALUE == display) {
 			isInline = true;
 			// implement the inline table for old version browser
 			if (!reportEmitter.browserSupportsInlineBlock) {
@@ -180,11 +192,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 				if (columnWidth == null) {
 					absoluteWidth = false;
 					break;
-				} else {
-					if ("%".endsWith(columnWidth.getUnits())) {
-						absoluteWidth = false;
-						break;
-					}
+				}
+				if ("%".endsWith(columnWidth.getUnits())) {
+					absoluteWidth = false;
+					break;
 				}
 			}
 			if (!absoluteWidth) {
@@ -220,9 +231,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] tableSize = { table.getHeight(), table.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, tableSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 	}
@@ -238,8 +250,8 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		IStyle style = column.getStyle();
 
 		// output the none value of the display
-		CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
-		if (IStyle.NONE_VALUE == display) {
+		CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
+		if (CSSValueConstants.NONE_VALUE == display) {
 			styleBuffer.append(" display:none;");
 		}
 	}
@@ -265,8 +277,8 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		IStyle style = row.getStyle();
 
 		// output the none value of the display
-		CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
-		if (IStyle.NONE_VALUE == display) {
+		CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
+		if (CSSValueConstants.NONE_VALUE == display) {
 			styleBuffer.append(" display: none;");
 		}
 
@@ -275,8 +287,9 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] rowSize = { row.getHeight(), row.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, rowSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 	}
@@ -289,16 +302,16 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		IStyle rowComputedStyle = row.getComputedStyle();
 
 		// Build the Vertical-Align property of the row content
-		CSSValue vAlign = rowComputedStyle.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
-		if (null == vAlign || IStyle.BASELINE_VALUE == vAlign) {
+		CSSValue vAlign = rowComputedStyle.getProperty(StyleConstants.STYLE_VERTICAL_ALIGN);
+		if (null == vAlign || CSSValueConstants.BASELINE_VALUE == vAlign) {
 			// The default vertical-align value of cell is top. And the cell can
 			// inherit the valign from parent row.
-			vAlign = IStyle.TOP_VALUE;
+			vAlign = CSSValueConstants.TOP_VALUE;
 		}
 		writer.attribute(HTMLTags.ATTR_VALIGN, vAlign.getCssText());
 
 		String hAlignText = null;
-		CSSValue hAlign = rowComputedStyle.getProperty(IStyle.STYLE_TEXT_ALIGN);
+		CSSValue hAlign = rowComputedStyle.getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		if (null != hAlign) {
 			hAlignText = hAlign.getCssText();
 		}
@@ -327,8 +340,8 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 		if (null != style) {
 			// output the none value of the display
-			CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
-			if (IStyle.NONE_VALUE == display) {
+			CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
+			if (CSSValueConstants.NONE_VALUE == display) {
 				styleBuffer.append(" display: none !important; display: block;");
 			}
 		}
@@ -382,13 +395,14 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 
 		// build the cell's border
 		buildCellBorder(cell, styleBuffer);
+		DimensionType[] cellSize = { cell.getHeight(), cell.getWidth() };
 
 		if (null != style) {
-			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, cellSize);
 			AttributeBuilder.buildText(styleBuffer, style);
 			AttributeBuilder.buildVisual(styleBuffer, style);
 		}
-		AttributeBuilder.buildBackground(styleBuffer, cellMergedStyle, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, cellMergedStyle, reportEmitter, cellSize);
 		AttributeBuilder.buildText(styleBuffer, cellMergedStyle);
 		AttributeBuilder.buildVisual(styleBuffer, cellMergedStyle);
 	}
@@ -402,13 +416,13 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		IStyle style = cell.getStyle();
 
 		// Build the Vertical-Align property.
-		CSSValue vAlign = style.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
+		CSSValue vAlign = style.getProperty(StyleConstants.STYLE_VERTICAL_ALIGN);
 		if (null == vAlign) {
 			IStyle cellMergedStyle = new CellMergedStyle(cell);
-			vAlign = cellMergedStyle.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
+			vAlign = cellMergedStyle.getProperty(StyleConstants.STYLE_VERTICAL_ALIGN);
 		}
-		if (IStyle.BASELINE_VALUE == vAlign) {
-			vAlign = IStyle.TOP_VALUE;
+		if (CSSValueConstants.BASELINE_VALUE == vAlign) {
+			vAlign = CSSValueConstants.TOP_VALUE;
 		}
 		if (null != vAlign) {
 			// The default vertical-align value has already been outputted on
@@ -422,7 +436,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	 */
 	@Override
 	public void buildContainerStyle(IContainerContent container, StringBuffer styleBuffer) {
-		int display = ((Integer) containerDisplayStack.peek()).intValue();
+		int display = containerDisplayStack.peek().intValue();
 		// shrink
 		handleShrink(display, container.getStyle(), container.getHeight(), container.getWidth(), styleBuffer);
 		if ((display & HTMLEmitterUtil.DISPLAY_NONE) > 0) {
@@ -437,9 +451,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] containerSize = { container.getHeight(), container.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, containerSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 	}
@@ -453,7 +468,7 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		IStyle style = container.getStyle();
 		// Container doesn't support vertical-align.
 		// Build the Text-Align property.
-		CSSValue hAlign = style.getProperty(IStyle.STYLE_TEXT_ALIGN);
+		CSSValue hAlign = style.getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		if (null != hAlign) {
 			writer.attribute(HTMLTags.ATTR_ALIGN, hAlign.getCssText());
 		}
@@ -493,9 +508,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] textSize = { text.getHeight(), text.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, textSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 	}
@@ -527,9 +543,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] foreignSize = { foreign.getHeight(), foreign.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, foreignSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 
@@ -574,9 +591,10 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 			return;
 		}
 
+		DimensionType[] imageSize = { image.getHeight(), image.getWidth() };
 		AttributeBuilder.buildFont(styleBuffer, style);
 		AttributeBuilder.buildBox(styleBuffer, style);
-		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+		AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, imageSize);
 		AttributeBuilder.buildText(styleBuffer, style);
 		AttributeBuilder.buildVisual(styleBuffer, style);
 
@@ -588,8 +606,8 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 	/**
 	 * Handles the border of a cell
 	 *
-	 * @param cell:        the cell content
-	 * @param styleBuffer: the buffer to store the tyle building result.
+	 * @param cell        the cell content
+	 * @param styleBuffer the buffer to store the tyle building result.
 	 */
 	protected void buildCellBorder(ICellContent cell, StringBuffer styleBuffer) {
 		// prepare build the cell's border
@@ -640,16 +658,16 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		} else {
 			// We have treat the column span. But we haven't treat the row span.
 			// It need to be solved in the future.
-			int cellWidthValue = getBorderWidthValue(cellComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH);
-			int rowWidthValue = getBorderWidthValue(rowComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH);
+			int cellWidthValue = getBorderWidthValue(cellComputedStyle, StyleConstants.STYLE_BORDER_TOP_WIDTH);
+			int rowWidthValue = getBorderWidthValue(rowComputedStyle, StyleConstants.STYLE_BORDER_TOP_WIDTH);
 			buildCellRowBorder(styleBuffer, HTMLTags.ATTR_BORDER_TOP, cellStyle.getBorderTopWidth(),
 					cellStyle.getBorderTopStyle(), cellStyle.getBorderTopColor(), cellWidthValue,
 					rowStyle.getBorderTopWidth(), rowStyle.getBorderTopStyle(), rowStyle.getBorderTopColor(),
 					rowWidthValue);
 
 			if ((cell.getColumn() + cell.getColSpan()) == columnCount) {
-				cellWidthValue = getBorderWidthValue(cellComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH);
-				rowWidthValue = getBorderWidthValue(rowComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH);
+				cellWidthValue = getBorderWidthValue(cellComputedStyle, StyleConstants.STYLE_BORDER_RIGHT_WIDTH);
+				rowWidthValue = getBorderWidthValue(rowComputedStyle, StyleConstants.STYLE_BORDER_RIGHT_WIDTH);
 				buildCellRowBorder(styleBuffer, HTMLTags.ATTR_BORDER_RIGHT, cellStyle.getBorderRightWidth(),
 						cellStyle.getBorderRightStyle(), cellStyle.getBorderRightColor(), cellWidthValue,
 						rowStyle.getBorderRightWidth(), rowStyle.getBorderRightStyle(), rowStyle.getBorderRightColor(),
@@ -659,16 +677,16 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 						cellStyle.getBorderRightStyle(), cellStyle.getBorderRightColor(), 0, null, null, null, 0);
 			}
 
-			cellWidthValue = getBorderWidthValue(cellComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH);
-			rowWidthValue = getBorderWidthValue(rowComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH);
+			cellWidthValue = getBorderWidthValue(cellComputedStyle, StyleConstants.STYLE_BORDER_BOTTOM_WIDTH);
+			rowWidthValue = getBorderWidthValue(rowComputedStyle, StyleConstants.STYLE_BORDER_BOTTOM_WIDTH);
 			buildCellRowBorder(styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM, cellStyle.getBorderBottomWidth(),
 					cellStyle.getBorderBottomStyle(), cellStyle.getBorderBottomColor(), cellWidthValue,
 					rowStyle.getBorderBottomWidth(), rowStyle.getBorderBottomStyle(), rowStyle.getBorderBottomColor(),
 					rowWidthValue);
 
 			if (cell.getColumn() == 0) {
-				cellWidthValue = getBorderWidthValue(cellComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH);
-				rowWidthValue = getBorderWidthValue(rowComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH);
+				cellWidthValue = getBorderWidthValue(cellComputedStyle, StyleConstants.STYLE_BORDER_LEFT_WIDTH);
+				rowWidthValue = getBorderWidthValue(rowComputedStyle, StyleConstants.STYLE_BORDER_LEFT_WIDTH);
 				buildCellRowBorder(styleBuffer, HTMLTags.ATTR_BORDER_LEFT, cellStyle.getBorderLeftWidth(),
 						cellStyle.getBorderLeftStyle(), cellStyle.getBorderLeftColor(), cellWidthValue,
 						rowStyle.getBorderLeftWidth(), rowStyle.getBorderLeftStyle(), rowStyle.getBorderLeftColor(),
@@ -692,8 +710,9 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		if (null == style) {
 			return 0;
 		}
-		if (IStyle.STYLE_BORDER_TOP_WIDTH != borderNum && IStyle.STYLE_BORDER_RIGHT_WIDTH != borderNum
-				&& IStyle.STYLE_BORDER_BOTTOM_WIDTH != borderNum && IStyle.STYLE_BORDER_LEFT_WIDTH != borderNum) {
+		if (StyleConstants.STYLE_BORDER_TOP_WIDTH != borderNum && StyleConstants.STYLE_BORDER_RIGHT_WIDTH != borderNum
+				&& StyleConstants.STYLE_BORDER_BOTTOM_WIDTH != borderNum
+				&& StyleConstants.STYLE_BORDER_LEFT_WIDTH != borderNum) {
 			return 0;
 		}
 		CSSValue value = style.getProperty(borderNum);
@@ -751,8 +770,8 @@ public class HTMLVisionOptimize extends HTMLEmitter {
 		} else if (rowWidthValue > cellWidthValue) {
 			bUseCellBorder = false;
 		} else if (!cellBorderStyle.matches(rowBorderStyle)) {
-			Integer iCellBorderLevel = ((Integer) borderStyleMap.get(cellBorderStyle));
-			Integer iRowBorderLevel = ((Integer) borderStyleMap.get(rowBorderStyle));
+			Integer iCellBorderLevel = (borderStyleMap.get(cellBorderStyle));
+			Integer iRowBorderLevel = (borderStyleMap.get(rowBorderStyle));
 			if (null == iCellBorderLevel) {
 				iCellBorderLevel = -1;
 			}

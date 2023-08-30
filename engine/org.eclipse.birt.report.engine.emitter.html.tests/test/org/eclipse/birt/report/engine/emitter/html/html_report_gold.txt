@@ -2,33 +2,55 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<script type="text/javascript">
-		 //<![CDATA[
-		   function redirect(target, url){
-		       if (target =='_blank'){
-		           open(url);
-		       }
-		       else if (target == '_top'){
-		           window.top.location.href=url;
-		       }
-		       else if (target == '_parent'){
-		           location.href=url;
-		       }
-		       else if (target == '_self'){
-		           location.href =url;
-		       }
-		       else{
-		           open(url);
-		       }
-		      }
-		 //]]>
-		</script>
-	</head>
-	<body style=" margin:0px;">
-		<table cellpadding="0" style="empty-cells: show; border-collapse:collapse;width:100%;">
-			<tr>
-				<td valign="top"></td>
-			</tr>
-		</table>
-	</body>
-</html>
+			<script type="text/javascript">
+			 //<![CDATA[
+			   function combineBgImageAndDiagonal(id, diagUri) {
+			     var nTd = document.getElementById(id);
+			     if (nTd) {
+			       var nStyle = getComputedStyle(nTd);
+			       if (nStyle && nStyle.backgroundImage) {
+			         var bgStyle = '';
+			         bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;
+			         bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;
+			         bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;
+			         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;
+			         bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;
+			         bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;
+			         bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;
+			         bgStyle += 'overflow:hidden;';
+			         nTd.setAttribute('style' , bgStyle);
+			       }
+			     }
+			   }
+			 //]]>
+			</script>
+			<script type="text/javascript">
+			 //<![CDATA[
+			   function redirect(target, url){
+			       if (target =='_blank'){
+			           open(url);
+			       }
+			       else if (target == '_top'){
+			           window.top.location.href=url;
+			       }
+			       else if (target == '_parent'){
+			           location.href=url;
+			       }
+			       else if (target == '_self'){
+			           location.href =url;
+			       }
+			       else{
+			           open(url);
+			       }
+			      }
+			 //]]>
+			</script>
+		</head>
+		<body style=" margin:0px;">
+			<table cellpadding="0" style="empty-cells: show; border-collapse:collapse;width:100%;">
+				<tr>
+					<td valign="top"></td>
+				</tr>
+			</table>
+		</body>
+	</html>

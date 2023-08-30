@@ -25,16 +25,15 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableColumn;
@@ -68,6 +67,14 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 	private String defaultPreviewText = new DateFormatter(ENTER_DATE_TIME_GUIDE_FORMAT, ULocale.getDefault())
 			.format(defaultDate);
 
+	/**
+	 * Constructor
+	 *
+	 * @param dateTimeType
+	 * @param pageAlignment
+	 * @param isFormStyle
+	 * @param showLocale
+	 */
 	public FormatDateTimeLayoutPeer(int dateTimeType, int pageAlignment, boolean isFormStyle, boolean showLocale) {
 		super(pageAlignment, isFormStyle, showLocale);
 
@@ -76,30 +83,42 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 
 	@Override
 	protected void fireFormatChanged(String newCategory, String newPattern, String newLocale) {
-		fireFormatChanged(StyleHandle.DATE_TIME_FORMAT_PROP, newCategory, newPattern, newLocale);
+		fireFormatChanged(IStyleModel.DATE_TIME_FORMAT_PROP, newCategory, newPattern, newLocale);
 	}
 
 	@Override
 	protected void createCategoryPages(Composite parent) {
 		categoryPageMaps = new HashMap<>();
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_PICKER, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_SHORT_TIME,
+				getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_DATE_TIME_PICKER_MEDIUM_TIME,
+				getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME, getGeneralPage(parent));
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE, getGeneralPage(parent));
 
-		categoryPageMaps.put(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM,
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME, getGeneralPage(parent));
+
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME, getGeneralPage(parent));
+
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME, getGeneralPage(parent));
+
+		categoryPageMaps.put(DesignChoiceConstants.TIME_FORMAT_TYPE_TIME_PICKER_MEDIUM_TIME, getGeneralPage(parent));
+
+		categoryPageMaps.put(DesignChoiceConstants.TIME_FORMAT_TYPE_TIME_PICKER_SHORT_TIME, getGeneralPage(parent));
+
+		categoryPageMaps.put(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM,
 				getCustomPage(parent, true, LABEL_CUSTOM_PREVIEW_DATETIME));
 	}
 
@@ -319,68 +338,68 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer {
 		List<String[]> itemList = new ArrayList<>();
 		String[][] items = {
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_GENERAL_DATE), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_DATE), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_LONG_TIME), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_TIME), locale)
 										.getFormatCode() },
 				new String[] {
-						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME),
+						formatAdapter.getDisplayName4Category(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME), locale)
 										.format(defaultDate),
 						new DateFormatter(FormatDateTimePattern
-								.getPatternForCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME), locale)
+								.getPatternForCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_TIME), locale)
 										.getFormatCode() } };
 		itemList.addAll(Arrays.asList(items));
 		String[] customPatterns = FormatDateTimePattern.getCustormPatternCategorys();
 		for (int i = 0; i < customPatterns.length; i++) {
 			itemList.add(new String[] { FormatDateTimePattern.getDisplayName4CustomCategory(customPatterns[i]),
-					new DateFormatter(FormatDateTimePattern.getCustormFormatPattern(customPatterns[i], locale), locale)
+					new DateFormatter(FormatDateTimePattern.getCustomFormatPattern(customPatterns[i], locale), locale)
 							.format(defaultDate),
-					FormatDateTimePattern.getCustormFormatPattern(customPatterns[i], locale) });
+					FormatDateTimePattern.getCustomFormatPattern(customPatterns[i], locale) });
 		}
 		return itemList.toArray(new String[0][3]);
 	}

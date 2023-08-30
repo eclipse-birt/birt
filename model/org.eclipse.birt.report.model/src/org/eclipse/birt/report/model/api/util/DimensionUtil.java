@@ -188,7 +188,7 @@ public class DimensionUtil {
 			throws PropertyValueException
 
 	{
-		DimensionValue dim = DimensionValue.parse(dimension);
+		DimensionValue dim = StringUtil.parse(dimension);
 		if (dim != null) {
 			return convertTo(dim, appUnit, targetUnits);
 		}
@@ -363,7 +363,7 @@ public class DimensionUtil {
 
 		if (value instanceof String) {
 			try {
-				DimensionValue parsedValue = DimensionValue.parse((String) value);
+				DimensionValue parsedValue = StringUtil.parse((String) value);
 				// the value can not be null
 				measure = parsedValue.getMeasure();
 				fromUnits = parsedValue.getUnits();

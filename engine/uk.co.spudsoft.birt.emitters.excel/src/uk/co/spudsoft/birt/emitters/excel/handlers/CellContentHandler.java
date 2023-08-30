@@ -2,25 +2,29 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +52,8 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.engine.util.SvgFile;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import uk.co.spudsoft.birt.emitters.excel.Area;
@@ -64,6 +70,12 @@ import uk.co.spudsoft.birt.emitters.excel.StyleManager;
 import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Cell content handler
+ *
+ * @since 3.3
+ *
+ */
 public class CellContentHandler extends AbstractHandler {
 
 	/**
@@ -116,6 +128,20 @@ public class CellContentHandler extends AbstractHandler {
 	 */
 	protected String hyperlinkBookmark;
 
+	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
+	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
+
+	/**
+	 * Constructor
+	 *
+	 * @param emitter content emitter
+	 * @param log     log object
+	 * @param parent  parent handler
+	 * @param cell    cell content
+	 */
 	public CellContentHandler(IContentEmitter emitter, Logger log, IHandler parent, ICellContent cell) {
 		super(log, parent, cell);
 		contentVisitor = new ContentEmitterVisitor(emitter);
@@ -209,12 +235,12 @@ public class CellContentHandler extends AbstractHandler {
 				if (lastString.contains("\n")) {
 					if (!CSSConstants.CSS_NOWRAP_VALUE.equals(lastElement.getStyle().getWhiteSpace())) {
 						birtCellStyle.setProperty(StyleConstants.STYLE_WHITE_SPACE,
-								new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
+								new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
 					}
 				}
 				if (!richTextRuns.isEmpty()) {
 					birtCellStyle.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN,
-							new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
+							new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
 				}
 				if (preferredAlignment != null) {
 					birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_ALIGN, preferredAlignment);
@@ -225,12 +251,41 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		}
 
+		if (birtCell != null && birtCell.getDiagonalNumber() >= 1
+				&& !"none".equalsIgnoreCase(birtCell.getDiagonalStyle())) {
+			String diagonalWidth = null;
+			if (birtCell.getDiagonalWidth() != null) {
+				diagonalWidth = birtCell.getDiagonalWidth().toString();
+			}
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, diagonalWidth));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getDiagonalColor()));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getDiagonalStyle()));
+		}
+
+		if (birtCell != null && birtCell.getAntidiagonalNumber() >= 1
+				&& !"none".equalsIgnoreCase(birtCell.getAntidiagonalStyle())) {
+			String antidiagonalWidth = null;
+			if (birtCell.getAntidiagonalWidth() != null) {
+				antidiagonalWidth = birtCell.getAntidiagonalWidth().toString();
+			}
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, antidiagonalWidth));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getAntidiagonalColor()));
+			birtCellStyle.setProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, birtCell.getAntidiagonalStyle()));
+
+		}
+
 		int colIndex = cell.getColumnIndex();
 		state.getSmu().applyAreaBordersToCell(state.areaBorders, cell, birtCellStyle, state.rowNum, colIndex);
 
 		if ((birtCell != null) && ((birtCell.getColSpan() > 1) || (birtCell.getRowSpan() > 1))) {
 			AreaBorders mergedRegionBorders = AreaBorders.createForMergedCells(state.rowNum + birtCell.getRowSpan() - 1,
-					colIndex, colIndex + birtCell.getColSpan() - 1, state.rowNum, birtCellStyle);
+					colIndex, colIndex + birtCell.getColSpan() - 1, state.rowNum, 1, 1, birtCellStyle);
 			if (mergedRegionBorders != null) {
 				state.insertBorderOverload(mergedRegionBorders);
 			}
@@ -392,7 +447,7 @@ public class CellContentHandler extends AbstractHandler {
 	private CSSValue preferredAlignment(BirtStyle elementStyle) {
 		CSSValue newAlign = elementStyle.getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		if (newAlign == null) {
-			newAlign = new StringValue(StringValue.CSS_STRING, CSSConstants.CSS_LEFT_VALUE);
+			newAlign = new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_LEFT_VALUE);
 		}
 		if (preferredAlignment == null) {
 			return newAlign;
@@ -402,12 +457,10 @@ public class CellContentHandler extends AbstractHandler {
 		} else if (CSSConstants.CSS_RIGHT_VALUE.equals(newAlign.getCssText())) {
 			if (CSSConstants.CSS_CENTER_VALUE.equals(preferredAlignment.getCssText())) {
 				return newAlign;
-			} else {
-				return preferredAlignment;
 			}
-		} else {
 			return preferredAlignment;
 		}
+		return preferredAlignment;
 	}
 
 	/**
@@ -485,6 +538,15 @@ public class CellContentHandler extends AbstractHandler {
 		hyperlinkUrl = null;
 	}
 
+	/**
+	 * Record image
+	 *
+	 * @param state       handler state
+	 * @param location    location coordinate
+	 * @param image       image content
+	 * @param spanColumns columns are spanned
+	 * @throws BirtException
+	 */
 	public void recordImage(HandlerState state, Coordinate location, IImageContent image, boolean spanColumns)
 			throws BirtException {
 		byte[] data = image.getData();
@@ -494,9 +556,60 @@ public class CellContentHandler extends AbstractHandler {
 		StyleManagerUtils smu = state.getSmu();
 		Workbook wb = state.getWb();
 		String mimeType = image.getMIMEType();
-		if ((data == null) && (image.getURI() != null)) {
+		String stringURI = image.getURI();
+
+		if (stringURI != null
+				&& (stringURI.toLowerCase().endsWith(".svg") || stringURI.toLowerCase().contains(URL_IMAGE_TYPE_SVG))
+				|| mimeType != null && mimeType.toLowerCase().equals(URL_IMAGE_TYPE_SVG)) {
+
 			try {
-				URL imageUrl = new URL(image.getURI());
+				String encodedImg = null;
+				String decodedImg = null;
+				if (stringURI != null && stringURI.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
+					// svg: url stream image
+					String svgSplitter = "svg\\+xml,";
+					if (stringURI.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_UTF8)) {
+						svgSplitter = "svg\\+xml;utf8,";
+					} else if (stringURI.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_BASE)) {
+						svgSplitter = "svg\\+xml;base64,";
+					}
+					String[] uriParts = stringURI.split(svgSplitter);
+					if (uriParts.length >= 2) {
+						encodedImg = uriParts[1];
+						decodedImg = encodedImg;
+						if (stringURI.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+							decodedImg = new String(
+									Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
+						}
+					}
+				} else {
+					// svg: url file load
+					if (data == null && stringURI != null) {
+						String uri = this.verifyURI(stringURI); // URL(this.id);
+						URL imageUrl = new URL(uri);
+						URLConnection conn = imageUrl.openConnection();
+						conn.connect();
+						data = smu.downloadImage(conn);
+						image.setData(data);
+					}
+					decodedImg = new String(image.getData());
+				}
+				decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+				data = SvgFile.transSvgToArray(new ByteArrayInputStream(decodedImg.getBytes()));
+
+			} catch (Exception e) {
+				// invalid svg image, default handling
+			}
+
+		} else if (stringURI != null && stringURI.startsWith(URL_PROTOCOL_TYPE_DATA)
+				&& stringURI.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+			String base64[] = image.getURI().toString().split(URL_PROTOCOL_TYPE_DATA_BASE);
+			if (base64.length >= 2) {
+				data = Base64.getDecoder().decode(base64[1]);
+			}
+		} else if ((data == null) && (image.getURI() != null)) {
+			try {
+				URL imageUrl = new URL(this.verifyURI(image.getURI()));
 				URLConnection conn = imageUrl.openConnection();
 				conn.connect();
 				mimeType = conn.getContentType();
@@ -505,6 +618,7 @@ public class CellContentHandler extends AbstractHandler {
 					log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
 				} else {
 					data = smu.downloadImage(conn);
+					image.setData(data);
 				}
 			} catch (IOException ex) {
 				log.debug(ex.getClass(), ": ", ex.getMessage());
@@ -564,6 +678,26 @@ public class CellContentHandler extends AbstractHandler {
 				iter.remove();
 			}
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			try {
+				new URL(uri).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:///"
+				try {
+					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 
 }

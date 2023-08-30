@@ -55,6 +55,13 @@ public class TableArea extends Composite {
 	private Table table;
 	private Composite buttonBar;
 
+	/**
+	 * Constructor
+	 *
+	 * @param parent     parent composite
+	 * @param tableStyle table style
+	 * @param modifier   table area modifier
+	 */
 	public TableArea(Composite parent, int tableStyle, IBaseTableAreaModifier modifier) {
 		super(parent, SWT.NONE);
 		Assert.isNotNull(modifier);
@@ -230,6 +237,9 @@ public class TableArea extends Composite {
 		return (IStructuredSelection) tableViewer.getSelection();
 	}
 
+	/**
+	 * Update button
+	 */
 	public void updateButtons() {
 		boolean enable = (getSelection().size() == 1);
 		editButton.setEnabled(enable);
@@ -244,6 +254,11 @@ public class TableArea extends Composite {
 		}
 	}
 
+	/**
+	 * Get table
+	 *
+	 * @return Retrun the table
+	 */
 	public Table getTable() {
 		if (tableViewer != null) {
 			return tableViewer.getTable();
@@ -251,10 +266,20 @@ public class TableArea extends Composite {
 		return null;
 	}
 
+	/**
+	 * Get the table viewer
+	 *
+	 * @return Return the table viewer
+	 */
 	public TableViewer getTableViewer() {
 		return tableViewer;
 	}
 
+	/**
+	 * Set the input
+	 *
+	 * @param input
+	 */
 	public void setInput(Object input) {
 		tableViewer.setInput(input);
 		updateButtons();

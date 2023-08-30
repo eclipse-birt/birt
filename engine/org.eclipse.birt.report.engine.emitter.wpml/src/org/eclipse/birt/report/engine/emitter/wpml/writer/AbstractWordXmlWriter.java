@@ -48,10 +48,13 @@ public abstract class AbstractWordXmlWriter {
 
 	protected final String BOTTOM = "bottom";
 
+	/** constant property: space */
 	public static final char SPACE = ' ';
 
+	/** constant property: empty string */
 	public static final String EMPTY_STRING = "";
 
+	/** constant property: index not found */
 	public static final int INDEX_NOTFOUND = -1;
 
 	/**
@@ -107,22 +110,34 @@ public abstract class AbstractWordXmlWriter {
 
 	protected abstract void writeIndent(int leftMargin, int rightMargin, int textIndent);
 
+	/**
+	 * Start section in paragraph
+	 */
 	public void startSectionInParagraph() {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
 		startSection();
 	}
 
+	/**
+	 * End section in paragraph
+	 */
 	public void endSectionInParagraph() {
 		endSection();
 		writer.closeTag("w:pPr");
 		writer.closeTag("w:p");
 	}
 
+	/**
+	 * Start section
+	 */
 	public void startSection() {
 		writer.openTag("w:sectPr");
 	}
 
+	/**
+	 * End section
+	 */
 	public void endSection() {
 		writer.closeTag("w:sectPr");
 	}
@@ -223,6 +238,19 @@ public abstract class AbstractWordXmlWriter {
 		writer.attribute(direct, borderColor);
 	}
 
+	/**
+	 * Write page properties
+	 *
+	 * @param pageHeight   page height
+	 * @param pageWidth    page width
+	 * @param headerHeight header height
+	 * @param footerHeight footer height
+	 * @param topMargin    top margin
+	 * @param bottomMargin bottom margin
+	 * @param leftMargin   left margin
+	 * @param rightMargin  right margin
+	 * @param orient       page orientation
+	 */
 	public void writePageProperties(int pageHeight, int pageWidth, int headerHeight, int footerHeight, int topMargin,
 			int bottomMargin, int leftMargin, int rightMargin, String orient) {
 		writer.openTag("w:pgSz");
@@ -241,12 +269,23 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:pgMar");
 	}
 
-	// write the table properties to the output stream
+	/**
+	 * Start table and write the table properties to the output stream
+	 *
+	 * @param style      table style
+	 * @param tablewidth table width
+	 */
 	public void startTable(IStyle style, int tablewidth) {
 		startTable(style, tablewidth, false);
 	}
 
-	// write the table properties to the output stream
+	/**
+	 * Start table and write the table properties to the output stream
+	 *
+	 * @param style      table style
+	 * @param tablewidth table width
+	 * @param inForeign  in foreign
+	 */
 	public void startTable(IStyle style, int tablewidth, boolean inForeign) {
 		writer.openTag("w:tbl");
 		writer.openTag("w:tblPr");
@@ -295,6 +334,9 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:tblBorders");
 	}
 
+	/**
+	 * End table
+	 */
 	public void endTable() {
 		writer.closeTag("w:tbl");
 	}
@@ -346,18 +388,47 @@ public abstract class AbstractWordXmlWriter {
 			writeSingleBorder(RIGHT, borderStyle, style.getBorderRightColor(),
 					style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH), rightMargin);
 		}
+
+	}
+
+	/**
+	 * Writer of the diagonal attribute
+	 *
+	 * @param borderStyle style of the diagonal
+	 * @param color       color of the diagonal
+	 * @param width       width of the diagonal
+	 */
+	private void writeDiagonalBorder(String borderStyle, String color, double width) {
+		writer.openTag("w:tl2br");
+		int borderSize = (int) width * 9;
+		writeBorderProperty(borderStyle, color, borderSize, 0);
+		writer.closeTag("w:tl2br");
+	}
+
+	/**
+	 * Writer of the antidiagonal attribute
+	 *
+	 * @param borderStyle style of the diagonal
+	 * @param color       color of the diagonal
+	 * @param width       width of the diagonal
+	 */
+	private void writeAntidiagonalBorder(String borderStyle, String color, double width) {
+		writer.openTag("w:tr2bl");
+		int borderSize = (int) width * 9;
+		writeBorderProperty(borderStyle, color, borderSize, 0);
+		writer.closeTag("w:tr2bl");
 	}
 
 	private void writeSingleBorder(String type, String borderStyle, String color, CSSValue width, int margin) {
 		writer.openTag("w:" + type);
-		writeBorderProperty(borderStyle, color, width, margin);
+		int borderSize = WordUtil.parseBorderSize(PropertyUtil.getDimensionValue(width));
+		writeBorderProperty(borderStyle, color, borderSize, margin);
 		writer.closeTag("w:" + type);
 	}
 
-	private void writeBorderProperty(String style, String color, CSSValue width, int margin) {
+	private void writeBorderProperty(String style, String color, int width, int margin) {
 		writer.attribute("w:val", WordUtil.parseBorderStyle(style));
-		int borderSize = WordUtil.parseBorderSize(PropertyUtil.getDimensionValue(width));
-		writer.attribute("w:sz", "double".equals(style) ? borderSize / 3 : borderSize);
+		writer.attribute("w:sz", "double".equals(style) ? width / 3 : width);
 		writer.attribute("w:space", validateBorderSpace(margin));
 		writer.attribute("w:color", WordUtil.parseColor(color));
 	}
@@ -382,10 +453,10 @@ public abstract class AbstractWordXmlWriter {
 
 		// Need to swap 'left' and 'right' when orientation is RTL.
 		if (CSSConstants.CSS_RTL_VALUE.equalsIgnoreCase(direction)) {
-			if (IStyle.CSS_RIGHT_VALUE.equals(textAlign)) {
-				writeAttrTag("w:jc", IStyle.CSS_LEFT_VALUE);
-			} else if (IStyle.CSS_LEFT_VALUE.equals(textAlign)) {
-				writeAttrTag("w:jc", IStyle.CSS_RIGHT_VALUE);
+			if (CSSConstants.CSS_RIGHT_VALUE.equals(textAlign)) {
+				writeAttrTag("w:jc", CSSConstants.CSS_LEFT_VALUE);
+			} else if (CSSConstants.CSS_LEFT_VALUE.equals(textAlign)) {
+				writeAttrTag("w:jc", CSSConstants.CSS_RIGHT_VALUE);
 			} else {
 				writeAttrTag("w:jc", textAlign);
 			}
@@ -453,7 +524,8 @@ public abstract class AbstractWordXmlWriter {
 
 	private void writeRunBorder(String borderStyle, String color, CSSValue borderWidth) {
 		writer.openTag("w:bdr");
-		writeBorderProperty(borderStyle, color, borderWidth, 0);
+		int borderSize = WordUtil.parseBorderSize(PropertyUtil.getDimensionValue(borderWidth));
+		writeBorderProperty(borderStyle, color, borderSize, 0);
 		writer.closeTag("w:bdr");
 	}
 
@@ -461,6 +533,13 @@ public abstract class AbstractWordXmlWriter {
 		return ("\n".equals(txt) || "\r".equalsIgnoreCase(txt) || "\r\n".equals(txt));
 	}
 
+	/**
+	 * Start paragraph
+	 *
+	 * @param style          style of paragraph
+	 * @param isInline       is inline paragraph
+	 * @param paragraphWidth paragraph width
+	 */
 	public void startParagraph(IStyle style, boolean isInline, int paragraphWidth) {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
@@ -655,7 +734,7 @@ public abstract class AbstractWordXmlWriter {
 	}
 
 	/**
-	 * @param direction
+	 * @param rtl text direction
 	 *
 	 * @author bidi_hcg
 	 */
@@ -682,6 +761,11 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:r");
 	}
 
+	/**
+	 * Write the columns
+	 *
+	 * @param cols column count array
+	 */
 	public void writeColumn(int[] cols) {
 		// unit: twips
 		writer.openTag("w:tblGrid");
@@ -692,13 +776,15 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:tblGrid");
 	}
 
-	/**
-	 *
-	 * @param style  style of the row
-	 * @param height height of current row, if heigh equals 1 then ignore height
-	 * @param type   header or normal
-	 */
 
+	/**
+	 * Start the table row creation
+	 *
+	 * @param height       row height
+	 * @param isHeader     is header row
+	 * @param repeatHeader is repeat header
+	 * @param fixedLayout  fixed layout
+	 */
 	public void startTableRow(double height, boolean isHeader, boolean repeatHeader, boolean fixedLayout) {
 		writer.openTag("w:tr");
 
@@ -722,11 +808,22 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:trPr");
 	}
 
+	/**
+	 * Write the table row end
+	 */
 	public void endTableRow() {
 		writer.closeTag("w:tr");
 	}
 
-	public void startTableCell(int width, IStyle style, SpanInfo spanInfo) {
+	/**
+	 * Create the table tag of cell element
+	 *
+	 * @param width            of the cell element
+	 * @param style            of the cell element
+	 * @param spanInfo         of the cell element
+	 * @param diagonalLineInfo of the cell element
+	 */
+	public void startTableCell(int width, IStyle style, SpanInfo spanInfo, DiagonalLineInfo diagonalLineInfo) {
 		writer.openTag("w:tc");
 		writer.openTag("w:tcPr");
 		writeCellWidth(width);
@@ -734,7 +831,7 @@ public abstract class AbstractWordXmlWriter {
 			writeGridSpan(spanInfo);
 			writeVmerge(spanInfo);
 		}
-		writeCellProperties(style);
+		writeCellProperties(style, diagonalLineInfo);
 		writer.closeTag("w:tcPr");
 
 		String align = style.getTextAlign();
@@ -766,22 +863,38 @@ public abstract class AbstractWordXmlWriter {
 		}
 	}
 
+	/**
+	 * Write span cell
+	 *
+	 * @param info span info object
+	 */
 	public void writeSpanCell(SpanInfo info) {
 		writer.openTag("w:tc");
 		writer.openTag("w:tcPr");
 		writeCellWidth(info.getCellWidth());
 		writeGridSpan(info);
 		writeVmerge(info);
-		writeCellProperties(info.getStyle());
+		writeCellProperties(info.getStyle(), null);
 		writer.closeTag("w:tcPr");
 		insertEmptyParagraph();
 		writer.closeTag("w:tc");
 	}
 
+	/**
+	 * Write table cell end
+	 *
+	 * @param empty is empty
+	 */
 	public void endTableCell(boolean empty) {
 		endTableCell(empty, false);
 	}
 
+	/**
+	 * Write table cell end
+	 *
+	 * @param empty     is empty
+	 * @param inForeign is foreign
+	 */
 	public void endTableCell(boolean empty, boolean inForeign) {
 
 		if (empty) {
@@ -794,6 +907,9 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:tc");
 	}
 
+	/**
+	 * Write empty table cell end
+	 */
 	public void writeEmptyCell() {
 		writer.openTag("w:tc");
 		writer.openTag("w:tcPr");
@@ -806,6 +922,9 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:tc");
 	}
 
+	/**
+	 * Write empty paragraph
+	 */
 	public void insertEmptyParagraph() {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
@@ -817,27 +936,44 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:p");
 	}
 
+	/**
+	 * Write empty paragraph in foreign
+	 */
 	public void insertEmptyParagraphInForeign() {
 		writer.openTag("w:p");
 		writer.closeTag("w:p");
 	}
 
+	/**
+	 * Write hidden paragraph
+	 */
 	public void insertHiddenParagraph() {
 		writer.openTag("w:p");
 		writeHiddenProperty();
 		writer.closeTag("w:p");
 	}
 
+	/**
+	 * Write hidden property
+	 */
 	public void writeHiddenProperty() {
 		writer.openTag("w:rPr");
 		writeAttrTag("w:vanish", "on");
 		writer.closeTag("w:rPr");
 	}
 
+	/**
+	 * Write end paragraph
+	 */
 	public void endParagraph() {
 		writer.closeTag("w:p");
 	}
 
+	/**
+	 * Write caption
+	 *
+	 * @param txt caption text
+	 */
 	public void writeCaption(String txt) {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
@@ -857,7 +993,7 @@ public abstract class AbstractWordXmlWriter {
 	 *
 	 * @param style this cell style
 	 */
-	private void writeCellProperties(IStyle style) {
+	private void writeCellProperties(IStyle style, DiagonalLineInfo diagonalLineInfo) {
 		// A cell background color may inherit from row background,
 		// so we should get the row background color here,
 		// if the cell background is transparent
@@ -865,7 +1001,7 @@ public abstract class AbstractWordXmlWriter {
 			return;
 		}
 		writeBackgroundColor(style.getBackgroundColor());
-		writeCellBorders(style);
+		writeCellBorders(style, diagonalLineInfo);
 		writeCellPadding(style);
 		String verticalAlign = style.getVerticalAlign();
 		if (verticalAlign != null) {
@@ -875,9 +1011,22 @@ public abstract class AbstractWordXmlWriter {
 		writeAttrTag("w:noWrap", noWrap);
 	}
 
-	private void writeCellBorders(IStyle style) {
+	private void writeCellBorders(IStyle style, DiagonalLineInfo diagonalLineInfo) {
 		writer.openTag("w:tcBorders");
 		writeBorders(style, 0, 0, 0, 0);
+
+		if (diagonalLineInfo != null) {
+			if (diagonalLineInfo.getDiagonalNumber() > 0
+					&& !"none".equals(diagonalLineInfo.getDiagonalStyle())) {
+				writeDiagonalBorder(diagonalLineInfo.getDiagonalStyle(), diagonalLineInfo.getDiagonalColor(),
+						diagonalLineInfo.getDiagonalLineWidth());
+			}
+			if (diagonalLineInfo.getAntidiagonalNumber() > 0
+					&& !"none".equals(diagonalLineInfo.getAntidiagonalStyle())) {
+				writeAntidiagonalBorder(diagonalLineInfo.getAntidiagonalStyle(),
+						diagonalLineInfo.getAntidiagonalColor(), diagonalLineInfo.getAntidiagonalLineWidth());
+			}
+		}
 		writer.closeTag("w:tcBorders");
 	}
 
@@ -965,6 +1114,18 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:pBdr");
 	}
 
+	/**
+	 * Write the text
+	 *
+	 * @param type           text type
+	 * @param txt            text
+	 * @param style          text style
+	 * @param fontFamily     font family
+	 * @param info           hyperlink info object
+	 * @param flag           text flag
+	 * @param paragraphWidth paragraph width
+	 * @param runIsRtl       run is rtl flag
+	 */
 	public void writeText(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info, TextFlag flag,
 			int paragraphWidth, boolean runIsRtl) {
 		if (flag == TextFlag.START) {
@@ -979,6 +1140,18 @@ public abstract class AbstractWordXmlWriter {
 		}
 	}
 
+	/**
+	 * Write the text inline
+	 *
+	 * @param type           text type
+	 * @param txt            text
+	 * @param style          text style
+	 * @param fontFamily     font family
+	 * @param info           hyperlink info object
+	 * @param isInline       is inline text
+	 * @param paragraphWidth paragraph width
+	 * @param runIsRtl       run is rtl flag
+	 */
 	public void writeTextInRun(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info,
 			boolean isInline, int paragraphWidth, boolean runIsRtl) {
 		if ("".equals(txt)) {
@@ -1084,6 +1257,19 @@ public abstract class AbstractWordXmlWriter {
 		return word;
 	}
 
+	/**
+	 * Write the text inline
+	 *
+	 * @param type           text type
+	 * @param txt            text
+	 * @param style          text style
+	 * @param fontFamily     font family
+	 * @param info           hyperlink info object
+	 * @param isInline       is inline text
+	 * @param paragraphWidth paragraph width
+	 * @param runIsRtl       run is rtl flag
+	 * @param textAlign      text alignment
+	 */
 	public void writeTextInRun(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info,
 			boolean isInline, int paragraphWidth, boolean runIsRtl, String textAlign) {
 		if ("".equals(txt)) {
@@ -1132,9 +1318,9 @@ public abstract class AbstractWordXmlWriter {
 	private void writePosition(String verticalAlign, CSSValue fontSize) {
 		int size = WordUtil.parseFontSize(PropertyUtil.getDimensionValue(fontSize));
 		if ("top".equalsIgnoreCase(verticalAlign)) {
-			writeAttrTag("w:position", (int) (size * 1 / 3));
+			writeAttrTag("w:position", size * 1 / 3);
 		} else if ("bottom".equalsIgnoreCase(verticalAlign)) {
-			writeAttrTag("w:position", (int) (-size * 1 / 3));
+			writeAttrTag("w:position", -size * 1 / 3);
 		}
 	}
 
@@ -1214,23 +1400,36 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:tbl");
 	}
 
+	/**
+	 * Draw the diagonal line
+	 *
+	 * @param diagonalLineInfo information object of the diagonal
+	 */
 	public void drawDiagonalLine(DiagonalLineInfo diagonalLineInfo) {
-		if (diagonalLineInfo.getDiagonalNumber() <= 0 && diagonalLineInfo.getAntiDiagonalNumber() <= 0) {
+		if (diagonalLineInfo.getDiagonalNumber() <= 0 && diagonalLineInfo.getAntidiagonalNumber() <= 0
+				|| "NONE".equals(diagonalLineInfo.getDiagonalStyle())
+						&& "NONE".equals(diagonalLineInfo.getAntidiagonalStyle())) {
 			return;
 		}
 		writer.openTag("w:p");
 		writer.openTag("w:r");
 		writer.openTag("w:pict");
-		double diagonalLineWidth = diagonalLineInfo.getDiagonalLineWidth();
-		String diagonalLineStyle = diagonalLineInfo.getDiagonalStyle();
-		double antidiagonalLineWidth = diagonalLineInfo.getAntiDiagonalLineWidth();
-		String antidiagonalLineStyle = diagonalLineInfo.getAntiDiagonalStyle();
 		String lineColor = diagonalLineInfo.getColor();
-		for (Line line : diagonalLineInfo.getDiagonalLine()) {
-			drawLine(diagonalLineWidth, diagonalLineStyle, lineColor, line);
+
+		if (diagonalLineInfo.getDiagonalNumber() > 0 && !"NONE".equals(diagonalLineInfo.getDiagonalStyle())) {
+			double diagonalLineWidth = diagonalLineInfo.getDiagonalLineWidth();
+			String diagonalLineStyle = diagonalLineInfo.getDiagonalStyle();
+
+			for (Line line : diagonalLineInfo.getDiagonalLine()) {
+				drawLine(diagonalLineWidth, diagonalLineStyle, lineColor, line);
+			}
 		}
-		for (Line antiLine : diagonalLineInfo.getAntidiagonalLine()) {
-			drawLine(antidiagonalLineWidth, antidiagonalLineStyle, lineColor, antiLine);
+		if (diagonalLineInfo.getAntidiagonalNumber() > 0 && !"NONE".equals(diagonalLineInfo.getAntidiagonalStyle())) {
+			double antidiagonalLineWidth = diagonalLineInfo.getAntidiagonalLineWidth();
+			String antidiagonalLineStyle = diagonalLineInfo.getAntidiagonalStyle();
+			for (Line antiLine : diagonalLineInfo.getAntidiagonalLine()) {
+				drawLine(antidiagonalLineWidth, antidiagonalLineStyle, lineColor, antiLine);
+			}
 		}
 		writer.closeTag("w:pict");
 		writer.closeTag("w:r");

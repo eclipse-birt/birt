@@ -16,9 +16,10 @@
 <feature
       id="org.eclipse.birt.sdk"
       label="%featureName"
-      version="4.13.0.qualifier"
+      version="4.14.0.qualifier"
       provider-name="%providerName"
-      image="eclipse_update_120.jpg">
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description

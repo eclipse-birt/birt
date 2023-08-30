@@ -801,7 +801,8 @@ class ElementFactoryImpl {
 	 * Creates a new derived data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 *
-	 * @param name the required derived data set name.
+	 * @param name        the required derived data set name.
+	 * @param extensionID extension id
 	 * @return a handle to derived data set
 	 */
 

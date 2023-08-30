@@ -1151,8 +1151,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				rl = exeContext.getResourceLocator();
 			}
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url.getCssText()),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-					style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, this.getCurrentModule(), style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(style);
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 
@@ -1179,8 +1182,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 					rl = exeContext.getResourceLocator();
 				}
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
-						cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl, this.getCurrentModule(),
-						cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+						cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+						PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+						PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+						0, 0, rl, this.getCurrentModule(), cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+				backgroundImage.setImageSize(cs);
+
 				boxStyle.setBackgroundImage(backgroundImage);
 			}
 			if (!isInlineStacking) {

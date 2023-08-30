@@ -15,20 +15,34 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
+/**
+ * Border color descriptor provider
+ *
+ * @since 3.3
+ *
+ */
 public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 
+	/**
+	 * Constructor
+	 */
 	public BorderColorDescriptorProvider() {
 		super();
 	}
 
+	/**
+	 * Get element choice set
+	 *
+	 * @return Return the element choice set
+	 */
 	public IChoiceSet getElementChoiceSet() {
 		return ChoiceSetFactory.getElementChoiceSet(ReportDesignConstants.STYLE_ELEMENT,
-				StyleHandle.BORDER_TOP_COLOR_PROP);
+				IStyleModel.BORDER_TOP_COLOR_PROP);
 	}
 
 	private static final String LABEL_COLOR = Messages.getString("BordersPage.Label.Color"); //$NON-NLS-1$
@@ -40,28 +54,42 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 
 	@Override
 	public Object load() {
-		String value = getLocalStringValue(StyleHandle.BORDER_LEFT_COLOR_PROP);
+		String value = getLocalStringValue(IStyleModel.BORDER_LEFT_COLOR_PROP);
 		if (!"".equals(value)) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
-		value = getLocalStringValue(StyleHandle.BORDER_RIGHT_COLOR_PROP);
+		value = getLocalStringValue(IStyleModel.BORDER_RIGHT_COLOR_PROP);
 		if (!"".equals(value)) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
-		value = getLocalStringValue(StyleHandle.BORDER_TOP_COLOR_PROP);
+		value = getLocalStringValue(IStyleModel.BORDER_TOP_COLOR_PROP);
 		if (!"".equals(value)) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
-		value = getLocalStringValue(StyleHandle.BORDER_BOTTOM_COLOR_PROP);
+		value = getLocalStringValue(IStyleModel.BORDER_BOTTOM_COLOR_PROP);
+		if (!"".equals(value)) //$NON-NLS-1$
+		{
+			this.indexText = value;
+			return value;
+		}
+
+		value = getLocalStringValue(IStyleModel.BORDER_DIAGONAL_COLOR_PROP);
+		if (!"".equals(value)) //$NON-NLS-1$
+		{
+			this.indexText = value;
+			return value;
+		}
+
+		value = getLocalStringValue(IStyleModel.BORDER_ANTIDIAGONAL_COLOR_PROP);
 		if (!"".equals(value)) //$NON-NLS-1$
 		{
 			this.indexText = value;
@@ -72,6 +100,11 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 
 	protected Object indexText = ""; //$NON-NLS-1$
 
+	/**
+	 * Set index
+	 *
+	 * @param index index object
+	 */
 	public void setIndex(Object index) {
 		indexText = index;
 	}
@@ -79,28 +112,40 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider {
 	@Override
 	public void save(Object value) throws SemanticException {
 		this.indexText = value == null ? "" : value; //$NON-NLS-1$
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_TOP_STYLE_PROP)).booleanValue()) {
-			save(StyleHandle.BORDER_TOP_COLOR_PROP, value);
+		if ((styleMap.get(IStyleModel.BORDER_TOP_STYLE_PROP)).booleanValue()) {
+			save(IStyleModel.BORDER_TOP_COLOR_PROP, value);
 		} else {
-			save(StyleHandle.BORDER_TOP_COLOR_PROP, null);
+			save(IStyleModel.BORDER_TOP_COLOR_PROP, null);
 		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_BOTTOM_STYLE_PROP)).booleanValue()) {
-			save(StyleHandle.BORDER_BOTTOM_COLOR_PROP, value);
+		if ((styleMap.get(IStyleModel.BORDER_BOTTOM_STYLE_PROP)).booleanValue()) {
+			save(IStyleModel.BORDER_BOTTOM_COLOR_PROP, value);
 		} else {
-			save(StyleHandle.BORDER_BOTTOM_COLOR_PROP, null);
+			save(IStyleModel.BORDER_BOTTOM_COLOR_PROP, null);
 		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_LEFT_STYLE_PROP)).booleanValue()) {
-			save(StyleHandle.BORDER_LEFT_COLOR_PROP, value);
+		if ((styleMap.get(IStyleModel.BORDER_LEFT_STYLE_PROP)).booleanValue()) {
+			save(IStyleModel.BORDER_LEFT_COLOR_PROP, value);
 		} else {
-			save(StyleHandle.BORDER_LEFT_COLOR_PROP, null);
+			save(IStyleModel.BORDER_LEFT_COLOR_PROP, null);
 		}
 
-		if (((Boolean) styleMap.get(StyleHandle.BORDER_RIGHT_STYLE_PROP)).booleanValue()) {
-			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, value);
+		if ((styleMap.get(IStyleModel.BORDER_RIGHT_STYLE_PROP)).booleanValue()) {
+			save(IStyleModel.BORDER_RIGHT_COLOR_PROP, value);
 		} else {
-			save(StyleHandle.BORDER_RIGHT_COLOR_PROP, null);
+			save(IStyleModel.BORDER_RIGHT_COLOR_PROP, null);
+		}
+
+		if ((styleMap.get(IStyleModel.BORDER_DIAGONAL_STYLE_PROP)).booleanValue()) {
+			save(IStyleModel.BORDER_DIAGONAL_COLOR_PROP, value);
+		} else {
+			save(IStyleModel.BORDER_DIAGONAL_COLOR_PROP, null);
+		}
+
+		if (styleMap.get(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP).booleanValue()) {
+			save(IStyleModel.BORDER_ANTIDIAGONAL_COLOR_PROP, value);
+		} else {
+			save(IStyleModel.BORDER_ANTIDIAGONAL_COLOR_PROP, null);
 		}
 	}
 

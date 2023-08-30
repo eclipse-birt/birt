@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine; singleton:=true
-Bundle-Version: 4.13.0.qualifier
+Bundle-Version: 4.14.0.qualifier
 Bundle-ClassPath: enginetesthelper.jar,
  .,
  lib/Tidy.jar,
@@ -92,4 +92,6 @@ Import-Package: org.apache.batik.css.engine;version="1.14.0",
  org.apache.batik.css.parser;version="1.14.0",
  org.apache.batik.i18n;version="1.14.0",
  org.apache.batik.transcoder;version="1.14.0",
- org.apache.batik.transcoder.image;version="1.14.0"
+ org.apache.batik.transcoder.image;version="1.14.0",
+ org.eclipse.birt.report.designer.util,
+ org.eclipse.draw2d.geometry

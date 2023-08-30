@@ -115,6 +115,13 @@ public class EditpartExtensionManager {
 		ReportPlatformUIImages.declareImage(symbolName, entry.getIcon());
 	}
 
+	/**
+	 * Create the edit part
+	 *
+	 * @param context context of the part
+	 * @param model   model
+	 * @return Return the edit part
+	 */
 	public static EditPart createEditPart(EditPart context, Object model) {
 		EvaluationContext econtext = new EvaluationContext(null, model);
 		for (Iterator<Expression> iterator = extensionMap.keySet().iterator(); iterator.hasNext();) {
@@ -132,6 +139,12 @@ public class EditpartExtensionManager {
 		return null;
 	}
 
+	/**
+	 * Get the palette entry
+	 *
+	 * @param extensionName extension name
+	 * @return Return the palette entry
+	 */
 	public static PaletteEntryExtension getPaletteEntry(String extensionName) {
 		for (Iterator<PaletteEntryExtension> itr = palettes.iterator(); itr.hasNext();) {
 			PaletteEntryExtension entry = itr.next();
@@ -144,6 +157,11 @@ public class EditpartExtensionManager {
 		return null;
 	}
 
+	/**
+	 * Get a list of the palette entries
+	 *
+	 * @return Return a list of the palette entries
+	 */
 	public static PaletteEntryExtension[] getPaletteEntries() {
 		return palettes.toArray(new PaletteEntryExtension[palettes.size()]);
 	}

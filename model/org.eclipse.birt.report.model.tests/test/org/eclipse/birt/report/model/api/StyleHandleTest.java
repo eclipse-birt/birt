@@ -243,7 +243,7 @@ public class StyleHandleTest extends BaseTestCase {
 		styleHandle.setStringFormat("***"); //$NON-NLS-1$
 		assertEquals("***", styleHandle.getStringFormat()); //$NON-NLS-1$
 
-		styleHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE);
+		styleHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_SHORT_DATE);
 		styleHandle.setDateTimeFormat("MM/DD/YYYY"); //$NON-NLS-1$
 		assertEquals("MM/DD/YYYY", styleHandle.getDateTimeFormat()); //$NON-NLS-1$
 
@@ -395,7 +395,7 @@ public class StyleHandleTest extends BaseTestCase {
 		highlightHandle.setNumberFormatCategory(DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY);
 		highlightHandle.setNumberFormat("$000,000"); //$NON-NLS-1$
 
-		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE);
+		highlightHandle.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE);
 		highlightHandle.setDateTimeFormat("mm dd, yyyy"); //$NON-NLS-1$
 
 		highlightHandle.setStringFormatCategory(DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE);
@@ -443,7 +443,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	public void testMapRules() throws SemanticException {
 		StyleHandle styleHandle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
-		Iterator iter = styleHandle.mapRulesIterator();
+		Iterator<?> iter = styleHandle.mapRulesIterator();
 
 		MapRuleHandle ruleHandle = (MapRuleHandle) iter.next();
 		assertEquals("Closed", ruleHandle.getDisplay()); //$NON-NLS-1$
@@ -560,7 +560,7 @@ public class StyleHandleTest extends BaseTestCase {
 
 	public void testHightlightRules() {
 		TableHandle table = (TableHandle) designHandle.findElement("My Table"); //$NON-NLS-1$
-		Iterator highlightRules = table.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP).iterator();
+		Iterator<?> highlightRules = table.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP).iterator();
 		HighlightRuleHandle highLight = (HighlightRuleHandle) highlightRules.next();
 		assertNotNull(highLight);
 		assertEquals("#C0C0C0", highLight.getBackgroundColor().getStringValue()); //$NON-NLS-1$
@@ -782,8 +782,8 @@ public class StyleHandleTest extends BaseTestCase {
 	 */
 	private void comparedBackgroundSize(StyleHandle styleHandle, String propName, String value, String expectedWidth,
 			String expectedHeight) throws Exception {
-		DimensionHandle width = styleHandle.getBackgroundSizeWidth();
-		DimensionHandle height = styleHandle.getBackgroundSizeHeight();
+		DimensionHandle width = styleHandle.getBackgroundWidth();
+		DimensionHandle height = styleHandle.getBackgroundHeight();
 
 		String oldWidth = width.getStringValue();
 		String oldHeight = height.getStringValue();

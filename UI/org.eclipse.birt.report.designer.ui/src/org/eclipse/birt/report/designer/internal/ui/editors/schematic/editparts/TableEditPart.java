@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.IBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.TableElementBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
@@ -62,8 +63,8 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -95,6 +96,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	private static final String MERGE_TRANS_LABEL = Messages.getString("TableEditPart.Label.Merge"); //$NON-NLS-1$
 
+	/** property: guide hanle text */
 	public static final String GUIDEHANDLE_TEXT = Messages.getString("TableEditPart.GUIDEHANDLE_TEXT"); //$NON-NLS-1$
 
 	private Rectangle selectRowAndColumnRect = null;
@@ -149,7 +151,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 			public boolean understandsRequest(Request request) {
 				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 						|| RequestConstants.REQ_OPEN.equals(request.getType())
-						|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+						|| ReportRequestConstants.CREATE_ELEMENT.equals(request.getType())) {
 					return true;
 				}
 				return super.understandsRequest(request);
@@ -169,7 +171,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@Override
-	protected List getModelChildren() {
+	protected List<?> getModelChildren() {
 		return getTableAdapter().getChildren();
 	}
 
@@ -192,10 +194,10 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 			return;
 		}
 		ReportRequest request = new ReportRequest(this);
-		List list = new ArrayList();
+		List<TableEditPart> list = new ArrayList<TableEditPart>();
 		list.add(this);
 		request.setSelectionObject(list);
-		request.setType(ReportRequest.SELECTION);
+		request.setType(ReportRequestConstants.SELECTION);
 
 		request.setRequestConverter(new DeferredGraphicalViewer.EditorReportRequestConvert());
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
@@ -242,7 +244,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 		refreshMargin();
 
-		for (Iterator itr = getChildren().iterator(); itr.hasNext();) {
+		for (Iterator<?> itr = getChildren().iterator(); itr.hasNext();) {
 			TableCellEditPart fg = (TableCellEditPart) itr.next();
 			if (!fg.isDelete()) {
 				fg.updateBlankString();
@@ -361,6 +363,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * @param start
 	 * @param end
 	 * @param value
+	 * @param isResetEnd
 	 */
 	public void resizeColumn(int start, int end, int value, boolean isResetEnd) {
 		Object startColumn = getColumn(start);
@@ -399,12 +402,13 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * Selects the columns
 	 *
 	 * @param numbers
+	 * @param notofyToMedia
 	 */
 	public void selectColumn(int[] numbers, boolean notofyToMedia) {
 		if (numbers == null || numbers.length == 0) {
 			return;
 		}
-		ArrayList list = new ArrayList();
+		ArrayList<ReportElementEditPart> list = new ArrayList<ReportElementEditPart>();
 		int size = numbers.length;
 		int width = 0;
 
@@ -463,6 +467,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		}
 	}
 
+	/**
+	 * Select the row
+	 *
+	 * @param numbers number of rows
+	 */
 	public void selectRow(int[] numbers) {
 		selectRow(numbers, true);
 	}
@@ -471,12 +480,13 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * Selects rows
 	 *
 	 * @param numbers
+	 * @param notofyToMedia
 	 */
 	public void selectRow(int[] numbers, boolean notofyToMedia) {
 		if (numbers == null || numbers.length == 0) {
 			return;
 		}
-		ArrayList list = new ArrayList();
+		ArrayList<ReportElementEditPart> list = new ArrayList<ReportElementEditPart>();
 		int size = numbers.length;
 		int height = 0;
 		int minRownumber = numbers[0];
@@ -525,9 +535,8 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	public int getMinHeight(int rowNumber) {
 		if (isFixLayout()) {
 			return TableUtil.getMinHeight(this, rowNumber);
-		} else {
-			return Math.max(TableUtil.getMinHeight(this, rowNumber), getTableAdapter().getMinHeight(rowNumber));
 		}
+		return Math.max(TableUtil.getMinHeight(this, rowNumber), getTableAdapter().getMinHeight(rowNumber));
 	}
 
 	/**
@@ -540,9 +549,8 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	public int getMinWidth(int columnNumber) {
 		if (isFixLayout()) {
 			return TableUtil.getMinWidth(this, columnNumber);
-		} else {
-			return Math.max(TableUtil.getMinWidth(this, columnNumber), getTableAdapter().getMinWidth(columnNumber));
 		}
+		return Math.max(TableUtil.getMinWidth(this, columnNumber), getTableAdapter().getMinWidth(columnNumber));
 	}
 
 	/**
@@ -557,7 +565,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 *
 	 * @return all rows list.
 	 */
-	public List getRows() {
+	public List<?> getRows() {
 		return getTableAdapter().getRows();
 	}
 
@@ -582,7 +590,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 *
 	 * @return all columns list.
 	 */
-	public List getColumns() {
+	public List<?> getColumns() {
 		return getTableAdapter().getColumns();
 	}
 
@@ -613,7 +621,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		if (getSelectRowAndColumnRect() != null) {
 			return getSelectRowAndColumnRect();
 		}
-		List list = TableUtil.getSelectionCells(this);
+		List<?> list = TableUtil.getSelectionCells(this);
 		int size = list.size();
 		TableCellEditPart[] parts = new TableCellEditPart[size];
 		list.toArray(parts);
@@ -646,6 +654,8 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Gets data set, which is biding on table.
+	 *
+	 * @return Return the data set, which is biding on table.
 	 *
 	 */
 	public Object getDataSet() {
@@ -812,7 +822,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * merge the selection cell
 	 */
 	public void merge() {
-		List selections = TableUtil.getSelectionCells(this);
+		List<?> selections = TableUtil.getSelectionCells(this);
 		if (selections.size() == 1) {
 			return;
 		}
@@ -854,13 +864,13 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	}
 
 	// TODO move logic to adapt
-	private void MergeContent(TableCellEditPart cellPart, List list) throws ContentException {
+	private void MergeContent(TableCellEditPart cellPart, List<?> list) throws ContentException {
 		CellHandle cellHandle = (CellHandle) cellPart.getModel();
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 			CellHandle handle = (CellHandle) (((TableCellEditPart) list.get(i)).getModel());
 
-			List chList = handle.getSlot(CellHandle.CONTENT_SLOT).getContents();
+			List<?> chList = handle.getSlot(ICellModel.CONTENT_SLOT).getContents();
 			for (int j = 0; j < chList.size(); j++) {
 				DesignElementHandle contentHandle = (DesignElementHandle) chList.get(j);
 				// handle.getSlot( CellHandle.CONTENT_SLOT ).move(
@@ -870,9 +880,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 				try {
 					DesignElementHandle copy = contentHandle.copy().getHandle(cellHandle.getModule());
-					handle.getSlot(CellHandle.CONTENT_SLOT).drop(contentHandle);
+					handle.getSlot(ICellModel.CONTENT_SLOT).drop(contentHandle);
 					cellHandle.getModuleHandle().rename(copy);
-					cellHandle.getSlot(CellHandle.CONTENT_SLOT).add(copy);
+					cellHandle.getSlot(ICellModel.CONTENT_SLOT).add(copy);
 				} catch (SemanticException e) {
 					ExceptionHandler.handle(e);
 				}
@@ -881,11 +891,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	}
 
 	/**
-	 * not use?
+	 * Remove merge list
 	 *
 	 * @param list
 	 */
-	private void removeMergeList(ArrayList list) {
+	private void removeMergeList(ArrayList<?> list) {
 
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
@@ -962,9 +972,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		if (!isActive() || isDelete() || getParent() == null) {
 			return false;
 		}
-		List list = TableUtil.getSelectionCells(this);
+		List<?> list = TableUtil.getSelectionCells(this);
 		int size = list.size();
-		List temp = new ArrayList();
+		List<Object> temp = new ArrayList<Object>();
 		for (int i = 0; i < size; i++) {
 			ReportElementEditPart part = (ReportElementEditPart) list.get(i);
 			if (part.isDelete()) {
@@ -1013,6 +1023,8 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 
 	/**
 	 * Inserts group in table.
+	 *
+	 * @return Return the result of the creation action
 	 */
 	public boolean insertGroup() {
 		return UIUtil.createGroup(getTableAdapter().getHandle());
@@ -1022,6 +1034,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	 * Inserts group in table.
 	 *
 	 * @param position insert position
+	 * @return Return the result of the creation action
 	 */
 	public boolean insertGroup(int position) {
 		return UIUtil.createGroup(getTableAdapter().getHandle(), position);
@@ -1139,6 +1152,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 			installEditPolicy(EditPolicy.COMPONENT_ROLE, policy);
 		}
 
+		/**
+		 * Get the column number
+		 *
+		 * @return Return the column number
+		 */
 		public int getColumnNumber() {
 
 			ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(getModel());
@@ -1183,6 +1201,11 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 			installEditPolicy(EditPolicy.COMPONENT_ROLE, policy);
 		}
 
+		/**
+		 * Get the row number
+		 *
+		 * @return Return the row number
+		 */
 		public int getRowNumber() {
 			RowHandleAdapter adapt = HandleAdapterFactory.getInstance().getRowHandleAdapter(getModel());
 			if (adapt.getTableParent() == null) {
@@ -1332,7 +1355,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	}
 
 	/**
-	 * @return
+	 * Get the original column number
+	 *
+	 * @return Return the original column number
 	 */
 	public int getOriColumnNumber() {
 		return oriColumnNumber;
@@ -1346,7 +1371,9 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 	}
 
 	/**
-	 * @return
+	 * Get the original row number
+	 *
+	 * @return Return the original row number
 	 */
 	public int getOriRowNumner() {
 		return oriRowNumner;

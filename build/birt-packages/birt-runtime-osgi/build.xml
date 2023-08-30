@@ -20,7 +20,10 @@
   <property name="ENGINE_DIR" location="${STAGE_DIR}/ReportEngine/"/>
   <property name="VIEWER_DIR" location="${STAGE_DIR}/WebViewerExample"/>
   <property name="PRODUCT_DIR" location="./target/products/org.eclipse.birt.engine.runtime/win32/win32/x86_64/ReportEngine"/>
+  <property name="REPOSITORY_DIR" location="./target/repository"/>
+<!--
   <property name="DESIGNER_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.p2updatesite/target/products/org.eclipse.birt.designer/win32/win32/x86_64/designer"/>
+-->
   <target name="package" depends="build-report-engine, build-webviewer, build-webviewer-war">
     <zip destfile="./target/birt-runtime-osgi-${BIRT_VERSION}.zip">
       <fileset dir="${STAGE_DIR}"/>
@@ -45,7 +48,8 @@
       <fileset dir="${PRODUCT_DIR}/configuration"/>
     </copy>
     <copy file="./config.ini" todir="${ENGINE_DIR}/platform/configuration" overwrite="true"/>
-    <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
+    <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/example_simple.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
+    <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/example_chart.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world_chart.rptdesign"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.sh" todir="${ENGINE_DIR}"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.bat" todir="${ENGINE_DIR}"/>
   </target>
@@ -67,15 +71,23 @@
     </copy>
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
       <fileset dir="${ENGINE_DIR}/platform/plugins">
+        <include name="jakarta.xml.bind_*.jar"/>
         <include name="javax.wsdl_*.jar"/>
+        <include name="org.apache.commons.logging_*.jar"/>
+        <include name="org.apache.commons.discovery_*/lib/*.jar"/>
       </fileset>
+      <fileset dir="${REPOSITORY_DIR}/plugins">
+        <include name="javax.xml.soap_*.jar"/>
+      </fileset>
+<!--
       <fileset dir="${DESIGNER_DIR}/plugins">
         <include name="org.apache.commons.logging_*.jar"/>
         <include name="org.apache.axis_*/lib/*.jar"/>
         <include name="org.apache.commons.discovery_*/lib/*.jar"/>
         <include name="javax.xml.rpc_*/lib/*.jar"/>
-        <include name="javax.xml.soap_*/lib/*.jar"/>
+        <include name="javax.xml.soap_*.jar"/>
       </fileset>
+-->
       <flattenmapper/>
     </copy>
     <copy todir="${STAGE_DIR}">

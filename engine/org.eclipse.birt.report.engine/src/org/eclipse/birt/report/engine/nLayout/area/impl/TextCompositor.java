@@ -37,36 +37,77 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 public class TextCompositor {
 
 	private FontInfo fontInfo;
-	private int runLevel;
 
 	/**
-	 * @see TextArea#isKeepTrailingSoftHyphen()
+	 * This is for BIDI support.
+	 *
+	 * @see Chunk#getRunLevel()
 	 */
-	private static final String SOFT_HYPHEN = "\u00ad";
+	private int runLevel;
 
-	/** offset relative to the text in the textContent. */
+	/** offset (in characters) relative to the text in the textContent. */
 	int offset = 0;
 
 	/** the remain chunks */
 	private ChunkGenerator remainChunks;
+
 	/** the remain words in current chunk */
 	private IWordRecognizer remainWords;
-	/** the remain word */
+
+	/**
+	 * the remaining word, which didn't fit into the current line and thus should go
+	 * into the next line.
+	 *
+	 * Note that {@link #remainWord} and {@link #wordVestige} are alternatives, they
+	 * cannot be not null at the same time.
+	 */
 	private Word remainWord;
-	/** the remain characters in current word after word-breaking / hyphenation */
+
+	/**
+	 * The remaining characters in current word after word-breaking / hyphenation.
+	 *
+	 * Note that {@link #remainWord} and {@link #wordVestige} are alternatives, they
+	 * cannot be not null at the same time.
+	 */
 	private Word wordVestige;
 
 	/**
 	 * Check if current TextArea contains line break. If text wrapping need not be
-	 * handled, hasNextArea() will return false when hasLineBreak is true.
+	 * handled (see {@link #textWrapping}), hasNextArea() will return false when
+	 * hasLineBreak is true.
 	 */
 	private boolean hasLineBreak = false;
 
+	/**
+	 * Denotes if we are at the beginning of a new line.
+	 *
+	 * We need this for handling very long words which won't fit even if they are
+	 * the first word in the line. Depending on whether word breaking is enabled,
+	 * such words should either be 'hyphenated' or just added to the current line
+	 * anyway (in the latter case they won't be fully visible).
+	 *
+	 * Note: This is for similar reasons as {@link #insertFirstExceedWord}, but it's
+	 * only used when the line is still empty.
+	 *
+	 * @see #addWordIntoTextArea(TextArea, Word)
+	 */
 	private boolean isNewLine = true;
 
+	/**
+	 * Denotes if the text content is empty (in this case a single blank space is
+	 * used as a replacement text).
+	 */
 	private boolean blankText = false;
 
-	// for no wrap text, the first exceed word should also been add into text area.
+	/**
+	 * Decides if the first exceed word should also been add into text area. As a
+	 * consequence, that word will not be fully visible in the output.
+	 *
+	 * This is for the case when {@link #textWrapping} is false.
+	 *
+	 * Note: This is for similar reasons as {@link #isNewLine}, but it's only used
+	 * when the line already contains other words.
+	 */
 	private boolean insertFirstExceedWord = false;
 
 	// three possible line break collapse status
@@ -79,6 +120,12 @@ public class TextCompositor {
 	private ITextContent textContent;
 	private FontMappingManager fontManager;
 	private LayoutContext context;
+
+	/**
+	 * Should a sequence of words be line-wrapped automatically?
+	 *
+	 * Setting the CSS property "white-space" to "nowrap" or "pre" may prevent this.
+	 */
 	private boolean textWrapping;
 
 	public TextCompositor(ITextContent textContent, FontMappingManager fontManager, LayoutContext context) {
@@ -99,6 +146,13 @@ public class TextCompositor {
 		this.blankText = blankText;
 	}
 
+	/**
+	 * Determine if there is more text to output in the current container (which
+	 * class?).
+	 *
+	 * @return false if textWrapping is not set and hasLineBreak is set, otherwise
+	 *         return if there is more text to print.
+	 */
 	public boolean hasNextArea() {
 		// if the text need not be wrapped, and need switch to a new line, just
 		// ignore the subsequence text.
@@ -108,6 +162,14 @@ public class TextCompositor {
 		return offset < textContent.getText().length();
 	}
 
+	/**
+	 * Sets {@link #isNewLine}.
+	 *
+	 * If the new value is true and {@link #textWrapping} is not set, also sets
+	 * {@link #insertFirstExceedWord} to true.
+	 *
+	 * @param status
+	 */
 	public void setNewLineStatus(boolean status) {
 		isNewLine = status;
 		if (isNewLine && !textWrapping) {
@@ -140,29 +202,43 @@ public class TextCompositor {
 		return true;
 	}
 
+	/**
+	 * This "consumes" some text and returns a TextArea with the consumed text.
+	 *
+	 * Before calling this method, {@link #hasNextArea()} must be called to check if
+	 * there actually is more text to consume.
+	 *
+	 * @param maxLineWidth
+	 * @return a TextArea - or null in case of an empty word vestige.
+	 */
 	private TextArea getNextTextArea(int maxLineWidth) {
-		// the hyphenation vestige
+
+		// First, we handle two similar special cases:
+
+		// Special case 1: There is a wordVestige (the remainder of a word which did not
+		// fit into the previous line after word-breaking).
 		if (null != wordVestige) {
 			if (isEmptyWordVestige(wordVestige)) {
 				offset += wordVestige.getLength();
 				wordVestige = null;
 				return null;
-			} else {
-				lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-				TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
-				textArea.setMaxWidth(maxLineWidth);
-				textArea.setWidth(0);
-				addWordIntoTextArea(textArea, wordVestige);
-				return textArea;
 			}
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
+			TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
+			textArea.setMaxWidth(maxLineWidth);
+			textArea.setWidth(0);
+			addWordIntoTextArea(textArea, wordVestige);
+			return textArea;
 		}
+
+		// Special case 2: There is a remaining word (which did not fit into the
+		// previous line).
 		if (null != remainWord) {
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
 			textArea.setMaxWidth(maxLineWidth);
 			textArea.setWidth(0);
 			addWordIntoTextArea(textArea, remainWord);
-			textArea.setKeepTrailingSoftHyphen(remainWord.isKeepTrailingSoftHyphen());
 			remainWord = null;
 			return textArea;
 			// FIXME: Why do we return here already?
@@ -175,11 +251,14 @@ public class TextCompositor {
 			// This results in slightly larger PDF files than necessary and it and makes it
 			// slightly harder for accessibility software to understand the file.
 		}
+
+		// This is what happens most of the time.
+
 		// iterate the remainWords.
 		if (null == remainWords || !remainWords.hasWord()) {
 			Chunk chunk = remainChunks.getNext();
 			if (chunk instanceof LineBreakChunk) {
-				// return a hard line break. the line height is decided by
+				// Return a hard line break. The line height is decided by
 				// the current font's height.
 				FontHandler handler = new FontHandler(fontManager, textContent, false);
 				TextArea textArea = createTextArea(textContent, handler.getFontInfo(), true);
@@ -195,7 +274,7 @@ public class TextCompositor {
 			runLevel = chunk.getRunLevel();
 			remainWords = new WordRecognizerWrapper(chunk.getText(), context.getLocale());
 		}
-		// new an empty text area.
+		// new and empty text area.
 		TextArea textArea = createTextArea(textContent, offset, runLevel, fontInfo);
 		textArea.setMaxWidth(maxLineWidth);
 		textArea.setWidth(0);
@@ -268,17 +347,17 @@ public class TextCompositor {
 
 		// get the word's size
 		int textLength = word.getLength();
-		int wordWidth = getWordWidth(fontInfo, word);
+		WordWidth wordWidth = getWordWidth(fontInfo, word);
+
 		// append the letter spacing
-		wordWidth += textStyle.getLetterSpacing() * textLength;
-		int adjustWordSize = fontInfo.getItalicAdjust() + wordWidth;
-		int hyphenWidth = 0;
-		if (word.getValue().endsWith(SOFT_HYPHEN)) {
-			hyphenWidth = getTextWidth(fontInfo, "-");
-			// We are using the Unicode MINUS here for computing the hyphen dash size,
-			// because getTextWidth for the SOFT HYPHEN would return 0 width.
+		int letterSpacing = textStyle.getLetterSpacing();
+		int width = wordWidth.width + letterSpacing * textLength;
+		if (wordWidth.softHyphenWidth > 0) {
+			width = width - wordWidth.softHyphenWidth + letterSpacing;
 		}
-		if (textArea.hasSpace(adjustWordSize + hyphenWidth)) {
+
+		int adjustWordSize = fontInfo.getItalicAdjust() + width;
+		if (textArea.hasSpace(adjustWordSize + wordWidth.softHyphenWidth * letterSpacing)) {
 			addWord(textArea, textLength, wordWidth);
 			wordVestige = null;
 			if (remainWords.hasWord()) {
@@ -286,7 +365,7 @@ public class TextCompositor {
 				if (textArea.hasSpace(textStyle.getWordSpacing())) {
 					textArea.addWordSpacing(textStyle.getWordSpacing());
 				} else {
-					// we have more words, but there is no enough space for
+					// we have more words, but there is not enough space for
 					// them.
 					textArea.setLineBreak(true);
 					hasLineBreak = true;
@@ -311,18 +390,6 @@ public class TextCompositor {
 			} else {
 				wordVestige = null;
 				remainWord = word;
-				if (remainWords.hasWord()) {
-					// The soft hyphen symbol should be omitted except for the last word in the
-					// line.
-					// Please Note: This condition is not quite correct, but OK for real-world data.
-					// If the soft hyphen is inside a word, then the breakIterator has at least
-					// one more "word", which is actually the (part of) the rest of this word.
-					// But if someone comes up with a word that *ends* with a soft-hyphen,
-					// then there might be no more remaining "words", so this results in
-					// hiding the soft hyphen. However, a word ending with a soft-hyphen
-					// doesn't make sense at all, so we don't care about this.
-					remainWord.setKeepTrailingSoftHyphen(false);
-				}
 			}
 			textArea.setLineBreak(true);
 			hasLineBreak = true;
@@ -335,21 +402,24 @@ public class TextCompositor {
 		Hyphenation wb = hm.getHyphenation(str);
 		FontInfo fi = area.getStyle().getFontInfo();
 		if (area.getMaxWidth() < 0) {
-			addWordVestige(area, 1, getTextWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
 			return;
 		}
 		int endHyphenIndex = hyphen(0, area.getMaxWidth() - area.getWidth(), wb, fi);
 		// current line can't even place one character. Force to add the first
 		// character into the line.
 		if (endHyphenIndex == 0 && area.getWidth() == 0) {
-			addWordVestige(area, 1, getTextWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
 		} else {
-			addWordVestige(area, endHyphenIndex, getTextWidth(fi, wb.getHyphenText(0, endHyphenIndex))
-					+ textStyle.getLetterSpacing() * (endHyphenIndex - 1), str.substring(endHyphenIndex));
+			WordWidth wordWidth = new WordWidth(fi, wb.getHyphenText(0, endHyphenIndex));
+			// Take letter spacing into account
+			wordWidth = new WordWidth(wordWidth.width + textStyle.getLetterSpacing() * (endHyphenIndex - 1), 0);
+			addWordVestige(area, endHyphenIndex, wordWidth, str.substring(endHyphenIndex));
 		}
 	}
 
-	private void addWordVestige(TextArea area, int vestigeTextLength, int vestigeWordWidth, String vestigeString) {
+	private void addWordVestige(TextArea area, int vestigeTextLength, WordWidth vestigeWordWidth,
+			String vestigeString) {
 		addWord(area, vestigeTextLength, vestigeWordWidth);
 		if (vestigeString.length() == 0) {
 			wordVestige = null;
@@ -386,15 +456,20 @@ public class TextCompositor {
 		return hyphenation.length() - 1;
 	}
 
-	private int getTextWidth(FontInfo fontInfo, String text) {
-		return (int) (fontInfo.getWordWidth(text) * PDFConstants.LAYOUT_TO_PDF_RATIO);
+	/**
+	 * Returns the width needed for displaying the word in the given font. If the
+	 * word ends with a Unicode SOFT HYPHEN symbol (SHY), this includes the hyphen
+	 * width
+	 *
+	 * @param fontInfo
+	 * @param word
+	 * @return
+	 */
+	private WordWidth getWordWidth(FontInfo fontInfo, Word word) {
+		return new WordWidth(fontInfo, word.getValue());
 	}
 
-	private int getWordWidth(FontInfo fontInfo, Word word) {
-		return getTextWidth(fontInfo, word.getValue());
-	}
-
-	private void addWord(TextArea textArea, int textLength, int wordWidth) {
+	private void addWord(TextArea textArea, int textLength, WordWidth wordWidth) {
 		textArea.addWord(textLength, wordWidth);
 	}
 

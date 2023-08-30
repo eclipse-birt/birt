@@ -39,7 +39,8 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Constructor
 	 *
-	 * @param handle
+	 * @param image image handle
+	 * @param mark  model adapter helper
 	 */
 	public ImageHandleAdapter(ImageHandle image, IModelAdapterHelper mark) {
 		super(image, mark);
@@ -67,9 +68,8 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase(imageSource)) {
 			if (URIUtil.isValidResourcePath(url)) {
 				return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), URIUtil.getLocalPath(url));
-			} else {
-				return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), url);
 			}
+			return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), url);
 
 		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase(imageSource)) {
 			// bugzilla 245641
@@ -127,7 +127,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Gets size of image item. Always returns a non-null value.
 	 *
-	 * @return
+	 * @return Return the size of the image item
 	 */
 	public Dimension getRawSize() {
 		DimensionHandle widthHandle = getImageHandle().getWidth();

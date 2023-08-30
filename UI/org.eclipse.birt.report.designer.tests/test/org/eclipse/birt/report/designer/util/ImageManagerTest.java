@@ -16,6 +16,7 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.tests.TestsPlugin;
@@ -35,18 +36,20 @@ public class ImageManagerTest extends BaseTestCase {
 
 	private static String iconPath;
 
+	private static String iconURL;
+
 	private static final String TEST_FILE = "icon/test.jpg"; //$NON-NLS-1$
 	// Doesn't exist
 	private static final String TEST_ERROR_FILE = "icon/error.jpg"; //$NON-NLS-1$ //not exists
-
-	private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
 
 	// Invalid url
 	private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
 
 	static {
 		try {
-			iconPath = Platform.asLocalURL(TestsPlugin.getDefault().getBundle().getEntry("/")).getFile();
+			URL iconURL = Platform.asLocalURL(TestsPlugin.getDefault().getBundle().getEntry("/"));
+			ImageManagerTest.iconURL = iconURL.toString();
+			iconPath = iconURL.getFile();
 		} catch (IOException e) {
 		}
 
@@ -90,10 +93,11 @@ public class ImageManagerTest extends BaseTestCase {
 	 * Class under test for Image getImage(URL)
 	 */
 	public void testGetImageByURL() throws Exception {
-		Image image = ImageManager.getInstance().getImage(TEST_URL);
+		String imageURL = iconURL + TEST_FILE;
+		Image image = ImageManager.getInstance().getImage(imageURL);
 		assertNotNull(image);
 		assertTrue(Arrays.equals(image.getImageData().data, localImage.getImageData().data));
-		assertEquals(image, ImageManager.getInstance().getImage(TEST_URL));
+		assertEquals(image, ImageManager.getInstance().getImage(imageURL));
 	}
 
 	/*

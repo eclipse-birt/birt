@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.co.spudsoft.birt.emitters.excel.tests
-Bundle-Version: 4.13.0.qualifier
+Bundle-Version: 4.14.0.qualifier
 Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.tests.framework.Activator
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",

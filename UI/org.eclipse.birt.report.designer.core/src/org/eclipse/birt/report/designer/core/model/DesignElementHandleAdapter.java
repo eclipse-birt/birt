@@ -23,9 +23,9 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -62,7 +62,7 @@ public abstract class DesignElementHandleAdapter {
 	 *
 	 * @return Children iterator
 	 */
-	public List getChildren() {
+	public List<?> getChildren() {
 		return Collections.EMPTY_LIST;
 
 	}
@@ -123,14 +123,18 @@ public abstract class DesignElementHandleAdapter {
 	}
 
 	/**
-	 * @return
+	 * Get model adapter helper
+	 *
+	 * @return Return the model adapter helper
 	 */
 	public IModelAdapterHelper getModelAdaptHelper() {
 		return helper;
 	}
 
 	/**
-	 * @return
+	 * Get the default size
+	 *
+	 * @return Return the default size
 	 */
 	protected Dimension getDefaultSize() {
 		return helper.getPreferredSize().shrink(helper.getInsets().getWidth(), helper.getInsets().getHeight());
@@ -182,6 +186,12 @@ public abstract class DesignElementHandleAdapter {
 		return DEUtil.getPadding(getHandle(), retValue);
 	}
 
+	/**
+	 * Get the margins
+	 *
+	 * @param retValue value of the insets
+	 * @return Return the margins
+	 */
 	public Insets getMargin(Insets retValue) {
 		return getMargin(retValue, new Dimension(-1, -1));
 	}
@@ -190,6 +200,7 @@ public abstract class DesignElementHandleAdapter {
 	 * Get the margin of the current element.
 	 *
 	 * @param retValue The margin value of the current element.
+	 * @param size     dimension of the size
 	 * @return The maring's new value of the current element.
 	 */
 	public Insets getMargin(Insets retValue, Dimension size) {
@@ -202,13 +213,13 @@ public abstract class DesignElementHandleAdapter {
 		int fontSize = DEUtil.getFontSizeIntValue(getHandle());
 
 		double px = 0;
-		Object prop = getHandle().getProperty(StyleHandle.MARGIN_TOP_PROP);
+		Object prop = getHandle().getProperty(IStyleModel.MARGIN_TOP_PROP);
 		if (!DesignChoiceConstants.MARGIN_AUTO.equals(prop)) {
 			px = DEUtil.convertToPixel(prop, fontSize);
 		}
 
 		double py = 0;
-		prop = getHandle().getProperty(StyleHandle.MARGIN_BOTTOM_PROP);
+		prop = getHandle().getProperty(IStyleModel.MARGIN_BOTTOM_PROP);
 		if (!DesignChoiceConstants.MARGIN_AUTO.equals(prop)) {
 			py = DEUtil.convertToPixel(prop, fontSize);
 		}
@@ -217,7 +228,7 @@ public abstract class DesignElementHandleAdapter {
 		retValue.bottom = (int) py;
 
 		px = py = 0;
-		prop = getHandle().getProperty(StyleHandle.MARGIN_LEFT_PROP);
+		prop = getHandle().getProperty(IStyleModel.MARGIN_LEFT_PROP);
 		if (!DesignChoiceConstants.MARGIN_AUTO.equals(prop)) {
 			if (isPercentageValue(prop) && size.width > 0) {
 				px = getMeasure(prop) * size.width / 100;
@@ -226,7 +237,7 @@ public abstract class DesignElementHandleAdapter {
 			}
 		}
 
-		prop = getHandle().getProperty(StyleHandle.MARGIN_RIGHT_PROP);
+		prop = getHandle().getProperty(IStyleModel.MARGIN_RIGHT_PROP);
 		if (!DesignChoiceConstants.MARGIN_AUTO.equals(prop)) {
 			if (isPercentageValue(prop) && size.width > 0) {
 				py = getMeasure(prop) * size.width / 100;
@@ -262,37 +273,38 @@ public abstract class DesignElementHandleAdapter {
 	}
 
 	/**
-	 * @param handle
-	 * @return
+	 * Get the background width of the image
+	 *
+	 * @param handle handle of the designer
+	 * @param size   dimension of the image size
+	 * @param image  background image
+	 * @return Return the image width
 	 */
 	public int getBackgroundImageWidth(DesignElementHandle handle, Dimension size, Image image) {
 
-		DimensionHandle obj = handle.getDimensionProperty(StyleHandle.BACKGROUND_SIZE_WIDTH);
+		DimensionHandle obj = handle.getDimensionProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
 		if (obj == null || obj.getUnits() == null || obj.getUnits().length() == 0) {
 			if (image == null) {
 				return 0;
 			}
-			String str = handle.getStringProperty(StyleHandle.BACKGROUND_SIZE_WIDTH);
+			String str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
 			if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
 				Dimension imageSize = new Dimension(image);
 				if (((double) imageSize.width / ((double) imageSize.height)) > ((double) size.width
 						/ ((double) size.height))) {
 					return size.width;
-				} else {
-					double value = ((double) imageSize.width * ((double) size.height) / ((double) imageSize.height));
-					return (int) value;
 				}
+				double value = ((double) imageSize.width * ((double) size.height) / imageSize.height);
+				return (int) value;
 			} else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)) {
 				Dimension imageSize = new Dimension(image);
 				if (((double) imageSize.width / ((double) imageSize.height)) > ((double) size.width
 						/ ((double) size.height))) {
-					double value = ((double) imageSize.width * ((double) size.height) / ((double) imageSize.height));
+					double value = ((double) imageSize.width * ((double) size.height) / (imageSize.height));
 					return (int) value;
 
-				} else {
-					return size.width;
 				}
-				// return size.width;
+				return size.width;
 			}
 
 			return 0;
@@ -307,36 +319,37 @@ public abstract class DesignElementHandleAdapter {
 	}
 
 	/**
-	 * @param handle
-	 * @return
+	 * Get the background height of the image
+	 *
+	 * @param handle handle of the designer
+	 * @param size   dimension of the image size
+	 * @param image  background image
+	 * @return Return the image height
 	 */
 	public int getBackgroundImageHeight(DesignElementHandle handle, Dimension size, Image image) {
-		DimensionHandle obj = handle.getDimensionProperty(StyleHandle.BACKGROUND_SIZE_HEIGHT);
+		DimensionHandle obj = handle.getDimensionProperty(IStyleModel.BACKGROUND_SIZE_HEIGHT);
 		if (obj == null || obj.getUnits() == null || obj.getUnits().length() == 0) {
 			if (image == null) {
 				return 0;
 			}
-			String str = handle.getStringProperty(StyleHandle.BACKGROUND_SIZE_WIDTH);
+			String str = handle.getStringProperty(IStyleModel.BACKGROUND_SIZE_WIDTH);
 			if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(str)) {
 				Dimension imageSize = new Dimension(image);
 				if (((double) imageSize.width / ((double) imageSize.height)) > ((double) size.width
 						/ ((double) size.height))) {
-					double value = ((double) imageSize.height * ((double) size.width) / ((double) imageSize.width));
+					double value = ((double) imageSize.height * ((double) size.width) / (imageSize.width));
 					return (int) value;
-				} else {
-					return size.height;
 				}
+				return size.height;
 			} else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(str)) {
 				Dimension imageSize = new Dimension(image);
 				if (((double) imageSize.width / ((double) imageSize.height)) > ((double) size.width
 						/ ((double) size.height))) {
 					return size.height;
 
-				} else {
-					double value = ((double) imageSize.height * ((double) size.width) / ((double) imageSize.width));
-					return (int) value;
 				}
-				// return size.height;
+				double value = ((double) imageSize.height * ((double) size.width) / (imageSize.width));
+				return (int) value;
 			}
 			return 0;
 		}
@@ -356,7 +369,7 @@ public abstract class DesignElementHandleAdapter {
 	 * @return fore ground color
 	 */
 	public int getForegroundColor(DesignElementHandle handle) {
-		Object obj = handle.getProperty(StyleHandle.COLOR_PROP);
+		Object obj = handle.getProperty(IStyleModel.COLOR_PROP);
 
 		if (obj == null) {
 			// return 0x0;
@@ -364,14 +377,8 @@ public abstract class DesignElementHandleAdapter {
 		}
 
 		// TODO optimize to not get value twice
-		int color = handle.getPropertyHandle(StyleHandle.COLOR_PROP).getIntValue();
+		int color = handle.getPropertyHandle(IStyleModel.COLOR_PROP).getIntValue();
 
-//		if ( obj instanceof String )
-//		{
-//			return ColorUtil.parseColor( (String) obj );
-//		}
-//
-//		return ( (Integer) obj ).intValue( );
 		return color;
 	}
 
@@ -382,7 +389,7 @@ public abstract class DesignElementHandleAdapter {
 	 * @return back ground color
 	 */
 	public int getBackgroundColor(DesignElementHandle handle) {
-		Object obj = handle.getProperty(StyleHandle.BACKGROUND_COLOR_PROP);
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_COLOR_PROP);
 
 		if (obj == null) {
 			// return 0xFFFFFF;
@@ -390,14 +397,8 @@ public abstract class DesignElementHandleAdapter {
 		}
 
 		// TODO optimize to not get value twice
-		int color = handle.getPropertyHandle(StyleHandle.BACKGROUND_COLOR_PROP).getIntValue();
+		int color = handle.getPropertyHandle(IStyleModel.BACKGROUND_COLOR_PROP).getIntValue();
 
-//		if ( obj instanceof String )
-//		{
-//			return ColorUtil.parseColor( (String) obj );
-//		}
-//
-//		return ( (Integer) obj ).intValue( );
 		return color;
 	}
 
@@ -408,7 +409,7 @@ public abstract class DesignElementHandleAdapter {
 	 * @return background image
 	 */
 	public String getBackgroundImage(DesignElementHandle handle) {
-		return handle.getStringProperty(StyleHandle.BACKGROUND_IMAGE_PROP);
+		return handle.getStringProperty(IStyleModel.BACKGROUND_IMAGE_PROP);
 	}
 
 	/**
@@ -422,8 +423,8 @@ public abstract class DesignElementHandleAdapter {
 		Object y = null;
 
 		if (handle != null) {
-			Object px = handle.getProperty(StyleHandle.BACKGROUND_POSITION_X_PROP);
-			Object py = handle.getProperty(StyleHandle.BACKGROUND_POSITION_Y_PROP);
+			Object px = handle.getProperty(IStyleModel.BACKGROUND_POSITION_X_PROP);
+			Object py = handle.getProperty(IStyleModel.BACKGROUND_POSITION_Y_PROP);
 
 			if (px instanceof String) {
 				x = px;
@@ -459,7 +460,7 @@ public abstract class DesignElementHandleAdapter {
 	 * @return background repeat property
 	 */
 	public int getBackgroundRepeat(DesignElementHandle handle) {
-		return getRepeat(handle.getStringProperty(StyleHandle.BACKGROUND_REPEAT_PROP));
+		return getRepeat(handle.getStringProperty(IStyleModel.BACKGROUND_REPEAT_PROP));
 	}
 
 	/**
@@ -502,16 +503,17 @@ public abstract class DesignElementHandleAdapter {
 	}
 
 	/**
-	 * @param handle
-	 * @return
+	 * Check if the element is a child
+	 *
+	 * @param handle design element handle
+	 * @return Return the result of the check whether the element is a child
 	 */
 	public boolean isChildren(DesignElementHandle handle) {
 		while (handle != null) {
 			if (handle.equals(elementHandle)) {
 				return true;
-			} else {
-				handle = handle.getContainer();
 			}
+			handle = handle.getContainer();
 		}
 		return false;
 

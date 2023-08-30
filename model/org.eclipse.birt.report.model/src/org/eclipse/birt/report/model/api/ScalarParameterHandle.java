@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -335,7 +335,7 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle impleme
 	 */
 
 	public String getControlType() {
-		return getStringProperty(IAbstractScalarParameterModel.CONTROL_TYPE_PROP);
+		return getStringProperty(IInternalAbstractScalarParameterModel.CONTROL_TYPE_PROP);
 	}
 
 	/**
@@ -376,7 +376,7 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle impleme
 	 */
 
 	public void setControlType(String controlType) throws SemanticException {
-		setStringProperty(IAbstractScalarParameterModel.CONTROL_TYPE_PROP, controlType);
+		setStringProperty(IInternalAbstractScalarParameterModel.CONTROL_TYPE_PROP, controlType);
 	}
 
 	/**
@@ -596,7 +596,7 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle impleme
 	 * @return a list containing the bound columns.
 	 */
 
-	public Iterator columnBindingsIterator() {
+	public Iterator<?> columnBindingsIterator() {
 		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
 		return propHandle.iterator();
 	}
@@ -618,7 +618,6 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle impleme
 	 * @param inForce   <code>true</code> the column is added to the list regardless
 	 *                  of duplicate expression. <code>false</code> do not add the
 	 *                  column if the expression already exist
-	 * @param column    the bound column
 	 * @return the newly created <code>ComputedColumnHandle</code> or the existed
 	 *         <code>ComputedColumnHandle</code> in the list
 	 * @throws SemanticException if expression is not duplicate but the name
@@ -626,13 +625,12 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle impleme
 	 *                           both name/expression are duplicate, but
 	 *                           <code>inForce</code> is <code>true</code>.
 	 */
-
 	public ComputedColumnHandle addColumnBinding(ComputedColumn addColumn, boolean inForce) throws SemanticException {
 		if (addColumn == null) {
 			return null;
 		}
 
-		List columns = (List) getProperty(BOUND_DATA_COLUMNS_PROP);
+		List<ComputedColumn> columns = (List<ComputedColumn>) getProperty(BOUND_DATA_COLUMNS_PROP);
 		if (columns == null) {
 			return (ComputedColumnHandle) getPropertyHandle(BOUND_DATA_COLUMNS_PROP).addItem(addColumn);
 		}

@@ -18,6 +18,10 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.ibm.icu.text.Bidi;
 
+/**
+ * A Chunk is a piece of text and formatting metadata like what font to use and
+ * BIDI setting. The font info is needed for computing width and height.
+ */
 public class Chunk {
 	private String text;
 	private int offset;
@@ -92,7 +96,7 @@ public class Chunk {
 	}
 
 	/**
-	 * Sets direction of this chunk.
+	 * Sets run level of this chunk.
 	 *
 	 * @param runLevel An integer value from 0 to 62
 	 *

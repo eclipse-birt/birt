@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2022 Eclipse contributors and others.
+
+This program and the accompanying materials
+are made available under the terms of the Eclipse Public License 2.0
+which accompanies this distribution, and is available at
+https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
+-->
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+	<groupId>org.eclipse.birt</groupId>
+	<artifactId>org.eclipse.birt-parent</artifactId>
+	<version>4.14.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <groupId>org.eclipse.birt.promote</groupId>
+  <artifactId>org.eclipse.birt.promote</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+	<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-eclipserun-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <executionEnvironment>JavaSE-17</executionEnvironment>
+          <dependencies>
+            <dependency>
+              <artifactId>org.eclipse.justj.p2</artifactId>
+              <type>eclipse-plugin</type>
+            </dependency>
+            <dependency>
+              <artifactId>org.apache.felix.scr</artifactId>
+              <type>eclipse-plugin</type>
+            </dependency>
+          </dependencies>
+          <repositories>
+            <repository>
+              <id>eclipse.repo</id>
+              <layout>p2</layout>
+              <url>${justj.eclipse.repo}</url>
+            </repository>
+            <repository>
+              <id>justj.tools.repo</id>
+              <layout>p2</layout>
+              <url>${justj.tools.repo}</url>
+            </repository>
+          </repositories>
+        </configuration>
+        <executions>
+          <execution>
+            <id>promote</id>
+            <goals>
+              <goal>eclipse-run</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <argLine></argLine>
+              <appArgLine>
+                -consoleLog
+                -application org.eclipse.justj.p2.manager
+                -data @None
+                -nosplash
+                ${org.eclipse.justj.p2.manager.args}
+                -retain 5
+                -label "BIRT"
+                -build-url ${org.eclipse.justj.p2.manager.build.url}
+                -root ${project.build.directory}/birt-sync
+                -relative ${org.eclipse.justj.p2.manager.relative}
+                -version-iu org.eclipse.birt.feature
+                -iu-filter-pattern org.eclipse.birt.*(?&lt;!.nl1)
+                -excluded-categories-pattern .*\.BirtTest
+                -commit https://github.com/eclipse-birt/birt/commit/${git.commit}
+                -target-url https://download.eclipse.org/birt
+                -promote ${project.basedir}/../build/org.eclipse.birt.p2updatesite/target/repository
+                -timestamp ${build.timestamp}
+                -type ${build.type}
+                -downloads
+                ${project.basedir}/../build/birt-packages/birt-charts/target/birt-charts-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}-linux.gtk.aarch64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}-linux.gtk.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}-macosx.cocoa.aarch64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}-macosx.cocoa.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}-win32.win32.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-framework-sdk/target/birt-report-framework-sdk-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-report-framework/target/birt-report-framework-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}-linux.gtk.aarch64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}-linux.gtk.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}-macosx.cocoa.aarch64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}-macosx.cocoa.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}-win32.win32.x86_64.zip
+                ${project.basedir}/../build/birt-packages/birt-runtime-osgi/target/birt-runtime-osgi-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-runtime/target/birt-runtime-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-sample-plugins/target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-source/target/birt-source-${birt.version}-${maven.build.timestamp}.zip
+                ${project.basedir}/../build/birt-packages/birt-tests-suite/target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip
+                -breadcrumb "BIRT https://www.eclipse.org/birt"
+                -favicon https://eclipse-birt.github.io/birt-website/img/BIRT-Icon.ico
+                -title-image https://eclipse-birt.github.io/birt-website/img/BIRT-Logo.png
+                -body-image https://eclipse-birt.github.io/birt-website/img/BIRT-Icon-large.png
+                -mapping birt->BIRT
+                ${org.eclipse.justj.p2.manager.extra.args}
+              </appArgLine>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

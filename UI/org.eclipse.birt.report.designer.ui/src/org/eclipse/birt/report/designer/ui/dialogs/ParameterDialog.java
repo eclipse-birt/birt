@@ -80,6 +80,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
@@ -88,8 +89,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -281,12 +282,18 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 	private static final String BOOLEAN_FALSE = Messages.getString("ParameterDialog.Boolean.False"); //$NON-NLS-1$
 
+	/** property: name of parameter control list */
 	public static final String PARAM_CONTROL_LIST = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX + "/List"; //$NON-NLS-1$
 
+	/** property: name of parameter combo box */
 	public static final String PARAM_CONTROL_COMBO = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX + "/Combo"; //$NON-NLS-1$
 
+	private static final String PARAM_CONTROL_RADIO = DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON; // $NON-NLS-1$
+
+	/** property: display name of parameter control list */
 	public static final String DISPLAY_NAME_CONTROL_LIST = Messages.getString("ParameterDialog.DisplayLabel.List"); //$NON-NLS-1$
 
+	/** property: display name of parameter combo box */
 	public static final String DISPLAY_NAME_CONTROL_COMBO = Messages.getString("ParameterDialog.DisplayLabel.Combo"); //$NON-NLS-1$
 
 	private static final String NONE_DISPLAY_TEXT = Messages.getString("ParameterDialog.Label.None"); //$NON-NLS-1$
@@ -296,32 +303,40 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	private static final Image NOT_DEFAULT_ICON = ReportPlatformUIImages
 			.getImage(IReportGraphicConstants.ICON_DEFAULT_NOT);
 
+	/** property: control type value */
 	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
 
+	/** property: data type value */
 	public static final String DATATYPE_VALUE = "datatype";//$NON-NLS-1$
 
+	/** property: static value */
 	public static final String STATIC_VALUE = "static";//$NON-NLS-1$
 
+	/** property: helper key of control type */
 	public static final String HELPER_KEY_CONTROLTYPE = "controlType";//$NON-NLS-1$
 
+	/** property: helper key of start point */
 	public static final String HELPER_KEY_STARTPOINT = "autoSuggestStartPoint";//$NON-NLS-1$
 
+	/** property: control type of input value */
 	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput"; //$NON-NLS-1$
 
+	/** property: start point of input value */
 	public static final String STARTPOINT_INPUTVALUE = "startpointinput"; //$NON-NLS-1$
 
+	/** property: start point value */
 	public static final String STARTPOINT_VALUE = "startpoint"; //$NON-NLS-1$
 
 	private boolean allowMultiValueVisible = true;
 
-	private HashMap dirtyProperties = new HashMap(5);
+	private HashMap<String, Boolean> dirtyProperties = new HashMap<String, Boolean>(5);
 
-	private ArrayList choiceList = new ArrayList();
+	private ArrayList<IStructure> choiceList = new ArrayList<IStructure>();
 	private Map<SelectionChoice, SelectionChoice> editChoiceMap = new HashMap<>();
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary()
 			.getElement(ReportDesignConstants.SCALAR_PARAMETER_ELEMENT)
-			.getProperty(ScalarParameterHandle.DATA_TYPE_PROP).getAllowedChoices();
+			.getProperty(IInternalAbstractScalarParameterModel.DATA_TYPE_PROP).getAllowedChoices();
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
 
@@ -374,7 +389,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 	private Composite valueArea, sorttingArea;
 
-	private List columnList;
+	private List<?> columnList;
 
 	private TableArea staticTableArea;
 
@@ -394,8 +409,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			ArrayList list = ((ArrayList) inputElement);
-			ArrayList elementsList = (ArrayList) list.clone();
+			ArrayList<?> list = ((ArrayList<?>) inputElement);
+			ArrayList<?> elementsList = (ArrayList<?>) list.clone();
 			return elementsList.toArray();
 		}
 	};
@@ -408,9 +423,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				SelectionChoice choice = ((SelectionChoice) element);
 				if (isDefaultChoice(choice)) {
 					return DEFAULT_ICON;
-				} else {
-					return NOT_DEFAULT_ICON;
 				}
+				return NOT_DEFAULT_ICON;
 			}
 			return null;
 		}
@@ -484,7 +498,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				}
 
 			});
-			if (dialog.open() == Dialog.OK) {
+			if (dialog.open() == Window.OK) {
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
 //				oldChoice.setValue( tempChoice.getValue( ) );
@@ -519,7 +533,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					return validateChoice(null, displayLabelKey, displayLabel, value);
 				}
 			});
-			if (dialog.open() == Dialog.OK) {
+			if (dialog.open() == Window.OK) {
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
 				// choice.setValue( choice.getValue( ) );
@@ -562,7 +576,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			if (inputElement == null) {
 				return new Object[0];
 			} else if (inputElement instanceof List) {
-				return ((List) inputElement).toArray();
+				return ((List<?>) inputElement).toArray();
 			}
 			return null;
 		}
@@ -643,7 +657,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	}
 
 	/**
-	 * Create a new parameter dialog with given title under the specified shell
+	 * Constructor: Create a new parameter dialog with given title under the
+	 * specified shell
 	 *
 	 * @param parentShell the parent shell of the dialog
 	 * @param title       the title of the dialog
@@ -653,6 +668,14 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		this.title = title;
 	}
 
+	/**
+	 * Constructor: Create a new parameter dialog with given title under the
+	 * specified shell
+	 *
+	 * @param parentShell            the parent shell of the dialog
+	 * @param title                  the title of the dialog
+	 * @param allowMultiValueVisible the flag to allow multiple value
+	 */
 	public ParameterDialog(Shell parentShell, String title, boolean allowMultiValueVisible) {
 		this(parentShell, title);
 		this.allowMultiValueVisible = allowMultiValueVisible;
@@ -1150,7 +1173,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			refreshSortByItems();
 
 			ExpressionHandle columnValueValue = inputParameter
-					.getExpressionProperty(ScalarParameterHandle.VALUE_EXPR_PROP);
+					.getExpressionProperty(IInternalAbstractScalarParameterModel.VALUE_EXPR_PROP);
 			{
 				columnChooser.setData(ExpressionButtonUtil.EXPR_TYPE,
 						columnValueValue == null || columnValueValue.getType() == null ? UIUtil.getDefaultScriptType()
@@ -1167,7 +1190,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				}
 			}
 
-			ExpressionHandle columnValue = inputParameter.getExpressionProperty(ScalarParameterHandle.LABEL_EXPR_PROP);
+			ExpressionHandle columnValue = inputParameter
+					.getExpressionProperty(IInternalAbstractScalarParameterModel.LABEL_EXPR_PROP);
 			{
 				displayTextChooser.setData(ExpressionButtonUtil.EXPR_TYPE,
 						columnValue == null || columnValue.getType() == null ? UIUtil.getDefaultScriptType()
@@ -1288,7 +1312,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
-				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED).getName();
+				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
 				formatCategroy = choiceSet.findChoice(DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED).getName();
 			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
@@ -1317,7 +1341,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		updateFormatField();
 	}
 
-	private List getColumnValueList() {
+	private List<?> getColumnValueList() {
 		try {
 			if (columnChooser.getText() == null || columnChooser.getText().equals("")) //$NON-NLS-1$
 			{
@@ -1342,9 +1366,9 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		String selectedDataSetName = dataSetChooser.getText();
 		String[] oldList = dataSetChooser.getItems();
 
-		List dataSetList = new ArrayList();
+		List<String> dataSetList = new ArrayList<String>();
 
-		for (Iterator iterator = inputParameter.getModuleHandle().getVisibleDataSets().iterator(); iterator
+		for (Iterator<?> iterator = inputParameter.getModuleHandle().getVisibleDataSets().iterator(); iterator
 				.hasNext();) {
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next();
 			dataSetList.add(DataSetHandle.getQualifiedName());
@@ -1353,7 +1377,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		// if(staticRadio.getSelection()) // linked data model is not applicable to
 		// dynamic params.
 		{
-			for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets().iterator(); itr.hasNext();) {
+			for (Iterator<?> itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets().iterator(); itr.hasNext();) {
 				dataSetList.add(itr.next().toString());
 			}
 		}
@@ -1369,7 +1393,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				selectedDataSetName = newName;
 			}
 
-			dataSetChooser.setItems((String[]) dataSetList.toArray(new String[] {}));
+			dataSetChooser.setItems(dataSetList.toArray(new String[] {}));
 			if (StringUtil.isBlank(selectedDataSetName)) {
 				dataSetChooser.select(0);
 				refreshColumns(false);
@@ -1381,7 +1405,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		}
 	}
 
-	private String findNewDataSet(List existingDataSets, List newDataSets) {
+	private String findNewDataSet(List<?> existingDataSets, List<?> newDataSets) {
 		for (int i = 0; i < newDataSets.size(); i++) {
 			if (!existingDataSets.contains(newDataSets.get(i))) {
 				return (String) newDataSets.get(i);
@@ -1408,7 +1432,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			}
 			displayTextChooser.removeAll();
 			displayTextChooser.add(NONE_DISPLAY_TEXT);
-			for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+			for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 				displayTextChooser.add(((ResultSetColumnHandle) iter.next()).getColumnName());
 			}
 
@@ -1424,7 +1448,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		String originalSelection = columnChooser.getText();
 		columnChooser.removeAll();
 
-		for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next();
 			if (matchDataType(cachedColumn)) {
 				columnChooser.add(cachedColumn.getColumnName());
@@ -1507,9 +1531,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		String type = (String) controlTypeHelper.getProperty(CONTROLTYPE_VALUE);
 		if (type == null) {
 			return getInputControlType();
-		} else {
-			return type;
 		}
+		return type;
 	}
 
 	private void changeDataType() {
@@ -1559,11 +1582,11 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		boolean change = false;
 		try {
 
-			Set set = new HashSet();
+			Set<Object> set = new HashSet<Object>();
 
 			if ((isStatic() && !distinct.isEnabled()) || (distinct.isEnabled() && !distinct.getSelection())) {
 				if (choiceList != null) {
-					for (Iterator iter = choiceList.iterator(); iter.hasNext();) {
+					for (Iterator<?> iter = choiceList.iterator(); iter.hasNext();) {
 						SelectionChoice choice = (SelectionChoice) iter.next();
 						if (isValidValue(choice.getValue()) != null || set.contains(validateValue(choice.getValue()))) {
 							if (enableAllowMultiValueVisible()) {
@@ -1579,7 +1602,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			}
 
 			if (defaultValueList != null) {
-				for (Iterator iter = defaultValueList.iterator(); iter.hasNext();) {
+				for (Iterator<?> iter = defaultValueList.iterator(); iter.hasNext();) {
 					Expression expression = (Expression) iter.next();
 					if (expression != null) {
 						if (isValidValue(expression) != null || set.contains(validateValue(expression))) {
@@ -1628,8 +1651,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 		updateCheckBoxArea();
 		boolean radioEnable = false;
-		if (PARAM_CONTROL_COMBO.equals(getSelectedControlType()) || (PARAM_CONTROL_LIST.equals(getSelectedControlType())
-				&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(getSelectedDataType()))) {
+		if (PARAM_CONTROL_COMBO.equals(type) || ((PARAM_CONTROL_LIST.equals(type) || PARAM_CONTROL_RADIO.equals(type))
+						&& !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(getSelectedDataType()))) {
 			radioEnable = true;
 		}
 		if (radioEnable != staticRadio.isEnabled()) {
@@ -1720,7 +1743,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			public void modifyText(ModifyEvent e) {
 				String type = (String) defaultValueChooser.getData(ExpressionButtonUtil.EXPR_TYPE);
 
-				List list = new ArrayList(Arrays.asList(defaultValueChooser.getItems()));
+				List<String> list = new ArrayList<String>(Arrays.asList(defaultValueChooser.getItems()));
 				switch (list.indexOf(defaultValueChooser.getText())) {
 				case 0:
 					defaultValueList = null;
@@ -1744,9 +1767,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			public String getExpression() {
 				if (defaultValueChooser != null) {
 					return getDefaultValueChooserValue();
-				} else {
-					return ""; //$NON-NLS-1$
 				}
+				return ""; //$NON-NLS-1$
 			}
 
 			@Override
@@ -1906,9 +1928,9 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String type = getSelectedDataType();
-				List choices = new ArrayList();
-				Map labelMap = new HashMap();
-				for (Iterator iter = choiceList.iterator(); iter.hasNext();) {
+				List<String> choices = new ArrayList<String>();
+				Map<String, String> labelMap = new HashMap<String, String>();
+				for (Iterator<?> iter = choiceList.iterator(); iter.hasNext();) {
 					SelectionChoice choice = (SelectionChoice) iter.next();
 					choices.add(choice.getValue());
 					if (choice.getLabel() != null) {
@@ -1945,7 +1967,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 						SelectionChoice choice = StructureFactory.createSelectionChoice();
 						choice.setValue(importValues[i]);
 						if (labelMap.get(importValues[i]) != null) {
-							choice.setLabel((String) labelMap.get(importValues[i]));
+							choice.setLabel(labelMap.get(importValues[i]));
 						}
 						choiceList.add(choice);
 					}
@@ -1971,7 +1993,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 						.getFirstElement();
 				if (isDefaultChoice(choice)) {
 					// changeDefaultValue( null );
-					Iterator iter = ((IStructuredSelection) valueTable.getSelection()).iterator();
+					Iterator<?> iter = ((IStructuredSelection) valueTable.getSelection()).iterator();
 					while (iter.hasNext()) {
 						Object obj = iter.next();
 						if (obj instanceof SelectionChoice) {
@@ -1980,7 +2002,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					}
 				} else {
 					// changeDefaultValue( choice.getValue( ) );
-					Iterator iter = ((IStructuredSelection) valueTable.getSelection()).iterator();
+					Iterator<?> iter = ((IStructuredSelection) valueTable.getSelection()).iterator();
 					while (iter.hasNext()) {
 						Object obj = iter.next();
 						if (obj instanceof SelectionChoice) {
@@ -2219,7 +2241,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			sortKeyChooser.add(CHOICE_DISPLAY_TEXT);
 			sortKeyChooser.add(CHOICE_VALUE_COLUMN);
 		} else if (dynamicRadio.getSelection()) {
-			for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+			for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 				sortKeyChooser.add(((ResultSetColumnHandle) iter.next()).getColumnName());
 			}
 
@@ -2560,7 +2582,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				String selection = defaultValueChooser.getItem(defaultValueChooser.getSelectionIndex());
 				if (selection.equals(CHOICE_SELECT_VALUE)) {
 
-					List columnValueList = getColumnValueList();
+					List<?> columnValueList = getColumnValueList();
 					if (columnValueList.isEmpty()) {
 						return;
 					}
@@ -2613,9 +2635,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			public String getExpression() {
 				if (defaultValueChooser != null) {
 					return defaultValueChooser.getText();
-				} else {
-					return ""; //$NON-NLS-1$
 				}
+				return ""; //$NON-NLS-1$
 			}
 
 			@Override
@@ -2703,9 +2724,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	private Object validateValue(Expression expression) throws BirtException {
 		if (expression == null) {
 			return validateValue(null, null);
-		} else {
-			return validateValue(expression.getStringExpression(), expression.getType());
 		}
+		return validateValue(expression.getStringExpression(), expression.getType());
 	}
 
 	private Object validateValue(String value, String type) throws BirtException {
@@ -2728,10 +2748,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 				return ParameterValidationUtil.validate(getSelectedDataType(), ParameterUtil.STANDARD_DATE_TIME_PATTERN,
 						tempdefaultValue, ULocale.getDefault());
-			} else {
-				return tempdefaultValue;
 			}
-
+			return tempdefaultValue;
 		}
 		if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(getSelectedDataType())) {
 			if (tempdefaultValue != null && tempdefaultValue.equals(CHOICE_NO_DEFAULT)) {
@@ -2739,12 +2757,10 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			}
 			if (ExpressionType.CONSTANT.equals(exprType)) {
 				return DataTypeUtil.toBoolean(tempdefaultValue);
-			} else {
-				return tempdefaultValue;
 			}
-		} else {
 			return tempdefaultValue;
 		}
+		return tempdefaultValue;
 	}
 
 	private void validateValueList(List<Expression> values) throws BirtException {
@@ -2788,7 +2804,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					inputParameter.setParamType(DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE);
 				}
 			} else {
-				inputParameter.setProperty(ScalarParameterHandle.MUCH_MATCH_PROP, null);
+				inputParameter.setProperty(IScalarParameterModel.MUCH_MATCH_PROP, null);
 			}
 
 			// Save control type
@@ -2807,7 +2823,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					}
 
 					if (choiceList != null) {
-						for (Iterator iter = choiceList.iterator(); iter.hasNext();) {
+						for (Iterator<?> iter = choiceList.iterator(); iter.hasNext();) {
 							SelectionChoice choice = (SelectionChoice) iter.next();
 							if (isEqual(choice.getValue(), value)) {
 								flag = true;
@@ -2833,9 +2849,9 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					.setDataType(DATA_TYPE_CHOICE_SET.findChoiceByDisplayName(dataTypeChooser.getText()).getName());
 
 			PropertyHandle selectionChioceList = inputParameter
-					.getPropertyHandle(ScalarParameterHandle.SELECTION_LIST_PROP);
+					.getPropertyHandle(IInternalAbstractScalarParameterModel.SELECTION_LIST_PROP);
 			// Clear original choices list
-			selectionChioceList.setValue(new ArrayList());
+			selectionChioceList.setValue(new ArrayList<Object>());
 
 			if (isStatic()) {
 				// Save static choices list
@@ -2844,7 +2860,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 						&& !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(newControlType)) {
 					if (choiceList != null) {
 						SelectionChoice originalChoice = null;
-						for (Iterator iter = choiceList.iterator(); iter.hasNext();) {
+						for (Iterator<?> iter = choiceList.iterator(); iter.hasNext();) {
 							SelectionChoice choice = (SelectionChoice) iter.next();
 							originalChoice = editChoiceMap.get(choice);
 							if (originalChoice != null) {
@@ -2871,7 +2887,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 				{
 					Expression expression = new Expression(getExpression(columnChooser, columnChooser.getText()),
 							(String) columnChooser.getData(ExpressionButtonUtil.EXPR_TYPE));
-					inputParameter.setExpressionProperty(ScalarParameterHandle.VALUE_EXPR_PROP, expression);
+					inputParameter.setExpressionProperty(IInternalAbstractScalarParameterModel.VALUE_EXPR_PROP,
+							expression);
 				}
 				if (displayTextChooser.getText().equals(LABEL_NULL)) {
 					inputParameter.setLabelExpr(""); //$NON-NLS-1$
@@ -2879,7 +2896,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					Expression expression = new Expression(
 							getExpression(displayTextChooser, displayTextChooser.getText()),
 							(String) displayTextChooser.getData(ExpressionButtonUtil.EXPR_TYPE));
-					inputParameter.setExpressionProperty(ScalarParameterHandle.LABEL_EXPR_PROP, expression);
+					inputParameter.setExpressionProperty(IInternalAbstractScalarParameterModel.LABEL_EXPR_PROP,
+							expression);
 				}
 				if (startPointTypeHelper != null) {
 					if (startPointTypeHelper.getControl() != null && startPointTypeHelper.getControl().isVisible()) {
@@ -2928,7 +2946,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					inputParameter.setConcealValue(getProperty(CHECKBOX_DO_NOT_ECHO));
 				}
 			} else {
-				inputParameter.setProperty(ScalarParameterHandle.CONCEAL_VALUE_PROP, null);
+				inputParameter.setProperty(IScalarParameterModel.CONCEAL_VALUE_PROP, null);
 			}
 
 			if (distinct.isEnabled()) {
@@ -2965,7 +2983,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 					}
 				}
 			} else {
-				inputParameter.setProperty(ScalarParameterHandle.FIXED_ORDER_PROP, null);
+				inputParameter.setProperty(IScalarParameterModel.FIXED_ORDER_PROP, null);
 			}
 
 			// Save limits
@@ -2978,7 +2996,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 							ERROR_MSG_INVALID_LIST_LIMIT, new Object[] { Integer.toString(Integer.MAX_VALUE) }));
 				}
 			} else {
-				inputParameter.setProperty(ScalarParameterHandle.LIST_LIMIT_PROP, null);
+				inputParameter.setProperty(IInternalAbstractScalarParameterModel.LIST_LIMIT_PROP, null);
 			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
@@ -3242,7 +3260,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 	private String getDefaultValueChooserValue() {
 		String defaultValue;
-		List list = new ArrayList(Arrays.asList(defaultValueChooser.getItems()));
+		List<String> list = new ArrayList<String>(Arrays.asList(defaultValueChooser.getItems()));
 		switch (list.indexOf(defaultValueChooser.getText())) {
 		case 0:
 			defaultValue = null;
@@ -3274,7 +3292,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	}
 
 	private boolean getProperty(String key) {
-		return ((Boolean) dirtyProperties.get(key)).booleanValue();
+		return dirtyProperties.get(key).booleanValue();
 	}
 
 	// private String format( String string )
@@ -3301,9 +3319,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	private String isValidValue(Expression expression) {
 		if (expression == null) {
 			return isValidValue(null, null);
-		} else {
-			return isValidValue(expression.getStringExpression(), expression.getType());
 		}
+		return isValidValue(expression.getStringExpression(), expression.getType());
 	}
 
 	private String isValidValue(String value, String exprType) {
@@ -3416,7 +3433,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 			if (type.equals(DesignChoiceConstants.PARAM_TYPE_DATETIME)) {
 				previewString = new DateFormatter(ParameterUtil.isCustomCategory(formatCategroy) ? formatPattern
-						: (formatCategroy.equals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED)
+						: (formatCategroy.equals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED)
 								? DateFormatter.DATETIME_UNFORMATTED
 								: formatCategroy),
 						locale).format(new Date());
@@ -3508,7 +3525,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	}
 
 	private boolean containValue(SelectionChoice selectedChoice, String newValue, String property) {
-		for (Iterator iter = choiceList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = choiceList.iterator(); iter.hasNext();) {
 			SelectionChoice choice = (SelectionChoice) iter.next();
 			if (choice != selectedChoice) {
 				String value = null;
@@ -3591,7 +3608,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		// getSelectedControlType( ) ) )
 		{
 			if (dirtyProperties.containsKey(CHECKBOX_ISREQUIRED)) {
-				canBeBlank = !(((Boolean) dirtyProperties.get(CHECKBOX_ISREQUIRED)).booleanValue());
+				canBeBlank = !(dirtyProperties.get(CHECKBOX_ISREQUIRED).booleanValue());
 			} else {
 				canBeBlank = !(inputParameter.isRequired());
 			}
@@ -3602,7 +3619,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	private boolean canBeNull() {
 		boolean canBeNull = true;
 		if (dirtyProperties.containsKey(CHECKBOX_ISREQUIRED)) {
-			canBeNull = !(((Boolean) dirtyProperties.get(CHECKBOX_ISREQUIRED)).booleanValue());
+			canBeNull = !(dirtyProperties.get(CHECKBOX_ISREQUIRED).booleanValue());
 		} else {
 			canBeNull = !(inputParameter.isRequired());
 		}
@@ -3631,7 +3648,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		if (columnName.equals(NONE_DISPLAY_TEXT)) {
 			return null;
 		}
-		for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next();
 			if (cachedColumn.getColumnName().equals(columnName)) {
 				return DEUtil.getExpression(cachedColumn);
@@ -3645,7 +3662,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		if (columnName.equals(NONE_DISPLAY_TEXT) || (columnList == null)) {
 			return null;
 		}
-		for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next();
 			if (cachedColumn.getColumnName().equals(columnName)) {
 				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(control);
@@ -3657,7 +3674,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 	}
 
 	private String getColumnName(String expression) {
-		for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next();
 			if (DEUtil.getExpression(cachedColumn).equals(expression)) {
 				return cachedColumn.getColumnName();
@@ -3669,7 +3686,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 
 	private String getColumnName(Control control, String expression) {
 		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter(control);
-		for (Iterator iter = columnList.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = columnList.iterator(); iter.hasNext();) {
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next();
 			if (ExpressionUtility.getExpression(cachedColumn, converter).equals(expression)) {
 				return cachedColumn.getColumnName();
@@ -3688,9 +3705,8 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		if (distinct.isEnabled() && distinct.getSelection()) {
 			if (containValue(choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY)) {
 				return ERROR_MSG_DUPLICATED_LABELKEY;
-			} else {
-				return null;
 			}
+			return null;
 		}
 		if (containValue(choice, value, COLUMN_VALUE)) {
 			return ERROR_MSG_DUPLICATED_VALUE;
@@ -3895,7 +3911,7 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 		 * getCategoryList()
 		 */
 		@Override
-		protected List getCategoryList() {
+		protected List<Object> getCategoryList() {
 			ArrayList<Object> categoryList = (ArrayList<Object>) super.getCategoryList();
 			if (categoryList != null && !categoryList.contains(DATASETS)) {
 				if (elementHandle.getModuleHandle() instanceof ReportDesignHandle

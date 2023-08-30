@@ -15,8 +15,6 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -539,12 +537,7 @@ public class DataAdapterUtil {
 		String reportConfigName = designFileName.substring(0, index + 1) + "rptconfig";
 		final File file = new File(reportConfigName);
 
-		if (AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-			@Override
-			public Boolean run() {
-				return file.exists();
-			}
-		})) {
+		if (file.exists()) {
 			String paraName = paramHandle.getName();
 			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) designModule.findParameter(paraName);
 			paraName = paraName + "_" + parameterHandle.getID();

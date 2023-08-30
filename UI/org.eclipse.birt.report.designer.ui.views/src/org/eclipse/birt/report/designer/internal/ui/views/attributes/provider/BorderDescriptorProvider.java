@@ -19,22 +19,39 @@ import java.util.List;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
+/**
+ * Border description provider
+ *
+ * @since 3.3
+ *
+ */
 public abstract class BorderDescriptorProvider extends AbstractDescriptorProvider {
 
 	protected Object input;
 
-	protected HashMap styleMap = new HashMap();
+	protected HashMap<String, Boolean> styleMap = new HashMap<String, Boolean>();
 
+	/**
+	 * Constructor
+	 */
 	public BorderDescriptorProvider() {
-		styleMap.put(StyleHandle.BORDER_LEFT_STYLE_PROP, Boolean.FALSE);
-		styleMap.put(StyleHandle.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE);
-		styleMap.put(StyleHandle.BORDER_TOP_STYLE_PROP, Boolean.FALSE);
-		styleMap.put(StyleHandle.BORDER_BOTTOM_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_LEFT_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_TOP_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_BOTTOM_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_DIAGONAL_STYLE_PROP, Boolean.FALSE);
+		styleMap.put(IStyleModel.BORDER_ANTIDIAGONAL_STYLE_PROP, Boolean.FALSE);
 	}
 
+	/**
+	 * Set style property
+	 *
+	 * @param style style property name
+	 * @param value property value
+	 */
 	public void setStyleProperty(String style, Boolean value) {
 		styleMap.put(style, value);
 	}
@@ -47,7 +64,7 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 	protected String getLocalStringValue(String property) {
 		GroupElementHandle handle = null;
 		if (input instanceof List) {
-			handle = DEUtil.getGroupElementHandle((List) input);
+			handle = DEUtil.getGroupElementHandle((List<?>) input);
 		}
 		if (handle == null) {
 			return ""; //$NON-NLS-1$
@@ -64,7 +81,7 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 	protected String getStringValue(String property) {
 		GroupElementHandle handle = null;
 		if (input instanceof List) {
-			handle = DEUtil.getGroupElementHandle((List) input);
+			handle = DEUtil.getGroupElementHandle((List<?>) input);
 		}
 		if (handle == null) {
 			return ""; //$NON-NLS-1$
@@ -81,26 +98,28 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 	protected String getDisplayValue(String property) {
 		GroupElementHandle handle = null;
 		if (input instanceof List) {
-			handle = DEUtil.getGroupElementHandle((List) input);
+			handle = DEUtil.getGroupElementHandle((List<?>) input);
 		}
 		if (handle == null) {
 			return ""; //$NON-NLS-1$
 		}
 		if (getLocalStringValue(property).equals("")) {
-			String value = handle.getPropertyHandle(property).getStringValue();
-			if (value == null) {
-				value = ""; //$NON-NLS-1$
+			String value = "";
+			if (handle.getPropertyHandle(property) != null) {
+				value = handle.getPropertyHandle(property).getStringValue();
+				if (value == null) {
+					value = ""; //$NON-NLS-1$
+				}
 			}
 			return value;
-		} else {
-			return ""; //$NON-NLS-1$
 		}
+		return ""; //$NON-NLS-1$
 	}
 
 	protected String getDefaultStringValue(String property) {
 		GroupElementHandle handle = null;
 		if (input instanceof List) {
-			handle = DEUtil.getGroupElementHandle((List) input);
+			handle = DEUtil.getGroupElementHandle((List<?>) input);
 		}
 		if (handle == null) {
 			return ""; //$NON-NLS-1$
@@ -113,9 +132,8 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 				value = ""; //$NON-NLS-1$
 			}
 			return value;
-		} else {
-			return ""; //$NON-NLS-1$
 		}
+		return ""; //$NON-NLS-1$
 	}
 
 	protected void save(String property, Object value) throws SemanticException {
@@ -124,7 +142,7 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		if (input instanceof GroupElementHandle) {
 			groupElementHandle = (GroupElementHandle) input;
 		} else if (input instanceof List) {
-			groupElementHandle = DEUtil.getGroupElementHandle((List) input);
+			groupElementHandle = DEUtil.getGroupElementHandle((List<?>) input);
 		}
 
 		if (groupElementHandle != null) {

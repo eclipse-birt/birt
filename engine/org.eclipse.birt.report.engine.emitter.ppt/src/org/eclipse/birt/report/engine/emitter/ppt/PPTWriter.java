@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.lang.UCharacter;
@@ -47,6 +47,12 @@ import com.ibm.icu.lang.UCharacter.UnicodeBlock;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
+/**
+ * Class to create PPT file
+ *
+ * @since 3.3
+ *
+ */
 public class PPTWriter {
 
 	protected static Logger logger = Logger.getLogger(PPTRender.class.getName());
@@ -68,6 +74,11 @@ public class PPTWriter {
 
 	private QuotedPrintableCodec quotedPrintableCodec;
 
+	/**
+	 * Constructor of PPT
+	 *
+	 * @param output
+	 */
 	public PPTWriter(OutputStream output) {
 		try {
 			writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"), false);
@@ -81,6 +92,8 @@ public class PPTWriter {
 	 *
 	 * @param author
 	 * @param title
+	 * @param description
+	 * @param subject
 	 *
 	 */
 	public void start(String title, String author, String description, String subject) {
@@ -185,6 +198,9 @@ public class PPTWriter {
 		writer = null;
 	}
 
+	/**
+	 * End page
+	 */
 	public void endPage() {
 		try {
 			// Write out the image bytes
@@ -219,7 +235,9 @@ public class PPTWriter {
 	/**
 	 * Creates a new page.
 	 *
-	 * @param page the PageArea specified from layout
+	 * @param pageWidth       page width
+	 * @param pageHeight      page height
+	 * @param backgroundColor page background color
 	 */
 	public void newPage(float pageWidth, float pageHeight, Color backgroundColor) {
 		currentPageNum++;
@@ -368,6 +386,20 @@ public class PPTWriter {
 		buffer.append(hex);
 	}
 
+	/**
+	 * Draw the imgae
+	 *
+	 * @param imageId   image ID
+	 * @param imageData image data
+	 * @param extension file extension
+	 * @param imageX    image start point X
+	 * @param imageY    image start point Y
+	 * @param height    image height
+	 * @param width     image widt
+	 * @param helpText  help text
+	 * @param link      link at image object
+	 * @throws Exception
+	 */
 	public void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY, float height,
 			float width, String helpText, HyperlinkDef link) throws Exception {
 		ImageInfo imageInfo = getImageInfo(imageId, imageData, extension);
@@ -541,18 +573,18 @@ public class PPTWriter {
 		// if the border does NOT have color or the line width of the border
 		// is zero
 		// or the lineStyle is "none", just return.
-		if (null == color || 0f == width || lineStyle == BorderInfo.BORDER_STYLE_NONE) // $NON-NLS-1$
+		if (null == color || 0f == width || lineStyle == AreaConstants.BORDER_STYLE_NONE) // $NON-NLS-1$
 		{
 			return;
 		}
-		if (lineStyle == BorderInfo.BORDER_STYLE_SOLID || lineStyle == BorderInfo.BORDER_STYLE_DASHED
-				|| lineStyle == BorderInfo.BORDER_STYLE_DOTTED || lineStyle == BorderInfo.BORDER_STYLE_DOUBLE) {
+		if (lineStyle == AreaConstants.BORDER_STYLE_SOLID || lineStyle == AreaConstants.BORDER_STYLE_DASHED
+				|| lineStyle == AreaConstants.BORDER_STYLE_DOTTED || lineStyle == AreaConstants.BORDER_STYLE_DOUBLE) {
 			drawRawLine(startX, startY, endX, endY, width, color, lineStyle);
 		} else {
 			// the other line styles, e.g. 'ridge', 'outset', 'groove', 'insert'
 			// is NOT supported now.
 			// We look it as the default line style -- 'solid'
-			drawRawLine(startX, startY, endX, endY, width, color, BorderInfo.BORDER_STYLE_SOLID);
+			drawRawLine(startX, startY, endX, endY, width, color, AreaConstants.BORDER_STYLE_SOLID);
 		}
 	}
 
@@ -571,29 +603,23 @@ public class PPTWriter {
 	 */
 	private void drawRawLine(double startX, double startY, double endX, double endY, double width, Color color,
 			int lineStyle) {
-		boolean needflip = false;
-		if (endX > startX && endY < startY || endX < startX && endY > startY) {
-			needflip = true;
-		}
+
 		print("<v:line id=3D\"" + (++shapeCount) + "\""); //$NON-NLS-1$ //$NON-NLS-2$
 		print(" style=3D'position:absolute");
-		if (needflip) {
-			print(";flip:y' from=3D\"" + startX + "pt," + endY + "pt\"");
-			print(" to=3D\"" + endX + "pt," + startY + "pt\"");
-		} else {
-			print("' from=3D\"" + startX + "pt," + startY + "pt\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-																		// //$NON-NLS-4$ //$NON-NLS-5$
-			print(" to=3D\"" + endX + "pt," + endY + "pt\"");
-		}
+
+		print("' from=3D\"" + startX + "pt," + startY + "pt\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+																	// //$NON-NLS-4$ //$NON-NLS-5$
+		print(" to=3D\"" + endX + "pt," + endY + "pt\"");
+
 		print(" strokecolor=3D\"#" + getColorString(color) + "\""); //$NON-NLS-1$
 		print(" strokeweight=3D\"" + width + "pt\""); //$NON-NLS-1$
-		if (lineStyle == BorderInfo.BORDER_STYLE_DASHED) {
+		if (lineStyle == AreaConstants.BORDER_STYLE_DASHED) {
 			println(">");
 			println("<v:stroke dashstyle=3D\"dash\"/>");
-		} else if (lineStyle == BorderInfo.BORDER_STYLE_DOTTED) {
+		} else if (lineStyle == AreaConstants.BORDER_STYLE_DOTTED) {
 			println(">");
 			println("<v:stroke dashstyle=3D\"1 1\"/>");
-		} else if (lineStyle == BorderInfo.BORDER_STYLE_DOUBLE) {
+		} else if (lineStyle == AreaConstants.BORDER_STYLE_DOUBLE) {
 			println(">");
 			println("<v:stroke linestyle=3D\"thinThin\"/>");
 		} else {
@@ -628,17 +654,18 @@ public class PPTWriter {
 	 * offset
 	 *
 	 * @param imageURI  the URI referring the image
+	 * @param imageData
 	 * @param x         the start X coordinate at the PPT where the image is
 	 *                  positioned
 	 * @param y         the start Y coordinate at the PPT where the image is
 	 *                  positioned
 	 * @param width     the width of the background dimension
 	 * @param height    the height of the background dimension
+	 * @param iWidth
+	 * @param iHeight
 	 * @param positionX the offset X percentage relating to start X
 	 * @param positionY the offset Y percentage relating to start Y
 	 * @param repeat    the background-repeat property
-	 * @param xMode     whether the horizontal position is a percentage value or not
-	 * @param yMode     whether the vertical position is a percentage value or not
 	 */
 	public void drawBackgroundImage(String imageURI, byte[] imageData, float x, float y, float width, float height,
 			float iWidth, float iHeight, float positionX, float positionY, int repeat) {
@@ -663,8 +690,8 @@ public class PPTWriter {
 			Position imagePosition = new Position(x + positionX, y + positionY);
 			Position imageSize = new Position(imageWidth, imageHeight);
 			BackgroundImageLayout layout = new BackgroundImageLayout(areaPosition, areaSize, imagePosition, imageSize);
-			Collection positions = layout.getImagePositions(repeat);
-			Iterator iterator = positions.iterator();
+			Collection<?> positions = layout.getImagePositions(repeat);
+			Iterator<?> iterator = positions.iterator();
 			while (iterator.hasNext()) {
 				Position position = (Position) iterator.next();
 				exportImageDefn(imageInfo.imageName, imageInfo.imageId, imageWidth, imageHeight, position.getX(),
@@ -757,10 +784,9 @@ public class PPTWriter {
 			// If no actual RTL content was found (e.g. in case the text
 			// consists of sheer neutral characters), indicate Arabic language
 			return " dir=3D'rtl' lang=3D'AR-DZ'"; //$NON-NLS-1$
-		} else {
-			// XXX Other language attributes can be addressed as needed
-			return " dir=3D'ltr' lang=3D'EN-US'"; //$NON-NLS-1$
 		}
+		// XXX Other language attributes can be addressed as needed
+		return " dir=3D'ltr' lang=3D'EN-US'"; //$NON-NLS-1$
 	}
 
 	private Stack<ClipArea> clipStack = new Stack<>();
@@ -777,6 +803,14 @@ public class PPTWriter {
 		}
 	}
 
+	/**
+	 * Clip the stacked area
+	 *
+	 * @param startX start point
+	 * @param startY end point
+	 * @param width  width of area
+	 * @param height height of area
+	 */
 	public void clip(float startX, float startY, float width, float height) {
 		if (clipStack.isEmpty()) {
 			clipStack.push(new ClipArea(startX, startY, width, height));
@@ -790,6 +824,9 @@ public class PPTWriter {
 		}
 	}
 
+	/**
+	 * End the clip
+	 */
 	public void clipEnd() {
 		clipStack.pop();
 

@@ -872,8 +872,8 @@ public class ElementTest extends TestCase {
 		style.setDateTimeFormat(YY_MM_DD);
 		assertEquals(YY_MM_DD, style.getDateTimeFormat());
 
-		style.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE);
-		assertEquals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE, style.getDateTimeFormatCategory());
+		style.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE);
+		assertEquals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_MEDIUM_DATE, style.getDateTimeFormatCategory());
 
 		style.setDisplay(DesignChoiceConstants.DISPLAY_INLINE);
 		assertEquals(DesignChoiceConstants.DISPLAY_INLINE, style.getDisplay());

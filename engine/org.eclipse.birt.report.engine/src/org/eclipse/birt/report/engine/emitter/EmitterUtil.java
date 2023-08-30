@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +60,12 @@ import com.lowagie.text.Image;
 public class EmitterUtil {
 
 	protected static Logger logger = Logger.getLogger(EmitterUtil.class.getName());
+
+	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
+	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
 
 	public static OutputStream getOuputStream(IEmitterServices services, String defaultOutputFile)
 			throws EngineException {
@@ -273,11 +281,19 @@ public class EmitterUtil {
 
 	private static byte[] getNonSVGImageData(String imageURI) throws IOException {
 		InputStream imageStream = null;
-		byte[] imageData;
+		byte[] imageData = null;
 		try {
-			URL url = new URL(imageURI);
-			imageStream = url.openStream();
-			imageData = readData(imageStream);
+			if (imageURI.startsWith(URL_PROTOCOL_TYPE_DATA) && imageURI.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+				String base64[] = imageURI.split(URL_PROTOCOL_TYPE_DATA_BASE);
+				if (base64.length >= 2) {
+					String encodedImg = base64[1];
+					imageData = Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8));
+				}
+			} else {
+				URL url = new URL(imageURI);
+				imageStream = url.openStream();
+				imageData = readData(imageStream);
+			}
 		} finally {
 			if (imageStream != null) {
 				try {
@@ -333,7 +349,31 @@ public class EmitterUtil {
 				if (uri != null) {
 					if (SvgFile.isSvg(uri)) {
 						try {
-							data = SvgFile.transSvgToArray(uri);
+							if (uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
+								// url svg stream
+								String svgSplitter = "svg\\+xml,";
+								if (uri.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_UTF8)) {
+									svgSplitter = "svg\\+xml;utf8,";
+								} else if (uri.contains(URL_IMAGE_TYPE_SVG + URL_PROTOCOL_TYPE_DATA_BASE)) {
+									svgSplitter = "svg\\+xml;base64,";
+								}
+								String[] uriParts = uri.split(svgSplitter);
+								if (uriParts.length >= 2) {
+									String encodedImg = uriParts[1];
+									String decodedImg = encodedImg;
+									if (uri.contains(URL_PROTOCOL_TYPE_DATA_BASE)) {
+										decodedImg = new String(Base64.getDecoder()
+												.decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
+									}
+									decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+									data = SvgFile
+											.transSvgToArray(new ByteArrayInputStream(decodedImg.getBytes()));
+								}
+							} else {
+								// url svg file load
+								data = SvgFile.transSvgToArray(uri);
+							}
+
 						} catch (Exception e) {
 							logger.log(Level.WARNING, e.getMessage());
 						}

@@ -235,35 +235,7 @@
 		<delete file="doc.zip" />
         </target>
 
-	<scriptdef name="java_version_check" language="javascript">
-		<attribute name="property" />
-		<![CDATA[
-			var javaVersion = project.getProperty("ant.java.version");
-			java.lang.System.out.println(javaVersion);
-			if ( javaVersion >= "1.8") {
-				project.setProperty("jdk1.8+", "true");
-			}
-		]]>
-	</scriptdef>
-
-	<target name="javadoc_check">
-		<property name="javadoc.doclint.none" value=""></property>
-                <!-- 
-                Java8 introduced a HTML checker 'doclint' which is very strict and breaks 
-                the build if there is a HTML error in the JavaDoc.
-		<java_version_check/>
-		<available property="jdk1.8+" classname="java.lang.reflect.Executable"/>
-		<condition 
-			property="javadoc.doclint.none" 
-			value="-Xdoclint:none" 
-			else="">
-			<isset property="jdk1.8+"/>
-		</condition>
-		<echo>${jdk1.8+}:${javadoc.doclint.none}</echo>
-                -->
-	</target>	
-	
-	<target name="chartJavadoc" depends="javadoc_check">
+	<target name="chartJavadoc">
 		<delete dir="${chartengine.javadoc.dir}" failonerror="false"/>
 		<mkdir dir="${chartengine.javadoc.dir}" />
 		<copy todir=".">
@@ -273,11 +245,12 @@
 		</copy>
 		<javadoc access="public" author="true" overview="overview.html" 
 			useexternalfile="yes"
-			doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v ${doc.version}" 
+			verbose="false"
+			doctitle="BIRT Eclipse ChartEngine&lt;br&gt;API Specification v ${doc.version}" 
 			windowtitle="BIRT Chart Engine API" 
 			destdir="${chartengine.javadoc.dir}" 
                         source="1.8" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
-                        additionalparam="${javadoc.doclint.none}"
+                        additionalparam="-Xmaxwarns 5 -Xdoclint:none"
 		packagenames="
 					org.eclipse.birt.chart.api,
           			org.eclipse.birt.chart.computation,
@@ -327,13 +300,14 @@
 
 	</target>
 
-	<target name="chartuiJavadoc" depends="javadoc_check">
+	<target name="chartuiJavadoc">
 		<delete dir="${chartui.javadoc.dir}" failonerror="false"/>
 		<mkdir dir="${chartui.javadoc.dir}" />
 		<javadoc destdir="${chartui.javadoc.dir}"
 				 useexternalfile="yes"
 				 author="true" 
 				 version="true" 
+				 verbose="false"
 				 use="true" 
 				 windowtitle="BIRT Chart UI Extension Interfaces"
 				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v ${doc.version}" 
@@ -341,19 +315,20 @@
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
 				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" 
                                  noindex="false"
-                                 additionalparam="${javadoc.doclint.none}">
+                                 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
   </target>
 	
-	<target name="chartscriptJavadoc" depends="javadoc_check">
+	<target name="chartscriptJavadoc">
 		<delete dir="${chartscript.javadoc.dir}" failonerror="false"/>
 		<mkdir dir="${chartscript.javadoc.dir}" />
 		<javadoc destdir="${chartscript.javadoc.dir}"
 				 useexternalfile="yes"
 				 author="true" 
 				 version="true" 
+				 verbose="false"
 				 use="true" 
 				 windowtitle="BIRT Chart Simple API"
 				 doctitle="BIRT Chart Simple API Specification v ${doc.version}" 
@@ -369,7 +344,7 @@
 			"
 				 sourcepath="${chartreportitem.dir}/src" defaultexcludes="yes" 
                                  noindex="false"
-                                 additionalparam="${javadoc.doclint.none}">
+                                 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>

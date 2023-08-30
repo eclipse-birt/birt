@@ -51,6 +51,14 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	public static final String BACKGROUND_IMAGE_TYPE = "background-image-type";
 	/**
+	 * Style property: background image height
+	 */
+	public static final String BACKGROUND_SIZE_HEIGHT = "background-size-height";
+	/**
+	 * Style property: background image width
+	 */
+	public static final String BACKGROUND_SIZE_WIDTH = "background-size-width";
+	/**
 	 * Style property: background-position-x
 	 */
 	public static final String BACKGROUND_POSITION_X = "background-position-x";
@@ -110,6 +118,40 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Style property: border-right-style
 	 */
 	public static final String BORDER_RIGHT_STYLE = "border-right-style";
+
+	/**
+	 * Style property: border-diagonal-number
+	 */
+	public static final String BORDER_DIAGONAL_NUMBER = "border-diagonal-number";
+	/**
+	 * Style property: border-diagonal-style
+	 */
+	public static final String BORDER_DIAGONAL_STYLE = "border-diagonal-style";
+	/**
+	 * Style property: border-diagonal-width
+	 */
+	public static final String BORDER_DIAGONAL_WIDTH = "border-diagonal-width";
+	/**
+	 * Style property: border-diagonal-color
+	 */
+	public static final String BORDER_DIAGONAL_COLOR = "border-diagonal-color";
+
+	/**
+	 * Style property: border-antidiagonal-number
+	 */
+	public static final String BORDER_ANTIDIAGONAL_NUMBER = "border-antidiagonal-number";
+	/**
+	 * Style property: border-antidiagonal-style
+	 */
+	public static final String BORDER_ANTIDIAGONAL_STYLE = "border-antidiagonal-style";
+	/**
+	 * Style property: border-antidiagonal-width
+	 */
+	public static final String BORDER_ANTIDIAGONAL_WIDTH = "border-antidiagonal-width";
+	/**
+	 * Style property: border-antidiagonal-color
+	 */
+	public static final String BORDER_ANTIDIAGONAL_COLOR = "border-antidiagonal-color";
 
 	/**
 	 * Style property: can-shrink
@@ -342,6 +384,22 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public String getBackgroundRepeat() {
 		return properties.get(BACKGROUND_REPEAT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return properties.get(BACKGROUND_SIZE_HEIGHT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return properties.get(BACKGROUND_SIZE_WIDTH);
 	}
 
 	/**
@@ -828,6 +886,22 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public void setBackgroundRepeat(String repeat) {
 		setProperty(BACKGROUND_REPEAT, repeat);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		setProperty(BACKGROUND_SIZE_HEIGHT, height);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		setProperty(BACKGROUND_SIZE_WIDTH, width);
 	}
 
 	/**
@@ -1320,4 +1394,85 @@ public class TOCStyle implements IScriptStyle, Serializable {
 		}
 		return sb.toString();
 	}
+
+	@Override
+	public int getDiagonalNumber() {
+		return Integer.parseInt(properties.get(BORDER_DIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setDiagonalNumber(int number) {
+		setProperty(BORDER_DIAGONAL_NUMBER, Integer.toString(number).toString());
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return properties.get(BORDER_DIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		setProperty(BORDER_DIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return properties.get(BORDER_DIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		setProperty(BORDER_DIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return properties.get(BORDER_DIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		setProperty(BORDER_DIAGONAL_COLOR, color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return Integer.parseInt(properties.get(BORDER_ANTIDIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setAntidiagonalNumber(int number) {
+		setProperty(BORDER_ANTIDIAGONAL_NUMBER, Integer.toString(number).toString());
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return properties.get(BORDER_ANTIDIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		setProperty(BORDER_ANTIDIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return properties.get(BORDER_ANTIDIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		setProperty(BORDER_ANTIDIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return properties.get(BORDER_ANTIDIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		setProperty(BORDER_ANTIDIAGONAL_COLOR, color);
+	}
+
 }
