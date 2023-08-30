@@ -39,10 +39,10 @@
 
 # echo set common variables
 #export BIRT_HOME=BIRT-runtime_install_dir
-export BIRT_HOME=/opt/birt/birt-runtime
-export WORK_DIR=$PWD
+BIRT_HOME=""
+WORK_DIR=$PWD
 # class path : don't forget to and your connection drivers in the classpath directory
-export BIRTCLASSPATH=$BIRT_HOME/ReportEngine/lib/*
+BIRTCLASSPATH=$BIRT_HOME/ReportEngine/lib/*
 
 
 echo BIRT_HOME=$BIRT_HOME
