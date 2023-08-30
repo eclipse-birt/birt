@@ -41,7 +41,7 @@
 #export BIRT_HOME=BIRT-runtime_install_dir
 BIRT_HOME=""
 WORK_DIR=$PWD
-# class path : don't forget to and your connection drivers in the classpath directory
+# class path : don't forget to add your connection drivers in the classpath directory
 BIRTCLASSPATH=$BIRT_HOME/ReportEngine/lib/*
 
 
@@ -59,7 +59,7 @@ java_io_tmpdir=$WORK_DIR/tmpdir
 org_eclipse_datatools_workspacepath=$java_io_tmpdir/workspace_dtp
 mkdir -p $org_eclipse_datatools_workspacepath
 
-# JAVA version >= 11
+# JAVA version >= 17
 JAVACMD='java';
 $JAVACMD -Djava.awt.headless=true -cp "$BIRTCLASSPATH" -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner ${1+"$@"}
 
