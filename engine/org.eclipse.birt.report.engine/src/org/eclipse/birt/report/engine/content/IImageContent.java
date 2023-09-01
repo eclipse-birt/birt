@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import org.eclipse.birt.report.engine.api.ImageSize;
+
 /**
  * Image content in the report.
  *
@@ -94,4 +96,32 @@ public interface IImageContent extends IContent {
 	int getResolution();
 
 	void setResolution(int resolution);
+
+	/**
+	 * Set the image raw size
+	 *
+	 * @param imageRawSize image raw size
+	 */
+	public void setImageRawSize(ImageSize imageRawSize);
+
+	/**
+	 * Get the image raw size
+	 *
+	 * @return Return the image raw size
+	 */
+	public ImageSize getImageRawSize();
+
+	/**
+	 * Set the calculated image size
+	 *
+	 * @param imageCalcSize calculated image size
+	 */
+	public void setImageCalculatedSize(ImageSize imageCalcSize);
+
+	/**
+	 * Get the calculated image size
+	 *
+	 * @return Return the calculated image size
+	 */
+	public ImageSize getImageCalculatedSize();
 }

@@ -29,12 +29,15 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ImageHandleAdapter responds to model ImageHandle
  */
 public class ImageHandleAdapter extends ReportItemtHandleAdapter {
+
+	private Rectangle imageFigureSize = null;
 
 	/**
 	 * Constructor
@@ -44,6 +47,15 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	 */
 	public ImageHandleAdapter(ImageHandle image, IModelAdapterHelper mark) {
 		super(image, mark);
+	}
+
+	/**
+	 * Set the image figure size
+	 *
+	 * @param imageFigureSize size of the image figure (width & height)
+	 */
+	public void setImageFigureDimension(Rectangle imageFigureSize) {
+		this.imageFigureSize = imageFigureSize;
 	}
 
 	/**
@@ -103,11 +115,18 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	 */
 	@Override
 	public Dimension getSize() {
+		return evaluateSize(false);
+	}
+
+	public Dimension get2Size() {
+		int px = 0;
+		int py = 0;
+
 		DimensionHandle widthHandle = getImageHandle().getWidth();
-		int px = (int) DEUtil.convertoToPixel(widthHandle);
+		px = (int) DEUtil.convertoToPixel(widthHandle);
 
 		DimensionHandle heightHandle = getImageHandle().getHeight();
-		int py = (int) DEUtil.convertoToPixel(heightHandle);
+		py = (int) DEUtil.convertoToPixel(heightHandle);
 
 		if (DEUtil.isFixLayout(getHandle())) {
 			if (px == 0 && widthHandle.isSet()) {
@@ -130,11 +149,26 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	 * @return Return the size of the image item
 	 */
 	public Dimension getRawSize() {
+		return evaluateSize(true);
+	}
+
+	private Dimension evaluateSize(boolean getRawSize) {
+		int px = 0;
+		int py = 0;
+
 		DimensionHandle widthHandle = getImageHandle().getWidth();
-		int px = (int) DEUtil.convertoToPixel(widthHandle);
+		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(widthHandle.getUnits())) {
+			px = (int) DEUtil.convertToPixel(widthHandle, this.imageFigureSize.width, DesignChoiceConstants.UNITS_PX);
+		} else {
+			px = (int) DEUtil.convertoToPixel(widthHandle);
+		}
 
 		DimensionHandle heightHandle = getImageHandle().getHeight();
-		int py = (int) DEUtil.convertoToPixel(heightHandle);
+		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(heightHandle.getUnits())) {
+			py = (int) DEUtil.convertToPixel(heightHandle, this.imageFigureSize.height, DesignChoiceConstants.UNITS_PX);
+		} else {
+			py = (int) DEUtil.convertoToPixel(heightHandle);
+		}
 
 		if (DEUtil.isFixLayout(getHandle())) {
 			if (px == 0 && widthHandle.isSet()) {
@@ -145,7 +179,16 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 			}
 		}
 
-		return new Dimension(Math.max(px, 0), Math.max(py, 0));
+		// return the real raw size
+		if (getRawSize) {
+			return new Dimension(Math.max(px, 0), Math.max(py, 0));
+		}
+
+		// return only if size is given (if not return null)
+		if (px != 0 && py != 0) {
+			return new Dimension(px, py);
+		}
+		return null;
 	}
 
 	@Override

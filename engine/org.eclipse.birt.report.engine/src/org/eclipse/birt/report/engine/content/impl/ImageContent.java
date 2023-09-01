@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class ImageContent extends AbstractContent implements IImageContent {
@@ -47,6 +49,12 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/** Resolution of the image */
 	private int resolution;
 
+	/** raw image size */
+	protected ImageSize imageRawSize = null;
+
+	/** calculated image size (e.g. relative image content) */
+	protected ImageSize imageCalcSize = null;
+
 	ImageContent(IImageContent image) {
 		super(image);
 		helpTextKey = image.getHelpKey();
@@ -56,6 +64,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		data = image.getData();
 		imageMap = image.getImageMap();
 		MIMEType = image.getMIMEType();
+		imageRawSize = image.getImageRawSize();
 	}
 
 	@Override
@@ -408,5 +417,86 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	@Override
 	public void setResolution(int resolution) {
 		this.resolution = resolution;
+	}
+
+	/**
+	 * Set the image raw size
+	 *
+	 * @param imageRawSize image raw size
+	 */
+	public void setImageRawSize(ImageSize imageRawSize) {
+		this.imageRawSize = imageRawSize;
+		this.setImageCalculatedSize(calculateImageSize());
+	}
+
+	/**
+	 * Calculate the image dimension of the image
+	 *
+	 * @param imageDimensionType image dimension type (0: width, 1: height)
+	 * @return Return the calculated image dimension in "px"
+	 */
+	private ImageSize calculateImageSize() {
+
+		double contentWidthValue = 100;
+		String contentWidthUnit = "%";
+
+		double contentHeightValue = 100;
+		String contentHeightUnit = "%";
+
+		double calculatedWidthValue = 200;
+		double calculatedHeightValue = 200;
+
+		if (this.getWidth() != null) {
+			contentWidthUnit = this.getWidth().getUnits();
+			contentWidthValue = this.getWidth().getMeasure();
+		}
+
+		if (this.getHeight() != null) {
+			contentHeightUnit = this.getHeight().getUnits();
+			contentHeightValue = this.getHeight().getMeasure();
+		}
+
+		if (this.imageRawSize != null) {
+
+			// calculate the image width size in "px"
+			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(contentWidthUnit)) {
+				calculatedWidthValue = (this.imageRawSize.getWidth() * contentWidthValue / 100);
+
+			}
+
+			// calculate the image height size in "px"
+			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(contentHeightUnit)) {
+				calculatedHeightValue = (this.imageRawSize.getHeight() * contentHeightValue / 100);
+
+			}
+		}
+		return new ImageSize("px", (float) calculatedWidthValue, (float) calculatedHeightValue);
+	}
+
+	/**
+	 * Get the image raw size
+	 *
+	 * @return Return the image raw size
+	 */
+	public ImageSize getImageRawSize() {
+		return this.imageRawSize;
+	}
+
+	/**
+	 * Set the calculated image size
+	 *
+	 * @param imageCalcSize calculated image size
+	 */
+	public void setImageCalculatedSize(ImageSize imageCalcSize) {
+		this.imageCalcSize = imageCalcSize;
+	}
+
+	/**
+	 * Get the calculated image size
+	 *
+	 * @return Return the calculated image size
+	 */
+	public ImageSize getImageCalculatedSize() {
+		return this.imageCalcSize;
 	}
 }

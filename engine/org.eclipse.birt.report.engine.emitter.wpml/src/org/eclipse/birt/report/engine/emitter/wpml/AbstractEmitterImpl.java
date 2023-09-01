@@ -1016,9 +1016,11 @@ public abstract class AbstractEmitterImpl {
 		String mimeType = image.getMIMEType();
 		String extension = image.getExtension();
 		String altText = image.getAltText();
-		double height = WordUtil.convertImageSize(image.getHeight(), 0, reportDpi);
-		int parentWidth = (int) (WordUtil.twipToPt(context.getCurrentWidth()) * reportDpi / 72);
-		double width = WordUtil.convertImageSize(image.getWidth(), parentWidth, reportDpi);
+		int referenceWidth = (int) (WordUtil.twipToPt(context.getCurrentWidth()) * reportDpi / 72);
+		int referenceHeight = 0;
+		
+		double width = WordUtil.convertImageSize(image.getWidth(), referenceWidth, reportDpi);
+		double height = WordUtil.convertImageSize(image.getHeight(), referenceHeight, reportDpi);
 		context.addContainer(false);
 
 		if (FlashFile.isFlash(mimeType, uri, extension)) {
@@ -1055,6 +1057,28 @@ public abstract class AbstractEmitterImpl {
 				float scale = ((float) imageInfo.getHeight()) / ((float) imageInfo.getWidth());
 				height = width * scale;
 			}
+System.out.println("==== standard ==== ");
+System.out.println("width: " + width);
+System.out.println("height: " + height);
+			if (image.getWidth() != null && DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase(image.getWidth().getUnits())) {
+				referenceWidth = imageInfo.getWidth();
+				width = WordUtil.convertImageSize(image.getWidth(), referenceWidth,	PropertyUtil.getImageDpi(image, imageFileWidthDpi, 0));
+			}
+			if (image.getHeight() != null && DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase(image.getHeight().getUnits())) {
+				referenceHeight = imageInfo.getHeight();
+				height = WordUtil.convertImageSize(image.getHeight(), referenceHeight, PropertyUtil.getImageDpi(image, imageFileHeightDpi, 0));
+			}
+			if (image.getWidth() == null && height > 0) {
+				width = height;
+			}
+			if (width > 0 && image.getHeight() == null) {
+				height = width;
+			}
+System.out.println("==== reference ==== ");
+System.out.println("imageInfo.getWidth(): " + imageInfo.getWidth() + ", referenceWidth: " + referenceWidth);
+System.out.println("imageInfo.getHeight(): " + imageInfo.getHeight() + ", referenceHeight: " + referenceHeight);
+System.out.println("width: " + width);
+System.out.println("height: " + height);
 
 			writeBookmark(image);
 			writeToc(image);
