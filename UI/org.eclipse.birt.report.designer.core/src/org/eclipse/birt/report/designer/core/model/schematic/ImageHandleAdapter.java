@@ -111,47 +111,28 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Gets size of image item. If the image size is 0, return null.
 	 *
-	 * @return the size of image item.
+	 * @return the size of image item (unit px)
 	 */
 	@Override
 	public Dimension getSize() {
 		return evaluateSize(false);
 	}
 
-	public Dimension get2Size() {
-		int px = 0;
-		int py = 0;
-
-		DimensionHandle widthHandle = getImageHandle().getWidth();
-		px = (int) DEUtil.convertoToPixel(widthHandle);
-
-		DimensionHandle heightHandle = getImageHandle().getHeight();
-		py = (int) DEUtil.convertoToPixel(heightHandle);
-
-		if (DEUtil.isFixLayout(getHandle())) {
-			if (px == 0 && widthHandle.isSet()) {
-				px = 1;
-			}
-			if (py == 0 && heightHandle.isSet()) {
-				py = 1;
-			}
-		}
-
-		if (px != 0 && py != 0) {
-			return new Dimension(px, py);
-		}
-		return null;
-	}
-
 	/**
 	 * Gets size of image item. Always returns a non-null value.
 	 *
-	 * @return Return the size of the image item
+	 * @return Return the size of the image item (unit px)
 	 */
 	public Dimension getRawSize() {
 		return evaluateSize(true);
 	}
 
+	/**
+	 * Evaluate the size of the image based on px
+	 * 
+	 * @param getRawSize return the real raw size
+	 * @return Return the requested size of the image (unit px)
+	 */
 	private Dimension evaluateSize(boolean getRawSize) {
 		int px = 0;
 		int py = 0;

@@ -1057,9 +1057,6 @@ public abstract class AbstractEmitterImpl {
 				float scale = ((float) imageInfo.getHeight()) / ((float) imageInfo.getWidth());
 				height = width * scale;
 			}
-System.out.println("==== standard ==== ");
-System.out.println("width: " + width);
-System.out.println("height: " + height);
 			if (image.getWidth() != null && DimensionType.UNITS_PERCENTAGE.equalsIgnoreCase(image.getWidth().getUnits())) {
 				referenceWidth = imageInfo.getWidth();
 				width = WordUtil.convertImageSize(image.getWidth(), referenceWidth,	PropertyUtil.getImageDpi(image, imageFileWidthDpi, 0));
@@ -1074,11 +1071,6 @@ System.out.println("height: " + height);
 			if (width > 0 && image.getHeight() == null) {
 				height = width;
 			}
-System.out.println("==== reference ==== ");
-System.out.println("imageInfo.getWidth(): " + imageInfo.getWidth() + ", referenceWidth: " + referenceWidth);
-System.out.println("imageInfo.getHeight(): " + imageInfo.getHeight() + ", referenceHeight: " + referenceHeight);
-System.out.println("width: " + width);
-System.out.println("height: " + height);
 
 			writeBookmark(image);
 			writeToc(image);
