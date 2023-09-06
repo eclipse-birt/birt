@@ -452,8 +452,6 @@
         <repository
             url="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
         <repository
-            url="https://download.eclipse.org/mylyn/updates/milestone/latest"/>
-        <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
         <repository
             url="https://download.eclipse.org/justj/epp/release/latest/"/>
