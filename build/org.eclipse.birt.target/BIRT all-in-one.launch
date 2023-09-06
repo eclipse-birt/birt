@@ -4,6 +4,7 @@
     <stringAttribute key="application" value="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication"/>
     <booleanAttribute key="askclear" value="true"/>
     <booleanAttribute key="automaticAdd" value="false"/>
+    <booleanAttribute key="automaticIncludeRequirements" value="true"/>
     <booleanAttribute key="automaticValidate" value="true"/>
     <stringAttribute key="bootstrap" value=""/>
     <stringAttribute key="checked" value="[NONE]"/>
@@ -782,7 +783,6 @@
         <setEntry value="org.eclipse.birt.doc@default:default"/>
         <setEntry value="org.eclipse.birt.example@default:default"/>
         <setEntry value="org.eclipse.birt.jetty.overlay@default:false"/>
-        <setEntry value="org.eclipse.birt.me.prettyprint.hector@default:default"/>
         <setEntry value="org.eclipse.birt.report.data.adapter.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.data.adapter@default:default"/>
         <setEntry value="org.eclipse.birt.report.data.bidi.utils.nl1@default:false"/>

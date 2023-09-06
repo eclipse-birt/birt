@@ -17,24 +17,24 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
-import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
-import org.mozilla.javascript.Context;
 
+/**
+ * Adapter class of scripted data source
+ *
+ * @since 3.3
+ *
+ */
 public class ScriptDataSourceAdapter extends ScriptDataSourceDesign {
-	public static final String CASSANDRA_DATA_SOURCE_VALUE = "me.prettyprint.hector";//$NON-NLS-1$
-	public static final String SCRIPT_TYPE = "script_type"; //$NON-NLS-1$
-	public static final String CASSANDRA_DATA_SOURCE_SCRIPT = "Cassandra"; //$NON-NLS-1$
 
 	/**
 	 * Creates adaptor based on Model DataSourceHandle.
 	 *
-	 * @param source model handle
+	 * @param source  model handle
+	 * @param context data session context
+	 * @throws BirtException
 	 */
 	public ScriptDataSourceAdapter(ScriptDataSourceHandle source, DataSessionContext context) throws BirtException {
 		super(source.getQualifiedName());
@@ -43,41 +43,10 @@ public class ScriptDataSourceAdapter extends ScriptDataSourceDesign {
 
 		// Adapt base class properties
 		DataAdapterUtil.adaptBaseDataSource(source, this);
-		if (source.getProperty(SCRIPT_TYPE) != null
-				&& source.getProperty(SCRIPT_TYPE).equals(CASSANDRA_DATA_SOURCE_VALUE)) {
-			validateScriptDataSource(source, context);
-		}
+
 		// Adapt script data source elements
 		setOpenScript(source.getOpen());
 		setCloseScript(source.getClose());
 	}
 
-	private void validateScriptDataSource(ScriptDataSourceHandle source, DataSessionContext context)
-			throws AdapterException {
-		ScriptContext scriptContext = null;
-		try {
-			scriptContext = context.getDataEngineContext().getScriptContext();
-			IDataScriptEngine scriptEngine = (IDataScriptEngine) scriptContext
-					.getScriptEngine(IDataScriptEngine.ENGINE_NAME);
-			Context cx = scriptEngine.getJSContext(scriptContext);
-			cx.getApplicationClassLoader().loadClass("me.prettyprint.hector.api.factory.HFactory");
-		} catch (BirtException e1) {
-			try {
-				retryCustomClassLoader(context);
-			} catch (ClassNotFoundException | BirtException e) {
-				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
-			}
-		} catch (ClassNotFoundException e) {
-			try {
-				retryCustomClassLoader(context);
-			} catch (ClassNotFoundException | BirtException ex) {
-				throw new AdapterException(ResourceConstants.DATASOURCE_CASSANDRA_ERROR, e);
-			}
-		}
-	}
-
-	private void retryCustomClassLoader(DataSessionContext context) throws ClassNotFoundException, BirtException {
-		ClassLoader customClassLoader = context.getDataEngineContext().getClassLoader();
-		customClassLoader.loadClass("me.prettyprint.hector.api.factory.HFactory");
-	}
 }
