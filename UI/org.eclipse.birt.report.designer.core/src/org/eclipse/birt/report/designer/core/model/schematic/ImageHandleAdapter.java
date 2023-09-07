@@ -129,7 +129,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Evaluate the size of the image based on px
-	 * 
+	 *
 	 * @param getRawSize return the real raw size
 	 * @return Return the requested size of the image (unit px)
 	 */
@@ -137,14 +137,13 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 		int px = 0;
 		int py = 0;
 
-		DimensionHandle widthHandle = getImageHandle().getWidth();
+		DimensionHandle widthHandle = this.getImageHandle().getWidth();
 		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(widthHandle.getUnits())) {
 			px = (int) DEUtil.convertToPixel(widthHandle, this.imageFigureSize.width, DesignChoiceConstants.UNITS_PX);
 		} else {
 			px = (int) DEUtil.convertoToPixel(widthHandle);
 		}
-
-		DimensionHandle heightHandle = getImageHandle().getHeight();
+		DimensionHandle heightHandle = this.getImageHandle().getHeight();
 		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(heightHandle.getUnits())) {
 			py = (int) DEUtil.convertToPixel(heightHandle, this.imageFigureSize.height, DesignChoiceConstants.UNITS_PX);
 		} else {
@@ -158,6 +157,11 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 			if (py == 0 && heightHandle.isSet()) {
 				py = 1;
 			}
+		}
+
+		// proportional scale of the image size
+		if (this.getImageHandle().isProportionalScale()) {
+			py = px;
 		}
 
 		// return the real raw size
