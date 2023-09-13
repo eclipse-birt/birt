@@ -160,7 +160,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 		}
 
 		// proportional scale of the image size
-		if (this.getImageHandle().isProportionalScale()) {
+		if (widthHandle.getUnits() != null && this.getImageHandle().isProportionalScale()) {
 			py = px;
 		}
 
