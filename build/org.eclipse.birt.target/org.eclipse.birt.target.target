@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="16">
+<target name="Generated from BIRT" sequenceNumber="17">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
@@ -287,7 +287,7 @@
       <unit id="org.eclipse.wst.wsi.ui" version="0.0.0"/>
       <unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="0.0.0"/>
       <unit id="org.uddi4j" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/webtools/downloads/drops/R3.31.0/R-3.31.0-20230903090456/repository"/>
+      <repository location="https://download.eclipse.org/webtools/repository/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.justj.epp.feature.group" version="0.0.0"/>
