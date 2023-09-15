@@ -542,8 +542,19 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 	@Override
 	public void buildImageStyle(IImageContent image, StringBuffer styleBuffer, int display) {
 		// image size
-		buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth()); // $NON-NLS-1$
-		buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, image.getHeight()); // $NON-NLS-1$
+
+		DimensionType imgWidth = image.getWidth();
+		if (imgWidth != null && "%".equals(imgWidth.getUnits()) && image.getImageCalculatedSize().getWidth() > 0) {
+			imgWidth = new DimensionType(image.getImageCalculatedSize().getWidth(), "px");
+		}
+
+		DimensionType imgHeight = image.getHeight();
+		if (imgHeight != null && "%".equals(imgHeight.getUnits()) && image.getImageCalculatedSize().getHeight() > 0) {
+			imgHeight = new DimensionType(image.getImageCalculatedSize().getHeight(), "px");
+		}
+
+		buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, imgWidth); // $NON-NLS-1$
+		buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, imgHeight); // $NON-NLS-1$
 		// build the value of display
 		// An image is indeed inline by default, and align itself on the text
 		// baseline with room for descenders. That caused the gap and extra height,

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -24,6 +25,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.ImageSize;
@@ -63,6 +66,8 @@ public class Image extends ReportPart implements IImage {
 	protected String imageMap;
 
 	protected ImageSize imageSize;
+
+	protected ImageSize imageRawSize;
 
 	/**
 	 * Constructor with an image uri
@@ -168,12 +173,13 @@ public class Image extends ReportPart implements IImage {
 			assert (false);
 		}
 
-	} /*
-		 * (non-Javadoc)
-		 *
-		 * @see org.eclipse.birt.report.engine.api2.IImage#getID()
-		 */
+	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.api2.IImage#getID()
+	 */
 	@Override
 	public String getID() {
 		return id;
@@ -324,6 +330,12 @@ public class Image extends ReportPart implements IImage {
 					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
+			try {
+				BufferedImage bImg = ImageIO.read(dest);
+				this.imageRawSize = new ImageSize("px", bImg.getWidth(), bImg.getHeight());
+			} catch (Exception ex) {
+				this.imageRawSize = new ImageSize("px", 0, 0);
+			}
 		}
 	}
 
@@ -368,5 +380,23 @@ public class Image extends ReportPart implements IImage {
 	@Override
 	public ImageSize getImageSize() {
 		return imageSize;
+	}
+
+	/**
+	 * Set the raw size of the image
+	 *
+	 * @param rawSize The raw image size
+	 */
+	public void setImageRawSize(ImageSize rawSize) {
+		this.imageRawSize = rawSize;
+	}
+
+	/**
+	 * Get the raw size of the image
+	 *
+	 * @return Return the raw size of the image
+	 */
+	public ImageSize getImageRawSize() {
+		return this.imageRawSize;
 	}
 }

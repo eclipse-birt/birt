@@ -15,6 +15,7 @@
 package org.eclipse.birt.report.engine.internal.content.wrap;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 
@@ -160,4 +161,23 @@ public class ImageContent extends AbstractContentWrapper implements IImageConten
 		imageContent.setResolution(resolution);
 	}
 
+	@Override
+	public void setImageRawSize(ImageSize imageRawSize) {
+		imageContent.setImageRawSize(imageRawSize);
+	}
+
+	@Override
+	public ImageSize getImageRawSize() {
+		return imageContent.getImageRawSize();
+	}
+
+	@Override
+	public void setImageCalculatedSize(ImageSize imageCalcSize) {
+		imageContent.setImageCalculatedSize(imageCalcSize);
+	}
+
+	@Override
+	public ImageSize getImageCalculatedSize() {
+		return imageContent.getImageCalculatedSize();
+	}
 }

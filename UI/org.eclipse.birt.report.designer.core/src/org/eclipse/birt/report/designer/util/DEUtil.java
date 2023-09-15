@@ -63,7 +63,6 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -256,30 +255,11 @@ public class DEUtil {
 	}
 
 	/**
-	 * Gets the support list of the given parent element. The slotID is decided by
-	 * the parent element.
-	 *
-	 * @param parent the parent element
-	 * @return the the support list of the element
-	 *
-	 * @deprecated use {@link #getElementSupportList(DesignElementHandle, int)} or
-	 *             {@link #getElementSupportList(SlotHandle)}
-	 */
-	@Deprecated
-	public static List<IElementDefn> getElementSupportList(DesignElementHandle parent) {
-		int slotID = -1;
-		if (parent instanceof MasterPageHandle) {
-			slotID = IGraphicMaterPageModel.CONTENT_SLOT;
-		}
-		return getElementSupportList(parent, slotID);
-	}
-
-	/**
 	 * Gets the support list of the given property handle.
 	 *
 	 * Note: this method returns all supported elements including invisible ones
 	 * from UI. To get supported UI element list, check
-	 * {@link UIUtil#getUIElementSupportList()}
+	 * {@link UIUtil#getUIElementSupportList(PropertyHandle propertyHandle)}
 	 *
 	 * @param propertyHandle
 	 * @return Return the support list of the given property handle.
@@ -611,19 +591,35 @@ public class DEUtil {
 	 * @return The pixel value.
 	 */
 	public static double convertoToPixel(Object handle) {
-		return convertToPixel(handle, 0);
+		return convertToPixel(handle, 0, null);
 	}
 
 	/**
 	 * Transform other units to pixel.
 	 *
 	 * @param object   model to keep the measure and units.
-	 * @param fontSize the parent font size.
+	 * @param fontSize the parent font size
 	 * @return The pixel value.
 	 */
 	public static double convertToPixel(Object object, int fontSize) {
+		return convertToPixel(object, fontSize, null);
+	}
+
+	/**
+	 * Transform other units to pixel.
+	 *
+	 * @param object   model to keep the measure and units.
+	 * @param refValue reference value of relative converting (default: the parent
+	 *                 font size)
+	 * @param refUnit  reference unit of relative converting (default: font unit
+	 *                 "pt")
+	 * @return The pixel value.
+	 */
+	public static double convertToPixel(Object object, int refValue, String refUnit) {
+
 		double px = 0;
 		double measure = 0;
+		double calcValue = 0;
 		String units = ""; //$NON-NLS-1$
 
 		if (object instanceof DimensionValue) {
@@ -646,23 +642,30 @@ public class DEUtil {
 			px = measure;
 		}
 
-		if (fontSize == 0) {
+		if (refValue == 0) {
 			Font defaultFont = JFaceResources.getDefaultFont();
 			FontData[] fontData = defaultFont.getFontData();
-			fontSize = fontData[0].getHeight();
+			refValue = fontData[0].getHeight();
 		}
 
 		if (DesignChoiceConstants.UNITS_EM.equals(units)) {
 			px = DimensionUtil
-					.convertTo(measure * fontSize, DesignChoiceConstants.UNITS_PT, DesignChoiceConstants.UNITS_IN)
+					.convertTo(measure * refValue, DesignChoiceConstants.UNITS_PT,
+							DesignChoiceConstants.UNITS_IN)
 					.getMeasure();
 		} else if (DesignChoiceConstants.UNITS_EX.equals(units)) {
 			px = DimensionUtil
-					.convertTo(measure * fontSize / 3, DesignChoiceConstants.UNITS_PT, DesignChoiceConstants.UNITS_IN)
+					.convertTo(measure * refValue / 3, DesignChoiceConstants.UNITS_PT,
+							DesignChoiceConstants.UNITS_IN)
 					.getMeasure();
 		} else if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(units)) {
+			calcValue = (measure * refValue / 100);
+			if (DesignChoiceConstants.UNITS_PX.equals(refUnit)) {
+				return calcValue;
+			}
 			px = DimensionUtil
-					.convertTo(measure * fontSize / 100, DesignChoiceConstants.UNITS_PT, DesignChoiceConstants.UNITS_IN)
+					.convertTo(calcValue, DesignChoiceConstants.UNITS_PT,
+							DesignChoiceConstants.UNITS_IN)
 					.getMeasure();
 		}
 		// added by gao if unit is "", set the unit is Design default unit
@@ -1973,18 +1976,20 @@ public class DEUtil {
 	 * @return the list of all visible column bindings.The list order is from the
 	 *         top to the given element
 	 */
-	public static List getVisiableColumnBindingsList(DesignElementHandle handle) {
+	public static List<ComputedColumnHandle> getVisiableColumnBindingsList(DesignElementHandle handle) {
 		return getVisiableColumnBindingsList(handle, true);
 	}
 
 	/**
 	 * Returns all visible column bindings for the given element
 	 *
-	 * @param handle the handle of the element
+	 * @param handle      the handle of the element
+	 * @param includeSelf include the column binding himself
 	 * @return the list of all visible column bindings.The list order is from the
 	 *         top to the given element
 	 */
-	public static List getVisiableColumnBindingsList(DesignElementHandle handle, boolean includeSelf) {
+	public static List getVisiableColumnBindingsList(DesignElementHandle handle,
+			boolean includeSelf) {
 		List bindingList = new ArrayList();
 		if (includeSelf) {
 			Iterator iterator = getBindingColumnIterator(handle);
