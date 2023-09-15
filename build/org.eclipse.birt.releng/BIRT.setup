@@ -452,15 +452,7 @@
         <repository
             url="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
         <repository
-            url="https://download.eclipse.org/webtools/downloads/drops/R3.31.0/R-3.31.0-20230903090456/repository">
-          <annotation
-              source="justitification">
-            <detail
-                key="reason">
-              <value>The https://download.eclipse.org/webtools/repository/latest composite composes https://download.eclipse.org/webtools/downloads/drops/R3.31.0/R-3.31.0-20230903090456 and not https://download.eclipse.org/webtools/downloads/drops/R3.31.0/R-3.31.0-20230903090456/repository</value>
-            </detail>
-          </annotation>
-        </repository>
+            url="https://download.eclipse.org/webtools/repository/latest"/>
         <repository
             url="https://download.eclipse.org/justj/epp/release/latest/"/>
         <repository
