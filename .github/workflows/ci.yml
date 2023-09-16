@@ -31,7 +31,7 @@ jobs:
       with:
        access_token: ${{ github.token }}
     - name: Clean up log files
-      run: sudo rm -rf "/home/runner/runners" && sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
+      run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
     - name: Checkout
       uses: actions/checkout@v1
     - name: Set up JDK 17
