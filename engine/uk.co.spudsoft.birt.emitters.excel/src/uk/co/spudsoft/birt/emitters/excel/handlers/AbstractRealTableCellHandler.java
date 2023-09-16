@@ -325,6 +325,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		int colSpan = ((ICellContent) element).getColSpan();
 		ITableHandler tableHandler = getAncestor(ITableHandler.class);
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& image.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) image.getParent()).getGenerateBy()).getContentCount())) {
 			imageCanSpan = true;
 		}

@@ -133,6 +133,7 @@ public class CellContentHandler extends AbstractHandler {
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
 	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
+	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
 	/**
 	 * Constructor
@@ -594,7 +595,11 @@ public class CellContentHandler extends AbstractHandler {
 					}
 					decodedImg = new String(image.getData());
 				}
-				decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+				try {
+					decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+				} catch (IllegalArgumentException iae) {
+					// do nothing
+				}
 				data = SvgFile.transSvgToArray(new ByteArrayInputStream(decodedImg.getBytes()));
 
 			} catch (Exception e) {
@@ -685,12 +690,13 @@ public class CellContentHandler extends AbstractHandler {
 	 */
 	private String verifyURI(String uri) {
 		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			String tmpUrl = uri.replaceAll(" ", URL_PROTOCOL_URL_ENCODED_SPACE);
 			try {
-				new URL(uri).toURI();
+				new URL(tmpUrl).toURI();
 			} catch (MalformedURLException | URISyntaxException excUrl) {
 				// invalid URI try it like "file:///"
 				try {
-					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
 					new URL(tmpUrl).toURI();
 					uri = tmpUrl;
 				} catch (MalformedURLException | URISyntaxException excFile) {
