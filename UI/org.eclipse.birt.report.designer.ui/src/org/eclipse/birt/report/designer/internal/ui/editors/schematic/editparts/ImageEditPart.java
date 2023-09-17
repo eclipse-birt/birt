@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ImageHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
@@ -97,7 +97,7 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 			public boolean understandsRequest(Request request) {
 				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
 						|| RequestConstants.REQ_OPEN.equals(request.getType())
-						|| ReportRequest.CREATE_ELEMENT.equals(request.getType())) {
+						|| ReportRequestConstants.CREATE_ELEMENT.equals(request.getType())) {
 					return true;
 				}
 				return super.understandsRequest(request);
@@ -133,6 +133,9 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 		}
 
 		((ImageFigure) this.getFigure()).setImage(image);
+		if (((ImageFigure) this.getFigure()).getImage() != null) {
+			this.getImageAdapter().setImageFigureDimension(((ImageFigure) this.getFigure()).getImage().getBounds());
+		}
 
 		if (getImageAdapter().getSize() != null) {
 			this.getFigure().setSize(getImageAdapter().getSize());
@@ -189,7 +192,7 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 	@Override
 	public void performDirectEdit() {
 //		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
-		List dataSetList = DEUtil.getDataSetListExcludeSelf((DesignElementHandle) getModel());
+		List<?> dataSetList = DEUtil.getDataSetListExcludeSelf((DesignElementHandle) getModel());
 		ImageBuilder dialog = new ImageBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 				ImageBuilder.DLG_TITLE_EDIT, dataSetList);
 		dialog.setInput(getModel());

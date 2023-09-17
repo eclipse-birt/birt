@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -73,10 +74,15 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 	private WorkingData data = null;
 
-	private Hashtable constraints = new Hashtable();
+	private Hashtable<IFigure, Object> constraints = new Hashtable<IFigure, Object>();
 
 	private String layoutPreference = DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT;
 
+	/**
+	 * Get layout preference
+	 *
+	 * @return Return the layout preference
+	 */
 	public String getLayoutPreference() {
 		return layoutPreference;
 	}
@@ -234,13 +240,13 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				}
 
 				for (int i = 0; i < data.bounds.length; i++) {
-					Rectangle fbounds = data.bounds[i].getCopy().crop(data.margin[i]);
+					Rectangle fbounds = data.bounds[i].getCopy().shrink(data.margin[i]);
 					fbounds.y += adjustment;
 					setBoundsOfChild(parent, data.row[i], fbounds);
 				}
 			} else {
 				for (int i = 0; i < data.bounds.length; i++) {
-					Rectangle fbounds = data.bounds[i].getCopy().crop(data.margin[i]);
+					Rectangle fbounds = data.bounds[i].getCopy().shrink(data.margin[i]);
 					setBoundsOfChild(parent, data.row[i], fbounds);
 				}
 			}
@@ -338,7 +344,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 			}
 
 			if (!needVerticalAlign) {
-				setBoundsOfChild(parent, data.row[j], data.bounds[j].getCopy().crop(data.margin[j]));
+				setBoundsOfChild(parent, data.row[j], data.bounds[j].getCopy().shrink(data.margin[j]));
 			}
 		}
 
@@ -438,9 +444,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint(element);
 		if (constraint != null) {
 			return constraint.getDisplay();
-		} else {
-			return ReportItemConstraint.BLOCK;
 		}
+		return ReportItemConstraint.BLOCK;
 	}
 
 	@Override
@@ -464,7 +469,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		}
 	}
 
-	private void updateChild(IFigure child, int wHint) {
+	private void updateChild(IFigure child) {
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint(child);
 
 		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(layoutPreference)
@@ -510,7 +515,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	}
 
 	protected Dimension getChildSize(IFigure child, int wHint, int hHint) {
-		updateChild(child, wHint);
+		updateChild(child);
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint(child);
 		Dimension preferredDimension;
 		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(layoutPreference)
@@ -522,7 +527,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 				if (dimension.width <= 0) {
 					if (constraint.getMeasure() != 0
-							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals(constraint.getUnits())) {
+							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals(constraint.getUnits())
+							&& !(child instanceof ImageFigure)) {
 						int trueWidth;
 						// if (trueWidth <= 0)
 						{
@@ -538,7 +544,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 			preferredDimension = child.getPreferredSize(wHint, hHint);
 		}
 
-		// now support the persent value
+		// now support the percent value
 		if (constraint != null && !constraint.isFitContiner()) {
 			if (constraint.isNone()) {
 				// DISPLAY = none, do not display
@@ -559,9 +565,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				}
 			}
 			return dimension;
-		} else {
-			return preferredDimension;
 		}
+		return preferredDimension;
 	}
 
 	/**
@@ -595,7 +600,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		// The preferred dimension that is to be calculated and returned
 		Dimension prefSize = new Dimension();
 
-		List children = container.getChildren();
+		List<?> children = container.getChildren();
 		int width = 0;
 		int height = 0;
 		IFigure child;
@@ -690,7 +695,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		// The preferred dimension that is to be calculated and returned
 		Dimension prefSize = new Dimension();
 
-		List children = container.getChildren();
+		List<?> children = container.getChildren();
 		int width = 0;
 		int height = 0;
 		IFigure child;
@@ -708,7 +713,7 @@ public class ReportFlowLayout extends AbstractHintLayout {
 			}
 			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(layoutPreference)
 					&& child instanceof IFixLayoutHelper) {
-				updateChild(child, wHint);
+				updateChild(child);
 				int display;
 				display = getDisplay(child);
 				if (display == ReportItemConstraint.INLINE && child instanceof LabelFigure
@@ -776,6 +781,11 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		return prefSize;
 	}
 
+	/**
+	 * Set layout preference
+	 *
+	 * @param layoutPreference layout preference
+	 */
 	public void setLayoutPreference(String layoutPreference) {
 		this.layoutPreference = layoutPreference;
 		layoutStrategy = null;
@@ -790,6 +800,11 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		throw new RuntimeException("Don't support this flow layout style"); //$NON-NLS-1$
 	}
 
+	/**
+	 * Get layout strategy
+	 *
+	 * @return Return the layout strategy
+	 */
 	public IFlowLayoutStrategy getLayoutStrategy() {
 		if (layoutStrategy == null) {
 			layoutStrategy = createFlowLayoutStrategy();
@@ -797,7 +812,19 @@ public class ReportFlowLayout extends AbstractHintLayout {
 		return layoutStrategy;
 	}
 
+	/**
+	 * Interface definition of flow layout strategy
+	 *
+	 * @since 3.3
+	 *
+	 */
 	public interface IFlowLayoutStrategy {
+		/**
+		 * Constructor
+		 *
+		 * @param figure
+		 * @param data
+		 */
 		void layout(IFigure figure, WorkingData data);
 	}
 
@@ -805,9 +832,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 
 		@Override
 		public void layout(IFigure parent, WorkingData data) {
-			Iterator iterator = parent.getChildren().iterator();
+			Iterator<?> iterator = parent.getChildren().iterator();
 			int dx;
-			int i = 0;
 			int display = ReportItemConstraint.BLOCK;
 			int lastDisplay = ReportItemConstraint.BLOCK;
 
@@ -857,7 +883,6 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				data.margin[data.rowCount] = fmargin;
 				data.bounds[data.rowCount] = r;
 				data.rowCount++;
-				i++;
 			}
 			if (data.rowCount > data.rowPos) {
 				layoutRow(parent);
@@ -869,9 +894,8 @@ public class ReportFlowLayout extends AbstractHintLayout {
 	private class FixLayoutStrategy implements IFlowLayoutStrategy {
 		@Override
 		public void layout(IFigure parent, WorkingData data) {
-			Iterator iterator = parent.getChildren().iterator();
+			Iterator<?> iterator = parent.getChildren().iterator();
 			int dx;
-			int i = 0;
 
 			int display = ReportItemConstraint.BLOCK;
 			int lastDisplay = ReportItemConstraint.BLOCK;
@@ -920,7 +944,6 @@ public class ReportFlowLayout extends AbstractHintLayout {
 				data.margin[data.rowCount] = fmargin;
 				data.bounds[data.rowCount] = r;
 				data.rowCount++;
-				i++;
 			}
 			if (data.rowCount > data.rowPos) {
 				layoutRow(parent);

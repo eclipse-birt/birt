@@ -218,11 +218,22 @@ public class ImageAreaLayout implements ILayout {
 			int imageFileDpiX = 0;
 			int imageFileDpiY = 0;
 
+			// prepare the raw image size
+			int referenceWidth = pWidth;
+			int referenceHeight = -1;
 			if (reader.getType() == ImageReader.TYPE_IMAGE_OBJECT
 					|| reader.getType() == ImageReader.TYPE_CONVERTED_SVG_OBJECT) {
 				if (imageObject != null) {
 					imageFileDpiX = imageObject.getDpiX();
 					imageFileDpiY = imageObject.getDpiY();
+
+					// set the raw image size like reference (used points)
+					referenceWidth = (int) (imageObject.getWidth()
+							/ PropertyUtil.getRenderDpi(content, context.getDpi())
+							* 72000d);
+					referenceHeight = (int) (imageObject.getHeight()
+							/ PropertyUtil.getRenderDpi(content, context.getDpi())
+							* 72000d);
 				}
 			}
 			resolutionX = PropertyUtil.getImageDpi(content, imageFileDpiX, context.getDpi());
@@ -234,9 +245,9 @@ public class ImageAreaLayout implements ILayout {
 				logger.log(Level.SEVERE, e.getLocalizedMessage());
 			}
 			int specifiedWidth = PropertyUtil.getImageDimensionValue(content, content.getWidth(), context.getDpi(),
-					pWidth);
+					referenceWidth);
 			int specifiedHeight = PropertyUtil.getImageDimensionValue(content, content.getHeight(), context.getDpi(),
-					-1);
+					referenceHeight);
 
 			Dimension dim = new Dimension(DEFAULT_WIDHT, DEFAULT_HEIGHT);
 			if (intrinsic == null) {

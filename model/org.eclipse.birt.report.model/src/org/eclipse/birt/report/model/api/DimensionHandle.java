@@ -193,7 +193,7 @@ public class DimensionHandle extends ComplexValueHandle {
 	 */
 
 	public void setAbsolute(double value) throws SemanticException {
-		setValue(new Double(value));
+		setValue(Double.valueOf(value));
 	}
 
 	/**

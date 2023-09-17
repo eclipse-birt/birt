@@ -13,6 +13,7 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -33,6 +34,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -44,6 +47,7 @@ import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IMetadataFilter;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -386,14 +390,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		this.services = services;
 
 		this.out = EmitterUtil.getOuputStream(services, REPORT_FILE);
-
-		// FIXME: code review: solve the deprecated problem.
-		/*
-		 * Object emitterConfig = services.getEmitterConfig().get("html"); //$NON-NLS-1$
-		 * if (emitterConfig instanceof HTMLEmitterConfig) { imageHandler =
-		 * ((HTMLEmitterConfig) emitterConfig).getImageHandler(); actionHandler =
-		 * ((HTMLEmitterConfig) emitterConfig).getActionHandler(); }
-		 */
 
 		// usage of HTMLRenderOption instead of deprecated HTMLEmitterConfig
 		Object im = services.getOption(IRenderOption.IMAGE_HANDLER);
@@ -2829,9 +2825,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			outputImageStyleClassBookmark(image, HTMLTags.TAG_IMAGE);
 
 			String ext = image.getExtension();
-
 			String imgUri = getImageURI(image);
-			// FIXME special process, such as encoding etc
 			writer.attribute(HTMLTags.ATTR_SRC, imgUri);
 
 			if (hasImageMap) {
@@ -2993,10 +2987,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	/**
-	 * gets the image's URI
+	 * Get the image URI
 	 *
 	 * @param image the image content
-	 * @return image's URI
+	 * @return Return the image URI
 	 */
 	protected String getImageURI(IImageContent image) {
 		String imgUri = null;
@@ -3015,6 +3009,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 			// image URI with http/https
 			if (image.getImageSource() == IImageContent.IMAGE_URL && !imgUri.contains(URL_PROTOCOL_TYPE_FILE)) {
+
+				try {
+					// fetch the raw image size
+					URL url = new URL(imgUri);
+					BufferedImage bImg = ImageIO.read(url);
+					image.setImageRawSize(new ImageSize("px", bImg.getWidth(), bImg.getHeight()));
+				} catch (Exception ex) {
+					image.setImageRawSize(new ImageSize("px", DEFAULT_IMAGE_PX_WIDTH, DEFAULT_IMAGE_PX_HEIGHT));
+				}
 				return imgUri;
 			}
 
@@ -3040,8 +3043,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			case IImage.INVALID_IMAGE:
 				break;
 			}
+			image.setImageRawSize(img.getImageRawSize());
 		}
-
 		return imgUri;
 	}
 

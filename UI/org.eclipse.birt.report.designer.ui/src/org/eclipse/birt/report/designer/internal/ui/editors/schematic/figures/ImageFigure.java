@@ -122,7 +122,7 @@ public class ImageFigure extends ReportElementFigure implements IOutsideBorder {
 	protected void paintFigure(Graphics graphics) {
 		if (isOpaque()) {
 			if (getBorder() instanceof BaseBorder) {
-				graphics.fillRectangle(getBounds().getCopy().crop(((BaseBorder) getBorder()).getBorderInsets()));
+				graphics.fillRectangle(getBounds().getCopy().shrink(((BaseBorder) getBorder()).getBorderInsets()));
 			} else {
 				graphics.fillRectangle(getBounds());
 			}
