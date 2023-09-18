@@ -239,7 +239,6 @@ United States, other countries, or both.
       <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
-      <plugin id="org.eclipse.birt.me.prettyprint.hector"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils.ui"/>
