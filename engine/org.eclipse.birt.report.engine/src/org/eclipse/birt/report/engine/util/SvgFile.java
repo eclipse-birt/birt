@@ -79,7 +79,11 @@ public class SvgFile {
 					}
 				}
 			}
-			decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+			try {
+				decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+			} catch (IllegalArgumentException iae) {
+				// do nothing
+			}
 			data = SvgFile.transSvgToArray(new ByteArrayInputStream(decodedImg.getBytes()));
 		} else {
 			InputStream in = new URL(uri).openStream();
