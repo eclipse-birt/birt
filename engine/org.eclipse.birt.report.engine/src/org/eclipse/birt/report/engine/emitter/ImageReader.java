@@ -82,6 +82,7 @@ public class ImageReader {
 
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
 	/**
 	 * Constructor
@@ -229,8 +230,12 @@ public class ImageReader {
 					bytes = parseDataUrl.getData().getBytes(StandardCharsets.UTF_8); /* Charset of the SVG file */
 				}
 				if (this.objectType == TYPE_SVG_OBJECT) {
-					String decodedImg = java.net.URLDecoder.decode(new String(bytes), StandardCharsets.UTF_8);
-					bytes = decodedImg.getBytes(StandardCharsets.UTF_8);
+					try {
+						String decodedImg = java.net.URLDecoder.decode(new String(bytes), StandardCharsets.UTF_8);
+						bytes = decodedImg.getBytes(StandardCharsets.UTF_8);
+					} catch (IllegalArgumentException iae) {
+						// do nothing
+					}
 				}
 
 				if (bytes != null) {
@@ -310,12 +315,13 @@ public class ImageReader {
 	 */
 	private String verifyURI(String uri) {
 		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			String tmpUrl = uri.replaceAll(" ", URL_PROTOCOL_URL_ENCODED_SPACE);
 			try {
-				new URL(uri).toURI();
+				new URL(tmpUrl).toURI();
 			} catch (MalformedURLException | URISyntaxException excUrl) {
 				// invalid URI try it like "file:"
 				try {
-					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
 					new URL(tmpUrl).toURI();
 					uri = tmpUrl;
 				} catch (MalformedURLException | URISyntaxException excFile) {

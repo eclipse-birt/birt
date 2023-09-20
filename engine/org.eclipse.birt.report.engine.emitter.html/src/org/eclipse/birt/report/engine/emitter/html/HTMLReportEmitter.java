@@ -370,6 +370,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
 	/**
 	 * the constructor
@@ -3587,12 +3588,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	private String verifyURI(String uri) {
 		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			String tmpUrl = uri.replaceAll(" ", URL_PROTOCOL_URL_ENCODED_SPACE);
 			try {
-				new URL(uri).toURI();
+				new URL(tmpUrl).toURI();
 			} catch (MalformedURLException | URISyntaxException excUrl) {
 				// invalid URI try it like "file:"
 				try {
-					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
 					new URL(tmpUrl).toURI();
 					uri = tmpUrl;
 				} catch (MalformedURLException | URISyntaxException excFile) {
