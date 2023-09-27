@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -17,6 +17,7 @@ package uk.co.spudsoft.birt.emitters.excel.handlers;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -25,6 +26,8 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
@@ -64,6 +67,30 @@ public class FlattenedListHandler extends AbstractHandler {
 
 	@Override
 	public void endListGroup(HandlerState state, IListGroupContent group) throws BirtException {
+	}
+
+	@Override
+	public void startTable(HandlerState state, ITableContent table) throws BirtException {
+	}
+
+	@Override
+	public void endTable(HandlerState state, ITableContent table) throws BirtException {
+	}
+
+	@Override
+	public void startRow(HandlerState state, IRowContent row) throws BirtException {
+	}
+
+	@Override
+	public void endRow(HandlerState state, IRowContent row) throws BirtException {
+	}
+
+	@Override
+	public void startCell(HandlerState state, ICellContent cell) throws BirtException {
+	}
+
+	@Override
+	public void endCell(HandlerState state, ICellContent cell) throws BirtException {
 	}
 
 	@Override

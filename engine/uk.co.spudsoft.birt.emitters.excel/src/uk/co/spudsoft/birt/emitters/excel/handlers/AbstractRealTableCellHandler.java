@@ -211,6 +211,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		TableContent myTableContent = cellDesignsTableContent();
 
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& table.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) table.getParent()).getGenerateBy()).getContentCount())) {
 			// Parent row contains only one item
 
@@ -262,6 +263,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		int colSpan = ((ICellContent) element).getColSpan();
 		ITableHandler tableHandler = getAncestor(ITableHandler.class);
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& list.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) list.getParent()).getGenerateBy()).getContentCount())) {
 
 			containsTable = true;
