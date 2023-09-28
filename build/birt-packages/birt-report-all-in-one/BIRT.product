@@ -253,10 +253,6 @@ United States, other countries, or both.
       <feature id="org.eclipse.datatools.sqltools.doc.user" installMode="root"/>
       <feature id="org.eclipse.draw2d" installMode="root"/>
       <feature id="org.eclipse.e4.rcp" installMode="root"/>
-      <feature id="org.eclipse.ecf.core.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.core.ssl.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.filetransfer.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.feature" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ecore.ui" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ecore" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ui" installMode="root"/>

@@ -440,11 +440,11 @@
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="https://download.eclipse.org/oomph/simrel-orbit/2023-06"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
         <repository
-            url="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
+            url="https://download.eclipse.org/oomph/jetty/release/10.0.16"/>
         <repository
             url="https://download.eclipse.org/datatools/updates/milestone/latest"/>
         <repository
