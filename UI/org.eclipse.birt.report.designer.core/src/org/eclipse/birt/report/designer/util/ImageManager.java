@@ -282,7 +282,7 @@ public class ImageManager {
 		Decoder decoder = java.util.Base64.getDecoder();
 
 		try {
-			if (url.contains(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
+			if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
 			{
 				in = convertSvgToRasterImage(new String(decoder.decode(imageDataBase64)));
 			} else {
