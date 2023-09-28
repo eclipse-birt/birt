@@ -50,7 +50,6 @@ import org.eclipse.swt.graphics.ImageLoader;
 /**
  * Manages all image resources.
  */
-
 public class ImageManager {
 
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
@@ -283,9 +282,9 @@ public class ImageManager {
 		Decoder decoder = java.util.Base64.getDecoder();
 
 		try {
-			if (url.toLowerCase().contains(URL_PROTOCOL_TYPE_DATA_BASE)) // $NON-NLS-1$
+			if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
 			{
-				in = convertSvgToRasterImage(url.toString());
+				in = convertSvgToRasterImage(new String(decoder.decode(imageDataBase64)));
 			} else {
 				in = new ByteArrayInputStream(decoder.decode(imageDataBase64));
 			}
