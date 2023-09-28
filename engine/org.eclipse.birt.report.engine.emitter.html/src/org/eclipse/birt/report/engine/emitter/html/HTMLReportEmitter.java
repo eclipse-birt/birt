@@ -3302,16 +3302,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
 		URL url = design.findResource(uri, IResourceLocator.IMAGE, reportContext.getAppContext());
 		String fileExtension = null;
-
 		Module module = design.getModule();
-		BackgroundImageInfo backgroundImage = null;
+		ResourceLocatorWrapper rl = null;
+		ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
+		if (exeContext != null) {
+			rl = exeContext.getResourceLocator();
+		}
+		BackgroundImageInfo backgroundImage = new BackgroundImageInfo("", null, 0, 0, 0, 0, rl, module);
 
 		if (isBackground && imageStyle != null) {
-			ResourceLocatorWrapper rl = null;
-			ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
-			if (exeContext != null) {
-				rl = exeContext.getResourceLocator();
-			}
 			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
 					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
 
@@ -3375,7 +3374,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			default:
 				assert (false);
 			}
-			backgroundImage.setUri(imgUri);
+			if (backgroundImage != null) {
+				backgroundImage.setUri(imgUri);
+			}
 		}
 		return backgroundImage;
 	}
