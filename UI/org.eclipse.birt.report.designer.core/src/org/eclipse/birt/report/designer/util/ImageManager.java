@@ -50,7 +50,6 @@ import org.eclipse.swt.graphics.ImageLoader;
 /**
  * Manages all image resources.
  */
-
 public class ImageManager {
 
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
