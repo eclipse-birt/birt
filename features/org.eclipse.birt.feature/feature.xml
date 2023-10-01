@@ -265,28 +265,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.w3c.css.sac"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.events"
-         download-size="0"
-         install-size="0"
-         version="3.0.0.draft20060413_v201105210656"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.smil"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.svg"
+         id="org.eclipse.orbit.xml-apis-ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -863,37 +842,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.w3c.dom.svg.extension"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.events"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.transcoder.birt.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.dom.birt.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.branding"
          download-size="0"
          install-size="0"
@@ -901,7 +849,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.collections4"
+         id="org.apache.commons.commons-collections4"
          download-size="0"
          install-size="0"
          version="0.0.0"

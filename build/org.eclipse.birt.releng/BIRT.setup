@@ -213,7 +213,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      value="${eclipse.target.platform.latest}"
+      value="2023-09"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup.p2:P2Task"
@@ -440,7 +440,7 @@
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/milestone/latest"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
         <repository
             url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
         <repository

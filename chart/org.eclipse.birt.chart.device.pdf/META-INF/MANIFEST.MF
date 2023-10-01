@@ -14,6 +14,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: .,
  lib/fop-2.6.jar
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
-Import-Package: org.apache.batik.ext.awt.color;version="1.13.0",
- org.apache.batik.transcoder;version="1.14.0",
+Import-Package: org.apache.batik.ext.awt.color;version="1.17.0",
+ org.apache.batik.transcoder;version="1.17.0",
  org.w3c.dom.events

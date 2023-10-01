@@ -477,6 +477,7 @@
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.dom_*.jar"/>
 				<include name="org.apache.batik.*jar"/>
+				<include name="org.eclipse.orbit.xml-apis-ext_*.jar"/>
 				<include name="org.w3c.dom.svg_*.jar"/>
 				<include name="org.w3c.dom.smil_*.jar"/>
 				<include name="org.w3c.css.sac_*.jar"/>

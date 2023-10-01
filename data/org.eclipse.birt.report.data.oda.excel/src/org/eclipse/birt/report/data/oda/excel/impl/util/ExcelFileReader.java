@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -25,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -276,8 +274,8 @@ public class ExcelFileReader {
 		}
 
 		if (cell.getCellType() == CellType.NUMERIC /* Cell.CELL_TYPE_NUMERIC */) {
-			if (HSSFDateUtil.isCellDateFormatted(cell)) {
-				Date myjavadate = HSSFDateUtil.getJavaDate(cell.getNumericCellValue());
+			if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
+				Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
 				return sdf.format(myjavadate);
 			}
 			return Double.toString(cell.getNumericCellValue());

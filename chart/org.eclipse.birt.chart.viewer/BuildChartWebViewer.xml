@@ -141,6 +141,7 @@
 				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
+				<include name="org.eclipse.orbit.xml-apis-ext_*.jar"/>
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.w3c.dom*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
