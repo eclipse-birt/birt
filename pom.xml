@@ -318,7 +318,6 @@
 				<configuration>
 					<excludes>
 						<plugin id="javax.xml"/>
-						<plugin id="javax.xml.rpc"/>
 						<plugin id="javax.xml.soap"/>
 						<plugin id="javax.xml.stream"/>
 						<plugin id="org.apache.commons.discovery"/>

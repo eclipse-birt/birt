@@ -29,6 +29,5 @@
 	<modules>
 		<module>org.w3c.sac</module>
 		<module>org.apache.axis</module>
-		<module>javax.xml.rpc</module>
 	</modules>
 </project>
