@@ -25,6 +25,7 @@
       <unit id="javax.servlet-api" version="0.0.0"/>
       <unit id="javax.servlet.jsp-api" version="0.0.0"/>
       <unit id="javax.wsdl" version="0.0.0"/>
+      <unit id="javax.xml.rpc-api" version="0.0.0"/>
       <unit id="junit-jupiter-api" version="0.0.0"/>
       <unit id="junit-jupiter-engine" version="0.0.0"/>
       <unit id="junit-jupiter-migrationsupport" version="0.0.0"/>
