@@ -41,8 +41,5 @@
    <bundle id="org.eclipse.emf.ecore">
       <category name="ChartEngine"/>
    </bundle>
-   <bundle id="org.w3c.dom.events">
-      <category name="ChartEngine"/>
-   </bundle>
    <category-def name="ChartEngine" label="BIRT Chart Engine"/>
 </site>

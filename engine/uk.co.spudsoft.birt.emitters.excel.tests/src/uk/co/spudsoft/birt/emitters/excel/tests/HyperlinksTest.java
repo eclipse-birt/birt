@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -42,7 +42,7 @@ public class HyperlinksTest extends CellRangeTester {
 	private void validateNamedRange(Workbook workbook, int index, String name, int sheetIndex, int row1, int col1,
 			int row2, int col2) {
 
-		Name namedRange = workbook.getNameAt(index);
+		Name namedRange = workbook.getAllNames().get(index);
 		assertEquals(name, namedRange.getNameName());
 		assertEquals(sheetIndex, namedRange.getSheetIndex());
 

@@ -28,9 +28,6 @@
 
 	<modules>
 		<module>org.w3c.sac</module>
-		<module>org.w3c.dom.svg.extension</module>
-		<module>org.apache.batik.transcoder.birt.ext</module>
-		<module>org.apache.batik.dom.birt.ext</module>
 		<module>org.apache.axis</module>
 		<module>javax.xml.rpc</module>
 	</modules>

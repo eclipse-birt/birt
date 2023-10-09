@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  *     Steve Schafer - Upgrade to poi 4.1.1
@@ -33,6 +33,8 @@ import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Footer;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.PageMargin;
+import org.apache.poi.ss.usermodel.PaneType;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -706,5 +708,20 @@ public class FilteredSheet implements Sheet {
 	@Override
 	public void setActiveCell(CellAddress address) {
 		sheet.setActiveCell(address);
+	}
+
+	@Override
+	public double getMargin(PageMargin margin) {
+		return sheet.getMargin(margin);
+	}
+
+	@Override
+	public void setMargin(PageMargin margin, double size) {
+		sheet.setMargin(margin, size);
+	}
+
+	@Override
+	public void createSplitPane(int xSplitPos, int ySplitPos, int leftmostColumn, int topRow, PaneType activePane) {
+		sheet.createSplitPane(xSplitPos, ySplitPos, leftmostColumn, topRow, activePane);
 	}
 }
