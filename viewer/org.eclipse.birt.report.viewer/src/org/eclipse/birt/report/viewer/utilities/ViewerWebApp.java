@@ -18,12 +18,10 @@ import java.util.Hashtable;
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
-import org.eclipse.jetty.osgi.boot.OSGiWebappConstants;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee8.webapp.WebAppContext;
+import org.eclipse.jetty.ee8.webapp.WebXmlConfiguration;
 import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.webapp.WebXmlConfiguration;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceRegistration;
 
@@ -50,19 +48,31 @@ public class ViewerWebApp {
 		WebAppContext webapp = new WebAppContext();
 		WebXmlConfiguration servletsConfiguration = new WebXmlConfiguration();
 
+		ServletContextHandler x = webapp;
+
 		webapp.addConfiguration(servletsConfiguration);
 
 		webapp.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
 
 		Dictionary<String, Object> props = new Hashtable<>();
-		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); // Web-ContextPath: /viewer
-		props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle, webAppPath)); // Jetty-WarResourcePath:
-		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
+		// TODO
+		// props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); //
+		// Web-ContextPath: /viewer
+		props.put("Web-ContextPath", contextPath); // Web-ContextPath: /viewer
+		// props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle,
+		// webAppPath)); // Jetty-WarResourcePath:
+		props.put("Jetty-WarResourcePath", getWebAppPath(bundle, webAppPath)); // Jetty-WarResourcePath:
+		// props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME,
+		// ViewerWebServer.VIEWER_WEB_SERVER_ID);
+		props.put("managedServerName", ViewerWebServer.VIEWER_WEB_SERVER_ID);
 		props.put("Jetty-WebXmlFilePath", "birt/WEB-INF/web-viewer.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		URL url = bundle.getEntry(webAppPath);
 		if (url != null) {
-			webapp.setBaseResource(Resource.newResource(url));
+			// TODO
+			// webapp.setBaseResource(Resource.newResource(url));
+			URL resolvedURL = FileLocator.resolve(url);
+			webapp.setBaseResource(webapp.getResourceFactory().newResource(resolvedURL));
 		}
 
 		if (encoding != null) {

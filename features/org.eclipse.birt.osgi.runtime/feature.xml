@@ -689,13 +689,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.jetty.osgi.boot"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.mortbay.jasper.apache-jsp"
          download-size="0"
          install-size="0"
@@ -710,7 +703,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.jetty.apache-jsp"
+         id="org.eclipse.jetty.ee8.apache-jsp"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="20">
+<target name="Generated from BIRT" sequenceNumber="21">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
@@ -10,17 +10,23 @@
       <unit id="bcpg" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
+      <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.google.guava" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
       <unit id="com.google.javascript" version="0.0.0"/>
       <unit id="com.ibm.icu" version="0.0.0"/>
+      <unit id="com.jcraft.jsch" version="0.0.0"/>
+      <unit id="com.sun.el.javax.el" version="0.0.0"/>
       <unit id="com.sun.jna" version="0.0.0"/>
       <unit id="com.sun.jna.platform" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
       <unit id="jakarta.annotation-api" version="0.0.0"/>
+      <unit id="jakarta.enterprise.cdi-api" version="0.0.0"/>
+      <unit id="jakarta.interceptor-api" version="0.0.0"/>
       <unit id="jakarta.servlet-api" version="0.0.0"/>
+      <unit id="jakarta.transaction-api" version="0.0.0"/>
       <unit id="javax.el-api" version="0.0.0"/>
       <unit id="javax.servlet-api" version="0.0.0"/>
       <unit id="javax.servlet.jsp-api" version="0.0.0"/>
@@ -38,6 +44,7 @@
       <unit id="junit-platform-suite-commons" version="0.0.0"/>
       <unit id="junit-platform-suite-engine" version="0.0.0"/>
       <unit id="junit-vintage-engine" version="0.0.0"/>
+      <unit id="org.apache.ant" version="0.0.0"/>
       <unit id="org.apache.aries.spifly.dynamic.bundle" version="0.0.0"/>
       <unit id="org.apache.axis.ant" version="0.0.0"/>
       <unit id="org.apache.batik.anim" version="0.0.0"/>
@@ -81,6 +88,7 @@
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
       <unit id="org.apache.wsil4j" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics" version="0.0.0"/>
       <unit id="org.apiguardian.api" version="0.0.0"/>
       <unit id="org.dom4j" version="0.0.0"/>
       <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
@@ -134,9 +142,9 @@
       <unit id="javax.mail" version="0.0.0"/>
       <unit id="javax.servlet" version="0.0.0"/>
       <unit id="javax.servlet.jsp" version="0.0.0"/>
-      <unit id="javax.transaction" version="0.0.0"/>
       <unit id="javax.xml" version="0.0.0"/>
       <unit id="javax.xml.bind" version="0.0.0"/>
+      <unit id="javax.xml.rpc" version="0.0.0"/>
       <unit id="javax.xml.soap" version="0.0.0"/>
       <unit id="javax.xml.stream" version="0.0.0"/>
       <unit id="net.sourceforge.lpg.lpgjavaruntime" version="0.0.0"/>
@@ -147,27 +155,26 @@
       <unit id="org.apache.lucene.core" version="0.0.0"/>
       <unit id="org.apache.xml.serializer" version="0.0.0"/>
       <unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
-      <unit id="org.w3c.css.sac" version="0.0.0"/>
-      <unit id="org.w3c.dom.events" version="0.0.0"/>
-      <unit id="org.w3c.dom.smil" version="0.0.0"/>
-      <unit id="org.w3c.dom.svg" version="0.0.0"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.apache-jsp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.apache-jsp" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.plus" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.security" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.server" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.servlet" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee8.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.http" version="0.0.0"/>
       <unit id="org.eclipse.jetty.io" version="0.0.0"/>
       <unit id="org.eclipse.jetty.jndi" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.osgi.boot" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.util.ajax" version="0.0.0"/>
       <unit id="org.eclipse.jetty.xml" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.16"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/nightly/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.xerces" version="0.0.0"/>
@@ -330,18 +337,18 @@
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="org.eclipse.e4.tools.emf.ui" version="0.0.0"/>
       <unit id="org.eclipse.e4.tools.services" version="0.0.0"/>
       <unit id="org.eclipse.ecf.core.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.filetransfer.httpclient5.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.ecf.filetransfer.httpclientjava.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sdk.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.29/R-4.29-202309031000"/>
+      <unit id="org.eclipse.search.core" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.30-I-builds"/>
     </location>
   </locations>
 </target>
