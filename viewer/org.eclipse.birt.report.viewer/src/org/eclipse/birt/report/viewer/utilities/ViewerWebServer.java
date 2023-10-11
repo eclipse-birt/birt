@@ -17,6 +17,7 @@ import java.util.Hashtable;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.jetty.osgi.OSGiServerConstants;
 import org.eclipse.jetty.server.Server;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -47,16 +48,10 @@ public class ViewerWebServer {
 		// server configuration goes here
 		Dictionary<String, Object> serverProps = new Hashtable<>();
 		// TODO
-		// serverProps.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME,
-		// VIEWER_WEB_SERVER_ID);
-		serverProps.put("managedServerName", VIEWER_WEB_SERVER_ID);
-		// serverProps.put(OSGiServerConstants.JETTY_HOST, host);
-		serverProps.put("jetty.http.host", host);
-		// serverProps.put(OSGiServerConstants.JETTY_PORT, port);
-		serverProps.put("jetty.http.port", port);
-		// serverProps.put(OSGiServerConstants.MANAGED_JETTY_XML_CONFIG_URLS,
-		// getJettyConfigURLs());
-		serverProps.put("jetty.etc.config.urls", getJettyConfigURLs());
+		serverProps.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, VIEWER_WEB_SERVER_ID);
+		serverProps.put(OSGiServerConstants.JETTY_HOST, host);
+		serverProps.put(OSGiServerConstants.JETTY_PORT, port);
+		serverProps.put(OSGiServerConstants.MANAGED_JETTY_XML_CONFIG_URLS, getJettyConfigURLs());
 
 		// register as an OSGi Service for Jetty to find
 		BundleContext context = ViewerPlugin.getDefault().getBundleContext();
