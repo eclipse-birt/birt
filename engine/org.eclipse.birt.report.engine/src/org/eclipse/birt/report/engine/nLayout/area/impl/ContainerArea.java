@@ -626,13 +626,6 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 */
 	public int getContentHeight(int allocatedHeight) {
 		if (hasStyle) {
-			int contentheight = (allocatedHeight - localProperties.getPaddingBottom() - localProperties.getPaddingTop()
-					- localProperties.getMarginTop() - localProperties.getMarginBottom()
-					- boxStyle.getBottomBorderWidth() - boxStyle.getTopBorderWidth());
-			if (contentheight < 0) {
-
-				System.out.println("kleiner 0: h = " + contentheight);
-			}
 			return allocatedHeight - localProperties.getPaddingBottom() - localProperties.getPaddingTop()
 					- localProperties.getMarginTop() - localProperties.getMarginBottom()
 					- boxStyle.getBottomBorderWidth() - boxStyle.getTopBorderWidth();
