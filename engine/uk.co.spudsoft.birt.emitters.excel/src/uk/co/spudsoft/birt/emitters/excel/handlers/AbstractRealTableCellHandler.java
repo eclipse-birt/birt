@@ -150,7 +150,20 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 				// endRow, state.colNum + offset, endCol + offset );
 				CellRangeAddress newMergedRegion = new CellRangeAddress(state.rowNum, endRow, column,
 						column + cell.getColSpan() - 1);
-				state.currentSheet.addMergedRegion(newMergedRegion);
+
+				Boolean newAddressRange = true;
+				for (CellRangeAddress addedMergedRegion : state.currentSheet.getMergedRegions()) {
+					if (addedMergedRegion.getFirstRow() == newMergedRegion.getFirstRow()
+							&& addedMergedRegion.getFirstColumn() == newMergedRegion.getFirstColumn()
+							&& addedMergedRegion.getLastRow() == newMergedRegion.getLastRow()
+							&& addedMergedRegion.getLastColumn() == newMergedRegion.getLastColumn()) {
+						newAddressRange = false;
+						break;
+					}
+				}
+				if (newAddressRange) {
+					state.currentSheet.addMergedRegion(newMergedRegion);
+				}
 
 				colSpan = cell.getColSpan();
 			}
