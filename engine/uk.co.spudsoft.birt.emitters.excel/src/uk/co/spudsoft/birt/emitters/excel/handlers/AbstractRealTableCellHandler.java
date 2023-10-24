@@ -151,17 +151,18 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 				CellRangeAddress newMergedRegion = new CellRangeAddress(state.rowNum, endRow, column,
 						column + cell.getColSpan() - 1);
 
-				Boolean newAddressRange = true;
+				// check if identical merged region exists then don't add the region
+				Boolean newRegionRange = true;
 				for (CellRangeAddress addedMergedRegion : state.currentSheet.getMergedRegions()) {
 					if (addedMergedRegion.getFirstRow() == newMergedRegion.getFirstRow()
 							&& addedMergedRegion.getFirstColumn() == newMergedRegion.getFirstColumn()
 							&& addedMergedRegion.getLastRow() == newMergedRegion.getLastRow()
 							&& addedMergedRegion.getLastColumn() == newMergedRegion.getLastColumn()) {
-						newAddressRange = false;
+						newRegionRange = false;
 						break;
 					}
 				}
-				if (newAddressRange) {
+				if (newRegionRange) {
 					state.currentSheet.addMergedRegion(newMergedRegion);
 				}
 
