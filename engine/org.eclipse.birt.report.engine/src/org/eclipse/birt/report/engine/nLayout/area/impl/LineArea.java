@@ -552,6 +552,13 @@ public class LineArea extends InlineStackingArea {
 					result.addChild(splitChildArea);
 					splitChildArea.setParent(result);
 				} else {
+					// reset the line height due to negative height caused by page break.
+					// Otherwise the first line could be rendered too far down.
+					// See (old) BIRT bug 562873 and
+					// https://github.com/eclipse-birt/birt/issues/1443.
+					if (height < 0) {
+						height = 0;
+					}
 					child.setY(Math.max(0, child.getY() - height));
 				}
 			}
