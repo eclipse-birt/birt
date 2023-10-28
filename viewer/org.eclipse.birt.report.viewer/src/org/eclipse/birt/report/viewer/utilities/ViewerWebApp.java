@@ -52,10 +52,13 @@ public class ViewerWebApp {
 
 		this.webAppContext.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
 
-		URL url = bundle.getEntry(webAppPath);
-		if (url != null) {
-			URL resolvedURL = FileLocator.resolve(url);
-			this.webAppContext.setBaseResource(this.webAppContext.getResourceFactory().newResource(resolvedURL));
+		URL webAppUrl = bundle.getEntry(webAppPath);
+		URL webDescriptorUrl = bundle.getEntry(webAppPath + "/WEB-INF/web-viewer.xml");
+		if (webAppUrl != null && webDescriptorUrl != null) {
+			URL resolvedWebAppUrl = FileLocator.resolve(webAppUrl);
+			URL resolvedWebDescriptorUrl = FileLocator.resolve(webDescriptorUrl);
+			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
+			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
 		}
 
 		if (encoding != null) {

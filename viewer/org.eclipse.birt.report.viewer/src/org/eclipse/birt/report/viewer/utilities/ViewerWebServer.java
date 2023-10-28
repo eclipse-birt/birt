@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceFactory;
+import org.eclipse.jetty.util.resource.URLResourceFactory;
 import org.eclipse.jetty.xml.XmlConfiguration;
 import org.osgi.framework.Bundle;
 
@@ -48,6 +49,11 @@ public class ViewerWebServer {
 	 * the web server id used to register web application.
 	 */
 	public static final String VIEWER_WEB_SERVER_ID = "org.eclipse.birt.report.viewer.server"; //$NON-NLS-1$
+
+	static {
+		// Make sure that the bundleresource: is registered to a URLResourceFactory
+		ResourceFactory.registerResourceFactory("bundleresource", new URLResourceFactory());
+	}
 
 	private String host;
 	private int port;
