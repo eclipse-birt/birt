@@ -42,7 +42,7 @@ jobs:
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
-        maven-version: 3.9.5        
+        maven-version: 3.9.5
     - name: Set up Maven 2
       run: echo "MAVEN_OPTS='-Xmx4096m'" > ~/.mavenrc
     - name: Build with Maven
@@ -84,19 +84,19 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: birt-rcp-report-designer-linux
-        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*linux*.zip
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*linux*.tar.gz
         
     - name: Archive BIRT RCP Report Mac Arm
       uses: actions/upload-artifact@v3
       with: 
         name: birt-rcp-report-designer-mac-arm
-        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*aarch*.zip
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*aarch*.tar.gz
 
     - name: Archive BIRT RCP Report Mac Intel
       uses: actions/upload-artifact@v3
       with: 
         name: birt-rcp-report-designer-mac
-        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*cocoa.x86*.zip
+        path: build/birt-packages/birt-report-rcp/target/products/birt-rcp-report-designer-*cocoa.x86*.tar.gz
         
     - name: Archive BIRT Report Designer all-in-one-win
       uses: actions/upload-artifact@v3
@@ -112,12 +112,12 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: birt-report-designer-all-in-one-mac-intel
-        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.x86_*.zip
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.x86_*.tar.gz
     - name: Archive BIRT Report Designer all-in-one-mac-silicon
       uses: actions/upload-artifact@v3
       with: 
         name: birt-report-designer-all-in-one-mac-silicon
-        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.aarch64*.zip     
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*macosx.cocoa.aarch64*.tar.gz     
     - name: Archive BIRT Report Framework
       uses: actions/upload-artifact@v3
       with: 
