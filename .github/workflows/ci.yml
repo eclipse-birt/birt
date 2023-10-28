@@ -107,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: birt-report-designer-all-in-one-linux
-        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*linux*.zip 
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*linux*.tar.gz
     - name: Archive BIRT Report Designer all-in-one-mac-intel
       uses: actions/upload-artifact@v3
       with: 
