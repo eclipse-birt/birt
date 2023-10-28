@@ -151,9 +151,6 @@ public class AreaFactory {
 			} else {
 				area = new BlockContainerArea(parent, context, content);
 			}
-			if (context.isFixedLayout()) {
-				area.setPageBreakInside(IStyle.AVOID_VALUE);
-			}
 			return area;
 
 		case IContent.IMAGE_CONTENT:
