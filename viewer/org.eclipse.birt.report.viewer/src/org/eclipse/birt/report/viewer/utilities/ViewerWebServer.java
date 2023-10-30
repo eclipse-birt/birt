@@ -10,33 +10,54 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceFactory;
+import org.eclipse.jetty.util.resource.URLResourceFactory;
+import org.eclipse.jetty.xml.XmlConfiguration;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
 
 /**
- * https://kishanthan.wordpress.com/2014/03/23/osgi-and-jetty-integration/
+ *
  */
-
 public class ViewerWebServer {
+
+	private static final String JETTY_HOME = "jetty.home"; //$NON-NLS-1$
+	private static final String JETTY_BASE = "jetty.base"; //$NON-NLS-1$
+
+	private static final String JETTY_HOST = "jetty.http.host"; //$NON-NLS-1$
+	private static final String JETTY_PORT = "jetty.http.port"; //$NON-NLS-1$
+
+	private static final String JETTY_FOLDER_NAME = "jetty"; //$NON-NLS-1$
+	private static final String JETTY_HOME_FOLDER_NAME = "home"; //$NON-NLS-1$
+	private static final String JETTY_BASE_FOLDER_NAME = "base"; //$NON-NLS-1$
+
+	private static String[] configFiles = { "/etc/jetty.xml", //$NON-NLS-1$
+			"/etc/jetty-http.xml", //$NON-NLS-1$
+			"/etc/jetty-deploy.xml" //$NON-NLS-1$
+	};
 
 	/**
 	 * the web server id used to register web application.
 	 */
 	public static final String VIEWER_WEB_SERVER_ID = "org.eclipse.birt.report.viewer.server"; //$NON-NLS-1$
 
-	private ServiceRegistration<Server> serviceRegister;
+	static {
+		// Make sure that the bundleresource: is registered to a URLResourceFactory
+		ResourceFactory.registerResourceFactory("bundleresource", new URLResourceFactory());
+	}
+
 	private String host;
 	private int port;
+	private Server server;
 
 	public ViewerWebServer(String host, int port) {
 		this.host = host;
@@ -44,61 +65,101 @@ public class ViewerWebServer {
 	}
 
 	public void start() {
-		Server server = new Server();
-		// server configuration goes here
-		Dictionary<String, Object> serverProps = new Hashtable<>();
-		serverProps.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, VIEWER_WEB_SERVER_ID);
-		serverProps.put(OSGiServerConstants.JETTY_HOST, host);
-		serverProps.put(OSGiServerConstants.JETTY_PORT, port);
-		serverProps.put(OSGiServerConstants.MANAGED_JETTY_XML_CONFIG_URLS, getJettyConfigURLs());
+		LogUtil.logInfo("BIRT Server starting", null); //$NON-NLS-1$
 
-		// register as an OSGi Service for Jetty to find
-		BundleContext context = ViewerPlugin.getDefault().getBundleContext();
-		serviceRegister = context.registerService(Server.class, server, serverProps);
+		if (this.port > 0) {
+			try {
+				this.server = startAndConfigure(this.host, this.port);
+
+				LogUtil.logInfo(String.format("BIRT HTTP Server listening to: %s:%s", this.host, this.port), null); //$NON-NLS-1$
+
+			} catch (Exception e) {
+				LogUtil.logError("Error while initialzing http server.", e); //$NON-NLS-1$
+			}
+		} else {
+			LogUtil.logError(String.format(
+					"Could not start BIRT server. HTTP port configuration: \"%s\"", //$NON-NLS-1$
+					this.port), null);
+		}
+	}
+
+	private static Server startAndConfigure(String httpListenOnAddress, int httpServerPort) throws Exception {
+		Bundle bundle = ViewerPlugin.getDefault().getBundle();
+		String jettyBase = JETTY_FOLDER_NAME + "/" + JETTY_HOME_FOLDER_NAME;
+
+		List<URL> resolvedXmlPaths = new ArrayList<>();
+
+		for (String xmlFile : configFiles) {
+			URL url = bundle.getEntry(jettyBase + xmlFile);
+			URL fileURL = FileLocator.toFileURL(url);
+			if (fileURL != null) {
+				resolvedXmlPaths.add(fileURL);
+			}
+		}
+
+		URL jettyHomeUrl = bundle.getEntry(JETTY_FOLDER_NAME + "/" + JETTY_HOME_FOLDER_NAME);
+		URL jettyHomeFileUrl = FileLocator.toFileURL(jettyHomeUrl);
+
+		URL jettyBaseUrl = bundle.getEntry(JETTY_FOLDER_NAME + "/" + JETTY_BASE_FOLDER_NAME);
+		URL jettyBaseFileUrl = FileLocator.toFileURL(jettyBaseUrl);
+
+		// Lets load our properties
+		Map<String, String> properties = new HashMap<>();
+
+		properties.put(JETTY_HOST, httpListenOnAddress);
+		properties.put(JETTY_PORT, String.valueOf(httpServerPort));
+
+		properties.put(JETTY_HOME, jettyHomeFileUrl.toString());
+		properties.put(JETTY_BASE, jettyBaseFileUrl.toString());
+
+		// Now lets tie it all together
+
+		Map<String, Object> idMap = new HashMap<>();
+
+		ClassLoader currentContextClassLoader = Thread.currentThread().getContextClassLoader();
+
+		Thread.currentThread().setContextClassLoader(ViewerWebServer.class.getClassLoader());
+		// Configure everything
+		try (ResourceFactory.Closeable resourceFactory = ResourceFactory.closeable()) {
+
+			for (URL resolvedXmlPath : resolvedXmlPaths) {
+				Resource xmlResource = resourceFactory.newResource(resolvedXmlPath);
+				XmlConfiguration configuration = new XmlConfiguration(xmlResource);
+				configuration.getIdMap().putAll(idMap);
+				configuration.getProperties().putAll(properties);
+				configuration.configure();
+				idMap.putAll(configuration.getIdMap());
+			}
+		}
+
+		Thread.currentThread().setContextClassLoader(currentContextClassLoader);
+		// Fetch the configured Server
+		Server server = (Server) idMap.get("Server"); //$NON-NLS-1$
+
+		// Start the server
+		server.start();
+
+		return server;
 	}
 
 	public void stop() {
-		if (serviceRegister != null) {
-			serviceRegister.unregister();
-			serviceRegister = null;
+		if (this.server != null) {
+			try {
+				this.server.stop();
+				this.server = null;
+			} catch (Exception e) {
+				LogUtil.logError("Could not stop BIRT server.", e); //$NON-NLS-1$
+			}
 		}
 	}
 
 	/**
-	 * return the configuration files URLS for jetty.
+	 * Returns the Jetty Server that was started
 	 *
-	 * @return
+	 * @return A Jetty server
 	 */
-	private String getJettyConfigURLs() {
-		String[] configFiles = { "/jettyhome/etc/jetty.xml", //$NON-NLS-1$
-				"/jettyhome/etc/jetty-selector.xml", //$NON-NLS-1$
-				"/jettyhome/etc/jetty-deployer.xml", //$NON-NLS-1$
-				"/jettyhome/etc/jetty-special.xml" //$NON-NLS-1$
-		};
-
-		Bundle bundle = ViewerPlugin.getDefault().getBundle();
-		StringBuilder sb = new StringBuilder();
-		for (String configFile : configFiles) {
-			String strURL = null;
-			try {
-				URL url = bundle.getEntry(configFile);
-				if (url != null) {
-					// Avoid invalid characters like white space in URI
-					strURL = FileLocator.toFileURL(url).toExternalForm();
-					strURL = strURL.replace(" ", "%20"); //$NON-NLS-1$//$NON-NLS-2$
-				}
-			} catch (IOException ex) {
-
-			}
-			if (strURL != null) {
-				sb.append(strURL);
-				sb.append(","); //$NON-NLS-1$
-			}
-
-		}
-		if (sb.length() > 0) {
-			sb.setLength(sb.length() - 1);
-		}
-		return sb.toString();
+	public Server getServer() {
+		return this.server;
 	}
+
 }

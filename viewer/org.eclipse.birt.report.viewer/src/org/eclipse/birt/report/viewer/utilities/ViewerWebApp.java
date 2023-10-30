@@ -10,59 +10,55 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Dictionary;
-import java.util.Hashtable;
 
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
-import org.eclipse.jetty.osgi.boot.OSGiWebappConstants;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.webapp.WebXmlConfiguration;
+import org.eclipse.jetty.ee8.webapp.WebAppClassLoader;
+import org.eclipse.jetty.ee8.webapp.WebAppContext;
+import org.eclipse.jetty.ee8.webapp.WebXmlConfiguration;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.ServiceRegistration;
 
 /**
  *
  */
 
 public class ViewerWebApp {
-
-	private ServiceRegistration<ContextHandler> serviceRegister;
 	private Bundle bundle;
 	private String webAppPath;
 	private String contextPath;
 	private String encoding;
+	private Server server;
+	private WebAppContext webAppContext;
 
-	ViewerWebApp(Bundle bundle, String webAppPath, String contextPath, String encoding) {
+	ViewerWebApp(Server server, Bundle bundle, String webAppPath, String contextPath, String encoding) {
+		this.server = server;
 		this.bundle = bundle;
 		this.webAppPath = webAppPath;
 		this.contextPath = contextPath;
 		this.encoding = encoding;
 	}
 
-	public void start() throws IOException {
-		WebAppContext webapp = new WebAppContext();
+	public void start() throws Exception {
+		this.webAppContext = new WebAppContext();
+		this.webAppContext.setContextPath(this.contextPath);
 		WebXmlConfiguration servletsConfiguration = new WebXmlConfiguration();
 
-		webapp.addConfiguration(servletsConfiguration);
+		this.webAppContext.addConfiguration(servletsConfiguration);
 
-		webapp.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
+		this.webAppContext.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
 
-		Dictionary<String, Object> props = new Hashtable<>();
-		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); // Web-ContextPath: /viewer
-		props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle, webAppPath)); // Jetty-WarResourcePath:
-		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
-		props.put("Jetty-WebXmlFilePath", "birt/WEB-INF/web-viewer.xml"); //$NON-NLS-1$ //$NON-NLS-2$
-
-		URL url = bundle.getEntry(webAppPath);
-		if (url != null) {
-			webapp.setBaseResource(Resource.newResource(url));
+		URL webAppUrl = bundle.getEntry(webAppPath);
+		URL webDescriptorUrl = bundle.getEntry(webAppPath + "/WEB-INF/web-viewer.xml");
+		if (webAppUrl != null && webDescriptorUrl != null) {
+			URL resolvedWebAppUrl = FileLocator.resolve(webAppUrl);
+			URL resolvedWebDescriptorUrl = FileLocator.resolve(webDescriptorUrl);
+			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
+			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
 		}
 
 		if (encoding != null) {
@@ -71,22 +67,32 @@ public class ViewerWebApp {
 			System.setProperty("org.eclipse.jetty.util.UrlEncoding.charset", encoding); //$NON-NLS-1$
 			System.setProperty("org.eclipse.jetty.util.URI.charset", encoding); //$NON-NLS-1$
 		}
-		bundle.getBundleContext().registerService(WebAppContext.class, webapp, props);
+		Handler handler = this.server.getHandler();
+		if (handler instanceof ContextHandlerCollection) {
+			ContextHandlerCollection contextHandlerCollection = (ContextHandlerCollection) handler;
+			contextHandlerCollection.addHandler(this.webAppContext);
+		}
+
+		this.webAppContext.setClassLoader(ViewerWebServer.class.getClassLoader());
+
+		WebAppClassLoader.runWithServerClassAccess(() -> {
+			this.webAppContext.start();
+			return null;
+		});
+
 	}
 
-	public void stop() {
-		if (serviceRegister != null) {
-			serviceRegister.unregister();
-			serviceRegister = null;
-		}
-	}
+	public void stop() throws Exception {
+		if (this.webAppContext != null) {
+			this.webAppContext.stop();
 
-	private String getWebAppPath(Bundle bundle, String path) throws IOException {
-		URL url = bundle.getEntry(path);
-		if (url != null) {
-			URL fileUrl = FileLocator.toFileURL(url);
-			return fileUrl.getFile();
+			Handler handler = this.server.getHandler();
+			if (handler instanceof ContextHandlerCollection) {
+				ContextHandlerCollection contextHandlerCollection = (ContextHandlerCollection) handler;
+				contextHandlerCollection.removeHandler(this.webAppContext.get());
+			}
+
+			this.webAppContext = null;
 		}
-		return path;
 	}
 }
