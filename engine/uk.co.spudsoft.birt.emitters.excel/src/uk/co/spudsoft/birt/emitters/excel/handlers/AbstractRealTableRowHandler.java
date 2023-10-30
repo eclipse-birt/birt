@@ -16,10 +16,12 @@
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -181,6 +183,23 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		if (blankRow || ((!rowHasNestedTable) && (!isNested()) && (currentRow.getPhysicalNumberOfCells() == 0))) {
 			log.debug("Removing row ", currentRow.getRowNum());
 			state.currentSheet.removeRow(currentRow);
+
+			/*
+			 * row verification whether the row is registered with merged cells if yes, then
+			 * remove the merged region from sheet
+			 */
+			int indexRemoveMergedRegion = -1;
+			List<CellRangeAddress> mergedRegions = state.currentSheet.getMergedRegions();
+			for (int index = 0; index < mergedRegions.size(); index++) {
+				CellRangeAddress registeredMergedRegion = mergedRegions.get(index);
+				if (registeredMergedRegion.getFirstRow() == state.rowNum) {
+					indexRemoveMergedRegion = index;
+					break;
+				}
+			}
+			if (indexRemoveMergedRegion >= 0) {
+				state.currentSheet.removeMergedRegion(indexRemoveMergedRegion);
+			}
 		} else {
 			DimensionType height = ((IRowContent) element).getHeight();
 			if (height != null) {
