@@ -85,6 +85,7 @@ import org.eclipse.birt.chart.style.SimpleStyle;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
@@ -100,7 +101,6 @@ public final class Generator implements IGenerator {
 	 * An internal style processor.
 	 */
 	private IStyleProcessor implicitProcessor;
-	private boolean fScaleUpdated = false;
 
 	/**
 	 * The internal singleton Generator reference created lazily.
@@ -1014,12 +1014,15 @@ public final class Generator implements IGenerator {
 	 */
 	@Override
 	public void render(IDeviceRenderer idr, GeneratedChartState gcs) throws ChartException {
-		final Chart cm = gcs.getChartModel();
+		Chart cm = gcs.getChartModel();
 		final int scale = idr.getDisplayServer().getDpiResolution() / 72;
-		if (scale != 1 && !fScaleUpdated) {
+		if (scale != 1) {
 			// Here multiply by integer scale so that normal dpi (96) won't
 			// change thickness by default. Only PDF case would change.
-			fScaleUpdated = true;
+			// We do it on of copy of the Chart model though, so the original model isn't
+			// affected.
+			// This way the model can be rendered multiple times without being deformed
+			cm = EcoreUtil.copy(cm);
 			updateDeviceScale(cm, scale);
 		}
 
@@ -1483,7 +1486,7 @@ public final class Generator implements IGenerator {
 		implicitProcessor.setDefaultBackgroundColor(cd);
 	}
 
-	private void updateDeviceScale(EObject component, int scale) {
+	private static void updateDeviceScale(EObject component, int scale) {
 		if (component instanceof LineAttributes) {
 			LineAttributes lia = (LineAttributes) component;
 			lia.setThickness(lia.getThickness() * scale);
