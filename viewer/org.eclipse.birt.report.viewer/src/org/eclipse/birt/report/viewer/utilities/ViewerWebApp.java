@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.net.URI;
 import java.net.URL;
 
 import org.apache.tomcat.InstanceManager;
@@ -55,8 +56,8 @@ public class ViewerWebApp {
 		URL webAppUrl = bundle.getEntry(webAppPath);
 		URL webDescriptorUrl = bundle.getEntry(webAppPath + "/WEB-INF/web-viewer.xml");
 		if (webAppUrl != null && webDescriptorUrl != null) {
-			URL resolvedWebAppUrl = FileLocator.resolve(webAppUrl);
-			URL resolvedWebDescriptorUrl = FileLocator.resolve(webDescriptorUrl);
+			URI resolvedWebAppUrl = FileLocator.resolve(webAppUrl).toURI().normalize();
+			URI resolvedWebDescriptorUrl = FileLocator.resolve(webDescriptorUrl).toURI().normalize();
 			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
 			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
 		}
