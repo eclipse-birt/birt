@@ -206,8 +206,6 @@ United States, other countries, or both.
       <plugin id="org.apache.derby"/>
       <plugin id="org.apache.felix.scr"/>
       <plugin id="org.apache.jasper.glassfish"/>
-      <plugin id="org.apache.lucene.analysis"/>
-      <plugin id="org.apache.lucene.core"/>
       <plugin id="org.apache.poi"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
