@@ -146,11 +146,27 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 						"]");
 				log.debug("Should be merging ? [", state.rowNum, ",", column, "] to [", endRow, ",",
 						column + cell.getColSpan() - 1, "]");
-				// CellRangeAddress newMergedRegion = new CellRangeAddress( state.rowNum,
-				// endRow, state.colNum + offset, endCol + offset );
 				CellRangeAddress newMergedRegion = new CellRangeAddress(state.rowNum, endRow, column,
 						column + cell.getColSpan() - 1);
-				state.currentSheet.addMergedRegion(newMergedRegion);
+
+				// excel merge region, avoid registration of overlapped merge regions
+				Boolean newAddressRange = true;
+				for (CellRangeAddress registeredMergedRegion : state.currentSheet.getMergedRegions()) {
+					if (newMergedRegion.getFirstColumn() >= registeredMergedRegion.getFirstColumn()
+							&& newMergedRegion.getFirstColumn() <= registeredMergedRegion.getLastColumn()
+							&& newMergedRegion.getFirstRow() >= registeredMergedRegion.getFirstRow()
+							&& newMergedRegion.getFirstRow() <= registeredMergedRegion.getLastRow()
+							|| registeredMergedRegion.getFirstRow() == newMergedRegion.getFirstRow()
+									&& registeredMergedRegion.getFirstColumn() == newMergedRegion.getFirstColumn()
+									&& registeredMergedRegion.getLastRow() == newMergedRegion.getLastRow()
+									&& registeredMergedRegion.getLastColumn() == newMergedRegion.getLastColumn()) {
+						newAddressRange = false;
+						break;
+					}
+				}
+				if (newAddressRange) {
+					state.currentSheet.addMergedRegion(newMergedRegion);
+				}
 
 				colSpan = cell.getColSpan();
 			}
@@ -211,6 +227,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		TableContent myTableContent = cellDesignsTableContent();
 
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& table.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) table.getParent()).getGenerateBy()).getContentCount())) {
 			// Parent row contains only one item
 
@@ -262,6 +279,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		int colSpan = ((ICellContent) element).getColSpan();
 		ITableHandler tableHandler = getAncestor(ITableHandler.class);
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& list.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) list.getParent()).getGenerateBy()).getContentCount())) {
 
 			containsTable = true;
@@ -325,6 +343,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		int colSpan = ((ICellContent) element).getColSpan();
 		ITableHandler tableHandler = getAncestor(ITableHandler.class);
 		if ((tableHandler != null) && (tableHandler.getColumnCount() == colSpan)
+				&& image.getParent() instanceof CellContent
 				&& (1 == ((CellDesign) ((CellContent) image.getParent()).getGenerateBy()).getContentCount())) {
 			imageCanSpan = true;
 		}

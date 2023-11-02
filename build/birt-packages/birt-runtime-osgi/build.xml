@@ -84,7 +84,7 @@
         <include name="org.apache.commons.logging_*.jar"/>
         <include name="org.apache.axis_*/lib/*.jar"/>
         <include name="org.apache.commons.discovery_*/lib/*.jar"/>
-        <include name="javax.xml.rpc_*/lib/*.jar"/>
+        <include name="javax.xml.rpc-api_*/lib/*.jar"/>
         <include name="javax.xml.soap_*.jar"/>
       </fileset>
 -->

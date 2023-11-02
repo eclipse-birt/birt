@@ -39,8 +39,6 @@
   <topic label="Accessing Data" href="birt/con-ConnectingToADataSource.html" >
     <topic label="About BIRT data sources" href="birt/con-AboutBIRTDataSources.html" />
     <topic label="About data sets" href="birt/ds-AboutDataSets.html" >
-      <topic label="How to create a Cassandra data source" href="birt/con-HowToSpecifyConnectionInformationForCassandraDataSource.html" />
-      <topic label="How to specify what data to retrieve from a Cassandra data source" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromCassandraDataSource.html" />
       <topic label="How to create an Excel data source" href="birt/con-HowToSpecifyConnectionInformationForExcelDataSource.html" />
       <topic label="How to specify what data to retrieve from an Excel workbook" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromExcelDataSource.html" />
       <topic label="How to create a Hive data source" href="birt/con-HowToSpecifyConnectionInformationForHiveDataSource.html" />

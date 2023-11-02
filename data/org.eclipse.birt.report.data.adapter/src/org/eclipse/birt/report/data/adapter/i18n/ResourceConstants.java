@@ -25,7 +25,6 @@ public class ResourceConstants {
 	public final static String INVALID_CAHCE_OPTION = "invalid.cache.option";
 	public final static String DATASOURCE_NULL_ERROR = "datasource.null.error";
 	public final static String DATASOURCE_EXID_ERROR = "datasource.exid.error";
-	public final static String DATASOURCE_CASSANDRA_ERROR = "datasource.cassandra.error";
 	public final static String INVALID_AGGREGATION_NAME = "adapter.invalid.aggregationfunctionname";
 	public final static String DATASETHANDLE_NULL_ERROR = "datasethandle.null.error";
 	public final static String INVALID_COLUMN_INDEX = "datasethandle.invalidColumnIndex";

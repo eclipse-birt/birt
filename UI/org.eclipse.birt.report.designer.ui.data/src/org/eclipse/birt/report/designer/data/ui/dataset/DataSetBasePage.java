@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -123,10 +122,6 @@ public class DataSetBasePage extends WizardPage {
 
 	private final static String SCRIPT_DATASET_NAME = Messages.getString("DataSetBasePage.ScriptedDataSet.name");//$NON-NLS-1$
 	private final static String SCRIPT_DATASOURCE_NAME = Messages.getString("DataSetBasePage.ScriptedDataSource.name"); //$NON-NLS-1$
-	private final static String CASSANDRA_DATASET_NAME = Messages
-			.getString("DataSetBasePage.CassandraScriptedDataSet.name");//$NON-NLS-1$
-	private final static String CASSANDRA_DATASOURCE_NAME = Messages
-			.getString("DataSetBasePage.CassandraScriptedDataSource.name"); //$NON-NLS-1$
 
 	/**
 	 * Creates a new data set wizard page
@@ -853,30 +848,20 @@ public class DataSetBasePage extends WizardPage {
 
 	public String getScriptDataSetName(DataSourceHandle dataSourceHandle) {
 		if (dataSourceHandle instanceof ScriptDataSourceHandle) {
-			if (dataSourceHandle.getProperty(DataUIConstants.SCRIPT_TYPE) != null && dataSourceHandle
-					.getProperty(DataUIConstants.SCRIPT_TYPE).equals(DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE)) {
-				return CASSANDRA_DATASET_NAME;
-			} else {
-				return SCRIPT_DATASET_NAME;
-			}
+			return SCRIPT_DATASET_NAME;
 		}
 		return null;
 	}
 
 	public String getScriptDataSourceName(DataSourceHandle dataSourceHandle) {
 		if (dataSourceHandle instanceof ScriptDataSourceHandle) {
-			if (dataSourceHandle.getProperty(DataUIConstants.SCRIPT_TYPE) != null && dataSourceHandle
-					.getProperty(DataUIConstants.SCRIPT_TYPE).equals(DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE)) {
-				return CASSANDRA_DATASOURCE_NAME;
-			} else {
-				return SCRIPT_DATASOURCE_NAME;
-			}
+			return SCRIPT_DATASOURCE_NAME;
 		}
 		return null;
 	}
 
 	public boolean isScriptDataSet(String dataSourceID) {
-		if (SCRIPT_DATASOURCE_NAME.equals(dataSourceID) || CASSANDRA_DATASOURCE_NAME.equals(dataSourceID)) {
+		if (SCRIPT_DATASOURCE_NAME.equals(dataSourceID)) {
 			return true;
 		}
 		return false;

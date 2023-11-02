@@ -206,8 +206,6 @@ United States, other countries, or both.
       <plugin id="org.apache.derby"/>
       <plugin id="org.apache.felix.scr"/>
       <plugin id="org.apache.jasper.glassfish"/>
-      <plugin id="org.apache.lucene.analysis"/>
-      <plugin id="org.apache.lucene.core"/>
       <plugin id="org.apache.poi"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
@@ -358,12 +356,6 @@ United States, other countries, or both.
       <plugin id="org.eclipse.e4.ui.workbench.renderers.swt"/>
       <plugin id="org.eclipse.e4.ui.workbench.swt"/>
       <plugin id="org.eclipse.e4.ui.workbench3"/>
-      <plugin id="org.eclipse.ecf"/>
-      <plugin id="org.eclipse.ecf.filetransfer"/>
-      <plugin id="org.eclipse.ecf.identity"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer"/>
-      <plugin id="org.eclipse.ecf.provider.filetransfer.ssl" fragment="true"/>
-      <plugin id="org.eclipse.ecf.ssl" fragment="true"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.ecore"/>
       <plugin id="org.eclipse.emf.ecore.change"/>
@@ -438,10 +430,7 @@ United States, other countries, or both.
       <plugin id="org.mozilla.javascript"/>
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
-      <plugin id="org.w3c.css.sac"/>
-      <plugin id="org.w3c.dom.events"/>
-      <plugin id="org.w3c.dom.smil"/>
-      <plugin id="org.w3c.dom.svg"/>
+      <plugin id="org.eclipse.orbit.xml-apis-ext"/>
       <plugin id="org.w3c.sac"/>
       <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
    </plugins>

@@ -751,7 +751,6 @@
         <setEntry value="org.eclipse.birt.integration.wtp.ui.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.integration.wtp.ui@default:default"/>
         <setEntry value="org.eclipse.birt.jetty.overlay@default:false"/>
-        <setEntry value="org.eclipse.birt.me.prettyprint.hector@default:default"/>
         <setEntry value="org.eclipse.birt.report.data.adapter.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.report.data.adapter@default:default"/>
         <setEntry value="org.eclipse.birt.report.data.bidi.utils.nl1@default:false"/>

@@ -197,6 +197,12 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 							// log.debug( "Bottom border: " + xStyle.getBorderBottom() + " / " +
 							// xStyle.getBottomBorderXSSFColor().getARGBHex() );
 							break;
+						case DIAGONAL:
+							throw new UnsupportedOperationException("Border Style " + side + " is unsupported");
+						case HORIZONTAL:
+							throw new UnsupportedOperationException("Border Style " + side + " is unsupported");
+						case VERTICAL:
+							throw new UnsupportedOperationException("Border Style " + side + " is unsupported");
 						}
 					}
 				}

@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -253,34 +253,36 @@ public class AbstractHandler implements IHandler {
 
 	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {
-		NoSuchMethodError ex = new NoSuchMethodError(
-				"Method not implemented: " + this.getClass().getSimpleName() + ".startList");
-		log.error(0, "Method not implemented", ex);
-		throw ex;
+		// NoSuchMethodError ex = new NoSuchMethodError(
+		// "Method not implemented: " + this.getClass().getSimpleName() + ".startList");
+		// log.error(0, "Method not implemented", ex);
+		// throw ex;
 	}
 
 	@Override
 	public void endList(HandlerState state, IListContent list) throws BirtException {
-		NoSuchMethodError ex = new NoSuchMethodError(
-				"Method not implemented: " + this.getClass().getSimpleName() + ".endList");
-		log.error(0, "Method not implemented", ex);
-		throw ex;
+		// NoSuchMethodError ex = new NoSuchMethodError(
+		// "Method not implemented: " + this.getClass().getSimpleName() + ".endList");
+		// log.error(0, "Method not implemented", ex);
+		// throw ex;
 	}
 
 	@Override
 	public void startListBand(HandlerState state, IListBandContent listBand) throws BirtException {
-		NoSuchMethodError ex = new NoSuchMethodError(
-				"Method not implemented: " + this.getClass().getSimpleName() + ".startListBand");
-		log.error(0, "Method not implemented", ex);
-		throw ex;
+		// NoSuchMethodError ex = new NoSuchMethodError(
+		// "Method not implemented: " + this.getClass().getSimpleName() +
+		// ".startListBand");
+		// log.error(0, "Method not implemented", ex);
+		// throw ex;
 	}
 
 	@Override
 	public void endListBand(HandlerState state, IListBandContent listBand) throws BirtException {
-		NoSuchMethodError ex = new NoSuchMethodError(
-				"Method not implemented: " + this.getClass().getSimpleName() + ".endListBand");
-		log.error(0, "Method not implemented", ex);
-		throw ex;
+		// NoSuchMethodError ex = new NoSuchMethodError(
+		// "Method not implemented: " + this.getClass().getSimpleName() +
+		// ".endListBand");
+		// log.error(0, "Method not implemented", ex);
+		// throw ex;
 	}
 
 	@Override

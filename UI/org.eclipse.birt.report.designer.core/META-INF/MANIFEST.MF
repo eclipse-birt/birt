@@ -25,6 +25,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.birt.report.model;bundle-version="[2.1.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: org.apache.batik.transcoder;version="1.14.0",
- org.apache.batik.transcoder.image;version="1.14.0"
+Import-Package: org.apache.batik.transcoder;version="1.17.0",
+ org.apache.batik.transcoder.image;version="1.17.0"
 Automatic-Module-Name: org.eclipse.birt.report.designer.core

@@ -617,7 +617,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	}
 
 	/**
-	 * Get content height
+	 * Get content height, that is the height available for the content.
+	 *
+	 * This is computed as allocatedHeight minus bottom/top margin/border/padding. *
 	 *
 	 * @param allocatedHeight
 	 * @return Return the content height

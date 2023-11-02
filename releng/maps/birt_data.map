@@ -19,7 +19,6 @@ plugin@org.eclipse.birt.report.data.oda.xml.ui=GIT,tag=v201501061437,repo=git://
 plugin@org.eclipse.birt.report.engine.script.javascript=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.engine.script.javascript
 plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel
 plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201501131656,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
-plugin@org.eclipse.birt.me.prettyprint.hector=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.me.prettyprint.hector
 
 plugin@org.eclipse.birt.data.tests=GIT,tag=v201501061718,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.tests
 plugin@org.eclipse.birt.report.data.oda.jdbc.tests=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.tests

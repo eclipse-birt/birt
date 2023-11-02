@@ -290,45 +290,45 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 				result.add(current);
 				continue;
 			}
-				contentHeight -= ah;
-				int childSplitHeight = cheight - contentHeight;
-				SplitResult splitResult = current.split(childSplitHeight, force && !isValidResult(result));
-				if (splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_PART) {
-					ContainerArea splitChildArea = splitResult.getResult();
-					result.add(splitChildArea);
-					status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-					contentHeight += splitChildArea.getAllocatedHeight();
-					break;
-				} else if (splitResult.status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL) {
-					if (force) {
-						if (result.size() > 0) {
-							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-						}
-					}
-					break;
-				} else if (splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_NULL) {
-					if (isValidResult(result)) {
-						if (force) {
-							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-							break;
-						}
-						if (previous.isPageBreakAfterAvoid()) {
-							status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
-							break;
-						}
+			contentHeight -= ah;
+			int childSplitHeight = cheight - contentHeight;
+			SplitResult splitResult = current.split(childSplitHeight, force && !isValidResult(result));
+			if (splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_PART) {
+				ContainerArea splitChildArea = splitResult.getResult();
+				result.add(splitChildArea);
+				status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+				contentHeight += splitChildArea.getAllocatedHeight();
+				break;
+			} else if (splitResult.status == SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL) {
+				if (force) {
+					if (result.size() > 0) {
 						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-						break;
-					} else if (force) {
-						// error status
-						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-						break;
-					} else {
-						if (isPageBreakBeforeAvoid()) {
-							return SplitResult.BEFORE_AVOID_WITH_NULL;
-						}
-						return SplitResult.SUCCEED_WITH_NULL;
 					}
 				}
+				break;
+			} else if (splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_NULL) {
+				if (isValidResult(result)) {
+					if (force) {
+						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+						break;
+					}
+					if (previous.isPageBreakAfterAvoid()) {
+						status = SplitResult.SPLIT_BEFORE_AVOID_WITH_NULL;
+						break;
+					}
+					status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+					break;
+				} else if (force) {
+					// error status
+					status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+					break;
+				} else {
+					if (isPageBreakBeforeAvoid()) {
+						return SplitResult.BEFORE_AVOID_WITH_NULL;
+					}
+					return SplitResult.SUCCEED_WITH_NULL;
+				}
+			}
 		}
 		// split height is larger than content height.(cell)
 		if (result.size() == children.size()) {

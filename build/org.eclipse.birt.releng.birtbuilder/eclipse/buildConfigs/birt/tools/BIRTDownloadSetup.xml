@@ -188,7 +188,7 @@
 		<include name="org.w3c.dom.smil_*.jar" />
 		<include name="org.w3c.css.sac_*.jar" />
 		<include name="org.apache.axis_*/**" />
-		<include name="javax.xml.rpc_*/**" />
+		<include name="javax.xml.rpc-api_*/**" />
 		<include name="javax.xml.soap_*/**" />
 		<include name="javax.wsdl_1.5.1*.jar" />
 		<include name="org.apache.commons.discovery_*/**" />

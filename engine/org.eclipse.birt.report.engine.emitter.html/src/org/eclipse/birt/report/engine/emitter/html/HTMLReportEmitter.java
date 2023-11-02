@@ -370,6 +370,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
 	/**
 	 * the constructor
@@ -3301,16 +3302,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
 		URL url = design.findResource(uri, IResourceLocator.IMAGE, reportContext.getAppContext());
 		String fileExtension = null;
-
 		Module module = design.getModule();
-		BackgroundImageInfo backgroundImage = null;
+		ResourceLocatorWrapper rl = null;
+		ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
+		if (exeContext != null) {
+			rl = exeContext.getResourceLocator();
+		}
+		BackgroundImageInfo backgroundImage = new BackgroundImageInfo("", null, 0, 0, 0, 0, rl, module);
 
 		if (isBackground && imageStyle != null) {
-			ResourceLocatorWrapper rl = null;
-			ExecutionContext exeContext = ((ReportContent) this.report).getExecutionContext();
-			if (exeContext != null) {
-				rl = exeContext.getResourceLocator();
-			}
 			String uriString = EmitterUtil.getBackgroundImageUrl(imageStyle, design,
 					this.report.getReportContext() == null ? null : this.report.getReportContext().getAppContext());
 
@@ -3374,7 +3374,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			default:
 				assert (false);
 			}
-			backgroundImage.setUri(imgUri);
+			if (backgroundImage != null) {
+				backgroundImage.setUri(imgUri);
+			}
 		}
 		return backgroundImage;
 	}
@@ -3587,12 +3589,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	 */
 	private String verifyURI(String uri) {
 		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			String tmpUrl = uri.replaceAll(" ", URL_PROTOCOL_URL_ENCODED_SPACE);
 			try {
-				new URL(uri).toURI();
+				new URL(tmpUrl).toURI();
 			} catch (MalformedURLException | URISyntaxException excUrl) {
 				// invalid URI try it like "file:"
 				try {
-					String tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
 					new URL(tmpUrl).toURI();
 					uri = tmpUrl;
 				} catch (MalformedURLException | URISyntaxException excFile) {

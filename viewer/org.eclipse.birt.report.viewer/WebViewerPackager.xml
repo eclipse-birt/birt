@@ -477,6 +477,7 @@
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.dom_*.jar"/>
 				<include name="org.apache.batik.*jar"/>
+				<include name="org.eclipse.orbit.xml-apis-ext_*.jar"/>
 				<include name="org.w3c.dom.svg_*.jar"/>
 				<include name="org.w3c.dom.smil_*.jar"/>
 				<include name="org.w3c.css.sac_*.jar"/>
@@ -658,7 +659,6 @@
 			<include name="org.eclipse.birt.report.data.bidi.utils_*.jar" />
 			<include name="org.eclipse.birt.data.oda_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc_*/**" />
-			<include name="org.eclipse.birt.me.prettyprint.hector_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.hive_*.jar" />
 			<include name="org.eclipse.birt.report.data.oda.excel_*.jar" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile_*.jar" />
