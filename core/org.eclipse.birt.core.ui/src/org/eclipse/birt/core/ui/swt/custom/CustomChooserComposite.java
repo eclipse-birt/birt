@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -58,7 +59,6 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private Composite cmpDropDown = null;
 
-	private Composite cmpContent = null;
 
 	protected ICustomChoice cnvSelection = null;
 
@@ -79,8 +79,6 @@ public abstract class CustomChooserComposite extends Composite {
 	private ICustomChoice[] popupCanvases;
 
 	private Object[] items;
-
-	protected int itemHeight;
 
 	private Listener canvasListener = new Listener() {
 
@@ -141,8 +139,7 @@ public abstract class CustomChooserComposite extends Composite {
 	private ScrolledComposite container;
 
 	public CustomChooserComposite(Composite parent, int style) {
-		super(parent, style);
-		itemHeight = 18;
+		super(parent, style | SWT.BORDER);
 	}
 
 	protected CustomChooserComposite(Composite parent, int style, Object choiceValue) {
@@ -153,28 +150,10 @@ public abstract class CustomChooserComposite extends Composite {
 
 	private void initControls() {
 		// THE LAYOUT OF THIS COMPOSITE (FILLS EVERYTHING INSIDE IT)
-		FillLayout flMain = new FillLayout();
-		flMain.marginHeight = 0;
-		flMain.marginWidth = 0;
-		setLayout(flMain);
+		setLayout(new InternalLayout());
 
-		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
-		// THE CANVAS + BUTTON)
-		cmpContent = new Composite(this, SWT.BORDER);
-		GridLayout glContentInner = new GridLayout();
-		glContentInner.verticalSpacing = 0;
-		glContentInner.horizontalSpacing = 0;
-		glContentInner.marginHeight = 0;
-		glContentInner.marginWidth = 0;
-		glContentInner.numColumns = 2;
-		cmpContent.setLayout(glContentInner);
-
-		final int iSize = itemHeight;
 		// THE CANVAS
-		cnvSelection = createChoice(cmpContent, null);
-		GridData gdCNVSelection = new GridData(GridData.FILL_BOTH);
-		gdCNVSelection.heightHint = iSize;
-		cnvSelection.setLayoutData(gdCNVSelection);
+		cnvSelection = createChoice(this, null);
 		cnvSelection.setValue(iCurrentValue);
 		cnvSelection.addListener(SWT.KeyDown, canvasListener);
 		cnvSelection.addListener(SWT.Traverse, canvasListener);
@@ -183,12 +162,7 @@ public abstract class CustomChooserComposite extends Composite {
 		cnvSelection.addListener(SWT.MouseDown, canvasListener);
 
 		// THE BUTTON
-		btnDown = new Button(cmpContent, SWT.ARROW | SWT.DOWN);
-		GridData gdBDown = new GridData(GridData.FILL);
-		gdBDown.verticalAlignment = GridData.BEGINNING;
-		gdBDown.widthHint = iSize - 1;
-		gdBDown.heightHint = iSize;
-		btnDown.setLayoutData(gdBDown);
+		btnDown = new Button(this, SWT.ARROW | SWT.DOWN);
 		btnDown.addListener(SWT.Selection, new Listener() {
 
 			@Override
@@ -202,12 +176,34 @@ public abstract class CustomChooserComposite extends Composite {
 		initAccessible();
 	}
 
+	private class InternalLayout extends Layout {
+		@Override
+		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
+			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
+				return new Point(wHint, hHint);
+			}
+			Point buttonSize = btnDown.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point selectionSize = ((Control) cnvSelection).computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+
+			return new Point(selectionSize.x + buttonSize.x, buttonSize.y);
+		}
+
+		@Override
+		public void layout(Composite editor, boolean force) {
+			Rectangle bounds = editor.getClientArea();
+			Point buttonSize = btnDown.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+
+			((Control) cnvSelection).setBounds(0, 0, bounds.width - buttonSize.x, buttonSize.y - 1);
+			btnDown.setBounds(bounds.width - buttonSize.x, 0, buttonSize.x, buttonSize.y);
+		}
+	}
+
 	protected abstract ICustomChoice createChoice(Composite parent, Object choiceValue);
 
 	public void setItems(Object[] items) {
 		this.items = items == null ? new Object[0] : items;
 
-		if (cmpContent == null) {
+		if (cnvSelection == null) {
 			initControls();
 		}
 
