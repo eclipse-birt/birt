@@ -15,7 +15,7 @@
 package org.eclipse.birt.report.model.css;
 
 import org.eclipse.birt.report.model.css.property.PropertyParser;
-import org.w3c.flute.parser.Parser;
+import org.w3c.css.sac.Parser;
 
 /**
  * Creates a new parser to analyze an input CSS2 file or a short-hand property
@@ -28,13 +28,13 @@ import org.w3c.flute.parser.Parser;
 public class ParserFactory {
 
 	/**
-	 * Creates a Flute parser for the CSS2 grammar.
+	 * Creates a Batik parser for the CSS2 grammar.
 	 *
-	 * @return a flute parser for the CSS2 grammar
+	 * @return a Batik parser for the CSS2 grammar
 	 */
 
 	static public Parser createCSS2Parser() {
-		return new Parser();
+		return new org.apache.batik.css.parser.Parser();
 	}
 
 	/**

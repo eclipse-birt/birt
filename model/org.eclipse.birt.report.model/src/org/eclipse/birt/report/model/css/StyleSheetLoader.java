@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.CssPropertyConstants;
 import org.eclipse.birt.report.model.util.CssPropertyUtil;
+import org.w3c.css.sac.AttributeCondition;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.Condition;
 import org.w3c.css.sac.ConditionalSelector;
@@ -54,7 +55,6 @@ import org.w3c.css.sac.SelectorList;
 import org.w3c.css.sac.SimpleSelector;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.flute.parser.selectors.ClassConditionImpl;
 
 /**
  * Loads an external style sheet to the BIRT.
@@ -314,7 +314,7 @@ public final class StyleSheetLoader {
 							if ((simple == null || ((ElementSelector) simple).getLocalName() == null
 									|| ((ElementSelector) simple).getLocalName().equalsIgnoreCase("*")) //$NON-NLS-1$
 									&& condition.getConditionType() == Condition.SAC_CLASS_CONDITION) {
-								name = ((ClassConditionImpl) condition).getValue();
+								name = ((AttributeCondition) condition).getValue();
 
 								isValid = true;
 							}
