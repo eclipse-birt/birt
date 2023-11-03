@@ -27,7 +27,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.w3c.sac</module>
 		<module>org.apache.axis</module>
 	</modules>
 </project>

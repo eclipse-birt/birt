@@ -49,7 +49,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 	 */
 
 	public CSSValue(LexicalUnit value, boolean forcePrimitive) {
-		if (value.getParameters() != null) {
+		if (hasParameters(value)) {
 			this.value = value;
 		} else if (forcePrimitive || (value.getNextLexicalUnit() == null)) {
 
@@ -70,6 +70,14 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 				lu = lu.getNextLexicalUnit();
 			}
 			this.value = v;
+		}
+	}
+
+	private boolean hasParameters(LexicalUnit value) {
+		try {
+			return value.getParameters() != null;
+		} catch (IllegalStateException ex) {
+			return false;
 		}
 	}
 
