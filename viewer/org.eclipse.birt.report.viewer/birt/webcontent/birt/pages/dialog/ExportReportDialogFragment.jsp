@@ -29,22 +29,34 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD>
-		<label for="exportFormat"><%=BirtResources.getMessage( "birt.viewer.dialog.export.format" )%></label>
-		<SELECT	ID="exportFormat" NAME="format" CLASS="birtviewer_exportreport_dialog_select">
-			<%
-				ParameterAccessor.sortSupportedFormatsByDisplayName(supportedFormats);
-				
-				for ( int i = 0; i < supportedFormats.length; i++ )
-				{
-					if ( !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( supportedFormats[i] ) )
-					{
-			%>
-						<OPTION VALUE="<%= supportedFormats[i] %>"><%= ParameterAccessor.getOutputFormatLabel( supportedFormats[i] ) %></OPTION>
-			<%
-					}
-				}
-			%>
-		</SELECT>
+			<table>
+				<tr>
+					<td>
+						<label for="exportFormat"><%=BirtResources.getMessage( "birt.viewer.dialog.export.format" )%></label>
+						<select	id="exportFormat" name="format" class="birtviewer_exportreport_dialog_select">
+							<%
+								ParameterAccessor.sortSupportedFormatsByDisplayName(supportedFormats);
+								
+								for ( int i = 0; i < supportedFormats.length; i++ )
+								{
+									if ( !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( supportedFormats[i] ) )
+									{
+							%>
+										<OPTION VALUE="<%= supportedFormats[i] %>"><%= ParameterAccessor.getOutputFormatLabel( supportedFormats[i] ) %></OPTION>
+							<%
+									}
+								}
+							%>
+						</select>
+					</td>
+					<td STYLE="padding-left:5px">	
+						<div id="exportExcelSingleSheet">
+							<input type="checkbox" id="exportExcelSingleSheetCheckbox"/>
+							<label id="exportExcelSingleSheetLabel" for="exportExcelSingleSheetCheckbox"><%=BirtResources.getMessage( "birt.viewer.dialog.export.spudsoft.excel.single.sheet" )%></label>
+						</div>
+					</td>
+				</tr>
+			</table>
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
