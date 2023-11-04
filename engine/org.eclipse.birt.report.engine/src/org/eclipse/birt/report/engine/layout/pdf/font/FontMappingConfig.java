@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,25 +59,17 @@ public class FontMappingConfig {
 	public void merge(FontMappingConfig config) {
 		fontPaths.addAll(config.fontPaths);
 
-		// fontAliases.putAll(config.fontAliases);
-
 		// merge alias fonts, special handling in addFontAlias()
-		Iterator<?> iterAlias = config.fontAliases.entrySet().iterator();
-		while (iterAlias.hasNext()) {
-			Map.Entry entry = (Map.Entry) iterAlias.next();
-			String fontAlias = (String) entry.getKey();
-			String fontName = (String) entry.getValue();
-			this.addFontAlias(fontAlias, fontName);
+		for (Map.Entry<String, String> fontAliasEntry : config.fontAliases.entrySet()) {
+			this.addFontAlias(fontAliasEntry.getKey(), fontAliasEntry.getValue());
 		}
 		fontEncodings.putAll(config.fontEncodings);
 		searchSequences.putAll(config.searchSequences);
 
 		// merge the composite fonts
-		Iterator<?> iterComposite = config.compositeFonts.entrySet().iterator();
-		while (iterComposite.hasNext()) {
-			Map.Entry entry = (Map.Entry) iterComposite.next();
-			String fontName = (String) entry.getKey();
-			CompositeFontConfig newConfig = (CompositeFontConfig) entry.getValue();
+		for (Map.Entry<String, CompositeFontConfig> compositeFontEntry : config.compositeFonts.entrySet()) {
+			String fontName = compositeFontEntry.getKey();
+			CompositeFontConfig newConfig = compositeFontEntry.getValue();
 			CompositeFontConfig oldConfig = compositeFonts.get(fontName);
 			if (oldConfig != null) {
 				oldConfig.merge(newConfig);
