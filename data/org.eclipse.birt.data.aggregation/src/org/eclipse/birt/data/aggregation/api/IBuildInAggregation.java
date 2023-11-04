@@ -52,4 +52,6 @@ public interface IBuildInAggregation {
 	String TOTAL_CONCATENATE_FUNC = "CONCATENATE";//$NON-NLS-1$
 	String TOTAL_RANGE_FUNC = "RANGE";//$NON-NLS-1$
 
+	String TOTAL_DENSE__RANK_FUNC = "DENSERANK";//$NON-NLS-1$
+
 }
