@@ -21,41 +21,65 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Font mapping configuration class
+ *
+ * @since 3.3
+ *
+ */
 public class FontMappingConfig {
 
-	protected Set fontPaths = new HashSet();
+	protected Set<String> fontPaths = new HashSet<String>();
 
 	/** The font-family replacement */
-	protected HashMap fontAliases = new HashMap();
+	protected HashMap<String, String> fontAliases = new HashMap<String, String>();
 
 	/** The encoding for the fonts */
-	protected HashMap fontEncodings = new HashMap();
+	protected HashMap<String, String> fontEncodings = new HashMap<String, String>();
 
 	/** the global sequences defined for composite fonts */
-	protected HashMap searchSequences = new HashMap();
+	protected HashMap<String, String[]> searchSequences = new HashMap<String, String[]>();
 
 	/**
 	 * composite fonts is constructed by multiple physical fonts which may cover
 	 * large amount of glyph
 	 */
-	protected HashMap compositeFonts = new HashMap();
+	protected HashMap<String, CompositeFontConfig> compositeFonts = new HashMap<String, CompositeFontConfig>();
 
+	/**
+	 * Constructor
+	 */
 	public FontMappingConfig() {
 	}
 
+	/**
+	 * merge the font configuration to the existing font setup
+	 *
+	 * @param config font mapping configuration
+	 */
 	public void merge(FontMappingConfig config) {
 		fontPaths.addAll(config.fontPaths);
-		fontAliases.putAll(config.fontAliases);
+
+		// fontAliases.putAll(config.fontAliases);
+
+		// merge alias fonts, special handling in addFontAlias()
+		Iterator<?> iterAlias = config.fontAliases.entrySet().iterator();
+		while (iterAlias.hasNext()) {
+			Map.Entry entry = (Map.Entry) iterAlias.next();
+			String fontAlias = (String) entry.getKey();
+			String fontName = (String) entry.getValue();
+			this.addFontAlias(fontAlias, fontName);
+		}
 		fontEncodings.putAll(config.fontEncodings);
 		searchSequences.putAll(config.searchSequences);
 
 		// merge the composite fonts
-		Iterator iter = config.compositeFonts.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry entry = (Map.Entry) iter.next();
+		Iterator<?> iterComposite = config.compositeFonts.entrySet().iterator();
+		while (iterComposite.hasNext()) {
+			Map.Entry entry = (Map.Entry) iterComposite.next();
 			String fontName = (String) entry.getKey();
 			CompositeFontConfig newConfig = (CompositeFontConfig) entry.getValue();
-			CompositeFontConfig oldConfig = (CompositeFontConfig) compositeFonts.get(fontName);
+			CompositeFontConfig oldConfig = compositeFonts.get(fontName);
 			if (oldConfig != null) {
 				oldConfig.merge(newConfig);
 			} else {
@@ -64,33 +88,69 @@ public class FontMappingConfig {
 		}
 	}
 
+	/**
+	 * Add the font path to the path map
+	 *
+	 * @param fontPath font path
+	 */
 	public void addFontPath(String fontPath) {
 		fontPaths.add(fontPath);
 	}
 
-	/** The font-family replacement */
+	/**
+	 * The font-family replacement
+	 *
+	 * @param alias    alias name of the font
+	 * @param fontName original font name
+	 */
 	public void addFontAlias(String alias, String fontName) {
-		fontAliases.put(alias, fontName);
+		fontAliases.put(alias.toLowerCase(), fontName);
 	}
 
-	/** The encoding for the fonts */
+	/**
+	 * The encoding for the fonts
+	 *
+	 * @param fontName     font name
+	 * @param fontEncoding font encoding
+	 */
 	public void addFontEncoding(String fontName, String fontEncoding) {
 		fontEncodings.put(fontName, fontEncoding);
 	}
 
+	/**
+	 * Add search sequence of font
+	 *
+	 * @param localeKey local key
+	 * @param sequence  search sequence
+	 */
 	public void addSearchSequence(String localeKey, String[] sequence) {
 		searchSequences.put(localeKey, sequence);
 	}
 
-	public Map getSearchSequences() {
+	/**
+	 * Get the map of the search sequences of the fonts
+	 *
+	 * @return Return the map of the search sequences of the fontsReturn
+	 */
+	public HashMap<String, String[]> getSearchSequences() {
 		return searchSequences;
 	}
 
+	/**
+	 * Add the composite font
+	 *
+	 * @param fontConfig composite font configuration
+	 */
 	public void addCompositeFont(CompositeFontConfig fontConfig) {
 		compositeFonts.put(fontConfig.fontName, fontConfig);
 	}
 
-	public Collection getAllCompositeFonts() {
+	/**
+	 * Get all composite fonts
+	 *
+	 * @return Return all composite fonts
+	 */
+	public Collection<CompositeFontConfig> getAllCompositeFonts() {
 		return compositeFonts.values();
 	}
 }
