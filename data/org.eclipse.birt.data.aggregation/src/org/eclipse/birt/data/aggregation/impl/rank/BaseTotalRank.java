@@ -119,7 +119,7 @@ abstract class BaseTotalRank extends AggrFunction {
 					hasInitialized = true;
 					if (args[1].toString().equals("false")) { //$NON-NLS-1$
 						asc = false;
-					} else if (args[1] instanceof Double doubleArg && doubleArg.equals(Double.valueOf(0))) {
+					} else if (args[1] instanceof Double && ((Double) args[1]).equals(Double.valueOf(0))) {
 						asc = false;
 					} else {
 						asc = true;
