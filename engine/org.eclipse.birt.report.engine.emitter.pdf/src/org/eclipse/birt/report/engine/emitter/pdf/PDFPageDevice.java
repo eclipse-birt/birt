@@ -4,9 +4,8 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -783,25 +782,13 @@ public class PDFPageDevice implements IPageDevice {
 
 		// PDF/A: set ICC color profile and XMP metadata
 		try {
-
-			// example source:
-			// http://www.java2s.com/example/java-api/java/awt/color/icc_profile/getinstance-1-0.html
-			//
-			// validator:
-			// 1. https://www.pdfforge.org/online/de/pdfa-validieren
-			// 2. https://avepdf.com/de/pdfa-validation
-			// 3. https://www.pdfen.com/pdf-a-validator
-			//
-			// PDF/A: generation of output intent
-			// PDF/A: default color profile sRGB IEC61966-2.1 (standard of: HP & Microsoft)
-
-			// PDF icc standard color profile
+			// PDF ICC standard color profile
 			PdfDictionary outi = new PdfDictionary(PdfName.OUTPUTINTENT);
 			outi.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString(PDFPageDevice.PDF_ICC_PROFILE_DEFAULT));
 			outi.put(PdfName.INFO, new PdfString(PDFPageDevice.PDF_ICC_PROFILE_DEFAULT));
 			outi.put(PdfName.S, PdfName.GTS_PDFA1);
 
-			// PDF icc color profile
+			// PDF ICC color profile
 			boolean iccProfileExternal = false;
 			ICC_Profile iccProfile = null;
 			File iccFile = null;
