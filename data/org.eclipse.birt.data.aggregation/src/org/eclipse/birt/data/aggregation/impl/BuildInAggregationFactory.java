@@ -142,7 +142,7 @@ public class BuildInAggregationFactory implements IAggregationFactory {
 		aggregations.add(totalRange);
 
 		final TotalDenseRank totalDenseRank = new TotalDenseRank();
-		aggrMap.put(IBuildInAggregation.TOTAL_DENSE__RANK_FUNC, totalDenseRank);
+		aggrMap.put(IBuildInAggregation.TOTAL_DENSERANK_FUNC, totalDenseRank);
 		aggregations.add(totalDenseRank);
 	}
 

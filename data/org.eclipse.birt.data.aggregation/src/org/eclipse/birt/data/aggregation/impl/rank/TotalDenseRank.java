@@ -17,7 +17,7 @@ public class TotalDenseRank extends BaseTotalRank {
 	 */
 	@Override
 	public String getName() {
-		return IBuildInAggregation.TOTAL_DENSE__RANK_FUNC;
+		return IBuildInAggregation.TOTAL_DENSERANK_FUNC;
 	}
 
 	/*

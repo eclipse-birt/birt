@@ -1625,7 +1625,7 @@ public class TotalTest {
 	public void testTotalDenseRank() throws Exception {
 		IAggrFunction ag = buildInAggrFactory.getAggregation("denserank");
 		Accumulator ac = ag.newAccumulator();
-		assertEquals(IBuildInAggregation.TOTAL_DENSE__RANK_FUNC, ag.getName());
+		assertEquals(IBuildInAggregation.TOTAL_DENSERANK_FUNC, ag.getName());
 		assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
 		assertEquals(2, ag.getParameterDefn().length);
 		assertTrue(!ag.getParameterDefn()[0].isOptional());
