@@ -77,7 +77,7 @@ abstract class BaseTotalRank extends AggrFunction {
 		private boolean denseRank;
 		private boolean hasInitialized;
 		private int passCount = 0;
-		private Comparator comparator;
+		private Comparator<Object> comparator;
 
 		/**
 		 * @param denseRank If the dense rank algorithm should be used or not
@@ -94,6 +94,7 @@ abstract class BaseTotalRank extends AggrFunction {
 				rankMap = new HashMap<>();
 				sum = 0;
 				asc = true;
+				comparator = RankObjComparator.INSTANCE; // Sorting for ascending. Can change later
 				hasInitialized = false;
 			}
 			passCount++;
@@ -116,6 +117,8 @@ abstract class BaseTotalRank extends AggrFunction {
 					cachedValues.add(RankAggregationUtil.getNullObject());
 				}
 				if ((!hasInitialized) && args[1] != null) {
+					// Here, the ascending/descending sort order can change from defaults depending
+					// on the second argument
 					hasInitialized = true;
 					if (args[1].toString().equals("false")) { //$NON-NLS-1$
 						asc = false;
@@ -125,7 +128,10 @@ abstract class BaseTotalRank extends AggrFunction {
 						asc = true;
 					}
 
-					comparator = this.asc ? RankObjComparator.INSTANCE : RankObjComparator.INSTANCE.reversed();
+					// Reverse the sorting if the sorting is not ascending
+					if (!this.asc) {
+						comparator = RankObjComparator.INSTANCE.reversed();
+					}
 				}
 			} else {
 				Object compareValue;
@@ -199,7 +205,7 @@ abstract class BaseTotalRank extends AggrFunction {
 	/*
 	 *
 	 */
-	static class RankObjComparator implements Comparator {
+	static class RankObjComparator implements Comparator<Object> {
 
 		public static RankObjComparator INSTANCE = new RankObjComparator();
 
@@ -212,12 +218,13 @@ abstract class BaseTotalRank extends AggrFunction {
 													// NullObject
 			if (o1 instanceof Comparable) {
 				if (o2 instanceof Comparable) {// Comparable ? Comparable
-					Comparable obj1 = (Comparable) o1;
-					Comparable obj2 = (Comparable) o2;
+					@SuppressWarnings("unchecked")
+					Comparable<Object> obj1 = (Comparable<Object>) o1;
+					@SuppressWarnings("unchecked")
+					Comparable<Object> obj2 = (Comparable<Object>) o2;
 					return obj1.compareTo(obj2);
-				} else {// Comparable > NullObject
-					return 1;
 				}
+				return 1;// Comparable > NullObject
 			} else if (o2 instanceof Comparable) {// NullObject < Comparable
 				return -1;
 			} else {// NullObject == NullObject
