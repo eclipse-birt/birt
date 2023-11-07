@@ -1,20 +1,3 @@
-/*
- *************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *
- *************************************************************************
- */
-
 package org.eclipse.birt.data.aggregation.impl.rank;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -22,9 +5,10 @@ import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 
 /**
- * Implements the built-in Total.Rank aggregation.
+ * @since 3.3
+ *
  */
-public class TotalRank extends BaseTotalRank {
+public class TotalDenseRank extends BaseTotalRank {
 
 	/*
 	 * (non-Javadoc)
@@ -33,7 +17,7 @@ public class TotalRank extends BaseTotalRank {
 	 */
 	@Override
 	public String getName() {
-		return IBuildInAggregation.TOTAL_RANK_FUNC;
+		return IBuildInAggregation.TOTAL_DENSERANK_FUNC;
 	}
 
 	/*
@@ -43,7 +27,7 @@ public class TotalRank extends BaseTotalRank {
 	 */
 	@Override
 	public Accumulator newAccumulator() {
-		return new TotalRankAccumulator(false);
+		return new TotalRankAccumulator(true);
 	}
 
 	/*
@@ -54,7 +38,7 @@ public class TotalRank extends BaseTotalRank {
 	 */
 	@Override
 	public String getDescription() {
-		return Messages.getString("TotalRank.description"); //$NON-NLS-1$
+		return Messages.getString("TotalDenseRank.description"); //$NON-NLS-1$
 	}
 
 	/*
@@ -65,6 +49,6 @@ public class TotalRank extends BaseTotalRank {
 	 */
 	@Override
 	public String getDisplayName() {
-		return Messages.getString("TotalRank.displayName"); //$NON-NLS-1$
+		return Messages.getString("TotalDenseRank.displayName"); //$NON-NLS-1$
 	}
 }

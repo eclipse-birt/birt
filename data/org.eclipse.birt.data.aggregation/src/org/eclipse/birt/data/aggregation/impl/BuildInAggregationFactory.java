@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.impl.rank.TotalDenseRank;
 import org.eclipse.birt.data.aggregation.impl.rank.TotalIsBottomN;
 import org.eclipse.birt.data.aggregation.impl.rank.TotalIsBottomNPercent;
 import org.eclipse.birt.data.aggregation.impl.rank.TotalIsTopN;
@@ -139,6 +140,10 @@ public class BuildInAggregationFactory implements IAggregationFactory {
 		final TotalRange totalRange = new TotalRange();
 		aggrMap.put(IBuildInAggregation.TOTAL_RANGE_FUNC, totalRange);
 		aggregations.add(totalRange);
+
+		final TotalDenseRank totalDenseRank = new TotalDenseRank();
+		aggrMap.put(IBuildInAggregation.TOTAL_DENSERANK_FUNC, totalDenseRank);
+		aggregations.add(totalDenseRank);
 	}
 
 	/**
