@@ -26,16 +26,13 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -44,8 +41,6 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class IntegerSpinControl extends AbstractChartIntSpinner implements SelectionListener, Listener {
 
-	private transient int iSize = 16;
-
 	private transient int iMinValue = 0;
 
 	private transient int iMaxValue = 100;
@@ -53,12 +48,6 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 	protected transient int iCurrentValue = 0;
 
 	private transient int iIncrement = 1;
-
-	protected transient Composite cmpContentOuter = null;
-
-	private transient Composite cmpContentInner = null;
-
-	private transient Composite cmpBtnContainer = null;
 
 	protected transient Button btnIncrement = null;
 
@@ -93,10 +82,10 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 	 */
 	private void init() {
 		if (Display.getCurrent().getHighContrast()) {
-			GC gc = new GC(this);
-			iSize = gc.getFontMetrics().getHeight();
+			// GC gc = new GC(this);
+			// iSize = gc.getFontMetrics().getHeight();
 		}
-		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
+//		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 		vListeners = new Vector<>();
 	}
 
@@ -104,80 +93,55 @@ public class IntegerSpinControl extends AbstractChartIntSpinner implements Selec
 	 *
 	 */
 	protected void placeComponents() {
-		FillLayout fl = new FillLayout();
-		fl.marginHeight = 0;
-		fl.marginWidth = 0;
-		setLayout(fl);
-
-		// THE LAYOUT OF THE OUTER COMPOSITE (THAT GROWS VERTICALLY BUT ANCHORS
-		// ITS CONTENT NORTH)
-		cmpContentOuter = new Composite(this, SWT.NONE);
-		GridLayout gl = new GridLayout();
-		gl.verticalSpacing = 0;
-		gl.horizontalSpacing = 0;
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		gl.numColumns = 1;
-		cmpContentOuter.setLayout(gl);
-
-		creaetSpinner(cmpContentOuter);
+		creaetSpinner(this);
 	}
 
 	protected void creaetSpinner(Composite parent) {
 		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
 		// THE CANVAS + BUTTON)
-		cmpContentInner = new Composite(parent, SWT.NONE);
-		GridLayout gl = new GridLayout();
-		gl.verticalSpacing = 0;
-		gl.horizontalSpacing = 0;
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		gl.numColumns = 2;
-		cmpContentInner.setLayout(gl);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		cmpContentInner.setLayoutData(gd);
 
-		txtValue = new TextEditorComposite(cmpContentInner, SWT.BORDER);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.grabExcessHorizontalSpace = true;
-		gd.verticalAlignment = GridData.BEGINNING;
-		gd.heightHint = iSize + 8;
-		gd.minimumWidth = 30;
-		txtValue.setLayoutData(gd);
+		setLayout(new InternalLayout());
+
+		txtValue = new TextEditorComposite(this, SWT.BORDER);
 		txtValue.setText(String.valueOf(iCurrentValue));
 		txtValue.addListener(this);
 
-		cmpBtnContainer = new Composite(cmpContentInner, SWT.NONE);
-		gd = new GridData();
-		gd.verticalAlignment = GridData.BEGINNING;
-		gd.horizontalAlignment = SWT.END;
-		cmpBtnContainer.setLayoutData(gd);
-		cmpBtnContainer.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		gl = new GridLayout();
-		gl.horizontalSpacing = 0;
-		gl.verticalSpacing = 0;
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		cmpBtnContainer.setLayout(gl);
-
-		final int iHalf = (iSize + 8) / 2;
-		btnIncrement = new Button(cmpBtnContainer, SWT.ARROW | SWT.UP);
-		gd = new GridData();
-		gd.grabExcessVerticalSpace = true;
-		gd.grabExcessHorizontalSpace = true;
-		gd.heightHint = iHalf;
-		gd.widthHint = iHalf;
-		btnIncrement.setLayoutData(gd);
+		btnIncrement = new Button(this, SWT.ARROW | SWT.RIGHT);
 		btnIncrement.addSelectionListener(this);
 
-		btnDecrement = new Button(cmpBtnContainer, SWT.ARROW | SWT.DOWN);
-		gd = new GridData();
-		gd.grabExcessVerticalSpace = true;
-		gd.grabExcessHorizontalSpace = true;
-		gd.heightHint = iHalf;
-		gd.widthHint = iHalf;
-		btnDecrement.setLayoutData(gd);
+		btnDecrement = new Button(this, SWT.ARROW | SWT.LEFT);
 		btnDecrement.addSelectionListener(this);
+	}
+
+	private class InternalLayout extends Layout {
+		@Override
+		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
+			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
+				return new Point(wHint, hHint);
+			}
+			Point textBoxSize = txtValue.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point incButtonSize = btnIncrement.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point decButtonSize = btnDecrement.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+
+			return new Point(textBoxSize.x + incButtonSize.x + decButtonSize.x,
+					Math.max(textBoxSize.y, incButtonSize.y));
+		}
+
+		@Override
+		public void layout(Composite editor, boolean force) {
+			Rectangle bounds = editor.getClientArea();
+
+			Point textBoxSize = txtValue.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point incButtonSize = btnIncrement.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point decButtonSize = btnDecrement.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+
+			int maxButtonWidth = Math.max(incButtonSize.x, decButtonSize.x);
+
+			btnDecrement.setBounds(0, 0, maxButtonWidth, bounds.height);
+			txtValue.setBounds(maxButtonWidth, 0, bounds.width - maxButtonWidth * 2, bounds.height);
+			btnIncrement.setBounds(bounds.width - maxButtonWidth, 0, maxButtonWidth,
+					bounds.height);
+		}
 	}
 
 	@Override

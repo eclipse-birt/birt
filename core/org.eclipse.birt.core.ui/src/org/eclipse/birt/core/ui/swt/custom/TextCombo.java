@@ -16,14 +16,12 @@ package org.eclipse.birt.core.ui.swt.custom;
 
 import java.util.HashMap;
 
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Custom text combo
@@ -61,22 +59,17 @@ public class TextCombo extends CustomChooserComposite {
 	public TextCombo(Composite parent, int style) {
 		super(parent, style);
 
-		GC gc = new GC(this);
-		itemHeight = gc.getFontMetrics().getHeight() + 2;
+		/*
+		 * We are in the construct so the default font is used. - Grab the "bold"
+		 * default from the FontRegistry
+		 */
+		this.fontBold = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 
-		if (gc.getFont().getFontData() == null || gc.getFont().getFontData().length == 0) {
-			fontBold = new Font(Display.getCurrent(), "arial", //$NON-NLS-1$
-					9, SWT.BOLD);
-		} else {
-			FontData fd = gc.getFont().getFontData()[0];
-			fontBold = new Font(gc.getDevice(), fd.getName(), fd.getHeight(), fd.getStyle() | SWT.BOLD);
-		}
 		addDisposeListener(new DisposeListener() {
 
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				fontBold.dispose();
-				choiceMarkerMap.clear();
+				TextCombo.this.choiceMarkerMap.clear();
 			}
 		});
 	}

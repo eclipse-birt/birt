@@ -339,7 +339,7 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 		e = errors.get(1);
 		assertEquals(StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE, e.getErrorCode());
 		assertEquals(CssPropertyConstants.ATTR_BACKGROUND_IMAGE, e.getCSSPropertyName());
-		assertEquals("uattr(images) / attr(header))", e.getCSSValue()); //$NON-NLS-1$
+		assertEquals("u(images/header)", e.getCSSValue()); //$NON-NLS-1$
 
 		e = errors.get(2);
 		assertEquals(StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE, e.getErrorCode());
@@ -375,12 +375,13 @@ public class StyleSheetLoaderTest extends BaseTestCase {
 		fileName = "wrong_3.css"; //$NON-NLS-1$
 		CssStyleSheetHandle styleSheet = loadStyleSheet(fileName);
 
-		assertEquals(1, styleSheet.getParserErrors().size());
+		List<?> warnings = styleSheet.getStyleSheet().getWarnings();
+		assertEquals(1, warnings.size());
 		assertEquals(
-				"[11:1] encountered \"_\". Was expecting one of: \"{\" \",\" \"[\" \".\" \":\" <HASH> \"+\" \">\" ", //$NON-NLS-1$
-				styleSheet.getParserErrors().get(0));
+				"org.eclipse.birt.report.model.api.css.StyleSheetParserException: The style \"wrong_style\" is not supported.", //$NON-NLS-1$
+				warnings.get(0).toString());
 		assertEquals(0, styleSheet.getParserFatalErrors().size());
-		assertEquals(0, styleSheet.getParserWarnings().size());
+		assertEquals(0, styleSheet.getParserErrors().size());
 
 	}
 

@@ -42,8 +42,13 @@ public final class CssUtil {
 	 */
 
 	public static String toString(LexicalUnit lu) {
-		int type = lu.getLexicalUnitType();
 		StringBuilder sb = new StringBuilder();
+		toString(sb, lu);
+		return sb.toString();
+	}
+
+	private static void toString(StringBuilder sb, LexicalUnit lu) {
+		int type = lu.getLexicalUnitType();
 		switch (type) {
 		case LexicalUnit.SAC_OPERATOR_COMMA:
 			sb.append(","); //$NON-NLS-1$
@@ -120,7 +125,7 @@ public final class CssUtil {
 			break;
 		case LexicalUnit.SAC_RGBCOLOR:
 			sb.append("rgb("); //$NON-NLS-1$
-			sb.append(lu.getParameters());
+			toStringParameters(sb, lu);
 			sb.append(")"); //$NON-NLS-1$
 			break;
 		case LexicalUnit.SAC_IDENT:
@@ -131,12 +136,12 @@ public final class CssUtil {
 			break;
 		case LexicalUnit.SAC_ATTR:
 			sb.append("attr("); //$NON-NLS-1$
-			sb.append(lu.getParameters());
+			toStringParameters(sb, lu);
 			sb.append(")"); //$NON-NLS-1$
 			break;
 		case LexicalUnit.SAC_RECT_FUNCTION:
 			sb.append("rect("); //$NON-NLS-1$
-			sb.append(lu.getParameters());
+			toStringParameters(sb, lu);
 			sb.append(")"); //$NON-NLS-1$
 			break;
 		case LexicalUnit.SAC_UNICODERANGE:
@@ -147,11 +152,21 @@ public final class CssUtil {
 			break;
 		case LexicalUnit.SAC_FUNCTION:
 			sb.append(lu.getFunctionName());
-			sb.append(lu.getParameters());
+			sb.append("("); //$NON-NLS-1$
+			toStringParameters(sb, lu);
 			sb.append(")"); //$NON-NLS-1$
 			break;
 		}
-		return sb.toString();
+	}
+
+	private static void toStringParameters(StringBuilder sb, LexicalUnit lu) {
+		LexicalUnit parameters = lu.getParameters();
+		sb.append(toString(parameters));
+		for (LexicalUnit nextLexicalUnit = parameters
+				.getNextLexicalUnit(); nextLexicalUnit != null; nextLexicalUnit = nextLexicalUnit
+						.getNextLexicalUnit()) {
+			sb.append(toString(nextLexicalUnit));
+		}
 	}
 
 	/**

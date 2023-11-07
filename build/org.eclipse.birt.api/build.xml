@@ -32,9 +32,6 @@
 	<target name="copy-api-jars">
 		<echo>copy API jars to "${LIB_DIR}</echo>
 		<copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar" />
-		<copy file="${ROOT_DIR}/common/org.w3c.sac/lib/flute.jar" tofile="${LIB_DIR}/flute.jar" />
-		<!-- issue 662 axis vulnerabilities -->
-		<copy file="${ROOT_DIR}/common/org.apache.axis/lib/axis-1.4.1-SNAPSHOT.jar" tofile="${LIB_DIR}/axis.jar" />
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${ROOT_DIR}">
 				<include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar" />

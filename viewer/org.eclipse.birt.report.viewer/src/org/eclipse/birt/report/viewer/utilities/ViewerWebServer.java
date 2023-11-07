@@ -51,8 +51,10 @@ public class ViewerWebServer {
 	public static final String VIEWER_WEB_SERVER_ID = "org.eclipse.birt.report.viewer.server"; //$NON-NLS-1$
 
 	static {
-		// Make sure that the bundleresource: is registered to a URLResourceFactory
-		ResourceFactory.registerResourceFactory("bundleresource", new URLResourceFactory());
+		// Make sure that the bundleresource / entry: is registered to a URLResourceFactory
+		URLResourceFactory urlResourceFactory = new URLResourceFactory();
+		ResourceFactory.registerResourceFactory("bundleresource", urlResourceFactory);
+		ResourceFactory.registerResourceFactory("bundleentry", urlResourceFactory);
 	}
 
 	private String host;

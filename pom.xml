@@ -113,7 +113,6 @@
 		<!-- build issue inside -->
 		<module>build</module>
 		<module>chart</module>
-		<module>common</module>
 		<module>core</module>
 		<module>data</module>
 		<!-- build issue inside -->

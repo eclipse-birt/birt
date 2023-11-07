@@ -192,7 +192,6 @@ United States, other countries, or both.
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.junit"/>
-      <plugin id="org.w3c.sac"/>
    </plugins>
 
 </product>
