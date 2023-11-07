@@ -416,7 +416,7 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>jakarta.annotation-api|org.mortbay.jasper.apache-.*</value>
+          <value>org.mortbay.jasper.apache-.*</value>
         </detail>
         <detail
             key="minimizeImplicitUnits">

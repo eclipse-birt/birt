@@ -434,7 +434,6 @@ United States, other countries, or both.
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
       <plugin id="org.eclipse.orbit.xml-apis-ext"/>
-      <plugin id="org.w3c.sac"/>
       <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
    </plugins>
 
