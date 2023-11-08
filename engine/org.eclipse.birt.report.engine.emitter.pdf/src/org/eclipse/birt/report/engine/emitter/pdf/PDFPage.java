@@ -464,9 +464,24 @@ public class PDFPage extends AbstractPage {
 		BaseFont font = getBaseFont(fontInfo);
 		float fontSize = fontInfo.getFontSize();
 		try {
+			// PDF/A: if font not embeddable then use the configured PDF/A fallback font
+			if (this.pageDevice.isPdfAFormat() && fontInfo.getBaseFont() != null
+					&& !fontInfo.getBaseFont().isEmbedded()) {
+				try {
+					String defaultFontPdfA = this.pageDevice.getDefaultFontPdfA();
+					if (defaultFontPdfA != null) {
+						font = BaseFont.createFont(defaultFontPdfA, "", true);
+					}
+					logger.log(Level.WARNING,
+							"PDF/A: " + fontInfo.getFontName() + " not embeddable, fallback font used.");
+				} catch (Exception e) {
+					logger.log(Level.WARNING,
+							"PDF/A: " + fontInfo.getFontName() + " not embeddable." + e.getMessage());
+				}
+			}
 			contentByte.setFontAndSize(font, fontSize);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.WARNING, e.getMessage());
+		} catch (IllegalArgumentException iae) {
+			logger.log(Level.WARNING, iae.getMessage());
 			// close to zero , increase by one MIN_FONT_SIZE step
 			contentByte.setFontAndSize(font, MIN_FONT_SIZE * 2);
 		}
