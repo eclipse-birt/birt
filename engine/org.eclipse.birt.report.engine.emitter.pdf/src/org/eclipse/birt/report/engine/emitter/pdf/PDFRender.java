@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -42,6 +42,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.pdf.PdfTemplate;
 
+/**
+ * Class to create the PDF renderer
+ *
+ * @since 3.3
+ *
+ */
 public class PDFRender extends PageDeviceRender {
 
 	/**
@@ -57,6 +63,12 @@ public class PDFRender extends PageDeviceRender {
 
 	protected HashSet<String> bookmarks = new HashSet<>();
 
+	/**
+	 * Constructor
+	 *
+	 * @param services emitter service
+	 * @throws EngineException engine exception
+	 */
 	public PDFRender(IEmitterServices services) throws EngineException {
 		initialize(services);
 	}
@@ -187,7 +199,7 @@ public class PDFRender extends PageDeviceRender {
 				Action act = new Action(systemId, hlAction);
 				String link = null;
 				IHTMLActionHandler actionHandler = null;
-				Object ac = services.getOption(RenderOption.ACTION_HANDLER);
+				Object ac = services.getOption(IRenderOption.ACTION_HANDLER);
 				if (ac instanceof IHTMLActionHandler) {
 					actionHandler = (IHTMLActionHandler) ac;
 				}

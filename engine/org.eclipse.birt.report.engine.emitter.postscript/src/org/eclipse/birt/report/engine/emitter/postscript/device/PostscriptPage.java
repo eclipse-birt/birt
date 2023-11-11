@@ -19,7 +19,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Map;
 
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
@@ -100,14 +99,14 @@ public class PostscriptPage extends AbstractPage {
 
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText, Map params) throws Exception {
+			float height, float width, String helpText) throws Exception {
 		InputStream input = new ByteArrayInputStream(imageData);
 		drawImage(imageId, input, imageX, imageY, height, width, helpText);
 	}
 
 	@Override
 	protected void drawImage(String uri, String extension, float imageX, float imageY, float height, float width,
-			String helpText, Map params) throws Exception {
+			String helpText) throws Exception {
 		if (uri == null) {
 			return;
 		}

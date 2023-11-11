@@ -12,13 +12,13 @@
  *******************************************************************************/
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ import org.apache.axis.i18n.Messages;
  * <br>
  * <b>This is a mod version over original axis implementation to handle the
  * Unicode Extension-B cases. May need update when Axis changes.</b>
- * 
+ *
  * @author <a href="mailto:jens@void.fm">Jens Schumann</a>
  * @see <a href="http://encoding.org">encoding.org</a>
  * @see <a href="http://czyborra.com/utf/#UTF-8">UTF 8 explained</a>
@@ -48,9 +48,9 @@ import org.apache.axis.i18n.Messages;
 public class UTF8Encoder extends AbstractXMLEncoder {
 
 	/**
-	 * gets the encoding supported by this encoder
-	 * 
-	 * @return string
+	 * Gets the encoding supported by this encoder
+	 *
+	 * @return Return the encoding of this encoder
 	 */
 	@Override
 	public String getEncoding() {
@@ -59,7 +59,7 @@ public class UTF8Encoder extends AbstractXMLEncoder {
 
 	/**
 	 * write the encoded version of a given string
-	 * 
+	 *
 	 * @param writer    writer to write this string to
 	 * @param xmlString string to be encoded
 	 */

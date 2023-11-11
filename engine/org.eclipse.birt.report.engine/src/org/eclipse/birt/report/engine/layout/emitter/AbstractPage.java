@@ -15,16 +15,27 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.util.Map;
 
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
+/**
+ * Class to define abstract page
+ *
+ * @since 3.3
+ *
+ */
 public abstract class AbstractPage implements IPage {
 	protected float pageWidth, pageHeight;
 
+	/**
+	 * Constructor
+	 *
+	 * @param pageWidth  page width
+	 * @param pageHeight page height
+	 */
 	public AbstractPage(int pageWidth, int pageHeight) {
 		this.pageWidth = convertToPoint(pageWidth);
 		this.pageHeight = convertToPoint(pageHeight);
@@ -64,9 +75,9 @@ public abstract class AbstractPage implements IPage {
 
 	@Override
 	public void drawImage(String imageId, byte[] imageData, String extension, int imageX, int imageY, int height,
-			int width, String helpText, Map params) throws Exception {
+			int width, String helpText) throws Exception {
 		drawImage(imageId, imageData, extension, convertToPoint(imageX), convertToPoint(imageY), convertToPoint(height),
-				convertToPoint(width), helpText, params);
+				convertToPoint(width), helpText);
 	}
 
 	/**
@@ -74,10 +85,10 @@ public abstract class AbstractPage implements IPage {
 	 */
 	@Deprecated
 	@Override
-	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
-			Map params) throws Exception {
+	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText)
+			throws Exception {
 		drawImage(uri, extension, convertToPoint(imageX), convertToPoint(imageY), convertToPoint(height),
-				convertToPoint(width), helpText, params);
+				convertToPoint(width), helpText);
 	}
 
 	@Override
@@ -116,7 +127,7 @@ public abstract class AbstractPage implements IPage {
 	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
 			Color color) {
 		textY = textY + verticalOffset;
-		drawLine(textX, textY, textX + width, textY, lineWidth, color, BorderInfo.BORDER_STYLE_SOLID); // $NON-NLS-1$
+		drawLine(textX, textY, textX + width, textY, lineWidth, color, AreaConstants.BORDER_STYLE_SOLID); // $NON-NLS-1$
 	}
 
 	protected abstract void clip(float startX, float startY, float width, float height);
@@ -136,10 +147,10 @@ public abstract class AbstractPage implements IPage {
 			throws Exception;
 
 	protected abstract void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText, Map params) throws Exception;
+			float height, float width, String helpText) throws Exception;
 
 	protected abstract void drawImage(String uri, String extension, float imageX, float imageY, float height,
-			float width, String helpText, Map params) throws Exception;
+			float width, String helpText) throws Exception;
 
 	protected abstract void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle);

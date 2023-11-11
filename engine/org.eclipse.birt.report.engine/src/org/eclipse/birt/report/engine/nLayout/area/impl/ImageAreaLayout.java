@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -30,10 +28,11 @@ import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ObjectContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.ImageReader;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -45,9 +44,15 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
+/**
+ *
+ * Implementation of image layout area
+ *
+ * @since 3.3
+ *
+ */
 public class ImageAreaLayout implements ILayout {
 
 	private ILayout layout = null;
@@ -61,6 +66,13 @@ public class ImageAreaLayout implements ILayout {
 
 	private static Pattern pattern = Pattern.compile(" ([^=]*)=\"([^\"]*)\"");
 
+	/**
+	 * Constructor
+	 *
+	 * @param parent  container area (parent container)
+	 * @param context layout context
+	 * @param content image content
+	 */
 	public ImageAreaLayout(ContainerArea parent, LayoutContext context, IImageContent content) {
 		this.parent = parent;
 		this.content = content;
@@ -109,7 +121,7 @@ public class ImageAreaLayout implements ILayout {
 	}
 
 	private ILayout createAltTextLayout(int altTextType) {
-		ITextContent altTextContent = createAltText((IImageContent) content, altTextType);
+		ITextContent altTextContent = createAltText(content, altTextType);
 		if (null == altTextContent) {
 			return null;
 		}
@@ -197,15 +209,13 @@ public class ImageAreaLayout implements ILayout {
 		}
 
 		/**
-		 * get intrinsic dimension of image in pixels. Now only support png, bmp, jpg,
+		 * Get intrinsic dimension of image in pixels. Now only support png, bmp, jpg,
 		 * gif.
 		 *
-		 * @return
-		 * @throws IOException
-		 * @throws MalformedURLException
-		 * @throws BadElementException
+		 * @param image image to get the dimension
+		 * @return Return the image size as dimension
 		 */
-		protected Dimension getIntrinsicDimension(IImageContent content, Image image) {
+		protected Dimension getIntrinsicDimension(Image image) {
 			if (image != null) {
 				return new Dimension((int) (image.getPlainWidth() * 1000 / resolutionX * 72),
 						(int) (image.getPlainHeight() * 1000 / resolutionY * 72));
@@ -240,7 +250,7 @@ public class ImageAreaLayout implements ILayout {
 			resolutionY = PropertyUtil.getImageDpi(content, imageFileDpiY, context.getDpi());
 
 			try {
-				intrinsic = getIntrinsicDimension(content, imageObject);
+				intrinsic = getIntrinsicDimension(imageObject);
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, e.getLocalizedMessage());
 			}
@@ -297,8 +307,9 @@ public class ImageAreaLayout implements ILayout {
 			if ("pdf".equalsIgnoreCase(context.getFormat()) && reader.getType() == ImageReader.TYPE_FLASH_OBJECT) {
 				innerTextInserted = true;
 				innerText = createInnerTextLayout();
-				innerText.content.getStyle().setProperty(IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE);
-				innerText.setVerticalAlign(IStyle.MIDDLE_VALUE);
+				innerText.content.getStyle().setProperty(StyleConstants.STYLE_TEXT_ALIGN,
+						CSSValueConstants.CENTER_VALUE);
+				innerText.setVerticalAlign(CSSValueConstants.MIDDLE_VALUE);
 				innerText.setIgnoreReordering(true);
 				// save current root status
 				if (PropertyUtil.isInlineElement(image)) {
@@ -619,10 +630,10 @@ public class ImageAreaLayout implements ILayout {
 				// the image map of SVG chart is in Point.
 				int imageX = imageArea.getX();
 				int imageY = imageArea.getY();
-				result[0] = imageX + (int) (area[0] * 1000);
-				result[2] = (int) (area[2] * 1000);
-				result[1] = imageY + (int) (area[1] * 1000);
-				result[3] = (int) (area[3] * 1000);
+				result[0] = imageX + (area[0] * 1000);
+				result[2] = (area[2] * 1000);
+				result[1] = imageY + (area[1] * 1000);
+				result[3] = (area[3] * 1000);
 			} else {
 				for (int i = 0; i < 4;) {
 					area[i] = getTranslatedLengthX(area[i]);

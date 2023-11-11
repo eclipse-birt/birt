@@ -796,7 +796,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 					}
 				}
 			}
-			pageGraphic.drawImage(uri, data, extension, imageX, imageY, height, width, helpText, image.getParameters());
+			pageGraphic.drawImage(uri, data, extension, imageX, imageY, height, width, helpText);
 		} catch (Throwable t) {
 			log(t, Level.WARNING);
 		}

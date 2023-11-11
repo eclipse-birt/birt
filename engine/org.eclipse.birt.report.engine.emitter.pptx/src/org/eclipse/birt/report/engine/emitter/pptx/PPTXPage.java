@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.Map;
 
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
@@ -75,7 +74,7 @@ public class PPTXPage implements IPage {
 
 	@Override
 	public void drawImage(String imageId, byte[] imageData, String extension, int imageX, int imageY, int height,
-			int width, String helpText, Map parameters) throws Exception {
+			int width, String helpText) throws Exception {
 		imageX = PPTXUtil.convertToEnums(imageX);
 		imageY = PPTXUtil.convertToEnums(imageY);
 		width = PPTXUtil.convertToEnums(width);
@@ -84,8 +83,8 @@ public class PPTXPage implements IPage {
 	}
 
 	@Override
-	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
-			Map parameters) throws Exception {
+	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText)
+			throws Exception {
 		imageX = PPTXUtil.convertToEnums(imageX);
 		imageY = PPTXUtil.convertToEnums(imageY);
 		width = PPTXUtil.convertToEnums(width);
