@@ -216,8 +216,11 @@ public abstract class StyleManagerUtils {
 			double mmWidth = dim.getMeasure();
 			if ((DimensionType.UNITS_CM.equals(dim.getUnits())) || (DimensionType.UNITS_IN.equals(dim.getUnits()))
 					|| (DimensionType.UNITS_PT.equals(dim.getUnits()))
-					|| (DimensionType.UNITS_PC.equals(dim.getUnits()))) {
+					|| (DimensionType.UNITS_PC.equals(dim.getUnits()))
+					) {
 				mmWidth = dim.convertTo("mm");
+			} else if ((DimensionType.UNITS_PX.equals(dim.getUnits()))) {
+				mmWidth = ClientAnchorConversions.pixels2Millimetres(mmWidth);
 			}
 			int result = ClientAnchorConversions.millimetres2WidthUnits(mmWidth);
 			// log.debug( "Column width in mm: ", mmWidth, "; converted result: ", result );

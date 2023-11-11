@@ -25,6 +25,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 import uk.co.spudsoft.birt.emitters.excel.AreaBorders;
@@ -36,6 +37,12 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Abstract class to define real table row
+ *
+ * @since 3.3
+ *
+ */
 public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 
 	protected Row currentRow;
@@ -111,6 +118,12 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		}
 	}
 
+	/**
+	 * Interrupt the row and define the row cells
+	 *
+	 * @param state handler state
+	 * @throws BirtException
+	 */
 	public void interruptRow(HandlerState state) throws BirtException {
 		log.debug("Interrupt row at ", state.rowNum);
 		currentRow = state.currentSheet.getRow(state.rowNum);
@@ -203,7 +216,8 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		} else {
 			DimensionType height = ((IRowContent) element).getHeight();
 			if (height != null) {
-				if (DimensionUtil.isAbsoluteUnit(height.getUnits())) {
+				if (DimensionUtil.isAbsoluteUnit(height.getUnits())
+						|| DesignChoiceConstants.UNITS_PX.equals(height.getUnits())) {
 					double points = height.convertTo(DimensionType.UNITS_PT);
 					currentRow.setHeightInPoints((float) points);
 				}
