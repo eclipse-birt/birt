@@ -472,7 +472,7 @@
 				<include name="org.eclipse.emf.ecore_*.jar" />
 				<include name="org.eclipse.emf_*.jar" />
 				<include name="org.apache.commons.logging_*.jar" />
-				<include name="org.apache.derby_*.jar" />
+				<include name="derby_*.jar" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.dom_*.jar"/>
