@@ -250,27 +250,27 @@ public class TextStyle extends AreaConstants {
 	}
 
 	/**
-	 * Check if text is underlined
+	 * Check if the text is underlined
 	 *
-	 * @return Return the check result
+	 * @return Return the check result if the text is underlined
 	 */
 	public boolean isUnderline() {
 		return underLine;
 	}
 
 	/**
-	 * Check if the text use line through
+	 * Check if the text use line-through
 	 *
-	 * @return Return the check result
+	 * @return Return the check result if the text is line-through
 	 */
 	public boolean isLinethrough() {
 		return lineThrough;
 	}
 
 	/**
-	 * Check if the text is underlined
+	 * Check if the text is overlined
 	 *
-	 * @return Return the check result
+	 * @return Return the check result if the text is overlined
 	 */
 	public boolean isOverline() {
 		return overLine;
@@ -288,14 +288,14 @@ public class TextStyle extends AreaConstants {
 	/**
 	 * Check if the text has a hyperlink
 	 *
-	 * @return Return the check result
+	 * @return Return the check if the text has a hyperlink
 	 */
 	public boolean isHasHyperlink() {
 		return hasHyperlink;
 	}
 
 	/**
-	 * Set the text use a hyperlink
+	 * Set a boolean flag to mark that the text use a hyperlink
 	 *
 	 * @param hasHyperlink the text use a hyperlink
 	 */

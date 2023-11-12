@@ -236,7 +236,7 @@ public class TextAreaLayout implements ILayout {
 	}
 
 	/**
-	 * Get the fre space
+	 * Get the free space
 	 *
 	 * @return Return the free space
 	 */
