@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.w3c.dom.css.CSSValue;
 
 /**
- * Class to implements the text style
+ * Class to implement the text style
  *
  * @since 3.3
  *
