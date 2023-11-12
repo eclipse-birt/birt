@@ -19,12 +19,24 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
+/**
+ * Class to define abstract page
+ *
+ * @since 3.3
+ *
+ */
 public abstract class AbstractPage implements IPage {
 	protected float pageWidth, pageHeight;
 
+	/**
+	 * Constructor
+	 *
+	 * @param pageWidth  page width
+	 * @param pageHeight page height
+	 */
 	public AbstractPage(int pageWidth, int pageHeight) {
 		this.pageWidth = convertToPoint(pageWidth);
 		this.pageHeight = convertToPoint(pageHeight);
@@ -116,7 +128,7 @@ public abstract class AbstractPage implements IPage {
 	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
 			Color color) {
 		textY = textY + verticalOffset;
-		drawLine(textX, textY, textX + width, textY, lineWidth, color, BorderInfo.BORDER_STYLE_SOLID); // $NON-NLS-1$
+		drawLine(textX, textY, textX + width, textY, lineWidth, color, AreaConstants.BORDER_STYLE_SOLID); // $NON-NLS-1$
 	}
 
 	protected abstract void clip(float startX, float startY, float width, float height);

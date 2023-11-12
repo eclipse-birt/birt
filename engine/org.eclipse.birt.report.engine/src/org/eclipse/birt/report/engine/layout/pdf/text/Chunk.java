@@ -29,24 +29,59 @@ public class Chunk {
 	private int baseLevel;
 	private int runLevel;
 
+	/** property: line break */
 	public static final Chunk HARD_LINE_BREAK = new Chunk("\n"); //$NON-NLS-1$
 
+	/**
+	 * Constructor 1
+	 *
+	 * @param text chunk text
+	 */
 	public Chunk(String text) {
 		this(text, 0, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null);
 	}
 
+	/**
+	 * Constructor 2
+	 *
+	 * @param text   chunk text
+	 * @param offset offset
+	 * @param fi     font info
+	 */
 	public Chunk(String text, int offset, FontInfo fi) {
 		this(text, offset, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi);
 	}
 
+	/**
+	 * Constructor 3
+	 *
+	 * @param chunk chunk of text
+	 */
 	public Chunk(Chunk chunk) {
 		this(chunk.text, chunk.offset, chunk.baseLevel, chunk.runLevel, null);
 	}
 
+	/**
+	 * Constructor 4
+	 *
+	 * @param text      chunk text
+	 * @param offset    text offset
+	 * @param baseLevel base level
+	 * @param runLevel  run level
+	 */
 	public Chunk(String text, int offset, int baseLevel, int runLevel) {
 		this(text, offset, baseLevel, runLevel, null);
 	}
 
+	/**
+	 * Constructor 5
+	 *
+	 * @param text      chunk text
+	 * @param offset    text offset
+	 * @param baseLevel base level
+	 * @param runLevel  run level
+	 * @param fi        font info
+	 */
 	public Chunk(String text, int offset, int baseLevel, int runLevel, FontInfo fi) {
 		this.text = text;
 		this.offset = offset;
@@ -56,18 +91,38 @@ public class Chunk {
 		this.fontInfo = fi;
 	}
 
+	/**
+	 * Set the text
+	 *
+	 * @param text chunk text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 
+	/**
+	 * Set the text offset
+	 *
+	 * @param offset text offset
+	 */
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
 
+	/**
+	 * Get the chunk text
+	 *
+	 * @return Return the chunk text
+	 */
 	public String getText() {
 		return this.text;
 	}
 
+	/**
+	 * Get the chunk text length
+	 *
+	 * @return Return the chunk text length
+	 */
 	public int getLength() {
 		if (text != null) {
 			return text.length();
@@ -75,22 +130,47 @@ public class Chunk {
 		return 0;
 	}
 
+	/**
+	 * Set the font info
+	 *
+	 * @param fi font info
+	 */
 	public void setFontInfo(FontInfo fi) {
 		this.fontInfo = fi;
 	}
 
+	/**
+	 * Get the font info
+	 *
+	 * @return Return the ont info
+	 */
 	public FontInfo getFontInfo() {
 		return this.fontInfo;
 	}
 
+	/**
+	 * Return the offset
+	 *
+	 * @return Get the offset
+	 */
 	public int getOffset() {
 		return this.offset;
 	}
 
+	/**
+	 * Set the base level
+	 *
+	 * @param baseLevel base level
+	 */
 	public void setBaseLevel(int baseLevel) {
 		this.baseLevel = baseLevel;
 	}
 
+	/**
+	 * Return the base level
+	 *
+	 * @return Get the base level
+	 */
 	public int getBaseLevel() {
 		return this.baseLevel;
 	}

@@ -19,8 +19,17 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
+/**
+ * Interface to define a page
+ *
+ * @since 3.3
+ *
+ */
 public interface IPage {
 
+	/**
+	 * disposer of the page
+	 */
 	void dispose();
 
 	/**
@@ -50,11 +59,39 @@ public interface IPage {
 	 */
 	void drawText(String text, int textX, int textY, int width, int height, TextStyle textStyle);
 
+	/**
+	 * Draw the image
+	 *
+	 * @param imageId   image id
+	 * @param imageData image data
+	 * @param extension image type
+	 * @param imageX    image x position
+	 * @param imageY    image y position
+	 * @param height    image height
+	 * @param width     image width
+	 * @param helpText  help text
+	 * @param params    map of parameters
+	 * @throws Exception handling exception
+	 */
 	void drawImage(String imageId, byte[] imageData, String extension, int imageX, int imageY, int height, int width,
 			String helpText, Map params) throws Exception;
 
+	/**
+	 * Draw the image
+	 *
+	 * @param uri       image uri
+	 * @param extension image type
+	 * @param imageX    image x position
+	 * @param imageY    image y position
+	 * @param height    image height
+	 * @param width     image width
+	 * @param helpText  help text
+	 * @param params    map of parameters
+	 * @throws Exception handling exception
+	 */
 	void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
-			Map params) throws Exception;
+			Map params)
+			throws Exception;
 
 	/**
 	 * Draws a line from the start position to the end position with the given line
@@ -81,8 +118,33 @@ public interface IPage {
 	 */
 	void drawBackgroundColor(Color color, int x, int y, int width, int height);
 
+	/**
+	 * Draw the background image
+	 *
+	 * @param x           image x position
+	 * @param y           image y position
+	 * @param width       with
+	 * @param height      height
+	 * @param imageWidth  image width
+	 * @param imageHeight image height
+	 * @param repeat      repeat the image on background
+	 * @param imageUrl    image URL
+	 * @param imageData   image data
+	 * @param absPosX     absolute x position
+	 * @param absPosY     absolute y position
+	 * @throws Exception handling exception
+	 */
 	void drawBackgroundImage(int x, int y, int width, int height, int imageWidth, int imageHeight, int repeat,
 			String imageUrl, byte[] imageData, int absPosX, int absPosY) throws Exception;
 
+	/**
+	 * Show the help text
+	 *
+	 * @param text   help text
+	 * @param x      x position
+	 * @param y      y position
+	 * @param width  width
+	 * @param height height
+	 */
 	void showHelpText(String text, int x, int y, int width, int height);
 }
