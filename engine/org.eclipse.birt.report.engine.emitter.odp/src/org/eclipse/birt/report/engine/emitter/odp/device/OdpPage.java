@@ -15,6 +15,7 @@ package org.eclipse.birt.report.engine.emitter.odp.device;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.odp.OdpContext;
@@ -129,7 +130,7 @@ public class OdpPage extends AbstractPage {
 
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText) throws Exception {
+			float height, float width, String helpText, Map params) throws Exception {
 
 		if (extension == null && imageId != null) {
 			extension = "." + ImageManager.getImageExtension(imageId); //$NON-NLS-1$
@@ -142,7 +143,7 @@ public class OdpPage extends AbstractPage {
 
 	@Override
 	protected void drawImage(String imageId, String extension, float imageX, float imageY, float height, float width,
-			String helpText) throws Exception {
+			String helpText, Map params) throws Exception {
 		if (imageId == null) {
 			return;
 		}

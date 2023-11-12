@@ -21,6 +21,7 @@ import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -211,10 +212,10 @@ public class PDFPage extends AbstractPage {
 
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText) throws Exception {
+			float height, float width, String helpText, Map params) throws Exception {
 		// Flash
 		if (FlashFile.isFlash(null, null, extension)) {
-			embedFlash(null, imageData, imageX, imageY, height, width, helpText);
+			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
 			return;
 		}
 
@@ -259,7 +260,7 @@ public class PDFPage extends AbstractPage {
 	@Deprecated
 	@Override
 	protected void drawImage(String uri, String extension, float imageX, float imageY, float height, float width,
-			String helpText) throws Exception {
+			String helpText, Map params) throws Exception {
 	}
 
 	/**
@@ -649,7 +650,7 @@ public class PDFPage extends AbstractPage {
 	}
 
 	protected void embedFlash(String flashPath, byte[] flashData, float x, float y, float height, float width,
-			String helpText) throws IOException {
+			String helpText, Map params) throws IOException {
 		y = transformY(y, height);
 		contentByte.saveState();
 		PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer, flashPath, helpText, flashData);

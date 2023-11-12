@@ -15,6 +15,7 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
@@ -69,10 +70,11 @@ public interface IPage {
 	 * @param height    image height
 	 * @param width     image width
 	 * @param helpText  help text
+	 * @param params    map of parameters
 	 * @throws Exception handling exception
 	 */
 	void drawImage(String imageId, byte[] imageData, String extension, int imageX, int imageY, int height, int width,
-			String helpText) throws Exception;
+			String helpText, Map params) throws Exception;
 
 	/**
 	 * Draw the image
@@ -84,9 +86,11 @@ public interface IPage {
 	 * @param height    image height
 	 * @param width     image width
 	 * @param helpText  help text
+	 * @param params    map of parameters
 	 * @throws Exception handling exception
 	 */
-	void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText)
+	void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
+			Map params)
 			throws Exception;
 
 	/**

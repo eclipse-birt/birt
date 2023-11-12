@@ -15,6 +15,7 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -75,9 +76,9 @@ public abstract class AbstractPage implements IPage {
 
 	@Override
 	public void drawImage(String imageId, byte[] imageData, String extension, int imageX, int imageY, int height,
-			int width, String helpText) throws Exception {
+			int width, String helpText, Map params) throws Exception {
 		drawImage(imageId, imageData, extension, convertToPoint(imageX), convertToPoint(imageY), convertToPoint(height),
-				convertToPoint(width), helpText);
+				convertToPoint(width), helpText, params);
 	}
 
 	/**
@@ -85,10 +86,10 @@ public abstract class AbstractPage implements IPage {
 	 */
 	@Deprecated
 	@Override
-	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText)
-			throws Exception {
+	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
+			Map params) throws Exception {
 		drawImage(uri, extension, convertToPoint(imageX), convertToPoint(imageY), convertToPoint(height),
-				convertToPoint(width), helpText);
+				convertToPoint(width), helpText, params);
 	}
 
 	@Override
@@ -147,10 +148,10 @@ public abstract class AbstractPage implements IPage {
 			throws Exception;
 
 	protected abstract void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText) throws Exception;
+			float height, float width, String helpText, Map params) throws Exception;
 
 	protected abstract void drawImage(String uri, String extension, float imageX, float imageY, float height,
-			float width, String helpText) throws Exception;
+			float width, String helpText, Map params) throws Exception;
 
 	protected abstract void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle);

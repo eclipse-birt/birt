@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.emitter.ppt.PPTWriter;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
@@ -78,13 +79,13 @@ public class PPTPage extends AbstractPage {
 
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText) throws Exception {
+			float height, float width, String helpText, Map params) throws Exception {
 		writer.drawImage(imageId, imageData, extension, imageX, imageY, height, width, helpText, link);
 	}
 
 	@Override
 	protected void drawImage(String uri, String extension, float imageX, float imageY, float height, float width,
-			String helpText) throws Exception {
+			String helpText, Map params) throws Exception {
 		if (uri == null) {
 			return;
 		}
@@ -94,7 +95,7 @@ public class PPTPage extends AbstractPage {
 		while ((data = imageStream.read()) != -1) {
 			byteArrayOut.write(data);
 		}
-		drawImage(uri, byteArrayOut.toByteArray(), extension, imageX, imageY, height, width, helpText);
+		drawImage(uri, byteArrayOut.toByteArray(), extension, imageX, imageY, height, width, helpText, params);
 	}
 
 	@Override
