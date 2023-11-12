@@ -38,7 +38,7 @@ import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 /**
- * Abstract class to define real table row
+ * Abstract class to define a real table row
  *
  * @since 3.3
  *
