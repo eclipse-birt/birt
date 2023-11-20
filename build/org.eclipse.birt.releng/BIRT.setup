@@ -396,7 +396,7 @@
         </detail>
         <detail
             key="singleLocation">
-          <value>false</value>
+          <value>true</value>
         </detail>
         <detail
             key="sortLocations">
@@ -412,7 +412,7 @@
         </detail>
         <detail
             key="ignoreJavaRequirements">
-          <value>false</value>
+          <value>true</value>
         </detail>
         <detail
             key="generateVersions">
@@ -424,6 +424,10 @@
         </detail>
         <detail
             key="generateImplicitUnits">
+          <value>false</value>
+        </detail>
+        <detail
+            key="ignorePropertiesMatchRequirements">
           <value>true</value>
         </detail>
       </annotation>
@@ -462,13 +466,6 @@
   </setupTask>
   <stream name="master"
       label="Workspace setup for branch master">
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.birt.old"
-        value="=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
-        vm="true">
-      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
-    </setupTask>
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.birt"

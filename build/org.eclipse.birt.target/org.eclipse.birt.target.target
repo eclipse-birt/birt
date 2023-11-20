@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="26">
+<target name="Generated from BIRT" sequenceNumber="27">
   <locations>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/cbi/updates/license"/>
-    </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
@@ -13,14 +9,8 @@
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
-      <unit id="com.google.guava" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
-      <unit id="com.google.javascript" version="0.0.0"/>
-      <unit id="com.ibm.icu" version="0.0.0"/>
-      <unit id="com.jcraft.jsch" version="0.0.0"/>
       <unit id="com.sun.el.javax.el" version="0.0.0"/>
-      <unit id="com.sun.jna" version="0.0.0"/>
-      <unit id="com.sun.jna.platform" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
       <unit id="jakarta.annotation-api" version="0.0.0"/>
       <unit id="jakarta.enterprise.cdi-api" version="0.0.0"/>
@@ -28,32 +18,23 @@
       <unit id="jakarta.interceptor-api" version="0.0.0"/>
       <unit id="jakarta.servlet-api" version="0.0.0"/>
       <unit id="jakarta.transaction-api" version="0.0.0"/>
+      <unit id="javax.activation" version="0.0.0"/>
+      <unit id="javax.annotation" version="0.0.0"/>
+      <unit id="javax.el" version="0.0.0"/>
+      <unit id="javax.inject" version="0.0.0"/>
+      <unit id="javax.servlet" version="0.0.0"/>
       <unit id="javax.servlet-api" version="0.0.0"/>
+      <unit id="javax.servlet.jsp" version="0.0.0"/>
       <unit id="javax.servlet.jsp-api" version="0.0.0"/>
-      <unit id="javax.wsdl" version="0.0.0"/>
+      <unit id="javax.xml.bind" version="0.0.0"/>
       <unit id="javax.xml.rpc-api" version="0.0.0"/>
-      <unit id="junit-jupiter-api" version="0.0.0"/>
-      <unit id="junit-jupiter-engine" version="0.0.0"/>
-      <unit id="junit-jupiter-migrationsupport" version="0.0.0"/>
-      <unit id="junit-jupiter-params" version="0.0.0"/>
-      <unit id="junit-platform-commons" version="0.0.0"/>
-      <unit id="junit-platform-engine" version="0.0.0"/>
-      <unit id="junit-platform-launcher" version="0.0.0"/>
-      <unit id="junit-platform-runner" version="0.0.0"/>
-      <unit id="junit-platform-suite-api" version="0.0.0"/>
-      <unit id="junit-platform-suite-commons" version="0.0.0"/>
-      <unit id="junit-platform-suite-engine" version="0.0.0"/>
-      <unit id="junit-vintage-engine" version="0.0.0"/>
-      <unit id="org.apache.ant" version="0.0.0"/>
+      <unit id="javax.xml.stream" version="0.0.0"/>
       <unit id="org.apache.aries.spifly.dynamic.bundle" version="0.0.0"/>
-      <unit id="org.apache.axis" version="0.0.0"/>
-      <unit id="org.apache.axis.ant" version="0.0.0"/>
       <unit id="org.apache.batik.anim" version="0.0.0"/>
       <unit id="org.apache.batik.awt.util" version="0.0.0"/>
       <unit id="org.apache.batik.bridge" version="0.0.0"/>
       <unit id="org.apache.batik.codec" version="0.0.0"/>
       <unit id="org.apache.batik.constants" version="0.0.0"/>
-      <unit id="org.apache.batik.css" version="0.0.0"/>
       <unit id="org.apache.batik.dom" version="0.0.0"/>
       <unit id="org.apache.batik.dom.svg" version="0.0.0"/>
       <unit id="org.apache.batik.ext" version="0.0.0"/>
@@ -65,97 +46,45 @@
       <unit id="org.apache.batik.transcoder" version="0.0.0"/>
       <unit id="org.apache.batik.util" version="0.0.0"/>
       <unit id="org.apache.batik.xml" version="0.0.0"/>
-      <unit id="org.apache.commons.commons-codec" version="0.0.0"/>
       <unit id="org.apache.commons.commons-collections4" version="0.0.0"/>
       <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
       <unit id="org.apache.commons.commons-io" version="0.0.0"/>
-      <unit id="org.apache.commons.discovery" version="0.0.0"/>
       <unit id="org.apache.commons.math3" version="0.0.0"/>
-      <unit id="org.apache.felix.gogo.command" version="0.0.0"/>
-      <unit id="org.apache.felix.gogo.runtime" version="0.0.0"/>
-      <unit id="org.apache.felix.gogo.shell" version="0.0.0"/>
+      <unit id="org.apache.derby" version="0.0.0"/>
       <unit id="org.apache.felix.scr" version="0.0.0"/>
       <unit id="org.apache.httpcomponents.httpclient" version="0.0.0"/>
       <unit id="org.apache.httpcomponents.httpcore" version="0.0.0"/>
+      <unit id="org.apache.jasper.glassfish" version="0.0.0"/>
       <unit id="org.apache.logging.log4j.api" version="0.0.0"/>
-      <unit id="org.apache.lucene.analysis-common" version="0.0.0"/>
-      <unit id="org.apache.lucene.analysis-smartcn" version="0.0.0"/>
-      <unit id="org.apache.lucene.core" version="0.0.0"/>
       <unit id="org.apache.lucene.queries" version="0.0.0"/>
-      <unit id="org.apache.lucene.queryparser" version="0.0.0"/>
       <unit id="org.apache.lucene.sandbox" version="0.0.0"/>
       <unit id="org.apache.poi" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
-      <unit id="org.apache.wsil4j" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
-      <unit id="org.apache.xmlgraphics" version="0.0.0"/>
-      <unit id="org.apiguardian.api" version="0.0.0"/>
       <unit id="org.dom4j" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
-      <unit id="org.eclipse.orbit.xml-apis-ext" version="0.0.0"/>
-      <unit id="org.hamcrest" version="0.0.0"/>
-      <unit id="org.hamcrest.core" version="0.0.0"/>
-      <unit id="org.junit" version="0.0.0"/>
-      <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
-      <unit id="org.mortbay.jasper.apache-el" version="9.0.52"/>
-      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.52"/>
-      <unit id="org.objectweb.asm" version="0.0.0"/>
-      <unit id="org.objectweb.asm.commons" version="0.0.0"/>
-      <unit id="org.objectweb.asm.tree" version="0.0.0"/>
-      <unit id="org.objectweb.asm.tree.analysis" version="0.0.0"/>
-      <unit id="org.objectweb.asm.util" version="0.0.0"/>
-      <unit id="org.opentest4j" version="0.0.0"/>
-      <unit id="org.osgi.annotation.bundle" version="0.0.0"/>
-      <unit id="org.osgi.annotation.versioning" version="0.0.0"/>
-      <unit id="org.osgi.service.cm" version="0.0.0"/>
-      <unit id="org.osgi.service.component" version="0.0.0"/>
-      <unit id="org.osgi.service.component.annotations" version="0.0.0"/>
-      <unit id="org.osgi.service.device" version="0.0.0"/>
-      <unit id="org.osgi.service.event" version="0.0.0"/>
-      <unit id="org.osgi.service.metatype" version="0.0.0"/>
-      <unit id="org.osgi.service.metatype.annotations" version="0.0.0"/>
-      <unit id="org.osgi.service.prefs" version="0.0.0"/>
-      <unit id="org.osgi.service.provisioning" version="0.0.0"/>
-      <unit id="org.osgi.service.repository" version="0.0.0"/>
-      <unit id="org.osgi.service.upnp" version="0.0.0"/>
-      <unit id="org.osgi.service.useradmin" version="0.0.0"/>
-      <unit id="org.osgi.service.wireadmin" version="0.0.0"/>
-      <unit id="org.osgi.util.function" version="0.0.0"/>
-      <unit id="org.osgi.util.measurement" version="0.0.0"/>
-      <unit id="org.osgi.util.position" version="0.0.0"/>
-      <unit id="org.osgi.util.promise" version="0.0.0"/>
-      <unit id="org.osgi.util.tracker" version="0.0.0"/>
-      <unit id="org.osgi.util.xml" version="0.0.0"/>
-      <unit id="org.sat4j.core" version="0.0.0"/>
-      <unit id="org.sat4j.pb" version="0.0.0"/>
-      <unit id="org.tukaani.xz" version="0.0.0"/>
-      <unit id="org.uddi4j" version="0.0.0"/>
-      <unit id="slf4j.api" version="0.0.0"/>
-      <unit id="slf4j.simple" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="javax.activation" version="0.0.0"/>
-      <unit id="javax.annotation" version="0.0.0"/>
-      <unit id="javax.el" version="0.0.0"/>
-      <unit id="javax.inject" version="0.0.0"/>
-      <unit id="javax.mail" version="0.0.0"/>
-      <unit id="javax.servlet" version="0.0.0"/>
-      <unit id="javax.servlet.jsp" version="0.0.0"/>
-      <unit id="javax.xml" version="0.0.0"/>
-      <unit id="javax.xml.bind" version="0.0.0"/>
-      <unit id="javax.xml.rpc" version="0.0.0"/>
-      <unit id="javax.xml.soap" version="0.0.0"/>
-      <unit id="javax.xml.stream" version="0.0.0"/>
-      <unit id="org.apache.commons.jxpath" version="0.0.0"/>
-      <unit id="org.apache.derby" version="0.0.0"/>
-      <unit id="org.apache.jasper.glassfish" version="0.0.0"/>
-      <unit id="org.apache.xml.serializer" version="0.0.0"/>
-      <unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.apache.derby.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.hsqldb.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.ibm.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.ingres.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.jdt.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.msft.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.mysql.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.oda.designer.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.oracle.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.postgresql.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.sap.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.sqlite.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.enablement.sybase.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.intro.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.sdk" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.sqldevtools.data.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.apache-jsp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.plus" version="0.0.0"/>
@@ -169,181 +98,43 @@
       <unit id="org.eclipse.jetty.osgi" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
       <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
       <unit id="org.eclipse.jetty.xml" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.connectivity.oda.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.doc.user.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.apache.derby.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.hsqldb.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.ibm.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.ingres.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.jdbc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.jdt.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.msft.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.mysql.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.oda.designer.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.oda.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.oracle.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.postgresql.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.sap.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.sqlite.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.enablement.sybase.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.intro.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.modelbase.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.data.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.ddl.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.ddlgen.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.parsers.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.results.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.emf.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.apache.commons.codec" version="0.0.0"/>
-      <unit id="org.apache.commons.logging" version="0.0.0"/>
-      <unit id="org.eclipse.jem" version="0.0.0"/>
-      <unit id="org.eclipse.jem.beaninfo" version="0.0.0"/>
-      <unit id="org.eclipse.jem.beaninfo.vm" version="0.0.0"/>
-      <unit id="org.eclipse.jem.beaninfo.vm.common" version="0.0.0"/>
-      <unit id="org.eclipse.jem.proxy" version="0.0.0"/>
-      <unit id="org.eclipse.jem.workbench" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.http" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.io" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.security" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.util" version="0.0.0"/>
-      <unit id="org.eclipse.jst.common.annotations.controller" version="0.0.0"/>
-      <unit id="org.eclipse.jst.common.annotations.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.common.annotations.ui" version="0.0.0"/>
       <unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.jst.common.frameworks" version="0.0.0"/>
-      <unit id="org.eclipse.jst.common.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ejb.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ejb.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ejb.ui.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.enterprise_core.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.jst.enterprise_userdoc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ejb" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ejb.annotation.model" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ejb.annotations.emitter" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ejb.annotations.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ejb.annotations.xdoclet" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.jca" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.jca.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.navigator.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.web" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.webservice" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.webservice.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.j2ee.xdoclet.runtime" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jee" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jee.ejb" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jee.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jee.web" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jsf.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jsp.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jsp.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.jsp.ui.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.server.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.servlet.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.servlet.ui.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.standard.schemas" version="0.0.0"/>
-      <unit id="org.eclipse.jst.web_core.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.jst.web_userdoc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.axis.consumption.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.axis.consumption.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.axis.creation.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.axis.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.axis.ui.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.consumption" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.consumption.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.consumption.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.consumption.ui.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.creation.ejb.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.creation.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.doc.user" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.jaxrs.core" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.jaxrs.ui" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.uddiregistry" version="0.0.0"/>
-      <unit id="org.eclipse.jst.ws.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.command.env.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.wst.command.env.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.common.project.facet.core" version="0.0.0"/>
-      <unit id="org.eclipse.wst.common.project.facet.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.common_core.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.common_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.jsdt.core" version="0.0.0"/>
-      <unit id="org.eclipse.wst.jsdt.manipulation" version="0.0.0"/>
-      <unit id="org.eclipse.wst.jsdt.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.server_core.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.server_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.server_userdoc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws.explorer" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws.infopop" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws.service.policy.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws_core.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws_ui.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.ws_userdoc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.wst.wsdl.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.wsi.ui" version="0.0.0"/>
-      <unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="0.0.0"/>
-      <unit id="org.mozilla.javascript" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/webtools/repository/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.justj.epp.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.e4.tools.emf.ui" version="0.0.0"/>
-      <unit id="org.eclipse.e4.tools.services" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.core.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.filetransfer.httpclientjava.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.license.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
+      <unit id="org.eclipse.orbit.xml-apis-ext" version="0.0.0"/>
       <unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.search.core" version="0.0.0"/>
+      <unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
+      <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
+      <unit id="org.mortbay.jasper.apache-el" version="9.0.52"/>
+      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.52"/>
+      <unit id="org.mozilla.javascript" version="0.0.0"/>
+      <unit id="org.objectweb.asm.commons" version="0.0.0"/>
+      <unit id="org.osgi.service.repository" version="0.0.0"/>
+      <unit id="org.osgi.util.tracker" version="0.0.0"/>
+      <unit id="slf4j.api" version="0.0.0"/>
+      <unit id="slf4j.simple" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/cbi/updates/license"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
+      <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
+      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
+      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
+      <repository location="https://download.eclipse.org/webtools/repository/latest"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
+      <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
       <repository location="https://download.eclipse.org/eclipse/updates/4.30-I-builds"/>
     </location>
   </locations>
