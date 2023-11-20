@@ -8,7 +8,7 @@
 
    <launcherArgs>
       <programArgs>-product
-org.eclipse.epp.package.reporting.product
+org.eclipse.birt.designer
 --launcher.defaultAction
 openFile
 -showsplash
