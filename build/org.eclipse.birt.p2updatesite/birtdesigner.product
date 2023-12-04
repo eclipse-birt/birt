@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer" uid="org.eclipse.birt.designer" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="4.14.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer" uid="org.eclipse.birt.designer" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="4.15.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>

@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt.nl</groupId>
 		<artifactId>org.eclipse.birt.nl-parent</artifactId>
-		<version>4.14.0-SNAPSHOT</version>
+		<version>4.15.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.designer.ui.nl1</artifactId>
