@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Branding
 Bundle-SymbolicName: org.eclipse.birt.branding;singleton:=true
-Bundle-Version: 4.14.0.qualifier
+Bundle-Version: 4.15.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.branding
 Bundle-RequiredExecutionEnvironment: JavaSE-11
