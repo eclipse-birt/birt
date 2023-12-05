@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="27">
+<target name="Generated from BIRT" sequenceNumber="28">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
+      <unit id="biz.aQute.repository" version="0.0.0"/>
+      <unit id="biz.aQute.resolve" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
@@ -121,10 +123,11 @@
       <unit id="org.mortbay.jasper.apache-jsp" version="9.0.52"/>
       <unit id="org.mozilla.javascript" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
+      <unit id="org.osgi.service.coordinator" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="org.osgi.util.tracker" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
-      <unit id="slf4j.simple" version="0.0.0"/>
+      <unit id="slf4j.nop" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
@@ -135,7 +138,7 @@
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
       <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.30-I-builds"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.31-I-builds"/>
     </location>
   </locations>
 </target>
