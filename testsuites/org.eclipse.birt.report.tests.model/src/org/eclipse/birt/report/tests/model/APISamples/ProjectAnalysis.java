@@ -208,7 +208,7 @@ public class ProjectAnalysis {
 
 		StyleHandle style4 = elementFactory.newStyle("Date");
 		style4.setDateTimeFormat("MM-dd-yyyy");
-		style4.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		style4.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 
 		designHandle.getStyles().add(style1);
 		designHandle.getStyles().add(style2);
@@ -644,7 +644,7 @@ public class ProjectAnalysis {
 		row4Cell4Data.setStyleName("Date");
 		row4Cell4Data.setProperty(StyleHandle.FONT_FAMILY_PROP, "Georgia");
 		row4Cell4Data.setProperty(StyleHandle.FONT_SIZE_PROP, DesignChoiceConstants.FONT_SIZE_SMALLER);
-		row4Cell4Data.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		row4Cell4Data.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 		row4Cell4Data.getPrivateStyle().setDateTimeFormat("$###,###.00");
 		row4Cell4Data.setValueExpr("row[\"Value\"]");
 
@@ -708,7 +708,7 @@ public class ProjectAnalysis {
 		row5Cell4Data.setStyleName("Date");
 		row5Cell4Data.setProperty(StyleHandle.FONT_FAMILY_PROP, "Georgia");
 		row5Cell4Data.setProperty(StyleHandle.FONT_SIZE_PROP, DesignChoiceConstants.FONT_SIZE_SMALLER);
-		row5Cell4Data.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		row5Cell4Data.getPrivateStyle().setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 		row5Cell4Data.getPrivateStyle().setDateTimeFormat("$###,###.00");
 		row5Cell4Data.setValueExpr("row[\"Billing\"]");
 

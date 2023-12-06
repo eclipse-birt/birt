@@ -70,14 +70,7 @@ public class OSGILauncher extends PlatformLauncher {
 	@Override
 	public void startup(final PlatformConfig config) throws FrameworkException {
 		try {
-			java.security.AccessController.doPrivileged(new java.security.PrivilegedExceptionAction<Object>() {
-
-				@Override
-				public Object run() throws Exception {
-					doStartup(config);
-					return null;
-				}
-			});
+			doStartup(config);
 		} catch (Exception ex) {
 			if (ex instanceof FrameworkException) {
 				throw (FrameworkException) ex;
@@ -316,15 +309,7 @@ public class OSGILauncher extends PlatformLauncher {
 
 	@Override
 	public void shutdown() {
-		java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
-
-			@Override
-			public Object run() {
-				doShutdown();
-				return null;
-			}
-		});
-
+		doShutdown();
 	}
 
 	private void doShutdown() {

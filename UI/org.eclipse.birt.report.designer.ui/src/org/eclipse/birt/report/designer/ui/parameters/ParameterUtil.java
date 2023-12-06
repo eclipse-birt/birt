@@ -53,7 +53,7 @@ public class ParameterUtil {
 	public static boolean isCustomCategory(String formatCategory) {
 		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals(formatCategory)
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals(formatCategory)
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals(formatCategory)
+				|| DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM.equals(formatCategory)
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals(formatCategory)
 				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals(formatCategory)) {
 			return true;

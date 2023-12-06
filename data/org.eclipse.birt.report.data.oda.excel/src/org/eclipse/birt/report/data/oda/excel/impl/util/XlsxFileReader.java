@@ -26,10 +26,9 @@ import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
-import org.apache.poi.xssf.model.SharedStringsTable;
+import org.apache.poi.xssf.model.SharedStrings;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -73,7 +72,7 @@ public class XlsxFileReader {
 
 	public void processSheet(String rid, XlsxRowCallBack callback, int xlsxRowsToRead)
 			throws InvalidFormatException, IOException, SAXException {
-		SharedStringsTable sst = reader.getSharedStringsTable();
+		SharedStrings sst = reader.getSharedStringsTable();
 		StylesTable st = reader.getStylesTable();
 
 		XMLReader parser = fetchSheetParser(st, sst, callback, xlsxRowsToRead);
@@ -96,7 +95,7 @@ public class XlsxFileReader {
 		}
 	}
 
-	private XMLReader fetchSheetParser(StylesTable st, SharedStringsTable sst, XlsxRowCallBack callback,
+	private XMLReader fetchSheetParser(StylesTable st, SharedStrings sst, XlsxRowCallBack callback,
 			int xlsxRowsToRead) throws SAXException {
 		XMLReader parser = getXMLReader();
 		ContentHandler handler = new SheetHandler(st, sst, callback, xlsxRowsToRead);
@@ -119,7 +118,7 @@ public class XlsxFileReader {
 
 		private cDataType cellDataType;
 		private int columnCount = 1;
-		final private SharedStringsTable sst;
+		final private SharedStrings sst;
 		final private StylesTable st;
 		final private XlsxRowCallBack callback;
 		private String lastContents;
@@ -129,7 +128,7 @@ public class XlsxFileReader {
 		private int currentXlsxRowNumber = 0;
 		private SimpleDateFormat sdf;
 
-		private SheetHandler(StylesTable st, SharedStringsTable sst, XlsxRowCallBack callback, int xlsxRowsToRead) {
+		private SheetHandler(StylesTable st, SharedStrings sst, XlsxRowCallBack callback, int xlsxRowsToRead) {
 			this.sst = sst;
 			this.st = st;
 			this.callback = callback;
@@ -224,7 +223,7 @@ public class XlsxFileReader {
 				if (cellDataType == cDataType.SSTINDEX) {
 					int idx;
 					idx = Integer.parseInt(lastContents);
-					val = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
+					val = sst.getItemAt(idx).toString();
 				} else if (cellDataType == cDataType.STATIC || cellDataType == cDataType.NUMBER) {
 					val = lastContents;
 				} else if (cellDataType == cDataType.DATETIME || cellDataType == cDataType.DATE

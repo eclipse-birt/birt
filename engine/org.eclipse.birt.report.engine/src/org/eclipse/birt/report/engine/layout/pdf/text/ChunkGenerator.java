@@ -22,6 +22,12 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 
 import com.ibm.icu.text.Bidi;
 
+/**
+ * Class to generate data chunks / text segments
+ *
+ * @since 3.3
+ *
+ */
 public class ChunkGenerator {
 	private FontMappingManager fontManager;
 	private ITextContent textContent;
@@ -32,6 +38,14 @@ public class ChunkGenerator {
 	private ISplitter bidiSplitter = null;
 	private ISplitter fontSplitter = null;
 
+	/**
+	 * Constructor
+	 *
+	 * @param fontManager      font manager
+	 * @param textContent      text content
+	 * @param bidiProcessing   bidi processing flag
+	 * @param fontSubstitution is font substitution used flag
+	 */
 	public ChunkGenerator(FontMappingManager fontManager, ITextContent textContent, boolean bidiProcessing,
 			boolean fontSubstitution) {
 		this.fontManager = fontManager;
@@ -62,6 +76,11 @@ public class ChunkGenerator {
 
 	}
 
+	/**
+	 * Has more elements
+	 *
+	 * @return Return the validation result of more elements
+	 */
 	public boolean hasMore() {
 		if (text == null || text.length() == 0) {
 			return false;
@@ -79,18 +98,21 @@ public class ChunkGenerator {
 		}
 		if (fontSplitter.hasMore()) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
+	/**
+	 * Get the next text part
+	 *
+	 * @return Return the next text part
+	 */
 	public Chunk getNext() {
 		while (null != fontSplitter) {
 			if (fontSplitter.hasMore()) {
 				return fontSplitter.getNext();
-			} else {
-				fontSplitter = null;
 			}
+			fontSplitter = null;
 			if (null != bidiSplitter && bidiSplitter.hasMore()) {
 				fontSplitter = new FontSplitter(fontManager, bidiSplitter.getNext(), textContent, fontSubstitution);
 			} else {

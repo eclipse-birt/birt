@@ -46,16 +46,32 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 
 	private Dimension size = new Dimension();
 
+	private Dimension propertySize = new Dimension();
+
+	private double percentageHeight = 1;
+
+	private double percentageWidth = 1;
+
 	private Rectangle clip;
 
 	private static final Rectangle OLD_CLIP = new Rectangle();
 
 	private int backgroundImageDPI = 0;
 
+	/**
+	 * Get the background image dpi
+	 *
+	 * @return get the background image dpi
+	 */
 	public int getBackgroundImageDPI() {
 		return backgroundImageDPI;
 	}
 
+	/**
+	 * Set the background image dpi
+	 *
+	 * @param backgroundImageDPI background image dpi
+	 */
 	public void setBackgroundImageDPI(int backgroundImageDPI) {
 		this.backgroundImageDPI = backgroundImageDPI;
 	}
@@ -100,6 +116,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		return img;
 	}
 
+	/**
+	 * Set page clip
+	 *
+	 * @param clip rectangle to clip page
+	 */
 	public void setPageClip(Rectangle clip) {
 		this.clip = clip;
 	}
@@ -181,12 +202,12 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = createImageList(x, y);
+		ArrayList<Point> xyList = createImageList(x, y);
 
-		Iterator iter = xyList.iterator();
+		Iterator<Point> iter = xyList.iterator();
 		Dimension imageSize = new Rectangle(image.getBounds()).getSize();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 			graphics.drawImage(image, 0, 0, imageSize.width, imageSize.height, point.x, point.y, size.width,
 					size.height);
 		}
@@ -202,10 +223,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
 	 */
-	private ArrayList createImageList(int x, int y) {
+	private ArrayList<Point> createImageList(int x, int y) {
 		Rectangle area = getBounds();
 
-		ArrayList yList = new ArrayList();
+		ArrayList<Point> yList = new ArrayList<Point>();
 
 		if ((repeat & ImageConstants.REPEAT_Y) == 0) {
 			yList.add(new Point(x, y));
@@ -223,11 +244,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			}
 		}
 
-		ArrayList xyList = new ArrayList();
+		ArrayList<Point> xyList = new ArrayList<Point>();
 
-		Iterator iter = yList.iterator();
+		Iterator<Point> iter = yList.iterator();
 		while (iter.hasNext()) {
-			Point point = (Point) iter.next();
+			Point point = iter.next();
 
 			if ((repeat & ImageConstants.REPEAT_X) == 0) {
 				xyList.add(point);
@@ -308,23 +329,99 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	 */
 	@Override
 	public void setImage(Image image) {
-		if (img == image) {
+		this.setImage(image, 0, 0);
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 */
+	@Override
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth) {
+		this.setImage(image, 0, 0, 1, 1);
+	}
+
+	/**
+	 * Sets the Image that this ImageFigure displays.
+	 *
+	 * @param image                 The Image to be displayed. It can be
+	 *                              <code>null</code>.
+	 * @param backGroundImageHeight height of the image
+	 * @param backGroundImageWidth  width of the image
+	 * @param percentageHeight      percentage of height of the image to base 1.0
+	 * @param percentageWidth       percentage of width of the image to base 1.0
+	 */
+	@Override
+	public void setImage(Image image, int backGroundImageHeight, int backGroundImageWidth, double percentageHeight,
+			double percentageWidth) {
+		if (img == image && propertySize.height == backGroundImageHeight && propertySize.width == backGroundImageWidth
+				&& this.percentageHeight == percentageHeight && this.percentageWidth == percentageWidth) {
 			return;
 		}
 		img = image;
 		if (img != null) {
-			if (backgroundImageDPI > 0) {
+			propertySize.height = backGroundImageHeight;
+			propertySize.width = backGroundImageWidth;
+			this.percentageHeight = percentageHeight;
+			this.percentageWidth = percentageWidth;
+
+			if (backgroundImageDPI > 0 && backGroundImageHeight <= 0 && backGroundImageWidth > 0) {
+
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image width
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				int originalWidth = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageWidth / originalWidth;
+
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				size.height = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
+				size.width = backGroundImageWidth;
+
+			} else if (backgroundImageDPI > 0 && backGroundImageWidth <= 0 && backGroundImageHeight > 0) {
+
+				double inch = 1d;
+
+				// scaling factor of correct image relation based on original image height
+				inch = ((double) image.getBounds().height) / backgroundImageDPI;
+				int originalHeight = (int) MetricUtility.inchToPixel(inch);
+				double scaleFactor = (double) backGroundImageHeight / originalHeight;
+
+				inch = ((double) image.getBounds().width) / backgroundImageDPI;
+				size.width = (int) (MetricUtility.inchToPixel(inch) * scaleFactor);
+				size.height = backGroundImageHeight;
+
+			} else if (backgroundImageDPI > 0 && (backGroundImageHeight <= 0 && backGroundImageWidth <= 0)) {
+
 				double inch = ((double) image.getBounds().width) / backgroundImageDPI;
 				size.width = (int) MetricUtility.inchToPixel(inch);
 
 				inch = ((double) image.getBounds().height) / backgroundImageDPI;
 				size.height = (int) MetricUtility.inchToPixel(inch);
+
+			} else if (backGroundImageHeight > 0 && backGroundImageWidth > 0) {
+
+				size.height = backGroundImageHeight;
+				size.width = backGroundImageWidth;
+
 			} else {
 				size = new Rectangle(image.getBounds()).getSize();
 			}
 		} else {
 			size = new Dimension();
 		}
+		// auto scaling of percentage if one percentage is set and the image size is unset
+		if (percentageHeight != 1.0 && percentageWidth == 1.0 && backGroundImageWidth == 0) {
+			percentageWidth = percentageHeight;
+		} else if (percentageWidth != 1.0 && percentageHeight == 1.0 && backGroundImageHeight == 0) {
+			percentageHeight = percentageWidth;
+		}
+		size.height = (int) (size.height * percentageHeight);
+		size.width = (int) (size.width * percentageWidth);
 		revalidate();
 		repaint();
 	}
@@ -359,7 +456,7 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	/**
 	 * Returns the margin of current figure.
 	 *
-	 * @return
+	 * @return Returns the margin of current figure.
 	 */
 	@Override
 	public Insets getMargin() {
@@ -399,7 +496,10 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	}
 
 	/**
-	 * @param backGroundImageWidth
+	 * Set the Background image size
+	 *
+	 * @param backGroundImageWidth  width of the background image
+	 * @param backGroundImageHeight height of background image
 	 */
 	public void setBackGroundImageSize(int backGroundImageWidth, int backGroundImageHeight) {
 

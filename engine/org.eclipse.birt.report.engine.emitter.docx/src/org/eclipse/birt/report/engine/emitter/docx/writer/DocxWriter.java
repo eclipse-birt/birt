@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,6 +33,12 @@ import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
+/**
+ * DOXC writer
+ *
+ * @since 3.3
+ *
+ */
 public class DocxWriter implements IWordWriter {
 
 	private Package pkg;
@@ -47,6 +53,14 @@ public class DocxWriter implements IWordWriter {
 
 	private int wordVersion;
 
+	/**
+	 * Constructor
+	 *
+	 * @param out             output stream
+	 * @param tempFileDir     temporary file directory
+	 * @param compressionMode compression mode
+	 * @param wordVersion     word version
+	 */
 	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion) {
 		pkg = Package.createInstance(out, tempFileDir, compressionMode);
 		pkg.setExtensionData(new ImageManager());
@@ -214,8 +228,8 @@ public class DocxWriter implements IWordWriter {
 	}
 
 	@Override
-	public void startTableCell(int width, IStyle style, SpanInfo info) {
-		currentComponent.startTableCell(width, style, info);
+	public void startTableCell(int width, IStyle style, SpanInfo info, DiagonalLineInfo diagonalLineInfo) {
+		currentComponent.startTableCell(width, style, info, diagonalLineInfo);
 	}
 
 	@Override

@@ -23,25 +23,44 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
+/**
+ * Class to define repeatable container area
+ *
+ * @since 3.3
+ *
+ */
 public abstract class RepeatableArea extends BlockContainerArea {
 
-	protected List repeatList = null;
+	protected List<AbstractArea> repeatList = null;
 
 	protected int repeatHeight = 0;
 
 	protected boolean inHeaderBand = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param parent
+	 * @param context
+	 * @param content
+	 */
 	public RepeatableArea(ContainerArea parent, LayoutContext context, IContent content) {
 		super(parent, context, content);
 		if (needRepeat()) {
-			repeatList = new ArrayList();
+			repeatList = new ArrayList<AbstractArea>();
 		}
 	}
 
+	/**
+	 * Set the flag of header band
+	 *
+	 * @param inHeaderBand
+	 */
 	public void setInHeaderBand(boolean inHeaderBand) {
 		this.inHeaderBand = inHeaderBand;
 	}
@@ -54,7 +73,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 			if (isInRepeatHeader(first)) {
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -97,7 +115,7 @@ public abstract class RepeatableArea extends BlockContainerArea {
 			return repeatHeight;
 		} else if (repeatList != null) {
 			for (int i = 0; i < repeatList.size(); i++) {
-				AbstractArea area = (AbstractArea) repeatList.get(i);
+				AbstractArea area = repeatList.get(i);
 				repeatHeight += area.getAllocatedHeight();
 			}
 			return repeatHeight;
@@ -109,17 +127,17 @@ public abstract class RepeatableArea extends BlockContainerArea {
 	public SplitResult split(int height, boolean force) throws BirtException {
 		// repeat header can not be split.
 		if (!force && repeatList != null && repeatList.size() > 0) {
-			Iterator i = children.iterator();
+			Iterator<IArea> i = children.iterator();
 			boolean firstHeaderRow = true;
 			while (i.hasNext()) {
 				ContainerArea area = (ContainerArea) i.next();
 				if (isInRepeatHeader(area)) {
 					if (firstHeaderRow) {
-						area.setPageBreakInside(IStyle.AVOID_VALUE);
+						area.setPageBreakInside(CSSValueConstants.AVOID_VALUE);
 						firstHeaderRow = false;
 					} else {
-						area.setPageBreakInside(IStyle.AVOID_VALUE);
-						area.setPageBreakBefore(IStyle.AVOID_VALUE);
+						area.setPageBreakInside(CSSValueConstants.AVOID_VALUE);
+						area.setPageBreakBefore(CSSValueConstants.AVOID_VALUE);
 					}
 				}
 			}
@@ -128,16 +146,15 @@ public abstract class RepeatableArea extends BlockContainerArea {
 	}
 
 	@Override
-	protected boolean isValidResult(List result) {
+	protected boolean isValidResult(List<ContainerArea> result) {
 		assert result != null;
 		if (repeatList != null && !repeatList.isEmpty()) {
 			if (result.size() > repeatList.size()) {
 				return true;
-			} else {
-				int index = result.indexOf(repeatList.get(repeatList.size() - 1));
-				if (index != -1 && result.size() - 1 > index) {
-					return true;
-				}
+			}
+			int index = result.indexOf(repeatList.get(repeatList.size() - 1));
+			if (index != -1 && result.size() - 1 > index) {
+				return true;
 			}
 			return false;
 		}
@@ -146,6 +163,11 @@ public abstract class RepeatableArea extends BlockContainerArea {
 
 	protected abstract boolean needRepeat();
 
+	/**
+	 * Constructor
+	 *
+	 * @param area
+	 */
 	public RepeatableArea(RepeatableArea area) {
 		super(area);
 	}

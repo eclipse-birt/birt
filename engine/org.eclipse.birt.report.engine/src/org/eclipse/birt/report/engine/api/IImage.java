@@ -87,4 +87,14 @@ public interface IImage extends IReportPart {
 	 * @return the size of the image
 	 */
 	ImageSize getImageSize();
+
+	/**
+	 * @param rawSize image raw size
+	 */
+	void setImageRawSize(ImageSize rawSize);
+
+	/**
+	 * @return the size of the image
+	 */
+	ImageSize getImageRawSize();
 }

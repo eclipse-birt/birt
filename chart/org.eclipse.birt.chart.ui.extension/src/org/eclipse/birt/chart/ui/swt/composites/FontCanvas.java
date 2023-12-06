@@ -47,7 +47,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 
 /**
  * FontCanvas
@@ -94,10 +93,6 @@ public class FontCanvas extends Canvas implements PaintListener, DisposeListener
 		}
 		addDisposeListener(this);
 		addPaintListener(this);
-		GC gc = new GC(this);
-		Event e = new Event();
-		e.gc = gc;
-		notifyListeners(SWT.Paint, e);
 	}
 
 	public void setFontDefinition(FontDefinition fdSelected) {

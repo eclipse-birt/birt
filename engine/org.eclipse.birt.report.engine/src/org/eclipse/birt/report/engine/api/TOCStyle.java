@@ -19,80 +19,312 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 
+/**
+ * Definition of the TOC styles
+ *
+ * @since 3.3
+ *
+ */
 public class TOCStyle implements IScriptStyle, Serializable {
 
 	/**
-	 *
+	 * constant of serial version UID
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Style property: background-attachment
+	 */
 	public static final String BACKGROUND_ATTACHMENT = "background-attachment";
+	/**
+	 * Style property: background-color
+	 */
 	public static final String BACKGROUND_COLOR = "background-color";
+	/**
+	 * Style property: background-image
+	 */
 	public static final String BACKGROUND_IMAGE = "background-image";
+	/**
+	 * Style property: background-image-type
+	 */
+	public static final String BACKGROUND_IMAGE_TYPE = "background-image-type";
+	/**
+	 * Style property: background image height
+	 */
+	public static final String BACKGROUND_SIZE_HEIGHT = "background-size-height";
+	/**
+	 * Style property: background image width
+	 */
+	public static final String BACKGROUND_SIZE_WIDTH = "background-size-width";
+	/**
+	 * Style property: background-position-x
+	 */
 	public static final String BACKGROUND_POSITION_X = "background-position-x";
+	/**
+	 * Style property: background-position-y
+	 */
 	public static final String BACKGROUND_POSITION_Y = "background-position-y";
+	/**
+	 * Style property: background-repeat
+	 */
 	public static final String BACKGROUND_REPEAT = "background-repeat";
+	/**
+	 * Style property: border-bottom-color
+	 */
 	public static final String BORDER_BOTTOM_COLOR = "border-bottom-color";
+	/**
+	 * Style property: border-top-color
+	 */
 	public static final String BORDER_TOP_COLOR = "border-top-color";
+	/**
+	 * Style property: border-left-color
+	 */
 	public static final String BORDER_LEFT_COLOR = "border-left-color";
+	/**
+	 * Style property: border-right-color
+	 */
 	public static final String BORDER_RIGHT_COLOR = "border-right-color";
+	/**
+	 * Style property: border-bottom-width
+	 */
 	public static final String BORDER_BOTTOM_WIDTH = "border-bottom-width";
+	/**
+	 * Style property: border-top-width
+	 */
 	public static final String BORDER_TOP_WIDTH = "border-top-width";
+	/**
+	 * Style property: border-left-width
+	 */
 	public static final String BORDER_LEFT_WIDTH = "border-left-width";
+	/**
+	 * Style property: border-right-width
+	 */
 	public static final String BORDER_RIGHT_WIDTH = "border-right-width";
+	/**
+	 * Style property: border-bottom-style
+	 */
 	public static final String BORDER_BOTTOM_STYLE = "border-bottom-style";
+	/**
+	 * Style property: border-top-style
+	 */
 	public static final String BORDER_TOP_STYLE = "border-top-style";
+	/**
+	 * Style property: border-left-style
+	 */
 	public static final String BORDER_LEFT_STYLE = "border-left-style";
+	/**
+	 * Style property: border-right-style
+	 */
 	public static final String BORDER_RIGHT_STYLE = "border-right-style";
+
+	/**
+	 * Style property: border-diagonal-number
+	 */
+	public static final String BORDER_DIAGONAL_NUMBER = "border-diagonal-number";
+	/**
+	 * Style property: border-diagonal-style
+	 */
+	public static final String BORDER_DIAGONAL_STYLE = "border-diagonal-style";
+	/**
+	 * Style property: border-diagonal-width
+	 */
+	public static final String BORDER_DIAGONAL_WIDTH = "border-diagonal-width";
+	/**
+	 * Style property: border-diagonal-color
+	 */
+	public static final String BORDER_DIAGONAL_COLOR = "border-diagonal-color";
+
+	/**
+	 * Style property: border-antidiagonal-number
+	 */
+	public static final String BORDER_ANTIDIAGONAL_NUMBER = "border-antidiagonal-number";
+	/**
+	 * Style property: border-antidiagonal-style
+	 */
+	public static final String BORDER_ANTIDIAGONAL_STYLE = "border-antidiagonal-style";
+	/**
+	 * Style property: border-antidiagonal-width
+	 */
+	public static final String BORDER_ANTIDIAGONAL_WIDTH = "border-antidiagonal-width";
+	/**
+	 * Style property: border-antidiagonal-color
+	 */
+	public static final String BORDER_ANTIDIAGONAL_COLOR = "border-antidiagonal-color";
+
+	/**
+	 * Style property: can-shrink
+	 */
 	public static final String CAN_SHRINK = "can-shrink";
+	/**
+	 * Style property: color
+	 */
 	public static final String COLOR = "color";
+	/**
+	 * Style property: date-format
+	 */
 	public static final String DATE_FORMAT = "date-format";
+	/**
+	 * Style property: direction
+	 */
 	public static final String DIRECTION = "direction"; // bidi_hcg
+	/**
+	 * Style property: display
+	 */
 	public static final String DISPLAY = "display";
+
+	/**
+	 * Style property: font-family
+	 */
 	public static final String FONT_FAMILY = "font-family";
+	/**
+	 * Style property: font-size
+	 */
 	public static final String FONT_SIZE = "font-size";
+	/**
+	 * Style property: font-style
+	 */
 	public static final String FONT_STYLE = "font-style";
+	/**
+	 * Style property: font-variant
+	 */
 	public static final String FONT_VARIANT = "font-variant";
+	/**
+	 * Style property: font-weight
+	 */
 	public static final String FONT_WEIGHT = "font-weight";
+	/**
+	 * Style property: letter-spacing
+	 */
 	public static final String LETTER_SPACING = "letter-spacing";
+	/**
+	 * Style property: line-height
+	 */
 	public static final String LINE_HEIGHT = "line-height";
+
+	/**
+	 * Style property: margin-bottom
+	 */
 	public static final String MARGIN_BOTTOM = "margin-bottom";
+	/**
+	 * Style property: margin-left
+	 */
 	public static final String MARGIN_LEFT = "margin-left";
+	/**
+	 * Style property: margin-right
+	 */
 	public static final String MARGIN_RIGHT = "margin-right";
+	/**
+	 * Style property: margin-top
+	 */
 	public static final String MARGIN_TOP = "margin-top";
+	/**
+	 * Style property: margin-page
+	 */
 	public static final String MASTER_PAGE = "master-page";
+
+	/**
+	 * Style property: number-format
+	 */
 	public static final String NUMBER_FORMAT = "number-format";
+	/**
+	 * Style property: padding-bottom
+	 */
 	public static final String PADDING_BOTTOM = "padding-bottom";
+	/**
+	 * Style property: padding-left
+	 */
 	public static final String PADDING_LEFT = "padding-left";
+	/**
+	 * Style property: padding-right
+	 */
 	public static final String PADDING_RIGHT = "padding-right";
+	/**
+	 * Style property: padding-top
+	 */
 	public static final String PADDING_TOP = "padding-top";
+
+	/**
+	 * Style property: page-break-after
+	 */
 	public static final String PAGE_BREAK_AFTER = "page-break-after";
+	/**
+	 * Style property: page-break-before
+	 */
 	public static final String PAGE_BREAK_BEFORE = "page-break-before";
+	/**
+	 * Style property: page-break-inside
+	 */
 	public static final String PAGE_BREAK_INSIDE = "page-break-inside";
+	/**
+	 * Style property: show-if-blank
+	 */
 	public static final String SHOW_IF_BLANK = "show-if-blank";
+	/**
+	 * Style property: string-format
+	 */
 	public static final String STRING_FORMAT = "string-format";
+
+	/**
+	 * Style property: text-align
+	 */
 	public static final String TEXT_ALIGN = "text-align";
+	/**
+	 * Style property: text-indent
+	 */
 	public static final String TEXT_INDENT = "text-indent";
+	/**
+	 * Style property: text-line-through
+	 */
 	public static final String TEXT_LINE_THROUGH = "text-line-through";
+	/**
+	 * Style property: text-overline
+	 */
 	public static final String TEXT_OVERLINE = "text-overline";
+	/**
+	 * Style property: text-transform
+	 */
 	public static final String TEXT_TRANSFORM = "text-transform";
+	/**
+	 * Style property: text-underline
+	 */
 	public static final String TEXT_UNDERLINE = "text-underline";
+
+	/**
+	 * Style property: vertical-align
+	 */
 	public static final String VERTICAL_ALIGN = "vertical-align";
+	/**
+	 * Style property: visible-format
+	 */
 	public static final String VISIBLE_FORMAT = "visible-format";
+	/**
+	 * Style property: white-space
+	 */
 	public static final String WHITE_SPACE = "white-space";
+	/**
+	 * Style property: word-spacing
+	 */
 	public static final String WORD_SPACING = "word-spacing";
+	/**
+	 * Style property: date-local
+	 */
 	public static final String DATE_LOCALE = "date-locale";
+	/**
+	 * Style property: number-local
+	 */
 	public static final String NUMBER_LOCALE = "number-locale";
+	/**
+	 * Style property: string-local
+	 */
 	public static final String STRING_LOCALE = "string-locale";
 
 	private HashMap<String, String> properties = new HashMap<>();
 
 	@Override
 	public String getBackgroundAttachement() {
-		return (String) properties.get(BACKGROUND_ATTACHMENT);
+		return properties.get(BACKGROUND_ATTACHMENT);
 	}
 
 	/**
@@ -100,7 +332,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundAttachment() {
-		return (String) properties.get(BACKGROUND_ATTACHMENT);
+		return properties.get(BACKGROUND_ATTACHMENT);
 	}
 
 	/**
@@ -108,7 +340,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundColor() {
-		return (String) properties.get(BACKGROUND_COLOR);
+		return properties.get(BACKGROUND_COLOR);
 	}
 
 	/**
@@ -116,7 +348,15 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundImage() {
-		return (String) properties.get(BACKGROUND_IMAGE);
+		return properties.get(BACKGROUND_IMAGE);
+	}
+
+	/**
+	 * Get the background image source type
+	 */
+	@Override
+	public String getBackgroundImageType() {
+		return properties.get(BACKGROUND_IMAGE_TYPE);
 	}
 
 	/**
@@ -125,7 +365,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundPositionX() {
-		return (String) properties.get(BACKGROUND_POSITION_X);
+		return properties.get(BACKGROUND_POSITION_X);
 	}
 
 	/**
@@ -134,7 +374,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundPositionY() {
-		return (String) properties.get(BACKGROUND_POSITION_Y);
+		return properties.get(BACKGROUND_POSITION_Y);
 	}
 
 	/**
@@ -143,7 +383,23 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBackgroundRepeat() {
-		return (String) properties.get(BACKGROUND_REPEAT);
+		return properties.get(BACKGROUND_REPEAT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return properties.get(BACKGROUND_SIZE_HEIGHT);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return properties.get(BACKGROUND_SIZE_WIDTH);
 	}
 
 	/**
@@ -151,7 +407,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderBottomColor() {
-		return (String) properties.get(BORDER_BOTTOM_COLOR);
+		return properties.get(BORDER_BOTTOM_COLOR);
 	}
 
 	/**
@@ -160,7 +416,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderBottomStyle() {
-		return (String) properties.get(BORDER_BOTTOM_STYLE);
+		return properties.get(BORDER_BOTTOM_STYLE);
 	}
 
 	/**
@@ -168,7 +424,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderBottomWidth() {
-		return (String) properties.get(BORDER_BOTTOM_WIDTH);
+		return properties.get(BORDER_BOTTOM_WIDTH);
 	}
 
 	/**
@@ -176,7 +432,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderLeftColor() {
-		return (String) properties.get(BORDER_LEFT_COLOR);
+		return properties.get(BORDER_LEFT_COLOR);
 	}
 
 	/**
@@ -185,7 +441,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderLeftStyle() {
-		return (String) properties.get(BORDER_LEFT_STYLE);
+		return properties.get(BORDER_LEFT_STYLE);
 	}
 
 	/**
@@ -193,7 +449,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderLeftWidth() {
-		return (String) properties.get(BORDER_LEFT_WIDTH);
+		return properties.get(BORDER_LEFT_WIDTH);
 	}
 
 	/**
@@ -201,7 +457,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderRightColor() {
-		return (String) properties.get(BORDER_RIGHT_COLOR);
+		return properties.get(BORDER_RIGHT_COLOR);
 	}
 
 	/**
@@ -210,7 +466,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderRightStyle() {
-		return (String) properties.get(BORDER_RIGHT_STYLE);
+		return properties.get(BORDER_RIGHT_STYLE);
 	}
 
 	/**
@@ -218,7 +474,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderRightWidth() {
-		return (String) properties.get(BORDER_RIGHT_WIDTH);
+		return properties.get(BORDER_RIGHT_WIDTH);
 	}
 
 	/**
@@ -226,7 +482,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderTopColor() {
-		return (String) properties.get(BORDER_TOP_COLOR);
+		return properties.get(BORDER_TOP_COLOR);
 	}
 
 	/**
@@ -235,7 +491,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderTopStyle() {
-		return (String) properties.get(BORDER_TOP_STYLE);
+		return properties.get(BORDER_TOP_STYLE);
 	}
 
 	/**
@@ -243,7 +499,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getBorderTopWidth() {
-		return (String) properties.get(BORDER_TOP_WIDTH);
+		return properties.get(BORDER_TOP_WIDTH);
 	}
 
 	/**
@@ -251,7 +507,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getCanShrink() {
-		return (String) properties.get(CAN_SHRINK);
+		return properties.get(CAN_SHRINK);
 	}
 
 	/**
@@ -259,7 +515,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getColor() {
-		return (String) properties.get(COLOR);
+		return properties.get(COLOR);
 	}
 
 	/**
@@ -269,11 +525,16 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getDateFormat() {
-		return (String) properties.get(DATE_FORMAT);
+		return properties.get(DATE_FORMAT);
 	}
 
+	/**
+	 * Get the direction
+	 *
+	 * @return Return the direction
+	 */
 	public String getDirection() {
-		return (String) properties.get(DIRECTION);
+		return properties.get(DIRECTION);
 	}
 
 	/**
@@ -281,7 +542,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getDisplay() {
-		return (String) properties.get(DISPLAY);
+		return properties.get(DISPLAY);
 	}
 
 	/**
@@ -290,7 +551,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getFontFamily() {
-		return (String) properties.get(FONT_FAMILY);
+		return properties.get(FONT_FAMILY);
 	}
 
 	/**
@@ -299,7 +560,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getFontSize() {
-		return (String) properties.get(FONT_SIZE);
+		return properties.get(FONT_SIZE);
 	}
 
 	/**
@@ -308,7 +569,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getFontStyle() {
-		return (String) properties.get(FONT_STYLE);
+		return properties.get(FONT_STYLE);
 	}
 
 	/**
@@ -317,7 +578,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getFontVariant() {
-		return (String) properties.get(FONT_VARIANT);
+		return properties.get(FONT_VARIANT);
 	}
 
 	/**
@@ -326,7 +587,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getFontWeight() {
-		return (String) properties.get(FONT_WEIGHT);
+		return properties.get(FONT_WEIGHT);
 	}
 
 	/**
@@ -334,7 +595,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getLetterSpacing() {
-		return (String) properties.get(LETTER_SPACING);
+		return properties.get(LETTER_SPACING);
 	}
 
 	/**
@@ -342,7 +603,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getLineHeight() {
-		return (String) properties.get(LINE_HEIGHT);
+		return properties.get(LINE_HEIGHT);
 	}
 
 	/**
@@ -350,7 +611,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getMarginBottom() {
-		return (String) properties.get(MARGIN_BOTTOM);
+		return properties.get(MARGIN_BOTTOM);
 	}
 
 	/**
@@ -358,7 +619,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getMarginLeft() {
-		return (String) properties.get(MARGIN_LEFT);
+		return properties.get(MARGIN_LEFT);
 	}
 
 	/**
@@ -366,7 +627,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getMarginRight() {
-		return (String) properties.get(MARGIN_RIGHT);
+		return properties.get(MARGIN_RIGHT);
 	}
 
 	/**
@@ -374,7 +635,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getMarginTop() {
-		return (String) properties.get(MARGIN_TOP);
+		return properties.get(MARGIN_TOP);
 	}
 
 	/**
@@ -382,7 +643,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getMasterPage() {
-		return (String) properties.get(MASTER_PAGE);
+		return properties.get(MASTER_PAGE);
 	}
 
 	/**
@@ -392,7 +653,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getNumberFormat() {
-		return (String) properties.get(NUMBER_FORMAT);
+		return properties.get(NUMBER_FORMAT);
 	}
 
 	/**
@@ -400,7 +661,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPaddingBottom() {
-		return (String) properties.get(PADDING_BOTTOM);
+		return properties.get(PADDING_BOTTOM);
 	}
 
 	/**
@@ -408,7 +669,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPaddingLeft() {
-		return (String) properties.get(PADDING_LEFT);
+		return properties.get(PADDING_LEFT);
 	}
 
 	/**
@@ -416,7 +677,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPaddingRight() {
-		return (String) properties.get(PADDING_RIGHT);
+		return properties.get(PADDING_RIGHT);
 	}
 
 	/**
@@ -424,7 +685,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPaddingTop() {
-		return (String) properties.get(PADDING_TOP);
+		return properties.get(PADDING_TOP);
 	}
 
 	/**
@@ -432,7 +693,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPageBreakAfter() {
-		return (String) properties.get(PAGE_BREAK_AFTER);
+		return properties.get(PAGE_BREAK_AFTER);
 	}
 
 	/**
@@ -440,7 +701,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPageBreakBefore() {
-		return (String) properties.get(PAGE_BREAK_BEFORE);
+		return properties.get(PAGE_BREAK_BEFORE);
 	}
 
 	/**
@@ -448,7 +709,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getPageBreakInside() {
-		return (String) properties.get(PAGE_BREAK_INSIDE);
+		return properties.get(PAGE_BREAK_INSIDE);
 	}
 
 	/**
@@ -456,7 +717,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getShowIfBlank() {
-		return (String) properties.get(SHOW_IF_BLANK);
+		return properties.get(SHOW_IF_BLANK);
 	}
 
 	/**
@@ -466,7 +727,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getStringFormat() {
-		return (String) properties.get(STRING_FORMAT);
+		return properties.get(STRING_FORMAT);
 	}
 
 	/**
@@ -475,7 +736,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextAlign() {
-		return (String) properties.get(TEXT_ALIGN);
+		return properties.get(TEXT_ALIGN);
 	}
 
 	/**
@@ -483,7 +744,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextIndent() {
-		return (String) properties.get(TEXT_INDENT);
+		return properties.get(TEXT_INDENT);
 	}
 
 	/**
@@ -491,7 +752,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextLineThrough() {
-		return (String) properties.get(TEXT_LINE_THROUGH);
+		return properties.get(TEXT_LINE_THROUGH);
 	}
 
 	/**
@@ -499,7 +760,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextOverline() {
-		return (String) properties.get(TEXT_OVERLINE);
+		return properties.get(TEXT_OVERLINE);
 	}
 
 	/**
@@ -508,7 +769,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextTransform() {
-		return (String) properties.get(TEXT_TRANSFORM);
+		return properties.get(TEXT_TRANSFORM);
 	}
 
 	/**
@@ -516,7 +777,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getTextUnderline() {
-		return (String) properties.get(TEXT_UNDERLINE);
+		return properties.get(TEXT_UNDERLINE);
 	}
 
 	/**
@@ -525,7 +786,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getVerticalAlign() {
-		return (String) properties.get(VERTICAL_ALIGN);
+		return properties.get(VERTICAL_ALIGN);
 	}
 
 	/**
@@ -544,7 +805,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getVisibleFormat() {
-		return (String) properties.get(VISIBLE_FORMAT);
+		return properties.get(VISIBLE_FORMAT);
 	}
 
 	/**
@@ -552,7 +813,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getWhiteSpace() {
-		return (String) properties.get(WHITE_SPACE);
+		return properties.get(WHITE_SPACE);
 	}
 
 	/**
@@ -560,7 +821,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 */
 	@Override
 	public String getWordSpacing() {
-		return (String) properties.get(WORD_SPACING);
+		return properties.get(WORD_SPACING);
 	}
 
 	@Override
@@ -593,11 +854,19 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	}
 
 	/**
+	 * Set the background image source type
+	 */
+	@Override
+	public void setBackgroundImageType(String imageSourceType) {
+		setProperty(BACKGROUND_IMAGE_TYPE, imageSourceType);
+	}
+
+	/**
 	 * Set the X (horizontal) position of the background image
 	 *
 	 */
 	@Override
-	public void setBackgroundPositionX(String x) throws ScriptException {
+	public void setBackgroundPositionX(String x) {
 		setProperty(BACKGROUND_POSITION_X, x);
 	}
 
@@ -606,7 +875,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 *
 	 */
 	@Override
-	public void setBackgroundPositionY(String y) throws ScriptException {
+	public void setBackgroundPositionY(String y) {
 		setProperty(BACKGROUND_POSITION_Y, y);
 	}
 
@@ -617,6 +886,22 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public void setBackgroundRepeat(String repeat) {
 		setProperty(BACKGROUND_REPEAT, repeat);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		setProperty(BACKGROUND_SIZE_HEIGHT, height);
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		setProperty(BACKGROUND_SIZE_WIDTH, width);
 	}
 
 	/**
@@ -745,6 +1030,11 @@ public class TOCStyle implements IScriptStyle, Serializable {
 		setProperty(DATE_FORMAT, dateTimeFormat);
 	}
 
+	/**
+	 * Set direction
+	 *
+	 * @param direction
+	 */
 	public void setDirection(String direction) {
 		setProperty(DIRECTION, direction);
 	}
@@ -963,7 +1253,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the text line through
 	 */
 	@Override
-	public void setTextLineThrough(String through) throws ScriptException {
+	public void setTextLineThrough(String through) {
 		setProperty(TEXT_LINE_THROUGH, through);
 	}
 
@@ -971,7 +1261,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the text overline
 	 */
 	@Override
-	public void setTextOverline(String overline) throws ScriptException {
+	public void setTextOverline(String overline) {
 		setProperty(TEXT_OVERLINE, overline);
 	}
 
@@ -988,7 +1278,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Set the text underline
 	 */
 	@Override
-	public void setTextUnderline(String underline) throws ScriptException {
+	public void setTextUnderline(String underline) {
 		setProperty(TEXT_UNDERLINE, underline);
 	}
 
@@ -1040,7 +1330,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 
 	@Override
 	public String getDateLocale() {
-		return (String) properties.get(DATE_LOCALE);
+		return properties.get(DATE_LOCALE);
 	}
 
 	@Override
@@ -1050,7 +1340,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 
 	@Override
 	public String getNumberLocale() {
-		return (String) properties.get(NUMBER_LOCALE);
+		return properties.get(NUMBER_LOCALE);
 	}
 
 	@Override
@@ -1060,7 +1350,7 @@ public class TOCStyle implements IScriptStyle, Serializable {
 
 	@Override
 	public String getStringLocale() {
-		return (String) properties.get(STRING_LOCALE);
+		return properties.get(STRING_LOCALE);
 	}
 
 	@Override
@@ -1070,6 +1360,9 @@ public class TOCStyle implements IScriptStyle, Serializable {
 
 	/**
 	 * Set property.
+	 *
+	 * @param name
+	 * @param value
 	 */
 	public void setProperty(String name, String value) {
 		if (value != null) {
@@ -1080,9 +1373,11 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	}
 
 	/**
-	 * Get property.
+	 * Get properties.
+	 *
+	 * @return Return properties
 	 */
-	public Map getProperties() {
+	public Map<String, String> getProperties() {
 		return properties;
 	}
 
@@ -1099,4 +1394,85 @@ public class TOCStyle implements IScriptStyle, Serializable {
 		}
 		return sb.toString();
 	}
+
+	@Override
+	public int getDiagonalNumber() {
+		return Integer.parseInt(properties.get(BORDER_DIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setDiagonalNumber(int number) {
+		setProperty(BORDER_DIAGONAL_NUMBER, Integer.toString(number).toString());
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return properties.get(BORDER_DIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		setProperty(BORDER_DIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return properties.get(BORDER_DIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		setProperty(BORDER_DIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return properties.get(BORDER_DIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		setProperty(BORDER_DIAGONAL_COLOR, color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return Integer.parseInt(properties.get(BORDER_ANTIDIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setAntidiagonalNumber(int number) {
+		setProperty(BORDER_ANTIDIAGONAL_NUMBER, Integer.toString(number).toString());
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return properties.get(BORDER_ANTIDIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		setProperty(BORDER_ANTIDIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return properties.get(BORDER_ANTIDIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		setProperty(BORDER_ANTIDIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return properties.get(BORDER_ANTIDIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		setProperty(BORDER_ANTIDIAGONAL_COLOR, color);
+	}
+
 }

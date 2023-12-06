@@ -46,17 +46,25 @@ public class DiagonalLineImage {
 	 */
 	private DimensionType diagonalWidth = null;
 	/**
-	 * The number of the antidiagonal line.
-	 */
-	private int antidiagonalNumber = -1;
-	/**
 	 * The color of the diagonal line.
 	 */
 	private String diagonalColor = null;
 	/**
+	 * The number of the antidiagonal line.
+	 */
+	private int antidiagonalNumber = -1;
+	/**
+	 * The style of the antidiagonal line.
+	 */
+	private String antidiagonalStyle = null;
+	/**
 	 * The width of the antidiagonal line.
 	 */
 	private DimensionType antidiagonalWidth = null;
+	/**
+	 * The color of the antidiagonal line.
+	 */
+	private String antidiagonalColor = null;
 	/**
 	 * The font color. Default value is black;
 	 */
@@ -89,6 +97,14 @@ public class DiagonalLineImage {
 	 */
 	private static int DEFAULT_IMAGE_DPI = 96;
 
+	/**
+	 * Set diagonal line
+	 *
+	 * @param diagonalNumber number of diagonal lines
+	 * @param diagonalStyle  style of diagonal lines
+	 * @param diagonalWidth  width of diagonal lines
+	 * @param diagonalColor  color of diagonal lines
+	 */
 	public void setDiagonalLine(int diagonalNumber, String diagonalStyle, DimensionType diagonalWidth,
 			String diagonalColor) {
 		this.diagonalNumber = diagonalNumber;
@@ -97,25 +113,57 @@ public class DiagonalLineImage {
 		this.diagonalColor = diagonalColor;
 	}
 
+	/**
+	 * Set antidiagonal line
+	 *
+	 * @param antidiagonalNumber number of antidiagonal lines
+	 * @param antidiagonalStyle  style of antidiagonal lines
+	 * @param antidiagonalWidth  width of antidiagonal lines
+	 * @param antidiagonalColor  color of antidiagonal lines
+	 */
 	public void setAntidiagonalLine(int antidiagonalNumber, String antidiagonalStyle, DimensionType antidiagonalWidth,
 			String antidiagonalColor) {
 		this.antidiagonalNumber = antidiagonalNumber;
+		this.antidiagonalStyle = antidiagonalStyle;
 		this.antidiagonalWidth = antidiagonalWidth;
+		this.antidiagonalColor = antidiagonalColor;
 	}
 
+	/**
+	 * Set diagonal color
+	 *
+	 * @param color color of diagonal
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
+	/**
+	 * Set diagonal dpi
+	 *
+	 * @param dpi dpi of diagonal
+	 */
 	public void setImageDpi(int dpi) {
 		this.imageDpi = dpi;
 	}
 
+	/**
+	 * Set mage size
+	 *
+	 * @param imageWidth  image width
+	 * @param imageHeight image height
+	 */
 	public void setImageSize(DimensionType imageWidth, DimensionType imageHeight) {
 		this.imageWidth = imageWidth;
 		this.imageHeight = imageHeight;
 	}
 
+	/**
+	 * Draw image
+	 *
+	 * @return Return the image like byte array
+	 * @throws IOException
+	 */
 	public byte[] drawImage() throws IOException {
 		if (diagonalNumber <= 0 && antidiagonalNumber <= 0) {
 			return null;
@@ -215,57 +263,76 @@ public class DiagonalLineImage {
 					}
 				}
 			}
-			/*
-			 * if ( antidiagonalStyle != null && !"none".equalsIgnoreCase( antidiagonalStyle
-			 * ) ) { // set color Color lineColor = PropertyUtil.getColor( antidiagonalColor
-			 * ); if ( lineColor == null ) { lineColor = color; } if ( lineColor != null ) {
-			 * g2d.setColor( lineColor ); }
-			 *
-			 * // Draw antidiagonal line. // FIXME continue: Double style hasn't been
-			 * implemented yet, and // it // will be treated as solid style. The double
-			 * style should be // implemented in the future.
-			 *
-			 * // if ( "double".equalsIgnoreCase( antidiagonalStyle ) && ( //
-			 * antidiagonalPXWidth > 2 ) ) { // Double line has the same // effect with the
-			 * solid line when the // line width equal 1px // or 2px. // FIXME continue:
-			 * implement the left double part. } // else if ( "dotted".equalsIgnoreCase(
-			 * antidiagonalStyle ) )
-			 *
-			 * if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) ) { float dash[] = { 1, (
-			 * antidiagonalPXWidth * 2 ) - 1 + ( antidiagonalPXWidth % 2 ) }; Stroke stroke
-			 * = new BasicStroke( antidiagonalPXWidth, BasicStroke.CAP_ROUND,
-			 * BasicStroke.JOIN_ROUND, 10.0f, dash, ( antidiagonalPXWidth * 2 ) - (
-			 * antidiagonalPXWidth / 2 ) ); g2d.setStroke( stroke );
-			 *
-			 * if ( antidiagonalNumber == 1 ) { g2d.drawLine( imagePXWidth - 1,
-			 * antidiagonalPXWidth / 2, 0, imagePXHeight - 1 + ( antidiagonalPXWidth / 2 )
-			 * ); } else if ( antidiagonalNumber == 2 ) { g2d.drawLine( ( imagePXWidth * 2 /
-			 * 3 ) - 1, antidiagonalPXWidth / 2, 0, imagePXHeight - 1 + (
-			 * antidiagonalPXWidth / 2 ) ); g2d.drawLine( imagePXWidth - 1, ( imagePXHeight
-			 * / 3 ) - 1 + ( antidiagonalPXWidth / 2 ), 0, imagePXHeight - 1 + (
-			 * antidiagonalPXWidth / 2 ) ); } else if ( antidiagonalNumber >= 3 ) {
-			 * g2d.drawLine( ( imagePXWidth / 2 ) - 1, antidiagonalPXWidth / 2, 0,
-			 * imagePXHeight - 1 + ( antidiagonalPXWidth / 2 ) ); g2d.drawLine( imagePXWidth
-			 * - 1, antidiagonalPXWidth / 2, 0, imagePXHeight - 1 + ( antidiagonalPXWidth /
-			 * 2 ) ); g2d.drawLine( imagePXWidth - 1, ( imagePXHeight / 2 ) - 1 + (
-			 * antidiagonalPXWidth / 2 ), 0, imagePXHeight - 1 + ( antidiagonalPXWidth / 2 )
-			 * ); } } else { if ( "dashed".equalsIgnoreCase( antidiagonalStyle ) ) { float
-			 * dash[] = { 3 * antidiagonalPXWidth }; Stroke stroke = new BasicStroke(
-			 * antidiagonalPXWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
-			 * dash, 0.0f ); g2d.setStroke( stroke ); } else { // Solid is the default value
-			 * if ( antidiagonalPXWidth > 1 ) { g2d.setStroke( new BasicStroke(
-			 * antidiagonalPXWidth ) ); } else { // Use the default stroke when the
-			 * diagonalPXWidth // is 1. g2d.setStroke( originStroke ); } }
-			 *
-			 * if ( antidiagonalNumber == 1 ) { g2d.drawLine( imagePXWidth - 1, 0, 0,
-			 * imagePXHeight - 1 ); } else if ( antidiagonalNumber == 2 ) { g2d.drawLine( (
-			 * imagePXWidth * 2 / 3 ) - 1, 0, 0, imagePXHeight - 1 ); g2d.drawLine(
-			 * imagePXWidth - 1, ( imagePXHeight / 3 ) - 1, 0, imagePXHeight - 1 ); } else
-			 * if ( antidiagonalNumber >= 3 ) { g2d.drawLine( ( imagePXWidth / 2 ) - 1, 0,
-			 * 0, imagePXHeight - 1 ); g2d.drawLine( imagePXWidth - 1, 0, 0, imagePXHeight -
-			 * 1 ); g2d.drawLine( imagePXWidth - 1, ( imagePXHeight / 2 ) - 1, 0,
-			 * imagePXHeight - 1 ); } } }
-			 */
+
+			if ( antidiagonalStyle != null && !"none".equalsIgnoreCase( antidiagonalStyle ) ) {
+				// set color
+				Color lineColor = PropertyUtil.getColor( antidiagonalColor);
+				if ( lineColor == null ) {
+					lineColor = color;
+				}
+				if ( lineColor != null ) {
+					g2d.setColor( lineColor );
+				}
+
+				// Draw antidiagonal line. // FIXME continue: Double style hasn't been
+				// implemented yet, and // it // will be treated as solid style. The double
+				// style should be // implemented in the future.
+
+				// if ( "double".equalsIgnoreCase( antidiagonalStyle ) && ( //
+				// antidiagonalPXWidth > 2 ) ) { // Double line has the same // effect with the
+				// solid line when the // line width equal 1px // or 2px. // FIXME continue:
+				// implement the left double part. } // else if ( "dotted".equalsIgnoreCase(
+				// antidiagonalStyle ) )
+
+				if ("dotted".equalsIgnoreCase(antidiagonalStyle)) {
+					float dash[] = { 1, (antidiagonalPXWidth * 2) - 1 + (antidiagonalPXWidth % 2) };
+					Stroke stroke = new BasicStroke(antidiagonalPXWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
+							10.0f, dash, (antidiagonalPXWidth * 2) - (antidiagonalPXWidth / 2));
+					g2d.setStroke(stroke);
+
+					if (antidiagonalNumber == 1) {
+						g2d.drawLine(imagePXWidth - 1, antidiagonalPXWidth / 2, 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+					} else if (antidiagonalNumber == 2) {
+						g2d.drawLine((imagePXWidth * 2 / 3) - 1, antidiagonalPXWidth / 2, 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+						g2d.drawLine(imagePXWidth - 1, (imagePXHeight / 3) - 1 + (antidiagonalPXWidth / 2), 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+					} else if (antidiagonalNumber >= 3) {
+						g2d.drawLine((imagePXWidth / 2) - 1, antidiagonalPXWidth / 2, 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+						g2d.drawLine(imagePXWidth - 1, antidiagonalPXWidth / 2, 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+						g2d.drawLine(imagePXWidth - 1, (imagePXHeight / 2) - 1 + (antidiagonalPXWidth / 2), 0,
+								imagePXHeight - 1 + (antidiagonalPXWidth / 2));
+					}
+				} else {
+					if ("dashed".equalsIgnoreCase(antidiagonalStyle)) {
+						float dash[] = { 3 * antidiagonalPXWidth };
+						Stroke stroke = new BasicStroke(antidiagonalPXWidth, BasicStroke.CAP_BUTT,
+								BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
+						g2d.setStroke(stroke);
+					} else {
+						// Solid is the default value
+						if (antidiagonalPXWidth > 1) {
+							g2d.setStroke(new BasicStroke(antidiagonalPXWidth));
+						} else {
+							// Use the default stroke when the diagonalPXWidth // is 1.
+							g2d.setStroke(originStroke);
+						}
+					}
+					if (antidiagonalNumber == 1) {
+						g2d.drawLine(imagePXWidth - 1, 0, 0, imagePXHeight - 1);
+					} else if (antidiagonalNumber == 2) {
+						g2d.drawLine((imagePXWidth * 2 / 3) - 1, 0, 0, imagePXHeight - 1);
+						g2d.drawLine(imagePXWidth - 1, (imagePXHeight / 3) - 1, 0, imagePXHeight - 1);
+					} else if (antidiagonalNumber >= 3) {
+						g2d.drawLine((imagePXWidth / 2) - 1, 0, 0, imagePXHeight - 1);
+						g2d.drawLine(imagePXWidth - 1, 0, 0, imagePXHeight - 1);
+						g2d.drawLine(imagePXWidth - 1, (imagePXHeight / 2) - 1, 0, imagePXHeight - 1);
+					}
+				}
+			}
 		} finally {
 			// Graphics context no longer needed so dispose it
 			g2d.dispose();

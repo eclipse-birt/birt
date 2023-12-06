@@ -16,9 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,9 +32,12 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 	protected Logger log = Logger.getLogger(HTMLServerImageHandler.class.getName());
 
 	private String handlerId;
+
 	private int count = 0;
 
-	private static HashMap map = new HashMap();
+	private static HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+
+	private static HashMap<String, ImageSize> mapSize = new HashMap<String, ImageSize>();
 
 	/**
 	 * dummy constructor
@@ -177,6 +178,10 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 			mapID = getImageMapID(image);
 			if (map.containsKey(mapID)) {
 				synchronized (map) {
+					ImageSize rawSize = (ImageSize) mapSize.get(mapID);
+					if (rawSize != null) {
+						image.setImageRawSize(rawSize);
+					}
 					return (String) map.get(mapID);
 				}
 			}
@@ -213,6 +218,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 			if (needMap) {
 				synchronized (map) {
 					map.put(mapID, ret);
+					mapSize.put(mapID, image.getImageRawSize());
 				}
 			}
 
@@ -233,15 +239,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 	 */
 	protected String handleTempImage(final IImage image, final String prefix, boolean needMap) {
 		try {
-			String fileName = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
-
-				@Override
-				public String run() throws IOException {
-					File tempFile = File.createTempFile(prefix, ".img");
-					image.writeImage(tempFile);
-					return tempFile.getAbsolutePath();
-				}
-			});
+			File tempFile = File.createTempFile(prefix, ".img");
+			image.writeImage(tempFile);
+			String fileName = tempFile.getAbsolutePath();
 
 			if (needMap) {
 				String mapID = getImageMapID(image);
@@ -250,7 +250,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 				}
 			}
 			return fileName;
-		} catch (PrivilegedActionException e) {
+		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return "unknow.img";

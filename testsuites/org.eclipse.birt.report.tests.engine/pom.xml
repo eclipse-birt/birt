@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt.testsuites</groupId>
 		<artifactId>org.eclipse.birt.testsuites-parent</artifactId>
-		<version>4.11.0-SNAPSHOT</version>
+		<version>4.15.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
@@ -48,6 +48,8 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<testClass>org.eclipse.birt.report.tests.engine.AllTests</testClass>
+					<skipTests>${skipTests}</skipTests>
+					<argLine>-Duser.country=us -Duser.language=en -Dfile.encoding=UTF-8</argLine>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -60,6 +61,22 @@ public class ChartExamples implements SelectionListener {
 	static final int Open_tool = 1;
 
 	private Map<TreeItem, String> hmItemToKey = new HashMap<>();
+
+	public static void main(String[] args) {
+		Display display = new Display();
+		Shell shell = new Shell(display);
+		shell.setLayout(new GridLayout(1, false));
+
+		new ChartExamples(shell);
+
+		shell.pack();
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		display.dispose();
+	}
 
 	public static final Tools[] tools = { new Tools(Save_tool, "Save", "xml", SWT.RADIO), //$NON-NLS-1$ //$NON-NLS-2$
 			new Tools(Open_tool, "Open", "java", SWT.RADIO) //$NON-NLS-1$ //$NON-NLS-2$

@@ -34,7 +34,7 @@ more.
 
 The project maintains the following source code repositories
 
-* https://github.com/eclipse/birt
+* https://github.com/eclipse-birt/birt
 
 ## Eclipse Development Process
 

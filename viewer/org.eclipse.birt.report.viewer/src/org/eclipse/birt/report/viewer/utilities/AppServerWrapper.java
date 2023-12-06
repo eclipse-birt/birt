@@ -13,17 +13,13 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
-import java.io.IOException;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
-import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
@@ -128,41 +124,15 @@ public class AppServerWrapper {
 		start(webappName, ViewerPlugin.PLUGIN_ID);
 	}
 
-	private boolean useWebApp = true;
-
 	/**
-	 * Start web appserver based on Jetty Http Service
+	 * Start Jetty web appserver
 	 *
 	 * @param webappName
 	 * @throws Exception
 	 */
 	public void start(String webappName, String pluginID) throws Exception {
 		configureServer(webappName);
-		if (useWebApp) {
-			startJettyServer(webappName);
-		} else {
-			startHttpService(webappName, pluginID);
-		}
-	}
-
-	private void startHttpService(String webappName, String pluginID) throws Exception {
-		// configure web server
-		Dictionary dict = new Hashtable();
-
-		// configure the port
-		dict.put("http.port", ports.get(webappName)); //$NON-NLS-1$
-
-		// configure the host
-		dict.put("http.host", host == null ? "0.0.0.0" : host); //$NON-NLS-1$ //$NON-NLS-2$
-
-		// set the base URL
-		dict.put("context.path", "/" + webappName); //$NON-NLS-1$ //$NON-NLS-2$
-
-		dict.put("other.info", pluginID); //$NON-NLS-1$
-
-		JettyConfigurator.startServer(webappName, dict);
-
-		ensureBundleStarted("org.eclipse.equinox.http.registry"); //$NON-NLS-1$
+		startJettyServer(webappName);
 	}
 
 	/**
@@ -172,16 +142,9 @@ public class AppServerWrapper {
 	 * @throws Exception
 	 */
 	public void stop(String webappName) throws Exception {
-		if (useWebApp) {
-			stopJettyServer(webappName);
-		} else {
-			stopHttpService(webappName);
-		}
+		stopJettyServer(webappName);
 	}
 
-	private void stopHttpService(String webappName) throws Exception {
-		JettyConfigurator.stopServer(webappName);
-	}
 
 	/**
 	 * Ensures that the bundle with the specified name and the highest available
@@ -215,7 +178,7 @@ public class AppServerWrapper {
 	private ViewerWebServer viewerServer;
 	private ViewerWebApp viewerApp;
 
-	private void startJettyServer(String webAppName) throws IOException, BundleException {
+	private void startJettyServer(String webAppName) throws Exception {
 
 		// must setup logging configuration before jetty loaded
 //		System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.JavaUtilLog");
@@ -223,19 +186,17 @@ public class AppServerWrapper {
 		System.setProperty("org.eclipse.jetty.LEVEL", "DEBUG");
 		System.setProperty("org.eclipse.jetty.websocket.LEVEL", "DEBUG");
 
-		ensureBundleStarted("org.eclipse.jetty.osgi.boot"); //$NON-NLS-1$
-
 		viewerServer = new ViewerWebServer(getHost(), getPort(webAppName));
 		viewerServer.start();
 
 		IWebAppInfo webAppInfo = WebViewer.getCurrentWebApp();
 		Bundle webAppBundle = EclipseUtil.getBundle(webAppInfo.getID());
-		viewerApp = new ViewerWebApp(webAppBundle, webAppInfo.getWebAppPath(), webAppInfo.getWebAppContextPath(),
-				webAppInfo.getURIEncoding());
+		viewerApp = new ViewerWebApp(this.viewerServer.getServer(), webAppBundle, webAppInfo.getWebAppPath(),
+				webAppInfo.getWebAppContextPath(), webAppInfo.getURIEncoding());
 		viewerApp.start();
 	}
 
-	private void stopJettyServer(String webAppName) {
+	private void stopJettyServer(String webAppName) throws Exception {
 		viewerApp.stop();
 		viewerServer.stop();
 	}

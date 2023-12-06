@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.11.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" id="org.eclipse.birt.report.designer.ui.rcp.BIRT" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.15.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.birt.branding/images/about.png"/>
@@ -14,15 +14,15 @@ that can be embedded into web applications and rich clients.
 BIRT is maintained by a small number of volunteers. Please consider
 contributing. The contribution guide can be found here:
 
-https://github.com/eclipse/birt/blob/master/CONTRIBUTING.md
+https://github.com/eclipse-birt/birt/blob/master/CONTRIBUTING.md
  
 
 BIRT is an open source project under control of the Eclipse Foundation
 
-- Support: https://github.com/eclipse/birt/discussions
-- Issues: https://github.com/eclipse/birt/issues
+- Support: https://github.com/eclipse-birt/birt/discussions
+- Issues: https://github.com/eclipse-birt/birt/issues
 - Website https://eclipse.org/birt
-- Source: https://github.com/eclipse/birt
+- Source: https://github.com/eclipse-birt/birt
 
 
 
@@ -55,12 +55,11 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
    <license>
-        <url>http://www.eclipse.org/legal/epl-2.0.html</url>
+        <url>http://eclipse.org/legal/epl/notice.php</url>
         <text>
    Eclipse Foundation Software User Agreement
 
@@ -97,7 +96,7 @@ downloadable archives (&quot;Downloads&quot;).
     include plug-ins (&quot;Plug-ins&quot;), plug-in fragments (&quot;Fragments&quot;), and
     features (&quot;Features&quot;).
 -   Each Plug-in or Fragment may be packaged as a sub-directory or JAR
-    (Java\u2122 ARchive) in a directory named &quot;plugins&quot;.
+    (Java™ ARchive) in a directory named &quot;plugins&quot;.
 -   A Feature is a bundle of one or more Plug-ins and/or Fragments and
     associated material. Each Feature may be packaged as a sub-directory in a
     directory named &quot;features&quot;. Within a Feature, files named &quot;feature.xml&quot; may
@@ -135,8 +134,8 @@ THE ABOUTS, FEATURE LICENSES, AND FEATURE UPDATE LICENSES MAY REFER TO THE EPL
 OR OTHER LICENSE AGREEMENTS, NOTICES OR TERMS AND CONDITIONS. SOME OF THESE
 OTHER LICENSE AGREEMENTS MAY INCLUDE (BUT ARE NOT LIMITED TO):
 
--   Eclipse Public License Version 2.0 (available at
-    http://www.eclipse.org/legal/epl-2.0.html)
+-   Eclipse Public License Version 1.0 (available at
+    http://www.eclipse.org/legal/epl-v10.html)
 -   Eclipse Distribution License Version 1.0 (available at
     http://www.eclipse.org/licenses/edl-v1.0.html)
 -   Common Public License Version 1.0 (available at
@@ -253,10 +252,6 @@ United States, other countries, or both.
       <feature id="org.eclipse.datatools.sqltools.doc.user" installMode="root"/>
       <feature id="org.eclipse.draw2d" installMode="root"/>
       <feature id="org.eclipse.e4.rcp" installMode="root"/>
-      <feature id="org.eclipse.ecf.core.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.core.ssl.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.filetransfer.feature" installMode="root"/>
-      <feature id="org.eclipse.ecf.filetransfer.ssl.feature" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ecore.ui" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ecore" installMode="root"/>
       <feature id="org.eclipse.emf.codegen.ui" installMode="root"/>
@@ -294,7 +289,7 @@ United States, other countries, or both.
       <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
       <feature id="org.eclipse.xsd.edit" installMode="root"/>
       <feature id="org.eclipse.xsd" installMode="root"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
+      <feature id="org.eclipse.justj.epp" installMode="root"/>
    </features>
 
    <configurations>
@@ -305,13 +300,6 @@ United States, other countries, or both.
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>
-
-   <repositories>
-      <repository location="https://download.eclipse.org/releases/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/eclipse/updates/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/latest" enabled="true" />
-      <repository location="https://download.eclipse.org/birt/update-site/snapshot" enabled="false" />
-   </repositories>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>

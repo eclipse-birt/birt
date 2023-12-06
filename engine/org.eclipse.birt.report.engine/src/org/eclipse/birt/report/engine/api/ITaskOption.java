@@ -16,14 +16,20 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.Map;
 
+/**
+ * Define the interface of task options
+ *
+ * @since 3.3
+ *
+ */
 public interface ITaskOption {
 
 	/**
-	 * get all the options defined in this object
+	 * Get all the options defined in this object
 	 *
-	 * @return
+	 * @return Return the task options
 	 */
-	Map getOptions();
+	Map<String, Object> getOptions();
 
 	/**
 	 * set the option value.

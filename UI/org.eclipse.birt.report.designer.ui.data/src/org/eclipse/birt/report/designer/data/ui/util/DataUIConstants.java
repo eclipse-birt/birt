@@ -26,8 +26,6 @@ public class DataUIConstants {
 
 	public static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
 
-	public static final String CASSANDRA_DATA_SOURCE_VALUE = "me.prettyprint.hector";//$NON-NLS-1$
 	public static final String SCRIPT_TYPE = "script_type"; //$NON-NLS-1$
-	public static final String CASSANDRA_DATA_SOURCE_SCRIPT = "Cassandra"; //$NON-NLS-1$
 
 }

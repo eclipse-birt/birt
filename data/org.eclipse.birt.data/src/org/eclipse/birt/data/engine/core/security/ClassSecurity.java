@@ -14,11 +14,6 @@
 
 package org.eclipse.birt.data.engine.core.security;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-
 /**
  * This class handles a series of privileged operation against class and
  * classloaders.
@@ -35,13 +30,7 @@ public class ClassSecurity {
 	public static ClassLoader getClassLoader(final Class clazz) {
 		assert clazz != null;
 
-		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-			@Override
-			public ClassLoader run() {
-				return clazz.getClassLoader();
-			}
-		});
+		return clazz.getClassLoader();
 	}
 
 	/**
@@ -54,15 +43,8 @@ public class ClassSecurity {
 	public static Class loadClass(final ClassLoader loader, final String className) throws ClassNotFoundException {
 
 		try {
-			return AccessController.doPrivileged(new PrivilegedExceptionAction<Class>() {
-
-				@Override
-				public Class run() throws ClassNotFoundException {
-					return loader.loadClass(className);
-				}
-			});
-		} catch (PrivilegedActionException e) {
-			Exception typedException = e.getException();
+			return loader.loadClass(className);
+		} catch (Exception typedException) {
 			if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}

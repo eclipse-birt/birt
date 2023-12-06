@@ -18,6 +18,8 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 {
 	__faultCode : "",
 
+	__faultData : "",
+	
 	__setFaultContainersWidth: function( width )
 	{		
 		document.getElementById("faultStringContainer").style.width = width;
@@ -32,11 +34,13 @@ AbstractExceptionDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__formatStackTrace : function( data )	
 	{
-		if ( !data )
+		var faultData = "";
+		if ( data )
 		{
-			return "";
+			faultData = data;
 		}
-		return data.replace(/\r?\n/g,"<br/>").replace(/[\s]{1}at/g,"&nbsp;&nbsp;&nbsp;at");		
+		this.__faultData = faultData;
+		return faultData.replace(/\r?\n/g,"<br/>").replace(/[\s]{1}at/g,"&nbsp;&nbsp;&nbsp;at");		
 	},
 	
 	/**

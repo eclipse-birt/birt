@@ -22,8 +22,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Col
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontSizeSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TogglesSection;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -35,10 +35,10 @@ public class FontPage extends ResetAttributePage {
 	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
-		container.setLayout(WidgetUtil.createGridLayout(6, 15));
+		container.setLayout(org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil.createGridLayout(6, 15));
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontFamilyProvider.enableReset(true);
 		ComboSection fontFamilySection = new ComboSection(fontFamilyProvider.getDisplayName(), container, true);
 		fontFamilySection.setProvider(fontFamilyProvider);
@@ -47,7 +47,7 @@ public class FontPage extends ResetAttributePage {
 		addSection(PageSectionId.FONT_FAMILY, fontFamilySection);
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider(
-				StyleHandle.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontSizeProvider.enableReset(true);
 		FontSizeSection fontSizeSection = new FontSizeSection(fontSizeProvider.getDisplayName(), container, true);
 		fontSizeSection.setProvider(fontSizeProvider);
@@ -56,7 +56,7 @@ public class FontPage extends ResetAttributePage {
 		fontSizeSection.setGridPlaceholder(2, true);
 		addSection(PageSectionId.FONT_SIZE, fontSizeSection);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(StyleHandle.COLOR_PROP,
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(IStyleModel.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT);
 		colorProvider.enableReset(true);
 		ColorSection colorSection = new ColorSection(colorProvider.getDisplayName(), container, true);
@@ -66,8 +66,8 @@ public class FontPage extends ResetAttributePage {
 		colorSection.setGridPlaceholder(4, true);
 		addSection(PageSectionId.FONT_COLOR, colorSection);
 
-		String[] textStyles = { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
-				StyleHandle.TEXT_UNDERLINE_PROP, StyleHandle.TEXT_LINE_THROUGH_PROP, };
+		String[] textStyles = { IStyleModel.FONT_WEIGHT_PROP, IStyleModel.FONT_STYLE_PROP,
+				IStyleModel.TEXT_UNDERLINE_PROP, IStyleModel.TEXT_LINE_THROUGH_PROP, };
 
 		FontStylePropertyDescriptorProvider[] providers = new FontStylePropertyDescriptorProvider[4];
 		for (int i = 0; i < textStyles.length; i++) {

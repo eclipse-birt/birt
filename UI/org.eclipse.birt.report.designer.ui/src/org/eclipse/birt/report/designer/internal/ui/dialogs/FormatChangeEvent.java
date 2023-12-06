@@ -51,6 +51,7 @@ public class FormatChangeEvent extends EventObject {
 	 *                    <code>null</code>)
 	 * @param newCategory the new category of the format
 	 * @param newPattern  the new pattern of the format
+	 * @param newLocale
 	 */
 	public FormatChangeEvent(Object source, String name, String newCategory, String newPattern, String newLocale) {
 		super(source);
@@ -61,6 +62,11 @@ public class FormatChangeEvent extends EventObject {
 		this.locale = newLocale;
 	}
 
+	/**
+	 * Get the locale
+	 *
+	 * @return Return the locale
+	 */
 	public String getLocale() {
 		return locale;
 	}

@@ -15,7 +15,7 @@
 -->
 <project default="test" basedir=".">
 	<target name="test" depends="build-api-package" />
-	<property name="BIRT_VERSION" value="4.11.0" />
+	<property name="BIRT_VERSION" value="4.13.0" />
 	<property name="HERE" location="." />
 	<property name="LIB_DIR" location="./target/lib" />
 	<property name="ROOT_DIR" location="../../" />
@@ -32,9 +32,6 @@
 	<target name="copy-api-jars">
 		<echo>copy API jars to "${LIB_DIR}</echo>
 		<copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar" />
-		<copy file="${ROOT_DIR}/common/org.w3c.sac/lib/flute.jar" tofile="${LIB_DIR}/flute.jar" />
-		<!-- issue 662 axis vulnerabilities -->
-		<copy file="${ROOT_DIR}/common/org.apache.axis/lib/axis-1.4.1-SNAPSHOT.jar" tofile="${LIB_DIR}/axis.jar" />
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${ROOT_DIR}">
 				<include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar" />
@@ -145,6 +142,6 @@
 			<sysproperty key="LIB_DIR" value="${LIB_DIR}" />
 		</java>
 		<!-- update manifest version -->
-		<replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.11.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}" />
+		<replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.13.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}" />
 	</target>
 </project>

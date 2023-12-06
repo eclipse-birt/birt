@@ -18,12 +18,12 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.11.0-SNAPSHOT</version>
+		<version>4.15.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.engine.emitter.postscript.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
-<!--	<build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -41,6 +41,16 @@
 					</dependency-resolution>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<testClass>org.eclipse.birt.report.engine.emitter.postscript.AllTests</testClass>
+					<skipTests>${skipTests}</skipTests>
+					<argLine>-Duser.country=us -Duser.language=en -Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
-	</build> -->
+	</build>
 </project>

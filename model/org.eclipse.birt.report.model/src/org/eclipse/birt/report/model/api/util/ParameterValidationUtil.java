@@ -745,7 +745,7 @@ public class ParameterValidationUtil {
 	 */
 
 	private static String transformDateFormat(String dataType, String format, Object value) {
-		if (DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED.equalsIgnoreCase(format)) {
+		if (DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED.equalsIgnoreCase(format)) {
 			if (!StringUtil.isBlank(dataType)) {
 				if (DesignChoiceConstants.PARAM_TYPE_DATE.equalsIgnoreCase(dataType)) {
 					return DateFormatter.DATE_UNFORMATTED;

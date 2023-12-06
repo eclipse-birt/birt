@@ -46,6 +46,8 @@ public final class SimpleProcessor extends BaseStyleProcessor {
 
 	/**
 	 * The access entry point.
+	 *
+	 * @return Return the access entry point
 	 */
 	synchronized public static SimpleProcessor instance() {
 		if (instance == null) {

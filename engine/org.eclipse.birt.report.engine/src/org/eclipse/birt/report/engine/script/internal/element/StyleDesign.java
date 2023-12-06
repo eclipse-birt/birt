@@ -19,14 +19,30 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
+/**
+ * Style design
+ *
+ * @since 3.3
+ *
+ */
 public class StyleDesign implements IScriptStyleDesign {
 
 	private org.eclipse.birt.report.model.api.simpleapi.IStyle styleImpl;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style style handle
+	 */
 	public StyleDesign(StyleHandle style) {
 		styleImpl = SimpleElementFactory.getInstance().createStyle(style);
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param style style
+	 */
 	public StyleDesign(org.eclipse.birt.report.model.api.simpleapi.IStyle style) {
 		styleImpl = style;
 	}
@@ -112,6 +128,58 @@ public class StyleDesign implements IScriptStyleDesign {
 	public void setBackgroundRepeat(String value) throws ScriptException {
 		try {
 			styleImpl.setBackgroundRepeat(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundHeight()
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return styleImpl.getBackgroundHeight();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundHeight(java.lang.String)
+	 */
+	@Override
+	public void setBackgroundHeight(String value) throws ScriptException {
+		try {
+			styleImpl.setBackgroundHeight(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * getBackgroundWidth()
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return styleImpl.getBackgroundWidth();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#
+	 * setBackgroundWidth(java.lang.String)
+	 */
+	@Override
+	public void setBackgroundWidth(String value) throws ScriptException {
+		try {
+			styleImpl.setBackgroundWidth(value);
 		} catch (SemanticException e) {
 			throw new ScriptException(e.getLocalizedMessage());
 		}

@@ -2,15 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.co.spudsoft.birt.emitters.excel;singleton:=true
-Bundle-Version: 4.11.0.qualifier
+Bundle-Version: 4.15.0.qualifier
 Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.framework.ExcelEmitterPlugin
 Bundle-Vendor: %Bundle-Vendor
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.11.0",
- org.apache.poi;bundle-version="[4.1.1,5.0.0)",
- org.apache.poi.ooxml;bundle-version="[4.1.1,5.0.0)",
- org.apache.poi.ooxml.schemas;bundle-version="[4.1.1,5.0.0)",
- org.apache.xmlbeans;bundle-version="[3.1.0,4.0.0)",
- org.apache.commons.compress;bundle-version="[1.19.0,2.0.0)"
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.13.0",
+ org.apache.poi;bundle-version="[5.0.0,6.0.0)",
+ org.apache.poi.ooxml;bundle-version="[5.0.0,6.0.0)",
+ org.apache.poi.ooxml.schemas;bundle-version="[5.0.0,6.0.0)",
+ org.apache.xmlbeans;bundle-version="[5.0.0,6.0.0)",
+ org.apache.commons.commons-compress;bundle-version="[1.24.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: .,
  lib/commons-codec-1.5.jar

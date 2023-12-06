@@ -22,20 +22,63 @@ import java.util.Map;
  */
 public interface IRenderOption extends ITaskOption {
 
+	/**
+	 * Property of format
+	 */
 	String OUTPUT_FORMAT = "Format"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format HTML
+	 */
 	String OUTPUT_FORMAT_HTML = "html"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format PDF
+	 */
 	String OUTPUT_FORMAT_PDF = "pdf"; //$NON-NLS-1$
+
+	/**
+	 * Property of output format FO
+	 */
 	String OUTPUT_FORMAT_FO = "fo"; //$NON-NLS-1$
+
+	/**
+	 * Property of emitter id HTML
+	 */
 	String OUTPUT_EMITTERID_HTML = "org.eclipse.birt.report.engine.emitter.html";
+
+	/**
+	 * Property of emitter id PDF
+	 */
 	String OUTPUT_EMITTERID_PDF = "org.eclipse.birt.report.engine.emitter.pdf";
+
+	/**
+	 * Property of emitter id
+	 */
 	String EMITTER_ID = "emitterID"; //$NON-NLS-1$
 
+	/**
+	 * Property of output file
+	 */
 	String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$
+	/**
+	 * Property of output stream
+	 */
 	String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
 
+	/**
+	 * Property of image handler
+	 */
 	String IMAGE_HANDLER = "imageHandler"; //$NON-NLS-1$
+
+	/**
+	 * Property of action handler
+	 */
 	String ACTION_HANDLER = "actionHandler"; //$NON-NLS-1$
 
+	/**
+	 * Property for local
+	 */
 	String LOCALE = "locale"; //$NON-NLS-1$
 
 	/** The DPI which layout engine uses to convert pixel to an abstract length */
@@ -44,8 +87,14 @@ public interface IRenderOption extends ITaskOption {
 	/** The DPI which chart engine uses to generate charts */
 	String CHART_DPI = "ChartDpi";
 
+	/**
+	 * Supported image formats
+	 */
 	String SUPPORTED_IMAGE_FORMATS = "supportedImageFormats";
 
+	/**
+	 * Property of base URL
+	 */
 	String BASE_URL = "baseUrl";
 
 	/**
@@ -59,6 +108,9 @@ public interface IRenderOption extends ITaskOption {
 	 */
 	String APP_BASE_URL = BASE_URL; // $NON-NLS-1$
 
+	/**
+	 * Property to set output display to none
+	 */
 	String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
 
 	/**
@@ -73,14 +125,19 @@ public interface IRenderOption extends ITaskOption {
 	 */
 	String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
 
+	/**
+	 * Property for report size
+	 */
 	String REPORTLET_SIZE = "reportletSize";
 
 	/**
-	 * @return
+	 * Get the output settings
+	 *
 	 * @deprecated use getOptions instead
+	 * @return Return the output settings
 	 */
 	@Deprecated
-	Map getOutputSetting();
+	Map<String, Object> getOutputSetting();
 
 	/**
 	 * Set output format.
@@ -92,7 +149,7 @@ public interface IRenderOption extends ITaskOption {
 	/**
 	 * Get output format.
 	 *
-	 * @return
+	 * @return Return the output format
 	 */
 	String getOutputFormat();
 
@@ -163,39 +220,67 @@ public interface IRenderOption extends ITaskOption {
 	void setAppBaseURL(String appBaseURL);
 
 	/**
+	 * Set the action handler
+	 *
 	 * @deprecated
 	 * @param handler
 	 */
 	@Deprecated
 	void setActionHandle(IHTMLActionHandler handler);
 
+	/**
+	 * Set the action handler
+	 *
+	 * @param handler
+	 */
 	void setActionHandler(IHTMLActionHandler handler);
 
 	/**
+	 * Get the action handler
+	 *
 	 * @deprecated
-	 * @return
+	 * @return Return the action handler
 	 */
 	@Deprecated
 	IHTMLActionHandler getActionHandle();
 
+	/**
+	 * Get the action handler
+	 *
+	 * @return Return the action handler
+	 */
 	IHTMLActionHandler getActionHandler();
 
 	/**
+	 * Set the image handler
+	 *
 	 * @deprecated
 	 * @param handler
 	 */
 	@Deprecated
 	void setImageHandle(IHTMLImageHandler handler);
 
+	/**
+	 * Set the image handler
+	 *
+	 * @param handler
+	 */
 	void setImageHandler(IHTMLImageHandler handler);
 
 	/**
+	 * Get the image handler
+	 *
 	 * @deprecated
-	 * @return
+	 * @return Return the image handler
 	 */
 	@Deprecated
 	IHTMLImageHandler getImageHandle();
 
+	/**
+	 * Get the image handler
+	 *
+	 * @return Return the image handler
+	 */
 	IHTMLImageHandler getImageHandler();
 
 	/**

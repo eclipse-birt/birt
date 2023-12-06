@@ -13,7 +13,7 @@
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/WorkingSets.ecore"
     name="birt"
     label="BIRT">
   <annotation
@@ -32,6 +32,19 @@
       <value>https://www.eclipse.org/birt/</value>
     </detail>
   </annotation>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Xmx"
+      value="4048m"
+      vm="true">
+    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="jdt:JRETask"
+      version="JavaSE-17"
+      location="${jre.location-17}">
+    <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
+  </setupTask>
   <setupTask
       xsi:type="setup:CompoundTask"
       name="User Preferences">
@@ -57,10 +70,6 @@
           key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup">
         <value>record</value>
       </detail>
-      <detail
-          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference">
-        <value>record</value>
-      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -80,11 +89,11 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
-        name="org.eclipse.jdt.core">
+        name="org.eclipse.jdt.junit.core">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.forbiddenReference"
-          value="warning"/>
+          key="/instance/org.eclipse.jdt.junit.core/org.eclipse.jdt.junit.max_test_runs"
+          value="50"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -112,13 +121,6 @@
     </setupTask>
   </setupTask>
   <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-Xmx"
-      value="2048m"
-      vm="true">
-    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
-  </setupTask>
-  <setupTask
       xsi:type="setup:ResourceCreationTask"
       excludedTriggers="STARTUP MANUAL"
       targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml"
@@ -139,6 +141,76 @@
     </content>
   </setupTask>
   <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml"
+      encoding="UTF-8">
+    <description>Ensure that Run/Debug/External Tools contain favorites</description>
+    <content>
+      &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?>
+      &lt;launchHistory>
+          &lt;launchGroup id=&quot;org.eclipse.debug.ui.launchGroup.debug&quot;>
+              &lt;favorites>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT all-in-one.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT all-in-one-MAC.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT All Tests.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Model Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Chart Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Core Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Engine Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Data Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Data ODA POJO Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Data ODA JDBC Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Designer Preview UI Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;true&amp;quot; path=&amp;quot;BIRT Report Designer UI Test&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Data Extraction CSV Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emiitter Prototype Excel Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter HTML Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter PostScript Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter PPTX Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT  Report Item CrossTab Core Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Model Adapter ODA Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Chart Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Model Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Viewer UI Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Tests Data Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT SpudSoft Emmitters Excel Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+              &lt;/favorites>
+          &lt;/launchGroup>
+          &lt;launchGroup id=&quot;org.eclipse.debug.ui.launchGroup.run&quot;>
+              &lt;favorites>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT all-in-one.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT all-in-one-MAC.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT All Tests.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Model Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Chart Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Engine Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Core Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Data ODA POJO Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Data Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Data ODA JDBC Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Designer Preview UI Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;true&amp;quot; path=&amp;quot;BIRT Report Designer UI Test&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Data Extraction CSV Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emiitter Prototype Excel Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter HTML Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter PostScript Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Engine Emitter PPTX Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT  Report Item CrossTab Core Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Model Adapter ODA Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Chart Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Tests Model Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Report Viewer UI Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT SpudSoft Emmitters Excel Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+                  &lt;launch memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#10;&amp;lt;launchConfiguration local=&amp;quot;false&amp;quot; path=&amp;quot;/org.eclipse.birt.target/BIRT Tests Data Test.launch&amp;quot;/&amp;gt;&amp;#10;&quot;/>
+              &lt;/favorites>
+          &lt;/launchGroup>
+      &lt;/launchHistory>
+
+    </content>
+  </setupTask>
+  <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
       value="${eclipse.target.platform.latest}"
@@ -155,7 +227,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="git.clone.birt"
-      remoteURI="eclipse/birt">
+      remoteURI="eclipse-birt/birt">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
@@ -174,13 +246,15 @@
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
-      xsi:type="projects:ProjectsImportTask">
+      xsi:type="projects:ProjectsImportTask"
+      disabled="true">
     <sourceLocator
         rootFolder="${git.clone.birt.location}"
         locateNestedProjects="true"/>
   </setupTask>
   <setupTask
       xsi:type="pde:TargetPlatformTask"
+      disabled="true"
       name="BIRT Target"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
@@ -289,7 +363,7 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern=".*-parent.*"/>
+            pattern=".*-parent.*|.*promotion"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -301,121 +375,103 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern="pptx_project|org\.eclipse\.birt\.site|.*birt.ext"/>
+            pattern="pptx_project|org\.eclipse\.birt\.site"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for  BIRT</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.targlets:TargletTask">
+    <targlet
+        name="BIRT">
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
+        <detail
+            key="location">
+          <value>${git.clone.birt.location/build/org.eclipse.birt.target/org.eclipse.birt.target.target}</value>
+        </detail>
+        <detail
+            key="extraUnits">
+          <value>org.eclipse.equinox.executable.feature.group</value>
+        </detail>
+        <detail
+            key="singleLocation">
+          <value>true</value>
+        </detail>
+        <detail
+            key="sortLocations">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeAllPlatforms">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeSource">
+          <value>true</value>
+        </detail>
+        <detail
+            key="ignoreJavaRequirements">
+          <value>true</value>
+        </detail>
+        <detail
+            key="generateVersions">
+          <value>org.mortbay.jasper.apache-.*</value>
+        </detail>
+        <detail
+            key="minimizeImplicitUnits">
+          <value>true</value>
+        </detail>
+        <detail
+            key="generateImplicitUnits">
+          <value>false</value>
+        </detail>
+        <detail
+            key="ignorePropertiesMatchRequirements">
+          <value>true</value>
+        </detail>
+      </annotation>
+      <requirement
+          name="org.eclipse.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
+      <requirement
+          name="*"/>
+      <sourceLocator
+          rootFolder="${git.clone.birt.location}"
+          locateNestedProjects="true"/>
+      <repositoryList>
+        <repository
+            url="https://download.eclipse.org/cbi/updates/license"/>
+        <repository
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
+        <repository
+            url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
+        <repository
+            url="https://download.eclipse.org/datatools/updates/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
+        <repository
+            url="https://download.eclipse.org/webtools/repository/latest"/>
+        <repository
+            url="https://download.eclipse.org/justj/epp/release/latest"/>
+        <repository
+            url="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
+      </repositoryList>
+    </targlet>
   </setupTask>
   <stream name="master"
       label="Workspace setup for branch master">
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.birt"
-        value="=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
+        value="=https://raw.githubusercontent.com/eclipse-birt/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
-    </setupTask>
-    <setupTask
-        xsi:type="jdt:JRETask"
-        version="JavaSE-11"
-        location="${jre.location-11}"
-        name="JRE for JavaSE-11">
-      <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
-    </setupTask>
-  </stream>
-  <stream name="disabled until we can add maven locations to modular target">
-    <setupTask
-        xsi:type="setup.targlets:TargletTask"
-        activateTarget="false">
-      <targlet
-          name="${scope.project.label}">
-        <requirement
-            name="a.jre.javase"
-            versionRange="11.0.0"/>
-        <requirement
-            name="org.eclipse.datatools.common.doc.user.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.connectivity.oda.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.apache.derby.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.hsqldb.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.ibm.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.ingres.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.jdbc.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.jdt.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.msft.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.mysql.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oda.designer.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oda.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.oracle.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.postgresql.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sap.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sqlite.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.enablement.sybase.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.intro.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.data.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.ddl.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqldevtools.sqlbuilder.feature.feature.group"/>
-        <requirement
-            name="org.eclipse.datatools.sqltools.doc.user.feature.group"/>
-        <requirement
-            name="org.eclipse.equinox.executable.feature.group"/>
-        <requirement
-            name="org.eclipse.platform.sdk"/>
-        <requirement
-            name="org.eclipse.rcp.configuration.feature.group"/>
-        <requirement
-            name="jakarta.servlet"/>
-        <requirement
-            name="*"/>
-        <sourceLocator
-            rootFolder="${git.clone.birt.location}"
-            locateNestedProjects="true"/>
-        <repositoryList>
-          <repository
-              url="https://download.eclipse.org/cbi/updates/license"/>
-          <repository
-              url="https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/"/>
-          <repository
-              url="https://download.eclipse.org/eclipse/updates/4.24-I-builds/"/>
-          <repository
-              url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest/"/>
-          <repository
-              url="https://download.eclipse.org/tools/gef/updates/legacy/releases/4.0.0_gef-master_1952/"/>
-          <repository
-              url="https://download.eclipse.org/tools/orbit/downloads/latest-R/"/>
-          <repository
-              url="https://download.eclipse.org/webtools/repository/latest/"/>
-        </repositoryList>
-      </targlet>
     </setupTask>
   </stream>
   <logicalProjectContainer

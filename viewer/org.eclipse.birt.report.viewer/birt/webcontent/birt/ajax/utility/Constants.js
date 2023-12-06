@@ -104,6 +104,9 @@ var Constants = {
 	FORMAT_PDF : 'pdf',
 	FORMAT_HTML : 'html',
 	FORMAT_PPT : 'ppt',
+	FORMAT_EXCEL : 'xls',
+	FORMAT_SPUDSOFT_XLS : 'xls_spudsoft',
+	FORMAT_SPUDSOFT_XLSX : 'xlsx',
 	
 	// Action names
 	ACTION_PRINT : 'print',

@@ -1,12 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,11 +29,14 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTValueConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
@@ -58,6 +60,15 @@ public abstract class HTMLEmitter {
 	private static final DecimalFormat FORMATTER = new DecimalFormat("#.###", //$NON-NLS-1$
 			new DecimalFormatSymbols(Locale.ENGLISH));
 
+	/**
+	 * HTML emitter
+	 *
+	 * @param reportEmitter     report emitter
+	 * @param writer            HTML writer
+	 * @param fixedReport       fixed report
+	 * @param enableInlineStyle enabled inline style
+	 * @param browserVersion    browser version
+	 */
 	public HTMLEmitter(HTMLReportEmitter reportEmitter, HTMLWriter writer, boolean fixedReport,
 			boolean enableInlineStyle, int browserVersion) {
 		this.reportEmitter = reportEmitter;
@@ -69,62 +80,160 @@ public abstract class HTMLEmitter {
 
 	// FIXME: code review: We shouldn't pass the style directly. We should pass
 	// the element and get the style form the element in the method.
+	/**
+	 * Build default style
+	 *
+	 * @param styleBuffer style buffer
+	 * @param style       style
+	 */
 	public abstract void buildDefaultStyle(StringBuffer styleBuffer, IStyle style);
 
+	/**
+	 * Build style
+	 *
+	 * @param styleBuffer style buffer
+	 * @param style       style
+	 */
 	public abstract void buildStyle(StringBuffer styleBuffer, IStyle style);
 
+	/**
+	 * Build page band style
+	 *
+	 * @param styleBuffer style buffer
+	 * @param style       style
+	 */
 	public abstract void buildPageBandStyle(StringBuffer styleBuffer, IStyle style);
 
+	/**
+	 * Build table style
+	 *
+	 * @param table       table
+	 * @param styleBuffer style buffer
+	 */
 	public abstract void buildTableStyle(ITableContent table, StringBuffer styleBuffer);
 
+	/**
+	 * Build column style
+	 *
+	 * @param column      column
+	 * @param styleBuffer style buffer
+	 */
 	public abstract void buildColumnStyle(IColumn column, StringBuffer styleBuffer);
 
+	/**
+	 * Build column alignment
+	 *
+	 * @param column column
+	 */
 	public abstract void handleColumnAlign(IColumn column);
 
+	/**
+	 * Build row style
+	 *
+	 * @param row         row
+	 * @param styleBuffer style buffer
+	 */
 	public abstract void buildRowStyle(IRowContent row, StringBuffer styleBuffer);
 
+	/**
+	 * Build row alignment
+	 *
+	 * @param row row
+	 */
 	public abstract void handleRowAlign(IRowContent row);
 
+	/**
+	 * Build cell style
+	 *
+	 * @param cell            cell content
+	 * @param styleBuffer     style buffer
+	 * @param isHead          is head
+	 * @param fixedCellHeight fixed cell height
+	 */
 	public abstract void buildCellStyle(ICellContent cell, StringBuffer styleBuffer, boolean isHead,
 			boolean fixedCellHeight);
 
 	/**
 	 * Handles the text align property of the element content.
+	 *
+	 * @param cell cell content
 	 */
 	public void handleCellAlign(ICellContent cell) {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = cell.getStyle();
 
 		// Build the Text-Align property.
-		CSSValue hAlign = style.getProperty(IStyle.STYLE_TEXT_ALIGN);
+		CSSValue hAlign = style.getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 		if (null != hAlign) {
 			writer.attribute(HTMLTags.ATTR_ALIGN, hAlign.getCssText());
 		}
 	}
 
+	/**
+	 * Handle cell valignment
+	 *
+	 * @param cell cell content
+	 */
 	public abstract void handleCellVAlign(ICellContent cell);
 
+	/**
+	 * Build container style
+	 *
+	 * @param container
+	 * @param styleBuffer style buffer
+	 */
 	public abstract void buildContainerStyle(IContainerContent container, StringBuffer styleBuffer);
 
+	/**
+	 * Handle container alignment
+	 *
+	 * @param container container content
+	 */
 	public abstract void handleContainerAlign(IContainerContent container);
 
 	// FIXME: code review: Because the display has already been calculated in
 	// the HTMLReportEmitter, so we can build the display there too. We needn't
 	// pass the display here.
+	/**
+	 * Build text style
+	 *
+	 * @param text        text content
+	 * @param styleBuffer style buffer
+	 * @param display     display
+	 */
 	public abstract void buildTextStyle(ITextContent text, StringBuffer styleBuffer, int display);
 
+	/**
+	 * Build foreign style
+	 *
+	 * @param foreign     foreign content
+	 * @param styleBuffer style buffer
+	 * @param display     display
+	 */
 	public abstract void buildForeignStyle(IForeignContent foreign, StringBuffer styleBuffer, int display);
 
+	/**
+	 * Build image style
+	 *
+	 * @param image       image content
+	 * @param styleBuffer style buffer
+	 * @param display     display
+	 */
 	public abstract void buildImageStyle(IImageContent image, StringBuffer styleBuffer, int display);
 
 	/**
 	 * Build the style of the page
+	 *
+	 * @param page                     page content
+	 * @param styleBuffer              style buffer
+	 * @param needOutputBackgroundSize need output background size
 	 */
 	public void buildPageStyle(IPageContent page, StringBuffer styleBuffer, boolean needOutputBackgroundSize) {
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle();
 		if (!needOutputBackgroundSize) {
-			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter);
+			DimensionType[] pageSize = { page.getPageHeight(), page.getPageWidth() };
+			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, pageSize);
 		} else {
 			AttributeBuilder.buildBackgroundColor(styleBuffer, style, reportEmitter);
 		}
@@ -182,19 +291,18 @@ public abstract class HTMLEmitter {
 	}
 
 	/**
-	 * convert the dimension type value into a string. The returned value has
+	 * Convert the dimension type value into a string. The returned value has
 	 * "#.###" format.
 	 *
 	 * @param value
-	 * @return
+	 * @return Return the converted dimension type value into a string.
 	 */
 	private String formatSize(DimensionType value) {
 		assert value != null;
 		if (value.getValueType() == DimensionType.TYPE_DIMENSION) {
 			return FORMATTER.format(value.getMeasure()) + value.getUnits();
-		} else {
-			return value.toString();
 		}
+		return value.toString();
 	}
 
 	protected IStyle getElementStyle(IContent content) {
@@ -235,28 +343,28 @@ public abstract class HTMLEmitter {
 			IStyle style) {
 		CSSValue display = null;
 		if (style != null) {
-			display = style.getProperty(IStyle.STYLE_DISPLAY);
+			display = style.getProperty(StyleConstants.STYLE_DISPLAY);
 		}
 
-		if (IStyle.NONE_VALUE == display) {
-			return IStyle.NONE_VALUE;
+		if (CSSValueConstants.NONE_VALUE == display) {
+			return CSSValueConstants.NONE_VALUE;
 		}
 
 		if (x != null || y != null) {
-			return IStyle.BLOCK_VALUE;
-		} else if (IStyle.INLINE_VALUE == display) {
+			return CSSValueConstants.BLOCK_VALUE;
+		} else if (CSSValueConstants.INLINE_VALUE == display) {
 			if (width != null || height != null) {
-				return IStyle.INLINE_BLOCK_VALUE;
+				return CSSValueConstants.INLINE_BLOCK_VALUE;
 			}
 			// RTL text is also treated as inline-block
-			else if (IStyle.CSS_RTL_VALUE.equals(style.getDirection())) {
-				return IStyle.INLINE_BLOCK_VALUE;
+			else if (CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())) {
+				return CSSValueConstants.INLINE_BLOCK_VALUE;
 			} else {
-				return IStyle.INLINE_VALUE;
+				return CSSValueConstants.INLINE_VALUE;
 			}
 
 		}
-		return IStyle.BLOCK_VALUE;
+		return CSSValueConstants.BLOCK_VALUE;
 	}
 
 	/**
@@ -286,19 +394,19 @@ public abstract class HTMLEmitter {
 			display = style.getDisplay();
 		}
 
-		if (EngineIRConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
+		if (DesignChoiceConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
 			type |= HTMLEmitterUtil.DISPLAY_NONE;
 		}
 
 		if (x != null || y != null) {
 			return type | HTMLEmitterUtil.DISPLAY_BLOCK;
-		} else if (EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
+		} else if (DesignChoiceConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
 			type |= HTMLEmitterUtil.DISPLAY_INLINE;
 			if (width != null || height != null) {
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
 			// RTL element is also treated as inline-block
-			else if (IStyle.CSS_RTL_VALUE.equals(style.getDirection())) {
+			else if (CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())) {
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
 			return type;
@@ -334,20 +442,20 @@ public abstract class HTMLEmitter {
 			display = style.getDisplay();
 		}
 
-		if (EngineIRConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
+		if (DesignChoiceConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
 			type |= HTMLEmitterUtil.DISPLAY_NONE;
 		}
 
 		if (x != null || y != null) {
 			return type | HTMLEmitterUtil.DISPLAY_BLOCK;
-		} else if (EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
+		} else if (DesignChoiceConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
 			type |= HTMLEmitterUtil.DISPLAY_INLINE;
 			// Inline text doesn't support height.
 			if (width != null) {
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
 			// RTL element is also treated as inline-block
-			else if (IStyle.CSS_RTL_VALUE.equals(style.getDirection())) {
+			else if (CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())) {
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
 			return type;
@@ -552,6 +660,8 @@ public abstract class HTMLEmitter {
 	// in the HTMLReportEmitter directly.
 	/**
 	 * Open the container tag.
+	 *
+	 * @param container container content
 	 */
 	public void openContainerTag(IContainerContent container) {
 		DimensionType x = container.getX();
@@ -640,20 +750,20 @@ public abstract class HTMLEmitter {
 	/**
 	 * Open the vertical-align box tag if the element needs implementing the
 	 * vertical-align.
+	 *
+	 * @param element content
 	 */
-	// FIXME: code review: Because only the text element and foreign element use
-	// this method, so the method name should be changed to
-	// handleTextVerticalAlignBegin
 	// FIXME: code review of text: Inline text doesn't need outputting the
 	// vertical-align. Block and inline-block texts need outputting the
 	// vertical-align.
-	public void handleVerticalAlignBegin(IContent element) {
+	public void handleTextVerticalAlignBegin(IContent element) {
 		IStyle style = element.getStyle();
-		CSSValue vAlign = style.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
-		CSSValue canShrink = style.getProperty(IStyle.STYLE_CAN_SHRINK);
+		CSSValue vAlign = style.getProperty(StyleConstants.STYLE_VERTICAL_ALIGN);
+		CSSValue canShrink = style.getProperty(StyleConstants.STYLE_CAN_SHRINK);
 		DimensionType height = element.getHeight();
-		// FIXME: code review: the top value of the vAlign shouldn't be outptted too.
-		if (vAlign != null && vAlign != IStyle.BASELINE_VALUE && height != null && canShrink != IStyle.TRUE_VALUE) {
+		// FIXME: code review: the top value of the vAlign shouldn't be outputed too.
+		if (vAlign != null && vAlign != CSSValueConstants.BASELINE_VALUE && height != null
+				&& canShrink != BIRTValueConstants.TRUE_VALUE) {
 			// implement vertical align.
 			writer.openTag(HTMLTags.TAG_TABLE);
 			StringBuilder nestingTableStyleBuffer = new StringBuilder();
@@ -674,13 +784,16 @@ public abstract class HTMLEmitter {
 	/**
 	 * Close the vertical-align box tag if the element needs implementing the
 	 * vertical-align.
+	 *
+	 * @param element content
 	 */
 	public void handleVerticalAlignEnd(IContent element) {
 		IStyle style = element.getStyle();
-		CSSValue vAlign = style.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
-		CSSValue canShrink = style.getProperty(IStyle.STYLE_CAN_SHRINK);
+		CSSValue vAlign = style.getProperty(StyleConstants.STYLE_VERTICAL_ALIGN);
+		CSSValue canShrink = style.getProperty(StyleConstants.STYLE_CAN_SHRINK);
 		DimensionType height = element.getHeight();
-		if (vAlign != null && vAlign != IStyle.BASELINE_VALUE && height != null && canShrink != IStyle.TRUE_VALUE) {
+		if (vAlign != null && vAlign != CSSValueConstants.BASELINE_VALUE && height != null
+				&& canShrink != BIRTValueConstants.TRUE_VALUE) {
 			writer.closeTag(HTMLTags.TAG_TD);
 			writer.closeTag(HTMLTags.TAG_TR);
 			writer.closeTag(HTMLTags.TAG_TABLE);

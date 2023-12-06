@@ -28,6 +28,11 @@ public class StyleInstance implements IScriptStyle {
 
 	private IStyle style;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style
+	 */
 	public StyleInstance(IStyle style) {
 		this.style = style;
 	}
@@ -263,6 +268,22 @@ public class StyleInstance implements IScriptStyle {
 	}
 
 	/**
+	 * Get the background image source type
+	 */
+	@Override
+	public String getBackgroundImageType() {
+		return style.getBackgroundImageType();
+	}
+
+	/**
+	 * Set the background image source type
+	 */
+	@Override
+	public void setBackgroundImageType(String imageSourceType) {
+		style.setBackgroundImageType(imageSourceType);
+	}
+
+	/**
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
@@ -278,6 +299,38 @@ public class StyleInstance implements IScriptStyle {
 	@Override
 	public void setBackgroundRepeat(String repeat) {
 		style.setBackgroundRepeat(repeat);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return style.getBackgroundHeight();
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		style.setBackgroundHeight(height);
+	}
+
+	/**
+	 * Get the background image width
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return style.getBackgroundWidth();
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		style.setBackgroundWidth(width);
 	}
 
 	/**
@@ -900,6 +953,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	/**
+	 * Get the property
+	 *
+	 * @param index
+	 * @return Return the property
+	 */
 	public CSSValue getProperty(int index) {
 		return style.getProperty(index);
 	}
@@ -908,6 +967,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @return Return the text direction.
 	 */
 	public String getDirection() {
 		return style.getDirection();
@@ -917,6 +977,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @param dir
 	 */
 	public void setDirection(String dir) {
 		style.setDirection(dir);
@@ -973,4 +1034,83 @@ public class StyleInstance implements IScriptStyle {
 		value.setStringFormat(oldValue == null ? null : oldValue.getStringPattern(), locale);
 	}
 
+	@Override
+	public int getDiagonalNumber() {
+		return this.style.getDiagonalNumber();
+	}
+
+	@Override
+	public void setDiagonalNumber(int number) {
+		this.style.setDiagonalNumber(number);
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return this.style.getDiagonalStyle();
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		this.style.setDiagonalStyle(style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return this.style.getDiagonalWidth();
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		this.style.setDiagonalWidth(width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return this.style.getDiagonalColor();
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		this.style.setDiagonalColor(color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return this.style.getAntidiagonalNumber();
+	}
+
+	@Override
+	public void setAntidiagonalNumber(int number) {
+		this.style.setAntidiagonalNumber(number);
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return this.style.getAntidiagonalStyle();
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		this.style.setAntidiagonalStyle(style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return this.style.getAntidiagonalWidth();
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		this.style.setAntidiagonalWidth(width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return this.style.getAntidiagonalColor();
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		this.style.setAntidiagonalColor(color);
+	}
 }

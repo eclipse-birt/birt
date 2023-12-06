@@ -57,7 +57,7 @@ public class FontHandler {
 
 	private FontMappingManager fontManager = null;
 
-	private Map fonts = new HashMap();
+	private Map<String, BaseFont> fonts = new HashMap<String, BaseFont>();
 
 	/**
 	 * the characters which prefer to use the font of their previous character.
@@ -67,10 +67,11 @@ public class FontHandler {
 	/**
 	 * The constructor
 	 *
+	 * @param fontManager
+	 *
 	 * @param textContent      the textContent whose font need to be handled
 	 * @param fontSubstitution If it set to false, we needn't check if the character
 	 *                         exists in the selected font.
-	 * @param format           the output format type
 	 */
 	public FontHandler(FontMappingManager fontManager, ITextContent textContent, boolean fontSubstitution) {
 		this.fontManager = fontManager;
@@ -132,17 +133,26 @@ public class FontHandler {
 
 	/**
 	 * Gets the FontInfo Object.
+	 *
+	 * @return Return the font object
 	 */
 	public FontInfo getFontInfo() {
 		return new FontInfo(bf, fontSize, fontStyle, fontWeight, simulation);
 	}
 
+	/**
+	 * Check is font changed
+	 *
+	 * @return Return the check of changed font
+	 */
 	public boolean isFontChanged() {
 		return isFontChanged;
 	}
 
 	/**
 	 * Selects a proper font for a character.
+	 *
+	 * @param character character to validate the font
 	 *
 	 * @return true: we find a font which can be used to display the character.
 	 *         false: no font can display the character.
@@ -158,7 +168,7 @@ public class FontHandler {
 		} else {
 			isFontChanged = true;
 			bf = candidateFont;
-			simulation = needSimulate(bf);
+			simulation = needSimulate();
 		}
 		return candidateFont.charExists(character);
 	}
@@ -228,7 +238,7 @@ public class FontHandler {
 	}
 
 	private BaseFont createBaseFont(String physicalFont) {
-		BaseFont font = (BaseFont) fonts.get(physicalFont);
+		BaseFont font = fonts.get(physicalFont);
 		if (font == null) {
 			if (fonts.containsKey(physicalFont)) {
 				return null;
@@ -244,7 +254,7 @@ public class FontHandler {
 	 * the proper style for the font. The "simulate" flag will be set if we need to
 	 * simulate it.
 	 */
-	private boolean needSimulate(BaseFont font) {
+	private boolean needSimulate() {
 		if (fontStyle == Font.NORMAL) {
 			return false;
 		}
@@ -264,9 +274,8 @@ public class FontHandler {
 			if (fontWeight > 400 && fontWeight != 700) {
 				// not a regular bold font.
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		}
 		return true;
 	}

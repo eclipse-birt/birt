@@ -25,6 +25,12 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfOutline;
 
+/**
+ * Class of PDF TOC handler
+ *
+ * @since 3.3
+ *
+ */
 public class TOCHandler {
 
 	/**
@@ -51,7 +57,9 @@ public class TOCHandler {
 	/**
 	 * The constructor.
 	 *
-	 * @param root The TOC node in which need to build PDF outline
+	 * @param root      The TOC node in which need to build PDF outline
+	 * @param outline   pdf outline
+	 * @param bookmarks bookmarks of the pdf
 	 */
 	public TOCHandler(TOCNode root, PdfOutline outline, Set<String> bookmarks) {
 		this.root = root;
@@ -68,6 +76,9 @@ public class TOCHandler {
 		return this.root;
 	}
 
+	/**
+	 * Create the TOC of the PDF
+	 */
 	public void createTOC() {
 		createTOC(root, outline, bookmarks);
 	}
@@ -83,7 +94,7 @@ public class TOCHandler {
 		if (isOutlineSizeOverflow() || null == tocNode || null == tocNode.getChildren()) {
 			return;
 		}
-		for (Iterator i = tocNode.getChildren().iterator(); i.hasNext();) {
+		for (Iterator<?> i = tocNode.getChildren().iterator(); i.hasNext();) {
 			TOCNode node = (TOCNode) i.next();
 			if (!bookmarks.contains(node.getBookmark())) {
 				createTOC(node, outline, bookmarks);
@@ -91,7 +102,7 @@ public class TOCHandler {
 			}
 			PdfOutline outline = new PdfOutline(pol, PdfAction.gotoLocalPage(node.getBookmark(), false),
 					node.getDisplayString());
-			countOutlineSize(node.getBookmark().length());
+			countOutlineSize();
 			IScriptStyle style = node.getTOCStyle();
 			String color = style.getColor();
 			if (color != null) {
@@ -113,7 +124,7 @@ public class TOCHandler {
 		return counter > MAX_COUNT;
 	}
 
-	protected void countOutlineSize(long size) {
+	protected void countOutlineSize() {
 		counter++;
 	}
 }

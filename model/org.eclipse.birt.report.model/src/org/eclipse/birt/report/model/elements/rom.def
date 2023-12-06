@@ -428,6 +428,9 @@
   </ChoiceType>
   <ChoiceType name="dateTimeFormat">
     <Choice displayNameID="Choices.dateTimeFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.mediumDate" name="Date Picker"/>
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.shortTime"  name="Date Picker, Short Time"/>
+	<Choice displayNameID="Choices.dateTimeFormat.datePicker.mediumTime" name="Date Picker, Medium Time"/>
 	<Choice displayNameID="Choices.dateTimeFormat.generalDate" name="General Date"/>
     <Choice displayNameID="Choices.dateTimeFormat.longDate" name="Long Date"/>
     <Choice displayNameID="Choices.dateTimeFormat.mediumDate" name="Medium Date"/>
@@ -439,14 +442,17 @@
   </ChoiceType>
   <ChoiceType name="dateFormat">
     <Choice displayNameID="Choices.dateFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.dateFormat.datePicker.mediumDate" name="Date Picker"/>
 	<Choice displayNameID="Choices.dateFormat.generalDate" name="General Date"/>
     <Choice displayNameID="Choices.dateFormat.longDate" name="Long Date"/>
     <Choice displayNameID="Choices.dateFormat.mediumDate" name="Medium Date"/>
     <Choice displayNameID="Choices.dateFormat.shortDate" name="Short Date"/>		
-	<Choice displayNameID="Choices.dateFormat.custom" name="Custom"/>    
+	<Choice displayNameID="Choices.dateFormat.custom" name="Custom"/>
   </ChoiceType>
   <ChoiceType name="timeFormat">
     <Choice displayNameID="Choices.timeFormat.unformatted" name="Unformatted"/>        
+    <Choice displayNameID="Choices.timeFormat.timePicker.shortTime" name="Time Picker, Short Time"/>        
+    <Choice displayNameID="Choices.timeFormat.timePicker.mediumTime" name="Time Picker, Medium Time"/>        
 	<Choice displayNameID="Choices.timeFormat.longTime" name="Long Time"/>
     <Choice displayNameID="Choices.timeFormat.mediumTime" name="Medium Time"/>
     <Choice displayNameID="Choices.timeFormat.shortTime" name="Short Time"/>			
@@ -2441,7 +2447,7 @@
     <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="overflow" displayNameID="Element.Style.overflow" isStyleProperty="true" name="overflow" since="2.5.2" type="choice">
-        <Default>hidden</Default>
+        <Default>visible</Default>
     </Property>
     <Property canInherit="false" displayNameID="Element.Style.height" name="height" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
     <Property canInherit="false" displayNameID="Element.Style.width" name="width" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
@@ -3382,10 +3388,10 @@
     <Property displayNameID="Element.ReportItem.altTextID" name="altTextID" since="4.3" type="resourceKey"/>
     <PropertyGroup displayNameID="Element.Cell.diagonal">
     	<Property displayNameID="Element.Cell.diagonalNumber" name="diagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
-    		<Default>0</Default>
+    		<Default>1</Default>
     	</Property>
     	<Property displayNameID="Element.Cell.antidiagonalNumber" name="antidiagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
-    		<Default>0</Default>
+    		<Default>1</Default>
     	</Property>   
     	<Property detailType="lineWidth"  displayNameID="Element.Cell.diagonalThickness" name="diagonalThickness" runtimeSettable="false" since="3.2" type="dimension" validator="NonNegativeValueValidator">
     		<DefaultUnit>pt</DefaultUnit>
@@ -3424,10 +3430,6 @@
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
     <PropertyVisibility name="rowSpan" visibility="readonly"/>
     <PropertyVisibility name="viewAction" visibility="hide"/>
-    <PropertyVisibility name="antidiagonalNumber" visibility="hide"/> 
-    <PropertyVisibility name="antidiagonalThickness" visibility="hide"/> 
-    <PropertyVisibility name="antidiagonalStyle" visibility="hide"/> 
-    <PropertyVisibility name="antidiagonalColor" visibility="hide"/>                    
     <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0">
       <Type name="Label"/>
       <Type name="Data"/>
@@ -3976,29 +3978,29 @@
     </Property>
   </Element>  
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
-  <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" type="List"/>
-  <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" type="List"/>
-  <Style displayNameID="Style.ListFooter" name="list-footer" reference="List Footer" type="List" />
-  <Style displayNameID="Style.ListDetail" name="list-detail" reference="List Detail" type="List" />
-  <Style displayNameID="Style.Table" name="table" reference="Table Item" type="Table" />
-  <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" type="Table" />
-  <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" type="Table" />
-  <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" type="Table" />
-  <Style displayNameID="Style.TableRow" name="table-row" reference="Table Row" type="Table" />
-  <Style displayNameID="Style.TableCell" name="table-cell" reference="Table Cell" type="Table" />
-  <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" type="Table" />
-  <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" type="Table" />
-  <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" type="Table" />
-  <Style displayNameID="Style.Label" name="label" reference="Label item" type="Label"/>
-  <Style displayNameID="Style.Text" name="text" reference="Text item" type="Text"/>
-  <Style displayNameID="Style.Grid" name="grid" reference="Grid item" type="Grid" />
-  <Style displayNameID="Style.GridRow" name="grid-row" reference="Grid Row" type="Grid" />
-  <Style displayNameID="Style.GridRowCell" name="grid-cell" reference="Grid Cell" type="Grid" />
-  <Style displayNameID="Style.Data" name="data" reference="Data item" type="Data"/>
-  <Style displayNameID="Style.Image" name="image" reference="Image item" type="Image"/>
-  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" type="TextData"/>
-  <Style displayNameID="Style.TableGroupHeaderCell" name="table-group-header-cell" reference="Table Group Header Cell" type="Table" />
-  <Style displayNameID="Style.TableGroupFooterCell" name="table-group-footer-cell" reference="Table Group Footer Cell" type="Table" />
+  <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
+  <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />
+  <Style displayNameID="Style.ListFooter" name="list-footer" reference="List Footer" />
+  <Style displayNameID="Style.ListDetail" name="list-detail" reference="List Detail" />
+  <Style displayNameID="Style.Table" name="table" reference="Table Item" />
+  <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" />
+  <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" />
+  <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" />
+  <Style displayNameID="Style.TableRow" name="table-row" reference="Table Row" />
+  <Style displayNameID="Style.TableCell" name="table-cell" reference="Table Cell" />
+  <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" />
+  <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" />
+  <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" />
+  <Style displayNameID="Style.Label" name="label" reference="Label item" />
+  <Style displayNameID="Style.Text" name="text" reference="Text item" />
+  <Style displayNameID="Style.Grid" name="grid" reference="Grid item" />
+  <Style displayNameID="Style.GridRow" name="grid-row" reference="Grid Row" />
+  <Style displayNameID="Style.GridRowCell" name="grid-cell" reference="Grid Cell" />
+  <Style displayNameID="Style.Data" name="data" reference="Data item" />
+  <Style displayNameID="Style.Image" name="image" reference="Image item" />
+  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
+  <Style displayNameID="Style.TableGroupHeaderCell" name="table-group-header-cell" reference="Table Group Header Cell" />
+  <Style displayNameID="Style.TableGroupFooterCell" name="table-group-footer-cell" reference="Table Group Footer Cell" />
   <Style displayNameID="Style.TableGroupHeader1" name="table-group-header-1" reference="Table Group Header 1" />
   <Style displayNameID="Style.TableGroupHeader2" name="table-group-header-2" reference="Table Group Header 2" />
   <Style displayNameID="Style.TableGroupHeader3" name="table-group-header-3" reference="Table Group Header 3" />

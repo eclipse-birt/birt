@@ -44,6 +44,14 @@ public class BorderUtil {
 	 * Position constant for Right border.
 	 */
 	public static final int RIGHT = 3;
+	/**
+	 * Position constant for Diagonal.
+	 */
+	public static final int DIAGONAL = 4;
+	/**
+	 * Position constant for Antidiagonal.
+	 */
+	public static final int ANTIDIAGONAL = 5;
 
 	/**
 	 * Width constant for default border line.
@@ -72,7 +80,6 @@ public class BorderUtil {
 	/**
 	 * Draws a double style line.
 	 *
-	 * @param figure
 	 * @param g
 	 * @param side
 	 * @param width  the border width array, arranged by {top, bottom, left, right};
@@ -114,7 +121,6 @@ public class BorderUtil {
 	/**
 	 * Draws a default grayed line.
 	 *
-	 * @param figure
 	 * @param g
 	 * @param side
 	 * @param r
@@ -126,7 +132,6 @@ public class BorderUtil {
 	/**
 	 * Convenient version, set actualWidth=-1, startPos=0.
 	 *
-	 * @param figure
 	 * @param g
 	 * @param side
 	 * @param style
@@ -140,7 +145,6 @@ public class BorderUtil {
 	/**
 	 * Draws a single style line.
 	 *
-	 * @param figure
 	 * @param g
 	 * @param side
 	 * @param style
@@ -154,6 +158,11 @@ public class BorderUtil {
 	 */
 	private static void drawSingleLine(Graphics g, int side, int style, int[] width, int actualWidth, int startPos,
 			Rectangle r) {
+
+		// diagonal & antidiagonal: double line unsupported, set style to solid
+		if ((side == DIAGONAL || side == ANTIDIAGONAL) && style < 0) {
+			style = 1;
+		}
 		g.setLineStyle(style);
 
 		Rectangle oldClip = g.getClip(new Rectangle());
@@ -233,6 +242,76 @@ public class BorderUtil {
 				g.drawLine(r.x + r.width - i - startPos - 1, r.y, r.x + r.width - i - startPos - 1, r.y + r.height);
 				g.setClip(oldClip);
 			}
+			break;
+		case DIAGONAL:
+			if (actualWidth < 0) {
+				actualWidth = width[0];
+			}
+			g.setLineWidth(actualWidth);
+
+			clip.width = 0;
+			clip.height = 0;
+			clip.x = r.x - 10 + 10;
+			clip.y = r.y;
+			p2.x = r.x + r.width + 20 - 20;
+			p2.y = r.y + r.height;
+			// gap correction
+			if (actualWidth >= 6) {
+				p2.x = p2.x - 2;
+				p2.y = p2.y - 2;
+			}
+			clip.union(p2);
+			g.clipRect(clip);
+
+			int dP1x = clip.x;
+			int dP1y = clip.y;
+			int dP2x = p2.x;
+			int dP2y = p2.y;
+			// default corrections
+			dP1x = dP1x + 0;
+			dP1y = dP1y + 1; // - 1
+			dP2x = dP2x - 2;
+			if (actualWidth >= 6) {
+				dP2y = dP2y + 1;
+			} else {
+				dP2y = dP2y - 2;
+			}
+			g.drawLine(dP1x, dP1y, dP2x, dP2y);
+			g.setClip(oldClip);
+
+			break;
+		case ANTIDIAGONAL:
+			if (actualWidth < 0) {
+				actualWidth = width[0];
+			}
+			g.setLineWidth(actualWidth);
+			clip.width = 0;
+			clip.height = 0;
+			clip.x = r.x;
+			clip.y = r.y;
+			p2.x = r.x + r.width;
+			p2.y = r.y + r.height;
+			// gap correction
+			if (actualWidth >= 6) {
+				p2.x = p2.x - 2;
+				p2.y = p2.y + 2;
+			} else {
+				p2.y = p2.y + 3;
+			}
+			clip.union(p2);
+			g.clipRect(clip);
+
+			int adP1x = r.x;
+			int adP1y = r.y + r.height;
+			int adP2x = p2.x;
+			int adP2y = p2.y - r.height;// + 2;
+			// default corrections
+			adP1x = adP1x + 0;
+			adP1y = adP1y - 2;
+			adP2x = adP2x + 0;
+			adP2y = adP2y - 2;
+			g.drawLine(adP1x, adP1y, adP2x, adP2y);
+			g.setClip(oldClip);
 			break;
 		}
 

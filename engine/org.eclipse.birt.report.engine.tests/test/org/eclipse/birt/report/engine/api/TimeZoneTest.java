@@ -91,10 +91,10 @@ public class TimeZoneTest extends EngineCase {
 			byte[] buffer = new byte[5120];
 			int readCount = -1;
 			while ((readCount = srcInputStream.read(buffer)) != -1) {
-				srcBuffer.append(new String(buffer, 0, readCount));
+				srcBuffer.append(new String(buffer, 0, readCount, "UTF-8"));
 			}
 
-			result = srcBuffer.toString().indexOf(golden) != -1;
+			result = srcBuffer.toString().replace("\u202f", " ").indexOf(golden) != -1;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;

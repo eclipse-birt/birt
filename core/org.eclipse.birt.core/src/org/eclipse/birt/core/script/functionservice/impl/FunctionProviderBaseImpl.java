@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2018 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.core.script.functionservice.impl;
@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,13 +139,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 		try {
 			appLoader.loadClass("org.mozilla.javascript.Context");
 		} catch (ClassNotFoundException e) {
-			loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-				@Override
-				public ClassLoader run() {
-					return new RhinoClassLoaderDecoration(appLoader, FunctionProviderImpl.class.getClassLoader());
-				}
-			});
+			loader = new RhinoClassLoaderDecoration(appLoader, FunctionProviderImpl.class.getClassLoader());
 		}
 		context.setApplicationClassLoader(loader);
 	}
@@ -155,13 +147,7 @@ public class FunctionProviderBaseImpl implements IFunctionProvider {
 	private synchronized URLClassLoader createScriptClassLoader(List urls, ClassLoader parent) {
 		final URL[] jarUrls = (URL[]) urls.toArray(new URL[] {});
 		final ClassLoader parentClassLoader = parent;
-		URLClassLoader scriptClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
-
-			@Override
-			public URLClassLoader run() {
-				return new URLClassLoader(jarUrls, parentClassLoader);
-			}
-		});
+		URLClassLoader scriptClassLoader = new URLClassLoader(jarUrls, parentClassLoader);
 		return scriptClassLoader;
 	}
 

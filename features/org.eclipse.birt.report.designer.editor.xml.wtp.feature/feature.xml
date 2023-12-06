@@ -16,10 +16,11 @@
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="4.11.0.qualifier"
+      version="4.15.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
-      image="eclipse_update_120.jpg">
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -34,8 +35,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
@@ -93,12 +94,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.w3c.sac"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.apache.batik.transcoder"
          download-size="0"
          install-size="0"
@@ -144,7 +139,7 @@
          id="com.github.librepdf.openpdf"
          download-size="0"
          install-size="0"
-         version="1.3.26"
+         version="0"
          unpack="false"/>
 
    <plugin
@@ -218,21 +213,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.w3c.dom.smil"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.svg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.css.sac"
+         id="org.eclipse.orbit.xml-apis-ext"
          download-size="0"
          install-size="0"
          version="0.0.0"

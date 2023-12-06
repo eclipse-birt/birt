@@ -25,7 +25,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -72,6 +71,12 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
+/**
+ * Render task class which implements the render processing
+ *
+ * @since 3.3
+ *
+ */
 public class RenderTask extends EngineTask implements IRenderTask {
 
 	protected IReportDocument reportDocument;
@@ -90,8 +95,8 @@ public class RenderTask extends EngineTask implements IRenderTask {
 	private IReportLayoutEngine layoutEngine = null;
 
 	/**
-	 * @param engine    the report engine
-	 * @param reportDoc the report document instance
+	 * @param engine         the report engine
+	 * @param reportDocument the report document instance
 	 */
 	public RenderTask(ReportEngine engine, IReportDocument reportDocument) {
 		this(engine, null, reportDocument);
@@ -335,7 +340,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 	@Override
 	public void setPageRange(String pageRange) throws EngineException {
 		long totalVisiblePageCount = RenderTask.this.getTotalPage();
-		List list = PageSequenceParse.parsePageSequence(pageRange, totalVisiblePageCount);
+		List<long[]> list = PageSequenceParse.parsePageSequence(pageRange, totalVisiblePageCount);
 		innerRender = new PageRangeRender(list);
 	}
 
@@ -450,7 +455,7 @@ public class RenderTask extends EngineTask implements IRenderTask {
 
 		protected void supportHtmlPagination() {
 			if (ExtensionManager.PAPER_SIZE_PAGINATION.equals(pagination)) {
-				Object htmlPaginationObj = renderOptions.getOption(IHTMLRenderOption.HTML_PAGINATION);
+				Object htmlPaginationObj = renderOptions.getOption(IRenderOption.HTML_PAGINATION);
 				if (htmlPaginationObj instanceof Boolean) {
 					boolean htmlPagination = ((Boolean) htmlPaginationObj).booleanValue();
 					if (htmlPagination) {
@@ -721,14 +726,18 @@ public class RenderTask extends EngineTask implements IRenderTask {
 				if (visiblePages != null) {
 					return new TOCView(tocTree, design, ulocale, timeZone, format,
 							new VisiblePageFilter(document, visiblePages));
-				} else {
-					return new TOCView(tocTree, design, ulocale, timeZone, format);
 				}
+				return new TOCView(tocTree, design, ulocale, timeZone, format);
 			}
 		}
 		return TOCView.EMPTY_TOC_VIEW;
 	}
 
+	/**
+	 * Get the raw TOC tree
+	 *
+	 * @return Return the raw TOC tree
+	 */
 	public ITreeNode getRawTOCTree() {
 		loadDocument();
 		ITreeNode tocTree = null;
@@ -752,9 +761,9 @@ public class RenderTask extends EngineTask implements IRenderTask {
 	}
 
 	@Override
-	public HashMap getParameterValues() {
+	public HashMap<?, ?> getParameterValues() {
 		loadDocument();
-		return (HashMap) executionContext.getParameterValues();
+		return (HashMap<?, ?>) executionContext.getParameterValues();
 	}
 
 	@Override

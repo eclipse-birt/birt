@@ -397,7 +397,6 @@
 				<include name="org.eclipse.birt.integration.wtp.sdk*/**" />
 				<include name="com.lowagie.text*/**" />
 				<include name="org.apache.commons.codec*/**" />
-				<include name="org.apache.derby.core*/**" />
 				<include name="org.eclipse.birt.chart.runtime*/**" />
 				<include name="org.eclipse.birt.crosstab*/**" />
 				<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile*/**" />
@@ -631,7 +630,6 @@
 				<exclude name="*.testhelper*/**" />
 				<exclude name="org.eclipse.birt.build/**" />
 				<exclude name="org.eclipse.birt.releng/**" />
-				<exclude name="org.eclipse.birt.releng.util/**" />
 				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
 				<exclude name="org.apache.commons.codec/**" />
 				<exclude name="org.eclipse.birt.converters/**" />

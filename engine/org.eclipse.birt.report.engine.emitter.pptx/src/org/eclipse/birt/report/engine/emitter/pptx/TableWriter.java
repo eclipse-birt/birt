@@ -385,7 +385,7 @@ public class TableWriter {
 	private void startCell(CellArea cell) {
 		writer.openTag("a:tc");
 
-		int colspan = cell.getColSpan();
+		colspan = cell.getColSpan();
 		if (colspan > 1) {
 			writer.attribute("gridSpan", colspan);
 		}
@@ -597,8 +597,10 @@ public class TableWriter {
 	protected void drawCellBox(CellArea cell) {
 		drawBorders(cell);
 		drawCellDiagonal(cell);
+		drawCellAntidiagonal(cell);
 
 		BoxStyle style = cell.getBoxStyle();
+		IStyle contentStyle = cell.getContent().getStyle();
 		Color backgroundcolor = style.getBackgroundColor();
 		BackgroundImageInfo bgimginfo = style.getBackgroundImage();
 
@@ -614,17 +616,19 @@ public class TableWriter {
 			}
 		}
 		String imageRelationship = canvas.getImageRelationship(bgimginfo);
-
+		if (bgimginfo != null) {
+			bgimginfo.setImageSize(contentStyle);
+		}
 		if (imageRelationship != null) {
 			float offsetY = 0;
 			float offsetX = 0;
 			int repeatmode = bgimginfo.getRepeatedMode();
 
 			if (repeatmode == BackgroundImageInfo.NO_REPEAT) {
-				int imgheight = PPTXUtil.pixelToEmu((int) bgimginfo.getImageInstance().getHeight(),
-						bgimginfo.getImageInstance().getDpiY());
-				int imgwidth = PPTXUtil.pixelToEmu((int) bgimginfo.getImageInstance().getWidth(),
-						bgimginfo.getImageInstance().getDpiX());
+
+				int imgheight = PPTXUtil.convertToEnums(bgimginfo.getHeightMetricPt());
+				int imgwidth = PPTXUtil.convertToEnums(bgimginfo.getWidthMetricPt());
+
 				int cellheight = PPTXUtil.convertToEnums(canvas.getScaledValue(cell.getHeight()));
 				int cellwidth = PPTXUtil.convertToEnums(canvas.getScaledValue(cell.getWidth()));
 				offsetY = PPTXUtil.parsePercentageOffset(cellheight, imgheight);
@@ -639,9 +643,9 @@ public class TableWriter {
 
 	protected void drawCellDiagonal(CellArea cell) {
 		DiagonalInfo diagonalInfo = cell.getDiagonalInfo();
-		if (diagonalInfo != null && diagonalInfo.getDiagonalNumber() == 1) {// only support single line : width should
-																			// be the same as borders
-
+		if (diagonalInfo != null && diagonalInfo.getDiagonalNumber() >= 1
+				&& diagonalInfo.getDiagonalStyle() != BoxStyle.BORDER_STYLE_NONE) {
+			// only support single line : width should be the same as borders
 			writer.openTag("a:lnTlToBr");
 			int width = PPTXUtil.convertToEnums(diagonalInfo.getDiagonalWidth());
 			writer.attribute("w", width);
@@ -667,6 +671,36 @@ public class TableWriter {
 		}
 	}
 
+	protected void drawCellAntidiagonal(CellArea cell) {
+		DiagonalInfo diagonalInfo = cell.getDiagonalInfo();
+		// only support single line : width should be the same as borders
+		if (diagonalInfo != null && diagonalInfo.getAntidiagonalNumber() >= 1
+				&& diagonalInfo.getAntidiagonalStyle() != BoxStyle.BORDER_STYLE_NONE) {
+			writer.openTag("a:lnBlToTr");
+			int width = PPTXUtil.convertToEnums(diagonalInfo.getAntidiagonalWidth());
+			writer.attribute("w", width);
+			writer.attribute("cap", "flat");
+			writer.attribute("algn", "ctr");
+			canvas.setBackgroundColor(diagonalInfo.getAntidiagonalColor());
+			writer.openTag("a:prstDash");
+			writer.attribute("val", PPTXUtil.parseStyle(diagonalInfo.getAntidiagonalStyle()));
+			writer.closeTag("a:prstDash");
+			writer.openTag("a:round");
+			writer.closeTag("a:round");
+			writer.openTag("a:headEnd");
+			writer.attribute("type", "none");
+			writer.attribute("w", "med");
+			writer.attribute("len", "med");
+			writer.closeTag("a:headEnd");
+			writer.openTag("a:tailEnd");
+			writer.attribute("type", "none");
+			writer.attribute("w", "med");
+			writer.attribute("len", "med");
+			writer.closeTag("a:tailEnd");
+			writer.closeTag("a:lnBlToTr");
+		}
+	}
+
 	/**
 	 * assume leftborder is always draw
 	 *
@@ -684,7 +718,8 @@ public class TableWriter {
 		if (additionalColSpan != null) {
 			additionalcol = additionalColSpan;
 		}
-		CellArea nextcell = ((RowArea) container.getParent()).getCell(drawcurrentcolid + colspan + additionalcol);
+		int cellIdx = drawcurrentcolid + colspan + additionalcol + 1;
+		CellArea nextcell = ((RowArea) container.getParent()).getCell(cellIdx);
 
 		if (!isRTL) {// normal flow
 			writeSingleBorder(LEFTBORDERLINE, style.getLeftBorder());

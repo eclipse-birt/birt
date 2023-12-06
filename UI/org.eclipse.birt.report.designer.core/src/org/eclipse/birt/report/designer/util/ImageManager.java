@@ -20,16 +20,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.List;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -45,14 +50,19 @@ import org.eclipse.swt.graphics.ImageLoader;
 /**
  * Manages all image resources.
  */
-
 public class ImageManager {
 
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
 
+	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
+
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+
+	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
+
 	private static final ImageManager instance = new ImageManager();
 
-	private List invalidUrlList = new ArrayList();
+	private List<String> invalidUrlList = new ArrayList<String>();
 
 	private String resourcesRootPath = "";
 
@@ -62,7 +72,7 @@ public class ImageManager {
 	/**
 	 * Gets the instance of the image manager
 	 *
-	 * @return Returns the instanceof the image manager
+	 * @return Returns the instance of the image manager
 	 */
 	public static ImageManager getInstance() {
 		return instance;
@@ -73,7 +83,7 @@ public class ImageManager {
 	 *
 	 * @param handle
 	 * @param uri
-	 * @return
+	 * @return Return the image
 	 */
 	public Image getImage(ModuleHandle handle, String uri) {
 		return getImage(handle, uri, false);
@@ -85,15 +95,19 @@ public class ImageManager {
 	 * @param handle
 	 * @param uri
 	 * @param refresh
-	 * @return
+	 * @return Return the image
 	 */
 	public Image getImage(ModuleHandle handle, String uri, boolean refresh) {
 		Image image = null;
 		URL url = null;
 
 		try {
-			url = generateURL(handle, uri);
-			image = getImageFromURL(url, refresh);
+			if (uri.contains(URL_PROTOCOL_TYPE_DATA)) {
+				image = getEmbeddedImageDataURL(uri, refresh);
+			} else {
+				url = generateURL(handle, uri);
+				image = getImageFromURL(url, refresh);
+			}
 		} catch (Exception e) {
 			if (url != null && !invalidUrlList.contains(url.toString())) {
 				invalidUrlList.add(url.toString());
@@ -107,7 +121,9 @@ public class ImageManager {
 			return null;
 		}
 		String key = url.toString();
-		Image image = getImageRegistry().get(key);
+		Image image = null;
+
+		image = getImageRegistry().get(key);
 		if (image == null) {
 			image = loadImage(url);
 		}
@@ -124,9 +140,10 @@ public class ImageManager {
 	/**
 	 * Gets the image by the given URI
 	 *
-	 * @param uri the url of the image file
+	 * @param uri     the uri of the image file
+	 * @param refresh mark if refresh necessary
 	 *
-	 * @return Returns the image,or null if the url is invalid or the file format is
+	 * @return Returns the image or null if the uri is invalid or the file format is
 	 *         unsupported.
 	 */
 	public Image getImage(String uri, boolean refresh) {
@@ -146,9 +163,10 @@ public class ImageManager {
 	/**
 	 * Gets the embedded image
 	 *
-	 * @param embeddedImage the embedded image data
+	 * @param handle handel of the design
+	 * @param name   name the image
 	 *
-	 * @return Returns the image,or null if the embedded image doesn't exist.
+	 * @return Returns the image or null if the embedded image doesn't exist.
 	 */
 	public Image getEmbeddedImage(ModuleHandle handle, String name) {
 		String key = generateKey(handle, name);
@@ -164,15 +182,16 @@ public class ImageManager {
 
 		InputStream in = null;
 		try {
-			if (key.toLowerCase().endsWith(".svg")) //$NON-NLS-1$
+			if (key.toLowerCase().endsWith(".svg") //$NON-NLS-1$
+					|| embeddedImage.getType(handle.getModule()).equalsIgnoreCase("image/svg+xml"))
 			{
 				// convert svg image to JPEG image bytes
-				JPEGTranscoder transcoder = new JPEGTranscoder();
+				JPEGTranscoder jpegTranscoder = new JPEGTranscoder();
 				// set the transcoding hints
-				transcoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(.8));
+				jpegTranscoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, .8f);
 				// create the transcoder input
-				TranscoderInput input = new TranscoderInput(
-						new ByteArrayInputStream(embeddedImage.getData(handle.getModule())));
+				ByteArrayInputStream reader = new ByteArrayInputStream(embeddedImage.getData(handle.getModule()));
+				TranscoderInput input = new TranscoderInput(reader);
 				// For embedded image we have't a file URI, so set handle
 				// filename as URI.
 				// See Bugzilla Bug 167395
@@ -181,11 +200,22 @@ public class ImageManager {
 				ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 				TranscoderOutput output = new TranscoderOutput(ostream);
 				try {
-					transcoder.transcode(input, output);
-				} catch (TranscoderException e) {
+					// issue with batik JPEGTranscoder (since version 1.8)
+					// JPEGTranscoder is not longer part of apache-xmlgraphics
+					jpegTranscoder.transcode(input, output);
+				} catch (TranscoderException excJpg) {
+					try {
+						// fallback of preview image converting from svg to png
+						reader = new ByteArrayInputStream(embeddedImage.getData(handle.getModule()));
+						input = new TranscoderInput(reader);
+						PNGTranscoder pngConverter = new PNGTranscoder();
+						pngConverter.transcode(input, output);
+					} catch (TranscoderException excPng) {
+					}
 				}
 				// flush the stream
 				ostream.flush();
+				ostream.close();
 				// use the outputstream as Image input stream.
 				in = new ByteArrayInputStream(ostream.toByteArray());
 			} else {
@@ -194,10 +224,6 @@ public class ImageManager {
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
 				ImageData cur;
-				// if (datas.length == 1)
-				// {
-				// cur = datas[0];
-				// }
 				int index = 0;
 				for (int i = 0; i < datas.length; i++) {
 					ImageData temp = datas[i];
@@ -229,6 +255,76 @@ public class ImageManager {
 	}
 
 	/**
+	 * Get the embedded image of the data URL
+	 *
+	 * @param url     data URL of the image
+	 * @param refresh refresh the image data or use image cache
+	 * @return Return the embedded image
+	 * @throws IOException
+	 */
+	public Image getEmbeddedImageDataURL(String url, boolean refresh) throws IOException {
+		if ((url == null) || (!refresh && invalidUrlList.contains(url))) {
+			return null;
+		}
+		String key = url;
+		Image image = null;
+		if (!refresh) {
+			image = getImageRegistry().get(key);
+			if (image != null) {
+				return image;
+			}
+		} else {
+			removeCachedImage(key);
+		}
+		InputStream in = null;
+		String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_BASE);
+		String imageDataBase64 = imageDataArray[1];
+		Decoder decoder = java.util.Base64.getDecoder();
+
+		try {
+			if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
+			{
+				in = convertSvgToRasterImage(new String(decoder.decode(imageDataBase64)));
+			} else {
+				in = new ByteArrayInputStream(decoder.decode(imageDataBase64));
+			}
+			ImageData[] datas = new ImageLoader().load(in);
+			if (datas != null && datas.length != 0) {
+				ImageData cur;
+				int index = 0;
+				for (int i = 0; i < datas.length; i++) {
+					ImageData temp = datas[i];
+					if (temp.width * temp.height > datas[index].width * datas[index].height) {
+						index = i;
+					}
+				}
+				cur = datas[index];
+				image = new Image(null, cur);
+			}
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception ee) {
+			// do nothing
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+		if (image != null) {
+			getImageRegistry().put(key, image);
+		}
+
+		if (image == null) {
+			if (!invalidUrlList.contains(url)) {
+				invalidUrlList.add(url);
+			}
+		} else {
+			invalidUrlList.remove(url);
+		}
+		return image;
+	}
+
+	/**
 	 * Remove cached image from map
 	 *
 	 * @param key The key of map.
@@ -243,7 +339,8 @@ public class ImageManager {
 	/**
 	 * Loads the image into the image registry by the given URI
 	 *
-	 * @param uri the URI of the image to load
+	 * @param designHandle handle of report design
+	 * @param uri          the URI of the image to load
 	 * @return Returns the image if it loaded correctly
 	 * @throws IOException
 	 */
@@ -258,9 +355,9 @@ public class ImageManager {
 	/**
 	 * Reload the image, refresh the cache.
 	 *
-	 * @param designHandle
-	 * @param uri
-	 * @return
+	 * @param designHandle handle of report design
+	 * @param uri          the URI of the image to load
+	 * @return Reload the image
 	 * @throws IOException
 	 */
 	public Image rloadImage(ModuleHandle designHandle, String uri) throws IOException {
@@ -271,18 +368,32 @@ public class ImageManager {
 		return loadImage(url, true);
 	}
 
+	/**
+	 * Load the image based on URI
+	 *
+	 * @param uri the image URI
+	 * @return Return the loaded image
+	 * @throws IOException
+	 */
 	public Image loadImage(String uri) throws IOException {
 		return loadImage(null, uri);
 	}
 
+	/**
+	 * Load the image based on URI
+	 *
+	 * @param url the image URL
+	 * @return Return the loaded image
+	 * @throws IOException
+	 */
 	public Image loadImage(URL url) throws IOException {
 		return loadImage(url, false);
 	}
 
 	/**
-	 * @param url
-	 * @param reload
-	 * @return
+	 * @param url    the image URL
+	 * @param reload image should be refreshed or used from cache
+	 * @return Return the loaded image
 	 * @throws IOException
 	 */
 	public Image loadImage(URL url, boolean reload) throws IOException {
@@ -304,7 +415,7 @@ public class ImageManager {
 				// convert svg image to JPEG image bytes
 				JPEGTranscoder transcoder = new JPEGTranscoder();
 				// set the transcoding hints
-				transcoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(.8));
+				transcoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, .8f);
 				// create the transcoder input
 				String svgURI = url.toString();
 				TranscoderInput input = new TranscoderInput(svgURI);
@@ -314,6 +425,16 @@ public class ImageManager {
 				try {
 					transcoder.transcode(input, output);
 				} catch (TranscoderException e) {
+
+					PNGTranscoder pngTranscoder = new PNGTranscoder();
+					input = new TranscoderInput(svgURI);
+					// create the transcoder output
+					ostream = new ByteArrayOutputStream();
+					output = new TranscoderOutput(ostream);
+					try {
+						pngTranscoder.transcode(input, output);
+					} catch (TranscoderException eJpeg) {
+					}
 				}
 				// flush the stream
 				ostream.flush();
@@ -325,10 +446,6 @@ public class ImageManager {
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
 				ImageData cur;
-				// if (datas.length == 1)
-				// {
-				// cur = datas[0];
-				// }
 				int index = 0;
 				for (int i = 0; i < datas.length; i++) {
 					ImageData temp = datas[i];
@@ -354,16 +471,47 @@ public class ImageManager {
 		return image;
 	}
 
+	/**
+	 * Converter to create raster image based on svg image
+	 */
+	private InputStream convertSvgToRasterImage(String imageSvg) throws IOException {
+
+		// convert svg image to JPEG image bytes
+		PNGTranscoder pngTranscoder = new PNGTranscoder();
+		// create the transcoder input
+		StringReader reader = new StringReader(imageSvg);
+		TranscoderInput input = new TranscoderInput(reader);
+		// create the transcoder output
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		TranscoderOutput output = new TranscoderOutput(ostream);
+		try {
+			pngTranscoder.transcode(input, output);
+		} catch (TranscoderException eJpeg) {
+		}
+		// flush the stream
+		ostream.flush();
+		ostream.close();
+		// use the outputstream as Image input stream.
+		return new ByteArrayInputStream(ostream.toByteArray());
+	}
+
 	private ImageRegistry getImageRegistry() {
 		return CorePlugin.getDefault().getImageRegistry();
 	}
 
+	/**
+	 * Generate the image URL
+	 *
+	 * @param designHandle
+	 * @param uri          of the image
+	 * @return Return the URL of the image
+	 * @throws MalformedURLException
+	 */
 	public URL generateURL(ModuleHandle designHandle, String uri) throws MalformedURLException {
 		try {
 			return new URL(uri);
 		} catch (MalformedURLException e) {
 			String path = URIUtil.getLocalPath(uri);
-
 			if (designHandle == null) {
 				designHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 			}
@@ -379,7 +527,7 @@ public class ImageManager {
 	/**
 	 * Generate hash key.
 	 *
-	 * @param reportDesignHandle Moudle handle
+	 * @param reportDesignHandle Module handle
 	 * @param name               Name
 	 * @return key string
 	 */
@@ -390,9 +538,9 @@ public class ImageManager {
 	/**
 	 * Reload the URI image, refresh the cache.
 	 *
-	 * @param moduleHandel
-	 * @param uri
-	 * @return
+	 * @param moduleHandel Module handle
+	 * @param uri          uri of the image
+	 * @return Return the reloaded image
 	 */
 	public Image reloadURIImage(ModuleHandle moduleHandel, String uri) {
 		URL url = createURIURL(uri);
@@ -417,6 +565,12 @@ public class ImageManager {
 		return image;
 	}
 
+	/**
+	 * Create the URL based on URI
+	 *
+	 * @param uri uri string
+	 * @return Return the URL based on URI
+	 */
 	public URL createURIURL(String uri) {
 		URL url = null;
 		try {
@@ -440,16 +594,67 @@ public class ImageManager {
 	/**
 	 * Get image from URI
 	 *
-	 * @param moduleHandel
-	 * @param uri
-	 * @return
+	 * @param moduleHandel Module handle
+	 * @param uri          URI of the image
+	 * @return Return the image based on URI
 	 */
 	// bugzilla 245641
 	public Image getURIImage(ModuleHandle moduleHandel, String uri) {
-		URL url = createURIURL(uri);
 		Image image = null;
+		URL url = null;
+		String uriParts[] = null;
 		try {
-			image = getImageFromURL(url, false);
+			// data protocol raster image
+			if (uri.startsWith(URL_PROTOCOL_TYPE_DATA) && uri.contains(URL_PROTOCOL_TYPE_DATA_BASE)
+					&& !uri.contains(URL_IMAGE_TYPE_SVG)) {
+				uriParts = uri.split(URL_PROTOCOL_TYPE_DATA_BASE);
+				if (uriParts.length >= 2) {
+					String encodedImg = uriParts[1];
+					InputStream in = new ByteArrayInputStream(
+							Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
+					ImageData[] datas = new ImageLoader().load(in);
+					if (datas != null && datas.length != 0) {
+						image = new Image(null, datas[0]);
+						in.close();
+					}
+				}
+				// data protocol svg image
+			} else if (uri.startsWith(URL_PROTOCOL_TYPE_DATA) && uri.contains(URL_IMAGE_TYPE_SVG)) {
+
+				String svgSplitter = "svg\\+xml,";
+				if (uri.contains("svg+xml;utf8,")) {
+					svgSplitter = "svg\\+xml;utf8,";
+				} else if (uri.contains("svg+xml;base64,")) {
+					svgSplitter = "svg\\+xml;base64,";
+				}
+				uriParts = uri.split(svgSplitter);
+				if (uriParts.length >= 2) {
+					String encodedImg = uriParts[1];
+					String decodedImg = encodedImg;
+					if (uri.contains(URL_PROTOCOL_TYPE_DATA_BASE)) { // "svg+xml;base64,"
+						decodedImg = new String(
+								Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
+					}
+					decodedImg = java.net.URLDecoder.decode(decodedImg, StandardCharsets.UTF_8);
+					InputStream in = convertSvgToRasterImage(decodedImg);
+					ImageData[] datas = new ImageLoader().load(in);
+					if (datas != null && datas.length != 0) {
+						ImageData cur;
+						int index = 0;
+						for (int i = 0; i < datas.length; i++) {
+							ImageData temp = datas[i];
+							if (temp.width * temp.height > datas[index].width * datas[index].height) {
+								index = i;
+							}
+						}
+						cur = datas[index];
+						image = new Image(null, cur);
+					}
+				}
+			} else {
+				url = createURIURL(uri);
+				image = getImageFromURL(url, false);
+			}
 		} catch (Exception e) {
 			if (url != null && !invalidUrlList.contains(url.toString())) {
 				invalidUrlList.add(url.toString());
@@ -458,6 +663,11 @@ public class ImageManager {
 		return image;
 	}
 
+	/**
+	 * Set the URI root path
+	 *
+	 * @param rootPath Root path of the URI
+	 */
 	public void setURIRootPath(String rootPath) {
 		this.resourcesRootPath = rootPath;
 	}

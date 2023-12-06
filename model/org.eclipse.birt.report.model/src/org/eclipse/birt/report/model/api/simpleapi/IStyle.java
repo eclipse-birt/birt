@@ -54,7 +54,6 @@ public interface IStyle {
 	 *
 	 * @return the address of the background image as a string
 	 */
-
 	String getBackgroundImage();
 
 	/**
@@ -63,8 +62,23 @@ public interface IStyle {
 	 * @param value the new background image address
 	 * @throws SemanticException if the property is locked
 	 */
-
 	void setBackgroundImage(String value) throws SemanticException;
+
+	/**
+	 * Returns the source type of the background image.
+	 *
+	 * @return the source type of the background image as a string
+	 */
+	String getBackgroundImageType();
+
+	/**
+	 * Sets the source type of the background image. The value is a "url" or
+	 * "embed".
+	 *
+	 * @param value the new background image type
+	 * @throws SemanticException if the property is locked
+	 */
+	void setBackgroundImageType(String value) throws SemanticException;
 
 	/**
 	 * Returns the pattern of the repeat for a background image. The return value is
@@ -96,6 +110,36 @@ public interface IStyle {
 	 */
 
 	void setBackgroundRepeat(String value) throws SemanticException;
+
+	/**
+	 * Set the background height of the background image.
+	 *
+	 * @param value the new background image height
+	 * @throws SemanticException
+	 */
+	void setBackgroundHeight(String value) throws SemanticException;
+
+	/**
+	 * Returns the height of the background image.
+	 *
+	 * @return the background image height
+	 */
+	String getBackgroundHeight();
+
+	/**
+	 * Set the background width of the background image.
+	 *
+	 * @param value the new background image width
+	 * @throws SemanticException
+	 */
+	void setBackgroundWidth(String value) throws SemanticException;
+
+	/**
+	 * Returns the width of the background image.
+	 *
+	 * @return the background image width
+	 */
+	String getBackgroundWidth();
 
 	/**
 	 * Returns the style of the bottom line of the border. The return value is
@@ -1418,7 +1462,7 @@ public interface IStyle {
 	/**
 	 * Sets the value of height property.
 	 *
-	 * @param value the new height value
+	 * @param height the new height value
 	 * @throws SemanticException
 	 */
 	void setHeight(String height) throws SemanticException;
@@ -1433,7 +1477,7 @@ public interface IStyle {
 	/**
 	 * Sets the value of width property.
 	 *
-	 * @param value the new width value
+	 * @param width the new width value
 	 * @throws SemanticException
 	 */
 	void setWidth(String width) throws SemanticException;

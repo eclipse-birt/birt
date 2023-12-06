@@ -24,6 +24,12 @@ import org.eclipse.ui.part.MessagePage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 
+/**
+ * Attribute viewer
+ *
+ * @since 3.3
+ *
+ */
 public class AttributeView extends PageBookView {
 
 	/**
@@ -35,6 +41,9 @@ public class AttributeView extends PageBookView {
 
 	private String defaultPartName = null;
 
+	/**
+	 * Consructor
+	 */
 	public AttributeView() {
 		super();
 	}

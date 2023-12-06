@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -31,6 +32,12 @@ import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Definition of the table cell area
+ *
+ * @since 3.3
+ *
+ */
 public class CellArea extends BlockContainerArea implements IContainerArea {
 
 	static int DEFAULT_PADDING = 1500;
@@ -49,15 +56,30 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		CELL_DEFAULT.setPaddingLeft(DEFAULT_PADDING);
 	}
 
+	/**
+	 * Consructor container based
+	 *
+	 * @param parent
+	 * @param context
+	 * @param content
+	 */
 	public CellArea(ContainerArea parent, LayoutContext context, IContent content) {
 		super(parent, context, content);
 	}
 
+	/**
+	 * Constructor (default)
+	 */
 	public CellArea() {
 		super();
 		localProperties = CELL_DEFAULT;
 	}
 
+	/**
+	 * Constructor cell based
+	 *
+	 * @param cell
+	 */
 	public CellArea(CellArea cell) {
 		super(cell);
 		rowSpan = cell.rowSpan;
@@ -67,42 +89,92 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 		diagonalInfo = cell.diagonalInfo;
 	}
 
+	/**
+	 * Get the diagonal info
+	 *
+	 * @return Return the diagonal info
+	 */
 	public DiagonalInfo getDiagonalInfo() {
 		return diagonalInfo;
 	}
 
+	/**
+	 * Set the diagonal info
+	 *
+	 * @param diagonalInfo
+	 */
 	public void setDiagonalInfo(DiagonalInfo diagonalInfo) {
 		this.diagonalInfo = diagonalInfo;
 	}
 
+	/**
+	 * Get column id
+	 *
+	 * @return Return column id
+	 */
 	public int getColumnID() {
 		return columnID;
 	}
 
+	/**
+	 * Set the column id
+	 *
+	 * @param columnID
+	 */
 	public void setColumnID(int columnID) {
 		this.columnID = columnID;
 	}
 
+	/**
+	 * Get row id
+	 *
+	 * @return Return row id
+	 */
 	public int getRowID() {
 		return rowID;
 	}
 
+	/**
+	 * Set row id
+	 *
+	 * @param rowID
+	 */
 	public void setRowID(int rowID) {
 		this.rowID = rowID;
 	}
 
+	/**
+	 * Get colspan
+	 *
+	 * @return Return colspan
+	 */
 	public int getColSpan() {
 		return colSpan;
 	}
 
+	/**
+	 * Set colspan
+	 *
+	 * @param colSpan
+	 */
 	public void setColSpan(int colSpan) {
 		this.colSpan = colSpan;
 	}
 
+	/**
+	 * Get rowspan
+	 *
+	 * @return Return rowspan
+	 */
 	public int getRowSpan() {
 		return rowSpan;
 	}
 
+	/**
+	 * Set rowspan
+	 *
+	 * @param rowSpan
+	 */
 	public void setRowSpan(int rowSpan) {
 		this.rowSpan = rowSpan;
 	}
@@ -120,7 +192,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 	}
 
 	@Override
-	public void initialize() throws BirtException {
+	public void initialize() {
 		ICellContent cellContent = (ICellContent) content;
 		rowSpan = cellContent.getRowSpan();
 		columnID = cellContent.getColumn();
@@ -151,10 +223,10 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			int diagonalNumber = cellContent.getDiagonalNumber();
 			int diagonalWidth = PropertyUtil.getDimensionValue(cellContent, cellContent.getDiagonalWidth(), width);
 			String diagonalStyle = cellContent.getDiagonalStyle();
-			if (diagonalNumber > 0 && diagonalWidth > 0 && diagonalStyle != null) {
+			if (diagonalNumber > 0 && diagonalWidth > 0 && diagonalStyle != null && !"none".equals(diagonalStyle)) {
 				Color dc = PropertyUtil.getColor(cellContent.getDiagonalColor());
 				if (dc == null) {
-					dc = PropertyUtil.getColor(cellContent.getComputedStyle().getProperty(IStyle.STYLE_COLOR));
+					dc = PropertyUtil.getColor(cellContent.getComputedStyle().getProperty(StyleConstants.STYLE_COLOR));
 				}
 				diagonalInfo = new DiagonalInfo();
 				diagonalInfo.setDiagonal(diagonalNumber, diagonalStyle, diagonalWidth, dc);
@@ -163,13 +235,14 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			int antidiagonalWidth = PropertyUtil.getDimensionValue(cellContent, cellContent.getAntidiagonalWidth(),
 					width);
 			String antidiagonalStyle = cellContent.getAntidiagonalStyle();
-			if (antidiagonalNumber > 0 && antidiagonalWidth > 0 && antidiagonalStyle != null) {
+			if (antidiagonalNumber > 0 && antidiagonalWidth > 0 && antidiagonalStyle != null
+					&& !"none".equals(antidiagonalStyle)) {
 				if (diagonalInfo == null) {
 					diagonalInfo = new DiagonalInfo();
 				}
 				Color adc = PropertyUtil.getColor(cellContent.getAntidiagonalColor());
 				if (adc == null) {
-					adc = PropertyUtil.getColor(cellContent.getComputedStyle().getProperty(IStyle.STYLE_COLOR));
+					adc = PropertyUtil.getColor(cellContent.getComputedStyle().getProperty(StyleConstants.STYLE_COLOR));
 				}
 
 				diagonalInfo.setAntiDiagonal(antidiagonalNumber, antidiagonalStyle, antidiagonalWidth, adc);
@@ -181,7 +254,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 	protected void buildProperties(IContent content, LayoutContext context) {
 		IStyle style = content.getComputedStyle();
 		boxStyle = new BoxStyle();
-		Color color = PropertyUtil.getColor(style.getProperty(IStyle.STYLE_BACKGROUND_COLOR));
+		Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 		if (color != null) {
 			boxStyle.setBackgroundColor(color);
 		}
@@ -193,36 +266,45 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 				rl = exeContext.getResourceLocator();
 			}
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
-					style.getProperty(IStyle.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl);
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, this.getCurrentModule(), style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(style);
+
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 		localProperties = new LocalProperties();
 		IStyle cs = content.getStyle();
-		CSSValue padding = cs.getProperty(IStyle.STYLE_PADDING_TOP);
+		CSSValue padding = cs.getProperty(StyleConstants.STYLE_PADDING_TOP);
 		if (padding == null) {
 			localProperties.setPaddingTop(DEFAULT_PADDING);
 		} else {
-			localProperties.setPaddingTop(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_TOP), width));
+			localProperties
+					.setPaddingTop(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_TOP), width));
 		}
-		padding = cs.getProperty(IStyle.STYLE_PADDING_BOTTOM);
+		padding = cs.getProperty(StyleConstants.STYLE_PADDING_BOTTOM);
 		if (padding == null) {
 			localProperties.setPaddingBottom(DEFAULT_PADDING);
 		} else {
-			localProperties.setPaddingBottom(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_BOTTOM), width));
+			localProperties
+					.setPaddingBottom(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM), width));
 		}
-		padding = cs.getProperty(IStyle.STYLE_PADDING_LEFT);
+		padding = cs.getProperty(StyleConstants.STYLE_PADDING_LEFT);
 		if (padding == null) {
 			localProperties.setPaddingLeft(DEFAULT_PADDING);
 		} else {
-			localProperties.setPaddingLeft(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_LEFT), width));
+			localProperties
+					.setPaddingLeft(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT), width));
 		}
-		padding = cs.getProperty(IStyle.STYLE_PADDING_RIGHT);
+		padding = cs.getProperty(StyleConstants.STYLE_PADDING_RIGHT);
 		if (padding == null) {
 			localProperties.setPaddingRight(DEFAULT_PADDING);
 		} else {
-			localProperties.setPaddingRight(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_RIGHT), width));
+			localProperties
+					.setPaddingRight(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT), width));
 		}
-		textAlign = content.getComputedStyle().getProperty(IStyle.STYLE_TEXT_ALIGN);
+		textAlign = content.getComputedStyle().getProperty(StyleConstants.STYLE_TEXT_ALIGN);
 	}
 
 	@Override

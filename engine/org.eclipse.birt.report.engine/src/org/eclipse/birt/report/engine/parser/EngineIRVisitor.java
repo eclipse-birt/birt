@@ -1260,8 +1260,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		int diagonalNumber = handle.getDiagonalNumber();
 		if (diagonalNumber > 0) {
 			// The default diagonalNumber value from Model is 0.
-			cell.setDiagonalNumber(diagonalNumber);
 			cell.setDiagonalStyle(handle.getDiagonalStyle());
+			cell.setDiagonalNumber(diagonalNumber);
 			cell.setDiagonalWidth(createDimension(handle.getDiagonalThickness(), true));
 			ColorHandle colorHandle = handle.getDiagonalColor();
 			if (colorHandle != null) {
@@ -1271,8 +1271,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		int antidiagonalNumber = handle.getAntidiagonalNumber();
 		if (antidiagonalNumber > 0) {
 			// The default antidiagonalNumber value from Model is 0.
-			cell.setAntidiagonalNumber(antidiagonalNumber);
 			cell.setAntidiagonalStyle(handle.getAntidiagonalStyle());
+			cell.setAntidiagonalNumber(antidiagonalNumber);
 			cell.setAntidiagonalWidth(createDimension(handle.getAntidiagonalThickness(), true));
 			ColorHandle colorHandle = handle.getAntidiagonalColor();
 			if (colorHandle != null) {
@@ -2069,20 +2069,20 @@ public class EngineIRVisitor extends DesignVisitor {
 		StyleDeclaration style = new StyleDeclaration(cssEngine);
 		Set<String> styles = StyleUtil.styleName2Index.keySet();
 		for (String propertyName : styles) {
-			populateElementProperty(handle, design, style, propertyName);
+			populateElementProperty(handle, style, propertyName);
 		}
 		createDataFormat(handle, style);
 		return style;
 	}
 
-	private void populateElementProperty(ReportElementHandle handle, StyledElementDesign design, StyleDeclaration style,
+	private void populateElementProperty(ReportElementHandle handle, StyleDeclaration style,
 			String propertyName) {
 		boolean isColorProperty = StyleUtil.colorProperties.contains(propertyName);
 		String elementProperty = getElementProperty(handle, propertyName, isColorProperty);
-		populateStyle(design, style, propertyName, elementProperty);
+		populateStyle(style, propertyName, elementProperty);
 	}
 
-	private void populateStyle(StyledElementDesign design, IStyle style, String propertyName, String elementProperty) {
+	private void populateStyle(IStyle style, String propertyName, String elementProperty) {
 		int propertyIndex = StyleUtil.styleName2Index.get(propertyName);
 		// TODO need support the expression style
 		// if ( elementProperty.isExpression( ) )
@@ -2182,7 +2182,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			String propertyName) {
 		Module module = design.getHandle().getModule();
 		String property = getMemberProperty(module, highlight, propertyName);
-		populateStyle(design, style, propertyName, property);
+		populateStyle(style, propertyName, property);
 	}
 
 	protected DimensionType createDimension(DimensionHandle handle, boolean useDefault) {
@@ -2262,6 +2262,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_X_PROP, handle);
 		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_Y_PROP, handle);
 		addReportDefaultPropertyValue(Style.BACKGROUND_REPEAT_PROP, handle);
+		addReportDefaultPropertyValue(Style.BACKGROUND_IMAGE_TYPE_PROP, handle);
 
 		// bidi_hcg: Bidi related.
 		addReportDefaultPropertyValue(Style.TEXT_DIRECTION_PROP, handle);

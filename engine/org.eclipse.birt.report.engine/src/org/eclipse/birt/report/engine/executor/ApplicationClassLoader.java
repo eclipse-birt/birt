@@ -15,8 +15,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -140,21 +138,9 @@ public class ApplicationClassLoader extends ClassLoader {
 		}
 		final URL[] jarUrls = urls.toArray(new URL[] {});
 		if (engine != null) {
-			designClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
-
-				@Override
-				public URLClassLoader run() {
-					return new URLClassLoader(jarUrls, engine.getEngineClassLoader());
-				}
-			});
+			designClassLoader = new URLClassLoader(jarUrls, engine.getEngineClassLoader());
 		} else {
-			designClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
-
-				@Override
-				public URLClassLoader run() {
-					return new URLClassLoader(jarUrls);
-				}
-			});
+			designClassLoader = new URLClassLoader(jarUrls);
 		}
 	}
 }

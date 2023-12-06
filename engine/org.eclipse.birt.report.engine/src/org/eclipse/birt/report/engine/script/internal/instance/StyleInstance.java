@@ -29,6 +29,12 @@ public class StyleInstance implements IScriptStyle {
 	private IStyle style;
 	private RunningState runningState;
 
+	/**
+	 * Constructor
+	 *
+	 * @param style
+	 * @param runningState
+	 */
 	public StyleInstance(IStyle style, RunningState runningState) {
 		this.style = style;
 		this.runningState = runningState;
@@ -278,6 +284,23 @@ public class StyleInstance implements IScriptStyle {
 	}
 
 	/**
+	 * Get the background image URI
+	 */
+	@Override
+	public String getBackgroundImageType() {
+		return style.getBackgroundImage();
+	}
+
+	/**
+	 * Set the background image URI
+	 */
+	@Override
+	public void setBackgroundImageType(String imageType) {
+		checkWritable();
+		style.setBackgroundImageType(imageType);
+	}
+
+	/**
 	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
 	 * and NO_REPEAT)
 	 */
@@ -294,6 +317,40 @@ public class StyleInstance implements IScriptStyle {
 	public void setBackgroundRepeat(String repeat) {
 		checkWritable();
 		style.setBackgroundRepeat(repeat);
+	}
+
+	/**
+	 * Get the background image height
+	 */
+	@Override
+	public String getBackgroundHeight() {
+		return style.getBackgroundHeight();
+	}
+
+	/**
+	 * Set the background image height
+	 */
+	@Override
+	public void setBackgroundHeight(String height) {
+		checkWritable();
+		style.setBackgroundHeight(height);
+	}
+
+	/**
+	 * Get the background image width
+	 */
+	@Override
+	public String getBackgroundWidth() {
+		return style.getBackgroundWidth();
+	}
+
+	/**
+	 * Set the background image width
+	 */
+	@Override
+	public void setBackgroundWidth(String width) {
+		checkWritable();
+		style.setBackgroundWidth(width);
 	}
 
 	/**
@@ -1016,6 +1073,12 @@ public class StyleInstance implements IScriptStyle {
 		}
 	}
 
+	/**
+	 * Get the CSS value of property
+	 *
+	 * @param index
+	 * @return Return the CSS value of property
+	 */
 	public CSSValue getProperty(int index) {
 		return style.getProperty(index);
 	}
@@ -1024,6 +1087,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Get the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @return Return the text direction
 	 */
 	public String getDirection() {
 		return style.getDirection();
@@ -1033,6 +1097,7 @@ public class StyleInstance implements IScriptStyle {
 	 * Set the text direction. Valid return types are LTR and RTL.
 	 *
 	 * @author bidi_hcg
+	 * @param dir
 	 */
 	public void setDirection(String dir) {
 		checkWritable();
@@ -1053,4 +1118,85 @@ public class StyleInstance implements IScriptStyle {
 			throw new UnsupportedOperationException("the content is read only in onPageBreak script.");
 		}
 	}
+
+	@Override
+	public int getDiagonalNumber() {
+		return this.style.getDiagonalNumber();
+	}
+
+	@Override
+	public void setDiagonalNumber(int number) {
+		this.style.setDiagonalNumber(number);
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return this.style.getDiagonalStyle();
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		this.style.setDiagonalStyle(style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return this.style.getDiagonalWidth();
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		this.style.setDiagonalWidth(width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return this.style.getDiagonalColor();
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		this.style.setDiagonalColor(color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return this.style.getAntidiagonalNumber();
+	}
+
+	@Override
+	public void setAntidiagonalNumber(int number) {
+		this.style.setAntidiagonalNumber(number);
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return this.style.getAntidiagonalStyle();
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		this.style.setAntidiagonalStyle(style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return this.style.getAntidiagonalWidth();
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		this.style.setAntidiagonalWidth(width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return this.style.getAntidiagonalColor();
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		this.style.setAntidiagonalColor(color);
+	}
+
 }

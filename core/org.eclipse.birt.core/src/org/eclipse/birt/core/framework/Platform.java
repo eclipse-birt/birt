@@ -257,13 +257,7 @@ public class Platform {
 	 */
 	public static Object createFactoryObject(final String extensionId) {
 		if (platform != null) {
-			return java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
-
-				@Override
-				public Object run() {
-					return platform.createFactoryObject(extensionId);
-				}
-			});
+			return platform.createFactoryObject(extensionId);
 		}
 		return null;
 	}

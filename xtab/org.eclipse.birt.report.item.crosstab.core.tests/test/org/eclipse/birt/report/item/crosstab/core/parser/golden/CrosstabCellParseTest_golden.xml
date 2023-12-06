@@ -1,63 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-	<cubes>
-        <tabular-cube name="Cube_Test_1" id="4">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.24" id="1">
+    <cubes>
+        <tabular-cube name="Cube_Test_1" id="3">
             <property name="dimensions">
-                <tabular-dimension name="Customer" id="6">
+                <tabular-dimension name="Customer" id="4">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="7"/>
-                        <tabular-hierarchy name="Hierarchy" id="8">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="5"/>
+                        <tabular-hierarchy name="Hierarchy" id="6">
                             <property name="levels">
-                                <tabular-level name="CUSTOMER_SEX" id="9"/>
-                                <tabular-level name="CUSTOMER_REGION" id="10"/>
+                                <tabular-level name="CUSTOMER_SEX" id="7"/>
+                                <tabular-level name="CUSTOMER_REGION" id="8"/>
                             </property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Product" id="11">
+                <tabular-dimension name="Product" id="9">
                     <property name="defaultHierarchy">NewTabularHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="12"/>
-                        <tabular-hierarchy name="Hierarchy2" id="13">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="10"/>
+                        <tabular-hierarchy name="Hierarchy2" id="11">
                             <property name="levels">
-                                <tabular-level name="PRODUCT_TYPE" id="14"/>
-                                <tabular-level name="PRODUCT_NAME" id="15"/>
+                                <tabular-level name="PRODUCT_TYPE" id="12"/>
+                                <tabular-level name="PRODUCT_NAME" id="13"/>
                             </property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="measure group" id="16">
+                <tabular-measure-group name="measure group" id="14">
                     <property name="measures">
-                        <tabular-measure name="QUANTITY_PRICE" id="17"/>
-                        <tabular-measure name="QUANTITY" id="18"/>
-                        <tabular-measure name="QUANTITY_NUMBER" id="19"/>
-                        <tabular-measure name="QUANTITY_SIZE" id="20"/>
+                        <tabular-measure name="QUANTITY_PRICE" id="15"/>
+                        <tabular-measure name="QUANTITY" id="16"/>
+                        <tabular-measure name="QUANTITY_NUMBER" id="17"/>
+                        <tabular-measure name="QUANTITY_SIZE" id="18"/>
                     </property>
                 </tabular-measure-group>
             </property>
         </tabular-cube>
     </cubes>
+    <styles>
+        <style name="BoxStyle" id="2">
+            <property name="backgroundColor">#CCCCCC</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="fontStyle">italic</property>
+            <property name="color">#CCCCCC</property>
+            <property name="textLineThrough">line-through</property>
+            <property name="textOverline">overline</property>
+            <property name="textUnderline">underline</property>
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+            <property name="marginTop">10pt</property>
+            <property name="marginLeft">10pt</property>
+            <property name="marginBottom">10pt</property>
+            <property name="marginRight">10pt</property>
+            <property name="paddingTop">10pt</property>
+            <property name="paddingLeft">10pt</property>
+            <property name="paddingBottom">10pt</property>
+            <property name="paddingRight">10pt</property>
+            <property name="textAlign">center</property>
+            <property name="verticalAlign">middle</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">always</property>
+            <property name="pageBreakInside">avoid</property>
+        </style>
+    </styles>
     <body>
-        <extended-item extensionName="Crosstab" id="21">
-        	<property name="measures">
-            	<extended-item extensionName="MeasureView" id="22">
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="19">
+            <property name="cube">Cube_Test_1</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="21">
                     <property name="measure">QUANTITY_PRICE</property>
                     <property name="detail">
-                        <extended-item extensionName="CrosstabCell" id="23"/>
+                        <extended-item extensionName="AggregationCell" id="22"/>
                     </property>
                     <property name="header">
-                        <extended-item extensionName="CrosstabCell" id="24">
+                        <extended-item extensionName="CrosstabCell" id="23">
                             <property name="content">
-                                <data name="data" id="25"/>
+                                <data name="data" id="24"/>
                             </property>
                         </extended-item>
                     </property>
                 </extended-item>
             </property>
-            <property name="cube">Cube_Test_1</property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="20"/>
+            </property>
         </extended-item>
     </body>
 </report>

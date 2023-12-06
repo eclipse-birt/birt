@@ -52,6 +52,6 @@ public class OverflowManager extends IdentifierManager {
 
 	@Override
 	public Value getDefaultValue() {
-		return CSSValueConstants.OVERFLOW_HIDDEN_VALUE;
+		return CSSValueConstants.OVERFLOW_VISIBLE_VALUE;
 	}
 }

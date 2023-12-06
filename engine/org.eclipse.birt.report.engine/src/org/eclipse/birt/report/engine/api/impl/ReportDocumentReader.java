@@ -19,8 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1224,14 +1222,8 @@ public class ReportDocumentReader implements IReportletDocument, ReportDocumentC
 		}
 		synchronized (this) {
 			if (applicationClassLoader == null) {
-				applicationClassLoader = AccessController.doPrivileged(new PrivilegedAction<ApplicationClassLoader>() {
-
-					@Override
-					public ApplicationClassLoader run() {
-						return new ApplicationClassLoader(engine, getOnPreparedRunnable(),
-								engine.getConfig().getAppContext());
-					}
-				});
+				applicationClassLoader = new ApplicationClassLoader(engine, getOnPreparedRunnable(),
+						engine.getConfig().getAppContext());
 			}
 		}
 		return applicationClassLoader;

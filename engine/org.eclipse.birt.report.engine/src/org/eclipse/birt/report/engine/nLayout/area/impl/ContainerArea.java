@@ -24,10 +24,11 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -40,11 +41,20 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.core.Module;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Image;
 
+/**
+ *
+ * Define the container area
+ *
+ * @since 3.3
+ *
+ */
 public abstract class ContainerArea extends AbstractArea implements IContainerArea {
 
 	protected transient LocalProperties localProperties = LocalProperties.DEFAULT;
@@ -98,6 +108,13 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected boolean isChildrenRemoved = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param parent
+	 * @param context
+	 * @param content
+	 */
 	public ContainerArea(ContainerArea parent, LayoutContext context, IContent content) {
 		this.parent = parent;
 		this.context = context;
@@ -123,6 +140,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		this.specifiedWidth = area.specifiedWidth;
 	}
 
+	/**
+	 * Get the enabling of automated page break
+	 *
+	 * @return Return the enabling of automated page break
+	 * @throws BirtException
+	 */
 	public boolean autoPageBreak() throws BirtException {
 		if (context.isFixedLayout() && specifiedHeight > 0
 				&& specifiedHeight + parent.getAbsoluteBP() <= context.getMaxBP()) {
@@ -134,6 +157,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return false;
 	}
 
+	/**
+	 * Get the vertical position calculated from content
+	 *
+	 * @return Return the vertical position calculated from content
+	 */
 	public int getAbsoluteBP() {
 		if (parent != null) {
 			return currentBP + getOffsetY() + parent.getAbsoluteBP();
@@ -141,66 +169,140 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return currentBP;
 	}
 
+	/**
+	 * Get the maximum height
+	 *
+	 * @return Return the maximum height
+	 */
 	public int getMaxAvaHeight() {
 		if (parent != null) {
 			return getContentHeight(parent.getMaxAvaHeight());
-		} else {
-			return context.getMaxBP();
 		}
+		return context.getMaxBP();
 	}
 
+	/**
+	 * Get the current vertical position
+	 *
+	 * @return Return the current vertical position
+	 */
 	public int getCurrentBP() {
 		return this.currentBP;
 	}
 
+	/**
+	 * Set the current vertical position
+	 *
+	 * @param currentBP the current vertical position
+	 */
 	public void setCurrentBP(int currentBP) {
 		this.currentBP = currentBP;
 	}
 
+	/**
+	 * Set the current horizontal position
+	 *
+	 * @param currentIP the current horizontal position
+	 */
 	public void setCurrentIP(int currentIP) {
 		this.currentIP = currentIP;
 	}
 
+	/**
+	 * Get the current horizontal position
+	 *
+	 * @return Return the horizontal vertical position
+	 */
 	public int getCurrentIP() {
 		return this.currentIP;
 	}
 
+	/**
+	 * Set the maximum width
+	 *
+	 * @param maxAvaWidth maximum width
+	 */
 	public void setMaxAvaWidth(int maxAvaWidth) {
 		this.maxAvaWidth = maxAvaWidth;
 	}
 
+	/**
+	 * Get the maximum width
+	 *
+	 * @return Return the maximum width
+	 */
 	public int getMaxAvaWidth() {
 		return maxAvaWidth;
 	}
 
+	/**
+	 * Get the current content
+	 *
+	 * @return Return the current content
+	 */
 	public IContent getContent() {
 		return content;
 	}
 
+	/**
+	 * Get the specific height
+	 *
+	 * @return Return the specific height
+	 */
 	public int getSpecifiedHeight() {
 		return specifiedHeight;
 	}
 
+	/**
+	 * Get the specific width
+	 *
+	 * @return Return the specific width
+	 */
 	public int getSpecifiedWidth() {
 		return specifiedWidth;
 	}
 
+	/**
+	 * Get the shrink option
+	 *
+	 * @return Return the shrink option
+	 */
 	public boolean isCanShrink() {
 		return canShrink;
 	}
 
+	/**
+	 * Get the text align
+	 *
+	 * @return Return the text align
+	 */
 	public CSSValue getTextAlign() {
 		return textAlign;
 	}
 
+	/**
+	 * Get the text indent
+	 *
+	 * @return Return the text indent
+	 */
 	public int getTextIndent() {
 		return textIndent;
 	}
 
+	/**
+	 * Set the inline stacking option
+	 *
+	 * @param isInlineStacking the inline stacking option
+	 */
 	public void setInlineStacking(boolean isInlineStacking) {
 		this.isInlineStacking = isInlineStacking;
 	}
 
+	/**
+	 * Get the inline stacking option
+	 *
+	 * @return Return the inline stacking option
+	 */
 	public boolean isInlineStacking() {
 		return isInlineStacking;
 	}
@@ -216,6 +318,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	}
 
+	/**
+	 * Get the container child index based
+	 *
+	 * @param index index value of the child
+	 * @return Return the container children
+	 */
 	public IArea getChild(int index) {
 		if (index >= 0 && index < children.size()) {
 			return children.get(index);
@@ -223,18 +331,38 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return null;
 	}
 
+	/**
+	 * Add an area to the container
+	 *
+	 * @param index position of the area
+	 * @param area  area element
+	 */
 	public void addChild(int index, IArea area) {
 		children.add(index, area);
 	}
 
+	/**
+	 * Verify the area like child at the container
+	 *
+	 * @param area to be searched area like child
+	 * @return Return the index of an area
+	 */
 	public int indexOf(IArea area) {
 		return children.indexOf(area);
 	}
 
+	/**
+	 * Remove all child elements from the container
+	 */
 	public void removeAll() {
 		children.clear();
 	}
 
+	/**
+	 * Remove a specific element from the container
+	 *
+	 * @param area element which is to remove
+	 */
 	public void removeChild(IArea area) {
 		children.remove(area);
 	}
@@ -264,42 +392,105 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return boxStyle;
 	}
 
+	/**
+	 * Set the style of the container box
+	 *
+	 * @param boxStyle style object
+	 */
 	public void setBoxStyle(BoxStyle boxStyle) {
 		this.boxStyle = boxStyle;
 	}
 
+	/**
+	 * Get the page break after option
+	 *
+	 * @return Return the page break after option
+	 */
 	public CSSValue getPageBreakAfter() {
 		return pageBreakAfter;
 	}
 
+	/**
+	 * Set the page break after option
+	 *
+	 * @param pageBreakAfter the page break after option
+	 */
 	public void setPageBreakAfter(CSSValue pageBreakAfter) {
 		this.pageBreakAfter = pageBreakAfter;
 	}
 
+	/**
+	 * Get the page break before option
+	 *
+	 * @return Return the page break before option
+	 */
 	public CSSValue getPageBreakBefore() {
 		return pageBreakBefore;
 	}
 
+	/**
+	 * Set the page break before option
+	 *
+	 * @param pageBreakBefore the page break before option
+	 */
 	public void setPageBreakBefore(CSSValue pageBreakBefore) {
 		this.pageBreakBefore = pageBreakBefore;
 	}
 
+	/**
+	 * Get the page break inside option
+	 *
+	 * @return Return the page break inside option
+	 */
 	public CSSValue getPageBreakInside() {
 		return pageBreakInside;
 	}
 
+	/**
+	 * Set the page break inside option
+	 *
+	 * @param pageBreakInside the page break inside option
+	 */
 	public void setPageBreakInside(CSSValue pageBreakInside) {
 		this.pageBreakInside = pageBreakInside;
 	}
 
+	/**
+	 * Close the container area
+	 *
+	 * @throws BirtException
+	 */
 	public abstract void close() throws BirtException;
 
+	/**
+	 * Initialize the container area
+	 *
+	 * @throws BirtException
+	 */
 	public abstract void initialize() throws BirtException;
 
+	/**
+	 * Split container lines
+	 *
+	 * @param lineCount
+	 * @return Return the splitted results
+	 * @throws BirtException
+	 */
 	public abstract SplitResult splitLines(int lineCount) throws BirtException;
 
+	/**
+	 * Split container lines
+	 *
+	 * @param height
+	 * @param force
+	 * @return Return the splitted results
+	 * @throws BirtException
+	 */
 	public abstract SplitResult split(int height, boolean force) throws BirtException;
 
+	/**
+	 * Relayout the container area
+	 */
 	public void relayout() {
 		// FIXME to implement
 	}
@@ -328,9 +519,9 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				float imageHeight = img.getPlainHeight() / resolutionY * 72;
 				if (content != null) {
 					IStyle style = content.getComputedStyle();
-					int ox = getDimensionValue(style.getProperty(IStyle.STYLE_BACKGROUND_POSITION_X),
+					int ox = getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X),
 							(width - (int) (imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO)));
-					int oy = getDimensionValue(style.getProperty(IStyle.STYLE_BACKGROUND_POSITION_Y),
+					int oy = getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y),
 							(height - (int) (imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO)));
 					bgi.setXOffset(ox);
 					bgi.setYOffset(oy);
@@ -339,10 +530,15 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 	}
 
+	/**
+	 * Get line height
+	 *
+	 * @return Return the line height
+	 */
 	public int getLineHeight() {
 		if (content != null) {
 			IStyle contentStyle = content.getComputedStyle();
-			return PropertyUtil.getDimensionValueConsiderDpi(contentStyle.getProperty(IStyle.STYLE_LINE_HEIGHT),
+			return PropertyUtil.getDimensionValueConsiderDpi(contentStyle.getProperty(StyleConstants.STYLE_LINE_HEIGHT),
 					content);
 		}
 		return 0;
@@ -420,16 +616,28 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 	}
 
+	/**
+	 * Get content height, that is the height available for the content.
+	 *
+	 * This is computed as allocatedHeight minus bottom/top margin/border/padding. *
+	 *
+	 * @param allocatedHeight
+	 * @return Return the content height
+	 */
 	public int getContentHeight(int allocatedHeight) {
 		if (hasStyle) {
 			return allocatedHeight - localProperties.getPaddingBottom() - localProperties.getPaddingTop()
 					- localProperties.getMarginTop() - localProperties.getMarginBottom()
 					- boxStyle.getBottomBorderWidth() - boxStyle.getTopBorderWidth();
-		} else {
-			return allocatedHeight;
 		}
+		return allocatedHeight;
 	}
 
+	/**
+	 * Get the content position Y
+	 *
+	 * @return Return the content position Y
+	 */
 	public int getContentY() {
 		if (hasStyle) {
 			return localProperties.getPaddingTop() + boxStyle.getTopBorderWidth();
@@ -437,6 +645,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return 0;
 	}
 
+	/**
+	 * Get the content position X
+	 *
+	 * @return Return the content position X
+	 */
 	public int getContentX() {
 		if (hasStyle) {
 			return localProperties.getPaddingLeft() + boxStyle.getLeftBorderWidth();
@@ -444,6 +657,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return 0;
 	}
 
+	/**
+	 * Get the maximum Y position
+	 *
+	 * @return Return the maximum Y position
+	 */
 	public int getMaxYPosition() {
 		if (hasStyle) {
 			return y + height + localProperties.getMarginBottom();
@@ -451,6 +669,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return y + height;
 	}
 
+	/**
+	 * Get the minimum Y position
+	 *
+	 * @return Return the minimum Y position
+	 */
 	public int getMinYPosition() {
 		return y + height;
 	}
@@ -475,6 +698,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 	}
 
+	/**
+	 * Set the content height
+	 *
+	 * @param cHeight
+	 */
 	public void setContentHeight(int cHeight) {
 		if (hasStyle) {
 			height = cHeight + localProperties.getPaddingBottom() + localProperties.getPaddingTop()
@@ -484,6 +712,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 	}
 
+	/**
+	 * Set the content width
+	 *
+	 * @param cWidth
+	 */
 	public void setContentWidth(int cWidth) {
 		if (hasStyle) {
 			width = cWidth + localProperties.getPaddingLeft() + localProperties.getPaddingRight()
@@ -496,35 +729,33 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	/**
 	 * set allocated X position
 	 *
-	 * @return
+	 * @return Return the allocated position X
 	 */
 	@Override
 	public int getAllocatedX() {
 		if (hasStyle) {
 			return x - localProperties.getMarginLeft();
-		} else {
-			return x;
 		}
+		return x;
 	}
 
 	/**
 	 * set allocated Y position
 	 *
-	 * @return
+	 * @return Return the allocated position Y
 	 */
 	@Override
 	public int getAllocatedY() {
 		if (hasStyle) {
 			return y - localProperties.getMarginTop();
-		} else {
-			return y;
 		}
+		return y;
 	}
 
 	/**
-	 * get content width
+	 * Get content width
 	 *
-	 * @return
+	 * @return Return the content width
 	 */
 	public int getContentWidth() {
 		if (hasStyle) {
@@ -534,66 +765,82 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				localProperties.setPaddingLeft(0);
 				localProperties.setPaddingRight(0);
 				return width - totalBorderWidth;
-			} else {
-				return width - totalPaddngWidth - totalBorderWidth;
 			}
-		} else {
-			return width;
+			return width - totalPaddngWidth - totalBorderWidth;
 		}
+		return width;
 	}
 
 	/**
-	 * get content height
+	 * Get content height
 	 *
-	 * @return
+	 * @return Return the content height
 	 */
 	public int getContentHeight() {
 		if (hasStyle) {
 			return height - boxStyle.getTopBorderWidth() - boxStyle.getBottomBorderWidth()
 					- localProperties.getPaddingBottom() - localProperties.getPaddingTop();
-		} else {
-			return height;
 		}
+		return height;
 	}
 
 	/**
-	 * get allocated width
+	 * Get allocated width
 	 *
-	 * @return
+	 * @return Return allocated width
 	 */
 	@Override
 	public int getAllocatedWidth() {
 		if (hasStyle) {
 			return width + localProperties.getMarginLeft() + localProperties.getMarginRight();
-		} else {
-			return width;
 		}
+		return width;
 	}
 
 	/**
-	 * get allocated height
+	 * Get allocated height
 	 *
-	 * @return
+	 * @return Return allocated height
 	 */
 	@Override
 	public int getAllocatedHeight() {
 		if (hasStyle) {
 			return height + localProperties.getMarginBottom() + localProperties.getMarginTop();
-		} else {
-			return height;
 		}
+		return height;
 	}
 
+	/**
+	 * Get the maximum content width currently
+	 *
+	 * @return Return the maximum content width currently
+	 */
 	public int getCurrentMaxContentWidth() {
 		return maxAvaWidth - currentIP;
 	}
 
+	/**
+	 * Verify whether the container is empty
+	 *
+	 * @return Validation result of empty children
+	 */
 	public boolean isEmpty() {
 		return children.size() == 0;
 	}
 
+	/**
+	 * Update the child area of the container area
+	 *
+	 * @param area
+	 * @throws BirtException
+	 */
 	public abstract void update(AbstractArea area) throws BirtException;
 
+	/**
+	 * Add a child area to the container area
+	 *
+	 * @param area
+	 */
 	public abstract void add(AbstractArea area);
 
 	protected boolean checkPageBreak() throws BirtException {
@@ -614,6 +861,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return ret;
 	}
 
+	/**
+	 * Get the offset content position X
+	 *
+	 * @return Return the offset content position X
+	 */
 	public int getOffsetX() {
 		if (hasStyle) {
 			return localProperties.getPaddingLeft() + boxStyle.getLeftBorderWidth();
@@ -621,6 +873,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return 0;
 	}
 
+	/**
+	 * Get the offset content position Y
+	 *
+	 * @return Return the offset content position Y
+	 */
 	public int getOffsetY() {
 		if (hasStyle) {
 			return localProperties.getPaddingTop() + boxStyle.getTopBorderWidth();
@@ -646,25 +903,25 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		}
 		try {
 			String units = d.getUnits();
-			if (units.equals(EngineIRConstants.UNITS_PT) || units.equals(EngineIRConstants.UNITS_CM)
-					|| units.equals(EngineIRConstants.UNITS_MM) || units.equals(EngineIRConstants.UNITS_PC)
-					|| units.equals(EngineIRConstants.UNITS_IN)) {
-				double point = d.convertTo(EngineIRConstants.UNITS_PT) * 1000;
+			if (units.equals(DesignChoiceConstants.UNITS_PT) || units.equals(DesignChoiceConstants.UNITS_CM)
+					|| units.equals(DesignChoiceConstants.UNITS_MM) || units.equals(DesignChoiceConstants.UNITS_PC)
+					|| units.equals(DesignChoiceConstants.UNITS_IN)) {
+				double point = d.convertTo(DesignChoiceConstants.UNITS_PT) * 1000;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_PX)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_PX)) {
 				if (dpi == 0) {
 					dpi = getResolution();
 				}
 				double point = d.getMeasure() / dpi * 72000d;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_PERCENTAGE)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_PERCENTAGE)) {
 				double point = referenceLength * d.getMeasure() / 100.0;
 				return (int) point;
-			} else if (units.equals(EngineIRConstants.UNITS_EM) || units.equals(EngineIRConstants.UNITS_EX)) {
+			} else if (units.equals(DesignChoiceConstants.UNITS_EM) || units.equals(DesignChoiceConstants.UNITS_EX)) {
 				int size = 9000;
 				if (content != null) {
 					IStyle style = content.getComputedStyle();
-					CSSValue fontSize = style.getProperty(IStyle.STYLE_FONT_SIZE);
+					CSSValue fontSize = style.getProperty(StyleConstants.STYLE_FONT_SIZE);
 					size = getDimensionValue(fontSize);
 				}
 				double point = size * d.getMeasure();
@@ -717,30 +974,36 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected void validateBoxProperty(IStyle style, int maxWidth, int maxHeight) {
 		// support negative margin
-		int leftMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_LEFT), maxWidth);
-		int rightMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_RIGHT), maxWidth);
-		int topMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_TOP), maxWidth);
-		int bottomMargin = getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_BOTTOM), maxWidth);
+		int leftMargin = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT), maxWidth);
+		int rightMargin = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT), maxWidth);
+		int topMargin = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_TOP), maxWidth);
+		int bottomMargin = getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM), maxWidth);
 
 		// do not support negative paddding
-		int leftPadding = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_LEFT), maxWidth));
-		int rightPadding = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_RIGHT), maxWidth));
-		int topPadding = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_TOP), maxWidth));
-		int bottomPadding = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_BOTTOM), maxWidth));
+		int leftPadding = Math.max(0,
+				getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT), maxWidth));
+		int rightPadding = Math.max(0,
+				getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT), maxWidth));
+		int topPadding = Math.max(0, getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_TOP), maxWidth));
+		int bottomPadding = Math.max(0,
+				getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM), maxWidth));
 		// border does not support negative value, do not support pencentage
 		// dimension
-		int leftBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_LEFT_WIDTH), 0));
-		int rightBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH), 0));
-		int topBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH), 0));
-		int bottomBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH), 0));
+		int leftBorder = Math.max(0, getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH), 0));
+		int rightBorder = Math.max(0, getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH), 0));
+		int topBorder = Math.max(0, getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH), 0));
+		int bottomBorder = Math.max(0,
+				getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH), 0));
 
-		int[] vsStyle = { IStyle.STYLE_MARGIN_RIGHT, IStyle.STYLE_MARGIN_LEFT, IStyle.STYLE_PADDING_RIGHT,
-				IStyle.STYLE_PADDING_LEFT, IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_LEFT_WIDTH };
+		int[] vsStyle = { StyleConstants.STYLE_MARGIN_RIGHT, StyleConstants.STYLE_MARGIN_LEFT,
+				StyleConstants.STYLE_PADDING_RIGHT, StyleConstants.STYLE_PADDING_LEFT,
+				StyleConstants.STYLE_BORDER_RIGHT_WIDTH, StyleConstants.STYLE_BORDER_LEFT_WIDTH };
 		int[] vs = { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
 		boolean[] vsConflicted = resolveBoxConflict(vs, maxWidth);
 
-		int[] hsStyle = { IStyle.STYLE_MARGIN_BOTTOM, IStyle.STYLE_MARGIN_TOP, IStyle.STYLE_PADDING_BOTTOM,
-				IStyle.STYLE_PADDING_TOP, IStyle.STYLE_BORDER_BOTTOM_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH };
+		int[] hsStyle = { StyleConstants.STYLE_MARGIN_BOTTOM, StyleConstants.STYLE_MARGIN_TOP,
+				StyleConstants.STYLE_PADDING_BOTTOM, StyleConstants.STYLE_PADDING_TOP,
+				StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, StyleConstants.STYLE_BORDER_TOP_WIDTH };
 		int[] hs = { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
 		boolean[] hsConflicted = resolveBoxConflict(hs, maxHeight);
 
@@ -800,6 +1063,30 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return conflicted;
 	}
 
+	/*
+	 * Get the current design handle
+	 *
+	 * Return the current design handle
+	 *
+	 * @since 4.13
+	 *
+	 */
+	protected ReportDesignHandle getCurrentDesignHandle() {
+		return content.getReportContent().getDesign().getReportDesign();
+	}
+
+	/*
+	 * Get the current container module
+	 *
+	 * Return the current container module
+	 *
+	 * @since 4.13
+	 *
+	 */
+	protected Module getCurrentModule() {
+		return getCurrentDesignHandle().getModule();
+	}
+
 	protected void buildProperties(IContent content, LayoutContext context) {
 		// FIXME cache the LocalProperties and BoxStyle
 		// FIXME validate box properties
@@ -807,65 +1094,70 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		localProperties = new LocalProperties();
 		int maw = parent.getMaxAvaWidth();
 
-		localProperties.setMarginBottom(getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_BOTTOM), maw));
-		localProperties.setMarginLeft(getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_LEFT), maw));
-		localProperties.setMarginTop(getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_TOP), maw));
-		localProperties.setMarginRight(getDimensionValue(style.getProperty(IStyle.STYLE_MARGIN_RIGHT), maw));
+		localProperties.setMarginBottom(getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM), maw));
+		localProperties.setMarginLeft(getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT), maw));
+		localProperties.setMarginTop(getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_TOP), maw));
+		localProperties.setMarginRight(getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT), maw));
 
-		localProperties.setPaddingBottom(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_BOTTOM), maw));
-		localProperties.setPaddingLeft(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_LEFT), maw));
-		localProperties.setPaddingTop(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_TOP), maw));
-		localProperties.setPaddingRight(getDimensionValue(style.getProperty(IStyle.STYLE_PADDING_RIGHT), maw));
+		localProperties
+				.setPaddingBottom(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM), maw));
+		localProperties.setPaddingLeft(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT), maw));
+		localProperties.setPaddingTop(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_TOP), maw));
+		localProperties.setPaddingRight(getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT), maw));
 
 		if (!isInlineStacking) {
-			pageBreakAfter = style.getProperty(IStyle.STYLE_PAGE_BREAK_AFTER);
+			pageBreakAfter = style.getProperty(StyleConstants.STYLE_PAGE_BREAK_AFTER);
 			if (pageBreakInside == null) {
-				pageBreakInside = style.getProperty(IStyle.STYLE_PAGE_BREAK_INSIDE);
+				pageBreakInside = style.getProperty(StyleConstants.STYLE_PAGE_BREAK_INSIDE);
 			}
-			pageBreakBefore = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+			pageBreakBefore = style.getProperty(StyleConstants.STYLE_PAGE_BREAK_BEFORE);
 		}
 
 		this.boxStyle = new BoxStyle();
-		int borderWidth = getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_LEFT_WIDTH), maw);
+		int borderWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH), maw);
 		if (borderWidth > 0) {
-			boxStyle.setLeftBorder(new BorderInfo(style.getProperty(IStyle.STYLE_BORDER_LEFT_COLOR),
-					style.getProperty(IStyle.STYLE_BORDER_LEFT_STYLE), borderWidth));
+			boxStyle.setLeftBorder(new BorderInfo(style.getProperty(StyleConstants.STYLE_BORDER_LEFT_COLOR),
+					style.getProperty(StyleConstants.STYLE_BORDER_LEFT_STYLE), borderWidth));
 
 		}
 
-		borderWidth = getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH), maw);
+		borderWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH), maw);
 		if (borderWidth > 0) {
-			boxStyle.setRightBorder(new BorderInfo(style.getProperty(IStyle.STYLE_BORDER_RIGHT_COLOR),
-					style.getProperty(IStyle.STYLE_BORDER_RIGHT_STYLE), borderWidth));
+			boxStyle.setRightBorder(new BorderInfo(style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_COLOR),
+					style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_STYLE), borderWidth));
 
 		}
-		borderWidth = getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH), maw);
+		borderWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH), maw);
 		if (borderWidth > 0) {
-			boxStyle.setTopBorder(new BorderInfo(style.getProperty(IStyle.STYLE_BORDER_TOP_COLOR),
-					style.getProperty(IStyle.STYLE_BORDER_TOP_STYLE), borderWidth));
-
-		}
-
-		borderWidth = getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH), maw);
-		if (borderWidth > 0) {
-			boxStyle.setBottomBorder(new BorderInfo(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_COLOR),
-					style.getProperty(IStyle.STYLE_BORDER_BOTTOM_STYLE), borderWidth));
+			boxStyle.setTopBorder(new BorderInfo(style.getProperty(StyleConstants.STYLE_BORDER_TOP_COLOR),
+					style.getProperty(StyleConstants.STYLE_BORDER_TOP_STYLE), borderWidth));
 
 		}
 
-		Color color = PropertyUtil.getColor(style.getProperty(IStyle.STYLE_BACKGROUND_COLOR));
+		borderWidth = getDimensionValue(style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH), maw);
+		if (borderWidth > 0) {
+			boxStyle.setBottomBorder(new BorderInfo(style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_COLOR),
+					style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_STYLE), borderWidth));
+
+		}
+
+		Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 		if (color != null) {
 			boxStyle.setBackgroundColor(color);
 		}
-		CSSValue url = style.getProperty(IStyle.STYLE_BACKGROUND_IMAGE);
-		if (!IStyle.NONE_VALUE.equals(style.getProperty(IStyle.STYLE_BACKGROUND_IMAGE))) {
+		CSSValue url = style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE);
+		if (!CSSValueConstants.NONE_VALUE.equals(style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE))) {
 			ResourceLocatorWrapper rl = null;
 			ExecutionContext exeContext = ((ReportContent) content.getReportContent()).getExecutionContext();
 			if (exeContext != null) {
 				rl = exeContext.getResourceLocator();
 			}
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url.getCssText()),
-					style.getProperty(IStyle.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl);
+					style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+					PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+					0, 0, rl, this.getCurrentModule(), style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+			backgroundImage.setImageSize(style);
 			boxStyle.setBackgroundImage(backgroundImage);
 		}
 
@@ -873,12 +1165,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		bookmark = content.getBookmark();
 	}
 
-	protected void buildLogicContainerProperties(IContent content, LayoutContext context) {
+	protected void buildLogicContainerProperties(IContent content) {
 		IStyle style = content.getStyle();
 		if (style != null && !style.isEmpty()) {
 			boxStyle = new BoxStyle();
 			IStyle cs = content.getComputedStyle();
-			Color color = PropertyUtil.getColor(cs.getProperty(IStyle.STYLE_BACKGROUND_COLOR));
+			Color color = PropertyUtil.getColor(cs.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
 
 			if (color != null) {
 				boxStyle.setBackgroundColor(color);
@@ -892,15 +1184,20 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 					rl = exeContext.getResourceLocator();
 				}
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(getImageUrl(url),
-						cs.getProperty(IStyle.STYLE_BACKGROUND_REPEAT), 0, 0, 0, 0, rl);
+						cs.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT),
+						PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X)),
+						PropertyUtil.getDimensionValue(cs.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y)),
+						0, 0, rl, this.getCurrentModule(), cs.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE));
+				backgroundImage.setImageSize(cs);
+
 				boxStyle.setBackgroundImage(backgroundImage);
 			}
 			if (!isInlineStacking) {
-				pageBreakAfter = cs.getProperty(IStyle.STYLE_PAGE_BREAK_AFTER);
+				pageBreakAfter = cs.getProperty(StyleConstants.STYLE_PAGE_BREAK_AFTER);
 				if (pageBreakInside == null) {
-					pageBreakInside = cs.getProperty(IStyle.STYLE_PAGE_BREAK_INSIDE);
+					pageBreakInside = cs.getProperty(StyleConstants.STYLE_PAGE_BREAK_INSIDE);
 				}
-				pageBreakBefore = cs.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+				pageBreakBefore = cs.getProperty(StyleConstants.STYLE_PAGE_BREAK_BEFORE);
 			}
 
 		} else {
@@ -912,7 +1209,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		action = content.getHyperlinkAction();
 	}
 
-	public abstract void updateChildrenPosition() throws BirtException;
+	/**
+	 * Update children position
+	 */
+	public abstract void updateChildrenPosition();
 
 	protected TableArea getTable() {
 		ContainerArea p = parent;
@@ -925,7 +1225,7 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	@Override
 	public ContainerArea deepClone() {
 		ContainerArea result = (ContainerArea) cloneArea();
-		Iterator iter = children.iterator();
+		Iterator<IArea> iter = children.iterator();
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
 			AbstractArea cloneChild = child.deepClone();
@@ -935,9 +1235,14 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return result;
 	}
 
+	/**
+	 * Get option to avoid the page break inside
+	 *
+	 * @return Return the option to avoid the page break inside
+	 */
 	public boolean isPageBreakInsideAvoid() {
 		if (pageBreakInside != null) {
-			return (IStyle.AVOID_VALUE == pageBreakInside);
+			return (CSSValueConstants.AVOID_VALUE == pageBreakInside);
 		}
 		return false;
 	}
@@ -956,9 +1261,14 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return imageUrl;
 	}
 
+	/**
+	 * Get the option to avoid the page break after
+	 *
+	 * @return Return the option to avoid the page break after
+	 */
 	public boolean isPageBreakAfterAvoid() {
 		if (localProperties != null) {
-			if (IStyle.AVOID_VALUE == pageBreakAfter) {
+			if (CSSValueConstants.AVOID_VALUE == pageBreakAfter) {
 				return true;
 			}
 		}
@@ -972,9 +1282,14 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return false;
 	}
 
+	/**
+	 * Get the option to avoid the page break before
+	 *
+	 * @return Return the option to avoid the page break before
+	 */
 	public boolean isPageBreakBeforeAvoid() {
 		if (localProperties != null) {
-			if (IStyle.AVOID_VALUE == pageBreakBefore) {
+			if (CSSValueConstants.AVOID_VALUE == pageBreakBefore) {
 				return true;
 			}
 		}
@@ -988,6 +1303,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return false;
 	}
 
+	/**
+	 * Get the last child area of the container
+	 *
+	 * @return Return the last child area of the container
+	 */
 	public IArea getLastChild() {
 		int size = children.size();
 		if (size > 0) {
@@ -996,6 +1316,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return null;
 	}
 
+	/**
+	 * Get the first child area of the container
+	 *
+	 * @return Return the first child area of the container
+	 */
 	public IArea getFirstChild() {
 		int size = children.size();
 		if (size > 0) {

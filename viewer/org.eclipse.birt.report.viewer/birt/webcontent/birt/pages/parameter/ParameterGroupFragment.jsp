@@ -29,17 +29,17 @@
 <%
 	ParameterGroupBean parameterGroupBean = ( ParameterGroupBean ) attributeBean.getParameterBean( );
 %>
-<TR><TD HEIGHT="16px" COLSPAN="2"></TD></TR>
+<TR><TD HEIGHT="24px" COLSPAN="2"></TD></TR>
 <%
 	if ( parameterGroupBean.getDisplayName( ) != null )
 	{
 %>
 <TR>
 	<TD NOWRAP>
-		<IMG SRC="birt/images/parameter_group.gif" ALT="<%= parameterGroupBean.getDisplayName( ) %>" TITLE="<%= parameterGroupBean.getToolTip( ) %>"/>
+		<IMG class="icon_parameter_group" SRC="birt/images/ParameterGroup.png" ALT="<%= parameterGroupBean.getDisplayName( ) %>" TITLE="<%= parameterGroupBean.getToolTip( ) %>"/>
 	</TD>
 	<TD NOWRAP>
-		<FONT TITLE="<%= parameterGroupBean.getToolTip( ) %>"><B><%= parameterGroupBean.getDisplayName( ) %></B></FONT>
+		<SPAN style="font-weight:bold;" TITLE="<%= parameterGroupBean.getToolTip( ) %>"><%= parameterGroupBean.getDisplayName( ) %></SPAN>
 	</TD>
 </TR>
 <%

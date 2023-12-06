@@ -51,8 +51,9 @@ public class SwtGraphicsUtil {
 				tl.setFont(ft);
 			}
 			tl.setText(text);
-
-			return createRotatedImage(tl, pt.x, pt.y, angle);
+			Image im = createRotatedImage(tl, pt.x, pt.y, angle);
+			tl.dispose();
+			return im;
 		} catch (Exception e) {
 			e.printStackTrace();
 

@@ -24,16 +24,25 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 
+/**
+ * Implementation of the text area layout
+ *
+ * @since 3.3
+ *
+ */
 public class TextAreaLayout implements ILayout {
 	protected static Logger logger = Logger.getLogger(TextAreaLayout.class.getName());
 	/**
@@ -46,10 +55,14 @@ public class TextAreaLayout implements ILayout {
 
 	private ITextContent textContent = null;
 
-	private static HashSet splitChar = new HashSet();
+	private static HashSet<Character> splitChar = new HashSet<Character>();
 
 	private ArrayList<ITextListener> listenerList = null;
 
+	/**
+	 * Denotes if the text content is empty (in this case a single blank space is
+	 * used as a replacement text).
+	 */
 	private boolean blankText = false;
 
 	static {
@@ -58,6 +71,13 @@ public class TextAreaLayout implements ILayout {
 		splitChar.add(Character.valueOf('\n'));
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param parent  parent
+	 * @param context layout context
+	 * @param content content
+	 */
 	public TextAreaLayout(ContainerArea parent, LayoutContext context, IContent content) {
 		parentLM = (InlineStackingArea) parent;
 		ITextContent textContent = (ITextContent) content;
@@ -98,6 +118,11 @@ public class TextAreaLayout implements ILayout {
 		} while (true);
 	}
 
+	/**
+	 * Add listener
+	 *
+	 * @param listener text listener
+	 */
 	public void addListener(ITextListener listener) {
 		if (listenerList == null) {
 			listenerList = new ArrayList<>();
@@ -105,31 +130,41 @@ public class TextAreaLayout implements ILayout {
 		listenerList.add(listener);
 	}
 
+	/**
+	 * Built the text style
+	 *
+	 * @param content  content
+	 * @param fontInfo font info
+	 * @return Return the created text style
+	 */
 	public static TextStyle buildTextStyle(IContent content, FontInfo fontInfo) {
 		IStyle style = content.getComputedStyle();
 		TextStyle textStyle = new TextStyle(fontInfo);
-		CSSValue direction = style.getProperty(IStyle.STYLE_DIRECTION);
-		if (IStyle.RTL_VALUE.equals(direction)) {
-			textStyle.setDirection(TextStyle.DIRECTION_RTL);
+		CSSValue direction = style.getProperty(StyleConstants.STYLE_DIRECTION);
+		if (CSSValueConstants.RTL_VALUE.equals(direction)) {
+			textStyle.setDirection(AreaConstants.DIRECTION_RTL);
 		}
-		textStyle.setFontSize(PropertyUtil.getDimensionValue(style.getProperty(IStyle.STYLE_FONT_SIZE)));
-		textStyle.setLetterSpacing(PropertyUtil.getDimensionValue(style.getProperty(IStyle.STYLE_LETTER_SPACING)));
-		textStyle.setWordSpacing(PropertyUtil.getDimensionValue(style.getProperty(IStyle.STYLE_WORD_SPACING)));
-		textStyle.setLineThrough(style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH) == IStyle.LINE_THROUGH_VALUE);
-		textStyle.setOverLine(style.getProperty(IStyle.STYLE_TEXT_OVERLINE) == IStyle.OVERLINE_VALUE);
-		CSSValue underLine = style.getProperty(IStyle.STYLE_TEXT_UNDERLINE);
-		if (underLine == IStyle.UNDERLINE_VALUE) {
+		textStyle.setFontSize(PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_FONT_SIZE)));
+		textStyle.setLetterSpacing(
+				PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_LETTER_SPACING)));
+		textStyle.setWordSpacing(PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_WORD_SPACING)));
+		textStyle.setLineThrough(
+				style.getProperty(StyleConstants.STYLE_TEXT_LINETHROUGH) == CSSValueConstants.LINE_THROUGH_VALUE);
+		textStyle
+				.setOverLine(style.getProperty(StyleConstants.STYLE_TEXT_OVERLINE) == CSSValueConstants.OVERLINE_VALUE);
+		CSSValue underLine = style.getProperty(StyleConstants.STYLE_TEXT_UNDERLINE);
+		if (underLine == CSSValueConstants.UNDERLINE_VALUE) {
 			textStyle.setUnderLine(true);
 		}
-		textStyle.setAlign(style.getProperty(IStyle.STYLE_TEXT_ALIGN));
+		textStyle.setAlign(style.getProperty(StyleConstants.STYLE_TEXT_ALIGN));
 		IStyle s = content.getStyle();
-		Color color = PropertyUtil.getColor(s.getProperty(IStyle.STYLE_COLOR));
+		Color color = PropertyUtil.getColor(s.getProperty(StyleConstants.STYLE_COLOR));
 		if (color != null) {
 			textStyle.setColor(color);
 		} else if (content.getHyperlinkAction() != null) {
 			textStyle.setColor(Color.BLUE);
 		} else {
-			textStyle.setColor(PropertyUtil.getColor(style.getProperty(IStyle.STYLE_COLOR)));
+			textStyle.setColor(PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)));
 		}
 		if (content.getHyperlinkAction() != null) {
 			textStyle.setHasHyperlink(true);
@@ -165,7 +200,13 @@ public class TextAreaLayout implements ILayout {
 		return false;
 	}
 
-	public void addTextArea(AbstractArea textArea) throws BirtException {
+	/**
+	 * Add text area
+	 *
+	 * @param textArea text area
+	 * @throws BirtException
+	 */
+	public void addTextArea(TextArea textArea) throws BirtException {
 		parentLM.add(textArea);
 		textArea.setParent(parentLM);
 		parentLM.update(textArea);
@@ -173,13 +214,16 @@ public class TextAreaLayout implements ILayout {
 		if (listenerList != null) {
 			for (Iterator<ITextListener> i = listenerList.iterator(); i.hasNext();) {
 				ITextListener listener = i.next();
-				listener.onAddEvent((TextArea) textArea);
+				listener.onAddEvent(textArea);
 			}
 		}
 	}
 
 	/**
-	 * true if succeed to new a line.
+	 * Set new line, true if succeed to new a line.
+	 *
+	 * @param endParagraph end paragraph
+	 * @throws BirtException
 	 */
 	public void newLine(boolean endParagraph) throws BirtException {
 		parentLM.endLine(endParagraph);
@@ -191,10 +235,20 @@ public class TextAreaLayout implements ILayout {
 		}
 	}
 
+	/**
+	 * Get the free space
+	 *
+	 * @return Return the free space
+	 */
 	public int getFreeSpace() {
 		return parentLM.getCurrentMaxContentWidth();
 	}
 
+	/**
+	 * Transform the text content
+	 *
+	 * @param textContent text content
+	 */
 	public void transform(ITextContent textContent) {
 		String transformType = textContent.getComputedStyle().getTextTransform();
 		if (transformType.equalsIgnoreCase("uppercase")) //$NON-NLS-1$
@@ -232,6 +286,9 @@ public class TextAreaLayout implements ILayout {
 		return new String(array);
 	}
 
+	/**
+	 * Add listener to the end of the text area
+	 */
 	public void close() {
 		if (listenerList != null) {
 			for (Iterator<ITextListener> i = listenerList.iterator(); i.hasNext();) {
@@ -241,6 +298,9 @@ public class TextAreaLayout implements ILayout {
 		}
 	}
 
+	/**
+	 * Initialize method
+	 */
 	public void initialize() {
 	}
 

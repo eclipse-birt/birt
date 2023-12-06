@@ -16,9 +16,10 @@
 <feature
       id="org.eclipse.birt.chart.osgi.runtime"
       label="%featureName"
-      version="4.11.0.qualifier"
+      version="4.15.0.qualifier"
       provider-name="%providerName"
-      image="eclipse_update_120.jpg">
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -33,8 +34,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <requires>
@@ -51,7 +52,7 @@
    </requires>
 
    <plugin
-         id="javax.xml.rpc"
+         id="javax.xml.rpc-api"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
@@ -278,21 +279,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.w3c.css.sac"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.smil"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.w3c.dom.svg"
+         id="org.eclipse.orbit.xml-apis-ext"
          download-size="0"
          install-size="0"
          version="0.0.0"

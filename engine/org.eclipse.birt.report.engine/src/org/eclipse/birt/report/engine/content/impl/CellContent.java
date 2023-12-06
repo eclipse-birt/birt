@@ -196,6 +196,11 @@ public class CellContent extends AbstractContent implements ICellContent {
 		return 0;
 	}
 
+	/**
+	 * Set te drop property
+	 *
+	 * @param drop drop value
+	 */
 	public void setDrop(String drop) {
 		this.drop = drop;
 	}
@@ -460,10 +465,25 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public boolean hasDiagonalLine() {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getDiagonalNumber() > 0 && cellStyle.getDiagonalStyle() != null
+				&& !"none".equals(cellStyle.getDiagonalStyle())
+				|| cellStyle.getAntidiagonalNumber() > 0 && cellStyle.getAntidiagonalStyle() != null
+						&& !"none".equals(cellStyle.getAntidiagonalStyle())) {
+			hasDiagonalLine = Boolean.TRUE;
+
+		} else if (getDiagonalNumber() > 0 && getDiagonalStyle() != null && !"none".equals(getDiagonalStyle())
+				|| getAntidiagonalNumber() > 0 && getAntidiagonalStyle() != null
+						&& !"none".equals(getAntidiagonalStyle())) {
+			hasDiagonalLine = Boolean.TRUE;
+
+		} else if (cellDesign != null) {
+			hasDiagonalLine = cellDesign.hasDiagonalLine();
+
+		}
+
 		if (hasDiagonalLine != null) {
 			return hasDiagonalLine.booleanValue();
-		} else if (cellDesign != null) {
-			return cellDesign.hasDiagonalLine();
 		}
 		return false;
 	}
@@ -471,16 +491,14 @@ public class CellContent extends AbstractContent implements ICellContent {
 	@Override
 	public void setDiagonalNumber(int diagonalNumber) {
 		this.diagonalNumber = diagonalNumber;
-		if (getDiagonalNumber() > 0 || getAntidiagonalNumber() > 0) {
-			hasDiagonalLine = Boolean.TRUE;
-		} else {
-			hasDiagonalLine = Boolean.FALSE;
-		}
 	}
 
 	@Override
 	public int getDiagonalNumber() {
-		if (diagonalNumber >= 0) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getDiagonalNumber() >= 1) {
+			return cellStyle.getDiagonalNumber();
+		} else if (diagonalNumber > 1) {
 			return diagonalNumber;
 		} else if (cellDesign != null) {
 			return cellDesign.getDiagonalNumber();
@@ -495,7 +513,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public String getDiagonalStyle() {
-		if (diagonalStyle != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getDiagonalStyle() != null && !"none".equals(cellStyle.getDiagonalStyle())) {
+			return cellStyle.getDiagonalStyle();
+		} else if (diagonalStyle != null) {
 			return diagonalStyle;
 		} else if (cellDesign != null) {
 			return cellDesign.getDiagonalStyle();
@@ -510,7 +531,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public DimensionType getDiagonalWidth() {
-		if (diagonalWidth != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getDiagonalWidth() != null && !"none".equals(cellStyle.getDiagonalStyle())) {
+			return DimensionType.parserUnit(cellStyle.getDiagonalWidth());
+		} else if (diagonalWidth != null) {
 			return diagonalWidth;
 		} else if (cellDesign != null) {
 			return cellDesign.getDiagonalWidth();
@@ -525,7 +549,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public String getDiagonalColor() {
-		if (diagonalColor != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getDiagonalColor() != null && !"none".equals(cellStyle.getDiagonalStyle())) {
+			return cellStyle.getDiagonalColor();
+		} else if (diagonalColor != null) {
 			return diagonalColor;
 		} else if (cellDesign != null) {
 			return cellDesign.getDiagonalColor();
@@ -536,16 +563,14 @@ public class CellContent extends AbstractContent implements ICellContent {
 	@Override
 	public void setAntidiagonalNumber(int antidiagonalNumber) {
 		this.antidiagonalNumber = antidiagonalNumber;
-		if (getDiagonalNumber() > 0 || getAntidiagonalNumber() > 0) {
-			hasDiagonalLine = Boolean.TRUE;
-		} else {
-			hasDiagonalLine = Boolean.FALSE;
-		}
 	}
 
 	@Override
 	public int getAntidiagonalNumber() {
-		if (antidiagonalNumber >= 0) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getAntidiagonalNumber() >= 1) {
+			return cellStyle.getAntidiagonalNumber();
+		} else if (antidiagonalNumber >= 1) {
 			return antidiagonalNumber;
 		} else if (cellDesign != null) {
 			return cellDesign.getAntidiagonalNumber();
@@ -560,7 +585,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public String getAntidiagonalStyle() {
-		if (antidiagonalStyle != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getAntidiagonalStyle() != null && !"none".equals(cellStyle.getAntidiagonalStyle())) {
+			return cellStyle.getAntidiagonalStyle();
+		} else if (antidiagonalStyle != null) {
 			return antidiagonalStyle;
 		} else if (cellDesign != null) {
 			return cellDesign.getAntidiagonalStyle();
@@ -575,7 +603,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public DimensionType getAntidiagonalWidth() {
-		if (antidiagonalWidth != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getAntidiagonalWidth() != null && !"none".equals(cellStyle.getAntidiagonalStyle())) {
+			return DimensionType.parserUnit(cellStyle.getAntidiagonalWidth());
+		} else if (antidiagonalWidth != null) {
 			return antidiagonalWidth;
 		} else if (cellDesign != null) {
 			return cellDesign.getAntidiagonalWidth();
@@ -590,7 +621,10 @@ public class CellContent extends AbstractContent implements ICellContent {
 
 	@Override
 	public String getAntidiagonalColor() {
-		if (antidiagonalColor != null) {
+		IStyle cellStyle = this.getComputedStyle();
+		if (cellStyle.getAntidiagonalColor() != null && !"none".equals(cellStyle.getAntidiagonalStyle())) {
+			return cellStyle.getAntidiagonalColor();
+		} else if (antidiagonalColor != null) {
 			return antidiagonalColor;
 		} else if (cellDesign != null) {
 			return cellDesign.getAntidiagonalColor();

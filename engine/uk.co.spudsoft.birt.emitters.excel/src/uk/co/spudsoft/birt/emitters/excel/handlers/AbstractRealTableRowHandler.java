@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -16,13 +16,16 @@
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 import uk.co.spudsoft.birt.emitters.excel.AreaBorders;
@@ -34,6 +37,12 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Abstract class to define a real table row
+ *
+ * @since 3.3
+ *
+ */
 public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 
 	protected Row currentRow;
@@ -45,6 +54,14 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 	private BirtStyle rowStyle;
 	private AreaBorders borderDefn;
 
+	/**
+	 * Constructor
+	 *
+	 * @param log      log object
+	 * @param parent   parent handler
+	 * @param row      row content
+	 * @param startCol start column
+	 */
 	public AbstractRealTableRowHandler(Logger log, IHandler parent, IRowContent row, int startCol) {
 		super(log, parent, row);
 		this.startCol = startCol;
@@ -75,6 +92,11 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 
 	protected abstract boolean isNested();
 
+	/**
+	 * Resume row
+	 *
+	 * @param state handler state
+	 */
 	public void resumeRow(HandlerState state) {
 		log.debug("Resume row at ", state.rowNum);
 
@@ -87,14 +109,21 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		}
 		state.requiredRowHeightInPoints = 0;
 
-		rowStyle = new BirtStyle((IRowContent) element);
-		borderDefn = AreaBorders.create(myRow, 0, ((IRowContent) element).getTable().getColumnCount() - 1, myRow,
+		rowStyle = new BirtStyle(element);
+		borderDefn = AreaBorders.create(myRow, 0, ((IRowContent) element).getTable().getColumnCount() - 1, myRow, -1,
+				-1,
 				rowStyle);
 		if (borderDefn != null) {
 			state.insertBorderOverload(borderDefn);
 		}
 	}
 
+	/**
+	 * Interrupt the row and define the row cells
+	 *
+	 * @param state handler state
+	 * @throws BirtException
+	 */
 	public void interruptRow(HandlerState state) throws BirtException {
 		log.debug("Interrupt row at ", state.rowNum);
 		currentRow = state.currentSheet.getRow(state.rowNum);
@@ -167,10 +196,28 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		if (blankRow || ((!rowHasNestedTable) && (!isNested()) && (currentRow.getPhysicalNumberOfCells() == 0))) {
 			log.debug("Removing row ", currentRow.getRowNum());
 			state.currentSheet.removeRow(currentRow);
+
+			/*
+			 * row verification whether the row is registered with merged cells if yes, then
+			 * remove the merged region from sheet
+			 */
+			int indexRemoveMergedRegion = -1;
+			List<CellRangeAddress> mergedRegions = state.currentSheet.getMergedRegions();
+			for (int index = 0; index < mergedRegions.size(); index++) {
+				CellRangeAddress registeredMergedRegion = mergedRegions.get(index);
+				if (registeredMergedRegion.getFirstRow() == state.rowNum) {
+					indexRemoveMergedRegion = index;
+					break;
+				}
+			}
+			if (indexRemoveMergedRegion >= 0) {
+				state.currentSheet.removeMergedRegion(indexRemoveMergedRegion);
+			}
 		} else {
 			DimensionType height = ((IRowContent) element).getHeight();
 			if (height != null) {
-				if (DimensionUtil.isAbsoluteUnit(height.getUnits())) {
+				if (DimensionUtil.isAbsoluteUnit(height.getUnits())
+						|| DesignChoiceConstants.UNITS_PX.equals(height.getUnits())) {
 					double points = height.convertTo(DimensionType.UNITS_PT);
 					currentRow.setHeightInPoints((float) points);
 				}

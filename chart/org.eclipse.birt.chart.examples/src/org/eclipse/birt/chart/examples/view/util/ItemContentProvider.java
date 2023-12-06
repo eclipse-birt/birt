@@ -92,20 +92,23 @@ public class ItemContentProvider {
 	 */
 	private static void openDescriptorFile() throws IOException {
 		Bundle bundle = EclipseUtil.getBundle(ChartExamplesPlugin.ID);
-		Path path = new Path("/src/org/eclipse/birt/chart/examples/view/util/description.txt"); //$NON-NLS-1$
-		URL fileURL = FileLocator.find(bundle, path, null);
+		URL fileURL;
+		if (bundle != null) {
+			Path path = new Path("/src/org/eclipse/birt/chart/examples/view/util/description.txt"); //$NON-NLS-1$
+			fileURL = FileLocator.find(bundle, path, null);
+		} else {
+			fileURL = ItemContentProvider.class.getResource("description.txt");
+		}
 
 		if (fileURL != null) {
 			InputStream file = fileURL.openStream();
-
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new BufferedInputStream(file)))) {
 				while (true) {
 					String sTmp = reader.readLine();
 					if (sTmp == null) {
 						break;
-					} else {
-						dFile.append(sTmp.trim());
 					}
+					dFile.append(sTmp.trim());
 				}
 			}
 		}

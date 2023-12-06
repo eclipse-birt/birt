@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.11.0-SNAPSHOT</version>
+		<version>4.15.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.viewer</artifactId>
@@ -70,11 +70,14 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.4.1</version>
 				<configuration>
+					<phase>clean</phase>
+					<failOnError>false</failOnError>
 					<filesets>
 						<fileset>
 							<directory>birt/WEB-INF/lib</directory>
@@ -86,6 +89,7 @@
 					</filesets>
 				</configuration>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>

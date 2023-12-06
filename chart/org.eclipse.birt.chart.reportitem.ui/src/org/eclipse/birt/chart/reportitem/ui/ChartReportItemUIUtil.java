@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -43,6 +42,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -144,7 +144,7 @@ public class ChartReportItemUIUtil {
 	 * @return background image
 	 */
 	public static String getBackgroundImage(DesignElementHandle handle) {
-		return handle.getStringProperty(StyleHandle.BACKGROUND_IMAGE_PROP);
+		return handle.getStringProperty(IStyleModel.BACKGROUND_IMAGE_PROP);
 	}
 
 	/**
@@ -158,8 +158,8 @@ public class ChartReportItemUIUtil {
 		Object y = null;
 
 		if (handle != null) {
-			Object px = handle.getProperty(StyleHandle.BACKGROUND_POSITION_X_PROP);
-			Object py = handle.getProperty(StyleHandle.BACKGROUND_POSITION_Y_PROP);
+			Object px = handle.getProperty(IStyleModel.BACKGROUND_POSITION_X_PROP);
+			Object py = handle.getProperty(IStyleModel.BACKGROUND_POSITION_Y_PROP);
 
 			if (px instanceof String) {
 				x = px;
@@ -195,7 +195,7 @@ public class ChartReportItemUIUtil {
 	 * @return background repeat property
 	 */
 	public static int getBackgroundRepeat(DesignElementHandle handle) {
-		return getRepeat(handle.getStringProperty(StyleHandle.BACKGROUND_REPEAT_PROP));
+		return getRepeat(handle.getStringProperty(IStyleModel.BACKGROUND_REPEAT_PROP));
 	}
 
 	/**
@@ -219,9 +219,11 @@ public class ChartReportItemUIUtil {
 	 * Generate computed columns for the given report item with the closest data set
 	 * available.
 	 *
+	 * @param handle
 	 * @param dataSetHandle Data Set. No aggregation created.
 	 *
 	 * @return true if succeed,or fail if no column generated.
+	 * @throws SemanticException
 	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
 	 *
 	 */
@@ -273,8 +275,19 @@ public class ChartReportItemUIUtil {
 			figure.setImage(null);
 		} else {
 			Image image = null;
+			String imageSourceType = DesignChoiceConstants.IMAGE_REF_TYPE_EMBED;
+			Object obj = handle.getProperty(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP);
+			if (obj instanceof String) {
+				imageSourceType = obj.toString();
+			}
 			try {
-				image = ImageManager.getInstance().getImage(handle.getModuleHandle(), backGroundImage);
+				if (imageSourceType.equalsIgnoreCase(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED)) {
+					// embedded image
+					image = ImageManager.getInstance().getEmbeddedImage(handle.getModuleHandle(), backGroundImage);
+				} else {
+					// URL image
+					image = ImageManager.getInstance().getImage(handle.getModuleHandle(), backGroundImage);
+				}
 			} catch (SWTException e) {
 				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
@@ -331,7 +344,7 @@ public class ChartReportItemUIUtil {
 	 * @param figure Figure
 	 */
 	public static void refreshBackgroundColor(ExtendedItemHandle handle, IFigure figure) {
-		Object obj = handle.getProperty(StyleHandle.BACKGROUND_COLOR_PROP);
+		Object obj = handle.getProperty(IStyleModel.BACKGROUND_COLOR_PROP);
 
 		figure.setOpaque(false);
 

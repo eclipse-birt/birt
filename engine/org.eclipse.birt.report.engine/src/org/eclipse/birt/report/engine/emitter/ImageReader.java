@@ -18,6 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -36,16 +38,36 @@ import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+/**
+ * Image reader of pdf output
+ *
+ * @since 3.3
+ *
+ */
 public class ImageReader {
 
+	/** property: type image object, raster image */
 	public static final int TYPE_IMAGE_OBJECT = 0;
+
+	/** property: type image object, flash */
 	public static final int TYPE_FLASH_OBJECT = 1;
+
+	/** property: type image object, svg image */
 	public static final int TYPE_SVG_OBJECT = 2;
+
+	/** property: type image object, converted svg image */
 	public static final int TYPE_CONVERTED_SVG_OBJECT = 3;
 
+	/** property: image read status, unloaded */
 	public static final int OBJECT_UNLOADED = -1;
+
+	/** property: image read status, resource unreachable */
 	public static final int RESOURCE_UNREACHABLE = 0;
+
+	/** property: image read status, unsupported object */
 	public static final int UNSUPPORTED_OBJECTS = 1;
+
+	/** property: image read status, object loaded successfully */
 	public static final int OBJECT_LOADED_SUCCESSFULLY = 2;
 
 	private int objectType = TYPE_IMAGE_OBJECT;
@@ -58,6 +80,16 @@ public class ImageReader {
 
 	protected static Logger logger = Logger.getLogger(ImageReader.class.getName());
 
+	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
+	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
+	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
+
+	/**
+	 * Constructor
+	 *
+	 * @param content               content environment of the image
+	 * @param supportedImageFormats supported image formats
+	 */
 	public ImageReader(IImageContent content, String supportedImageFormats) {
 		this.content = content;
 		this.supportedImageFormats = supportedImageFormats;
@@ -67,10 +99,15 @@ public class ImageReader {
 		}
 	}
 
+	/**
+	 * Read the image
+	 *
+	 * @return Return the read status
+	 */
 	public int read() {
 		buffer = null;
 		checkObjectType(content);
-		String uri = content.getURI();
+		String uri = this.verifyURI(content.getURI());
 		try {
 			switch (content.getImageSource()) {
 			case IImageContent.IMAGE_FILE:
@@ -106,10 +143,20 @@ public class ImageReader {
 		return status;
 	}
 
+	/**
+	 * Get the byte array of the image
+	 *
+	 * @return Return the byte array of the image
+	 */
 	public byte[] getByteArray() {
 		return buffer;
 	}
 
+	/**
+	 * Get the image type
+	 *
+	 * @return Return the image type
+	 */
 	public int getType() {
 		return objectType;
 	}
@@ -178,9 +225,17 @@ public class ImageReader {
 				byte[] bytes = null;
 				if (Objects.equals(parseDataUrl.getEncoding(), "base64")) { //$NON-NLS-1$
 					bytes = Base64.getDecoder().decode(parseDataUrl.getData());
-				} else if (parseDataUrl.getEncoding() == null) {
+				} else {
 					/* The case of no encoding, the data is a string on the URL */
 					bytes = parseDataUrl.getData().getBytes(StandardCharsets.UTF_8); /* Charset of the SVG file */
+				}
+				if (this.objectType == TYPE_SVG_OBJECT) {
+					try {
+						String decodedImg = java.net.URLDecoder.decode(new String(bytes), StandardCharsets.UTF_8);
+						bytes = decodedImg.getBytes(StandardCharsets.UTF_8);
+					} catch (IllegalArgumentException iae) {
+						// do nothing
+					}
 				}
 
 				if (bytes != null) {
@@ -230,7 +285,7 @@ public class ImageReader {
 		}
 	}
 
-	private void readImage(byte[] data) throws IOException {
+	private void readImage(byte[] data) {
 		if (data == null || data.length == 0) {
 			buffer = null;
 			status = RESOURCE_UNREACHABLE;
@@ -253,5 +308,26 @@ public class ImageReader {
 			buffer = null;
 			status = UNSUPPORTED_OBJECTS;
 		}
+	}
+
+	/**
+	 * Check the URL to be valid and fall back try it like file-URL
+	 */
+	private String verifyURI(String uri) {
+		if (uri != null && !uri.toLowerCase().startsWith(URL_PROTOCOL_TYPE_DATA)) {
+			String tmpUrl = uri.replaceAll(" ", URL_PROTOCOL_URL_ENCODED_SPACE);
+			try {
+				new URL(tmpUrl).toURI();
+			} catch (MalformedURLException | URISyntaxException excUrl) {
+				// invalid URI try it like "file:"
+				try {
+					tmpUrl = URL_PROTOCOL_TYPE_FILE + "///" + uri;
+					new URL(tmpUrl).toURI();
+					uri = tmpUrl;
+				} catch (MalformedURLException | URISyntaxException excFile) {
+				}
+			}
+		}
+		return uri;
 	}
 }

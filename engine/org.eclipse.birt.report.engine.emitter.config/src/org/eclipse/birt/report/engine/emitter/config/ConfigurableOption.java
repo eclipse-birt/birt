@@ -58,6 +58,14 @@ public final class ConfigurableOption implements IConfigurableOption {
 		this.name = name;
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param name         name of the configuration
+	 * @param dataType     data type
+	 * @param displayType  display type
+	 * @param defaultValue default value
+	 */
 	public ConfigurableOption(String name, DataType dataType, DisplayType displayType, Object defaultValue) {
 		this(name);
 
@@ -242,6 +250,11 @@ public final class ConfigurableOption implements IConfigurableOption {
 		return name;
 	}
 
+	/**
+	 * Set configuration to enabled
+	 *
+	 * @param enabled true if configuration is enabled (false, disabled)
+	 */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -256,6 +269,11 @@ public final class ConfigurableOption implements IConfigurableOption {
 		return category;
 	}
 
+	/**
+	 * Set category
+	 *
+	 * @param category name of the category
+	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}

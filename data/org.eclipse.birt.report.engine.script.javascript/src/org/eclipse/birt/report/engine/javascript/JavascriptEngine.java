@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.report.engine.javascript;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -202,13 +200,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 	@Override
 	public CompiledJavascript compile(ScriptContext scriptContext, final String id, final int lineNumber,
 			final String script) throws BirtException {
-		Script scriptObject = AccessController.doPrivileged(new PrivilegedAction<Script>() {
-
-			@Override
-			public Script run() {
-				return context.compileString(script, id, lineNumber, ScriptUtil.getSecurityDomain(id));
-			}
-		});
+		Script scriptObject = context.compileString(script, id, lineNumber, ScriptUtil.getSecurityDomain(id));
 		return new CompiledJavascript(id, lineNumber, script, scriptObject);
 	}
 
@@ -283,13 +275,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 		try {
 			appLoader.loadClass("org.mozilla.javascript.Context");
 		} catch (ClassNotFoundException e) {
-			loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-				@Override
-				public ClassLoader run() {
-					return new RhinoClassLoaderDecoration(appLoader, JavascriptEngine.class.getClassLoader());
-				}
-			});
+			loader = new RhinoClassLoaderDecoration(appLoader, JavascriptEngine.class.getClassLoader());
 		}
 		context.setApplicationClassLoader(loader);
 	}

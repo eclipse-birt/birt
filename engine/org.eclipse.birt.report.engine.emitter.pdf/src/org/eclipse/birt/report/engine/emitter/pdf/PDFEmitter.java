@@ -19,6 +19,12 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
+/**
+ * Class of PDFEmitter
+ *
+ * @since 3.3
+ *
+ */
 public class PDFEmitter extends PageEmitter {
 
 	@Override

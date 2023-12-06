@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -64,10 +64,18 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 		boolean autoFilter = EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.AUTO_FILTER,
 				false);
 		if (autoFilter) {
-			log.debug("Applying auto filter to [", this.startRow, ",", this.startCol, "] - [", this.endDetailsRow, ",",
-					state.colNum - 1, "]");
-			CellRangeAddress wholeTable = new CellRangeAddress(startRow, endDetailsRow, startCol, state.colNum - 1);
-			state.currentSheet.setAutoFilter(wholeTable);
+
+			int autoEndRow = endDetailsRow;
+			int autoEndCol = (state.colNum - 1);
+			if (autoEndRow < this.startRow)
+				autoEndRow = this.startRow;
+			if (autoEndCol < this.startCol)
+				autoEndCol = this.startCol;
+
+			log.debug("Applying auto filter to [", this.startRow, ",", this.startCol, "] - [", autoEndRow, ",",
+					autoEndCol, "]");
+			CellRangeAddress wholeTable = new CellRangeAddress(startRow, autoEndRow, startCol, autoEndCol);
+				state.currentSheet.setAutoFilter(wholeTable);
 		}
 
 		boolean blankRowAfterTopLevelTable = EmitterServices.booleanOption(state.getRenderOptions(), table,

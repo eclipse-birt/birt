@@ -1082,6 +1082,8 @@ public class BirtViewerReportService implements IViewerReportService {
 		long id = scalarParamHandle != null ? scalarParamHandle.getID() : 0L;
 		String pattern = scalarParamHandle == null ? "" //$NON-NLS-1$
 				: scalarParamHandle.getPattern();
+		String category = scalarParamHandle == null ? "" //$NON-NLS-1$
+				: scalarParamHandle.getCategory();
 		String displayFormat = engineParam.getDisplayFormat();
 		String displayName = engineParam.getDisplayName();
 		String helpText = engineParam.getHelpText();
@@ -1102,7 +1104,8 @@ public class BirtViewerReportService implements IViewerReportService {
 			isMultiValue = DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
 					.equalsIgnoreCase(scalarParamHandle.getParamType());
 		}
-		ParameterDefinition param = new ParameterDefinition(id, name, pattern, displayFormat, displayName, helpText,
+		ParameterDefinition param = new ParameterDefinition(id, name, category, pattern, displayFormat, displayName,
+				helpText,
 				promptText, dataType, valueExpr, controlType, hidden, allowNull, allowBlank, isRequired, mustMatch,
 				concealValue, distinct, isMultiValue, group, null);
 		return param;

@@ -15,8 +15,13 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 //FIXME: code review: We should list all the properties according the CSS.
@@ -30,6 +35,12 @@ public class AttributeBuilder {
 
 	/**
 	 * Build the relative position of a component. This method is obsolete.
+	 *
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return Return the content string
 	 */
 	public static String buildPos(DimensionType x, DimensionType y, DimensionType width, DimensionType height) {
 		StringBuffer content = new StringBuffer();
@@ -91,21 +102,75 @@ public class AttributeBuilder {
 	 * @param style       The style object.
 	 * @param emitter     The <code>HTMLReportEmitter</code> object which provides
 	 *                    resource manager and hyperlink builder objects.
+	 * @param parentSize  The size of the parent container
 	 */
-	public static void buildBackground(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter) {
+	public static void buildBackground(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter,
+			DimensionType[] parentSize) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor());
 
 		String image = style.getBackgroundImage();
 		if (image == null || "none".equalsIgnoreCase(image)) //$NON-NLS-1$
 		{
+			if (style.getBackgroundHeight() != null || style.getBackgroundWidth() != null) {
+				addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
+
+				if (style.getBackgroundWidth() != null && style.getBackgroundHeight() != null) {
+					addPropValue(styleBuffer, "100%");
+					addPropValue(styleBuffer, "auto");
+					addPropValue(styleBuffer, "auto");
+				} else {
+				if (style.getBackgroundWidth() != null) {
+					addPropValue(styleBuffer, style.getBackgroundWidth());
+				} else {
+					addPropValue(styleBuffer, "auto");
+				}
+				if (style.getBackgroundHeight() != null) {
+					addPropValue(styleBuffer, style.getBackgroundHeight());
+				} else {
+					addPropValue(styleBuffer, "auto");
+				}
+			}
+				styleBuffer.append(';');
+			}
 			return;
 		}
+		BackgroundImageInfo backgroundImage = emitter.handleStyleImage(image, true, style);
 
-		image = emitter.handleStyleImage(image, true);
+		image = backgroundImage.getUri();
 		if (image != null && image.length() > 0) {
 			buildURLProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_IMAGE, image);
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat());
 			buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style.getBackgroundAttachment());
+
+			DimensionType height = null;
+			DimensionType width = null;
+			if (parentSize != null && parentSize.length == 2) {
+				height = parentSize[0];
+				width = parentSize[1];
+			}
+			addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
+
+			String h = backgroundImage.getHeight() + "px";
+			String w = backgroundImage.getWidth() + "px";
+			String propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
+			String propertyValue2 = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY);
+			if (propertyValue != null && (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
+					|| DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue))) {
+				if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
+					h = "auto";
+					if (width != null) {
+						w = width.toString();
+					}
+				} else if (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)) {
+					if (height != null) {
+						h = height.toString();
+					}
+					w = "auto";
+				}
+			}
+			addPropValue(styleBuffer, w);
+			addPropValue(styleBuffer, h);
+			styleBuffer.append(';');
 
 			String x = style.getBackgroundPositionX();
 			String y = style.getBackgroundPositionY();
@@ -124,6 +189,13 @@ public class AttributeBuilder {
 		}
 	}
 
+	/**
+	 * Build the background color
+	 *
+	 * @param styleBuffer
+	 * @param style
+	 * @param emitter
+	 */
 	public static void buildBackgroundColor(StringBuffer styleBuffer, IStyle style, HTMLReportEmitter emitter) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor());
 	}
@@ -302,7 +374,6 @@ public class AttributeBuilder {
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
 	 * @param style       The style object.
-	 * @param bContainer  true: shouldn't output the text-decoration.
 	 */
 	public static void buildText(StringBuffer styleBuffer, IStyle style) {
 		buildProperty(styleBuffer, HTMLTags.ATTR_TEXT_INDENT, style.getTextIndent());
@@ -349,25 +420,23 @@ public class AttributeBuilder {
 	 *
 	 * @param styleBuffer The <code>StringBuffer</code> to which the result is
 	 *                    output.
-	 * @param linethrough The line-through value.
-	 * @param underline   The underline value.
-	 * @param overline    The overline value.
+	 * @param style       The style of the text decoration.
 	 */
 	public static void buildTextDecoration(StringBuffer styleBuffer, IStyle style) {
-		CSSValue linethrough = style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH);
-		CSSValue underline = style.getProperty(IStyle.STYLE_TEXT_UNDERLINE);
-		CSSValue overline = style.getProperty(IStyle.STYLE_TEXT_OVERLINE);
+		CSSValue linethrough = style.getProperty(StyleConstants.STYLE_TEXT_LINETHROUGH);
+		CSSValue underline = style.getProperty(StyleConstants.STYLE_TEXT_UNDERLINE);
+		CSSValue overline = style.getProperty(StyleConstants.STYLE_TEXT_OVERLINE);
 
-		if (linethrough == IStyle.LINE_THROUGH_VALUE || underline == IStyle.UNDERLINE_VALUE
-				|| overline == IStyle.OVERLINE_VALUE) {
+		if (linethrough == CSSValueConstants.LINE_THROUGH_VALUE || underline == CSSValueConstants.UNDERLINE_VALUE
+				|| overline == CSSValueConstants.OVERLINE_VALUE) {
 			styleBuffer.append(" text-decoration:"); //$NON-NLS-1$
-			if (IStyle.LINE_THROUGH_VALUE == linethrough) {
+			if (CSSValueConstants.LINE_THROUGH_VALUE == linethrough) {
 				addPropValue(styleBuffer, "line-through");
 			}
-			if (IStyle.UNDERLINE_VALUE == underline) {
+			if (CSSValueConstants.UNDERLINE_VALUE == underline) {
 				addPropValue(styleBuffer, "underline");
 			}
-			if (IStyle.OVERLINE_VALUE == overline) {
+			if (CSSValueConstants.OVERLINE_VALUE == overline) {
 				addPropValue(styleBuffer, "overline");
 			}
 			styleBuffer.append(';');
@@ -538,7 +607,7 @@ public class AttributeBuilder {
 		if (style != null) {
 			String direction = style.getDirection();
 			if (direction != null) {
-				buildProperty(styleBuffer, IStyle.CSS_DIRECTION_PROPERTY, direction);
+				buildProperty(styleBuffer, CSSConstants.CSS_DIRECTION_PROPERTY, direction);
 			}
 		}
 	}

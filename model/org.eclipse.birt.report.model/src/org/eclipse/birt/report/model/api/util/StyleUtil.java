@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -47,9 +47,10 @@ public class StyleUtil {
 	 * style property value will be the cascaded value, otherwise will be the
 	 * factory value.
 	 *
-	 * @param source
-	 * @param isCascaded
-	 * @return
+	 * @param source     design element handle
+	 * @param target     design element handle
+	 * @param isCascaded flag if the element is cascaded
+	 * @return Return a copy of style properties
 	 */
 	public static DesignElementHandle copyStyles(DesignElementHandle source, DesignElementHandle target,
 			boolean isCascaded) {
@@ -61,8 +62,9 @@ public class StyleUtil {
 	 * the returned value. The copied style property value will be the factory value
 	 * and not cascaded.
 	 *
-	 * @param source
-	 * @return
+	 * @param source design element handle
+	 * @param target
+	 * @return Return a copy of style properties
 	 */
 	public static DesignElementHandle copyStyles(DesignElementHandle source, DesignElementHandle target) {
 		return copyStyleProperties(source, target, false, false);
@@ -74,9 +76,9 @@ public class StyleUtil {
 	 * style property value will be the cascaded value, otherwise will be the
 	 * factory value.
 	 *
-	 * @param source
-	 * @param isCascaded
-	 * @return
+	 * @param source design element handle
+	 * @param target
+	 * @return Return a copy of style properties
 	 */
 	public static DesignElementHandle copyLocalStyles(DesignElementHandle source, DesignElementHandle target) {
 		return copyStyleProperties(source, target, false, true);
@@ -152,8 +154,8 @@ public class StyleUtil {
 				if (value instanceof IStructure) {
 					needCopy = true;
 				} else if (value instanceof List) {
-					needCopy = !((List) value).isEmpty();
-					for (Object item : (List) value) {
+					needCopy = !((List<?>) value).isEmpty();
+					for (Object item : (List<?>) value) {
 						if (!(item instanceof Structure)) {
 							needCopy = false;
 							break;
@@ -182,12 +184,12 @@ public class StyleUtil {
 			return;
 		}
 
-		DesignSession.addExtensionDefaultStyles((ReportDesign) designHandle.getModule(), true);
+		DesignSessionImpl.addExtensionDefaultStyles((ReportDesign) designHandle.getModule(), true);
 	}
 
 	private static boolean hasExternalCSSURI(Iterator<IncludedCssStyleSheetHandle> iter) {
 		while (iter != null && iter.hasNext()) {
-			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter.next();
+			IncludedCssStyleSheetHandle includedCssStyleSheet = iter.next();
 			String externalCSSURI = includedCssStyleSheet.getExternalCssURI();
 			boolean useExternalCSS = includedCssStyleSheet.isUseExternalCss();
 			if (externalCSSURI != null || useExternalCSS) {
@@ -197,6 +199,12 @@ public class StyleUtil {
 		return false;
 	}
 
+	/**
+	 * Check if external CSS URI is used
+	 *
+	 * @param module
+	 * @return Return the check result whether CSS URI si used
+	 */
 	public static boolean hasExternalCSSURI(Module module) {
 		if (module instanceof ReportDesign) {
 			ReportDesignHandle handle = (ReportDesignHandle) module.getHandle(module);

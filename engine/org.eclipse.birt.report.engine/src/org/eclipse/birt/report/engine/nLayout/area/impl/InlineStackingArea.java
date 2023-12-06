@@ -17,26 +17,61 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Definition of the inline stacking area
+ *
+ * @since 3.3
+ *
+ */
 public abstract class InlineStackingArea extends ContainerArea {
 
+	/**
+	 * Constructor container based
+	 *
+	 * @param parent
+	 * @param context
+	 * @param content
+	 */
 	public InlineStackingArea(ContainerArea parent, LayoutContext context, IContent content) {
 		super(parent, context, content);
 		this.isInlineStacking = true;
 	}
 
+	/**
+	 * Constructor area based
+	 *
+	 * @param area
+	 */
 	public InlineStackingArea(InlineStackingArea area) {
 		super(area);
 	}
 
+	/**
+	 * End the line
+	 *
+	 * @param endParagraph
+	 * @throws BirtException
+	 */
 	public abstract void endLine(boolean endParagraph) throws BirtException;
 
+	/**
+	 * Is the line empty
+	 *
+	 * @return true, line is empty
+	 */
 	public abstract boolean isEmptyLine();
 
+	/**
+	 * Get the maximum line width
+	 *
+	 * @return Return maximum line width
+	 */
 	public abstract int getMaxLineWidth();
 
 	@Override
@@ -54,7 +89,7 @@ public abstract class InlineStackingArea extends ContainerArea {
 	@Override
 	public int getBaseLine() {
 		if (baseLine == 0 && children.size() > 0) {
-			Iterator iter = children.iterator();
+			Iterator<IArea> iter = children.iterator();
 			while (iter.hasNext()) {
 				AbstractArea child = (AbstractArea) iter.next();
 				baseLine = Math.max(baseLine, child.getY() + child.getBaseLine());
@@ -64,11 +99,11 @@ public abstract class InlineStackingArea extends ContainerArea {
 	}
 
 	@Override
-	public void updateChildrenPosition() throws BirtException {
+	public void updateChildrenPosition() {
 		first = false;
 		currentIP = 0;
 		if (children.size() > 0) {
-			Iterator iter = children.iterator();
+			Iterator<IArea> iter = children.iterator();
 			int x = getOffsetX();
 			int w = 0;
 			while (iter.hasNext()) {
@@ -91,20 +126,17 @@ public abstract class InlineStackingArea extends ContainerArea {
 	}
 
 	protected void verticalAlign() {
-		Iterator iter = getChildren();
+		Iterator<IArea> iter = getChildren();
 		while (iter.hasNext()) {
 			AbstractArea child = (AbstractArea) iter.next();
 			CSSValue vAlign = child.getVerticalAlign();
-			if (IStyle.TOP_VALUE.equals(vAlign)) {
+			if (CSSValueConstants.TOP_VALUE.equals(vAlign)) {
 				continue;
 			}
 			int spacing = getContentHeight() - child.getAllocatedHeight();
-			if (spacing < 0) {
-				spacing = 0;
-			}
 
-			if ((vAlign == null && !isImageContainer(child)) || IStyle.BASELINE_VALUE.equals(vAlign)) {
-				// FIXME to implement basline alignment
+			if ((vAlign == null && !isImageContainer(child)) || CSSValueConstants.BASELINE_VALUE.equals(vAlign)) {
+				// FIXME to implement baseline alignment
 				int lineHeight = parent.getLineHeight();
 				if (lineHeight > 0) {
 					// align to middle, fix issue 164072
@@ -112,9 +144,9 @@ public abstract class InlineStackingArea extends ContainerArea {
 				} else {
 					child.setPosition(child.getX(), getBaseLine() - child.getBaseLine());
 				}
-			} else if (IStyle.BOTTOM_VALUE.equals(vAlign)) {
+			} else if (CSSValueConstants.BOTTOM_VALUE.equals(vAlign)) {
 				child.setPosition(child.getX(), child.getY() + spacing);
-			} else if (IStyle.MIDDLE_VALUE.equals(vAlign)) {
+			} else if (CSSValueConstants.MIDDLE_VALUE.equals(vAlign)) {
 				child.setPosition(child.getX(), child.getY() + spacing / 2);
 			}
 		}
@@ -123,11 +155,15 @@ public abstract class InlineStackingArea extends ContainerArea {
 	private boolean isImageContainer(AbstractArea area) {
 		if (area instanceof ImageInlineContainer || area instanceof ImageBlockContainer) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
+	/**
+	 * Set the text indent
+	 *
+	 * @param content
+	 */
 	public abstract void setTextIndent(ITextContent content);
 
 }

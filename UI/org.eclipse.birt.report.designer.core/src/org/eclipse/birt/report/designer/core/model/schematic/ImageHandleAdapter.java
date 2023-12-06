@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -36,13 +37,25 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 
+	private Rectangle imageFigureSize = null;
+
 	/**
 	 * Constructor
 	 *
-	 * @param handle
+	 * @param image image handle
+	 * @param mark  model adapter helper
 	 */
 	public ImageHandleAdapter(ImageHandle image, IModelAdapterHelper mark) {
 		super(image, mark);
+	}
+
+	/**
+	 * Set the image figure size
+	 *
+	 * @param imageFigureSize size of the image figure (width & height)
+	 */
+	public void setImageFigureDimension(Rectangle imageFigureSize) {
+		this.imageFigureSize = imageFigureSize;
 	}
 
 	/**
@@ -67,9 +80,8 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase(imageSource)) {
 			if (URIUtil.isValidResourcePath(url)) {
 				return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), URIUtil.getLocalPath(url));
-			} else {
-				return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), url);
 			}
+			return ImageManager.getInstance().getImage(imageHandel.getModuleHandle(), url);
 
 		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase(imageSource)) {
 			// bugzilla 245641
@@ -99,42 +111,44 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 	/**
 	 * Gets size of image item. If the image size is 0, return null.
 	 *
-	 * @return the size of image item.
+	 * @return the size of image item (unit px)
 	 */
 	@Override
 	public Dimension getSize() {
-		DimensionHandle widthHandle = getImageHandle().getWidth();
-		int px = (int) DEUtil.convertoToPixel(widthHandle);
-
-		DimensionHandle heightHandle = getImageHandle().getHeight();
-		int py = (int) DEUtil.convertoToPixel(heightHandle);
-
-		if (DEUtil.isFixLayout(getHandle())) {
-			if (px == 0 && widthHandle.isSet()) {
-				px = 1;
-			}
-			if (py == 0 && heightHandle.isSet()) {
-				py = 1;
-			}
-		}
-
-		if (px != 0 && py != 0) {
-			return new Dimension(px, py);
-		}
-		return null;
+		return evaluateSize(false);
 	}
 
 	/**
 	 * Gets size of image item. Always returns a non-null value.
 	 *
-	 * @return
+	 * @return Return the size of the image item (unit px)
 	 */
 	public Dimension getRawSize() {
-		DimensionHandle widthHandle = getImageHandle().getWidth();
-		int px = (int) DEUtil.convertoToPixel(widthHandle);
+		return evaluateSize(true);
+	}
 
-		DimensionHandle heightHandle = getImageHandle().getHeight();
-		int py = (int) DEUtil.convertoToPixel(heightHandle);
+	/**
+	 * Evaluate the size of the image based on px
+	 *
+	 * @param getRawSize return the real raw size
+	 * @return Return the requested size of the image (unit px)
+	 */
+	private Dimension evaluateSize(boolean getRawSize) {
+		int px = 0;
+		int py = 0;
+
+		DimensionHandle widthHandle = this.getImageHandle().getWidth();
+		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(widthHandle.getUnits())) {
+			px = (int) DEUtil.convertToPixel(widthHandle, this.imageFigureSize.width, DesignChoiceConstants.UNITS_PX);
+		} else {
+			px = (int) DEUtil.convertoToPixel(widthHandle);
+		}
+		DimensionHandle heightHandle = this.getImageHandle().getHeight();
+		if (this.imageFigureSize != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals(heightHandle.getUnits())) {
+			py = (int) DEUtil.convertToPixel(heightHandle, this.imageFigureSize.height, DesignChoiceConstants.UNITS_PX);
+		} else {
+			py = (int) DEUtil.convertoToPixel(heightHandle);
+		}
 
 		if (DEUtil.isFixLayout(getHandle())) {
 			if (px == 0 && widthHandle.isSet()) {
@@ -145,7 +159,21 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter {
 			}
 		}
 
-		return new Dimension(Math.max(px, 0), Math.max(py, 0));
+		// proportional scale of the image size
+		if (widthHandle.getUnits() != null && this.getImageHandle().isProportionalScale()) {
+			py = px;
+		}
+
+		// return the real raw size
+		if (getRawSize) {
+			return new Dimension(Math.max(px, 0), Math.max(py, 0));
+		}
+
+		// return only if size is given (if not return null)
+		if (px != 0 && py != 0) {
+			return new Dimension(px, py);
+		}
+		return null;
 	}
 
 	@Override

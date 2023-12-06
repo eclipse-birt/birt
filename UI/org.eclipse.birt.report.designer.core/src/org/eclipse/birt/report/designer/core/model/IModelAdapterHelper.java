@@ -33,21 +33,21 @@ public interface IModelAdapterHelper {
 	/**
 	 * Gets the flag
 	 *
-	 * @return
+	 * @return Return the dirty flag
 	 */
 	boolean isDirty();
 
 	/**
 	 * Gets the preferred size
 	 *
-	 * @return
+	 * @return Return the preferred size
 	 */
 	Dimension getPreferredSize();
 
 	/**
 	 * Gets the insets
 	 *
-	 * @return
+	 * @return Return the insets
 	 */
 	Insets getInsets();
 }

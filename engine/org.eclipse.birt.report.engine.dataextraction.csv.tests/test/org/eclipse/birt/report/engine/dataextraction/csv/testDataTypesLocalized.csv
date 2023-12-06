@@ -1,5 +1,5 @@
 Any,Boolean,Integer,Double,Decimal,String,Date,Blob,Binary,SQL Date,SQL Time
 Any,Boolean,Integer,Float,Decimal,String,DateTime,Blob,Binary,Date,Time
 ,,,,,,,,,,
-true,true,-24,"-123,456789",12345678901234567890123456789,Simple String,8 août 2008 08:08,,,8 août 2008,08:08:08
+true,true,-24,"-123,456789",12345678901234567890123456789,Simple String,"8 août 2008, 08:08",,,8 août 2008,08:08:08
 Any String,false,28,"123,456789","123,45678901234567890123456789",,,,,,

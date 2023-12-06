@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,12 +33,23 @@ import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
+/**
+ * Docx emitter implementation
+ *
+ * @since 3.3
+ *
+ */
 public class DocxEmitterImpl extends AbstractEmitterImpl {
 
 	private static final String OUTPUT_FORMAT = "docx";
 
 	private boolean embedHtml = true;
 
+	/**
+	 * Constructor
+	 *
+	 * @param contentVisitor content visitor
+	 */
 	public DocxEmitterImpl(ContentEmitterVisitor contentVisitor) {
 		this.contentVisitor = contentVisitor;
 	}
@@ -97,7 +108,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 				width = Math.min(width, context.getCurrentWidth());
 				wordWriter.startTable(foreign.getComputedStyle(), width, true);
 				wordWriter.startTableRow(-1);
-				wordWriter.startTableCell(width, foreign.getComputedStyle(), null);
+				wordWriter.startTableCell(width, foreign.getComputedStyle(), null, null);
 				// TODO:need text paser for foreign raw value
 				wordWriter.writeForeign(foreign);
 				if (isInSpannedCell(foreign)) {

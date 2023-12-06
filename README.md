@@ -1,4 +1,4 @@
-# Eclipse BIRT [![Build Status](https://github.com/eclipse/birt/workflows/CI/badge.svg)](https://github.com/eclipse/birt/actions)
+# Eclipse BIRT [![Build Status](https://github.com/eclipse-birt/birt/workflows/CI/badge.svg)](https://github.com/eclipse-birt/birt/actions)
 The open source Eclipse BIRT reporting and data visualization project. 
 
 ## Website
@@ -14,24 +14,21 @@ BIRT is built with [Apache Maven](http://maven.apache.org) through [Tycho](https
 
 To build BIRT with the latest Eclipse platform, run:
 
-    mvn package -DskipTests 
+    mvn clean verify -DskipTests=true
     
 ### Building environment
-* JDK 11
-* Maven 3.6.3
+* JDK 17
+* Maven 3.9.0
 
-## Eclipse Version 4.23
-If you want to install BIRT as a plugin, please be aware that BIRT 4.10 requires Eclipse 4.23 and higher
+## Eclipse Version
+If you want to install BIRT as a plug-in, please be aware that BIRT 4.14 requires Eclipse 4.30 or higher, and Java 17 or higher.
 
-## Latest version 4.10.0
-* https://download.eclipse.org/birt/downloads/drops/latest
-* https://download.eclipse.org/birt/update-site/latest
+## Latest version 4.14.0
+* https://download.eclipse.org/birt/updates/release/latest
 
-## Current version 4.10.0
-* https://download.eclipse.org/birt/downloads/drops/R-R1-4.10.0-202210031241
-* https://download.eclipse.org/birt/update-site/4.10.0/
+## Current version 4.14.0
+* https://download.eclipse.org/birt/updates/release/4.14.0/
 
-## Latest snapshots towards 4.11.0
-* https://download.eclipse.org/birt/downloads/drops/snapshot/
-* https://download.eclipse.org/birt/update-site/snapshot/
+## Latest snapshots towards 4.15.0
+* https://download.eclipse.org/birt/updates/nightly/latest
 

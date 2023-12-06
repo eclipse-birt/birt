@@ -19,6 +19,12 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+/**
+ * Class for TOC (table of content)
+ *
+ * @since 3.3
+ *
+ */
 public class TOC implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private java.lang.String id;
@@ -28,9 +34,22 @@ public class TOC implements java.io.Serializable {
 	private java.lang.Boolean isLeaf;
 	private org.eclipse.birt.report.soapengine.api.TOC[] child;
 
+	/**
+	 * Constructor
+	 */
 	public TOC() {
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param id
+	 * @param displayName
+	 * @param bookmark
+	 * @param style
+	 * @param isLeaf
+	 * @param child
+	 */
 	public TOC(java.lang.String id, java.lang.String displayName, java.lang.String bookmark, java.lang.String style,
 			java.lang.Boolean isLeaf, org.eclipse.birt.report.soapengine.api.TOC[] child) {
 		this.id = id;
@@ -149,10 +168,22 @@ public class TOC implements java.io.Serializable {
 		this.child = child;
 	}
 
+	/**
+	 * Get the child
+	 *
+	 * @param i child index
+	 * @return Return the child
+	 */
 	public org.eclipse.birt.report.soapengine.api.TOC getChild(int i) {
 		return this.child[i];
 	}
 
+	/**
+	 * Set the value of child
+	 *
+	 * @param i      index of child
+	 * @param _value value for child
+	 */
 	public void setChild(int i, org.eclipse.birt.report.soapengine.api.TOC _value) {
 		this.child[i] = _value;
 	}
@@ -281,13 +312,20 @@ public class TOC implements java.io.Serializable {
 
 	/**
 	 * Return type metadata object
+	 *
+	 * @return Return type metadata object
 	 */
 	public static org.apache.axis.description.TypeDesc getTypeDesc() {
 		return typeDesc;
 	}
 
 	/**
-	 * Get Custom Serializer
+	 * Get custom serializer
+	 *
+	 * @param mechType
+	 * @param _javaType
+	 * @param _xmlType
+	 * @return Return the custom serializer
 	 */
 	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
 			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
@@ -295,7 +333,12 @@ public class TOC implements java.io.Serializable {
 	}
 
 	/**
-	 * Get Custom Deserializer
+	 * Get custom deserializer
+	 *
+	 * @param mechType
+	 * @param _javaType
+	 * @param _xmlType
+	 * @return Return the custom deserializer
 	 */
 	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
 			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {

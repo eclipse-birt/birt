@@ -16,10 +16,11 @@
 <feature
       id="org.eclipse.birt.integration.wtp.sdk"
       label="%featureName"
-      version="4.11.0.qualifier"
+      version="4.15.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.integration.wtp.sdk"
-      image="eclipse_update_120.jpg">
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/birt">
       %description
@@ -34,8 +35,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.9"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/latest"/>
    </url>
 
    <includes

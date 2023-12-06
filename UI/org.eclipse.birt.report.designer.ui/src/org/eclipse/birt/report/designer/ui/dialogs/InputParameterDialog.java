@@ -495,7 +495,7 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 			if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
 				formatStr = new StringFormatter(formatPattern, formatLocale).format(str);
 			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
-				formatPattern = formatPattern.equals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED)
+				formatPattern = formatPattern.equals(DesignChoiceConstants.DATETIME_FORMAT_TYPE_UNFORMATTED)
 						? DateFormatter.DATETIME_UNFORMATTED
 						: formatPattern;
 				formatStr = new DateFormatter(formatPattern, formatLocale).format((Date) para.converToDataType(str));
@@ -558,7 +558,7 @@ abstract class AbstractParameterControlHelper implements IParameterControlHelper
 	private boolean isCustom(String formatCategroy) {
 		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
+				|| DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals(formatCategroy)
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals(formatCategroy)) {

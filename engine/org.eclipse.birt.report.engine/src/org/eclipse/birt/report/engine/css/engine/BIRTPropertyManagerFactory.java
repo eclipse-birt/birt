@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BooleanManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.DataFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.VisibleFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundAttachmentManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundImageType;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundRepeatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundSizeManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BorderColorManager;
@@ -55,14 +56,16 @@ import org.eclipse.birt.report.engine.css.engine.value.css.VerticalAlignManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.WhiteSpaceManager;
 
 /**
- * provide engine a utilitis to parser the styles.
- *
+ * Provide engine a utilities to parser the styles.
  *
  */
 public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 
 	ValueManager[] vms;
 
+	/**
+	 * Constructor
+	 */
 	public BIRTPropertyManagerFactory() {
 		vms = new ValueManager[PerfectHash.TOTAL_KEYWORDS];
 
@@ -180,6 +183,27 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 				CSSValueConstants.NUMBER_0);
 		vms[StyleConstants.STYLE_WIDTH] = new LengthManager(CSSConstants.CSS_WIDTH_PROPERTY, false,
 				CSSValueConstants.NUMBER_0);
+		vms[StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE] = new BackgroundImageType();
+
+		vms[StyleConstants.STYLE_BORDER_DIAGONAL_NUMBER] = new IntegerManager(
+				CSSConstants.CSS_BORDER_DIAGONAL_NUMBER_PROPERTY, false, 1);
+
+		vms[StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH] = new BorderWidthManager(
+				CSSConstants.CSS_BORDER_DIAGONAL_WIDTH_PROPERTY);
+		vms[StyleConstants.STYLE_BORDER_DIAGONAL_COLOR] = new BorderColorManager(
+				CSSConstants.CSS_BORDER_DIAGONAL_COLOR_PROPERTY);
+		vms[StyleConstants.STYLE_BORDER_DIAGONAL_STYLE] = new BorderStyleManager(
+				CSSConstants.CSS_BORDER_DIAGONAL_STYLE_PROPERTY);
+
+		vms[StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER] = new IntegerManager(
+				CSSConstants.CSS_BORDER_DIAGONAL_NUMBER_PROPERTY, false, 1);
+
+		vms[StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH] = new BorderWidthManager(
+				CSSConstants.CSS_BORDER_ANTIDIAGONAL_WIDTH_PROPERTY);
+		vms[StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR] = new BorderColorManager(
+				CSSConstants.CSS_BORDER_ANTIDIAGONAL_COLOR_PROPERTY);
+		vms[StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE] = new BorderStyleManager(
+				CSSConstants.CSS_BORDER_ANTIDIAGONAL_STYLE_PROPERTY);
 	}
 
 	@Override

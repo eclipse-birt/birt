@@ -199,16 +199,18 @@ public class CellDesign extends ReportItemDesign {
 	}
 
 	public boolean hasDiagonalLine() {
+		if (getDiagonalNumber() > 0 && getDiagonalStyle() != null && !"none".equals(getDiagonalStyle())
+				|| getAntidiagonalNumber() > 0 && getAntidiagonalStyle() != null
+						&& !"none".equals(getAntidiagonalStyle())) {
+			hasDiagonalLine = true;
+		} else {
+			hasDiagonalLine = false;
+		}
 		return hasDiagonalLine;
 	}
 
 	public void setDiagonalNumber(int diagonalNumber) {
 		this.diagonalNumber = diagonalNumber;
-		if (this.diagonalNumber > 0 || this.antidiagonalNumber > 0) {
-			hasDiagonalLine = true;
-		} else {
-			hasDiagonalLine = false;
-		}
 	}
 
 	public int getDiagonalNumber() {
@@ -241,11 +243,6 @@ public class CellDesign extends ReportItemDesign {
 
 	public void setAntidiagonalNumber(int antidiagonalNumber) {
 		this.antidiagonalNumber = antidiagonalNumber;
-		if (this.diagonalNumber > 0 || this.antidiagonalNumber > 0) {
-			hasDiagonalLine = true;
-		} else {
-			hasDiagonalLine = false;
-		}
 	}
 
 	public int getAntidiagonalNumber() {

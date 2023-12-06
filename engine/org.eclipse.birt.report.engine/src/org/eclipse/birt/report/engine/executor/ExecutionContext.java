@@ -17,8 +17,6 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -1555,13 +1553,7 @@ public class ExecutionContext {
 	public ClassLoader getApplicationClassLoader() {
 		if (applicationClassLoader == null) {
 			closeClassLoader = true;
-			applicationClassLoader = AccessController.doPrivileged(new PrivilegedAction<ApplicationClassLoader>() {
-
-				@Override
-				public ApplicationClassLoader run() {
-					return new ApplicationClassLoader(engine, runnable, appContext);
-				}
-			});
+			applicationClassLoader = new ApplicationClassLoader(engine, runnable, appContext);
 			if (scriptContext != null) {
 				scriptContext.setApplicationClassLoader(applicationClassLoader);
 			}

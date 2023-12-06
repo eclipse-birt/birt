@@ -85,7 +85,8 @@ public class PPTXPage implements IPage {
 
 	@Override
 	public void drawImage(String uri, String extension, int imageX, int imageY, int height, int width, String helpText,
-			Map parameters) throws Exception {
+			Map parameters)
+			throws Exception {
 		imageX = PPTXUtil.convertToEnums(imageX);
 		imageY = PPTXUtil.convertToEnums(imageY);
 		width = PPTXUtil.convertToEnums(width);

@@ -23,19 +23,36 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Definition of the abstract style class
+ *
+ * @since 3.3
+ *
+ */
 abstract public class AbstractStyle implements IStyle {
 
 	protected CSSEngine engine;
 
+	/**
+	 * Consructor
+	 *
+	 * @param engine
+	 */
 	public AbstractStyle(CSSEngine engine) {
 		this.engine = engine;
 	}
 
+	/**
+	 * Get the CSS engine
+	 *
+	 * @return Return the CSS engine
+	 */
 	public CSSEngine getCSSEngine() {
 		return this.engine;
 	}
@@ -58,7 +75,7 @@ abstract public class AbstractStyle implements IStyle {
 			// we don't return the format in css as the format
 			// is a complex object which can't be represented as
 			// css string.
-			if (i == IStyle.STYLE_DATA_FORMAT) {
+			if (i == StyleConstants.STYLE_DATA_FORMAT) {
 				continue;
 			}
 			CSSValue value = getProperty(i);
@@ -108,7 +125,7 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setCssText(String cssText) throws DOMException {
 		IStyle style = (IStyle) engine.parseStyleDeclaration(cssText);
-		for (int i = 0; i < IStyle.NUMBER_OF_STYLE; i++) {
+		for (int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++) {
 			CSSValue value = style.getProperty(i);
 			if (value != null) {
 				setProperty(i, value);
@@ -232,6 +249,11 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public String getBackgroundImage() {
 		return getCssText(STYLE_BACKGROUND_IMAGE);
+	}
+
+	@Override
+	public String getBackgroundImageType() {
+		return getCssText(STYLE_BACKGROUND_IMAGE_TYPE);
 	}
 
 	@Override
@@ -494,6 +516,14 @@ abstract public class AbstractStyle implements IStyle {
 	}
 
 	/**
+	 * @param backgroundImageSourceType The backgroundImage to set.
+	 */
+	@Override
+	public void setBackgroundImageType(String backgroundImageSourceType) {
+		setCssText(STYLE_BACKGROUND_IMAGE_TYPE, backgroundImageSourceType);
+	}
+
+	/**
 	 * @param backgroundPositionX The backgroundPositionX to set.
 	 */
 	@Override
@@ -515,6 +545,16 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setBackgroundRepeat(String backgroundRepeat) {
 		setCssText(STYLE_BACKGROUND_REPEAT, backgroundRepeat);
+	}
+
+	@Override
+	public void setBackgroundHeight(String height) {
+		setCssText(STYLE_BACKGROUND_HEIGHT, height);
+	}
+
+	@Override
+	public void setBackgroundWidth(String width) {
+		setCssText(STYLE_BACKGROUND_WIDTH, width);
 	}
 
 	/**
@@ -909,12 +949,24 @@ abstract public class AbstractStyle implements IStyle {
 		newValue.setDateFormat(format, value == null ? null : value.getDateLocale());
 	}
 
+	/**
+	 * Set the date time format
+	 *
+	 * @param format
+	 * @throws DOMException
+	 */
 	public void setDateTimeFormat(String format) throws DOMException {
 		DataFormatValue value = getDataFormat();
 		DataFormatValue newValue = copyDataFormat(value);
 		newValue.setDateTimeFormat(format, value == null ? null : value.getDateTimeLocale());
 	}
 
+	/**
+	 * Set the time format
+	 *
+	 * @param format
+	 * @throws DOMException
+	 */
 	public void setTimeFormat(String format) throws DOMException {
 		DataFormatValue value = getDataFormat();
 		DataFormatValue newValue = copyDataFormat(value);
@@ -1861,16 +1913,36 @@ abstract public class AbstractStyle implements IStyle {
 			int index = getPropertyIndex(propertyName);
 			if (index == -1) {
 				String propertyCssText = IOUtil.readString(in);
-				if (IStyle.BIRT_STRING_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				if (BIRTConstants.BIRT_STRING_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setStringFormat(propertyCssText);
-				} else if (IStyle.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setNumberFormat(propertyCssText);
-				} else if (IStyle.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setDateFormat(propertyCssText);
-				} else if (IStyle.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setTimeFormat(propertyCssText);
-				} else if (IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
+				} else if (BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(propertyName)) {
 					this.setDateTimeFormat(propertyCssText);
+				} else if (BIRTConstants.BIRT_BACKGROUND_IMAGE_TYPE.equalsIgnoreCase(propertyName)) {
+					this.setBackgroundImageType(propertyCssText);
+					// diagonal line
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_NUMBER.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalNumber(Integer.parseInt(propertyCssText));
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_STYLE.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalStyle(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_WIDTH.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalWidth(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_DIAGONAL_COLOR.equalsIgnoreCase(propertyName)) {
+					this.setDiagonalColor(propertyCssText);
+					// antidiagonal line
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_NUMBER.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalNumber(Integer.parseInt(propertyCssText));
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_STYLE.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalStyle(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_WIDTH.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalWidth(propertyCssText);
+				} else if (BIRTConstants.BIRT_BORDER_ANTIDIAGONAL_COLOR.equalsIgnoreCase(propertyName)) {
+					this.setAntidiagonalColor(propertyCssText);
 				} else {
 					throw new IOException(propertyName + " not valid");
 				}
@@ -1892,5 +1964,85 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setDataFormat(DataFormatValue value) {
 		setProperty(StyleConstants.STYLE_DATA_FORMAT, value);
+	}
+
+	@Override
+	public int getDiagonalNumber() {
+		return Integer.parseInt(getCssText(STYLE_BORDER_DIAGONAL_NUMBER));
+	}
+
+	@Override
+	public void setDiagonalNumber(Integer number) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_NUMBER, number.toString());
+	}
+
+	@Override
+	public String getDiagonalStyle() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setDiagonalStyle(String style) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getDiagonalWidth() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setDiagonalWidth(String width) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getDiagonalColor() {
+		return getCssText(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setDiagonalColor(String color) {
+		setCssText(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR, color);
+	}
+
+	@Override
+	public int getAntidiagonalNumber() {
+		return Integer.parseInt(this.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER).toString());
+	}
+
+	@Override
+	public void setAntidiagonalNumber(Integer number) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER, number.toString());
+	}
+
+	@Override
+	public String getAntidiagonalStyle() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE);
+	}
+
+	@Override
+	public void setAntidiagonalStyle(String style) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE, style);
+	}
+
+	@Override
+	public String getAntidiagonalWidth() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
+	}
+
+	@Override
+	public void setAntidiagonalWidth(String width) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH, width);
+	}
+
+	@Override
+	public String getAntidiagonalColor() {
+		return getCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR);
+	}
+
+	@Override
+	public void setAntidiagonalColor(String color) {
+		setCssText(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR, color);
 	}
 }

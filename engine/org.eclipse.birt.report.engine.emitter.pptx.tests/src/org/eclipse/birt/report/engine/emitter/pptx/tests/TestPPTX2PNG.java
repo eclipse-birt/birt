@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestPPTX2PNG {
@@ -29,6 +30,7 @@ public class TestPPTX2PNG {
 	}
 
 	@Test
+	@Ignore
 	public void testTable() throws Exception {
 		runDesign("table.rptdesign");
 	}

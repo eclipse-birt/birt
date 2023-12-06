@@ -17,6 +17,12 @@ package org.eclipse.birt.report.engine.emitter.pdf.plugin;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.osgi.framework.BundleContext;
 
+/**
+ * Class of PDFEmitter plugin
+ *
+ * @since 3.3
+ *
+ */
 public class PDFEmitterPlugin extends BIRTPlugin {
 
 	@Override

@@ -156,9 +156,9 @@ public class ParameterConverterTest extends TestCase {
 		rpc = new ReportParameterConverter("d", locale);
 		assertEquals("9/13/98", rpc.format(date));
 		rpc = new ReportParameterConverter("Long Time", locale);
-		assertEquals(true, rpc.format(date).startsWith("8:01:44 PM"));
+		assertEquals(true, rpc.format(date).replace("\u202f", " ").startsWith("8:01:44 PM"));
 		rpc = new ReportParameterConverter("T", locale);
-		assertEquals(true, rpc.format(date).startsWith("8:01:44 PM"));
+		assertEquals(true, rpc.format(date).replace("\u202f", " ").startsWith("8:01:44 PM"));
 
 		/*
 		 * icu and java are not synced. SimpleDateFormat javaSample = (SimpleDateFormat)
@@ -169,11 +169,11 @@ public class ParameterConverterTest extends TestCase {
 		 */
 
 		rpc = new ReportParameterConverter("General Date", locale);
-		assertEquals(rpc.format(date), true, rpc.format(date).startsWith("September 13, 1998 at 8:01:44 PM"));
+		assertEquals(rpc.format(date), true, rpc.format(date).replace("\u202f", " ").startsWith("September 13, 1998 at 8:01:44 PM"));
 		rpc = new ReportParameterConverter("Short Time", locale);
 		assertEquals("20:01", rpc.format(date));
 		rpc = new ReportParameterConverter("Medium Time", locale);
-		assertEquals("8:01:44 PM", rpc.format(date));
+		assertEquals("8:01:44 PM", rpc.format(date).replace("\u202f", " "));
 	}
 
 	/**

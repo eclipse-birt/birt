@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -32,9 +32,21 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Birt style is a class to represents the style elements
+ *
+ * @since 3.3
+ *
+ */
 public class BirtStyle {
 
+	/**
+	 * constant: number of styles
+	 */
 	public static final int NUMBER_OF_STYLES = StyleConstants.NUMBER_OF_STYLE + 1;
+	/**
+	 * constant: text rotation
+	 */
 	public static final int TEXT_ROTATION = StyleConstants.NUMBER_OF_STYLE;
 
 	protected static final String cssProperties[] = { "margin-left", "margin-right", "margin-top", "DATA_FORMAT",
@@ -48,17 +60,27 @@ public class BirtStyle {
 			"MASTER_PAGE", "orphans", "font-size", "font-style", "border-top-style", "page-break-before",
 			"SHOW_IF_BLANK", "background-image", "BACKGROUND_POSITION_Y", "word-spacing", "background-attachment",
 			"TEXT_UNDERLINE", "display", "font-family", "letter-spacing", "page-break-inside", "page-break-after"
-
-			, "Rotation" };
+			, "Rotation", "border-diagonal-color", "border-diagonal-width", "border-diagonal-style",
+			"border-antidiagonal-color", "border-antidiagonal-width", "border-antidiagonal-style" };
 
 	private IStyle elemStyle;
 	private CSSValue[] propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
 	private CSSEngine cssEngine;
 
+	/**
+	 * Constructor 01
+	 *
+	 * @param cssEngine css engine
+	 */
 	public BirtStyle(CSSEngine cssEngine) {
 		this.cssEngine = cssEngine;
 	}
 
+	/**
+	 * Constructor 02
+	 *
+	 * @param element
+	 */
 	public BirtStyle(IContent element) {
 		elemStyle = element.getComputedStyle();
 
@@ -104,6 +126,12 @@ public class BirtStyle {
 		return null;
 	}
 
+	/**
+	 * Set CSS property value
+	 *
+	 * @param propIndex property index
+	 * @param newValue  new css value
+	 */
 	public void setProperty(int propIndex, CSSValue newValue) {
 		if (propertyOverride == null) {
 			propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
@@ -111,16 +139,23 @@ public class BirtStyle {
 		propertyOverride[propIndex] = newValue;
 	}
 
+	/**
+	 * Get property value
+	 *
+	 * @param propIndex property index
+	 * @return Return the property value
+	 */
 	public CSSValue getProperty(int propIndex) {
 		return propertyOverride[propIndex];
-		/*
-		 * if( ( propertyOverride != null ) && ( propertyOverride[ propIndex ] != null )
-		 * ) { return propertyOverride[ propIndex ]; } if( ( elemStyle != null ) && (
-		 * propIndex < StyleConstants.NUMBER_OF_STYLE ) ) { return
-		 * elemStyle.getProperty( propIndex ); } else { return null; }
-		 */
 	}
 
+	/**
+	 * Set a float value of a property
+	 *
+	 * @param propIndex property index
+	 * @param units     property unit
+	 * @param newValue  new value
+	 */
 	public void setFloat(int propIndex, short units, float newValue) {
 		if (propertyOverride == null) {
 			propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
@@ -128,6 +163,12 @@ public class BirtStyle {
 		propertyOverride[propIndex] = new FloatValue(units, newValue);
 	}
 
+	/**
+	 * Set a string value of a property
+	 *
+	 * @param propIndex property index
+	 * @param newValue  new value
+	 */
 	public void parseString(int propIndex, String newValue) {
 		if (propertyOverride == null) {
 			propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
@@ -136,17 +177,22 @@ public class BirtStyle {
 		if (propIndex < StyleConstants.NUMBER_OF_STYLE) {
 			propertyOverride[propIndex] = cssEngine.parsePropertyValue(propIndex, newValue);
 		} else {
-			propertyOverride[propIndex] = new StringValue(StringValue.CSS_STRING, newValue);
+			propertyOverride[propIndex] = new StringValue(CSSPrimitiveValue.CSS_STRING, newValue);
 		}
 	}
 
+	/**
+	 * Get the property value like a string
+	 *
+	 * @param propIndex property index
+	 * @return Return the property value like a string
+	 */
 	public String getString(int propIndex) {
 		CSSValue value = getProperty(propIndex);
 		if (value != null) {
 			return value.getCssText();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -186,6 +232,12 @@ public class BirtStyle {
 		result.set(StyleConstants.STYLE_BORDER_TOP_STYLE);
 		result.set(StyleConstants.STYLE_BORDER_TOP_WIDTH);
 		result.set(StyleConstants.STYLE_BORDER_TOP_COLOR);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_STYLE);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH);
+		result.set(StyleConstants.STYLE_BORDER_DIAGONAL_COLOR);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH);
+		result.set(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR);
 		result.set(StyleConstants.STYLE_VERTICAL_ALIGN);
 		result.set(StyleConstants.STYLE_DATA_FORMAT);
 		return result;
@@ -203,6 +255,11 @@ public class BirtStyle {
 		}
 	}
 
+	/**
+	 * Set the overlay of the element
+	 *
+	 * @param element The element for overlay setting
+	 */
 	public void overlay(IContent element) {
 
 		// System.out.println( "overlay: Before - " + this.toString() );
@@ -218,7 +275,7 @@ public class BirtStyle {
 			}
 		}
 
-		// Background colour, only overlay if not null and not transparent
+		// Background color, only overlay if not null and not transparent
 		CSSValue overlayBgColour = style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR);
 		CSSValue localBgColour = getProperty(StyleConstants.STYLE_BACKGROUND_COLOR);
 		if ((overlayBgColour != null) && (!CSSConstants.CSS_TRANSPARENT_VALUE.equals(overlayBgColour.getCssText()))

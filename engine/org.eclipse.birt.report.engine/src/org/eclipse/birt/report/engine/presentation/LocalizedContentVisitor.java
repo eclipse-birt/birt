@@ -111,6 +111,9 @@ public class LocalizedContentVisitor {
 			1, -34, 102, 31, 120, 0, 0, 0, 12, 73, 68, 65, 84, 24, 87, 99, -8, -1, -1, 63, 0, 5, -2, 2, -2, -89, 53,
 			-127, -124, 0, 0, 0, 0, 73, 69, 78, 68, -82, 66, 96, -126 };
 
+	private static final String FILE_PROTOCOL = ":/";
+	private static final String URL_DATA_PROTOCOL = "data:";
+
 	public LocalizedContentVisitor(ExecutionContext context) {
 		this.context = context;
 		this.locale = context.getLocale();
@@ -608,7 +611,7 @@ public class LocalizedContentVisitor {
 			}
 		} else if (image.getImageSource() == IImageContent.IMAGE_URL) {
 			String uri = image.getURI();
-			if (!uri.contains(":/")) {
+			if (!uri.contains(FILE_PROTOCOL) && !uri.contains(URL_DATA_PROTOCOL)) {
 				IRenderOption option = context.getRenderOption();
 				if (option != null) {
 					String appBaseUrl = option.getAppBaseURL();

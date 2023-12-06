@@ -206,7 +206,7 @@ public class CrosstabUIHelper {
 							levelHandle.getName(), LevelAttribute.DATE_TIME_ATTRIBUTE_NAME));
 
 					dataHandle.getPrivateStyle()
-							.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+							.setDateTimeFormatCategory(DesignChoiceConstants.DATETIME_FORMAT_TYPE_CUSTOM);
 					dataHandle.getPrivateStyle().setDateTimeFormat(levelHandle.getDateTimeFormat());
 				}
 			}
