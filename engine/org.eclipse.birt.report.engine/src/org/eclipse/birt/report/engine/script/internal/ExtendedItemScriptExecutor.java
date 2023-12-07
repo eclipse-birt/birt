@@ -40,27 +40,41 @@ public class ExtendedItemScriptExecutor extends ScriptExecutor {
 
 	public static void handleOnCreate(ExtendedItemDesign design, IContent content, ExecutionContext context) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
-		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
-		if (eventHandler != null) {
-			try {
-				OnCreateEvent event = new OnCreateEvent(new ReportEventContext(context), handle, content);
-				eventHandler.handle(event);
-			} catch (Exception e) {
-				addException(context, e, handle);
+		if (!needOnCreate(design)) {
+			return;
+		}
+
+		try {
+			OnCreateEvent event = new OnCreateEvent(new ReportEventContext(context), handle, content);
+			if (handleScript(event, design.getOnCreate(), context).didRun()) {
+				return;
 			}
+			IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+			if (eventHandler != null) {
+				eventHandler.handle(event);
+			}
+		} catch (Exception e) {
+			addException(context, e, handle);
 		}
 	}
 
 	public static void handleOnRender(ExtendedItemDesign design, IContent content, ExecutionContext context) {
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
-		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
-		if (eventHandler != null) {
-			try {
-				OnRenderEvent event = new OnRenderEvent(new ReportEventContext(context), handle, content);
-				eventHandler.handle(event);
-			} catch (Exception e) {
-				addException(context, e, handle);
+		if (!needOnRender(design)) {
+			return;
+		}
+
+		try {
+			OnRenderEvent event = new OnRenderEvent(new ReportEventContext(context), handle, content);
+			if (handleScript(event, design.getOnRender(), context).didRun()) {
+				return;
 			}
+			IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+			if (eventHandler != null) {
+				eventHandler.handle(event);
+			}
+		} catch (Exception e) {
+			addException(context, e, handle);
 		}
 	}
 }
