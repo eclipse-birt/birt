@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="28">
+<target name="Generated from BIRT" sequenceNumber="29">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -97,6 +97,7 @@
       <unit id="org.eclipse.jetty.http" version="0.0.0"/>
       <unit id="org.eclipse.jetty.io" version="0.0.0"/>
       <unit id="org.eclipse.jetty.jndi" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.logging" version="0.0.0"/>
       <unit id="org.eclipse.jetty.osgi" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
@@ -119,15 +120,14 @@
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
-      <unit id="org.mortbay.jasper.apache-el" version="9.0.52"/>
-      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.52"/>
+      <unit id="org.mortbay.jasper.apache-el" version="9.0.83"/>
+      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.83"/>
       <unit id="org.mozilla.javascript" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.service.coordinator" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="org.osgi.util.tracker" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
-      <unit id="slf4j.nop" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
@@ -136,6 +136,7 @@
       <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
+      <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
       <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
       <repository location="https://download.eclipse.org/eclipse/updates/4.31-I-builds"/>
