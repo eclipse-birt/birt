@@ -38,7 +38,7 @@ public class SvgFile {
 	static boolean isSvg = false;
 
 	public static boolean isSvg(String uri) {
-		if (uri != null && uri.endsWith(".svg") || uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
+		if (uri != null && (uri.endsWith(".svg") || uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG))) {
 			isSvg = true;
 		} else {
 			isSvg = false;
