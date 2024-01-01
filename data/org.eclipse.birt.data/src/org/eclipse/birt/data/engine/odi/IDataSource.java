@@ -75,6 +75,7 @@ public interface IDataSource {
 	 * @throws DataException if data source error occurs
 	 * @since 2.0
 	 */
+	@SuppressWarnings("rawtypes")
 	void setAppContext(Map context) throws DataException;
 
 	/**

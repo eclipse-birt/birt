@@ -21,7 +21,7 @@ import java.io.File;
  */
 
 public class TempPathManager {
-	private String tmpPath = PropertySecurity.getSystemProperty("java.io.tmpdir");
+	private String tmpPath = System.getProperty("java.io.tmpdir");
 
 	public void setTempPath(String tmpPath) {
 		if (tmpPath.endsWith("" + File.separatorChar)) {
@@ -35,9 +35,8 @@ public class TempPathManager {
 		checkTempDir();
 		if (extName == null || extName.equals("")) {
 			return tmpPath + File.separatorChar + fileNamePrefix + objectID;
-		} else {
-			return tmpPath + File.separatorChar + fileNamePrefix + objectID + "." + extName;
 		}
+		return tmpPath + File.separatorChar + fileNamePrefix + objectID + "." + extName;
 	}
 
 	private void checkTempDir() {
@@ -46,7 +45,7 @@ public class TempPathManager {
 			tmpDir.mkdirs();
 		}
 		if (!tmpDir.exists() || !tmpDir.isDirectory()) {
-			tmpPath = PropertySecurity.getSystemProperty("java.io.tmpdir");
+			tmpPath = System.getProperty("java.io.tmpdir");
 		}
 	}
 }

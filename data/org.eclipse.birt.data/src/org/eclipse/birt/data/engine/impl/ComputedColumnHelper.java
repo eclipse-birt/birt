@@ -59,7 +59,7 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	private ComputedColumnHelperInstance resultSetInstance;
 	private ComputedColumnHelperInstance availableModeInstance;
 	private ComputedColumnHelperInstance currentModel;
-	private List allCC;
+	private List<IComputedColumn> allCC;
 	private int mode;
 
 	private static Logger logger = Logger.getLogger(ComputedColumnHelper.class.getName());
@@ -73,18 +73,19 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	 * @param resultSetCCList
 	 * @throws
 	 */
-	ComputedColumnHelper(DataSetRuntime dataSet, List dataSetCCList, List resultSetCCList, ScriptContext cx)
+	ComputedColumnHelper(DataSetRuntime dataSet, List<IComputedColumn> dataSetCCList,
+			List<IComputedColumn> resultSetCCList, ScriptContext cx)
 			throws DataException {
 		Object[] params = { dataSet, dataSetCCList, resultSetCCList };
 		logger.entering(ComputedColumnHelper.class.getName(), "ComputedColumnHelper", params);
 
-		this.allCC = new ArrayList();
+		this.allCC = new ArrayList<>();
 		this.allCC.addAll(dataSetCCList);
 		this.allCC.addAll(resultSetCCList);
 		this.dataSetInstance = new ComputedColumnHelperInstance(dataSet, dataSetCCList, Mode.DataSet, cx);
 		this.resultSetInstance = new ComputedColumnHelperInstance(dataSet, resultSetCCList, Mode.Query, cx);
 
-		List availableCCList = new ArrayList();
+		List<IComputedColumn> availableCCList = new ArrayList<>();
 		getAvailableComputedList(getComputedNameList(dataSetCCList), dataSetCCList, availableCCList);
 		this.availableModeInstance = new ComputedColumnHelperInstance(dataSet, availableCCList, Mode.DataSet, cx);
 		this.currentModel = this.dataSetInstance;
@@ -148,12 +149,11 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	 *
 	 * @return
 	 */
-	public List getComputedColumnList() {
+	public List<IComputedColumn> getComputedColumnList() {
 		if (this.getCurrentInstance() != null) {
 			return this.getCurrentInstance().getComputedColumnList();
-		} else {
-			return this.allCC;
 		}
+		return this.allCC;
 	}
 
 	/**
@@ -188,10 +188,10 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	 * @param dataSetCCList
 	 * @return
 	 */
-	private List getComputedNameList(List dataSetCCList) {
-		List result = new ArrayList();
+	private List<String> getComputedNameList(List<IComputedColumn> dataSetCCList) {
+		List<String> result = new ArrayList<>();
 		for (int i = 0; i < dataSetCCList.size(); i++) {
-			IComputedColumn column = (IComputedColumn) dataSetCCList.get(i);
+			IComputedColumn column = dataSetCCList.get(i);
 			result.add(column.getName());
 		}
 		return result;
@@ -210,10 +210,12 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	 * @return
 	 * @throws DataException
 	 */
-	private void getAvailableComputedList(List refernceNameList, List dataSetCCList, List result) throws DataException {
+	private void getAvailableComputedList(List<String> refernceNameList, List<IComputedColumn> dataSetCCList,
+			List<IComputedColumn> result)
+			throws DataException {
 		try {
 			for (int i = 0; i < dataSetCCList.size(); i++) {
-				IComputedColumn column = (IComputedColumn) dataSetCCList.get(i);
+				IComputedColumn column = dataSetCCList.get(i);
 				if (!refernceNameList.contains(column.getName())) {
 					continue;
 				}
@@ -221,14 +223,14 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 				if (ExpressionCompilerUtil.hasAggregationInExpr(column.getExpression())
 						|| column.getAggregateFunction() != null) {
 				} else {
-					List referedList = ExpressionUtil
+					List<IColumnBinding> referedList = ExpressionUtil
 							.extractColumnExpressions(((IScriptExpression) column.getExpression()).getText());
 					if (referedList.size() == 0) {
 						result.add(column);
 					} else {
-						List newList = new ArrayList();
+						List<String> newList = new ArrayList<>();
 						for (int j = 0; j < referedList.size(); j++) {
-							IColumnBinding binding = (IColumnBinding) referedList.get(j);
+							IColumnBinding binding = referedList.get(j);
 							String name = binding.getResultSetColumnName();
 							newList.add(name);
 						}
@@ -250,36 +252,33 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 	 * @return
 	 * @throws DataException
 	 */
-	private boolean hasAggregation(List nameList, List dataSetCCList) throws DataException {
+	private boolean hasAggregation(List<String> nameList, List<IComputedColumn> dataSetCCList) throws DataException {
 		try {
 			for (int k = 0; k < nameList.size(); k++) {
 				IComputedColumn column = null;
 				for (int i = 0; i < dataSetCCList.size(); i++) {
-					column = (IComputedColumn) dataSetCCList.get(i);
+					column = dataSetCCList.get(i);
 					if (column.getName() != null && column.getName().equals(nameList.get(k))) {
 						break;
-					} else {
-						column = null;
 					}
+					column = null;
 				}
 				if (column != null) {
 					if (ExpressionCompilerUtil.hasAggregationInExpr(column.getExpression())
 							|| column.getAggregateFunction() != null) {
 						return true;
-					} else {
-						List referedList = ExpressionUtil
-								.extractColumnExpressions(((IScriptExpression) column.getExpression()).getText());
-						List newList = new ArrayList();
-						for (int j = 0; j < referedList.size(); j++) {
-							IColumnBinding binding = (IColumnBinding) referedList.get(j);
-							String name = binding.getResultSetColumnName();
-							newList.add(name);
-						}
-						return hasAggregation(newList, dataSetCCList);
 					}
-				} else {
-					continue;
+					List<IColumnBinding> referedList = ExpressionUtil
+							.extractColumnExpressions(((IScriptExpression) column.getExpression()).getText());
+					List<String> newList = new ArrayList<>();
+					for (int j = 0; j < referedList.size(); j++) {
+						IColumnBinding binding = referedList.get(j);
+						String name = binding.getResultSetColumnName();
+						newList.add(name);
+					}
+					return hasAggregation(newList, dataSetCCList);
 				}
+				continue;
 			}
 			return false;
 		} catch (BirtException e) {
@@ -294,7 +293,7 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 		private Mode mode;
 
 		// computed column list passed from external caller
-		private List ccList;
+		private List<IComputedColumn> ccList;
 		private List<String> removedCCName;
 
 		// computed column array which will be evaluated
@@ -312,12 +311,13 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 		// protected static Logger logger = Logger.getLogger(
 		// ComputedColumnHelper.class.getName( ) );
 
-		public ComputedColumnHelperInstance(DataSetRuntime dataSet, List computedColumns, Mode mode, ScriptContext cx)
+		public ComputedColumnHelperInstance(DataSetRuntime dataSet, List<IComputedColumn> computedColumns, Mode mode,
+				ScriptContext cx)
 				throws DataException {
 			// Do not change the assignment of array
 			// TODO enhance.
-			this.ccList = new ArrayList();
-			this.removedCCName = new ArrayList();
+			this.ccList = new ArrayList<>();
+			this.removedCCName = new ArrayList<>();
 			for (int i = 0; i < computedColumns.size(); i++) {
 				this.ccList.add(computedColumns.get(i));
 			}
@@ -331,7 +331,7 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 			this.removedCCName.add(colName);
 		}
 
-		public List getComputedColumnList() {
+		public List<IComputedColumn> getComputedColumnList() {
 			return this.ccList;
 		}
 
@@ -476,10 +476,10 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 
 			// identify those computed columns that are projected
 			// in the result set by checking the result metadata
-			List cmptList = new ArrayList();
+			List<Integer> cmptList = new ArrayList<>();
 			Map<String, IComputedColumn> nameToComptCol = new HashMap<>();
 			for (int i = 0; i < ccList.size(); i++) {
-				IComputedColumn cmptdColumn = (IComputedColumn) ccList.get(i);
+				IComputedColumn cmptdColumn = ccList.get(i);
 
 				int cmptdColumnIdx = resultClass.getFieldIndex(cmptdColumn.getName());
 				// check if given field name is found in result set metadata, and
@@ -498,8 +498,8 @@ public class ComputedColumnHelper implements IResultObjectEvent {
 			int cmptColPos = 0;
 			Set<DirectedGraphEdge> edges = new HashSet<>();
 			for (int i = 0; i < size; i++) {
-				int pos = ((Integer) cmptList.get(i)).intValue();
-				IComputedColumn cmptdColumn = (IComputedColumn) ccList.get(pos);
+				int pos = cmptList.get(i).intValue();
+				IComputedColumn cmptdColumn = ccList.get(pos);
 				List<String> referencedBindings = ExpressionCompilerUtil
 						.extractColumnExpression(cmptdColumn.getExpression(), ExpressionUtil.ROW_INDICATOR);
 

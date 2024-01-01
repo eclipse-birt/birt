@@ -27,7 +27,11 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.ICombinedOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -162,11 +166,11 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 		// Initialze parameter value map; initially assign UNSET_VALUE to all named
 		// parameters
 		if (dataSetDesign != null) {
-			List params = dataSetDesign.getParameters();
+			List<IParameterDefinition> params = dataSetDesign.getParameters();
 			if (params != null) {
-				Iterator it = params.iterator();
+				Iterator<IParameterDefinition> it = params.iterator();
 				while (it.hasNext()) {
-					IParameterDefinition param = (IParameterDefinition) it.next();
+					IParameterDefinition param = it.next();
 					String name = param.getName();
 					// Only named parameters are recorded for script access
 					if (name != null) {
@@ -298,13 +302,13 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	public String getName() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getName();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
 	 * @return cache row count
+	 * @deprecated
 	 */
 	public int getCacheRowCount() {
 		if (dataSetDesign != null) {
@@ -326,9 +330,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	public String getDataSourceName() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getDataSourceName();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -475,52 +478,46 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 		return new ResultMetaData(queryExecutor.getOdiResultClass());
 	}
 
-	public Collection getInputParamBindings() {
+	public Collection<IInputParameterBinding> getInputParamBindings() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getInputParamBindings();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-	public List getComputedColumns() {
+	public List<IComputedColumn> getComputedColumns() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getComputedColumns();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-	public List getFilters() {
+	public List<IFilterDefinition> getFilters() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getFilters();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public List<ISortDefinition> getSortHints() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getSortHints();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-	public List getParameters() {
+	public List<IParameterDefinition> getParameters() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getParameters();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-	public List getResultSetHints() {
+	public List<IColumnDefinition> getResultSetHints() {
 		if (dataSetDesign != null) {
 			return dataSetDesign.getResultSetHints();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/** Executes the beforeOpen script associated with the data source */
@@ -703,7 +700,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
 	@Override
-	public Map getAllExtensionProperties() {
+	public Map<String, String> getAllExtensionProperties() {
 		// Default implementation: no extension properties
 		return null;
 	}
@@ -759,9 +756,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle {
 	public Object getInputParameterValue(String name) throws BirtException {
 		if (inParamValues.containsKey(name)) {
 			return inParamValues.get(name);
-		} else {
-			throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
 		}
+		throw new DataException(ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name);
 	}
 
 	/**

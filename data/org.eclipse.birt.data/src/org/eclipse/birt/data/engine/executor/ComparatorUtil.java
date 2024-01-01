@@ -72,6 +72,7 @@ public class ComparatorUtil {
 	 * @param map2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualProps(Map map1, Map map2) {
 		if (map1 == map2) {
 			return true;
@@ -79,9 +80,8 @@ public class ComparatorUtil {
 			if (map1 == null) {
 				if (map2.size() != 0) {
 					return false;
-				} else {
-					return true;
 				}
+				return true;
 			} else if (map1.size() != 0) {
 				return false;
 			} else {
@@ -111,6 +111,7 @@ public class ComparatorUtil {
 	 * @param col2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static int isEqualBasicCol(Collection col1, Collection col2) {
 		if (col1 == col2) {
 			return B_TRUE;
@@ -118,16 +119,13 @@ public class ComparatorUtil {
 			if (col1 == null) {
 				if (col2.size() == 0) {
 					return B_TRUE;
-				} else {
-					return B_FALSE;
 				}
-			} else {
-				if (col1.size() == 0) {
-					return B_TRUE;
-				} else {
-					return B_FALSE;
-				}
+				return B_FALSE;
 			}
+			if (col1.size() == 0) {
+				return B_TRUE;
+			}
+			return B_FALSE;
 		} else if (col1.size() == col2.size()) {
 			return B_UNKNOWN;
 		} else {
@@ -140,6 +138,7 @@ public class ComparatorUtil {
 	 * @param filter2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualFilters(List filters1, List filters2) {
 		int i = isEqualBasicCol(filters1, filters2);
 		if (i == B_TRUE) {
@@ -203,7 +202,7 @@ public class ComparatorUtil {
 			return false;
 		}
 		return se.getDataType() == se2.getDataType()
-				&& isEqualString(((IScriptExpression) se).getText(), ((IScriptExpression) se2).getText());
+				&& isEqualString(se.getText(), ((IScriptExpression) se2).getText());
 	}
 
 	/**
@@ -212,6 +211,7 @@ public class ComparatorUtil {
 	 * @param operands2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualExpressionArray(Collection op1, Collection op2) {
 		if (op1 == op2) {
 			return true;
@@ -237,6 +237,7 @@ public class ComparatorUtil {
 	 * @param computedCol2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualComputedColumns(List computedCol1, List computedCol2) {
 		if (computedCol1 == computedCol2) {
 			return true;
@@ -269,6 +270,7 @@ public class ComparatorUtil {
 	 * @param computedCols
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static List<IComputedColumn> getRealComputedColumn(List computedCols) {
 		if (computedCols == null) {
 			return null;
@@ -281,9 +283,8 @@ public class ComparatorUtil {
 					|| cc.getName().matches("\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E")
 					|| cc.getName().matches("\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E")) {
 				continue;
-			} else {
-				list.add(cc);
 			}
+			list.add(cc);
 		}
 
 		return list;
@@ -304,6 +305,7 @@ public class ComparatorUtil {
 	 * @param params2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualParameters(List params1, List params2) {
 		if (params1 == params2) {
 			return true;
@@ -347,6 +349,7 @@ public class ComparatorUtil {
 	 * @param paramsBinding2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualParameterHints(Collection paramsBinding1, Collection paramsBinding2) {
 		if (paramsBinding1 == paramsBinding2) {
 			return true;
@@ -415,6 +418,7 @@ public class ComparatorUtil {
 	 * @param resultHints2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualResultHints(List resultHints1, List resultHints2) {
 		if (resultHints1 == resultHints2) {
 			return true;
@@ -467,6 +471,7 @@ public class ComparatorUtil {
 	 * @param joinConditions2
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isEqualJointCondition(List joinConditions1, List joinConditions2) {
 		if (joinConditions1 == joinConditions2) {
 			return true;

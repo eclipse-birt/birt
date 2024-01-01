@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.executor.transform.pass;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
@@ -65,14 +66,14 @@ abstract class RowProcessUtil {
 	 * @return
 	 * @throws DataException
 	 */
-	protected List prepareComputedColumns(int model) throws DataException {
+	protected List<IComputedColumn> prepareComputedColumns(int model) throws DataException {
 		initializeICCState(model);
 
-		List aggCCList = new ArrayList();
-		List simpleCCList = new ArrayList();
+		List<IComputedColumn> aggCCList = new ArrayList<>();
+		List<IComputedColumn> simpleCCList = new ArrayList<>();
 		if (computedColumnHelper != null) {
 			computedColumnHelper.setModel(model);
-			List l = computedColumnHelper.getComputedColumnList();
+			List<IComputedColumn> l = computedColumnHelper.getComputedColumnList();
 			for (int i = 0; i < l.size(); i++) {
 				if (this.populator.getExpressionProcessor().hasAggregation(((ComputedColumn) l.get(i)).getExpression())
 						|| ((ComputedColumn) l.get(i)).getAggregateFunction() != null) {
@@ -95,8 +96,8 @@ abstract class RowProcessUtil {
 	 * @param isNew
 	 * @return
 	 */
-	protected List getAggrComputedColumns(List computedColumns, boolean isNew) {
-		List result = new ArrayList();
+	protected List<IComputedColumn> getAggrComputedColumns(List<IComputedColumn> computedColumns, boolean isNew) {
+		List<IComputedColumn> result = new ArrayList<>();
 		for (int i = 0; i < computedColumns.size(); i++) {
 			if (isNew) {
 				if (((ComputedColumn) computedColumns.get(i)).getAggregateFunction() != null) {

@@ -73,9 +73,9 @@ public class DataSourceAndDataSet {
 	 * @return
 	 */
 	public boolean isDataSourceDataSetEqual(DataSourceAndDataSet obj, boolean considerParam) {
-		IBaseDataSourceDesign dataSourceDesign2 = ((DataSourceAndDataSet) obj).dataSourceDesign;
-		IBaseDataSetDesign dataSetDesign2 = ((DataSourceAndDataSet) obj).dataSetDesign;
-		Collection paramterHints2 = ((DataSourceAndDataSet) obj).paramterHints;
+		IBaseDataSourceDesign dataSourceDesign2 = obj.dataSourceDesign;
+		IBaseDataSetDesign dataSetDesign2 = obj.dataSetDesign;
+		Collection paramterHints2 = obj.paramterHints;
 
 		if (this.dataSourceDesign == dataSourceDesign2) {
 			if (this.dataSetDesign == dataSetDesign2) {
@@ -138,9 +138,8 @@ public class DataSourceAndDataSet {
 		if (!this.enableSamplePreview) {
 			if (!this.cacheScopeID.equals(candidate.cacheScopeID)) {
 				return false;
-			} else {
-				return this.isDataSourceDataSetEqual((DataSourceAndDataSet) obj, true);
 			}
+			return this.isDataSourceDataSetEqual((DataSourceAndDataSet) obj, true);
 		}
 		// If managed by cache scope id, we only evaluate the cache scope ID.
 		// If a cache has a scope id, then there is one and only one instance of cache

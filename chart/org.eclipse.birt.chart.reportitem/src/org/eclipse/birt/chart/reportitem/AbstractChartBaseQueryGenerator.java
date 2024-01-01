@@ -144,7 +144,7 @@ public abstract class AbstractChartBaseQueryGenerator {
 	 * @param baseSD
 	 * @throws ChartException
 	 */
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings("deprecation")
 	protected void addValueSeriesAggregateBindingForGrouping(BaseQueryDefinition query,
 			EList<SeriesDefinition> seriesDefinitions, GroupDefinition innerMostGroupDef,
 			Map<String, String[]> valueExprMap, SeriesDefinition baseSD) throws ChartException {
@@ -241,11 +241,11 @@ public abstract class AbstractChartBaseQueryGenerator {
 								newBinding.setExportable(colBinding.exportable());
 								newBinding.setFilter(colBinding.getFilter());
 								newBinding.setTimeFunction(colBinding.getTimeFunction());
-								for (Object o : colBinding.getAggregatOns()) {
-									newBinding.getAggregatOns().add(o);
+								for (String s : colBinding.getAggregatOns()) {
+									newBinding.getAggregatOns().add(s);
 								}
-								for (Object o : colBinding.getArguments()) {
-									newBinding.addArgument((IBaseExpression) o);
+								for (IBaseExpression arg : colBinding.getArguments()) {
+									newBinding.addArgument(arg);
 								}
 
 								query.addBinding(newBinding);

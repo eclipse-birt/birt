@@ -35,7 +35,7 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * @return the list of groups. If no group is defined, null is returned.
 	 */
 
-	List getGroups();
+	List<IGroupDefinition> getGroups();
 
 	/**
 	 * Indicates if the report will use the detail rows. Allows the data engine to

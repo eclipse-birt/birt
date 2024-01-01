@@ -27,7 +27,6 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
 
@@ -103,7 +102,7 @@ public class DataEngineContext {
 	private int cacheOption;
 	private int cacheCount;
 
-	private String tmpDir = PropertySecurity.getSystemProperty("java.io.tmpdir"); //$NON-NLS-1$
+	private String tmpDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
 	private ClassLoader classLoader;
 
 	/** stream id for internal use, don't use it externally */
@@ -398,9 +397,8 @@ public class DataEngineContext {
 
 		if (writer != null) {
 			return writer.exists(relativePath);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**

@@ -59,7 +59,6 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -249,14 +248,14 @@ public class PreparedQueryUtil {
 
 		// If there are multiple group keys, make sure they have the same
 		// sequences as sort keys, since sort is restricted by group.
-		List<GroupDefinition> groups = queryDefn.getGroups();
+		List<IGroupDefinition> groups = queryDefn.getGroups();
 		if (groups.size() > 1) {
 			Collections.sort(groups, (a, b) -> sortedBinding.getOrDefault(getGroupColumn(a), 0)
 					- sortedBinding.getOrDefault(getGroupColumn(b), 0));
 		}
 	}
 
-	private static String getGroupColumn(GroupDefinition gd) {
+	private static String getGroupColumn(IGroupDefinition gd) {
 		if (gd.getKeyColumn() != null && !gd.getKeyColumn().isEmpty()) {
 			return gd.getKeyColumn();
 		}

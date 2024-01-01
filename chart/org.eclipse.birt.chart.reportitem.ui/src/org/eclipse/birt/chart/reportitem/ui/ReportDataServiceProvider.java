@@ -455,7 +455,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 * @return
 	 * @throws BirtException
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean isCommonBinding(ComputedColumnHandle cch, Map<String, ComputedColumnHandle> bindingMap)
 			throws BirtException {
 		ScriptExpression se = ChartReportItemUtil.newExpression(session.getModelAdaptor(), cch);
@@ -674,7 +673,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 * @param queryDefn        query definition.
 	 * @param reportItemHandle the item handle contains groups.
 	 */
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({})
 	private void handleGroup(QueryDefinition queryDefn, ExtendedItemHandle reportItemHandle,
 			IModelAdapter modelAdapter) {
 		ReportItemHandle handle = ChartReportItemUtil.getBindingHolder(reportItemHandle);
@@ -796,7 +795,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 *
 	 * @return data set name
 	 */
-	@SuppressWarnings("unchecked")
 	String getInheritedDataSet() {
 		List<DataSetHandle> list = DEUtil.getDataSetList(itemHandle.getContainer());
 		if (list.size() > 0) {
@@ -908,7 +906,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 *
 	 * @return direct dataset
 	 */
-	@SuppressWarnings("unchecked")
 	protected DataSetHandle getDataSetFromHandle() {
 		DataSetHandle handle = ChartReportItemHelper.instance().getBindingDataSetHandle(itemHandle);
 		if (handle != null) {
@@ -1129,7 +1126,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		return ChartItemUtil.getExpressionDataType(expression, itemHandle);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected String[] getAllReportItemReferences() {
 		List<ReportItemHandle> availableList = itemHandle.getAvailableDataBindingReferenceList();
 		List<ReportItemHandle> referenceList = new ArrayList<>();
@@ -1353,10 +1349,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 			if (actualResultSet != null) {
 				if (ChartReportItemUtil.isOldChartUsingInternalGroup(itemHandle, cm)) {
 					return createSimpleExpressionEvaluator(actualResultSet);
-				} else {
-					return new BaseGroupedQueryResultSetEvaluator(actualResultSet.getResultIterator(),
-							ChartReportItemUtil.isSetSummaryAggregation(cm), cm, itemHandle);
 				}
+				return new BaseGroupedQueryResultSetEvaluator(actualResultSet.getResultIterator(),
+						ChartReportItemUtil.isSetSummaryAggregation(cm), cm, itemHandle);
 			}
 		} catch (BirtException e) {
 			throw new ChartException(ChartReportItemUIActivator.ID, ChartException.DATA_BINDING, e);
@@ -1576,7 +1571,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 	 * @return
 	 * @throws BirtException
 	 */
-	@SuppressWarnings("unchecked")
 	protected IDataRowExpressionEvaluator createCubeEvaluator(CubeHandle cube, final Chart cm,
 			List<String> columnExpression) throws BirtException {
 		// Use the chart model in context, because this model will be updated
@@ -1607,9 +1601,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 
 			// Generates a set of available binding names.
 			Set<String> bindingNames = new HashSet<>();
-			List<Object> bindings = queryDef.getBindings();
+			List<IBinding> bindings = queryDef.getBindings();
 			for (int i = 0; i < bindings.size(); i++) {
-				bindingNames.add(((Binding) bindings.get(i)).getBindingName());
+				bindingNames.add(bindings.get(i).getBindingName());
 			}
 
 			ExpressionSet exprSet = new ExpressionSet();
@@ -2206,9 +2200,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 							String newExpr = bindingExprsMap.get(expression);
 							if (newExpr != null) {
 								return fResultIterator.getValue(newExpr);
-							} else {
-								return fResultIterator.getValue(expression);
 							}
+							return fResultIterator.getValue(expression);
 						} catch (BirtException e) {
 							sLogger.log(e);
 						}
@@ -2376,7 +2369,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		 *
 		 * @return
 		 */
-		@SuppressWarnings("unchecked")
 		private List<GroupHandle> getGroupsOfSharedBinding() {
 			List<GroupHandle> groupList = new ArrayList<>();
 			ListingHandle table = null;
@@ -3028,9 +3020,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider {
 		boolean isShare = isSharedBinding();
 		if (isRecursive) {
 			return isShare && isChartReportItemHandle(ChartReportItemUtil.getReportItemReference(itemHandle));
-		} else {
-			return isShare && isChartReportItemHandle(itemHandle.getDataBindingReference());
 		}
+		return isShare && isChartReportItemHandle(itemHandle.getDataBindingReference());
 	}
 
 	/**

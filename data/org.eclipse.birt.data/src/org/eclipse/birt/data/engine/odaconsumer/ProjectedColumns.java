@@ -26,17 +26,18 @@ import java.util.logging.Level;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement.CustomColumn;
 
 class ProjectedColumns {
-	private ArrayList m_columns;
+	private ArrayList<ResultFieldMetadata> m_columns;
 	private int[] m_projectedIndices;
 	private int m_baseColumnMetadataCount;
 	private ResultSetMetaData m_runtimeMetaData;
 
 	// hold these values in case we need them for re-creating another
 	// ProjectedColumns with a different set of runtime metadata
-	private ArrayList m_customColumns;
-	private ArrayList m_columnHints;
+	private ArrayList<CustomColumn> m_customColumns;
+	private ArrayList<ColumnHint> m_columnHints;
 	private String[] m_projectedColumns;
 
 	// trace logging variables
@@ -50,7 +51,7 @@ class ProjectedColumns {
 
 		assert (runtimeMetaData != null);
 		m_runtimeMetaData = runtimeMetaData;
-		m_columns = new ArrayList();
+		m_columns = new ArrayList<>();
 		m_baseColumnMetadataCount = runtimeMetaData.getColumnCount();
 
 		for (int i = 1; i <= m_baseColumnMetadataCount; i++) {
@@ -83,7 +84,7 @@ class ProjectedColumns {
 			// corresponding position in the runtime metadata, which is stored
 			// in a 0-based m_columns array.
 			int driverIndex = columnPosition - 1;
-			ResultFieldMetadata fieldMD = (ResultFieldMetadata) m_columns.get(driverIndex);
+			ResultFieldMetadata fieldMD = m_columns.get(driverIndex);
 
 			// make sure all revised values are valid before updating anything
 			String columnHintAlias = columnHint.getAlias();
@@ -107,7 +108,7 @@ class ProjectedColumns {
 			// runtime metadata columns by name if possible
 			String columnHintName = columnHint.getName();
 			for (int i = 0, n = m_columns.size(); i < n; i++) {
-				ResultFieldMetadata fieldMD = (ResultFieldMetadata) m_columns.get(i);
+				ResultFieldMetadata fieldMD = m_columns.get(i);
 				if (fieldMD.getName().equals(columnHintName)) {
 					updateFieldDataTypeAndAlias(fieldMD, columnHint, i);
 				}
@@ -153,9 +154,9 @@ class ProjectedColumns {
 		}
 	}
 
-	private ArrayList doGetColumnHints() {
+	private ArrayList<ColumnHint> doGetColumnHints() {
 		if (m_columnHints == null) {
-			m_columnHints = new ArrayList();
+			m_columnHints = new ArrayList<>();
 		}
 
 		return m_columnHints;
@@ -182,9 +183,9 @@ class ProjectedColumns {
 		sm_logger.exiting(sm_className, methodName, column);
 	}
 
-	private ArrayList doGetCustomColumns() {
+	private ArrayList<CustomColumn> doGetCustomColumns() {
 		if (m_customColumns == null) {
-			m_customColumns = new ArrayList();
+			m_customColumns = new ArrayList<>();
 		}
 
 		return m_customColumns;
@@ -211,7 +212,7 @@ class ProjectedColumns {
 	// returns the projected columns based on the runtime
 	// metadata, column hints, and the projected column names.
 	// returns an empty List if there are no projected columns.
-	List getColumnsMetadata() {
+	List<ResultFieldMetadata> getColumnsMetadata() {
 		final String methodName = "getColumnsMetadata"; //$NON-NLS-1$
 		sm_logger.entering(sm_className, methodName);
 
@@ -222,20 +223,20 @@ class ProjectedColumns {
 			projectAllBaseColumns();
 		}
 
-		ArrayList projectedColumns = new ArrayList();
+		ArrayList<ResultFieldMetadata> projectedColumns = new ArrayList<>();
 
 		// add the base columns that were projected based on
 		// the order in which they were projected
 		for (int i = 0, n = m_projectedIndices.length; i < n; i++) {
 			int colIndex = m_projectedIndices[i];
-			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get(colIndex);
+			ResultFieldMetadata column = m_columns.get(colIndex);
 			projectedColumns.add(column);
 		}
 
 		// add the custom columns after the projected non-custom
 		// columns have been added
 		for (int i = m_baseColumnMetadataCount, n = m_columns.size(); i < n; i++) {
-			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get(i);
+			ResultFieldMetadata column = m_columns.get(i);
 			projectedColumns.add(column);
 		}
 
@@ -248,7 +249,7 @@ class ProjectedColumns {
 		final String methodName = "projectSelectedBaseColumns"; //$NON-NLS-1$
 
 		// only project non-custom columns
-		ArrayList projectedIndices = new ArrayList();
+		ArrayList<Integer> projectedIndices = new ArrayList<>();
 
 		for (int i = 0; i < projectedColumns.length; i++) {
 			String projectedName = projectedColumns[i];
@@ -284,7 +285,7 @@ class ProjectedColumns {
 		int size = projectedIndices.size();
 		m_projectedIndices = new int[size];
 		for (int i = 0; i < size; i++) {
-			m_projectedIndices[i] = ((Integer) projectedIndices.get(i)).intValue();
+			m_projectedIndices[i] = projectedIndices.get(i).intValue();
 		}
 	}
 
@@ -295,7 +296,7 @@ class ProjectedColumns {
 
 		int foundIndex = -1;
 		for (int colIndex = 0, n = m_columns.size(); colIndex < n; colIndex++) {
-			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get(colIndex);
+			ResultFieldMetadata column = m_columns.get(colIndex);
 			if (projectedName.equals(column.getName()) || projectedName.equals(column.getAlias())) {
 				foundIndex = colIndex;
 				break;
@@ -340,7 +341,7 @@ class ProjectedColumns {
 				continue;
 			}
 
-			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get(i);
+			ResultFieldMetadata column = m_columns.get(i);
 			if ((column.getName() != null && column.getName().equals(newColumnNameOrAlias))
 					|| (column.getAlias() != null && column.getAlias().equals(newColumnNameOrAlias))) {
 				sm_logger.logp(Level.SEVERE, sm_className, methodName,
@@ -363,7 +364,7 @@ class ProjectedColumns {
 		Set<String> nameSet = new HashSet<>();
 
 		for (int i = 0, n = m_columns.size(); i < n; i++) {
-			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get(i);
+			ResultFieldMetadata column = m_columns.get(i);
 			String name = column.getName();
 			if (nameSet.contains(name)) {
 				sm_logger.logp(Level.SEVERE, sm_className, methodName, "column name {0} is aready used by other column", //$NON-NLS-1$
@@ -388,11 +389,11 @@ class ProjectedColumns {
 		}
 	}
 
-	ArrayList getColumnHints() {
+	ArrayList<ColumnHint> getColumnHints() {
 		return m_columnHints;
 	}
 
-	ArrayList getCustomColumns() {
+	ArrayList<CustomColumn> getCustomColumns() {
 		return m_customColumns;
 	}
 

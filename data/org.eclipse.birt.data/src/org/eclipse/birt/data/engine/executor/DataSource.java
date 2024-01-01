@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
@@ -45,8 +44,9 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
  */
 class DataSource implements IDataSource {
 	private String driverName;
+	@SuppressWarnings("rawtypes")
 	private Map appContext;
-	private Properties connectionProps = PropertySecurity.createProperties();
+	private Properties connectionProps = new Properties();
 
 	// A pool of open odaconsumer.Connection. Since each connection may support a
 	// limited
@@ -54,12 +54,10 @@ class DataSource implements IDataSource {
 	// concurrent statements
 	// This is a set of OpenConnection
 
-	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = PropertySecurity
-			.createHashMap();
+	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = new HashMap<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>();
 
-	// Currently active oda Statements. This is a map from PreparedStatement to
-	// OpenConnection
-	private HashMap statementMap = new HashMap();
+	// Currently active oda Statements.
+	private HashMap<PreparedStatement, CacheConnection> statementMap = new HashMap<PreparedStatement, CacheConnection>();
 
 	private static String className = DataSource.class.getName();
 	private static Logger logger = Logger.getLogger(className);
@@ -73,6 +71,7 @@ class DataSource implements IDataSource {
 	 * @param session
 	 * @param info
 	 */
+	@SuppressWarnings("rawtypes")
 	public DataSource(String driverName, Map connProperties, DataEngineSession session) {
 		this.driverName = driverName;
 		if (connProperties != null) {
@@ -171,6 +170,7 @@ class DataSource implements IDataSource {
 	 * org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.util.Map)
 	 */
 	@Override
+	@SuppressWarnings("rawtypes")
 	public void setAppContext(Map context) throws DataException {
 		appContext = context;
 	}
@@ -221,9 +221,9 @@ class DataSource implements IDataSource {
 	 * one if none available
 	 */
 	public CacheConnection getAvailableConnection() throws DataException {
-		Iterator it = this.getOdaConnections(true).iterator();
+		Iterator<CacheConnection> it = this.getOdaConnections(true).iterator();
 		while (it.hasNext()) {
-			CacheConnection c = (CacheConnection) (it.next());
+			CacheConnection c = it.next();
 			if (c.odaConn.isOpen() && c.currentStatements < c.maxStatements) {
 				return c;
 			}
@@ -242,10 +242,8 @@ class DataSource implements IDataSource {
 			throws DataException {
 		if (fromCache) {
 			return new org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery(this.session);
-		} else {// Allow a query to be created on an unopened data source
-			return new DataSourceQuery(this, queryType, queryText, this.session, qcv);
-
 		}
+		return new DataSourceQuery(this, queryType, queryText, this.session, qcv);
 	}
 
 	/*
@@ -255,10 +253,9 @@ class DataSource implements IDataSource {
 	public ICandidateQuery newCandidateQuery(boolean fromCache) throws DataException {
 		if (fromCache) {
 			return new org.eclipse.birt.data.engine.executor.dscache.CandidateQuery(session);
-		} else {
-			// Allow a query to be created on an unopened data source
-			return new CandidateQuery(this.session);
 		}
+		// Allow a query to be created on an unopened data source
+		return new CandidateQuery(this.session);
 	}
 
 	/**
@@ -267,7 +264,6 @@ class DataSource implements IDataSource {
 	 * have readed their maximum active statements. Returned PreparedStatement must
 	 * be closed by calling closeStatement.
 	 */
-	@SuppressWarnings("restriction")
 	synchronized PreparedStatement prepareStatement(String queryText, String dataSetType, QuerySpecification querySpec)
 			throws DataException {
 		assert isOpen();
@@ -289,7 +285,7 @@ class DataSource implements IDataSource {
 	synchronized void closeStatement(PreparedStatement stmt) {
 		assert stmt != null;
 		// Find the associated connection
-		CacheConnection conn = (CacheConnection) statementMap.remove(stmt);
+		CacheConnection conn = statementMap.remove(stmt);
 		if (conn == null) {
 			// unexpected error: stmt not created by us
 			logger.logp(Level.WARNING, className, "closeStatement", "statement not found");
@@ -337,9 +333,9 @@ class DataSource implements IDataSource {
 			// engine, all
 			// statemens or connections needs to be forced to close.
 			if (statementMap.size() > 0) {
-				Iterator keySet = statementMap.keySet().iterator();
+				Iterator<PreparedStatement> keySet = statementMap.keySet().iterator();
 				while (keySet.hasNext()) {
-					PreparedStatement stmt = (PreparedStatement) keySet.next();
+					PreparedStatement stmt = keySet.next();
 					try {
 						stmt.close();
 					} catch (Exception e) {
@@ -405,8 +401,10 @@ class DataSource implements IDataSource {
 	static private final class ConnectionProp {
 		private String driverName;
 		private Properties props;
+		@SuppressWarnings("rawtypes")
 		private Map appContext;
 
+		@SuppressWarnings("rawtypes")
 		public ConnectionProp(String driverName, Properties connectionProps, Map appContext) {
 			this.driverName = driverName;
 			this.props = connectionProps;

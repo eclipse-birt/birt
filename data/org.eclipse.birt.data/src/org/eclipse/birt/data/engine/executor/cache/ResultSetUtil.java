@@ -57,13 +57,15 @@ public class ResultSetUtil {
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static int writeResultObject(DataOutputStream dos, IResultObject resultObject, int count, Set nameSet,
+	public static int writeResultObject(DataOutputStream dos, IResultObject resultObject, int count,
+			Set<String> nameSet,
 			Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex, int version)
 			throws DataException, IOException {
 		return writeResultObject(dos, resultObject, count, nameSet, stringTableMap, index, rowIndex, version, false);
 	}
 
-	public static int writeResultObject(DataOutputStream dos, IResultObject resultObject, int count, Set nameSet,
+	public static int writeResultObject(DataOutputStream dos, IResultObject resultObject, int count,
+			Set<String> nameSet,
 			Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex, int version,
 			boolean saveRowId) throws DataException, IOException {
 		if (resultObject.getResultClass() == null) {
@@ -190,10 +192,9 @@ public class ResultSetUtil {
 			if (t instanceof ClassNotFoundException) {
 				throw new DataException(ResourceConstants.FAIL_LOAD_CLASS, e, new String[] { t.getMessage(),
 						rsMeta.getFieldNativeTypeName(i + 1), rsMeta.getFieldName(i + 1), });
-			} else {
-				throw new DataException(ResourceConstants.FAIL_LOAD_COLUMN_VALUE, e,
-						new String[] { rsMeta.getFieldNativeTypeName(i + 1), rsMeta.getFieldName(i + 1) });
 			}
+			throw new DataException(ResourceConstants.FAIL_LOAD_COLUMN_VALUE, e,
+					new String[] { rsMeta.getFieldNativeTypeName(i + 1), rsMeta.getFieldName(i + 1) });
 		}
 
 	}
@@ -205,8 +206,8 @@ public class ResultSetUtil {
 	 * @return
 	 * @throws DataException
 	 */
-	public static Set getRsColumnRequestMap(List<IBinding> cacheRequestMap) throws DataException {
-		Set resultSetNameSet = new HashSet();
+	public static Set<String> getRsColumnRequestMap(List<IBinding> cacheRequestMap) throws DataException {
+		Set<String> resultSetNameSet = new HashSet<>();
 		if (cacheRequestMap != null) {
 			Iterator<IBinding> iter = cacheRequestMap.iterator();
 			List<String> dataSetColumnList = null;
@@ -236,9 +237,9 @@ public class ResultSetUtil {
 	}
 
 	private static IBaseExpression getArgumentExpression(IBinding binding) throws DataException {
-		List arguments = binding.getArguments();
+		List<IBaseExpression> arguments = binding.getArguments();
 		if (arguments != null && arguments.size() > 0) {
-			return (IBaseExpression) arguments.get(0);
+			return arguments.get(0);
 		}
 		return null;
 	}

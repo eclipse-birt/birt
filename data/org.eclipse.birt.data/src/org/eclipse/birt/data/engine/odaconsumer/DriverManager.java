@@ -21,7 +21,6 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 
@@ -144,10 +143,9 @@ public class DriverManager {
 		return driver;
 	}
 
-	@SuppressWarnings("unchecked")
 	Hashtable<String, Driver> getLoadedDrivers() {
 		if (m_loadedDrivers == null) {
-			m_loadedDrivers = PropertySecurity.createHashtable();
+			m_loadedDrivers = new Hashtable<>();
 		}
 
 		return m_loadedDrivers;

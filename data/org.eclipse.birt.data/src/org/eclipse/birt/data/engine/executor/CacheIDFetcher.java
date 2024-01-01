@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2012 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,6 +47,7 @@ public class CacheIDFetcher {
 		timer.schedule(task, 0, idleTime);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public String getCacheID(Map appContext) {
 		try {
 			if (appContext == null) {
@@ -68,6 +69,7 @@ public class CacheIDFetcher {
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public boolean enableSampleDataPreivew(Map appContext) {
 		try {
 			if (appContext == null) {

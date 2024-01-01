@@ -322,9 +322,8 @@ public class ExpressionCompilerUtil {
 			if (exprManager.getExpr(columnName) != null) {
 				String expression = ((IScriptExpression) exprManager.getExpr(columnName)).getText();
 				return compile(expression, exprManager, cx);
-			} else {
-				return false;
 			}
+			return false;
 		}
 		case CompiledExpression.TYPE_SINGLE_AGGREGATE: {
 			Iterator args = ((AggregateExpression) expr).getArguments().iterator();
@@ -416,7 +415,6 @@ public class ExpressionCompilerUtil {
 	 * @return the name of the first found NamedExpression which is involved in a
 	 *         cycle. return null if no cycle is found
 	 */
-	@SuppressWarnings("unchecked")
 	public static String getFirstFoundNameInCycle(Set<NamedExpression> namedExpressions, String indicator) {
 		if (namedExpressions == null) {
 			return null;

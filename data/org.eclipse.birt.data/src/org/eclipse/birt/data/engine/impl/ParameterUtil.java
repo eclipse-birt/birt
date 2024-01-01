@@ -79,8 +79,8 @@ public class ParameterUtil {
 	 * parameter definition
 	 *
 	 */
-	public Collection resolveDataSetParameters(boolean evaluateValue) throws DataException {
-		List paramDefns = this.dsRT.getParameters();
+	public Collection<ParameterHint> resolveDataSetParameters(boolean evaluateValue) throws DataException {
+		List<IParameterDefinition> paramDefns = this.dsRT.getParameters();
 		int nParams = paramDefns == null ? 0 : paramDefns.size();
 
 		// array of parameter hints
@@ -90,7 +90,7 @@ public class ParameterUtil {
 
 		// First create param hints for all data set params
 		for (int i = 0; i < nParams; i++) {
-			IParameterDefinition paramDefn = (IParameterDefinition) paramDefns.get(i);
+			IParameterDefinition paramDefn = paramDefns.get(i);
 			paramHints[i] = createParameterHint(paramDefn, paramDefn.getDefaultInputValue());
 			bindingResolved[i] = false;
 

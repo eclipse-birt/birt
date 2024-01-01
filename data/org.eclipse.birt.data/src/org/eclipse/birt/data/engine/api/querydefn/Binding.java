@@ -127,7 +127,7 @@ public class Binding implements IBinding {
 	 * @see org.eclipse.birt.data.engine.api.IBinding#getAggregatOns()
 	 */
 	@Override
-	public List getAggregatOns() {
+	public List<String> getAggregatOns() {
 		return this.aggregateOn;
 	}
 
@@ -137,7 +137,7 @@ public class Binding implements IBinding {
 	 * @see org.eclipse.birt.data.engine.api.IBinding#getArguments()
 	 */
 	@Override
-	public List getArguments() throws DataException {
+	public List<IBaseExpression> getArguments() throws DataException {
 		if (this.orderedArgument != null) {
 			// ordered list already computed;
 			return this.orderedArgument;

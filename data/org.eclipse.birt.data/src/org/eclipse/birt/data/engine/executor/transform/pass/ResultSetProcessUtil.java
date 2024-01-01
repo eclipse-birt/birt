@@ -172,9 +172,10 @@ class ResultSetProcessUtil extends RowProcessUtil {
 		// Temp code util model makes the backward comp.
 		ExpressionCompiler compiler = new ExpressionCompiler();
 		compiler.setDataSetMode(false);
-		for (Iterator it = this.populator.getEventHandler().getColumnBindings().values().iterator(); it.hasNext();) {
+		Iterator<IBinding> it = this.populator.getEventHandler().getColumnBindings().values().iterator();
+		for (; it.hasNext();) {
 			try {
-				IBinding binding = (IBinding) it.next();
+				IBinding binding = it.next();
 				compiler.compile(binding.getExpression(),
 						this.populator.getSession().getEngineContext().getScriptContext());
 			} catch (DataException e) {
@@ -190,7 +191,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	private void calculateAggregationsInColumnBinding() throws DataException {
 		IExpressionProcessor ep = populator.getExpressionProcessor();
 
-		Map results = populator.getEventHandler().getColumnBindings();
+		Map<String, IBinding> results = populator.getEventHandler().getColumnBindings();
 
 		DummyICCState iccState = new DummyICCState(results);
 
@@ -631,7 +632,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private static IResultClass rebuildResultClass(IResultClass meta) throws DataException {
-		List projectedColumns = new ArrayList();
+		List<ResultFieldMetadata> projectedColumns = new ArrayList<>();
 
 		for (int i = 1; i <= meta.getFieldCount(); i++) {
 			if (!PassUtil.isTemporaryResultSetComputedColumn(meta.getFieldName(i))) {

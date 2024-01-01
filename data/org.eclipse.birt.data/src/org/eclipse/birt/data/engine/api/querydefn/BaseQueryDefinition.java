@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -92,7 +93,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 *
 	 * @param group Group definition to add
 	 */
-	public void addGroup(GroupDefinition group) {
+	public void addGroup(IGroupDefinition group) {
 		groups.add(group);
 	}
 

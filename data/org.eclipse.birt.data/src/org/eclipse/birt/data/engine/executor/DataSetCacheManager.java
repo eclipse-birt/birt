@@ -60,7 +60,9 @@ public class DataSetCacheManager {
 	// data set id and its cache count
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
+	@SuppressWarnings("rawtypes")
 	private Collection parameterHints;
+	@SuppressWarnings("rawtypes")
 	private Map appContext;
 	private String cacheID;
 	private boolean enableSamplePreview;
@@ -117,18 +119,19 @@ public class DataSetCacheManager {
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public Collection getCurrentParameterHints() {
 		if (this.parameterHints != null) {
 			return this.parameterHints;
-		} else {
-			return new ArrayList();
 		}
+		return new ArrayList();
 	}
 
 	/**
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public Map getCurrentAppContext() {
 		return this.appContext;
 	}
@@ -140,6 +143,7 @@ public class DataSetCacheManager {
 	 * @param dataSourceDesign
 	 * @param datasetDesign
 	 */
+	@SuppressWarnings("rawtypes")
 	public void setDataSourceAndDataSet(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign,
 			Collection parameterHints, Map appContext) {
 		this.dataSourceDesign = dataSourceDesign;
@@ -181,6 +185,7 @@ public class DataSetCacheManager {
 	 * @return
 	 * @throws DataException
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean doesLoadFromCache(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign,
 			Collection parameterHints, Map appContext) throws DataException {
 		DataSetCacheConfig dscc = getDataSetCacheConfig(dataSetDesign, appContext);
@@ -200,10 +205,12 @@ public class DataSetCacheManager {
 	 * @return
 	 * @throws DataException
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean needsToCache(IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException {
 		return getDataSetCacheConfig(dataSetDesign, appContext) != null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContext)
 			throws DataException {
 		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig(appContext, context, dataSetDesign);
@@ -221,9 +228,8 @@ public class DataSetCacheManager {
 		DataSetCacheConfig dscc = this.getDataSetCacheConfig(dataSetDesign, appContext);
 		if (dscc != null) {
 			return dscc.getCacheCapability();
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	/**
@@ -235,10 +241,9 @@ public class DataSetCacheManager {
 		DataSetCacheConfig dscc = this.getDataSetCacheConfig(dataSetDesign, appContext);
 		if (dscc != null) {
 			return dscc.getCountConfig();
-		} else {
-			// do not use cache at all
-			return 0;
 		}
+		// do not use cache at all
+		return 0;
 	}
 
 	/**
@@ -380,9 +385,8 @@ public class DataSetCacheManager {
 				DataSourceAndDataSet.newInstance(dataSource, dataSet, null, this.cacheID, this.enableSamplePreview));
 		if (resultClass != null) {
 			return new ResultMetaData(resultClass);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
