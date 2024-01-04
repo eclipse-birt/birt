@@ -343,8 +343,8 @@ public abstract class ExcelEmitter implements IContentEmitter {
 					log.debug("ex:", ex.toString());
 				}
 			}
-			if (handlerState.getWb() instanceof SXSSFWorkbook sworkbook) {
-				sworkbook.dispose();
+			if (handlerState.getWb() instanceof SXSSFWorkbook) {
+				((SXSSFWorkbook) handlerState.getWb()).dispose();
 			}
 			handlerState = null;
 			reportOutputFilename = null;
