@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -341,6 +342,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 				} catch (IOException ex) {
 					log.debug("ex:", ex.toString());
 				}
+			}
+			if (handlerState.getWb() instanceof SXSSFWorkbook) {
+				((SXSSFWorkbook) handlerState.getWb()).dispose();
 			}
 			handlerState = null;
 			reportOutputFilename = null;
