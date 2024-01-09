@@ -718,8 +718,8 @@ public class TableWriter {
 		if (additionalColSpan != null) {
 			additionalcol = additionalColSpan;
 		}
-		int cellIdx = drawcurrentcolid + colspan + additionalcol + 1;
-		CellArea nextcell = ((RowArea) container.getParent()).getCell(cellIdx);
+		int nextCellIdx = drawcurrentcolid + colspan + additionalcol;
+		CellArea nextcell = ((RowArea) container.getParent()).getCell(nextCellIdx);
 
 		if (!isRTL) {// normal flow
 			writeSingleBorder(LEFTBORDERLINE, style.getLeftBorder());
