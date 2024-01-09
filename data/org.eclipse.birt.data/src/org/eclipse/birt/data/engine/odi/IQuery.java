@@ -21,7 +21,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 
@@ -57,7 +59,7 @@ public interface IQuery {
 	 * @param sortSpecs An ordered list of IQuery.SortSpec objects.
 	 * @throws DataException if given sortSpecs is invalid.
 	 */
-	void setOrdering(List sortSpecs) throws DataException;
+	void setOrdering(List<SortSpec> sortSpecs) throws DataException;
 
 	/**
 	 * Specify the grouping of query results for aggregates.
@@ -65,7 +67,7 @@ public interface IQuery {
 	 * @param groupSpecs An ordered list of IQuery.GroupSpec objects.
 	 * @throws DataException if given groupSpecs is invalid.
 	 */
-	void setGrouping(List groupSpecs) throws DataException;
+	void setGrouping(List<GroupSpec> groupSpecs) throws DataException;
 
 	/**
 	 * Specifies the maximum number of detail rows that can be retrieved by this
@@ -134,8 +136,10 @@ public interface IQuery {
 		private int index = -1;
 		private String field;
 		private boolean ascendingOrder;
+		@SuppressWarnings("rawtypes")
 		private Comparator comparator;
 
+		@SuppressWarnings("rawtypes")
 		public SortSpec(int index, String field, boolean ascendingOrder, Comparator comparator) {
 			this.index = index;
 			this.field = field;
@@ -155,6 +159,7 @@ public interface IQuery {
 			return ascendingOrder;
 		}
 
+		@SuppressWarnings("rawtypes")
 		public Comparator getComparator() {
 			return this.comparator;
 		}
@@ -173,8 +178,8 @@ public interface IQuery {
 		private double intervalRange = 0;
 		private Object intervalStart;
 		private int dataType;
-		private List filters;
-		private List sorts;
+		private List<IFilterDefinition> filters;
+		private List<ISortDefinition> sorts;
 
 		/**
 		 * Instantiates a groupSpec defining a column name as its required group key.
@@ -329,23 +334,23 @@ public interface IQuery {
 			return this.isComplexExpression;
 		}
 
-		public void setSorts(List sorts) {
+		public void setSorts(List<ISortDefinition> sorts) {
 			if (sorts != null) {
 				this.sorts = sorts;
 			}
 		}
 
-		public List getSorts() {
+		public List<ISortDefinition> getSorts() {
 			return this.sorts;
 		}
 
-		public void setFilters(List filters) {
+		public void setFilters(List<IFilterDefinition> filters) {
 			if (filters != null) {
 				this.filters = FilterUtil.sortFilters(filters);
 			}
 		}
 
-		public List getFilters() {
+		public List<IFilterDefinition> getFilters() {
 			return this.filters;
 		}
 

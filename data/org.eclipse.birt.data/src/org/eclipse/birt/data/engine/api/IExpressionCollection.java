@@ -25,5 +25,5 @@ public interface IExpressionCollection extends IBaseExpression {
 	/**
 	 * Gets the expression collection.
 	 */
-	Collection getExpressions();
+	Collection<IBaseExpression> getExpressions();
 }

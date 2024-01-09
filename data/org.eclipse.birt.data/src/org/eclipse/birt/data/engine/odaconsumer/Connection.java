@@ -21,7 +21,6 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
@@ -224,7 +223,7 @@ public class Connection extends ExceptionHandler {
 	// and we'll lazily instantiate it since it may not be needed
 	private Hashtable<String, DataSetCapabilities> getCachedDsMetaData() {
 		if (m_cachedDsMetaData == null) {
-			m_cachedDsMetaData = PropertySecurity.createHashtable();
+			m_cachedDsMetaData = new Hashtable<>();
 		}
 
 		return m_cachedDsMetaData;

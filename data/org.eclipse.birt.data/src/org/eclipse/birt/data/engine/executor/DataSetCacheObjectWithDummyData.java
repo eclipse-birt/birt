@@ -60,16 +60,16 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject {
 
 	private IResultClass populateResultClass(IBaseDataSetDesign dataSetDesign, IResultClass baseResultClass)
 			throws DataException {
-		List resultHints = dataSetDesign.getResultSetHints();
-		List computedColumns = dataSetDesign.getComputedColumns();
-		List columnsList = new ArrayList();
+		List<IColumnDefinition> resultHints = dataSetDesign.getResultSetHints();
+		List<IComputedColumn> computedColumns = dataSetDesign.getComputedColumns();
+		List<ResultFieldMetadata> columnsList = new ArrayList<>();
 		for (int i = 1; i <= baseResultClass.getFieldCount(); i++) {
 			columnsList.add(baseResultClass.getFieldMetaData(i));
 		}
 
-		Iterator it = resultHints.iterator();
+		Iterator<IColumnDefinition> it = resultHints.iterator();
 		for (int j = 0; it.hasNext(); j++) {
-			IColumnDefinition columnDefn = (IColumnDefinition) it.next();
+			IColumnDefinition columnDefn = it.next();
 			// data object with alias is retrieve as metadata on base
 			// add check on columnDefn alias name
 			if (baseResultClass.getFieldIndex(columnDefn.getColumnName()) != -1
@@ -87,9 +87,9 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject {
 
 		// Add computed columns
 		int count = columnsList.size();
-		it = computedColumns.iterator();
-		for (int j = resultHints.size(); it.hasNext(); j++) {
-			IComputedColumn compColumn = (IComputedColumn) it.next();
+		Iterator<IComputedColumn> itcc = computedColumns.iterator();
+		for (; itcc.hasNext();) {
+			IComputedColumn compColumn = itcc.next();
 			if (baseResultClass.getFieldIndex(compColumn.getName()) != -1) {
 				continue;
 			}

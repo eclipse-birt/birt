@@ -40,14 +40,14 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 public class ResultClass implements IResultClass {
 	private ResultFieldMetadata[] projectedCols;
 	private int m_fieldCount;
-	private HashMap nameToIdMapping;
+	private HashMap<String, Integer> nameToIdMapping;
 	private String[] fieldNames;
 	private int[] fieldDriverPositions;
 	private ResultClassHelper resultClassHelper;
 	private boolean hasAny;
 	private boolean[] originalAnyTypeField;
 
-	public ResultClass(List projectedColumns) throws DataException {
+	public ResultClass(List<ResultFieldMetadata> projectedColumns) throws DataException {
 		assert (projectedColumns != null);
 
 		initColumnsInfo(projectedColumns);
@@ -60,7 +60,7 @@ public class ResultClass implements IResultClass {
 	 * @throws DataException
 	 */
 	private void validateProjectColumns(ResultFieldMetadata[] projectedColumns) throws DataException {
-		Set columnNameSet = new HashSet();
+		Set<String> columnNameSet = new HashSet<>();
 		for (int i = 0; i < projectedColumns.length; i++) {
 			ResultFieldMetadata column = projectedColumns[i];
 			if (columnNameSet.contains(column.getName())) {
@@ -79,13 +79,13 @@ public class ResultClass implements IResultClass {
 	/**
 	 * @param projectedColumns
 	 */
-	private void initColumnsInfo(List projectedColumns) {
+	private void initColumnsInfo(List<ResultFieldMetadata> projectedColumns) {
 		m_fieldCount = projectedColumns.size();
 		projectedCols = new ResultFieldMetadata[m_fieldCount];
-		nameToIdMapping = new HashMap();
+		nameToIdMapping = new HashMap<>();
 		this.originalAnyTypeField = new boolean[projectedColumns.size()];
 		for (int i = 0, n = projectedColumns.size(); i < n; i++) {
-			projectedCols[i] = (ResultFieldMetadata) projectedColumns.get(i);
+			projectedCols[i] = projectedColumns.get(i);
 			ResultFieldMetadata column = projectedCols[i];
 			if (isOfAnyType(column)) {
 				this.hasAny = true;
@@ -153,7 +153,7 @@ public class ResultClass implements IResultClass {
 		DataInputStream dis = new DataInputStream(inputStream);
 
 		try {
-			List newProjectedColumns = new ArrayList();
+			List<ResultFieldMetadata> newProjectedColumns = new ArrayList<>();
 
 			int size = IOUtil.readInt(dis);
 			for (int i = 0; i < size; i++) {
@@ -222,7 +222,8 @@ public class ResultClass implements IResultClass {
 		DataOutputStream dos = new DataOutputStream(outputStream);
 		// Set resultSetNameSet = requestColumnMap == null ?
 		// null:ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
-		Set requestNameSet = requestColumnMap == null ? null : ResultSetUtil.getRsColumnRequestMap(requestColumnMap);
+		Set<String> requestNameSet = requestColumnMap == null ? null
+				: ResultSetUtil.getRsColumnRequestMap(requestColumnMap);
 		Set<String> resultSetNameSet = null;
 
 		if (requestNameSet != null) {
@@ -278,8 +279,8 @@ public class ResultClass implements IResultClass {
 			if (writeCount != size) {
 				validateProjectColumns(projectedCols);
 				StringBuilder buf = new StringBuilder();
-				for (Iterator i = resultSetNameSet.iterator(); i.hasNext();) {
-					String colName = (String) i.next();
+				for (Iterator<String> i = resultSetNameSet.iterator(); i.hasNext();) {
+					String colName = i.next();
 					buf.append(colName);
 					buf.append(',');
 				}
@@ -342,7 +343,7 @@ public class ResultClass implements IResultClass {
 
 	@Override
 	public int getFieldIndex(String fieldName) {
-		Integer i = (Integer) nameToIdMapping.get(fieldName);// .toUpperCase( ) );
+		Integer i = nameToIdMapping.get(fieldName);// .toUpperCase( ) );
 		return (i == null) ? -1 : i.intValue();
 	}
 

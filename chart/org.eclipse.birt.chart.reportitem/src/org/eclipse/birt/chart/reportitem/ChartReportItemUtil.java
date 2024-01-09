@@ -49,10 +49,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -345,7 +345,7 @@ public class ChartReportItemUtil extends ChartItemUtil {
 					binding.addAggregateOn(aggregateOn);
 					// Copy groups if used and not added previously
 					if (findGroupInQuery(query, aggregateOn) == null) {
-						GroupDefinition group = findGroupInQuery(query.getParentQuery(), aggregateOn);
+						IGroupDefinition group = findGroupInQuery(query.getParentQuery(), aggregateOn);
 						if (group != null) {
 							((SubqueryDefinition) query).addGroup(group);
 						}
@@ -365,10 +365,10 @@ public class ChartReportItemUtil extends ChartItemUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static GroupDefinition findGroupInQuery(IBaseQueryDefinition query, String groupName) {
-		List<GroupDefinition> groups = query.getGroups();
+	private static IGroupDefinition findGroupInQuery(IBaseQueryDefinition query, String groupName) {
+		List<IGroupDefinition> groups = query.getGroups();
 		if (groups != null) {
-			for (GroupDefinition group : groups) {
+			for (IGroupDefinition group : groups) {
 				if (group.getName().equals(groupName)) {
 					return group;
 				}

@@ -62,6 +62,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.group.GroupCalculatorFactory;
+import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -101,6 +102,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	protected boolean loadFromCache;
 	protected boolean ignoreDataSetFilter = false;
 
+	@SuppressWarnings("rawtypes")
 	private Map queryAppContext;
 
 	/** Query nesting level, 1 - outermost query */
@@ -118,7 +120,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	private IResultIterator odiResult;
 	private IExecutorHelper parentHelper;
 	private DataEngineSession session;
-	protected List temporaryComputedColumns = new ArrayList();
+	protected List<IComputedColumn> temporaryComputedColumns = new ArrayList<>();
 	private static Logger logger = Logger.getLogger(QueryExecutor.class.getName());
 	protected IQueryContextVisitor contextVisitor;
 
@@ -250,6 +252,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	/**
 	 * @param context
 	 */
+	@SuppressWarnings("rawtypes")
 	void setAppContext(Map context) {
 		queryAppContext = context;
 	}
@@ -327,7 +330,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			boolean filterPresent = false;
 			if (odiQuery instanceof BaseQuery) {
 				BaseQuery bq = (BaseQuery) odiQuery;
-				List fetchEvents = bq.getFetchEvents();
+				List<IResultObjectEvent> fetchEvents = bq.getFetchEvents();
 				if (fetchEvents != null) {
 					for (Object e : fetchEvents) {
 						if (e instanceof IFilterByRow) {
@@ -492,12 +495,12 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * @throws DataException
 	 */
 	private void populateGrouping(ScriptContext cx, SortingOptimizer opt) throws DataException {
-		List groups = this.baseQueryDefn.getGroups();
+		List<IGroupDefinition> groups = this.baseQueryDefn.getGroups();
 		if (groups != null && !groups.isEmpty()) {
 			IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[groups.size()];
-			Iterator it = groups.iterator();
+			Iterator<IGroupDefinition> it = groups.iterator();
 			for (int i = 0; it.hasNext(); i++) {
-				IGroupDefinition src = (IGroupDefinition) it.next();
+				IGroupDefinition src = it.next();
 
 				validateGroupExpression(src);
 
@@ -590,9 +593,8 @@ public abstract class QueryExecutor implements IQueryExecutor {
 							src.getIntervalRange(), dataType, session.getEngineContext().getLocale(),
 							session.getEngineContext().getTimeZone()));
 
-		} else {
-			return new ComputedColumn(groupName, expr, dataType);
 		}
+		return new ComputedColumn(groupName, expr, dataType);
 	}
 
 	/**
@@ -691,9 +693,8 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			int dataType = ((IBinding) binding).getDataType();
 			if (dataType != DataType.UNKNOWN_TYPE) {
 				return dataType;
-			} else {
-				return DataType.ANY_TYPE;
 			}
+			return DataType.ANY_TYPE;
 		} catch (BirtException e) {
 			throw DataException.wrap(e);
 		}
@@ -712,21 +713,20 @@ public abstract class QueryExecutor implements IQueryExecutor {
 		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<>();
 
 		if (dataSet.getFilters() != null && !ignoreDataSetFilter) {
-			Map bindings = createBindingFromComputedColumn(dataSet.getComputedColumns());
+			Map<String, IBinding> bindings = createBindingFromComputedColumn(dataSet.getComputedColumns());
 			for (int i = 0; i < dataSet.getFilters().size(); i++) {
-				if (!((IFilterDefinition) dataSet.getFilters().get(i)).updateAggregation()) {
+				if (!dataSet.getFilters().get(i).updateAggregation()) {
 					continue;
 				}
 
-				if (QueryExecutorUtil.isAggrFilter((IFilterDefinition) dataSet.getFilters().get(i), bindings)) {
-					dataSetAggrFilters.add((IFilterDefinition) dataSet.getFilters().get(i));
+				if (QueryExecutorUtil.isAggrFilter(dataSet.getFilters().get(i), bindings)) {
+					dataSetAggrFilters.add(dataSet.getFilters().get(i));
 				} else {
-					dataSetFilters.add((IFilterDefinition) dataSet.getFilters().get(i));
+					dataSetFilters.add(dataSet.getFilters().get(i));
 				}
 			}
 		}
 
-		@SuppressWarnings("unchecked")
 		List<IFilterDefinition> filters = this.baseQueryDefn.getFilters();
 		if (filters != null) {
 			@SuppressWarnings("unchecked")
@@ -761,14 +761,15 @@ public abstract class QueryExecutor implements IQueryExecutor {
 		}
 
 		// When prepare filters, the temporaryComputedColumns would also be effect.
-		List multipassFilters = prepareFilters(cx, dataSetFilters, queryFilters, temporaryComputedColumns);
+		List<IFilterDefinition> multipassFilters = prepareFilters(cx, dataSetFilters, queryFilters,
+				temporaryComputedColumns);
 
 		// ******************populate the onFetchEvent below**********************/
-		List computedColumns;
+		List<IComputedColumn> computedColumns;
 		// set computed column event
 		computedColumns = this.dataSet.getComputedColumns();
 		if (computedColumns == null) {
-			computedColumns = new ArrayList();
+			computedColumns = new ArrayList<>();
 		}
 
 		if (computedColumns.size() > 0 && this.getAppContext() != null
@@ -781,9 +782,9 @@ public abstract class QueryExecutor implements IQueryExecutor {
 					trimmedNames.add(col.getColumnName());
 				}
 
-				List toBeRemovedComputedColumns = new ArrayList();
+				List<IComputedColumn> toBeRemovedComputedColumns = new ArrayList<>();
 				for (int i = 0; i < computedColumns.size(); i++) {
-					if (trimmedNames.contains(((IComputedColumn) computedColumns.get(i)).getName())) {
+					if (trimmedNames.contains(computedColumns.get(i).getName())) {
 						toBeRemovedComputedColumns.add(computedColumns.get(i));
 					}
 				}
@@ -815,13 +816,13 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * @return
 	 * @throws DataException
 	 */
-	private Map<String, IBinding> createBindingFromComputedColumn(List computedColumns) throws DataException {
+	private Map<String, IBinding> createBindingFromComputedColumn(List<IComputedColumn> computedColumns)
+			throws DataException {
 		Map<String, IBinding> result = new HashMap<>();
 		if (computedColumns == null || computedColumns.size() == 0) {
 			return result;
 		}
-		for (Object computedColumn : computedColumns) {
-			IComputedColumn cc = (IComputedColumn) computedColumn;
+		for (IComputedColumn cc : computedColumns) {
 			IBinding binding = new Binding(cc.getName());
 			binding.setExpression(cc.getExpression());
 			binding.setAggrFunction(cc.getAggregateFunction());
@@ -915,9 +916,10 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * @return
 	 * @throws DataException
 	 */
-	private List prepareFilters(ScriptContext cx, List dataSetFilters, List queryFilters, List temporaryComputedColumns)
+	private List<IFilterDefinition> prepareFilters(ScriptContext cx, List<IFilterDefinition> dataSetFilters,
+			List<IFilterDefinition> queryFilters, List<IComputedColumn> temporaryComputedColumns)
 			throws DataException {
-		List result = new ArrayList();
+		List<IFilterDefinition> result = new ArrayList<>();
 		/*
 		 * List allFilter = new ArrayList(); allFilter.addAll( dataSetFilters );
 		 * allFilter.addAll( queryFilters ); prepareFilter( cx, allFilter,
@@ -937,12 +939,14 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * @param result
 	 * @throws DataException
 	 */
-	private void prepareFilter(ScriptContext cx, List dataSetFilters, List temporaryComputedColumns, List result)
+	private void prepareFilter(ScriptContext cx, List<IFilterDefinition> dataSetFilters,
+			List<IComputedColumn> temporaryComputedColumns,
+			List<IFilterDefinition> result)
 			throws DataException {
 		if (dataSetFilters != null && !dataSetFilters.isEmpty()) {
-			Iterator it = dataSetFilters.iterator();
-			for (int i = 0; it.hasNext(); i++) {
-				IFilterDefinition src = (IFilterDefinition) it.next();
+			Iterator<IFilterDefinition> it = dataSetFilters.iterator();
+			for (; it.hasNext();) {
+				IFilterDefinition src = it.next();
 				IBaseExpression expr = src.getExpression();
 
 				if (isGroupFilter(src)) {
@@ -1009,18 +1013,16 @@ public abstract class QueryExecutor implements IQueryExecutor {
 		if (odiQuery instanceof IPreparedDSQuery) {
 			if (((IPreparedDSQuery) odiQuery).getResultClass() != null) {
 				return new ColumnBindingMetaData(baseQueryDefn, ((IPreparedDSQuery) odiQuery).getResultClass());
-			} else {
-				return null;
 			}
+			return null;
 		} else if (odiQuery instanceof JointDataSetQuery) {
 			return new ColumnBindingMetaData(baseQueryDefn, ((JointDataSetQuery) odiQuery).getResultClass());
 		} else {
 			IResultMetaData meta = DataSetDesignHelper.getResultMetaData(baseQueryDefn, odiQuery);
 			if (meta == null) {
 				return new ColumnBindingMetaData(baseQueryDefn, ((ICandidateQuery) odiQuery).getResultClass());
-			} else {
-				return meta;
 			}
+			return meta;
 		}
 	}
 
@@ -1040,15 +1042,15 @@ public abstract class QueryExecutor implements IQueryExecutor {
 			IResultClass resultClass = DataSetDesignHelper.getResultClass(odiQuery);
 			if (resultClass != null) {
 				return resultClass;
-			} else {
-				return ((ICandidateQuery) odiQuery).getResultClass();
 			}
+			return ((ICandidateQuery) odiQuery).getResultClass();
 		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#execute()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(IEventHandler eventHandler) throws DataException {
 		logger.logp(Level.FINER, QueryExecutor.class.getName(), "execute", "Start to execute");
@@ -1091,7 +1093,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * reset computed columns
 	 */
 	private void resetComputedColumns() {
-		List l = this.getDataSet().getComputedColumns();
+		List<IComputedColumn> l = this.getDataSet().getComputedColumns();
 		if (l != null) {
 			l.removeAll(this.temporaryComputedColumns);
 		}
@@ -1263,7 +1265,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 * @return
 	 * @throws DataException
 	 */
-	protected Collection resolveDataSetParameters(boolean evaluateValue) throws DataException {
+	protected Collection<ParameterHint> resolveDataSetParameters(boolean evaluateValue) throws DataException {
 		return new ParameterUtil(this.tabularOuterResults == null ? null : this.tabularOuterResults.getQueryScope(),
 				this.getDataSet(), (IQueryDefinition) this.baseQueryDefn, this.getQueryScope(),
 				session.getEngineContext().getScriptContext()).resolveDataSetParameters(evaluateValue);
@@ -1274,6 +1276,7 @@ public abstract class QueryExecutor implements IQueryExecutor {
 	 *
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getAppContext()
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map getAppContext() {
 		return this.queryAppContext;

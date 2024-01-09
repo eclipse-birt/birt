@@ -80,7 +80,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	private DummyJSResultSetRow jsRow;
 	private IExecutorHelper helper;
 	private int currentRowIndex;
-	private Map columnBindings;
+	private Map<String, IBinding> columnBindings;
 
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
@@ -90,7 +90,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param odiResult
 	 * @throws DataException
 	 */
-	public ProgressiveAggregationHelper(Map columnBindings, IAggrDefnManager manager, String tempDir,
+	public ProgressiveAggregationHelper(Map<String, IBinding> columnBindings, IAggrDefnManager manager, String tempDir,
 			Scriptable currentScope, ScriptContext sc, IExecutorHelper helper) throws DataException {
 		this.columnBindings = columnBindings;
 		this.manager = manager;

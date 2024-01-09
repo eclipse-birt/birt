@@ -171,7 +171,7 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition {
 	 *
 	 * @return
 	 */
-	List getBindings();
+	List<IBinding> getBindings();
 
 	/**
 	 * Add the sort. Currently we only support sorts which are based on one single

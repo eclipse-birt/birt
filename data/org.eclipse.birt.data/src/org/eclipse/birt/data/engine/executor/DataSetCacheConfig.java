@@ -76,9 +76,8 @@ public class DataSetCacheConfig {
 		} else if (cacheMode == DataSetCacheMode.IN_DISK) {
 			if (isIncremental) {
 				return new IncreDataSetCacheObject(cacheDir);
-			} else {
-				return new DiskDataSetCacheObject(cacheDir, getCacheCapability());
 			}
+			return new DiskDataSetCacheObject(cacheDir, getCacheCapability());
 		}
 		assert false;
 		return null;

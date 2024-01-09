@@ -32,9 +32,10 @@ public class CacheMapManager {
 	 * Please notice that we must use static variable here for the sharing of cached
 	 * data set would be cross data set session.
 	 */
-	private static Map JVMLevelCacheMap = Collections.synchronizedMap(new HashMap());
+	private static Map<DataSourceAndDataSet, IDataSetCacheObject> JVMLevelCacheMap = Collections
+			.synchronizedMap(new HashMap<>());
 	private static Map<DataSourceAndDataSet, Integer> lockedDataSetCacheMap = Collections
-			.synchronizedMap(new HashMap());
+			.synchronizedMap(new HashMap<>());
 
 	private Map<DataSourceAndDataSet, IDataSetCacheObject> cacheMap;
 	// use this field temporarily keep the data set object need to be saved in
@@ -57,7 +58,7 @@ public class CacheMapManager {
 		if (useJVMLevelCache) {
 			cacheMap = JVMLevelCacheMap;
 		} else {
-			cacheMap = new HashMap();
+			cacheMap = new HashMap<>();
 		}
 		tempDataSetCacheMap = new HashMap<>();
 	}
@@ -72,16 +73,15 @@ public class CacheMapManager {
 	 */
 	boolean doesSaveToCache(DataSourceAndDataSet dsAndDs, DataSetCacheConfig dscc) throws DataException {
 		synchronized (cacheMap) {
-			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheMap.get(dsAndDs);
+			IDataSetCacheObject cacheObject = cacheMap.get(dsAndDs);
 			if (cacheObject != null) {
 				return cacheObject.needUpdateCache(dscc.getCacheCapability());
-			} else {
-				if (!tempDataSetCacheMap.containsKey(dsAndDs)) {
-					IDataSetCacheObject dsco = dscc.createDataSetCacheObject();
-					tempDataSetCacheMap.put(dsAndDs, dsco);
-				}
-				return true;
 			}
+			if (!tempDataSetCacheMap.containsKey(dsAndDs)) {
+				IDataSetCacheObject dsco = dscc.createDataSetCacheObject();
+				tempDataSetCacheMap.put(dsAndDs, dsco);
+			}
+			return true;
 		}
 	}
 
@@ -91,7 +91,7 @@ public class CacheMapManager {
 	 */
 	boolean doesLoadFromCache(DataSourceAndDataSet dsAndDs, int requiredCapability) {
 		synchronized (cacheMap) {
-			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheMap.get(dsAndDs);
+			IDataSetCacheObject cacheObject = cacheMap.get(dsAndDs);
 			if (cacheObject != null) {
 				boolean reusable = cacheObject.isCachedDataReusable(requiredCapability);
 				if (!reusable) {
@@ -116,9 +116,8 @@ public class CacheMapManager {
 					}
 				}
 				return reusable;
-			} else {
-				return false;
 			}
+			return false;
 		}
 	}
 
@@ -172,7 +171,7 @@ public class CacheMapManager {
 	 * @return
 	 */
 	IDataSetCacheObject getloadedCacheObject(DataSourceAndDataSet dsAndDs) {
-		return (IDataSetCacheObject) cacheMap.get(dsAndDs);
+		return cacheMap.get(dsAndDs);
 	}
 
 	/**
@@ -180,7 +179,7 @@ public class CacheMapManager {
 	 * @param dataSetDesign2
 	 */
 	void clearCache(DataSourceAndDataSet dsAndDs) {
-		List cacheObjects = new ArrayList();
+		List<IDataSetCacheObject> cacheObjects = new ArrayList<>();
 		synchronized (cacheMap) {
 			Object key = getKey(dsAndDs);
 			while (key != null) {
@@ -190,7 +189,7 @@ public class CacheMapManager {
 			}
 		}
 		for (int i = 0; i < cacheObjects.size(); i++) {
-			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheObjects.get(i);
+			IDataSetCacheObject cacheObject = cacheObjects.get(i);
 			cacheObject.release();
 		}
 
@@ -219,13 +218,12 @@ public class CacheMapManager {
 		IDataSetCacheObject cacheObject = null;
 		Object key = getKey(dsAndDs);
 		if (key != null) {
-			cacheObject = (IDataSetCacheObject) cacheMap.get(key);
+			cacheObject = cacheMap.get(key);
 		}
 		if (cacheObject != null) {
 			return cacheObject.getResultClass();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -235,8 +233,8 @@ public class CacheMapManager {
 	 */
 	private Object getKey(DataSourceAndDataSet dsAndDs) {
 		synchronized (cacheMap) {
-			for (Iterator it = cacheMap.keySet().iterator(); it.hasNext();) {
-				DataSourceAndDataSet temp = (DataSourceAndDataSet) it.next();
+			for (Iterator<DataSourceAndDataSet> it = cacheMap.keySet().iterator(); it.hasNext();) {
+				DataSourceAndDataSet temp = it.next();
 				if (temp.isDataSourceDataSetEqual(dsAndDs, false)) {
 					return temp;
 				}
@@ -263,7 +261,7 @@ public class CacheMapManager {
 						lockedDataSetCacheMap.remove(dsAndDs);
 					}
 				}
-				IDataSetCacheObject cacheObj = (IDataSetCacheObject) JVMLevelCacheMap.remove(dsAndDs);
+				IDataSetCacheObject cacheObj = JVMLevelCacheMap.remove(dsAndDs);
 				if (cacheObj != null) {
 					removed.add(cacheObj);
 				}
@@ -277,7 +275,7 @@ public class CacheMapManager {
 	}
 
 	void clearCache() {
-		List cacheObjects = new ArrayList();
+		List<IDataSetCacheObject> cacheObjects = new ArrayList<>();
 		synchronized (cacheMap) {
 			for (DataSourceAndDataSet dataSetAndSource : cacheMap.keySet().toArray(new DataSourceAndDataSet[0])) {
 				cacheObjects.add(cacheMap.remove(dataSetAndSource));
@@ -285,7 +283,7 @@ public class CacheMapManager {
 			}
 		}
 		for (int i = 0; i < cacheObjects.size(); i++) {
-			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheObjects.get(i);
+			IDataSetCacheObject cacheObject = cacheObjects.get(i);
 			cacheObject.release();
 		}
 	}
@@ -312,7 +310,7 @@ class ShutdownHook implements Runnable {
 			cacheObjects.add(cacheMap.remove(dataSetAndSource));
 		}
 		for (int i = 0; i < cacheObjects.size(); i++) {
-			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheObjects.get(i);
+			IDataSetCacheObject cacheObject = cacheObjects.get(i);
 			cacheObject.release();
 		}
 	}

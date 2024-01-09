@@ -70,6 +70,7 @@ public class DataSourceFactory implements IDataSourceFactory {
 	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign, java.util.Collection,
 	 * int, int)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public IDataSource getDataSource(String driverName, Map connProperties, DataEngineSession session)
 			throws DataException {

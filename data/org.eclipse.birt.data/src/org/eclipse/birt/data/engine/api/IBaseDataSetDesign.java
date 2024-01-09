@@ -72,7 +72,7 @@ public interface IBaseDataSetDesign {
 	 *
 	 * @return the computed columns. An empty list if none is defined.
 	 */
-	List getComputedColumns();
+	List<IComputedColumn> getComputedColumns();
 
 	/**
 	 * Returns a list of filters. The List contains
@@ -81,7 +81,7 @@ public interface IBaseDataSetDesign {
 	 *
 	 * @return the filters. An empty list if none is defined.
 	 */
-	List getFilters();
+	List<IFilterDefinition> getFilters();
 
 	/**
 	 * Get a list of sort hints.
@@ -99,7 +99,7 @@ public interface IBaseDataSetDesign {
 	 *
 	 * @return the parameter definitions. An empty list if none is defined.
 	 */
-	List getParameters();
+	List<IParameterDefinition> getParameters();
 
 	/**
 	 * Returns the primary result set hints as a list of
@@ -110,7 +110,7 @@ public interface IBaseDataSetDesign {
 	 *         the data set can provide the definition from the underlying data
 	 *         access provider.
 	 */
-	List getResultSetHints();
+	List<IColumnDefinition> getResultSetHints();
 
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection of
@@ -118,7 +118,7 @@ public interface IBaseDataSetDesign {
 	 *
 	 * @return the input parameter bindings. An empty collection if none is defined.
 	 */
-	Collection getInputParamBindings();
+	Collection<IInputParameterBinding> getInputParamBindings();
 
 	/**
 	 * Returns the <code>beforeOpen</code> script to be called just before opening

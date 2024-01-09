@@ -34,7 +34,7 @@ public abstract class BaseQuery implements IQuery {
 	private GroupSpec[] groups = {};
 	private int maxRows = 0;
 	private int rowFetchLimit = 0;
-	private List fetchEventList = null;
+	private List<IResultObjectEvent> fetchEventList = null;
 
 	private IExpressionProcessor exprProcessor;
 
@@ -45,11 +45,11 @@ public abstract class BaseQuery implements IQuery {
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
 	 */
 	@Override
-	public void setOrdering(List sortSpecs) throws DataException {
+	public void setOrdering(List<SortSpec> sortSpecs) throws DataException {
 		if (sortSpecs == null) {
 			sorts = new SortSpec[0];
 		} else {
-			sorts = (SortSpec[]) sortSpecs.toArray(new SortSpec[0]);
+			sorts = sortSpecs.toArray(new SortSpec[0]);
 		}
 	}
 
@@ -57,11 +57,11 @@ public abstract class BaseQuery implements IQuery {
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#setGrouping(java.util.List)
 	 */
 	@Override
-	public void setGrouping(List groupSpecs) throws DataException {
+	public void setGrouping(List<GroupSpec> groupSpecs) throws DataException {
 		if (groupSpecs == null) {
 			groups = new GroupSpec[0];
 		} else {
-			groups = (GroupSpec[]) groupSpecs.toArray(new GroupSpec[0]);
+			groups = groupSpecs.toArray(new GroupSpec[0]);
 		}
 	}
 
@@ -118,13 +118,13 @@ public abstract class BaseQuery implements IQuery {
 		assert event != null;
 
 		if (fetchEventList == null) {
-			fetchEventList = new ArrayList();
+			fetchEventList = new ArrayList<>();
 		}
 
 		fetchEventList.add(event);
 	}
 
-	public List getFetchEvents() {
+	public List<IResultObjectEvent> getFetchEvents() {
 		return fetchEventList;
 	}
 

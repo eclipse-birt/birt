@@ -92,7 +92,7 @@ public interface IEventHandler {
 	 * @return
 	 * @throws DataException
 	 */
-	Map getColumnBindings() throws DataException;
+	Map<String, IBinding> getColumnBindings() throws DataException;
 
 	/**
 	 * Return a list of IAggrDefinition instances.
@@ -121,6 +121,7 @@ public interface IEventHandler {
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	Map getAppContext();
 
 	DataSetRuntime getDataSetRuntime();

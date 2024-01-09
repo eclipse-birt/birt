@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 
@@ -36,27 +37,27 @@ public class FilterUtil {
 	/**
 	 * @param filters
 	 */
-	public static List sortFilters(List filters) {
+	public static List<IFilterDefinition> sortFilters(List<IFilterDefinition> filters) {
 		if (filters == null) {
 			return null;
 		}
 
 		int size = filters.size();
-		Object[] filterArray = new Object[size];
+		IFilterDefinition[] filterArray = new IFilterDefinition[size];
 		for (int i = 0; i < size; i++) {
 			filterArray[i] = filters.get(i);
 		}
 
-		Arrays.sort(filterArray, new Comparator() {
+		Arrays.sort(filterArray, new Comparator<IFilterDefinition>() {
 
 			/*
 			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 			 */
 			@Override
-			public int compare(Object o1, Object o2) {
-				if (o1 instanceof FilterDefinition && isTopOrBottomFilter((FilterDefinition) o1)) {
+			public int compare(IFilterDefinition o1, IFilterDefinition o2) {
+				if (isTopOrBottomFilter((FilterDefinition) o1)) {
 					return -1;
-				} else if (o2 instanceof FilterDefinition && isTopOrBottomFilter((FilterDefinition) o2)) {
+				} else if (isTopOrBottomFilter((FilterDefinition) o2)) {
 					return 1;
 				}
 				return 0;
@@ -64,7 +65,7 @@ public class FilterUtil {
 
 		});
 
-		List sortedFilters = new ArrayList();
+		List<IFilterDefinition> sortedFilters = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			sortedFilters.add(filterArray[i]);
 		}

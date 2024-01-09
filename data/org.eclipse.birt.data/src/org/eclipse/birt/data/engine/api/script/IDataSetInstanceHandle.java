@@ -91,7 +91,7 @@ public interface IDataSetInstanceHandle extends IJavascriptContext {
 	 * @return Extension properties as a Map of String->String pairs. Null if no
 	 *         extension property is defined
 	 */
-	Map getAllExtensionProperties();
+	Map<String, String> getAllExtensionProperties();
 
 	/**
 	 * Gets the current value of the named data set input parameter.

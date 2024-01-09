@@ -193,7 +193,7 @@ public class SimpleResultSet implements IResultIterator {
 		}
 		this.onFetchEvents = new ArrayList<>();
 		for (int i = 0; i < baseQuery.getFetchEvents().size(); i++) {
-			IResultObjectEvent event = (IResultObjectEvent) baseQuery.getFetchEvents().get(i);
+			IResultObjectEvent event = baseQuery.getFetchEvents().get(i);
 			if (event instanceof ComputedColumnHelper) {
 				this.ccHelper = (ComputedColumnHelper) event;
 			} else if (event instanceof OnFetchScriptHelper) {
@@ -210,8 +210,8 @@ public class SimpleResultSet implements IResultIterator {
 		}
 		if (this.filterByRow != null) {
 			this.filterByRow
-					.setWorkingFilterSet(mode == TransformationConstants.DATA_SET_MODEL ? filterByRow.DATASET_FILTER
-							: filterByRow.QUERY_FILTER);
+					.setWorkingFilterSet(mode == TransformationConstants.DATA_SET_MODEL ? FilterByRow.DATASET_FILTER
+							: FilterByRow.QUERY_FILTER);
 		}
 	}
 
@@ -224,7 +224,6 @@ public class SimpleResultSet implements IResultIterator {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void populateDataSetColumns(IEventHandler handler, IBaseQueryDefinition query, IResultClass resultClass,
 			GroupSpec[] groupSpecs, boolean forceLookingForward) throws DataException {
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap(handler.getAllColumnBindings());

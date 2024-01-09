@@ -60,9 +60,8 @@ public class ParameterMetaData implements IParameterMetaData {
 	public String getName() {
 		if (m_odaMetaData.getName() != null) {
 			return m_odaMetaData.getName();
-		} else {
-			return m_odaMetaData.getNativeName();
 		}
+		return m_odaMetaData.getNativeName();
 	}
 
 	/*

@@ -160,7 +160,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private Collection inputParamValues;
 
 	// Properties added by addProperty()
-	private ArrayList propNames;
+	private ArrayList<String> propNames;
 	private ArrayList propValues;
 
 	private DataEngineSession session;
@@ -271,7 +271,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#prepare()
 	 */
 	@Override
-	@SuppressWarnings("restriction")
 	public IPreparedDSQuery prepare() throws DataException {
 		long start = System.currentTimeMillis();
 		if (odaStatement != null) {
@@ -356,7 +355,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						(IOdaDataSetDesign) session.getDataSetCacheManager().getCurrentDataSetDesign(), odaStatement);
 			}
 			if (design != null) {
-				List modelResultHints = design.getResultSetHints();
+				List<IColumnDefinition> modelResultHints = design.getResultSetHints();
 				resultMetadata = mergeResultHint(modelResultHints, resultMetadata);
 			}
 
@@ -448,7 +447,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * Prepare a query specification with the property and input parameter values,
 	 * for use by an ODA driver before IQuery#prepare.
 	 */
-	@SuppressWarnings("restriction")
 	private QuerySpecification populateQuerySpecification() throws DataException {
 		if (this.querySpecificaton == null) {
 			QuerySpecHelper querySpecHelper = new QuerySpecHelper(dataSource.getDriverName(), queryType);
@@ -466,7 +464,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/**
 	 * Adds custom properties to the QuerySpecification.
 	 */
-	@SuppressWarnings("restriction")
 	private void addPropertiesToQuerySpec(QuerySpecification querySpec) {
 		if (propNames == null) {
 			return; // nothing to add
@@ -487,7 +484,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * Adds custom properties to prepared oda statement; use the same properties
 	 * already set in querySpec before prepare
 	 */
-	@SuppressWarnings("restriction")
 	private void addPropertiesToPreparedStatement() throws DataException {
 		if (this.querySpecificaton == null || this.querySpecificaton.getProperties().isEmpty()) {
 			return; // no properties to add
@@ -506,7 +502,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/**
 	 * Adds input parameter values to the QuerySpecification.
 	 */
-	@SuppressWarnings("restriction")
 	private void addParametersToQuerySpec(QuerySpecification querySpec) throws DataException {
 		if (this.parameterHints == null) {
 			return; // nothing to add
@@ -718,23 +713,23 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterMetaData()
 	 */
 	@Override
-	public Collection getParameterMetaData() throws DataException {
+	public Collection<ParameterMetaData> getParameterMetaData() throws DataException {
 		if (odaStatement == null) {
 			throw new DataException(ResourceConstants.QUERY_HAS_NOT_PREPARED);
 		}
 
-		Collection odaParamsInfo = odaStatement.getParameterMetaData();
+		Collection<org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData> odaParamsInfo = odaStatement
+				.getParameterMetaData();
 		if (odaParamsInfo == null || odaParamsInfo.isEmpty()) {
 			return null;
 		}
 
 		// iterates thru the most up-to-date collection, and
 		// wraps each of the odaconsumer parameter metadata object
-		ArrayList paramMetaDataList = new ArrayList(odaParamsInfo.size());
-		Iterator odaParamMDIter = odaParamsInfo.iterator();
+		ArrayList<ParameterMetaData> paramMetaDataList = new ArrayList<>(odaParamsInfo.size());
+		Iterator<org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData> odaParamMDIter = odaParamsInfo.iterator();
 		while (odaParamMDIter.hasNext()) {
-			org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData odaMetaData = (org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData) odaParamMDIter
-					.next();
+			org.eclipse.birt.data.engine.odaconsumer.ParameterMetaData odaMetaData = odaParamMDIter.next();
 			paramMetaDataList.add(new ParameterMetaData(odaMetaData));
 		}
 		return paramMetaDataList;
@@ -818,9 +813,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 		if (changed) {
 			return newResultClass;
-		} else {
-			return meta;
 		}
+		return meta;
 	}
 
 	/*
@@ -1023,9 +1017,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				} catch (DataException e) {
 					if (paramBind.getPosition() <= 0) {
 						throw e;
-					} else {
-						odaStatement.setParameterValue(paramBind.getPosition(), paramBind.getValue());
 					}
+					odaStatement.setParameterValue(paramBind.getPosition(), paramBind.getValue());
 				}
 			} else {
 				odaStatement.setParameterValue(paramBind.getPosition(), paramBind.getValue());

@@ -41,7 +41,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheObjectWithDummyData;
 import org.eclipse.birt.data.engine.executor.DiskDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IDataSetCacheObject;
@@ -561,6 +560,7 @@ class CacheUtilFactory {
 		 * @throws IOException
 		 * @throws ClassNotFoundException
 		 */
+		@SuppressWarnings("rawtypes")
 		private void mergeDelta() throws DataException {
 			try {
 				String configFile = getCacheConfig(this.session.getDataSetCacheManager().getCurrentAppContext());
@@ -579,7 +579,7 @@ class CacheUtilFactory {
 						}
 
 						BufferedReader reader = new BufferedReader(fileReader);
-						ArrayList list = readConfigFile(configFile, reader);
+						ArrayList list = readConfigFile(reader);
 						File metaFile = this.metaFile;
 						mergeDeltaToFile(dataFile, list, metaFile);
 
@@ -596,6 +596,7 @@ class CacheUtilFactory {
 		 * @param appContext2
 		 * @return
 		 */
+		@SuppressWarnings("rawtypes")
 		private String getCacheConfig(Map context) {
 			if (context == null) {
 				return null;
@@ -615,6 +616,7 @@ class CacheUtilFactory {
 		 * @throws BirtException
 		 * @throws ClassNotFoundException
 		 */
+		@SuppressWarnings("rawtypes")
 		private void mergeDeltaToFile(File dataFile, ArrayList list, File metaFile)
 				throws DataException, IOException, BirtException, ClassNotFoundException {
 
@@ -638,7 +640,8 @@ class CacheUtilFactory {
 		 * @return an ArrayList that record each query block assigned by the user
 		 * @throws IOException
 		 */
-		private ArrayList readConfigFile(String file, BufferedReader reader) throws IOException {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		private ArrayList readConfigFile(BufferedReader reader) throws IOException {
 			ArrayList list = new ArrayList();
 			String line;
 			StringBuilder block = new StringBuilder("");
@@ -669,9 +672,11 @@ class CacheUtilFactory {
 		 * A private method to parse a single query string to an ArrayList
 		 *
 		 * @return an ArrayList that record each small unit of information about a
-		 *         single query
+		 *         single query. The first 3 items are strings, while the rest are
+		 *         Hashtable<String, String>.
 		 * @throws IOException
 		 */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		private ArrayList parseQueryItem(String item) {
 			// ArrayList structure = new ArrayList();
 			ArrayList info = new ArrayList();
@@ -682,7 +687,7 @@ class CacheUtilFactory {
 				info.add(temp[1]);
 			}
 			String paraName, paraValue;
-			Hashtable table = PropertySecurity.createHashtable();
+			Hashtable<String, String> table = new Hashtable<String, String>();
 			for (int j = 3; j < split.length; j++) {
 				paraName = (split[j].split("="))[0];
 				paraValue = (split[j].split("\""))[1];
@@ -702,6 +707,7 @@ class CacheUtilFactory {
 		 * @throws BirtException
 		 * @throws ClassNotFoundException
 		 */
+		@SuppressWarnings("rawtypes")
 		private IResultIterator getResultIterator(ArrayList list)
 				throws IOException, BirtException, ClassNotFoundException {
 			String sql = null;
@@ -735,6 +741,7 @@ class CacheUtilFactory {
 			return iterator;
 		}
 
+		@SuppressWarnings("rawtypes")
 		private String getQualifiedSql(ArrayList list, int index, String sql) {
 			{
 				ArrayList item = (ArrayList) list.get(index);

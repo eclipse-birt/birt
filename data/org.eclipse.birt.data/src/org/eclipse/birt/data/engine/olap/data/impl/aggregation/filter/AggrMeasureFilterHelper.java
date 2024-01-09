@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -62,7 +61,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 public class AggrMeasureFilterHelper {
 
-	protected Map dimMap = null;
+	protected Map<String, IDimension> dimMap = null;
 	protected IAggregationResultSet[] resultSet;
 	private CubeQueryExecutor executor;
 	protected IBindingValueFetcher fetcher;
@@ -73,7 +72,7 @@ public class AggrMeasureFilterHelper {
 	 * @param resultSet
 	 */
 	public AggrMeasureFilterHelper(ICube cube, IAggregationResultSet[] resultSet) {
-		dimMap = new HashMap();
+		dimMap = new HashMap<>();
 		IDimension[] dimension = cube.getDimesions();
 		for (int i = 0; i < dimension.length; i++) {
 			dimMap.put(dimension[i].getName(), dimension[i]);
@@ -110,10 +109,11 @@ public class AggrMeasureFilterHelper {
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public List getCubePosFilters(List jsMeasureEvalFilterHelper) throws DataException, IOException {
+	public List<ICubePosFilter> getCubePosFilters(List<IAggrMeasureFilterEvalHelper> jsMeasureEvalFilterHelper)
+			throws DataException, IOException {
 		String[] aggregationNames = populateAggregationNames(getAggregationName(), jsMeasureEvalFilterHelper);
 
-		List cubePosFilterList = new ArrayList();
+		List<ICubePosFilter> cubePosFilterList = new ArrayList<>();
 		for (int i = 0; i < resultSet.length; i++) {
 			if (hasDefinition(resultSet[i], aggregationNames)) {
 				//
@@ -124,8 +124,7 @@ public class AggrMeasureFilterHelper {
 					AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet[i], fetcher);
 					for (int j = 0; j < jsMeasureEvalFilterHelper.size(); j++) {
 						if (resultSet[i].getAggregationIndex(aggregationNames[j]) >= 0) {
-							IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper
-									.get(j);
+							IAggrMeasureFilterEvalHelper filterHelper = jsMeasureEvalFilterHelper.get(j);
 							if (!isTopBottomNConditionalExpression(filterHelper.getExpression())) {
 								// For grand total, the top/bottom filter is meaningless. Simply ignore.
 								if (!filterHelper.evaluateFilter(rowAccessor)) {
@@ -136,9 +135,10 @@ public class AggrMeasureFilterHelper {
 					}
 					continue;
 				}
-				Map levelMap = populateLevelMap(resultSet[i]);
+				Map<String, List<DimLevel>> levelMap = populateLevelMap(resultSet[i]);
 				final int dimSize = levelMap.size();
-				List[] levelListArray = new List[dimSize];
+				@SuppressWarnings("unchecked")
+				List<DimLevel>[] levelListArray = new List[dimSize];
 				levelMap.values().toArray(levelListArray);
 				String[] dimensionNames = new String[dimSize];
 				levelMap.keySet().toArray(dimensionNames);
@@ -178,9 +178,9 @@ public class AggrMeasureFilterHelper {
 		return false;
 	}
 
-	private IBinding getBinding(String bindingName, List bindings) throws DataException {
+	private IBinding getBinding(String bindingName, List<IBinding> bindings) throws DataException {
 		for (int j = 0; j < bindings.size(); j++) {
-			IBinding binding = (IBinding) bindings.get(j);
+			IBinding binding = bindings.get(j);
 			if (bindingName.equals(binding.getBindingName())) {
 				return binding;
 			}
@@ -194,25 +194,26 @@ public class AggrMeasureFilterHelper {
 	 * @return
 	 * @throws DataException
 	 */
-	protected String[] populateAggregationNames(List<String> allAggrNames, List jsMeasureEvalFilterHelper)
+	protected String[] populateAggregationNames(List<String> allAggrNames,
+			List<IAggrMeasureFilterEvalHelper> jsMeasureEvalFilterHelper)
 			throws DataException {
 		String[] aggregationNames = new String[jsMeasureEvalFilterHelper.size()];
 		for (int i = 0; i < aggregationNames.length; i++) {
-			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get(i);
-			List bindingName = ExpressionCompilerUtil.extractColumnExpression(filterHelper.getExpression(),
+			IAggrMeasureFilterEvalHelper filterHelper = jsMeasureEvalFilterHelper.get(i);
+			List<String> bindingName = ExpressionCompilerUtil.extractColumnExpression(filterHelper.getExpression(),
 					ScriptConstants.DATA_BINDING_SCRIPTABLE);
 			aggregationNames[i] = (String) getIntersection(allAggrNames, bindingName);
 			if (aggregationNames[i] == null) {
 				aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject(filterHelper.getExpression(),
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE);
 				if (aggregationNames[i] == null && this.executor != null) {
-					List bindingList = new ArrayList();
+					List<IBinding> bindingList = new ArrayList<>();
 					ICubeQueryDefinition query = this.executor.getCubeQueryDefinition();
 					bindingList.addAll(query.getBindings());
 					if (query instanceof PreparedCubeQueryDefinition) {
 						bindingList.addAll(((PreparedCubeQueryDefinition) query).getBindingsForNestAggregation());
 					}
-					List referencedNames = new ArrayList();
+					List<String> referencedNames = new ArrayList<>();
 					for (int j = 0; j < bindingName.size(); j++) {
 						IBinding b = getBinding(bindingName.get(j).toString(), bindingList);
 						if (b != null && b.getAggregatOns().size() == 0 && b.getAggrFunction() == null) {
@@ -227,7 +228,7 @@ public class AggrMeasureFilterHelper {
 		return aggregationNames;
 	}
 
-	private Object getIntersection(List list1, List list2) {
+	private Object getIntersection(List<String> list1, List<String> list2) {
 		for (int i = 0; i < list1.size(); i++) {
 			for (int j = 0; j < list2.size(); j++) {
 				if (list1.get(i).equals(list2.get(j))) {
@@ -249,7 +250,7 @@ public class AggrMeasureFilterHelper {
 	 * @throws DataException
 	 */
 	protected ICubePosFilter getInvalidPosFilter(IAggregationResultSet resultSet, IDiskArray rowIndexArray,
-			String[] dimensionNames, List[] levelListArray) throws IOException, DataException {
+			String[] dimensionNames, List<DimLevel>[] levelListArray) throws IOException, DataException {
 		CubePosFilter cubePosFilter = new InvalidCubePosFilter(dimensionNames);
 		int rowIndex = 0;
 		for (int i = 0; i < resultSet.length(); i++) {
@@ -265,7 +266,7 @@ public class AggrMeasureFilterHelper {
 			IDiskArray[] dimPositions = new IDiskArray[dimensionNames.length];
 			for (int j = 0; j < levelListArray.length; j++) {
 				for (int k = 0; k < levelListArray[j].size(); k++) {
-					DimLevel level = (DimLevel) levelListArray[j].get(k);
+					DimLevel level = levelListArray[j].get(k);
 					int levelIndex = resultSet.getLevelIndex(level);
 					Object[] value = resultSet.getLevelKeyValue(levelIndex);
 					IDiskArray positions = find(dimensionNames[j], level, value);
@@ -295,7 +296,7 @@ public class AggrMeasureFilterHelper {
 	 * @throws DataException
 	 */
 	protected ICubePosFilter getValidPosFilter(IAggregationResultSet resultSet, IDiskArray rowIndexArray,
-			String[] dimensionNames, List[] levelListArray) throws IOException, DataException {
+			String[] dimensionNames, List<DimLevel>[] levelListArray) throws IOException, DataException {
 		CubePosFilter cubePosFilter = new ValidCubePosFilter(dimensionNames);
 		for (int i = 0; i < rowIndexArray.size(); i++) {
 			Integer rowIndex = (Integer) rowIndexArray.get(i);
@@ -303,7 +304,7 @@ public class AggrMeasureFilterHelper {
 			IDiskArray[] dimPositions = new IDiskArray[dimensionNames.length];
 			for (int j = 0; j < levelListArray.length; j++) {
 				for (int k = 0; k < levelListArray[j].size(); k++) {
-					DimLevel level = (DimLevel) levelListArray[j].get(k);
+					DimLevel level = levelListArray[j].get(k);
 					int levelIndex = resultSet.getLevelIndex(level);
 					Object[] value = resultSet.getLevelKeyValue(levelIndex);
 					IDiskArray positions = find(dimensionNames[j], level, value);
@@ -332,7 +333,8 @@ public class AggrMeasureFilterHelper {
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private IDiskArray collectValidRowIndexArray(IAggregationResultSet resultSet, List filterHelpers,
+	private IDiskArray collectValidRowIndexArray(IAggregationResultSet resultSet,
+			List<IAggrMeasureFilterEvalHelper> filterHelpers,
 			String[] aggregationNames) throws DataException, IOException {
 		IDiskArray result = new BufferedPrimitiveDiskArray();
 		AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet, fetcher);
@@ -341,11 +343,11 @@ public class AggrMeasureFilterHelper {
 		FilterPassController filterPassController = new FilterPassController();
 		for (int j = 0; j < filterHelpers.size(); j++) {
 			if (resultSet.getAggregationIndex(aggregationNames[j]) >= 0) {
-				IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get(j);
+				IAggrMeasureFilterEvalHelper filterHelper = filterHelpers.get(j);
 				if (isTopBottomNConditionalExpression(filterHelper.getExpression())) {
 					IConditionalExpression expr = (IConditionalExpression) filterHelper.getExpression();
 					firstRoundFilterHelper.add(filterHelper);
-					expr.setHandle(NEvaluator.newInstance(PropertySecurity.getSystemProperty("java.io.tmpdir"),
+					expr.setHandle(NEvaluator.newInstance(System.getProperty("java.io.tmpdir"),
 							expr.getOperator(), expr.getExpression(), (IScriptExpression) expr.getOperand1(),
 							filterPassController));
 				}
@@ -371,7 +373,7 @@ public class AggrMeasureFilterHelper {
 
 			for (int j = 0; j < filterHelpers.size(); j++) {
 				if (resultSet.getAggregationIndex(aggregationNames[j]) >= 0) {
-					IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get(j);
+					IAggrMeasureFilterEvalHelper filterHelper = filterHelpers.get(j);
 					if (!filterHelper.evaluateFilter(rowAccessor)) {
 						isFilterByAll = false;
 						break;
@@ -386,7 +388,7 @@ public class AggrMeasureFilterHelper {
 		return result;
 	}
 
-	public IAggregationResultSet[] removeInvalidAggrRows(List jsMeasureEvalFilterHelper,
+	public IAggregationResultSet[] removeInvalidAggrRows(List<IAggrMeasureFilterEvalHelper> jsMeasureEvalFilterHelper,
 			List<Integer> affectedAggrResultSetIndex) throws DataException, IOException {
 		IAggregationResultSet[] result = new IAggregationResultSet[resultSet.length];
 		String[] aggregationNames = populateAggregationNames(getAggregationName(), jsMeasureEvalFilterHelper);
@@ -407,7 +409,8 @@ public class AggrMeasureFilterHelper {
 		return result;
 	}
 
-	private IDiskArray collectValidAggregationResultSetRows(IAggregationResultSet resultSet, List filterHelpers,
+	private IDiskArray collectValidAggregationResultSetRows(IAggregationResultSet resultSet,
+			List<IAggrMeasureFilterEvalHelper> filterHelpers,
 			String[] aggregationNames) throws DataException, IOException {
 		IDiskArray result = new BufferedStructureArray(AggregationResultRow.getCreator(), resultSet.length());
 		AggregationRowAccessor rowAccessor = new AggregationRowAccessor(resultSet, fetcher);
@@ -416,11 +419,11 @@ public class AggrMeasureFilterHelper {
 		FilterPassController filterPassController = new FilterPassController();
 		for (int j = 0; j < filterHelpers.size(); j++) {
 			if (resultSet.getAggregationIndex(aggregationNames[j]) >= 0) {
-				IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get(j);
+				IAggrMeasureFilterEvalHelper filterHelper = filterHelpers.get(j);
 				if (isTopBottomNConditionalExpression(filterHelper.getExpression())) {
 					IConditionalExpression expr = (IConditionalExpression) filterHelper.getExpression();
 					firstRoundFilterHelper.add(filterHelper);
-					expr.setHandle(NEvaluator.newInstance(PropertySecurity.getSystemProperty("java.io.tmpdir"),
+					expr.setHandle(NEvaluator.newInstance(System.getProperty("java.io.tmpdir"),
 							expr.getOperator(), expr.getExpression(), (IScriptExpression) expr.getOperand1(),
 							filterPassController));
 				}
@@ -483,14 +486,14 @@ public class AggrMeasureFilterHelper {
 	 * @param resultSet
 	 * @return
 	 */
-	protected Map populateLevelMap(IAggregationResultSet resultSet) {
+	protected Map<String, List<DimLevel>> populateLevelMap(IAggregationResultSet resultSet) {
 		final DimLevel[] dimLevels = resultSet.getAllLevels();
-		Map levelMap = new HashMap();
+		Map<String, List<DimLevel>> levelMap = new HashMap<>();
 		for (int j = 0; j < dimLevels.length; j++) {
 			final String dimensionName = dimLevels[j].getDimensionName();
-			List list = (List) levelMap.get(dimensionName);
+			List<DimLevel> list = levelMap.get(dimensionName);
 			if (list == null) {
-				list = new ArrayList();
+				list = new ArrayList<>();
 				levelMap.put(dimensionName, list);
 			}
 			list.add(dimLevels[j]);

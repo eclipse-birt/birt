@@ -18,6 +18,7 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -35,8 +36,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -74,9 +75,9 @@ public class PreparedStatement extends ExceptionHandler {
 	private Boolean m_supportsInputParameters;
 	private Boolean m_supportsMultipleResultSets;
 
-	private ArrayList m_parameterHints;
+	private ArrayList<ParameterHint> m_parameterHints;
 	// cached Collection of parameter metadata
-	private Collection m_parameterMetaData;
+	private Collection<ParameterMetaData> m_parameterMetaData;
 
 	private ProjectedColumns m_projectedColumns;
 	private IResultClass m_currentResultClass;
@@ -89,12 +90,12 @@ public class PreparedStatement extends ExceptionHandler {
 
 	// mappings of result set name to their corresponding projected columns
 	// and result set class
-	private Hashtable m_namedProjectedColumns;
-	private Hashtable m_namedCurrentResultClasses;
-	private Hashtable m_namedCurrentResultSets;
+	private Hashtable<String, ProjectedColumns> m_namedProjectedColumns;
+	private Hashtable<String, IResultClass> m_namedCurrentResultClasses;
+	private Hashtable<String, ResultSet> m_namedCurrentResultSets;
 	// set of named projected columns that need to be updated next time
 	// it's needed
-	private HashSet m_updateNamedProjectedColumns;
+	private HashSet<String> m_updateNamedProjectedColumns;
 
 	private SequentialResultSetHandler m_seqResultSetHdlr;
 
@@ -145,7 +146,6 @@ public class PreparedStatement extends ExceptionHandler {
 	 *
 	 * @return the current QuerySpecification, or null if none is effective
 	 */
-	@SuppressWarnings("restriction")
 	public QuerySpecification getQuerySpecification() {
 		final String methodName = "getQuerySpecification"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName);
@@ -315,7 +315,7 @@ public class PreparedStatement extends ExceptionHandler {
 		getLogger().entering(sm_className, methodName);
 
 		if (m_currentResultClass == null) {
-			List projectedColumns = getProjectedColumns().getColumnsMetadata();
+			List<ResultFieldMetadata> projectedColumns = getProjectedColumns().getColumnsMetadata();
 			m_currentResultClass = doGetResultClass(projectedColumns);
 		}
 
@@ -324,7 +324,7 @@ public class PreparedStatement extends ExceptionHandler {
 		return m_currentResultClass;
 	}
 
-	private ResultClass doGetResultClass(List projectedColumns) throws DataException {
+	private ResultClass doGetResultClass(List<ResultFieldMetadata> projectedColumns) throws DataException {
 		String methodName = "doGetResultClass"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, projectedColumns);
 
@@ -405,7 +405,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 		// we can get the current result set's metadata directly from the
 		// current result set handle rather than go through ODA
-		ResultSet resultset = (ResultSet) getNamedCurrentResultSets().get(resultSetName);
+		ResultSet resultset = getNamedCurrentResultSets().get(resultSetName);
 
 		IResultClass ret;
 
@@ -419,10 +419,10 @@ public class PreparedStatement extends ExceptionHandler {
 		String methodName = "doGetMetaData"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, resultSetName);
 
-		IResultClass resultClass = (IResultClass) getNamedCurrentResultClasses().get(resultSetName);
+		IResultClass resultClass = getNamedCurrentResultClasses().get(resultSetName);
 
 		if (resultClass == null) {
-			List projectedColumns = getProjectedColumns(resultSetName).getColumnsMetadata();
+			List<ResultFieldMetadata> projectedColumns = getProjectedColumns(resultSetName).getColumnsMetadata();
 			resultClass = doGetResultClass(projectedColumns);
 			getNamedCurrentResultClasses().put(resultSetName, resultClass);
 		}
@@ -436,7 +436,7 @@ public class PreparedStatement extends ExceptionHandler {
 		String methodName = "getProjectedColumns"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, resultSetName);
 
-		ProjectedColumns projectedColumns = (ProjectedColumns) getNamedProjectedColumns().get(resultSetName);
+		ProjectedColumns projectedColumns = getNamedProjectedColumns().get(resultSetName);
 		if (projectedColumns == null) {
 			IResultSetMetaData odaMetadata = getRuntimeMetaData(resultSetName);
 			projectedColumns = doGetProjectedColumns(odaMetadata);
@@ -923,9 +923,9 @@ public class PreparedStatement extends ExceptionHandler {
 		getSequentialResultHandler().addColumnHint(resultSetNum, columnHint);
 	}
 
-	private ArrayList getParameterHints() {
+	private ArrayList<ParameterHint> getParameterHints() {
 		if (m_parameterHints == null) {
-			m_parameterHints = new ArrayList();
+			m_parameterHints = new ArrayList<>();
 		}
 
 		return m_parameterHints;
@@ -957,11 +957,11 @@ public class PreparedStatement extends ExceptionHandler {
 		String methodName = "validateAndAddParameterHint"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, newParameterHint);
 
-		ArrayList parameterHintsList = getParameterHints();
+		ArrayList<ParameterHint> parameterHintsList = getParameterHints();
 		String newParamHintName = newParameterHint.getName();
 		int newParamHintIndex = newParameterHint.getPosition();
 		for (int i = 0, n = parameterHintsList.size(); i < n; i++) {
-			ParameterHint existingParamHint = (ParameterHint) parameterHintsList.get(i);
+			ParameterHint existingParamHint = parameterHintsList.get(i);
 
 			String existingParamHintName = existingParamHint.getName();
 			if (!existingParamHintName.equals(newParamHintName)) {
@@ -1164,25 +1164,25 @@ public class PreparedStatement extends ExceptionHandler {
 		getLogger().exiting(sm_className, methodName);
 	}
 
-	private Hashtable getNamedProjectedColumns() {
+	private Hashtable<String, ProjectedColumns> getNamedProjectedColumns() {
 		if (m_namedProjectedColumns == null) {
-			m_namedProjectedColumns = PropertySecurity.createHashtable();
+			m_namedProjectedColumns = new Hashtable<>();
 		}
 
 		return m_namedProjectedColumns;
 	}
 
-	private Hashtable getNamedCurrentResultClasses() {
+	private Hashtable<String, IResultClass> getNamedCurrentResultClasses() {
 		if (m_namedCurrentResultClasses == null) {
-			m_namedCurrentResultClasses = PropertySecurity.createHashtable();
+			m_namedCurrentResultClasses = new Hashtable<>();
 		}
 
 		return m_namedCurrentResultClasses;
 	}
 
-	private Hashtable getNamedCurrentResultSets() {
+	private Hashtable<String, ResultSet> getNamedCurrentResultSets() {
 		if (m_namedCurrentResultSets == null) {
-			m_namedCurrentResultSets = PropertySecurity.createHashtable();
+			m_namedCurrentResultSets = new Hashtable<>();
 		}
 
 		return m_namedCurrentResultSets;
@@ -1352,7 +1352,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * @throws DataException if data source error occurs.
 	 */
 
-	public Collection getParameterMetaData() throws DataException {
+	public Collection<ParameterMetaData> getParameterMetaData() throws DataException {
 		String methodName = "getParameterMetaData"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName);
 
@@ -1388,14 +1388,14 @@ public class PreparedStatement extends ExceptionHandler {
 		final String methodName = "getParameterMetaData( int )"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, paramIndex);
 
-		Collection allParamsMetadata = null;
+		Collection<ParameterMetaData> allParamsMetadata = null;
 		if (paramIndex > 0) { // index is 1-based
 			allParamsMetadata = getParameterMetaData();
 		}
 		if (allParamsMetadata != null) {
-			Iterator paramMDIter = allParamsMetadata.iterator();
+			Iterator<ParameterMetaData> paramMDIter = allParamsMetadata.iterator();
 			while (paramMDIter.hasNext()) {
-				ParameterMetaData aParamMetaData = (ParameterMetaData) paramMDIter.next();
+				ParameterMetaData aParamMetaData = paramMDIter.next();
 				if (aParamMetaData.getPosition() == paramIndex) {
 					getLogger().exiting(sm_className, methodName, aParamMetaData);
 					return aParamMetaData;
@@ -1453,15 +1453,15 @@ public class PreparedStatement extends ExceptionHandler {
 		return odaParamMetaData;
 	}
 
-	private Collection mergeParamHints() throws DataException {
+	private Collection<ParameterMetaData> mergeParamHints() {
 		String methodName = "mergeParamHints"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName);
 
-		ArrayList parameterMetaData = null;
+		ArrayList<ParameterMetaData> parameterMetaData = null;
 
 		// add the parameter hints, if any.
 		if (m_parameterHints != null && m_parameterHints.size() > 0) {
-			parameterMetaData = new ArrayList();
+			parameterMetaData = new ArrayList<ParameterMetaData>();
 			addParameterHints(parameterMetaData, m_parameterHints);
 		}
 
@@ -1470,15 +1470,15 @@ public class PreparedStatement extends ExceptionHandler {
 		return parameterMetaData;
 	}
 
-	private void addParameterHints(List parameterMetaData, List parameterHints) {
+	private void addParameterHints(List<ParameterMetaData> parameterMetaData, List<ParameterHint> parameterHints) {
 		String methodName = "addParameterHints"; //$NON-NLS-1$
 		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { parameterMetaData, parameterHints });
 		}
 
-		ListIterator iter = parameterHints.listIterator();
+		ListIterator<ParameterHint> iter = parameterHints.listIterator();
 		while (iter.hasNext()) {
-			ParameterHint paramHint = (ParameterHint) iter.next();
+			ParameterHint paramHint = iter.next();
 			ParameterMetaData paramMd = new ParameterMetaData(paramHint, m_connection.getDataSourceId(), m_dataSetType);
 			parameterMetaData.add(paramMd);
 		}
@@ -1486,7 +1486,8 @@ public class PreparedStatement extends ExceptionHandler {
 		getLogger().exiting(sm_className, methodName);
 	}
 
-	private Collection mergeParamHintsWithMetaData(IParameterMetaData runtimeParamMetaData) throws DataException {
+	private Collection<ParameterMetaData> mergeParamHintsWithMetaData(IParameterMetaData runtimeParamMetaData)
+			throws DataException {
 		String methodName = "mergeParamHintsWithMetaData"; //$NON-NLS-1$
 		getLogger().entering(sm_className, methodName, runtimeParamMetaData);
 
@@ -1495,7 +1496,7 @@ public class PreparedStatement extends ExceptionHandler {
 		// first create a ParameterMetaData for each parameter,
 		// based on runtime metadata
 		int numOfParameters = doGetParameterCount(runtimeParamMetaData);
-		ArrayList paramMetaData = new ArrayList(numOfParameters);
+		ArrayList<ParameterMetaData> paramMetaData = new ArrayList<ParameterMetaData>(numOfParameters);
 
 		for (int i = 1; i <= numOfParameters; i++) {
 			ParameterMetaData paramMd = new ParameterMetaData(runtimeParamMetaData, i, m_connection.getDataSourceId(),
@@ -1537,7 +1538,9 @@ public class PreparedStatement extends ExceptionHandler {
 	 * @param parameterHints
 	 * @throws DataException
 	 */
-	private void updateWithParameterHints(List parametersMetaData, List parameterHints) throws DataException {
+	private void updateWithParameterHints(List<ParameterMetaData> parametersMetaData,
+			List<ParameterHint> parameterHints)
+			throws DataException {
 		final String methodName = "updateWithParameterHints"; //$NON-NLS-1$
 		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { parametersMetaData, parameterHints });
@@ -1549,9 +1552,9 @@ public class PreparedStatement extends ExceptionHandler {
 			return; // nothing to update or update with
 		}
 
-		ListIterator iter = parameterHints.listIterator();
+		ListIterator<ParameterHint> iter = parameterHints.listIterator();
 		while (iter.hasNext()) {
-			ParameterHint paramHint = (ParameterHint) iter.next();
+			ParameterHint paramHint = iter.next();
 
 			// find corresponding parameter metadata to update
 			ParameterMetaData paramMd = findParameterMetaData(parametersMetaData, paramHint);
@@ -1567,7 +1570,7 @@ public class PreparedStatement extends ExceptionHandler {
 		getLogger().exiting(sm_className, methodName);
 	}
 
-	private ParameterMetaData findParameterMetaData(List parametersMetaData, ParameterHint paramHint)
+	private ParameterMetaData findParameterMetaData(List<ParameterMetaData> parametersMetaData, ParameterHint paramHint)
 			throws DataException {
 		String paramHintNativeName = paramHint.getNativeName();
 		int position = 0;
@@ -1600,10 +1603,10 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		// has valid 1-based position, return corresponding metadata
-		return (ParameterMetaData) parametersMetaData.get(position - 1);
+		return parametersMetaData.get(position - 1);
 	}
 
-	private static ParameterMetaData findParameterMetaDataByName(Collection parametersMetaData,
+	private static ParameterMetaData findParameterMetaDataByName(Collection<ParameterMetaData> parametersMetaData,
 			ParameterName paramName) {
 		if (paramName == null) {
 			return null; // nothing to match against
@@ -1627,16 +1630,17 @@ public class PreparedStatement extends ExceptionHandler {
 		return paramMd;
 	}
 
-	private static ParameterMetaData findParameterMetaDataByName(Collection parametersMetaData, String paramName,
+	private static ParameterMetaData findParameterMetaDataByName(Collection<ParameterMetaData> parametersMetaData,
+			String paramName,
 			boolean useNativeName) {
 		// empty name is not unique and cannot be used to find a unique match
 		if (parametersMetaData == null || parametersMetaData.isEmpty() || !hasValue(paramName)) {
 			return null; // nothing to match against
 		}
 
-		Iterator iter = parametersMetaData.iterator();
+		Iterator<ParameterMetaData> iter = parametersMetaData.iterator();
 		while (iter.hasNext()) {
-			ParameterMetaData paramMd = (ParameterMetaData) iter.next();
+			ParameterMetaData paramMd = iter.next();
 
 			if ((useNativeName && paramName.equals(paramMd.getNativeName())) || (!useNativeName && paramName.equals(paramMd.getName()))) {
 				return paramMd;
@@ -1732,7 +1736,7 @@ public class PreparedStatement extends ExceptionHandler {
 		case Types.DOUBLE:
 			double d = (paramNameObj == null) ? doGetDouble(paramIndex) : getDouble(paramNameObj);
 			if (!wasNull()) {
-				paramValue = new Double(d);
+				paramValue = Double.valueOf(d);
 			}
 			break;
 
@@ -1823,7 +1827,7 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		if (getLogger().isLoggingEnterExitLevel()) {
-			getLogger().exiting(sm_className, methodName, new Double(ret));
+			getLogger().exiting(sm_className, methodName, Double.valueOf(ret));
 		}
 		return ret;
 	}
@@ -2042,7 +2046,7 @@ public class PreparedStatement extends ExceptionHandler {
 			double ret = getAdvancedStatement().getDouble(paramIndex);
 
 			if (getLogger().isLoggingEnterExitLevel()) {
-				getLogger().exiting(sm_className, methodName, new Double(ret));
+				getLogger().exiting(sm_className, methodName, Double.valueOf(ret));
 			}
 
 			return ret;
@@ -2062,7 +2066,7 @@ public class PreparedStatement extends ExceptionHandler {
 			double ret = getAdvancedStatement().getDouble(effectiveParamName);
 
 			if (getLogger().isLoggingEnterExitLevel()) {
-				getLogger().exiting(sm_className, methodName, new Double(ret));
+				getLogger().exiting(sm_className, methodName, Double.valueOf(ret));
 			}
 
 			return ret;
@@ -2393,10 +2397,10 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		// first find the parameter hint for the specified parameter
-		ListIterator iter = m_parameterHints.listIterator();
+		ListIterator<ParameterHint> iter = m_parameterHints.listIterator();
 		boolean useParamName = (paramName != null);
 		while (iter.hasNext()) {
-			ParameterHint paramHint = (ParameterHint) iter.next();
+			ParameterHint paramHint = iter.next();
 
 			if ((useParamName && paramHint.getName().equals(paramName))
 					|| (!useParamName && paramHint.getPosition() == paramIndex)) {
@@ -2417,9 +2421,9 @@ public class PreparedStatement extends ExceptionHandler {
 			return 0;
 		}
 
-		ListIterator iter = m_parameterHints.listIterator();
+		ListIterator<ParameterHint> iter = m_parameterHints.listIterator();
 		while (iter.hasNext()) {
-			ParameterHint paramHint = (ParameterHint) iter.next();
+			ParameterHint paramHint = iter.next();
 
 			if (paramHint.getName().equals(paramName)) {
 				return paramHint.getPosition();
@@ -2441,9 +2445,9 @@ public class PreparedStatement extends ExceptionHandler {
 			return null;
 		}
 
-		ListIterator iter = m_parameterHints.listIterator();
+		ListIterator<ParameterHint> iter = m_parameterHints.listIterator();
 		while (iter.hasNext()) {
-			ParameterHint paramHint = (ParameterHint) iter.next();
+			ParameterHint paramHint = iter.next();
 
 			if (paramHint.getName().equals(paramName)) {
 				return paramHint.getNativeName();
@@ -2490,9 +2494,9 @@ public class PreparedStatement extends ExceptionHandler {
 		m_updateProjectedColumns = true;
 
 		if (m_namedProjectedColumns != null) {
-			Set keys = m_namedProjectedColumns.keySet();
+			Set<String> keys = m_namedProjectedColumns.keySet();
 			if (m_updateNamedProjectedColumns == null) {
-				m_updateNamedProjectedColumns = new HashSet(keys);
+				m_updateNamedProjectedColumns = new HashSet<>(keys);
 			} else {
 				m_updateNamedProjectedColumns.addAll(keys);
 			}
@@ -2532,22 +2536,22 @@ public class PreparedStatement extends ExceptionHandler {
 
 	private void updateProjectedColumns(ProjectedColumns newProjectedColumns, ProjectedColumns oldProjectedColumns)
 			throws DataException {
-		ArrayList customColumns = oldProjectedColumns.getCustomColumns();
-		ArrayList columnHints = oldProjectedColumns.getColumnHints();
+		ArrayList<CustomColumn> customColumns = oldProjectedColumns.getCustomColumns();
+		ArrayList<ColumnHint> columnHints = oldProjectedColumns.getColumnHints();
 		String[] projections = oldProjectedColumns.getProjections();
 
 		if (customColumns != null) {
-			ListIterator iter = customColumns.listIterator();
+			ListIterator<CustomColumn> iter = customColumns.listIterator();
 			while (iter.hasNext()) {
-				CustomColumn customColumn = (CustomColumn) iter.next();
+				CustomColumn customColumn = iter.next();
 				newProjectedColumns.addCustomColumn(customColumn.getName(), customColumn.getType());
 			}
 		}
 
 		if (columnHints != null) {
-			ListIterator iter = columnHints.listIterator();
+			ListIterator<ColumnHint> iter = columnHints.listIterator();
 			while (iter.hasNext()) {
-				ColumnHint columnHint = (ColumnHint) iter.next();
+				ColumnHint columnHint = iter.next();
 				newProjectedColumns.addHint(columnHint);
 			}
 		}
@@ -2604,7 +2608,6 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private void setParameterValue(String paramName, int paramIndex, Object paramValue) throws DataException {
-		final String methodName = "setParameterValue( String, int, Object )"; //$NON-NLS-1$
 
 		// delegate to ParameterName for the proper name to use when
 		// interacting with underlying oda runtime driver
@@ -2829,7 +2832,7 @@ public class PreparedStatement extends ExceptionHandler {
 		switch (parameterType) {
 		case Types.INTEGER: {
 			int i = paramValue.intValue();
-			Double intValue = new Double(i);
+			Double intValue = Double.valueOf(i);
 			// this could be due to loss of precision or the double is
 			// outside the range of an integer
 			if (!paramValue.equals(intValue)) {
@@ -3251,7 +3254,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setDoubleUsingHints(paramName, d)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER;
-			Object[] msgArgs = { new Double(d), paramName };
+			Object[] msgArgs = { Double.valueOf(d), paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
@@ -3570,7 +3573,7 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setDouble(paramIndex, d);
 		} catch (OdaException | UnsupportedOperationException ex) {
-			Object[] msgArgs = { new Double(d), Integer.valueOf(paramIndex) };
+			Object[] msgArgs = { Double.valueOf(d), Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3583,14 +3586,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setDouble(effectiveParamName, d);
 		} catch (OdaException ex) {
-			Object[] msgArgs = { new Double(d), effectiveParamName };
+			Object[] msgArgs = { Double.valueOf(d), effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setDoubleUsingHints(paramName, d)) {
-				Object[] msgArgs = { new Double(d), effectiveParamName };
+				Object[] msgArgs = { Double.valueOf(d), effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3674,26 +3677,28 @@ public class PreparedStatement extends ExceptionHandler {
 		int scale = 0;
 		try {
 			scale = this.getParameterMetaData(parameterId).getScale();
-			if (scale == 0) {
+			if (scale == -1 || scale == 0) {
+				// 0 means: no scaling needed, -1 means: not applicable
 				return value;
 			}
 		} catch (Exception ignore) {
 			return value;
 		}
-		return value.setScale(scale, BigDecimal.ROUND_HALF_UP);
+		return value.setScale(scale, RoundingMode.HALF_UP);
 	}
 
 	private BigDecimal getScaleValue(BigDecimal value, ParameterName parameterName) {
 		int scale = 0;
 		try {
 			scale = this.getParameterMetaData(parameterName).getScale();
-			if (scale == 0) {
+			if (scale == -1 || scale == 0) {
+				// 0 means: no scaling needed, -1 means: not applicable
 				return value;
 			}
 		} catch (Exception ignore) {
 			return value;
 		}
-		return value.setScale(scale, BigDecimal.ROUND_HALF_UP);
+		return value.setScale(scale, RoundingMode.HALF_UP);
 	}
 
 	private void doSetDate(int paramIndex, Date date) throws DataException {
@@ -4307,7 +4312,7 @@ public class PreparedStatement extends ExceptionHandler {
 			final String methodName = "getProjectedColumns(Integer,IResultSet)"; //$NON-NLS-1$
 			getLogger().entering(m_nestedClassName, methodName, resultSetNum);
 
-			ProjectedColumns projectedColumns = (ProjectedColumns) m_seqProjectedColumns.get(resultSetNum);
+			ProjectedColumns projectedColumns = m_seqProjectedColumns.get(resultSetNum);
 
 			// has existing up-to-date ProjectedColumns
 			if (projectedColumns != null && !m_incompleteProjectedColumns.contains(resultSetNum)) {
@@ -4438,7 +4443,8 @@ public class PreparedStatement extends ExceptionHandler {
 			final String methodName = "doGetMetaData(Integer,IResultSet)"; //$NON-NLS-1$
 			getLogger().entering(m_nestedClassName, methodName, resultSetKey);
 
-			List projectedColumns = getProjectedColumns(resultSetKey, resultSet).getColumnsMetadata();
+			List<ResultFieldMetadata> projectedColumns = getProjectedColumns(resultSetKey, resultSet)
+					.getColumnsMetadata();
 			IResultClass resultClass = doGetResultClass(projectedColumns);
 
 			getLogger().exiting(m_nestedClassName, methodName, resultClass);

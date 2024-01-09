@@ -31,7 +31,7 @@ public interface IBaseTransform {
 	 *
 	 * @return the filters. null if no filter is defined.
 	 */
-	List getFilters();
+	List<IFilterDefinition> getFilters();
 
 	/**
 	 * Returns an unordered collection of subqueries that are alternative views of
@@ -42,7 +42,7 @@ public interface IBaseTransform {
 	 * @see ISubqueryDefinition
 	 */
 
-	Collection getSubqueries();
+	Collection<ISubqueryDefinition> getSubqueries();
 
 	/**
 	 * Returns the sort criteria as an ordered list of
@@ -50,6 +50,6 @@ public interface IBaseTransform {
 	 *
 	 * @return the sort criteria
 	 */
-	List getSorts();
+	List<ISortDefinition> getSorts();
 
 }

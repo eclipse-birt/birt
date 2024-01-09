@@ -46,8 +46,8 @@ class ResultClassHelper {
 	 * @throws DataException
 	 */
 	private void initIndex() throws DataException {
-		ArrayList clobIndexList = new ArrayList();
-		ArrayList blobIndexList = new ArrayList();
+		ArrayList<Integer> clobIndexList = new ArrayList<>();
+		ArrayList<Integer> blobIndexList = new ArrayList<>();
 		for (int i = 0; i < resultClass.getFieldCount(); i++) {
 			Class valueClass = resultClass.getFieldValueClass(i + 1);
 			assert valueClass != null;
@@ -68,10 +68,10 @@ class ResultClassHelper {
 	 * @param integerList
 	 * @return
 	 */
-	private int[] toIntArray(List integerList) {
+	private int[] toIntArray(List<Integer> integerList) {
 		int[] reArray = new int[integerList.size()];
 		for (int i = 0; i < reArray.length; i++) {
-			reArray[i] = ((Integer) (integerList.get(i))).intValue();
+			reArray[i] = integerList.get(i);
 		}
 		return reArray;
 	}
