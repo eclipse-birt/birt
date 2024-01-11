@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -138,8 +139,7 @@ public class LineArea extends InlineStackingArea {
 			Iterator<IArea> iter = getChildren();
 			while (iter.hasNext()) {
 				AbstractArea area = (AbstractArea) iter.next();
-				area.setPosition(spacing / 2 + area.getX() - adjustLeftWhiteSpace + adjustRightWhiteSpace,
-						area.getY());
+				area.setPosition(spacing / 2 + area.getX() - adjustLeftWhiteSpace + adjustRightWhiteSpace, area.getY());
 			}
 		} else if (isJustified) {
 			justify(spacing, adjustLeftWhiteSpace, adjustRightWhiteSpace);
@@ -147,10 +147,19 @@ public class LineArea extends InlineStackingArea {
 			// is left aligned
 			if (parent.content != null && !parent.content.isDirectionRTL()) {
 				if (adjustLeftWhiteSpace != 0) {
-					Iterator<IArea> iter = getChildren();
-					while (iter.hasNext()) {
-						AbstractArea area = (AbstractArea) iter.next();
-						area.setPosition(area.getX() - adjustLeftWhiteSpace, area.getY());
+					String sp = null;
+					DataFormatValue dfv = parent.content.getComputedStyle().getDataFormat();
+					if (dfv != null) {
+						sp = dfv.getStringPattern();
+					}
+					if (sp == null || !sp.startsWith("^")) {
+						Iterator<IArea> iter = getChildren();
+						while (iter.hasNext()) {
+							AbstractArea area = (AbstractArea) iter.next();
+							area.setPosition(area.getX() - adjustLeftWhiteSpace, area.getY());
+						}
+					} else {
+						// Do not adjust (see https://github.com/eclipse-birt/birt/discussions/1536)
 					}
 				}
 			}
@@ -334,7 +343,6 @@ public class LineArea extends InlineStackingArea {
 		}
 		return count;
 	}
-
 
 	protected void justify(int spacing, int adjustLeftWhiteSpace, int adjustRightWhiteSpace) {
 		// 1. Gets the white space number. The last white space of a line should not be
