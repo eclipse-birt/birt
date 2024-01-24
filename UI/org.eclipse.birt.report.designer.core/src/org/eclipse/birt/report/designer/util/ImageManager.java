@@ -183,7 +183,8 @@ public class ImageManager {
 		InputStream in = null;
 		try {
 			if (key.toLowerCase().endsWith(".svg") //$NON-NLS-1$
-					|| embeddedImage.getType(handle.getModule()).equalsIgnoreCase("image/svg+xml"))
+					|| embeddedImage.getType(handle.getModule()) != null
+							&& embeddedImage.getType(handle.getModule()).equalsIgnoreCase(URL_IMAGE_TYPE_SVG))
 			{
 				// convert svg image to JPEG image bytes
 				JPEGTranscoder jpegTranscoder = new JPEGTranscoder();
