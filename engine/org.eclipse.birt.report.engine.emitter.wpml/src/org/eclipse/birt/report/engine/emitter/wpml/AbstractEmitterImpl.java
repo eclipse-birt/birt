@@ -1129,7 +1129,6 @@ public abstract class AbstractEmitterImpl {
 	protected void writeSectionInBody() throws IOException, BirtException {
 		wordWriter.startSection();
 		writeHeaderFooter();
-		leftMargin = 0;
 		wordWriter.writePageProperties(pageHeight, pageWidth, headerHeight, footerHeight,
 				topMargin + pageTopBorderWidth / 8 * 20, bottomMargin + pageBottomBorderWidth / 8 * 20,
 				leftMargin + pageLeftBorderWidth / 8 * 20, rightMargin + pageRightBorderWidth / 8 * 20,
