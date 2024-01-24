@@ -1386,7 +1386,6 @@ public abstract class AbstractEmitterImpl {
 		String backgroundWidth = style.getBackgroundWidth();
 
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage.getGenerateBy();
-		contentWidth = 12000; //-- 9639
 		if (previousPage.getPageHeader() != null || backgroundHeight != null || backgroundWidth != null) {
 			wordWriter.startHeader(!master.isShowHeaderOnFirst() && previousPage.getPageNumber() == 1, headerHeight,
 					contentWidth);
