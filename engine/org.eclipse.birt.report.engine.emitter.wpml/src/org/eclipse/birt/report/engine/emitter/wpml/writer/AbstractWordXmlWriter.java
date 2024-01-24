@@ -306,26 +306,30 @@ public abstract class AbstractWordXmlWriter {
 			writeAlign(style.getTextAlign(), style.getDirection());
 		}
 		if (inForeign) {
-			writer.openTag("w:tblCellMar");
-			writer.openTag("w:top");
-			writer.attribute("w:w", 0);
-			writer.attribute("w:type", "dxa");
-			writer.closeTag("w:top");
-			writer.openTag("w:left");
-			writer.attribute("w:w", 0);
-			writer.attribute("w:type", "dxa");
-			writer.closeTag("w:left");
-			writer.openTag("w:bottom");
-			writer.attribute("w:w", 0);
-			writer.attribute("w:type", "dxa");
-			writer.closeTag("w:bottom");
-			writer.openTag("w:right");
-			writer.attribute("w:w", 0);
-			writer.attribute("w:type", "dxa");
-			writer.closeTag("w:right");
-			writer.closeTag("w:tblCellMar");
+			writeTableCellMarginZero();
 		}
 		writer.closeTag("w:tblPr");
+	}
+
+	private void writeTableCellMarginZero() {
+		writer.openTag("w:tblCellMar");
+		writer.openTag("w:top");
+		writer.attribute("w:w", 0);
+		writer.attribute("w:type", "dxa");
+		writer.closeTag("w:top");
+		writer.openTag("w:left");
+		writer.attribute("w:w", 0);
+		writer.attribute("w:type", "dxa");
+		writer.closeTag("w:left");
+		writer.openTag("w:bottom");
+		writer.attribute("w:w", 0);
+		writer.attribute("w:type", "dxa");
+		writer.closeTag("w:bottom");
+		writer.openTag("w:right");
+		writer.attribute("w:w", 0);
+		writer.attribute("w:type", "dxa");
+		writer.closeTag("w:right");
+		writer.closeTag("w:tblCellMar");
 	}
 
 	private void writeTableBorders(IStyle style) {
@@ -1377,6 +1381,7 @@ public abstract class AbstractWordXmlWriter {
 		writer.openTag("w:tblPr");
 		writeTableWidth(headerWidth);
 		writeAttrTag("w:tblLook", "01E0");
+		writeTableCellMarginZero();
 		writeTableLayout();
 		writer.closeTag("w:tblPr");
 		if (writeColumns) {
