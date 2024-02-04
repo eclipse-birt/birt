@@ -5,7 +5,7 @@ plugin@javax.xml,1.3.4=GET,http://download.eclipse.org/tools/orbit/downloads/dro
 
 plugin@javax.xml.rpc,1.1.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/javax.xml.rpc_1.1.0.v201209140446.jar,unpack=true,usetimestamp=true
 
-plugin@javax.xml.soap,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/javax.xml.soap_1.3.0.v201105210645.jar,unpack=true,usetimestamp=true
+plugin@javax.xml.soap,1.2.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/javax.xml.soap_1.2.0.v201005080501.jar,unpack=true,usetimestamp=true
 plugins/org.apache.axis_1.4.0.v201411182030.jar,unpack=true,usetimestamp=true
 
 plugin@org.apache.batik.anim,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.anim_1.14.0.v20210324-0332.jar,usetimestamp=true
