@@ -74,11 +74,22 @@
         <include name="jakarta.xml.bind_*.jar"/>
         <include name="javax.wsdl_*.jar"/>
         <include name="org.apache.commons.logging_*.jar"/>
-        <include name="org.apache.commons.discovery_*/lib/*.jar"/>
+<!-- 20240204, sart: succestion of OSGi fixing -->
+      	<!-- added -->
+      	<include name="org.apache.axis_*.jar"/>
+        <!-- changed: <include name="org.apache.commons.discovery_*/lib/*.jar"/>-->
+        <include name="org.apache.commons.discovery_*.jar"/>
+      	<!-- added -->
+      	<include name="jakarta.inject.jakarta.inject-api_*.jar"/>
       </fileset>
       <fileset dir="${REPOSITORY_DIR}/plugins">
-        <include name="javax.xml.soap_*.jar"/>
+     	<include name="javax.xml.soap_*.jar"/>
       </fileset>
+      <!-- added -->
+      <fileset dir="${ENGINE_DIR}/platform/plugins/javax.xml.soap_*/lib">
+      	<include name="saaj*.jar"/>
+      </fileset>
+<!-- 20240204, end: succestion of OSGi fixing -->
 <!--
       <fileset dir="${DESIGNER_DIR}/plugins">
         <include name="org.apache.commons.logging_*.jar"/>
