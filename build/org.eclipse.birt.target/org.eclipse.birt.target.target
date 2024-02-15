@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="29">
+<target name="Generated from BIRT" sequenceNumber="30">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
-      <unit id="biz.aQute.repository" version="0.0.0"/>
       <unit id="biz.aQute.resolve" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
       <unit id="com.sun.el.javax.el" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
+      <unit id="jakarta.activation-api" version="0.0.0"/>
       <unit id="jakarta.annotation-api" version="0.0.0"/>
       <unit id="jakarta.enterprise.cdi-api" version="0.0.0"/>
       <unit id="jakarta.inject.jakarta.inject-api" version="0.0.0"/>
       <unit id="jakarta.interceptor-api" version="0.0.0"/>
       <unit id="jakarta.servlet-api" version="0.0.0"/>
       <unit id="jakarta.transaction-api" version="0.0.0"/>
+      <unit id="jakarta.xml.bind-api" version="0.0.0"/>
       <unit id="javax.activation" version="0.0.0"/>
       <unit id="javax.annotation" version="0.0.0"/>
       <unit id="javax.el" version="0.0.0"/>
@@ -64,6 +65,7 @@
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
+      <unit id="org.bndtools.templating" version="0.0.0"/>
       <unit id="org.dom4j" version="0.0.0"/>
       <unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
@@ -96,12 +98,11 @@
       <unit id="org.eclipse.jetty.ee8.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.http" version="0.0.0"/>
       <unit id="org.eclipse.jetty.io" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.jndi" version="0.0.0"/>
       <unit id="org.eclipse.jetty.logging" version="0.0.0"/>
       <unit id="org.eclipse.jetty.osgi" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
       <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
       <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
@@ -136,7 +137,6 @@
       <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
       <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
-      <repository location="https://download.eclipse.org/oomph/jetty/release/10.0.15"/>
       <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
       <repository location="https://download.eclipse.org/eclipse/updates/4.31-I-builds"/>
