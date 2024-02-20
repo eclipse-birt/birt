@@ -142,7 +142,7 @@
 		<include name="org.eclipse.birt.chart_*/**" />
 		<include name="org.eclipse.birt.core_*.jar" />
 		<include name="org.eclipse.birt.core.ui_*.jar" />
-		<include name="org.mozilla.javascript_*/**" />
+		<include name="org.mozilla.rhino_*/**" />
 		<include name="org.apache.commons.codec_*.jar" />
 	</patternset>
 
@@ -171,7 +171,7 @@
 		<exclude name="com.lowagie.itext_*/**" />
 		<exclude name="org.apache.commons.codec_*/**" />
 		<exclude name="org.w3c.sac_*/**" />
-		<exclude name="org.mozilla.javascript*/**" />
+		<exclude name="org.mozilla.rhino*/**" />
 		<exclude name="org.eclipse.birt.chart.runtime*/**" />
 		<exclude name="org.eclipse.birt.crosstab*/**" />
 		<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**" />

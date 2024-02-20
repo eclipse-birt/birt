@@ -33,8 +33,8 @@ SPDX-License-Identifier: EPL-2.0
   <build>
     <plugins>
       <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-eclipserun-plugin</artifactId>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-eclipse-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
           <executionEnvironment>JavaSE-17</executionEnvironment>

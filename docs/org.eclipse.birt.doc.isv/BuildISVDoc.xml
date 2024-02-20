@@ -121,7 +121,7 @@
 			<include name="org.apache.commons.codec_*.jar"/>
 			<include name="org.eclipse.orbit.xml-apis-ext_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
-			<include name="org.mozilla.javascript_*.jar"/>
+			<include name="org.mozilla.rhino_*.jar"/>
 		</fileset>
 		<fileset dir="${engine.dir}/lib">
 			<include name="**/*.jar"/>

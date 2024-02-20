@@ -46,7 +46,6 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
-					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
 							<os>win32</os>

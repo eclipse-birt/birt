@@ -113,7 +113,7 @@
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
 		</fileset>
 		<fileset dir="../">
-			<include name="org.mozilla.javascript_*.jar"/>
+			<include name="org.mozilla.rhino_*.jar"/>
 		</fileset>
 		<pathelement path="${core.dir}/@dot"/>
 		<pathelement path="${core.ui.dir}/@dot"/>
