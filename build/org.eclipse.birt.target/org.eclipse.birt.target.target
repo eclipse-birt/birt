@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="30">
+<target name="Generated from BIRT" sequenceNumber="31">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -98,7 +98,6 @@
       <unit id="org.eclipse.jetty.ee8.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.http" version="0.0.0"/>
       <unit id="org.eclipse.jetty.io" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.logging" version="0.0.0"/>
       <unit id="org.eclipse.jetty.osgi" version="0.0.0"/>
       <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
@@ -123,12 +122,13 @@
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
       <unit id="org.mortbay.jasper.apache-el" version="9.0.83"/>
       <unit id="org.mortbay.jasper.apache-jsp" version="9.0.83"/>
-      <unit id="org.mozilla.javascript" version="0.0.0"/>
+      <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.service.coordinator" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="org.osgi.util.tracker" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
+      <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>

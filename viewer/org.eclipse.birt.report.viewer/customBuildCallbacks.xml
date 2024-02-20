@@ -113,7 +113,7 @@
 	                <include name="javax.xml.rpc_*/lib/*.jar"/>
 	                <include name="javax.xml.soap_*/lib/*.jar"/>
 	                <include name="org.apache.commons.discovery_*/lib/*.jar"/>
-					<include name="org.mozilla.javascript_*.jar"/>
+					<include name="org.mozilla.rhino_*.jar"/>
 				</fileset>
 				
 				<pathelement path="${viewer.model.dir}/@dot" />

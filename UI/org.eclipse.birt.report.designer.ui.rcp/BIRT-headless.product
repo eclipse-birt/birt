@@ -427,7 +427,7 @@ United States, other countries, or both.
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
-      <plugin id="org.mozilla.javascript"/>
+      <plugin id="org.mozilla.rhino"/>
       <plugin id="org.sat4j.core"/>
       <plugin id="org.sat4j.pb"/>
       <plugin id="org.eclipse.orbit.xml-apis-ext"/>

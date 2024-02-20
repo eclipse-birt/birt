@@ -365,7 +365,7 @@
 				<include name="javax.xml.soap_*/lib/*.jar"/>
 				<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
 				<include name="org.apache.commons.codec*.jar" />
-				<include name="org.mozilla.javascript_*.jar"/>
+				<include name="org.mozilla.rhino_*.jar"/>
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -399,7 +399,7 @@
 				<include name="javax.xml.soap_*/lib/*.jar"/>
 				<include name="org.apache.commons.discovery_*/lib/*.jar"/>
 				<include name="org.apache.commons.codec*.jar" />
-				<include name="org.mozilla.javascript_*.jar"/>
+				<include name="org.mozilla.rhino_*.jar"/>
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir.OSGI}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -533,7 +533,7 @@
 		</copy>	
 		<copy todir="${export.dir}/lib">
 			<fileset dir="${integrate.dir}/plugins" />
-			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
+			<mapper type="regexp"  from="org.mozilla.rhino_.*.jar" to="js.jar"/>
 		</copy>
 
 	</target>
@@ -641,7 +641,7 @@
 		<fileset dir="${integrate.dir}/plugins">
 			<!-- 3rd party bundles -->
 			<include name="org.w3c.sac_*/**" />
-			<include name="org.mozilla.javascript_*/**" />
+			<include name="org.mozilla.rhino_*/**" />
 			<include name="com.lowagie.text_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
@@ -775,7 +775,7 @@
 
 		<copy todir="${export.dir}/lib">
 			<fileset dir="${buildDirectory}/plugins" />
-			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
+			<mapper type="regexp"  from="org.mozilla.rhino_.*.jar" to="js.jar"/>
 		</copy>
 
 

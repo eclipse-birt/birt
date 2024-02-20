@@ -72,9 +72,9 @@
 		</copy>
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${PRODUCT_DIR}/plugins">
-				<include name="org.mozilla.javascript_*.jar" />
+				<include name="org.mozilla.rhino_*.jar" />
 			</fileset>
-			<globmapper from="org.mozilla.javascript_*.jar" to="js.jar" />
+			<globmapper from="org.mozilla.rhino_*.jar" to="js.jar" />
 		</copy>
 		<antcall target="build-odadesign-api" />
 		<antcall target="build-odaconnectivity-api" />
