@@ -169,6 +169,8 @@ public class ReportPlugin extends AbstractUIPlugin {
 	public static final String EXPRESSION_KEYWORD_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.keyword.color.preferencestore"; //$NON-NLS-1$
 	public static final String EXPRESSION_COMMENT_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.comment.color.preferencestore"; //$NON-NLS-1$
 	public static final String EXPRESSION_STRING_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.string.color.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_METHOD_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.method.color.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_OBJECT_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.object.color.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 	public static final String DATA_MODEL_MEMORY_LIMIT_PREFERENCE = "org.eclipse.birt.designer.ui.preference.datamodel.limit.preferencestore"; //$NON-NLS-1$
 
@@ -1104,6 +1106,12 @@ public class ReportPlugin extends AbstractUIPlugin {
 						+ " | null | true | false | false | false");//$NON-NLS-1$
 		PreferenceFactory.getInstance().getPreferences(ReportPlugin.this).setDefault(EXPRESSION_STRING_COLOR_PREFERENCE,
 				ColorHelper.toRGBString(ReportColorConstants.JSSTRINGCOLOR.getRGB())
+						+ " | null | false | false | false | false");//$NON-NLS-1$
+		PreferenceFactory.getInstance().getPreferences(ReportPlugin.this).setDefault(EXPRESSION_METHOD_COLOR_PREFERENCE,
+				ColorHelper.toRGBString(ReportColorConstants.JSMETHODCOLOR.getRGB())
+						+ " | null | false | false | false | false");//$NON-NLS-1$
+		PreferenceFactory.getInstance().getPreferences(ReportPlugin.this).setDefault(EXPRESSION_OBJECT_COLOR_PREFERENCE,
+				ColorHelper.toRGBString(ReportColorConstants.JSOBJECTCOLOR.getRGB())
 						+ " | null | false | false | false | false");//$NON-NLS-1$
 	}
 

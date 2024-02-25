@@ -47,6 +47,7 @@ public interface ReportColorConstants {
 
 	Color TableGuideTextColor = ColorManager.getColor("org.eclipse.birt.report.designer.ui.TableGuideTextColor", //$NON-NLS-1$
 			new RGB(147, 137, 145));
+
 	Color TableGuideFillColor = ColorManager.getColor("org.eclipse.birt.report.designer.ui.GuideFillColor", //$NON-NLS-1$
 			new RGB(239, 239, 247));
 
@@ -73,12 +74,21 @@ public interface ReportColorConstants {
 
 	Color JSCOMMENTCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSCOMMENTCOLOR", //$NON-NLS-1$
 			new RGB(63, 127, 95));
+
 	Color JSSTRINGCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSSTRINGCOLOR", //$NON-NLS-1$
 			new RGB(42, 0, 255));
+
 	Color JSKEYWORDCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSKEYWORDCOLOR", //$NON-NLS-1$
 			new RGB(127, 0, 85));
+
 	Color JSLINENUMBERCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSLINENUMBERCOLOR", //$NON-NLS-1$
 			new RGB(127, 127, 127));
+
+	Color JSMETHODCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSMETHODCOLOR", //$NON-NLS-1$
+			new RGB(81, 97, 122));
+
+	Color JSOBJECTCOLOR = ColorManager.getColor("org.eclipse.birt.report.designer.ui.JSOBJECTCOLOR", //$NON-NLS-1$
+			new RGB(181, 87, 50));
 
 	Color[] ShadowColors = {
 

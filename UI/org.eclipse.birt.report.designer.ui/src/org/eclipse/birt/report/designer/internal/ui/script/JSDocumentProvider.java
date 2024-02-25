@@ -33,7 +33,7 @@ public class JSDocumentProvider extends StorageDocumentProvider {
 	 * Array of token types
 	 */
 	private static String[] colorTokens = { JSPartitionScanner.JS_COMMENT, JSPartitionScanner.JS_STRING,
-			JSPartitionScanner.JS_KEYWORD };
+			JSPartitionScanner.JS_KEYWORD, JSPartitionScanner.JS_METHOD, JSPartitionScanner.JS_OBJECT };
 
 	public JSDocumentProvider() {
 		super();
