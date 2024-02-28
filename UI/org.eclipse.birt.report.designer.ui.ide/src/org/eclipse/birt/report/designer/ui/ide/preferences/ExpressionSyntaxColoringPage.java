@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012, 2014 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -93,13 +93,19 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.ibm.icu.text.Collator;
 
+/**
+ * Class to represents the syntax coloring page
+ *
+ * @since 3.3
+ *
+ */
 public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPage implements IWorkbenchPreferencePage {
 
 	private Button fBold;
 	private Label fForegroundLabel;
 	private Label fBackgroundLabel;
 	private Button fClearStyle;
-	private Map fContextToStyleMap;
+	private Map<String, String> fContextToStyleMap;
 	private Color fDefaultForeground = null;
 	private Color fDefaultBackground = null;
 	private IDocument fDocument;
@@ -108,9 +114,9 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 	private Button fItalic;
 	private OverlayPreferenceStore fOverlayStore;
 	private Button fStrike;
-	private Collection fStylePreferenceKeys;
+	private Collection<String> fStylePreferenceKeys;
 	private StructuredViewer fStylesViewer = null;
-	private Map fStyleToDescriptionMap;
+	private Map<String, String> fStyleToDescriptionMap;
 	private StyledText fText;
 	private Button fUnderline;
 
@@ -176,7 +182,7 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 			if (regions.length > 0) {
 				for (int i = 0; i < regions.length; i++) {
 					ITypedRegion region = regions[i];
-					String namedStyle = (String) fContextToStyleMap.get(region.getType());
+					String namedStyle = fContextToStyleMap.get(region.getType());
 					if (namedStyle == null) {
 						continue;
 					}
@@ -264,7 +270,7 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 		fStylesViewer = createStylesViewer(styleEditor);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalIndent = 0;
-		Iterator iterator = fStyleToDescriptionMap.values().iterator();
+		Iterator<String> iterator = fStyleToDescriptionMap.values().iterator();
 		while (iterator.hasNext()) {
 			gridData.widthHint = Math.max(gridData.widthHint,
 					convertWidthInCharsToPixels(iterator.next().toString().length()));
@@ -615,11 +621,11 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 	 * Set up all the style preference keys in the overlay store
 	 */
 	private OverlayKey[] createOverlayStoreKeys() {
-		List overlayKeys = new ArrayList();
+		List<OverlayKey> overlayKeys = new ArrayList<OverlayKey>();
 
-		Iterator i = getStylePreferenceKeys().iterator();
+		Iterator<String> i = getStylePreferenceKeys().iterator();
 		while (i.hasNext()) {
-			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, (String) i.next()));
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, i.next()));
 		}
 
 		OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys.size()];
@@ -744,7 +750,7 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 		try {
 			String regionContext = fDocument.getPartition(offset).getType();
 
-			String namedStyle = (String) fContextToStyleMap.get(regionContext);
+			String namedStyle = fContextToStyleMap.get(regionContext);
 			if (namedStyle != null) {
 				return namedStyle;
 			}
@@ -757,13 +763,15 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 		return fOverlayStore;
 	}
 
-	private Collection getStylePreferenceKeys() {
+	private Collection<String> getStylePreferenceKeys() {
 		if (fStylePreferenceKeys == null) {
-			List styles = new ArrayList();
+			List<String> styles = new ArrayList<String>();
 			styles.add(ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE);
 			styles.add(ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE);
 			styles.add(ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE);
 			styles.add(ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE);
+			styles.add(ReportPlugin.EXPRESSION_METHOD_COLOR_PREFERENCE);
+			styles.add(ReportPlugin.EXPRESSION_OBJECT_COLOR_PREFERENCE);
 			fStylePreferenceKeys = styles;
 		}
 		return fStylePreferenceKeys;
@@ -853,8 +861,8 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 	public void init(IWorkbench workbench) {
 		setDescription(Messages.getString("ExpressionSyntaxColoringPage.Decscription")); //$NON-NLS-1$
 
-		fStyleToDescriptionMap = new HashMap();
-		fContextToStyleMap = new HashMap();
+		fStyleToDescriptionMap = new HashMap<String, String>();
+		fContextToStyleMap = new HashMap<String, String>();
 
 		initStyleToDescriptionMap();
 		initRegionContextToStyleMap();
@@ -870,7 +878,8 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 		fContextToStyleMap.put(JSPartitionScanner.JS_COMMENT, ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE);
 		fContextToStyleMap.put(JSPartitionScanner.JS_KEYWORD, ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE);
 		fContextToStyleMap.put(JSPartitionScanner.JS_STRING, ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE);
-
+		fContextToStyleMap.put(JSPartitionScanner.JS_METHOD, ReportPlugin.EXPRESSION_METHOD_COLOR_PREFERENCE);
+		fContextToStyleMap.put(JSPartitionScanner.JS_OBJECT, ReportPlugin.EXPRESSION_OBJECT_COLOR_PREFERENCE);
 	}
 
 	private void initStyleToDescriptionMap() {
@@ -882,6 +891,10 @@ public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPa
 				Messages.getString("ExpressionSyntaxColoringPage.Element.Keyword")); //$NON-NLS-1$
 		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE,
 				Messages.getString("ExpressionSyntaxColoringPage.Element.String")); //$NON-NLS-1$
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_METHOD_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.Method")); //$NON-NLS-1$
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_OBJECT_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.Object")); //$NON-NLS-1$
 	}
 
 	@Override

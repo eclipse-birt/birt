@@ -21,15 +21,27 @@ package org.eclipse.birt.report.designer.internal.ui.script;
  */
 public interface PreferenceNames {
 
+	/** property: comment color name */
 	String P_COMMENT_COLOR = "commentColor"; //$NON-NLS-1$
 
+	/** property: string color name */
 	String P_STRING_COLOR = "stringColor"; //$NON-NLS-1$
 
+	/** property: keyword color name */
 	String P_KEYWORD_COLOR = "keywordColor"; //$NON-NLS-1$
 
+	/** property: line number color name */
 	String P_LINENUMBER_COLOR = "linenumberColor"; //$NON-NLS-1$
 
+	/** property: default color name */
 	String P_DEFAULT_COLOR = "defaultColor"; //$NON-NLS-1$
 
+	/** property: auto outline color name */
 	String P_AUTO_OUTLINE = "autoOutline"; //$NON-NLS-1$
+
+	/** property: string color name */
+	String P_METHOD_COLOR = "methodColor"; //$NON-NLS-1$
+
+	/** property: string color name */
+	String P_OBJECT_COLOR = "objectColor"; //$NON-NLS-1$
 }
