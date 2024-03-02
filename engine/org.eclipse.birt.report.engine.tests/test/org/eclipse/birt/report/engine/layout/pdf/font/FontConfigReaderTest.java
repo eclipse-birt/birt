@@ -77,7 +77,8 @@ public class FontConfigReaderTest extends TestCase {
 		// alias: defined; composite-font: not; character: defined by the
 		// logical font.
 		assertTrue(isMappedTo('1', "alias2", "Helvetica"));
-
+		// The Mapping should be case-insensitive
+		assertTrue(isMappedTo('1', "Alias2", "Helvetica"));
 		// alias: not; composite-font: defined; block: defined; character:
 		// defined by the block font.
 		assertTrue(isMappedTo('1', "Symbol", "Courier"));

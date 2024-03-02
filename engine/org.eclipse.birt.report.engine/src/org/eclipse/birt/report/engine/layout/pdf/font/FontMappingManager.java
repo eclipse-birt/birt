@@ -122,7 +122,7 @@ public class FontMappingManager {
 	}
 
 	public String getAliasedFont(String fontAlias) {
-		String alias = (String) fontAliases.get(fontAlias);
+		String alias = (String) fontAliases.get(fontAlias.toLowerCase());
 		if (alias != null) {
 			return alias;
 		}
