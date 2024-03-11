@@ -29,6 +29,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -197,7 +198,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory {
 	private static PaletteContainer createContentCategory() {
 		PaletteCategory category = new PaletteCategory(IPreferenceConstants.PALETTE_CONTENT, REPORT_ITEMS_LABEL,
 				ReportPlatformUIImages.getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER));
-		List<CombinedTemplateCreationEntry> entries = new ArrayList<>();
+		List<PaletteEntry> entries = new ArrayList<>();
 
 		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry(ELEMENT_NAME_LABEL,
 				TOOL_TIP_LABEL_REPORT_ITEM, IReportElementConstants.REPORT_ELEMENT_LABEL,
