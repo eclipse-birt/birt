@@ -381,9 +381,29 @@
     <description>The dynamic working sets for  BIRT</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:VariableTask"
+      name="birt.version"
+      value="4.15">
+    <choice
+        value="latest"
+        label="BIRT Latest"/>
+    <choice
+        value="4.15"
+        label="BIRT 4.15"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:RedirectionTask"
+      filter="(birt.version=4.15)"
+      sourceURL="https://download.eclipse.org/eclipse/updates/4.31-I-builds"
+      targetURL="https://download.eclipse.org/eclipse/updates/4.31/R-4.31-202402290520">
+    <description>Redirect the I-Build to the release 4.31 release repository for BIRT 4.15</description>
+  </setupTask>
+  <setupTask
       xsi:type="setup.targlets:TargletTask">
     <targlet
-        name="BIRT">
+        name="BIRT"
+        activeRepositoryList="${birt.version}"
+        includeBinaryEquivalents="false">
       <annotation
           source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
         <detail
@@ -440,7 +460,8 @@
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>
-      <repositoryList>
+      <repositoryList
+          name="latest">
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
@@ -454,13 +475,28 @@
         <repository
             url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
+            url="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
         <repository
-            url="https://download.eclipse.org/justj/epp/release/latest"/>
+            url="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
+      </repositoryList>
+      <repositoryList
+          name="4.15">
+        <repository
+            url="https://download.eclipse.org/cbi/updates/license"/>
+        <repository
+            url="https://download.eclipse.org/releases/2024-03/202403131000"/>
+        <repository
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
+        <repository
+            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.6"/>
+        <repository
+            url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
+        <repository
+            url="https://download.eclipse.org/justj/epp/release/17.0.0.v20240120-1430"/>
       </repositoryList>
     </targlet>
   </setupTask>

@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
@@ -109,7 +110,7 @@ public class BasePaletteFactory {
 	protected static PaletteContainer createControlGroup(PaletteRoot root) {
 		PaletteGroup controlGroup = new PaletteGroup(PALETTE_GROUP_TEXT);
 
-		List<ToolEntry> entries = new ArrayList<>();
+		List<PaletteEntry> entries = new ArrayList<>();
 
 		ToolEntry tool = new PanningSelectionToolEntry(POINTER_SELECT_LABEL, TOOL_TIP_POINTER_SELECT);
 		entries.add(tool);

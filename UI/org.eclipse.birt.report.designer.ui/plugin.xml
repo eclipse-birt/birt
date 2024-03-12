@@ -711,6 +711,18 @@
             value="42,0,255">
       </colorDefinition>
       <colorDefinition
+            id="org.eclipse.birt.report.designer.ui.JSMETHODCOLOR"
+            isEditable="false"
+            label="%Dummy.label"
+            value="81,97,122">
+      </colorDefinition>
+      <colorDefinition
+            id="org.eclipse.birt.report.designer.ui.JSOBJECTCOLOR"
+            isEditable="false"
+            label="%Dummy.label"
+            value="181,87,50">
+      </colorDefinition>
+      <colorDefinition
             id="org.eclipse.birt.report.designer.ui.JSKEYWORDCOLOR"
             isEditable="false"
             label="%Dummy.label"

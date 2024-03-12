@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="31">
+<target name="Generated from BIRT" sequenceNumber="33">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -102,6 +102,7 @@
       <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
       <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
       <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
@@ -130,16 +131,13 @@
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
+      <repository location="https://download.eclipse.org/releases/2024-03/202403131000"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.6"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
-      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
-      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/releases/latest"/>
-      <repository location="https://download.eclipse.org/webtools/repository/latest"/>
-      <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.31-I-builds"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/17.0.0.v20240120-1430"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.31/R-4.31-202402290520"/>
     </location>
   </locations>
 </target>
