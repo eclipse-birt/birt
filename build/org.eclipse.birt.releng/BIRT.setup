@@ -402,7 +402,8 @@
       xsi:type="setup.targlets:TargletTask">
     <targlet
         name="BIRT"
-        activeRepositoryList="${birt.version}">
+        activeRepositoryList="${birt.version}"
+        includeBinaryEquivalents="false">
       <annotation
           source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
         <detail

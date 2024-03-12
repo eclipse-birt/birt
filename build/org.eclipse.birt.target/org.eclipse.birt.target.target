@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="32">
+<target name="Generated from BIRT" sequenceNumber="33">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -123,7 +123,6 @@
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
       <unit id="org.mortbay.jasper.apache-el" version="9.0.83"/>
       <unit id="org.mortbay.jasper.apache-jsp" version="9.0.83"/>
-      <unit id="org.mozilla.javascript" version="0.0.0"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.service.coordinator" version="0.0.0"/>
