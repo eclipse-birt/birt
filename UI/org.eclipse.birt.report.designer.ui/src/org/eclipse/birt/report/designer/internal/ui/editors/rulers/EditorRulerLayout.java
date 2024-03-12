@@ -54,7 +54,8 @@ public class EditorRulerLayout extends XYLayout {
 		for (int i = 0; i < children.size(); i++) {
 			IFigure child = (IFigure) children.get(i);
 			Dimension childSize = child.getPreferredSize();
-			int position = ((Integer) getConstraint(child)).intValue();
+			Integer constraint = (Integer) getConstraint(child);
+			int position = constraint == null ? 0 : (constraint).intValue();
 			if (((EditorRulerFigure) container).isHorizontal()) {
 				childSize.height = rulerSize.height - 1;
 				Rectangle.SINGLETON.setLocation(position - (childSize.width / 2), rulerSize.y);
