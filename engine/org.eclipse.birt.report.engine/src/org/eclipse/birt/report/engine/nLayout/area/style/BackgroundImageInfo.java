@@ -733,11 +733,14 @@ public class BackgroundImageInfo extends AreaConstants {
 			try {
 				ImageInputStream iis = ImageIO.createImageInputStream(imageStream);
 				Iterator<ImageReader> i = ImageIO.getImageReaders(iis);
-				ImageReader r = i.next();
-				r.setInput(iis);
-				r.read(0);
-
-				IIOMetadata meta = r.getImageMetadata(0);
+				ImageReader r = null;
+				IIOMetadata meta = null;
+				if (i != null && i.hasNext()) {
+					r = i.next();
+					r.setInput(iis);
+					r.read(0);
+					meta = r.getImageMetadata(0);
+				}
 
 				if (meta != null) {
 					double mm2inch = 25.4;
@@ -873,7 +876,7 @@ public class BackgroundImageInfo extends AreaConstants {
 				this.width = this.widthMetricPt;
 			}
 		}
-		// auto scaling of percentage if one percentage is set and the image size is unset  
+		// auto scaling of percentage if one percentage is set and the image size is unset
 		if (percentageHeight != 1.0 && percentageWidth == 1.0 && pxBackgroundWidth == 0) {
 			percentageWidth = percentageHeight;
 		} else if (percentageWidth != 1.0 && percentageHeight == 1.0 && pxBackgroundHeight == 0) {
