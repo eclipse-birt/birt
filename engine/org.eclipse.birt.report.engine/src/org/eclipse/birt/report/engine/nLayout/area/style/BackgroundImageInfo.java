@@ -758,7 +758,7 @@ public class BackgroundImageInfo extends AreaConstants {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				// the default of BGI_DPI_DEFAULT (96dpi) will be used
 			}
 		}
 
