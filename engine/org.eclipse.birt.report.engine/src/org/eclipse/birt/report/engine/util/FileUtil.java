@@ -49,8 +49,6 @@ public class FileUtil {
 	 */
 	private static HashMap<String, String> fileExtension = new HashMap<String, String>();
 	private static HashMap<String, String> mimeType = new HashMap<String, String>();
-	private static String dataProtocol = "data:";
-	private static String svgMimeType = "image/svg+xml";
 
 	static {
 		// initialize fileExtension
