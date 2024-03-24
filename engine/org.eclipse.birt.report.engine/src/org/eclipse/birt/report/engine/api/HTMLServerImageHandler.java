@@ -87,7 +87,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler {
 	public String onURLImage(IImage image, Object context) {
 		assert (image != null);
 		String uri = image.getID();
-		if (uri.startsWith("http:") || uri.startsWith("https:")) {
+		if (uri.startsWith("http:") || uri.startsWith("https:") || uri.startsWith("data:")) {
 			return uri;
 		}
 		return handleImage(image, context, "uri", true); //$NON-NLS-1$

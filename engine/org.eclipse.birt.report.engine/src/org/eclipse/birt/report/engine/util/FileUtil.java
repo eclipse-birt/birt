@@ -47,8 +47,8 @@ public class FileUtil {
 	 * The <code>HashMap</code> object that stores image type/file extension
 	 * mapping.
 	 */
-	private static HashMap fileExtension = new HashMap();
-	private static HashMap mimeType = new HashMap();
+	private static HashMap<String, String> fileExtension = new HashMap<String, String>();
+	private static HashMap<String, String> mimeType = new HashMap<String, String>();
 
 	static {
 		// initialize fileExtension
@@ -183,7 +183,7 @@ public class FileUtil {
 	 *         resource.
 	 */
 	public static boolean isLocalResource(String uri) {
-		return uri != null && uri.length() > 0 && !uri.toLowerCase().startsWith("http"); //$NON-NLS-1$
+		return uri != null && uri.length() > 0 && !uri.toLowerCase().startsWith("http") && !uri.toLowerCase().startsWith("data"); //$NON-NLS-1$
 	}
 
 	/**
@@ -264,17 +264,17 @@ public class FileUtil {
 	 * @return File extension string say, ".jpg".
 	 */
 	public static String getExtFromType(String fileType) {
-		return (String) fileExtension.get(fileType);
+		return fileExtension.get(fileType);
 	}
 
 	/**
 	 * Gets the Image file mime type according to the given file extension.
 	 *
-	 * @param fileType The image file type say, ".jpg".
+	 * @param imgExt The image file type say, ".jpg".
 	 * @return File extension string say, "image/jpg".
 	 */
 	public static String getTypeFromExt(String imgExt) {
-		return (String) mimeType.get(imgExt);
+		return mimeType.get(imgExt);
 	}
 
 	/**
@@ -346,6 +346,11 @@ public class FileUtil {
 		return null;
 	}
 
+	/**
+	 * Delete the directory content
+	 *
+	 * @param file name of the directory
+	 */
 	public static void deleteDir(File file) {
 		if (file.isDirectory()) {
 			String[] list = file.list();
@@ -358,6 +363,11 @@ public class FileUtil {
 		file.delete();
 	}
 
+	/**
+	 * Get the java directory of temporary files
+	 *
+	 * @return Return the java directory of temporary files
+	 */
 	public static String getJavaTmpDir() {
 		return System.getProperty("java.io.tmpdir");
 	}
