@@ -14,8 +14,13 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
@@ -25,6 +30,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
@@ -105,6 +111,10 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 		if (instance != null) {
 			getSite().getWorkbenchWindow().getPartService().removePartListener(instance);
 			instance.dispose();
+		}
+
+		if (input instanceof ReportEditorInput) {
+			input = new ReportEditorStorageInput((((ReportEditorInput) input).getFile()));
 		}
 
 		if (input instanceof IFileEditorInput || input instanceof IURIEditorInput) {
@@ -506,4 +516,34 @@ public class ReportEditorProxy extends EditorPart implements IPartListener, IPro
 		}
 		return super.equals(obj);
 	}
+}
+
+class ReportEditorStorageInput extends ReportEditorInput implements IStorageEditorInput {
+
+	public ReportEditorStorageInput(File file) {
+		super(file);
+	}
+
+	@Override
+	public Object getAdapter(Class adapter) {
+		// Avoid stack overflow from recursion on the same adapter type.
+		Set<Class<?>> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+		if (!computationInProgress.contains(adapter)) {
+			try {
+				if (computationInProgress.add(adapter)) {
+					return super.getAdapter(adapter);
+				}
+			} finally {
+				computationInProgress.remove(adapter);
+			}
+		}
+		return null;
+	}
+
+	private static final ThreadLocal<Set<Class<?>>> COMPUTATION_IN_PROGRESS = new ThreadLocal<Set<Class<?>>>() {
+		@Override
+		protected java.util.Set<Class<?>> initialValue() {
+			return new HashSet<Class<?>>();
+		}
+	};
 }
