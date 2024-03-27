@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model.testresources
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Version: 4.15.0.qualifier
+Bundle-Version: 4.16.0.qualifier
 Fragment-Host: org.eclipse.birt.resources;bundle-version="2.2.0"
 Automatic-Module-Name: org.eclipse.birt.report.model.testresources

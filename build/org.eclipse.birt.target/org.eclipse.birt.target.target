@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="33">
+<target name="Generated from BIRT" sequenceNumber="34">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -8,6 +8,7 @@
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="biz.aQute.resolve" version="0.0.0"/>
+      <unit id="bndtools.api" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
@@ -65,7 +66,11 @@
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
+      <unit id="org.bndtools.headless.build.manager" version="0.0.0"/>
+      <unit id="org.bndtools.headless.build.plugin.gradle" version="0.0.0"/>
       <unit id="org.bndtools.templating" version="0.0.0"/>
+      <unit id="org.bndtools.versioncontrol.ignores.manager" version="0.0.0"/>
+      <unit id="org.bndtools.versioncontrol.ignores.plugin.git" version="0.0.0"/>
       <unit id="org.dom4j" version="0.0.0"/>
       <unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
@@ -102,7 +107,6 @@
       <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
       <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
       <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
@@ -125,19 +129,25 @@
       <unit id="org.mortbay.jasper.apache-jsp" version="9.0.83"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
+      <unit id="org.osgi.namespace.contract" version="0.0.0"/>
+      <unit id="org.osgi.namespace.extender" version="0.0.0"/>
+      <unit id="org.osgi.namespace.service" version="0.0.0"/>
       <unit id="org.osgi.service.coordinator" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="org.osgi.util.tracker" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/releases/2024-03/202403131000"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.6"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
+      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
+      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
+      <repository location="https://download.eclipse.org/webtools/repository/latest"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
-      <repository location="https://download.eclipse.org/justj/epp/release/17.0.0.v20240120-1430"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.31/R-4.31-202402290520"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.32-I-builds"/>
     </location>
   </locations>
 </target>
