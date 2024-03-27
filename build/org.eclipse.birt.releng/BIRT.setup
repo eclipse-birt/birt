@@ -383,7 +383,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.15">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>
@@ -478,6 +478,8 @@
             url="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
         <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
+        <repository
+            url="https://download.eclipse.org/justj/epp/release/latest"/>
         <repository
             url="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
       </repositoryList>

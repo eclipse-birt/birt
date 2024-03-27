@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb.ui;singleton:=true
-Bundle-Version: 4.15.0.qualifier
+Bundle-Version: 4.16.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="3.119.100",
