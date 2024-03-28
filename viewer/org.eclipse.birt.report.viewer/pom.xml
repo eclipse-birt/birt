@@ -28,7 +28,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-jspc-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
+				<version>${jetty-jspc-maven-plugin-version}</version>
 				<executions>
 					<execution>
 						<id>pre-compile-jsp</id>
@@ -70,26 +70,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
-				<configuration>
-					<phase>clean</phase>
-					<failOnError>false</failOnError>
-					<filesets>
-						<fileset>
-							<directory>birt/WEB-INF/lib</directory>
-							<includes>
-								<include>jsp.jar</include>
-								<include>viewservlets.jar</include>
-							</includes>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			-->
 		</plugins>
 	</build>
 </project>

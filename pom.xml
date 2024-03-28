@@ -2,20 +2,20 @@
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************
 -->
-<!-- Copyright (c) 2015, 2021 Eclipse BIRT contributors and others This program 
-	and the accompanying materials are made available under the terms of the 
-	Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/. 
+<!-- Copyright (c) 2015, 2021 Eclipse BIRT contributors and others This program
+	and the accompanying materials are made available under the terms of the
+	Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/.
 	SPDX-License-Identifier: EPL-2.0 -->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
@@ -26,21 +26,28 @@
 
 	<properties>
 		<birt.version>4.16.0</birt.version>
-		<antrun.version>3.0.0</antrun.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
-		<!--<build>v${maven.build.timestamp}</build> -->
-		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse-birt/birt.git</tycho.scmUrl>
-		<junit-version>4.13.2</junit-version>
-		<maven-jar-plugin-version>3.3.0</maven-jar-plugin-version>
-		<maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
-		<tycho.version>4.0.7</tycho.version>
-		<jetty.version>10.0.15</jetty.version>
-		<cbi-version>1.4.3</cbi-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>false</skipTests>
 
-		<build.type>nightly</build.type>		
+		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+
+		<antrun.version>3.1.0</antrun.version>
+		<build.helper.maven.plugin.version>3.5.0</build.helper.maven.plugin.version>
+		<cbi-version>1.4.3</cbi-version>
+		<jacoco.maven.plugin.version>0.8.9</jacoco.maven.plugin.version>
+		<jetty-jspc-maven-plugin-version>10.0.20</jetty-jspc-maven-plugin-version>
+		<junit-version>4.13.2</junit-version>
+		<maven-compiler-plugin-version>3.9.0</maven-compiler-plugin-version>
+		<maven.dependency.plugin.version>3.6.1</maven.dependency.plugin.version>
+		<maven-jar-plugin-version>3.3.0</maven-jar-plugin-version>
+		<maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
+		<maven-assembly-plugin-version>3.7.1</maven-assembly-plugin-version>
+		<tycho.version>4.0.7</tycho.version>
+		<wagon.ssh.version>3.5.3</wagon.ssh.version>
+
+		<build.type>nightly</build.type>
 		<justj.tools.repo>https://download.eclipse.org/justj/tools/updates/nightly/latest</justj.tools.repo>
 		<justj.eclipse.repo>https://download.eclipse.org/releases/2023-03</justj.eclipse.repo>
 		<org.eclipse.storage.user>genie.birt</org.eclipse.storage.user>
@@ -292,7 +299,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>${maven-compiler-plugin-version}</version>
 				<configuration>
 					<release>11</release>
 				</configuration>
@@ -348,11 +355,11 @@
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
-				<!-- Exclude integration tests that may hang or cause other occasional 
-					delays in integration test. Uncomment the following config block to disable 
+				<!-- Exclude integration tests that may hang or cause other occasional
+					delays in integration test. Uncomment the following config block to disable
 					these tests temporarely. -->
-				<!-- <configuration> <testRuntime>default</testRuntime> <excludes> <exclude>**/FolderArchiveTest.*</exclude> 
-					<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude> </excludes> 
+				<!-- <configuration> <testRuntime>default</testRuntime> <excludes> <exclude>**/FolderArchiveTest.*</exclude>
+					<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude> </excludes>
 					</configuration> -->
 			</plugin>
 
@@ -360,7 +367,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.9</version>
+				<version>${jacoco.maven.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>jacoco-prepare-agent</id>
