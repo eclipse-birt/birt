@@ -37,7 +37,6 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
 
 /**
- *
  * Partition scanner for javascript editor
  */
 public class JSPartitionScanner extends RuleBasedPartitionScanner {
