@@ -176,6 +176,10 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 		this.globalObjectTokens.add("params"); //$NON-NLS-1$
 		this.globalObjectTokens.add("value"); //$NON-NLS-1$
 		this.globalObjectTokens.add("vars"); //$NON-NLS-1$
+		this.globalObjectTokens.add("row"); //$NON-NLS-1$
+		this.globalObjectTokens.add("dataSetRow"); //$NON-NLS-1$
+
+		this.keywordMethods.add("__rownum"); //$NON-NLS-1$
 
 		try {
 			// analysis of static javascript classes and methods
@@ -188,7 +192,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 					List<IMethodInfo> resultMethodList = classInfo.getMethods();
 					for (Iterator<IMethodInfo> mIter = resultMethodList.iterator(); mIter.hasNext();) {
 						IMethodInfo methodInfo = mIter.next();
-						keywordMethods.add(methodInfo.getName());
+						this.keywordMethods.add(methodInfo.getName());
 					}
 				}
 			}
@@ -200,7 +204,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 
 				IScriptFunction[] methodInfo = classInfo[i].getFunctions();
 				for (int j = 0; j < methodInfo.length; j++) {
-					keywordMethods.add(methodInfo[j].getName());
+					this.keywordMethods.add(methodInfo[j].getName());
 				}
 			}
 		} catch (BirtException e) {
