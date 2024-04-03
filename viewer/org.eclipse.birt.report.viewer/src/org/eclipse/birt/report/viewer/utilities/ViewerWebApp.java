@@ -57,19 +57,6 @@ public class ViewerWebApp {
 		URL webAppUrl = bundle.getEntry(webAppPath);
 		URL webDescriptorUrl = bundle.getEntry(webAppPath + "/WEB-INF/web-viewer.xml");
 		if (webAppUrl != null && webDescriptorUrl != null) {
-			URI resolvedWebAppUrl00 = FileLocator.resolve(webAppUrl).toURI().normalize();
-			URI resolvedWebDescriptorUrl00 = FileLocator.resolve(webDescriptorUrl).toURI().normalize();
-			// this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
-			// this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
-
-			System.out.println("webAppUrl: " + webAppUrl.toString());
-			System.out.println("resolvedWebAppUrl00: " + resolvedWebAppUrl00);
-			System.out.println("resolvedWebAppUrl01: " + URIUtil.toURI(FileLocator.resolve(webAppUrl)).normalize());
-			System.out.println("webDescriptorUrl: " + webDescriptorUrl.toString());
-			System.out.println("resolvedWebDescriptorUrl00: " + resolvedWebDescriptorUrl00);
-			System.out.println(
-					"resolvedWebDescriptorUrl01: " + URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize());
-
 			URI resolvedWebAppUrl = URIUtil.toURI(FileLocator.resolve(webAppUrl)).normalize();
 			URI resolvedWebDescriptorUrl = URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize();
 			this.webAppContext.setBaseResourceAsString(URIUtil.toUnencodedString(resolvedWebAppUrl));
