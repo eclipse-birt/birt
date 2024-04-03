@@ -59,8 +59,8 @@ public class ViewerWebApp {
 		if (webAppUrl != null && webDescriptorUrl != null) {
 			URI resolvedWebAppUrl = URIUtil.toURI(FileLocator.resolve(webAppUrl)).normalize();
 			URI resolvedWebDescriptorUrl = URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize();
-			this.webAppContext.setBaseResourceAsString(URIUtil.toUnencodedString(resolvedWebAppUrl));
-			this.webAppContext.setDescriptor(URIUtil.toUnencodedString(resolvedWebDescriptorUrl));
+			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
+			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
 		}
 
 		if (encoding != null) {
