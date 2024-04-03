@@ -16,6 +16,7 @@ import java.net.URL;
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.jetty.ee8.webapp.WebAppClassLoader;
 import org.eclipse.jetty.ee8.webapp.WebAppContext;
 import org.eclipse.jetty.ee8.webapp.WebXmlConfiguration;
@@ -56,10 +57,23 @@ public class ViewerWebApp {
 		URL webAppUrl = bundle.getEntry(webAppPath);
 		URL webDescriptorUrl = bundle.getEntry(webAppPath + "/WEB-INF/web-viewer.xml");
 		if (webAppUrl != null && webDescriptorUrl != null) {
-			URI resolvedWebAppUrl = FileLocator.resolve(webAppUrl).toURI().normalize();
-			URI resolvedWebDescriptorUrl = FileLocator.resolve(webDescriptorUrl).toURI().normalize();
-			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
-			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
+			URI resolvedWebAppUrl00 = FileLocator.resolve(webAppUrl).toURI().normalize();
+			URI resolvedWebDescriptorUrl00 = FileLocator.resolve(webDescriptorUrl).toURI().normalize();
+			// this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
+			// this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
+
+			System.out.println("webAppUrl: " + webAppUrl.toString());
+			System.out.println("resolvedWebAppUrl00: " + resolvedWebAppUrl00);
+			System.out.println("resolvedWebAppUrl01: " + URIUtil.toURI(FileLocator.resolve(webAppUrl)).normalize());
+			System.out.println("webDescriptorUrl: " + webDescriptorUrl.toString());
+			System.out.println("resolvedWebDescriptorUrl00: " + resolvedWebDescriptorUrl00);
+			System.out.println(
+					"resolvedWebDescriptorUrl01: " + URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize());
+
+			URI resolvedWebAppUrl = URIUtil.toURI(FileLocator.resolve(webAppUrl)).normalize();
+			URI resolvedWebDescriptorUrl = URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize();
+			this.webAppContext.setBaseResourceAsString(URIUtil.toUnencodedString(resolvedWebAppUrl));
+			this.webAppContext.setDescriptor(URIUtil.toUnencodedString(resolvedWebDescriptorUrl));
 		}
 
 		if (encoding != null) {
