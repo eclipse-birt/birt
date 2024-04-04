@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="34">
+<target name="Generated from BIRT" sequenceNumber="35">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -103,6 +103,7 @@
       <unit id="org.eclipse.jetty.ee8.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.http" version="0.0.0"/>
       <unit id="org.eclipse.jetty.io" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.logging" version="0.0.0"/>
       <unit id="org.eclipse.jetty.osgi" version="0.0.0"/>
       <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
@@ -136,7 +137,6 @@
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="org.osgi.util.tracker" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
-      <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
