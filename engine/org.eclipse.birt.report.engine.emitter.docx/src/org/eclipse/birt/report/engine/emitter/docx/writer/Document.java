@@ -51,9 +51,10 @@ public class Document extends BasicComponent {
 	private int mhtId = 1;
 
 	private int wordVersion;
+	private String documentLanguage = "";
 
 	Document(IPart part, String backgroundColor, String backgroundImageUrl, String backgroundHeight,
-			String backgroundWidth, boolean rtl, int wordVersion) throws IOException {
+			String backgroundWidth, boolean rtl, int wordVersion, String documentLanguage) throws IOException {
 		super(part);
 		this.backgroundColor = backgroundColor;
 		this.backgroundImageImgUrl = backgroundImageUrl;
@@ -61,6 +62,7 @@ public class Document extends BasicComponent {
 		this.backgroundWidth = backgroundWidth;
 		this.wordVersion = wordVersion;
 		this.rtl = rtl;
+		this.documentLanguage = documentLanguage;
 		writeStylesPart();
 		writeSettingsPart();
 	}
@@ -95,7 +97,7 @@ public class Document extends BasicComponent {
 			stylesPartWriter.attribute("w:cs", "Times New Roman");
 			stylesPartWriter.closeTag("w:rFonts");
 			stylesPartWriter.openTag("w:lang");
-			stylesPartWriter.attribute("w:val", "en-US");
+			stylesPartWriter.attribute("w:val", this.documentLanguage);
 			stylesPartWriter.attribute("w:eastAsia", "zh-CN");
 			stylesPartWriter.attribute("w:bidi", "ar-SA");
 			stylesPartWriter.closeTag("w:lang");

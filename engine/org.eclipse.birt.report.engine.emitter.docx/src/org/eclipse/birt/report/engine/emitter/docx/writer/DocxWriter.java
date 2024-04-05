@@ -16,6 +16,7 @@ package org.eclipse.birt.report.engine.emitter.docx.writer;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -52,6 +53,8 @@ public class DocxWriter implements IWordWriter {
 	private boolean showHeaderOnFirst;
 
 	private int wordVersion;
+
+	private String documentLanguage = "en";
 
 	/**
 	 * Constructor
@@ -127,7 +130,7 @@ public class DocxWriter implements IWordWriter {
 		String relationshipType = RelationshipTypes.DOCUMENT;
 		IPart documentPart = pkg.getPart(uri, type, relationshipType);
 		document = new Document(documentPart, backgroundColor, backgroundImageUrl, backgroundHeight, backgroundWidth,
-				rtl, wordVersion);
+				rtl, wordVersion, this.getDocumentLanguage());
 		document.start();
 		currentComponent = document;
 	}
@@ -333,4 +336,21 @@ public class DocxWriter implements IWordWriter {
 				backgroundWidth, topMargin, leftMargin, pageHeight, pageWidth);
 
 	}
+
+	@Override
+	public void setDocumentLanguage(String language) {
+		Locale[] locales = Locale.getAvailableLocales();
+		for (Locale locale : locales) {
+			if (language.equalsIgnoreCase(locale.toLanguageTag())) {
+				this.documentLanguage = language;
+				break;
+			}
+		}
+	}
+
+	@Override
+	public String getDocumentLanguage() {
+		return this.documentLanguage;
+	}
+
 }

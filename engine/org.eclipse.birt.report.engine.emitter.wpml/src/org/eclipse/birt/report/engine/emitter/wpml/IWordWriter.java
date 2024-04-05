@@ -30,6 +30,20 @@ import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 public interface IWordWriter {
 
 	/**
+	 * Set the document spelling language
+	 *
+	 * @param language spelling language
+	 */
+	public void setDocumentLanguage(String language);
+
+	/**
+	 * Get the document spelling language
+	 *
+	 * @return Return the document spelling language
+	 */
+	public String getDocumentLanguage();
+
+	/**
 	 * Start of document
 	 *
 	 * @param rtl         rtl direction
