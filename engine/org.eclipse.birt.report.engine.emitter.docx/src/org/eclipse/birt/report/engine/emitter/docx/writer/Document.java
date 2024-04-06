@@ -106,32 +106,6 @@ public class Document extends BasicComponent {
 			stylesPartWriter.openTag("w:pPrDefault");
 			stylesPartWriter.closeTag("w:pPrDefault");
 			stylesPartWriter.closeTag("w:docDefaults");
-//			stylesPartWriter.openTag( "w:style" );
-//			stylesPartWriter.attribute( "w:type", "paragraph" );
-//			stylesPartWriter.attribute( "w:default", "4" );
-//			stylesPartWriter.attribute( "w:styleId", "Normal" );
-//			stylesPartWriter.openTag( "w:name" );
-//			stylesPartWriter.attribute( "w:val", "Normal" );
-//			stylesPartWriter.closeTag( "w:name" );
-//			stylesPartWriter.openTag( "w:autoRedefine" );
-//			stylesPartWriter.closeTag( "w:autoRedefine" );
-//			stylesPartWriter.openTag( "w:semiHidden" );
-//			stylesPartWriter.closeTag( "w:semiHidden" );
-//			stylesPartWriter.openTag( "w:rsid" );
-//			stylesPartWriter.attribute( "w:val", "009B3C8F" );
-//			stylesPartWriter.closeTag( "w:rsid" );
-//			stylesPartWriter.openTag( "w:pPr" );
-//			stylesPartWriter.openTag( "w:pStyle" );
-//			stylesPartWriter.attribute( "w:val", "Normal" );
-//			stylesPartWriter.closeTag( "w:pStyle" );
-//			stylesPartWriter.openTag( "w:bidi" );
-//			if ( !rtl )
-//			{
-//				stylesPartWriter.attribute( "w:val", "off" );
-//			}
-//			stylesPartWriter.closeTag( "w:bidi" );
-//			stylesPartWriter.closeTag( "w:pPr" );
-//			stylesPartWriter.closeTag( "w:style" );
 			stylesPartWriter.openTag("w:style");
 			stylesPartWriter.attribute("w:type", "character");
 			stylesPartWriter.attribute("w:styleId", "Hyperlink");
