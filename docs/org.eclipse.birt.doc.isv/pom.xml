@@ -62,6 +62,7 @@
 				<version>${antrun.version}</version>
 				<executions>
 					<execution>
+						<?m2e ignore?> 
 						<id>javadoc</id>
 						<phase>compile</phase>
 						<goals>
