@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceFactory;
@@ -93,17 +94,17 @@ public class ViewerWebServer {
 
 		for (String xmlFile : configFiles) {
 			URL url = bundle.getEntry(jettyBase + xmlFile);
-			URL fileURL = FileLocator.toFileURL(url);
+			URL fileURL = URIUtil.toURI(FileLocator.toFileURL(url)).toURL();
 			if (fileURL != null) {
 				resolvedXmlPaths.add(fileURL);
 			}
 		}
 
 		URL jettyHomeUrl = bundle.getEntry(JETTY_FOLDER_NAME + "/" + JETTY_HOME_FOLDER_NAME);
-		URL jettyHomeFileUrl = FileLocator.toFileURL(jettyHomeUrl);
+		URL jettyHomeFileUrl = URIUtil.toURI(FileLocator.toFileURL(jettyHomeUrl)).toURL();
 
 		URL jettyBaseUrl = bundle.getEntry(JETTY_FOLDER_NAME + "/" + JETTY_BASE_FOLDER_NAME);
-		URL jettyBaseFileUrl = FileLocator.toFileURL(jettyBaseUrl);
+		URL jettyBaseFileUrl = URIUtil.toURI(FileLocator.toFileURL(jettyBaseUrl)).toURL();
 
 		// Lets load our properties
 		Map<String, String> properties = new HashMap<>();
