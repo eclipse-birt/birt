@@ -56,6 +56,9 @@ public class DocEmitter extends ContentEmitterAdapter {
 
 	private boolean isClipped = false;
 
+	/**
+	 * Constructor
+	 */
 	public DocEmitter() {
 		contentVisitor = new ContentEmitterVisitor(this);
 		createEmitterImplement();

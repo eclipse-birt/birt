@@ -40,6 +40,8 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 
 	protected static Logger logger = Logger.getLogger(DocWriter.class.getName());
 
+	private String documentLanguage = "en";
+
 	public DocWriter(OutputStream out) {
 		this(out, "UTF-8");
 	}
@@ -585,5 +587,15 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 			writer.attribute("w:first-line", textIndent);
 		}
 		writer.closeTag("w:ind");
+	}
+
+	@Override
+	public void setDocumentLanguage(String language) {
+		this.documentLanguage = language;
+	}
+
+	@Override
+	public String getDocumentLanguage() {
+		return this.documentLanguage;
 	}
 }

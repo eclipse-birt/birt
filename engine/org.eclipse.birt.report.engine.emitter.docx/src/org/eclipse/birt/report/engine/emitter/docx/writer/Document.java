@@ -51,9 +51,10 @@ public class Document extends BasicComponent {
 	private int mhtId = 1;
 
 	private int wordVersion;
+	private String documentLanguage = "";
 
 	Document(IPart part, String backgroundColor, String backgroundImageUrl, String backgroundHeight,
-			String backgroundWidth, boolean rtl, int wordVersion) throws IOException {
+			String backgroundWidth, boolean rtl, int wordVersion, String documentLanguage) throws IOException {
 		super(part);
 		this.backgroundColor = backgroundColor;
 		this.backgroundImageImgUrl = backgroundImageUrl;
@@ -61,6 +62,7 @@ public class Document extends BasicComponent {
 		this.backgroundWidth = backgroundWidth;
 		this.wordVersion = wordVersion;
 		this.rtl = rtl;
+		this.documentLanguage = documentLanguage;
 		writeStylesPart();
 		writeSettingsPart();
 	}
@@ -95,7 +97,7 @@ public class Document extends BasicComponent {
 			stylesPartWriter.attribute("w:cs", "Times New Roman");
 			stylesPartWriter.closeTag("w:rFonts");
 			stylesPartWriter.openTag("w:lang");
-			stylesPartWriter.attribute("w:val", "en-US");
+			stylesPartWriter.attribute("w:val", this.documentLanguage);
 			stylesPartWriter.attribute("w:eastAsia", "zh-CN");
 			stylesPartWriter.attribute("w:bidi", "ar-SA");
 			stylesPartWriter.closeTag("w:lang");
@@ -104,32 +106,6 @@ public class Document extends BasicComponent {
 			stylesPartWriter.openTag("w:pPrDefault");
 			stylesPartWriter.closeTag("w:pPrDefault");
 			stylesPartWriter.closeTag("w:docDefaults");
-//			stylesPartWriter.openTag( "w:style" );
-//			stylesPartWriter.attribute( "w:type", "paragraph" );
-//			stylesPartWriter.attribute( "w:default", "4" );
-//			stylesPartWriter.attribute( "w:styleId", "Normal" );
-//			stylesPartWriter.openTag( "w:name" );
-//			stylesPartWriter.attribute( "w:val", "Normal" );
-//			stylesPartWriter.closeTag( "w:name" );
-//			stylesPartWriter.openTag( "w:autoRedefine" );
-//			stylesPartWriter.closeTag( "w:autoRedefine" );
-//			stylesPartWriter.openTag( "w:semiHidden" );
-//			stylesPartWriter.closeTag( "w:semiHidden" );
-//			stylesPartWriter.openTag( "w:rsid" );
-//			stylesPartWriter.attribute( "w:val", "009B3C8F" );
-//			stylesPartWriter.closeTag( "w:rsid" );
-//			stylesPartWriter.openTag( "w:pPr" );
-//			stylesPartWriter.openTag( "w:pStyle" );
-//			stylesPartWriter.attribute( "w:val", "Normal" );
-//			stylesPartWriter.closeTag( "w:pStyle" );
-//			stylesPartWriter.openTag( "w:bidi" );
-//			if ( !rtl )
-//			{
-//				stylesPartWriter.attribute( "w:val", "off" );
-//			}
-//			stylesPartWriter.closeTag( "w:bidi" );
-//			stylesPartWriter.closeTag( "w:pPr" );
-//			stylesPartWriter.closeTag( "w:style" );
 			stylesPartWriter.openTag("w:style");
 			stylesPartWriter.attribute("w:type", "character");
 			stylesPartWriter.attribute("w:styleId", "Hyperlink");

@@ -264,6 +264,8 @@ public abstract class AbstractEmitterImpl {
 
 	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
+	private ULocale locale = null;
+
 	/**
 	 * Initialize of the service
 	 * 
@@ -276,14 +278,13 @@ public abstract class AbstractEmitterImpl {
 			this.reportRunnable = service.getReportRunnable();
 			this.actionHandler = (IHTMLActionHandler) service.getOption(IRenderOption.ACTION_HANDLER);
 			reportContext = service.getReportContext();
-			ULocale locale = null;
 			if (reportContext != null) {
-				locale = ULocale.forLocale(reportContext.getLocale());
+				this.locale = ULocale.forLocale(reportContext.getLocale());
 			}
-			if (locale == null) {
-				locale = ULocale.getDefault();
+			if (this.locale == null) {
+				this.locale = ULocale.getDefault();
 			}
-			EngineResourceHandle resourceHandle = new EngineResourceHandle(locale);
+			EngineResourceHandle resourceHandle = new EngineResourceHandle(this.locale);
 			messageFlashObjectNotSupported = resourceHandle
 					.getMessage(MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT);
 			messageReportItemNotSupported = resourceHandle
@@ -353,6 +354,7 @@ public abstract class AbstractEmitterImpl {
 				isRtl = rootContent != null && rootContent.isRTL();
 			}
 			wordWriter.start(isRtl, creator, title, comments, subject);
+			wordWriter.setDocumentLanguage(this.locale.toLanguageTag());
 			drawDocumentBackground();
 		}
 		computePageProperties(page);
