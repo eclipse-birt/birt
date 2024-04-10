@@ -104,6 +104,30 @@ pipeline {
       }
 
       post {
+        failure {
+          mail to: 'ed.merks@gmail.com',
+          subject: "[BIRT CI] Build Failure ${currentBuild.fullDisplayName}",
+          mimeType: 'text/html',
+          body: """
+Project: ${env.JOB_NAME}<br/>
+Build Number: ${env.BUILD_NUMBER}<br/>
+Build URL: <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a><br/>
+Console: <a href='${env.BUILD_URL}/console'>${env.BUILD_URL}/console</a>
+""".trim()
+        }
+
+        fixed {
+          mail to: 'ed.merks@gmail.com',
+          subject: "[BIRT CI] Back to normal ${currentBuild.fullDisplayName}",
+          mimeType: 'text/html',
+          body: """
+Project: ${env.JOB_NAME}<br/>
+Build Number: ${env.BUILD_NUMBER}<br/>
+Build URL: <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a><br/>
+Console: <a href='${env.BUILD_URL}/console'>${env.BUILD_URL}/console</a>
+""".trim()
+        }
+
         always {
           junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true
         }
