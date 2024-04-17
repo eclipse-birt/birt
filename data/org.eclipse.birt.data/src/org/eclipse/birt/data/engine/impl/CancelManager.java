@@ -14,7 +14,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -30,7 +30,7 @@ public class CancelManager extends TimerTask {
 	 * Constructor
 	 */
 	public CancelManager() {
-		cancellableList = new ArrayList<>();
+		cancellableList = new LinkedList<>();
 	}
 
 	/**
