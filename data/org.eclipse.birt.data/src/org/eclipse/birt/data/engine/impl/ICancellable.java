@@ -26,4 +26,6 @@ public interface ICancellable {
 	void cancel();
 
 	DataException collectException();
+
+	String getId();
 }

@@ -14,7 +14,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -24,13 +26,12 @@ import java.util.TimerTask;
 
 public class CancelManager extends TimerTask {
 	//
-	private List<ICancellable> cancellableList;
+	private Map<String, ICancellable> cancellableMap = new HashMap<>();
 
 	/**
 	 * Constructor
 	 */
 	public CancelManager() {
-		cancellableList = new LinkedList<>();
 	}
 
 	/**
@@ -38,8 +39,8 @@ public class CancelManager extends TimerTask {
 	 * @param cancellable
 	 */
 	public void register(ICancellable cancellable) {
-		synchronized (cancellableList) {
-			cancellableList.add(cancellable);
+		synchronized (cancellableMap) {
+			cancellableMap.put(cancellable.getId(), cancellable);
 		}
 	}
 
@@ -48,8 +49,8 @@ public class CancelManager extends TimerTask {
 	 * @param cancellable
 	 */
 	public void deregister(ICancellable cancellable) {
-		synchronized (cancellableList) {
-			cancellableList.remove(cancellable);
+		synchronized (cancellableMap) {
+			cancellableMap.remove(cancellable.getId());
 		}
 	}
 
@@ -64,12 +65,13 @@ public class CancelManager extends TimerTask {
 	}
 
 	public void doCancel() {
-		synchronized (cancellableList) {
-			List<ICancellable> cancellableLists = new ArrayList<>(cancellableList);
-			for (ICancellable cancellable : cancellableLists) {
-				if (cancellable.doCancel()) {
-					cancellable.cancel();
-				}
+		List<ICancellable> cancellableCollection = null;
+		synchronized (cancellableMap) {
+			cancellableCollection = new ArrayList<>(cancellableMap.values());
+		}
+		for (ICancellable cancellable : cancellableCollection) {
+			if (cancellable.doCancel()) {
+				cancellable.cancel();
 			}
 		}
 	}
