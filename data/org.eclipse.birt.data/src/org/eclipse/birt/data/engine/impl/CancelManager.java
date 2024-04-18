@@ -14,9 +14,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -24,13 +24,12 @@ import java.util.TimerTask;
 
 public class CancelManager extends TimerTask {
 	//
-	private List<ICancellable> cancellableList;
+	private final Set<ICancellable> cancellables = ConcurrentHashMap.newKeySet();
 
 	/**
 	 * Constructor
 	 */
 	public CancelManager() {
-		cancellableList = new ArrayList<>();
 	}
 
 	/**
@@ -38,9 +37,7 @@ public class CancelManager extends TimerTask {
 	 * @param cancellable
 	 */
 	public void register(ICancellable cancellable) {
-		synchronized (cancellableList) {
-			cancellableList.add(cancellable);
-		}
+		cancellables.add(cancellable);
 	}
 
 	/**
@@ -48,9 +45,7 @@ public class CancelManager extends TimerTask {
 	 * @param cancellable
 	 */
 	public void deregister(ICancellable cancellable) {
-		synchronized (cancellableList) {
-			cancellableList.remove(cancellable);
-		}
+		cancellables.remove(cancellable);
 	}
 
 	/*
@@ -64,12 +59,9 @@ public class CancelManager extends TimerTask {
 	}
 
 	public void doCancel() {
-		synchronized (cancellableList) {
-			List<ICancellable> cancellableLists = new ArrayList<>(cancellableList);
-			for (ICancellable cancellable : cancellableLists) {
-				if (cancellable.doCancel()) {
-					cancellable.cancel();
-				}
+		for (ICancellable cancellable : cancellables.toArray(ICancellable[]::new)) {
+			if (cancellable.doCancel()) {
+				cancellable.cancel();
 			}
 		}
 	}

@@ -851,90 +851,93 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 
 		ICancellable queryCanceller = new OdaQueryCanceller(odaStatement, dataSource, session.getStopSign(), this);
 		this.session.getCancelManager().register(queryCanceller);
-
-		if (!session.getStopSign().isStopped()) {
-			long startTime = System.currentTimeMillis();
-			odaStatement.execute();
-			long endTime = System.currentTimeMillis();
-			if (logger.isLoggable(Level.FINE)) {
-				logger.log(Level.FINE, "ODA query execution time: " + (endTime - startTime)
-						+ " ms;\n   Executed query: " + odaStatement.getEffectiveQueryText());
-			}
-		}
-
-		QueryContextVisitorUtil.populateEffectiveQueryText(qcv, odaStatement.getEffectiveQueryText());
-
-		logger.fine("Effective Query Text:" + odaStatement.getEffectiveQueryText());
-		if (queryCanceller.collectException() != null) {
-			if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException)) {
-				throw queryCanceller.collectException();
-			}
-		}
-
-		ResultSet rs = null;
-
-		if (design != null) {
-			if (canAccessResultSetByName(design)) {
-				try {
-
-					rs = odaStatement.getResultSet(design.getPrimaryResultSetName());
-				} catch (DataException e) {
-					throw new DataException(ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
-							design.getPrimaryResultSetName());
-				}
-			} else if (canAccessResultSetByNumber(design)) {
-				try {
-					rs = odaStatement.getResultSet(design.getPrimaryResultSetNumber());
-				} catch (DataException e) {
-					throw new DataException(ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
-							design.getPrimaryResultSetNumber());
+		try {
+			if (!session.getStopSign().isStopped()) {
+				long startTime = System.currentTimeMillis();
+				odaStatement.execute();
+				long endTime = System.currentTimeMillis();
+				if (logger.isLoggable(Level.FINE)) {
+					logger.log(Level.FINE, "ODA query execution time: " + (endTime - startTime)
+							+ " ms;\n   Executed query: " + odaStatement.getEffectiveQueryText());
 				}
 			}
-		}
-		if (rs == null && !session.getStopSign().isStopped()) {
-			rs = odaStatement.getResultSet();
-		}
 
-		// If we did not get a result set metadata at prepare() time, get it now
-		if (resultMetadata == null) {
-			List modelResultHints = design.getResultSetHints();
-			resultMetadata = rs.getMetaData();
+			QueryContextVisitorUtil.populateEffectiveQueryText(qcv, odaStatement.getEffectiveQueryText());
+
+			logger.fine("Effective Query Text:" + odaStatement.getEffectiveQueryText());
+			if (queryCanceller.collectException() != null) {
+				if (!(queryCanceller.collectException().getCause() instanceof UnsupportedOperationException)) {
+					throw queryCanceller.collectException();
+				}
+			}
+
+			ResultSet rs = null;
+
+			if (design != null) {
+				if (canAccessResultSetByName(design)) {
+					try {
+
+						rs = odaStatement.getResultSet(design.getPrimaryResultSetName());
+					} catch (DataException e) {
+						throw new DataException(ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+								design.getPrimaryResultSetName());
+					}
+				} else if (canAccessResultSetByNumber(design)) {
+					try {
+						rs = odaStatement.getResultSet(design.getPrimaryResultSetNumber());
+					} catch (DataException e) {
+						throw new DataException(ResourceConstants.ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET,
+								design.getPrimaryResultSetNumber());
+					}
+				}
+			}
+			if (rs == null && !session.getStopSign().isStopped()) {
+				rs = odaStatement.getResultSet();
+			}
+
+			// If we did not get a result set metadata at prepare() time, get it now
 			if (resultMetadata == null) {
-				throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
-			}
-			resultMetadata = mergeResultHint(modelResultHints, resultMetadata);
-		}
-
-		// Initialize CachedResultSet using the ODA result set
-		if (!session.getDataSetCacheManager().doesSaveToCache()) {
-			if (((session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION
-					|| session.getEngineContext().getMode() == DataEngineContext.MODE_GENERATION))
-					&& this.getQueryDefinition() instanceof IQueryDefinition) {
-				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition();
-
-				Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy(this.session, queryDefn,
-						queryDefn.getDataSetName() == null ? null
-								: ((DataEngineImpl) this.session.getEngine())
-										.getDataSetDesign(queryDefn.getDataSetName()));
-				if (strategy != Strategy.Complex) {
-					SimpleResultSet simpleResult = new SimpleResultSet(this, rs, resultMetadata, eventHandler,
-							this.getGrouping(), this.session, strategy == Strategy.SimpleLookingFoward);
-
-					return simpleResult.getResultSetIterator();
+				List modelResultHints = design.getResultSetHints();
+				resultMetadata = rs.getMetaData();
+				if (resultMetadata == null) {
+					throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
 				}
+				resultMetadata = mergeResultHint(modelResultHints, resultMetadata);
 			}
 
-			ri = new CachedResultSet(this, resultMetadata, rs, eventHandler, session);
-		} else {
-			ri = new CachedResultSet(this, resultMetadata, new DataSetToCache(rs, resultMetadata, session),
-					eventHandler, session);
-		}
+			// Initialize CachedResultSet using the ODA result set
+			if (!session.getDataSetCacheManager().doesSaveToCache()) {
+				if (((session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION
+						|| session.getEngineContext().getMode() == DataEngineContext.MODE_GENERATION))
+						&& this.getQueryDefinition() instanceof IQueryDefinition) {
+					IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition();
 
-		if (ri != null) {
-			((CachedResultSet) ri).setOdaResultSet(rs);
-		}
+					Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy(this.session, queryDefn,
+							queryDefn.getDataSetName() == null ? null
+									: ((DataEngineImpl) this.session.getEngine())
+									.getDataSetDesign(queryDefn.getDataSetName()));
+					if (strategy != Strategy.Complex) {
+						SimpleResultSet simpleResult = new SimpleResultSet(this, rs, resultMetadata, eventHandler,
+								this.getGrouping(), this.session, strategy == Strategy.SimpleLookingFoward);
 
-		return ri;
+						return simpleResult.getResultSetIterator();
+					}
+				}
+
+				ri = new CachedResultSet(this, resultMetadata, rs, eventHandler, session);
+			} else {
+				ri = new CachedResultSet(this, resultMetadata, new DataSetToCache(rs, resultMetadata, session),
+						eventHandler, session);
+			}
+
+			if (ri != null) {
+				((CachedResultSet) ri).setOdaResultSet(rs);
+			}
+
+			return ri;
+		} finally {
+			this.session.getCancelManager().deregister(queryCanceller);
+		}
 	}
 
 	private static class OdaQueryCanceller implements ICancellable {
