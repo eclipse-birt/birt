@@ -254,7 +254,7 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 
 			state.setHandler(new NestedTableHandler(log, this, table, rowSpan));
 			state.getHandler().startTable(state, table);
-		} else if ((tableHandler != null) && (table.getColumnCount() <= colSpan)) {
+		} else if ((tableHandler != null) && (table.getColumnCount() <= colSpan) && !(element instanceof CellContent)) {
 			// This cell is merged over same number of columns as new table
 
 			containsTable = true;
