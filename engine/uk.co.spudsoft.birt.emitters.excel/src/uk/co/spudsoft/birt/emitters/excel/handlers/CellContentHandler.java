@@ -89,13 +89,17 @@ public class CellContentHandler extends AbstractHandler {
 	 */
 	protected Object lastValue;
 	/**
+	 * The last value added to a cell
+	 */
+	protected String lastFormula;
+	/**
 	 * The BIRT element that provided the lastValue
 	 */
 	protected IContent lastElement;
 	/**
 	 * List of font changes for a single cell.
 	 */
-	protected List<RichTextRun> richTextRuns = new ArrayList<>();
+	protected List<RichTextRun> richTextRuns = new ArrayList<RichTextRun>();
 	/**
 	 * When having to join multiple text blocks together, track whether they are
 	 * block or inline display
@@ -187,17 +191,30 @@ public class CellContentHandler extends AbstractHandler {
 				birtCellStyle.setProperty(StyleConstants.STYLE_BACKGROUND_COLOR, parent.getBackgroundColour());
 			}
 		}
+
 		if (hyperlinkUrl != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
-					.createHyperlink(HyperlinkType.URL /* Hyperlink.LINK_URL */);
+					.createHyperlink(HyperlinkType.URL);
 			hyperlink.setAddress(hyperlinkUrl);
 			cell.setHyperlink(hyperlink);
+			birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
+			birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
 		}
 		if (hyperlinkBookmark != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
-					.createHyperlink(HyperlinkType.DOCUMENT /* Hyperlink.LINK_DOCUMENT */);
+					.createHyperlink(HyperlinkType.DOCUMENT);
 			hyperlink.setAddress(prepareName(hyperlinkBookmark));
 			cell.setHyperlink(hyperlink);
+			birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
+			birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
+		}
+
+		if ((lastFormula != null) && (lastValue == null)) {
+			setCellContents(cell, null, lastFormula);
 		}
 
 		if (lastValue != null) {
@@ -228,27 +245,28 @@ public class CellContentHandler extends AbstractHandler {
 					log.debug("Finalising with ", runStart, " - ", lastString.length());
 					rich.applyFont(runStart, lastString.length(), lastFont);
 
-					setCellContents(cell, rich);
+					setCellContents(cell, rich, lastFormula);
 				} else {
-					setCellContents(cell, lastString);
+					setCellContents(cell, lastString, lastFormula);
 				}
 
-				if (lastString.contains("\n")) {
-					if (!CSSConstants.CSS_NOWRAP_VALUE.equals(lastElement.getStyle().getWhiteSpace())) {
-						birtCellStyle.setProperty(StyleConstants.STYLE_WHITE_SPACE,
-								new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
+				if (birtCell != null) {
+					if (lastString.contains("\n")) {
+						if (!CSSConstants.CSS_NOWRAP_VALUE.equals(lastElement.getStyle().getWhiteSpace())) {
+							birtCellStyle.setProperty(StyleConstants.STYLE_WHITE_SPACE,
+									new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
+						}
+					}
+					if (!richTextRuns.isEmpty()) {
+						birtCellStyle.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN,
+								new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
+					}
+					if (preferredAlignment != null) {
+						birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_ALIGN, preferredAlignment);
 					}
 				}
-				if (!richTextRuns.isEmpty()) {
-					birtCellStyle.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN,
-							new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
-				}
-				if (preferredAlignment != null) {
-					birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_ALIGN, preferredAlignment);
-				}
-
 			} else {
-				setCellContents(cell, lastValue);
+				setCellContents(cell, lastValue, lastFormula);
 			}
 		}
 
@@ -282,7 +300,10 @@ public class CellContentHandler extends AbstractHandler {
 		}
 
 		int colIndex = cell.getColumnIndex();
-		state.getSmu().applyAreaBordersToCell(state.areaBorders, cell, birtCellStyle, state.rowNum, colIndex);
+
+		if (birtCellStyle != null) {
+			state.getSmu().applyAreaBordersToCell(state.areaBorders, cell, birtCellStyle, state.rowNum, colIndex);
+		}
 
 		if ((birtCell != null) && ((birtCell.getColSpan() > 1) || (birtCell.getRowSpan() > 1))) {
 			AreaBorders mergedRegionBorders = AreaBorders.createForMergedCells(state.rowNum + birtCell.getRowSpan() - 1,
@@ -292,14 +313,15 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		}
 
-		String customNumberFormat = EmitterServices.stringOption(state.getRenderOptions(), element,
-				ExcelEmitter.CUSTOM_NUMBER_FORMAT, null);
-		if (customNumberFormat != null) {
-			StyleManagerUtils.setNumberFormat(birtCellStyle, ExcelEmitter.CUSTOM_NUMBER_FORMAT + customNumberFormat,
-					null);
+		if (birtCellStyle != null) {
+			String customNumberFormat = EmitterServices.stringOption(state.getRenderOptions(), element,
+					ExcelEmitter.CUSTOM_NUMBER_FORMAT, null);
+			if (customNumberFormat != null) {
+				StyleManagerUtils.setNumberFormat(birtCellStyle, ExcelEmitter.CUSTOM_NUMBER_FORMAT + customNumberFormat,
+						null);
+			}
+			setCellStyle(sm, cell, birtCellStyle, lastValue);
 		}
-
-		setCellStyle(sm, cell, birtCellStyle, lastValue);
 
 		// Excel auto calculates the row height (if it isn't specified) as long as the
 		// cell isn't merged - if it is merged I have to do it
@@ -311,7 +333,7 @@ public class CellContentHandler extends AbstractHandler {
 			double cellWidth = spanWidthMillimetres(state.currentSheet, cell.getColumnIndex(),
 					cell.getColumnIndex() + colSpan - 1);
 			float cellDesiredHeight = smu.calculateTextHeightPoints(cell.getStringCellValue(), defaultFont, cellWidth,
-					richTextRuns);
+					richTextRuns, cell.getCellStyle().getWrapText());
 			if (cellDesiredHeight > state.requiredRowHeightInPoints) {
 				int rowSpan = birtCell.getRowSpan();
 				if (rowSpan < 2) {
@@ -345,6 +367,7 @@ public class CellContentHandler extends AbstractHandler {
 		}
 
 		lastValue = null;
+		lastFormula = null;
 		lastElement = null;
 		richTextRuns.clear();
 	}
@@ -373,45 +396,59 @@ public class CellContentHandler extends AbstractHandler {
 	 * @param element The BIRT element supplying the value, used to set the style of
 	 *                the cell.
 	 */
-	private <T> void setCellContents(Cell cell, Object value) {
+	private <T> void setCellContents(Cell cell, Object value, String formula) {
 		log.debug("Setting cell[", cell.getRow().getRowNum(), ",", cell.getColumnIndex(), "] value to ", value);
-		if (value instanceof Double) {
-			// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Double) value);
-			lastValue = value;
-		} else if (value instanceof Integer) {
-			// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Integer) value);
-			lastValue = value;
-		} else if (value instanceof Long) {
-			// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Long) value);
-			lastValue = value;
-		} else if (value instanceof Date) {
-			// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue((Date) value);
-			lastValue = value;
-		} else if (value instanceof Boolean) {
-			// cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
-			cell.setCellValue(((Boolean) value).booleanValue());
-			lastValue = value;
-		} else if (value instanceof BigDecimal) {
-			// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue(((BigDecimal) value).doubleValue());
-			lastValue = value;
-		} else if (value instanceof String) {
-			// cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue((String) value);
-			lastValue = value;
-		} else if (value instanceof RichTextString) {
-			// cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue((RichTextString) value);
-			lastValue = value;
-		} else if (value != null) {
-			log.debug("Unhandled data: ", (value == null ? "<null>" : value));
-			// cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(value.toString());
-			lastValue = value;
+
+		if (formula != null) {
+			formula = formula.trim();
+			if (formula.startsWith("=")) {
+				formula = formula.substring(1).trim();
+				cell.setCellFormula(formula);
+			} else {
+				value = formula;
+				formula = null;
+			}
+		}
+
+		if (value != null) {
+			if (value instanceof Double) {
+				// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue((Double) value);
+				lastValue = value;
+			} else if (value instanceof Integer) {
+				// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue((Integer) value);
+				lastValue = value;
+			} else if (value instanceof Long) {
+				// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue((Long) value);
+				lastValue = value;
+			} else if (value instanceof Date) {
+				// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue((Date) value);
+				lastValue = value;
+			} else if (value instanceof Boolean) {
+				// cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
+				cell.setCellValue(((Boolean) value).booleanValue());
+				lastValue = value;
+			} else if (value instanceof BigDecimal) {
+				// cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue(((BigDecimal) value).doubleValue());
+				lastValue = value;
+			} else if (value instanceof String) {
+				// cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue((String) value);
+				lastValue = value;
+			} else if (value instanceof RichTextString) {
+				// cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue((RichTextString) value);
+				lastValue = value;
+			} else if (value != null) {
+				log.debug("Unhandled data: ", (value == null ? "<null>" : value));
+				// cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue(value.toString());
+				lastValue = value;
+			}
 		}
 	}
 
@@ -480,8 +517,21 @@ public class CellContentHandler extends AbstractHandler {
 					state.colNum);
 		}
 
-		if (lastValue == null) {
-			lastValue = value;
+		String formula = EmitterServices.stringOption(null, element, ExcelEmitter.FORMULA, null);
+		if ((formula == null) && EmitterServices.booleanOption(null, element, ExcelEmitter.VALUE_AS_FORMULA, false)) {
+			formula = value != null ? value.toString() : null;
+			value = null;
+		}
+		if (formula != null) {
+			lastFormula = formula;
+		}
+
+		if (value == null && formula == null) {
+			return;
+		}
+
+		if ((lastValue == null) && (value != null || formula != null)) {
+			lastValue = (value != null) ? value : formula;
 			lastElement = element;
 			lastCellContentsWasBlock = asBlock;
 
@@ -511,28 +561,31 @@ public class CellContentHandler extends AbstractHandler {
 
 		StyleManager sm = state.getSm();
 
-		// Both to be improved to include formatting
-		String oldValue = lastValue.toString();
-		String newComponent = value.toString();
+		if (lastValue != null) {
 
-		if (lastCellContentsWasBlock && !newComponent.startsWith("\n") && !oldValue.endsWith("\n")) {
-			oldValue = oldValue + "\n";
-			lastCellContentsWasBlock = false;
-		}
-		if (lastCellContentsRequiresSpace && !newComponent.startsWith("\n") && !oldValue.endsWith("\n")) {
-			oldValue = oldValue + " ";
-			lastCellContentsRequiresSpace = false;
-		}
+			// Both to be improved to include formatting
+			String oldValue = lastValue.toString();
+			String newComponent = value.toString();
 
-		String newValue = oldValue + newComponent;
-		lastValue = newValue;
+			if (lastCellContentsWasBlock && !newComponent.startsWith("\n") && !oldValue.endsWith("\n")) {
+				oldValue = oldValue + "\n";
+				lastCellContentsWasBlock = false;
+			}
+			if (lastCellContentsRequiresSpace && !newComponent.startsWith("\n") && !oldValue.endsWith("\n")) {
+				oldValue = oldValue + " ";
+				lastCellContentsRequiresSpace = false;
+			}
 
-		if (element != null) {
-			BirtStyle elementStyle = new BirtStyle(element);
-			Font newFont = sm.getFontManager().getFont(elementStyle);
-			richTextRuns.add(new RichTextRun(oldValue.length(), newFont));
+			String newValue = oldValue + newComponent;
+			lastValue = newValue;
 
-			preferredAlignment = preferredAlignment(elementStyle);
+			if (element != null) {
+				BirtStyle elementStyle = new BirtStyle(element);
+				Font newFont = sm.getFontManager().getFont(elementStyle);
+				richTextRuns.add(new RichTextRun(oldValue.length(), newFont));
+
+				preferredAlignment = preferredAlignment(elementStyle);
+			}
 		}
 
 		lastCellContentsWasBlock = asBlock;

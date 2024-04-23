@@ -142,6 +142,12 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.DisplayZeros */
 	public static final String DISPLAYZEROS_PROP = "ExcelEmitter.DisplayZeros";
 
+	/** property: ExcelEmitter.ValueAsFormula */
+	public static final String VALUE_AS_FORMULA = "ExcelEmitter.ValueAsFormula";
+
+	/** property: ExcelEmitter.Formula */
+	public static final String FORMULA = "ExcelEmitter.Formula";
+
 	/** property: ExcelEmitter.TemplateFile */
 	public static final String TEMPLATE_FILE = "ExcelEmitter.TemplateFile";
 

@@ -19,6 +19,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
+import java.awt.font.TextMeasurer;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -786,11 +787,12 @@ public abstract class StyleManagerUtils {
 	 * @param defaultFont  The font to be used prior to the first RichTextRun.
 	 * @param widthMM      The width of the output.
 	 * @param richTextRuns The list of RichTextRuns to be applied to the string
-	 * @return The heigh, in points, of a box big enough to contain the formatted
+	 * @param wrap         The text use wrapped style
+	 * @return The height, in points, of a box big enough to contain the formatted
 	 *         sourceText.
 	 */
 	public float calculateTextHeightPoints(String sourceText, Font defaultFont, double widthMM,
-			List<RichTextRun> richTextRuns) {
+			List<RichTextRun> richTextRuns, boolean wrap) {
 		log.debug("Calculating height for ", sourceText);
 
 		final float widthPt = (float) (72 * Math.max(0, widthMM - 6) / 25.4);
@@ -843,21 +845,37 @@ public abstract class StyleManagerUtils {
 				}
 			}
 
-			LineBreakMeasurer measurer = new LineBreakMeasurer(attrString.getIterator(), frc);
 
-			float heightAdjustment = 0.0F;
-			int lineLength = textLine.isEmpty() ? 1 : textLine.length();
-			while (measurer.getPosition() < lineLength) {
-				TextLayout layout = measurer.nextLayout(widthPt);
-				float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
-				if (layout.getDescent() + layout.getLeading() > heightAdjustment) {
-					heightAdjustment = layout.getDescent() + layout.getLeading();
+			try {
+				if (wrap) {
+					LineBreakMeasurer measurer = new LineBreakMeasurer(attrString.getIterator(), frc);
+
+					float heightAdjustment = 0.0F;
+					int lineLength = textLine.isEmpty() ? 1 : textLine.length();
+					while (measurer.getPosition() < lineLength) {
+						TextLayout layout = measurer.nextLayout(widthPt);
+						float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
+						if (layout.getDescent() + layout.getLeading() > heightAdjustment) {
+							heightAdjustment = layout.getDescent() + layout.getLeading();
+						}
+						log.debug("Line: ", textLine, " gives height ", lineHeight, "(", layout.getAscent(), "/",
+								layout.getDescent(), "/", layout.getLeading(), ")");
+						totalHeight += lineHeight;
+					}
+					totalHeight += heightAdjustment;
+				} else {
+					if (textLine.length() > 0) {
+						TextMeasurer measurer = new TextMeasurer(attrString.getIterator(), frc);
+						TextLayout layout = measurer.getLayout(0, textLine.length());
+						float lineHeight = layout.getAscent() + 2 * (layout.getDescent() + layout.getLeading());
+						log.debug("Line: ", textLine, " gives height ", lineHeight, "(", layout.getAscent(), "/",
+								layout.getDescent(), "/", layout.getLeading(), ")");
+						totalHeight += lineHeight;
+					}
 				}
-				log.debug("Line: ", textLine, " gives height ", lineHeight, "(", layout.getAscent(), "/",
-						layout.getDescent(), "/", layout.getLeading(), ")");
-				totalHeight += lineHeight;
+			} catch (Throwable ex) {
+				log.error(0, "Calculating height of line \"" + textLine + "\" threw: ", ex);
 			}
-			totalHeight += heightAdjustment;
 
 		}
 		log.debug("Height calculated as ", totalHeight);
