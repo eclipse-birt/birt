@@ -787,7 +787,9 @@ public abstract class StyleManagerUtils {
 	 * @param defaultFont  The font to be used prior to the first RichTextRun.
 	 * @param widthMM      The width of the output.
 	 * @param richTextRuns The list of RichTextRuns to be applied to the string
-	 * @param wrap         The text use wrapped style
+	 * @param wrap         If the excel cell marked as wrapped text then use the
+	 *                     wrapped line break LineBreakMeasurer else use raw
+	 *                     TextMeasurer
 	 * @return The height, in points, of a box big enough to contain the formatted
 	 *         sourceText.
 	 */
