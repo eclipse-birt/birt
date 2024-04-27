@@ -154,6 +154,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.StreamingXlsx */
 	public static final String STREAMING_XLSX = "ExcelEmitter.StreamingXlsx";
 
+	/** property: ExcelEmitter.ForceRecalculation */
+	public static final String FORCE_RECALCULATION = "ExcelEmitter.ForceRecalculation";
+
 	/**
 	 * Logger.
 	 */
@@ -301,6 +304,10 @@ public abstract class ExcelEmitter implements IContentEmitter {
 		if (EmitterServices.booleanOption(handlerState.getRenderOptions(), report,
 				ExcelEmitter.SINGLE_SHEET_PAGE_BREAKS, false)) {
 			handlerState.getRenderOptions().setOption(ExcelEmitter.SINGLE_SHEET, Boolean.TRUE);
+		}
+
+		if (EmitterServices.booleanOption(renderOptions, report, ExcelEmitter.FORCE_RECALCULATION, false)) {
+			wb.setForceFormulaRecalculation(true);
 		}
 	}
 

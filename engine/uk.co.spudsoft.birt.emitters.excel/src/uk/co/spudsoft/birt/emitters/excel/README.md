@@ -20,7 +20,6 @@ The following list get an overview of all supported user properties, the content
 	          	false, disabled debug log
 	Default   	false
 
-
 **ExcelEmitter.RemoveBlankRows**
 
 	Content   	handling of blank rows
@@ -254,4 +253,13 @@ The following list get an overview of all supported user properties, the content
 	Data type  	boolean
 	Values     	true, activate the streaming output method
 	          	false, standard output handling based on DOM will be used
+	Default    	false
+
+**ExcelEmitter.ForceRecalculation**
+
+	Content    	define that excel shall perform a full recalculation when the workbook is opened
+	Location   	report
+	Data type  	boolean
+	Values     	true, activate the recalculation option
+	          	false, no recalculation
 	Default    	false
