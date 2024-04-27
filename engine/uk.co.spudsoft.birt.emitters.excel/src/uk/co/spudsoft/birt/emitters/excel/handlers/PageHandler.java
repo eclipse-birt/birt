@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *     James Talbut - Initial implementation.
@@ -51,8 +51,23 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.StyleManagerUtils;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
+/**
+ * Representation of the excel page
+ *
+ * @since 3.3
+ *
+ */
 public class PageHandler extends AbstractHandler {
 
+	private final static short poiExcelPrintScaleMin = 10;
+	private final static short poiExcelPrintScaleMax = 400;
+
+	/**
+	 * Constructor
+	 *
+	 * @param log  logger object
+	 * @param page page content
+	 */
 	public PageHandler(Logger log, IPageContent page) {
 		super(log, null, page);
 	}
@@ -174,7 +189,7 @@ public class PageHandler extends AbstractHandler {
 			state.currentSheet.setAutobreaks(true);
 		}
 		int printScale = EmitterServices.integerOption(state.getRenderOptions(), page, ExcelEmitter.PRINT_SCALE, -1);
-		if ((printScale > 0) && (printScale < Short.MAX_VALUE)) {
+		if ((printScale >= poiExcelPrintScaleMin) && (printScale <= poiExcelPrintScaleMax)) {
 			state.currentSheet.getPrintSetup().setScale((short) printScale);
 		}
 
