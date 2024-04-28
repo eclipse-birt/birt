@@ -97,7 +97,7 @@ The following list get an overview of all supported user properties, the content
 	Content   	define the number format of a numeric value for excel
 	Location  	text-element of cell
 	Data type  	string
-	Values    	custom format which should be used to display the value on excel, e.g.  "#,#00.00"
+	Values    	custom format which should be used to display the value on excel, e.g. "#,#00.00"
 			    	the format use the form of the excel-defined forms (language version: en)
 	Default   	empty (null)
 	
@@ -124,7 +124,7 @@ The following list get an overview of all supported user properties, the content
 	Location   	report, table
 	Data type  	boolean
 	Values    	true, a summary row is inserted below the detailed data being summarized and a new outline level is established on that row
-	           	false, a summary row is inserted above the detailed data being summarized and a new outline levelis established on that row.
+	           	false, a summary row is inserted above the detailed data being summarized and a new outline level is established on that row.
 	Default   	false
 
 **ExcelEmitter.FreezePanes**
@@ -297,5 +297,5 @@ The following list get an overview of all supported user properties, the content
 	Content    	define the used scaling for the sheet zoom
 	Location   	page, table, list
 	Data type  	number, integer
-	Values    	the scale value must be -1 (= off) or between 10 and 400
+	Values    	the zoom value must be -1 (= off) or between 10 and 400
 	Default    	-1
