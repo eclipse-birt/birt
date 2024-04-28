@@ -20,6 +20,7 @@ The following list get an overview of all supported user properties, the content
 	          	false, disabled debug log
 	Default   	false
 
+
 **ExcelEmitter.RemoveBlankRows**
 
 	Content   	handling of blank rows
@@ -263,3 +264,38 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, activate the recalculation option
 	          	false, no recalculation
 	Default    	false
+
+**ExcelEmitter.PrintGridlines**
+
+	Content    	activate the print out of the grind lines
+	Location   	page, table, list
+	Data type  	boolean
+	Values     	true, activate grid line print out
+	          	false, without grid line print out
+	Default    	false
+
+**ExcelEmitter.PrintRowColHeadings**
+
+	Content    	activate the print out of the row and column heading labels
+	Location   	page, table, list
+	Data type  	boolean
+	Values     	true, activate print out of the row and column heading labels
+	          	false, without print out of the row and column heading labels
+	Default    	false
+	
+**ExcelEmitter.PrintFitToPage**
+
+	Content    	the page will be fit to center of the print out
+	Location   	page, table, list
+	Data type  	boolean
+	Values     	true, fit the page to center
+	          	false, no fitting of the page
+	Default    	false
+	
+**ExcelEmitter.DisplaySheetZoom**
+
+	Content    	define the used scaling for the sheet zoom
+	Location   	page, table, list
+	Data type  	number, integer
+	Values    	the scale value must be -1 (= off) or between 10 and 400
+	Default    	-1

@@ -59,9 +59,6 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
  */
 public class PageHandler extends AbstractHandler {
 
-	private final static short poiExcelPrintScaleMin = 10;
-	private final static short poiExcelPrintScaleMax = 400;
-
 	/**
 	 * Constructor
 	 *
@@ -176,6 +173,22 @@ public class PageHandler extends AbstractHandler {
 		if (!EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.DISPLAYZEROS_PROP, true)) {
 			state.currentSheet.setDisplayZeros(false);
 		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.PRINTGRIDLINES_PROP, false)) {
+			state.currentSheet.setPrintGridlines(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.PRINTROWCOLHEADINGS_PROP,
+				false)) {
+			state.currentSheet.setPrintRowAndColumnHeadings(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.PRINTFITTOPAGE_PROP, false)) {
+			state.currentSheet.setFitToPage(true);
+		}
+		int displayZoom = EmitterServices.integerOption(state.getRenderOptions(), page,
+				ExcelEmitter.DISPLAY_SHEET_ZOOM, -1);
+		if ((displayZoom >= ExcelEmitter.poiExcelDisplaySheetZoomScaleMin)
+				&& (displayZoom <= ExcelEmitter.poiExcelDisplaySheetZoomScaleMax)) {
+			state.currentSheet.setZoom(displayZoom);
+		}
 		int pagesHigh = EmitterServices.integerOption(state.getRenderOptions(), page, ExcelEmitter.PRINT_PAGES_HIGH,
 				-1);
 		if ((pagesHigh > 0) && (pagesHigh < Short.MAX_VALUE)) {
@@ -189,7 +202,7 @@ public class PageHandler extends AbstractHandler {
 			state.currentSheet.setAutobreaks(true);
 		}
 		int printScale = EmitterServices.integerOption(state.getRenderOptions(), page, ExcelEmitter.PRINT_SCALE, -1);
-		if ((printScale >= poiExcelPrintScaleMin) && (printScale <= poiExcelPrintScaleMax)) {
+		if ((printScale >= ExcelEmitter.poiExcelPrintScaleMin) && (printScale <= ExcelEmitter.poiExcelPrintScaleMax)) {
 			state.currentSheet.getPrintSetup().setScale((short) printScale);
 		}
 

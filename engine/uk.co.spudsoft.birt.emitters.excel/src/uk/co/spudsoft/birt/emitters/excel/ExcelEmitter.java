@@ -157,6 +157,30 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.ForceRecalculation */
 	public static final String FORCE_RECALCULATION = "ExcelEmitter.ForceRecalculation";
 
+	/** property: ExcelEmitter.PrintGridlines */
+	public static final String PRINTGRIDLINES_PROP = "ExcelEmitter.PrintGridlines";
+
+	/** property: ExcelEmitter.PrintRowColHeadings */
+	public static final String PRINTROWCOLHEADINGS_PROP = "ExcelEmitter.PrintRowColHeadings";
+
+	/** property: ExcelEmitter.PrintFitToPage */
+	public static final String PRINTFITTOPAGE_PROP = "ExcelEmitter.PrintFitToPage";
+
+	/** property: ExcelEmitter.DisplaySheetZoom */
+	public static final String DISPLAY_SHEET_ZOOM = "ExcelEmitter.DisplaySheetZoom";
+
+	/** property: minimum zoom value of excel sheet */
+	public static final short poiExcelDisplaySheetZoomScaleMin = 10;
+
+	/** property: maximum zoom value of excel sheet */
+	public static final short poiExcelDisplaySheetZoomScaleMax = 400;
+
+	/** property: minimum scale of the excel print out */
+	public static final short poiExcelPrintScaleMin = 10;
+
+	/** property: maximum scale of the excel print out */
+	public static final short poiExcelPrintScaleMax = 400;
+
 	/**
 	 * Logger.
 	 */
