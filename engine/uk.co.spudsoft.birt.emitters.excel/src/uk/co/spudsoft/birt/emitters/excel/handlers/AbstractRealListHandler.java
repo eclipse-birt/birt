@@ -18,10 +18,13 @@ package uk.co.spudsoft.birt.emitters.excel.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetView;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STSheetViewType;
 
 import uk.co.spudsoft.birt.emitters.excel.AreaBorders;
 import uk.co.spudsoft.birt.emitters.excel.BirtStyle;
@@ -145,6 +148,20 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		if ((displayZoom >= ExcelEmitter.poiExcelDisplaySheetZoomScaleMin)
 				&& (displayZoom <= ExcelEmitter.poiExcelDisplaySheetZoomScaleMax)) {
 			state.currentSheet.setZoom(displayZoom);
+		}
+		String pagePreview = EmitterServices.stringOption(state.getRenderOptions(), list, ExcelEmitter.PAGE_PREVIEW,
+				null);
+		if (pagePreview != null) {
+			if (pagePreview.equalsIgnoreCase(ExcelEmitter.poiExcelPreviewPageLayout)) {
+				CTSheetView view = ((XSSFSheet) state.currentSheet).getCTWorksheet().getSheetViews()
+						.getSheetViewArray(0);
+				view.setView(STSheetViewType.PAGE_LAYOUT);
+
+			} else if (pagePreview.equalsIgnoreCase(ExcelEmitter.poiExcelPreviewPageBreak)) {
+				CTSheetView view = ((XSSFSheet) state.currentSheet).getCTWorksheet().getSheetViews()
+						.getSheetViewArray(0);
+				view.setView(STSheetViewType.PAGE_BREAK_PREVIEW);
+			}
 		}
 	}
 

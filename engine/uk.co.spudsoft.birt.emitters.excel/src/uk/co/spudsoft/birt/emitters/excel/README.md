@@ -299,3 +299,12 @@ The following list get an overview of all supported user properties, the content
 	Data type  	number, integer
 	Values    	the zoom value must be -1 (= off) or between 10 and 400
 	Default    	-1
+
+**ExcelEmitter.PagePreview**
+
+	Content    	define the preview option of the excel sheet
+	Location   	page, table, list
+	Data type  	string
+	Values    	PageLayout, display the page layout preview
+	           	PageBreak, display the page break preview
+	Default    	Normal
