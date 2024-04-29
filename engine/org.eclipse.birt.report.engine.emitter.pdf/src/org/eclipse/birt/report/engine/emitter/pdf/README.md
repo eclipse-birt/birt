@@ -2,7 +2,7 @@
 Introduction to use the specialist user properties of the PdfEmitter.
 
 ## Reason
-The PdfEmitter provides a set of specialist user properties to optimize the excel output according of the reporting based requirements.
+The PdfEmitter provides a set of specialist user properties to optimize the pdf output according of the reporting based requirements.
 
 Each of the user properties starts with the master prefix "PdfEmitter".
 
@@ -42,7 +42,7 @@ The following list get an overview of all supported user properties, the content
 	Content    	define the pdf conformance of the created pdf document, e.g. PDF.A1A
 	Location   	report
 	Data type  	string
-	Values     	conformance values: PDF.Standard, PDF.X1A2001, PDF.X32002, PDF.A1A, PDF.A1B
+	Values     	PDF.Standard, PDF.X1A2001, PDF.X32002, PDF.A1A, PDF.A1B
 	Default    	PDF.Standard
 	Reference  	see PdfEmitter.IccColorType, PdfEmitter.IccProfileFile, PdfEmitter.PDFA.AddDocumentTitle, PdfEmitter.PDFA.FallbackFont
 

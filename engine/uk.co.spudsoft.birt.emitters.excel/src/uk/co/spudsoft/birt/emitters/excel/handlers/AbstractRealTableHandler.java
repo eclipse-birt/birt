@@ -169,7 +169,7 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 					if (calcWidth > 1.0) {
 						state.currentSheet.autoSizeColumn(col, true);
 						calcWidth = state.currentSheet.getColumnWidth(col) * 1.15;	// offset to handle width differences of apache poi
-						int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255 
+						int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255
 														// characters
 						if (calcWidth > maxColumnWidth) {
 							calcWidth = maxColumnWidth;
@@ -201,6 +201,24 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		}
 		if (!EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.DISPLAYZEROS_PROP, true)) {
 			state.currentSheet.setDisplayZeros(false);
+		}
+		if (!EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.DISPLAYROWCOLHEADINGS_PROP,
+				true)) {
+			state.currentSheet.setDisplayRowColHeadings(false);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.PRINTGRIDLINES_PROP, false)) {
+			state.currentSheet.setPrintGridlines(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.PRINTROWCOLHEADINGS_PROP, false)) {
+			state.currentSheet.setPrintRowAndColumnHeadings(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.PRINTFITTOPAGE_PROP, false)) {
+			state.currentSheet.setFitToPage(true);
+		}
+		int displayZoom = EmitterServices.integerOption(state.getRenderOptions(), table,
+				ExcelEmitter.DISPLAY_SHEET_ZOOM, -1);
+		if ((displayZoom >= ExcelEmitter.poiExcelDisplaySheetZoomScaleMin) && (displayZoom <= ExcelEmitter.poiExcelDisplaySheetZoomScaleMax)) {
+			state.currentSheet.setZoom(displayZoom);
 		}
 	}
 

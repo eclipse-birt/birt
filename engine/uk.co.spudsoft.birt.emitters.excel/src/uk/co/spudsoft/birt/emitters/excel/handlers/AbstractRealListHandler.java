@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -129,6 +129,22 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		}
 		if (!EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.DISPLAYZEROS_PROP, true)) {
 			state.currentSheet.setDisplayZeros(false);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.PRINTGRIDLINES_PROP, false)) {
+			state.currentSheet.setPrintGridlines(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.PRINTROWCOLHEADINGS_PROP,
+				false)) {
+			state.currentSheet.setPrintRowAndColumnHeadings(true);
+		}
+		if (EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.PRINTFITTOPAGE_PROP, false)) {
+			state.currentSheet.setFitToPage(true);
+		}
+		int displayZoom = EmitterServices.integerOption(state.getRenderOptions(), list,
+				ExcelEmitter.DISPLAY_SHEET_ZOOM, -1);
+		if ((displayZoom >= ExcelEmitter.poiExcelDisplaySheetZoomScaleMin)
+				&& (displayZoom <= ExcelEmitter.poiExcelDisplaySheetZoomScaleMax)) {
+			state.currentSheet.setZoom(displayZoom);
 		}
 	}
 
