@@ -169,6 +169,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.DisplaySheetZoom */
 	public static final String DISPLAY_SHEET_ZOOM = "ExcelEmitter.DisplaySheetZoom";
 
+	/** property: ExcelEmitter.PagePreview */
+	public static final String PAGE_PREVIEW = "ExcelEmitter.PagePreview";
+
 	/** property: minimum zoom value of excel sheet */
 	public static final short poiExcelDisplaySheetZoomScaleMin = 10;
 
@@ -180,6 +183,12 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	/** property: maximum scale of the excel print out */
 	public static final short poiExcelPrintScaleMax = 400;
+
+	/** property: minimum zoom value of excel sheet */
+	public static final String poiExcelPreviewPageLayout = "PageLayout";
+
+	/** property: minimum zoom value of excel sheet */
+	public static final String poiExcelPreviewPageBreak = "PageBreak";
 
 	/**
 	 * Logger.

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.util.SheetUtil;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
@@ -26,6 +27,8 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetView;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STSheetViewType;
 
 import uk.co.spudsoft.birt.emitters.excel.AreaBorders;
 import uk.co.spudsoft.birt.emitters.excel.BirtStyle;
@@ -219,6 +222,17 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 				ExcelEmitter.DISPLAY_SHEET_ZOOM, -1);
 		if ((displayZoom >= ExcelEmitter.poiExcelDisplaySheetZoomScaleMin) && (displayZoom <= ExcelEmitter.poiExcelDisplaySheetZoomScaleMax)) {
 			state.currentSheet.setZoom(displayZoom);
+		}
+		String pagePreview = EmitterServices.stringOption(state.getRenderOptions(), table, ExcelEmitter.PAGE_PREVIEW, null);
+		if (pagePreview != null) {
+			if (pagePreview.equalsIgnoreCase(ExcelEmitter.poiExcelPreviewPageLayout)) {
+				CTSheetView view = ((XSSFSheet) state.currentSheet).getCTWorksheet().getSheetViews().getSheetViewArray(0);
+				view.setView(STSheetViewType.PAGE_LAYOUT);
+
+			} else if (pagePreview.equalsIgnoreCase(ExcelEmitter.poiExcelPreviewPageBreak)) {
+				CTSheetView view = ((XSSFSheet) state.currentSheet).getCTWorksheet().getSheetViews().getSheetViewArray(0);
+				view.setView(STSheetViewType.PAGE_BREAK_PREVIEW);
+			 }
 		}
 	}
 
