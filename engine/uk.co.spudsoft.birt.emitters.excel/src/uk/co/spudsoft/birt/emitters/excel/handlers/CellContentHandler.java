@@ -43,8 +43,10 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -139,6 +141,8 @@ public class CellContentHandler extends AbstractHandler {
 	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
 	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
 
+	private static final String STYLE_OVERLAY_DEFAULT_UNIT = "mm";
+
 	/**
 	 * Constructor
 	 *
@@ -170,8 +174,9 @@ public class CellContentHandler extends AbstractHandler {
 	protected void endCellContent(HandlerState state, ICellContent birtCell, IContent element, Cell cell, Area area) {
 		StyleManager sm = state.getSm();
 		StyleManagerUtils smu = state.getSmu();
-
 		BirtStyle birtCellStyle = null;
+		boolean isStyleExactCopy = false;
+
 		if (birtCell != null) {
 			birtCellStyle = new BirtStyle(birtCell);
 			if (element != null) {
@@ -180,6 +185,7 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		} else if (element != null) {
 			birtCellStyle = new BirtStyle(element);
+			isStyleExactCopy = true;
 		} else {
 			birtCellStyle = new BirtStyle(state.getSm().getCssEngine());
 		}
@@ -191,6 +197,8 @@ public class CellContentHandler extends AbstractHandler {
 				birtCellStyle.setProperty(StyleConstants.STYLE_BACKGROUND_COLOR, parent.getBackgroundColour());
 			}
 		}
+		birtCellStyle.setTextIndentInUse(EmitterServices.booleanOption(state.getRenderOptions(), element,
+				ExcelEmitter.DISPLAY_TEXT_INDENT, true));
 
 		if (hyperlinkUrl != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
@@ -320,6 +328,8 @@ public class CellContentHandler extends AbstractHandler {
 				StyleManagerUtils.setNumberFormat(birtCellStyle, ExcelEmitter.CUSTOM_NUMBER_FORMAT + customNumberFormat,
 						null);
 			}
+
+			overlayBirtCellStyleSpacing(smu, birtCellStyle, element, isStyleExactCopy);
 			setCellStyle(sm, cell, birtCellStyle, lastValue);
 		}
 
@@ -370,6 +380,97 @@ public class CellContentHandler extends AbstractHandler {
 		lastFormula = null;
 		lastElement = null;
 		richTextRuns.clear();
+	}
+
+	/*
+	 * Overlay to set the margin and padding spacing for the BirtStyle of the excel
+	 * cell
+	 */
+	private BirtStyle overlayBirtCellStyleSpacing(StyleManagerUtils smu, BirtStyle birtCellStyle, IContent element,
+			boolean isStyleExactCopy) {
+
+		// Overlay of spacing
+		if (element != null && element.getStyle() != null) {
+			IStyle elemStyle = element.getStyle();
+			IContent fc = null;
+			double paddingLeftValueLabelContent = 0.0;
+			double paddingRightValueLabelContent = 0.0;
+
+			// Computed style: values of html-typed elements won't be inherited
+			// Foreign content: original container of the html-elements
+			try {
+				fc = (IContent) element.getParent().getParent();
+			} catch (Exception e) {
+				/* do nothing */
+			}
+			if (fc != null && fc instanceof IForeignContent && fc.getStyle() != null) {
+				elemStyle = fc.getStyle();
+			}
+
+			// Padding calculation: cell content and element content
+
+			// Cell content: padding left/right of the cell
+			String paddingLeftCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT) != null)
+					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT).getCssText()
+					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+			String paddingRightCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT) != null)
+					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT).getCssText()
+					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+
+			if (!isStyleExactCopy) {
+
+				// Element content: padding left/right of the cell
+				String paddingLeftElementContent = (elemStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT) != null)
+						? elemStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT).getCssText()
+						: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+				String paddingRightElementContent = (elemStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT) != null)
+						? elemStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT).getCssText()
+						: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+
+				// Element padding values
+				paddingLeftValueLabelContent = smu
+						.convertDimensionToMillimetres(DimensionType.parserUnit(paddingLeftElementContent));
+				paddingRightValueLabelContent = smu
+						.convertDimensionToMillimetres(DimensionType.parserUnit(paddingRightElementContent));
+
+			}
+
+			// Override based on the original color content values
+			if (elemStyle.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR) != null) {
+				birtCellStyle.setProperty(StyleConstants.STYLE_BACKGROUND_COLOR,
+						elemStyle.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
+			}
+			if (elemStyle.getProperty(StyleConstants.STYLE_COLOR) != null) {
+				birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
+						elemStyle.getProperty(StyleConstants.STYLE_COLOR));
+			}
+
+			// Calculation the sum of the cell & element padding
+
+			// Cell padding values
+			double paddingLeftValueCellContent = smu.convertDimensionToMillimetres(DimensionType
+					.parserUnit(paddingLeftCellContent));
+			double paddingRightValueCellContent = smu.convertDimensionToMillimetres(DimensionType
+					.parserUnit(paddingRightCellContent));
+
+			// Sum of padding values rounded based on 4 decimals
+			double paddingLeftValueNew = Math
+					.round((paddingLeftValueLabelContent + paddingLeftValueCellContent) * 1000.0) / 1000.0;
+			double paddingRightValueNew = Math
+					.round((paddingRightValueLabelContent + paddingRightValueCellContent) * 1000.0) / 1000.0;
+
+			// Set the margin and padding for the finalized cell style
+			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_LEFT,
+					elemStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT));
+			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_RIGHT,
+					elemStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
+			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_LEFT,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingLeftValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
+			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingRightValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
+		}
+
+		return birtCellStyle;
 	}
 
 	/**

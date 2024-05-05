@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -40,6 +40,7 @@ public class ClientAnchorConversions {
 	private static final short EXCEL_COLUMN_WIDTH_FACTOR = 256;
 	private static final int UNIT_OFFSET_LENGTH = 7;
 	private static final int[] UNIT_OFFSET_MAP = { 0, 36, 73, 109, 146, 182, 219 };
+	private static final double MILLIMETRE_INDENT_FACTOR = 2.38;
 
 	/**
 	 * Convert a measure in column width units (1/256th of a character) to a measure
@@ -67,6 +68,17 @@ public class ClientAnchorConversions {
 		short widthUnits = (short) (EXCEL_COLUMN_WIDTH_FACTOR * (pixels / UNIT_OFFSET_LENGTH));
 		widthUnits += UNIT_OFFSET_MAP[(pixels % UNIT_OFFSET_LENGTH)];
 		return widthUnits;
+	}
+
+	/**
+	 * Convert a measure of millimetres to indent units.
+	 *
+	 * @param millimetres The size in millimetres.
+	 * @return The size in indent units.
+	 */
+	public static int millimetres2IndentUnits(double millimetres) {
+		int indentUnits = (int) Math.round(millimetres / MILLIMETRE_INDENT_FACTOR);
+		return indentUnits;
 	}
 
 	/**

@@ -172,6 +172,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.PagePreview */
 	public static final String PAGE_PREVIEW = "ExcelEmitter.PagePreview";
 
+	/** property: ExcelEmitter.DisplayTextIndent */
+	public static final String DISPLAY_TEXT_INDENT = "ExcelEmitter.DisplayTextIndent";
+
 	/** property: minimum zoom value of excel sheet */
 	public static final short poiExcelDisplaySheetZoomScaleMin = 10;
 
