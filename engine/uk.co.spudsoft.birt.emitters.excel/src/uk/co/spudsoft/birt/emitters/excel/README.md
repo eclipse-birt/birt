@@ -329,3 +329,15 @@ The following list get an overview of all supported user properties, the content
 	           	false, avoid the usage of the text indent
 	Default    	true
 	Since      	4.16
+
+
+**ExcelEmitter.TextIndentMode**
+
+	Content    	define the indent calculation mode and with it the element spacing which will be used
+	Location   	report, table, grid, list, row, text-element
+	Data type  	string
+	Values    	SpacingCell, indent calculated based on cell padding
+	           	SpacingElement, indent calculated based on element padding & margin
+	           	SpacingAll, indent calculated based on cell padding & element padding & margin
+	Default    	SpacingAll
+	Since      	4.16

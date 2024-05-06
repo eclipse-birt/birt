@@ -199,6 +199,8 @@ public class CellContentHandler extends AbstractHandler {
 		}
 		birtCellStyle.setTextIndentInUse(EmitterServices.booleanOption(state.getRenderOptions(), element,
 				ExcelEmitter.DISPLAY_TEXT_INDENT, true));
+		birtCellStyle.setTextIndentMode(EmitterServices.stringOption(state.getRenderOptions(), element,
+				ExcelEmitter.TEXT_INDENT_MODE, ExcelEmitter.TEXT_INDENT_MODE_SPACING_ALL));
 
 		if (hyperlinkUrl != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
@@ -393,8 +395,8 @@ public class CellContentHandler extends AbstractHandler {
 		if (element != null && element.getStyle() != null) {
 			IStyle elemStyle = element.getStyle();
 			IContent fc = null;
-			double paddingLeftValueLabelContent = 0.0;
-			double paddingRightValueLabelContent = 0.0;
+			double paddingLeftValueElementContent = 0.0;
+			double paddingRightValueElementContent = 0.0;
 
 			// Computed style: values of html-typed elements won't be inherited
 			// Foreign content: original container of the html-elements
@@ -409,14 +411,7 @@ public class CellContentHandler extends AbstractHandler {
 
 			// Padding calculation: cell content and element content
 
-			// Cell content: padding left/right of the cell
-			String paddingLeftCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT) != null)
-					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT).getCssText()
-					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
-			String paddingRightCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT) != null)
-					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT).getCssText()
-					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
-
+			// Avoid the element usage if the birtCellStyle is a copy of the element
 			if (!isStyleExactCopy) {
 
 				// Element content: padding left/right of the cell
@@ -428,12 +423,65 @@ public class CellContentHandler extends AbstractHandler {
 						: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
 
 				// Element padding values
-				paddingLeftValueLabelContent = smu
+				paddingLeftValueElementContent = smu
 						.convertDimensionToMillimetres(DimensionType.parserUnit(paddingLeftElementContent));
-				paddingRightValueLabelContent = smu
+				paddingRightValueElementContent = smu
 						.convertDimensionToMillimetres(DimensionType.parserUnit(paddingRightElementContent));
-
 			}
+			// Element content: margin left/right of the element
+			CSSValue marginLeftElementContent = elemStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT);
+			CSSValue marginRightElementContent = elemStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT);
+
+			// Calculation the sum of the cell & element padding
+
+			// Cell content: padding left/right of the cell
+			String paddingLeftCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT) != null)
+					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT).getCssText()
+					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+			String paddingRightCellContent = (birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT) != null)
+					? birtCellStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT).getCssText()
+					: ("0" + STYLE_OVERLAY_DEFAULT_UNIT);
+
+			// Cell padding values
+			double paddingLeftValueCellContent = smu.convertDimensionToMillimetres(DimensionType
+					.parserUnit(paddingLeftCellContent));
+			double paddingRightValueCellContent = smu.convertDimensionToMillimetres(DimensionType
+					.parserUnit(paddingRightCellContent));
+
+			// Validation of the text indent mode
+			if (birtCellStyle.getTextIndentMode().equals(ExcelEmitter.TEXT_INDENT_MODE_SPACING_CELL)) {
+
+				// use cell padding to calculate the indent (reset element spacing)
+				marginLeftElementContent = new StringValue(CSSPrimitiveValue.CSS_STRING,
+						"0" + STYLE_OVERLAY_DEFAULT_UNIT);
+				marginRightElementContent = new StringValue(CSSPrimitiveValue.CSS_STRING,
+						"0" + STYLE_OVERLAY_DEFAULT_UNIT);
+
+				paddingLeftValueElementContent = 0.0;
+				paddingRightValueElementContent = 0.0;
+
+			} else if (birtCellStyle.getTextIndentMode().equals(ExcelEmitter.TEXT_INDENT_MODE_SPACING_ELEMENT)) {
+				// use element padding & margin to calculate the indent (reset cell spacing)
+				paddingLeftValueCellContent = 0.0;
+				paddingRightValueCellContent = 0.0;
+
+			} else {
+				// use cell padding & element padding & element margin to calculate the indent
+			}
+
+			// Sum of padding values rounded based on 4 decimals
+			double paddingLeftValueNew = Math
+					.round((paddingLeftValueElementContent + paddingLeftValueCellContent) * 1000.0) / 1000.0;
+			double paddingRightValueNew = Math
+					.round((paddingRightValueElementContent + paddingRightValueCellContent) * 1000.0) / 1000.0;
+
+			// Set the margin and padding for the finalized cell style
+			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_LEFT, marginLeftElementContent);
+			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_RIGHT, marginRightElementContent);
+			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_LEFT,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingLeftValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
+			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
+					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingRightValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
 
 			// Override based on the original color content values
 			if (elemStyle.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR) != null) {
@@ -444,30 +492,6 @@ public class CellContentHandler extends AbstractHandler {
 				birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
 						elemStyle.getProperty(StyleConstants.STYLE_COLOR));
 			}
-
-			// Calculation the sum of the cell & element padding
-
-			// Cell padding values
-			double paddingLeftValueCellContent = smu.convertDimensionToMillimetres(DimensionType
-					.parserUnit(paddingLeftCellContent));
-			double paddingRightValueCellContent = smu.convertDimensionToMillimetres(DimensionType
-					.parserUnit(paddingRightCellContent));
-
-			// Sum of padding values rounded based on 4 decimals
-			double paddingLeftValueNew = Math
-					.round((paddingLeftValueLabelContent + paddingLeftValueCellContent) * 1000.0) / 1000.0;
-			double paddingRightValueNew = Math
-					.round((paddingRightValueLabelContent + paddingRightValueCellContent) * 1000.0) / 1000.0;
-
-			// Set the margin and padding for the finalized cell style
-			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_LEFT,
-					elemStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT));
-			birtCellStyle.setProperty(StyleConstants.STYLE_MARGIN_RIGHT,
-					elemStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
-			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_LEFT,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingLeftValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
-			birtCellStyle.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, paddingRightValueNew + STYLE_OVERLAY_DEFAULT_UNIT));
 		}
 
 		return birtCellStyle;

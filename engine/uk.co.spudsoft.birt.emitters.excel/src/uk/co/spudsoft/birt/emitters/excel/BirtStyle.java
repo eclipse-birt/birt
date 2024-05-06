@@ -67,6 +67,7 @@ public class BirtStyle {
 	private CSSValue[] propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
 	private CSSEngine cssEngine;
 	private boolean useTextIndent = true;
+	private String textIndentMode = "";
 
 	/**
 	 * Constructor 01
@@ -358,5 +359,23 @@ public class BirtStyle {
 	 */
 	public boolean isTextIndentInUse() {
 		return this.useTextIndent;
+	}
+
+	/**
+	 * Set the text indent mode
+	 *
+	 * @param textIndentMode type of the text indent mode
+	 */
+	public void setTextIndentMode(String textIndentMode) {
+		this.textIndentMode = textIndentMode;
+	}
+
+	/**
+	 * Get the text indent mode
+	 *
+	 * @return Return the text indent mode
+	 */
+	public String getTextIndentMode() {
+		return this.textIndentMode;
 	}
 }
