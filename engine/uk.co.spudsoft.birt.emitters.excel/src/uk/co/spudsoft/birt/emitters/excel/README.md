@@ -242,7 +242,7 @@ The following list get an overview of all supported user properties, the content
 
 **ExcelEmitter.ValueAsFormula**
 
-	Content   	the content on an element will be added as excel-formula, for calculation teh string must be start with "="-sign
+	Content   	the content on an element will be added as excel-formula, for calculation the string must be start with "="-sign
 	Location  	text-element of cell
 	Data type   	boolean
 	Values    	true, use content like formula
@@ -252,7 +252,7 @@ The following list get an overview of all supported user properties, the content
 
 **ExcelEmitter.Formula**
 
-	Content   	the content of this property will be added as excel-formula, for calculation teh string must be start with "="-sign
+	Content   	the content of this property will be added as excel-formula, for calculation the string must be start with "="-sign
 	Location    	text-element of cell
 	Data type  	string
 	Values    	fixed text or formula for excel cell
