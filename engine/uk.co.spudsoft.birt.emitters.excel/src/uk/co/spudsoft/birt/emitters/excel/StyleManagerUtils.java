@@ -231,6 +231,52 @@ public abstract class StyleManagerUtils {
 	}
 
 	/**
+	 * Calculation of millimetres based on dimension
+	 *
+	 * @param dim The BIRT dimension, which must be in absolute units.
+	 * @return The calculated millimetres unit
+	 */
+	public double convertDimensionToMillimetres(DimensionType dim) {
+		if (dim != null) {
+			double mmWidth = dim.getMeasure();
+			if ((DimensionType.UNITS_CM.equals(dim.getUnits())) || (DimensionType.UNITS_IN.equals(dim.getUnits()))
+					|| (DimensionType.UNITS_PT.equals(dim.getUnits()))
+					|| (DimensionType.UNITS_PC.equals(dim.getUnits()))) {
+				mmWidth = dim.convertTo("mm");
+			} else if ((DimensionType.UNITS_PX.equals(dim.getUnits()))) {
+				mmWidth = ClientAnchorConversions.pixels2Millimetres(mmWidth);
+			}
+			return mmWidth;
+		}
+		return 0;
+	}
+
+	/**
+	 * Converting from millimetres to indent width
+	 *
+	 * @param mmWidth The BIRT millimetres
+	 * @return The calculated indent with unit
+	 */
+	public int poiIndentUnit(double mmWidth) {
+		return ClientAnchorConversions.millimetres2IndentUnits(mmWidth);
+	}
+
+	/**
+	 * Converting from millimetres to indent width
+	 *
+	 * @param dim The BIRT dimension millimetres
+	 * @return The calculated indent with unit
+	 */
+	public int poiIndentUnit(DimensionType dim) {
+		if (dim != null) {
+			double mmWidth = dim.getMeasure();
+			if (DimensionType.UNITS_MM.equals(dim.getUnits())) {
+				return ClientAnchorConversions.millimetres2IndentUnits(mmWidth);
+			}
+		}
+		return 0;
+	}
+	/**
 	 * Object a POI font weight from a BIRT string.
 	 *
 	 * @param fontWeight The font weight as understood by BIRT.

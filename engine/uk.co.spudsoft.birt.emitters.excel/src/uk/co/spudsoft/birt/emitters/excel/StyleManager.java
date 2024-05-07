@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.css.CSSValue;
 
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
@@ -114,7 +115,8 @@ public class StyleManager {
 			StyleConstants.STYLE_BORDER_DIAGONAL_WIDTH, StyleConstants.STYLE_BORDER_DIAGONAL_COLOR,
 			StyleConstants.STYLE_BORDER_ANTIDIAGONAL_NUMBER, StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE,
 			StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH, StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR,
-			StyleConstants.STYLE_WHITE_SPACE, StyleConstants.STYLE_VERTICAL_ALIGN, };
+			StyleConstants.STYLE_WHITE_SPACE, StyleConstants.STYLE_VERTICAL_ALIGN, StyleConstants.STYLE_MARGIN_LEFT,
+			StyleConstants.STYLE_MARGIN_RIGHT, StyleConstants.STYLE_PADDING_LEFT, StyleConstants.STYLE_PADDING_RIGHT, };
 
 	/**
 	 * Test whether two BIRT styles are equivalent, as far as the attributes
@@ -146,9 +148,11 @@ public class StyleManager {
 		// Number format
 		// Font
 		if (!StyleManagerUtils.objectsEqual(style1.getProperty(BirtStyle.TEXT_ROTATION),
-				style2.getProperty(BirtStyle.TEXT_ROTATION)) || !StyleManagerUtils.dataFormatsEquivalent(
+				style2.getProperty(BirtStyle.TEXT_ROTATION))
+				|| !StyleManagerUtils.dataFormatsEquivalent(
 				(DataFormatValue) style1.getProperty(StyleConstants.STYLE_DATA_FORMAT),
-				(DataFormatValue) style2.getProperty(StyleConstants.STYLE_DATA_FORMAT)) || !FontManager.fontsEquivalent(style1, style2)) {
+						(DataFormatValue) style2.getProperty(StyleConstants.STYLE_DATA_FORMAT))
+				|| !FontManager.fontsEquivalent(style1, style2)) {
 			// System.out.println( "Differ on font" );
 			return false;
 		}
@@ -176,6 +180,38 @@ public class StyleManager {
 		poiStyle.setAlignment(alignment);
 		// Background colour
 		smu.addBackgroundColourToStyle(workbook, poiStyle, birtStyle.getString(StyleConstants.STYLE_BACKGROUND_COLOR));
+
+		// Indent, based on the text margin & padding
+		// excel supports for indent the text-align LEFT / RIGHT
+		if (birtStyle.isTextIndentInUse() && alignment != null
+				&& !(alignment.equals(HorizontalAlignment.CENTER)
+						|| alignment.equals(HorizontalAlignment.CENTER_SELECTION))) {
+			short indent = 0;
+			CSSValue marginCSSValue;
+			CSSValue paddingCSSValue;
+			String marginCSS = "";
+			String paddingCSS = "";
+			if (alignment.equals(HorizontalAlignment.RIGHT)) {
+				marginCSSValue = birtStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT);
+				paddingCSSValue = birtStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT);
+			} else {
+				marginCSSValue = birtStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT);
+				paddingCSSValue = birtStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT);
+			}
+			marginCSS = (marginCSSValue != null) ? marginCSSValue.getCssText() : "0";
+			paddingCSS = (paddingCSSValue != null) ? paddingCSSValue.getCssText() : "0";
+			double marginIndent = smu.convertDimensionToMillimetres(DimensionType.parserUnit(marginCSS));
+			double paddingIndent = smu.convertDimensionToMillimetres(DimensionType.parserUnit(paddingCSS));
+			int tmpIndent = smu.poiIndentUnit(new DimensionType(marginIndent + paddingIndent, DimensionType.UNITS_MM));
+			if (tmpIndent < 0) {
+				indent = 0;
+			} else if (tmpIndent > Short.MAX_VALUE) {
+				indent = Short.MAX_VALUE;
+			} else {
+				indent = (short) tmpIndent;
+			}
+			poiStyle.setIndention(indent);
+		}
 
 		if (smu instanceof StyleManagerXUtils) {
 

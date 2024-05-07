@@ -66,6 +66,8 @@ public class BirtStyle {
 	private IStyle elemStyle;
 	private CSSValue[] propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
 	private CSSEngine cssEngine;
+	private boolean useTextIndent = true;
+	private String textIndentMode = "";
 
 	/**
 	 * Constructor 01
@@ -219,6 +221,10 @@ public class BirtStyle {
 
 	private static BitSet PrepareSpecialOverlayProperties() {
 		BitSet result = new BitSet(BirtStyle.NUMBER_OF_STYLES);
+		result.set(StyleConstants.STYLE_MARGIN_LEFT);
+		result.set(StyleConstants.STYLE_MARGIN_RIGHT);
+		result.set(StyleConstants.STYLE_PADDING_LEFT);
+		result.set(StyleConstants.STYLE_PADDING_RIGHT);
 		result.set(StyleConstants.STYLE_BACKGROUND_COLOR);
 		result.set(StyleConstants.STYLE_BORDER_BOTTOM_STYLE);
 		result.set(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH);
@@ -337,4 +343,39 @@ public class BirtStyle {
 		return result.toString();
 	}
 
+	/**
+	 * Set the flag if the text indent is in use
+	 *
+	 * @param useTextIndent flag to define is the text indent is in use
+	 */
+	public void setTextIndentInUse(boolean useTextIndent) {
+		this.useTextIndent = useTextIndent;
+	}
+
+	/**
+	 * Get the result if the text indent is in use
+	 *
+	 * @return Return true if the text indent is in use
+	 */
+	public boolean isTextIndentInUse() {
+		return this.useTextIndent;
+	}
+
+	/**
+	 * Set the text indent mode
+	 *
+	 * @param textIndentMode type of the text indent mode
+	 */
+	public void setTextIndentMode(String textIndentMode) {
+		this.textIndentMode = textIndentMode;
+	}
+
+	/**
+	 * Get the text indent mode
+	 *
+	 * @return Return the text indent mode
+	 */
+	public String getTextIndentMode() {
+		return this.textIndentMode;
+	}
 }

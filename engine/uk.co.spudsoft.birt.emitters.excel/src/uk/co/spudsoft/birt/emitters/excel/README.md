@@ -222,23 +222,6 @@ The following list get an overview of all supported user properties, the content
 	          	false, hide cell value of zero
 	Default   	true
 
-**ExcelEmitter.ValueAsFormula**
-
-	Content   	the content on an element will be added as excel-formula, for calculation teh string must be start with "="-sign
-	Location  	text-element of cell
-	Data type   	boolean
-	Values    	true, use content like formula
-	           	false, use content like text
-	Default   	false
-
-**ExcelEmitter.Formula**
-
-	Content   	the content of this property will be added as excel-formula, for calculation teh string must be start with "="-sign
-	Location    	text-element of cell
-	Data type  	string
-	Values    	fixed text or formula for excel cell
-	Default    	empty (null)
-
 **ExcelEmitter.TemplateFile**
 
 	Content   	define an excel-template to create the excel
@@ -255,6 +238,26 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, activate the streaming output method
 	          	false, standard output handling based on DOM will be used
 	Default    	false
+	Since      	4.13
+
+**ExcelEmitter.ValueAsFormula**
+
+	Content   	the content on an element will be added as excel-formula, for calculation the string must be start with "="-sign
+	Location  	text-element of cell
+	Data type   	boolean
+	Values    	true, use content like formula
+	           	false, use content like text
+	Default   	false
+	Since      	4.16
+
+**ExcelEmitter.Formula**
+
+	Content   	the content of this property will be added as excel-formula, for calculation the string must be start with "="-sign
+	Location    	text-element of cell
+	Data type  	string
+	Values    	fixed text or formula for excel cell
+	Default    	empty (null)
+	Since      	4.16
 
 **ExcelEmitter.ForceRecalculation**
 
@@ -264,6 +267,7 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, activate the recalculation option
 	          	false, no recalculation
 	Default    	false
+	Since      	4.16
 
 **ExcelEmitter.PrintGridlines**
 
@@ -273,6 +277,7 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, activate grid line print out
 	          	false, without grid line print out
 	Default    	false
+	Since      	4.16
 
 **ExcelEmitter.PrintRowColHeadings**
 
@@ -282,7 +287,8 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, activate print out of the row and column heading labels
 	          	false, without print out of the row and column heading labels
 	Default    	false
-	
+	Since      	4.16
+
 **ExcelEmitter.PrintFitToPage**
 
 	Content    	the page will be fit to center of the print out
@@ -291,6 +297,7 @@ The following list get an overview of all supported user properties, the content
 	Values     	true, fit the page to center
 	          	false, no fitting of the page
 	Default    	false
+	Since      	4.16
 	
 **ExcelEmitter.DisplaySheetZoom**
 
@@ -299,6 +306,7 @@ The following list get an overview of all supported user properties, the content
 	Data type  	number, integer
 	Values    	the zoom value must be -1 (= off) or between 10 and 400
 	Default    	-1
+	Since      	4.16
 
 **ExcelEmitter.PagePreview**
 
@@ -308,3 +316,28 @@ The following list get an overview of all supported user properties, the content
 	Values    	PageLayout, display the page layout preview
 	           	PageBreak, display the page break preview
 	Default    	Normal
+	Since      	4.16
+
+**ExcelEmitter.DisplayTextIndent**
+
+	Content    	define if the text-indent will be used based on the margin & padding of the text-element, the indent is dependent at the text-alignment:
+	           	- alignment left: use the left-margin and left-padding
+	           	- alignment right: use the right-margin and right-padding
+	Location   	report, table, grid, list, row, text-element
+	Data type  	boolean
+	Values    	true, text-indent will be used
+	           	false, avoid the usage of the text indent
+	Default    	true
+	Since      	4.16
+
+
+**ExcelEmitter.TextIndentMode**
+
+	Content    	define the indent calculation mode and with it the element spacing which will be used
+	Location   	report, table, grid, list, row, text-element
+	Data type  	string
+	Values    	SpacingCell, indent calculated based on cell padding
+	           	SpacingElement, indent calculated based on element padding & margin
+	           	SpacingAll, indent calculated based on cell padding & element padding & margin
+	Default    	SpacingAll
+	Since      	4.16

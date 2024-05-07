@@ -172,6 +172,12 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.PagePreview */
 	public static final String PAGE_PREVIEW = "ExcelEmitter.PagePreview";
 
+	/** property: ExcelEmitter.DisplayTextIndent */
+	public static final String DISPLAY_TEXT_INDENT = "ExcelEmitter.DisplayTextIndent";
+
+	/** property: ExcelEmitter.TextIndentMode */
+	public static final String TEXT_INDENT_MODE = "ExcelEmitter.TextIndentMode";
+
 	/** property: minimum zoom value of excel sheet */
 	public static final short poiExcelDisplaySheetZoomScaleMin = 10;
 
@@ -189,6 +195,15 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	/** property: minimum zoom value of excel sheet */
 	public static final String poiExcelPreviewPageBreak = "PageBreak";
+
+	/** property: text indent mode, spacing based on cell */
+	public static final String TEXT_INDENT_MODE_SPACING_CELL = "SpacingCell";
+
+	/** property: text indent mode, spacing based on element */
+	public static final String TEXT_INDENT_MODE_SPACING_ELEMENT = "SpacingElement";
+
+	/** property: text indent mode, spacing based on cell & element */
+	public static final String TEXT_INDENT_MODE_SPACING_ALL = "SpacingAll";
 
 	/**
 	 * Logger.
