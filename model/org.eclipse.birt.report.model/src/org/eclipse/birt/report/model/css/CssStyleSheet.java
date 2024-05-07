@@ -75,18 +75,38 @@ public final class CssStyleSheet implements Cloneable {
 
 	private String externalCssURI = null;
 
+	/**
+	 * Get the external CSS URI
+	 *
+	 * @return Return the external CSS URI
+	 */
 	public String getExternalCssURI() {
 		return externalCssURI;
 	}
 
+	/**
+	 * Set the external CSS URI
+	 *
+	 * @param externalCssURI external CSS URI
+	 */
 	public void setExternalCssURI(String externalCssURI) {
 		this.externalCssURI = externalCssURI;
 	}
 
+	/**
+	 * Is external CSS used
+	 *
+	 * @return true, if external CSS is used
+	 */
 	public boolean isUseExternalCss() {
 		return useExternalCss;
 	}
 
+	/**
+	 * Set the flag of external CSS use
+	 *
+	 * @param useExternalCss set the flag of external CSS use
+	 */
 	public void setUseExternalCss(boolean useExternalCss) {
 		this.useExternalCss = useExternalCss;
 	}

@@ -27,16 +27,22 @@ public interface ValueManager {
 
 	/**
 	 * Returns the name of the property handled.
+	 *
+	 * @return Returns the name of the property handled.
 	 */
 	String getPropertyName();
 
 	/**
 	 * Whether the handled property is inherited or not.
+	 *
+	 * @return is the property an inherited property
 	 */
 	boolean isInheritedProperty();
 
 	/**
-	 * Returns the default value for the handled property.
+	 * Get the default value for the handled property.
+	 *
+	 * @return Returns the default value for the handled property.
 	 */
 	Value getDefaultValue();
 
@@ -45,15 +51,19 @@ public interface ValueManager {
 	 *
 	 * @param lu     The SAC lexical unit used to create the value.
 	 * @param engine The calling CSSEngine.
+	 * @return Return the created value
+	 * @throws DOMException
 	 */
 	Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException;
 
 	/**
 	 * Computes the given value.
 	 *
+	 * @param elt    element
 	 * @param engine The CSSEngine.
 	 * @param idx    The property index in the engine.
 	 * @param value  The value to compute.
+	 * @return Return the compute value
 	 */
 	Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value);
 }

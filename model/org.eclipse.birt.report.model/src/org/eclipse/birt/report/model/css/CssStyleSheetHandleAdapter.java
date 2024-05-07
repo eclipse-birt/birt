@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
 
 /**
  * Adapter of CssStyleSheet operation of ThemeHandle/ReportDesignHandle.
@@ -89,14 +89,15 @@ public class CssStyleSheetHandleAdapter {
 	}
 
 	/**
-	 * Includes one css with the given css file name. The new css will be appended
-	 * to the css list.
+	 * Includes one CSS with the given CSS file name. The new CSS will be appended
+	 * to the CSS list.
 	 *
-	 * @param fileName css file name
+	 * @param fileName         CSS file name
+	 * @param externalCssURI   external CSS URI
+	 * @param isUseExternalCss flag is external CSS used
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
 	 */
-
 	public final void addCssbyProperties(String fileName, String externalCssURI, boolean isUseExternalCss)
 			throws SemanticException {
 		if (fileName != null) {
@@ -115,15 +116,14 @@ public class CssStyleSheetHandleAdapter {
 	}
 
 	/**
-	 * Includes one css with the given css file name. The new css will be appended
-	 * to the css list.
+	 * Includes one CSS with the given CSS file name. The new CSS will be appended
+	 * to the CSS list.
 	 *
 	 * @deprecated
-	 * @param fileName css file name
+	 * @param fileName CSS file name
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
 	 */
-
 	@Deprecated
 	public final void addCss(String fileName) throws SemanticException {
 		if (fileName == null) {
@@ -135,16 +135,15 @@ public class CssStyleSheetHandleAdapter {
 	}
 
 	/**
-	 * Drops the given css style sheet of this design file.
+	 * Drops the given CSS style sheet of this design file.
 	 *
-	 * @param sheetHandle the css to drop
+	 * @param sheetHandle the CSS to drop
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list. Or it
-	 *                           maybe because that the given css is not found in
-	 *                           the design. Or that the css has descedents in the
+	 *                           maybe because that the given CSS is not found in
+	 *                           the design. Or that the CSS has descendants in the
 	 *                           current module
 	 */
-
 	public final void dropCss(CssStyleSheetHandle sheetHandle) throws SemanticException {
 		if (sheetHandle == null) {
 			return;
@@ -212,6 +211,8 @@ public class CssStyleSheetHandleAdapter {
 	 * Check style sheet can be added or not.
 	 *
 	 * @param fileName
+	 * @param externalCssURI   external CSS URI
+	 * @param isUseExternalCss flag is external CSS used
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
 
@@ -328,7 +329,7 @@ public class CssStyleSheetHandleAdapter {
 
 		String propName = null;
 		if (element instanceof ReportDesign) {
-			propName = IReportDesignModel.CSSES_PROP;
+			propName = IInternalReportDesignModel.CSSES_PROP;
 
 		} else if (element instanceof AbstractTheme) {
 
@@ -353,7 +354,9 @@ public class CssStyleSheetHandleAdapter {
 	/**
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 *
-	 * @param fileName the file name
+	 * @param fileName       the file name
+	 * @param externalCssURI external CSS URI
+	 * @param useExternalCss flag is external CSS used
 	 * @return the includedCssStyleSheet handle.
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByProperties(String fileName,
@@ -361,7 +364,7 @@ public class CssStyleSheetHandleAdapter {
 
 		String propName = null;
 		if (element instanceof ReportDesign) {
-			propName = IReportDesignModel.CSSES_PROP;
+			propName = IInternalReportDesignModel.CSSES_PROP;
 
 		} else if (element instanceof AbstractTheme) {
 
@@ -420,8 +423,9 @@ public class CssStyleSheetHandleAdapter {
 	/**
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
 	 *
-	 * @param fileName the file name.
-	 *
+	 * @param fileName       the file name.
+	 * @param externalCssURI external CSS URI
+	 * @param useExternalCss flag is external CSS used
 	 * @return the cssStyleSheet handle.
 	 */
 	public CssStyleSheetHandle findCssStyleSheetHandleByProperties(String fileName, String externalCssURI,
@@ -467,6 +471,15 @@ public class CssStyleSheetHandleAdapter {
 		command.renameCss(includedCssStyleSheet, newFileName);
 	}
 
+	/**
+	 * Rename CSS by properties
+	 *
+	 * @param handle           style sheet handler
+	 * @param fileName         the file name
+	 * @param externalCssURI   external CSS URI
+	 * @param isUseExternalCss flag is external CSS used
+	 * @throws SemanticException
+	 */
 	public void renameCssByProperties(IncludedCssStyleSheetHandle handle, String fileName, String externalCssURI,
 			boolean isUseExternalCss) throws SemanticException
 
@@ -483,16 +496,16 @@ public class CssStyleSheetHandleAdapter {
 	}
 
 	/**
-	 * Checks css style sheet can be renamed or not.
+	 * Checks CSS style sheet can be renamed or not.
 	 *
 	 * @deprecated
-	 * @param sheetHandle the included css style sheet handle
+	 * @param sheetHandle the included CSS style sheet handle
 	 * @param newFileName the new file name.
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
 	 */
 	@Deprecated
 	public boolean canRenameCss(IncludedCssStyleSheetHandle sheetHandle, String newFileName) {
-		
+
 
 		// check the same file name.
 
@@ -521,10 +534,12 @@ public class CssStyleSheetHandleAdapter {
 	}
 
 	/**
-	 * Checks css style sheet can be renamed or not.
+	 * Checks CSS style sheet can be renamed or not.
 	 *
-	 * @param sheetHandle the included css style sheet handle
-	 * @param newFileName the new file name.
+	 * @param sheetHandle      the included CSS style sheet handle
+	 * @param newFileName      the new file name.
+	 * @param externalCssURI   external CSS URI
+	 * @param isUseExternalCss flag is external CSS used
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
 	 */
 	public boolean canRenameCssByProperties(IncludedCssStyleSheetHandle sheetHandle, String newFileName,

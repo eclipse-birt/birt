@@ -14,6 +14,13 @@
 
 package org.eclipse.birt.report.engine.css.engine;
 
+/**
+ *
+ * Perfect hash class
+ *
+ * @since 3.3
+ *
+ */
 public class PerfectHash {
 	// bidi_hcg: Aligned with generated token.cpp after the "direction" keyword
 	// was added.
@@ -37,6 +44,12 @@ public class PerfectHash {
 			175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 105, 0, 30, 5, 20, 55, 10,
 			5, 50, 175, 0, 100, 0, 20, 0, 10, 175, 0, 60, 0, 175, 0, 30, 45, 65, 175, 175, 175, 175, 175, 175 };
 
+	/**
+	 * Get the hash value
+	 *
+	 * @param str string to create the hash value
+	 * @return Return the hash value
+	 */
 	public static int hash(String str) {
 		int hashValue = str.length();
 		switch (hashValue) {
@@ -110,6 +123,7 @@ public class PerfectHash {
 			"letter-spacing" /* hash value = 174, index = 69 */
 	};
 
+	/** property: lookup array */
 	public static int lookup[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, 3, -1, 4, 5, 6, 7, 8, 9,
 			10, -1, 11, 12, -1, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, -1, 22, -1, -1, -1, 23, 24, 25, -1, -1, 26,
 			27, 28, -1, -1, -1, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, 36, -1, -1, -1, -1, -1, 37, -1, 38, 39, 40, 41,
@@ -120,6 +134,12 @@ public class PerfectHash {
 
 	};
 
+	/**
+	 * Get the lookup index
+	 *
+	 * @param str string to get the lookup index
+	 * @return Return the lookup index
+	 */
 	public static int in_word_set(String str) {
 		int len = str.length();
 

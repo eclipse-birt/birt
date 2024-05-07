@@ -38,10 +38,11 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation {
 	/**
 	 * Gets css style sheet by location. Compare two absolute path of file.
 	 *
-	 * @param module   module
-	 * @param csses    list each item is <code>CssStyleSheet</code>
+	 * @param module          module
+	 * @param csses           list each item is <code>CssStyleSheet</code>
 	 * @param url
-	 * @param location absolute location
+	 * @param externalCssURI  external CSS URI
+	 * @param isUseExteralCss flag of usage of external CSS
 	 * @return css style sheet.
 	 */
 

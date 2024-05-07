@@ -32,10 +32,13 @@ public class SystemColorSupport implements CSSConstants {
 
 	/**
 	 * Returns the Value corresponding to the given system color.
+	 *
+	 * @param ident
+	 * @return Returns the Value corresponding to the given system color.
 	 */
 	public static CSSValue getSystemColor(String ident) {
 		ident = ident.toLowerCase();
-		SystemColor sc = (SystemColor) factories.get(ident);
+		SystemColor sc = factories.get(ident);
 		return new RGBColorValue(new FloatValue(CSSPrimitiveValue.CSS_NUMBER, sc.getRed()),
 				new FloatValue(CSSPrimitiveValue.CSS_NUMBER, sc.getGreen()),
 				new FloatValue(CSSPrimitiveValue.CSS_NUMBER, sc.getBlue()));
@@ -44,7 +47,7 @@ public class SystemColorSupport implements CSSConstants {
 	/**
 	 * The color factories.
 	 */
-	protected final static Map factories = new HashMap();
+	protected final static Map<String, SystemColor> factories = new HashMap<String, SystemColor>();
 	static {
 		factories.put(CSS_ACTIVEBORDER_VALUE, SystemColor.windowBorder);
 		factories.put(CSS_ACTIVECAPTION_VALUE, SystemColor.activeCaption);

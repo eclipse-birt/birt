@@ -88,15 +88,15 @@ public class CssParser {
 
 	static class CssHandler implements DocumentHandler {
 
-		private Stack nodeStack;
+		private Stack<Object> nodeStack;
 		private Object root = null;
 
-		public CssHandler(Stack nodeStack) {
+		public CssHandler(Stack<Object> nodeStack) {
 			this.nodeStack = nodeStack;
 		}
 
 		public CssHandler() {
-			this.nodeStack = new Stack();
+			this.nodeStack = new Stack<Object>();
 		}
 
 		public Object getRoot() {
@@ -218,6 +218,12 @@ public class CssParser {
 		}
 	}
 
+	/**
+	 * Set property of the parser
+	 *
+	 * @param key key string
+	 * @param val key value
+	 */
 	public static void setProperty(String key, String val) {
 		Properties props = SecurityUtil.getSystemProperties();
 		props.put(key, val);
