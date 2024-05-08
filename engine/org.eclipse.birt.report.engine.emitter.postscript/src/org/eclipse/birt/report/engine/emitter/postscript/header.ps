@@ -129,7 +129,8 @@
   grestore
 }def
 /drawstreamimage {
-  gsave 5 dict begin
+  gsave
+  5 dict begin
     /pix 2 index 3 mul string def
     /i 0 def
     6 -2 roll translate
@@ -137,6 +138,7 @@
       pop pop 1 index 1 index}if scale
     8 2 index 2 index [ 3 -1 roll 0 0 0 6 -1 roll sub 0 0]
     currentfile /ASCIIHexDecode filter /FlateDecode filter false 3 colorimage
+  end
 }def
 /startDefImage{currentfile /ASCIIHexDecode filter /FlateDecode filter /ReusableStreamDecode filter} def
 /endDefImage{<</source 6 -1 roll /width 6 -1 roll /height 7 -1 roll>> def} def
