@@ -30,7 +30,11 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 	private final static DecimalFormat FORMATTER = new DecimalFormat("#.###", new DecimalFormatSymbols(Locale.ENGLISH));
 
 	/**
-	 * Returns the CSS text associated with the given type/value pair.
+	 * Get the CSS text associated with the given type/value pair.
+	 *
+	 * @param unit
+	 * @param value
+	 * @return Returns the CSS text associated with the given type/value pair.
 	 */
 	public static String getCssText(short unit, float value) {
 		if (unit < 0 || unit >= UNITS.length) {
@@ -58,6 +62,9 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 
 	/**
 	 * Creates a new value.
+	 *
+	 * @param unitType   unit type
+	 * @param floatValue float value
 	 */
 	public FloatValue(short unitType, float floatValue) {
 		this.unitType = unitType;
@@ -103,6 +110,10 @@ public class FloatValue extends Value implements CSSPrimitiveValue {
 
 	/**
 	 * Converts the actual float value to the given unit type.
+	 *
+	 * @param unitType unit type
+	 * @param value    float value
+	 * @return Return the float value
 	 */
 	public static float convertFloatValue(short unitType, FloatValue value) {
 		switch (unitType) {

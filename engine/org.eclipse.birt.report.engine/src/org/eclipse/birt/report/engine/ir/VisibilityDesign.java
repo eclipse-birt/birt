@@ -38,6 +38,11 @@ public class VisibilityDesign {
 		rules.add(rule);
 	}
 
+	/**
+	 * Get the rules
+	 *
+	 * @return Return the rules
+	 */
 	public Collection<VisibilityRuleDesign> getRules() {
 		return rules;
 	}
@@ -59,6 +64,6 @@ public class VisibilityDesign {
 	 */
 	public VisibilityRuleDesign getRule(int index) {
 		assert index >= 0 && index < rules.size();
-		return (VisibilityRuleDesign) rules.get(index);
+		return rules.get(index);
 	}
 }

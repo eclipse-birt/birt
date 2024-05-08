@@ -14,10 +14,9 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import org.apache.batik.css.engine.StyleMap;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
@@ -75,7 +74,7 @@ public abstract class AbstractLengthManager extends AbstractValueManager {
 
 	/**
 	 * Implements
-	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * {@link ValueManager#computeValue(CSSStylableElement,CSSEngine,int,Value)}.
 	 */
 	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
@@ -92,13 +91,13 @@ public abstract class AbstractLengthManager extends AbstractValueManager {
 
 			case CSSPrimitiveValue.CSS_EMS:
 				float v = value.getFloatValue();
-				Value fontSize = (Value) elt.getComputedStyle().getProperty(IStyle.STYLE_FONT_SIZE);
+				Value fontSize = (Value) elt.getComputedStyle().getProperty(StyleConstants.STYLE_FONT_SIZE);
 				float fs = fontSize.getFloatValue();
 				return new FloatValue(fontSize.getPrimitiveType(), v * fs);
 
 			case CSSPrimitiveValue.CSS_EXS:
 				v = value.getFloatValue();
-				fontSize = (Value) elt.getComputedStyle().getProperty(IStyle.STYLE_FONT_SIZE);
+				fontSize = (Value) elt.getComputedStyle().getProperty(StyleConstants.STYLE_FONT_SIZE);
 				fs = fontSize.getFloatValue();
 				return new FloatValue(fontSize.getPrimitiveType(), v * fs * 0.5f);
 			}

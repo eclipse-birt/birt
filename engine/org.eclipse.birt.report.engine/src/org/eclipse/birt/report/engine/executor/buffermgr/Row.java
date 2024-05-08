@@ -37,14 +37,30 @@ public class Row {
 		this.rowId = rowId;
 	}
 
+	/**
+	 * Get the content
+	 *
+	 * @return Return the content
+	 */
 	public Object getContent() {
 		return content;
 	}
 
+	/**
+	 * Get the cell based on cell id
+	 *
+	 * @param cellId cell id
+	 * @return Return a cell
+	 */
 	public Cell getCell(int cellId) {
 		return cells[cellId];
 	}
 
+	/**
+	 * Get the row id
+	 *
+	 * @return Return the row id
+	 */
 	public int getRowId() {
 		return rowId;
 	}

@@ -21,12 +21,23 @@ import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Computed style
+ *
+ * @since 3.3
+ *
+ */
 public class ComputedStyle extends AbstractStyle {
 	Map<String, ComputedStyle> cachedStyles = new HashMap<>();
 	boolean[] caculated;
 	CSSStylableElement elt;
 	CSSValue[] values;
 
+	/**
+	 * Constructor
+	 *
+	 * @param elt stylable element
+	 */
 	public ComputedStyle(CSSStylableElement elt) {
 		super(elt.getCSSEngine());
 		this.elt = elt;
@@ -80,11 +91,23 @@ public class ComputedStyle extends AbstractStyle {
 		elt.getStyle().setProperty(index, value);
 	}
 
+	/**
+	 * Add cached style
+	 *
+	 * @param styleClass style class names
+	 * @param style      computed style
+	 */
 	public void addCachedStyle(String styleClass, ComputedStyle style) {
 		cachedStyles.put(styleClass, style);
 	}
 
+	/**
+	 * Get the cached style
+	 *
+	 * @param styleClass style class name
+	 * @return Return the cached style
+	 */
 	public ComputedStyle getCachedStyle(String styleClass) {
-		return (ComputedStyle) cachedStyles.get(styleClass);
+		return cachedStyles.get(styleClass);
 	}
 }

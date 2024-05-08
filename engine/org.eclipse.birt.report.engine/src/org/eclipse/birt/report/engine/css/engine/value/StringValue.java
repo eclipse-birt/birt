@@ -33,6 +33,9 @@ public class StringValue extends Value {
 
 	/**
 	 * Creates a new StringValue.
+	 *
+	 * @param type unit type
+	 * @param s    string value
 	 */
 	public StringValue(short type, String s) {
 		unitType = type;

@@ -40,7 +40,7 @@ abstract public class AbstractStyle implements IStyle {
 	protected CSSEngine engine;
 
 	/**
-	 * Consructor
+	 * Constructor
 	 *
 	 * @param engine
 	 */

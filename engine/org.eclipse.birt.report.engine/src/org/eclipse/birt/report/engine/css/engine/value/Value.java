@@ -55,6 +55,12 @@ public abstract class Value implements CSSValue, CSSPrimitiveValue {
 		throw createDOMException();
 	}
 
+	/**
+	 * Get the float value
+	 *
+	 * @return Return the float value
+	 * @throws DOMException
+	 */
 	public float getFloatValue() throws DOMException {
 		throw createDOMException();
 	}

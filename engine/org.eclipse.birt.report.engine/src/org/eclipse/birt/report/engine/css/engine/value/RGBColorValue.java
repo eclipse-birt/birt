@@ -41,6 +41,10 @@ public class RGBColorValue extends Value implements RGBColor {
 
 	/**
 	 * Creates a new RGBColorValue.
+	 *
+	 * @param r red color value
+	 * @param g green color value
+	 * @param b blue color value
 	 */
 	public RGBColorValue(CSSPrimitiveValue r, CSSPrimitiveValue g, CSSPrimitiveValue b) {
 		red = r;
@@ -64,25 +68,16 @@ public class RGBColorValue extends Value implements RGBColor {
 		return "rgb(" + red.getCssText() + ", " + green.getCssText() + ", " + blue.getCssText() + ")";
 	}
 
-	/**
-	 * Implements {@link Value#getRed()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getRed() throws DOMException {
 		return red;
 	}
 
-	/**
-	 * Implements {@link Value#getGreen()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getGreen() throws DOMException {
 		return green;
 	}
 
-	/**
-	 * Implements {@link Value#getBlue()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getBlue() throws DOMException {
 		return blue;

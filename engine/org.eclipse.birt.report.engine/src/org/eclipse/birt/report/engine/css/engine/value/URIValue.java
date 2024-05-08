@@ -17,12 +17,14 @@ package org.eclipse.birt.report.engine.css.engine.value;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 /**
- * This class represents uri values.
+ * This class represents URI values.
  *
  */
 public class URIValue extends StringValue {
 	/**
 	 * Creates a new StringValue.
+	 *
+	 * @param uri URI string
 	 */
 	public URIValue(String uri) {
 		super(CSSPrimitiveValue.CSS_URI, uri);

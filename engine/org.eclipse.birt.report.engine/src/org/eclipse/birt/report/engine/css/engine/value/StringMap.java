@@ -70,6 +70,8 @@ public class StringMap {
 	/**
 	 * Gets the value corresponding to the given string.
 	 *
+	 * @param key string key
+	 *
 	 * @return the value or null
 	 */
 	public Object get(String key) {
@@ -86,6 +88,9 @@ public class StringMap {
 
 	/**
 	 * Sets a new value for the given variable
+	 *
+	 * @param key   string key
+	 * @param value
 	 *
 	 * @return the old value or null
 	 */
@@ -160,6 +165,11 @@ public class StringMap {
 
 		/**
 		 * Creates a new entry
+		 *
+		 * @param hash  hash value
+		 * @param key   string key
+		 * @param value object value
+		 * @param next  next entry
 		 */
 		public Entry(int hash, String key, Object value, Entry next) {
 			this.hash = hash;

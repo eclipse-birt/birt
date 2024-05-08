@@ -40,6 +40,12 @@ public class Table {
 	int rowBufferSize;
 	int colBufferSize;
 
+	/**
+	 * Constructor
+	 *
+	 * @param rowSize row size
+	 * @param colSize column size
+	 */
 	public Table(int rowSize, int colSize) {
 		nextColId = -1;
 		rowCount = 0;
@@ -47,6 +53,9 @@ public class Table {
 		ensureSize(rowSize, colSize);
 	}
 
+	/**
+	 * Constructor
+	 */
 	public Table() {
 		nextColId = -1;
 		rowCount = 0;
@@ -65,10 +74,20 @@ public class Table {
 		colCount = 0;
 	}
 
+	/**
+	 * Get the row count
+	 *
+	 * @return Return the row count
+	 */
 	public int getRowCount() {
 		return rowCount;
 	}
 
+	/**
+	 * Get the column count
+	 *
+	 * @return Return the column count
+	 */
 	public int getColCount() {
 		return colCount;
 	}
@@ -168,6 +187,9 @@ public class Table {
 		}
 	}
 
+	/**
+	 * Resolve dropped cells
+	 */
 	public void resolveDropCells() {
 		if (rowCount <= 0) {
 			return;
@@ -184,6 +206,11 @@ public class Table {
 		}
 	}
 
+	/**
+	 * Resolve dropped cells
+	 *
+	 * @param bandId band id
+	 */
 	public void resolveDropCells(int bandId) {
 		if (rowCount <= 0) {
 			return;
@@ -203,6 +230,11 @@ public class Table {
 		}
 	}
 
+	/**
+	 * Check if the table has dropped cells
+	 *
+	 * @return Return the check result of dropped cells
+	 */
 	public boolean hasDropCell() {
 		if (rowCount <= 0) {
 			return false;
@@ -223,9 +255,9 @@ public class Table {
 	}
 
 	/**
-	 * get the next empty cell.
+	 * Get the next empty cell
 	 *
-	 * @return
+	 * @return Return the next empty cell
 	 */
 	protected int getNextEmptyCell() {
 		assert rowCount > 0;
@@ -298,11 +330,10 @@ public class Table {
 	}
 
 	/**
-	 * remove the cell from table layout buffer. The grid cell used by this cell
+	 * Remove the cell from table layout buffer. The grid cell used by this cell
 	 * fills EMPTY_CELL.
 	 *
-	 * @param rowId row index
-	 * @param colId column index
+	 * @param cell cell to be removed
 	 */
 	protected void removeCell(Cell cell) {
 		int rowId = cell.rowId;
@@ -372,10 +403,23 @@ public class Table {
 		cell.rowSpan = newRowSpan;
 	}
 
+	/**
+	 * Get the cell based on row and column id
+	 *
+	 * @param rowId row id
+	 * @param colId column id
+	 * @return Return a cell
+	 */
 	public Cell getCell(int rowId, int colId) {
 		return rows[rowId].cells[colId];
 	}
 
+	/**
+	 * Get the row based on row id
+	 *
+	 * @param rowId row id
+	 * @return Return a row
+	 */
 	public Row getRow(int rowId) {
 		return rows[rowId];
 	}
