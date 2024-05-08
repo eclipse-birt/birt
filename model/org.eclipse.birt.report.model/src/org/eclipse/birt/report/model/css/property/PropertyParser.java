@@ -30,8 +30,13 @@ public class PropertyParser implements PropertyParserConstants {
 	 * Stores the CSS2.0 properties.
 	 */
 
-	private LinkedHashMap cssProperties;
+	private LinkedHashMap<String, String> cssProperties;
 
+	/**
+	 * Constructor
+	 *
+	 * @param input
+	 */
 	public PropertyParser(String input) {
 		this(new StringReader(input));
 	}
@@ -39,7 +44,6 @@ public class PropertyParser implements PropertyParserConstants {
 	/**
 	 * Adds the property value
 	 */
-
 	private void setValue(StringBuffer value, char operator, Token n, int token) throws ParseException {
 		if (n != null) {
 			if (n.kind == PropertyParserConstants.IDENT) {
@@ -53,13 +57,17 @@ public class PropertyParser implements PropertyParserConstants {
 	/**
 	 * Returns the cssProperties.
 	 *
+	 * @return Return the CSS properties
+	 *
 	 */
-
-	public LinkedHashMap getCssProperties() {
+	public LinkedHashMap<String, String> getCssProperties() {
 		return cssProperties;
 	}
 
 	/**
+	 * Get the unary operator
+	 *
+	 * @return Return the unary operator
 	 * @exception ParseException exception during the parse
 	 */
 	final public char unaryOperator() throws ParseException {
@@ -70,22 +78,25 @@ public class PropertyParser implements PropertyParserConstants {
 				return '-';
 			}
 		}
-			break;
 		case PLUS:
 			jj_consume_token(PLUS); {
 			if (true) {
 				return '+';
 			}
 		}
-			break;
 		default:
 			jj_la1[0] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
+	/**
+	 * Get the size
+	 *
+	 * @return Return the size
+	 * @throws ParseException
+	 */
 	final public Token size() throws ParseException {
 		Token n;
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -95,50 +106,46 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		case RELATIVE_SIZE:
 			n = jj_consume_token(RELATIVE_SIZE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case LENGTH:
 			n = jj_consume_token(LENGTH); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case BORDER_WIDTH:
 			n = jj_consume_token(BORDER_WIDTH); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		default:
 			jj_la1[1] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
 	/**
 	 * Deals with the shorthand property font.
+	 *
+	 * @throws ParseException
 	 */
 	final public void parseFont() throws ParseException {
 		Token n;
 		String fontFamily = "";
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		try {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case FONT_VAL:
@@ -165,7 +172,6 @@ public class PropertyParser implements PropertyParserConstants {
 					case FONT_STYLE:
 					case FONT_VARIANT:
 					case FONT_WEIGHT:
-						;
 						break;
 					default:
 						jj_la1[2] = jj_gen;
@@ -219,7 +225,6 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[4] = jj_gen;
-					;
 				}
 				switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 				case IDENT:
@@ -242,7 +247,6 @@ public class PropertyParser implements PropertyParserConstants {
 				label_2: while (true) {
 					switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 					case COMMA:
-						;
 						break;
 					default:
 						jj_la1[6] = jj_gen;
@@ -289,10 +293,12 @@ public class PropertyParser implements PropertyParserConstants {
 	/**
 	 * Deals with the shorthand property background
 	 *
+	 * @throws ParseException
+	 *
 	 */
 	final public void parseBackground() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		try {
 			label_3: while (true) {
 				switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -332,7 +338,7 @@ public class PropertyParser implements PropertyParserConstants {
 							cssProperties.put("background-position", n.image);
 						} else {
 							cssProperties.put("background-position",
-									(String) cssProperties.get("background-position") + " " + n.image);
+									cssProperties.get("background-position") + " " + n.image);
 						}
 					}
 					break;
@@ -352,7 +358,6 @@ public class PropertyParser implements PropertyParserConstants {
 				case BACKGROUND_ATTACHMENT:
 				case BACKGROUND_POSITION:
 				case BORDER_WIDTH:
-					;
 					break;
 				default:
 					jj_la1[10] = jj_gen;
@@ -369,9 +374,14 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Parse border
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorder() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		label_4: while (true) {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case PERCENTAGE:
@@ -412,7 +422,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case COLOR:
 			case BORDER_STYLE:
 			case BORDER_WIDTH:
-				;
 				break;
 			default:
 				jj_la1[12] = jj_gen;
@@ -421,9 +430,14 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Parse border width
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderWidth() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		n = size();
 		cssProperties.put("border-top-width", n.image);
 		cssProperties.put("border-right-width", n.image);
@@ -457,23 +471,25 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[13] = jj_gen;
-					;
 				}
 				break;
 			default:
 				jj_la1[14] = jj_gen;
-				;
 			}
 			break;
 		default:
 			jj_la1[15] = jj_gen;
-			;
 		}
 	}
 
+	/**
+	 * Parse border style
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderStyle() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		n = jj_consume_token(BORDER_STYLE);
 		cssProperties.put("border-top-style", n.image);
 		cssProperties.put("border-right-style", n.image);
@@ -495,23 +511,25 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[16] = jj_gen;
-					;
 				}
 				break;
 			default:
 				jj_la1[17] = jj_gen;
-				;
 			}
 			break;
 		default:
 			jj_la1[18] = jj_gen;
-			;
 		}
 	}
 
+	/**
+	 * Parse border color
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderColor() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		n = jj_consume_token(COLOR);
 		cssProperties.put("border-top-color", n.image);
 		cssProperties.put("border-right-color", n.image);
@@ -533,23 +551,25 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[19] = jj_gen;
-					;
 				}
 				break;
 			default:
 				jj_la1[20] = jj_gen;
-				;
 			}
 			break;
 		default:
 			jj_la1[21] = jj_gen;
-			;
 		}
 	}
 
+	/**
+	 * Parse border top
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderTop() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		label_5: while (true) {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case PERCENTAGE:
@@ -581,7 +601,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case COLOR:
 			case BORDER_STYLE:
 			case BORDER_WIDTH:
-				;
 				break;
 			default:
 				jj_la1[23] = jj_gen;
@@ -590,9 +609,14 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Parse border right
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderRight() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		label_6: while (true) {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case PERCENTAGE:
@@ -624,7 +648,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case COLOR:
 			case BORDER_STYLE:
 			case BORDER_WIDTH:
-				;
 				break;
 			default:
 				jj_la1[25] = jj_gen;
@@ -633,9 +656,14 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Parse border bottom
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderBottom() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		label_7: while (true) {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case PERCENTAGE:
@@ -667,7 +695,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case COLOR:
 			case BORDER_STYLE:
 			case BORDER_WIDTH:
-				;
 				break;
 			default:
 				jj_la1[27] = jj_gen;
@@ -676,9 +703,14 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Parse border left
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseBorderLeft() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		label_8: while (true) {
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case PERCENTAGE:
@@ -710,7 +742,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case COLOR:
 			case BORDER_STYLE:
 			case BORDER_WIDTH:
-				;
 				break;
 			default:
 				jj_la1[29] = jj_gen;
@@ -719,6 +750,12 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Get the margin width
+	 *
+	 * @return Return the margin width
+	 * @throws ParseException
+	 */
 	final public Token getMarginWidth() throws ParseException {
 		Token n;
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -728,32 +765,33 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case AUTO:
 			n = jj_consume_token(AUTO); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		default:
 			jj_la1[30] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
+	/**
+	 * Parse margin
+	 *
+	 * @throws ParseException
+	 */
 	final public void parseMargin() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		n = getMarginWidth();
 		cssProperties.put("margin-top", n.image);
 		cssProperties.put("margin-right", n.image);
@@ -781,20 +819,23 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[31] = jj_gen;
-					;
 				}
 				break;
 			default:
 				jj_la1[32] = jj_gen;
-				;
 			}
 			break;
 		default:
 			jj_la1[33] = jj_gen;
-			;
 		}
 	}
 
+	/**
+	 * Get the padding width
+	 *
+	 * @return Return the padding width
+	 * @throws ParseException
+	 */
 	final public Token getPaddingWidth() throws ParseException {
 		Token n;
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -804,25 +845,27 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		default:
 			jj_la1[34] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
+	/**
+	 * Parse padding
+	 *
+	 * @throws ParseException
+	 */
 	final public void parsePadding() throws ParseException {
 		Token n;
-		cssProperties = new LinkedHashMap();
+		cssProperties = new LinkedHashMap<String, String>();
 		n = getPaddingWidth();
 		cssProperties.put("padding-top", n.image);
 		cssProperties.put("padding-right", n.image);
@@ -847,22 +890,21 @@ public class PropertyParser implements PropertyParserConstants {
 					break;
 				default:
 					jj_la1[35] = jj_gen;
-					;
 				}
 				break;
 			default:
 				jj_la1[36] = jj_gen;
-				;
 			}
 			break;
 		default:
 			jj_la1[37] = jj_gen;
-			;
 		}
 	}
 
 	/**
 	 * Returns the background-position token.
+	 *
+	 * @return Returns the background-position token.
 	 *
 	 * @exception ParseException exception during the parsing
 	 */
@@ -875,7 +917,6 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		case PERCENTAGE:
 		case LENGTH:
 		case ABSOLUTE_SIZE:
@@ -886,16 +927,17 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		default:
 			jj_la1[38] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
 	/**
+	 * Return the expression
+	 *
+	 * @return Return the expression
 	 * @exception ParseException exception during the parsing
 	 */
 	final public StringBuffer expr() throws ParseException {
@@ -931,7 +973,6 @@ public class PropertyParser implements PropertyParserConstants {
 			case HASH:
 			case UNICODERANGE:
 			case FUNCTION:
-				;
 				break;
 			default:
 				jj_la1[39] = jj_gen;
@@ -944,19 +985,16 @@ public class PropertyParser implements PropertyParserConstants {
 				break;
 			default:
 				jj_la1[40] = jj_gen;
-				;
 			}
 			term(value);
 		}
-		{
-			if (true) {
-				return value;
-			}
-		}
-		throw new Error("Missing return statement in function");
+		return value;
 	}
 
 	/**
+	 * Operator
+	 *
+	 * @param value
 	 * @exception ParseException exception during the parsing
 	 */
 	final public void operator(StringBuffer value) throws ParseException {
@@ -981,6 +1019,9 @@ public class PropertyParser implements PropertyParserConstants {
 	}
 
 	/**
+	 * Set a term
+	 *
+	 * @param value term value
 	 * @exception ParseException exception during the parsing
 	 */
 	final public void term(StringBuffer value) throws ParseException {
@@ -1016,7 +1057,6 @@ public class PropertyParser implements PropertyParserConstants {
 				break;
 			default:
 				jj_la1[42] = jj_gen;
-				;
 			}
 			switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 			case NUMBER:
@@ -1102,6 +1142,9 @@ public class PropertyParser implements PropertyParserConstants {
 
 	/**
 	 * Returns the the same token as those in shorthand properties.
+	 *
+	 * @return Returns the the same token as those in shorthand properties.
+	 * @throws ParseException
 	 **/
 	final public Token getFromShorthand() throws ParseException {
 		Token n;
@@ -1112,79 +1155,71 @@ public class PropertyParser implements PropertyParserConstants {
 				return n;
 			}
 		}
-			break;
 		case FONT_STYLE:
 			n = jj_consume_token(FONT_STYLE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case FONT_VARIANT:
 			n = jj_consume_token(FONT_VARIANT); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case FONT_WEIGHT:
 			n = jj_consume_token(FONT_WEIGHT); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case BACKGROUND_REPEAT:
 			n = jj_consume_token(BACKGROUND_REPEAT); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case BACKGROUND_ATTACHMENT:
 			n = jj_consume_token(BACKGROUND_ATTACHMENT); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case BACKGROUND_POSITION:
 			n = jj_consume_token(BACKGROUND_POSITION); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case AUTO:
 			n = jj_consume_token(AUTO); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case NORMAL:
 			n = jj_consume_token(NORMAL); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		case BORDER_STYLE:
 			n = jj_consume_token(BORDER_STYLE); {
 			if (true) {
 				return n;
 			}
 		}
-			break;
 		default:
 			jj_la1[46] = jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
 	}
 
 	/**
+	 * Get the parsed function
+	 *
+	 * @return Return the parsed function
 	 * @exception ParseException exception during the parsing
 	 */
 	final public String function() throws ParseException {
@@ -1192,15 +1227,13 @@ public class PropertyParser implements PropertyParserConstants {
 		Token n = jj_consume_token(FUNCTION);
 		exp = expr();
 		jj_consume_token(LPARAN);
-		{
-			if (true) {
-				return n.image + exp.toString() + ")";
-			}
-		}
-		throw new Error("Missing return statement in function");
+		return n.image + exp.toString() + ")";
 	}
 
 	/**
+	 * Set hex color
+	 *
+	 * @param value value of hex color
 	 * @exception ParseException exception during the parsing
 	 */
 	final public void hexcolor(StringBuffer value) throws ParseException {
@@ -1305,8 +1338,10 @@ public class PropertyParser implements PropertyParserConstants {
 		return convertStringIndex(s, 0, s.length());
 	}
 
+	/** property: property parser token manage */
 	public PropertyParserTokenManager token_source;
 	SimpleCharStream jj_input_stream;
+	/** property: token, jj_nt */
 	public Token token, jj_nt;
 	private int jj_ntk;
 	private int jj_gen;
@@ -1340,6 +1375,11 @@ public class PropertyParser implements PropertyParserConstants {
 				0x60, 0x0, 0x0, 0x0, 0x40, 0x20, 0x60, 0x0, };
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param stream input stream to be parsed
+	 */
 	public PropertyParser(java.io.InputStream stream) {
 		jj_input_stream = new SimpleCharStream(stream, 1, 1);
 		token_source = new PropertyParserTokenManager(jj_input_stream);
@@ -1351,6 +1391,11 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Reinitialize input stream
+	 *
+	 * @param stream
+	 */
 	public void ReInit(java.io.InputStream stream) {
 		jj_input_stream.ReInit(stream, 1, 1);
 		token_source.ReInit(jj_input_stream);
@@ -1362,6 +1407,11 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param stream input stream to be parsed
+	 */
 	public PropertyParser(java.io.Reader stream) {
 		jj_input_stream = new SimpleCharStream(stream, 1, 1);
 		token_source = new PropertyParserTokenManager(jj_input_stream);
@@ -1373,6 +1423,11 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Reinitialize input stream
+	 *
+	 * @param stream
+	 */
 	public void ReInit(java.io.Reader stream) {
 		jj_input_stream.ReInit(stream, 1, 1);
 		token_source.ReInit(jj_input_stream);
@@ -1384,6 +1439,11 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param tm property token manager
+	 */
 	public PropertyParser(PropertyParserTokenManager tm) {
 		token_source = tm;
 		token = new Token();
@@ -1394,6 +1454,11 @@ public class PropertyParser implements PropertyParserConstants {
 		}
 	}
 
+	/**
+	 * Reinitialize property token manager
+	 *
+	 * @param tm property token manager
+	 */
 	public void ReInit(PropertyParserTokenManager tm) {
 		token_source = tm;
 		token = new Token();
@@ -1421,6 +1486,11 @@ public class PropertyParser implements PropertyParserConstants {
 		throw generateParseException();
 	}
 
+	/**
+	 * Get the next token
+	 *
+	 * @return Return the next token
+	 */
 	final public Token getNextToken() {
 		if (token.next != null) {
 			token = token.next;
@@ -1432,6 +1502,13 @@ public class PropertyParser implements PropertyParserConstants {
 		return token;
 	}
 
+	/**
+	 * Get a token
+	 *
+	 * @param index index of token
+	 *
+	 * @return Return a token
+	 */
 	final public Token getToken(int index) {
 		Token t = token;
 		for (int i = 0; i < index; i++) {
@@ -1448,15 +1525,19 @@ public class PropertyParser implements PropertyParserConstants {
 		jj_nt = token.next;
 		if (jj_nt == null) {
 			return (jj_ntk = (token.next = token_source.getNextToken()).kind);
-		} else {
-			return (jj_ntk = jj_nt.kind);
 		}
+		return (jj_ntk = jj_nt.kind);
 	}
 
 	private java.util.Vector jj_expentries = new java.util.Vector();
 	private int[] jj_expentry;
 	private int jj_kind = -1;
 
+	/**
+	 * Generate a parse exception
+	 *
+	 * @return Return a parse exception
+	 */
 	public ParseException generateParseException() {
 		jj_expentries.removeAllElements();
 		boolean[] la1tokens = new boolean[72];
@@ -1496,9 +1577,15 @@ public class PropertyParser implements PropertyParserConstants {
 		return new ParseException(token, exptokseq, tokenImage);
 	}
 
+	/**
+	 * Enable tracing
+	 */
 	final public void enable_tracing() {
 	}
 
+	/**
+	 * Disable tracing
+	 */
 	final public void disable_tracing() {
 	}
 

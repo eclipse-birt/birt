@@ -38,7 +38,7 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable {
 	 * The properties of the declaration.
 	 */
 
-	private List properties = new ArrayList();
+	private List<Property> properties = new ArrayList<Property>();
 
 	/**
 	 * Default constructor.
@@ -74,7 +74,7 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable {
 		// sb.append("\n");
 
 		for (int i = 0; i < properties.size(); ++i) {
-			Property p = (Property) properties.get(i);
+			Property p = properties.get(i);
 			if (p != null) {
 				sb.append(p.toString());
 			}
@@ -97,7 +97,7 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable {
 
 	@Override
 	public String item(int index) {
-		Property p = (Property) properties.get(index);
+		Property p = properties.get(index);
 		return (p != null) ? p.getName() : ""; //$NON-NLS-1$
 	}
 
@@ -155,7 +155,7 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable {
 	@Override
 	public String removeProperty(String propertyName) throws DOMException {
 		for (int i = 0; i < properties.size(); i++) {
-			Property p = (Property) properties.get(i);
+			Property p = properties.get(i);
 			if (p.getName().equalsIgnoreCase(propertyName)) {
 				properties.get(i);
 				return p.getValue().toString();
@@ -197,7 +197,7 @@ public class StyleDeclaration implements CSSStyleDeclaration, Serializable {
 
 	private Property getPropertyDeclaration(String name) {
 		for (int i = 0; i < properties.size(); i++) {
-			Property p = (Property) properties.get(i);
+			Property p = properties.get(i);
 			if (p.getName().equalsIgnoreCase(name)) {
 				return p;
 			}

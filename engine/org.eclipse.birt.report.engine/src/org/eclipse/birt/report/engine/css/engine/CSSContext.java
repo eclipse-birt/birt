@@ -24,31 +24,46 @@ public interface CSSContext {
 
 	/**
 	 * Returns the Value corresponding to the given system color.
+	 *
+	 * @param ident
+	 * @return Returns the Value corresponding to the given system color.
 	 */
 	CSSValue getSystemColor(String ident);
 
 	/**
 	 * Returns the value corresponding to the default font-family.
+	 *
+	 * @return Returns the value corresponding to the default font-family.
 	 */
 	CSSValue getDefaultFontFamily();
 
 	/**
 	 * Returns a lighter font-weight.
+	 *
+	 * @param f lighter font-weight
+	 * @return Returns a lighter font-weight.
 	 */
 	float getLighterFontWeight(float f);
 
 	/**
 	 * Returns a bolder font-weight.
+	 *
+	 * @param f bolder font-weight
+	 * @return Returns a bolder font-weight.
 	 */
 	float getBolderFontWeight(float f);
 
 	/**
 	 * Returns the size of a px CSS unit in millimeters.
+	 *
+	 * @return Returns the size of a px CSS unit in millimeters.
 	 */
 	float getPixelUnitToMillimeter();
 
 	/**
 	 * Returns the medium font size.
+	 *
+	 * @return Returns the medium font size.
 	 */
 	float getMediumFontSize();
 }

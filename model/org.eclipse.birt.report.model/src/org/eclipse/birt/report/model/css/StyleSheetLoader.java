@@ -735,9 +735,9 @@ public final class StyleSheetLoader {
 	 */
 
 	void addProperties(DesignElement style, LinkedHashMap<String, ? extends Object> properties) {
-		Iterator iter = properties.entrySet().iterator();
+		Iterator<?> iter = properties.entrySet().iterator();
 		while (iter.hasNext()) {
-			Entry entry = (Entry) iter.next();
+			Entry<?, ?> entry = (Entry<?, ?>) iter.next();
 			String name = (String) entry.getKey();
 			Object value = entry.getValue();
 			style.setProperty(name, value);

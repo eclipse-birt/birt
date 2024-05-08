@@ -38,6 +38,11 @@ public class StyleRule implements CSSStyleRule, Serializable {
 	private SelectorList selectors = null;
 	private CSSStyleDeclaration style = null;
 
+	/**
+	 * Constructor
+	 *
+	 * @param selectors selector list
+	 */
 	public StyleRule(SelectorList selectors) {
 		this.selectors = selectors;
 	}

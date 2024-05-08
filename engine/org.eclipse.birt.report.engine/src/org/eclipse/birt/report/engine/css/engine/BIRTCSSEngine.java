@@ -18,15 +18,17 @@ import org.apache.batik.css.parser.Parser;
 import org.eclipse.birt.report.engine.css.engine.value.css.FontFamilyManager;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Class of BIRT CSS engine
+ *
+ * @since 3.3
+ *
+ */
 public class BIRTCSSEngine extends CSSEngine {
 
 	/**
 	 * Creates a new SVGCSSEngine.
 	 *
-	 * @param doc The associated document.
-	 * @param uri The document URI.
-	 * @param p   The CSS parser to use.
-	 * @param ctx The CSS context.
 	 */
 	public BIRTCSSEngine() {
 		super(new Parser(), new BIRTPropertyManagerFactory(), new BIRTContext());

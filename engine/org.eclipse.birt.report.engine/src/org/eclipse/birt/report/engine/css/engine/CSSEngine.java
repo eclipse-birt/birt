@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.css.engine.value.InheritValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.URIValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.StringManager;
@@ -71,19 +72,38 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 
 	/**
 	 * Returns the CSS context.
+	 *
+	 * @return Returns the CSS context.
 	 */
 	public CSSContext getCSSContext() {
 		return cssContext;
 	}
 
+	/**
+	 * Get the number of properties
+	 *
+	 * @return Return the number of properties
+	 */
 	public int getNumberOfProperties() {
 		return pm.getNumberOfProperties();
 	}
 
+	/**
+	 * Get the property Index based on the property name
+	 *
+	 * @param name property name
+	 * @return Return the property Index based on the property name
+	 */
 	public int getPropertyIndex(String name) {
 		return pm.getPropertyIndex(name);
 	}
 
+	/**
+	 * Get the property name based on the property index
+	 *
+	 * @param idx index of the property
+	 * @return Return the property name based on the property index
+	 */
 	public String getPropertyName(int idx) {
 		return pm.getPropertyName(idx);
 	}
@@ -93,8 +113,8 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 	 *
 	 * @param idx   The property index.
 	 * @param value The property value.
+	 * @return Return a CSS value parsed from a string
 	 */
-
 	public CSSValue parsePropertyValue(int idx, String value) {
 		assert idx >= 0 && idx < pm.getNumberOfProperties();
 		ValueManager vm = pm.getValueManager(idx);
@@ -108,7 +128,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		// A temp solution to fix batik parser issue.
 		// if font family name contains character "_", the parser result is not correct
 		// from the batik parser. Add "'" to avoid this issue
-		if (idx == IStyle.STYLE_FONT_FAMILY && value != null) {
+		if (idx == StyleConstants.STYLE_FONT_FAMILY && value != null) {
 			if (value.indexOf("_") >= 0 && value.indexOf(",") < 0) {
 				if (!(value.startsWith("\"") && value.endsWith("\""))
 						&& (!(value.startsWith("'") && value.endsWith("'")))) {
@@ -127,10 +147,20 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		return vm.getDefaultValue();
 	}
 
+	/**
+	 * Get the parser
+	 *
+	 * @return Return the parser
+	 */
 	public Parser getParser() {
 		return parser;
 	}
 
+	/**
+	 * Get the property manager factory
+	 *
+	 * @return Return the property manager factory
+	 */
 	public PropertyManagerFactory getPropertyManagerFactory() {
 		return pm;
 	}
@@ -139,6 +169,7 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 	 * Parses and creates a style declaration.
 	 *
 	 * @param value The style declaration text.
+	 * @return Return the CSS style declaration
 	 */
 	public CSSStyleDeclaration parseStyleDeclaration(String value) {
 		styleDeclarationBuilder.styleDeclaration = new StyleDeclaration(this);
@@ -166,15 +197,15 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 		public void property(String name, LexicalUnit value, boolean important) throws CSSException {
 			int i = pm.getPropertyIndex(name);
 			if (i == -1) {
-				if (IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
+				if (BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
 					styleDeclaration.setStringFormat(value.getStringValue());
-				} else if (IStyle.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
+				} else if (BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
 					styleDeclaration.setNumberFormat(value.getStringValue());
-				} else if (IStyle.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
+				} else if (BIRTConstants.BIRT_DATE_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
 					styleDeclaration.setDateFormat(value.getStringValue());
-				} else if (IStyle.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
+				} else if (BIRTConstants.BIRT_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
 					styleDeclaration.setTimeFormat(value.getStringValue());
-				} else if (IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
+				} else if (BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY.equalsIgnoreCase(name)) {
 					styleDeclaration.setDateTimeFormat(value.getStringValue());
 				}
 				// Unknown property
@@ -327,13 +358,13 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants {
 	}
 
 	/**
-	 * compute a single style value.
+	 * Compute a single style value.
 	 *
 	 * @param elt     the element which owns the style
 	 * @param propidx style index
-	 * @param v       specified value
+	 * @param sv      style value
 	 * @param pcs     parent computed style
-	 * @return
+	 * @return Return a computed single style value.
 	 */
 	public Value resolveStyle(CSSStylableElement elt, int propidx, Value sv, IStyle pcs) {
 		ValueManager vm = pm.getValueManager(propidx);

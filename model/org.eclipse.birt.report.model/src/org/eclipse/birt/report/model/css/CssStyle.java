@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
@@ -43,7 +43,7 @@ public class CssStyle extends Style {
 
 	protected void setContainer(DesignElement obj) {
 		if (obj instanceof ReportDesign) {
-			super.setContainer(obj, IReportDesignModel.CSSES_PROP);
+			super.setContainer(obj, IInternalReportDesignModel.CSSES_PROP);
 		} else if (obj instanceof Theme) {
 			super.setContainer(obj, IAbstractThemeModel.CSSES_PROP);
 		}

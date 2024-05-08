@@ -37,20 +37,34 @@ public class Property implements Serializable {
 	 * @param name  name of the property
 	 * @param value value of the property
 	 */
-
 	public Property(String name, CSSValue value) {
 		this.name = name;
 		this.value = value;
 	}
 
+	/**
+	 * Get CSS property name
+	 *
+	 * @return Return the CSS property name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Get the CSS value
+	 *
+	 * @return Return the CSS value
+	 */
 	public CSSValue getValue() {
 		return value;
 	}
 
+	/**
+	 * Set the CSS value
+	 *
+	 * @param value CSS value
+	 */
 	public void setValue(CSSValue value) {
 		this.value = value;
 	}

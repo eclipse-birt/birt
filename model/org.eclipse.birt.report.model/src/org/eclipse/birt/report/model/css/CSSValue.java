@@ -60,7 +60,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 			// We need to be a CSSValueList
 			// Values in an "expr" can be seperated by "operator"s, which are
 			// either '/' or ',' - ignore these operators
-			Vector v = new Vector();
+			Vector<CSSValue> v = new Vector<CSSValue>();
 			LexicalUnit lu = value;
 			while (lu != null) {
 				if ((lu.getLexicalUnitType() != LexicalUnit.SAC_OPERATOR_COMMA)
@@ -277,7 +277,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 			// Create the string from the LexicalUnits so we include the correct
 			// operators in the string
 			StringBuilder sb = new StringBuilder();
-			Vector v = (Vector) value;
+			Vector<?> v = (Vector<?>) value;
 			LexicalUnit lu = (LexicalUnit) ((CSSValue) v.elementAt(0)).value;
 			while (lu != null) {
 				sb.append(CssUtil.toString(lu));
@@ -318,7 +318,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	@Override
 	public int getLength() {
-		return (value instanceof Vector) ? ((Vector) value).size() : 0;
+		return (value instanceof Vector) ? ((Vector<?>) value).size() : 0;
 	}
 
 	/*
@@ -329,7 +329,7 @@ public class CSSValue implements CSSPrimitiveValue, CSSValueList, Serializable {
 
 	@Override
 	public org.w3c.dom.css.CSSValue item(int index) {
-		return (value instanceof Vector) ? ((CSSValue) ((Vector) value).elementAt(index)) : null;
+		return (value instanceof Vector) ? ((CSSValue) ((Vector<?>) value).elementAt(index)) : null;
 	}
 
 	/*
