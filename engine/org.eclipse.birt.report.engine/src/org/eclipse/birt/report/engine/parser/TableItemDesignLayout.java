@@ -33,6 +33,13 @@ public class TableItemDesignLayout {
 
 	Table layout = new Table();
 
+	/**
+	 * Create new cell id on the grid
+	 *
+	 * @param grid      grid item design
+	 * @param newCellId new cell id
+	 * @return Return the cell id of the new cell
+	 */
 	public long layout(GridItemDesign grid, long newCellId) {
 		layout = new Table(0, grid.getColumnCount());
 		layout.reset();
@@ -82,6 +89,13 @@ public class TableItemDesignLayout {
 
 	}
 
+	/**
+	 * Create new cell id on the table
+	 *
+	 * @param table     table item design
+	 * @param newCellId new cell id
+	 * @return Return the cell id of the new cell
+	 */
 	public long layout(TableItemDesign table, long newCellId) {
 		layout = new Table(0, table.getColumnCount());
 		layoutBand((TableBandDesign) table.getHeader());

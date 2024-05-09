@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -42,6 +41,11 @@ public abstract class AbstractColorManager extends IdentifierManager {
 		addColorIndent(values);
 	}
 
+	/**
+	 * Add color indent
+	 *
+	 * @param values string map to add colors
+	 */
 	public static void addColorIndent(StringMap values) {
 		// color keywords
 		values.put(CSSConstants.CSS_AQUA_VALUE, CSSValueConstants.AQUA_VALUE);
@@ -137,12 +141,12 @@ public abstract class AbstractColorManager extends IdentifierManager {
 
 	/**
 	 * Implements
-	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * {@link ValueManager#computeValue(CSSStylableElement,CSSEngine,int,Value)}.
 	 */
 	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
-			CSSPrimitiveValue pvalue = (CSSPrimitiveValue) value;
+			CSSPrimitiveValue pvalue = value;
 			int primitiveType = pvalue.getPrimitiveType();
 			if (primitiveType == CSSPrimitiveValue.CSS_IDENT) {
 				String ident = pvalue.getStringValue();

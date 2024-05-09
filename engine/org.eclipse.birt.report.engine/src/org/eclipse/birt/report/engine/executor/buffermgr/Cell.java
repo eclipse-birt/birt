@@ -20,10 +20,24 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
  */
 public class Cell {
 
+	/**
+	 * Content interface
+	 *
+	 * @since 3.3
+	 *
+	 */
 	public interface Content {
 
+		/**
+		 * Check if the content is empty
+		 *
+		 * @return Return the check result if the content is empty
+		 */
 		boolean isEmpty();
 
+		/**
+		 * Reset the content
+		 */
 		void reset();
 	}
 
@@ -79,15 +93,30 @@ public class Cell {
 		return this;
 	}
 
+	/**
+	 * Get the status
+	 *
+	 * @return Return the status
+	 */
 	public int getStatus() {
 		return this.status;
 	}
 
+	/**
+	 * Get the cell content
+	 *
+	 * @return Return the cell content
+	 */
 	public Content getContent() {
 		Cell cell = getCell();
 		return (Content) cell.content;
 	}
 
+	/**
+	 * Get the row id
+	 *
+	 * @return Return the row id
+	 */
 	public int getRowId() {
 		if (status == CELL_SPANED) {
 			Cell cell = getCell();
@@ -99,6 +128,11 @@ public class Cell {
 		return rowId;
 	}
 
+	/**
+	 * Get the column id
+	 *
+	 * @return Return the column id
+	 */
 	public int getColId() {
 		if (status == CELL_SPANED) {
 			Cell cell = getCell();
@@ -110,6 +144,11 @@ public class Cell {
 		return colId;
 	}
 
+	/**
+	 * Get the left row span
+	 *
+	 * @return Return the left row span
+	 */
 	public int getLeftRowSpan() {
 		if (status == CELL_USED) {
 			return rowSpan;
@@ -127,6 +166,11 @@ public class Cell {
 		return rowSpan;
 	}
 
+	/**
+	 * Get the row span
+	 *
+	 * @return Return the row span
+	 */
 	public int getRowSpan() {
 		if (status == CELL_USED) {
 			return rowSpan;
@@ -144,6 +188,11 @@ public class Cell {
 		return rowSpan;
 	}
 
+	/**
+	 * Get the column span
+	 *
+	 * @return Return the column span
+	 */
 	public int getColSpan() {
 		if (status == CELL_USED) {
 			return colSpan;

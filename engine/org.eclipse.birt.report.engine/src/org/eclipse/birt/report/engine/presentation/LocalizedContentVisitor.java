@@ -33,7 +33,6 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -59,6 +58,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.data.dte.SingleCubeResultSet;
@@ -94,6 +94,12 @@ import org.w3c.dom.css.CSSValue;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
+/**
+ * Localized content visitor
+ *
+ * @since 3.3
+ *
+ */
 public class LocalizedContentVisitor {
 
 	protected static Logger logger = Logger.getLogger(LocalizedContentVisitor.class.getName());
@@ -102,7 +108,7 @@ public class LocalizedContentVisitor {
 	private Locale locale;
 	private TimeZone timeZone;
 	private String outputFormat;
-	protected HashMap templates = new HashMap();
+	protected HashMap<String, SoftReference<TextTemplate>> templates = new HashMap<String, SoftReference<TextTemplate>>();
 	private OnRenderScriptVisitor onRenderVisitor;
 	final static char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	final static byte[] dummyImageData = { -119, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1, 0,
@@ -114,6 +120,11 @@ public class LocalizedContentVisitor {
 	private static final String FILE_PROTOCOL = ":/";
 	private static final String URL_DATA_PROTOCOL = "data:";
 
+	/**
+	 * Constructor
+	 *
+	 * @param context execution context
+	 */
 	public LocalizedContentVisitor(ExecutionContext context) {
 		this.context = context;
 		this.locale = context.getLocale();
@@ -155,6 +166,13 @@ public class LocalizedContentVisitor {
 		}
 	}
 
+	/**
+	 * Localize of content objects
+	 *
+	 * @param content
+	 * @return Returns the content object
+	 * @throws BirtException
+	 */
 	public IContent localize(IContent content) throws BirtException {
 		IStyle style = content.getInlineStyle();
 		processBackgroundImage(style);
@@ -190,13 +208,20 @@ public class LocalizedContentVisitor {
 		}
 	}
 
+	/**
+	 * Localize the report content
+	 *
+	 * @param report
+	 * @return Returns the report content
+	 * @throws BirtException
+	 */
 	public IReportContent localizeReport(IReportContent report) throws BirtException {
 		processReport(report);
 		return report;
 	}
 
 	protected IContent localizeAllChildren(IContent content) throws BirtException {
-		ArrayList children = (ArrayList) content.getChildren();
+		ArrayList<?> children = (ArrayList<?>) content.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				IContent child = (IContent) children.get(i);
@@ -216,17 +241,17 @@ public class LocalizedContentVisitor {
 	}
 
 	protected TextTemplate parseTemplate(String text) throws BirtException {
-		SoftReference templateRef = (SoftReference) templates.get(text);
+		SoftReference<TextTemplate> templateRef = templates.get(text);
 		TextTemplate template = null;
 		if (templateRef != null) {
-			template = (TextTemplate) templateRef.get();
+			template = templateRef.get();
 			if (template != null) {
 				return template;
 			}
 		}
 		try {
 			template = new org.eclipse.birt.core.template.TemplateParser().parse(text);
-			templateRef = new SoftReference(template);
+			templateRef = new SoftReference<TextTemplate>(template);
 			templates.put(text, templateRef);
 		} catch (Throwable ex) {
 			throw new EngineException(ex.getLocalizedMessage(), ex);
@@ -234,7 +259,7 @@ public class LocalizedContentVisitor {
 		return template;
 	}
 
-	private String executeTemplate(TextTemplate template, HashMap values) {
+	private String executeTemplate(TextTemplate template, HashMap<String, Object> values) {
 		return new TemplateExecutor(context).execute(template, values);
 	}
 
@@ -302,9 +327,9 @@ public class LocalizedContentVisitor {
 			IStyle style = data.getComputedStyle();
 			text = format(value, style);
 			if (value instanceof Number) {
-				CSSValue align = style.getProperty(IStyle.STYLE_NUMBER_ALIGN);
+				CSSValue align = style.getProperty(StyleConstants.STYLE_NUMBER_ALIGN);
 				if (align != null && align != CSSValueConstants.NONE_VALUE) {
-					data.getStyle().setProperty(IStyle.STYLE_TEXT_ALIGN, align);
+					data.getStyle().setProperty(StyleConstants.STYLE_TEXT_ALIGN, align);
 				}
 			}
 		}
@@ -649,7 +674,7 @@ public class LocalizedContentVisitor {
 			TextItemDesign design = (TextItemDesign) foreignContent.getGenerateBy();
 
 			String text = null;
-			HashMap rawValues = null;
+			HashMap<String, Object> rawValues = null;
 			if (foreignContent.getRawValue() instanceof Object[]) {
 				Object[] rawValue = (Object[]) foreignContent.getRawValue();
 				assert rawValue.length == 2;
@@ -658,7 +683,7 @@ public class LocalizedContentVisitor {
 					text = (String) rawValue[0];
 				}
 				if (rawValue[1] instanceof HashMap) {
-					rawValues = (HashMap) rawValue[1];
+					rawValues = (HashMap<String, Object>) rawValue[1];
 				}
 			}
 
@@ -708,7 +733,7 @@ public class LocalizedContentVisitor {
 			resolution = ((Number) chartDpi).intValue();
 		}
 		if (resolution == 0) {
-			Map appContext = context.getAppContext();
+			Map<?, ?> appContext = context.getAppContext();
 			if (appContext != null) {
 				Object tmp = appContext.get(EngineConstants.APPCONTEXT_CHART_RESOLUTION);
 				if (tmp instanceof Number) {
@@ -870,7 +895,7 @@ public class LocalizedContentVisitor {
 			if (queries == null) {
 				DesignElementHandle elementHandle = design.getHandle();
 				if (elementHandle instanceof ReportElementHandle) {
-					queries = (IBaseQueryDefinition[]) context.getReport()
+					queries = context.getReport()
 							.getQueryByReportHandle((ReportElementHandle) elementHandle);
 				}
 			}
@@ -924,9 +949,7 @@ public class LocalizedContentVisitor {
 	/**
 	 * handle the content created by the IPresentation
 	 *
-	 * @param item    extended item design
-	 * @param emitter emitter used to output the contnet
-	 * @param content ext content
+	 * @param content foreign content
 	 * @param type    output type
 	 * @param output  output
 	 */

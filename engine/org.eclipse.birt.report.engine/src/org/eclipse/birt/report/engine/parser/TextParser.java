@@ -42,12 +42,25 @@ import org.w3c.dom.Element;
  */
 public class TextParser {
 
+	/**
+	 * property: text type "auto" to verify automatically the text content type,
+	 * e.g. "plain", "html"
+	 */
 	public static String TEXT_TYPE_AUTO = "auto"; //$NON-NLS-1$
+
+	/** property: text type "plain" for plain text */
 	public static String TEXT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
+
+	/** property: text type "html" for HTML text */
 	public static String TEXT_TYPE_HTML = "html"; //$NON-NLS-1$
+
+	/** property: text type "rtf" for RTF text */
 	public static String TEXT_TYPE_RTF = "rtf"; //$NON-NLS-1$
 
+	/** property: HTML document prefix */
 	public static String HTML_PREFIX = "<html>"; //$NON-NLS-1$
+
+	/** property: RTF document prefix */
 	public static String RTF_PREFIX = "\\rtf"; //$NON-NLS-1$
 
 	/**

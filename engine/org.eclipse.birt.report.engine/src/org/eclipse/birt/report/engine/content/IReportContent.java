@@ -61,17 +61,25 @@ public interface IReportContent {
 	/**
 	 * Gets the toc tree of this report content.
 	 *
+	 * @param format
+	 * @param locale
+	 *
 	 * @return the TOC Tree
 	 */
 	ITOCTree getTOCTree(String format, ULocale locale);
 
 	/**
-	 * return root content
+	 * Get the root content
 	 *
-	 * @return
+	 * @return Return the root content
 	 */
 	IContent getRoot();
 
+	/**
+	 * Get the total page
+	 *
+	 * @return Return the total page
+	 */
 	long getTotalPage();
 
 	/**
@@ -142,14 +150,39 @@ public interface IReportContent {
 	 */
 	ITableContent createTableContent();
 
+	/**
+	 * Create the table group content
+	 *
+	 * @return Return the table group content
+	 */
 	ITableGroupContent createTableGroupContent();
 
+	/**
+	 * Create the table band content
+	 *
+	 * @return Return the table band content
+	 */
 	ITableBandContent createTableBandContent();
 
+	/**
+	 * Create the list content
+	 *
+	 * @return Return the list content
+	 */
 	IListContent createListContent();
 
+	/**
+	 * Create the list group content
+	 *
+	 * @return Return the list group content
+	 */
 	IListGroupContent createListGroupContent();
 
+	/**
+	 * Create the list band content
+	 *
+	 * @return Return the list band content
+	 */
 	IListBandContent createListBandContent();
 
 	/**
@@ -173,7 +206,7 @@ public interface IReportContent {
 	 * @param content the content template.
 	 * @return the text content.
 	 */
-	ITextContent createTextContent(IContent conent);
+	ITextContent createTextContent(IContent content);
 
 	/**
 	 * create the foreign content. the foreign content can only be used in this
@@ -197,7 +230,7 @@ public interface IReportContent {
 	 * @param content the content template.
 	 * @return the image content.
 	 */
-	IImageContent createImageContent(IContent conent);
+	IImageContent createImageContent(IContent content);
 
 	/**
 	 * create the label content. the label can only be used in this report.
@@ -220,7 +253,7 @@ public interface IReportContent {
 	 * @param content the content template.
 	 * @return the label content.
 	 */
-	ILabelContent createLabelContent(IContent conent);
+	ILabelContent createLabelContent(IContent content);
 
 	/**
 	 * create the data content. the data can only be used in this report.
@@ -236,10 +269,20 @@ public interface IReportContent {
 	 * @param content the content template.
 	 * @return the data content.
 	 */
-	IDataContent createDataContent(IContent conent);
+	IDataContent createDataContent(IContent content);
 
+	/**
+	 * Get the ACL
+	 *
+	 * @return Return the ACL
+	 */
 	String getACL();
 
+	/**
+	 * Set the ACL
+	 *
+	 * @param acl
+	 */
 	void setACL(String acl);
 
 	/**
@@ -248,16 +291,49 @@ public interface IReportContent {
 	 */
 	IReportContext getReportContext();
 
+	/**
+	 * Get the user properties
+	 *
+	 * @return Return the user properties
+	 */
 	Map<String, Object> getUserProperties();
 
+	/**
+	 * Get the extensions
+	 *
+	 * @return Return the extensions
+	 */
 	Map<String, Object> getExtensions();
 
+	/**
+	 * Set the extensions
+	 *
+	 * @param properties properties of extensions
+	 */
 	void setExtensions(Map<String, Object> properties);
 
+	/**
+	 * Write the content
+	 *
+	 * @param out output stream
+	 * @throws IOException
+	 */
 	void writeContent(DataOutputStream out) throws IOException;
 
+	/**
+	 * Read content
+	 *
+	 * @param in     input stream
+	 * @param loader class loader
+	 * @throws IOException
+	 */
 	void readContent(DataInputStream in, ClassLoader loader) throws IOException;
 
+	/**
+	 * Get the title
+	 *
+	 * @return Return the title
+	 */
 	String getTitle();
 
 	void setTitle(String title);

@@ -45,6 +45,13 @@ public class URIManager extends IdentifierManager {
 	protected Value defaultValue;
 	protected boolean inherit;
 
+	/**
+	 * Constructor
+	 *
+	 * @param propertyName
+	 * @param inherit
+	 * @param defaultValue
+	 */
 	public URIManager(String propertyName, boolean inherit, Value defaultValue) {
 		this.propertyName = propertyName;
 		this.defaultValue = defaultValue;
@@ -79,7 +86,13 @@ public class URIManager extends IdentifierManager {
 	}
 
 	/**
-	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
+	 * Create URI value Implements
+	 * {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
+	 *
+	 * @param value  URI string
+	 * @param engine CSS engine
+	 * @return Return
+	 * @throws DOMException
 	 */
 	public Value createValue(String value, CSSEngine engine) throws DOMException {
 		return new URIValue(value);
@@ -93,7 +106,7 @@ public class URIManager extends IdentifierManager {
 		if (lu.getLexicalUnitType() == LexicalUnit.SAC_URI) {
 			return new URIValue(lu.getStringValue());
 		}
-		return createStringValue(lu.getLexicalUnitType(), lu.getStringValue(), engine);
+		return createStringValue(lu.getLexicalUnitType(), lu.getStringValue());
 	}
 
 	/*
@@ -104,7 +117,7 @@ public class URIManager extends IdentifierManager {
 	 * short, java.lang.String, org.eclipse.birt.report.engine.css.engine.CSSEngine)
 	 */
 	@Override
-	public Value createStringValue(short type, String value, CSSEngine engine) throws DOMException {
+	public Value createStringValue(short type, String value) throws DOMException {
 		return new StringValue(CSSPrimitiveValue.CSS_STRING, value);
 	}
 

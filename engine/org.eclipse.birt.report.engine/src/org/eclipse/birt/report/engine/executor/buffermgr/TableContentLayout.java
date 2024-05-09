@@ -36,8 +36,15 @@ import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter.CellContent;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
+/**
+ * Table content layout
+ *
+ * @since 3.3
+ *
+ */
 public class TableContentLayout {
 
+	/** property: maximum row span */
 	public final Integer MAX_ROW_SPAN = 10000;
 	/**
 	 * rows in the table layout
@@ -55,7 +62,7 @@ public class TableContentLayout {
 
 	String format;
 	ArrayList hiddenColumnIds = new ArrayList();
-	ArrayList visibleColumns = new ArrayList();
+	ArrayList<IColumn> visibleColumns = new ArrayList<IColumn>();
 
 	protected UnresolvedRowHint rowHint;
 
@@ -79,6 +86,14 @@ public class TableContentLayout {
 
 	protected boolean needFormalize = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param tableContent table content
+	 * @param format       format
+	 * @param context      HTML layout context
+	 * @param keyString    key string
+	 */
 	public TableContentLayout(ITableContent tableContent, String format, HTMLLayoutContext context, String keyString) {
 		this.format = format;
 		this.context = context;
@@ -87,10 +102,8 @@ public class TableContentLayout {
 
 		this.colCount = tableContent.getColumnCount();
 
-		int start = 0;
-		int end = this.colCount;
 		String tableId = tableContent.getInstanceID().toUniqueString();
-		List hints = context.getPageHintManager().getTableColumnHint(tableId);
+		List<?> hints = context.getPageHintManager().getTableColumnHint(tableId);
 
 		this.adjustedColumnIds = new int[colCount];
 		for (int i = 0; i < colCount; i++) {
@@ -99,7 +112,7 @@ public class TableContentLayout {
 
 		if (hints.size() > 0) {
 			int current = -1;
-			Iterator iter = hints.iterator();
+			Iterator<?> iter = hints.iterator();
 			while (iter.hasNext()) {
 				int[] hint = (int[]) iter.next();
 				for (int i = hint[0]; i < hint[1]; i++) {
@@ -149,14 +162,29 @@ public class TableContentLayout {
 		this.realColCount = visibleColumns.size();
 	}
 
+	/**
+	 * Get the key string
+	 *
+	 * @return Return the key string
+	 */
 	public String getKeyString() {
 		return keyString;
 	}
 
+	/**
+	 * Set unresolved row hint
+	 *
+	 * @param rowHint row hint
+	 */
 	public void setUnresolvedRowHint(UnresolvedRowHint rowHint) {
 		this.rowHint = rowHint;
 	}
 
+	/**
+	 * end row
+	 *
+	 * @param rowContent row content
+	 */
 	public void endRow(IRowContent rowContent) {
 		if (isRowHidden) {
 			return;
@@ -226,26 +254,48 @@ public class TableContentLayout {
 		isRowHidden = false;
 	}
 
+	/**
+	 * Get the row count
+	 *
+	 * @return Return the row count
+	 */
 	public int getRowCount() {
 		return rowCount;
 	}
 
+	/**
+	 * Get the column count
+	 *
+	 * @return Return the column count
+	 */
 	public int getColCount() {
 		return realColCount;
 	}
 
+	/**
+	 * Check if the cache is exceeded
+	 *
+	 * @return Return the check result of exceeded cache
+	 */
 	public boolean exceedMaxCache() {
 		return this.rowCount >= MAX_ROW_SPAN;
 	}
 
+	/**
+	 * Set flag of need formalize
+	 *
+	 * @param formalize formalize is needed
+	 */
 	public void setNeedFormalize(boolean formalize) {
 		this.needFormalize = formalize;
 	}
 
 	/**
-	 * create a row in the table model
+	 * Create a row in the table model
 	 *
-	 * @param content row content
+	 * @param rowContent row content
+	 * @param isHidden   hidden flag
+	 * @return Return the created row
 	 */
 	public Row createRow(Object rowContent, boolean isHidden) {
 		if (!isHidden) {
@@ -279,7 +329,7 @@ public class TableContentLayout {
 		if (rowCount > 0) {
 			// update the status of last row
 			Cell[] lastCells = rows[rowCount - 1].cells;
-			HashSet updated = new HashSet();
+			HashSet<Cell> updated = new HashSet<Cell>();
 			for (int cellId = 0; cellId < realColCount; cellId++) {
 				Cell lastCell = lastCells[cellId];
 				if (lastCell.status == Cell.CELL_SPANED) {
@@ -362,6 +412,12 @@ public class TableContentLayout {
 
 	}
 
+	/**
+	 * Resolve the dropped cells
+	 *
+	 * @param finished finished flag
+	 *
+	 */
 	public void resolveDropCells(boolean finished) {
 		if (!finished) {
 			keepUnresolvedCells();
@@ -381,6 +437,12 @@ public class TableContentLayout {
 		}
 	}
 
+	/**
+	 * Resolve the dropped cells
+	 *
+	 * @param bandId   band id
+	 * @param finished finished flag
+	 */
 	public void resolveDropCells(int bandId, boolean finished) {
 		if (rowCount <= 0) {
 			return;
@@ -401,10 +463,20 @@ public class TableContentLayout {
 		}
 	}
 
+	/**
+	 * Check if unresolved rows exists
+	 *
+	 * @return Return the check result of unresolved rows
+	 */
 	public boolean hasUnResolvedRow() {
 		return rowHint != null;
 	}
 
+	/**
+	 * Check if dropped cells exists
+	 *
+	 * @return Return the check result of dropped cells
+	 */
 	public boolean hasDropCell() {
 		if (rowCount <= 0) {
 			return false;
@@ -524,10 +596,23 @@ public class TableContentLayout {
 		cell.rowSpan = newRowSpan;
 	}
 
+	/**
+	 * Get cells based on row and column index
+	 *
+	 * @param rowIndex row index
+	 * @param colIndex column index
+	 * @return Return the cell
+	 */
 	public Cell getCell(int rowIndex, int colIndex) {
 		return rows[rowIndex].cells[colIndex];
 	}
 
+	/**
+	 * Get the row based on index
+	 *
+	 * @param index row index
+	 * @return Return the row based on index
+	 */
 	public Row getRow(int index) {
 		assert (index >= 0 && index < rowCount);
 		return rows[index];
@@ -542,6 +627,11 @@ public class TableContentLayout {
 		return LayoutUtil.isHidden(column, format, context.getOutputDisplayNone(), hiddenMask);
 	}
 
+	/**
+	 * Get the unresolved row hint
+	 *
+	 * @return Return the unresolved row hint
+	 */
 	public UnresolvedRowHint getUnresolvedRow() {
 		return rowHint;
 
@@ -585,10 +675,21 @@ public class TableContentLayout {
 
 	}
 
+	/**
+	 * Get current row id
+	 *
+	 * @return Return the current row id
+	 */
 	public int getCurrentRowID() {
 		return rowCount - 1;
 	}
 
+	/**
+	 * Is the table content visible
+	 *
+	 * @param cell cell content
+	 * @return Return the check result if the object is visible
+	 */
 	public boolean isVisible(ICellContent cell) {
 		IElement parent = cell.getParent();
 		// For fixed layout reports and in run task, we need to emit the
@@ -643,14 +744,24 @@ public class TableContentLayout {
 
 	}
 
+	/**
+	 * Get the wrapped table content
+	 *
+	 * @return Return the wrapped table content
+	 */
 	public ITableContent getWrappedTableContent() {
 		if (wrappedTable != null) {
 			return wrappedTable;
-		} else {
-			return tableContent;
 		}
+		return tableContent;
 	}
 
+	/**
+	 * Get the wrapped cell content
+	 *
+	 * @param cellContent cell content
+	 * @return Return the wrapped cell content
+	 */
 	public ICellContent getWrappedCellContent(ICellContent cellContent) {
 		if (needWrap(cellContent)) {
 			CellContentWrapper cellContentWrapper = new CellContentWrapper(cellContent);
@@ -659,10 +770,8 @@ public class TableContentLayout {
 			cellContentWrapper.setColumn(getAdjustedColumnId(columnId));
 			cellContentWrapper.setColSpan(getAdjustedColumnSpan(columnId, columnSpan));
 			return cellContentWrapper;
-		} else {
-			return cellContent;
 		}
-
+		return cellContent;
 	}
 
 	private boolean needWrap(ICellContent cellContent) {
@@ -674,6 +783,12 @@ public class TableContentLayout {
 		return false;
 	}
 
+	/**
+	 * Get the column id with check of wrapped table
+	 *
+	 * @param columnId column id
+	 * @return Return the column id
+	 */
 	public int getColumnId(int columnId) {
 		if (this.wrappedTable != null) {
 			return getAdjustedColumnId(columnId);
@@ -681,6 +796,13 @@ public class TableContentLayout {
 		return columnId;
 	}
 
+	/**
+	 * Get the column span
+	 *
+	 * @param columnId   column id
+	 * @param columnSpan column span
+	 * @return Return the column span
+	 */
 	public int getColunmSpan(int columnId, int columnSpan) {
 		if (this.wrappedTable != null) {
 			return getAdjustedColumnSpan(columnId, columnSpan);

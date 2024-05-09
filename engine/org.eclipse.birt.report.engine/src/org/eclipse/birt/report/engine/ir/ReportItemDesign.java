@@ -104,6 +104,9 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	 */
 	protected String altTextKey;
 
+	/**
+	 * Constructor
+	 */
 	public ReportItemDesign() {
 	}
 
@@ -166,26 +169,42 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	/**
 	 * accept a visitor. see visit pattern.
 	 *
-	 * @param visitor
+	 * @param visitor report item visitor
+	 * @param value
+	 * @return Return the accepted object
 	 */
 	abstract public Object accept(IReportItemVisitor visitor, Object value);
 
+	/**
+	 * Get the TOC
+	 *
+	 * @return Return the TOC
+	 */
 	public Expression getTOC() {
 		return toc;
 	}
 
+	/**
+	 * Set the TOC
+	 *
+	 * @param expr expression of TOC
+	 */
 	public void setTOC(Expression expr) {
 		this.toc = expr;
 	}
 
 	/**
-	 * @return Returns the boo-kmark.
+	 * Get the bookmarks
+	 *
+	 * @return Returns the bookmark.
 	 */
 	public Expression getBookmark() {
 		return bookmark;
 	}
 
 	/**
+	 * Set the bookmarks
+	 *
 	 * @param bookmark The book-mark to set.
 	 */
 	public void setBookmark(Expression bookmark) {
@@ -193,6 +212,8 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	}
 
 	/**
+	 * Get the queries
+	 *
 	 * @return Returns the queries.
 	 */
 	public IDataQueryDefinition[] getQueries() {
@@ -200,7 +221,9 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	}
 
 	/**
-	 * @param query The queries to set.
+	 * Set the queries
+	 *
+	 * @param queries The queries to set.
 	 */
 	public void setQueries(IDataQueryDefinition[] queries) {
 		this.queries = queries;
@@ -231,21 +254,27 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	}
 
 	/**
-	 * @param onCreate The onCreate to set.
+	 * The onCreate script to set
+	 *
+	 * @param expr expression of onCreate
 	 */
 	public void setOnCreate(Expression expr) {
 		onCreate = expr;
 	}
 
 	/**
-	 * @return Returns the onRender.
+	 * Get the onRender script
+	 *
+	 * @return Returns the onRender script
 	 */
 	public Expression getOnRender() {
 		return onRender;
 	}
 
 	/**
-	 * @param onPageBreak The onPageBreak to set.
+	 * Set the onPageBreak script
+	 *
+	 * @param expr expression of onPageBreak
 	 */
 	public void setOnPageBreak(Expression expr) {
 		onPageBreak = expr;
@@ -259,7 +288,9 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	}
 
 	/**
-	 * @param onRender The onRender to set.
+	 * Set the onRender script
+	 *
+	 * @param expr expression of onRender
 	 */
 	public void setOnRender(Expression expr) {
 		onRender = expr;
@@ -293,14 +324,30 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 		this.action = action;
 	}
 
+	/**
+	 * Set the use cache result
+	 *
+	 * @param useCachedResult use cache
+	 */
 	public void setUseCachedResult(boolean useCachedResult) {
 		this.useCachedResult = useCachedResult;
 	}
 
+	/**
+	 * Is use cached result active
+	 *
+	 * @return Return the flag of cache result usage
+	 */
 	public boolean useCachedResult() {
 		return useCachedResult;
 	}
 
+	/**
+	 * Set expression style
+	 *
+	 * @param propertyIndex property index
+	 * @param value         expression of the style
+	 */
 	public void setExpressionStyle(int propertyIndex, Expression value) {
 		if (expressionStyles == null) {
 			expressionStyles = new HashMap<>();
@@ -308,22 +355,47 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 		expressionStyles.put(propertyIndex, value);
 	}
 
+	/**
+	 * Get the expression style
+	 *
+	 * @return Return the expression style
+	 */
 	public Map<Integer, Expression> getExpressionStyles() {
 		return expressionStyles;
 	}
 
+	/**
+	 * Set expression data
+	 *
+	 * @param extensionData expression data
+	 */
 	public void setExtensionData(Object extensionData) {
 		this.extensionData = extensionData;
 	}
 
+	/**
+	 * Get the expression data
+	 *
+	 * @return Return the expression data
+	 */
 	public Object getExtensionData() {
 		return this.extensionData;
 	}
 
+	/**
+	 * Get the alternative text
+	 *
+	 * @return Return the alternative text
+	 */
 	public Expression getAltText() {
 		return altText;
 	}
 
+	/**
+	 * Set the alternative text
+	 *
+	 * @param altText alternative text
+	 */
 	public void setAltText(Expression altText) {
 		this.altText = altText;
 	}
@@ -335,6 +407,11 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 		return altTextKey;
 	}
 
+	/**
+	 * Set the alternative text key
+	 *
+	 * @param altTextKey alternative text key
+	 */
 	public void setAltTextKey(String altTextKey) {
 		this.altTextKey = altTextKey;
 	}

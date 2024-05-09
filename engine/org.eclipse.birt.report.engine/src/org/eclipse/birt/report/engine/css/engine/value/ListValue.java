@@ -48,13 +48,17 @@ public class ListValue extends Value implements CSSValueList {
 
 	/**
 	 * Creates a ListValue with the given separator.
+	 *
+	 * @param s separator
 	 */
 	public ListValue(char s) {
 		separator = s;
 	}
 
 	/**
-	 * Returns the separator used for this list.
+	 * Get the separator used for this list.
+	 *
+	 * @return Returns the separator used for this list.
 	 */
 	public char getSeparatorChar() {
 		return separator;
@@ -132,22 +136,15 @@ public class ListValue extends Value implements CSSValueList {
 		}
 		if (needQuote) {
 			return '\"' + value + '\"';
-		} else {
-			return value;
 		}
+		return value;
 	}
 
-	/**
-	 * Implements {@link Value#getLength()}.
-	 */
 	@Override
 	public int getLength() throws DOMException {
 		return length;
 	}
 
-	/**
-	 * Implements {@link Value#item(int)}.
-	 */
 	@Override
 	public CSSValue item(int index) throws DOMException {
 		return items[index];
@@ -163,6 +160,8 @@ public class ListValue extends Value implements CSSValueList {
 
 	/**
 	 * Appends an item to the list.
+	 *
+	 * @param v CSS value
 	 */
 	public void append(CSSValue v) {
 		if (length == items.length) {

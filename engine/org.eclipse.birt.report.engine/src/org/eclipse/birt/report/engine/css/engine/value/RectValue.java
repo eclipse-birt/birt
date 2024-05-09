@@ -45,7 +45,12 @@ public class RectValue extends Value implements Rect {
 	protected Value left;
 
 	/**
-	 * Creates a new Rect value.
+	 * Creates a new rectangle value.
+	 *
+	 * @param t top
+	 * @param r right
+	 * @param b bottom
+	 * @param l left
 	 */
 	public RectValue(Value t, Value r, Value b, Value l) {
 		top = t;
@@ -71,33 +76,21 @@ public class RectValue extends Value implements Rect {
 				+ left.getCssText() + ")";
 	}
 
-	/**
-	 * Implements {@link Value#getTop()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getTop() throws DOMException {
 		return top;
 	}
 
-	/**
-	 * Implements {@link Value#getRight()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getRight() throws DOMException {
 		return right;
 	}
 
-	/**
-	 * Implements {@link Value#getBottom()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getBottom() throws DOMException {
 		return bottom;
 	}
 
-	/**
-	 * Implements {@link Value#getLeft()}.
-	 */
 	@Override
 	public CSSPrimitiveValue getLeft() throws DOMException {
 		return left;

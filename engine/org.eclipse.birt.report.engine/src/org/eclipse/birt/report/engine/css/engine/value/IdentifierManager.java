@@ -50,7 +50,7 @@ public abstract class IdentifierManager extends AbstractValueManager {
 		}
 	}
 
-	protected Value createStringValue(short type, String value, CSSEngine engine) throws DOMException {
+	protected Value createStringValue(short type, String value) throws DOMException {
 		if (type != CSSPrimitiveValue.CSS_IDENT) {
 			throw createInvalidStringTypeDOMException(type);
 		}
@@ -62,8 +62,11 @@ public abstract class IdentifierManager extends AbstractValueManager {
 	}
 
 	/**
-	 * Returns the map that contains the name/value mappings for each possible
+	 * Get the map that contains the name/value mappings for each possible
 	 * identifiers.
+	 *
+	 * @return Returns the map that contains the name/value mappings for each
+	 *         possible identifiers.
 	 */
 	public abstract StringMap getIdentifiers();
 }

@@ -23,15 +23,33 @@ import java.util.Set;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
+/**
+ * Style utility class
+ *
+ * @since 3.3
+ *
+ */
 public class StyleUtil {
 
+	/** property: style name to index map */
 	public static Map<String, Integer> styleName2Index = null;
+
+	/** property: set of color properties */
 	public static Set<String> colorProperties;
+
+	/** property: rule style name to index map */
 	public static Map<String, Integer> ruleStyleName2Index = null;
+
+	/** property: custom name to index map */
 	public static Map<String, Integer> customName2Index = null;
 
+	/**
+	 * Main method
+	 *
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		Field[] fields = HighlightRule.class.getFields();
 		for (Field field : fields) {
@@ -43,37 +61,37 @@ public class StyleUtil {
 
 	static {
 		styleName2Index = new HashMap<>();
-		styleName2Index.put(Style.BACKGROUND_ATTACHMENT_PROP, StyleConstants.STYLE_BACKGROUND_ATTACHMENT);
-		styleName2Index.put(Style.BACKGROUND_COLOR_PROP, StyleConstants.STYLE_BACKGROUND_COLOR);
-		styleName2Index.put(Style.BACKGROUND_IMAGE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE);
-		styleName2Index.put(Style.BACKGROUND_IMAGE_TYPE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE);
-		styleName2Index.put(Style.BACKGROUND_SIZE_HEIGHT, StyleConstants.STYLE_BACKGROUND_HEIGHT);
-		styleName2Index.put(Style.BACKGROUND_SIZE_WIDTH, StyleConstants.STYLE_BACKGROUND_WIDTH);
-		styleName2Index.put(Style.BACKGROUND_POSITION_X_PROP, StyleConstants.STYLE_BACKGROUND_POSITION_X);
-		styleName2Index.put(Style.BACKGROUND_POSITION_Y_PROP, StyleConstants.STYLE_BACKGROUND_POSITION_Y);
-		styleName2Index.put(Style.BACKGROUND_REPEAT_PROP, StyleConstants.STYLE_BACKGROUND_REPEAT);
-		styleName2Index.put(Style.BORDER_BOTTOM_COLOR_PROP, StyleConstants.STYLE_BORDER_BOTTOM_COLOR);
-		styleName2Index.put(Style.BORDER_BOTTOM_STYLE_PROP, StyleConstants.STYLE_BORDER_BOTTOM_STYLE);
-		styleName2Index.put(Style.BORDER_BOTTOM_WIDTH_PROP, StyleConstants.STYLE_BORDER_BOTTOM_WIDTH);
-		styleName2Index.put(Style.BORDER_LEFT_COLOR_PROP, StyleConstants.STYLE_BORDER_LEFT_COLOR);
-		styleName2Index.put(Style.BORDER_LEFT_STYLE_PROP, StyleConstants.STYLE_BORDER_LEFT_STYLE);
-		styleName2Index.put(Style.BORDER_LEFT_WIDTH_PROP, StyleConstants.STYLE_BORDER_LEFT_WIDTH);
-		styleName2Index.put(Style.BORDER_RIGHT_COLOR_PROP, StyleConstants.STYLE_BORDER_RIGHT_COLOR);
-		styleName2Index.put(Style.BORDER_RIGHT_STYLE_PROP, StyleConstants.STYLE_BORDER_RIGHT_STYLE);
-		styleName2Index.put(Style.BORDER_RIGHT_WIDTH_PROP, StyleConstants.STYLE_BORDER_RIGHT_WIDTH);
-		styleName2Index.put(Style.BORDER_TOP_COLOR_PROP, StyleConstants.STYLE_BORDER_TOP_COLOR);
-		styleName2Index.put(Style.BORDER_TOP_STYLE_PROP, StyleConstants.STYLE_BORDER_TOP_STYLE);
-		styleName2Index.put(Style.BORDER_TOP_WIDTH_PROP, StyleConstants.STYLE_BORDER_TOP_WIDTH);
-		styleName2Index.put(Style.MARGIN_BOTTOM_PROP, StyleConstants.STYLE_MARGIN_BOTTOM);
-		styleName2Index.put(Style.MARGIN_LEFT_PROP, StyleConstants.STYLE_MARGIN_LEFT);
-		styleName2Index.put(Style.MARGIN_RIGHT_PROP, StyleConstants.STYLE_MARGIN_RIGHT);
-		styleName2Index.put(Style.MARGIN_TOP_PROP, StyleConstants.STYLE_MARGIN_TOP);
-		styleName2Index.put(Style.PADDING_TOP_PROP, StyleConstants.STYLE_PADDING_TOP);
-		styleName2Index.put(Style.PADDING_LEFT_PROP, StyleConstants.STYLE_PADDING_LEFT);
-		styleName2Index.put(Style.PADDING_BOTTOM_PROP, StyleConstants.STYLE_PADDING_BOTTOM);
-		styleName2Index.put(Style.PADDING_RIGHT_PROP, StyleConstants.STYLE_PADDING_RIGHT);
-		styleName2Index.put(Style.CAN_SHRINK_PROP, StyleConstants.STYLE_CAN_SHRINK);
-		styleName2Index.put(Style.COLOR_PROP, StyleConstants.STYLE_COLOR);
+		styleName2Index.put(IStyleModel.BACKGROUND_ATTACHMENT_PROP, StyleConstants.STYLE_BACKGROUND_ATTACHMENT);
+		styleName2Index.put(IStyleModel.BACKGROUND_COLOR_PROP, StyleConstants.STYLE_BACKGROUND_COLOR);
+		styleName2Index.put(IStyleModel.BACKGROUND_IMAGE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE);
+		styleName2Index.put(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP, StyleConstants.STYLE_BACKGROUND_IMAGE_TYPE);
+		styleName2Index.put(IStyleModel.BACKGROUND_SIZE_HEIGHT, StyleConstants.STYLE_BACKGROUND_HEIGHT);
+		styleName2Index.put(IStyleModel.BACKGROUND_SIZE_WIDTH, StyleConstants.STYLE_BACKGROUND_WIDTH);
+		styleName2Index.put(IStyleModel.BACKGROUND_POSITION_X_PROP, StyleConstants.STYLE_BACKGROUND_POSITION_X);
+		styleName2Index.put(IStyleModel.BACKGROUND_POSITION_Y_PROP, StyleConstants.STYLE_BACKGROUND_POSITION_Y);
+		styleName2Index.put(IStyleModel.BACKGROUND_REPEAT_PROP, StyleConstants.STYLE_BACKGROUND_REPEAT);
+		styleName2Index.put(IStyleModel.BORDER_BOTTOM_COLOR_PROP, StyleConstants.STYLE_BORDER_BOTTOM_COLOR);
+		styleName2Index.put(IStyleModel.BORDER_BOTTOM_STYLE_PROP, StyleConstants.STYLE_BORDER_BOTTOM_STYLE);
+		styleName2Index.put(IStyleModel.BORDER_BOTTOM_WIDTH_PROP, StyleConstants.STYLE_BORDER_BOTTOM_WIDTH);
+		styleName2Index.put(IStyleModel.BORDER_LEFT_COLOR_PROP, StyleConstants.STYLE_BORDER_LEFT_COLOR);
+		styleName2Index.put(IStyleModel.BORDER_LEFT_STYLE_PROP, StyleConstants.STYLE_BORDER_LEFT_STYLE);
+		styleName2Index.put(IStyleModel.BORDER_LEFT_WIDTH_PROP, StyleConstants.STYLE_BORDER_LEFT_WIDTH);
+		styleName2Index.put(IStyleModel.BORDER_RIGHT_COLOR_PROP, StyleConstants.STYLE_BORDER_RIGHT_COLOR);
+		styleName2Index.put(IStyleModel.BORDER_RIGHT_STYLE_PROP, StyleConstants.STYLE_BORDER_RIGHT_STYLE);
+		styleName2Index.put(IStyleModel.BORDER_RIGHT_WIDTH_PROP, StyleConstants.STYLE_BORDER_RIGHT_WIDTH);
+		styleName2Index.put(IStyleModel.BORDER_TOP_COLOR_PROP, StyleConstants.STYLE_BORDER_TOP_COLOR);
+		styleName2Index.put(IStyleModel.BORDER_TOP_STYLE_PROP, StyleConstants.STYLE_BORDER_TOP_STYLE);
+		styleName2Index.put(IStyleModel.BORDER_TOP_WIDTH_PROP, StyleConstants.STYLE_BORDER_TOP_WIDTH);
+		styleName2Index.put(IStyleModel.MARGIN_BOTTOM_PROP, StyleConstants.STYLE_MARGIN_BOTTOM);
+		styleName2Index.put(IStyleModel.MARGIN_LEFT_PROP, StyleConstants.STYLE_MARGIN_LEFT);
+		styleName2Index.put(IStyleModel.MARGIN_RIGHT_PROP, StyleConstants.STYLE_MARGIN_RIGHT);
+		styleName2Index.put(IStyleModel.MARGIN_TOP_PROP, StyleConstants.STYLE_MARGIN_TOP);
+		styleName2Index.put(IStyleModel.PADDING_TOP_PROP, StyleConstants.STYLE_PADDING_TOP);
+		styleName2Index.put(IStyleModel.PADDING_LEFT_PROP, StyleConstants.STYLE_PADDING_LEFT);
+		styleName2Index.put(IStyleModel.PADDING_BOTTOM_PROP, StyleConstants.STYLE_PADDING_BOTTOM);
+		styleName2Index.put(IStyleModel.PADDING_RIGHT_PROP, StyleConstants.STYLE_PADDING_RIGHT);
+		styleName2Index.put(IStyleModel.CAN_SHRINK_PROP, StyleConstants.STYLE_CAN_SHRINK);
+		styleName2Index.put(IStyleModel.COLOR_PROP, StyleConstants.STYLE_COLOR);
 		/*
 		 * styleName2Index.put( Style.DATE_TIME_FORMAT_PROP,
 		 * StyleConstants.STYLE_DATE_FORMAT ); styleName2Index.put(
@@ -81,51 +99,51 @@ public class StyleUtil {
 		 * styleName2Index.put( Style.TIME_FORMAT_PROP,
 		 * StyleConstants.STYLE_SQL_TIME_FORMAT );
 		 */
-		styleName2Index.put(Style.FONT_FAMILY_PROP, StyleConstants.STYLE_FONT_FAMILY);
-		styleName2Index.put(Style.FONT_SIZE_PROP, StyleConstants.STYLE_FONT_SIZE);
-		styleName2Index.put(Style.FONT_STYLE_PROP, StyleConstants.STYLE_FONT_STYLE);
-		styleName2Index.put(Style.FONT_WEIGHT_PROP, StyleConstants.STYLE_FONT_WEIGHT);
-		styleName2Index.put(Style.FONT_VARIANT_PROP, StyleConstants.STYLE_FONT_VARIANT);
-		styleName2Index.put(Style.TEXT_UNDERLINE_PROP, StyleConstants.STYLE_TEXT_UNDERLINE);
-		styleName2Index.put(Style.TEXT_OVERLINE_PROP, StyleConstants.STYLE_TEXT_OVERLINE);
-		styleName2Index.put(Style.TEXT_LINE_THROUGH_PROP, StyleConstants.STYLE_TEXT_LINETHROUGH);
+		styleName2Index.put(IStyleModel.FONT_FAMILY_PROP, StyleConstants.STYLE_FONT_FAMILY);
+		styleName2Index.put(IStyleModel.FONT_SIZE_PROP, StyleConstants.STYLE_FONT_SIZE);
+		styleName2Index.put(IStyleModel.FONT_STYLE_PROP, StyleConstants.STYLE_FONT_STYLE);
+		styleName2Index.put(IStyleModel.FONT_WEIGHT_PROP, StyleConstants.STYLE_FONT_WEIGHT);
+		styleName2Index.put(IStyleModel.FONT_VARIANT_PROP, StyleConstants.STYLE_FONT_VARIANT);
+		styleName2Index.put(IStyleModel.TEXT_UNDERLINE_PROP, StyleConstants.STYLE_TEXT_UNDERLINE);
+		styleName2Index.put(IStyleModel.TEXT_OVERLINE_PROP, StyleConstants.STYLE_TEXT_OVERLINE);
+		styleName2Index.put(IStyleModel.TEXT_LINE_THROUGH_PROP, StyleConstants.STYLE_TEXT_LINETHROUGH);
 		/*
 		 * styleName2Index.put( Style.NUMBER_FORMAT_PROP,
 		 * StyleConstants.STYLE_NUMBER_FORMAT );
 		 */
-		styleName2Index.put(Style.NUMBER_ALIGN_PROP, StyleConstants.STYLE_NUMBER_ALIGN);
-		styleName2Index.put(Style.DISPLAY_PROP, StyleConstants.STYLE_DISPLAY);
-		styleName2Index.put(Style.MASTER_PAGE_PROP, StyleConstants.STYLE_MASTER_PAGE);
-		styleName2Index.put(Style.PAGE_BREAK_BEFORE_PROP, StyleConstants.STYLE_PAGE_BREAK_BEFORE);
-		styleName2Index.put(Style.PAGE_BREAK_AFTER_PROP, StyleConstants.STYLE_PAGE_BREAK_AFTER);
-		styleName2Index.put(Style.PAGE_BREAK_INSIDE_PROP, StyleConstants.STYLE_PAGE_BREAK_INSIDE);
-		styleName2Index.put(Style.SHOW_IF_BLANK_PROP, StyleConstants.STYLE_SHOW_IF_BLANK);
+		styleName2Index.put(IStyleModel.NUMBER_ALIGN_PROP, StyleConstants.STYLE_NUMBER_ALIGN);
+		styleName2Index.put(IStyleModel.DISPLAY_PROP, StyleConstants.STYLE_DISPLAY);
+		styleName2Index.put(IStyleModel.MASTER_PAGE_PROP, StyleConstants.STYLE_MASTER_PAGE);
+		styleName2Index.put(IStyleModel.PAGE_BREAK_BEFORE_PROP, StyleConstants.STYLE_PAGE_BREAK_BEFORE);
+		styleName2Index.put(IStyleModel.PAGE_BREAK_AFTER_PROP, StyleConstants.STYLE_PAGE_BREAK_AFTER);
+		styleName2Index.put(IStyleModel.PAGE_BREAK_INSIDE_PROP, StyleConstants.STYLE_PAGE_BREAK_INSIDE);
+		styleName2Index.put(IStyleModel.SHOW_IF_BLANK_PROP, StyleConstants.STYLE_SHOW_IF_BLANK);
 		/*
 		 * styleName2Index.put( Style.STRING_FORMAT_PROP,
 		 * StyleConstants.STYLE_STRING_FORMAT );
 		 */
-		styleName2Index.put(Style.TEXT_ALIGN_PROP, StyleConstants.STYLE_TEXT_ALIGN);
-		styleName2Index.put(Style.TEXT_INDENT_PROP, StyleConstants.STYLE_TEXT_INDENT);
-		styleName2Index.put(Style.LETTER_SPACING_PROP, StyleConstants.STYLE_LETTER_SPACING);
-		styleName2Index.put(Style.LINE_HEIGHT_PROP, StyleConstants.STYLE_LINE_HEIGHT);
-		styleName2Index.put(Style.ORPHANS_PROP, StyleConstants.STYLE_ORPHANS);
-		styleName2Index.put(Style.TEXT_TRANSFORM_PROP, StyleConstants.STYLE_TEXT_TRANSFORM);
-		styleName2Index.put(Style.VERTICAL_ALIGN_PROP, StyleConstants.STYLE_VERTICAL_ALIGN);
-		styleName2Index.put(Style.WHITE_SPACE_PROP, StyleConstants.STYLE_WHITE_SPACE);
-		styleName2Index.put(Style.WIDOWS_PROP, StyleConstants.STYLE_WIDOWS);
-		styleName2Index.put(Style.WORD_SPACING_PROP, StyleConstants.STYLE_WORD_SPACING);
-		styleName2Index.put(Style.TEXT_DIRECTION_PROP, StyleConstants.STYLE_DIRECTION);
-		styleName2Index.put(Style.OVERFLOW_PROP, StyleConstants.STYLE_OVERFLOW);
-		styleName2Index.put(Style.HEIGHT_PROP, StyleConstants.STYLE_HEIGHT);
-		styleName2Index.put(Style.WIDTH_PROP, StyleConstants.STYLE_WIDTH);
+		styleName2Index.put(IStyleModel.TEXT_ALIGN_PROP, StyleConstants.STYLE_TEXT_ALIGN);
+		styleName2Index.put(IStyleModel.TEXT_INDENT_PROP, StyleConstants.STYLE_TEXT_INDENT);
+		styleName2Index.put(IStyleModel.LETTER_SPACING_PROP, StyleConstants.STYLE_LETTER_SPACING);
+		styleName2Index.put(IStyleModel.LINE_HEIGHT_PROP, StyleConstants.STYLE_LINE_HEIGHT);
+		styleName2Index.put(IStyleModel.ORPHANS_PROP, StyleConstants.STYLE_ORPHANS);
+		styleName2Index.put(IStyleModel.TEXT_TRANSFORM_PROP, StyleConstants.STYLE_TEXT_TRANSFORM);
+		styleName2Index.put(IStyleModel.VERTICAL_ALIGN_PROP, StyleConstants.STYLE_VERTICAL_ALIGN);
+		styleName2Index.put(IStyleModel.WHITE_SPACE_PROP, StyleConstants.STYLE_WHITE_SPACE);
+		styleName2Index.put(IStyleModel.WIDOWS_PROP, StyleConstants.STYLE_WIDOWS);
+		styleName2Index.put(IStyleModel.WORD_SPACING_PROP, StyleConstants.STYLE_WORD_SPACING);
+		styleName2Index.put(IStyleModel.TEXT_DIRECTION_PROP, StyleConstants.STYLE_DIRECTION);
+		styleName2Index.put(IStyleModel.OVERFLOW_PROP, StyleConstants.STYLE_OVERFLOW);
+		styleName2Index.put(IStyleModel.HEIGHT_PROP, StyleConstants.STYLE_HEIGHT);
+		styleName2Index.put(IStyleModel.WIDTH_PROP, StyleConstants.STYLE_WIDTH);
 
 		colorProperties = new HashSet<>();
-		colorProperties.add(Style.BACKGROUND_COLOR_PROP);
-		colorProperties.add(Style.BORDER_BOTTOM_COLOR_PROP);
-		colorProperties.add(Style.BORDER_LEFT_COLOR_PROP);
-		colorProperties.add(Style.BORDER_RIGHT_COLOR_PROP);
-		colorProperties.add(Style.BORDER_TOP_COLOR_PROP);
-		colorProperties.add(Style.COLOR_PROP);
+		colorProperties.add(IStyleModel.BACKGROUND_COLOR_PROP);
+		colorProperties.add(IStyleModel.BORDER_BOTTOM_COLOR_PROP);
+		colorProperties.add(IStyleModel.BORDER_LEFT_COLOR_PROP);
+		colorProperties.add(IStyleModel.BORDER_RIGHT_COLOR_PROP);
+		colorProperties.add(IStyleModel.BORDER_TOP_COLOR_PROP);
+		colorProperties.add(IStyleModel.COLOR_PROP);
 
 		ruleStyleName2Index = new HashMap<>();
 		ruleStyleName2Index.put(HighlightRule.BORDER_TOP_STYLE_MEMBER, StyleConstants.STYLE_BORDER_TOP_STYLE);

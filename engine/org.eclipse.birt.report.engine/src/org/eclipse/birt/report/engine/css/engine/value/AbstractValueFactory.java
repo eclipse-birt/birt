@@ -23,7 +23,9 @@ import org.w3c.dom.DOMException;
 public abstract class AbstractValueFactory {
 
 	/**
-	 * Returns the name of the property handled.
+	 * Get the name of the property handled.
+	 *
+	 * @return Returns the name of the property handled.
 	 */
 	public abstract String getPropertyName();
 
@@ -58,7 +60,7 @@ public abstract class AbstractValueFactory {
 	 * Creates a DOM exception, given an invalid float value.
 	 */
 	protected DOMException createInvalidFloatValueDOMException(float f) {
-		Object[] p = { getPropertyName(), new Float(f) };
+		Object[] p = { getPropertyName(), Float.valueOf(f) };
 		String s = Messages.formatMessage("invalid.float.value", p);
 		return new DOMException(DOMException.INVALID_ACCESS_ERR, s);
 	}

@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;
@@ -26,7 +25,7 @@ import org.eclipse.birt.report.engine.css.engine.ValueManager;
 public abstract class AbstractValueManager extends AbstractValueFactory implements ValueManager {
 	/**
 	 * Implements
-	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * {@link ValueManager#computeValue(CSSStylableElement,CSSEngine,int,Value)}.
 	 */
 	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
