@@ -28,9 +28,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.AbstractConstraintLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * The layout manager for Table report element
  */
-public class TableLayout extends XYLayout {
+public class TableLayout extends AbstractConstraintLayout {
 
 	/**
 	 * An insets singleton.
@@ -82,6 +82,33 @@ public class TableLayout extends XYLayout {
 	public TableLayout(ITableLayoutOwner part) {
 		super();
 		this.owner = part;
+	}
+
+	@Override
+	protected Dimension calculatePreferredSize(IFigure f, int wHint, int hHint) {
+		Rectangle rect = new Rectangle();
+		for (IFigure child : f.getChildren()) {
+			Rectangle r = (Rectangle) getConstraint(child);
+			if (r == null) {
+				continue;
+			}
+
+			if (r.width == -1 || r.height == -1) {
+				Dimension preferredSize = child.getPreferredSize(r.width, r.height);
+				r = r.getCopy();
+				if (r.width == -1) {
+					r.width = preferredSize.width;
+				}
+				if (r.height == -1) {
+					r.height = preferredSize.height;
+				}
+			}
+			rect.union(r);
+		}
+		Dimension d = rect.getSize();
+		Insets insets = f.getInsets();
+		return new Dimension(d.width + insets.getWidth(), d.height + insets.getHeight())
+				.union(getBorderPreferredSize(f));
 	}
 
 	/**

@@ -65,12 +65,12 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.draw2d.AbstractConstraintLayout;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -162,7 +162,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		// installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new
 		// ContainerHighlightEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new TableXYLayoutEditPolicy((XYLayout) getContentPane().getLayoutManager()));
+				new TableXYLayoutEditPolicy((AbstractConstraintLayout) getContentPane().getLayoutManager()));
 	}
 
 	/*

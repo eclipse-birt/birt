@@ -16,8 +16,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
 import java.util.List;
 
+import org.eclipse.draw2d.AbstractConstraintLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * add comment here
  *
  */
-public class EditorRulerLayout extends XYLayout {
+public class EditorRulerLayout extends AbstractConstraintLayout {
 
 	/**
 	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure,
@@ -49,7 +49,7 @@ public class EditorRulerLayout extends XYLayout {
 	 */
 	@Override
 	public void layout(IFigure container) {
-		List children = container.getChildren();
+		List<?> children = container.getChildren();
 		Rectangle rulerSize = container.getClientArea();
 		for (int i = 0; i < children.size(); i++) {
 			IFigure child = (IFigure) children.get(i);
