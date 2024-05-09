@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies;
 
-import org.eclipse.draw2d.AbstractConstraintLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -37,10 +36,8 @@ public class TableXYLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
 
 	/**
 	 * Constructor
-	 *
-	 * @param layout
 	 */
-	public TableXYLayoutEditPolicy(AbstractConstraintLayout layout) {
+	public TableXYLayoutEditPolicy() {
 		super();
 	}
 
