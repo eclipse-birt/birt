@@ -49,10 +49,10 @@ public class EditorRulerLayout extends AbstractConstraintLayout {
 	 */
 	@Override
 	public void layout(IFigure container) {
-		List<?> children = container.getChildren();
+		List<? extends IFigure> children = container.getChildren();
 		Rectangle rulerSize = container.getClientArea();
 		for (int i = 0; i < children.size(); i++) {
-			IFigure child = (IFigure) children.get(i);
+			IFigure child = children.get(i);
 			Dimension childSize = child.getPreferredSize();
 			Integer constraint = (Integer) getConstraint(child);
 			int position = constraint == null ? 0 : (constraint).intValue();
