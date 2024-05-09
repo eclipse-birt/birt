@@ -475,7 +475,7 @@
         <repository
             url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
+            url="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
         <repository
             url="https://download.eclipse.org/webtools/repository/latest"/>
         <repository
