@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="35">
+<target name="Generated from BIRT" sequenceNumber="36">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
+      <unit id="bcutil" version="0.0.0"/>
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="biz.aQute.resolve" version="0.0.0"/>
@@ -95,6 +96,7 @@
       <unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.ee" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.apache-jsp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.security" version="0.0.0"/>
@@ -143,7 +145,7 @@
       <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
       <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
       <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
       <repository location="https://download.eclipse.org/webtools/repository/latest"/>
       <repository location="https://download.eclipse.org/justj/epp/release/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/17/updates/release/latest"/>
