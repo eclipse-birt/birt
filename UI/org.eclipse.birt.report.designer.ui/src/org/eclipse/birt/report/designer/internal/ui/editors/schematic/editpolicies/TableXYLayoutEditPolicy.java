@@ -42,7 +42,6 @@ public class TableXYLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
 	 */
 	public TableXYLayoutEditPolicy(AbstractConstraintLayout layout) {
 		super();
-		// setXyLayout(layout);
 	}
 
 	@Override
