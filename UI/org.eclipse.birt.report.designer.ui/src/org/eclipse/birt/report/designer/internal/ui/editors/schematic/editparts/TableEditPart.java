@@ -65,7 +65,6 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
-import org.eclipse.draw2d.AbstractConstraintLayout;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -161,8 +160,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		// should add highlight policy
 		// installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new
 		// ContainerHighlightEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new TableXYLayoutEditPolicy((AbstractConstraintLayout) getContentPane().getLayoutManager()));
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new TableXYLayoutEditPolicy());
 	}
 
 	/*
