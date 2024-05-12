@@ -14,12 +14,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies;
 
-import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
+import org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
@@ -28,16 +30,25 @@ import org.eclipse.gef.requests.CreateRequest;
  *
  *
  */
-public class TableXYLayoutEditPolicy extends XYLayoutEditPolicy {
+public class TableXYLayoutEditPolicy extends ConstrainedLayoutEditPolicy {
+
+	private static final Dimension PREFERRED_SIZE = new Dimension(-1, -1);
 
 	/**
 	 * Constructor
-	 *
-	 * @param layout
 	 */
-	public TableXYLayoutEditPolicy(XYLayout layout) {
+	public TableXYLayoutEditPolicy() {
 		super();
-		setXyLayout(layout);
+	}
+
+	@Override
+	public Object getConstraintFor(Point p) {
+		return new Rectangle(p, PREFERRED_SIZE);
+	}
+
+	@Override
+	public Object getConstraintFor(Rectangle r) {
+		return new Rectangle(r);
 	}
 
 	@Override

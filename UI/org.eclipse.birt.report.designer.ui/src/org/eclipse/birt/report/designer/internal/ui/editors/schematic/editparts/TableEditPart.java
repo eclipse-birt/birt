@@ -70,7 +70,6 @@ import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -161,8 +160,7 @@ public class TableEditPart extends AbstractTableEditPart implements ITableAdapte
 		// should add highlight policy
 		// installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new
 		// ContainerHighlightEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new TableXYLayoutEditPolicy((XYLayout) getContentPane().getLayoutManager()));
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new TableXYLayoutEditPolicy());
 	}
 
 	/*
