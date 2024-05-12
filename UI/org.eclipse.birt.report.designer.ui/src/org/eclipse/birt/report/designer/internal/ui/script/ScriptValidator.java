@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.engine.javascript.JavascriptVersion;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
@@ -128,7 +129,7 @@ public class ScriptValidator {
 		IAnnotationModel annotationModel = scriptViewer.getAnnotationModel();
 
 		if (annotationModel != null) {
-			for (Iterator iterator = annotationModel.getAnnotationIterator(); iterator.hasNext();) {
+			for (Iterator<?> iterator = annotationModel.getAnnotationIterator(); iterator.hasNext();) {
 				Annotation annotation = (Annotation) iterator.next();
 
 				if (annotation != null && IReportGraphicConstants.ANNOTATION_ERROR.equals(annotation.getType())) {
@@ -150,6 +151,7 @@ public class ScriptValidator {
 		}
 
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
+		compilerEnv.setLanguageVersion((new JavascriptVersion()).getECMAScriptVersion());
 		Parser jsParser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
 
 		try {

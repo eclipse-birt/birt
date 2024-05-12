@@ -26,14 +26,12 @@ interface IDesignSchemaConstants {
 	/**
 	 * The version of report design.
 	 */
-
-	String REPORT_VERSION = "3.2.24"; //$NON-NLS-1$
+	String REPORT_VERSION = "3.2.25"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
-
-	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_24;
+	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_25;
 
 	String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$
@@ -240,7 +238,6 @@ interface IDesignSchemaConstants {
 	/**
 	 * @deprecated by the {@link #TEXT_DATA_TAG}
 	 */
-
 	@Deprecated
 	String MULTI_LINE_DATA_TAG = "multi-line-data"; //$NON-NLS-1$
 
