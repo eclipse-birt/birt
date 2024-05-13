@@ -225,8 +225,13 @@ public class DataSetColumnBindingsFormPage extends FormPage {
 
 		if (btnRefresh != null) {
 			data = new FormData();
-			data.top = new FormAttachment(btnDel, 0, SWT.BOTTOM);
-			data.left = new FormAttachment(btnDel, 0, SWT.LEFT);
+			if (btnDown != null) {
+				data.top = new FormAttachment(btnDown, 0, SWT.BOTTOM);
+				data.left = new FormAttachment(btnDown, 0, SWT.LEFT);
+			} else {
+				data.top = new FormAttachment(btnDel, 0, SWT.BOTTOM);
+				data.left = new FormAttachment(btnDel, 0, SWT.LEFT);
+			}
 			data.width = Math.max(60, btnRefresh.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 			btnRefresh.setLayoutData(data);
 		}
