@@ -6,6 +6,7 @@ Bundle-Version: 4.16.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.ReportPlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
+Import-Package: org.eclipse.birt.report.engine.javascript
 Export-Package: org.eclipse.birt.report.designer.data.ui.aggregation,
  org.eclipse.birt.report.designer.data.ui.dataset,
  org.eclipse.birt.report.designer.data.ui.property,

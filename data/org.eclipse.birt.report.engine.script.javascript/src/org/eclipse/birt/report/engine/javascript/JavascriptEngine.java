@@ -67,6 +67,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 
 	protected ScriptableObject root;
 
+	protected JavascriptVersion version;
+
 	private Map<String, Object> propertyMap = new HashMap<>();
 
 	private JavascriptEngineFactory factory;
@@ -76,16 +78,25 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 			Context context = Context.enter();
 			cachedScript = context.compileString("function writeStatus(msg) { _statusHandle.showStatus(msg); }",
 					"<inline>", 1, null);
-			context.exit();
+			Context.exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param factory factory object for the JavaScript engine
+	 * @param root    scriptable object
+	 * @throws BirtException
+	 */
 	public JavascriptEngine(JavascriptEngineFactory factory, ScriptableObject root) throws BirtException {
 		this.factory = factory;
 		try {
 			this.context = Context.enter();
+			this.version = new JavascriptVersion();
+			this.context.setLanguageVersion(this.version.getECMAScriptVersion());
 			this.global = new ImporterTopLevel();
 			this.root = root;
 			if (root != null) {
@@ -129,7 +140,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 			 * wrapper an java object to javascript object.
 			 */
 			@Override
-			public Object wrap(Context cx, Scriptable scope, Object obj, Class staticType) {
+			public Object wrap(Context cx, Scriptable scope, Object obj, Class<?> staticType) {
 				Object object = coreWrapper.wrap(cx, scope, obj, staticType);
 				if (object != obj) {
 					return object;
