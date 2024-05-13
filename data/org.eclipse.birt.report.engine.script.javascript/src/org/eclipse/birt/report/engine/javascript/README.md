@@ -2,13 +2,10 @@
 Introduction to use the configuration of the JavaScript language version.
 
 ## Reason
-The JavaScript engine of BIRT is based on the Rhino engine.<br>
-The default language version of the Rhino engine is JavaScript version 1.6.
-Rhino supports different language versions of JavaScript including the latest version ECMAScript 6.
+The JavaScript engine of BIRT is based on the Rhino engine. The default language version of the Rhino engine is JavaScript version 1.6. Rhino supports different language versions of JavaScript including the latest version ECMAScript 6.
 
-On **BIRT** side the Rhino engine will be run with the latest version **ECMAScript 6**.<br>
-To be compatible with earlier JavaScript versions a global system property is given
-which can be set at JVM level to change the JavaScript language version.
+On **BIRT** side the Rhino engine will be run with the latest version **ECMAScript 6**.
+To be compatible with earlier JavaScript versions a global system property is given which can be set at JVM level to change the JavaScript language version.
 
 All supported JavaScript language versions of the Rhino engine can be configured.
 
@@ -30,5 +27,6 @@ The configuration will be done as a global starting parameter of the JVM.
 ** Function reference of Rhino**
 
 - An overview of Rhino engine supported functions are listed here: [Rhino ES2015 Support](https://mozilla.github.io/rhino/compat/engines.html)
-<br><br>
+
+
 - The Rhino engine will be integrated at BIRT through the Orbit-project: [Orbit Aggregation Summary](https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/table.html)
