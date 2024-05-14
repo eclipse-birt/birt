@@ -95,6 +95,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 			"with", //$NON-NLS-1$
 			"const", //$NON-NLS-1$
 			"let", //$NON-NLS-1$
+			"of", //$NON-NLS-1$
 	};
 
 	/**
@@ -123,6 +124,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 
 		rules.add(new MultiLineRule("/*", "*/", TOKEN_COMMENT)); //$NON-NLS-1$ //$NON-NLS-2$
 		rules.add(new EndOfLineRule("//", TOKEN_COMMENT)); //$NON-NLS-1$
+		rules.add(new MultiLineRule("`", "`", TOKEN_STRING)); //$NON-NLS-1$ //$NON-NLS-2$
 		rules.add(new SingleLineRule("\"", "\"", TOKEN_STRING, '\\')); //$NON-NLS-1$ //$NON-NLS-2$
 		rules.add(new SingleLineRule("'", "'", TOKEN_STRING, '\\')); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -178,7 +180,8 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 		this.globalObjectTokens.add("vars"); //$NON-NLS-1$
 		this.globalObjectTokens.add("row"); //$NON-NLS-1$
 		this.globalObjectTokens.add("dataSetRow"); //$NON-NLS-1$
-
+		this.globalObjectTokens.add("importPackage"); //$NON-NLS-1$
+		this.globalObjectTokens.add("Packages"); //$NON-NLS-1$
 		this.keywordMethods.add("__rownum"); //$NON-NLS-1$
 
 		try {
