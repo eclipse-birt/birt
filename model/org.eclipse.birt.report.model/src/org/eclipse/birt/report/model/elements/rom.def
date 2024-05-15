@@ -753,8 +753,45 @@
     <Method displayNameID="Class.String.toLocaleLowerCase" name="toLocaleLowerCase" returnType="String" toolTipID="Class.String.toLocaleLowerCase.toolTip"/>
     <Method displayNameID="Class.String.toUpperCase" name="toUpperCase" returnType="String" toolTipID="Class.String.toUpperCase.toolTip"/>
     <Method displayNameID="Class.String.toLocaleUpperCase" name="toLocaleUpperCase" returnType="String" toolTipID="Class.String.toLocaleUpperCase.toolTip"/>
-    <Method displayNameID="Class.String.toString" name="toString" returnType="string" toolTipID="Class.String.toString.toolTip"/>
-    <Method displayNameID="Class.String.valueOf" name="valueOf" returnType="string" toolTipID="Class.String.valueOf.toolTip"/>
+    <Method displayNameID="Class.String.toString" name="toString" returnType="String" toolTipID="Class.String.toString.toolTip"/>
+    <Method displayNameID="Class.String.valueOf" name="valueOf" returnType="String" toolTipID="Class.String.valueOf.toolTip"/>
+    <Method displayNameID="Class.String.at" name="at" returnType="boolean" toolTipID="Class.String.at.toolTip">
+      <Argument name="index" tagID="Class.String.at.index" type="number"/>
+    </Method>
+    <Method displayNameID="Class.String.codePointAt" name="codePointAt" returnType="number" toolTipID="Class.String.codePointAt.toolTip">
+      <Argument name="position" tagID="Class.String.codePointAt.position" type="number"/>
+    </Method>
+    <Method displayNameID="Class.String.includes" name="includes" returnType="boolean" toolTipID="Class.String.includes.toolTip">
+      <Argument name="searchvalue" tagID="Class.String.includes.searchvalue" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.includes" name="includes" returnType="boolean" toolTipID="Class.String.includes.toolTip">
+      <Argument name="searchvalue" tagID="Class.String.includes.searchvalue" type="String"/>
+      <Argument name="start" tagID="Class.String.includes.start" type="number"/>
+    </Method>
+    <Method displayNameID="Class.String.endsWith" name="endsWith" returnType="boolean" toolTipID="Class.String.endsWith.toolTip">
+      <Argument name="value" tagID="Class.String.endsWith.value" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.startsWith" name="startsWith" returnType="boolean" toolTipID="Class.String.startsWith.toolTip">
+      <Argument name="value" tagID="Class.String.startsWith.value" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.repeat" name="repeat" returnType="String" toolTipID="Class.String.repeat.toolTip">
+      <Argument name="copies" tagID="Class.String.repeat.copies" type="number"/>
+    </Method>
+    <Method displayNameID="Class.String.replaceAll" name="replaceAll" returnType="String" toolTipID="Class.String.replaceAll.toolTip">
+      <Argument name="length" tagID="Class.String.replaceAll.RegExp" type="RegExp"/>
+      <Argument name="value" tagID="Class.String.replaceAll.replacement" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.padEnd" name="padEnd" returnType="String" toolTipID="Class.String.padEnd.toolTip">
+      <Argument name="length" tagID="Class.String.padEnd.length" type="number"/>
+      <Argument name="value" tagID="Class.String.padEnd.value" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.padStart" name="padStart" returnType="String" toolTipID="Class.String.padStart.toolTip">
+      <Argument name="length" tagID="Class.String.padStart.length" type="number"/>
+      <Argument name="value" tagID="Class.String.padStart.value" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.trim" name="trim" returnType="String" toolTipID="Class.String.trim.toolTip"/>
+    <Method displayNameID="Class.String.trimEnd" name="trimEnd" returnType="String" toolTipID="Class.String.trimEnd.toolTip"/>
+    <Method displayNameID="Class.String.trimStart" name="trimStart" returnType="String" toolTipID="Class.String.trimStart.toolTip"/>
   </Class>
   <Class displayNameID="Class.Date" name="Date" native="true" toolTipID="Class.Date.toolTip">
     <Constructor displayNameID="Class.Date.Date" name="Date" returnType="Date" toolTipID="Class.Date.Date.toolTip"/>
@@ -957,6 +994,13 @@
     <Method displayNameID="Class.Array.concat" name="concat" returnType="Array" toolTipID="Class.Array.concat.toolTip">
       <Argument name="value" tagID="Class.Array.concat.value" type="Object"/>
       <Argument name="optionalArgument" tagID="Class.optionalArgument"/>
+    </Method>
+    <Method displayNameID="Class.Array.includes" name="includes" returnType="boolean" toolTipID="Class.Array.includes.toolTip">
+      <Argument name="searchvalue" tagID="Class.Array.includes.searchvalue" type="String"/>
+    </Method>
+    <Method displayNameID="Class.String.includes" name="includes" returnType="boolean" toolTipID="Class.String.includes.toolTip">
+      <Argument name="searchvalue" tagID="Class.Array.includes.searchvalue" type="String"/>
+      <Argument name="start" tagID="Class.Array.includes.start" type="number"/>
     </Method>
     <Method displayNameID="Class.Array.join" name="join" returnType="String" toolTipID="Class.Array.join.toolTip"/>
     <Method displayNameID="Class.Array.join" name="join" returnType="String" toolTipID="Class.Array.join.toolTip">
