@@ -65,7 +65,7 @@ public class ClientAnchorConversions {
 	 */
 	public static int millimetres2WidthUnits(double millimetres) {
 		int pixels = (int) (millimetres * PIXELS_PER_MILLIMETRES);
-		short widthUnits = (short) (EXCEL_COLUMN_WIDTH_FACTOR * (pixels / UNIT_OFFSET_LENGTH));
+		int widthUnits = (EXCEL_COLUMN_WIDTH_FACTOR * (pixels / UNIT_OFFSET_LENGTH));
 		widthUnits += UNIT_OFFSET_MAP[(pixels % UNIT_OFFSET_LENGTH)];
 		return widthUnits;
 	}

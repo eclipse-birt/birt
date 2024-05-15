@@ -124,7 +124,11 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 				log.debug("BIRT table column width: ", col, " = ", width);
 				int newWidth = state.getSmu().poiColumnWidthFromDimension(width);
 				int oldWidth = state.currentSheet.getColumnWidth(startCol + col);
-				if ((oldWidth == 256 * state.currentSheet.getDefaultColumnWidth()) || (newWidth > oldWidth)) {
+				// calculation excel column max value 255 * 256 excel factor
+				int maxValue = 255 * 256;
+				if (newWidth > maxValue) {
+					state.currentSheet.setColumnWidth(startCol + col, maxValue);
+				} else if ((oldWidth == 256 * state.currentSheet.getDefaultColumnWidth()) || (newWidth > oldWidth)) {
 					state.currentSheet.setColumnWidth(startCol + col, newWidth);
 				}
 			}
