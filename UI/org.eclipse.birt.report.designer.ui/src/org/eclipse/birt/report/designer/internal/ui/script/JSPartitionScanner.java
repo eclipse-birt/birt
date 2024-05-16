@@ -176,13 +176,15 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 	private void fetchJSCommonObjectsMethods() {
 		this.globalObjectTokens.add("reportContext"); //$NON-NLS-1$
 		this.globalObjectTokens.add("params"); //$NON-NLS-1$
-		this.globalObjectTokens.add("value"); //$NON-NLS-1$
 		this.globalObjectTokens.add("vars"); //$NON-NLS-1$
 		this.globalObjectTokens.add("row"); //$NON-NLS-1$
 		this.globalObjectTokens.add("dataSetRow"); //$NON-NLS-1$
 		this.globalObjectTokens.add("importPackage"); //$NON-NLS-1$
 		this.globalObjectTokens.add("Packages"); //$NON-NLS-1$
 		this.keywordMethods.add("__rownum"); //$NON-NLS-1$
+		this.keywordMethods.add("value"); //$NON-NLS-1$
+		this.keywordMethods.add("data"); //$NON-NLS-1$
+		this.keywordMethods.add("displayText"); //$NON-NLS-1$
 
 		try {
 			// analysis of static javascript classes and methods
