@@ -326,7 +326,7 @@ public class PageHandler extends AbstractHandler {
 		// Get image width
 		int endCol = cell.getColumnIndex();
 		double lastColWidth = ClientAnchorConversions
-				.widthUnits2Millimetres((short) state.currentSheet.getColumnWidth(endCol)) + 2.0;
+				.widthUnits2Millimetres(state.currentSheet.getColumnWidth(endCol)) + 2.0;
 		int dx = smu.anchorDxFromMM(lastColWidth, lastColWidth);
 		double mmWidth = 0.0;
 		if (smu.isAbsolute(image.getWidth())) {
@@ -344,7 +344,7 @@ public class PageHandler extends AbstractHandler {
 				int endColLimit = cellImage.spanColumns ? 256 : mergedRegion.getLastColumn();
 				for (endCol = cell.getColumnIndex(); mmAccumulatedWidth < mmWidth && endCol < endColLimit; ++endCol) {
 					lastColWidth = ClientAnchorConversions
-							.widthUnits2Millimetres((short) state.currentSheet.getColumnWidth(endCol)) + 2.0;
+							.widthUnits2Millimetres(state.currentSheet.getColumnWidth(endCol)) + 2.0;
 					mmAccumulatedWidth += lastColWidth;
 					log.debug("lastColWidth = ", lastColWidth, "; mmAccumulatedWidth = ", mmAccumulatedWidth);
 				}
