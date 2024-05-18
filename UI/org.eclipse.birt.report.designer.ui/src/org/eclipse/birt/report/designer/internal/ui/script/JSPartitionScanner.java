@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation, 2024 others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
+ *  Thomas Gutmann       - additional syntax highlighting
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.script;
@@ -25,6 +26,7 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IPredicateRule;
@@ -195,9 +197,14 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 					this.globalObjectTokens.add(classInfo.getName());
 
 					List<IMethodInfo> resultMethodList = classInfo.getMethods();
-					for (Iterator<IMethodInfo> mIter = resultMethodList.iterator(); mIter.hasNext();) {
-						IMethodInfo methodInfo = mIter.next();
+					for (Iterator<IMethodInfo> methodIter = resultMethodList.iterator(); methodIter.hasNext();) {
+						IMethodInfo methodInfo = methodIter.next();
 						this.keywordMethods.add(methodInfo.getName());
+					}
+					List<IMemberInfo> resultMemberList = classInfo.getMembers();
+					for (Iterator<IMemberInfo> memberIter = resultMemberList.iterator(); memberIter.hasNext();) {
+						IMemberInfo memberInfo = memberIter.next();
+						this.keywordMethods.add(memberInfo.getName());
 					}
 				}
 			}
