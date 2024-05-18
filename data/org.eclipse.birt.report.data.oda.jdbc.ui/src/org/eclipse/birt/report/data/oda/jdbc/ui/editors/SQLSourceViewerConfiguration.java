@@ -40,6 +40,11 @@ public class SQLSourceViewerConfiguration extends SourceViewerConfiguration {
 	private boolean enableCodeAssist;
 
 	/**
+	 * Constructor
+	 *
+	 * @param dsd              data source design
+	 * @param timeout          timeout interval
+	 * @param enableCodeAssist enable code assist
 	 *
 	 */
 	public SQLSourceViewerConfiguration(DataSourceDesign dsd, long timeout, boolean enableCodeAssist) {

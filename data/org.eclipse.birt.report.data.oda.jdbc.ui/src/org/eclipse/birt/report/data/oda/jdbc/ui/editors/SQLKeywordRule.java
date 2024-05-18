@@ -34,6 +34,10 @@ public class SQLKeywordRule implements IPredicateRule {
 	StringBuffer buf = null;
 
 	/**
+	 * Constructor
+	 *
+	 * @param _token   token
+	 * @param keywords keywords
 	 *
 	 */
 	public SQLKeywordRule(IToken _token, String[] keywords) {

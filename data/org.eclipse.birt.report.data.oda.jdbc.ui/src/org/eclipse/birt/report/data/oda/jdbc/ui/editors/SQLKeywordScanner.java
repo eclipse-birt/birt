@@ -29,7 +29,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * TODO: Please document
+ * Keyword scanner for syntax highlighting
  *
  * @version $Revision: 1.4 $ $Date: 2009/07/07 06:50:16 $
  */
@@ -41,7 +41,7 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 	public SQLKeywordScanner() {
 		super();
 		IToken sqlKeywordsToken = new Token(new TextAttribute(ColorManager.getColor(127, 0, 85), null, SWT.BOLD));
-		ArrayList rules = new ArrayList();
+		ArrayList<IRule> rules = new ArrayList<IRule>();
 		rules.add(new SQLKeywordRule(sqlKeywordsToken, reservedwords));
 		rules.add(new SQLKeywordRule(sqlKeywordsToken, types));
 		rules.add(new SQLKeywordRule(sqlKeywordsToken, constants));
@@ -57,7 +57,7 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 			}
 		}));
 
-		setRules((IRule[]) rules.toArray(new IRule[rules.size()]));
+		setRules(rules.toArray(new IRule[rules.size()]));
 		this.setDefaultReturnToken(
 				new Token(new TextAttribute(Display.getDefault().getSystemColor(SWT.COLOR_LIST_FOREGROUND))));
 	}
