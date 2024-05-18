@@ -10,7 +10,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  Thomas Gutmann		 - additional syntax highlighting
+ *  Thomas Gutmann       - additional syntax highlighting
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.script;
