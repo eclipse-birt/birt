@@ -139,7 +139,7 @@ Console: <a href='${env.BUILD_URL}/console'>${env.BUILD_URL}/console</a>
 def void mvn() {
   wrap([$class: 'Xvnc', useXauthority: true]) {
     sh '''
-      export MAVEN_OPTS="-Xmx1500m"
+      export MAVEN_OPTS="-XX:MaxRAMPercentage=30"
       mvn \
       clean \
       verify \
