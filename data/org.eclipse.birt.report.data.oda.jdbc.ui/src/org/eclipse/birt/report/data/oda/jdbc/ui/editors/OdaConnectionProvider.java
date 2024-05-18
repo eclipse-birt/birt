@@ -29,6 +29,12 @@ import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 
+/**
+ * ODA connection provider
+ *
+ * @since 3.3
+ *
+ */
 public class OdaConnectionProvider {
 	private DataSourceDesign dataSourceDesign;
 	private IConnection connection;
@@ -45,7 +51,7 @@ public class OdaConnectionProvider {
 		try {
 			connection = jdbcDriver.getConnection(dataSourceDesign.getEffectiveOdaExtensionId());
 
-			Map appContext = new HashMap();
+			Map<String, org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers> appContext = new HashMap<String, org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers>();
 			ResourceIdentifiers resourceIdentifiers = dataSourceDesign.getHostResourceIdentifiers();
 			if (resourceIdentifiers != null) {
 				appContext.put(

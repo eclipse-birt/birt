@@ -17,7 +17,6 @@ import java.sql.Types;
 import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
@@ -39,7 +38,9 @@ public class SQLUtility {
 	/**
 	 * save the dataset design's metadata info
 	 *
-	 * @param design
+	 * @param design    data set design
+	 * @param meta      result set meta data
+	 * @param paramMeta parameter meta data
 	 */
 	public static void saveDataSetDesign(DataSetDesign design, IResultSetMetaData meta, IParameterMetaData paramMeta) {
 		try {
@@ -69,16 +70,16 @@ public class SQLUtility {
 	}
 
 	/**
-	 * solve the BIDI line problem
+	 * Solve the BIDI line problem
 	 *
-	 * @param lineText
-	 * @return
+	 * @param lineText line text
+	 * @return the line segment
 	 */
 	public static int[] getBidiLineSegments(String lineText) {
 		int[] seg = null;
 		if (lineText != null && lineText.length() > 0
 				&& !new Bidi(lineText, Bidi.DIRECTION_LEFT_TO_RIGHT).isLeftToRight()) {
-			List list = new ArrayList();
+			ArrayList<Object> list = new ArrayList<Object>();
 
 			// Punctuations will be regarded as delimiter so that different
 			// splits could be rendered separately.
@@ -107,6 +108,8 @@ public class SQLUtility {
 	/**
 	 * Return pre-defined query text pattern with every element in a cell.
 	 *
+	 * @param extensionId extension id
+	 *
 	 * @return pre-defined query text
 	 */
 	public static String getQueryPresetTextString(String extensionId) {
@@ -123,6 +126,8 @@ public class SQLUtility {
 	/**
 	 * Return pre-defined query text pattern with every element in a cell in an
 	 * Array
+	 *
+	 * @param extensionId extension id
 	 *
 	 * @return pre-defined query text in an Array
 	 */
@@ -150,7 +155,7 @@ public class SQLUtility {
 		DataSetParameters dataSetParameter = DesignSessionUtil.toDataSetParametersDesign(md, ParameterMode.IN_LITERAL);
 
 		if (dataSetParameter != null) {
-			Iterator iter = dataSetParameter.getParameterDefinitions().iterator();
+			Iterator<?> iter = dataSetParameter.getParameterDefinitions().iterator();
 			while (iter.hasNext()) {
 				ParameterDefinition defn = (ParameterDefinition) iter.next();
 				proccessParamDefn(defn, dataSetParameter);

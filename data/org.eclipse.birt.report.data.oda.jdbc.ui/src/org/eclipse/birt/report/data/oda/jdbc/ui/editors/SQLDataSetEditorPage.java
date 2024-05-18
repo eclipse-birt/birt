@@ -687,7 +687,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				return ((List) inputElement).toArray();
+				return ((List<?>) inputElement).toArray();
 			}
 
 			@Override

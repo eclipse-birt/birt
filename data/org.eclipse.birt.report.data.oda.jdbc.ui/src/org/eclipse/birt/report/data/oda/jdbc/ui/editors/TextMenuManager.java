@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Menu;
  */
 class TextMenuManager {
 
-	private Hashtable htActions = new Hashtable();
+	private Hashtable<String, SQLEditorAction> htActions = new Hashtable<String, SQLEditorAction>();
 	private MenuManager manager;
 
 	/**
@@ -68,9 +68,9 @@ class TextMenuManager {
 
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				Enumeration elements = htActions.elements();
+				Enumeration<SQLEditorAction> elements = htActions.elements();
 				while (elements.hasMoreElements()) {
-					SQLEditorAction action = (SQLEditorAction) elements.nextElement();
+					SQLEditorAction action = elements.nextElement();
 					action.update();
 				}
 			}
@@ -80,7 +80,7 @@ class TextMenuManager {
 	/**
 	 *
 	 * @param control
-	 * @return
+	 * @return context menu
 	 */
 	public Menu getContextMenu(Control control) {
 		return manager.createContextMenu(control);
@@ -95,7 +95,7 @@ class TextMenuManager {
 	 * @return
 	 */
 	private final SQLEditorAction getAction(String id, TextViewer viewer, String name, int operation) {
-		SQLEditorAction action = (SQLEditorAction) htActions.get(id);
+		SQLEditorAction action = htActions.get(id);
 		if (action == null) {
 			action = new SQLEditorAction(viewer, name, operation);
 			htActions.put(id, action);

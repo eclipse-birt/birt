@@ -54,6 +54,9 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 	private long timeout; // milliseconds
 
 	/**
+	 * Constructor
+	 *
+	 * @param milliseconds timeout
 	 *
 	 */
 	public JdbcSQLContentAssistProcessor(long milliseconds) {
@@ -61,6 +64,11 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 		this.timeout = milliseconds;
 	}
 
+	/**
+	 * Set data source handle
+	 *
+	 * @param dataSourceHandle data source handle
+	 */
 	public void setDataSourceHandle(DataSourceDesign dataSourceHandle) {
 		if (metaData != null) {
 			metaData.clearCache();
@@ -101,9 +109,8 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 				{
 					lastProposals = getTableOrColumnCompletionProposals(viewer, offset);
 					return lastProposals;
-				} else {
-					return getRelevantProposals(viewer, offset);
 				}
+				return getRelevantProposals(viewer, offset);
 			}
 		} catch (BadLocationException e) {
 		}
@@ -198,17 +205,16 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 					// it.
 					if (schema != null) {
 						return convertTablesToCompletionProposals(schema.getTables(), offset);
-					} else {
-						// Find the first table match in all the schemas and
-						// return the columns
-						ArrayList schemas = metaData.getSchemas();
-						Iterator iter = schemas.iterator();
-						while (iter.hasNext()) {
-							schema = (Schema) iter.next();
-							Table table = schema.getTable(tableName);
-							if (table != null) {
-								return convertColumnsToCompletionProposals(table.getColumns(), offset);
-							}
+					}
+					// Find the first table match in all the schemas and
+					// return the columns
+					ArrayList<?> schemas = metaData.getSchemas();
+					Iterator<?> iter = schemas.iterator();
+					while (iter.hasNext()) {
+						schema = (Schema) iter.next();
+						Table table = schema.getTable(tableName);
+						if (table != null) {
+							return convertColumnsToCompletionProposals(table.getColumns(), offset);
 						}
 					}
 				} else {
@@ -231,7 +237,7 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 
 	private ICompletionProposal[] getRelevantProposals(ITextViewer viewer, int offset) throws BadLocationException {
 		if (lastProposals != null) {
-			ArrayList relevantProposals = new ArrayList(10);
+			ArrayList<CompletionProposal> relevantProposals = new ArrayList<CompletionProposal>(10);
 
 			String word = (findWord(viewer, offset - 1)).toLowerCase();
 			// Search for this word in the list
@@ -245,7 +251,7 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 			}
 
 			if (relevantProposals.size() > 0) {
-				return (ICompletionProposal[]) relevantProposals.toArray(new ICompletionProposal[] {});
+				return relevantProposals.toArray(new ICompletionProposal[] {});
 			}
 		}
 
@@ -256,10 +262,10 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 	 * @param columns
 	 * @return
 	 */
-	private ICompletionProposal[] convertColumnsToCompletionProposals(ArrayList columns, int offset) {
+	private ICompletionProposal[] convertColumnsToCompletionProposals(ArrayList<?> columns, int offset) {
 		if (columns.size() > 0) {
 			ICompletionProposal[] proposals = new ICompletionProposal[columns.size()];
-			Iterator iter = columns.iterator();
+			Iterator<?> iter = columns.iterator();
 			int n = 0;
 			while (iter.hasNext()) {
 				Column column = (Column) iter.next();
@@ -272,13 +278,15 @@ public class JdbcSQLContentAssistProcessor implements IContentAssistProcessor, I
 	}
 
 	/**
-	 * @param tables
-	 * @return
+	 * Convert tables to completion proposals
+	 *
+	 * @param tables tables to be converted
+	 * @return converted tables
 	 */
-	private ICompletionProposal[] convertTablesToCompletionProposals(ArrayList tables, int offset) {
+	private ICompletionProposal[] convertTablesToCompletionProposals(ArrayList<?> tables, int offset) {
 		if (tables.size() > 0) {
 			ICompletionProposal[] proposals = new ICompletionProposal[tables.size()];
-			Iterator iter = tables.iterator();
+			Iterator<?> iter = tables.iterator();
 			int n = 0;
 			while (iter.hasNext()) {
 				Table table = (Table) iter.next();
