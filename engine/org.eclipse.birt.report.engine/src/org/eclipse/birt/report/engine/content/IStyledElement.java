@@ -14,14 +14,40 @@
 
 package org.eclipse.birt.report.engine.content;
 
+/**
+ * Interface of styled element
+ *
+ * @since 3.3
+ *
+ */
 public interface IStyledElement {
 
+	/**
+	 * Get the computed style of the element
+	 *
+	 * @return computed style
+	 */
 	IStyle getComputedStyle();
 
+	/**
+	 * Get the style of the element
+	 *
+	 * @return the style
+	 */
 	IStyle getStyle();
 
+	/**
+	 * Get the style class
+	 *
+	 * @return the style class
+	 */
 	String getStyleClass();
 
+	/**
+	 * Set the style class
+	 *
+	 * @param styleClass style class
+	 */
 	void setStyleClass(String styleClass);
 
 }

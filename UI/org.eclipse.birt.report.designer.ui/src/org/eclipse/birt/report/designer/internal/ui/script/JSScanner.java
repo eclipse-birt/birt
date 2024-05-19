@@ -32,7 +32,7 @@ public class JSScanner extends RuleBasedScanner {
 	 *
 	 */
 	public JSScanner() {
-		List rules = new ArrayList();
+		List<WhitespaceRule> rules = new ArrayList<WhitespaceRule>();
 
 		// Add generic whitespace rule.
 		rules.add(new WhitespaceRule(new IWhitespaceDetector() {

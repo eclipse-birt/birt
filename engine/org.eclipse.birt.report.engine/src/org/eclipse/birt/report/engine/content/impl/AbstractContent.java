@@ -46,6 +46,12 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Content of element
+ *
+ * @since 3.3
+ *
+ */
 abstract public class AbstractContent extends AbstractElement implements IContent {
 
 	private static final DimensionType EMPTY_DIMENSION = new DimensionType("NONE");
@@ -173,11 +179,10 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		if (inline != null) {
 			if (inline instanceof StyleDeclaration) {
 				return new StyleDeclaration((StyleDeclaration) inline);
-			} else {
-				IStyle newStyle = new StyleDeclaration(cssEngine);
-				newStyle.setProperties(inline);
-				return newStyle;
 			}
+			IStyle newStyle = new StyleDeclaration(cssEngine);
+			newStyle.setProperties(inline);
+			return newStyle;
 		}
 		return null;
 	}
@@ -744,10 +749,10 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 			acl = IOUtil.readString(in);
 			break;
 		case FIELD_USER_PROPERTIES:
-			userProperties = (Map<String, Object>) IOUtil.readMap(in);
+			userProperties = IOUtil.readMap(in);
 			break;
 		case FIELD_EXTENSIONS:
-			extProperties = (Map<String, Object>) IOUtil.readMap(in);
+			extProperties = IOUtil.readMap(in);
 		}
 	}
 
@@ -822,12 +827,19 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	}
 
 	/**
-	 * @param iVersion The version of the content.
+	 * Set version
+	 *
+	 * @param version The version of the content.
 	 */
 	public void setVersion(int version) {
 		this.version = version;
 	}
 
+	/**
+	 * Check if content should be saved
+	 *
+	 * @return need save
+	 */
 	public boolean needSave() {
 		if (name != null) {
 			return true;
@@ -860,9 +872,8 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	public IContent cloneContent(boolean isDeep) {
 		if (isDeep) {
 			throw new UnsupportedOperationException();
-		} else {
-			return cloneContent();
 		}
+		return cloneContent();
 	}
 
 	protected abstract IContent cloneContent();

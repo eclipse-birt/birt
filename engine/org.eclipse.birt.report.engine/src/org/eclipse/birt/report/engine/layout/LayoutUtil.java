@@ -29,15 +29,30 @@ import org.eclipse.birt.report.engine.content.IStyledElement;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableBandContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValueList;
 
+/**
+ * Class of layout util
+ *
+ * @since 3.3
+ *
+ */
 public class LayoutUtil {
 
+	/**
+	 * Get the master page
+	 *
+	 * @param report     report content
+	 * @param masterPage master page
+	 * @return master page design
+	 */
 	public static MasterPageDesign getMasterPage(IReportContent report, String masterPage) {
 		MasterPageDesign pageDesign = null;
 		if (masterPage != null && !"".equals(masterPage)) //$NON-NLS-1$
@@ -50,6 +65,12 @@ public class LayoutUtil {
 		return getDefaultMasterPage(report);
 	}
 
+	/**
+	 * Get the default master page
+	 *
+	 * @param report report content
+	 * @return the default master page
+	 */
 	public static MasterPageDesign getDefaultMasterPage(IReportContent report) {
 		PageSetupDesign pageSetup = report.getDesign().getPageSetup();
 		int pageCount = pageSetup.getMasterPageCount();
@@ -71,10 +92,16 @@ public class LayoutUtil {
 	 * true; } } return false; }
 	 */
 
-	// get column width specified by cell width
+	/**
+	 * Get the column width specified by cell width
+	 *
+	 * @param table    table content
+	 * @param colIndex column index
+	 * @return the column width specified by cell width
+	 */
 	public static DimensionType getColWidthFromCellInFirstRow(ITableContent table, int colIndex) {
 		if (table.getChildren() != null) {
-			Iterator<Object> rowIterator = table.getChildren().iterator();
+			Iterator<?> rowIterator = table.getChildren().iterator();
 			if (rowIterator.hasNext()) {
 				Object content = rowIterator.next();
 				RowContent rowContent = null;
@@ -89,9 +116,9 @@ public class LayoutUtil {
 
 				// find i-th Cell width
 				if (rowContent != null && rowContent.hasChildren()) {
-					Iterator<ICellContent> cellIterator = rowContent.getChildren().iterator();
+					Iterator<IContent> cellIterator = rowContent.getChildren().iterator();
 					for (int i = 0; i <= colIndex && cellIterator.hasNext(); i++) {
-						ICellContent cell = cellIterator.next();
+						ICellContent cell = (ICellContent) cellIterator.next();
 						if (i == colIndex) {
 							return cell.getWidth();
 						}
@@ -102,12 +129,21 @@ public class LayoutUtil {
 		return null;
 	}
 
+	/**
+	 * Is hidden content
+	 *
+	 * @param content           styled element
+	 * @param format            format
+	 * @param outputDisplayNone output display none
+	 * @param hiddenMask        hidden mask
+	 * @return element is hidden
+	 */
 	public static boolean isHidden(IStyledElement content, String format, boolean outputDisplayNone,
 			boolean hiddenMask) {
 		if (content != null) {
 			IStyle style = content.getStyle();
 			if (!outputDisplayNone) {
-				if (IStyle.NONE_VALUE == style.getProperty(IStyle.STYLE_DISPLAY)) {
+				if (CSSValueConstants.NONE_VALUE == style.getProperty(StyleConstants.STYLE_DISPLAY)) {
 					return true;
 				}
 			}
@@ -135,7 +171,7 @@ public class LayoutUtil {
 	 * @return
 	 */
 	static private boolean isHiddenByVisibility(IStyle style, String format, boolean hiddenMask) {
-		CSSValueList formats = (CSSValueList) style.getProperty(IStyle.STYLE_VISIBLE_FORMAT);
+		CSSValueList formats = (CSSValueList) style.getProperty(StyleConstants.STYLE_VISIBLE_FORMAT);
 		if (formats != null) {
 			if (hiddenMask) {
 				if (contains(formats, BIRTConstants.BIRT_ALL_VALUE)) {
@@ -148,6 +184,14 @@ public class LayoutUtil {
 		return false;
 	}
 
+	/**
+	 * Is hidden by visibility condition
+	 *
+	 * @param column     column
+	 * @param format     format
+	 * @param hiddenMask hidden mask
+	 * @return is hidden by visibility condition
+	 */
 	public static boolean isHiddenByVisibility(IColumn column, String format, boolean hiddenMask) {
 		String columnFormats = column.getVisibleFormat();
 		if (columnFormats != null) {
@@ -155,7 +199,7 @@ public class LayoutUtil {
 				if (contains(columnFormats, BIRTConstants.BIRT_ALL_VALUE)) {
 					return true;
 				}
-			} else if (contains(columnFormats, EngineIRConstants.FORMAT_TYPE_VIEWER)
+			} else if (contains(columnFormats, DesignChoiceConstants.FORMAT_TYPE_VIEWER)
 					|| contains(columnFormats, BIRTConstants.BIRT_ALL_VALUE) || contains(columnFormats, format)) {
 				return true;
 			}
@@ -168,7 +212,7 @@ public class LayoutUtil {
 		for (int i = 0; i < length; i++) {
 			String fmt = formats.item(i).getCssText();
 
-			if (EngineIRConstants.FORMAT_TYPE_VIEWER.equalsIgnoreCase(fmt)
+			if (DesignChoiceConstants.FORMAT_TYPE_VIEWER.equalsIgnoreCase(fmt)
 					|| BIRTConstants.BIRT_ALL_VALUE.equalsIgnoreCase(fmt) || format.equalsIgnoreCase(fmt)) {
 				return true;
 			}
@@ -200,6 +244,12 @@ public class LayoutUtil {
 		return false;
 	}
 
+	/**
+	 * Is repeatable band
+	 *
+	 * @param band band content
+	 * @return is repeatable band
+	 */
 	public static boolean isRepeatableBand(IBandContent band) {
 		IContent parent = (IContent) band.getParent();
 		if (parent instanceof IGroupContent) {
@@ -222,6 +272,12 @@ public class LayoutUtil {
 
 	}
 
+	/**
+	 * Is repeatable row
+	 *
+	 * @param row row content
+	 * @return is repeatable row
+	 */
 	public static boolean isRepeatableRow(IRowContent row) {
 		IContent parent = (IContent) row.getParent();
 		if (parent != null && (parent instanceof IBandContent)) {

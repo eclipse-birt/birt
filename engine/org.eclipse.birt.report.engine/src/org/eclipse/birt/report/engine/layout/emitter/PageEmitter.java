@@ -26,11 +26,24 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 
+/**
+ * Class of page emitter
+ *
+ * @since 3.3
+ *
+ */
 public abstract class PageEmitter extends ContentEmitterAdapter {
 	protected static Logger logger = Logger.getLogger(PageEmitter.class.getName());
 
 	protected PageDeviceRender render;
 
+	/**
+	 * Create the render
+	 *
+	 * @param service emitter service
+	 * @return page renderer
+	 * @throws EngineException
+	 */
 	public abstract PageDeviceRender createRender(IEmitterServices service) throws EngineException;
 
 	@Override

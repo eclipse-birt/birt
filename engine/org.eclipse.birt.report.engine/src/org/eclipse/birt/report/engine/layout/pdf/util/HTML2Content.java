@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil;
 import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil.DataUrlInfo;
@@ -354,11 +355,11 @@ import org.w3c.dom.css.CSSValue;
  */
 public class HTML2Content implements HTMLConstants {
 
-	protected static final HashSet htmlBlockDisplay = new HashSet();
+	protected static final HashSet<String> htmlBlockDisplay = new HashSet<String>();
 
-	protected static final HashSet htmlInlineDisplay = new HashSet();
+	protected static final HashSet<String> htmlInlineDisplay = new HashSet<String>();
 
-	protected static final HashMap textTypeMapping = new HashMap();
+	protected static final HashMap<String, String> textTypeMapping = new HashMap<String, String>();
 
 	private static final String LIST_STYLE_TYPE = "list-style-type";
 
@@ -418,6 +419,12 @@ public class HTML2Content implements HTMLConstants {
 
 	protected static char[] listChar = { '\u2022', '\u25E6', '\u25AA' };
 
+	/**
+	 * Get the list of char
+	 *
+	 * @param nestCount count of chars
+	 * @return char
+	 */
 	public static char getListChar(int nestCount) {
 		if (nestCount <= 2) {
 			return listChar[nestCount];
@@ -425,6 +432,11 @@ public class HTML2Content implements HTMLConstants {
 		return listChar[2];
 	}
 
+	/**
+	 * Convert HTML to content
+	 *
+	 * @param foreign foreign content
+	 */
 	public static void html2Content(IForeignContent foreign) {
 		processForeignData(foreign);
 	}
@@ -434,14 +446,14 @@ public class HTML2Content implements HTMLConstants {
 			return;
 		}
 
-		HashMap styleMap = new HashMap();
+		HashMap<Element, StyleProperties> styleMap = new HashMap<Element, StyleProperties>();
 		ReportDesignHandle reportDesign = foreign.getReportContent().getDesign().getReportDesign();
 		HTMLStyleProcessor htmlProcessor = new HTMLStyleProcessor(reportDesign);
 		Object rawValue = foreign.getRawValue();
 		Document doc = null;
 		if (null != rawValue) {
 			doc = new TextParser().parse(foreign.getRawValue().toString(),
-					(String) textTypeMapping.get(foreign.getRawType()));
+					textTypeMapping.get(foreign.getRawType()));
 		}
 
 		Element body = null;
@@ -458,8 +470,8 @@ public class HTML2Content implements HTMLConstants {
 			IContainerContent container = foreign.getReportContent().createContainerContent();
 
 			IStyle parentStyle = foreign.getStyle();
-			if (CSSValueConstants.INLINE_VALUE.equals(parentStyle.getProperty(IStyle.STYLE_DISPLAY))) {
-				container.getStyle().setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
+			if (CSSValueConstants.INLINE_VALUE.equals(parentStyle.getProperty(StyleConstants.STYLE_DISPLAY))) {
+				container.getStyle().setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
 			}
 			addChild(foreign, container);
 			processNodes(body, styleMap, container, null, 0);
@@ -472,7 +484,7 @@ public class HTML2Content implements HTMLConstants {
 		addChild(parent, label);
 		label.setText(text);
 		StyleDeclaration inlineStyle = new StyleDeclaration(parent.getCSSEngine());
-		inlineStyle.setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
+		inlineStyle.setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
 		label.setInlineStyle(inlineStyle);
 		return label;
 	}
@@ -486,7 +498,8 @@ public class HTML2Content implements HTMLConstants {
 	 * @param content    the parent content of the element
 	 *
 	 */
-	static void processNodes(Element ele, Map cssStyles, IContent content, ActionContent action, int nestCount) {
+	static void processNodes(Element ele, Map<Element, StyleProperties> cssStyles, IContent content,
+			ActionContent action, int nestCount) {
 		int level = 0;
 		for (Node node = ele.getFirstChild(); node != null; node = node.getNextSibling()) {
 			if (node.getNodeName().equals(TAG_VALUEOF)) // $NON-NLS-1$
@@ -547,7 +560,7 @@ public class HTML2Content implements HTMLConstants {
 			addChild(content, label);
 			label.setText("\n"); //$NON-NLS-1$
 			StyleDeclaration inlineStyle = new StyleDeclaration(content.getCSSEngine());
-			inlineStyle.setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
+			inlineStyle.setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
 			label.setInlineStyle(inlineStyle);
 		} else if (lTagName.equals(TAG_UL) || lTagName.equals(TAG_OL))// $NON-NLS-1$
 		{
@@ -575,11 +588,11 @@ public class HTML2Content implements HTMLConstants {
 			// add a container to number serial, keep consistent page-break
 
 			StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
-			style.setProperty(IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
-			style.setProperty(IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0);
+			style.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
+			style.setProperty(StyleConstants.STYLE_PADDING_BOTTOM, CSSValueConstants.NUMBER_0);
+			style.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
+			style.setProperty(StyleConstants.STYLE_PADDING_RIGHT, CSSValueConstants.NUMBER_0);
+			style.setProperty(StyleConstants.STYLE_PADDING_TOP, CSSValueConstants.NUMBER_0);
 			ICellContent orderCell = report.createCellContent();
 			orderCell.setRowSpan(1);
 			orderCell.setColumn(0);
@@ -640,8 +653,8 @@ public class HTML2Content implements HTMLConstants {
 			if (lTagName.equals(TAG_DD)) // $NON-NLS-1$
 			{
 				StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
-				style.setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
-				style.setProperty(IStyle.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
+				style.setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
+				style.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
 				TextContent text = (TextContent) content.getReportContent().createTextContent();
 				addChild(container, text);
 				if (ele.getParentNode().getNodeName().equals(TAG_DL)) // $NON-NLS-1$
@@ -736,7 +749,7 @@ public class HTML2Content implements HTMLConstants {
 	 * @param cssStyles
 	 * @param content
 	 */
-	protected static void outputEmbedContent(Element ele, Map cssStyles, IContent content) {
+	protected static void outputEmbedContent(Element ele, Map<Element, StyleProperties> cssStyles, IContent content) {
 		String classId = ele.getAttribute(PROPERTY_CLASSID);
 		if ("clsid:D27CDB6E-AE6D-11cf-96B8-444553540000".equalsIgnoreCase(classId)) {
 			outputFlash(ele, cssStyles, content);
@@ -750,7 +763,7 @@ public class HTML2Content implements HTMLConstants {
 	 * @param cssStyles
 	 * @param content
 	 */
-	protected static void outputFlash(Element ele, Map cssStyles, IContent content) {
+	protected static void outputFlash(Element ele, Map<Element, StyleProperties> cssStyles, IContent content) {
 		String src = null;
 		String flashVars = null;
 		String alt = null;
@@ -872,7 +885,7 @@ public class HTML2Content implements HTMLConstants {
 	protected static void addChild(IContent parent, IContent child) {
 
 		if (parent != null && child != null) {
-			Collection children = parent.getChildren();
+			Collection<IContent> children = parent.getChildren();
 			if (!children.contains(child)) {
 				children.add(child);
 				child.setParent(parent);
@@ -880,14 +893,21 @@ public class HTML2Content implements HTMLConstants {
 		}
 	}
 
-	protected static void formalizeInlineContainer(List parentChildren, IContent parent, IContent content) {
+	/**
+	 * Formalize the inline container
+	 *
+	 * @param parentChildren parent children list
+	 * @param parent         parent content
+	 * @param content        current content
+	 */
+	protected static void formalizeInlineContainer(List<IContent> parentChildren, IContent parent, IContent content) {
 		IStyle style = content.getStyle();
 
-		CSSValue display = style.getProperty(IStyle.STYLE_DISPLAY);
+		CSSValue display = style.getProperty(StyleConstants.STYLE_DISPLAY);
 
 		if (CSSValueConstants.INLINE_VALUE.equals(display)) {
 
-			Iterator iter = content.getChildren().iterator();
+			Iterator<IContent> iter = content.getChildren().iterator();
 			ArrayList contentChildren = new ArrayList();
 			IContainerContent clonedBlock = null;
 			while (iter.hasNext()) {

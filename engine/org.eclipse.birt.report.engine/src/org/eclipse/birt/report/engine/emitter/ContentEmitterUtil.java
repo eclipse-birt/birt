@@ -35,11 +35,24 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
+/**
+ * Utility class of content emitter
+ *
+ * @since 3.3
+ *
+ */
 public class ContentEmitterUtil {
 
 	static IContentVisitor starter = new StartContentVisitor();
 	static IContentVisitor ender = new EndContentVisitor();
 
+	/**
+	 * Start content
+	 *
+	 * @param content content
+	 * @param emitter content emitter
+	 * @throws BirtException
+	 */
 	static public void startContent(IContent content, IContentEmitter emitter) throws BirtException {
 		switch (content.getContentType()) {
 		case IContent.PAGE_CONTENT:
@@ -92,6 +105,13 @@ public class ContentEmitterUtil {
 		}
 	}
 
+	/**
+	 * End content
+	 *
+	 * @param content content
+	 * @param emitter content emitter
+	 * @throws BirtException
+	 */
 	static public void endContent(IContent content, IContentEmitter emitter) throws BirtException {
 		switch (content.getContentType()) {
 		case IContent.PAGE_CONTENT:

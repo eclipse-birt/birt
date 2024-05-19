@@ -22,11 +22,14 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 
+
 /**
  * A JSSyntaxContext represents a variables container. JSSyntaxContext also
- * provides methods to access avaible Type meta-data.
+ * provides methods to access available Type meta-data.
+ *
+ * @since 3.3
+ *
  */
-
 public class JSSyntaxContext {
 
 	/**
@@ -43,8 +46,8 @@ public class JSSyntaxContext {
 	private Map<String, JSObjectMetaData> objectMetaMap = new HashMap<>();
 
 	static {
-		List engineClassesList = DEUtil.getClasses();
-		for (Iterator iter = engineClassesList.iterator(); iter.hasNext();) {
+		List<?> engineClassesList = DEUtil.getClasses();
+		for (Iterator<?> iter = engineClassesList.iterator(); iter.hasNext();) {
 			IClassInfo element = (IClassInfo) iter.next();
 			engineObjectMap.put(element.getName(), new EngineClassJSObject(element));
 		}
@@ -52,29 +55,53 @@ public class JSSyntaxContext {
 
 	// static methods
 
+	/**
+	 * Get object of the JavaScript engine
+	 *
+	 * @param classType class type of the object
+	 * @return the engine object
+	 */
 	public static JSObjectMetaData getEnginJSObject(String classType) {
 		return engineObjectMap.containsKey(classType) ? (JSObjectMetaData) engineObjectMap.get(classType) : null;
 	}
 
+	/**
+	 * Get all object of the JavaScript engine
+	 *
+	 * @return all object of the JavaScript engine
+	 */
 	public static JSObjectMetaData[] getAllEnginJSObjects() {
 		return engineObjectMap.values().toArray(new JSObjectMetaData[engineObjectMap.size()]);
 	}
 
-	public static JSObjectMetaData getJavaClassMeta(Class<?> clazz) {
-		if (clazz == null) {
+	/**
+	 * Get the Java class meta data
+	 *
+	 * @param classObject Java class
+	 * @return the Java class meta data
+	 */
+	public static JSObjectMetaData getJavaClassMeta(Class<?> classObject) {
+		if (classObject == null) {
 			return null;
 		}
 
 		JSObjectMetaData meta = null;
-		if (!javaObjectMap.containsKey(clazz.getName())) {
-			meta = new JavaClassJSObject(clazz);
-			javaObjectMap.put(clazz.getName(), meta);
+		if (!javaObjectMap.containsKey(classObject.getName())) {
+			meta = new JavaClassJSObject(classObject);
+			javaObjectMap.put(classObject.getName(), meta);
 		} else {
-			meta = javaObjectMap.get(clazz.getName());
+			meta = javaObjectMap.get(classObject.getName());
 		}
 		return meta;
 	}
 
+	/**
+	 * Get the Java class meta data
+	 *
+	 * @param className Java class name
+	 * @return the Java class meta data
+	 * @throws ClassNotFoundException
+	 */
 	public static JSObjectMetaData getJavaClassMeta(String className) throws ClassNotFoundException {
 		if (className == null) {
 			return null;

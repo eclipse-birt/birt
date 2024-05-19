@@ -45,40 +45,42 @@ public interface JSObjectMetaData {
 		/**
 		 * Get method's name.
 		 *
-		 * @return
+		 * @return the method name
 		 */
 		String getName();
 
 		/**
 		 * Get method's display text.
 		 *
-		 * @return
+		 * @return the method display text
 		 */
 		String getDisplayText();
 
 		/**
 		 * Get method's description.
 		 *
-		 * @return
+		 * @return the method description
 		 */
 		String getDescription();
 
 		/**
 		 * Get method's visibility.
 		 *
-		 * @return
+		 * @return the method visibility
 		 */
 		int getVisibility();
 
 		/**
 		 * Get method's return type.
 		 *
-		 * @return
+		 * @return the method return type
 		 */
 		JSObjectMetaData getReturn();
 
 		/**
 		 * Gets the arguments info.
+		 *
+		 * @return the argument info
 		 */
 		JSObjectMetaData[] getArguments();
 	}
@@ -91,35 +93,35 @@ public interface JSObjectMetaData {
 		/**
 		 * Get field's name.
 		 *
-		 * @return
+		 * @return the field name
 		 */
 		String getName();
 
 		/**
 		 * Get field's display text.
 		 *
-		 * @return
+		 * @return the field display text
 		 */
 		String getDisplayText();
 
 		/**
 		 * Get field's description.
 		 *
-		 * @return
+		 * @return the field description
 		 */
 		String getDescription();
 
 		/**
 		 * Get field's visibility.
 		 *
-		 * @return
+		 * @return the field visibility
 		 */
 		int getVisibility();
 
 		/**
 		 * Get field's type.
 		 *
-		 * @return
+		 * @return the field type
 		 */
 		JSObjectMetaData getType();
 	}
@@ -127,37 +129,42 @@ public interface JSObjectMetaData {
 	/**
 	 * Get this object's name.
 	 *
-	 * @return
+	 * @return the object name
 	 */
 	String getName();
 
 	/**
 	 * Get this object's methods.
 	 *
-	 * @return
+	 * @return the object method
 	 */
 	JSMethod[] getMethods();
 
 	/**
 	 * Get this object's fields.
 	 *
-	 * @return
+	 * @return the object fields
 	 */
 	JSField[] getFields();
 
 	/**
 	 * Get description for this object.
 	 *
-	 * @return
+	 * @return the objet description
 	 */
 	String getDescription();
 
 	/**
 	 * Get this object's visibility.
 	 *
-	 * @return
+	 * @return the object visibility
 	 */
 	int getVisibility();
 
+	/**
+	 * Get the object's component type
+	 *
+	 * @return the object's component type
+	 */
 	JSObjectMetaData getComponentType();
 }
