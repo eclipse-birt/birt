@@ -157,6 +157,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	private static final int DB_OBJECT_TREE_HEIGHT_MIN = 150;
 	private static final int DB_OBJECT_TREE_WIDTH_MIN = 200;
 
+	private static final String FIND_DIRECTION_SYMBOLE_FORWARD = "\u25BC";
+	private static final String FIND_DIRECTION_SYMBOLE_BACKWARD = "\u25B2";
+
 	/**
 	 * constructor
 	 *
@@ -1182,7 +1185,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 		GridData fwButtonFindTextLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Button fwButtonFindText = new Button(group, SWT.BUTTON1);
-		fwButtonFindText.setText("▼ " + JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward")); //$NON-NLS-1$
+		fwButtonFindText.setText(
+				FIND_DIRECTION_SYMBOLE_FORWARD + " " + JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward")); //$NON-NLS-1$
 		fwButtonFindText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward.tooltip")); //$NON-NLS-1$
 		fwButtonFindText.setLayoutData(fwButtonFindTextLayoutData);
 		fwButtonFindText.setEnabled(true);
@@ -1191,19 +1195,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						findQueryTextForward();
-					}
-				});
+				findQueryTextForward();
 			}
 		});
 
 		GridData bwButtonFindTextLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Button bwButtonFindText = new Button(group, SWT.BUTTON1);
-		bwButtonFindText.setText("▲ " + JdbcPlugin.getResourceString("tablepage.querytext.find.button.backward")); //$NON-NLS-1$
+
+		bwButtonFindText.setText(FIND_DIRECTION_SYMBOLE_BACKWARD + " " //$NON-NLS-1$
+				+ JdbcPlugin.getResourceString("tablepage.querytext.find.button.backward"));
 		bwButtonFindText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.button.backward.tooltip")); //$NON-NLS-1$
 		bwButtonFindText.setLayoutData(bwButtonFindTextLayoutData);
 		bwButtonFindText.setEnabled(true);
@@ -1212,13 +1212,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						findQueryTextBackward();
-					}
-				});
+				findQueryTextBackward();
 			}
 		});
 	}
