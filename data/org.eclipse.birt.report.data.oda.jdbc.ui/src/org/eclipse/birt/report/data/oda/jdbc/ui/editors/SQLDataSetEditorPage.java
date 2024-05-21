@@ -41,6 +41,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
@@ -82,15 +83,12 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -157,8 +155,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	private static final int DB_OBJECT_TREE_HEIGHT_MIN = 150;
 	private static final int DB_OBJECT_TREE_WIDTH_MIN = 200;
 
-	private static final String FIND_DIRECTION_SYMBOLE_FORWARD = "\u25BC";
-	private static final String FIND_DIRECTION_SYMBOLE_BACKWARD = "\u25B2";
+	private static final String FIND_DIRECTION_SYMBOL_FORWARD = "\u25BC";
+	private static final String FIND_DIRECTION_SYMBOL_BACKWARD = "\u25B2";
 
 	/**
 	 * constructor
@@ -1022,27 +1020,27 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 
 			private boolean isUndoKeyPress(KeyEvent e) {
 				// CTRL + z
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'z') || (e.keyCode == 'Z'));
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'z');
 			}
 
 			private boolean isRedoKeyPress(KeyEvent e) {
 				// CTRL + y
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'y') || (e.keyCode == 'Y'));
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'y');
 			}
 
 			private boolean isFindQueryText(KeyEvent e) {
 				// CTRL + f
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'f') || (e.keyCode == 'F'));
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'f');
 			}
 
 			private boolean isFindQueryTextForward(KeyEvent e) {
 				// CTRL + o
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'o') || (e.keyCode == 'O'));
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'o');
 			}
 
 			private boolean isFindQueryTextBackward(KeyEvent e) {
 				// CTRL + b
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'b') || (e.keyCode == 'B'));
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'b');
 			}
 
 			@Override
@@ -1124,11 +1122,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	}
 
 	private void setupFindQueryTextBox(Group group) {
-		this.findQueryText = new Text(group, SWT.BORDER);
-		this.findQueryText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.text.tooltip"));
+		findQueryText = new Text(group, SWT.BORDER);
+		findQueryText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.text.tooltip"));
 		GridData findQueryTextData = new GridData(GridData.FILL_HORIZONTAL);
 		findQueryTextData.horizontalSpan = 2;
-		this.findQueryText.setLayoutData(findQueryTextData);
+		findQueryText.setLayoutData(findQueryTextData);
 		// add support of additional accelerated key
 		findQueryText.addKeyListener(new KeyListener() {
 
@@ -1142,13 +1140,13 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 			}
 
 			private boolean isFindQueryTextForward(KeyEvent e) {
-				// CTRL + f
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'o') || (e.keyCode == 'O'));
+				// CTRL + o
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'o');
 			}
 
 			private boolean isFindQueryTextBackward(KeyEvent e) {
-				// CTRL + SHIFT + f
-				return ((e.stateMask & SWT.CONTROL) > 0) && ((e.keyCode == 'b') || (e.keyCode == 'B'));
+				// CTRL + b
+				return (e.stateMask == SWT.CONTROL && e.keyCode == 'b');
 			}
 
 			@Override
@@ -1162,23 +1160,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 	private void setupFindQueryTextOptions(Group group) {
 
 		GridData csLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		this.findQueryTextCaseSensitive = new Button(group, SWT.CHECK);
-		this.findQueryTextCaseSensitive
+		findQueryTextCaseSensitive = new Button(group, SWT.CHECK);
+		findQueryTextCaseSensitive
 				.setText(JdbcPlugin.getResourceString("tablepage.querytext.find.option.case.sensitive")); //$NON-NLS-1$
-		this.findQueryTextCaseSensitive
+		findQueryTextCaseSensitive
 				.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.option.case.sensitive.tooltip")); //$NON-NLS-1$
-		this.findQueryTextCaseSensitive.setSelection(false);
-		this.findQueryTextCaseSensitive.setLayoutData(csLayoutData);
-		this.findQueryTextCaseSensitive.setEnabled(true);
+		findQueryTextCaseSensitive.setSelection(false);
+		findQueryTextCaseSensitive.setLayoutData(csLayoutData);
+		findQueryTextCaseSensitive.setEnabled(true);
 
 		GridData wwLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		this.findQueryTextWholeWord = new Button(group, SWT.CHECK);
-		this.findQueryTextWholeWord.setText(JdbcPlugin.getResourceString("tablepage.querytext.find.option.whole.word")); //$NON-NLS-1$
-		this.findQueryTextWholeWord
+		findQueryTextWholeWord = new Button(group, SWT.CHECK);
+		findQueryTextWholeWord.setText(JdbcPlugin.getResourceString("tablepage.querytext.find.option.whole.word")); //$NON-NLS-1$
+		findQueryTextWholeWord
 				.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.option.whole.word.tooltip")); //$NON-NLS-1$
-		this.findQueryTextWholeWord.setSelection(false);
-		this.findQueryTextWholeWord.setLayoutData(wwLayoutData);
-		this.findQueryTextWholeWord.setEnabled(true);
+		findQueryTextWholeWord.setSelection(false);
+		findQueryTextWholeWord.setLayoutData(wwLayoutData);
+		findQueryTextWholeWord.setEnabled(true);
 	}
 
 	private void setupFindQueryTextButtons(Group group) {
@@ -1186,7 +1184,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		GridData fwButtonFindTextLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Button fwButtonFindText = new Button(group, SWT.BUTTON1);
 		fwButtonFindText.setText(
-				FIND_DIRECTION_SYMBOLE_FORWARD + " " + JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward")); //$NON-NLS-1$
+				FIND_DIRECTION_SYMBOL_FORWARD + " " + JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward")); //$NON-NLS-1$
 		fwButtonFindText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.button.forward.tooltip")); //$NON-NLS-1$
 		fwButtonFindText.setLayoutData(fwButtonFindTextLayoutData);
 		fwButtonFindText.setEnabled(true);
@@ -1202,7 +1200,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		GridData bwButtonFindTextLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Button bwButtonFindText = new Button(group, SWT.BUTTON1);
 
-		bwButtonFindText.setText(FIND_DIRECTION_SYMBOLE_BACKWARD + " " //$NON-NLS-1$
+		bwButtonFindText.setText(FIND_DIRECTION_SYMBOL_BACKWARD + " " //$NON-NLS-1$
 				+ JdbcPlugin.getResourceString("tablepage.querytext.find.button.backward"));
 		bwButtonFindText.setToolTipText(JdbcPlugin.getResourceString("tablepage.querytext.find.button.backward.tooltip")); //$NON-NLS-1$
 		bwButtonFindText.setLayoutData(bwButtonFindTextLayoutData);
@@ -1217,21 +1215,22 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		});
 	}
 
-	private void setupLabelFindQueryTextGroup(int findMode) {
-		Device device = Display.getCurrent();
-		Color fontColor = new Color(device, 0, 0, 0);
+	/**
+	 * Setup the group label of the query text search option
+	 *
+	 * @param findResultMode mode of the search result
+	 */
+	private void setupLabelFindQueryTextGroup(int findResultMode) {
 		String groupLabel = JdbcPlugin.getResourceString("tablepage.querytext.find.label");
 
-		// forward search end
-		if (findMode == 1) {
-			fontColor = new Color(device, 255, 0, 0);
-			groupLabel += ", " + JdbcPlugin.getResourceString("tablepage.querytext.find.forward.unlocated.label");
-			// backward search end
-		} else if (findMode == 2) {
-			fontColor = new Color(device, 255, 0, 0);
-			groupLabel += ", " + JdbcPlugin.getResourceString("tablepage.querytext.find.backward.unlocated.label");
+		if (findResultMode == 1 || findResultMode == 2) {
+			findQueryTextGroup.setForeground(JFaceColors.getErrorText(findQueryTextGroup.getDisplay()));
+			groupLabel += ", " + JdbcPlugin.getResourceString(
+					"tablepage.querytext.find." + (findResultMode == 1 ? "forward" : "backward") + ".unlocated.label");
+		} else {
+			findQueryTextGroup.setForeground(findQueryText.getForeground());
 		}
-		findQueryTextGroup.setForeground(fontColor);
+
 		findQueryTextGroup.setText(groupLabel);
 	}
 
@@ -1239,11 +1238,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		if (findQueryText != null) {
 			boolean found = viewer.findQueryText(findQueryText.getText(), true,
 					findQueryTextCaseSensitive.getSelection(), findQueryTextWholeWord.getSelection());
-			if (found) {
-				setupLabelFindQueryTextGroup(0);
-			} else {
-				setupLabelFindQueryTextGroup(1);
-			}
+			setupLabelFindQueryTextGroup(found ? 0 : 1);
 		}
 	}
 
@@ -1251,11 +1246,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage {
 		if (findQueryText != null) {
 			boolean found = viewer.findQueryText(findQueryText.getText(), false,
 					findQueryTextCaseSensitive.getSelection(), findQueryTextWholeWord.getSelection());
-			if (found) {
-				setupLabelFindQueryTextGroup(0);
-			} else {
-				setupLabelFindQueryTextGroup(2);
-			}
+			setupLabelFindQueryTextGroup(found ? 0 : 2);
 		}
 	}
 }
