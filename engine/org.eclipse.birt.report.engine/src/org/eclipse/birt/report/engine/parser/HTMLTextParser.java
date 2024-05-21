@@ -53,7 +53,7 @@ public class HTMLTextParser {
 	protected static Logger logger = Logger.getLogger(HTMLTextParser.class.getName());
 
 	/** Supported tags in HTML */
-	protected static HashSet supportedTags = new HashSet();
+	protected static HashSet<String> supportedTags = new HashSet<String>();
 	/**
 	 * Tidy instance
 	 */

@@ -44,6 +44,6 @@ public interface IElement {
 	 *
 	 * @return the children of the element.
 	 */
-	Collection getChildren();
+	Collection<IContent> getChildren();
 
 }

@@ -35,6 +35,12 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
+/**
+ * Adapter of the content emitter
+ *
+ * @since 3.3
+ *
+ */
 public class ContentEmitterAdapter implements IContentEmitter {
 
 	@Override
@@ -207,6 +213,11 @@ public class ContentEmitterAdapter implements IContentEmitter {
 		startGroup(group);
 	}
 
+	/**
+	 * Is multiple pages enabled
+	 *
+	 * @return is multiple pages enabled
+	 */
 	public boolean isMultiplePagesEnabled() {
 		return true;
 	}

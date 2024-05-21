@@ -17,11 +17,25 @@ package org.eclipse.birt.report.engine.javascript;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.mozilla.javascript.Script;
 
+/**
+ * Class of compiled JavaScript
+ *
+ * @since 3.3
+ *
+ */
 public class CompiledJavascript implements ICompiledScript {
 	private int lineNo;
 	private String scriptText;
 	private Script compiledScript;
 
+	/**
+	 * Constructor
+	 *
+	 * @param source     JavaScript source
+	 * @param lineNo     line number
+	 * @param scriptText JavaScript text
+	 * @param script     script
+	 */
 	public CompiledJavascript(String source, int lineNo, String scriptText, Script script) {
 		this.compiledScript = script;
 		this.scriptText = scriptText;
@@ -38,10 +52,20 @@ public class CompiledJavascript implements ICompiledScript {
 		return compiledScript;
 	}
 
+	/**
+	 * Get the line number
+	 *
+	 * @return the line number
+	 */
 	public int getLineNo() {
 		return lineNo;
 	}
 
+	/**
+	 * Get the script text
+	 *
+	 * @return the script text
+	 */
 	public String getScriptText() {
 		return scriptText;
 	}

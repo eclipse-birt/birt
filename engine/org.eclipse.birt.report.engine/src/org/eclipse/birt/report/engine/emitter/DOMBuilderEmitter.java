@@ -40,14 +40,14 @@ public class DOMBuilderEmitter extends ContentEmitterAdapter {
 	@Override
 	public void startContent(IContent content) {
 		if (parent != null) {
-			Collection children = parent.getChildren();
+			Collection<IContent> children = parent.getChildren();
 			if (!children.contains(content)) {
 				children.add(content);
 			}
 			content.setParent(parent);
 
 		} else {
-			Collection children = root.getChildren();
+			Collection<IContent> children = root.getChildren();
 			if (!children.contains(content)) {
 				children.add(content);
 			}

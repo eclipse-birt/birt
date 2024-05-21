@@ -29,11 +29,16 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProviderBaseImp
 import org.osgi.framework.Bundle;
 
 /**
+ * Provider of functions
+ *
+ * @since 3.3
  *
  */
-
 public class FunctionProviderImpl extends FunctionProviderBaseImpl {
 
+	/**
+	 * Constructor
+	 */
 	public FunctionProviderImpl() {
 		super(Platform.getExtensionRegistry().getExtensionPoint(EXTENSION_POINT));
 	}

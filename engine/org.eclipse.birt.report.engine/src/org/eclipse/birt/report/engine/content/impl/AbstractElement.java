@@ -18,14 +18,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 
+/**
+ * Abstract class of element
+ *
+ * @since 3.3
+ *
+ */
 public class AbstractElement implements IElement {
 
-	final static List EMPTY_CHILDREN_LIST = new ArrayList();
+	final static List<?> EMPTY_CHILDREN_LIST = new ArrayList<Object>();
 	transient protected IElement parent;
-	transient protected Collection children;
+	transient protected Collection<IContent> children;
 
+	/**
+	 * Constructor
+	 */
 	public AbstractElement() {
 	}
 
@@ -40,9 +50,9 @@ public class AbstractElement implements IElement {
 	}
 
 	@Override
-	public Collection getChildren() {
+	public Collection<IContent> getChildren() {
 		if (children == null) {
-			children = new ArrayList();
+			children = new ArrayList<IContent>();
 		}
 		return children;
 	}

@@ -41,10 +41,17 @@ import org.eclipse.birt.report.engine.executor.buffermgr.TableContentLayout;
 import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+/**
+ *
+ * HTML table layout emitter
+ *
+ * @since 3.3
+ *
+ */
 public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 
 	final static Logger logger = Logger.getLogger(HTMLTableLayoutEmitter.class.getName());
@@ -62,7 +69,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 	/**
 	 * the cached start/end content events
 	 */
-	protected Stack layoutEvents;
+	protected Stack<LayoutEvent> layoutEvents;
 
 	/**
 	 * emitter used to cache the content in current cell.
@@ -74,7 +81,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 	/**
 	 * the group level information used to resovle the drop cells.
 	 */
-	protected Stack groupStack = new Stack();
+	protected Stack<Integer> groupStack = new Stack<Integer>();
 
 	protected HashMap<String, UnresolvedRowHint> hintMap = new HashMap<>();
 
@@ -84,6 +91,12 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 
 	protected int lastRowId = -1;
 
+	/**
+	 * Constructor
+	 *
+	 * @param emitter content emitter
+	 * @param context HTML layout context
+	 */
 	public HTMLTableLayoutEmitter(IContentEmitter emitter, HTMLLayoutContext context) {
 		this.emitter = emitter;
 		this.context = context;
@@ -111,7 +124,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 
 	protected int getGroupLevel() {
 		if (!groupStack.isEmpty()) {
-			return ((Integer) groupStack.peek()).intValue();
+			return groupStack.peek().intValue();
 		}
 		return -1;
 	}
@@ -150,16 +163,24 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 
 	boolean hasDropCell = false;
 
+	/**
+	 * Reset the layout
+	 */
 	public void resetLayout() {
 		layout.reset();
 		layoutEvents.clear();
 		hasDropCell = false;
 	}
 
+	/**
+	 * Initialize the layout
+	 *
+	 * @param table table content
+	 */
 	public void initLayout(ITableContent table) {
 		String keyString = context.getPageHintManager().getHintMapKey(table.getInstanceID().toUniqueString());
 		this.layout = new TableContentLayout(table, getOutputFormat(), context, keyString);
-		this.layoutEvents = new Stack();
+		this.layoutEvents = new Stack<LayoutEvent>();
 		UnresolvedRowHint hint = null;
 		if (isFirst) {
 			if (context != null) {
@@ -173,6 +194,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		layout.setUnresolvedRowHint(hint);
 	}
 
+	/**
+	 * Is layout started
+	 *
+	 * @return is layout started
+	 */
 	public boolean isLayoutStarted() {
 		return layout != null;
 	}
@@ -190,6 +216,13 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		return dropId;
 	}
 
+	/**
+	 * Resolve the cells of drop
+	 *
+	 * @param groupLevel group level
+	 * @param dropAll    drop all
+	 * @param finished   drop is finished
+	 */
 	public void resolveCellsOfDrop(int groupLevel, boolean dropAll, boolean finished) {
 		if (hasDropCell) {
 			if (dropAll) {
@@ -228,18 +261,35 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		int cellId;
 	}
 
+	/**
+	 * Class of cell content
+	 *
+	 * @since 3.3
+	 *
+	 */
 	public static class CellContent implements Cell.Content {
 
 		protected ICellContent cell;
 
 		protected BufferedReportEmitter buffer;
 
+		/**
+		 * Constructor
+		 *
+		 * @param cell   cell content
+		 * @param buffer buffered report emitter
+		 */
 		public CellContent(ICellContent cell, BufferedReportEmitter buffer) {
 			this.cell = cell;
 			this.buffer = buffer;
 
 		}
 
+		/**
+		 * Get the cell content
+		 *
+		 * @return the cell content
+		 */
 		public ICellContent getContent() {
 			return cell;
 		}
@@ -255,13 +305,18 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
+	/**
+	 * Flush the cells
+	 *
+	 * @throws BirtException
+	 */
 	public void flush() throws BirtException {
 		if (hasDropCell()) {
 			return;
 		}
-		Iterator iter = layoutEvents.iterator();
+		Iterator<LayoutEvent> iter = layoutEvents.iterator();
 		while (iter.hasNext()) {
-			LayoutEvent event = (LayoutEvent) iter.next();
+			LayoutEvent event = iter.next();
 			switch (event.eventType) {
 			case LayoutEvent.START_GROUP:
 			case LayoutEvent.START_BAND:
@@ -329,7 +384,6 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		if (cellEmitter != null) {
 			cellEmitter.startTable(table);
 		} else if (!isNestTable()) {
-			UnresolvedRowHint hint = null;
 			initLayout(table);
 			emitter.startTable(layout.getWrappedTableContent());
 			this.lastRowId = -1;
@@ -338,6 +392,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
+	/**
+	 * Resolve all
+	 *
+	 * @param finished resolve is finished
+	 */
 	public void resolveAll(boolean finished) {
 		layout.resolveDropCells(finished);
 		UnresolvedRowHint hint = layout.getUnresolvedRow();
@@ -351,6 +410,14 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		hasDropCell = layout.hasDropCell();
 	}
 
+	/**
+	 * Create the cell
+	 *
+	 * @param colId       column id
+	 * @param rowSpan     row span
+	 * @param colSpan     column span
+	 * @param cellContent cell content
+	 */
 	public void createCell(int colId, int rowSpan, int colSpan, Cell.Content cellContent) {
 		layout.createCell(colId, rowSpan, colSpan, cellContent);
 		if (rowSpan < 0 || rowSpan > 1) {
@@ -472,7 +539,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 				if (lastRowId >= 0 && rowId > lastRowId + 1) {
 					for (int i = lastRowId + 1; i < rowId; i++) {
 						IRowContent newRow = (IRowContent) row.cloneContent(false);
-						newRow.setHeight(new DimensionType(0, EngineIRConstants.UNITS_IN));
+						newRow.setHeight(new DimensionType(0, DesignChoiceConstants.UNITS_IN));
 						newRow.setParent(row.getParent());
 						newRow.setRowID(i);
 						startRow(newRow);
@@ -601,6 +668,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter {
 		}
 	}
 
+	/**
+	 * Get the internal content emitter
+	 *
+	 * @return the internal content emitter
+	 */
 	public IContentEmitter getInternalEmitter() {
 		return emitter;
 	}

@@ -30,6 +30,7 @@ public interface IForeignContent extends IContent {
 
 	/** the content is an string which contains HTML content */
 	String HTML_TYPE = "text/html";
+
 	/** the content is an string which contains plain text */
 	String TEXT_TYPE = "text/plaintext";
 	/**
@@ -37,28 +38,48 @@ public interface IForeignContent extends IContent {
 	 * Object[2], the first object is the template text, the second object is the
 	 * value map.
 	 */
+
 	String TEMPLATE_TYPE = "text/template";
 	/** the content is the output of a extenal item, it is byte[] */
+
 	String EXTERNAL_TYPE = "object/external";
 	/** the content is an image content which define the image */
+
 	String IMAGE_TYPE = "binary/image";
+
 	/** the content is unkown */
 	String UNKNOWN_TYPE = "binary/unknown";
+
 	/** the object value */
 	String VALUE_TYPE = "binary/value";
 
 	/**
-	 * the orginal format of the object. such as: "text/html", "text/rtf", "xml/svg"
-	 * etc.
+	 * Get the original format of the object. such as: "text/html", "text/rtf",
+	 * "xml/svg" etc.
 	 *
 	 * @return type of the content
 	 */
 	String getRawType();
 
+	/**
+	 * Set the raw type
+	 *
+	 * @param type raw type of content
+	 */
 	void setRawType(String type);
 
+	/**
+	 * Get the raw content key
+	 *
+	 * @return the raw content key
+	 */
 	String getRawKey();
 
+	/**
+	 * Set the raw content key
+	 *
+	 * @param rawKey raw content key
+	 */
 	void setRawKey(String rawKey);
 
 	/**
@@ -68,6 +89,11 @@ public interface IForeignContent extends IContent {
 	 */
 	Object getRawValue();
 
+	/**
+	 * Set the raw content value
+	 *
+	 * @param value raw content value
+	 */
 	void setRawValue(Object value);
 
 	/**
@@ -85,7 +111,17 @@ public interface IForeignContent extends IContent {
 	@Override
 	void setAltTextKey(String key);
 
+	/**
+	 * Set the use of JTidy for document generation
+	 *
+	 * @param jTidy JTidy usage
+	 */
 	void setJTidy(boolean jTidy);
 
+	/**
+	 * Is JTidy to be used
+	 *
+	 * @return is JTidy to be used
+	 */
 	boolean isJTidy();
 }

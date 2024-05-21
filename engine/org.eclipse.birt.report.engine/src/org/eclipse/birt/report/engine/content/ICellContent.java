@@ -23,31 +23,37 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 public interface ICellContent extends IContainerContent {
 
 	/**
+	 * Get the column span
 	 *
 	 * @return the column span
 	 */
 	int getColSpan();
 
 	/**
-	 * @return Returns the rowSpan.
+	 * Get the row span
+	 *
+	 * @return the row span
 	 */
 	int getRowSpan();
 
 	/**
+	 * Get the column number
 	 *
 	 * @return the column number
 	 */
 	int getColumn();
 
 	/**
-	 * @return the column content.
+	 * Get the column content
+	 *
+	 * @return the column content
 	 */
 	IColumn getColumnInstance();
 
 	/**
 	 * Get the row
 	 *
-	 * @return Return the row
+	 * @return the row
 	 */
 	int getRow();
 
@@ -82,26 +88,26 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the display group icon
 	 *
-	 * @return Return the display group icon
+	 * @return the display group icon
 	 */
 	boolean getDisplayGroupIcon();
 
 	/**
 	 * Has diagonal line
 	 *
-	 * @return Return the check of diagonal line
+	 * @return check of diagonal line
 	 */
 	boolean hasDiagonalLine();
 
 	/**
 	 * Get diagonal number
 	 *
-	 * @return Return the diagonal number
+	 * @return the diagonal number
 	 */
 	int getDiagonalNumber();
 
 	/**
-	 * Set diagnonal number
+	 * Set diagonal number
 	 *
 	 * @param diagonalNumber diagonal number
 	 */
@@ -110,7 +116,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get diagonal style
 	 *
-	 * @return Return the diagonal style
+	 * @return the diagonal style
 	 */
 	String getDiagonalStyle();
 
@@ -124,7 +130,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the diagonal width
 	 *
-	 * @return Return the diagonal width
+	 * @return the diagonal width
 	 */
 	DimensionType getDiagonalWidth();
 
@@ -138,7 +144,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the diagonal color
 	 *
-	 * @return Return the diagonal color
+	 * @return the diagonal color
 	 */
 	String getDiagonalColor();
 
@@ -152,7 +158,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the anti-diagonal number
 	 *
-	 * @return Return the anti-diagonal number
+	 * @return the anti-diagonal number
 	 */
 	int getAntidiagonalNumber();
 
@@ -166,7 +172,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the anti-diagonal style
 	 *
-	 * @return Return the anti-diagonal style
+	 * @return the anti-diagonal style
 	 */
 	String getAntidiagonalStyle();
 
@@ -180,7 +186,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the anti-diagonal width
 	 *
-	 * @return Return the anti-diagonal width
+	 * @return the anti-diagonal width
 	 */
 	DimensionType getAntidiagonalWidth();
 
@@ -194,7 +200,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the anti-diagonal color
 	 *
-	 * @return Return the anti-diagonal color
+	 * @return the anti-diagonal color
 	 */
 	String getAntidiagonalColor();
 
@@ -208,7 +214,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the headers
 	 *
-	 * @return Return the headers
+	 * @return the headers
 	 */
 	String getHeaders();
 
@@ -222,7 +228,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Get the scope
 	 *
-	 * @return Return the scope
+	 * @return the scope
 	 */
 	String getScope();
 
@@ -236,7 +242,7 @@ public interface ICellContent extends IContainerContent {
 	/**
 	 * Check if the content is repeatable
 	 *
-	 * @return Return the check result if content repeatable
+	 * @return the check result if content repeatable
 	 */
 	boolean repeatContent();
 

@@ -22,10 +22,18 @@ import org.eclipse.birt.report.engine.api.ImageSize;
  */
 public interface IImageContent extends IContent {
 
+	/** property: image file key */
 	int IMAGE_FILE = 0;
+
+	/** property: image name key */
 	int IMAGE_NAME = 1;
+
+	/** property: image expression key */
 	int IMAGE_EXPRESSION = 2;
+
+	/** property: image URL key */
 	int IMAGE_URL = 3;
+
 	/**
 	 * @deprecated replaced by IMAGE_URL
 	 */
@@ -47,36 +55,74 @@ public interface IImageContent extends IContent {
 	@Override
 	void setAltTextKey(String key);
 
+	/**
+	 * Set the help text key
+	 *
+	 * @param key key of the help text
+	 */
 	void setHelpKey(String key);
 
+	/**
+	 * Get the help text key
+	 *
+	 * @return the help text key
+	 */
 	String getHelpKey();
 
 	/**
-	 * @return Returns the data.
+	 * Get the data
+	 *
+	 * @return the data
 	 */
 	byte[] getData();
 
+	/**
+	 * Set the data
+	 *
+	 * @param data image data
+	 */
 	void setData(byte[] data);
 
 	/**
-	 * @return Returns the extension.
+	 * Get the image extension
+	 *
+	 * @return the image extension
 	 */
 	String getExtension();
 
+	/**
+	 * Set the image extension
+	 *
+	 * @param extension image extension
+	 */
 	void setExtension(String extension);
 
 	/**
-	 * @return Returns the URI.
+	 * Get the URI
+	 *
+	 * @return the URI
 	 */
 	String getURI();
 
+	/**
+	 * Set the URI
+	 *
+	 * @param uri image URI
+	 */
 	void setURI(String uri);
 
 	/**
-	 * Returns the type of image source
+	 * Get the type of image source
+	 *
+	 * @return the type of image source
 	 */
 	int getImageSource();
 
+	/**
+	 * Set the image source
+	 *
+	 * @param source image source
+	 */
 	void setImageSource(int source);
 
 	/**
@@ -84,17 +130,39 @@ public interface IImageContent extends IContent {
 	 */
 	Object getImageMap();
 
+	/**
+	 * Set the image based on full mapping object
+	 *
+	 * @param map
+	 */
 	void setImageMap(Object map);
 
 	/**
-	 * get the MIMEType
+	 * Get the MIME type
+	 *
+	 * @return the MIME type
 	 */
 	String getMIMEType();
 
+	/**
+	 * Set the image MIME type
+	 *
+	 * @param mimeType MIME type of the image
+	 */
 	void setMIMEType(String mimeType);
 
+	/**
+	 * Get the image resolution
+	 *
+	 * @return the image resolution
+	 */
 	int getResolution();
 
+	/**
+	 * Set the image resolution
+	 *
+	 * @param resolution image resolution
+	 */
 	void setResolution(int resolution);
 
 	/**
