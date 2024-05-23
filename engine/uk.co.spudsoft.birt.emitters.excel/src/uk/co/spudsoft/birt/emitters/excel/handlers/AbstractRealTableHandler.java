@@ -174,7 +174,6 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 					double calcWidth = SheetUtil.getColumnWidth(filteredSheet, col, false);
 
 					if (calcWidth > 1.0) {
-						state.currentSheet.autoSizeColumn(col, true);
 						calcWidth = state.currentSheet.getColumnWidth(col) * 1.15;	// offset to handle width differences of apache poi
 						int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255
 														// characters
@@ -183,8 +182,10 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 						}
 						if (calcWidth > oldWidth) {
 							state.currentSheet.setColumnWidth(col, (int) calcWidth);
+						} else if (state.currentSheet instanceof XSSFSheet) {
+							state.currentSheet.autoSizeColumn(col, true);
 						}
-					} else {
+					} else if (state.currentSheet instanceof XSSFSheet) {
 						state.currentSheet.autoSizeColumn(col, true);
 					}
 				}
