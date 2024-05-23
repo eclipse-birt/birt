@@ -814,7 +814,6 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		// sort table items in alphabetical order
 		categoryTable.setComparator(new ViewerComparator());
 		subCategoryTable.setComparator(new ViewerComparator());
-		functionTable.setComparator(new ViewerComparator());
 
 		functionTable.getControl().addKeyListener(new KeyListener() {
 
