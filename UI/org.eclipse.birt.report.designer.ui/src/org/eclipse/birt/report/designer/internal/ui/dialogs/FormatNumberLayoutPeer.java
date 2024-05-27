@@ -44,7 +44,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -89,7 +88,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer {
 
 	private static final int FORMAT_TYPE_INDEX = 0;
 
-	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
+	private static final double DEFAULT_PREVIEW_NUMBER = 123456.78;
 	private static final String DEFAULT_PREVIEW_TEXT = NumberFormat.getNumberInstance(ULocale.getDefault())
 			.format(DEFAULT_PREVIEW_NUMBER);
 

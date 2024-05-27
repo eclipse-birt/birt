@@ -14,12 +14,12 @@
 
 package org.eclipse.birt.report.engine.css.engine.value;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
+
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.util.ULocale;
 
 /**
  * This class represents float values.
@@ -27,7 +27,8 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  */
 public class FloatValue extends Value implements CSSPrimitiveValue {
 
-	private final static DecimalFormat FORMATTER = new DecimalFormat("#.###", new DecimalFormatSymbols(Locale.ENGLISH));
+	private final static DecimalFormat FORMATTER = new DecimalFormat("#.###",
+			new DecimalFormatSymbols(ULocale.ENGLISH));
 
 	/**
 	 * Get the CSS text associated with the given type/value pair.

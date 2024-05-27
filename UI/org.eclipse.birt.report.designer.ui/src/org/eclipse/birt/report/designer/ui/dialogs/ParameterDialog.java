@@ -338,9 +338,9 @@ public class ParameterDialog extends BaseTitleAreaDialog {
 			.getElement(ReportDesignConstants.SCALAR_PARAMETER_ELEMENT)
 			.getProperty(IInternalAbstractScalarParameterModel.DATA_TYPE_PROP).getAllowedChoices();
 
-	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
+	private static final double DEFAULT_PREVIEW_NUMBER = 123456.78;
 
-	private static final int DEFAULT_PREVIEW_INTEGER = 123456;
+	private static final int DEFAULT_PREVIEW_INTEGER = 12345678;
 
 	private ScalarParameterHandle inputParameter;
 
