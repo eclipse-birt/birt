@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -25,6 +23,8 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**

@@ -175,6 +175,8 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 					while (iData.next()) {
 						for (int i = 0; i < columnNames.length; i++) {
 							if (columnTypes[i] != DataType.BLOB_TYPE && columnTypes[i] != DataType.BINARY_TYPE) {
+								System.out.println("getStringValue(iData, columnNames, i): "
+										+ getStringValue(iData, columnNames, i));
 								values[i] = getStringValue(iData, columnNames, i);
 							} else {
 								values[i] = null;

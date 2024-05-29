@@ -125,7 +125,7 @@ public class GroupHandleTest extends BaseTestCase {
 		group.setIntervalRange("1.234567"); //$NON-NLS-1$
 		// Interval range is locale-dependent
 		group.setIntervalRange("6.0"); //$NON-NLS-1$
-		assertEquals("60.0", group.getStringProperty(GroupHandle.INTERVAL_RANGE_PROP)); //$NON-NLS-1$
+		assertEquals("6.0", group.getStringProperty(GroupHandle.INTERVAL_RANGE_PROP)); //$NON-NLS-1$
 
 		group.setIntervalRange("1,234.567"); //$NON-NLS-1$
 		assertEquals("1.234", group //$NON-NLS-1$

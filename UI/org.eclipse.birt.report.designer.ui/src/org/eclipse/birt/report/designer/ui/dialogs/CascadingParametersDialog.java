@@ -60,7 +60,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -252,9 +251,9 @@ public class CascadingParametersDialog extends BaseDialog {
 	private static final String DISPLAY_NAME_CONTROL_COMBO = Messages
 			.getString("CascadingParametersDialog.display.controlType.comboBox"); //$NON-NLS-1$
 
-	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble("1234.56"); //$NON-NLS-1$
+	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble("123456.78"); //$NON-NLS-1$
 
-	private static final int DEFAULT_PREVIEW_INTEGER_NUMBER = 123456;
+	private static final int DEFAULT_PREVIEW_INTEGER_NUMBER = 12345678;
 
 	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 

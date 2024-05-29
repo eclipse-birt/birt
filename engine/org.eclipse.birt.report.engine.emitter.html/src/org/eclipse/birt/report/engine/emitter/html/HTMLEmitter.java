@@ -13,9 +13,6 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -40,6 +37,10 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.util.ULocale;
+
 /**
  *
  */
@@ -58,7 +59,7 @@ public abstract class HTMLEmitter {
 	 */
 	protected Stack<Integer> containerDisplayStack = new Stack<>();
 	private static final DecimalFormat FORMATTER = new DecimalFormat("#.###", //$NON-NLS-1$
-			new DecimalFormatSymbols(Locale.ENGLISH));
+			new DecimalFormatSymbols(ULocale.ENGLISH));
 
 	/**
 	 * HTML emitter

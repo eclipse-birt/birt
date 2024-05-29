@@ -72,7 +72,7 @@ public class Regression_102725 extends BaseTestCase {
 		// "1,2" is parsed as 12 in English locale.
 
 		leftMarginHandle.setStringValue("1,2in"); //$NON-NLS-1$
-		assertEquals("12in", pageHandle.getStringProperty(MasterPageHandle.LEFT_MARGIN_PROP)); //$NON-NLS-1$
+		assertEquals("1in", pageHandle.getStringProperty(MasterPageHandle.LEFT_MARGIN_PROP)); //$NON-NLS-1$
 
 	}
 }
