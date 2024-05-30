@@ -59,7 +59,6 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -87,6 +86,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.Accessible;
@@ -180,7 +180,9 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	private static final Object[] EMPTY = {};
 
-	private static final String SORTING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
+	private static final String SORT_ASCENDING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
+
+	private static final String SORT_DESCENDING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting.descending"; //$NON-NLS-1$
 
 	private TableViewer categoryTable, functionTable;
 	private TreeViewer subCategoryTable;
@@ -197,7 +199,8 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 	protected String expression = null;
 	protected String title;
 
-	private boolean useSorting = false;
+	private boolean useSortAscending = false;
+	private boolean useSortDescending = false;
 	private boolean showLeafOnlyInFunctionTable = false;
 	private Object[] defaultSelection;
 
@@ -286,11 +289,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 				List<LevelAttributeHandle> attribs = new ArrayList<>();
 
-				for (Iterator iterator = ((LevelHandle) inputElement).attributesIterator(); iterator.hasNext();) {
+				for (Iterator<?> iterator = ((LevelHandle) inputElement).attributesIterator(); iterator.hasNext();) {
 					attribs.add((LevelAttributeHandle) iterator.next());
 				}
 
-				if (useSorting) {
+				if (useSortAscending || useSortDescending) {
 					// sort attribute list
 					Collections.sort(attribs, new Comparator<LevelAttributeHandle>() {
 
@@ -309,7 +312,8 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 				return new Object[] { inputElement };
 			}
 
-			if (useSorting && provider instanceof ISortableExpressionProvider) {
+			if ((useSortAscending || useSortDescending) && provider instanceof ISortableExpressionProvider) {
+				((ExpressionProvider) provider).setAscending(useSortAscending);
 				return ((ISortableExpressionProvider) provider).getSortedChildren(inputElement);
 			}
 
@@ -440,7 +444,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 				handle.getModuleHandle().getCommandStack().startTrans(Messages.getString("DataEditPart.stackMsg.edit")); //$NON-NLS-1$
 				ColumnBindingDialog dialog = new ColumnBindingDialog(handle,
 						Messages.getString("DataColumBindingDialog.title.EditDataBinding")); //$NON-NLS-1$
-				if (dialog.open() == Dialog.OK) {
+				if (dialog.open() == Window.OK) {
 					handle.getModuleHandle().getCommandStack().commit();
 					functionTable.refresh();
 				} else {
@@ -722,16 +726,30 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 
 	private void initSorting() {
 		// read setting from preference
-		useSorting = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault())
-				.getBoolean(SORTING_PREFERENCE_KEY);
+		useSortAscending = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault())
+				.getBoolean(SORT_ASCENDING_PREFERENCE_KEY);
+
+		// read setting from preference
+		useSortDescending = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault())
+				.getBoolean(SORT_DESCENDING_PREFERENCE_KEY);
 	}
 
-	private void toggleSorting(boolean sorted) {
-		useSorting = sorted;
+	private void toggleSorting(boolean sorted, String sortingType) {
+
+ 		if (sortingType == "asc") {
+			useSortAscending = sorted;
+			useSortDescending = false;
+		} else {
+			useSortDescending = sorted;
+			useSortAscending = false;
+		}
 
 		// update preference
-		PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault()).setValue(SORTING_PREFERENCE_KEY,
-				useSorting);
+		PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault()).setValue(
+				SORT_ASCENDING_PREFERENCE_KEY, useSortAscending);
+
+		PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault())
+				.setValue(SORT_DESCENDING_PREFERENCE_KEY, useSortDescending);
 
 		functionTable.refresh();
 	}
@@ -787,23 +805,39 @@ public class ExpressionBuilder extends BaseTitleAreaDialog {
 		ToolBar toolBar = new ToolBar(functionHeader, SWT.FLAT);
 		toolBar.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
-		final ToolItem sortBtn = new ToolItem(toolBar, SWT.CHECK);
-		sortBtn.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT));
-		sortBtn.setToolTipText(Messages.getString("ExpressionBuilder.tooltip.Sort")); //$NON-NLS-1$
-		sortBtn.addSelectionListener(new SelectionAdapter() {
+		final ToolItem sortBtnAsc = new ToolItem(toolBar, SWT.CHECK);
+		sortBtnAsc.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT_ASCENDING));
+		sortBtnAsc.setToolTipText(Messages.getString("ExpressionBuilder.tooltip.Sort.Ascending")); //$NON-NLS-1$
+
+		final ToolItem sortBtnDesc = new ToolItem(toolBar, SWT.CHECK);
+		sortBtnDesc.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT_DESCENDING));
+		sortBtnDesc.setToolTipText(Messages.getString("ExpressionBuilder.tooltip.Sort.Descending")); //$NON-NLS-1$
+
+		sortBtnAsc.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				toggleSorting(sortBtn.getSelection());
+				toggleSorting(sortBtnAsc.getSelection(), "asc");
+				sortBtnDesc.setSelection(false);
+			}
+		});
+
+		sortBtnDesc.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				toggleSorting(sortBtnDesc.getSelection(), "desc");
+				sortBtnAsc.setSelection(false);
 			}
 		});
 
 		if (provider instanceof ISortableExpressionProvider) {
 			initSorting();
 
-			sortBtn.setSelection(useSorting);
+			sortBtnAsc.setSelection(useSortAscending);
+			sortBtnDesc.setSelection(useSortDescending);
 		} else {
-			sortBtn.setEnabled(false);
+			sortBtnAsc.setEnabled(false);
 		}
 
 		int style = SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE;

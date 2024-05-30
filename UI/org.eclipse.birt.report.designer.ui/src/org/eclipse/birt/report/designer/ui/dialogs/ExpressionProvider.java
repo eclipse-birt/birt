@@ -341,6 +341,15 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 		return sortChildren(parentElement, getChildren(parentElement));
 	}
 
+	/**
+	 * Set the sorting type to ascending or descending
+	 *
+	 * @param ascending sorting type
+	 */
+	public void setAscending(boolean ascending) {
+		innerComparator.setAscending(ascending);
+	}
+
 	protected Object[] sortElements(Object[] children) {
 		TreeMap<String, Object> map = new TreeMap<>(innerComparator);
 
@@ -364,10 +373,10 @@ public class ExpressionProvider implements ISortableExpressionProvider, IExpress
 			if (ALL.equals(parent)) {
 				// sort for all parameters
 				return sortElements(children);
-			} else {
-				// children for category, return original list
-				return children;
 			}
+			// children for category, return original list
+			return children;
+
 		} else if (parent instanceof IClassInfo) {
 			Object[] result = new Object[children.length];
 			System.arraycopy(children, 0, result, 0, children.length);
