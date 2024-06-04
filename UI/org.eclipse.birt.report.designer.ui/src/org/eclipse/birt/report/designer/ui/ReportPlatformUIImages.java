@@ -410,9 +410,12 @@ public class ReportPlatformUIImages {
 		declareImage(IReportGraphicConstants.ICON_DATA_COLUMN, ICONS_PATH + OBJ16_PATH + "data_column.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_INHERIT_COLUMN, ICONS_PATH + OBJ16_PATH + "inherit_column.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT, ICONS_PATH + OBJ16_PATH + "alpha_sort.gif"); //$NON-NLS-1$
+		declareImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT_ASCENDING,
+				ICONS_PATH + OBJ16_PATH + "alpha_sort_ascending.gif"); //$NON-NLS-1$
+		declareImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT_DESCENDING,
+				ICONS_PATH + OBJ16_PATH + "alpha_sort_descending.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_GROUP_SORT, ICONS_PATH + OBJ16_PATH + "group_sort.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_LOCAL_PROPERTIES, ICONS_PATH + OBJ16_PATH + "local_prop.gif"); //$NON-NLS-1$
-		declareImage(IReportGraphicConstants.ICON_ALPHABETIC_SORT, ICONS_PATH + OBJ16_PATH + "alpha_sort.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_EXPRESSION_OPERATOR, ICONS_PATH + OBJ16_PATH + "operator.gif"); //$NON-NLS-1$
 
 		declareImage(IReportGraphicConstants.ICON_EXPRESSION_GLOBAL, ICONS_PATH + OBJ16_PATH + "global.gif"); //$NON-NLS-1$

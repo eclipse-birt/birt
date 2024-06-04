@@ -430,6 +430,12 @@ public interface IReportGraphicConstants {
 	/** icon property: alphabetic sort */
 	String ICON_ALPHABETIC_SORT = "AlphabeticSort"; //$NON-NLS-1$
 
+	/** icon property: alphabetic sort ascending */
+	String ICON_ALPHABETIC_SORT_ASCENDING = "AlphabeticSortAscending"; //$NON-NLS-1$
+
+	/** icon property: alphabetic sort descending */
+	String ICON_ALPHABETIC_SORT_DESCENDING = "AlphabeticSortDescending"; //$NON-NLS-1$
+
 	/** icon property: autotext */
 	String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 
