@@ -250,7 +250,7 @@
 							<version>4.16.0-SNAPSHOT</version>
 						</artifact>
 					</target>
-					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
+					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-21</executionEnvironment>
 					<environments>
 						<environment>
 							<os>win32</os>
