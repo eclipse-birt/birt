@@ -281,7 +281,6 @@ United States, other countries, or both.
       <feature id="org.eclipse.jdt" installMode="root"/>
       <feature id="org.eclipse.pde" installMode="root"/>
       <feature id="org.eclipse.platform" installMode="root"/>
-      <feature id="org.eclipse.rcp.configuration" installMode="root"/>
       <feature id="org.eclipse.rcp" installMode="root"/>
       <feature id="org.eclipse.wst.common_core.feature" installMode="root"/>
       <feature id="org.eclipse.wst.common_ui.feature" installMode="root"/>
