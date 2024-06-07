@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="37">
+<target name="Generated from BIRT" sequenceNumber="38">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -123,7 +123,6 @@
       <unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
       <unit id="org.eclipse.orbit.xml-apis-ext" version="0.0.0"/>
       <unit id="org.eclipse.osgi.services" version="0.0.0"/>
-      <unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.sdk.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
@@ -148,7 +147,6 @@
       <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.9"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0"/>
       <repository location="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.32-I-builds/I20240601-0610"/>
     </location>
   </locations>
 </target>
