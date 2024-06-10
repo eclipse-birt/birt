@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="38">
+<target name="Generated from BIRT" sequenceNumber="39">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -142,7 +142,7 @@
       <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/releases/2024-06/202406121000"/>
-      <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/21.0.0"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.9"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.32.0"/>
