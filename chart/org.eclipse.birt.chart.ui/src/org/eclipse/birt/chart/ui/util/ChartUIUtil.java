@@ -206,7 +206,7 @@ public class ChartUIUtil {
 	 * @return the default number format
 	 */
 	public static NumberFormat getDefaultNumberFormatInstance() {
-		NumberFormat numberFormat = NumberFormat.getInstance();
+		NumberFormat numberFormat = NumberFormat.getInstance(ULocale.getDefault());
 		// fix icu limitation which only allow 3 fraction digits as maximum by
 		// default. ?100 is enough.
 		numberFormat.setMaximumFractionDigits(100);
