@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.jetty.overlay;singleton:=true
-Bundle-Version: 4.16.0.qualifier
+Bundle-Version: 4.17.0.qualifier
 Fragment-Host: system.bundle
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.mortbay.util;version="6.1.23"
