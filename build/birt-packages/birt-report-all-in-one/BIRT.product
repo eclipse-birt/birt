@@ -39,9 +39,12 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
       </programArgs>
       <vmArgs>-Xms512m
 -Xmx2048m
+-Dorg.eclipse.help.webapp.experimental.ui=true
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
+      <vmArgsWin>-Dorg.eclipse.swt.browser.DefaultType=edge
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/org.eclipse.birt.branding/images/p16.png" i32="/org.eclipse.birt.branding/images/p32.png" i48="/org.eclipse.birt.branding/images/p48.png" i64="/org.eclipse.birt.branding/images/p64.png" i128="/org.eclipse.birt.branding/images/p128.png" i256="/org.eclipse.birt.branding/images/p256.png"/>
