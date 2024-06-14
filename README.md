@@ -23,12 +23,12 @@ To build BIRT with the latest Eclipse platform, run:
 ## Eclipse Version
 If you want to install BIRT as a plug-in, please be aware that BIRT 4.14 requires Eclipse 4.30 or higher, and Java 17 or higher.
 
-## Latest Version 4.15.0
+## Latest Version 4.16.0
 * https://download.eclipse.org/birt/updates/release/latest
 
-## Current Version 4.15.0
-* https://download.eclipse.org/birt/updates/release/4.15.0
+## Current Version 4.16.0
+* https://download.eclipse.org/birt/updates/release/4.16.0
 
-## Latest Snapshots Towards <birt.version>4.16.0</birt.version>
+## Latest Snapshots Towards <birt.version><birt.version>4.17.0</birt.version></birt.version>
 * https://download.eclipse.org/birt/updates/nightly/latest
 

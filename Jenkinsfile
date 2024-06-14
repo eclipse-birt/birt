@@ -56,6 +56,13 @@ pipeline {
                   env.WITH_CREDENTIALS = false
                   env.MAVEN_PROFILES = ""
                 }
+                def description = """
+BUILD_TYPE=${params.BUILD_TYPE}
+WITH_CREDENTIALS=${env.WITH_CREDENTIALS}
+MAVEN_PROFILES=${env.MAVEN_PROFILES}
+""".trim()
+                echo description
+                currentBuild.description = description.replace("\n", "<br/>")
             }
         }
     }

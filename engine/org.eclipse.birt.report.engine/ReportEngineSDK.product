@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Report Engine SDK" id="org.eclipse.birt.report.engine.ReportEngineSDK" version="4.16.0.qualifier" application="org.eclipse.birt.report.engine.ReportExecutor" useFeatures="false">
+<product name="Report Engine SDK" id="org.eclipse.birt.report.engine.ReportEngineSDK" version="4.17.0.qualifier" application="org.eclipse.birt.report.engine.ReportExecutor" useFeatures="false">
 
    <configIni use="custom" path="/org.eclipse.birt.report.engine/config.ini"/>
 
