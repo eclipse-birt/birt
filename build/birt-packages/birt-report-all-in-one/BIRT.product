@@ -39,6 +39,8 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
       </programArgs>
       <vmArgs>-Xms512m
 -Xmx2048m
+-Dorg.eclipse.swt.browser.DefaultType=edge
+-Dorg.eclipse.help.webapp.experimental.ui=true
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
