@@ -44,7 +44,7 @@
 		<maven-jar-plugin-version>3.3.0</maven-jar-plugin-version>
 		<maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
 		<maven-assembly-plugin-version>3.7.1</maven-assembly-plugin-version>
-		<tycho.version>4.0.7</tycho.version>
+		<tycho.version>4.0.8</tycho.version>
 		<wagon.ssh.version>3.5.3</wagon.ssh.version>
 
 		<build.type>nightly</build.type>
