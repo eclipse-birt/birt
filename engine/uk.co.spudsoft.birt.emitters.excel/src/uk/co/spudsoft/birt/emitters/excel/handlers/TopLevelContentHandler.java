@@ -1,14 +1,14 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -77,7 +77,7 @@ public class TopLevelContentHandler extends CellContentHandler {
 		log.debug("Creating row ", state.rowNum, " for label");
 		state.currentSheet.createRow(state.rowNum);
 
-		String labelText = (label.getLabelText() != null) ? label.getLabelText() : label.getText();
+		String labelText = (label.getText() != null) ? label.getText() : label.getLabelText();
 		emitContent(state, label, labelText,
 				(!"inline".equals(getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block"))));
 
