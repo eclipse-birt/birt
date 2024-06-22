@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -25,6 +25,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.PageMargin;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -292,17 +293,20 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 			sheet.getPrintSetup().setFooterMargin(footerHeight);
 		}
 		if ((page.getMarginBottom() != null) && isAbsolute(page.getMarginBottom())) {
-			sheet.setMargin(Sheet.BottomMargin,
+			sheet.setMargin(PageMargin.getByShortValue(Sheet.BottomMargin),
 					footerHeight + page.getMarginBottom().convertTo(DimensionType.UNITS_IN));
 		}
 		if ((page.getMarginLeft() != null) && isAbsolute(page.getMarginLeft())) {
-			sheet.setMargin(Sheet.LeftMargin, page.getMarginLeft().convertTo(DimensionType.UNITS_IN));
+			sheet.setMargin(PageMargin.getByShortValue(Sheet.LeftMargin),
+					page.getMarginLeft().convertTo(DimensionType.UNITS_IN));
 		}
 		if ((page.getMarginRight() != null) && isAbsolute(page.getMarginRight())) {
-			sheet.setMargin(Sheet.RightMargin, page.getMarginRight().convertTo(DimensionType.UNITS_IN));
+			sheet.setMargin(PageMargin.getByShortValue(Sheet.RightMargin),
+					page.getMarginRight().convertTo(DimensionType.UNITS_IN));
 		}
 		if ((page.getMarginTop() != null) && isAbsolute(page.getMarginTop())) {
-			sheet.setMargin(Sheet.TopMargin, headerHeight + page.getMarginTop().convertTo(DimensionType.UNITS_IN));
+			sheet.setMargin(PageMargin.getByShortValue(Sheet.TopMargin),
+					headerHeight + page.getMarginTop().convertTo(DimensionType.UNITS_IN));
 		}
 	}
 
