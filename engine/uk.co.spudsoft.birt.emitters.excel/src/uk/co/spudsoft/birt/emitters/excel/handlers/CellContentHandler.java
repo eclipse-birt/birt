@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -157,6 +157,7 @@ public class CellContentHandler extends AbstractHandler {
 		colSpan = 1;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void startCell(HandlerState state, ICellContent cell) throws BirtException {
 		if (cell.getBookmark() != null) {
@@ -341,7 +342,7 @@ public class CellContentHandler extends AbstractHandler {
 				&& ((lastValue instanceof String) || (lastValue instanceof RichTextString))) {
 			int spannedRowAlgorithm = EmitterServices.integerOption(state.getRenderOptions(), element,
 					ExcelEmitter.SPANNED_ROW_HEIGHT, ExcelEmitter.SPANNED_ROW_HEIGHT_SPREAD);
-			Font defaultFont = state.getWb().getFontAt(cell.getCellStyle().getFontIndexAsInt() /* .getFontIndex() */);
+			Font defaultFont = state.getWb().getFontAt(cell.getCellStyle().getFontIndex());
 			double cellWidth = spanWidthMillimetres(state.currentSheet, cell.getColumnIndex(),
 					cell.getColumnIndex() + colSpan - 1);
 			float cellDesiredHeight = smu.calculateTextHeightPoints(cell.getStringCellValue(), defaultFont, cellWidth,
@@ -823,18 +824,36 @@ public class CellContentHandler extends AbstractHandler {
 							+ birtImage.getPhysicalWidthDpi() + "dpi=" + birtImage.getPhysicalWidthInch() + "in) x "
 							+ birtImage.getHeight() + " (@" + birtImage.getPhysicalHeightDpi() + "dpi="
 							+ birtImage.getPhysicalHeightInch() + "in)");
+
 					if (image.getWidth() == null) {
-						DimensionType Width = new DimensionType(
-								(birtImage.getPhysicalWidthInch() > 0) ? birtImage.getPhysicalWidthInch()
-										: birtImage.getWidth() / 96.0,
-								"in");
+						// calculate the width based on the given height and the physical dimensions
+						DimensionType Width;
+						if (image.getHeight() != null) {
+							double factor = birtImage.getWidth() * 1.0 / birtImage.getHeight() * 1.0;
+							double imgWidth = image.getHeight().getMeasure() * factor;
+							Width = new DimensionType(imgWidth, image.getHeight().getUnits());
+						} else {
+							Width = new DimensionType(
+									(birtImage.getPhysicalWidthInch() > 0) ? birtImage.getPhysicalWidthInch()
+											: birtImage.getWidth() / 96.0,
+									"in");
+						}
 						image.setWidth(Width);
 					}
-					if (image.getHeight() == null) {
-						DimensionType Height = new DimensionType(
-								(birtImage.getPhysicalHeightInch() > 0) ? birtImage.getPhysicalHeightInch()
-										: birtImage.getHeight() / 96.0,
-								"in");
+					if (image.getHeight() == null && birtImage.getWidth() > 0 && birtImage.getHeight() > 0) {
+
+						// calculate the height based on the given width and the physical dimensions
+						DimensionType Height;
+						if (image.getWidth() != null) {
+							double factor = birtImage.getHeight() * 1.0 / birtImage.getWidth() * 1.0;
+							double imgHeight = image.getWidth().getMeasure() * factor;
+							Height = new DimensionType(imgHeight, image.getWidth().getUnits());
+						} else {
+							Height = new DimensionType(
+									(birtImage.getPhysicalHeightInch() > 0) ? birtImage.getPhysicalHeightInch()
+											: birtImage.getHeight() / 96.0,
+									"in");
+						}
 						image.setHeight(Height);
 					}
 				}
