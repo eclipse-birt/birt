@@ -143,6 +143,8 @@ public class CellContentHandler extends AbstractHandler {
 
 	private static final String STYLE_OVERLAY_DEFAULT_UNIT = "mm";
 
+	private static final double DOTS_PER_INCH = 96.0;
+
 	/**
 	 * Constructor
 	 *
@@ -835,7 +837,7 @@ public class CellContentHandler extends AbstractHandler {
 						} else {
 							Width = new DimensionType(
 									(birtImage.getPhysicalWidthInch() > 0) ? birtImage.getPhysicalWidthInch()
-											: birtImage.getWidth() / 96.0,
+											: birtImage.getWidth() / DOTS_PER_INCH,
 									"in");
 						}
 						image.setWidth(Width);
@@ -851,7 +853,7 @@ public class CellContentHandler extends AbstractHandler {
 						} else {
 							Height = new DimensionType(
 									(birtImage.getPhysicalHeightInch() > 0) ? birtImage.getPhysicalHeightInch()
-											: birtImage.getHeight() / 96.0,
+											: birtImage.getHeight() / DOTS_PER_INCH,
 									"in");
 						}
 						image.setHeight(Height);
