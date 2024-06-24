@@ -341,3 +341,14 @@ The following list get an overview of all supported user properties, the content
 	           	SpacingAll, indent calculated based on cell padding & element padding & margin
 	Default    	SpacingAll
 	Since      	4.16
+
+**ExcelEmitter.ImageScalingToCellDimension**
+
+	Content    	scaling of all images to the cell dimension
+	Location   	report
+	Data type  	boolean
+	Values    	true, all images will be scaled to the cell dimension
+				 	false, only the images with larger dimensions like the content cell will be scaled
+				 	and the small images keep the original image size
+	Default    	false
+	Since      	4.17
