@@ -277,8 +277,11 @@ public class PageHandler extends AbstractHandler {
 		if (!state.images.isEmpty()) {
 			drawing = state.currentSheet.createDrawingPatriarch();
 		}
+
+		boolean scaleSmallImage = EmitterServices.booleanOption(state.getRenderOptions(), page,
+				ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION, false);
 		for (CellImage cellImage : state.images) {
-			processCellImage(state, drawing, cellImage);
+			processCellImage(state, drawing, cellImage, scaleSmallImage);
 		}
 		state.images.clear();
 		state.rowNum = 0;
@@ -310,7 +313,8 @@ public class PageHandler extends AbstractHandler {
 	 *
 	 * @param cellImage The image to be placed on the sheet.
 	 */
-	private void processCellImage(HandlerState state, Drawing<?> drawing, CellImage cellImage) {
+	private void processCellImage(HandlerState state, Drawing<?> drawing, CellImage cellImage,
+			boolean scaleSmallImage) {
 		Coordinate location = cellImage.location;
 
 		Cell cell = state.currentSheet.getRow(location.getRow()).getCell(location.getCol());
@@ -357,7 +361,18 @@ public class PageHandler extends AbstractHandler {
 			}
 		} else {
 			float widthRatio = (float) (mmWidth / lastColWidth);
-			ptHeight = ptHeight / widthRatio;
+
+			// scale the image to cell if the image dimension are larger like cell dimension
+			if (scaleSmallImage) {
+				ptHeight = ptHeight / widthRatio;
+			} else {
+				// avoid scaling for small images only resize of large images
+				if (widthRatio > 1.0) {
+					ptHeight = ptHeight / widthRatio;
+				} else {
+					dx = smu.anchorDxFromMM(mmWidth, lastColWidth);
+				}
+			}
 		}
 
 		int rowsSpanned = state.findRowsSpanned(cell.getRowIndex(), cell.getColumnIndex());

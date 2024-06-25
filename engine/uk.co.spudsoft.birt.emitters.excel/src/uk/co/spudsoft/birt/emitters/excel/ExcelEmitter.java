@@ -79,6 +79,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.SingleSheetWithPageBreaks */
 	public static final String SINGLE_SHEET_PAGE_BREAKS = "ExcelEmitter.SingleSheetWithPageBreaks";
 
+	/** property: ExcelEmitter.ImageScalingToCellDimension */
+	public static final String IMAGE_SCALING_CELL_DIMENSION = "ExcelEmitter.ImageScalingToCellDimension";
+
 	/** property: ExcelEmitter.InsertPrintBreakAfter */
 	public static final String PRINT_BREAK_AFTER = "ExcelEmitter.InsertPrintBreakAfter";
 
