@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetView;
@@ -280,8 +281,14 @@ public class PageHandler extends AbstractHandler {
 
 		boolean scaleSmallImage = EmitterServices.booleanOption(state.getRenderOptions(), page,
 				ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION, false);
+
+		// pre-processing to calculate the row height based on the images
 		for (CellImage cellImage : state.images) {
-			processCellImage(state, drawing, cellImage, scaleSmallImage);
+			processCellImage(state, drawing, cellImage, scaleSmallImage, false);
+		}
+		// draw-processing of the images
+		for (CellImage cellImage : state.images) {
+			processCellImage(state, drawing, cellImage, scaleSmallImage, true);
 		}
 		state.images.clear();
 		state.rowNum = 0;
@@ -314,7 +321,7 @@ public class PageHandler extends AbstractHandler {
 	 * @param cellImage The image to be placed on the sheet.
 	 */
 	private void processCellImage(HandlerState state, Drawing<?> drawing, CellImage cellImage,
-			boolean scaleSmallImage) {
+			boolean scaleSmallImage, boolean drawImage) {
 		Coordinate location = cellImage.location;
 
 		Cell cell = state.currentSheet.getRow(location.getRow()).getCell(location.getCol());
@@ -338,6 +345,7 @@ public class PageHandler extends AbstractHandler {
 		} else if (smu.isPixels(image.getWidth())) {
 			mmWidth = ClientAnchorConversions.pixels2Millimetres(image.getWidth().getMeasure());
 		}
+
 		// Allow image to span multiple columns
 		CellRangeAddress mergedRegion = getMergedRegionBegunBy(state.currentSheet, location.getRow(),
 				location.getCol());
@@ -387,16 +395,66 @@ public class PageHandler extends AbstractHandler {
 			cell.getRow().setHeightInPoints(neededRowHeightPoints);
 		}
 
-		// ClientAnchor anchor = wb.getCreationHelper().createClientAnchor();
-		ClientAnchor anchor = state.getWb().getCreationHelper().createClientAnchor();
-		anchor.setCol1(cell.getColumnIndex());
-		anchor.setRow1(cell.getRowIndex());
-		anchor.setCol2(endCol);
-		anchor.setRow2(cell.getRowIndex() + rowsSpanned);
-		anchor.setDx2(dx);
-		anchor.setDy2(smu.anchorDyFromPoints(ptHeight, cell.getRow().getHeightInPoints()));
-		anchor.setAnchorType(AnchorType.MOVE_DONT_RESIZE /* ClientAnchor.MOVE_DONT_RESIZE */);
-		drawing.createPicture(anchor, cellImage.imageIdx);
+		if (drawImage) {
+			int rowHeight = smu.anchorDyFromPoints(cell.getRow().getHeightInPoints(),
+					cell.getRow().getHeightInPoints());
+			int imageHeight = smu.anchorDyFromPoints(ptHeight, cell.getRow().getHeightInPoints());
+
+			// vertical alignment, top - default
+			int dy1 = 0;
+			int dy2 = smu.anchorDyFromPoints(ptHeight, cell.getRow().getHeightInPoints());
+
+			if (cellImage.verticalAlignment != null) {
+				int moveY = (rowHeight - imageHeight);
+				if (cellImage.verticalAlignment.equals(CSSConstants.CSS_MIDDLE_VALUE)) {
+					// vertical alignment, middle - half of empty area added at the top
+					moveY = moveY / 2;
+					dy1 += moveY;
+					dy2 += moveY;
+				} else if (cellImage.verticalAlignment.equals(CSSConstants.CSS_BOTTOM_VALUE)) {
+					// vertical alignment, bottom - full empty area added at the top
+					dy1 += moveY;
+					dy2 += moveY;
+				}
+			}
+			int imageWidth = smu.anchorDxFromMM(mmWidth, mmWidth);
+			int colWidth = smu.anchorDxFromMM(lastColWidth, lastColWidth);
+
+			// horizontal alignment, left - default
+			int dx1 = 0;
+			int dx2 = dx;
+
+			if (cellImage.horizontalAlignment != null) {
+				int moveX = (colWidth - imageWidth);
+				System.out.println("imageWidth: " + imageWidth);
+				System.out.println("colWidth: " + colWidth);
+				System.out.println("moveX: " + moveX);
+				if (cellImage.horizontalAlignment.equals(CSSConstants.CSS_CENTER_VALUE)) {
+					// horizontal alignment, center - half of empty area added at left hand side
+					moveX = moveX / 2;
+					dx1 += moveX;
+					dx2 += moveX;
+				} else if (cellImage.horizontalAlignment.equals(CSSConstants.CSS_RIGHT_VALUE)) {
+					// horizontal alignment, right - full empty area added at left hand side
+					dx1 += moveX;
+					dx2 += moveX;
+				}
+			}
+
+			// ClientAnchor anchor = wb.getCreationHelper().createClientAnchor();
+			ClientAnchor anchor = state.getWb().getCreationHelper().createClientAnchor();
+			anchor.setCol1(cell.getColumnIndex());
+			anchor.setRow1(cell.getRowIndex());
+			anchor.setCol2(endCol);
+			anchor.setRow2(cell.getRowIndex() + rowsSpanned);
+			anchor.setDx1(dx1);
+			anchor.setDx2(dx2);
+			anchor.setDy1(dy1);
+			anchor.setDy2(dy2);
+			anchor.setAnchorType(AnchorType.MOVE_DONT_RESIZE /* ClientAnchor.MOVE_DONT_RESIZE */);
+			drawing.createPicture(anchor, cellImage.imageIdx);
+		}
+
 	}
 
 	@Override

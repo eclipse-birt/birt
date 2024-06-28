@@ -1,14 +1,14 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -33,15 +33,40 @@ import org.eclipse.birt.report.engine.content.IImageContent;
  *
  */
 public class CellImage {
+
+	/** property: coordinates of the location */
 	public Coordinate location;
+
+	/** property: image index */
 	public int imageIdx;
+
+	/** property: image content object */
 	public IImageContent image;
+
+	/** property: image can be spanned */
 	public boolean spanColumns;
 
-	public CellImage(Coordinate location, int imageIdx, IImageContent image, boolean spanColumns) {
+	/** property: image can be spanned */
+	public String horizontalAlignment;
+
+	/** property: image can be spanned */
+	public String verticalAlignment;
+
+	/**
+	 * Constructor
+	 *
+	 * @param location    coordinates of the location
+	 * @param imageIdx    image index
+	 * @param image       image content object
+	 * @param spanColumns image can be spanned
+	 */
+	public CellImage(Coordinate location, int imageIdx, IImageContent image, boolean spanColumns,
+			String horizontalAlignment, String verticalAlignment) {
 		this.location = location;
 		this.imageIdx = imageIdx;
 		this.image = image;
 		this.spanColumns = spanColumns;
+		this.horizontalAlignment = horizontalAlignment;
+		this.verticalAlignment = verticalAlignment;
 	}
 }
