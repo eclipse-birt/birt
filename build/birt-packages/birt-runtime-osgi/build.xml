@@ -21,9 +21,6 @@
   <property name="VIEWER_DIR" location="${STAGE_DIR}/WebViewerExample"/>
   <property name="PRODUCT_DIR" location="./target/products/org.eclipse.birt.engine.runtime/win32/win32/x86_64/ReportEngine"/>
   <property name="REPOSITORY_DIR" location="./target/repository"/>
-<!--
-  <property name="DESIGNER_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.p2updatesite/target/products/org.eclipse.birt.designer/win32/win32/x86_64/designer"/>
--->
   <target name="package" depends="build-report-engine, build-webviewer, build-webviewer-war">
     <zip destfile="./target/birt-runtime-osgi-${BIRT_VERSION}.zip">
       <fileset dir="${STAGE_DIR}"/>

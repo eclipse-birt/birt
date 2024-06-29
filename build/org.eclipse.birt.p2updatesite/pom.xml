@@ -26,8 +26,7 @@
 	<artifactId>org.eclipse.birt.p2updatesite</artifactId>
 	<packaging>eclipse-repository</packaging>
 
-	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->
-    <build>
+	<build>
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -43,29 +42,6 @@
 				<configuration>
 					<includeAllDependencies>true</includeAllDependencies>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-director-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<products>
-						<product>
-							<id>org.eclipse.birt.designer</id>
-							<rootFolder>designer</rootFolder>
-						</product>
-					</products>
-				</configuration>
-				<executions>
-					<execution>
-						<id>materialize-products</id>
-						<goals>
-							<goal>materialize-products</goal>
-							<goal>archive-products</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
