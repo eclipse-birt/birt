@@ -71,6 +71,7 @@
    <feature id="org.eclipse.birt.rcp">
       <category name="BirtRcp"/>
    </feature>
+
    <category-def name="Birt" label="BIRT Reporting SDK"/>
    <category-def name="Chart" label="BIRT Charting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
@@ -82,4 +83,53 @@
          Contains the RCP bundle for the Designer product. Do not install in your IDE!
       </description>
    </category-def>
+
+   <category-def name="BirtAllInOne" label="BIRT Report Designer All-In-One Product- Do not install in your IDE!">
+      <description>
+         BIRT Report Designer All-In-One Product. Do not install in your IDE!
+      </description>
+   </category-def>
+
+   <iu>
+     <category name="BirtAllInOne"/>
+     <query>
+       <expression type="match">id=="org.eclipse.birt.report.designer.all"</expression>
+     </query>
+   </iu>
+
+   <!-- These are plugins and features required as install roots by the org.eclipse.birt.report.designer.all product that are not otherwise in the update site. -->
+
+   <feature id="org.eclipse.datatools.common.doc.user"/>
+   <feature id="org.eclipse.datatools.connectivity.doc.user"/>
+   <feature id="org.eclipse.datatools.enablement.apache.derby.feature"/>
+   <feature id="org.eclipse.datatools.enablement.hsqldb.feature"/>
+   <feature id="org.eclipse.datatools.enablement.ibm.feature"/>
+   <feature id="org.eclipse.datatools.enablement.ingres.feature"/>
+   <feature id="org.eclipse.datatools.enablement.jdt.feature"/>
+   <feature id="org.eclipse.datatools.enablement.msft.feature"/>
+   <feature id="org.eclipse.datatools.enablement.mysql.feature"/>
+   <feature id="org.eclipse.datatools.enablement.oda.designer.feature"/>
+   <feature id="org.eclipse.datatools.enablement.oracle.feature"/>
+   <feature id="org.eclipse.datatools.enablement.postgresql.feature"/>
+   <feature id="org.eclipse.datatools.enablement.sap.feature"/>
+   <feature id="org.eclipse.datatools.enablement.sqlite.feature"/>
+   <feature id="org.eclipse.datatools.enablement.sybase.feature"/>
+   <feature id="org.eclipse.datatools.intro"/>
+   <feature id="org.eclipse.datatools.sqldevtools.data.feature"/>
+   <feature id="org.eclipse.datatools.sqldevtools.ddl.feature"/>
+   <feature id="org.eclipse.datatools.sqldevtools.ddlgen.feature"/>
+   <feature id="org.eclipse.datatools.sqldevtools.feature"/>
+   <feature id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature"/>
+   <feature id="org.eclipse.datatools.sqltools.doc.user"/>
+   <feature id="org.eclipse.e4.rcp"/>
+   <feature id="org.eclipse.equinox.p2.core.feature"/>
+   <feature id="org.eclipse.equinox.p2.extras.feature"/>
+   <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+   <feature id="org.eclipse.equinox.p2.user.ui"/>
+   <feature id="org.eclipse.help"/>
+   <feature id="org.eclipse.platform"/>
+   <feature id="org.eclipse.rcp"/>
+   <feature id="org.eclipse.xsd"/>
+   <feature id="org.eclipse.xsd.edit"/>
+
 </site>
