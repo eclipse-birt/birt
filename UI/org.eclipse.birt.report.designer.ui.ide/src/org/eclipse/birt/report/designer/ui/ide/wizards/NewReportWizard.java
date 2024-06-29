@@ -32,8 +32,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPerspective;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -83,6 +85,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	// private static final String REPORT_WIZARD = Messages.getString(
 	// "NewReportWizard.title.ReportWizard" ); //$NON-NLS-1$
+	private static final String REVEAL_DATAVIEW = Messages.getString("NewReportWizard.taskName.revealDataview"); //$NON-NLS-1$
 	private static final String OPENING_FILE_FOR_EDITING = Messages
 			.getString("NewReportWizard.text.OpenFileForEditing"); //$NON-NLS-1$
 	// private static final String DOES_NOT_EXIST = Messages.getString(
@@ -154,7 +157,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			fileName = fn;
 		}
 
-		String cheatSheetIdFromPage;//$NON-NLS-1$
+		String cheatSheetIdFromPage;// $NON-NLS-1$
 		boolean showCheatSheetFromPage;
 
 		final ReportDesignHandle selTemplate = templateChoicePage.getTemplate();
@@ -468,7 +471,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			final InputStream templateStream, String cheatSheetId, boolean showCheatSheet, boolean isUseDefaultLibrary,
 			LibraryHandle library, IProgressMonitor monitor) throws CoreException {
 		// create a sample file
-		monitor.beginTask(CREATING + fileName, 2);
+		monitor.beginTask(CREATING + fileName, 3);
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(containerName);
 		IContainer container = null;
 		if (resource == null || !resource.exists() || !(resource instanceof IContainer)) {
@@ -566,19 +569,28 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 						}
 
 						new OpenCheatSheetAction(cheatId).run();
-
-						// Display.getCurrent( )
-						// .getActiveShell( )
-						// .setData( oldData );
 					}
 				} catch (Exception e) {
 					ExceptionUtil.handle(e);
 				}
 			}
 		});
-
 		monitor.worked(1);
 
+		// Open DataView when in the reporting perspective
+		monitor.setTaskName(REVEAL_DATAVIEW);
+		getShell().getDisplay().asyncExec(() -> {
+			try {
+				if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getPerspective().getId()
+						.equals(ReportPerspective.BIRT_REPORT_PERSPECTIVE)) {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(DataView.ID);
+				}
+			} catch (Exception e) {
+				// no problem if view cannot be opened
+			}
+		});
+
+		monitor.worked(1);
 	}
 
 	/*
