@@ -81,7 +81,7 @@
 				<artifactId>tycho-p2-repository-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<finalName>birt-runtime-p2</finalName>
+					<skipArchive>true</skipArchive>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -109,7 +109,7 @@
 								<ant antfile="build.xml" target="package" dir="${basedir}">
 									<property name="BIRT_VERSION" value="${unqualifiedVersion}-${maven.build.timestamp}" />
 								</ant>
-								<attachartifact file="${project.build.directory}/birt-runtime-osgi-${unqualifiedVersion}-${maven.build.timestamp}.zip" type="zip" />
+								<attachartifact file="${project.build.directory}/birt-runtime-osgi-${unqualifiedVersion}-${maven.build.timestamp}.zip" classifier="runtime" type="zip" />
 							</target>
 						</configuration>
 						<goals>
