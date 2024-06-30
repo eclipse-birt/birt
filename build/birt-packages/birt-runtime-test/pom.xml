@@ -55,6 +55,7 @@
 									<artifactId>birt-runtime</artifactId>
 									<version>${project.version}</version>
 									<type>zip</type>
+									<classifier>runtime</classifier>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}/birt-runtime</outputDirectory>
 								</artifactItem>
@@ -63,6 +64,7 @@
 									<artifactId>birt-runtime-osgi</artifactId>
 									<version>${project.version}</version>
 									<type>zip</type>
+									<classifier>runtime</classifier>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}/birt-runtime-osgi</outputDirectory>
 								</artifactItem>
@@ -78,7 +80,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin-version}</version>
 				<configuration>
-					<skipTests>true</skipTests>
+					<skipTests>${skipTests}</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>
