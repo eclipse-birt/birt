@@ -126,6 +126,11 @@ class DesignWriterImpl extends ModuleWriter {
 		property(obj, IReportDesignModel.IMAGE_DPI_PROP);
 		property(obj, IReportDesignModel.LOCALE_PROP);
 
+		property(obj, IReportDesignModel.EXCEL_DISABLE_GROUPING);
+		property(obj, IReportDesignModel.EXCEL_FORCE_AUTO_COL_WIDTHS);
+		property(obj, IReportDesignModel.EXCEL_SINGLE_SHEET);
+		property(obj, IReportDesignModel.EXCEL_DISPLAY_GRIDLINES);
+
 		// include libraries and scripts
 
 		writeStructureList(obj, IModuleModel.LIBRARIES_PROP);

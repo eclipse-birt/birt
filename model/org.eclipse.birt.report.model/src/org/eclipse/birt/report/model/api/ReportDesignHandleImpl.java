@@ -1429,4 +1429,79 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 		setProperty(LANGUAGE_PROP, language);
 	}
 
+	/**
+	 * Get the configuration for the excel handling of forced auto column width
+	 *
+	 * @return the configuration of forced auto column width
+	 */
+	public boolean getExcelForceAutoColWidths() {
+		return getBooleanProperty(EXCEL_FORCE_AUTO_COL_WIDTHS);
+	}
+
+	/**
+	 * Set the auto column width usage for the excel output
+	 *
+	 * @param forceAutoColWidths auto columns widths calculation to be used
+	 * @throws SemanticException
+	 */
+	public void setExcelForceAutoColWidths(boolean forceAutoColWidths) throws SemanticException {
+		setBooleanProperty(EXCEL_FORCE_AUTO_COL_WIDTHS, forceAutoColWidths);
+	}
+
+	/**
+	 * Get the configuration for the excel handling of single sheet result
+	 *
+	 * @return the configuration of single sheet result
+	 */
+	public boolean getExcelSingleSheet() {
+		return getBooleanProperty(EXCEL_SINGLE_SHEET);
+	}
+
+	/**
+	 * Set the single sheet usage for the excel output
+	 *
+	 * @param singleSheet single sheet to be used
+	 * @throws SemanticException
+	 */
+	public void setExcelSingleSheet(boolean singleSheet) throws SemanticException {
+		setBooleanProperty(EXCEL_SINGLE_SHEET, singleSheet);
+	}
+
+	/**
+	 * Get the configuration for the excel handling of disabled grouping
+	 *
+	 * @return the configuration of disabled grouping
+	 */
+	public boolean getExcelDisableGrouping() {
+		return getBooleanProperty(EXCEL_DISABLE_GROUPING);
+	}
+
+	/**
+	 * Set the deactivation of the grouping of the excel output
+	 *
+	 * @param disableGrouping disable grouping
+	 * @throws SemanticException
+	 */
+	public void setExcelDisableGrouping(boolean disableGrouping) throws SemanticException {
+		setBooleanProperty(EXCEL_DISABLE_GROUPING, disableGrouping);
+	}
+
+	/**
+	 * Get the configuration for the excel handling to display grid lines
+	 *
+	 * @return the configuration to display grind lines
+	 */
+	public boolean getExcelDisplayGridlines() {
+		return getBooleanProperty(EXCEL_DISPLAY_GRIDLINES);
+	}
+
+	/**
+	 * Set the display of grid line for the excel output
+	 *
+	 * @param displayGridlines display grid lines
+	 * @throws SemanticException
+	 */
+	public void setExcelDisplayGridlines(boolean displayGridlines) throws SemanticException {
+		setBooleanProperty(EXCEL_DISPLAY_GRIDLINES, displayGridlines);
+	}
 }

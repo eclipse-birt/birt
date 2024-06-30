@@ -1887,6 +1887,24 @@
   	</Property>
   	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
   	<Property displayNameID="Element.ReportDesign.language" name="language" since="4.3" type="string" />
+    <PropertyGroup displayNameID="Element.ReportDesign.Emitter.excel">
+	  <!-- excel (spudsoft): force the column width calculation	-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.forceAutoColWidths" name="excelForceAutoColWidths" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (spudsoft): output of table as single sheet	-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.singleSheet" name="excelSingleSheet" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (spudsoft): disable the excel grouping			-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.disableGrouping" name="excelDisableGrouping" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (spudsoft): show/hide the excel gridlines		-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.displayGridlines" name="excelDisplayGridlines" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>true</Default>
+      </Property>
+	</PropertyGroup>
   	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
     </Method> 	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">

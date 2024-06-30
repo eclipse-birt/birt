@@ -1,14 +1,14 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -26,6 +26,12 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 
 import uk.co.spudsoft.birt.emitters.excel.framework.ExcelEmitterPlugin;
 
+/**
+ * Emitter service to handle the emitter configuration options
+ *
+ * @since 3.3
+ *
+ */
 public class EmitterServices {
 
 	/**
@@ -77,6 +83,10 @@ public class EmitterServices {
 			value = options.getOption(name);
 		}
 
+		if (birtContent != null && birtContent.getReportContent() != null && value == null) {
+			value = getReportDesignConfiguration(birtContent.getReportContent(), name);
+		}
+
 		if (value != null) {
 			result = booleanOption(value, defaultValue);
 		}
@@ -84,6 +94,16 @@ public class EmitterServices {
 		return result;
 	}
 
+	/**
+	 * Convert an Object to a boolean, with quite a few options about the class of
+	 * the Object.
+	 *
+	 * @param options       The task options to extract the value from.
+	 * @param reportContent The report node to look for UserProperties
+	 * @param name          The name of the value to extract from options.
+	 * @param defaultValue  Value to return if value is null.
+	 * @return true if value in some way represents a boolean TRUE value.
+	 */
 	public static boolean booleanOption(ITaskOption options, IReportContent reportContent, String name,
 			boolean defaultValue) {
 		boolean result = defaultValue;
@@ -108,7 +128,32 @@ public class EmitterServices {
 			result = booleanOption(value, defaultValue);
 		}
 
+		if (reportContent != null && value == null) {
+			value = getReportDesignConfiguration(reportContent, name);
+		}
+
 		return result;
+	}
+
+	/*
+	 * Read the configuration from the report design if no user property is set
+	 */
+	private static Object getReportDesignConfiguration(IReportContent reportContent, String name) {
+		Object value = null;
+		if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET)) {
+			value = reportContent.getDesign().getReportDesign().getExcelSingleSheet();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.DISABLE_GROUPING)) {
+			value = reportContent.getDesign().getReportDesign().getExcelDisableGrouping();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.DISPLAYGRIDLINES_PROP)) {
+			value = reportContent.getDesign().getReportDesign().getExcelDisplayGridlines();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP)) {
+			value = reportContent.getDesign().getReportDesign().getExcelForceAutoColWidths();
+
+		}
+		return value;
 	}
 
 	/**
@@ -286,14 +331,15 @@ public class EmitterServices {
 	}
 
 	/**
-	 * Returns the symbolic name for the plugin.
+	 * Get the symbolic name for the plugin.
+	 *
+	 * @return the symbolic name for the plugin.
 	 */
 	public static String getPluginName() {
 		if ((ExcelEmitterPlugin.getDefault() != null) && (ExcelEmitterPlugin.getDefault().getBundle() != null)) {
 			return ExcelEmitterPlugin.getDefault().getBundle().getSymbolicName();
-		} else {
-			return "uk.co.spudsoft.birt.emitters.excel";
 		}
+		return "uk.co.spudsoft.birt.emitters.excel";
 	}
 
 }
