@@ -50,7 +50,7 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
    <windowImages i16="/org.eclipse.birt.branding/images/p16.png" i32="/org.eclipse.birt.branding/images/p32.png" i48="/org.eclipse.birt.branding/images/p48.png" i64="/org.eclipse.birt.branding/images/p64.png" i128="/org.eclipse.birt.branding/images/p128.png" i256="/org.eclipse.birt.branding/images/p256.png"/>
 
    <splash
-      location="org.eclipse.birt.branding" />
+      location="org.eclipse.birt.branding"/>
    <launcher name="birt">
       <win useIco="true">
          <ico path="images/birt.ico"/>
@@ -296,14 +296,19 @@ United States, other countries, or both.
    </features>
 
    <configurations>
-      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="eclipse.product" value="org.eclipse.birt.branding.birt_all_in_one" />
-      <property name="org.eclipse.update.reconcile" value="false" />
-      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <plugin id="org.apache.aries.spifly.dynamic.bundle" autoStart="true" startLevel="2"/>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2"/>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4"/>
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2"/>
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2"/>
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="4"/>
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1"/>
+      <plugin id="slf4j.simple" autoStart="true" startLevel="2"/>
+      <property name="eclipse.product" value="org.eclipse.birt.branding.birt_all_in_one"/>
+      <property name="org.eclipse.update.reconcile" value="false"/>
+      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench"/>
+      <property name="osgi.instance.area.default" value="@user.home/workspace"/>
+      <property name="osgi.instance.area.default" value="@user.home/Documents/workspace" os="macosx"/>
    </configurations>
 
    <preferencesInfo>
