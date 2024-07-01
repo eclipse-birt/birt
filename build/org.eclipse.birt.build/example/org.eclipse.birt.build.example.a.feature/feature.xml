@@ -22,7 +22,7 @@
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://www.eclipse.org/birt">
+   <description url="https://eclipse-birt.github.io/birt-website/">
       %description
    </description>
 
@@ -35,8 +35,8 @@
    </license>
 
    <url>
-      <update label="BIRT Updates" url="http://download.eclipse.org/birt/update-site"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site"/>
+      <update label="BIRT Updates" url="https://download.eclipse.org/birt/updates/release/latest"/>
+      <discovery label="%updateSiteName" url="https://download.eclipse.org/birt/updates/release/latest"/>
    </url>
 
    <includes

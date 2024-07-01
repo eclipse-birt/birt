@@ -24,9 +24,9 @@ providerName=Eclipse.org
 updateSiteName=Business Intellegence and Reporting Tool (BIRT) Updates
 
 # "description" property - description of the feature
-description=Eclipse ÒµÎñÖÇÄÜºÍ±¨±í¹¤¾ß (BIRT) Í¼±í¿ò¼Ü²å¼þ¡£
+description=Eclipse Òµï¿½ï¿½ï¿½ï¿½ï¿½ÜºÍ±ï¿½ï¿½ï¿½ï¿½ï¿½ (BIRT) Í¼ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½
 
-copyrightURL=http://www.eclipse.org/birt
+copyrightURL=https://eclipse-birt.github.io/birt-website
 copyright=(c) Copyright Eclipse Contributors and others 2004, 2006. All rights reserved.\n
 
 # "licenseURL" property - URL of the "Feature License"
