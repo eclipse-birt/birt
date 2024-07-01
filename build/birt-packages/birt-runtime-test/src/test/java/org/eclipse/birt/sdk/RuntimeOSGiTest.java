@@ -11,13 +11,14 @@
 package org.eclipse.birt.sdk;
 
 import java.io.File;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @SuppressWarnings("javadoc")
-// TODO This works locally for me on Windows but fails on the Linux build machines.
-// One must first do a full Maven build for these artifacts to be available in the target folder.
-public abstract class RuntimeOSGiTest extends BaseTestTemplate {
+public class RuntimeOSGiTest extends BaseTestTemplate {
 	public int run(String[] args) throws Exception {
 		System.setProperty("BIRT_HOME",
 				new File("./target/birt-runtime-osgi/ReportEngine/platform/").getAbsolutePath());
@@ -26,7 +27,13 @@ public abstract class RuntimeOSGiTest extends BaseTestTemplate {
 
 		// Start the Platform to start the Equinox framework.
 		Class<?> platformClass = loader.loadClass("org.eclipse.birt.core.framework.Platform"); //$NON-NLS-1$
-		platformClass.getMethod("startup").invoke(null);
+		MethodHandle startup = MethodHandles.publicLookup().findStatic(platformClass, "startup",
+				MethodType.methodType(void.class));
+		try {
+			startup.invoke();
+		} catch (Throwable e) {
+			throw new Exception(e);
+		}
 
 		// Get the launcher from the started Platform.
 		Field launcherField = platformClass.getDeclaredField("launcher");
