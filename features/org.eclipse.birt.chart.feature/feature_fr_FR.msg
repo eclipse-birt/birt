@@ -26,7 +26,7 @@ updateSiteName=Business Intellegence and Reporting Tool (BIRT) Updates
 # "description" property - description of the feature
 description=Plug-in de la structure graphique (BIRT) et outils de reporting et de Business Intelligence Eclipse.
 
-copyrightURL=http://www.eclipse.org/birt
+copyrightURL=https://eclipse-birt.github.io/birt-website
 copyright=(c) Copyright Eclipse Contributors and others 2004, 2006. All rights reserved.\n
 
 # "licenseURL" property - URL of the "Feature License"

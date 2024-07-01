@@ -22,7 +22,7 @@
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
-   <description url="http://www.eclipse.org/birt">
+   <description url="https://eclipse-birt.github.io/birt-website/">
       %description
    </description>
 
