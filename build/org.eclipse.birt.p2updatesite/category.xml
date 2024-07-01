@@ -50,6 +50,9 @@
    <feature id="org.eclipse.birt.chart.integration.wtp">
       <category name="wtpIntegration"/>
    </feature>
+   <feature id="org.eclipse.birt.integration.wtp.sdk">
+      <category name="wtpIntegration"/>
+   </feature>
    <feature id="org.eclipse.birt.integration.wtp">
       <category name="wtpIntegration"/>
    </feature>
@@ -72,6 +75,8 @@
       <category name="BirtRcp"/>
    </feature>
 
+   <feature id="org.eclipse.birt.source"/>
+
    <category-def name="Birt" label="BIRT Reporting SDK"/>
    <category-def name="Chart" label="BIRT Charting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
@@ -89,7 +94,7 @@
          BIRT Report Designer All-In-One Product. Do not install in your IDE!
       </description>
    </category-def>
-
+ 
    <iu>
      <category name="BirtAllInOne"/>
      <query>
