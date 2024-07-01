@@ -32,7 +32,6 @@
 
 	<modules>
 		<module>birt-charts</module>
-		<module>birt-epp</module>
 		<module>birt-report-all-in-one</module>
 		<module>birt-report-framework</module>
 		<module>birt-report-framework-sdk</module>
