@@ -218,4 +218,23 @@ public interface IInternalReportDesignModel {
 	 */
 	String LANGUAGE_PROP = "language"; //$NON-NLS-1$
 
+	/**
+	 * Excel option, force auto column width calculation
+	 */
+	String EXCEL_FORCE_AUTO_COL_WIDTHS = "excelForceAutoColWidths"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, create only singe sheet
+	 */
+	String EXCEL_SINGLE_SHEET = "excelSingleSheet"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, disable grouping
+	 */
+	String EXCEL_DISABLE_GROUPING = "excelDisableGrouping"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, display grid lines
+	 */
+	String EXCEL_DISPLAY_GRIDLINES = "excelDisplayGridlines"; //$NON-NLS-1$
 }
