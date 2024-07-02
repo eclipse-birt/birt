@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
  org.eclipse.birt.report.engine.emitter.postscript;bundle-version="4.13.0",
  org.junit;bundle-version="4.7.0";resolution:=optional;visibility:=reexport
 Bundle-Vendor: %Bundle-Vendor
-Bundle-ClassPath: emitterpostscript.jar
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.postscript.tests
 Export-Package: org.eclipse.birt.report.engine.emitter.postscript;x-internal:=true,

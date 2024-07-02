@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.tests;singleton:=true
 Bundle-Version: 4.17.0.qualifier
-Bundle-ClassPath: charttests.jar
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.chart.tests.TestsPlugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.chart.tests,

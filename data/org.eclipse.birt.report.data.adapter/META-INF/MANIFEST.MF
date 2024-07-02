@@ -16,7 +16,6 @@ Export-Package: org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.data.adapter.api.timeFunction,
  org.eclipse.birt.report.data.adapter.impl
 Bundle-Vendor: %Bundle-Vendor
-Bundle-ClassPath: library.jar,
- .
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.data.adapter

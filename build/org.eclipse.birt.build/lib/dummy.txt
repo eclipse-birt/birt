@@ -1,3 +1,0 @@
-Download dom4j 1.6.1 jar file from: 
-  http://sourceforge.net/projects/dom4j/files/ 
-  Copy the dom4j jars(dom4j-1.6.1.jar) to org.eclipse.birt.build/lib

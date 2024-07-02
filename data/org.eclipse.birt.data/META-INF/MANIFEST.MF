@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.data; singleton:=true
 Bundle-Version: 4.17.0.qualifier
-Bundle-ClassPath: library.jar,
- .
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
