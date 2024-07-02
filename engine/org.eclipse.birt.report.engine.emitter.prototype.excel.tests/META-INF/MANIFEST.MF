@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.report.engine.emitter.prototype.excel;bundle-ve
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.osgi.framework;version="1.5.0"
-Bundle-ClassPath: emitterexceltests.jar
+Bundle-ClassPath: .
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.prototype.excel.tests
 Export-Package: org.eclipse.birt.report.engine.emitter.prototype.excel;x-internal:=true,

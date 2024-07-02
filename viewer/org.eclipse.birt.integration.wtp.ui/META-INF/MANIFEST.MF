@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.integration.wtp.ui;singleton:=true
 Bundle-Version: 4.17.0.qualifier
-Bundle-ClassPath: birtwtp.jar,.
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.integration.wtp.ui.BirtWTPUIPlugin
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
