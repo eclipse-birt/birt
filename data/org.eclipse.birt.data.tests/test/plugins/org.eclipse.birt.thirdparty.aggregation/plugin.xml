@@ -19,14 +19,6 @@
    name="Aggr"
    version="1.0.1"
    provider-name="Eclipse.org">
-      <runtime>
-      <library name="aggregation.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   <requires>
-      <import plugin="org.eclipse.birt.data"/>
-   </requires>
    
    <extension
          point="org.eclipse.birt.data.aggregation">
