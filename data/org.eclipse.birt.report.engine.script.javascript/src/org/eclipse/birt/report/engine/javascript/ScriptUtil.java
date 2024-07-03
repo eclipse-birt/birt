@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -22,14 +22,31 @@ import java.security.CodeSource;
 import org.mozilla.javascript.PolicySecurityController;
 import org.mozilla.javascript.SecurityController;
 
+/**
+ * Script util class
+ *
+ * @since 3.3
+ *
+ */
 public class ScriptUtil {
 
+	/**
+	 * Create security controller
+	 *
+	 * @return the created security controller
+	 */
 	public static SecurityController createSecurityController() {
 		return new PolicySecurityController();
 	}
 
+	/**
+	 * Get the security domain
+	 *
+	 * @param file JavaScript file
+	 * @return the secure JavaScript code
+	 */
 	public static Object getSecurityDomain(final String file) {
-		if ((file == null) || (System.getSecurityManager() == null)) {
+		if ((file == null) || !(new JavascriptVersion()).isECMAScriptSecurityEnabled()) {
 			return null;
 		}
 		try {

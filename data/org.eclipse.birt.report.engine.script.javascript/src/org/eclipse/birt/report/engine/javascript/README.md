@@ -24,6 +24,19 @@ The configuration will be done as a global starting parameter of the JVM.
 	Default    	ES6 (= EMCAScript 6)
 	Version    	4.16
 
+
+**birt.ecmascript.version**
+
+	Content    	configuration to enable or disable the JavaScript security based on certificates (as replacement of the Security Manager)
+	Parameter  	-Dbirt.ecmascript.security
+	Location   	JVM
+	Data type  	string
+	Values     	on, the JavaScript code use security mechanism certificate based
+	           	off, JavaScript without special JavaScript mechanism
+	Supported   	on, off
+	Default    	off
+	Version    	4.17
+
 ** Function reference of Rhino**
 
 - An overview of Rhino engine supported functions are listed here: [Rhino ES2015 Support](https://mozilla.github.io/rhino/compat/engines.html)

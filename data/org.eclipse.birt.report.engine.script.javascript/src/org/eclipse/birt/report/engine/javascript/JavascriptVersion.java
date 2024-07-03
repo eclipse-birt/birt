@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.javascript;
 
-/**
+/*******************************************************************************
  * Copyright (c) 2024 Thomas Gutmann.
  *
  * This program and the accompanying materials are made available under the
@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.javascript;
  *
  * @since 4.16
  *
- */
+ *******************************************************************************/
 public class JavascriptVersion {
 
 	/**
@@ -23,6 +23,7 @@ public class JavascriptVersion {
 	 */
 	public JavascriptVersion() {
 		evaluateEcmaScriptVersion();
+		evaluateEcmaScriptSecurity();
 	}
 
 	/** Valid JavaScript versions */
@@ -50,6 +51,9 @@ public class JavascriptVersion {
 	/** System property of the JavaScript version */
 	private static final String ECMA_SCRIPT_VERSION_PROPERTY_KEY = "birt.ecmascript.version"; //$NON-NLS-1$
 
+	/** System property of the JavaScript version */
+	private static final String ECMA_SCRIPT_SECURITY_PROPERTY_KEY = "birt.ecmascript.security"; //$NON-NLS-1$
+
 	/** Valid keys of the system property */
 	private static final String ECMA_SCRIPT_VERSION_1_0_KEY = "1.0"; //$NON-NLS-1$
 	private static final String ECMA_SCRIPT_VERSION_1_1_KEY = "1.1"; //$NON-NLS-1$
@@ -64,7 +68,12 @@ public class JavascriptVersion {
 
 	private int valueEcmaScriptVersion = ECMA_SCRIPT_VERSION_ES6;
 
+	/** Valid keys of the system property */
+	private static final String ECMA_SCRIPT_SECURITY_ENABLED = "on"; //$NON-NLS-1$
+
 	private String configuredECMAScriptVersion;
+
+	private boolean configuredEcmaScriptSecurity = false;
 
 	/**
 	 * Get the EMCAScript version number
@@ -82,6 +91,28 @@ public class JavascriptVersion {
 	 */
 	public String getConfiguredECMAScriptVersion() {
 		return this.configuredECMAScriptVersion;
+	}
+
+	/**
+	 * Get the EMCAScript security in use
+	 *
+	 * @return the ECMAScript security in use
+	 */
+	public boolean isECMAScriptSecurityEnabled() {
+		return this.configuredEcmaScriptSecurity;
+	}
+
+	/**
+	 * Evaluate the system property to use the javascript security based on
+	 * certificates
+	 */
+	private void evaluateEcmaScriptSecurity() {
+		/* System property: -Dbirt.ecmascript.security */
+		String configuredEcmaScriptSecurityProperty = System.getProperty(ECMA_SCRIPT_SECURITY_PROPERTY_KEY);
+		if (configuredEcmaScriptSecurityProperty != null
+				&& configuredEcmaScriptSecurityProperty.equalsIgnoreCase(ECMA_SCRIPT_SECURITY_ENABLED)) {
+			this.configuredEcmaScriptSecurity = true;
+		}
 	}
 
 	/**
