@@ -55,7 +55,7 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 	 */
 	public static void initMyFactory() {
 		ContextFactory.initGlobal(new MyFactory());
-		if ((new JavascriptVersion()).isECMAScriptSecurityEnabled()) {
+		if (JavascriptVersion.isECMAScriptSecurityEnabled()) {
 			SecurityController.initGlobal(ScriptUtil.createSecurityController());
 		}
 	}

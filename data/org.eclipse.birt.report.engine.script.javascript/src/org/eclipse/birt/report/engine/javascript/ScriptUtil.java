@@ -46,7 +46,7 @@ public class ScriptUtil {
 	 * @return the secure JavaScript code
 	 */
 	public static Object getSecurityDomain(final String file) {
-		if ((file == null) || !(new JavascriptVersion()).isECMAScriptSecurityEnabled()) {
+		if ((file == null) || !JavascriptVersion.isECMAScriptSecurityEnabled()) {
 			return null;
 		}
 		try {

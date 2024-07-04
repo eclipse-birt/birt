@@ -25,10 +25,10 @@ The configuration will be done as a global starting parameter of the JVM.
 	Version    	4.16
 
 
-**birt.ecmascript.version**
+**birt.ecmascript.security.enabled**
 
 	Content    	configuration to enable or disable the JavaScript security based on certificates (as replacement of the Security Manager)
-	Parameter  	-Dbirt.ecmascript.security
+	Parameter  	-Dbirt.ecmascript.security.enabled
 	Location   	JVM
 	Data type  	string
 	Values     	on, the JavaScript code use security mechanism certificate based

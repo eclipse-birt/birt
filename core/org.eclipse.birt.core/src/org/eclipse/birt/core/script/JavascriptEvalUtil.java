@@ -48,10 +48,7 @@ public class JavascriptEvalUtil {
 	private static Logger logger = Logger.getLogger(JavascriptEvalUtil.class.getName());
 
 	/** System property of the JavaScript version */
-	private static final String ECMA_SCRIPT_SECURITY_PROPERTY_KEY = "birt.ecmascript.security"; //$NON-NLS-1$
-
-	/** Valid keys of the system property */
-	private static final String ECMA_SCRIPT_SECURITY_ENABLED = "on"; //$NON-NLS-1$
+	private static final String ECMA_SCRIPT_SECURITY_PROPERTY_KEY = "birt.ecmascript.security.enabled"; //$NON-NLS-1$
 
 	/*
 	 * LRU cache for compiled scripts. For performance reasons, scripts are compiled
@@ -395,13 +392,7 @@ public class JavascriptEvalUtil {
 	 * certificates
 	 */
 	private static boolean isECMAScriptSecurityEnabled() {
-		boolean scriptSecurity = false;
-		/* System property: -Dbirt.ecmascript.security */
-		String configuredEcmaScriptSecurityProperty = System.getProperty(ECMA_SCRIPT_SECURITY_PROPERTY_KEY);
-		if (configuredEcmaScriptSecurityProperty != null
-				&& configuredEcmaScriptSecurityProperty.equalsIgnoreCase(ECMA_SCRIPT_SECURITY_ENABLED)) {
-			scriptSecurity = true;
-		}
-		return scriptSecurity;
+		/* System property: -Dbirt.ecmascript.security.enabled */
+		return Boolean.getBoolean(ECMA_SCRIPT_SECURITY_PROPERTY_KEY);
 	}
 }
