@@ -31,7 +31,6 @@
 	</target>
 	<target name="copy-api-jars">
 		<echo>copy API jars to "${LIB_DIR}</echo>
-		<copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar" />
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${ROOT_DIR}">
 				<include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar" />
@@ -80,6 +79,7 @@
 		<antcall target="build-odaconnectivity-api" />
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${PRODUCT_DIR}/plugins">
+				<include name="org.apache.commons.cli_*.jar" />
 				<include name="org.apache.commons.codec_*.jar" />
 				<include name="org.eclipse.birt.axis.overlay_*.jar" />
 				<include name="org.eclipse.emf.common_*.jar" />

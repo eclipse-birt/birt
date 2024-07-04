@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="42">
+<target name="Generated from BIRT" sequenceNumber="43">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -10,6 +10,7 @@
       <unit id="biz.aQute.bndlib" version="0.0.0"/>
       <unit id="biz.aQute.resolve" version="0.0.0"/>
       <unit id="bndtools.api" version="0.0.0"/>
+      <unit id="com.github.jtidy" version="0.0.0"/>
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.google.guava.failureaccess" version="0.0.0"/>
@@ -40,6 +41,7 @@
       <unit id="org.apache.batik.dom" version="0.0.0"/>
       <unit id="org.apache.batik.dom.svg" version="0.0.0"/>
       <unit id="org.apache.batik.ext" version="0.0.0"/>
+      <unit id="org.apache.batik.extension" version="0.0.0"/>
       <unit id="org.apache.batik.gvt" version="0.0.0"/>
       <unit id="org.apache.batik.i18n" version="0.0.0"/>
       <unit id="org.apache.batik.parser" version="0.0.0"/>
@@ -48,6 +50,8 @@
       <unit id="org.apache.batik.transcoder" version="0.0.0"/>
       <unit id="org.apache.batik.util" version="0.0.0"/>
       <unit id="org.apache.batik.xml" version="0.0.0"/>
+      <unit id="org.apache.commons.cli" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-codec" version="0.0.0"/>
       <unit id="org.apache.commons.commons-collections4" version="0.0.0"/>
       <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
       <unit id="org.apache.commons.commons-io" version="0.0.0"/>
@@ -64,6 +68,8 @@
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics.fop-core" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics.fop-events" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.manager" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.plugin.gradle" version="0.0.0"/>
       <unit id="org.bndtools.templating" version="0.0.0"/>

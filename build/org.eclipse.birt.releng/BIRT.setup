@@ -437,6 +437,17 @@
           name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
       <requirement
           name="*"/>
+      <requirement
+          name="cdi.api"
+          optional="true"
+          max="0">
+        <annotation>
+          <detail
+              key="justification">
+            <value>Avoid resolving this IU into the generated target platform</value>
+          </detail>
+        </annotation>
+      </requirement>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>
