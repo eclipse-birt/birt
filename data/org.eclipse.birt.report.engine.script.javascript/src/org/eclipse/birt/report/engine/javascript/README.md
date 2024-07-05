@@ -30,11 +30,11 @@ The configuration will be done as a global starting parameter of the JVM.
 	Content    	configuration to enable or disable the JavaScript security based on certificates (as replacement of the Security Manager)
 	Parameter  	-Dbirt.ecmascript.security.enabled
 	Location   	JVM
-	Data type  	string
-	Values     	on, the JavaScript code use security mechanism certificate based
-	           	off, JavaScript without special JavaScript mechanism
-	Supported   	on, off
-	Default    	off
+	Data type  	boolean
+	Values     	true, the JavaScript code use security mechanism certificate based
+	           	false, JavaScript without special JavaScript mechanism
+	Supported   	true, false
+	Default    	false
 	Version    	4.17
 
 ** Function reference of Rhino**
