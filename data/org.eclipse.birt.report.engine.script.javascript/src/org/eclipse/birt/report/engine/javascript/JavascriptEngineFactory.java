@@ -28,9 +28,19 @@ import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.SecurityController;
 
+/**
+ *
+ * Factory class to create the JavaScript engine
+ *
+ * @since 3.3
+ *
+ */
 public class JavascriptEngineFactory implements IScriptEngineFactory {
+
+	/** property: script type */
 	public static String SCRIPT_JAVASCRIPT = "javascript";
 
+	/** property: use dynamic scope */
 	public static final boolean USE_DYNAMIC_SCOPE = true;
 
 	private static Logger logger = Logger.getLogger(JavascriptEngineFactory.class.getName());
@@ -40,9 +50,12 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 	 */
 	private LinkedList<ScriptableObject> rootScopes = new LinkedList<>();
 
+	/**
+	 * Initialization factory method
+	 */
 	public static void initMyFactory() {
 		ContextFactory.initGlobal(new MyFactory());
-		if (System.getSecurityManager() != null) {
+		if (JavascriptVersion.isECMAScriptSecurityEnabled()) {
 			SecurityController.initGlobal(ScriptUtil.createSecurityController());
 		}
 	}
@@ -58,9 +71,13 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 		}
 	}
 
+	/**
+	 * Constructor
+	 */
 	public JavascriptEngineFactory() {
 	}
 
+	@SuppressWarnings("unused")
 	protected ScriptableObject createRootScope() throws BirtException {
 		Context context = Context.enter();
 		try {
@@ -107,11 +124,14 @@ public class JavascriptEngineFactory implements IScriptEngineFactory {
 		return SCRIPT_JAVASCRIPT;
 	}
 
+	/**
+	 * Destroy the JavaScript factory
+	 */
 	public static void destroyMyFactory() {
 		ContextFactory factory = ContextFactory.getGlobal();
 		if (factory instanceof MyFactory) {
 			try {
-				Class factoryClass = Class.forName("org.mozilla.javascript.ContextFactory");
+				Class<?> factoryClass = Class.forName("org.mozilla.javascript.ContextFactory");
 				Field field = factoryClass.getDeclaredField("hasCustomGlobal");
 				field.setAccessible(true);
 				field.setBoolean(factoryClass, false);

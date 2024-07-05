@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.javascript;
 
-/**
+/*******************************************************************************
  * Copyright (c) 2024 Thomas Gutmann.
  *
  * This program and the accompanying materials are made available under the
@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.javascript;
  *
  * @since 4.16
  *
- */
+ *******************************************************************************/
 public class JavascriptVersion {
 
 	/**
@@ -50,6 +50,9 @@ public class JavascriptVersion {
 	/** System property of the JavaScript version */
 	private static final String ECMA_SCRIPT_VERSION_PROPERTY_KEY = "birt.ecmascript.version"; //$NON-NLS-1$
 
+	/** System property of the JavaScript version */
+	private static final String ECMA_SCRIPT_SECURITY_PROPERTY_KEY = "birt.ecmascript.security.enabled"; //$NON-NLS-1$
+
 	/** Valid keys of the system property */
 	private static final String ECMA_SCRIPT_VERSION_1_0_KEY = "1.0"; //$NON-NLS-1$
 	private static final String ECMA_SCRIPT_VERSION_1_1_KEY = "1.1"; //$NON-NLS-1$
@@ -82,6 +85,16 @@ public class JavascriptVersion {
 	 */
 	public String getConfiguredECMAScriptVersion() {
 		return this.configuredECMAScriptVersion;
+	}
+
+	/**
+	 * Get the EMCAScript security is in use
+	 *
+	 * @return the ECMAScript security in use
+	 */
+	public static boolean isECMAScriptSecurityEnabled() {
+		/* System property: -Dbirt.ecmascript.security.enabled */
+		return Boolean.getBoolean(ECMA_SCRIPT_SECURITY_PROPERTY_KEY);
 	}
 
 	/**

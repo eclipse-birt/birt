@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -208,6 +208,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 		return factory;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public CompiledJavascript compile(ScriptContext scriptContext, final String id, final int lineNumber,
 			final String script) throws BirtException {

@@ -1,6 +1,5 @@
-/*
- *************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+/**************************************************************************
+ * Copyright (c) 2005, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -12,8 +11,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *
- *************************************************************************
- */
+ **************************************************************************/
 package org.eclipse.birt.core.script;
 
 import java.io.File;
@@ -48,6 +46,9 @@ import org.mozilla.javascript.Wrapper;
  */
 public class JavascriptEvalUtil {
 	private static Logger logger = Logger.getLogger(JavascriptEvalUtil.class.getName());
+
+	/** System property of the JavaScript version */
+	private static final String ECMA_SCRIPT_SECURITY_PROPERTY_KEY = "birt.ecmascript.security.enabled"; //$NON-NLS-1$
 
 	/*
 	 * LRU cache for compiled scripts. For performance reasons, scripts are compiled
@@ -372,7 +373,7 @@ public class JavascriptEvalUtil {
 	}
 
 	private static Object getSecurityDomain(final String file) {
-		if ((file == null) || (System.getSecurityManager() == null)) {
+		if ((file == null) || !isECMAScriptSecurityEnabled()) {
 			return null;
 		}
 		try {
@@ -386,4 +387,12 @@ public class JavascriptEvalUtil {
 		}
 	}
 
+	/**
+	 * Evaluate the system property to use the JavaScript security based on
+	 * certificates
+	 */
+	private static boolean isECMAScriptSecurityEnabled() {
+		/* System property: -Dbirt.ecmascript.security.enabled */
+		return Boolean.getBoolean(ECMA_SCRIPT_SECURITY_PROPERTY_KEY);
+	}
 }
