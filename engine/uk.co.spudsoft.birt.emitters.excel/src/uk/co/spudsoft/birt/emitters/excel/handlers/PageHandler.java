@@ -426,9 +426,6 @@ public class PageHandler extends AbstractHandler {
 
 			if (cellImage.horizontalAlignment != null) {
 				int moveX = (colWidth - imageWidth);
-				System.out.println("imageWidth: " + imageWidth);
-				System.out.println("colWidth: " + colWidth);
-				System.out.println("moveX: " + moveX);
 				if (cellImage.horizontalAlignment.equals(CSSConstants.CSS_CENTER_VALUE)) {
 					// horizontal alignment, center - half of empty area added at left hand side
 					moveX = moveX / 2;
