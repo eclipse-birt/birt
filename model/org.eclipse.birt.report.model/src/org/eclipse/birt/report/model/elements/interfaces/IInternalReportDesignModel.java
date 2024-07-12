@@ -237,4 +237,34 @@ public interface IInternalReportDesignModel {
 	 * Excel option, display grid lines
 	 */
 	String EXCEL_DISPLAY_GRIDLINES = "excelDisplayGridlines"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, add auto filter to header row
+	 */
+	String EXCEL_AUTO_FILTER = "excelAutoFilter"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, force recalculation
+	 */
+	String EXCEL_FORCE_RECALCULATION = "excelForceRecalculation"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, scale the images to cell dimension
+	 */
+	String EXCEL_IMAGE_SCALING_CELL_DIMENSION = "excelImageScalingToCellDimension"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, create page break on single sheet
+	 */
+	String EXCEL_SINGLE_SHEET_WITH_PAGE_BREAK = "excelSingleSheetWithPageBreaks"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, write data with streaming mode
+	 */
+	String EXCEL_STREAMING_XLSX = "excelStreamingXlsx"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, display report header and footer at excel sheet
+	 */
+	String EXCEL_STRUCTURED_HEADER = "excelStructuredHeader"; //$NON-NLS-1$
 }

@@ -140,8 +140,9 @@ public class EmitterServices {
 	 */
 	private static Object getReportDesignConfiguration(IReportContent reportContent, String name) {
 		Object value = null;
-		if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET)) {
-			value = reportContent.getDesign().getReportDesign().getExcelSingleSheet();
+
+		if (name.equalsIgnoreCase(ExcelEmitter.AUTO_FILTER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelAutoFilter();
 
 		} else if (name.equalsIgnoreCase(ExcelEmitter.DISABLE_GROUPING)) {
 			value = reportContent.getDesign().getReportDesign().getExcelDisableGrouping();
@@ -149,9 +150,26 @@ public class EmitterServices {
 		} else if (name.equalsIgnoreCase(ExcelEmitter.DISPLAYGRIDLINES_PROP)) {
 			value = reportContent.getDesign().getReportDesign().getExcelDisplayGridlines();
 
+		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCE_RECALCULATION)) {
+			value = reportContent.getDesign().getReportDesign().getExcelForceRecalculation();
+
 		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP)) {
 			value = reportContent.getDesign().getReportDesign().getExcelForceAutoColWidths();
 
+		} else if (name.equalsIgnoreCase(ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION)) {
+			value = reportContent.getDesign().getReportDesign().getExcelImageScaling();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET)) {
+			value = reportContent.getDesign().getReportDesign().getExcelSingleSheet();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET_PAGE_BREAKS)) {
+			value = reportContent.getDesign().getReportDesign().getExcelSingleSheetPageBreak();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.STREAMING_XLSX)) {
+			value = reportContent.getDesign().getReportDesign().getExcelStreamingXlsx();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.STRUCTURED_HEADER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelStructuredHeader();
 		}
 		return value;
 	}
