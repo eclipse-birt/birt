@@ -1504,4 +1504,119 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	public void setExcelDisplayGridlines(boolean displayGridlines) throws SemanticException {
 		setBooleanProperty(EXCEL_DISPLAY_GRIDLINES, displayGridlines);
 	}
+
+	/**
+	 * Get the display of the excel auto filter
+	 *
+	 * @return the configuration to display the auto filter
+	 */
+	public boolean getExcelAutoFilter() {
+		return getBooleanProperty(EXCEL_AUTO_FILTER);
+	}
+
+	/**
+	 * Set the display of the excel auto filter
+	 *
+	 * @param enableAutoFilter enable auto filter
+	 * @throws SemanticException
+	 */
+	public void setExcelAutoFilter(boolean enableAutoFilter) throws SemanticException {
+		setBooleanProperty(EXCEL_AUTO_FILTER, enableAutoFilter);
+	}
+
+	/**
+	 * Get the configuration for the forced recalculation
+	 *
+	 * @return the configuration to display grind lines
+	 */
+	public boolean getExcelForceRecalculation() {
+		return getBooleanProperty(EXCEL_FORCE_RECALCULATION);
+	}
+
+	/**
+	 * Set the forced recalculation of excel
+	 *
+	 * @param forceRecalculation enable the forced recalculation
+	 * @throws SemanticException
+	 */
+	public void setExcelForceRecalculation(boolean forceRecalculation) throws SemanticException {
+		setBooleanProperty(EXCEL_FORCE_RECALCULATION, forceRecalculation);
+	}
+
+	/**
+	 * Get the configuration for the excel image scaling to cell dimension
+	 *
+	 * @return the configuration to use the image scaling
+	 */
+	public boolean getExcelImageScaling() {
+		return getBooleanProperty(EXCEL_IMAGE_SCALING_CELL_DIMENSION);
+	}
+
+	/**
+	 * Set the display of grid line for the excel output
+	 *
+	 * @param enableImageScaling enable image scaling
+	 * @throws SemanticException
+	 */
+	public void setExcelImageScaling(boolean enableImageScaling) throws SemanticException {
+		setBooleanProperty(EXCEL_IMAGE_SCALING_CELL_DIMENSION, enableImageScaling);
+	}
+
+	/**
+	 * Get the configuration for additional page break of single sheet
+	 *
+	 * @return the configuration for additional page break of single sheet
+	 */
+	public boolean getExcelSingleSheetPageBreak() {
+		return getBooleanProperty(EXCEL_SINGLE_SHEET_WITH_PAGE_BREAK);
+	}
+
+	/**
+	 * Set an additional page break to single sheet
+	 *
+	 * @param singleSheetPageBreak add the single sheet page break
+	 * @throws SemanticException
+	 */
+	public void setExcelSingleSheetPageBreak(boolean singleSheetPageBreak) throws SemanticException {
+		setBooleanProperty(EXCEL_SINGLE_SHEET_WITH_PAGE_BREAK, singleSheetPageBreak);
+	}
+
+	/**
+	 * Get the configuration if data streaming of XLSX is enabled
+	 *
+	 * @return the configuration  if data streaming of XLSX is enabled
+	 */
+	public boolean getExcelStreamingXlsx() {
+		return getBooleanProperty(EXCEL_STREAMING_XLSX);
+	}
+
+	/**
+	 * Set the output method to data streaming
+	 *
+	 * @param streamingXlsx enable the XLSX streaming
+	 * @throws SemanticException
+	 */
+	public void setExcelStreamingXlsx(boolean streamingXlsx) throws SemanticException {
+		setBooleanProperty(EXCEL_STREAMING_XLSX, streamingXlsx);
+	}
+
+	/**
+	 * Get the configuration to display the report header and footer
+	 *
+	 * @return the configuration to display the report header and footer
+	 */
+	public boolean getExcelStructuredHeader() {
+		return getBooleanProperty(EXCEL_STRUCTURED_HEADER);
+	}
+
+	/**
+	 * Set the display of report header and footer on excel sheet
+	 *
+	 * @param structuredHeader display report header and footer at excel sheet
+	 * @throws SemanticException
+	 */
+	public void setExcelStructuredHeader(boolean structuredHeader) throws SemanticException {
+		setBooleanProperty(EXCEL_STRUCTURED_HEADER, structuredHeader);
+	}
+
 }

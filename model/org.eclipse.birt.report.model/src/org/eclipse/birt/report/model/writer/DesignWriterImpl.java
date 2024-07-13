@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
@@ -126,10 +127,16 @@ class DesignWriterImpl extends ModuleWriter {
 		property(obj, IReportDesignModel.IMAGE_DPI_PROP);
 		property(obj, IReportDesignModel.LOCALE_PROP);
 
-		property(obj, IReportDesignModel.EXCEL_DISABLE_GROUPING);
-		property(obj, IReportDesignModel.EXCEL_FORCE_AUTO_COL_WIDTHS);
-		property(obj, IReportDesignModel.EXCEL_SINGLE_SHEET);
-		property(obj, IReportDesignModel.EXCEL_DISPLAY_GRIDLINES);
+		property(obj, IInternalReportDesignModel.EXCEL_DISABLE_GROUPING);
+		property(obj, IInternalReportDesignModel.EXCEL_FORCE_AUTO_COL_WIDTHS);
+		property(obj, IInternalReportDesignModel.EXCEL_SINGLE_SHEET);
+		property(obj, IInternalReportDesignModel.EXCEL_DISPLAY_GRIDLINES);
+		property(obj, IInternalReportDesignModel.EXCEL_AUTO_FILTER);
+		property(obj, IInternalReportDesignModel.EXCEL_FORCE_RECALCULATION);
+		property(obj, IInternalReportDesignModel.EXCEL_IMAGE_SCALING_CELL_DIMENSION);
+		property(obj, IInternalReportDesignModel.EXCEL_SINGLE_SHEET_WITH_PAGE_BREAK);
+		property(obj, IInternalReportDesignModel.EXCEL_STREAMING_XLSX);
+		property(obj, IInternalReportDesignModel.EXCEL_STRUCTURED_HEADER);
 
 		// include libraries and scripts
 

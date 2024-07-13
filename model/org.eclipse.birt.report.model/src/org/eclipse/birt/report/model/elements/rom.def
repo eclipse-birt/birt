@@ -1888,21 +1888,45 @@
   	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
   	<Property displayNameID="Element.ReportDesign.language" name="language" since="4.3" type="string" />
     <PropertyGroup displayNameID="Element.ReportDesign.Emitter.excel">
-	  <!-- excel (spudsoft): force the column width calculation	-->
+	  <!-- excel (Spudsoft): force the column width calculation	-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.forceAutoColWidths" name="excelForceAutoColWidths" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>
       </Property>
-      <!-- excel (spudsoft): output of table as single sheet	-->
+      <!-- excel (Spudsoft): output of table as single sheet		-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.singleSheet" name="excelSingleSheet" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>
       </Property>
-      <!-- excel (spudsoft): disable the excel grouping			-->
+      <!-- excel (Spudsoft): disable the excel grouping				-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.disableGrouping" name="excelDisableGrouping" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>
       </Property>
-      <!-- excel (spudsoft): show/hide the excel gridlines		-->
+      <!-- excel (Spudsoft): show/hide the excel gridlines			-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.displayGridlines" name="excelDisplayGridlines" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>true</Default>
+      </Property>
+      <!-- excel (Spudsoft): show/hide auto filter at header row	-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.autoFilter" name="excelAutoFilter" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): enable/disable the recalculation of formulas at excel start		-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.forceRecalculation" name="excelForceRecalculation" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): enable/disable the image scaling based on cell dimensions			-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.imageScalingToCellDimension" name="excelImageScalingToCellDimension" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): enable/disable single sheet with page break						-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.singleSheetWithPageBreaks" name="excelSingleSheetWithPageBreaks" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): enable/disable the XLSX creation based on data streaming			-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.streamingXlsx" name="excelStreamingXlsx" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): show/hide the header and footer on excel sheet						-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.structuredHeader" name="excelStructuredHeader" runtimeSettable="false" since="4.17" type="boolean" >
+        <Default>false</Default>
       </Property>
 	</PropertyGroup>
   	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
