@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -96,16 +95,16 @@ class DesignWriterImpl extends ModuleWriter {
 	}
 
 	protected void writeSimpleProperties(ReportDesign obj) {
-		property(obj, IReportDesignModel.REFRESH_RATE_PROP);
+		property(obj, IInternalReportDesignModel.REFRESH_RATE_PROP);
 		property(obj, IModuleModel.INITIALIZE_METHOD);
-		property(obj, IReportDesignModel.ON_PREPARE_METHOD);
-		property(obj, IReportDesignModel.BEFORE_FACTORY_METHOD);
-		property(obj, IReportDesignModel.AFTER_FACTORY_METHOD);
-		property(obj, IReportDesignModel.BEFORE_RENDER_METHOD);
-		property(obj, IReportDesignModel.AFTER_RENDER_METHOD);
-		property(obj, IReportDesignModel.ON_PAGE_START_METHOD);
-		property(obj, IReportDesignModel.ON_PAGE_END_METHOD);
-		property(obj, IReportDesignModel.CLIENT_INITIALIZE_METHOD);
+		property(obj, IInternalReportDesignModel.ON_PREPARE_METHOD);
+		property(obj, IInternalReportDesignModel.BEFORE_FACTORY_METHOD);
+		property(obj, IInternalReportDesignModel.AFTER_FACTORY_METHOD);
+		property(obj, IInternalReportDesignModel.BEFORE_RENDER_METHOD);
+		property(obj, IInternalReportDesignModel.AFTER_RENDER_METHOD);
+		property(obj, IInternalReportDesignModel.ON_PAGE_START_METHOD);
+		property(obj, IInternalReportDesignModel.ON_PAGE_END_METHOD);
+		property(obj, IInternalReportDesignModel.CLIENT_INITIALIZE_METHOD);
 
 		if (markLineNumber) {
 			getModule().addLineNo(obj.getPropertyDefn(IModuleModel.THEME_PROP),
@@ -113,19 +112,19 @@ class DesignWriterImpl extends ModuleWriter {
 		}
 		property(obj, IModuleModel.THEME_PROP);
 		resourceKey(obj, IDesignElementModel.DISPLAY_NAME_ID_PROP, IDesignElementModel.DISPLAY_NAME_PROP);
-		property(obj, IReportDesignModel.ICON_FILE_PROP);
-		property(obj, IReportDesignModel.CHEAT_SHEET_PROP);
+		property(obj, IInternalReportDesignModel.ICON_FILE_PROP);
+		property(obj, IInternalReportDesignModel.CHEAT_SHEET_PROP);
 		property(obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP);
 		property(obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP);
-		property(obj, IReportDesignModel.LAYOUT_PREFERENCE_PROP);
+		property(obj, IInternalReportDesignModel.LAYOUT_PREFERENCE_PROP);
 
-		property(obj, IReportDesignModel.BIDI_ORIENTATION_PROP);
+		property(obj, IInternalReportDesignModel.BIDI_ORIENTATION_PROP);
 
-		property(obj, IReportDesignModel.ENABLE_ACL_PROP);
-		property(obj, IReportDesignModel.ACL_EXPRESSION_PROP);
-		property(obj, IReportDesignModel.CASCADE_ACL_PROP);
-		property(obj, IReportDesignModel.IMAGE_DPI_PROP);
-		property(obj, IReportDesignModel.LOCALE_PROP);
+		property(obj, IInternalReportDesignModel.ENABLE_ACL_PROP);
+		property(obj, IInternalReportDesignModel.ACL_EXPRESSION_PROP);
+		property(obj, IInternalReportDesignModel.CASCADE_ACL_PROP);
+		property(obj, IInternalReportDesignModel.IMAGE_DPI_PROP);
+		property(obj, IInternalReportDesignModel.LOCALE_PROP);
 
 		property(obj, IInternalReportDesignModel.EXCEL_DISABLE_GROUPING);
 		property(obj, IInternalReportDesignModel.EXCEL_FORCE_AUTO_COL_WIDTHS);
@@ -137,11 +136,15 @@ class DesignWriterImpl extends ModuleWriter {
 		property(obj, IInternalReportDesignModel.EXCEL_SINGLE_SHEET_WITH_PAGE_BREAK);
 		property(obj, IInternalReportDesignModel.EXCEL_STREAMING_XLSX);
 		property(obj, IInternalReportDesignModel.EXCEL_STRUCTURED_HEADER);
+		property(obj, IInternalReportDesignModel.EXCEL_PRINT_PAGES_HIGH);
+		property(obj, IInternalReportDesignModel.EXCEL_PRINT_PAGES_WIDE);
+		property(obj, IInternalReportDesignModel.EXCEL_PRINT_SCALE);
+		property(obj, IInternalReportDesignModel.EXCEL_TEMPLATE_FILE);
 
 		// include libraries and scripts
 
 		writeStructureList(obj, IModuleModel.LIBRARIES_PROP);
-		writeStructureList(obj, IReportDesignModel.CSSES_PROP);
+		writeStructureList(obj, IInternalReportDesignModel.CSSES_PROP);
 
 		// config variables
 
@@ -149,12 +152,12 @@ class DesignWriterImpl extends ModuleWriter {
 	}
 
 	protected void writeSlot(ReportDesign obj) {
-		writeContents(obj, IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+		writeContents(obj, IInternalReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT,
 				DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG);
 		writeContents(obj, IModuleModel.PARAMETER_SLOT, DesignSchemaConstants.PARAMETERS_TAG);
 		writeContents(obj, IModuleModel.DATA_SOURCE_SLOT, DesignSchemaConstants.DATA_SOURCES_TAG);
 		writeContents(obj, IModuleModel.DATA_SET_SLOT, DesignSchemaConstants.DATA_SETS_TAG);
-		writeContents(obj, IReportDesignModel.CUBE_SLOT, DesignSchemaConstants.CUBES_TAG);
+		writeContents(obj, IInternalReportDesignModel.CUBE_SLOT, DesignSchemaConstants.CUBES_TAG);
 
 		// ColorPalette tag
 
@@ -164,17 +167,17 @@ class DesignWriterImpl extends ModuleWriter {
 
 		writeTranslations(obj);
 
-		writeContents(obj, IReportDesignModel.STYLE_SLOT, DesignSchemaConstants.STYLES_TAG);
-		writeContents(obj, IReportDesignModel.THEMES_SLOT, DesignSchemaConstants.THEMES_TAG);
+		writeContents(obj, IInternalReportDesignModel.STYLE_SLOT, DesignSchemaConstants.STYLES_TAG);
+		writeContents(obj, IInternalReportDesignModel.THEMES_SLOT, DesignSchemaConstants.THEMES_TAG);
 		writeArrangedContents(obj, IModuleModel.COMPONENT_SLOT, DesignSchemaConstants.COMPONENTS_TAG);
 		writeContents(obj, IModuleModel.PAGE_SLOT, DesignSchemaConstants.PAGE_SETUP_TAG);
-		writeContents(obj, IReportDesignModel.BODY_SLOT, DesignSchemaConstants.BODY_TAG);
-		writeContents(obj, IReportDesignModel.SCRATCH_PAD_SLOT, DesignSchemaConstants.SCRATCH_PAD_TAG);
+		writeContents(obj, IInternalReportDesignModel.BODY_SLOT, DesignSchemaConstants.BODY_TAG);
+		writeContents(obj, IInternalReportDesignModel.SCRATCH_PAD_SLOT, DesignSchemaConstants.SCRATCH_PAD_TAG);
 	}
 
 	protected void writeContentProperties(ReportDesign obj) {
-		writeContents(obj, IReportDesignModel.PAGE_VARIABLES_PROP);
-		writeContents(obj, IReportDesignModel.DATA_OBJECTS_PROP);
+		writeContents(obj, IInternalReportDesignModel.PAGE_VARIABLES_PROP);
+		writeContents(obj, IInternalReportDesignModel.DATA_OBJECTS_PROP);
 	}
 
 	protected void writeImages(ReportDesign obj) {
@@ -190,10 +193,11 @@ class DesignWriterImpl extends ModuleWriter {
 				}
 
 				if (value != null && value.length() < IndentableXMLWriter.MAX_CHARS_PER_LINE) {
-					writeEntry(DesignSchemaConstants.PROPERTY_TAG, IReportDesignModel.THUMBNAIL_PROP, null,
+					writeEntry(DesignSchemaConstants.PROPERTY_TAG, IInternalReportDesignModel.THUMBNAIL_PROP, null,
 							value.trim(), false);
 				} else {
-					writeBase64Text(DesignSchemaConstants.PROPERTY_TAG, IReportDesignModel.THUMBNAIL_PROP, value);
+					writeBase64Text(DesignSchemaConstants.PROPERTY_TAG, IInternalReportDesignModel.THUMBNAIL_PROP,
+							value);
 				}
 			}
 		} catch (UnsupportedEncodingException e) {

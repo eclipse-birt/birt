@@ -1928,6 +1928,18 @@
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.structuredHeader" name="excelStructuredHeader" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>
       </Property>
+      <!-- excel (Spudsoft): set the page high to fit the printer page							-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.printPagesHigh" name="excelPrintPagesHigh" runtimeSettable="false" since="4.17" type="integer" >
+      </Property>
+      <!-- excel (Spudsoft): set the page wide to fit the printer page							-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.printPagesWide" name="excelPrintPagesWide" runtimeSettable="false" since="4.17" type="integer" >
+      </Property>
+      <!-- excel (Spudsoft): set the page scale													-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.printScale" name="excelPrintScale" runtimeSettable="false" since="4.17" type="integer" >
+      </Property>
+      <!-- excel (Spudsoft): set the excel template file (full qualified file path)				-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.templateFile" name="excelTemplateFile" runtimeSettable="false" since="4.17" type="string" >
+      </Property>
 	</PropertyGroup>
   	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
     </Method> 	

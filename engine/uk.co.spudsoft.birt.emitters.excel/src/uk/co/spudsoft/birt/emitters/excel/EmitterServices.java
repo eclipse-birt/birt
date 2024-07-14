@@ -135,45 +135,6 @@ public class EmitterServices {
 		return result;
 	}
 
-	/*
-	 * Read the configuration from the report design if no user property is set
-	 */
-	private static Object getReportDesignConfiguration(IReportContent reportContent, String name) {
-		Object value = null;
-
-		if (name.equalsIgnoreCase(ExcelEmitter.AUTO_FILTER)) {
-			value = reportContent.getDesign().getReportDesign().getExcelAutoFilter();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.DISABLE_GROUPING)) {
-			value = reportContent.getDesign().getReportDesign().getExcelDisableGrouping();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.DISPLAYGRIDLINES_PROP)) {
-			value = reportContent.getDesign().getReportDesign().getExcelDisplayGridlines();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCE_RECALCULATION)) {
-			value = reportContent.getDesign().getReportDesign().getExcelForceRecalculation();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP)) {
-			value = reportContent.getDesign().getReportDesign().getExcelForceAutoColWidths();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION)) {
-			value = reportContent.getDesign().getReportDesign().getExcelImageScaling();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET)) {
-			value = reportContent.getDesign().getReportDesign().getExcelSingleSheet();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET_PAGE_BREAKS)) {
-			value = reportContent.getDesign().getReportDesign().getExcelSingleSheetPageBreak();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.STREAMING_XLSX)) {
-			value = reportContent.getDesign().getReportDesign().getExcelStreamingXlsx();
-
-		} else if (name.equalsIgnoreCase(ExcelEmitter.STRUCTURED_HEADER)) {
-			value = reportContent.getDesign().getReportDesign().getExcelStructuredHeader();
-		}
-		return value;
-	}
-
 	/**
 	 * Search for an emitter option and return it as a string
 	 *
@@ -226,6 +187,10 @@ public class EmitterServices {
 			result = value.toString();
 		}
 
+		if (birtContent != null && birtContent.getReportContent() != null && value == null) {
+			value = getReportDesignConfiguration(birtContent.getReportContent(), name);
+		}
+
 		return result;
 	}
 
@@ -260,6 +225,10 @@ public class EmitterServices {
 
 		if (value != null) {
 			result = value.toString();
+		}
+
+		if (reportContent != null && value == null) {
+			value = getReportDesignConfiguration(reportContent, name);
 		}
 
 		return result;
@@ -313,6 +282,10 @@ public class EmitterServices {
 			value = options.getOption(name);
 		}
 
+		if (birtContent != null && birtContent.getReportContent() != null && value == null) {
+			value = getReportDesignConfiguration(birtContent.getReportContent(), name);
+		}
+
 		if (value instanceof Number) {
 			result = ((Number) value).intValue();
 		} else if (value != null) {
@@ -358,6 +331,57 @@ public class EmitterServices {
 			return ExcelEmitterPlugin.getDefault().getBundle().getSymbolicName();
 		}
 		return "uk.co.spudsoft.birt.emitters.excel";
+	}
+
+	/*
+	 * Read the configuration from the report design if no user property is set
+	 */
+	private static Object getReportDesignConfiguration(IReportContent reportContent, String name) {
+		Object value = null;
+
+		if (name.equalsIgnoreCase(ExcelEmitter.AUTO_FILTER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelAutoFilter();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.DISABLE_GROUPING)) {
+			value = reportContent.getDesign().getReportDesign().getExcelDisableGrouping();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.DISPLAYGRIDLINES_PROP)) {
+			value = reportContent.getDesign().getReportDesign().getExcelDisplayGridlines();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCE_RECALCULATION)) {
+			value = reportContent.getDesign().getReportDesign().getExcelForceRecalculation();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP)) {
+			value = reportContent.getDesign().getReportDesign().getExcelForceAutoColWidths();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION)) {
+			value = reportContent.getDesign().getReportDesign().getExcelImageScaling();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.PRINT_PAGES_HIGH)) {
+			value = reportContent.getDesign().getReportDesign().getExcelPrintPagesHigh();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.PRINT_PAGES_WIDE)) {
+			value = reportContent.getDesign().getReportDesign().getExcelPrintPagesWide();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.PRINT_SCALE)) {
+			value = reportContent.getDesign().getReportDesign().getExcelPrintScale();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET)) {
+			value = reportContent.getDesign().getReportDesign().getExcelSingleSheet();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.SINGLE_SHEET_PAGE_BREAKS)) {
+			value = reportContent.getDesign().getReportDesign().getExcelSingleSheetPageBreak();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.STREAMING_XLSX)) {
+			value = reportContent.getDesign().getReportDesign().getExcelStreamingXlsx();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.STRUCTURED_HEADER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelStructuredHeader();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.TEMPLATE_FILE)) {
+			value = reportContent.getDesign().getReportDesign().getExcelTemplateFile();
+		}
+		return value;
 	}
 
 }
