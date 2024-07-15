@@ -1619,4 +1619,79 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 		setBooleanProperty(EXCEL_STRUCTURED_HEADER, structuredHeader);
 	}
 
+	/**
+	 * Get the configuration for the sheet wide
+	 *
+	 * @return the configuration for the sheet wide
+	 */
+	public int getExcelPrintPagesWide() {
+		return getIntProperty(EXCEL_PRINT_PAGES_WIDE);
+	}
+
+	/**
+	 * Set the configuration to set the sheet wide to fit the page
+	 *
+	 * @param printPagesWide the page wide
+	 * @throws SemanticException
+	 */
+	public void setExcelPrintPagesWide(int printPagesWide) throws SemanticException {
+		setIntProperty(EXCEL_PRINT_PAGES_WIDE, printPagesWide);
+	}
+
+	/**
+	 * Get the configuration for the sheet high
+	 *
+	 * @return the configuration for the sheet high
+	 */
+	public int getExcelPrintPagesHigh() {
+		return getIntProperty(EXCEL_PRINT_PAGES_HIGH);
+	}
+
+	/**
+	 * Set the configuration to set the sheet high to fit the page
+	 *
+	 * @param printPagesHigh the page high
+	 * @throws SemanticException
+	 */
+	public void setExcelPrintPagesHigh(int printPagesHigh) throws SemanticException {
+		setIntProperty(EXCEL_PRINT_PAGES_HIGH, printPagesHigh);
+	}
+
+	/**
+	 * Get the configuration for the page scale
+	 *
+	 * @return the configuration for the page scale
+	 */
+	public int getExcelPrintScale() {
+		return getIntProperty(EXCEL_PRINT_SCALE);
+	}
+
+	/**
+	 * Set the configuration to set the page scale
+	 *
+	 * @param printScale the page scale
+	 * @throws SemanticException
+	 */
+	public void setExcelPrintScale(int printScale) throws SemanticException {
+		setIntProperty(EXCEL_PRINT_SCALE, printScale);
+	}
+
+	/**
+	 * Get the configuration for the used template file
+	 *
+	 * @return the configuration for the used template file
+	 */
+	public String getExcelTemplateFile() {
+		return getStringProperty(EXCEL_TEMPLATE_FILE);
+	}
+
+	/**
+	 * Set the configuration for the template file
+	 *
+	 * @param templateFile template file
+	 * @throws SemanticException
+	 */
+	public void setExcelTemplateFile(String templateFile) throws SemanticException {
+		setStringProperty(EXCEL_TEMPLATE_FILE, templateFile);
+	}
 }

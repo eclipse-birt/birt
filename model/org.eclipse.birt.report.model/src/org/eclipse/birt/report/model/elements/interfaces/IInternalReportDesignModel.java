@@ -153,14 +153,14 @@ public interface IInternalReportDesignModel {
 	 * within the parent.
 	 */
 
-	String CASCADE_ACL_PROP = IReportItemModel.CASCADE_ACL_PROP;
+	String CASCADE_ACL_PROP = IInternalReportItemModel.CASCADE_ACL_PROP;
 
 	/**
 	 * A Java script expression which returns the ACL associated with the report
 	 * instance in a String.
 	 */
 
-	String ACL_EXPRESSION_PROP = IReportItemModel.ACL_EXPRESSION_PROP;
+	String ACL_EXPRESSION_PROP = IInternalReportItemModel.ACL_EXPRESSION_PROP;
 
 	/**
 	 * Name of the property to keep image in report design display as same size at
@@ -267,4 +267,25 @@ public interface IInternalReportDesignModel {
 	 * Excel option, display report header and footer at excel sheet
 	 */
 	String EXCEL_STRUCTURED_HEADER = "excelStructuredHeader"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, set the sheet high to fit the page
+	 */
+	String EXCEL_PRINT_PAGES_HIGH = "excelPrintPagesHigh"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, set the sheet wide to fit the page
+	 */
+	String EXCEL_PRINT_PAGES_WIDE = "excelPrintPagesWide"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, set the page scale factor
+	 */
+	String EXCEL_PRINT_SCALE = "excelPrintScale"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, set the template file for excel
+	 */
+	String EXCEL_TEMPLATE_FILE = "excelTemplateFile"; //$NON-NLS-1$
+
 }
