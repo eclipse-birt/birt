@@ -150,11 +150,19 @@
 						<sourceReferences>
 							<generate>true</generate>
 						</sourceReferences>
+						<timestampProvider>jgit</timestampProvider>
+						<jgit.ignore>pom.xml .gitignore</jgit.ignore>
+						<jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
 					</configuration>
 					<dependencies>
 						<dependency>
 							<groupId>org.eclipse.tycho.extras</groupId>
 							<artifactId>tycho-sourceref-jgit</artifactId>
+							<version>${tycho.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-buildtimestamp-jgit</artifactId>
 							<version>${tycho.version}</version>
 						</dependency>
 					</dependencies>

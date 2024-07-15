@@ -39,16 +39,8 @@
       <discovery label="%updateSiteName" url="https://download.eclipse.org/birt/updates/release/latest"/>
    </url>
 
-   <requires>
-      <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
-      <import feature="org.eclipse.datatools.doc.user" version="1.0.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.eclipse.birt.doc"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

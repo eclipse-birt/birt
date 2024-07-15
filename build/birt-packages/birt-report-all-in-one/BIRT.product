@@ -254,44 +254,14 @@ United States, other countries, or both.
       <feature id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" installMode="root"/>
       <feature id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature" installMode="root"/>
       <feature id="org.eclipse.datatools.sqltools.doc.user" installMode="root"/>
-      <feature id="org.eclipse.draw2d" installMode="root"/>
-      <feature id="org.eclipse.e4.rcp" installMode="root"/>
-      <feature id="org.eclipse.emf.codegen.ecore.ui" installMode="root"/>
-      <feature id="org.eclipse.emf.codegen.ecore" installMode="root"/>
-      <feature id="org.eclipse.emf.codegen.ui" installMode="root"/>
-      <feature id="org.eclipse.emf.codegen" installMode="root"/>
-      <feature id="org.eclipse.emf.common.ui" installMode="root"/>
-      <feature id="org.eclipse.emf.common" installMode="root"/>
-      <feature id="org.eclipse.emf.converter" installMode="root"/>
-      <feature id="org.eclipse.emf.databinding.edit" installMode="root"/>
-      <feature id="org.eclipse.emf.databinding" installMode="root"/>
-      <feature id="org.eclipse.emf.ecore.editor" installMode="root"/>
-      <feature id="org.eclipse.emf.ecore.edit" installMode="root"/>
-      <feature id="org.eclipse.emf.ecore" installMode="root"/>
-      <feature id="org.eclipse.emf.edit.ui" installMode="root"/>
-      <feature id="org.eclipse.emf.edit" installMode="root"/>
-      <feature id="org.eclipse.emf.mapping.ecore.editor" installMode="root"/>
-      <feature id="org.eclipse.emf.mapping.ecore" installMode="root"/>
-      <feature id="org.eclipse.emf.mapping.ui" installMode="root"/>
-      <feature id="org.eclipse.emf.mapping" installMode="root"/>
-      <feature id="org.eclipse.emf" installMode="root"/>
-      <feature id="org.eclipse.equinox.p2.core.feature" installMode="root"/>
-      <feature id="org.eclipse.equinox.p2.extras.feature" installMode="root"/>
-      <feature id="org.eclipse.equinox.p2.rcp.feature" installMode="root"/>
-      <feature id="org.eclipse.equinox.p2.user.ui" installMode="root"/>
-      <feature id="org.eclipse.gef" installMode="root"/>
-      <feature id="org.eclipse.help" installMode="root"/>
       <feature id="org.eclipse.jdt" installMode="root"/>
       <feature id="org.eclipse.pde" installMode="root"/>
       <feature id="org.eclipse.platform" installMode="root"/>
-      <feature id="org.eclipse.rcp" installMode="root"/>
       <feature id="org.eclipse.wst.common_core.feature" installMode="root"/>
       <feature id="org.eclipse.wst.common_ui.feature" installMode="root"/>
       <feature id="org.eclipse.wst.xml_core.feature" installMode="root"/>
       <feature id="org.eclipse.wst.xml_ui.feature" installMode="root"/>
       <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
-      <feature id="org.eclipse.xsd.edit" installMode="root"/>
-      <feature id="org.eclipse.xsd" installMode="root"/>
       <feature id="org.eclipse.justj.epp" installMode="root"/>
    </features>
 
