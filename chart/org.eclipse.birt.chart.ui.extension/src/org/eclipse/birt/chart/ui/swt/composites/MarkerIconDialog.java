@@ -20,8 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
@@ -412,7 +412,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 		}
 		if (icon instanceof EmbeddedImage) {
 			try {
-				byte[] data = Base64.decodeBase64(((EmbeddedImage) icon).getData().getBytes());
+				byte[] data = Base64.getDecoder().decode(((EmbeddedImage) icon).getData().getBytes());
 
 				getButtonOk().setEnabled(true);
 				ByteArrayInputStream bais = new ByteArrayInputStream(data);
@@ -561,7 +561,7 @@ public class MarkerIconDialog extends TrayDialog implements SelectionListener, M
 			bis.close();
 		}
 
-		String data = new String(Base64.encodeBase64(bos.toByteArray()));
+		String data = new String(Base64.getEncoder().encode(bos.toByteArray()));
 		icon = EmbeddedImageImpl.create(path, data);
 	}
 

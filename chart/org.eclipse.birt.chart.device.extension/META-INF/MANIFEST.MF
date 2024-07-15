@@ -11,8 +11,7 @@ Export-Package: org.eclipse.birt.chart.device.extension.i18n,
  org.eclipse.birt.chart.device.plugin,
  org.eclipse.birt.chart.device.swing,
  org.eclipse.birt.chart.device.util
-Require-Bundle: org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)",
- org.eclipse.birt.chart.engine;bundle-version="[2.1.0,5.0.0)"
+Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[2.1.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.chart.device.extension

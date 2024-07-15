@@ -16,12 +16,11 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -255,7 +254,7 @@ public class FillCanvas extends Canvas implements PaintListener, DisposeListener
 			if (modelImage instanceof EmbeddedImage) {
 				String imageData = ((EmbeddedImage) modelImage).getData();
 				if (imageData != null) {
-					ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decodeBase64(imageData.getBytes()));
+					ByteArrayInputStream bis = new ByteArrayInputStream(Base64.getDecoder().decode(imageData.getBytes()));
 					img = new org.eclipse.swt.graphics.Image(Display.getDefault(), bis);
 				} else {
 					// To render a blank image for null embedded data

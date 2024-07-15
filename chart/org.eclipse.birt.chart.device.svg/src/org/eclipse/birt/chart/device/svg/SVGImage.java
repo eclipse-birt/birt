@@ -22,6 +22,7 @@ import java.awt.image.ImageProducer;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageWriteParam;
@@ -29,7 +30,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
@@ -129,7 +129,7 @@ public class SVGImage extends Image {
 	public String getUrl() {
 		if (url == null) {
 			if (data != null) {
-				return BASE64 + new String(Base64.encodeBase64(data));
+				return BASE64 + new String(Base64.getEncoder().encode(data));
 
 			}
 			return ""; //$NON-NLS-1$

@@ -14,10 +14,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -282,23 +282,23 @@ public class ReportDesignParseTest extends BaseTestCase {
 		assertEquals("image1", image.getName()); //$NON-NLS-1$
 		assertEquals("image/bmp", image.getType(design)); //$NON-NLS-1$
 		assertEquals("imagetesAAA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(design))).substring(0, 11));
+				new String(Base64.getEncoder().encode(image.getData(design))).substring(0, 11));
 
 		image = (EmbeddedImage) images.get(1);
 		assertEquals("image2", image.getName()); //$NON-NLS-1$
 		assertEquals("image/gif", image.getType(design)); //$NON-NLS-1$
 		assertEquals("/9j/4AAQSkZJRgA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(design))).substring(0, 15));
+				new String(Base64.getEncoder().encode(image.getData(design))).substring(0, 15));
 
 		image = (EmbeddedImage) images.get(2);
 		assertEquals("image3", image.getName()); //$NON-NLS-1$
 		assertEquals("image/bmp", image.getType(design)); //$NON-NLS-1$
 		assertEquals("AAAA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(design))));
+				new String(Base64.getEncoder().encode(image.getData(design))));
 
 		// thumbnail
 
-		assertTrue(new String(Base64.encodeBase64(designHandle.getThumbnail())).startsWith("thumbnailimage")); //$NON-NLS-1$
+		assertTrue(new String(Base64.getEncoder().encode(designHandle.getThumbnail())).startsWith("thumbnailimage")); //$NON-NLS-1$
 
 		// custom is not implemented
 
@@ -420,7 +420,7 @@ public class ReportDesignParseTest extends BaseTestCase {
 
 		// set thumbnail
 
-		designHandle.setThumbnail(Base64.decodeBase64("newthumbnailimageAAA" //$NON-NLS-1$
+		designHandle.setThumbnail(Base64.getDecoder().decode("newthumbnailimageAAA" //$NON-NLS-1$
 				.getBytes(IReportDesignModel.CHARSET)));
 
 		// set layout preference

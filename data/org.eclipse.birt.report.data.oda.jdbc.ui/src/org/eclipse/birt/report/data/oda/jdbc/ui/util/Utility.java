@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ParameterMetaData;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
@@ -81,7 +81,7 @@ public class Utility {
 		String driverMap64 = JdbcPlugin.getDefault().getPreferenceStore().getString(mapKey);
 		try {
 			if (driverMap64 != null) {
-				byte[] bytes = Base64.decodeBase64(driverMap64.getBytes());
+				byte[] bytes = Base64.getDecoder().decode(driverMap64.getBytes());
 
 				ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
 				Object obj = new ObjectInputStream(bis).readObject();
@@ -209,7 +209,7 @@ public class Utility {
 
 			byte[] bytes = bos.toByteArray();
 
-			bytes = Base64.encodeBase64(bytes);
+			bytes = Base64.getEncoder().encode(bytes);
 
 			JdbcPlugin.getDefault().getPreferenceStore().setValue(keyOfPreference, new String(bytes));
 		} catch (IOException e) {

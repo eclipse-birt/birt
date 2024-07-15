@@ -44,6 +44,7 @@ import java.awt.image.renderable.RenderableImage;
 import java.io.ByteArrayOutputStream;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.util.ChartGraphics2D;
@@ -1257,7 +1257,7 @@ public class SVGGraphics2D extends ChartGraphics2D {
 			iw.write((IIOMetadata) null, new IIOImage(img, null, null), iwp);
 			img.flush();
 			ios.close();
-			sUrl = SVGImage.BASE64 + new String(Base64.encodeBase64(baos.toByteArray()));
+			sUrl = SVGImage.BASE64 + new String(Base64.getEncoder().encode(baos.toByteArray()));
 		} catch (Exception ex) {
 			logger.log(ex);
 		} finally {

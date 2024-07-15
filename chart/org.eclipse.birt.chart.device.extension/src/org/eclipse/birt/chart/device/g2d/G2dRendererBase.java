@@ -42,6 +42,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -49,7 +50,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.DeviceAdapter;
 import org.eclipse.birt.chart.device.FontUtil;
@@ -309,7 +309,7 @@ public class G2dRendererBase extends DeviceAdapter {
 
 		if (ire.getImage() instanceof EmbeddedImage) {
 			try {
-				byte[] data = Base64.decodeBase64(((EmbeddedImage) ire.getImage()).getData().getBytes());
+				byte[] data = Base64.getDecoder().decode(((EmbeddedImage) ire.getImage()).getData().getBytes());
 
 				img = createImage(data);
 			} catch (Exception ilex) {
@@ -967,7 +967,7 @@ public class G2dRendererBase extends DeviceAdapter {
 		java.awt.Image img = null;
 		if (imageModel instanceof EmbeddedImage) {
 			try {
-				byte[] data = Base64.decodeBase64(((EmbeddedImage) imageModel).getData().getBytes());
+				byte[] data = Base64.getDecoder().decode(((EmbeddedImage) imageModel).getData().getBytes());
 
 				img = createImage(data);
 			} catch (Exception ilex) {

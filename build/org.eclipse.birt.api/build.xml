@@ -80,7 +80,7 @@
 		<copy todir="${LIB_DIR}">
 			<fileset dir="${PRODUCT_DIR}/plugins">
 				<include name="org.apache.commons.cli_*.jar" />
-				<include name="org.apache.commons.codec_*.jar" />
+				<include name="org.apache.commons.commons-codec_*.jar" />
 				<include name="org.eclipse.birt.axis.overlay_*.jar" />
 				<include name="org.eclipse.emf.common_*.jar" />
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />

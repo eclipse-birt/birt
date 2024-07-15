@@ -17,11 +17,11 @@ package org.eclipse.birt.chart.device.swt;
 import java.io.ByteArrayInputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.DeviceAdapter;
 import org.eclipse.birt.chart.device.FontUtil;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -186,7 +186,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 		if (pre.getImage() instanceof EmbeddedImage) {
 			try {
 				ByteArrayInputStream bis = new ByteArrayInputStream(
-						Base64.decodeBase64(((EmbeddedImage) pre.getImage()).getData().getBytes()));
+						Base64.getDecoder().decode(((EmbeddedImage) pre.getImage()).getData().getBytes()));
 
 				img = new org.eclipse.swt.graphics.Image(((SwtDisplayServer) _ids).getDevice(), bis);
 			} catch (Exception ilex) {
@@ -890,7 +890,7 @@ public class SwtRendererImpl extends DeviceAdapter {
 				String imageData = ((EmbeddedImage) g).getData();
 				if (imageData != null) {
 					ByteArrayInputStream bis = new ByteArrayInputStream(
-							Base64.decodeBase64(((EmbeddedImage) g).getData().getBytes()));
+							Base64.getDecoder().decode(((EmbeddedImage) g).getData().getBytes()));
 
 					img = new org.eclipse.swt.graphics.Image(((SwtDisplayServer) _ids).getDevice(), bis);
 				} else {

@@ -14,8 +14,8 @@
 package org.eclipse.birt.report.engine.odf.writer;
 
 import java.io.IOException;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.odf.IOdfWriter;
@@ -324,8 +324,7 @@ public class AbstractOdfWriter implements IOdfWriter {
 	protected void drawImageData(byte[] data) {
 		String pic2Text = null;
 		if (data != null && data.length != 0) {
-			Base64 base = new Base64();
-			pic2Text = new String(base.encode(data));
+			pic2Text = new String(Base64.getEncoder().encode(data));
 		}
 		if (pic2Text != null) {
 			writer.openTag("office:binary-data");

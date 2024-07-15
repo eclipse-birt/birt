@@ -16,6 +16,7 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -24,7 +25,6 @@ import java.util.Map;
 
 import javax.olap.cursor.CubeCursor;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
@@ -910,7 +910,8 @@ public class ChartReportItemUtil extends ChartItemUtil {
 			EmbeddedImage embeddedImage = handle.getModuleHandle().findImage(image.getURL());
 			if (embeddedImage != null) {
 				return DATA_BASE64
-						+ new String(Base64.encodeBase64(embeddedImage.getData(handle.getModuleHandle().getModule())));
+						+ new String(Base64.getEncoder()
+								.encode(embeddedImage.getData(handle.getModuleHandle().getModule())));
 			}
 			return null;
 		default:
