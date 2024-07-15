@@ -118,7 +118,7 @@
 
 		<fileset dir="../">
 			<include name="com.lowagie.text_*.jar"/>
-			<include name="org.apache.commons.codec_*.jar"/>
+			<include name="org.apache.commons.commons-codec_*.jar"/>
 			<include name="org.eclipse.orbit.xml-apis-ext_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.mozilla.rhino_*.jar"/>
