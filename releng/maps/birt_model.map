@@ -1,7 +1,0 @@
-plugin@org.eclipse.birt.report.model=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.report.model
-plugin@org.eclipse.birt.report.model.adapter.oda=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.report.model.adapter.oda
-plugin@org.eclipse.birt.resources=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.resources
-
-plugin@org.eclipse.birt.report.model.tests=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.report.model.tests
-plugin@org.eclipse.birt.report.model.adapter.oda.tests=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.report.model.adapter.oda.tests
-fragment@org.eclipse.birt.report.model.testhelper=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=model/org.eclipse.birt.report.model.testhelper

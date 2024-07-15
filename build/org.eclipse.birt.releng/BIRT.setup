@@ -274,6 +274,9 @@
           <operand
               xsi:type="predicates:NamePredicate"
               pattern=".*\.tests"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*\.tests\.(chart|engine)"/>
         </operand>
       </predicate>
     </workingSet>

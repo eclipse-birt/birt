@@ -48,7 +48,6 @@
 							</excludes>
 							<includes>
 								<include>org/eclipse/birt/report/engine/api/*.class</include>
-								<include>org/eclipse/birt/report/engine/util/ExportManifestUtils.class</include>
 								<include>org/eclipse/birt/report/engine/util/FastPool.class</include>
 								<include>org/eclipse/birt/report/engine/util/FileUtil*.class</include>
 								<include>org/eclipse/birt/report/engine/i18n/*.class</include>
