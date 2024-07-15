@@ -15,7 +15,6 @@ Import-Package: javax.servlet;version="2.4.0",
  javax.servlet.jsp.tagext;version="2.0.0",
  javax.xml.rpc;version="1.1.0",
  javax.xml.rpc.encoding;version="1.1.0",
- org.apache.commons.codec.binary,
  org.apache.commons.logging,
  org.eclipse.equinox.http.jetty,
  org.osgi.service.http;version="1.2.0"

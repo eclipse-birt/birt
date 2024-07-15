@@ -20,6 +20,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.HashMap;
@@ -440,6 +443,11 @@ public class ChartTestCase extends TestCase {
 			return true;
 		}
 		ImageUtil.saveJPG(result, new File(outputFile + ".diff").getAbsolutePath());
+
+		// Overwrite so we can compare the old and the new easily in the IDE.
+		Files.copy(Path.of(new File(outputFile).getAbsolutePath()), Path.of(new File(goldenFile).getAbsolutePath()),
+				StandardCopyOption.REPLACE_EXISTING);
+
 		return false;
 	}
 

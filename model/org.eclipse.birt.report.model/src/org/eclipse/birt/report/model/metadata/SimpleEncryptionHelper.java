@@ -15,8 +15,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 
 /**
@@ -57,8 +57,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper {
 			return null;
 		}
 		try {
-			Base64 codec = new Base64();
-			byte[] data = codec.encode(string.getBytes(CHARSET));
+			byte[] data = Base64.getEncoder().encode(string.getBytes(CHARSET));
 			if (data == null) {
 				return null;
 			}
@@ -83,8 +82,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper {
 			return null;
 		}
 		try {
-			Base64 codec = new Base64();
-			byte[] data = codec.decode(string.getBytes(CHARSET));
+			byte[] data = Base64.getDecoder().decode(string.getBytes(CHARSET));
 			if (data == null) {
 				return null;
 			}

@@ -30,6 +30,7 @@ import java.awt.event.MouseMotionListener;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,6 @@ import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
@@ -576,7 +576,7 @@ public final class SwingEventHandler implements MouseListener, MouseMotionListen
 					Image image = null;
 					if (uri instanceof EmbeddedImage) {
 						try {
-							byte[] data = Base64.decodeBase64(((EmbeddedImage) uri).getData().getBytes());
+							byte[] data = Base64.getDecoder().decode(((EmbeddedImage) uri).getData().getBytes());
 
 							image = new ImageIcon(data).getImage();
 						} catch (Exception ilex) {

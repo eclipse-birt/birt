@@ -10,7 +10,6 @@ Require-Bundle: org.junit;bundle-version="4.13.0";resolution:=optional,
  org.eclipse.birt.report.model;bundle-version="4.13.0",
  org.eclipse.birt.core;bundle-version="4.13.0",
  org.eclipse.birt.tests.core;bundle-version="4.13.0",
- org.apache.commons.codec;bundle-version="1.14.0",
  org.eclipse.birt.report.model.adapter.oda;bundle-version="4.13.0",
  org.eclipse.datatools.connectivity.oda.design;bundle-version="3.5.101"
 Bundle-RequiredExecutionEnvironment: JavaSE-11

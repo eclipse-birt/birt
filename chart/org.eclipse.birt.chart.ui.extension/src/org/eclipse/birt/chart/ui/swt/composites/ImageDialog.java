@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -444,7 +444,7 @@ public class ImageDialog extends TrayDialog {
 			try {
 
 				if (sUrl.startsWith(DATA_BASE64)) {
-					byte[] buf = Base64.decodeBase64(sUrl.substring(DATA_BASE64.length()).getBytes());
+					byte[] buf = Base64.getDecoder().decode(sUrl.substring(DATA_BASE64.length()).getBytes());
 					in = new ByteArrayInputStream(buf);
 				} else {
 					in = new BufferedInputStream(new URL(sUrl).openStream());
@@ -666,7 +666,7 @@ public class ImageDialog extends TrayDialog {
 					count = bis.read(buf);
 				}
 
-				String data = new String(Base64.encodeBase64(bos.toByteArray()));
+				String data = new String(Base64.getEncoder().encode(bos.toByteArray()));
 
 				((EmbeddedImage) fCurrent).setData(data);
 			} catch (Exception e) {

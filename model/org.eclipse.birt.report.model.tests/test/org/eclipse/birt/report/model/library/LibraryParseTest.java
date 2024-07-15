@@ -18,9 +18,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -379,19 +379,19 @@ public class LibraryParseTest extends BaseTestCase {
 		assertEquals("image1", image.getName()); //$NON-NLS-1$
 		assertEquals("image/bmp", image.getType(libraryHandle.getModule())); //$NON-NLS-1$
 		assertEquals("imagetesAAA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(libraryHandle.getModule()))).substring(0, 11));
+				new String(Base64.getEncoder().encode(image.getData(libraryHandle.getModule()))).substring(0, 11));
 
 		image = (EmbeddedImage) images.get(1);
 		assertEquals("image2", image.getName()); //$NON-NLS-1$
 		assertEquals("image/gif", image.getType(libraryHandle.getModule())); //$NON-NLS-1$
 		assertEquals("/9j/4AAQSkZJRgA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(libraryHandle.getModule()))).substring(0, 15));
+				new String(Base64.getEncoder().encode(image.getData(libraryHandle.getModule()))).substring(0, 15));
 
 		image = (EmbeddedImage) images.get(2);
 		assertEquals("image3", image.getName()); //$NON-NLS-1$
 		assertEquals("image/bmp", image.getType(libraryHandle.getModule())); //$NON-NLS-1$
 		assertEquals("AAAA", //$NON-NLS-1$
-				new String(Base64.encodeBase64(image.getData(libraryHandle.getModule()))));
+				new String(Base64.getEncoder().encode(image.getData(libraryHandle.getModule()))));
 
 		SlotHandle themes = libraryHandle.getThemes();
 		assertEquals(2, themes.getCount());

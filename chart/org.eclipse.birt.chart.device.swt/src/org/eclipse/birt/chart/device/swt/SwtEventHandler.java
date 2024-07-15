@@ -16,17 +16,15 @@ package org.eclipse.birt.chart.device.swt;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.swt.i18n.Messages;
@@ -588,7 +586,7 @@ class SwtEventHandler implements MouseListener, MouseMoveListener, MouseTrackLis
 					ImageData id = null;
 					if (uri instanceof EmbeddedImage) {
 						ByteArrayInputStream bis = new ByteArrayInputStream(
-								Base64.decodeBase64(((EmbeddedImage) uri).getData().getBytes()));
+								Base64.getDecoder().decode(((EmbeddedImage) uri).getData().getBytes()));
 
 						id = new org.eclipse.swt.graphics.Image(Display.getDefault(), bis).getImageData();
 					} else {

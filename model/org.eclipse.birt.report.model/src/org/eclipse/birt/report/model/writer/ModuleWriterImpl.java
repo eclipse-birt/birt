@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -1376,7 +1376,7 @@ abstract class ModuleWriterImpl extends ElementVisitor {
 				try {
 					if (image.getLocalProperty(getModule(),
 							(PropertyDefn) image.getDefn().getMember(EmbeddedImage.DATA_MEMBER)) != null) {
-						byte[] data = Base64.encodeBase64(image.getData(getModule()), false);
+						byte[] data = Base64.getEncoder().encode(image.getData(getModule()));
 						String value = null;
 						if (data != null) {
 							value = new String(data, EmbeddedImage.CHARSET);
@@ -3435,7 +3435,7 @@ abstract class ModuleWriterImpl extends ElementVisitor {
 
 		try {
 			if (designerState.getContentAsBlob() != null) {
-				byte[] data = Base64.encodeBase64(designerState.getContentAsBlob(), false);
+				byte[] data = Base64.getEncoder().encode(designerState.getContentAsBlob());
 				String value = null;
 				if (data != null) {
 					value = new String(data, OdaDesignerState.CHARSET);

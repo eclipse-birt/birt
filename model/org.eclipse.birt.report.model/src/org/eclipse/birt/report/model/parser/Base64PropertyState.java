@@ -15,10 +15,10 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -30,12 +30,6 @@ import org.xml.sax.SAXException;
  */
 
 public class Base64PropertyState extends CompatiblePropertyState {
-
-	/**
-	 * The base 64 codec.
-	 */
-
-	private Base64 base = new Base64();
 
 	/**
 	 * Charset of the string.
@@ -108,13 +102,13 @@ public class Base64PropertyState extends CompatiblePropertyState {
 		byte[] data = null;
 
 		try {
-			data = base.decode(encodedValue.getBytes(charSet));
+			data = Base64.getDecoder().decode(encodedValue.getBytes(charSet));
 			if (data == null) {
 				return null;
 			}
 
 			return new String(data, charSet);
-		} catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException | IllegalArgumentException e) {
 			assert false;
 			return null;
 		}

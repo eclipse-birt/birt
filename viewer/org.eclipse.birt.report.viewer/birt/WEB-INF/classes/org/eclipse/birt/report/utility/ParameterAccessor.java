@@ -22,6 +22,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,7 +44,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -2000,7 +2000,7 @@ public class ParameterAccessor {
 		if (fileName != null) {
 			try {
 				byte[] decodedBytes = fileName.getBytes(ParameterAccessor.UTF_8_ENCODE);
-				byte[] encodedBytes = Base64.encodeBase64(decodedBytes);
+				byte[] encodedBytes = Base64.getEncoder().encode(decodedBytes);
 				return new String(encodedBytes, ParameterAccessor.UTF_8_ENCODE);
 			} catch (UnsupportedEncodingException e) {
 				return fileName;
@@ -2019,7 +2019,7 @@ public class ParameterAccessor {
 	public static String decodeBase64(String string) {
 		try {
 			byte[] encodedBytes = string.getBytes(ParameterAccessor.UTF_8_ENCODE);
-			byte[] decodedBytes = Base64.decodeBase64(encodedBytes);
+			byte[] decodedBytes = Base64.getDecoder().decode(encodedBytes);
 			return new String(decodedBytes, ParameterAccessor.UTF_8_ENCODE);
 		} catch (UnsupportedEncodingException e) {
 			return string;

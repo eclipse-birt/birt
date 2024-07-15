@@ -15,8 +15,8 @@
 package org.eclipse.birt.report.model.writer;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.core.Module;
@@ -186,7 +186,7 @@ class DesignWriterImpl extends ModuleWriter {
 		try {
 			byte[] thumbnail = design.getThumbnail();
 			if (thumbnail != null) {
-				byte[] data = Base64.encodeBase64(design.getThumbnail(), false);
+				byte[] data = Base64.getEncoder().encode(design.getThumbnail());
 				String value = null;
 				if (data != null) {
 					value = new String(data, OdaDesignerState.CHARSET);

@@ -16,10 +16,10 @@ package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -218,7 +218,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 	private void drawImageData(byte[] data, int imageId) {
 		String pic2Text = null;
 		if (data != null && data.length != 0) {
-			pic2Text = new String(Base64.encodeBase64(data, false));
+			pic2Text = new String(Base64.getEncoder().encode(data));
 		}
 		if (pic2Text != null) {
 			writer.openTag("w:binData");

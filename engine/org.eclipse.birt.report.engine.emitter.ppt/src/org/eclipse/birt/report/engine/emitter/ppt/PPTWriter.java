@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +33,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
@@ -227,9 +227,7 @@ public class PPTWriter {
 
 	private void generateImageBytes(String imageTitle, byte[] imageData) throws IOException {
 		exportImageHeader(imageTitle);
-
-		Base64 base = new Base64();
-		print(base.encode(imageData));
+		print(Base64.getEncoder().encode(imageData));
 	}
 
 	/**

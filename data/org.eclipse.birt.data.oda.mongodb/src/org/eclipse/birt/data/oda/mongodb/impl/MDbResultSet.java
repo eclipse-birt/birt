@@ -1,13 +1,13 @@
 /*
  *************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +29,6 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.types.BSONTimestamp;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
@@ -722,7 +722,7 @@ public class MDbResultSet implements IResultSet {
 			return DatatypeConverter.printBase64Binary(value);
 		} catch (Exception ex) {
 			// DatatypeConverter could be un-initialized; retry with Base64Codec
-			return (new String(Base64.encodeBase64(value)));
+			return (new String(Base64.getEncoder().encode(value)));
 		}
 	}
 

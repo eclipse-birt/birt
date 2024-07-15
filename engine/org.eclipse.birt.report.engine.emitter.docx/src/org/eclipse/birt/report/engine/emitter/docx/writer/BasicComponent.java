@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -706,8 +706,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			try {
 				byte[] data = EmitterUtil.getImageData(uri);
 				if (data != null && data.length != 0) {
-					Base64 base = new Base64();
-					String pic2Text = new String(base.encode(data));
+					String pic2Text = new String(Base64.getEncoder().encode(data));
 					mhtPartWriter.println(pic2Text);
 				}
 			} catch (IOException e) {
