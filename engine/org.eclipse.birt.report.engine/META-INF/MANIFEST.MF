@@ -86,9 +86,10 @@ Automatic-Module-Name: org.eclipse.birt.report.engine
 Import-Package: org.apache.batik.css.engine;version="1.17.0",
  org.apache.batik.css.engine.value;version="1.17.0",
  org.apache.batik.css.parser;version="1.17.0",
+ org.apache.batik.ext.awt.image.codec.imageio;version="1.17.0",
  org.apache.batik.i18n;version="1.17.0",
  org.apache.batik.transcoder;version="1.17.0",
  org.apache.batik.transcoder.image;version="1.17.0",
  org.apache.commons.cli,
- org.w3c.tidy,
- org.w3c.css.sac;version="1.3.0"
+ org.w3c.css.sac;version="1.3.0",
+ org.w3c.tidy
