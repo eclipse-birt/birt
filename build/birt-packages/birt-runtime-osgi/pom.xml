@@ -94,7 +94,7 @@
 						<phase>clean</phase>
 						<configuration>
 							<target>
-								<ant antfile="build.xml" target="clean" dir="${basedir}" />
+								<ant antfile="build.xml" target="clean" dir="${basedir}"/> 
 							</target>
 						</configuration>
 						<goals>

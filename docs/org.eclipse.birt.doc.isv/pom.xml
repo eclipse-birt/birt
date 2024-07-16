@@ -70,7 +70,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<property name="core.src.dir" location="${basedir}/../../core/" />
+								<property name="core.src.dir" location="${basedir}/../../core/" /> 
 								<property name="engine.src.dir" location="${basedir}/../../engine/" />
 								<property name="model.src.dir" location="${basedir}/../../model/" />
 								<ant antfile="${basedir}/BuildISVDoc.xml" target="Javadoc">
