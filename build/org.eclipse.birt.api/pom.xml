@@ -56,7 +56,7 @@
 						<phase>process-resources</phase>
 						<configuration>
 							<target>
-								<ant antfile="build.xml" target="package" dir="${basedir}">
+								<ant antfile="build.xml" target="package" dir="${basedir}"> 
 									<property name="BIRT_VERSION" value="${unqualifiedVersion}.${buildQualifier}" />
 								</ant>
 							</target>
