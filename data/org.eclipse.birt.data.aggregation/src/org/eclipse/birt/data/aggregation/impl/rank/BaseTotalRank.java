@@ -167,28 +167,29 @@ abstract class BaseTotalRank extends AggrFunction {
 		 * </code>
 		 *
 		 * @param key
-		 * @return rank
 		 */
 		private void calculateRank(List<Object> sortedList, boolean useDenseRank) {
 
 			int currentRank = 1;
 			int currentDenseRank = 1;
-			Object currentValue = sortedList.get(0);
+			if (sortedList != null && sortedList.size() > 0) {
+				Object currentValue = sortedList.get(0);
 
-			for (int i = 0; i < sortedList.size(); i++) {
-				Object integer = sortedList.get(i);
-				if (!Objects.equals(integer, currentValue)) {
+				for (int i = 0; i < sortedList.size(); i++) {
+					Object integer = sortedList.get(i);
+					if (!Objects.equals(integer, currentValue)) {
 
-					rankMap.put(currentValue, useDenseRank ? currentDenseRank : currentRank);
-					currentValue = integer;
-					currentDenseRank++;
-					currentRank = i + 1;
+						rankMap.put(currentValue, useDenseRank ? currentDenseRank : currentRank);
+						currentValue = integer;
+						currentDenseRank++;
+						currentRank = i + 1;
+					}
+
 				}
 
+				// Handle the last integer in the list
+				rankMap.put(currentValue, useDenseRank ? currentDenseRank : currentRank);
 			}
-
-			// Handle the last integer in the list
-			rankMap.put(currentValue, useDenseRank ? currentDenseRank : currentRank);
 		}
 
 		/*
