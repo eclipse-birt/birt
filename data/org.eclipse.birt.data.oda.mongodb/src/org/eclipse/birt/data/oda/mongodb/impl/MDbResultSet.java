@@ -44,6 +44,8 @@ import org.eclipse.datatools.connectivity.oda.impl.Blob;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBCursor;
 
+import jakarta.xml.bind.DatatypeConverter;
+
 /**
  * Implementation class of IResultSet for the MongoDB ODA runtime driver.
  */

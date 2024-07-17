@@ -43,9 +43,9 @@
         <setEntry value="com.sun.jna.platform@default:default"/>
         <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.xml.bind@default:default"/>
-        <setEntry value="javax.activation@default:default"/>
-        <setEntry value="javax.annotation@default:default"/>
-        <setEntry value="javax.inject@default:default"/>
+        <setEntry value="jakarta.activation@default:default"/>
+        <setEntry value="jakarta.annotation@default:default"/>
+        <setEntry value="jakarta.inject@default:default"/>
         <setEntry value="javax.wsdl@default:default"/>
         <setEntry value="javax.xml@default:default"/>
         <setEntry value="junit-jupiter-api@default:default"/>
