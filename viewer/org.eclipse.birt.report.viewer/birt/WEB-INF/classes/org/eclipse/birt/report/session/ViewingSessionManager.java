@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionBindingListener;
+import jakarta.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.http.HttpSessionBindingListener;
 
 import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -364,14 +364,14 @@ public class ViewingSessionManager implements IViewingSessionManager, HttpSessio
 	}
 
 	/**
-	 * @see javax.servlet.http.HttpSessionBindingListener#valueBound(javax.servlet.http.HttpSessionBindingEvent)
+	 * @see jakarta.servlet.http.HttpSessionBindingListener#valueBound(jakarta.servlet.http.HttpSessionBindingEvent)
 	 */
 	@Override
 	public void valueBound(HttpSessionBindingEvent event) {
 	}
 
 	/**
-	 * @see javax.servlet.http.HttpSessionBindingListener#valueUnbound(javax.servlet.http.HttpSessionBindingEvent)
+	 * @see jakarta.servlet.http.HttpSessionBindingListener#valueUnbound(jakarta.servlet.http.HttpSessionBindingEvent)
 	 */
 	@Override
 	public void valueUnbound(HttpSessionBindingEvent event) {

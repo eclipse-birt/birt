@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
@@ -52,7 +52,7 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment {
 	/**
 	 * Override implementation of prepareParameterBean method
 	 *
-	 * @see org.eclipse.birt.report.presentation.aggregation.parameter.ScalarParameterFragment#prepareParameterBean(javax.servlet.http.HttpServletRequest,
+	 * @see org.eclipse.birt.report.presentation.aggregation.parameter.ScalarParameterFragment#prepareParameterBean(jakarta.servlet.http.HttpServletRequest,
 	 *      org.eclipse.birt.report.service.api.IViewerReportService,
 	 *      org.eclipse.birt.report.context.ScalarParameterBean, java.util.Locale,
 	 *      Timezone)

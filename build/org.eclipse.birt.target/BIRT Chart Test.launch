@@ -60,8 +60,8 @@
         <setEntry value="javax.el@default:default"/>
         <setEntry value="javax.inject@default:default"/>
         <setEntry value="javax.mail@default:default"/>
-        <setEntry value="javax.servlet-api@default:default"/>
-        <setEntry value="javax.servlet.jsp-api@default:default"/>
+        <setEntry value="jakarta.servlet-api@default:default"/>
+        <setEntry value="jakarta.servlet.jsp-api@default:default"/>
         <setEntry value="javax.transaction@default:false"/>
         <setEntry value="javax.wsdl@default:default"/>
         <setEntry value="javax.xml.soap@default:default"/>

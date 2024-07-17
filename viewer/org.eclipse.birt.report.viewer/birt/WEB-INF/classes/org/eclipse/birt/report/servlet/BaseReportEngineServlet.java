@@ -15,12 +15,12 @@ package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
@@ -96,8 +96,8 @@ abstract public class BaseReportEngineServlet extends AxisServlet {
 	}
 
 	/**
-	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.ServletRequest,
+	 *      jakarta.servlet.ServletResponse)
 	 */
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {

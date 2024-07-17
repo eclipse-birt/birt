@@ -16,9 +16,9 @@ package org.eclipse.birt.report.viewer.mock;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionContext;
 
 import org.eclipse.birt.report.viewer.util.RandomUtil;
 
@@ -45,7 +45,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getAttribute(java.lang.String)
+	 * @see jakarta.servlet.http.HttpSession#getAttribute(java.lang.String)
 	 */
 	@Override
 	public Object getAttribute(String name) {
@@ -56,7 +56,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getAttributeNames()
+	 * @see jakarta.servlet.http.HttpSession#getAttributeNames()
 	 */
 	@Override
 	public Enumeration getAttributeNames() {
@@ -67,7 +67,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String,
+	 * @see jakarta.servlet.http.HttpSession#setAttribute(java.lang.String,
 	 * java.lang.Object)
 	 */
 	@Override
@@ -79,7 +79,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#removeAttribute(java.lang.String)
+	 * @see jakarta.servlet.http.HttpSession#removeAttribute(java.lang.String)
 	 */
 	@Override
 	public void removeAttribute(String name) {
@@ -90,7 +90,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getValue(java.lang.String)
+	 * @see jakarta.servlet.http.HttpSession#getValue(java.lang.String)
 	 */
 	@Override
 	public Object getValue(String name) {
@@ -101,7 +101,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getValueNames()
+	 * @see jakarta.servlet.http.HttpSession#getValueNames()
 	 */
 	@Override
 	public String[] getValueNames() {
@@ -112,7 +112,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#putValue(java.lang.String,
+	 * @see jakarta.servlet.http.HttpSession#putValue(java.lang.String,
 	 * java.lang.Object)
 	 */
 	@Override
@@ -124,7 +124,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#removeValue(java.lang.String)
+	 * @see jakarta.servlet.http.HttpSession#removeValue(java.lang.String)
 	 */
 	@Override
 	public void removeValue(String name) {
@@ -135,7 +135,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getCreationTime()
+	 * @see jakarta.servlet.http.HttpSession#getCreationTime()
 	 */
 	@Override
 	public long getCreationTime() {
@@ -146,7 +146,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getId()
+	 * @see jakarta.servlet.http.HttpSession#getId()
 	 */
 	@Override
 	public String getId() {
@@ -157,7 +157,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getLastAccessedTime()
+	 * @see jakarta.servlet.http.HttpSession#getLastAccessedTime()
 	 */
 	@Override
 	public long getLastAccessedTime() {
@@ -168,7 +168,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getMaxInactiveInterval()
+	 * @see jakarta.servlet.http.HttpSession#getMaxInactiveInterval()
 	 */
 	@Override
 	public int getMaxInactiveInterval() {
@@ -179,7 +179,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getServletContext()
+	 * @see jakarta.servlet.http.HttpSession#getServletContext()
 	 */
 	@Override
 	public ServletContext getServletContext() {
@@ -190,7 +190,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#getSessionContext()
+	 * @see jakarta.servlet.http.HttpSession#getSessionContext()
 	 */
 	@Override
 	public HttpSessionContext getSessionContext() {
@@ -201,7 +201,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#invalidate()
+	 * @see jakarta.servlet.http.HttpSession#invalidate()
 	 */
 	@Override
 	public void invalidate() {
@@ -212,7 +212,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#isNew()
+	 * @see jakarta.servlet.http.HttpSession#isNew()
 	 */
 	@Override
 	public boolean isNew() {
@@ -223,7 +223,7 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpSession#setMaxInactiveInterval(int)
+	 * @see jakarta.servlet.http.HttpSession#setMaxInactiveInterval(int)
 	 */
 	@Override
 	public void setMaxInactiveInterval(int interval) {
