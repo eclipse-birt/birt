@@ -35,8 +35,8 @@
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip" dest="${project.build.directory}/p2updatesite" />
-								<copy todir="${project.build.directory}/content/ChartRuntime\eclipse\plugins">
+								<unzip src="../../../org.eclipse.birt.p2updatesite/target/org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip" dest="${project.build.directory}/p2updatesite" />
+								<copy todir="${project.build.directory}/content/ChartRuntime/eclipse/plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
@@ -51,7 +51,7 @@
 										<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
 									</fileset>
 								</copy>
-								<copy todir="${project.build.directory}/content/ChartSDK\eclipse\plugins">
+								<copy todir="${project.build.directory}/content/ChartSDK/eclipse/plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
@@ -67,7 +67,7 @@
 										<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
 									</fileset>
 								</copy>
-								<copy todir="${project.build.directory}/content/DeploymentRuntime\ChartEngine">
+								<copy todir="${project.build.directory}/content/DeploymentRuntime/ChartEngine">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
