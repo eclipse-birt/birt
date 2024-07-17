@@ -37,7 +37,7 @@ import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 import javax.print.attribute.standard.PrinterMakeAndModel;
 import javax.print.attribute.standard.SheetCollate;
 import javax.print.attribute.standard.Sides;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;

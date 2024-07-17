@@ -23,13 +23,13 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyTagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
@@ -136,7 +136,7 @@ public class ParamDefTag extends BodyTagSupport {
 	/**
 	 * Initialize pageContext
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#setPageContext(jakarta.servlet.jsp.PageContext)
 	 */
 	@Override
 	public void setPageContext(PageContext context) {
@@ -147,7 +147,7 @@ public class ParamDefTag extends BodyTagSupport {
 	/**
 	 * When reach the end tag, fire this operation
 	 *
-	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 * @see jakarta.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
 	@Override
 	public int doEndTag() throws JspException {

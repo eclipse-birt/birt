@@ -13,8 +13,8 @@
 
 package org.eclipse.birt.report.listener;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
@@ -34,7 +34,7 @@ public class ViewerServletContextListener implements ServletContextListener {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
+	 * @see jakarta.servlet.ServletContextListener#contextDestroyed(jakarta.servlet.
 	 * ServletContextEvent)
 	 */
 	@Override
@@ -51,7 +51,7 @@ public class ViewerServletContextListener implements ServletContextListener {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.
+	 * @see jakarta.servlet.ServletContextListener#contextInitialized(jakarta.servlet.
 	 * ServletContextEvent)
 	 */
 	@Override

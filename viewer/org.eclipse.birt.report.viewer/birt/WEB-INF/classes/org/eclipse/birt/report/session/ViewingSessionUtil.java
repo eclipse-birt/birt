@@ -13,8 +13,8 @@
 
 package org.eclipse.birt.report.session;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.exception.ViewerException;

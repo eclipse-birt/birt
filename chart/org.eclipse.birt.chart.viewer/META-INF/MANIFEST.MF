@@ -10,8 +10,8 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="4.13.0",
  org.eclipse.birt.chart.engine.extension;bundle-version="4.13.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: javax.servlet;version="3.1.0",
- javax.servlet.http;version="3.1.0",
- javax.servlet.jsp;version="2.1.0",
- javax.servlet.jsp.tagext;version="2.1.0"
+Import-Package: jakarta.servlet;version="6.0.0",
+ jakarta.servlet.http;version="6.0.0",
+ jakarta.servlet.jsp;version="3.0.0",
+ jakarta.servlet.jsp.tagext;version="3.0.0"
 Automatic-Module-Name: org.eclipse.birt.chart.viewer

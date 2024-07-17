@@ -13,9 +13,9 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.InputOptions;

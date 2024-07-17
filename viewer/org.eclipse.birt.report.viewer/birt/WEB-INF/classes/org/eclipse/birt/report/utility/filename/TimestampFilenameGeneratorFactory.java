@@ -12,7 +12,7 @@
  ************************************************************************************/
 package org.eclipse.birt.report.utility.filename;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * Factory class for the time stamp file name generator.
@@ -26,7 +26,7 @@ public class TimestampFilenameGeneratorFactory implements IFilenameGeneratorFact
 	 * Returns an instance of TimestampFilenameGenerator. Reads the date format from
 	 * the INIT_PARAMETER_FILENAME_DATE_PATTERN from the servlet context.
 	 *
-	 * @see org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory#createFilenameGenerator(javax.servlet.ServletContext)
+	 * @see org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory#createFilenameGenerator(jakarta.servlet.ServletContext)
 	 */
 	@Override
 	public IFilenameGenerator createFilenameGenerator(ServletContext context) {

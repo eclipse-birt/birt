@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
-import javax.servlet.jsp.JspFactory;
+import jakarta.servlet.jsp.JspFactory;
 
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
