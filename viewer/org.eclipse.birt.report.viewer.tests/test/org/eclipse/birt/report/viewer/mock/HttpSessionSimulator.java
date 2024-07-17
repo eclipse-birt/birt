@@ -16,11 +16,10 @@ package org.eclipse.birt.report.viewer.mock;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import org.eclipse.birt.report.viewer.util.RandomUtil;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
-
-import org.eclipse.birt.report.viewer.util.RandomUtil;
 
 /**
  * Mock a HttpSession class for Viewer UnitTest
@@ -90,51 +89,6 @@ public class HttpSessionSimulator implements HttpSession {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see jakarta.servlet.http.HttpSession#getValue(java.lang.String)
-	 */
-	@Override
-	public Object getValue(String name) {
-		verify();
-		return this.getAttribute(name);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpSession#getValueNames()
-	 */
-	@Override
-	public String[] getValueNames() {
-		verify();
-		return (String[]) this.attributes.keySet().toArray();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpSession#putValue(java.lang.String,
-	 * java.lang.Object)
-	 */
-	@Override
-	public void putValue(String name, Object value) {
-		verify();
-		this.setAttribute(name, value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpSession#removeValue(java.lang.String)
-	 */
-	@Override
-	public void removeValue(String name) {
-		verify();
-		this.removeAttribute(name);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.http.HttpSession#getCreationTime()
 	 */
 	@Override
@@ -185,17 +139,6 @@ public class HttpSessionSimulator implements HttpSession {
 	public ServletContext getServletContext() {
 		verify();
 		return this.context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpSession#getSessionContext()
-	 */
-	@Override
-	public HttpSessionContext getSessionContext() {
-		verify();
-		throw new UnsupportedOperationException("Do not support getSessionContext operation!"); //$NON-NLS-1$
 	}
 
 	/*

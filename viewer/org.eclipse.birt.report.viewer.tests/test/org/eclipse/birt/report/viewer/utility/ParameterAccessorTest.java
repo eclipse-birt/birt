@@ -19,14 +19,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.util.BaseTestCase;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * TestCases for ParameterAccessor class. For test, mock some objects over http:
@@ -305,7 +305,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 				generateFileName(request, "pdf")); //$NON-NLS-1$
 		request.removeParameter(ParameterAccessor.PARAM_REPORT);
 		request.removeParameter(IBirtConstants.ATTRIBUTE_BEAN);
-		request.setCharacterEncoding(null);
+		request.setCharacterEncoding((String) null);
 	}
 
 	private String generateFileName(HttpServletRequest request, String format) {

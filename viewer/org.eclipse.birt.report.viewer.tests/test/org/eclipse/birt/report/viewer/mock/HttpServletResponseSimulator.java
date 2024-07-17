@@ -24,7 +24,6 @@ import java.util.Locale;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-
 import junit.framework.AssertionFailedError;
 
 /**
@@ -205,17 +204,6 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * jakarta.servlet.http.HttpServletResponse#encodeRedirectUrl(java.lang.String)
-	 */
-	@Override
-	public String encodeRedirectUrl(String url) {
-		return encodeRedirectURL(url);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.http.HttpServletResponse#encodeURL(java.lang.String)
 	 */
 	@Override
@@ -226,21 +214,11 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see jakarta.servlet.http.HttpServletResponse#encodeUrl(java.lang.String)
-	 */
-	@Override
-	public String encodeUrl(String url) {
-		return encodeURL(url);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.http.HttpServletResponse#sendError(int)
 	 */
 	@Override
 	public void sendError(int status) throws IOException {
-		setStatus(status);
+		this.status = status;
 		throw new AssertionFailedError(" Response error :" + status); //$NON-NLS-1$
 	}
 
@@ -251,7 +229,8 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	 */
 	@Override
 	public void sendError(int status, String message) throws IOException {
-		setStatus(status, message);
+		this.status = status;
+		this.message = message;
 		throw new AssertionFailedError(" Response error :" + status + " " //$NON-NLS-1$//$NON-NLS-2$
 				+ message);
 	}
@@ -327,18 +306,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	 */
 	@Override
 	public void setStatus(int status) {
-		setStatus(status, null);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpServletResponse#setStatus(int, java.lang.String)
-	 */
-	@Override
-	public void setStatus(int status, String message) {
 		this.status = status;
-		this.message = message;
 	}
 
 	/*
@@ -590,6 +558,11 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	public void setContentLengthLong(long arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+		// TODO Auto-generated method stub
 	}
 
 }
