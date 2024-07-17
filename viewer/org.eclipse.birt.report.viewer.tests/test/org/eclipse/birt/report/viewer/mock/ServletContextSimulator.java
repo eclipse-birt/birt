@@ -264,16 +264,6 @@ public class ServletContextSimulator implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see jakarta.servlet.ServletContext#getServlet(java.lang.String)
-	 */
-	@Override
-	public Servlet getServlet(String name) throws ServletException {
-		throw new UnsupportedOperationException("Do not support getServlet operation!"); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.ServletContext#getServletContextName()
 	 */
 	@Override
@@ -284,41 +274,11 @@ public class ServletContextSimulator implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see jakarta.servlet.ServletContext#getServletNames()
-	 */
-	@Override
-	public Enumeration getServletNames() {
-		throw new UnsupportedOperationException("Do not support getServletNames operation!"); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.ServletContext#getServlets()
-	 */
-	@Override
-	public Enumeration getServlets() {
-		throw new UnsupportedOperationException("Do not support getServlets operation!"); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.ServletContext#log(java.lang.String)
 	 */
 	@Override
 	public void log(String content) {
 		System.out.println(content);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
-	 */
-	@Override
-	public void log(Exception exception, String content) {
-		System.out.println(content + "--" + exception.getMessage()); //$NON-NLS-1$
 	}
 
 	/*

@@ -27,6 +27,7 @@ import java.util.Map;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -519,16 +520,6 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl
-	 */
-	@Override
-	public boolean isRequestedSessionIdFromUrl() {
-		return isRequestedSessionIdFromURL();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdValid
 	 */
 	@Override
@@ -622,22 +613,6 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	@Override
 	public BufferedReader getReader() throws IOException {
 		throw new UnsupportedOperationException("Do not support getReader operation!"); //$NON-NLS-1$
-	}
-
-	/**
-	 * (non-Javadoc)
-	 *
-	 * @see jakarta.servlet.http.HttpServletRequest#getRealPath( java.lang.String )
-	 * @deprecated
-	 */
-	@Deprecated
-	@Override
-	public String getRealPath(String path) {
-		if (path == null) {
-			return null;
-		}
-
-		return this.context.getRealPath(path);
 	}
 
 	/*
@@ -1115,6 +1090,24 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	@Override
 	public <T extends HttpUpgradeHandler> T upgrade(Class<T> arg0) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRequestId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
