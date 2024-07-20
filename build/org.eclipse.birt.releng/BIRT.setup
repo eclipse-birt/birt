@@ -224,7 +224,7 @@
       </detail>
       <detail
           key="label">
-        <value>${scope.project.label} Github repository</value>
+        <value>${scope.project.label} GitHub repository</value>
       </detail>
       <detail
           key="target">
@@ -238,6 +238,55 @@
           value="always"/>
     </configSections>
     <description>${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="git:GitCloneTask"
+      id="git.clone.birt.website"
+      remoteURI="eclipse-birt/birt-website"
+      checkoutBranch="main">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/InducedChoices">
+      <detail
+          key="inherit">
+        <value>github.remoteURIs</value>
+      </detail>
+      <detail
+          key="label">
+        <value>BIRT Website GitHub repository</value>
+      </detail>
+      <detail
+          key="target">
+        <value>remoteURI</value>
+      </detail>
+    </annotation>
+    <configSections
+        name="branch">
+      <properties
+          key="autoSetupRebase"
+          value="always"/>
+    </configSections>
+    <description>BIRT Website</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      excludedTriggers="BOOTSTRAP"
+      targetURL="${git.clone.birt.website.location|uri}/.project"
+      encoding="UTF-8">
+    <description>Create .project for website repository</description>
+    <content>
+      &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>
+      &lt;projectDescription>
+      	&lt;name>birt-website&lt;/name>
+      	&lt;comment>&lt;/comment>
+      	&lt;projects>
+      	&lt;/projects>
+      	&lt;buildSpec>
+      	&lt;/buildSpec>
+      	&lt;natures>
+      	&lt;/natures>
+      &lt;/projectDescription>
+
+    </content>
   </setupTask>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
@@ -352,6 +401,15 @@
             pattern=".*-parent.*|.*promotion"/>
       </predicate>
     </workingSet>
+    <workingSet
+        name="BIRT Website">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="birt-website"/>
+      </predicate>
+    </workingSet>
     <description>The dynamic working sets for  BIRT</description>
   </setupTask>
   <setupTask
@@ -454,6 +512,8 @@
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>
+      <sourceLocator
+          rootFolder="${git.clone.birt.website.location}"/>
       <repositoryList
           name="latest">
         <repository
