@@ -30,7 +30,7 @@ import javax.servlet.ServletResponse;
 public class ViewerFilter implements Filter {
 
 	// default encoding
-	protected String encoding = "ISO-8859-1"; //$NON-NLS-1$
+	protected String encoding = "UTF-8";//$NON-NLS-1$
 
 	// filter config
 	protected FilterConfig filterConfig = null;
