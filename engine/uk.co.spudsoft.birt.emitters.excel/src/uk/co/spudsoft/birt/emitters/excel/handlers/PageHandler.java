@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.ClientAnchor.AnchorType;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.PrintSetup;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -388,7 +389,9 @@ public class PageHandler extends AbstractHandler {
 
 		for (int i = 0; i < rowsSpanned; ++i) {
 			int rowIndex = cell.getRowIndex() + 1 + i;
-			neededRowHeightPoints -= state.currentSheet.getRow(rowIndex).getHeightInPoints();
+			Row tableRow = state.currentSheet.getRow(rowIndex);
+			if (tableRow != null)
+				neededRowHeightPoints -= tableRow.getHeightInPoints();
 		}
 
 		if (neededRowHeightPoints > cell.getRow().getHeightInPoints()) {
