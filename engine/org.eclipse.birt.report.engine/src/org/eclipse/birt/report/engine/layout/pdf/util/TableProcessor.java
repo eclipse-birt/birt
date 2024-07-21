@@ -154,13 +154,16 @@ public class TableProcessor implements HTMLConstants {
 
 		protected void processRow(Element element, Map<Element, StyleProperties> cssStyles, String border,
 				String padding) {
-			for (Node n = element.getFirstChild(); n != null; n = n.getNextSibling()) {
-				Element c = (Element) n;
-				if (TAG_TD.equals(c.getTagName()) || TAG_TH.equals(c.getTagName())) {
-					StyleProperties sp = cssStyles.get(c);
+			for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling()) {
+				if (node.getNodeType() != Node.ELEMENT_NODE) {
+					continue;
+				}
+				Element cell = (Element) node;
+				if (TAG_TD.equals(cell.getTagName()) || TAG_TH.equals(cell.getTagName())) {
+					StyleProperties sp = cssStyles.get(cell);
 					if (sp == null) {
 						sp = new StyleProperties(new StyleDeclaration(content.getCSSEngine()));
-						cssStyles.put(c, sp);
+						cssStyles.put(cell, sp);
 					}
 					if (border != null && border.length() > 0) {
 						PropertiesProcessor.process(PROPERTY_BORDER, border, sp);
@@ -179,6 +182,9 @@ public class TableProcessor implements HTMLConstants {
 			boolean hasPadding = padding != null && padding.length() > 0;
 			if (hasBorder || hasPadding) {
 				for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling()) {
+					if (node.getNodeType() != Node.ELEMENT_NODE) {
+						continue;
+					}
 					Element r = (Element) node;
 					if (TAG_TR.equals(r.getTagName())) {
 						processRow(r, cssStyles, border, padding);
