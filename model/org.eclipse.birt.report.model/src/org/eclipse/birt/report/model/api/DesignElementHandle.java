@@ -70,7 +70,7 @@ import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -444,12 +444,10 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	/**
 	 * Gets the value of a property as a list.
 	 *
-	 * @param module   the module
 	 * @param propName the name of the property to get
 	 * @return the value as an <code>ArrayList</code>, or null if the property is
 	 *         not set or the value is not a list
 	 */
-
 	public List getListProperty(String propName) {
 		PropertyHandle propHandle = getPropertyHandle(propName);
 		return propHandle == null ? null : propHandle.getListValue();
@@ -520,7 +518,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 */
 
 	public void setFloatProperty(String propName, double value) throws SemanticException {
-		setProperty(propName, new Double(value));
+		setProperty(propName, Double.valueOf(value));
 	}
 
 	/**
@@ -571,14 +569,13 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 */
 
 	public void clearAllProperties() throws SemanticException {
-		List props = getDefn().getProperties();
+		List<IElementPropertyDefn> props = getDefn().getProperties();
 
 		ActivityStack stack = module.getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CLEAR_PROPERTIES_MESSAGE));
 
 		try {
-			for (int i = 0; i < props.size(); i++) {
-				PropertyDefn propDefn = (PropertyDefn) props.get(i);
+			for (IElementPropertyDefn propDefn : props) {
 				String propName = propDefn.getName();
 
 				if ((IDesignElementModel.NAME_PROP.equals(propName))) {
@@ -681,13 +678,13 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @return List contains the methods.
 	 *
 	 */
-	public List getMethods() {
+	public List<IElementPropertyDefn> getMethods() {
 		List<IElementPropertyDefn> methods = getElement().getDefn().getMethods();
 		if (getElement().isInSlot(IModuleModel.PAGE_SLOT)) {
 			// Added for bugzila 276665, filter the method "onPageBreak" if the
 			// element is contained by a master page.
 			for (IElementPropertyDefn method : methods) {
-				if (IReportItemModel.ON_PAGE_BREAK_METHOD.equals(method.getName())) {
+				if (IInternalReportItemModel.ON_PAGE_BREAK_METHOD.equals(method.getName())) {
 					methods.remove(method);
 					break;
 				}
@@ -705,14 +702,11 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *                           value is invalid.
 	 * @see #setProperty(String, Object)
 	 */
-
-	public void setProperties(Map properties) throws SemanticException {
+	public void setProperties(Map<?, ?> properties) throws SemanticException {
 		if (properties == null) {
 			return;
 		}
-
-		for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
-			Entry entry = (Entry) iter.next();
+		for (Entry<?, ?> entry : properties.entrySet()) {
 			setProperty((String) entry.getKey(), entry.getValue());
 		}
 	}
@@ -1054,10 +1048,9 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 			PropertyHandle propHandle = propHandles.get(propName);
 			if (propHandle != null) {
 				return propHandle;
-			} else {
-				cachePropertyHandles();
-				return propHandles.get(propName);
 			}
+			cachePropertyHandles();
+			return propHandles.get(propName);
 		}
 
 		return new PropertyHandle(this, propDefn);
@@ -1311,12 +1304,10 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *
 	 * @return an iterator over the properties. Each call to <code>getNext( )</code>
 	 *         returns an object of type {@link PropertyHandle}.
-	 * @see PropertyIterator
 	 * @see PropertyHandle
 	 * @see UserPropertyDefnHandle
 	 */
-
-	public Iterator getPropertyIterator() {
+	public PropertyIterator getPropertyIterator() {
 		return new PropertyIterator(this);
 	}
 
@@ -1364,7 +1355,6 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *         {@link DesignElementHandle}. Nothing will be iterated over an element
 	 *         that is not <code>ReferenceableElement</code>.
 	 */
-
 	public Iterator clientsIterator() {
 		return new ClientIterator(this);
 	}
@@ -1441,8 +1431,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *
 	 * @param list the list to sort
 	 */
-
-	public static void doSort(List list) {
+	public static void doSort(List<DesignElementHandle> list) {
 		Collections.sort(list, new Comparator<DesignElementHandle>() {
 
 			@Override
@@ -1608,10 +1597,9 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 		case IPropertyType.LIST_TYPE:
 
 			assert value instanceof List;
-			List valueList = (List) value;
+			List<?> valueList = (List<?>) value;
 			PropertyHandle propHandle = targetHandle.getPropertyHandle(propName);
-			for (int i = 0; i < valueList.size(); i++) {
-				Object item = valueList.get(i);
+			for (Object item : valueList) {
 				if (propDefn.getSubTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
 					propHandle.addItem(item);
 				} else {
@@ -1638,12 +1626,11 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *         object.
 	 * @see ErrorDetail
 	 */
-
-	public List semanticCheck() {
+	public List<ErrorDetail> semanticCheck() {
 		// Validate this element.
 
-		List exceptionList = getElement().validate(module);
-		List errorDetailList = ErrorDetail.convertExceptionList(exceptionList);
+		List<SemanticException> exceptionList = getElement().validate(module);
+		List<ErrorDetail> errorDetailList = ErrorDetail.convertExceptionList(exceptionList);
 
 		return errorDetailList;
 	}
@@ -1803,8 +1790,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 *
 	 * @return the semantic error list.
 	 */
-
-	public List getSemanticErrors() {
+	public List<PropertyBinding> getSemanticErrors() {
 		List exceptionList = getElement().getErrors();
 		if (exceptionList == null) {
 			return Collections.EMPTY_LIST;
@@ -2030,7 +2016,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @return the property binding list defined for the element
 	 */
 
-	public List getPropertyBindings() {
+	public List<PropertyBinding> getPropertyBindings() {
 		List<String> nameList = new ArrayList<>();
 		List<PropertyBinding> resultList = new ArrayList<>();
 
@@ -2060,7 +2046,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	private List<PropertyBinding> filterPropertyBindingName(List<PropertyBinding> propertyBindings,
 			List<String> nameList) {
 		if (propertyBindings == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		List<PropertyBinding> resultList = new ArrayList<>();
@@ -2188,7 +2174,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @throws SemanticException if the element is not allowed to paste
 	 */
 
-	public List paste(String propName, DesignElementHandle content) throws SemanticException {
+	public List<ErrorDetail> paste(String propName, DesignElementHandle content) throws SemanticException {
 		if (content == null) {
 			return Collections.emptyList();
 		}
@@ -2205,7 +2191,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed to paste
 	 */
-	public List paste(String propName, IDesignElement content) throws SemanticException {
+	public List<ErrorDetail> paste(String propName, IDesignElement content) throws SemanticException {
 		if (content == null) {
 			return Collections.emptyList();
 		}
@@ -2225,7 +2211,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @throws SemanticException if the element is not allowed in the slot
 	 */
 
-	public List paste(String propName, DesignElementHandle content, int newPos) throws SemanticException {
+	public List<ErrorDetail> paste(String propName, DesignElementHandle content, int newPos) throws SemanticException {
 		if (content == null) {
 			return Collections.emptyList();
 		}
@@ -2244,8 +2230,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed in the property
 	 */
-
-	public List paste(String propName, IDesignElement content, int newPos) throws SemanticException {
+	public List<ErrorDetail> paste(String propName, IDesignElement content, int newPos) throws SemanticException {
 		if (content == null) {
 			return Collections.emptyList();
 		}
@@ -2263,8 +2248,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 	 * @return a list containing parsing errors. Each element in the list is
 	 *         <code>ErrorDetail</code>.
 	 */
-
-	List checkPostPasteErrors(DesignElement content) {
+	List<ErrorDetail> checkPostPasteErrors(DesignElement content) {
 		Module currentModule = getModule();
 		String nameSpace = null;
 
@@ -2277,8 +2261,8 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 
 		ModelUtil.reviseNameSpace(getModule(), content, nameSpace);
 
-		List exceptionList = content.validateWithContents(getModule());
-		List errorDetailList = ErrorDetail.convertExceptionList(exceptionList);
+		List<SemanticException> exceptionList = getElement().validate(module);
+		List<ErrorDetail> errorDetailList = ErrorDetail.convertExceptionList(exceptionList);
 
 		return errorDetailList;
 	}
@@ -2701,7 +2685,8 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 		}
 		assert root.getElementByID(getID()) == getElement();
 
-		ArrayList bindingList = (ArrayList) root.getLocalProperty(root, IModuleModel.PROPERTY_BINDINGS_PROP);
+		ArrayList bindingList = (ArrayList) root.getLocalProperty(root,
+				IModuleModel.PROPERTY_BINDINGS_PROP);
 
 		PropertyBinding binding = root.findPropertyBinding(getElement(), propName);
 
@@ -2714,7 +2699,7 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 		if (bindingList == null) {
 			assert value != null;
 
-			bindingList = new ArrayList();
+			bindingList = new ArrayList<Object>();
 			root.setProperty(IModuleModel.PROPERTY_BINDINGS_PROP, bindingList);
 		}
 

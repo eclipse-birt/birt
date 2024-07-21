@@ -579,10 +579,10 @@ public final class ErrorDetail implements ErrorCodes {
 	 * @return the error detail list of <code>ErrorDetail</code>
 	 */
 
-	public static List<ErrorDetail> convertExceptionList(List<Exception> exceptionList) {
+	public static List<ErrorDetail> convertExceptionList(List<? extends Exception> exceptionList) {
 		List<ErrorDetail> errorDetailList = new ArrayList<>();
 
-		Iterator<Exception> iterError = exceptionList.iterator();
+		Iterator<? extends Exception> iterError = exceptionList.iterator();
 		while (iterError.hasNext()) {
 			Exception e = iterError.next();
 

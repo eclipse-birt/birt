@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c)2007 Actuate Corporation.
+ * Copyright (c)2007, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -29,6 +29,8 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.Table;
@@ -36,6 +38,11 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * Call to process HTML tables
+ *
+ * @since 3.3
+ */
 public class TableProcessor implements HTMLConstants {
 
 	private static final String ATTRIBUTE_COLSPAN = "colspan";
@@ -44,6 +51,14 @@ public class TableProcessor implements HTMLConstants {
 
 	// FIXME code review: extract two method so that the logic will be more
 	// clear.
+	/**
+	 * Constructor
+	 *
+	 * @param ele       element to be parsed
+	 * @param cssStyles CSS styles
+	 * @param content   content
+	 * @param action    action content
+	 */
 	public static void processTable(Element ele, Map<Element, StyleProperties> cssStyles, IContent content,
 			ActionContent action) {
 		// FIXME code review: this block is used to parse table content. extract
@@ -55,11 +70,11 @@ public class TableProcessor implements HTMLConstants {
 		// method layoutTable();
 		Table table = new Table(tableState.getRowCount(), tableState.getColumnCount());
 		TableContent tableContent = (TableContent) tableState.getContent();
-		Iterator rows = tableContent.getChildren().iterator();
+		Iterator<?> rows = tableContent.getChildren().iterator();
 		while (rows.hasNext()) {
 			RowContent row = (RowContent) rows.next();
 			table.createRow(row);
-			Iterator cells = row.getChildren().iterator();
+			Iterator<?> cells = row.getChildren().iterator();
 			while (cells.hasNext()) {
 				CellContent cell = (CellContent) cells.next();
 				int rowSpan = cell.getRowSpan();
@@ -69,10 +84,10 @@ public class TableProcessor implements HTMLConstants {
 				table.createCell(-1, rowSpan, colSpan, new InternalCellContent(cell));
 			}
 		}
-		normalize(table, tableContent, tableState);
+		normalize(table, tableContent);
 	}
 
-	protected static void normalize(Table table, TableContent tableContent, TableState tableState) {
+	protected static void normalize(Table table, TableContent tableContent) {
 		ReportContent report = (ReportContent) tableContent.getReportContent();
 		for (int i = 0; i < table.getRowCount(); i++) {
 			Row row = table.getRow(i);
@@ -82,11 +97,11 @@ public class TableProcessor implements HTMLConstants {
 			IStyle rowStyle = rowContent.getStyle();
 			if (rowStyle != null) {
 				if (rowStyle.getPageBreakInside() == null) {
-					rowStyle.setProperty(IStyle.STYLE_PAGE_BREAK_INSIDE, IStyle.AUTO_VALUE);
+					rowStyle.setProperty(StyleConstants.STYLE_PAGE_BREAK_INSIDE, CSSValueConstants.AUTO_VALUE);
 				}
 			}
 
-			Collection children = rowContent.getChildren();
+			Collection<IContent> children = rowContent.getChildren();
 			children.clear();
 			for (int j = 0; j < table.getColCount(); j++) {
 				Cell cell = row.getCell(j);
@@ -135,16 +150,29 @@ public class TableProcessor implements HTMLConstants {
 
 	}
 
+	/**
+	 * Class to handle the table state
+	 *
+	 * @since 3.3
+	 */
 	public static class TableState extends State {
 
 		private int columnCount;
 		private int rowCount;
 		private TableContent table;
 
+		/**
+		 * Constructor
+		 *
+		 * @param element   element to be parsed
+		 * @param cssStyles CSS styles
+		 * @param parent    parent node
+		 * @param action    action content
+		 */
 		public TableState(Element element, Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action) {
 			super(element, cssStyles, action);
-			content = (TableContent) parent.getReportContent().createTableContent();
+			content = parent.getReportContent().createTableContent();
 			table = (TableContent) content;
 			setParent(parent);
 			content.setWidth(PropertyUtil.getDimensionAttribute(element, PROPERTY_WIDTH));
@@ -201,6 +229,9 @@ public class TableProcessor implements HTMLConstants {
 			}
 		}
 
+		/**
+		 * Process nodes of table
+		 */
 		public void processNodes() {
 			Element ele = element;
 			processNodes(ele);
@@ -267,10 +298,20 @@ public class TableProcessor implements HTMLConstants {
 			}
 		}
 
+		/**
+		 * Get the column count
+		 *
+		 * @return the column count
+		 */
 		public int getColumnCount() {
 			return columnCount;
 		}
 
+		/**
+		 * Get the row count
+		 *
+		 * @return the row count
+		 */
 		public int getRowCount() {
 			return rowCount;
 		}
@@ -286,7 +327,7 @@ public class TableProcessor implements HTMLConstants {
 		public RowState(Element element, Map<Element, StyleProperties> cssStyles, IContent parent, ActionContent action,
 				Hashtable<Integer, Integer> records, int index) {
 			super(element, cssStyles, action);
-			content = (RowContent) parent.getReportContent().createRowContent();
+			content = parent.getReportContent().createRowContent();
 			setParent(parent);
 			content.setHeight(PropertyUtil.getDimensionAttribute(element, "height"));
 			HTML2Content.handleStyle(element, cssStyles, content);

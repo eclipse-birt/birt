@@ -35,8 +35,9 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -157,7 +158,6 @@ import com.ibm.icu.util.ULocale;
  *
  * @see org.eclipse.birt.report.model.elements.ReportDesign
  */
-
 class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesignModel {
 
 	/**
@@ -266,11 +266,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 */
 
 	public Iterator includeLibraryScriptsIterator() {
-		List libList = module.getAllLibraries();
-		List includeLibScriptList = new ArrayList();
+		List<Library> libList = module.getAllLibraries();
+		List<Object> includeLibScriptList = new ArrayList<Object>();
 		if (libList != null) {
-			for (int i = 0; i < libList.size(); i++) {
-				Library lib = (Library) libList.get(i);
+			for (Library lib : libList) {
 				PropertyHandle propHandle = lib.getHandle(lib).getPropertyHandle(INCLUDE_SCRIPTS_PROP);
 
 				Iterator scriptIter = propHandle.iterator();
@@ -378,21 +377,19 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 */
 	@Override
 	public SlotHandle getStyles() {
-		return getSlot(IReportDesignModel.STYLE_SLOT);
+		return getSlot(IInternalReportDesignModel.STYLE_SLOT);
 	}
 
 	/**
-	 * Gets all css styles sheet
+	 * Gets all CSS styles sheet
 	 *
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
-
-	public List getAllCssStyleSheets() {
+	public List<CssStyleSheetHandle> getAllCssStyleSheets() {
 		ReportDesign design = (ReportDesign) getElement();
-		List allStyles = new ArrayList();
-		List csses = design.getCsses();
-		for (int i = 0; csses != null && i < csses.size(); ++i) {
-			CssStyleSheet sheet = (CssStyleSheet) csses.get(i);
+		List<CssStyleSheetHandle> allStyles = new ArrayList<CssStyleSheetHandle>();
+		List<CssStyleSheet> csses = design.getCsses();
+		for (CssStyleSheet sheet : csses) {
 			allStyles.add(sheet.handle(getModule()));
 		}
 		return allStyles;
@@ -414,8 +411,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 		ActivityStack stack = module.getActivityStack();
 		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.IMPORT_CSS_STYLES_MESSAGE));
-		for (int i = 0; i < selectedStyles.size(); i++) {
-			Object selectedStyle = selectedStyles.get(i);
+		for (Object selectedStyle : selectedStyles) {
 			if (!(selectedStyle instanceof SharedStyleHandle)) {
 				continue;
 			}
@@ -428,7 +424,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 				}
 				module.makeUniqueName(newStyle.getElement());
 				try {
-					addElement(newStyle, IReportDesignModel.STYLE_SLOT);
+					addElement(newStyle, IInternalReportDesignModel.STYLE_SLOT);
 				} catch (ContentException | NameException e) {
 					assert false;
 				}
@@ -573,15 +569,15 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @return All bookmarks defined in this module.
 	 */
-
-	public List getAllBookmarks() {
+	public List<String> getAllBookmarks() {
 		// bookmark value in row, report item and listing group are the same
 		// now.
 
-		List bookmarks = ((ReportDesign) module).collectPropValues(BODY_SLOT, IReportItemModel.BOOKMARK_PROP);
+		List<?> bookmarks = ((ReportDesign) module).collectPropValues(BODY_SLOT,
+				IInternalReportItemModel.BOOKMARK_PROP);
 
-		List resultList = new ArrayList();
-		Iterator iterator = bookmarks.iterator();
+		List<String> resultList = new ArrayList<String>();
+		Iterator<?> iterator = bookmarks.iterator();
 		while (iterator.hasNext()) {
 			Expression expr = (Expression) iterator.next();
 			resultList.add(expr.getStringExpression());
@@ -594,14 +590,13 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @return All TOCs defined in this module.
 	 */
-
-	public List getAllTocs() {
-		List tocs = ((ReportDesign) module).collectPropValues(BODY_SLOT, IReportItemModel.TOC_PROP);
+	public List<String> getAllTocs() {
+		List<?> tocs = ((ReportDesign) module).collectPropValues(BODY_SLOT, IInternalReportItemModel.TOC_PROP);
 
 		// TODO merge with IGroupElementModel.TOC_PROP.
 
-		List resultList = new ArrayList();
-		Iterator iterator = tocs.iterator();
+		List<String> resultList = new ArrayList<String>();
+		Iterator<?> iterator = tocs.iterator();
 		while (iterator.hasNext()) {
 			TOC toc = (TOC) iterator.next();
 			resultList.add(toc.getStringProperty(module, TOC.TOC_EXPRESSION));
@@ -617,17 +612,17 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *         is excluded.
 	 */
 
-	public List getReportItemsBasedonTempalates() {
-		ArrayList rtnList = new ArrayList();
-		ArrayList tempList = new ArrayList();
+	public List<DesignElementHandle> getReportItemsBasedonTempalates() {
+		ArrayList<DesignElementHandle> rtnList = new ArrayList<DesignElementHandle>();
+		ArrayList<DesignElement> tempList = new ArrayList<DesignElement>();
 
 		List contents = new ContainerContext(getElement(), BODY_SLOT).getContents(module);
 		contents.addAll(new ContainerContext(getElement(), PAGE_SLOT).getContents(module));
 
 		findTemplateItemIn(contents.iterator(), tempList);
 
-		for (Iterator iter = tempList.iterator(); iter.hasNext();) {
-			rtnList.add(((DesignElement) iter.next()).getHandle(module));
+		for (Iterator<DesignElement> iter = tempList.iterator(); iter.hasNext();) {
+			rtnList.add(iter.next().getHandle(module));
 		}
 
 		return Collections.unmodifiableList(rtnList);
@@ -640,8 +635,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * @param contents the contents to search.
 	 * @param addTo    The list to add to.
 	 */
-
-	private void findTemplateItemIn(Iterator contents, List addTo) {
+	private void findTemplateItemIn(Iterator<?> contents, List<DesignElement> addTo) {
 		for (; contents.hasNext();) {
 			DesignElement e = (DesignElement) contents.next();
 			if (e.isTemplateParameterValue(module)) {
@@ -705,9 +699,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @return the iterator over all included css style sheets.
 	 */
-
+	@SuppressWarnings("rawtypes")
 	public Iterator includeCssesIterator() {
-		PropertyHandle propHandle = getPropertyHandle(IReportDesignModel.CSSES_PROP);
+		PropertyHandle propHandle = getPropertyHandle(IInternalReportDesignModel.CSSES_PROP);
 		assert propHandle != null;
 		return propHandle.iterator();
 	}
@@ -807,11 +801,12 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Includes one css with the given css file name. The new css will be appended
 	 * to the css list.
 	 *
-	 * @param fileName css file name
+	 * @param fileName       CSS file name
+	 * @param externalCssURI external CSS URI
+	 * @param useExternalCss use external CSS
 	 * @throws SemanticException if error is encountered when handling
 	 *                           <code>CssStyleSheet</code> structure list.
 	 */
-
 	public void addCssByProperties(String fileName, String externalCssURI, boolean useExternalCss)
 			throws SemanticException {
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(module, getElement());
@@ -843,6 +838,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * @deprecated
 	 * @param handle      the includedCssStyleSheetHandle
 	 * @param newFileName the new file name
+	 * @throws SemanticException
 	 */
 	@Deprecated
 	public void renameCss(IncludedCssStyleSheetHandle handle, String newFileName) throws SemanticException {
@@ -855,8 +851,11 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Renames both <code>IncludedCssStyleSheet</code> and <code>CSSStyleSheet<code>
 	 * to newFileName.
 	 *
-	 * @param handle      the includedCssStyleSheetHandle
-	 * @param newFileName the new file name
+	 * @param handle         the includedCssStyleSheetHandle
+	 * @param fileName       the file name
+	 * @param externalCssURI external CSS URI
+	 * @param useExternalCss use external CSS
+	 * @throws SemanticException
 	 */
 	public void renameCssByProperties(IncludedCssStyleSheetHandle handle, String fileName, String externalCssURI,
 			boolean useExternalCss) throws SemanticException {
@@ -883,8 +882,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	/**
 	 * Checks css can be renamed or not.
 	 *
-	 * @param handle      the included css style sheet handle.
-	 * @param newFileName the new file name.
+	 * @param handle         the included css style sheet handle.
+	 * @param fileName       the file name
+	 * @param externalCssURI external CSS URI
+	 * @param useExternalCss use external CSS
 	 * @return <code>true</code> can be renamed.else return <code>false</code>
 	 * @throws SemanticException
 	 */
@@ -1239,11 +1240,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * @return the list of variable. Each item is an instance of
 	 *         <code>VariableElementHandle</code>.
 	 */
-
 	public List<VariableElementHandle> getAllVariables() {
 		PropertyHandle propHandle = getPropertyHandle(DATA_OBJECTS_PROP);
 		if (propHandle == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		return propHandle.getListValue();
 	}
@@ -1252,10 +1252,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * Gets the locale of the report design.
 	 *
 	 * @return the locale of the report design.
-	 *
-	 * @see #setLocale(ULocale)
 	 */
-
 	public ULocale getLocale() {
 		return (ULocale) getProperty(LOCALE_PROP);
 	}
@@ -1265,10 +1262,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @param locale the locale of the report design.
 	 * @throws SemanticException
-	 *
-	 * @see #getLocale()
 	 */
-
 	public void setLocale(ULocale locale) throws SemanticException {
 		setProperty(LOCALE_PROP, locale);
 	}
@@ -1287,8 +1281,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 
 		// first, look css style sheet in the design itself
 		if (values != null && !values.isEmpty()) {
-			for (int i = 0; i < values.size(); i++) {
-				IncludedCssStyleSheetHandle sheetHandle = values.get(i);
+			for (IncludedCssStyleSheetHandle sheetHandle : values) {
 				if (sheetHandle.getExternalCssURI() != null || sheetHandle.isUseExternalCss()) {
 					ret.add(sheetHandle);
 				}
@@ -1304,8 +1297,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 		}
 		List<LibraryHandle> libs = getAllLibraries();
 		if (libs != null) {
-			for (int i = 0; i < libs.size(); i++) {
-				LibraryHandle libHandle = libs.get(i);
+			for (LibraryHandle libHandle : libs) {
 				themeHandle = libHandle.getTheme();
 				if (themeHandle != null && !themeList.contains(themeHandle)) {
 					themeList.add(themeHandle);
@@ -1376,10 +1368,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @param script the script to set
 	 * @throws SemanticException if the method is locked.
-	 *
-	 * @see #getOnPrepare()
 	 */
-
 	public void setOnPrepare(String script) throws SemanticException {
 		setProperty(ON_PREPARE_METHOD, script);
 	}
@@ -1400,10 +1389,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 *
 	 * @param script the script to set
 	 * @throws SemanticException if the method is locked.
-	 *
-	 * @see #getClientInitialize()
 	 */
-
 	public void setClientInitialize(String script) throws SemanticException {
 		setProperty(CLIENT_INITIALIZE_METHOD, script);
 	}
