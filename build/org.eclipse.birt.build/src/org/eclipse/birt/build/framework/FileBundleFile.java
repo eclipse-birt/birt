@@ -13,13 +13,12 @@
 package org.eclipse.birt.build.framework;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBundleFile extends BundleFile {
 
-	public FileBundleFile(Bundle bundle, File basefile) throws IOException {
+	public FileBundleFile(Bundle bundle, File basefile) {
 		super(bundle, basefile);
 	}
 

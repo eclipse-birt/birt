@@ -12,7 +12,6 @@
  *******************************************************************************/
 package org.eclipse.birt.build.framework;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class ZipDirBundleEntry extends BundleEntry {
@@ -25,7 +24,7 @@ public class ZipDirBundleEntry extends BundleEntry {
 	}
 
 	@Override
-	public InputStream getInputStream() throws IOException {
+	public InputStream getInputStream() {
 		return null;
 	}
 
