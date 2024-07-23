@@ -80,7 +80,7 @@
     </copy>
     <!-- create org.eclipse.birt.runtime.jar -->
     <buildJar basedir="${TARGET_DIR}/org.eclipse.birt.runtime"
-              output="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar">
+              output="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
       <manifest>
         <attribute name="Bundle-Version" value="${BIRT_VERSION}"/>
         <attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
@@ -89,12 +89,6 @@
         <attribute name="Manifest-Version" value="1.0"/>
       </manifest>
     </buildJar>
-    <!-- it's surprisingly hard to keep eclipse-jarsigner-plugin off jars -->
-    <zip destfile="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
-        <zipfileset src="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"
-                    excludes="META-INF/ECLIPSE_.*"/>
-    </zip>
-    <delete file="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"/>
   </target>
   <target name="build-webviewer">
     <copy todir="${STAGE_DIR}/WebViewerExample/WEB-INF/lib">

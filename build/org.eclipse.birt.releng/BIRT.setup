@@ -386,7 +386,7 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern=".*releng.*|org\.eclipse\.birt\.target|org\.eclipse\.birt\.api|birt-charts|birt-publish|birt-runtime|birt-charts"/>
+            pattern=".*releng.*|org\.eclipse\.birt\.target|org\.eclipse\.birt\.api|birt-charts|birt-publish|birt-runtime|birt-charts|org.eclipse.birt.build"/>
       </predicate>
     </workingSet>
     <workingSet

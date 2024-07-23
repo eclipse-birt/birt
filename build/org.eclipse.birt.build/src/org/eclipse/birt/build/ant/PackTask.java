@@ -182,7 +182,8 @@ public class PackTask extends Task {
 
 	private static Filter DEFAULT_FILTER = new Filter(new String[] {},
 			new String[] { "plugin\\..*", "fragment\\..*", "(.*\\.jar/)?META-INF/MANIFEST\\.MF",
-					"(.*\\.jar/)?META-INF/ECLIPSEF\\..*", "(.*\\.jar/)?META-INF/eclipse\\.inf", "about\\..*",
+					"(.*\\.jar/)?META-INF/(ECLIPSEF|ECLIPSE_|CODESIGN)\\..*", "(.*\\.jar/)?META-INF/eclipse\\.inf",
+					"about\\..*",
 					"about_files/.*" });
 
 	public Filter createFilter(BundleItem bundleItem) {
