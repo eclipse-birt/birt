@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Engine Runtime" uid="org.eclipse.birt.engine.runtime" version="4.17.0.qualifier" type="features" includeLaunchers="false" autoIncludeRequirements="true">
+<product name="BIRT Engine Runtime" uid="org.eclipse.birt.engine.runtime" version="4.17.0.qualifier" type="mixed" includeLaunchers="false" autoIncludeRequirements="true">
 
    <configIni use="default">
    </configIni>
@@ -165,12 +165,16 @@ United States, other countries, or both.
    </license>
 
    <plugins>
+      <plugin id="org.apache.felix.scr"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.event"/>
+      <plugin id="org.eclipse.equinox.simpleconfigurator"/>
    </plugins>
 
    <features>
       <feature id="org.eclipse.birt.engine.runtime"/>
       <feature id="org.eclipse.birt.chart.osgi.runtime"/>
-      <feature id="org.eclipse.rcp" installMode="root"/>
    </features>
 
    <configurations>
@@ -178,9 +182,6 @@ United States, other countries, or both.
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
-      <!--
-      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
-      -->
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>

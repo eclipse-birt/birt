@@ -67,18 +67,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.birt.chart.ui.extension"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.birt.chart.ui"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.birt.core.ui"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.birt.core"
          version="0.0.0"/>
 
