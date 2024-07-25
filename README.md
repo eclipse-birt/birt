@@ -29,6 +29,6 @@ If you want to install BIRT as a plug-in, please be aware that BIRT 4.14 require
 ## Current Version 4.16.0
 * https://download.eclipse.org/birt/updates/release/4.16.0
 
-## Latest Snapshots Towards <birt.version><birt.version>4.17.0</birt.version></birt.version>
+## Latest Snapshots Towards 4.17.0
 * https://download.eclipse.org/birt/updates/nightly/latest
 
