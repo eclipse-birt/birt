@@ -20,7 +20,7 @@
    <bundle id="com.ibm.icu">
       <category name="ChartEngine"/>
    </bundle>
-   <bundle id="org.apache.commons.logging">
+   <bundle id="org.apache.commons.commons-logging">
       <category name="ChartEngine"/>
    </bundle>
    <bundle id="org.apache.xerces">
