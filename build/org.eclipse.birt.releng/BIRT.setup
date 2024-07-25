@@ -453,7 +453,7 @@
         </detail>
         <detail
             key="extraUnits">
-          <value>org.eclipse.equinox.executable.feature.group</value>
+          <value>org.eclipse.equinox.executable.feature.group,org.apache.xml.serializer</value>
         </detail>
         <detail
             key="singleLocation">
@@ -477,7 +477,7 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>org.mortbay.jasper.apache-.*</value>
+          <value>org.mortbay.jasper.apache-.*|jakarta.activation-api|jakarta.xml.bind-api</value>
         </detail>
         <detail
             key="minimizeImplicitUnits">
@@ -509,6 +509,22 @@
           </detail>
         </annotation>
       </requirement>
+      <requirement
+          name="javax.activation"
+          optional="true"
+          max="0"/>
+      <requirement
+          name="org.apache.commons.logging"
+          optional="true"
+          max="0"/>
+      <requirement
+          name="javax.xml.soap"
+          optional="true"
+          max="0"/>
+      <requirement
+          name="jakarta.xml.bind"
+          optional="true"
+          max="0"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>

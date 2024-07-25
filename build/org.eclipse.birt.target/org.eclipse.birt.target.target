@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="45">
+<target name="Generated from BIRT" sequenceNumber="46">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -15,20 +15,20 @@
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.sun.el.javax.el" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
-      <unit id="jakarta.activation-api" version="0.0.0"/>
+      <unit id="jakarta.activation-api" version="1.2.2"/>
+      <unit id="jakarta.activation-api" version="2.1.3"/>
       <unit id="jakarta.annotation-api" version="0.0.0"/>
       <unit id="jakarta.enterprise.cdi-api" version="0.0.0"/>
       <unit id="jakarta.inject.jakarta.inject-api" version="0.0.0"/>
       <unit id="jakarta.interceptor-api" version="0.0.0"/>
       <unit id="jakarta.transaction-api" version="0.0.0"/>
-      <unit id="jakarta.xml.bind" version="0.0.0"/>
-      <unit id="jakarta.xml.bind-api" version="0.0.0"/>
-      <unit id="javax.activation" version="0.0.0"/>
+      <unit id="jakarta.xml.bind-api" version="2.3.3"/>
+      <unit id="jakarta.xml.bind-api" version="4.0.2"/>
+      <unit id="jakarta.xml.soap-api" version="0.0.0"/>
       <unit id="javax.annotation" version="0.0.0"/>
       <unit id="javax.inject" version="0.0.0"/>
       <unit id="javax.servlet-api" version="0.0.0"/>
       <unit id="javax.xml.rpc-api" version="0.0.0"/>
-      <unit id="javax.xml.soap" version="0.0.0"/>
       <unit id="org.apache.aries.spifly.dynamic.bundle" version="0.0.0"/>
       <unit id="org.apache.axis" version="0.0.0"/>
       <unit id="org.apache.batik.anim" version="0.0.0"/>
@@ -53,8 +53,8 @@
       <unit id="org.apache.commons.commons-collections4" version="0.0.0"/>
       <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
       <unit id="org.apache.commons.commons-io" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-logging" version="0.0.0"/>
       <unit id="org.apache.commons.discovery" version="0.0.0"/>
-      <unit id="org.apache.commons.logging" version="0.0.0"/>
       <unit id="org.apache.commons.math3" version="0.0.0"/>
       <unit id="org.apache.derby" version="0.0.0"/>
       <unit id="org.apache.felix.scr" version="0.0.0"/>
@@ -64,6 +64,7 @@
       <unit id="org.apache.poi" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
+      <unit id="org.apache.xml.serializer" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
       <unit id="org.apache.xmlgraphics.fop-core" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.manager" version="0.0.0"/>
