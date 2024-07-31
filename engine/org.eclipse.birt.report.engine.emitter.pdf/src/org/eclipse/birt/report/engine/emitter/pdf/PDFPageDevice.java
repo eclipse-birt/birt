@@ -166,6 +166,8 @@ public class PDFPageDevice implements IPageDevice {
 
 	private final static String PDFA_FALLBACK_FONT = "PdfEmitter.PDFA.FallbackFont";
 
+	private final static String PDF_FONT_CID_SET = "PdfEmitter.IncludeCidSet";
+
 	protected Map<String, Expression> userProperties;
 
 	private char pdfVersion = '0';
@@ -177,6 +179,8 @@ public class PDFPageDevice implements IPageDevice {
 	private boolean addPdfADocumentTitle = false;
 
 	private String defaultFontPdfA = null;
+
+	private boolean includeFontCidSet = true;
 
 	/**
 	 *
@@ -207,6 +211,8 @@ public class PDFPageDevice implements IPageDevice {
 			this.setPdfConformance();
 			// PDF/A, set the default font of not embeddable fonts
 			this.setDefaultFontPdfA();
+			// PDF include font CID set stream
+			this.setPdfIncludeCidSet();
 
 			// PDF/A (A1A, A1B), avoid compression and transparency
 			if (!this.isPdfAFormat) {
@@ -866,5 +872,34 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public String getDefaultFontPdfA() {
 		return this.defaultFontPdfA;
+	}
+
+	/**
+	 * Set the including of a font CIDSet stream the document. When set to true, a
+	 * CIDSet stream will be included in the document. When set to false, no CIDSet
+	 * stream will be included.
+	 */
+	private void setPdfIncludeCidSet() {
+		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_FONT_CID_SET))
+			this.includeFontCidSet = Boolean
+					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_FONT_CID_SET).toString());
+	}
+
+	/**
+	 * Set the including of a font CIDSet stream the document
+	 *
+	 * @param includeFontCidSet include CIDSet stream of a font to the document
+	 */
+	public void setPdfIncludeCidSet(Boolean includeFontCidSet) {
+		this.includeFontCidSet = includeFontCidSet;
+	}
+
+	/**
+	 * Get the instruction to include CIDSet stream of fonts
+	 *
+	 * @return the CIDSet shall be included
+	 */
+	public boolean getPdfIncludeCidSet() {
+		return this.includeFontCidSet;
 	}
 }
