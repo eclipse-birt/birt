@@ -462,7 +462,7 @@ public class PDFPage extends AbstractPage {
 			contentByte.setColorStroke(color);
 		}
 		BaseFont font = getBaseFont(fontInfo);
-		font.setIncludeCidSet(this.pageDevice.getPdfIncludeCidSet());
+		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 
 		float fontSize = fontInfo.getFontSize();
 		try {

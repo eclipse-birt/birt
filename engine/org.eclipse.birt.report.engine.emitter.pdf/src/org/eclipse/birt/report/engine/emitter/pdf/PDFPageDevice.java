@@ -212,7 +212,7 @@ public class PDFPageDevice implements IPageDevice {
 			// PDF/A, set the default font of not embeddable fonts
 			this.setDefaultFontPdfA();
 			// PDF include font CID set stream
-			this.setPdfIncludeCidSet();
+			this.setIncludeCidSet();
 
 			// PDF/A (A1A, A1B), avoid compression and transparency
 			if (!this.isPdfAFormat) {
@@ -879,7 +879,7 @@ public class PDFPageDevice implements IPageDevice {
 	 * CIDSet stream will be included in the document. When set to false, no CIDSet
 	 * stream will be included.
 	 */
-	private void setPdfIncludeCidSet() {
+	private void setIncludeCidSet() {
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_FONT_CID_SET))
 			this.includeFontCidSet = Boolean
 					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_FONT_CID_SET).toString());
@@ -890,7 +890,7 @@ public class PDFPageDevice implements IPageDevice {
 	 *
 	 * @param includeFontCidSet include CIDSet stream of a font to the document
 	 */
-	public void setPdfIncludeCidSet(Boolean includeFontCidSet) {
+	public void setIncludeCidSet(boolean includeFontCidSet) {
 		this.includeFontCidSet = includeFontCidSet;
 	}
 
@@ -899,7 +899,7 @@ public class PDFPageDevice implements IPageDevice {
 	 *
 	 * @return the CIDSet shall be included
 	 */
-	public boolean getPdfIncludeCidSet() {
+	public boolean isIncludeCidSet() {
 		return this.includeFontCidSet;
 	}
 }
