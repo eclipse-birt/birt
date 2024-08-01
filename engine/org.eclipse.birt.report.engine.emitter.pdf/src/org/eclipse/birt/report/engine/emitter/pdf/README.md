@@ -63,6 +63,17 @@ The following list get an overview of all supported user properties, the content
 	Values     	file name with full path or list of file names
 	Default    	empty (null)
 
+
+**PdfEmitter.IncludeCidSet**
+
+	Content    	include the CIDSet stream of a font into the document
+	Location   	report
+	Data type  	boolean
+	Values     	true, CIDSet will be included
+	           	false, CIDSet won't be included
+	Default    	true
+	Since       	4.17
+
 **PdfEmitter.PDFA.FallbackFont**
 
 	Content    	fall back font to create the pdf/a document correctly,
