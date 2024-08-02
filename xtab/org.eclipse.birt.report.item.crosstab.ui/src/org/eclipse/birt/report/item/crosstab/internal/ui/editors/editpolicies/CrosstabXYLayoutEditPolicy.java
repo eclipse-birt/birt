@@ -14,12 +14,11 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies;
 
-import org.eclipse.draw2d.XYLayout;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableXYLayoutEditPolicy;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
@@ -27,16 +26,13 @@ import org.eclipse.gef.requests.CreateRequest;
  * Crosstable editpart layout police
  */
 
-public class CrosstabXYLayoutEditPolicy extends XYLayoutEditPolicy {
+public class CrosstabXYLayoutEditPolicy extends TableXYLayoutEditPolicy {
 
 	/**
 	 * Constructor
-	 *
-	 * @param layout
 	 */
-	public CrosstabXYLayoutEditPolicy(XYLayout layout) {
+	public CrosstabXYLayoutEditPolicy() {
 		super();
-		setXyLayout(layout);
 	}
 
 	/*
