@@ -65,7 +65,6 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -211,8 +210,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		});
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 
-		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new CrosstabXYLayoutEditPolicy((XYLayout) getContentPane().getLayoutManager()));
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new CrosstabXYLayoutEditPolicy());
 	}
 
 	/*
