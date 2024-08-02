@@ -49,7 +49,7 @@
 
 		<build.type>nightly</build.type>
 		<justj.tools.repo>https://download.eclipse.org/justj/tools/updates/nightly/latest</justj.tools.repo>
-		<justj.eclipse.repo>https://download.eclipse.org/releases/2023-03</justj.eclipse.repo>
+		<justj.eclipse.repo>https://download.eclipse.org/releases/latest</justj.eclipse.repo>
 		<org.eclipse.storage.user>genie.birt</org.eclipse.storage.user>
 		<org.eclipse.justj.p2.manager.args>-remote ${org.eclipse.storage.user}@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/birt</org.eclipse.justj.p2.manager.args>
 		<org.eclipse.justj.p2.manager.extra.args></org.eclipse.justj.p2.manager.extra.args>
