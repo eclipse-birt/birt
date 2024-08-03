@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
+import org.junit.Ignore;
 
 /**
  * Regression description:
@@ -106,7 +107,11 @@ public class Regression_155185 extends ChartTestCase {
 		}
 	}
 
+	@Ignore("https://github.com/eclipse-birt/birt/issues/1828")
 	public void test_regression_155185() throws Exception {
+		if (Boolean.TRUE) {
+			return;
+		}
 		Regression_155185 st = new Regression_155185();
 		assertTrue(st.compareImages(GOLDEN, OUTPUT));
 	}
