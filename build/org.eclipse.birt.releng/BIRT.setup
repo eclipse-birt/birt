@@ -539,8 +539,6 @@
         <repository
             url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
         <repository
-            url="https://download.eclipse.org/oomph/simrel-orbit-legacy/milestone/latest"/>
-        <repository
             url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
         <repository
             url="https://download.eclipse.org/datatools/updates/milestone/latest"/>

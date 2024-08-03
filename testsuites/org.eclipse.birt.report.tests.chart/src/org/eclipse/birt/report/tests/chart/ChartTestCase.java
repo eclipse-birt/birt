@@ -442,9 +442,11 @@ public class ChartTestCase extends TestCase {
 		if (result == null) {
 			return true;
 		}
-		ImageUtil.saveJPG(result, new File(outputFile + ".diff").getAbsolutePath());
+
+		// ImageUtil.saveJPG(result, new File(outputFile + ".diff").getAbsolutePath());
 
 		// Overwrite so we can compare the old and the new easily in the IDE.
+		System.err.println("saving>" + new File(goldenFile).getAbsolutePath());
 		Files.copy(Path.of(new File(outputFile).getAbsolutePath()), Path.of(new File(goldenFile).getAbsolutePath()),
 				StandardCopyOption.REPLACE_EXISTING);
 
