@@ -282,6 +282,7 @@ public class JDBCDriverManager {
 		try {
 			Driver driver = DriverManager.getDriver(url);
 			if (driver != null) {
+				removeUnsupportedConnectionProperties(driver, url, connectionProperties);
 				return driver.connect(url, connectionProperties);
 			}
 		} catch (SQLException e1) {
@@ -292,6 +293,7 @@ public class JDBCDriverManager {
 		}
 
 		try {
+			removeUnsupportedConnectionProperties(DriverManager.getDriver(url), url, connectionProperties);
 			return DriverManager.getConnection(url, connectionProperties);
 		} catch (SQLException e) {
 			try {
@@ -301,7 +303,9 @@ public class JDBCDriverManager {
 
 				Class dc = dl.loadClass(driverClass);
 				if (dc != null) {
-					Connection conn = ((Driver) dc.newInstance()).connect(url, connectionProperties);
+					Driver driver = (Driver) dc.newInstance();
+					removeUnsupportedConnectionProperties(driver, url, connectionProperties);
+					Connection conn = driver.connect(url, connectionProperties);
 					if (conn != null) {
 						return conn;
 					}
@@ -313,6 +317,31 @@ public class JDBCDriverManager {
 		}
 	}
 
+	/*
+	 * Remove unsupported properties from the connection properties
+     * based on the driver property information set
+	 */
+	private void removeUnsupportedConnectionProperties(Driver driver, String url, Properties connectionProperties) {
+		try {
+			DriverPropertyInfo[] supportedProperties = driver.getPropertyInfo(url, connectionProperties);
+			if (supportedProperties != null && connectionProperties != null) {
+				connectionProperties.keySet().removeIf(property -> {
+					String key = property.toString();
+					if ("password".equalsIgnoreCase(key) || "user".equalsIgnoreCase(key)) {
+						return false;
+					}
+					for (DriverPropertyInfo supportedProperty : supportedProperties) {
+						if (supportedProperty.name.equalsIgnoreCase(key)) {
+							return false;
+						}
+					}
+					return true;
+				});
+			}
+		} catch (SQLException e) {
+			// do nothing, standard handling
+		}
+	}
 	/**
 	 *
 	 * @param message
