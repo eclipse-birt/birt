@@ -18,7 +18,8 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.swt,
  org.eclipse.birt.chart.device.pdf,
  org.eclipse.birt.chart.device.swt,
- org.eclipse.birt.tests.core
+ org.eclipse.birt.tests.core,
+ org.apache.batik.transcoder
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.tests.chart
