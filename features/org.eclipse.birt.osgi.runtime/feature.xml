@@ -87,10 +87,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.birt.report.viewer"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.birt.report.engine.dataextraction"
          version="0.0.0"/>
 
@@ -120,10 +116,6 @@
 
    <plugin
          id="org.eclipse.birt.data.oda.mongodb"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.birt.data.oda.mongodb.ui"
          version="0.0.0"/>
 
    <plugin

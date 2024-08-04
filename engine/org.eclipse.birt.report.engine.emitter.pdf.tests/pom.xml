@@ -23,24 +23,4 @@
 	</parent>
 	<artifactId>org.eclipse.birt.report.engine.emitter.pdf.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
-<!--	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<dependency-resolution>
-						<extraRequirements>
-							<requirement>
-								<type>eclipse-feature</type>
-								<id>org.eclipse.birt.osgi.runtime</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>
-						</extraRequirements>
-					</dependency-resolution>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build> -->
 </project>
