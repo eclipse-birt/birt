@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="48">
+<target name="Generated from BIRT" sequenceNumber="49">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -64,7 +64,6 @@
       <unit id="org.apache.poi" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
-      <unit id="org.apache.xml.serializer" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
       <unit id="org.apache.xmlgraphics.fop-core" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.manager" version="0.0.0"/>
@@ -137,7 +136,7 @@
       <unit id="org.osgi.service.http.whiteboard" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
-      <unit id="slf4j.nop" version="0.0.0"/>
+      <unit id="slf4j.simple" version="0.0.0"/>
       <repository location="https://download.eclipse.org/eclipse/updates/4.33-I-builds"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>

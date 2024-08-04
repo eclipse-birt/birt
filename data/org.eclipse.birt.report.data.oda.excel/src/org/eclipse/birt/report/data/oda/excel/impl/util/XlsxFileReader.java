@@ -21,10 +21,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
+import org.apache.poi.util.XMLHelper;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStrings;
 import org.apache.poi.xssf.model.StylesTable;
@@ -36,12 +39,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class XlsxFileReader {
-	final static String PARSER_CLASS_NAME = "org.apache.xerces.parsers.SAXParser"; //$NON-NLS-1$
 	final static String ROW_LIMIT_REACHED_EX_MSG = "Row Limit Reached"; //$NON-NLS-1$
 
 	final private XSSFReader reader;
@@ -85,18 +86,14 @@ public class XlsxFileReader {
 
 	private XMLReader getXMLReader() throws SAXException {
 		try {
-			return XMLReaderFactory.createXMLReader();
-		} catch (SAXException e) {
-			try {
-				return (XMLReader) Class.forName(PARSER_CLASS_NAME).newInstance();
-			} catch (Exception e1) {
-				throw e;
-			}
+			return XMLHelper.newXMLReader();
+		} catch (ParserConfigurationException e) {
+			throw new SAXException(e);
 		}
 	}
 
-	private XMLReader fetchSheetParser(StylesTable st, SharedStrings sst, XlsxRowCallBack callback,
-			int xlsxRowsToRead) throws SAXException {
+	private XMLReader fetchSheetParser(StylesTable st, SharedStrings sst, XlsxRowCallBack callback, int xlsxRowsToRead)
+			throws SAXException {
 		XMLReader parser = getXMLReader();
 		ContentHandler handler = new SheetHandler(st, sst, callback, xlsxRowsToRead);
 		parser.setContentHandler(handler);

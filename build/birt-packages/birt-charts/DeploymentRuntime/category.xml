@@ -23,13 +23,7 @@
    <bundle id="org.apache.commons.commons-logging">
       <category name="ChartEngine"/>
    </bundle>
-   <bundle id="org.apache.xerces">
-      <category name="ChartEngine"/>
-   </bundle>
    <bundle id="org.apache.xml.resolver">
-      <category name="ChartEngine"/>
-   </bundle>
-   <bundle id="org.apache.xml.serializer">
       <category name="ChartEngine"/>
    </bundle>
    <bundle id="org.eclipse.emf.common">
