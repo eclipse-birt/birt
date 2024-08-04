@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.core.testhelper
 Bundle-Version: 4.17.0.qualifier
 Fragment-Host: org.eclipse.birt.core;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.junit;bundle-version="4.7.0";resolution:=optional;visibility:=reexport
+Require-Bundle: org.junit
 Bundle-ClassPath: .
 Export-Package: org.eclipse.birt.core.archive.compound,
  org.eclipse.birt.core.archive.cache
