@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.bson.Document;
 import org.bson.types.BSONTimestamp;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
@@ -703,7 +701,7 @@ public class MDbResultSet implements IResultSet {
 
 	private static Object tryConvertToBytes(String stringValue) {
 		try {
-			return DatatypeConverter.parseBase64Binary(stringValue);
+			return Base64.getDecoder().decode(stringValue);
 		} catch (Exception ex) {
 			// DatatypeConverter could be un-initialized,
 			// log and continue; note that Base64Codec#decode might be unavailable in some
@@ -718,12 +716,7 @@ public class MDbResultSet implements IResultSet {
 	}
 
 	private static String convertToString(byte[] value) {
-		try {
-			return DatatypeConverter.printBase64Binary(value);
-		} catch (Exception ex) {
-			// DatatypeConverter could be un-initialized; retry with Base64Codec
-			return (new String(Base64.getEncoder().encode(value)));
-		}
+		return Base64.getEncoder().encodeToString(value);
 	}
 
 	private static void logFetchedFirstElementFromArray(String columnName, int arraySize) {

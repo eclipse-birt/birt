@@ -453,7 +453,7 @@
         </detail>
         <detail
             key="extraUnits">
-          <value>org.eclipse.equinox.executable.feature.group,org.apache.xml.serializer</value>
+          <value>org.eclipse.equinox.executable.feature.group</value>
         </detail>
         <detail
             key="singleLocation">
