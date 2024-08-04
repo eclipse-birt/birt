@@ -61,16 +61,27 @@ import com.ibm.icu.util.ULocale;
  * getInstance() method to obtain an instance
  */
 public class JDBCDriverManager {
-	private static final int MAX_WORD_LENGTH = 20;
-	private static final int MAX_MSG_LENGTH = 300;
-
 	/** property: JDBC login user name */
 	public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
+
 	/** property: JDBC login password */
 	public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
 
+	private static final int MAX_WORD_LENGTH = 20;
+
+	private static final int MAX_MSG_LENGTH = 300;
+
 	private static final String INVALID_AUTH_SQL_STATE = "28000"; // X/Open SQL State //$NON-NLS-1$
+
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+	private static final String DRIVER_PROPERTY_VALIDATION = "birt.driver.property.validation.enabled"; //$NON-NLS-1$
+
+	private static final String DRIVER_PROPERTY_VALIDATION_EXCLUDED = "birt.driver.property.validation.excluded.drivers"; //$NON-NLS-1$
+
+	private boolean isDriverPropertyValidationEnabled = true;
+
+	private String excludedDriverForValidation;
 
 	// Driver classes that we have registered with JDBC DriverManager
 	private HashMap<String, Driver> registeredDrivers = new HashMap<>();
@@ -98,6 +109,8 @@ public class JDBCDriverManager {
 	private static Logger logger = Logger.getLogger(JDBCDriverManager.class.getName());
 
 	private JDBCDriverManager() {
+		evaluateDriverSystemEnvironment();
+
 		logger.logp(java.util.logging.Level.FINE, JDBCDriverManager.class.getName(), "JDBCDriverManager", //$NON-NLS-1$
 				"JDBCDriverManager starts up"); //$NON-NLS-1$
 	}
@@ -315,7 +328,7 @@ public class JDBCDriverManager {
 		try {
 			Driver driver = DriverManager.getDriver(url);
 			if (driver != null) {
-				removeUnsupportedConnectionProperties(driver, url, connectionProperties);
+				removeUnsupportedConnectionProperties(driver, driverClass, url, connectionProperties);
 				return driver.connect(url, connectionProperties);
 			}
 		} catch (SQLException e1) {
@@ -326,7 +339,7 @@ public class JDBCDriverManager {
 		}
 
 		try {
-			removeUnsupportedConnectionProperties(DriverManager.getDriver(url), url, connectionProperties);
+			removeUnsupportedConnectionProperties(DriverManager.getDriver(url), driverClass, url, connectionProperties);
 			return DriverManager.getConnection(url, connectionProperties);
 		} catch (SQLException e) {
 			try (
@@ -337,7 +350,7 @@ public class JDBCDriverManager {
 				if (dc != null) {
 					Constructor<?> constructor = dc.getConstructor();
 					Driver driver = (Driver) constructor.newInstance();
-					removeUnsupportedConnectionProperties(driver, url, connectionProperties);
+					removeUnsupportedConnectionProperties(driver, driverClass, url, connectionProperties);
 					Connection conn = driver.connect(url, connectionProperties);
 					if (conn != null) {
 						return conn;
@@ -350,35 +363,58 @@ public class JDBCDriverManager {
 		}
 	}
 
-	/*
-	 * Remove unsupported properties from the connection properties
-     * based on the driver property information set
+	/**
+	 * Remove unsupported properties from the connection properties based on the
+	 * driver property information set
 	 */
-	private void removeUnsupportedConnectionProperties(Driver driver, String url, Properties connectionProperties) {
-		try {
-			DriverPropertyInfo[] supportedProperties = driver.getPropertyInfo(url, connectionProperties);
-			if (supportedProperties != null && connectionProperties != null) {
-				connectionProperties.keySet().removeIf(property -> {
-					String key = property.toString();
-					if ("password".equalsIgnoreCase(key) || "user".equalsIgnoreCase(key)) {
-						return false;
-					}
-					for (DriverPropertyInfo supportedProperty : supportedProperties) {
-						if (supportedProperty.name.equalsIgnoreCase(key)) {
+	private void removeUnsupportedConnectionProperties(Driver driver, String driverClass, String url,
+			Properties connectionProperties) {
+
+		if (isDriverPropertyValidationEnabled && ((excludedDriverForValidation == null
+				|| !excludedDriverForValidation.toLowerCase().contains(driverClass.toLowerCase())))) {
+			try {
+				DriverPropertyInfo[] supportedProperties = driver.getPropertyInfo(url, connectionProperties);
+				if (supportedProperties != null && connectionProperties != null) {
+					connectionProperties.keySet().removeIf(property -> {
+						String key = property.toString();
+						// standard properties for login w/o validation
+						if ("password".equalsIgnoreCase(key) || "user".equalsIgnoreCase(key)) {
 							return false;
 						}
-					}
-					return true;
-				});
+						for (DriverPropertyInfo supportedProperty : supportedProperties) {
+							if (supportedProperty.name.equalsIgnoreCase(key)) {
+								return false;
+							}
+						}
+						return true;
+					});
+				}
+			} catch (SQLException e) {
+				// do nothing, standard handling
 			}
-		} catch (SQLException e) {
-			// do nothing, standard handling
 		}
 	}
+
 	/**
+	 * Evaluation of the system parameter to handle driver options
+	 */
+	private void evaluateDriverSystemEnvironment() {
+		String valueDriverPropertyValidation = System.getProperty(DRIVER_PROPERTY_VALIDATION);
+		String valueDriverExclusions = System.getProperty(DRIVER_PROPERTY_VALIDATION_EXCLUDED);
+
+		if (valueDriverPropertyValidation != null && valueDriverPropertyValidation.trim().length() > 0)
+			isDriverPropertyValidationEnabled = Boolean.parseBoolean(valueDriverPropertyValidation);
+
+		if (valueDriverExclusions != null
+				&& valueDriverExclusions.trim().length() > 0)
+			excludedDriverForValidation = valueDriverExclusions.trim();
+	}
+
+	/**
+	 * Truncate the message string according max length conditions
 	 *
 	 * @param message
-	 * @return
+	 * @return the truncated message
 	 */
 	private String truncate(String message) {
 		if (message == null) {
