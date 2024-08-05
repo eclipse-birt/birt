@@ -68,17 +68,16 @@
     </copy>
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
       <fileset dir="${ENGINE_DIR}/platform/plugins">
-        <include name="jakarta.xml.bind_*.jar"/>
+        <include name="jakarta.xml.bind-api_*.jar"/>
         <include name="javax.wsdl_*.jar"/>
-        <include name="org.apache.commons.logging_*.jar"/>
-      	<include name="org.apache.axis_*.jar"/>
+        <include name="org.apache.commons.commons-logging_*.jar"/>
+        <include name="org.apache.axis_*.jar"/>
         <include name="org.apache.commons.discovery_*.jar"/>
-      	<include name="jakarta.inject.jakarta.inject-api_*.jar"/>
-     	<include name="javax.xml.soap_*.jar"/>
-        <include name="javax.xml.soap_*/lib/*.jar"/>
+        <include name="jakarta.inject.jakarta.inject-api_*.jar"/>
+        <include name="jakarta.xml.soap-api_*.jar"/>
       </fileset>
       <fileset dir="${REPOSITORY_DIR}/plugins">
-     	<include name="javax.xml.soap_*.jar"/>
+        <include name="jakarta.xml.soap-api_*.jar"/>
       </fileset>
       <flattenmapper/>
     </copy>
