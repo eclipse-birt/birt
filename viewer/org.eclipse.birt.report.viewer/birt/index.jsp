@@ -45,8 +45,8 @@
 			}
 		</style>
 	<%
-		String viewerVersion = "4.16.0.qualifier";
-		String engineVersion = "4.16.0.qualifier";
+		String viewerVersion = "4.17.0";
+		String engineVersion = "4.17.0";
 
 		String javaVersion	= System.getProperty("java.version");
 		String javaVendor	= System.getProperty("java.vendor");
