@@ -18,13 +18,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.ListValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Converting HTML tag to style
+ *
+ * @since 3.3
+ *
+ */
 public abstract class Tag2Style implements HTMLConstants {
 
 	abstract void process(Element ele, StyleProperties sp);
@@ -40,36 +48,36 @@ public abstract class Tag2Style implements HTMLConstants {
 
 	protected void setHStyle(IStyle style, float fontSize, float margin) {
 		setMarginTopAndBottom(style, margin);
-		setProperty(style, IStyle.STYLE_FONT_SIZE, createEmValue(fontSize));
-		setProperty(style, IStyle.STYLE_FONT_WEIGHT, IStyle.BOLD_VALUE);
-		setProperty(style, IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.AVOID_VALUE);
+		setProperty(style, StyleConstants.STYLE_FONT_SIZE, createEmValue(fontSize));
+		setProperty(style, StyleConstants.STYLE_FONT_WEIGHT, CSSValueConstants.BOLD_VALUE);
+		setProperty(style, StyleConstants.STYLE_PAGE_BREAK_AFTER, CSSValueConstants.AVOID_VALUE);
 	}
 
 	protected void setMarginTopAndBottom(IStyle style, float margin) {
-		setProperty(style, IStyle.STYLE_MARGIN_TOP, createEmValue(margin));
-		setProperty(style, IStyle.STYLE_MARGIN_BOTTOM, createEmValue(margin));
+		setProperty(style, StyleConstants.STYLE_MARGIN_TOP, createEmValue(margin));
+		setProperty(style, StyleConstants.STYLE_MARGIN_BOTTOM, createEmValue(margin));
 	}
 
 	protected void setFontFamily(IStyle style, Value font) {
 		ListValue fonts = new ListValue();
 		fonts.append(font);
-		setProperty(style, IStyle.STYLE_FONT_FAMILY, fonts);
+		setProperty(style, StyleConstants.STYLE_FONT_FAMILY, fonts);
 	}
 
 	protected void setFontStyle(IStyle style, Value fontStyle) {
-		setProperty(style, IStyle.STYLE_FONT_STYLE, fontStyle);
+		setProperty(style, StyleConstants.STYLE_FONT_STYLE, fontStyle);
 	}
 
 	protected void setFontWeight(IStyle style, Value fontWeight) {
-		setProperty(style, IStyle.STYLE_FONT_WEIGHT, fontWeight);
+		setProperty(style, StyleConstants.STYLE_FONT_WEIGHT, fontWeight);
 	}
 
 	protected void setInlineDisplay(IStyle style) {
-		setProperty(style, IStyle.STYLE_DISPLAY, IStyle.INLINE_VALUE);
+		setProperty(style, StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
 	}
 
 	protected void setBlockDisplay(IStyle style) {
-		setProperty(style, IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE);
+		setProperty(style, StyleConstants.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
 	}
 
 	protected void processProperites(String[] properties, Element ele, StyleProperties sp) {
@@ -81,7 +89,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontStyle(sp.getStyle(), IStyle.ITALIC_VALUE);
+				setFontStyle(sp.getStyle(), CSSValueConstants.ITALIC_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -101,7 +109,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontWeight(sp.getStyle(), IStyle.BOLD_VALUE);
+				setFontWeight(sp.getStyle(), CSSValueConstants.BOLD_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -118,7 +126,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontFamily(sp.getStyle(), IStyle.MONOSPACE_VALUE);
+				setFontFamily(sp.getStyle(), CSSValueConstants.MONOSPACE_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -126,7 +134,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontStyle(sp.getStyle(), IStyle.ITALIC_VALUE);
+				setFontStyle(sp.getStyle(), CSSValueConstants.ITALIC_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -158,7 +166,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_UNDERLINE, IStyle.UNDERLINE_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_UNDERLINE, CSSValueConstants.UNDERLINE_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -179,7 +187,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 					@Override
 					public void process(Element ele, StyleProperties sp) {
-						setFontWeight(sp.getStyle(), IStyle.BOLD_VALUE);
+						setFontWeight(sp.getStyle(), CSSValueConstants.BOLD_VALUE);
 						setInlineDisplay(sp.getStyle());
 					}
 				});
@@ -188,8 +196,8 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_VERTICAL_ALIGN, IStyle.BOTTOM_VALUE);
-				setProperty(sp.getStyle(), IStyle.STYLE_FONT_SIZE, createPercentageValue(75));
+				setProperty(sp.getStyle(), StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.BOTTOM_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_FONT_SIZE, createPercentageValue(75));
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -198,8 +206,8 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_VERTICAL_ALIGN, IStyle.TOP_VALUE);
-				setProperty(sp.getStyle(), IStyle.STYLE_FONT_SIZE, createPercentageValue(75));
+				setProperty(sp.getStyle(), StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_FONT_SIZE, createPercentageValue(75));
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -208,7 +216,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontFamily(sp.getStyle(), IStyle.MONOSPACE_VALUE);
+				setFontFamily(sp.getStyle(), CSSValueConstants.MONOSPACE_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -217,7 +225,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_UNDERLINE, IStyle.UNDERLINE_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_UNDERLINE, CSSValueConstants.UNDERLINE_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -225,7 +233,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_LINETHROUGH, CSSValueConstants.LINE_THROUGH_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -234,7 +242,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_LINETHROUGH, CSSValueConstants.LINE_THROUGH_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -242,7 +250,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_LINETHROUGH, IStyle.LINE_THROUGH_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_LINETHROUGH, CSSValueConstants.LINE_THROUGH_VALUE);
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -251,7 +259,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_FONT_SIZE, createPercentageValue(200));
+				setProperty(sp.getStyle(), StyleConstants.STYLE_FONT_SIZE, createPercentageValue(200));
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -260,7 +268,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_FONT_SIZE, createPercentageValue(50));
+				setProperty(sp.getStyle(), StyleConstants.STYLE_FONT_SIZE, createPercentageValue(50));
 				setInlineDisplay(sp.getStyle());
 			}
 		});
@@ -403,7 +411,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontFamily(sp.getStyle(), IStyle.MONOSPACE_VALUE);
+				setFontFamily(sp.getStyle(), CSSValueConstants.MONOSPACE_VALUE);
 				setBlockDisplay(sp.getStyle());
 			}
 		});
@@ -428,7 +436,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setFontStyle(sp.getStyle(), IStyle.ITALIC_VALUE);
+				setFontStyle(sp.getStyle(), CSSValueConstants.ITALIC_VALUE);
 				setBlockDisplay(sp.getStyle());
 			}
 		});
@@ -445,7 +453,7 @@ public abstract class Tag2Style implements HTMLConstants {
 
 			@Override
 			public void process(Element ele, StyleProperties sp) {
-				setProperty(sp.getStyle(), IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE);
+				setProperty(sp.getStyle(), StyleConstants.STYLE_TEXT_ALIGN, CSSValueConstants.CENTER_VALUE);
 				setBlockDisplay(sp.getStyle());
 			}
 		});
@@ -499,14 +507,32 @@ public abstract class Tag2Style implements HTMLConstants {
 
 	}
 
+	/**
+	 * Get the style
+	 *
+	 * @param tagName tag name
+	 * @return the style
+	 */
 	public static Tag2Style getStyleProcess(String tagName) {
-		return (Tag2Style) tag2Style.get(tagName);
+		return tag2Style.get(tagName);
 	}
 
+	/**
+	 * Create an EM value
+	 *
+	 * @param value the EM value
+	 * @return the EM value
+	 */
 	public static FloatValue createEmValue(float value) {
 		return createFloatValue(CSSPrimitiveValue.CSS_EMS, value);
 	}
 
+	/**
+	 * Create a percentage value
+	 *
+	 * @param value percentage value
+	 * @return the percentage value
+	 */
 	public static FloatValue createPercentageValue(float value) {
 		return createFloatValue(CSSPrimitiveValue.CSS_PERCENTAGE, value);
 	}

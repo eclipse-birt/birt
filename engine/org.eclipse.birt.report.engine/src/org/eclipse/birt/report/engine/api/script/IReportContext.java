@@ -34,33 +34,37 @@ import com.ibm.icu.util.TimeZone;
  * properties.
  */
 public interface IReportContext {
+	/** property: page label */
 	String PAGE_VAR_PAGE_LABEL = "pageLabel";
 
 	/**
 	 * return the report runnable used to create/render this report
 	 *
-	 * @return
+	 * @return the report runnable used to create/render this report
 	 */
 	IReportRunnable getReportRunnable();
 
 	/**
+	 * Get the parameter value
 	 *
-	 * @param name
-	 * @return
+	 * @param name parameter name
+	 * @return the parameter value
 	 */
 	Object getParameterValue(String name);
 
 	/**
+	 * Set the parameter value
 	 *
-	 * @param name
-	 * @param value
+	 * @param name  parameter name
+	 * @param value object value
 	 */
 	void setParameterValue(String name, Object value);
 
 	/**
+	 * Get the display text
 	 *
-	 * @param name
-	 * @return
+	 * @param name parameter name
+	 * @return the display text
 	 */
 	Object getParameterDisplayText(String name);
 
@@ -72,38 +76,44 @@ public interface IReportContext {
 	void setParameterDisplayText(String name, String value);
 
 	/**
+	 * Get the locale
 	 *
-	 * @return
+	 * @return the locale
 	 */
 	Locale getLocale();
 
 	/**
-	 * Get time zone informations.
+	 * Get the time zone informations
 	 *
-	 * @return
+	 * @return the time zone informations
 	 */
 	TimeZone getTimeZone();
 
 	/**
+	 * Get the output format
 	 *
-	 * @return
+	 * @return the output format
 	 */
 	String getOutputFormat();
 
 	/**
-	 * get the render options used to render the report.
+	 * Get the render options used to render the report.
 	 *
-	 * @return
+	 * @return the render options used to render the report.
 	 */
 	IRenderOption getRenderOption();
 
 	/**
 	 * Get the application context
+	 *
+	 * @return the application context
 	 */
 	Map getAppContext();
 
 	/**
-	 * Get the http servlet request object
+	 * Get the HTTP servlet request object
+	 *
+	 * @return the HTTP servlet request object
 	 *
 	 */
 	Object getHttpServletRequest();
@@ -111,37 +121,65 @@ public interface IReportContext {
 	/**
 	 * Add the object to runtime scope. This object can only be retrieved in the
 	 * same phase, i.e. it is not persisted between generation and presentation.
+	 *
+	 * @param name name of the global variable
+	 * @param obj  object value
 	 */
 	void setGlobalVariable(String name, Object obj);
 
 	/**
 	 * Remove an object from runtime scope.
+	 *
+	 * @param name variable name
 	 */
 	void deleteGlobalVariable(String name);
 
 	/**
-	 * Retireve an object from runtime scope.
+	 * Get the value of the global variable
+	 *
+	 * @param name variable name
+	 * @return the value of the global variable
 	 */
 	Object getGlobalVariable(String name);
 
 	/**
 	 * Add the object to report document scope. This object can be retrieved later.
 	 * It is persisted between phases, i.e. between generation and presentation.
+	 *
+	 * @param name variable name
+	 * @param obj  object value
 	 */
 	void setPersistentGlobalVariable(String name, Serializable obj);
 
 	/**
 	 * Remove an object from report document scope.
+	 *
+	 * @param name variable name
 	 */
 	void deletePersistentGlobalVariable(String name);
 
 	/**
-	 * Retireve an object from report document scope.
+	 * Retrieve an object from report document scope.
+	 *
+	 * @param name variable name
+	 * @return the global variable value
 	 */
 	Object getPersistentGlobalVariable(String name);
 
+	/**
+	 * Get the page variable
+	 *
+	 * @param name variable name
+	 * @return the page variable
+	 */
 	Object getPageVariable(String name);
 
+	/**
+	 * Set the page variable
+	 *
+	 * @param name  variable name
+	 * @param value object value
+	 */
 	void setPageVariable(String name, Object value);
 
 	/**
@@ -235,20 +273,20 @@ public interface IReportContext {
 	String getResourceRenderURL(String resourceName);
 
 	/**
-	 * evaluate the script with default script language.
+	 * Evaluate the script with default script language.
 	 *
-	 * @param script
-	 * @return
+	 * @param script script to be evaluated
+	 * @return the evaluated script
 	 * @throws BirtException
 	 */
 	Object evaluate(String script) throws BirtException;
 
 	/**
-	 * evaluate the script with specified script language.
+	 * Evaluate the script with specified script language.
 	 *
 	 * @param language
-	 * @param script
-	 * @return
+	 * @param script   script to be evaluated
+	 * @return the evaluated script
 	 * @throws BirtException
 	 */
 	Object evaluate(String language, String script) throws BirtException;
@@ -256,14 +294,14 @@ public interface IReportContext {
 	/**
 	 * Evaluate the script.
 	 *
-	 * @param script
-	 * @return
+	 * @param script script to be evaluated
+	 * @return the evaluated script
 	 * @throws BirtException
 	 */
 	Object evaluate(Expression script) throws BirtException;
 
 	/**
-	 * get the application classLoader of the current report context
+	 * Get the application classLoader of the current report context
 	 *
 	 * @return application classLoader
 	 */
@@ -275,15 +313,17 @@ public interface IReportContext {
 	void cancel();
 
 	/**
-	 * cancel the current engine task
+	 * Cancel the current engine task
+	 *
+	 * @param reason cancellation reason
 	 */
 	void cancel(String reason);
 
 	/**
-	 * check if the report document generation is finished. It should be used at
+	 * Check if the report document generation is finished. It should be used at
 	 * render time. The default value is false
 	 *
-	 * @return
+	 * @return true, if the report document is finished
 	 */
 	boolean isReportDocumentFinished();
 }
