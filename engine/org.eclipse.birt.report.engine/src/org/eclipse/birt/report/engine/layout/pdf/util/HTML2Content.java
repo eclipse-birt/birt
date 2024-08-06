@@ -908,22 +908,22 @@ public class HTML2Content implements HTMLConstants {
 		if (CSSValueConstants.INLINE_VALUE.equals(display)) {
 
 			Iterator<IContent> iter = content.getChildren().iterator();
-			ArrayList contentChildren = new ArrayList();
+			ArrayList<IContent> contentChildren = new ArrayList<IContent>();
 			IContainerContent clonedBlock = null;
 			while (iter.hasNext()) {
-				IContent child = (IContent) iter.next();
+				IContent child = iter.next();
 				boolean isContainer = child.getChildren().size() > 0;
 				if (isContainer) {
 					formalizeInlineContainer(contentChildren, content, child);
 				}
 				if (clonedBlock == null) {
-					CSSValue childDisplay = child.getStyle().getProperty(IStyle.STYLE_DISPLAY);
+					CSSValue childDisplay = child.getStyle().getProperty(StyleConstants.STYLE_DISPLAY);
 					if (CSSValueConstants.BLOCK_VALUE.equals(childDisplay)) {
 						IReportContent report = content.getReportContent();
 						clonedBlock = report.createContainerContent();
 						IStyle clonedStyle = report.createStyle();
 						clonedStyle.setProperties(content.getStyle());
-						clonedStyle.setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
+						clonedStyle.setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
 						clonedBlock.setInlineStyle(clonedStyle);
 						clonedBlock.getChildren().add(child);
 					} else if (!isContainer) {
@@ -947,10 +947,10 @@ public class HTML2Content implements HTMLConstants {
 				parentChildren.add(clonedBlock);
 			}
 		} else {
-			Iterator iter = content.getChildren().iterator();
-			ArrayList newChildren = new ArrayList();
+			Iterator<IContent> iter = content.getChildren().iterator();
+			ArrayList<IContent> newChildren = new ArrayList<IContent>();
 			while (iter.hasNext()) {
-				IContent child = (IContent) iter.next();
+				IContent child = iter.next();
 				boolean isContainer = child.getChildren().size() > 0;
 				if (isContainer) {
 					formalizeInlineContainer(newChildren, content, child);
@@ -968,6 +968,11 @@ public class HTML2Content implements HTMLConstants {
 		}
 	}
 
+	/**
+	 * Main method
+	 *
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		/*
 		 * ReportContent report = new ReportContent( ); IContent root =
@@ -1006,25 +1011,24 @@ public class HTML2Content implements HTMLConstants {
 		IContent inlineContent = createInlineContent(report);
 		inline.getChildren().add(inlineContent);
 		inline.getChildren().add(createBlockContent(report));
-		ArrayList list = new ArrayList();
+		ArrayList<IContent> list = new ArrayList<IContent>();
 
 		formalizeInlineContainer(list, root, inline);
 		root.getChildren().clear();
 		if (list.size() > 0) {
 			root.getChildren().addAll(list);
 		}
-		int i = 0;
 	}
 
 	protected static IContent createInlineContent(ReportContent report) {
 		IContent content = report.createContainerContent();
-		content.getStyle().setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
+		content.getStyle().setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.INLINE_VALUE);
 		return content;
 	}
 
 	protected static IContent createBlockContent(ReportContent report) {
 		IContent content = report.createContainerContent();
-		content.getStyle().setProperty(IStyle.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
+		content.getStyle().setProperty(StyleConstants.STYLE_DISPLAY, CSSValueConstants.BLOCK_VALUE);
 		return content;
 	}
 

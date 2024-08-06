@@ -59,7 +59,7 @@ public class HTMLStyleProcessor {
 	/**
 	 * Constructor
 	 *
-	 * @param context the execution context
+	 * @param report  report design handle
 	 */
 	public HTMLStyleProcessor(ReportDesignHandle report) {
 		// Takes the zero-length string as parameter just for keeping to the
@@ -70,7 +70,7 @@ public class HTMLStyleProcessor {
 
 	protected void processBackgroundImage(IStyle style, Map context) {
 		if (style != null) {
-			CSSValue value = (CSSValue) style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE);
+			CSSValue value = style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE);
 			if (value instanceof URIValue) {
 				String bgi = ((URIValue) value).getStringValue();
 				if ((null != bgi) && (!"".equals(bgi))) //$NON-NLS-1$
@@ -88,14 +88,8 @@ public class HTMLStyleProcessor {
 							// bgi = "url(" + bgi + ")"; //$NON-NLS-1$//$NON-NLS-2$
 						}
 					}
-					if (bgi != null) {
-						// Puts the modified URI of the resource
-						style.setBackgroundImage(bgi);
-					} else {
-						// If the resource does not exist, then removes this
-						// item.
-						style.removeProperty("background-image"); //$NON-NLS-1$
-					}
+					// Puts the modified URI of the resource
+					style.setBackgroundImage(bgi);
 				}
 			}
 		}
@@ -115,8 +109,9 @@ public class HTMLStyleProcessor {
 	 * element node in HTML 4.0, and calls it on its children element nodes
 	 * recursively
 	 *
-	 * @param ele  the element node in the DOM tree
-	 * @param text the text content object
+	 * @param ele     the element node in the DOM tree
+	 * @param styles  element map and the according style properties
+	 * @param context the text content object
 	 */
 	public void execute(Element ele, HashMap<Element, StyleProperties> styles, Map context) {
 
