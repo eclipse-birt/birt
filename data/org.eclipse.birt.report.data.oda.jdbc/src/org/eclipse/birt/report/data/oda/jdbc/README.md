@@ -3,11 +3,11 @@ Introduction to use the configuration for the JDBC driver manager.
 
 ## Reason
 The JDBC driver manager handle the load process of the configured JDBC database driver.
-Each driver use an own set of supported connection properties to handle the communication to there database.
+Each driver use an own set of supported connection properties to handle the communication with the database.
 
 BIRT supports a standard set of connection properties which will be exchanged to the JDBC driver.
 The driver which fulfill the requirements of Oracle Database Appliance (ODA) will support all BIRT connection properties.
-But a qualified JDBC driver must not support all of these properties e.g. the BiDi support.
+For a qualified JDBC driver it isn't required to fulfill the ODA requirements or support all of these properties (e.g. the BiDi support).
 
 For this reason BIRT validate the driver information to exchange only the supported connection properties to the driver.
 The driver validation can be configured with 2 options at JVM level.
