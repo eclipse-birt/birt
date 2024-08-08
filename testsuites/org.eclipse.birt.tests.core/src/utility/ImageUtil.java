@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.GrayFilter;
 
+import org.eclipse.core.runtime.Platform;
+
 /*
  * Perform operations on images and image files: read, save, compare etc.
  */
@@ -183,6 +185,13 @@ public class ImageUtil {
 	 */
 	public static Image loadImageFromFile(String filename) throws IOException {
 		return ImageIO.read(new File(filename));
+	}
+
+	/**
+	 * @see https://github.com/eclipse-birt/birt/issues/1828
+	 */
+	public static boolean isRenderingTestApplicable() {
+		return !Platform.getOS().equals(Platform.WS_WIN32) || Boolean.getBoolean("birt.rendering.tests.enabled");
 	}
 
 	public static void main(String[] args) throws IOException {

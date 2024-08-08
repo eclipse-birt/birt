@@ -47,9 +47,10 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
-import org.junit.Ignore;
 
 import com.ibm.icu.util.ULocale;
+
+import utility.ImageUtil;
 
 /**
  * Regression description:
@@ -128,9 +129,8 @@ public class Regression_134309 extends ChartTestCase {
 		ULocale.setDefault(new ULocale("en_US"));
 	}
 
-	@Ignore("https://github.com/eclipse-birt/birt/issues/1828")
 	public void test_regression_134309() throws Exception {
-		if (Boolean.TRUE) {
+		if (!ImageUtil.isRenderingTestApplicable()) {
 			return;
 		}
 		Regression_134309 st = new Regression_134309();
