@@ -26,7 +26,6 @@ import java.util.Map;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
-import org.junit.Ignore;
 
 import junit.framework.TestCase;
 import utility.ImageUtil;
@@ -59,10 +58,9 @@ public class ImageOutputBaseTest extends TestCase {
 	}
 
 	@Override
-	@Ignore("https://github.com/eclipse-birt/birt/issues/1828")
 	public void runTest() throws Throwable {
 
-		if (Boolean.TRUE) {
+		if (!ImageUtil.isRenderingTestApplicable()) {
 			return;
 		}
 

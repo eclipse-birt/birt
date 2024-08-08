@@ -47,7 +47,8 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
-import org.junit.Ignore;
+
+import utility.ImageUtil;
 
 /**
  * Regression description:
@@ -120,9 +121,8 @@ public class Regression_137166 extends ChartTestCase {
 		}
 	}
 
-	@Ignore("https://github.com/eclipse-birt/birt/issues/1828")
 	public void test_regression_137166() throws Exception {
-		if (Boolean.TRUE) {
+		if (!ImageUtil.isRenderingTestApplicable()) {
 			return;
 		}
 		Regression_137166 st = new Regression_137166();
