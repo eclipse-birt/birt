@@ -288,4 +288,49 @@ public interface IInternalReportDesignModel {
 	 */
 	String EXCEL_TEMPLATE_FILE = "excelTemplateFile"; //$NON-NLS-1$
 
+	/**
+	 * PDF option, version number
+	 */
+	String PDF_VERSION = "pdfVersion"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, conformance
+	 */
+	String PDF_CONFORMANCE = "pdfConformance"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, ICC color type profile (RGB/CMYK)
+	 */
+	String PDF_ICC_COLOR_TYPE = "pdfIccColorType"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, ICC external color profile file
+	 */
+	String PDF_ICC_PROFILE_EXTERNAL = "pdfIccProfileExternal"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, prepend document(s)
+	 */
+	String PDF_DOCUMENTS_PREPEND = "pdfDocuemntPrepend"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, append document(s)
+	 */
+	String PDF_DOCUMENTS_APPEND = "pdfDocuemntAppend"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, PDF/A fallback font
+	 */
+	String PDFA_FONT_FALLBACK = "pdfaFontFallback"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, PDF/A embed CIDSet font stream
+	 */
+	String PDF_FONT_CID_SET = "pdfaFontCidEmbed"; //$NON-NLS-1$
+
+	/**
+	 * PDF option, PDF/A embed document title
+	 */
+	String PDFA_DOCUMENT_EMBED_TITLE = "pdfaDocumentTitleEmbed"; //$NON-NLS-1$
+
 }

@@ -247,92 +247,90 @@ public class PDFPageDevice implements IPageDevice {
 			// append to the end.
 			// this is where we will test the merge
 			List<InputStream> pdfs = new ArrayList<>();
+			Object listObject;
 
 			// added null check
-			if (userProperties != null) {
-				Object listObject = userProperties.get(PDFPageDevice.PREPEND_PROPERTY_NAME);
-				if (userProperties.containsKey(PDFPageDevice.PDF_PREPEND_DOCUMENTS)) {
-					listObject = userProperties.get(PDFPageDevice.PDF_PREPEND_DOCUMENTS);
+			if (userProperties != null && userProperties.containsKey(PDFPageDevice.PREPEND_PROPERTY_NAME)) {
+				listObject = userProperties.get(PDFPageDevice.PREPEND_PROPERTY_NAME);
+			} else if (userProperties != null && userProperties.containsKey(PDFPageDevice.PDF_PREPEND_DOCUMENTS)) {
+				listObject = userProperties.get(PDFPageDevice.PDF_PREPEND_DOCUMENTS);
+			} else {
+				listObject = Expression.newConstant(-1,
+						(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_PREPEND_DOCUMENTS));
+			}
+
+			if (listObject != null) {
+				Expression exp = (Expression) listObject;
+
+				Object result = context.evaluate(exp);
+				// there are two options here. 1 is the user property "AppendList" is a
+				// comma-seperated
+				// string list. If so, check that it is a String, and split it.
+				if (result instanceof String) {
+					String list = (String) result;
+					// check that the report variable AppendList is set, and actually has value
+					if (list != null) {
+						if (list.length() > 0) {
+							// iterate over the list, and create a file inputstream for each file location.
+							for (String s : list.split(",")) {
+								// If there is an exception creating the input stream, don't stop execution.
+								// Just graceffully let the user know that there was an error with the variable.
+								try {
+									String fileName = s.trim().replace("\\", "\\\\");
+									File f = new File(fileName);
+									if (f.exists()) {
+										FileInputStream fis = new FileInputStream(f);
+										pdfs.add(fis);
+									} else {
+										// get the file using context.getResource() for relative or universal paths
+										URL url = context.getResource(fileName);
+										InputStream is = new BufferedInputStream(url.openStream());
+										pdfs.add(is);
+									}
+								} catch (Exception e) {
+									logger.log(Level.WARNING, e.getMessage(), e);
+								}
+							}
+						}
+					}
 				}
 
-				if (listObject != null) {
-					Expression exp = (Expression) listObject;
-
-					Object result = context.evaluate(exp);
-					// there are two options here. 1 is the user property "AppendList" is a
-					// comma-seperated
-					// string list. If so, check that it is a String, and split it.
-					if (result instanceof String) {
-						String list = (String) result;
-
-						// check that the report variable AppendList is set, and actually has value
-						if (list != null) {
-							if (list.length() > 0) {
-								// iterate over the list, and create a fileinputstream for each file location.
-								for (String s : list.split(",")) {
-									// If there is an exception creating the input stream, don't stop execution.
-									// Just graceffully let the user know that there was an error with the variable.
-									try {
-										String fileName = s.trim();
-
-										File f = new File(fileName);
-
-										if (f.exists()) {
-											FileInputStream fis = new FileInputStream(f);
-
-											pdfs.add(fis);
-										} else {
-											// get the file using context.getResource() for relative or universal paths
-											URL url = context.getResource(fileName);
-											InputStream is = new BufferedInputStream(url.openStream());
-											pdfs.add(is);
-										}
-									} catch (Exception e) {
-										logger.log(Level.WARNING, e.getMessage(), e);
-									}
-								}
-							}
-						}
-					}
-
-					// The other is a "Named Expression", which is basically a user property that is
-					// the result
-					// of an expression instead of a string literal. This should be set as an
-					// arraylist through
-					// BIRT script
-					if (result instanceof ArrayList) {
-						ArrayList<String> pdfList = (ArrayList<String>) result;
-
+				// The other is a "Named Expression", which is basically a user property that is
+				// the result
+				// of an expression instead of a string literal. This should be set as an
+				// arraylist through
+				// BIRT script
+				if (result instanceof ArrayList) {
+					ArrayList<String> pdfList = (ArrayList<String>) result;
 						for (String fileName : pdfList) {
-							// If there is an exception creating the input stream, don't stop execution.
-							// Just graceffully let the user know that there was an error with the variable.
-							try {
-								File f = new File(fileName);
+						// If there is an exception creating the input stream, don't stop execution.
+						// Just graceffully let the user know that there was an error with the variable.
+						fileName = fileName.replace("\\", "\\\\");
+						try {
+							File f = new File(fileName);
 
-								if (f.exists()) {
-									FileInputStream fis = new FileInputStream(f);
-
-									pdfs.add(fis);
-								} else {
-									// get the file using context.getResource() for relative or universal paths
-									URL url = context.getResource(fileName);
-									InputStream is = new BufferedInputStream(url.openStream());
-									pdfs.add(is);
-								}
-							} catch (Exception e) {
-								logger.log(Level.WARNING, e.getMessage(), e);
+							if (f.exists()) {
+								FileInputStream fis = new FileInputStream(f);
+								pdfs.add(fis);
+							} else {
+								// get the file using context.getResource() for relative or universal paths
+								URL url = context.getResource(fileName);
+								InputStream is = new BufferedInputStream(url.openStream());
+								pdfs.add(is);
 							}
+						} catch (Exception e) {
+							logger.log(Level.WARNING, e.getMessage(), e);
 						}
 					}
+				}
 
-					// check size of PDFs to make sure we aren't calling this on a 0 size array
-					if (pdfs.size() > 0) {
-						// this hasn't been initialized yet, open the doc
-						if (!this.doc.isOpen()) {
-							this.doc.open();
-						}
-						concatPDFs(pdfs, false);
+				// check size of PDFs to make sure we aren't calling this on a 0 size array
+				if (pdfs.size() > 0) {
+					// this hasn't been initialized yet, open the doc
+					if (!this.doc.isOpen()) {
+						this.doc.open();
 					}
+					concatPDFs(pdfs, false);
 				}
 			}
 			// End Modification
@@ -417,87 +415,85 @@ public class PDFPageDevice implements IPageDevice {
 		List<InputStream> pdfs = new ArrayList<>();
 
 		Map<String, Expression> userProperties = report.getDesign().getUserProperties();
+		Object listObject;
 
 		// added null check
-		if (userProperties != null) {
-			Object listObject = userProperties.get(PDFPageDevice.APPEND_PROPERTY_NAME);
-			if (userProperties.containsKey(PDFPageDevice.PDF_APPEND_DOCUMENTS)) {
-				listObject = userProperties.get(PDFPageDevice.PDF_APPEND_DOCUMENTS);
-			}
+		if (userProperties != null && userProperties.containsKey(PDFPageDevice.APPEND_PROPERTY_NAME)) {
+			listObject = userProperties.get(PDFPageDevice.APPEND_PROPERTY_NAME);
+		} else if (userProperties != null && userProperties.containsKey(PDFPageDevice.PDF_APPEND_DOCUMENTS)) {
+			listObject = userProperties.get(PDFPageDevice.PDF_APPEND_DOCUMENTS);
+		} else {
+			listObject = Expression.newConstant(-1,
+					(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_APPEND_DOCUMENTS));
+		}
 
-			if (listObject != null) {
-				Expression exp = (Expression) listObject;
+		if (listObject != null) {
+			Expression exp = (Expression) listObject;
 
-				Object result = context.evaluate(exp);
-				// 2 options to append pdf
-				// option 1: is the user property "AppendList" is a comma-seperated string list
-				// If so, check that it is a String, and split it.
-				if (result instanceof String) {
-					String list = (String) result;
-
-					// check that the report variable AppendList is set, and actually has value
-					if (list != null) {
-						if (list.length() > 0) {
-							// iterate over the list, and create a fileinputstream for each file location.
-							for (String s : list.split(",")) {
-								// If there is an exception creating the input stream, don't stop execution.
-								// Just graceffully let the user know that there was an error with the variable.
-								try {
-									String fileName = s.trim();
-
+			Object result = context.evaluate(exp);
+			// 2 options to append pdf
+			// option 1: is the user property "AppendList" is a comma-seperated string list
+			// If so, check that it is a String, and split it.
+			if (result instanceof String) {
+				String list = (String) result;
+				// check that the report variable AppendList is set, and actually has value
+				if (list != null) {
+					if (list.length() > 0) {
+						// iterate over the list, and create a fileinputstream for each file location.
+						for (String s : list.split(",")) {
+							// If there is an exception creating the input stream, don't stop execution.
+							// Just graceffully let the user know that there was an error with the variable.
+							try {
+								String fileName = s.trim().replace("\\", "\\\\");
+								;
 									File f = new File(fileName);
-
 									if (f.exists()) {
 										FileInputStream fis = new FileInputStream(f);
-
 										pdfs.add(fis);
 									} else {
 										// get the file using context.getResource() for relative or universal paths
 										URL url = context.getResource(fileName);
 										InputStream is = new BufferedInputStream(url.openStream());
 										pdfs.add(is);
-									}
+								}
 								} catch (Exception e) {
 									logger.log(Level.WARNING, e.getMessage(), e);
-								}
 							}
 						}
 					}
 				}
+			}
 
-				// option 2: "Named Expression", which is basically a user property that is the
-				// result of an expression instead of a string literal. This should be set as an
-				// arraylist through
-				// BIRT script
-				if (result instanceof ArrayList) {
-					ArrayList<String> pdfList = (ArrayList<String>) result;
+			// option 2: "Named Expression", which is basically a user property that is the
+			// result of an expression instead of a string literal. This should be set as an
+			// arraylist through
+			// BIRT script
+			if (result instanceof ArrayList) {
+				ArrayList<String> pdfList = (ArrayList<String>) result;
 
-					for (String fileName : pdfList) {
-						// If there is an exception creating the input stream, don't stop execution.
-						// Just graceffully let the user know that there was an error with the variable.
-						try {
-							File f = new File(fileName);
-
-							if (f.exists()) {
-								FileInputStream fis = new FileInputStream(f);
-
-								pdfs.add(fis);
-							} else {
-								// get the file using context.getResource() for relative or universal paths
-								URL url = context.getResource(fileName);
-								InputStream is = new BufferedInputStream(url.openStream());
-								pdfs.add(is);
-							}
-						} catch (Exception e) {
-							logger.log(Level.WARNING, e.getMessage(), e);
+				for (String fileName : pdfList) {
+					// If there is an exception creating the input stream, don't stop execution.
+					// Just graceffully let the user know that there was an error with the variable.
+					fileName = fileName.replace("\\", "\\\\");
+					try {
+						File f = new File(fileName);
+						if (f.exists()) {
+							FileInputStream fis = new FileInputStream(f);
+							pdfs.add(fis);
+						} else {
+							// get the file using context.getResource() for relative or universal paths
+							URL url = context.getResource(fileName);
+							InputStream is = new BufferedInputStream(url.openStream());
+							pdfs.add(is);
 						}
+					} catch (Exception e) {
+						logger.log(Level.WARNING, e.getMessage(), e);
 					}
 				}
-
-				// check size of PDFs to make sure we aren't calling this on a 0 size array
-				if (pdfs.size() > 0) {
-					concatPDFs(pdfs, false);
-				}
+			}
+			// check size of PDFs to make sure we aren't calling this on a 0 size array
+			if (pdfs.size() > 0) {
+				concatPDFs(pdfs, false);
 			}
 		}
 
@@ -599,7 +595,7 @@ public class PDFPageDevice implements IPageDevice {
 			// Create a writer for the outputstream
 			PdfWriter writer = this.writer;
 
-			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); // TGXX
 			PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
 
 			PdfImportedPage page;
@@ -647,11 +643,14 @@ public class PDFPageDevice implements IPageDevice {
 	 * Set the PDF version based on the user property
 	 */
 	private void setPdfVersion() {
+		String userPdfVersion;
 		// PDF version based on user property
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_VERSION)) {
-			String userPdfVersion = this.userProperties.get(PDFPageDevice.PDF_VERSION).toString();
-			this.setPdfVersion(userPdfVersion);
+			userPdfVersion = this.userProperties.get(PDFPageDevice.PDF_VERSION).toString();
+		} else {
+			userPdfVersion = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_VERSION);
 		}
+		this.setPdfVersion(userPdfVersion);
 	}
 
 	/**
@@ -709,38 +708,42 @@ public class PDFPageDevice implements IPageDevice {
 	 * Set the PDF conformance user property based
 	 */
 	private void setPdfConformance() {
+		String userPdfConformance;
+
 		// PDFA & PDFX conformance, based on user property
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_CONFORMANCE)) {
-			String userPdfConformance = this.userProperties.get(PDFPageDevice.PDF_CONFORMANCE).toString().toUpperCase();
-			switch (userPdfConformance) {
-			case PDFPageDevice.PDF_CONFORMANCE_X32002:
-				this.pdfConformance = PdfWriter.PDFX32002;
-				this.isPdfAFormat = false;
-				break;
-			case PDFPageDevice.PDF_CONFORMANCE_A1A:
-				this.pdfConformance = PdfWriter.PDFA1A;
-				this.isPdfAFormat = true;
-				break;
-			case PDFPageDevice.PDF_CONFORMANCE_A1B:
-				this.pdfConformance = PdfWriter.PDFA1B;
-				this.isPdfAFormat = true;
-				break;
-			default:
-				this.pdfConformance = PdfWriter.PDFXNONE;
-				this.isPdfAFormat = false;
-				break;
-			}
-			this.setPdfConformance(this.pdfConformance);
+			userPdfConformance = this.userProperties.get(PDFPageDevice.PDF_CONFORMANCE).toString().toUpperCase();
+		} else {
+			userPdfConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_CONFORMANCE);
 		}
+		switch (userPdfConformance) {
+		case PDFPageDevice.PDF_CONFORMANCE_X32002:
+			this.pdfConformance = PdfWriter.PDFX32002;
+			this.isPdfAFormat = false;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A1A:
+			this.pdfConformance = PdfWriter.PDFA1A;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A1B:
+			this.pdfConformance = PdfWriter.PDFA1B;
+			this.isPdfAFormat = true;
+			break;
+		default:
+			this.pdfConformance = PdfWriter.PDFXNONE;
+			this.isPdfAFormat = false;
+			break;
+		}
+		this.setPdfConformance(this.pdfConformance);
 
 		// PDFA: overwrite to get the document title independent of the openPDF
 		// issue of PDF/A-conformance
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE)) {
-			String pdfaUseTitleOverwrite = this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString()
-					.toLowerCase();
-			if (pdfaUseTitleOverwrite.equals("true")) {
-				this.addPdfADocumentTitle = true;
-			}
+			this.addPdfADocumentTitle = Boolean.parseBoolean(this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString());
+		} else {
+			this.addPdfADocumentTitle = Boolean
+					.parseBoolean(
+							(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE));
 		}
 	}
 
@@ -802,6 +805,11 @@ public class PDFPageDevice implements IPageDevice {
 			if (this.userProperties != null
 					&& userProperties.containsKey(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)) {
 				fullFileNameIcc = userProperties.get(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE).toString().trim();
+			} else {
+				fullFileNameIcc = ((String) getReportDesignConfiguration(this.report,
+						PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)).trim();
+			}
+			if (fullFileNameIcc != null && fullFileNameIcc.length() > 0) {
 				try {
 					iccFile = new File(fullFileNameIcc);
 					if (!iccFile.exists()) {
@@ -820,9 +828,11 @@ public class PDFPageDevice implements IPageDevice {
 			String iccColorType = PDFPageDevice.PDF_ICC_COLOR_RGB;
 			if (this.userProperties != null && userProperties.containsKey(PDFPageDevice.PDF_ICC_COLOR_TYPE)) {
 				iccColorType = userProperties.get(PDFPageDevice.PDF_ICC_COLOR_TYPE).toString().toUpperCase().trim();
-				if (iccColorType.equals(PDFPageDevice.PDF_ICC_COLOR_CMYK)) {
-					colorSpace = ColorSpace.TYPE_CMYK;
-				}
+			} else {
+				iccColorType = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_ICC_COLOR_TYPE);
+			}
+			if (iccColorType.equals(PDFPageDevice.PDF_ICC_COLOR_CMYK)) {
+				colorSpace = ColorSpace.TYPE_CMYK;
 			}
 			if (iccProfileExternal) {
 				iccProfile = ICC_Profile.getInstance(iccFile.getAbsolutePath());
@@ -851,8 +861,9 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	private void setDefaultFontPdfA() {
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDFA_FALLBACK_FONT)) {
-			String defaultFont = this.userProperties.get(PDFPageDevice.PDFA_FALLBACK_FONT).toString();
-			this.defaultFontPdfA = defaultFont;
+			this.defaultFontPdfA = this.userProperties.get(PDFPageDevice.PDFA_FALLBACK_FONT).toString();
+		} else {
+			this.defaultFontPdfA = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_FALLBACK_FONT);
 		}
 	}
 
@@ -862,7 +873,7 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param defaultFont default font of PDF/A
 	 */
 	public void setDefaultFontPdfA(String defaultFont) {
-		this.defaultFontPdfA = defaultFont;
+		this.defaultFontPdfA = defaultFont.replace("\\", "\\\\");
 	}
 
 	/**
@@ -883,6 +894,10 @@ public class PDFPageDevice implements IPageDevice {
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_FONT_CID_SET))
 			this.includeFontCidSet = Boolean
 					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_FONT_CID_SET).toString());
+		else
+			this.includeFontCidSet = Boolean
+					.parseBoolean((String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_FONT_CID_SET));
+
 	}
 
 	/**
@@ -901,5 +916,41 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public boolean isIncludeCidSet() {
 		return this.includeFontCidSet;
+	}
+
+	/*
+	 * Read the configuration from the report design if no user property is set
+	 */
+	private Object getReportDesignConfiguration(IReportContent reportContent, String name) {
+		Object value = null;
+
+		if (name.equalsIgnoreCase(PDFPageDevice.PDF_VERSION)) {
+			value = reportContent.getDesign().getReportDesign().getPdfVersion();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_CONFORMANCE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfConformance();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_ICC_COLOR_TYPE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfIccColorType();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfIccColorProfileExternal();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_PREPEND_DOCUMENTS)) {
+			value = reportContent.getDesign().getReportDesign().getPdfDocumentsPrepend();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_APPEND_DOCUMENTS)) {
+			value = reportContent.getDesign().getReportDesign().getPdfDocumentsAppend();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDFA_FALLBACK_FONT)) {
+			value = reportContent.getDesign().getReportDesign().getPdfAFontFallback();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_FONT_CID_SET)) {
+			value = reportContent.getDesign().getReportDesign().getPdfFontCidEmbed();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfAEmbedTitle();
+		}
+		return value;
 	}
 }

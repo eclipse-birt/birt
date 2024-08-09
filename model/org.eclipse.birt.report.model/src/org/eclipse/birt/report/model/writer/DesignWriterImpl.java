@@ -140,6 +140,15 @@ class DesignWriterImpl extends ModuleWriter {
 		property(obj, IInternalReportDesignModel.EXCEL_PRINT_PAGES_WIDE);
 		property(obj, IInternalReportDesignModel.EXCEL_PRINT_SCALE);
 		property(obj, IInternalReportDesignModel.EXCEL_TEMPLATE_FILE);
+		property(obj, IInternalReportDesignModel.PDF_VERSION);
+		property(obj, IInternalReportDesignModel.PDF_CONFORMANCE);
+		property(obj, IInternalReportDesignModel.PDF_ICC_COLOR_TYPE);
+		property(obj, IInternalReportDesignModel.PDF_ICC_PROFILE_EXTERNAL);
+		property(obj, IInternalReportDesignModel.PDF_DOCUMENTS_PREPEND);
+		property(obj, IInternalReportDesignModel.PDF_DOCUMENTS_APPEND);
+		property(obj, IInternalReportDesignModel.PDFA_FONT_FALLBACK);
+		property(obj, IInternalReportDesignModel.PDF_FONT_CID_SET);
+		property(obj, IInternalReportDesignModel.PDFA_DOCUMENT_EMBED_TITLE);
 
 		// include libraries and scripts
 

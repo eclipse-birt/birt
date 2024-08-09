@@ -1680,4 +1680,176 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	public void setExcelTemplateFile(String templateFile) throws SemanticException {
 		setStringProperty(EXCEL_TEMPLATE_FILE, templateFile);
 	}
+
+	/**
+	 * Get the configuration for the used PDF version
+	 *
+	 * @return the configuration for the used PDF version
+	 */
+	public String getPdfVersion() {
+		return getStringProperty(PDF_VERSION);
+	}
+
+	/**
+	 * Set the configuration for the template file
+	 *
+	 * @param pdfVersion PDF version number
+	 * @throws SemanticException
+	 */
+	public void setPdfVersion(String pdfVersion) throws SemanticException {
+		setStringProperty(PDF_VERSION, pdfVersion);
+	}
+
+	/**
+	 * Get the configuration for the used template file
+	 *
+	 * @return the configuration for used PDF conformance
+	 */
+	public String getPdfConformance() {
+		return getStringProperty(PDF_CONFORMANCE);
+	}
+
+	/**
+	 * Set the configuration for used PDF conformance
+	 *
+	 * @param pdfConformance PDF conformance
+	 * @throws SemanticException
+	 */
+	public void setPdfConformance(String pdfConformance) throws SemanticException {
+		setStringProperty(PDF_CONFORMANCE, pdfConformance);
+	}
+
+	/**
+	 * Get the configuration for the used PDF color type
+	 *
+	 * @return the configuration for the used PDF color type
+	 */
+	public String getPdfIccColorType() {
+		return getStringProperty(PDF_ICC_COLOR_TYPE);
+	}
+
+	/**
+	 * Set the configuration for the ICC color type
+	 *
+	 * @param iccColorType ICC color type
+	 * @throws SemanticException
+	 */
+	public void setPdfIccColorType(String iccColorType) throws SemanticException {
+		setStringProperty(PDF_ICC_COLOR_TYPE, iccColorType);
+	}
+
+	/**
+	 * Get the configuration for the used external color profile
+	 *
+	 * @return the configuration for the used external color profile
+	 */
+	public String getPdfIccColorProfileExternal() {
+		return getStringProperty(PDF_ICC_PROFILE_EXTERNAL);
+	}
+
+	/**
+	 * Set the configuration for the external color profile
+	 *
+	 * @param iccProfileExternal external color profile
+	 * @throws SemanticException
+	 */
+	public void setPdfIccColorProfileExternal(String iccProfileExternal) throws SemanticException {
+		setStringProperty(PDF_ICC_PROFILE_EXTERNAL, iccProfileExternal);
+	}
+
+	/**
+	 * Get the configuration to prepend document(s) to the PDF document
+	 *
+	 * @return the configuration to prepend document(s) to the PDF document
+	 */
+	public String getPdfDocumentsPrepend() {
+		return getStringProperty(PDF_DOCUMENTS_PREPEND);
+	}
+
+	/**
+	 * Set the configuration to prepend document(s) to the PDF document
+	 *
+	 * @param prependDocuments document(s) to prepend
+	 * @throws SemanticException
+	 */
+	public void setPdfDocumentsPrepend(String prependDocuments) throws SemanticException {
+		setStringProperty(PDF_DOCUMENTS_PREPEND, prependDocuments);
+	}
+
+	/**
+	 * Get the configuration to append document(s) to the PDF document
+	 *
+	 * @return the configuration to append document(s) to the PDF document
+	 */
+	public String getPdfDocumentsAppend() {
+		return getStringProperty(PDF_DOCUMENTS_APPEND);
+	}
+
+	/**
+	 * Set the configuration to append document(s) to the PDF document
+	 *
+	 * @param appendDocuments document(s) to append
+	 * @throws SemanticException
+	 */
+	public void setPdfDocumentsAppend(String appendDocuments) throws SemanticException {
+		setStringProperty(PDF_DOCUMENTS_APPEND, appendDocuments);
+	}
+
+	/**
+	 * Get the configuration for the fallback font of PDF/A
+	 *
+	 * @return the configuration for the fallback font of PDF/A
+	 */
+	public String getPdfAFontFallback() {
+		return getStringProperty(PDFA_FONT_FALLBACK);
+	}
+
+	/**
+	 * Set the configuration for the fallback font of PDF/A
+	 *
+	 * @param pdfaFontFallback PDF/A fallback font
+	 * @throws SemanticException
+	 */
+	public void setPdfAFontFallback(String pdfaFontFallback) throws SemanticException {
+		setStringProperty(PDFA_FONT_FALLBACK, pdfaFontFallback);
+	}
+
+	/**
+	 * Get the configuration for the used CIDSet embed option
+	 *
+	 * @return the configuration for the used CIDSet embed option
+	 */
+	public String getPdfFontCidEmbed() {
+		return getStringProperty(PDF_FONT_CID_SET);
+	}
+
+	/**
+	 * Set the configuration for the CIDSet embed option
+	 *
+	 * @param embedCID font embed CIDSet
+	 * @throws SemanticException
+	 */
+	public void setPdfFontCidEmbed(String embedCID) throws SemanticException {
+		setStringProperty(PDF_FONT_CID_SET, embedCID);
+	}
+
+	/**
+	 * Get the configuration to the embed the title
+	 *
+	 * @return the configuration to the embed the title
+	 */
+	public String getPdfAEmbedTitle() {
+		return getStringProperty(PDFA_DOCUMENT_EMBED_TITLE);
+	}
+
+	/**
+	 * Set the configuration to the embed the title
+	 *
+	 * @param embedTitle embed title
+	 * @throws SemanticException
+	 */
+	public void setPdfAEmbedTitle(String embedTitle) throws SemanticException {
+		setStringProperty(PDFA_DOCUMENT_EMBED_TITLE, embedTitle);
+	}
+
 }
