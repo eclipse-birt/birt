@@ -685,7 +685,23 @@
   	<Choice displayNameID="Choices.referenceDateType.fixedDate" name="fixedDate"/>
   	<Choice displayNameID="Choices.referenceDateType.endingDateInDimension" name="endingDateInDimension"/>
   </ChoiceType>
-  <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
+  <ChoiceType name="emitterPdfVersion">
+  	<Choice displayNameID="Choices.emitterPdfVersion.1.3" name="1.3"/>
+  	<Choice displayNameID="Choices.emitterPdfVersion.1.4" name="1.4"/>
+  	<Choice displayNameID="Choices.emitterPdfVersion.1.5" name="1.5"/>
+  	<Choice displayNameID="Choices.emitterPdfVersion.1.6" name="1.6"/>
+  	<Choice displayNameID="Choices.emitterPdfVersion.1.7" name="1.7"/>
+  </ChoiceType>
+  <ChoiceType name="emitterPdfConformance">
+  	<Choice displayNameID="Choices.emitterPdfConformance.X32002" name="PDF.X32002"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A1A" name="PDF.A1A"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A1B" name="PDF.A1B"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.Standard" name="PDF.Standard"/>
+  </ChoiceType>
+  <ChoiceType name="emitterPdfIccColorType">
+  	<Choice displayNameID="Choices.emitterPdfIccColorType.rgb" name="RGB"/>
+  	<Choice displayNameID="Choices.emitterPdfIccColorType.cmyk" name="CMYK"/>
+  </ChoiceType>  <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
     </Constructor>
@@ -1887,6 +1903,31 @@
   	</Property>
   	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
   	<Property displayNameID="Element.ReportDesign.language" name="language" since="4.3" type="string" />
+    <PropertyGroup displayNameID="Element.ReportDesign.Emitter.pdf">
+      <Property detailType="emitterPdfVersion" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.version" name="pdfVersion" runtimeSettable="false" since="4.17" type="choice" >
+        <Default>1.5</Default>
+      </Property>
+      <Property detailType="emitterPdfConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.conformance" name="pdfConformance" runtimeSettable="false" since="4.17" type="choice" >
+        <Default>PDF.Standard</Default>
+      </Property>
+      <Property detailType="emitterPdfIccColorType" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.icc.color.type" name="pdfIccColorType" runtimeSettable="false" since="4.17" type="choice" >
+		<Default>RGB</Default>
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.icc.profile.external" name="pdfIccProfileExternal" runtimeSettable="false" since="4.17" type="string" >
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.prepend" name="pdfDocuemntPrepend" runtimeSettable="false" since="4.17" type="string" >
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.append" name="pdfDocuemntAppend" runtimeSettable="false" since="4.17" type="string" >
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdfa.font.fallback" name="pdfaFontFallback" runtimeSettable="false" since="4.17" type="string" >
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdfa.font.cid.embed" name="pdfaFontCidEmbed" runtimeSettable="false" since="4.17" type="boolean" >
+		<Default>true</Default>
+      </Property>
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdfa.document.title.embed" name="pdfaDocumentTitleEmbed" runtimeSettable="false" since="4.17" type="boolean" >
+		<Default>false</Default>
+      </Property>
+	</PropertyGroup>
     <PropertyGroup displayNameID="Element.ReportDesign.Emitter.excel">
 	  <!-- excel (Spudsoft): force the column width calculation	-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.forceAutoColWidths" name="excelForceAutoColWidths" runtimeSettable="false" since="4.17" type="boolean" >
