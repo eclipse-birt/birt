@@ -60,6 +60,20 @@ public class CellImage {
 	 * @param image       image content object
 	 * @param spanColumns image can be spanned
 	 */
+	public CellImage(Coordinate location, int imageIdx, IImageContent image, boolean spanColumns) {
+		this(location, imageIdx, image, spanColumns, null, null);
+	}
+
+	/**
+	 * Constructor 2
+	 *
+	 * @param location            coordinates of the location
+	 * @param imageIdx            image index
+	 * @param image               image content object
+	 * @param spanColumns         image can be spanned
+	 * @param horizontalAlignment horizontal alignment
+	 * @param verticalAlignment   vertical alignment
+	 */
 	public CellImage(Coordinate location, int imageIdx, IImageContent image, boolean spanColumns,
 			String horizontalAlignment, String verticalAlignment) {
 		this.location = location;

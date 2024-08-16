@@ -860,8 +860,12 @@ public class CellContentHandler extends AbstractHandler {
 					}
 				}
 
-				state.images.add(new CellImage(location, imageIdx, image, spanColumns,
+				if (element != null)
+					state.images.add(new CellImage(location, imageIdx, image, spanColumns,
 						element.getComputedStyle().getTextAlign(), element.getComputedStyle().getVerticalAlign()));
+				else
+					state.images.add(new CellImage(location, imageIdx, image, spanColumns));
+
 				lastElement = image;
 			}
 		}
