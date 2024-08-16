@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -682,6 +683,7 @@ public class PDFPage extends AbstractPage {
 		} else if (null != svgPath) {
 			transcoder.transcode(new TranscoderInput(svgPath), null);
 		}
+		transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_ALLOW_EXTERNAL_RESOURCES, Boolean.TRUE);
 		PageFormat pg = new PageFormat();
 		Paper p = new Paper();
 		p.setSize(width, height);
