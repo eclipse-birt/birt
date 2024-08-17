@@ -477,7 +477,7 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>org.mortbay.jasper.apache-.*|jakarta.activation-api|jakarta.xml.bind-api</value>
+          <value>org.mortbay.jasper.apache-.*|jakarta.activation-api|jakarta.xml.bind-api|org.apache.commons.logging</value>
         </detail>
         <detail
             key="minimizeImplicitUnits">
@@ -499,6 +499,8 @@
       <requirement
           name="*"/>
       <requirement
+          name="slf4j.simple"/>
+      <requirement
           name="cdi.api"
           optional="true"
           max="0">
@@ -514,10 +516,6 @@
           optional="true"
           max="0"/>
       <requirement
-          name="org.apache.commons.logging"
-          optional="true"
-          max="0"/>
-      <requirement
           name="javax.xml.soap"
           optional="true"
           max="0"/>
@@ -525,6 +523,13 @@
           name="jakarta.xml.bind"
           optional="true"
           max="0"/>
+      <requirement
+          name="org.apache.commons.commons-logging"
+          optional="true"
+          max="0"/>
+      <requirement
+          name="org.apache.commons.logging"
+          versionRange="[1.2.0,1.2.0]"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>
@@ -547,7 +552,7 @@
         <repository
             url="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
         <repository
-            url="https://download.eclipse.org/webtools/repository/latest"/>
+            url="https://download.eclipse.org/webtools/CI/latest"/>
         <repository
             url="https://download.eclipse.org/justj/epp/milestone/latest"/>
         <repository
