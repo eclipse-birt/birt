@@ -17,5 +17,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,
  uk.co.spudsoft.birt.emitters.excel.framework,
  uk.co.spudsoft.birt.emitters.excel.handlers;x-internal:=true
+Import-Package: org.apache.logging.slf4j
 Eclipse-BundleShape: dir
 Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel
