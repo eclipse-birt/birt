@@ -17,11 +17,10 @@ package org.eclipse.birt.sdk;
 public class RuntimeTest extends BaseTestTemplate {
 
 	@Override
-	public int run(String[] args) throws Exception {
+	protected Class<?> getClass(String bundle, String className) throws Exception {
 		System.clearProperty("BIRT_HOME");
 		ClassLoader loader = createClassLoader("./target/birt-runtime/ReportEngine/lib"); //$NON-NLS-1$
-		Class<?> mainClass = loader.loadClass("org.eclipse.birt.report.engine.api.ReportRunner"); //$NON-NLS-1$
-
-		return run(mainClass, args);
+		Class<?> mainClass = loader.loadClass(className); // $NON-NLS-1$
+		return mainClass;
 	}
 }

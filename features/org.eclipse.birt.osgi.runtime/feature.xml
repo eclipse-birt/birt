@@ -83,10 +83,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.birt.resources"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.birt.report.engine.dataextraction"
          version="0.0.0"/>
 
@@ -128,6 +124,10 @@
 
    <plugin
          id="org.eclipse.birt.chart.device.extension"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.pdf"
          version="0.0.0"/>
 
    <plugin
@@ -248,6 +248,10 @@
 
    <plugin
          id="org.eclipse.birt.report.engine.emitter.pptx"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.prototype.excel"
          version="0.0.0"/>
 
    <plugin

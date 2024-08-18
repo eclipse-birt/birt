@@ -38,10 +38,6 @@
       <discovery label="%updateSiteName" url="https://download.eclipse.org/birt/updates/release/latest"/>
    </url>
 
-   <requires>
-      <import plugin="org.apache.axis"/>
-   </requires>
-
    <plugin
          id="org.eclipse.birt.core"
          version="0.0.0"/>
@@ -263,9 +259,11 @@
          version="0.0.0"/>
 
    <plugin
-         id="uk.co.spudsoft.birt.emitters.excel"
+         id="org.eclipse.birt.axis.overlay"
          version="0.0.0"/>
 
-
+   <plugin
+         id="uk.co.spudsoft.birt.emitters.excel"
+         version="0.0.0"/>
 
 </feature>
