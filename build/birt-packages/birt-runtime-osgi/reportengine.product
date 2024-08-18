@@ -173,8 +173,7 @@ United States, other countries, or both.
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt.engine.runtime"/>
-      <feature id="org.eclipse.birt.chart.osgi.runtime"/>
+      <feature id="org.eclipse.birt.osgi.runtime"/>
    </features>
 
    <configurations>
