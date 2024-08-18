@@ -19,7 +19,9 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("javadoc")
 public class RuntimeOSGiTest extends BaseTestTemplate {
-	public int run(String[] args) throws Exception {
+
+	@Override
+	protected Class<?> getClass(String bundle, String className) throws Exception {
 		System.setProperty("BIRT_HOME",
 				new File("./target/birt-runtime-osgi/ReportEngine/platform/").getAbsolutePath());
 
@@ -43,14 +45,14 @@ public class RuntimeOSGiTest extends BaseTestTemplate {
 		// Get the org.eclipse.birt.report.engine bundle from the launcher.
 		Method getBundleMethod = launcher.getClass().getDeclaredMethod("getBundle", String.class);
 		getBundleMethod.setAccessible(true);
-		Object birtReportEngineBundle = getBundleMethod.invoke(launcher, "org.eclipse.birt.report.engine");
+		Object birtReportEngineBundle = getBundleMethod.invoke(launcher, bundle);
 
 		// Load the org.eclipse.birt.report.engine.api.ReportRunner class from the
 		// bundle to ensure we have loaded the instance class from the actual OSGi
 		// runtime..c
 		Method loadClassMethod = birtReportEngineBundle.getClass().getMethod("loadClass", String.class);
-		Class<?> mainClass = (Class<?>) loadClassMethod.invoke(birtReportEngineBundle,
-				"org.eclipse.birt.report.engine.api.ReportRunner");
-		return run(mainClass, args);
+		Class<?> mainClass = (Class<?>) loadClassMethod.invoke(birtReportEngineBundle, className);
+		return mainClass;
 	}
+
 }
