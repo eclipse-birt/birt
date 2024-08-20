@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -1990,5 +1990,36 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 */
 	public void setWidth(String width) throws SemanticException {
 		setStringProperty(WIDTH_PROP, width);
+	}
+
+	/**
+	 * Returns one 'text-decoration' property to set hyperlink styles. The return
+	 * value is one of constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>TEXT_HYPER_LINK_STYLE_NONE</code>
+	 * <li><code>TEXT_HYPER_LINK_STYLE</code>
+	 * </ul>
+	 *
+	 * @return the text hyperlink style value
+	 */
+
+	public String getTextHyperlinkStyle() {
+		return getStringProperty(IStyleModel.TEXT_HYPERLINK_STYLE_PROP);
+	}
+
+	/**
+	 * Sets one 'text-decoration' property to set hypertext styles. The input value
+	 * is one of constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>TEXT_HYPER_LINK_STYLE_NONE</code>
+	 * <li><code>TEXT_HYPER_LINK_STYLE</code>
+	 * </ul>
+	 *
+	 * @param value the new text hyperlink style value
+	 * @throws SemanticException if the value is not one of the above.
+	 */
+
+	public void setTextHyperlinkStyle(String value) throws SemanticException {
+		setStringProperty(IStyleModel.TEXT_HYPERLINK_STYLE_PROP, value);
 	}
 }

@@ -18,18 +18,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
+/**
+ * Utility class of power point
+ *
+ * @since 3.3
+ *
+ */
 public class PPTUtil {
 
 	private static final Logger logger = Logger.getLogger(PPTUtil.class.getName());
 
+	/**
+	 * Get the hyperlink information
+	 *
+	 * @param area           object which contains the link
+	 * @param services       emitter service
+	 * @param reportRunnable report runnable
+	 * @param context        report context
+	 * @return the hyperlink information
+	 */
 	public static HyperlinkDef getHyperlink(IArea area, IEmitterServices services, IReportRunnable reportRunnable,
 			IReportContext context) {
 		IHyperlinkAction hyperlinkAction = area.getAction();
@@ -38,14 +57,24 @@ public class PPTUtil {
 				if (hyperlinkAction.getType() != IHyperlinkAction.ACTION_BOOKMARK) {
 					String link = hyperlinkAction.getHyperlink();
 					String tooltip = hyperlinkAction.getTooltip();
-					Object handler = services.getOption(RenderOption.ACTION_HANDLER);
+					Object handler = services.getOption(IRenderOption.ACTION_HANDLER);
 					if (handler instanceof IHTMLActionHandler) {
 						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
 						String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
 						Action action = new Action(systemId, hyperlinkAction);
 						link = actionHandler.getURL(action, context);
 					}
-					return new HyperlinkDef(link, tooltip);
+					// hyperlink decoration option
+					IStyle computedStyle = null;
+					boolean hasHyperlinkDecoration = true;
+					if (area instanceof ContainerArea) {
+						computedStyle = ((ContainerArea) area).getContent().getComputedStyle();
+						if (computedStyle != null) {
+							hasHyperlinkDecoration = !(computedStyle.getProperty(
+									StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) == CSSValueConstants.UNDECORATED);
+						}
+					}
+					return new HyperlinkDef(link, tooltip, hasHyperlinkDecoration);
 				}
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
@@ -54,23 +83,55 @@ public class PPTUtil {
 		return null;
 	}
 
+	/**
+	 * Information call of the hyperlink information
+	 *
+	 * @since 3.3
+	 */
 	public static class HyperlinkDef {
 
-		String link;
-		String tooltip;
+		private String link;
+		private String tooltip;
+		private boolean hasHyperlinkDecoration = true;
 
-		public HyperlinkDef(String link, String tooltip) {
+		/**
+		 * Constructor
+		 *
+		 * @param link                   link URL
+		 * @param tooltip                link tooltip text
+		 * @param hasHyperlinkDecoration hyperlink use text decoration
+		 */
+		public HyperlinkDef(String link, String tooltip, boolean hasHyperlinkDecoration) {
 			this.link = link;
 			this.tooltip = tooltip;
+			this.hasHyperlinkDecoration = hasHyperlinkDecoration;
 		}
 
+		/**
+		 * Get the hyperlink URL
+		 *
+		 * @return the hyperlink URL
+		 */
 		public String getLink() {
 			return link;
 		}
 
+		/**
+		 * Get the hyperlink tooltip text
+		 *
+		 * @return the hyperlink tooltip text
+		 */
 		public String getTooltip() {
 			return tooltip;
 		}
 
+		/**
+		 * Is the hyperlink decoration in use
+		 *
+		 * @return is the hyperlink decoration in use
+		 */
+		public boolean isHasHyperlinkDecoration() {
+			return hasHyperlinkDecoration;
+		}
 	}
 }

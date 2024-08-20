@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2009 Actuate Corporation.
+ * Copyright (c) 2009, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -157,11 +157,14 @@ public class TextAreaLayout implements ILayout {
 			textStyle.setUnderLine(true);
 		}
 		textStyle.setAlign(style.getProperty(StyleConstants.STYLE_TEXT_ALIGN));
+		textStyle.setHasHyperlinkDecoration(
+				!(style.getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) == CSSValueConstants.UNDECORATED));
+
 		IStyle s = content.getStyle();
 		Color color = PropertyUtil.getColor(s.getProperty(StyleConstants.STYLE_COLOR));
 		if (color != null) {
 			textStyle.setColor(color);
-		} else if (content.getHyperlinkAction() != null) {
+		} else if (content.getHyperlinkAction() != null && textStyle.isHasHyperlinkDecoration()) {
 			textStyle.setColor(Color.BLUE);
 		} else {
 			textStyle.setColor(PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR)));

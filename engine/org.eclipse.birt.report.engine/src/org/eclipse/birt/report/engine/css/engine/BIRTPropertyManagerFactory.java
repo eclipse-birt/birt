@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.PageBreakInsideManage
 import org.eclipse.birt.report.engine.css.engine.value.css.SpacingManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.StringManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextAlignManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.TextHyperlinkManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextLineThroughManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextOverlineManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.TextTransformManager;
@@ -204,6 +205,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory {
 				CSSConstants.CSS_BORDER_ANTIDIAGONAL_COLOR_PROPERTY);
 		vms[StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE] = new BorderStyleManager(
 				CSSConstants.CSS_BORDER_ANTIDIAGONAL_STYLE_PROPERTY);
+		vms[StyleConstants.STYLE_TEXT_HYPERLINK_STYLE] = new TextHyperlinkManager();
 	}
 
 	@Override

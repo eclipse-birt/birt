@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -111,7 +111,7 @@ public class FontManager {
 
 	static int COMPARE_CSS_PROPERTIES[] = { StyleConstants.STYLE_FONT_FAMILY, StyleConstants.STYLE_FONT_SIZE,
 			StyleConstants.STYLE_FONT_WEIGHT, StyleConstants.STYLE_FONT_STYLE, StyleConstants.STYLE_TEXT_UNDERLINE,
-			StyleConstants.STYLE_COLOR, };
+			StyleConstants.STYLE_COLOR, StyleConstants.STYLE_TEXT_HYPERLINK_STYLE };
 
 	/**
 	 * Test whether two BIRT styles are equivalent, as far as their font definitions
@@ -177,7 +177,7 @@ public class FontManager {
 		if (CSSConstants.CSS_UNDERLINE_VALUE.equals(fontUnderline)) {
 			font.setUnderline(FontUnderline.SINGLE.getByteValue());
 		}
-		// Colour
+		// Color
 		smu.addColourToFont(workbook, font, cleanupQuotes(birtStyle.getProperty(StyleConstants.STYLE_COLOR)));
 
 		fonts.add(new FontPair(birtStyle, font));

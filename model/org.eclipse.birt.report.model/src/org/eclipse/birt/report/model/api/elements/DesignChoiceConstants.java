@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -400,6 +400,11 @@ public interface DesignChoiceConstants {
 	/** design constant: text line through line through */
 	String TEXT_LINE_THROUGH_LINE_THROUGH = "line-through"; //$NON-NLS-1$
 
+	/** design constant: text hyper link style none */
+	String TEXT_HYPERLINK_STYLE_NORMAL = "normal"; //$NON-NLS-1$
+
+	/** design constant: text hyper link style */
+	String TEXT_HYPERLINK_STYLE_UNDECORATED = "text-decoration-none"; //$NON-NLS-1$
 
 	// lineWidth
 	/** design constant: choice line width */

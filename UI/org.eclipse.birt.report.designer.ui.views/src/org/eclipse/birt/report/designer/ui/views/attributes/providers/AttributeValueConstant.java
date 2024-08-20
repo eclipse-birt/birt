@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -19,9 +19,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * AttributeValueConstant defines predefined values for some properties.
  *
- *
  */
-
 public class AttributeValueConstant {
 
 	/**
@@ -86,4 +84,13 @@ public class AttributeValueConstant {
 
 	public final static String TEXT_ALIGN_CENTER = DesignChoiceConstants.TEXT_ALIGN_CENTER;
 
+	/**
+	 * The value defines characters with hyperlink style normal.
+	 */
+	public final static String TEXT_HYPERLINK_STYLE_NORMAL = DesignChoiceConstants.TEXT_HYPERLINK_STYLE_NORMAL;
+
+	/**
+	 * The value defines characters with hyperlink style undecorated.
+	 */
+	public final static String TEXT_HYPERLINK_STYLE_UNDECORATED = DesignChoiceConstants.TEXT_HYPERLINK_STYLE_UNDECORATED;
 }

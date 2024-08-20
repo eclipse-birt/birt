@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -58,6 +58,8 @@ public class StylePropertyMapping {
 		nameMapping.put(IStyleModel.TEXT_UNDERLINE_PROP, Integer.valueOf(StyleConstants.STYLE_TEXT_UNDERLINE));
 		nameMapping.put(IStyleModel.TEXT_OVERLINE_PROP, Integer.valueOf(StyleConstants.STYLE_TEXT_OVERLINE));
 		nameMapping.put(IStyleModel.TEXT_LINE_THROUGH_PROP, Integer.valueOf(StyleConstants.STYLE_TEXT_LINETHROUGH));
+		nameMapping.put(IStyleModel.TEXT_HYPERLINK_STYLE_PROP,
+				Integer.valueOf(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE));
 		nameMapping.put(IStyleModel.VERTICAL_ALIGN_PROP, Integer.valueOf(StyleConstants.STYLE_VERTICAL_ALIGN));
 		nameMapping.put(IStyleModel.TEXT_TRANSFORM_PROP, Integer.valueOf(StyleConstants.STYLE_TEXT_TRANSFORM));
 		nameMapping.put(IStyleModel.TEXT_ALIGN_PROP, Integer.valueOf(StyleConstants.STYLE_TEXT_ALIGN));

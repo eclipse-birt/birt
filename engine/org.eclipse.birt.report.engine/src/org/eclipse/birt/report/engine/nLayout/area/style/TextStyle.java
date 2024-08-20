@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2009 Actuate Corporation.
+ * Copyright (c) 2009, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -35,6 +35,7 @@ public class TextStyle extends AreaConstants {
 	protected boolean lineThrough = false;
 	protected boolean overLine = false;
 	protected boolean hasHyperlink = false;
+	protected boolean hasHyperlinkDecoration = true;
 	protected int direction = 0;
 	protected Color color = Color.BLACK;
 	protected CSSValue align = CSSValueConstants.LEFT_VALUE;
@@ -71,6 +72,39 @@ public class TextStyle extends AreaConstants {
 	/**
 	 * Constructor 2
 	 *
+	 * @param fontInfo               font info
+	 * @param color                  text color
+	 * @param align                  text alignment
+	 * @param fontSize               font size
+	 * @param letterSpacing          letter spacing
+	 * @param wordSpacing            word spacing
+	 * @param underLine              text is underlined
+	 * @param lineThrough            test use line through
+	 * @param overLine               text is overlined
+	 * @param direction              text direction
+	 * @param hasHyperlink           text is a hyperlink
+	 * @param hasHyperlinkDecoration text use hyperlink decoration
+	 */
+	public TextStyle(FontInfo fontInfo, Color color, CSSValue align, int fontSize, int letterSpacing, int wordSpacing,
+			boolean underLine, boolean lineThrough, boolean overLine, int direction, boolean hasHyperlink,
+			boolean hasHyperlinkDecoration) {
+		this.fontSize = fontSize;
+		this.color = color;
+		this.align = align;
+		this.fontInfo = fontInfo;
+		this.letterSpacing = letterSpacing;
+		this.wordSpacing = wordSpacing;
+		this.underLine = underLine;
+		this.overLine = overLine;
+		this.lineThrough = lineThrough;
+		this.direction = direction;
+		this.hasHyperlink = hasHyperlink;
+		this.hasHyperlinkDecoration = hasHyperlinkDecoration;
+	}
+
+	/**
+	 * Constructor 3
+	 *
 	 * @param style text style
 	 */
 	public TextStyle(TextStyle style) {
@@ -85,6 +119,7 @@ public class TextStyle extends AreaConstants {
 		this.lineThrough = style.lineThrough;
 		this.direction = style.direction;
 		this.hasHyperlink = style.isHasHyperlink();
+		this.hasHyperlinkDecoration = style.isHasHyperlinkDecoration();
 	}
 
 	/**
@@ -303,4 +338,21 @@ public class TextStyle extends AreaConstants {
 		this.hasHyperlink = hasHyperlink;
 	}
 
+	/**
+	 * Check if the text has a hyperlink decoration
+	 *
+	 * @return Return the check if the text has a hyperlink decoration
+	 */
+	public boolean isHasHyperlinkDecoration() {
+		return hasHyperlinkDecoration;
+	}
+
+	/**
+	 * Set a boolean flag to mark that the text use a hyperlink decoration
+	 *
+	 * @param hasHyperlinkDecoration the text use a hyperlink decoration
+	 */
+	public void setHasHyperlinkDecoration(boolean hasHyperlinkDecoration) {
+		this.hasHyperlinkDecoration = hasHyperlinkDecoration;
+	}
 }

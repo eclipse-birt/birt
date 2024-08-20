@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2023, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -25,7 +25,7 @@ public class PerfectHash {
 	// bidi_hcg: Aligned with generated token.cpp after the "direction" keyword
 	// was added.
 
-	final static int TOTAL_KEYWORDS = 70;
+	final static int TOTAL_KEYWORDS = 71;
 
 	final static int MIN_WORD_LENGTH = 5;
 
@@ -37,12 +37,12 @@ public class PerfectHash {
 
 	/* maximum key range = 164, duplicates = 0 */
 
-	static int asso_values[] = { 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175,
-			175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175,
-			175, 175, 175, 175, 175, 175, 175, 75, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175,
-			175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175,
-			175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 175, 105, 0, 30, 5, 20, 55, 10,
-			5, 50, 175, 0, 100, 0, 20, 0, 10, 175, 0, 60, 0, 175, 0, 30, 45, 65, 175, 175, 175, 175, 175, 175 };
+	static int asso_values[] = { 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170,
+			170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170,
+			170, 170, 170, 170, 170, 170, 170, 95, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170,
+			170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170,
+			170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 170, 100, 0, 30, 5, 20, 60, 10,
+			5, 45, 170, 5, 100, 0, 20, 0, 10, 170, 0, 50, 0, 170, 0, 45, 40, 65, 170, 170, 170, 170, 170, 170 };
 
 	/**
 	 * Get the hash value
@@ -74,8 +74,8 @@ public class PerfectHash {
 	}
 
 	static int lengthtable[] = { 11, 12, 13, 11, 18, 19, 10, 21, 22, 18, 19, 21, 12, 14, 25, 26, 13, 9, 25, 11, 18, 19,
-			21, 5, 16, 17, 25, 16, 17, 11, 17, 8, 14, 10, 6, 12, 16, 12, 14, 10, 16, 7, 16, 14, 11, 12, 11, 17, 13, 16,
-			17, 13, 6, 9, 10, 21, 17, 11, 17, 16, 21, 21, 14, 11, 5, 7, 16, 11, 21, 14 };
+			21, 16, 17, 25, 11, 17, 14, 6, 17, 5, 16, 14, 10, 16, 7, 10, 12, 8, 15, 16, 12, 14, 11, 16, 13, 11, 12, 13,
+			16, 21, 17, 6, 9, 10, 16, 17, 21, 17, 14, 11, 21, 7, 11, 17, 5, 16, 21, 11, 14 };
 
 	static String wordlist[] = { "margin-left" /* hash value = 11, index = 0 */,
 			"margin-right" /* hash value = 12, index = 1 */, "margin-bottom" /* hash value = 13, index = 2 */,
@@ -93,47 +93,45 @@ public class PerfectHash {
 			"border-antidiagonal-width" /* hash value = 35, index = 18 */,
 			"padding-top" /* hash value = 36, index = 19 */, "border-right-style" /* hash value = 38, index = 20 */,
 			"border-bottom-style" /* hash value = 39, index = 21 */,
-			"border-diagonal-style" /* hash value = 41, index = 22 */, "width" /* hash value = 45, index = 23 */,
-			"border-top-color" /* hash value = 46, index = 24 */, "background-repeat" /* hash value = 47, index = 25 */,
-			"border-antidiagonal-style" /* hash value = 50, index = 26 */,
-			"border-top-width" /* hash value = 51, index = 27 */, "background-height" /* hash value = 52, index = 28 */,
-			"text-indent" /* hash value = 56, index = 29 */, "page-break-before" /* hash value = 57, index = 30 */,
-			"overflow" /* hash value = 58, index = 31 */, "text-transform" /* hash value = 59, index = 32 */,
-			"can-shrink" /* hash value = 60, index = 33 */, "height" /* hash value = 61, index = 34 */,
-			"word-spacing" /* hash value = 62, index = 35 */, "text-linethrough" /* hash value = 66, index = 36 */,
-			"number-align" /* hash value = 72, index = 37 */, "visible-format" /* hash value = 74, index = 38 */,
-			"text-align" /* hash value = 75, index = 39 */, "background-color" /* hash value = 76, index = 40 */,
-			"orphans" /* hash value = 77, index = 41 */, "background-width" /* hash value = 81, index = 42 */,
-			"vertical-align" /* hash value = 84, index = 43 */, "font-weight" /* hash value = 86, index = 44 */,
-			"font-variant" /* hash value = 87, index = 45 */, "master-page" /* hash value = 91, index = 46 */,
-			"border-left-color" /* hash value = 92, index = 47 */, "show-if-blank" /* hash value = 93, index = 48 */,
-			"border-top-style" /* hash value = 96, index = 49 */, "border-left-width" /* hash value = 97, index = 50 */,
-			"text-overline" /* hash value = 98, index = 51 */, "widows" /* hash value = 101, index = 52 */,
-			"font-size" /* hash value = 104, index = 53 */, "font-style" /* hash value = 105, index = 54 */,
-			"background-position-x" /* hash value = 106, index = 55 */,
-			"page-break-inside" /* hash value = 107, index = 56 */, "white-space" /* hash value = 111, index = 57 */,
-			"border-left-style" /* hash value = 112, index = 58 */,
-			"background-image" /* hash value = 116, index = 59 */,
-			"background-image-type" /* hash value = 121, index = 60 */,
-			"background-position-y" /* hash value = 126, index = 61 */,
-			"text-underline" /* hash value = 129, index = 62 */, "line-height" /* hash value = 131, index = 63 */,
-			"color" /* hash value = 135, index = 64 */, "display" /* hash value = 137, index = 65 */,
-			"page-break-after" /* hash value = 141, index = 66 */, "font-family" /* hash value = 151, index = 67 */,
-			"background-attachment" /* hash value = 156, index = 68 */,
-			"letter-spacing" /* hash value = 174, index = 69 */
+			"border-diagonal-style" /* hash value = 41, index = 22 */,
+			"border-top-color" /* hash value = 46, index = 23 */, "background-repeat" /* hash value = 47, index = 24 */,
+			"border-antidiagonal-style" /* hash value = 50, index = 25 */,
+			"text-indent" /* hash value = 51, index = 26 */, "background-height" /* hash value = 52, index = 27 */,
+			"text-transform" /* hash value = 54, index = 28 */, "height" /* hash value = 56, index = 29 */,
+			"page-break-before" /* hash value = 57, index = 30 */, "width" /* hash value = 60, index = 31 */,
+			"text-linethrough" /* hash value = 61, index = 32 */, "visible-format" /* hash value = 64, index = 33 */,
+			"can-shrink" /* hash value = 65, index = 34 */, "border-top-width" /* hash value = 66, index = 35 */,
+			"orphans" /* hash value = 67, index = 36 */, "text-align" /* hash value = 70, index = 37 */,
+			"number-align" /* hash value = 72, index = 38 */, "overflow" /* hash value = 73, index = 39 */,
+			"text-decoration" /* hash value = 75, index = 40 */, "background-color" /* hash value = 76, index = 41 */,
+			"word-spacing" /* hash value = 77, index = 42 */, "vertical-align" /* hash value = 79, index = 43 */,
+			"master-page" /* hash value = 81, index = 44 */, "border-top-style" /* hash value = 86, index = 45 */,
+			"show-if-blank" /* hash value = 88, index = 46 */, "font-weight" /* hash value = 91, index = 47 */,
+			"font-variant" /* hash value = 92, index = 48 */, "text-overline" /* hash value = 93, index = 49 */,
+			"background-width" /* hash value = 96, index = 50 */,
+			"background-position-x" /* hash value = 101, index = 51 */,
+			"page-break-inside" /* hash value = 102, index = 52 */, "widows" /* hash value = 106, index = 53 */,
+			"font-size" /* hash value = 109, index = 54 */, "font-style" /* hash value = 110, index = 55 */,
+			"background-image" /* hash value = 111, index = 56 */,
+			"border-left-color" /* hash value = 112, index = 57 */,
+			"background-image-type" /* hash value = 116, index = 58 */,
+			"border-left-width" /* hash value = 117, index = 59 */, "text-underline" /* hash value = 119, index = 60 */,
+			"white-space" /* hash value = 121, index = 61 */,
+			"background-position-y" /* hash value = 126, index = 62 */, "display" /* hash value = 127, index = 63 */,
+			"line-height" /* hash value = 131, index = 64 */, "border-left-style" /* hash value = 132, index = 65 */,
+			"color" /* hash value = 135, index = 66 */, "page-break-after" /* hash value = 136, index = 67 */,
+			"background-attachment" /* hash value = 151, index = 68 */,
+			"font-family" /* hash value = 156, index = 69 */, "letter-spacing" /* hash value = 169, index = 70 */
 	};
 
 	/** property: lookup array */
 	public static int lookup[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, 3, -1, 4, 5, 6, 7, 8, 9,
-			10, -1, 11, 12, -1, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, -1, 22, -1, -1, -1, 23, 24, 25, -1, -1, 26,
-			27, 28, -1, -1, -1, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, 36, -1, -1, -1, -1, -1, 37, -1, 38, 39, 40, 41,
-			-1, -1, -1, 42, -1, -1, 43, -1, 44, 45, -1, -1, -1, 46, 47, 48, -1, -1, 49, 50, 51, -1, -1, 52, -1, -1, 53,
-			54, 55, 56, -1, -1, -1, 57, 58, -1, -1, -1, 59, -1, -1, -1, -1, 60, -1, -1, -1, -1, 61, -1, -1, 62, -1, 63,
-			-1, -1, -1, 64, -1, 65, -1, -1, -1, 66, -1, -1, -1, -1, -1, -1, -1, -1, -1, 67, -1, -1, -1, -1, 68, -1, -1,
-			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 69
-
-	};
-
+			10, -1, 11, 12, -1, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, -1, 22, -1, -1, -1, -1, 23, 24, -1, -1, 25,
+			26, 27, -1, 28, -1, 29, 30, -1, -1, 31, 32, -1, -1, 33, 34, 35, 36, -1, -1, 37, -1, 38, 39, -1, 40, 41, 42,
+			-1, 43, -1, 44, -1, -1, -1, -1, 45, -1, 46, -1, -1, 47, 48, 49, -1, -1, 50, -1, -1, -1, -1, 51, 52, -1, -1,
+			-1, 53, -1, -1, 54, 55, 56, 57, -1, -1, -1, 58, 59, -1, 60, -1, 61, -1, -1, -1, -1, 62, 63, -1, -1, -1, 64,
+			65, -1, -1, 66, 67, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 68, -1, -1, -1, -1, 69, -1, -1,
+			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 70 };
 	/**
 	 * Get the lookup index
 	 *

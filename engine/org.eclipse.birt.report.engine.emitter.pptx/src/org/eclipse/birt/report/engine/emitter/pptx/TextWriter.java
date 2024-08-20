@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -381,7 +381,9 @@ public class TextWriter {
 		}
 		canvas.setBackgroundColor(style.getColor());
 		setTextFont(info.getFontName());
-		canvas.setHyperlink(link);
+		if (link.isHasHyperlinkDecoration()) {
+			canvas.setHyperlink(link);
+		}
 		canvas.setBookmark(bmk_relationshipid);
 		writer.closeTag(tag);
 	}
@@ -421,6 +423,10 @@ public class TextWriter {
 			int shapeId = canvas.getPresentation().getNextShapeId();
 			writer.attribute("id", shapeId);
 			writer.attribute("name", "TextBox " + shapeId);
+			// hyperlink decoration at text area
+			if (!link.isHasHyperlinkDecoration()) {
+				canvas.setHyperlink(link);
+			}
 			writer.closeTag("p:cNvPr");
 			writer.openTag("p:cNvSpPr");
 			writer.attribute("txBox", "1");

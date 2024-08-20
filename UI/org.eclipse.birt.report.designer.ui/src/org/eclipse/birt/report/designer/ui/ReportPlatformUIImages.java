@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -630,6 +631,8 @@ public class ReportPlatformUIImages {
 				ICONS_PATH + LAYOUT16_PATH + "layoutPreference.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_COPY_FORMAT, ICONS_PATH + MISC_PATH + "copy_format.gif"); //$NON-NLS-1$
 		declareImage(IReportGraphicConstants.ICON_PASTE_FORMAT, ICONS_PATH + MISC_PATH + "paste_format.gif"); //$NON-NLS-1$
+		declareImage(IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_HYPERLINK_STYLE,
+				ICONS_PATH + OBJ16_PATH + "hyperlink-style-none.gif"); //$NON-NLS-1$
 
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -827,6 +827,14 @@ public interface CSSConstants {
 	 * CSS property value: underline
 	 */
 	public final static String CSS_UNDERLINE_VALUE = "underline";
+	/**
+	 * CSS property value: text decoration (default)
+	 */
+	public final static String CSS_TEXT_HYPERLINK_DECORATION_VALUE = "normal";
+	/**
+	 * CSS property value: text decoration none
+	 */
+	public final static String CSS_TEXT_HYPERLINK_UNDECORATION_VALUE = "text-decoration-none";
 	/**
 	 * CSS property value: upper-alpha
 	 */

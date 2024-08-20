@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2009, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -2296,6 +2296,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 		// Text decoration
 		addReportDefaultPropertyValue(Style.TEXT_LINE_THROUGH_PROP, handle);
+		addReportDefaultPropertyValue(Style.TEXT_HYPERLINK_STYLE_PROP, handle);
 		addReportDefaultPropertyValue(Style.TEXT_OVERLINE_PROP, handle);
 		addReportDefaultPropertyValue(Style.TEXT_UNDERLINE_PROP, handle);
 

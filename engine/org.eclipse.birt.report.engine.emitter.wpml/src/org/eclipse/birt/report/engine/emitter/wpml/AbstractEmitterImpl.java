@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -67,6 +67,7 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -1220,6 +1221,10 @@ public abstract class AbstractEmitterImpl {
 		if (hyperlink != null) {
 			String color = WordUtil.parseColor(content.getStyle().getColor());
 			hyperlink.setColor(color);
+			if (content.getComputedStyle().getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) != null) {
+				hyperlink.setHasHyperlinkDecoration(content.getComputedStyle().getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE).getCssText()
+					.equals(CSSConstants.CSS_TEXT_HYPERLINK_DECORATION_VALUE));			
+			}
 		}
 		return hyperlink;
 	}

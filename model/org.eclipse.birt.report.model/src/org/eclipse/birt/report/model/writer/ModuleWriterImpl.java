@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -2475,6 +2475,7 @@ abstract class ModuleWriterImpl extends ElementVisitor {
 		property(obj, IStyleModel.FONT_VARIANT_PROP);
 		property(obj, IStyleModel.COLOR_PROP);
 		property(obj, IStyleModel.TEXT_LINE_THROUGH_PROP);
+		property(obj, IStyleModel.TEXT_HYPERLINK_STYLE_PROP);
 		property(obj, IStyleModel.TEXT_OVERLINE_PROP);
 		property(obj, IStyleModel.TEXT_UNDERLINE_PROP);
 

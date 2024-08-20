@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2007, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -318,7 +318,7 @@ public class PDFPage extends AbstractPage {
 		drawText1(text, textX, textY + baseline, textStyle.getFontInfo(),
 				convertToPoint(textStyle.getLetterSpacing()), convertToPoint(textStyle.getWordSpacing()),
 				textStyle.getColor(), textStyle.getAlign());
-		if (textStyle.isHasHyperlink()) {
+		if (textStyle.isHasHyperlink() && textStyle.isHasHyperlinkDecoration()) {
 			FontInfo fontInfo = textStyle.getFontInfo();
 			float lineWidth = fontInfo.getLineWidth();
 			Color color = textStyle.getColor();

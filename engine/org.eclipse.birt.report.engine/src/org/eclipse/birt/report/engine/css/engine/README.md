@@ -34,7 +34,7 @@ Additional files which are required for the correct creation:
 * Open a command line and CD into the directory containing `token.gperf`
 * Execute the following command line:
 
-    `gperf -d -7 -l -D -L C++ token.gperf > token.cpp`
+    gperf -d -7 -l -D -L C++ token.gperf > token.cpp
 
 * This will overwrite the file `token.cpp`.
 

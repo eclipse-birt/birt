@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -820,4 +820,7 @@ public interface IReportGraphicConstants {
 
 	/** icon property: paste format */
 	String ICON_PASTE_FORMAT = "PasteFormat"; //$NON-NLS-1$
+
+	/** icon property: attribute text hyperlink style none */
+	String ICON_ATTRIBUTE_TEXT_HYPERLINK_STYLE = IStyleModel.TEXT_HYPERLINK_STYLE_PROP;
 }

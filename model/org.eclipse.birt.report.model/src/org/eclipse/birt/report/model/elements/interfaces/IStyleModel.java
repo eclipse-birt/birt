@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -335,4 +335,8 @@ public interface IStyleModel {
 	 * Property name: width
 	 */
 	String WIDTH_PROP = "width"; //$NON-NLS-1$
+	/**
+	 * Property name: text hyperlink style
+	 */
+	String TEXT_HYPERLINK_STYLE_PROP = "textDecoration"; //$NON-NLS-1$
 }

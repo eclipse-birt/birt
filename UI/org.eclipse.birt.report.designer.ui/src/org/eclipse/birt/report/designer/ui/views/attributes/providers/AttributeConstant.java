@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * AttributeConstant defines property key constant.
@@ -216,4 +217,8 @@ public class AttributeConstant {
 
 	public static final String HORIZONTAL_ALIGN = "GUI_HORIZONTAL_ALIGN";//$NON-NLS-1$
 
+	/**
+	 * Text hyperlink style property
+	 */
+	public static final String TEXT_HYPERLINK_STYLE = IStyleModel.TEXT_HYPERLINK_STYLE_PROP;
 }

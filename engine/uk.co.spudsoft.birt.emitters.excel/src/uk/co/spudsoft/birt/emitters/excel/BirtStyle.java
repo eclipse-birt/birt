@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -61,7 +61,7 @@ public class BirtStyle {
 			"SHOW_IF_BLANK", "background-image", "BACKGROUND_POSITION_Y", "word-spacing", "background-attachment",
 			"TEXT_UNDERLINE", "display", "font-family", "letter-spacing", "page-break-inside", "page-break-after"
 			, "Rotation", "border-diagonal-color", "border-diagonal-width", "border-diagonal-style",
-			"border-antidiagonal-color", "border-antidiagonal-width", "border-antidiagonal-style" };
+			"border-antidiagonal-color", "border-antidiagonal-width", "border-antidiagonal-style", "text-decoration" };
 
 	private IStyle elemStyle;
 	private CSSValue[] propertyOverride = new CSSValue[BirtStyle.NUMBER_OF_STYLES];
