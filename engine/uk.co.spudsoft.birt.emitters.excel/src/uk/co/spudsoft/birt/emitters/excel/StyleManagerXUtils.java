@@ -200,7 +200,7 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 				? "rgb(0,0,0)"
 				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_COLOR).getCssText());
 		String antidiagonalStyle = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE) == null
-				? "solid"
+				? "none"
 				: birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_STYLE).getCssText());
 		String antidiagonalWidth = (birtStyle.getProperty(StyleConstants.STYLE_BORDER_ANTIDIAGONAL_WIDTH) == null
 				? "medium"
