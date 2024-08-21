@@ -606,7 +606,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 	protected void addStyleTextHyperlinkDecorationNone() {
 		writer.writeCode(
-				"<style type=\"text/css\">.text-decoration-none {text-decoration: none; color: inherit;}</style>"); //$NON-NLS-1$
+				"<style type=\"text/css\">.hyperlink-undecorated {text-decoration: none; color: inherit;}</style>"); //$NON-NLS-1$
 	}
 
 	protected void outputBirtJs() {
@@ -2426,7 +2426,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (url != null && !isBlank) {
 			outputAction(text.getHyperlinkAction(), url);
 			if (mergedStyle.getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) == CSSValueConstants.UNDECORATED) {
-				writer.attribute(HTMLTags.ATTR_CLASS, "text-decoration-none");
+				writer.attribute(HTMLTags.ATTR_CLASS, "hyperlink-undecorated");
 			}
 			String strColor = mergedStyle.getColor();
 			if (null != strColor) {
