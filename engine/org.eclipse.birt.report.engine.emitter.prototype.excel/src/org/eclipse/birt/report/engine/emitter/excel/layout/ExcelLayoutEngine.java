@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
@@ -377,7 +378,7 @@ public class ExcelLayoutEngine {
 			}
 			int diagonalNumber = cellcontent.getDiagonalNumber();
 			StyleEntry cellStyleEntry = null;
-			if (diagonalNumber != 0) {
+			if (diagonalNumber != 0 && !style.getDiagonalStyle().equalsIgnoreCase(CSSConstants.CSS_NONE_VALUE)) {
 				String diagonalColor = cellcontent.getDiagonalColor();
 				String diagonalStyle = cellcontent.getDiagonalStyle();
 				int diagonalWidth = PropertyUtil.getDimensionValue(cellcontent, cellcontent.getDiagonalWidth(),
