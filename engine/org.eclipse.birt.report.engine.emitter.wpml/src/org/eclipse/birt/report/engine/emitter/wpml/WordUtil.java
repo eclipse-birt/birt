@@ -46,6 +46,11 @@ public class WordUtil {
 
 	public static final double INCH_TWIPS = INCH_PT * PT_TWIPS;
 
+	/**
+	 * maximum value of word column width 22in to TWIPS
+	 */
+	public static final int MAX_ELEMENT_WIDTH_INCH_TWIPS = 31680;
+
 	// Bookmark names must begin with a letter and can contain numbers.
 	// spaces can not be included in a bookmark name,
 	// but the underscore character can be used to separate words

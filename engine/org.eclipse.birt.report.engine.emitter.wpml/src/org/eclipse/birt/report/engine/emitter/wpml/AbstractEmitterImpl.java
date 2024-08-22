@@ -1481,7 +1481,10 @@ public abstract class AbstractEmitterImpl {
 				tblColumns[i] = -1;
 				count++;
 			} else {
-				tblColumns[i] = WordUtil.convertTo(col.getWidth(), tblWidth, reportDpi);
+				int colWidth = WordUtil.convertTo(col.getWidth(), tblWidth, reportDpi);
+				// validate the maximum of column width 
+				colWidth = (colWidth > WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS) ? WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS : colWidth;
+				tblColumns[i] = colWidth;
 				total += tblColumns[i];
 			}
 		}
@@ -1490,7 +1493,14 @@ public abstract class AbstractEmitterImpl {
 			return tblColumns;
 		}
 		tblWidth = Math.min(tblWidth, context.getCurrentWidth());
-		return EmitterUtil.resizeTableColumn(tblWidth, tblColumns, count, total);
+		tblWidth = (tblWidth > WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS) ? WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS : tblWidth;
+
+		int[] tblColWidth = EmitterUtil.resizeTableColumn(tblWidth, tblColumns, count, total);
+		// validate the maximum of column width 
+		for (int i = 0; i < tblColWidth.length; i++) {
+			tblColWidth[i] = (tblColWidth[i] > WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS) ? WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS : tblColWidth[i];
+		}
+		return tblColWidth;
 	}
 
 	/**
