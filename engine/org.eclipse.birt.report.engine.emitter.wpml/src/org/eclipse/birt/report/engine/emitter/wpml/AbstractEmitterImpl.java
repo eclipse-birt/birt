@@ -442,7 +442,12 @@ public abstract class AbstractEmitterImpl {
 		// Default height/width is the width/height of A4, the width 595.275pt *
 		// PT_TWIPS, the height is 841.889 * PT_TWIPS
 		pageWidth = WordUtil.convertTo(page.getPageWidth(), 11906, reportDpi);
+		// MS Word limitation, maximum width: 22in
+		pageWidth = Math.min(pageWidth, WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS);
+		
 		pageHeight = WordUtil.convertTo(page.getPageHeight(), 16838, reportDpi);
+		// MS Word limitation, maximum height: 22in
+		pageHeight = Math.min(pageHeight, WordUtil.MAX_ELEMENT_WIDTH_INCH_TWIPS);
 
 		footerHeight = WordUtil.convertTo(page.getFooterHeight(), 0, reportDpi);
 		headerHeight = WordUtil.convertTo(page.getHeaderHeight(), 0, reportDpi);
