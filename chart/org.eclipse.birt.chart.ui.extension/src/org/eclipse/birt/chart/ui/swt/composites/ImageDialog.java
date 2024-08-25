@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -95,6 +95,8 @@ public class ImageDialog extends TrayDialog {
 
 	protected String imageData;
 
+	protected String imageURI;
+
 	protected Label title;
 
 	protected ChartWizardContext context;
@@ -104,9 +106,13 @@ public class ImageDialog extends TrayDialog {
 	protected SelectType selectType;
 
 	/**
-	 * The constructor.
+	 * The constructor 1
 	 *
-	 * @param parentShell
+	 * @param parentShell           parent shell
+	 * @param fCurrent              current fill object
+	 * @param context               chart wizard context
+	 * @param bEmbeddedImageEnabled embed image enabled
+	 * @param bResourceImageEnabled resource image enabled
 	 */
 	public ImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context, boolean bEmbeddedImageEnabled,
 			boolean bResourceImageEnabled) {
@@ -120,9 +126,14 @@ public class ImageDialog extends TrayDialog {
 	}
 
 	/**
-	 * The constructor.
+	 * The constructor 2
 	 *
-	 * @param parentShell
+	 * @param parentShell           parent shell
+	 * @param fCurrent              current fill object
+	 * @param context               chart wizard context
+	 * @param bEmbeddedImageEnabled embed image enabled
+	 * @param bResourceImageEnabled resource image enabled
+	 * @param bLocalImageEnabled    local image enabled
 	 */
 	public ImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context, boolean bEmbeddedImageEnabled,
 			boolean bResourceImageEnabled, boolean bLocalImageEnabled) {
@@ -239,8 +250,10 @@ public class ImageDialog extends TrayDialog {
 		if (selectedType.equals(this.selectType)) {
 			return;
 		}
+		this.selectType = selectedType;
 		this.selectedHandle = getSelectTypeHandle(selectedType);
 		switchTo(selectedHandle);
+		setTextURIEditor(true);
 	}
 
 	protected void switchTo(SelectTypeHandle selectTypeHandle) {
@@ -296,6 +309,40 @@ public class ImageDialog extends TrayDialog {
 		});
 	}
 
+	private void createImageBrowseButton(Composite innerComp) {
+		browseButton = new Button(innerComp, SWT.PUSH);
+		browseButton.setText(Messages.getString("ImageDialog.label.Browse")); //$NON-NLS-1$
+		browseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		browseButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				FileDialog fileChooser = new FileDialog(getShell(), SWT.OPEN);
+				fileChooser.setText(Messages.getString("ImageDialog.label.SelectFile")); //$NON-NLS-1$
+				fileChooser.setFilterExtensions(new String[] { "*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				});
+				try {
+					String fullPath = fileChooser.open();
+					if (fullPath != null) {
+						String fileName = fileChooser.getFileName();
+						if (fileName != null) {
+							imageData = null;
+							imageURI = fullPath;
+							if (selectType.equals(SelectType.EMBEDDED_TYPE)) {
+								uriEditor.setText(fileName);
+							} else {
+								uriEditor.setText(imageURI);
+							}
+							preview();
+						}
+					}
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	protected void createPreviewButton(Composite innerComp) {
 		previewButton = new Button(innerComp, SWT.PUSH);
 		previewButton.setText(Messages.getString("ImageDialog.label.Preview")); //$NON-NLS-1$
@@ -336,7 +383,9 @@ public class ImageDialog extends TrayDialog {
 	}
 
 	/**
-	 * @return
+	 * Initialize the wizard dialog
+	 *
+	 * @return the initialize of the wizard dialog successfully
 	 */
 	protected boolean initDialog() {
 		getShell().setText(Messages.getString("ImageDialog.label.SelectImage")); //$NON-NLS-1$
@@ -348,8 +397,7 @@ public class ImageDialog extends TrayDialog {
 				&& ((Image) fCurrent).getSource() == ImageSourceType.FILE;
 
 		boolean isLocal = bLocalImageEnabled && fCurrent instanceof Image
-				&& ((Image) fCurrent).getSource() == ImageSourceType.STATIC && ((Image) fCurrent).getURL() != null
-				&& ((Image) fCurrent).getURL().indexOf("file:") == 0;
+				&& ((Image) fCurrent).getSource() == ImageSourceType.STATIC && ((Image) fCurrent).getURL() != null;
 
 		selectType = SelectType.URI_TYPE;
 
@@ -370,23 +418,33 @@ public class ImageDialog extends TrayDialog {
 	}
 
 	private void initURIEditor() {
-		String uri = ""; //$NON-NLS-1$
 		if (fCurrent instanceof Image && !(fCurrent instanceof PatternImage)) {
-			uri = ((Image) fCurrent).getURL();
+			imageURI = ((Image) fCurrent).getURL();
 
 			if (fCurrent instanceof EmbeddedImage) {
 				imageData = ((EmbeddedImage) fCurrent).getData();
 			}
 
-			if (selectType == SelectType.URI_TYPE && (((Image) fCurrent).getURL().indexOf("file:") == 0 //$NON-NLS-1$
-					|| ((Image) fCurrent).getSource() == ImageSourceType.FILE)) {
-				uri = ""; //$NON-NLS-1$
+			if (imageURI == null || selectType == SelectType.URI_TYPE && fCurrent != null
+					&& ((Image) fCurrent).getSource() == ImageSourceType.FILE) {
+				imageURI = ""; //$NON-NLS-1$
 			}
 		}
+		setTextURIEditor(false);
+	}
 
+	private void setTextURIEditor(boolean resetDisplayedUri) {
+		String uri = imageURI;
+		if (resetDisplayedUri || imageURI == null
+				|| selectType == SelectType.URI_TYPE
+						&& fCurrent != null && ((Image) fCurrent).getSource() == ImageSourceType.FILE) {
+			uri = ""; //$NON-NLS-1$
+		}
+		uri = uri.replace("file:", "").replace("///", "");
 		uriEditor.setText(uri);
 		uriEditor.setFocus();
 	}
+
 
 	protected void updateButtons() {
 		boolean complete = selectedHandle.isComplete();
@@ -418,6 +476,18 @@ public class ImageDialog extends TrayDialog {
 			return string.trim().substring(1, string.trim().length() - 1);
 		}
 		return string.trim();
+	}
+
+	/**
+	 * Get the URI like file-resource URI
+	 *
+	 * @return the URI like file-resource URI
+	 */
+	protected String getFileURI(String uri) {
+		if (uri != null && uri.trim().length() > 0 && uri.indexOf("file:") != 0) {
+			uri = "file:///" + uri;
+		}
+		return uri;
 	}
 
 	protected static class ImageCanvas extends Composite implements PaintListener {
@@ -528,13 +598,14 @@ public class ImageDialog extends TrayDialog {
 			title.setText(Messages.getString("ImageDialog.label.EnterURL")); //$NON-NLS-1$
 			createURIEditor();
 			Composite innerComp = createInnerComposite();
+			createImageBrowseButton(innerComp);
 			createPreviewButton(innerComp);
 		}
 
 		@Override
 		public void preview() {
 			if (this.isComplete()) {
-				String uri = removeQuote(uriEditor.getText());
+				String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
 				previewCanvas.updateCanvas(uri);
 			}
 		}
@@ -544,7 +615,8 @@ public class ImageDialog extends TrayDialog {
 			boolean complete;
 			try {
 				// handle double quotation
-				new URL(removeQuote(uriEditor.getText().trim()));
+				String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
+				new URL(uri);
 				complete = true;
 			} catch (Exception e) {
 				complete = false;
@@ -555,7 +627,8 @@ public class ImageDialog extends TrayDialog {
 
 		@Override
 		public void performOKPressed() {
-			fCurrent = ImageImpl.create(removeQuote(uriEditor.getText().trim()), ImageSourceType.STATIC);
+			String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
+			fCurrent = ImageImpl.create(uri, ImageSourceType.STATIC);
 		}
 
 		@Override
@@ -583,7 +656,7 @@ public class ImageDialog extends TrayDialog {
 		@Override
 		public void preview() {
 			if (this.isComplete()) {
-				String fileName = removeQuote(uriEditor.getText());
+				String fileName = removeQuote(uriEditor.getText().trim());
 				try {
 					org.eclipse.swt.graphics.Image image = getImageServiceProvider().loadImage(fileName);
 					previewCanvas.updateCanvas(image.getImageData());
@@ -616,35 +689,43 @@ public class ImageDialog extends TrayDialog {
 
 	private class EmbeddedSelectTypeHandleImpl implements SelectTypeHandle {
 
+		private String previewURI;
+
 		@Override
 		public void createInputInnerComposite() {
 			title.setText(Messages.getString("ImageDialog.label.EnterEmbed")); //$NON-NLS-1$
 			createURIEditor();
 			Composite innerComp = createInnerComposite();
-			createEmbeddedBrowseButton(innerComp);
+			createImageBrowseButton(innerComp);
 			createPreviewButton(innerComp);
 		}
 
 		@Override
 		public void preview() {
-			if (this.isComplete()) {
-				String uri = removeQuote(uriEditor.getText());
-				previewCanvas.updateCanvas(uri);
+			if (this.isComplete() && previewURI != null) {
+				previewCanvas.updateCanvas(previewURI);
 			}
 		}
 
 		@Override
 		public boolean isComplete() {
 			boolean complete;
-
 			try {
 				// handle double quotation
-				URL url = new URL(removeQuote(uriEditor.getText().trim()));
+				previewURI = getFileURI(removeQuote(uriEditor.getText().trim()));
+				URL url = new URL(previewURI);
 
 				File file = new File(url.getPath());
 				complete = file.exists() && file.isAbsolute();
-			} catch (Exception e) {
+				if (!complete) {
+					previewURI = getFileURI(removeQuote(imageURI));
+					url = new URL(previewURI);
+					file = new File(url.getPath());
+					complete = file.exists() && file.isAbsolute();
+				}
+			} catch (Exception eue) {
 				complete = false;
+				previewURI = null;
 			}
 
 			return complete;
@@ -654,15 +735,20 @@ public class ImageDialog extends TrayDialog {
 		public void performOKPressed() {
 			BufferedInputStream bis = null;
 			try {
-				fCurrent = EmbeddedImageImpl.create(new File(uriEditor.getText().trim()).getName(), imageData);
-				bis = new BufferedInputStream(new URL(uriEditor.getText().trim()).openStream());
+				String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
+				fCurrent = EmbeddedImageImpl.create(new File(uri).getName(), imageData);
+				try {
+					bis = new BufferedInputStream(new URL(uri).openStream());
+				} catch (Exception e) {
+					uri = getFileURI(removeQuote(imageURI));
+					bis = new BufferedInputStream(new URL(uri).openStream());
+				}
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
 				byte[] buf = new byte[1024];
 				int count = bis.read(buf);
 				while (count != -1) {
 					bos.write(buf, 0, count);
-
 					count = bis.read(buf);
 				}
 
@@ -691,35 +777,6 @@ public class ImageDialog extends TrayDialog {
 			previewCanvas.updateCanvas(sUrl);
 		}
 
-		private void createEmbeddedBrowseButton(Composite innerComp) {
-			browseButton = new Button(innerComp, SWT.PUSH);
-			browseButton.setText(Messages.getString("ImageDialog.label.Browse")); //$NON-NLS-1$
-			browseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			browseButton.addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent event) {
-					FileDialog fileChooser = new FileDialog(getShell(), SWT.OPEN);
-					fileChooser.setText(Messages.getString("ImageDialog.label.SelectFile")); //$NON-NLS-1$
-					fileChooser.setFilterExtensions(new String[] { "*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					});
-					try {
-						String fullPath = fileChooser.open();
-						if (fullPath != null) {
-							String fileName = fileChooser.getFileName();
-							if (fileName != null) {
-								imageData = null;
-								fullPath = new StringBuilder("file:///").append(fullPath).toString(); //$NON-NLS-1$
-								uriEditor.setText(fullPath);
-							}
-						}
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-
 	}
 
 	private class LocalSelectTypeHandleImpl implements SelectTypeHandle {
@@ -737,14 +794,14 @@ public class ImageDialog extends TrayDialog {
 			title.setText(Messages.getString("ImageDialog.label.EnterLocal")); //$NON-NLS-1$
 			createURIEditor();
 			Composite innerComp = createInnerComposite();
-			createLocalBrowseButton(innerComp);
+			createImageBrowseButton(innerComp);
 			createPreviewButton(innerComp);
 		}
 
 		@Override
 		public void preview() {
 			if (this.isComplete()) {
-				String uri = removeQuote(uriEditor.getText());
+				String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
 				previewCanvas.updateCanvas(uri);
 			}
 		}
@@ -755,7 +812,8 @@ public class ImageDialog extends TrayDialog {
 
 			try {
 				// handle double quotation
-				URL url = new URL(removeQuote(uriEditor.getText().trim()));
+				String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
+				URL url = new URL(uri);
 
 				File file = new File(url.getPath());
 				complete = file.exists() && file.isAbsolute();
@@ -768,36 +826,8 @@ public class ImageDialog extends TrayDialog {
 
 		@Override
 		public void performOKPressed() {
-			fCurrent = ImageImpl.create(removeQuote(uriEditor.getText().trim()));
-		}
-
-		private void createLocalBrowseButton(Composite innerComp) {
-			browseButton = new Button(innerComp, SWT.PUSH);
-			browseButton.setText(Messages.getString("ImageDialog.label.Browse")); //$NON-NLS-1$
-			browseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-			browseButton.addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent event) {
-					FileDialog fileChooser = new FileDialog(getShell(), SWT.OPEN);
-					fileChooser.setText(Messages.getString("ImageDialog.label.SelectFile")); //$NON-NLS-1$
-					fileChooser.setFilterExtensions(new String[] { "*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					});
-					try {
-						String fullPath = fileChooser.open();
-						if (fullPath != null) {
-							String fileName = fileChooser.getFileName();
-							if (fileName != null) {
-								imageData = null;
-								fullPath = new StringBuilder("file:///").append(fullPath).toString(); //$NON-NLS-1$
-								uriEditor.setText(fullPath);
-							}
-						}
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
-				}
-			});
+			String uri = getFileURI(removeQuote(uriEditor.getText().trim()));
+			fCurrent = ImageImpl.create(uri);
 		}
 
 	}
