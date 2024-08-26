@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008,2009 Actuate Corporation.
+ * Copyright (c) 2008, 2009, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -722,7 +722,9 @@ public abstract class AbstractWordXmlWriter {
 			if (color != null) {
 				writeAttrTag("w:color", color);
 			}
-			writeAttrTag("w:rStyle", "Hyperlink");
+			if (info.isHasHyperlinkDecoration()) {
+				writeAttrTag("w:rStyle", "Hyperlink");
+			}
 		} else {
 			writeTextUnderline(style);
 			writeTextColor(style);

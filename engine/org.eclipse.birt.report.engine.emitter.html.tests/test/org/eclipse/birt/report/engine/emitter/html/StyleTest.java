@@ -56,7 +56,7 @@ public class StyleTest extends HTMLReportEmitterTestCase {
 
 		String regex = "<style type=\"text/css\">";
 		Matcher matcher = Pattern.compile(regex).matcher(content);
-		assertEquals(false, matcher.find());
+		assertEquals(true, matcher.find());
 
 		regex = "<div[^<>]*style=\"[^<>]*color: rgb(255, 0, 0)[^<>]*>aaaa</div>";
 		matcher = Pattern.compile(regex).matcher(content);

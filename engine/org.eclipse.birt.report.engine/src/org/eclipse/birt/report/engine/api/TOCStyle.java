@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007,2008 Actuate Corporation.
+ * Copyright (c) 2007, 2008, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -290,6 +290,10 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	 * Style property: text-underline
 	 */
 	public static final String TEXT_UNDERLINE = "text-underline";
+	/**
+	 * Style property: text-line-through
+	 */
+	public static final String TEXT_HYPERLINK_STYLE = "text-decoration";
 
 	/**
 	 * Style property: vertical-align
@@ -753,6 +757,14 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public String getTextLineThrough() {
 		return properties.get(TEXT_LINE_THROUGH);
+	}
+
+	/**
+	 * Get the text hyperlink style
+	 */
+	@Override
+	public String getTextHyperlinkStyle() {
+		return properties.get(TEXT_HYPERLINK_STYLE);
 	}
 
 	/**
@@ -1255,6 +1267,14 @@ public class TOCStyle implements IScriptStyle, Serializable {
 	@Override
 	public void setTextLineThrough(String through) {
 		setProperty(TEXT_LINE_THROUGH, through);
+	}
+
+	/**
+	 * Set the text hyperlink style
+	 */
+	@Override
+	public void setTextHyperlinkStyle(String textDecoration) {
+		setProperty(TEXT_HYPERLINK_STYLE, textDecoration);
 	}
 
 	/**

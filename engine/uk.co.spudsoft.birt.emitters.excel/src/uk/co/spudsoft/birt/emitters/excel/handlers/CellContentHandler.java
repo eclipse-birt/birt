@@ -210,20 +210,28 @@ public class CellContentHandler extends AbstractHandler {
 					.createHyperlink(HyperlinkType.URL);
 			hyperlink.setAddress(hyperlinkUrl);
 			cell.setHyperlink(hyperlink);
-			birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
-			birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
+			// styling of hyperlink (text decoration: blue and underline)
+			if (birtCellStyle.getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE).getCssText()
+					.equals(CSSConstants.CSS_TEXT_HYPERLINK_DECORATION_VALUE)) {
+				birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
+						new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
+				birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
+						new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
+			}
 		}
 		if (hyperlinkBookmark != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
 					.createHyperlink(HyperlinkType.DOCUMENT);
 			hyperlink.setAddress(prepareName(hyperlinkBookmark));
 			cell.setHyperlink(hyperlink);
-			birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
-			birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
-					new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
+			// styling of hyperlink (text decoration: blue and underline)
+			if (birtCellStyle.getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE).getCssText()
+					.equals(CSSConstants.CSS_TEXT_HYPERLINK_DECORATION_VALUE)) {
+				birtCellStyle.setProperty(StyleConstants.STYLE_COLOR,
+						new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_BLUE_VALUE));
+				birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_UNDERLINE,
+						new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_UNDERLINE_VALUE));
+			}
 		}
 
 		if ((lastFormula != null) && (lastValue == null)) {

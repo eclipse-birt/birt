@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -309,6 +309,11 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public String getTextLineThrough() {
 		return getCssText(STYLE_TEXT_LINETHROUGH);
+	}
+
+	@Override
+	public String getTextHyperlinkStyle() {
+		return getCssText(STYLE_TEXT_HYPERLINK_STYLE);
 	}
 
 	@Override
@@ -867,6 +872,14 @@ abstract public class AbstractStyle implements IStyle {
 	@Override
 	public void setTextLineThrough(String textLineThrough) {
 		setCssText(STYLE_TEXT_LINETHROUGH, textLineThrough);
+	}
+
+	/**
+	 * @param textHyperlinkStyle The textHyperlinkStyle to set.
+	 */
+	@Override
+	public void setTextHyperlinkStyle(String textHyperlinkStyle) {
+		setCssText(STYLE_TEXT_HYPERLINK_STYLE, textHyperlinkStyle);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -403,6 +403,11 @@ public interface CSSValueConstants {
 	 * The 'underline' keyword.
 	 */
 	Value UNDERLINE_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_UNDERLINE_VALUE);
+
+	/**
+	 * The 'none' (is undecorated, default is decoration) keyword.
+	 */
+	Value UNDECORATED = new StringValue(CSSPrimitiveValue.CSS_IDENT, CSSConstants.CSS_TEXT_HYPERLINK_UNDECORATION_VALUE);
 
 	/**
 	 * The 'visible' keyword.

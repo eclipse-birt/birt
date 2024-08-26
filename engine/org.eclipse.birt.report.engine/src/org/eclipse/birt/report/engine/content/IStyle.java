@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -72,6 +72,13 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	 * @return Return the text line through
 	 */
 	String getTextLineThrough();
+
+	/**
+	 * Get the text hyperlink style
+	 *
+	 * @return Return the text hyperlink style
+	 */
+	String getTextHyperlinkStyle();
 
 	/**
 	 * Get the master page
@@ -182,6 +189,14 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	 * @throws DOMException
 	 */
 	void setTextLineThrough(String through) throws DOMException;
+
+	/**
+	 * Set the text hyperlink style
+	 *
+	 * @param hyperlinkStyle
+	 * @throws DOMException
+	 */
+	void setTextHyperlinkStyle(String hyperlinkStyle) throws DOMException;
 
 	/**
 	 * Set the master page
@@ -355,14 +370,14 @@ public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Propert
 	/**
 	 * Set the image background height
 	 *
-	 * @param background image height
+	 * @param height background image height
 	 */
 	void setBackgroundHeight(String height);
 
 	/**
 	 * Set the image background width
 	 *
-	 * @param background image width
+	 * @param width background image width
 	 */
 	void setBackgroundWidth(String width);
 

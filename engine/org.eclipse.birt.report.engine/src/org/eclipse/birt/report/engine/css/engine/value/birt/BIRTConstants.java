@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -64,6 +64,10 @@ public interface BIRTConstants extends CSSConstants {
 	 * BIRT property: text linethrough
 	 */
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
+	/**
+	 * BIRT property: text hyperlink style
+	 */
+	String BIRT_TEXT_HYPERLINK_SYTLE_PROPERTY = "text-decoration"; //$NON-NLS-1$
 	/**
 	 * BIRT property: visible format
 	 */

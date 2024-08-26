@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2009, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -107,6 +107,7 @@ public class StyleUtil {
 		styleName2Index.put(IStyleModel.TEXT_UNDERLINE_PROP, StyleConstants.STYLE_TEXT_UNDERLINE);
 		styleName2Index.put(IStyleModel.TEXT_OVERLINE_PROP, StyleConstants.STYLE_TEXT_OVERLINE);
 		styleName2Index.put(IStyleModel.TEXT_LINE_THROUGH_PROP, StyleConstants.STYLE_TEXT_LINETHROUGH);
+		styleName2Index.put(IStyleModel.TEXT_HYPERLINK_STYLE_PROP, StyleConstants.STYLE_TEXT_HYPERLINK_STYLE);
 		/*
 		 * styleName2Index.put( Style.NUMBER_FORMAT_PROP,
 		 * StyleConstants.STYLE_NUMBER_FORMAT );

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -1038,6 +1038,21 @@ public class StyleInstance implements IScriptStyle {
 		checkWritable();
 		try {
 			style.setTextLineThrough(through);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
+
+	@Override
+	public String getTextHyperlinkStyle() {
+		return style.getTextHyperlinkStyle();
+	}
+
+	@Override
+	public void setTextHyperlinkStyle(String textDecoration) throws ScriptException {
+		checkWritable();
+		try {
+			style.setTextHyperlinkStyle(textDecoration);
 		} catch (DOMException e) {
 			throw new ScriptException(e.getLocalizedMessage());
 		}

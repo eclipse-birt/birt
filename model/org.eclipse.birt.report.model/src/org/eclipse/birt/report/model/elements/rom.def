@@ -143,6 +143,10 @@
     <Choice displayNameID="Choices.textLineThrough.none" name="none"/>
     <Choice displayNameID="Choices.textLineThrough.line-through" name="line-through"/>
   </ChoiceType>
+  <ChoiceType name="textDecoration">
+    <Choice displayNameID="Choices.textDecoration.normal" name="normal"/>
+    <Choice displayNameID="Choices.textDecoration.none" name="text-decoration-none"/>
+  </ChoiceType>
   <ChoiceType name="lineWidth">
     <Choice displayNameID="Choices.lineWidth.thin" name="thin"/>
     <Choice displayNameID="Choices.lineWidth.medium" name="medium"/>
@@ -2412,6 +2416,9 @@
       <Property detailType="textLineThrough" displayNameID="Element.Style.font.textLineThrough" isStyleProperty="true" name="textLineThrough" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
+      <Property detailType="textDecoration" displayNameID="Element.Style.font.textDecoration" isStyleProperty="true" name="textDecoration" since="4.17" type="choice">
+		<Default>normal</Default>
+      </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.background">
       <Property canInherit="false" detailType="backgroundAttachment" displayNameID="Element.Style.background.attachment" isStyleProperty="true" name="backgroundAttachment" since="reserved" type="choice">
@@ -2926,6 +2933,7 @@
     <StyleProperty name="textUnderline"/>
     <StyleProperty name="textOverline"/>
     <StyleProperty name="textLineThrough"/>
+    <StyleProperty name="textDecoration"/>
     <StyleProperty name="textTransform"/>
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>
@@ -3031,6 +3039,7 @@
     <StyleProperty name="textUnderline"/>
     <StyleProperty name="textOverline"/>
     <StyleProperty name="textLineThrough"/>
+    <StyleProperty name="textDecoration"/>
     <StyleProperty name="textTransform"/>
     <StyleProperty name="verticalAlign"/>
     <StyleProperty name="whiteSpace"/>

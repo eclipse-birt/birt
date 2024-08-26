@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -46,6 +46,9 @@ import org.eclipse.swt.SWT;
  * The general attribute page of DataItem element.
  */
 public class DataPage extends GeneralPage {
+
+	private static final int SECTION_WIDTH_LEFT = 216;
+	private static final int SECTION_WIDTH_RIGHT = 200;
 
 	/*
 	 * (non-Javadoc)
@@ -113,13 +116,13 @@ public class DataPage extends GeneralPage {
 
 		// Sets widths.
 
-		nameSection.setWidth(200);
-		fontFamilySection.setWidth(200);
-		fontSizeSection.setWidth(200);
-		colorSection.setWidth(200);
-		bgColorSection.setWidth(200);
+		nameSection.setWidth(SECTION_WIDTH_LEFT);
+		fontFamilySection.setWidth(SECTION_WIDTH_LEFT);
+		colorSection.setWidth(SECTION_WIDTH_LEFT);
+		styleSection.setWidth(SECTION_WIDTH_LEFT);
+		fontSizeSection.setWidth(SECTION_WIDTH_RIGHT);
+		bgColorSection.setWidth(SECTION_WIDTH_RIGHT);
 		// fontStyleSection.setWidth( 200 );
-		styleSection.setWidth(200);
 
 		// Sets layout num.
 
@@ -146,7 +149,7 @@ public class DataPage extends GeneralPage {
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
 		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
 		elementIdSection.setProvider(elementIdProvider);
-		elementIdSection.setWidth(200);
+		elementIdSection.setWidth(SECTION_WIDTH_RIGHT);
 		elementIdSection.setLayoutNum(2);
 		addSection(PageSectionId.DATA_ELEMENT_ID, elementIdSection);
 
@@ -157,7 +160,7 @@ public class DataPage extends GeneralPage {
 		displaySection.setProvider(displayProvider);
 		displaySection.setLayoutNum(4);
 		displaySection.setGridPlaceholder(2, true);
-		displaySection.setWidth(200);
+		displaySection.setWidth(SECTION_WIDTH_RIGHT);
 
 		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider(
 				StyleHandle.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
@@ -187,11 +190,6 @@ public class DataPage extends GeneralPage {
 	 */
 	private IDescriptorProvider[] createFontStyleProviders() {
 		IDescriptorProvider[] providers = {
-				// Creates providers with StyleHandle.FONT_WEIGHT_PROP,
-				// StyleHandle.FONT_STYLE_PROP, StyleHandle.TEXT_UNDERLINE_PROP,
-				// StyleHandle.TEXT_LINE_THROUGH_PROP and
-				// StyleHandle.TEXT_ALIGN_PROP.
-
 				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
@@ -202,6 +200,9 @@ public class DataPage extends GeneralPage {
 						ReportDesignConstants.STYLE_ELEMENT),
 
 				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_LINE_THROUGH_PROP,
+						ReportDesignConstants.STYLE_ELEMENT),
+
+				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_HYPERLINK_STYLE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
 				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };

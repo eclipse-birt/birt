@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2009, 2023, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -604,6 +604,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.writeCode("</script>"); //$NON-NLS-1$
 	}
 
+	protected void addStyleTextHyperlinkDecorationNone() {
+		writer.writeCode(
+				"<style type=\"text/css\">.hyperlink-undecorated {text-decoration: none; color: inherit;}</style>"); //$NON-NLS-1$
+	}
+
 	protected void outputBirtJs() {
 		writer.writeCode("<script type=\"text/javascript\">");
 		writer.writeCode(" //<![CDATA["); //$NON-NLS-1$
@@ -721,6 +726,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (isEmbeddable) {
 			outputCSSStyles(reportDesign, designHandle);
 
+			// CSS hyperlink text undecoration
+			addStyleTextHyperlinkDecorationNone();
+
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
@@ -787,6 +795,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 
 		outputCSSStyles(reportDesign, designHandle);
+
+		// CSS hyperlink text un-decoration
+		addStyleTextHyperlinkDecorationNone();
 
 		if (needFixTransparentPNG) {
 			fixTransparentPNG();
@@ -2414,6 +2425,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		String url = validate(text.getHyperlinkAction());
 		if (url != null && !isBlank) {
 			outputAction(text.getHyperlinkAction(), url);
+			if (mergedStyle.getProperty(StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) == CSSValueConstants.UNDECORATED) {
+				writer.attribute(HTMLTags.ATTR_CLASS, "hyperlink-undecorated");
+			}
 			String strColor = mergedStyle.getColor();
 			if (null != strColor) {
 				styleBuffer.setLength(0);
