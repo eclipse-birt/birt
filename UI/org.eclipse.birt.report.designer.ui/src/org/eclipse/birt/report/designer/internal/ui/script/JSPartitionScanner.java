@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation, 2024 others
+ * Copyright (c) 2004, 2024 Actuate Corporation, 2024 others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -181,15 +181,20 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 		this.globalObjectTokens.add("vars"); //$NON-NLS-1$
 		this.globalObjectTokens.add("row"); //$NON-NLS-1$
 		this.globalObjectTokens.add("dataSetRow"); //$NON-NLS-1$
+		this.globalObjectTokens.add("measure"); //$NON-NLS-1$
+		this.globalObjectTokens.add("dimension"); //$NON-NLS-1$
 		this.globalObjectTokens.add("importPackage"); //$NON-NLS-1$
 		this.globalObjectTokens.add("Packages"); //$NON-NLS-1$
+		this.globalObjectTokens.add("_outer"); //$NON-NLS-1$
 		this.keywordMethods.add("__rownum"); //$NON-NLS-1$
 		this.keywordMethods.add("value"); //$NON-NLS-1$
 		this.keywordMethods.add("data"); //$NON-NLS-1$
 		this.keywordMethods.add("displayText"); //$NON-NLS-1$
+		this.keywordMethods.add("pageNumber"); //$NON-NLS-1$
+		this.keywordMethods.add("totalPage"); //$NON-NLS-1$
 
 		try {
-			// analysis of static javascript classes and methods
+			// analysis of static JavaScript classes and methods
 			List<IClassInfo> list = DEUtil.getClasses();
 			for (Iterator<IClassInfo> cIter = list.iterator(); cIter.hasNext();) {
 				IClassInfo classInfo = cIter.next();
