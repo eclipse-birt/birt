@@ -18,8 +18,10 @@ import java.awt.color.ColorSpace;
 import java.awt.color.ICC_Profile;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -52,15 +54,23 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.xml.xmp.DublinCoreSchema;
+import com.lowagie.text.xml.xmp.LangAlt;
+import com.lowagie.text.xml.xmp.PdfA1Schema;
+import com.lowagie.text.xml.xmp.PdfSchema;
+import com.lowagie.text.xml.xmp.XmpBasicSchema;
+import com.lowagie.text.xml.xmp.XmpWriter;
 
 /**
  * Definition of the PDF emitter page
@@ -92,6 +102,8 @@ public class PDFPageDevice implements IPageDevice {
 	/** PDF conformance PDF A1B */
 	private static final String PDF_CONFORMANCE_A1B = "PDF.A1B";
 	/** PDF conformance PDF X-1a:2001, unsupported (TODO: CMYK of PDF.X1A2001 */
+
+	private static final String PDF_UA_CONFORMANCE_1 = "PDF.UA-1";
 
 	/** PDF ICC color profile */
 	/** PDF ICC default color profile RGB */
@@ -149,6 +161,8 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	private final static String PDF_CONFORMANCE = "PdfEmitter.Conformance";
 
+	private final static String PDF_UA_CONFORMANCE = "PdfEmitter.PDFUAConformance";
+
 	/**
 	 * PDF/A ICC color profile (default: sRGB IEC61966-2.1, standard by: HP &
 	 * Microsoft)
@@ -174,7 +188,11 @@ public class PDFPageDevice implements IPageDevice {
 
 	private int pdfConformance = PdfWriter.PDFXNONE;
 
+	private int pdfUAConformance = PdfWriter.PDFXNONE;
+
 	private boolean isPdfAFormat = false;
+
+	private boolean isPdfUAFormat = false;
 
 	private boolean addPdfADocumentTitle = false;
 
@@ -209,6 +227,10 @@ public class PDFPageDevice implements IPageDevice {
 			this.setPdfVersion();
 			// PDF/A & PDF/X conformance user property based
 			this.setPdfConformance();
+
+			// PDFU/UA conformance user property based
+			this.setPdfUAConformance();
+
 			// PDF/A, set the default font of not embeddable fonts
 			this.setDefaultFontPdfA();
 			// PDF include font CID set stream
@@ -683,6 +705,48 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
+	 * Set the PDF/UA conformance based on the user property
+	 */
+	private void setPdfUAConformance() {
+		String userPdfUAConformance;
+		// PDF version based on user property
+		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_UA_CONFORMANCE)) {
+			userPdfUAConformance = this.userProperties.get(PDFPageDevice.PDF_UA_CONFORMANCE).toString().toUpperCase();
+		} else {
+			userPdfUAConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_UA_CONFORMANCE);
+		}
+		this.setPdfUAConformance(userPdfUAConformance);
+	}
+
+	/**
+	 * Set the PDF version
+	 *
+	 * @param conformance key to set the PDF version (e.g. 1.7)
+	 */
+	public void setPdfUAConformance(String conformance) {
+		switch (conformance) {
+		case PDFPageDevice.PDF_UA_CONFORMANCE_1:
+			this.pdfUAConformance = 1;
+			this.isPdfUAFormat = true;
+			break;
+		}
+	}
+
+	/**
+	 * Get the PDF conformance
+	 *
+	 * @return Return the PDF/UA conformance (e.g. PDF.UA-1)
+	 */
+	public String getPdfUAConformance() {
+		switch (this.pdfUAConformance) {
+		case 1:
+			return PDFPageDevice.PDF_UA_CONFORMANCE_1;
+		default:
+			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
+		}
+	}
+
+	/**
 	 * Get the PDF version
 	 *
 	 * @return Return the PDF version (e.g. 1.7)
@@ -785,6 +849,127 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
+	 * Check if PDF/UA conformance is specified
+	 *
+	 * @return Return if PDF/UA conformance is specified.
+	 */
+	public boolean isPDFUAFormat() {
+		return this.isPdfUAFormat;
+	}
+
+	/**
+	 * We need to override getXmlns because we have to define the pdfuaid namespace.
+	 */
+	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
+
+		public DublinCoreAccessibleSchema() {
+			super();
+		}
+
+		@Override
+		public String getXmlns() {
+			return super.getXmlns() + " xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"";
+		}
+
+		/**
+		 * This is what declares the document to be PDF/UA-1, so it must be called.
+		 */
+		public void addPdfUAId(int version) {
+			setProperty("pdfuaid:part", String.valueOf(version));
+		}
+
+	}
+
+	/**
+	 * Create the XML for the XMPMetadata. We use the same method from PdfWriter as
+	 * a template and add what is neeeded for PDF/UA.
+	 *
+	 * @return an XmpMetadata byte array
+	 */
+	private byte[] createXmpMetadataBytes() {
+		PdfDictionary info = writer.getInfo();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+
+			// We could declare the document to be PDF/A conformant.
+			// Note: PDF/A is something completely different from PDF/UA.
+			// But the same document can be PDF/A conformant and PDF/UA conformant.
+			// Not tested.
+			int PdfXConformance = writer.getPDFXConformance();
+			XmpWriter xmp = new XmpWriter(baos, "UTF-8", 4);
+			DublinCoreAccessibleSchema dc = new DublinCoreAccessibleSchema();
+			PdfSchema p = new PdfSchema();
+			XmpBasicSchema basic = new XmpBasicSchema();
+
+			// Use the properties from the PDF info to define some XMPMetadata properties.
+			PdfName key;
+			PdfObject obj;
+			for (PdfName pdfName : info.getKeys()) {
+				key = pdfName;
+				obj = info.get(key);
+				if (obj == null)
+					continue;
+				if (PdfName.TITLE.equals(key)) {
+					// The XMPMetadata allows defining the title for different languages.
+					// We add the title in the default language
+					// and a german translation of the title.
+					LangAlt langAlt = new LangAlt(((PdfString) obj).toUnicodeString());
+					langAlt.addLanguage("de_DE", "Das ist der Titel für deutsche Leser");
+					dc.setProperty(DublinCoreSchema.TITLE, langAlt);
+				}
+				if (PdfName.AUTHOR.equals(key)) {
+					dc.addAuthor(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.SUBJECT.equals(key)) {
+					dc.addSubject(((PdfString) obj).toUnicodeString());
+					dc.addDescription(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.KEYWORDS.equals(key)) {
+					p.addKeywords(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.CREATOR.equals(key)) {
+					basic.addCreatorTool(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.PRODUCER.equals(key)) {
+					p.addProducer(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.CREATIONDATE.equals(key)) {
+					basic.addCreateDate(((PdfDate) obj).getW3CDate());
+				}
+				if (PdfName.MODDATE.equals(key)) {
+					basic.addModDate(((PdfDate) obj).getW3CDate());
+				}
+			}
+			if (this.isPDFUAFormat()) {
+				// Declare the document to be PDF/UA conformant.
+				dc.addPdfUAId(this.pdfUAConformance);
+			}
+
+			if (dc.size() > 0)
+				xmp.addRdfDescription(dc);
+			if (p.size() > 0)
+				xmp.addRdfDescription(p);
+			if (basic.size() > 0)
+				xmp.addRdfDescription(basic);
+
+			// Declare the document to be PDF/A conformant, if requested by the developer.
+			if (PdfXConformance == PdfWriter.PDFA1A || PdfXConformance == PdfWriter.PDFA1B) {
+				PdfA1Schema a1 = new PdfA1Schema();
+				if (PdfXConformance == PdfWriter.PDFA1A)
+					a1.addConformance("A");
+				else
+					a1.addConformance("B");
+				xmp.addRdfDescription(a1);
+			}
+
+			xmp.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return baos.toByteArray();
+	}
+
+	/**
 	 * Set the PDF icc color profile and the XMP meta data
 	 */
 	private void setPdfIccXmp() {
@@ -850,7 +1035,8 @@ public class PDFPageDevice implements IPageDevice {
 
 		try {
 			// PDF create the xmp metaddata based on the document information
-			writer.createXmpMetadata();
+			byte[] xmpMetadata = this.createXmpMetadataBytes();
+			writer.setXmpMetadata(xmpMetadata);
 		} catch (Exception e) {
 			logger.log(Level.WARNING, e.getMessage(), e);
 		}
@@ -929,6 +1115,9 @@ public class PDFPageDevice implements IPageDevice {
 
 		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_CONFORMANCE)) {
 			value = reportContent.getDesign().getReportDesign().getPdfConformance();
+
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_UA_CONFORMANCE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfUAConformance();
 
 		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_ICC_COLOR_TYPE)) {
 			value = reportContent.getDesign().getReportDesign().getPdfIccColorType();

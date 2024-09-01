@@ -1720,6 +1720,25 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	}
 
 	/**
+	 * Get the configuration for the PDF/UA conformance
+	 *
+	 * @return the configuration for the PDF/UA conformance
+	 */
+	public String getPdfUAConformance() {
+		return getStringProperty(PDF_UA_CONFORMANCE);
+	}
+
+	/**
+	 * Set the configuration for the PDF/UA conformance
+	 *
+	 * @param pdfUAConformance PDF/UA conformance
+	 * @throws SemanticException
+	 */
+	public void setPdfUAConformance(String pdfUAConformance) throws SemanticException {
+		setStringProperty(PDF_UA_CONFORMANCE, pdfUAConformance);
+	}
+
+	/**
 	 * Get the configuration for the used PDF color type
 	 *
 	 * @return the configuration for the used PDF color type

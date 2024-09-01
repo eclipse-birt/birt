@@ -297,6 +297,10 @@ public interface IInternalReportDesignModel {
 	 * PDF option, conformance
 	 */
 	String PDF_CONFORMANCE = "pdfConformance"; //$NON-NLS-1$
+	/**
+	 * PDF option, PDF/UA conformance
+	 */
+	String PDF_UA_CONFORMANCE = "pdfUAConformance"; //$NON-NLS-1$
 
 	/**
 	 * PDF option, ICC color type profile (RGB/CMYK)
