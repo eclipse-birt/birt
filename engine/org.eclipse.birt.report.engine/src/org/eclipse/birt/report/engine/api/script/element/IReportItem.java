@@ -21,6 +21,9 @@ import org.eclipse.birt.report.model.api.simpleapi.ScriptConstants;
  */
 
 public interface IReportItem extends IReportElement {
+	/**
+	 * Property to handle script constants
+	 */
 	ScriptConstants constants = new ScriptConstants();
 
 	/**

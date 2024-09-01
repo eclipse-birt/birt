@@ -15,15 +15,28 @@
 package org.eclipse.birt.data.engine.script;
 
 /**
- *
+ * Default key words of global JavaScript objects
  */
-
 public final class ScriptConstants {
+
+	/** constant for object: dataSetRow */
 	public static final String DATA_SET_ROW_SCRIPTABLE = "dataSetRow";
+
+	/** constant for object: row */
 	public static final String DATA_SET_BINDING_SCRIPTABLE = "row";
+
+	/** constant for object: data */
 	public static final String DATA_BINDING_SCRIPTABLE = "data";
+
+	/** constant for object: measure */
 	public static final String MEASURE_SCRIPTABLE = "measure";
+
+	/** constant for object: dimension */
 	public static final String DIMENSION_SCRIPTABLE = "dimension";
+
+	/** constant for object: _outer */
 	public static final String OUTER_RESULT_KEYWORD = "_outer";
+
+	/** constant for object: __rownum */
 	public static final String ROW_NUM_KEYWORD = "__rownum";
 }

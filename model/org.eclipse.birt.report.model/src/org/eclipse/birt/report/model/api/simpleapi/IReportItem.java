@@ -20,6 +20,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  */
 
 public interface IReportItem extends IReportElement {
+	/**
+	 * Property to handle script constants
+	 */
 	ScriptConstants constants = new ScriptConstants();
 
 	/**
