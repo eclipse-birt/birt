@@ -37,7 +37,8 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
       <programArgs>-perspective org.eclipse.birt.report.designer.ui.ReportPerspective
 -product org.eclipse.birt.branding.birt_all_in_one
       </programArgs>
-      <vmArgs>-Xms512m
+      <vmArgs>-Dosgi.requiredJavaVersion=21
+-Xms512m
 -Xmx2048m
 -Dorg.eclipse.help.webapp.experimental.ui=true
       </vmArgs>
@@ -280,6 +281,10 @@ United States, other countries, or both.
       <property name="osgi.instance.area.default" value="@user.home/workspace"/>
       <property name="osgi.instance.area.default" value="@user.home/Documents/workspace" os="macosx"/>
    </configurations>
+
+   <repositories>
+      <repository location="https://download.eclipse.org/birt/updates/release/latest" name="BIRT Latest Release" enabled="true" />
+   </repositories>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>

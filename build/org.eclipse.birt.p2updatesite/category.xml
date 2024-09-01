@@ -107,6 +107,7 @@
    <feature id="org.eclipse.datatools.common.doc.user"/>
    <feature id="org.eclipse.datatools.connectivity.doc.user"/>
    <feature id="org.eclipse.datatools.enablement.apache.derby.feature"/>
+   <feature id="org.eclipse.datatools.enablement.feature"/>
    <feature id="org.eclipse.datatools.enablement.hsqldb.feature"/>
    <feature id="org.eclipse.datatools.enablement.ibm.feature"/>
    <feature id="org.eclipse.datatools.enablement.ingres.feature"/>
@@ -134,6 +135,11 @@
    <feature id="org.eclipse.help"/>
    <feature id="org.eclipse.platform"/>
    <feature id="org.eclipse.rcp"/>
+   <feature id="org.eclipse.wst.common_core.feature"/>
+   <feature id="org.eclipse.wst.common_ui.feature"/>
+   <feature id="org.eclipse.wst.xml_core.feature"/>
+   <feature id="org.eclipse.wst.xml_ui.feature"/>
+   <feature id="org.eclipse.wst.xml_userdoc.feature"/>
    <feature id="org.eclipse.xsd"/>
    <feature id="org.eclipse.xsd.edit"/>
 
