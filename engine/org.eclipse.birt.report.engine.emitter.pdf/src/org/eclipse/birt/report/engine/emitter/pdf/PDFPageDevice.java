@@ -53,6 +53,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfBoolean;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
@@ -261,6 +262,23 @@ public class PDFPageDevice implements IPageDevice {
 			}
 			if (description != null) {
 				doc.addHeader("Description", description);
+			}
+
+			if (this.isPdfUAFormat) {
+				String localeString = report.getDesign().getLocale();
+				if (localeString == null || localeString.isEmpty()) {
+					throw new BirtException("The report needs a locale property for PDF/UA!");
+				}
+				Locale locale = new Locale(localeString);
+				String language = locale.toLanguageTag();
+				doc.setDocumentLanguage(language);
+				// In order to declare the main language of the document,
+				// we need to use the extraCatalog. That way we don't need to
+				// modify existing OpenPDF source code.
+				PdfDictionary extraCatalog = writer.getExtraCatalog();
+				extraCatalog.put(PdfName.LANG, new PdfString(language, PdfObject.TEXT_UNICODE));
+
+				writer.addViewerPreference(PdfName.DISPLAYDOCTITLE, PdfBoolean.PDFTRUE);
 			}
 
 			// Add in prepending PDF's
