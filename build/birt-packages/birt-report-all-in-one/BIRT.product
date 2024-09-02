@@ -21,12 +21,12 @@ BIRT is an open source project under control of the Eclipse Foundation
 
 - Support: https://github.com/eclipse-birt/birt/discussions
 - Issues: https://github.com/eclipse-birt/birt/issues
-- Website https://eclipse.org/birt
+- Website https://eclipse-birt.github.io/birt-website
 - Source: https://github.com/eclipse-birt/birt
 
 
 
-Powered by the Eclipse Platform: https://eclipse.org/eclipse
+Powered by the Eclipse Platform: https://eclipse.dev/eclipse
       </text>
    </aboutInfo>
 
@@ -63,7 +63,7 @@ Powered by the Eclipse Platform: https://eclipse.org/eclipse
    </vm>
 
    <license>
-        <url>http://eclipse.org/legal/epl/notice.php</url>
+        <url>https://www.eclipse.org/legal/epl/notice/</url>
         <text>
    Eclipse Foundation Software User Agreement
 
