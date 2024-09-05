@@ -91,5 +91,6 @@ Import-Package: org.apache.batik.css.engine;version="1.17.0",
  org.apache.batik.transcoder;version="1.17.0",
  org.apache.batik.transcoder.image;version="1.17.0",
  org.apache.commons.cli,
+ org.eclipse.birt.report.model.elements,
  org.w3c.css.sac;version="1.3.0",
  org.w3c.tidy

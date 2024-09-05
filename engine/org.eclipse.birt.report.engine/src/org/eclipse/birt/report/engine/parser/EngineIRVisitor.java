@@ -1673,6 +1673,10 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 
 		handleAltText(handle, item);
+
+		// Copy tagType
+		String tagType = handle.getTagType();
+		item.setTagType(tagType);
 	}
 
 	/**

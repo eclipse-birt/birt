@@ -108,9 +108,11 @@ public class PDFPage extends AbstractPage {
 		document.setPageSize(pageSize);
 		if (!document.isOpen()) {
 			document.open();
+			pageDevice.initStructure();
 		} else {
 			document.newPage();
 		}
+
 		this.contentByte = writer.getDirectContent();
 	}
 
@@ -462,6 +464,10 @@ public class PDFPage extends AbstractPage {
 
 		// start drawing the text content
 		contentByte.beginText();
+
+		if (pageDevice.isPDFUAFormat()) {
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
+		}
 		if (null != color && !Color.BLACK.equals(color)) {
 			contentByte.setColorFill(color);
 			contentByte.setColorStroke(color);
@@ -521,6 +527,9 @@ public class PDFPage extends AbstractPage {
 			}
 		} else {
 			contentByte.showText(text);
+		}
+		if (pageDevice.isPDFUAFormat()) {
+			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
 		contentByte.restoreState();

@@ -1,5 +1,4 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -64,6 +63,8 @@ import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfStructureElement;
+import com.lowagie.text.pdf.PdfStructureTreeRoot;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.xml.xmp.DublinCoreSchema;
@@ -123,6 +124,11 @@ public class PDFPageDevice implements IPageDevice {
 	 * The Pdf Writer
 	 */
 	protected PdfWriter writer = null;
+
+	// The StructureTree defines the logical structure of the content.
+	PdfStructureTreeRoot structureRoot = null;
+	PdfStructureElement structureDocument = null;
+	PdfStructureElement structureCurrentLeaf = null;
 
 	protected IReportContext context;
 
@@ -379,6 +385,14 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	public void initStructure() {
+
+		structureRoot = writer.getStructureTreeRoot();
+		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
+		structureCurrentLeaf = structureDocument;
+
+	}
+
 	/**
 	 * Constructor for test
 	 *
@@ -396,7 +410,7 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Set pdf template
 	 *
-	 * @param key               the inex key of the pdf template
+	 * @param key               the index key of the pdf template
 	 * @param totalPageTemplate pdf template document
 	 */
 	public void setPDFTemplate(Float key, PdfTemplate totalPageTemplate) {
@@ -1159,5 +1173,22 @@ public class PDFPageDevice implements IPageDevice {
 			value = reportContent.getDesign().getReportDesign().getPdfAEmbedTitle();
 		}
 		return value;
+	}
+
+	/**
+	 * @param tagType
+	 */
+	public void pushTag(String tagType) {
+		System.out.println("pushTag " + tagType);
+		structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+	}
+
+	/**
+	 * @param tagType
+	 */
+	public void popTag(String tagType) {
+		System.out.println("popTag " + tagType);
+		structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+
 	}
 }

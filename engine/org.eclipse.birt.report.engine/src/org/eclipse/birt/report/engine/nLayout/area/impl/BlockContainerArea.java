@@ -25,6 +25,8 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -501,5 +503,26 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		} else {
 			setContentHeight(0);
 		}
+	}
+
+	public String getTagType() {
+		ContainerArea base = this;
+		while (base.getContent() == null) {
+			base = base.getParent();
+			if (base == null) {
+				logger.warning("Cannot access content!");
+				return null;
+			}
+		}
+		Object generateBy = base.getContent().getGenerateBy();
+		if (generateBy instanceof SimpleMasterPageDesign) {
+			return "masterpage";
+		} else if (generateBy instanceof ReportItemDesign) {
+			String tagType = ((ReportItemDesign) generateBy).getTagType();
+			if (tagType != null) {
+				return tagType;
+			}
+		}
+		return "lineTODO";
 	}
 }

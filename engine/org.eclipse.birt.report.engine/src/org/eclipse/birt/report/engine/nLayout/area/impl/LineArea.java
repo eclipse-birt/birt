@@ -23,9 +23,11 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITagType;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
@@ -39,7 +41,7 @@ import com.ibm.icu.text.Bidi;
  * @since 3.3
  *
  */
-public class LineArea extends InlineStackingArea {
+public class LineArea extends InlineStackingArea implements ITagType {
 
 	protected byte baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 
@@ -672,6 +674,23 @@ public class LineArea extends InlineStackingArea {
 			}
 		}
 		return null;
+	}
+
+	public String getTagType() {
+		ContainerArea base = this;
+		while (base.getContent() == null) {
+			base = base.getParent();
+			if (base == null) {
+				logger.warning("Cannot access content!");
+				return null;
+			}
+		}
+		ReportItemDesign generateBy = (ReportItemDesign) base.getContent().getGenerateBy();
+		String tagType = generateBy.getTagType();
+		if (tagType != null) {
+			return tagType;
+		}
+		return "lineTODO";
 	}
 
 }
