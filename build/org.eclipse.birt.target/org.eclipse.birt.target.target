@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="50">
+<target name="Generated from BIRT" sequenceNumber="51">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -138,15 +138,11 @@
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.33-I-builds"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
-      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
-      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
-      <repository location="https://download.eclipse.org/webtools/CI/latest"/>
-      <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.33.0"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.12"/>
+      <repository location="https://download.eclipse.org/releases/2024-09/202409111000"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/21.0.0.v20240807-1553"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
     </location>
   </locations>
