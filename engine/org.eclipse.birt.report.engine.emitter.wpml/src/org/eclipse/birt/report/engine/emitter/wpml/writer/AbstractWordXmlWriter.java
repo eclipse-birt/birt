@@ -569,7 +569,7 @@ public abstract class AbstractWordXmlWriter {
 	}
 
 	/**
-	 * Used only in inline text .The text align style of inline text is ignored,but
+	 * Used only in inline text .The text align style of inline text is ignored, but
 	 * its parent text align should be applied.
 	 *
 	 * @param style
@@ -614,7 +614,22 @@ public abstract class AbstractWordXmlWriter {
 	private void writeSpacing(CSSValue top, CSSValue bottom) {
 		float topSpacingValue = PropertyUtil.getDimensionValue(top);
 		float bottomSpacingValue = PropertyUtil.getDimensionValue(bottom);
-		writeSpacing(WordUtil.milliPt2Twips(topSpacingValue) / 2, WordUtil.milliPt2Twips(bottomSpacingValue) / 2);
+		writeSpacing(WordUtil.milliPt2Twips(topSpacingValue), WordUtil.milliPt2Twips(bottomSpacingValue));
+	}
+
+	private void writeSpacing(CSSValue height, CSSValue top, CSSValue bottom) {
+		writer.openTag("w:spacing");
+		if (height != null) {
+			float spacingValue = PropertyUtil.getDimensionValue(height);
+			int spacing = WordUtil.milliPt2Twips(spacingValue);
+			writer.attribute("w:lineRule", "exact");
+			writer.attribute("w:line", spacing);
+		}
+		int beforeTop = WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(top));
+		int afterBottom = WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(bottom));
+		writer.attribute("w:before", beforeTop);
+		writer.attribute("w:after", afterBottom);
+		writer.closeTag("w:spacing");
 	}
 
 	private void writeSpacing(int beforeValue, int afterValue) {
@@ -1092,17 +1107,27 @@ public abstract class AbstractWordXmlWriter {
 
 		CSSValue lineHeight = style.getProperty(StyleConstants.STYLE_LINE_HEIGHT);
 		if (!"normal".equalsIgnoreCase(lineHeight.getCssText())) {
-			writeSpacing(lineHeight);
+			writeSpacing(lineHeight, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
+					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM));
+		} else {
+			writeSpacing(style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
+					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM));
 		}
 
 		writeAlign(style.getTextAlign(), style.getDirection());
 		writeBackgroundColor(style.getBackgroundColor());
 		writeParagraphBorders(style);
-		int indent = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_TEXT_INDENT),
-				paragraphWidth * 1000) / 1000 * 20;
-		if (indent != 0) {
-			writeIndent(indent);
-		}
+
+		int indent = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_TEXT_INDENT), paragraphWidth)
+				/ 1000 * 20;
+
+		int leftMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT),
+				paragraphWidth) / 1000 * 20;
+
+		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
+				paragraphWidth) / 1000 * 20;
+		writeIndent(leftMargin, rightMargin, indent);
+
 		writeBidi(CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())); // bidi_hcg
 		// We need to apply the text font style to the paragraph. It is useful
 		// if the end user want to paste some text into this paragraph and
