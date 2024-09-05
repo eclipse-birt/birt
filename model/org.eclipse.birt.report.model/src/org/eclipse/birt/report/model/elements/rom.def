@@ -2871,7 +2871,7 @@
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.tagType" name="tagType" since="4.3" type="string">
-    	<Default>p</Default>
+    	<Default>P</Default>
     </Property>
     <Method context="startup" displayNameID="Element.Label.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Label.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Label.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
@@ -2975,7 +2975,7 @@
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <Property displayNameID="Element.Data.tagType" name="tagType" since="4.3" type="string">
-    	<Default>p</Default>
+    	<Default>P</Default>
     </Property>
     <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Data.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
@@ -3067,7 +3067,7 @@
     	<Default>true</Default>
     </Property>
     <Property displayNameID="Element.Text.tagType" name="tagType" since="4.3" type="string">
-    	<Default>p</Default>
+    	<Default>P</Default>
     </Property>
     <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Text.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
@@ -3221,7 +3221,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Property displayNameID="Element.List.tagType" name="tagType" since="4.3" type="string">
-    	<Default>sect</Default>
+    	<Default>Sect</Default>
     </Property>
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
@@ -3337,7 +3337,7 @@
       <Default>false</Default>    	
     </Property>
      <Property displayNameID="Element.Table.tagType" name="tagType" since="4.3" type="string">
-    	<Default>table</Default>
+    	<Default>Table</Default>
     </Property>
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
@@ -3480,7 +3480,7 @@
     	<Default>NoChange</Default>
     </Property>
     <Property displayNameID="Element.Row.tagType" name="tagType" since="4.3" type="string">
-    	<Default>tr</Default>
+    	<Default>TR</Default>
     </Property>
     <Property displayNameID="Element.Row.language" name="language" since="4.3" type="string"/>
     <Method context="startup" displayNameID="Element.Row.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Row.onPrepare.toolTip">
@@ -3536,7 +3536,7 @@
     	<Default>NoChange</Default>
     </Property>
     <Property displayNameID="Element.Cell.tagType" name="tagType" since="4.3" type="string">
-    	<Default>td</Default>
+    	<Default>TD</Default>
     </Property>
     <Property displayNameID="Element.Cell.language" name="language" since="4.3" type="string"/>
     <Property displayNameID="Element.Cell.altText" name="altText" since="4.3" type="expression"/>
@@ -3628,7 +3628,7 @@
 		<Default>false</Default>
 	</Property>
 	<Property displayNameID="Element.Image.tagType" name="tagType" since="4.3" type="string">
-    	<Default>figure</Default>
+    	<Default>Figure</Default>
     </Property>
 	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Image.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
@@ -3694,7 +3694,7 @@
     <Property displayNameID="Element.Grid.captionID" name="captionID" since="2.3" type="resourceKey"/>
     <Property displayNameID="Element.Grid.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Grid.tagType" name="tagType" since="4.3" type="string">
-    	<Default>sect</Default>
+    	<Default>Sect</Default>
     </Property>
     <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
@@ -3774,7 +3774,7 @@
     	<Default>true</Default>
     </Property>
     <Property displayNameID="Element.TextData.tagType" name="tagType" since="4.3" type="string">
-    	<Default>p</Default>
+    	<Default>P</Default>
     </Property>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
       <Argument name="this" tagID="Element.TextData.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDynamicText"/>
