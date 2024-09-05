@@ -239,4 +239,9 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
+	public String getTagType() {
+		Object generateBy = content.getGenerateBy();
+		return "spanTODO";
+	}
+
 }

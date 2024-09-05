@@ -102,6 +102,7 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void visitText(ITextArea textArea) {
+		System.out.println("visitText " + textArea.getText());
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
 		int y = currentY + getY(textArea);
@@ -151,9 +152,13 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	protected void drawContainer(IContainerArea container) {
+
+		// FIXME Warum wird das zweimal aufgerufen?
+
 		super.drawContainer(container);
 		int x = currentX + getX(container);
 		int y = currentY + getY(container);
+
 		createBookmark(container, x, y);
 		createHyperlink(container, x, y);
 	}
@@ -263,6 +268,39 @@ public class PDFRender extends PageDeviceRender {
 			// generating section-wise page-numbering based on the TOC.
 
 		}
+	}
+
+	@Override
+	public void visitContainer(IContainerArea container) {
+		System.out.println("visitContainer " + container.toString() + " tagType=" + container.getTagType());
+		super.visitContainer(container);
+	}
+
+	@Override
+	protected void visitChildren(IContainerArea container) {
+		System.out.println("visitChildren " + container.toString() + " tagType=" + container.getTagType());
+
+		String tagType = null;
+		if (currentPageDevice.isPDFUAFormat()) {
+			tagType = container.getTagType();
+			currentPageDevice.pushTag(tagType);
+		}
+		super.visitChildren(container);
+		if (tagType != null) {
+			currentPageDevice.popTag(tagType);
+		}
+	}
+
+	@Override
+	protected void startContainer(IContainerArea container) {
+		System.out.println("startContainer " + container.toString() + " tagType=" + container.getTagType());
+		super.startContainer(container);
+	}
+
+	@Override
+	protected void endContainer(IContainerArea container) {
+		System.out.println("endContainer " + container.toString() + " tagType=" + container.getTagType());
+		super.endContainer(container);
 	}
 
 	private void createTOC() {

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -202,4 +203,22 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
+
+	public String getTagType() {
+		ContainerArea base = this;
+		while (base.getContent() == null) {
+			base = base.getParent();
+			if (base == null) {
+				logger.warning("Cannot access content!");
+				return null;
+			}
+		}
+		ReportItemDesign generateBy = (ReportItemDesign) base.getContent().getGenerateBy();
+		String tagType = generateBy.getTagType();
+		if (tagType != null) {
+			return tagType;
+		}
+		return "divTODO";
+	}
+
 }

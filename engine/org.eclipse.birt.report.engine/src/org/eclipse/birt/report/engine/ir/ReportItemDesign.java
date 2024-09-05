@@ -103,6 +103,7 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	 * Text Resource Key used for altText localization.
 	 */
 	protected String altTextKey;
+	private String tagType;
 
 	/**
 	 * Constructor
@@ -414,6 +415,25 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 	 */
 	public void setAltTextKey(String altTextKey) {
 		this.altTextKey = altTextKey;
+	}
+
+	/**
+	 * Set the PDF tag type
+	 *
+	 * @param tagType
+	 */
+	public void setTagType(String tagType) {
+		this.tagType = tagType;
+
+	}
+
+	/**
+	 * Get the PDF tag type.
+	 *
+	 * Can be null.
+	 */
+	public String getTagType() {
+		return tagType;
 	}
 
 }
