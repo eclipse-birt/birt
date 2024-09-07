@@ -124,12 +124,12 @@ public class EmitterServices {
 			value = options.getOption(name);
 		}
 
-		if (value != null) {
-			result = booleanOption(value, defaultValue);
-		}
-
 		if (reportContent != null && value == null) {
 			value = getReportDesignConfiguration(reportContent, name);
+		}
+
+		if (value != null) {
+			result = booleanOption(value, defaultValue);
 		}
 
 		return result;
@@ -183,12 +183,12 @@ public class EmitterServices {
 			value = options.getOption(name);
 		}
 
-		if (value != null) {
-			result = value.toString();
-		}
-
 		if (birtContent != null && birtContent.getReportContent() != null && value == null) {
 			value = getReportDesignConfiguration(birtContent.getReportContent(), name);
+		}
+
+		if (value != null) {
+			result = value.toString();
 		}
 
 		return result;
@@ -223,12 +223,12 @@ public class EmitterServices {
 			value = options.getOption(name);
 		}
 
-		if (value != null) {
-			result = value.toString();
-		}
-
 		if (reportContent != null && value == null) {
 			value = getReportDesignConfiguration(reportContent, name);
+		}
+
+		if (value != null) {
+			result = value.toString();
 		}
 
 		return result;
