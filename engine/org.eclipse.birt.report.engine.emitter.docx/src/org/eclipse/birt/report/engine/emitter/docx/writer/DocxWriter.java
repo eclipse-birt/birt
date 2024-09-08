@@ -312,6 +312,11 @@ public class DocxWriter implements IWordWriter {
 	}
 
 	@Override
+	public void writeForeign(IForeignContent foreignContent, boolean embedHTML) {
+		currentComponent.writeForeign(foreignContent, embedHTML);
+	}
+
+	@Override
 	public void endPage() {
 	}
 

@@ -96,6 +96,8 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	private ReportDesignHandle handle;
 
+	protected boolean wrappedTable = true;
+
 	protected BasicComponent(IPart part) throws IOException {
 		this.part = part;
 		this.imageManager = (ImageManager) part.getPackage().getExtensionData();
@@ -305,6 +307,11 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writer.closeTag("w:bookmarkEnd");
 
 		bookmarkId++;
+	}
+
+	protected void writeForeign(IForeignContent foreignContent, boolean wrappedTable) {
+		this.wrappedTable = wrappedTable;
+		writeForeign(foreignContent);
 	}
 
 	protected void writeForeign(IForeignContent foreignContent) {
@@ -563,9 +570,14 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	private void buildMargins(StringBuffer styleBuffer, IStyle style) {
 		// build the margins
 		String topMargin = style.getMarginTop();
-		String rightMargin = style.getMarginRight();
+		String rightMargin = "0px";
 		String bottomMargin = style.getMarginBottom();
-		String leftMargin = style.getMarginLeft();
+		String leftMargin = "0px";
+
+		if (!wrappedTable) {
+			rightMargin = style.getMarginRight();
+			leftMargin = style.getMarginLeft();
+		}
 
 		if (null != topMargin && null != rightMargin && null != bottomMargin && null != leftMargin) {
 			if (rightMargin.equals(leftMargin)) {
