@@ -553,6 +553,10 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 	}
 
 	@Override
+	public void writeForeign(IForeignContent foreignContent, boolean wrappedTable) {
+	}
+
+	@Override
 	public void writePageBorders(IStyle style, int topMargin, int bottomMargin, int leftMargin, int rightMargin) {
 		// TODO Auto-generated method stub
 		writer.openTag("w:pgBorders");

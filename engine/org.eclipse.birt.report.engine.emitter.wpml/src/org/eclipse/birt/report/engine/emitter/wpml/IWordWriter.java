@@ -333,6 +333,14 @@ public interface IWordWriter {
 	void writeForeign(IForeignContent foreignContent);
 
 	/**
+	 * Write foreign
+	 *
+	 * @param foreignContent foreign content
+	 * @param wrappedTable   foreign text is wrapped with table
+	 */
+	void writeForeign(IForeignContent foreignContent, boolean wrappedTable);
+
+	/**
 	 * Write content
 	 *
 	 * @param type           content type

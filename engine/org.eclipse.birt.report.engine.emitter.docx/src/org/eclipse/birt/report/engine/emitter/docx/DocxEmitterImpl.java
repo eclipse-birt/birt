@@ -110,7 +110,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 				wordWriter.startTableRow(-1);
 				wordWriter.startTableCell(width, foreign.getComputedStyle(), null, null);
 				// TODO:need text paser for foreign raw value
-				wordWriter.writeForeign(foreign);
+				wordWriter.writeForeign(foreign, true);
 				if (isInSpannedCell(foreign)) {
 					// insert empty line after embed html
 					wordWriter.endTableCell(true, true);
