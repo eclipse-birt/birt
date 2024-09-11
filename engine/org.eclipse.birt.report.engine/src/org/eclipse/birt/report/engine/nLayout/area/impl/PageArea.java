@@ -543,7 +543,7 @@ public class PageArea extends BlockContainerArea {
 		int headerWidth = pageRoot.getWidth() - boxStyle.getLeftBorderWidth() - boxStyle.getRightBorderWidth();
 		headerHeight = Math.max(0, headerHeight);
 		headerHeight = Math.min(pageRoot.getHeight(), headerHeight);
-		RegionArea header = new RegionArea();
+		RegionArea header = new RegionArea(RegionArea.AreaType.HEADER);
 		header.setHeight(headerHeight);
 		header.setWidth(headerWidth);
 		header.context = context;
@@ -560,7 +560,7 @@ public class PageArea extends BlockContainerArea {
 		int footerWidth = pageRoot.getWidth() - boxStyle.getLeftBorderWidth() - boxStyle.getRightBorderWidth();
 		footerHeight = Math.max(0, footerHeight);
 		footerHeight = Math.min(pageRoot.getHeight() - headerHeight, footerHeight);
-		RegionArea footer = new RegionArea();
+		RegionArea footer = new RegionArea(RegionArea.AreaType.FOOTER);
 		footer.setHeight(footerHeight);
 		footer.setWidth(footerWidth);
 		footer.context = context;

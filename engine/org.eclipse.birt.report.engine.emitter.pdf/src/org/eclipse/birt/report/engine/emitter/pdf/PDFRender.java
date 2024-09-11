@@ -102,7 +102,8 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void visitText(ITextArea textArea) {
-		System.out.println("visitText " + textArea.getText());
+//		if (logger.isLoggable(Level.FINEST))
+//			logger.finest("visitText " + textArea.getText());
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
 		int y = currentY + getY(textArea);
@@ -272,18 +273,24 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void visitContainer(IContainerArea container) {
-		System.out.println("visitContainer " + container.toString() + " tagType=" + container.getTagType());
+//		if (logger.isLoggable(Level.FINEST))
+//			logger.finest("visitContainer " + container.toString() + " tagType=" + container.getTagType());
 		super.visitContainer(container);
 	}
 
 	@Override
 	protected void visitChildren(IContainerArea container) {
-		System.out.println("visitChildren " + container.toString() + " tagType=" + container.getTagType());
+//		if (logger.isLoggable(Level.FINEST))
+//			logger.finest("visitChildren " + container.toString() + " tagType=" + container.getTagType());
 
 		String tagType = null;
 		if (currentPageDevice.isPDFUAFormat()) {
-			tagType = container.getTagType();
-			currentPageDevice.pushTag(tagType);
+			if (container.getChildrenCount() > 0) {
+				tagType = container.getTagType();
+				if (tagType != null) {
+					currentPageDevice.pushTag(tagType);
+				}
+			}
 		}
 		super.visitChildren(container);
 		if (tagType != null) {
@@ -293,13 +300,15 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	protected void startContainer(IContainerArea container) {
-		System.out.println("startContainer " + container.toString() + " tagType=" + container.getTagType());
+//		if (logger.isLoggable(Level.FINEST))
+//			logger.finest("startContainer " + container.toString() + " tagType=" + container.getTagType());
 		super.startContainer(container);
 	}
 
 	@Override
 	protected void endContainer(IContainerArea container) {
-		System.out.println("endContainer " + container.toString() + " tagType=" + container.getTagType());
+//		if (logger.isLoggable(Level.FINEST))
+//			logger.finest("endContainer " + container.toString() + " tagType=" + container.getTagType());
 		super.endContainer(container);
 	}
 

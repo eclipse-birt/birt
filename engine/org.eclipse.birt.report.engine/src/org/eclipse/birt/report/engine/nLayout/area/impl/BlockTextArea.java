@@ -206,19 +206,15 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 
 	public String getTagType() {
 		ContainerArea base = this;
-		while (base.getContent() == null) {
-			base = base.getParent();
-			if (base == null) {
-				logger.warning("Cannot access content!");
-				return null;
-			}
+		if (base.getContent() == null) {
+			return null;
 		}
 		ReportItemDesign generateBy = (ReportItemDesign) base.getContent().getGenerateBy();
 		String tagType = generateBy.getTagType();
 		if (tagType != null) {
 			return tagType;
 		}
-		return "divTODO";
+		return null;
 	}
 
 }

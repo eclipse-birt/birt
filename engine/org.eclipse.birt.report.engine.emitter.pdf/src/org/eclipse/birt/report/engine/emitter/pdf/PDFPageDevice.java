@@ -1179,16 +1179,31 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param tagType
 	 */
 	public void pushTag(String tagType) {
-		System.out.println("pushTag " + tagType);
-		structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+//		logger.finest("pushTag " + tagType);
+		if ("pageHeader".equals(tagType)) {
+			currentPage.beginArtifact();
+		} else if ("pageFooter".equals(tagType)) {
+			currentPage.beginArtifact();
+		} else if (currentPage.isInArtifact()) {
+			;
+		} else {
+			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+		}
 	}
 
 	/**
 	 * @param tagType
 	 */
 	public void popTag(String tagType) {
-		System.out.println("popTag " + tagType);
-		structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
-
+//		logger.finest("popTag " + tagType);
+		if ("pageHeader".equals(tagType)) {
+			currentPage.endArtifact();
+		} else if ("pageFooter".equals(tagType)) {
+			currentPage.endArtifact();
+		} else if (currentPage.isInArtifact()) {
+			;
+		} else {
+			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+		}
 	}
 }
