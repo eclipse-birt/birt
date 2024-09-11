@@ -557,6 +557,9 @@ public class PDFPageDevice implements IPageDevice {
 		}
 
 		writer.setPageEmpty(false);
+		if (this.isPdfUAFormat) {
+			writer.setTabs(PdfName.S);
+		}
 		if (doc.isOpen()) {
 			doc.close();
 		}
