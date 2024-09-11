@@ -772,12 +772,12 @@ public class StaticHTMLViewer extends SWTAbstractViewer {
 			public void work(IProgressMonitor monitor) {
 				monitor.subTask("Show report in Browser"); //$NON-NLS-1$
 				if (!form.isDisposed()) {
-					// browser.setUrl( outputLocation
-					// + ( currentBookmark == null ? ""
-					// : ( "#" + currentBookmark ) ) );
-					browser.setUrl(outputLocation);
-					// if special the anchor, SWT browser will not refresh
-					// browser.refresh( );
+					try {
+						String url = new File(outputLocation).toURI().toURL().toString();
+						browser.setUrl(url);
+					} catch (Exception e) {
+						browser.setUrl(outputLocation);
+					}
 					if (currentPageNum < totalPageNum) {
 						navNextAction.setEnabled(true);
 						navLastAction.setEnabled(true);

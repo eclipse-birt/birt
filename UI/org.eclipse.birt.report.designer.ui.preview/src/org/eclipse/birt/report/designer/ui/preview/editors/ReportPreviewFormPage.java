@@ -22,11 +22,14 @@ import org.eclipse.birt.report.designer.ui.preview.extension.IViewer;
 import org.eclipse.birt.report.designer.ui.preview.extension.ViewerExtensionManager;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.EditorPart;
@@ -64,15 +67,17 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 		reportViewer = manager.createViewer(VIEWER_ID);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(
-	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
-	 */
 	@Override
 	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		if (editor.isDirty()) {
+			int SAVEBUTTON = 0;
+			int buttonPressed = MessageDialog.open(MessageDialog.QUESTION, getSite().getShell(),
+					"Save Report", "Save the report so that the preview can show the latest changes?",
+					SWT.SHEET, "Save", "Don't Save");
+			if (buttonPressed == SAVEBUTTON) {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().saveEditor(editor, false);
+			}
+		}
 		startRender();
 		return true;
 	}
@@ -319,6 +324,11 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		IReportProvider provider = getProvider();
+		if (provider != null) {
+			provider.saveReport(provider.queryReportModuleHandle(), getEditorInput(), monitor);
+			firePropertyChange(PROP_DIRTY);
+		}
 	}
 
 	/*
@@ -352,11 +362,6 @@ public class ReportPreviewFormPage extends EditorPart implements IReportEditorPa
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
 	@Override
 	public void setFocus() {
 	}
