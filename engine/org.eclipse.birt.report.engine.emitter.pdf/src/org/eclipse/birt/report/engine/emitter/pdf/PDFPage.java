@@ -52,8 +52,10 @@ import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -219,10 +221,17 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
+
 		// Flash
 		if (FlashFile.isFlash(null, null, extension)) {
 			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
 			return;
+		}
+
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			PdfDictionary dict = new PdfDictionary();
+			dict.put(new PdfName("Alt"), new PdfString(helpText));
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf, dict);
 		}
 
 		// Cached Image
@@ -233,6 +242,9 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
+				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 		}
@@ -243,6 +255,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			// PNG/JPG/BMP... images:
 			Image image = Image.getInstance(imageData);
+			image.setAlt(helpText);
 
 			// Transparent images are not allowed in PDF/A-1,
 			// so remove transparency if necessary
@@ -256,6 +269,9 @@ public class PDFPage extends AbstractPage {
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
+				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 			template = contentByte.createTemplate(width, height);
@@ -268,6 +284,11 @@ public class PDFPage extends AbstractPage {
 		if (template != null) {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
+
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			contentByte.endMarkedContentSequence();
+		}
+
 	}
 
 	/**
