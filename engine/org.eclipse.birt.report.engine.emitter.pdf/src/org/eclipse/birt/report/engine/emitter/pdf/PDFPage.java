@@ -243,6 +243,16 @@ public class PDFPage extends AbstractPage {
 		} else {
 			// PNG/JPG/BMP... images:
 			Image image = Image.getInstance(imageData);
+
+			// Transparent images are not allowed in PDF/A-1,
+			// so remove transparency if necessary
+			if (image.isSmask() && pageDevice.isPdfAFormat()) {
+				if (pageDevice.getPdfConformance().startsWith("PDF.A1")) {
+					logger.severe("PDF/A-1 format specified, transparency is not allowed for image " + imageId);
+					image.setSmask(false);
+				}
+			}
+
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
