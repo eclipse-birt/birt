@@ -18,7 +18,16 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
+/**
+ *
+ * This is used only in HTMLLeafItemLM.splitText and in PageArea.layoutFooter
+ * and layoutHeader.
+ *
+ * Originally undocumented, so we don't more about the exact purpose ATM.
+ *
+ */
 public class RegionLayoutEngine extends LayoutEngine implements IContentEmitter {
+
 	public RegionLayoutEngine(ContainerArea container, LayoutContext context) {
 		super(context);
 		current = container;

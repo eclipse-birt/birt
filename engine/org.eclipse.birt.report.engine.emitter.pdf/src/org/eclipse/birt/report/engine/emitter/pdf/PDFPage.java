@@ -53,6 +53,7 @@ import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfFileSpecification;
+import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -80,6 +81,8 @@ public class PDFPage extends AbstractPage {
 	protected float containerHeight;
 
 	protected PDFPageDevice pageDevice;
+
+	protected boolean inArtifact = false;
 
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
@@ -465,7 +468,7 @@ public class PDFPage extends AbstractPage {
 		// start drawing the text content
 		contentByte.beginText();
 
-		if (pageDevice.isPDFUAFormat()) {
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 		if (null != color && !Color.BLACK.equals(color)) {
@@ -528,7 +531,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
-		if (pageDevice.isPDFUAFormat()) {
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
 			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
@@ -706,5 +709,28 @@ public class PDFPage extends AbstractPage {
 		transcoder.print(g2D, pg, 0);
 		g2D.dispose();
 		return template;
+	}
+
+	public void beginArtifact() {
+		if (!inArtifact) {
+			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
+			inArtifact = true;
+		}
+		else {
+			logger.warning("beginArtifact called inside artifact!");
+		}
+	}
+
+	public void endArtifact() {
+		if (inArtifact) {
+			contentByte.endMarkedContentSequence();
+			inArtifact = false;
+		} else {
+			logger.warning("endArtifact called outside of an artifact!");
+		}
+	}
+
+	public boolean isInArtifact() {
+		return inArtifact;
 	}
 }

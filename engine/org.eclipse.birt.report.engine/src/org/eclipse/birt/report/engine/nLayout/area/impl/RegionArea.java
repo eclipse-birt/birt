@@ -20,12 +20,25 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
 /**
- * Definition of region area
+ * Definition of region area.
+ *
+ * This is created in ForeignHtmlRegionArea, HtmlRegionArea, and in PageArea for
+ * the page footer and header.
+ *
+ * For tagged PDF, we add the areaType attribute which tells us if the region is
+ * inside the page header or footer or not.
  *
  * @since 3.3
  *
  */
 public class RegionArea extends BlockContainerArea implements IContainerArea {
+
+	public static enum AreaType {
+		DEFAULT, HEADER, FOOTER
+	};
+
+	private AreaType areaType = AreaType.DEFAULT;
+
 	/**
 	 *
 	 */
@@ -33,8 +46,27 @@ public class RegionArea extends BlockContainerArea implements IContainerArea {
 		super();
 	}
 
+	public RegionArea(AreaType atype) {
+		super();
+		this.areaType = atype;
+	}
+
 	RegionArea(RegionArea area) {
 		super(area);
+		this.areaType = area.areaType;
+	}
+
+	@Override
+	public String getTagType() {
+		switch (areaType) {
+		case DEFAULT:
+			return null;
+		case HEADER:
+			return "pageHeader";
+		case FOOTER:
+			return "pageFooter";
+		}
+		return null;
 	}
 
 	@Override
