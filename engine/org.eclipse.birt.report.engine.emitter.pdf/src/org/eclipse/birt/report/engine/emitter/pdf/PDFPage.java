@@ -230,8 +230,8 @@ public class PDFPage extends AbstractPage {
 
 		if (pageDevice.isPDFUAFormat() && !inArtifact) {
 			PdfDictionary dict = new PdfDictionary();
-			dict.put(new PdfName("Alt"), new PdfString(helpText));
-			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf, dict);
+			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
 		// Cached Image
