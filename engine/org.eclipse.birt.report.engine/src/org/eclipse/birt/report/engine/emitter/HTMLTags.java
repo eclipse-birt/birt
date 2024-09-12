@@ -76,6 +76,7 @@ public class HTMLTags {
 	public static final String ATTR_BACKGROUND_ATTACHEMNT = "background-attachment"; //$NON-NLS-1$
 	/** html tag attribute: background-position */
 	public static final String ATTR_BACKGROUND_POSITION = "background-position"; //$NON-NLS-1$
+	/** html tag attribute: background-size */
 	public static final String ATTR_BACKGROUND_SIZE = "background-size"; //$NON-NLS-1$
 
 	/** html tag attribute: padding */
@@ -147,6 +148,12 @@ public class HTMLTags {
 	public static final String ATTR_FONT_VARIANT = "font-variant"; //$NON-NLS-1$
 	/** html tag attribute: font-weight */
 	public static final String ATTR_FONT_WEIGTH = "font-weight"; //$NON-NLS-1$
+	/** html tag attribute: (font) size of tag font */
+	public static final String ATTR_TAG_FONT_SIZE = "size"; //$NON-NLS-1$
+	/** html tag attribute: (font) color of tag font */
+	public static final String ATTR_TAG_FONT_COLOR = "color"; //$NON-NLS-1$
+	/** html tag attribute: (font) face of tag font */
+	public static final String ATTR_TAG_FONT_FACE = "face"; //$NON-NLS-1$
 
 	/** html tag attribute: id */
 	public static final String ATTR_ID = "id"; //$NON-NLS-1$
@@ -260,4 +267,8 @@ public class HTMLTags {
 	public static final String TAG_SCRIPT = "script"; //$NON-NLS-1$
 	/** html tag: link */
 	public static final String TAG_LINK = "link";//$NON-NLS-1$
+	/** html tag: font paragraph */
+	public static final String TAG_P = "p";//$NON-NLS-1$
+	/** html tag: font (HTML 4.01) */
+	public static final String TAG_FONT = "font";//$NON-NLS-1$
 }
