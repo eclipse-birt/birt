@@ -59,6 +59,7 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -69,6 +70,12 @@ import org.w3c.dom.css.CSSValue;
 public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	private static Logger logger = Logger.getLogger(BasicComponent.class.getName());
+
+	// MS Word (DOCX), MHT-file: font size 12pt won't be correct converted
+	private static String DOCX_MHT_FONT_SIZE_ISSUE = "12pt";
+
+	// MS Word (DOCX), MHT-file: replacement font size
+	private static String DOCX_MHT_FONT_SIZE_REPLACEMENT = "12.5pt";
 
 	protected ImageManager imageManager;
 
@@ -358,8 +365,12 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		int display = getElementType(x, y, width, height, style);
 		String tagName = getTagByType(display, DISPLAY_FLAG_ALL);
 		if (null != tagName) {
-			htmlBuffer.append("<div");
-			if (tagName.equalsIgnoreCase("span")) {
+			// solve MS Word/MHT font-size issue
+			if (style.getFontSize().equalsIgnoreCase(DOCX_MHT_FONT_SIZE_ISSUE)) {
+				style.setFontSize(DOCX_MHT_FONT_SIZE_REPLACEMENT);
+			}
+			htmlBuffer.append("<" + tagName);
+			if (tagName.equalsIgnoreCase(HTMLTags.TAG_SPAN)) {
 				htmlBuffer.append(" style=\"display: inline\" ");
 			}
 		}
@@ -397,7 +408,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		htmlWriter.setEnableCompactMode(true); // HVB, bug 519375
 		htmlWriter.open(byteOut);
 		if (doc != null) {
-			NodeList bodys = doc.getElementsByTagName("body");
+			NodeList bodys = doc.getElementsByTagName(HTMLTags.TAG_BODY);
 			if (bodys.getLength() > 0) {
 				body = (Element) bodys.item(0);
 			}
@@ -418,9 +429,9 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			htmlBuffer.append("<head>");
 			htmlBuffer.append("<style type=" + "\"text/css\"" + ">");
 			htmlBuffer.append(".styleForeign");
-			htmlBuffer.append('{');
+			htmlBuffer.append(" {");
 			htmlBuffer.append(styleBuffer.toString());
-			htmlBuffer.append('}');
+			htmlBuffer.append(" }");
 			htmlBuffer.append("</style>");
 			htmlBuffer.append("</head>");
 		}
@@ -778,9 +789,8 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			} else if (nodeType == Node.COMMENT_NODE) {
 				writer.comment(node.getNodeValue());
 			} else if (nodeType == Node.ELEMENT_NODE) {
-				Element element = (Element) node;
-				if ("br".equalsIgnoreCase(node.getNodeName())) {
-					// <br/> is correct. <br></br> is not correct. The brower
+				if (HTMLTags.TAG_BR.equalsIgnoreCase(node.getNodeName())) {
+					// <br/> is correct. <br></br> is not correct. The browser
 					// will treat the <br></br> as <br><br>
 					boolean bImplicitCloseTag = writer.isImplicitCloseTag();
 					writer.setImplicitCloseTag(true);
@@ -788,7 +798,19 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 					processNodes((Element) node, cssStyles, writer, appContext);
 					endNode(node, writer);
 					writer.setImplicitCloseTag(bImplicitCloseTag);
+				} else if (HTMLTags.TAG_FONT.equalsIgnoreCase(node.getNodeName())) {
+					// <font> will be replaced to span-tag to correct font-size behavior
+					Node fontNode = convertFontTagToSpanTag(node, cssStyles);
+					startNode(fontNode, cssStyles, writer, appContext);
+					processNodes((Element) fontNode, cssStyles, writer, appContext);
+					endNode(fontNode, writer);
+
 				} else {
+					// solve MS Word/MHT font-size issue
+					if (HTMLTags.TAG_DIV.equalsIgnoreCase(node.getNodeName())
+							|| HTMLTags.TAG_SPAN.equalsIgnoreCase(node.getNodeName())) {
+						getCorrectFontSize(node, cssStyles);
+					}
 					startNode(node, cssStyles, writer, appContext);
 					processNodes((Element) node, cssStyles, writer, appContext);
 					endNode(node, writer);
@@ -958,4 +980,118 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	abstract void end();
 
 	abstract protected int getMhtTextId();
+
+	/**
+	 * Get the replaced span tag for the font tag to support correct styles
+	 *
+	 * @param nodeFont  html tag font which will be replaced
+	 * @param cssStyles CSS style around the font tag
+	 *
+	 * @return the alternative node of the font tag
+	 */
+	private Node convertFontTagToSpanTag(Node nodeFont, HashMap<Node, Object> cssStyles) {
+		String fontSize = null;
+		String fontColor = null;
+		String fontFamily = null;
+
+		// create new span-tag
+		Document doc = nodeFont.getOwnerDocument();
+		Element spanTag = doc.createElement(HTMLTags.TAG_SPAN);
+
+		NamedNodeMap nodeAttributes = nodeFont.getAttributes();
+		if (nodeAttributes != null && nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE) != null) {
+			String size = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE).getNodeValue().trim();
+			// size: absolute value converting
+			if (size.equals("0") || size.equals("1")) {
+				fontSize = "8pt";
+			} else if (size.equals("2")) {
+				fontSize = "10pt";
+			} else if (size.equals("3")) {
+				// MS Word, MHT-file: font size 12pt won't be correct converted
+				fontSize = DOCX_MHT_FONT_SIZE_REPLACEMENT;
+			} else if (size.equals("4")) {
+				fontSize = "14pt";
+			} else if (size.equals("5")) {
+				fontSize = "18pt";
+			} else if (size.equals("6")) {
+				fontSize = "24pt";
+			} else if (size.equals("7")) {
+				fontSize = "36pt";
+			}
+			// size: relative value converting
+			if (fontSize == null) {
+				if (size.length() > 2) {
+					size = size.substring(0, 2);
+				}
+				if (size.equals("-2")) {
+					fontSize = "0.75em";
+				} else if (size.equals("-1")) {
+					fontSize = "1.0em";
+				} else if (size.equals("-0") || size.equals("+0")) {
+					fontSize = "1.25em";
+				} else if (size.equals("+1")) {
+					fontSize = "1.35em";
+				} else if (size.equals("+2")) {
+					fontSize = "1.8em";
+				} else if (size.equals("+3")) {
+					fontSize = "2.4em";
+				} else if (size.equals("+4")) {
+					fontSize = "3.6em";
+				} else {
+					fontSize = "10pt";
+				}
+			}
+			Node colorNode = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_COLOR);
+			if (colorNode != null && colorNode.getNodeValue().trim().length() > 0) {
+				fontColor = colorNode.getNodeValue().trim();
+			}
+			Node fontNode = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_FACE);
+			if (fontNode != null && fontNode.getNodeValue().trim().length() > 0) {
+				fontFamily = fontNode.getNodeValue().trim();
+			}
+		}
+		String styleValues = "";
+		if (fontSize != null && fontSize.length() > 0) {
+			styleValues += HTMLTags.ATTR_FONT_SIZE + ":" + fontSize + ";";
+		}
+		if (fontColor != null && fontSize.length() > 0) {
+			styleValues += HTMLTags.ATTR_COLOR + ":" + fontColor + ";";
+		}
+		if (fontFamily != null && fontSize.length() > 0) {
+			styleValues += HTMLTags.ATTR_FONT_FAMILY + ":" + fontFamily + ";";
+		}
+		if (styleValues != null && styleValues.trim().length() > 0) {
+			Attr spanAttr = doc.createAttribute(HTMLTags.ATTR_STYLE);
+			spanAttr.setNodeValue(styleValues);
+			spanTag.setAttributeNode(spanAttr);
+		}
+		NodeList fontContentChildren = nodeFont.getChildNodes();
+		for (int i = 0; i < fontContentChildren.getLength(); i++) {
+			Node child = fontContentChildren.item(i).cloneNode(true);
+			spanTag.appendChild(child);
+		}
+		HashMap<String, Object> nodeStyle = (HashMap<String, Object>) cssStyles.get(nodeFont);
+		cssStyles.remove(nodeFont);
+		cssStyles.put(spanTag, nodeStyle);
+		return spanTag;
+	}
+
+	/**
+	 * Get the corrected font size to solve the MS Word (DOCX) / MHT font size issue
+	 * MHT font size 12pt will be changed to at MS Word side to font size 10pt
+	 *
+	 * @param nodeTag   html tag to validate the font size
+	 * @param cssStyles CSS style around the tag
+	 *
+	 */
+	private void getCorrectFontSize(Node nodeTag, HashMap<Node, Object> cssStyles) {
+		HashMap<String, Object> nodeStyle = (HashMap<String, Object>) cssStyles.get(nodeTag);
+		for (Object key : nodeStyle.keySet()) {
+			if (((String) key).contains(HTMLTags.ATTR_FONT_SIZE) && nodeStyle.get(key) != null
+					&& ((String) nodeStyle.get(key)).equalsIgnoreCase(DOCX_MHT_FONT_SIZE_ISSUE)) {
+					nodeStyle.replace((String) key, DOCX_MHT_FONT_SIZE_REPLACEMENT);
+					break;
+			}
+		}
+	}
 }
