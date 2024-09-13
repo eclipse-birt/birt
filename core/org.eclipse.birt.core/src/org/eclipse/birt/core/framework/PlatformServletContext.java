@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * An platform context that is based on resource operations instead of file
@@ -76,7 +76,7 @@ public class PlatformServletContext implements IPlatformContext {
 		}
 		platform = context.getRealPath(RESOURCE_BASE);
 		if (platform == null || !new File(platform).exists()) {
-			File contextTemp = (File) context.getAttribute("javax.servlet.context.tempdir"); //$NON-NLS-1$
+			File contextTemp = (File) context.getAttribute("jakarta.servlet.context.tempdir"); //$NON-NLS-1$
 			File platformFolder = new File(contextTemp, "platform");
 			// Weblogic try to remove the platform but it fails,
 			// so try to copy the platform each time.
