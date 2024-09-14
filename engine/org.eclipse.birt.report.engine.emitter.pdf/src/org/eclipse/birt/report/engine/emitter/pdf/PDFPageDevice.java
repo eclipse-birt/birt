@@ -1194,10 +1194,13 @@ public class PDFPageDevice implements IPageDevice {
 			if ("Figure".equals(tagType)) {
 				// Top-Level figure elements must have a placement attribute.
 				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
-					PdfDictionary attributes = new PdfDictionary();
+					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+					if (attributes == null) {
+						attributes = new PdfDictionary();
+						structureCurrentLeaf.put(PdfName.A, attributes);
+					}
 					attributes.put(new PdfName("Placement"), new PdfName("Block"));
 					attributes.put(PdfName.O, new PdfName("Layout"));
-					structureCurrentLeaf.put(PdfName.A, attributes);
 				}
 			}
 		}
