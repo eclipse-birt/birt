@@ -55,6 +55,7 @@ import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfRectangle;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
@@ -231,6 +232,14 @@ public class PDFPage extends AbstractPage {
 		if (pageDevice.isPDFUAFormat() && !inArtifact) {
 			PdfDictionary dict = new PdfDictionary();
 			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+
+			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
+			if (attributes == null) {
+				attributes = new PdfDictionary();
+				pageDevice.structureCurrentLeaf.put(PdfName.A, attributes);
+			}
+			attributes.put(PdfName.BBOX, new PdfRectangle(imageX, imageY, width, height));
+
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
