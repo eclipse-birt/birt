@@ -34,17 +34,18 @@
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 
 		<antrun.version>3.1.0</antrun.version>
-		<build.helper.maven.plugin.version>3.5.0</build.helper.maven.plugin.version>
-		<cbi-version>1.4.3</cbi-version>
-		<jacoco.maven.plugin.version>0.8.9</jacoco.maven.plugin.version>
-		<jetty-jspc-maven-plugin-version>10.0.20</jetty-jspc-maven-plugin-version>
+		<build.helper.maven.plugin.version>3.6.0</build.helper.maven.plugin.version>
+		<cbi-version>1.5.0</cbi-version>
+		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
+		<jetty-jspc-maven-plugin-version>10.0.24</jetty-jspc-maven-plugin-version>
 		<junit-version>4.13.2</junit-version>
-		<maven-compiler-plugin-version>3.9.0</maven-compiler-plugin-version>
-		<maven.dependency.plugin.version>3.6.1</maven.dependency.plugin.version>
-		<maven-jar-plugin-version>3.3.0</maven-jar-plugin-version>
-		<maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
+		<maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
+		<maven.dependency.plugin.version>3.8.0</maven.dependency.plugin.version>
+		<maven-jar-plugin-version>3.4.2</maven-jar-plugin-version>
+		<maven-surefire-plugin-version>3.5.0</maven-surefire-plugin-version>
 		<maven-assembly-plugin-version>3.7.1</maven-assembly-plugin-version>
-		<tycho.version>4.0.8</tycho.version>
+		<maven-resources-plugin-version>3.3.1</maven-resources-plugin-version>
+		<tycho.version>4.0.9</tycho.version>
 		<wagon.ssh.version>3.5.3</wagon.ssh.version>
 
 		<build.type>nightly</build.type>
@@ -412,7 +413,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-jar-plugin-version}</version>
+				<version>${maven-resources-plugin-version}</version>
 				<executions>
 					<execution>
 						<id>process-about.mappings</id>
