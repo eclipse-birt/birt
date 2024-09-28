@@ -1221,7 +1221,7 @@ public abstract class AbstractWordXmlWriter {
 		} else {
 			// get text attribute overflow hidden
 			// and run the function to emulate if true
-			if (CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals(style.getOverflow())) {
+			if (CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals(style.getOverflow()) && txt != null) {
 				txt = cropOverflowString(txt, style, fontFamily, paragraphWidth);
 			}
 			writeString(txt, style);
