@@ -2962,6 +2962,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 
 		// build style
 		htmlEmitter.buildImageStyle(image, styleBuffer, display);
+
+		// hyperlink: avoid forwarded events of the embed-tag
+		if (image.getHyperlinkAction() != null) {
+			styleBuffer.append(HTMLTags.ATTR_POINTER_EVENTS + ":none;");
+		}
 		writer.attribute(HTMLTags.ATTR_STYLE, styleBuffer.toString());
 		writer.closeTag(HTMLTags.TAG_EMBED);
 	}
@@ -2982,22 +2987,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		// border color, use the default
 		// color.
 		if (style.getBorderTopColor() == null) {
-			styleBuffer.append("border-top-color:black");
+			styleBuffer.append("border-top-color:black;");
 		}
 		if (style.getBorderBottomStyle() == null) {
 			styleBuffer.append("border-bottom-style:none;");
 		} else if (style.getBorderBottomColor() == null) {
-			styleBuffer.append("border-bottom-color:black");
+			styleBuffer.append("border-bottom-color:black;");
 		}
 		if (style.getBorderLeftStyle() == null) {
 			styleBuffer.append("border-left-style:none;");
 		} else if (style.getBorderLeftColor() == null) {
-			styleBuffer.append("border-left-color:black");
+			styleBuffer.append("border-left-color:black;");
 		}
 		if (style.getBorderRightStyle() == null) {
 			styleBuffer.append("border-right-style:none;");
 		} else if (style.getBorderRightColor() == null) {
-			styleBuffer.append("border-right-color:black");
+			styleBuffer.append("border-right-color:black;");
 		}
 	}
 

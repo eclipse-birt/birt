@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -185,6 +185,8 @@ public class HTMLTags {
 	public static final String ATTR_TYPE = "type"; //$NON-NLS-1$
 	/** html tag attribute: span */
 	public static final String ATTR_SPAN = "span"; //$NON-NLS-1$
+	/** html tag attribute: embedded images */
+	public static final String ATTR_POINTER_EVENTS = "pointer-events"; //$NON-NLS-1$
 
 	/** html tag attribute: colspan */
 	public static final String ATTR_COLSPAN = "colspan"; //$NON-NLS-1$
