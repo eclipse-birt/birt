@@ -381,9 +381,7 @@ public class TextWriter {
 		}
 		canvas.setBackgroundColor(style.getColor());
 		setTextFont(info.getFontName());
-		if (link != null && link.isHasHyperlinkDecoration()) {
-			canvas.setHyperlink(link);
-		}
+		canvas.setHyperlink(link);
 		canvas.setBookmark(bmk_relationshipid);
 		writer.closeTag(tag);
 	}
@@ -424,9 +422,7 @@ public class TextWriter {
 			writer.attribute("id", shapeId);
 			writer.attribute("name", "TextBox " + shapeId);
 			// hyperlink decoration at text area
-			if (link != null && !link.isHasHyperlinkDecoration()) {
-				canvas.setHyperlink(link);
-			}
+			canvas.setHyperlink(link);
 			writer.closeTag("p:cNvPr");
 			writer.openTag("p:cNvSpPr");
 			writer.attribute("txBox", "1");

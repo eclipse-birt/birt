@@ -462,7 +462,8 @@ public class PPTXCanvas {
 	}
 
 	void setHyperlink(HyperlinkDef link) {// TODO: set links for bookmark
-		if (link != null) {
+		// power point doesn't support undecorated hyperlink
+		if (link != null && link.isHasHyperlinkDecoration()) {
 			String hyperlink = null;
 			try {
 				hyperlink = URLEncoder.encode(link.getLink(), "UTF-8");
