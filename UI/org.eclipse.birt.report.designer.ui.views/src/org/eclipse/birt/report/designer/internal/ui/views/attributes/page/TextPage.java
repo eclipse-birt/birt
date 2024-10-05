@@ -35,11 +35,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sep
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -51,29 +52,29 @@ public class TextPage extends GeneralPage {
 	protected void buildContent() {
 		// Defines providers.
 
-		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(IDesignElementModel.NAME_PROP,
 				ReportDesignConstants.TEXT_ITEM);
 
-		IDescriptorProvider contentTypeProvider = new ComboPropertyDescriptorProvider(TextItemHandle.CONTENT_TYPE_PROP,
+		IDescriptorProvider contentTypeProvider = new ComboPropertyDescriptorProvider(ITextItemModel.CONTENT_TYPE_PROP,
 				ReportDesignConstants.TEXT_ITEM);
 
-		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(IStyledElementModel.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM);
 
 		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontFamilyProvider.enableReset(true);
 
 		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider(
-				StyleHandle.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		fontSizeProvider.enableReset(true);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(StyleHandle.COLOR_PROP,
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(IStyleModel.COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT);
 		colorProvider.enableReset(true);
 
 		ColorPropertyDescriptorProvider bgColorProvider = new ColorPropertyDescriptorProvider(
-				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		bgColorProvider.enableReset(true);
 
 		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders();
@@ -153,7 +154,7 @@ public class TextPage extends GeneralPage {
 		addSection(PageSectionId.TEXT_ELEMENT_ID, elementIdSection);
 
 		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider(
-				StyleHandle.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+				IStyleModel.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
 		wordwrapProvider.enableReset(true);
 		RadioGroupSection wordwrapSection = new RadioGroupSection(wordwrapProvider.getDisplayName(), container, true);
 		wordwrapSection.setProvider(wordwrapProvider);
@@ -193,29 +194,25 @@ public class TextPage extends GeneralPage {
 	 */
 	private IDescriptorProvider[] createFontStyleProviders() {
 		PropertyDescriptorProvider[] providers = {
-				// Creates providers with StyleHandle.FONT_WEIGHT_PROP,
-				// StyleHandle.FONT_STYLE_PROP, StyleHandle.TEXT_UNDERLINE_PROP,
-				// StyleHandle.TEXT_LINE_THROUGH_PROP and
-				// StyleHandle.TEXT_ALIGN_PROP.
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_STYLE_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.FONT_STYLE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_UNDERLINE_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.TEXT_UNDERLINE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_LINE_THROUGH_PROP,
+				new FontStylePropertyDescriptorProvider(IStyleModel.TEXT_LINE_THROUGH_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
 
-				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT)
+				new PropertyDescriptorProvider(IStyleModel.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT)
 				// bidi_hcg
 		};
 
 		for (int i = 0; i < providers.length; i++) {
-			((PropertyDescriptorProvider) providers[i]).enableReset(true);
+			providers[i].enableReset(true);
 		}
 
 		return providers;
@@ -230,7 +227,7 @@ public class TextPage extends GeneralPage {
 				if (helperProvider != null) {
 					ISectionHelper helper = helperProvider.createHelper(this, PageConstants.THEME_HELPER_KEY);
 					if (helper != null) {
-						Section section = helper.createSection(container, TextItemHandle.THEME_PROP,
+						Section section = helper.createSection(container, IInternalReportItemModel.THEME_PROP,
 								ReportDesignConstants.TEXT_ITEM, true);
 						if (section instanceof SimpleComboSection) {
 							((SimpleComboSection) section).setWidth(200);

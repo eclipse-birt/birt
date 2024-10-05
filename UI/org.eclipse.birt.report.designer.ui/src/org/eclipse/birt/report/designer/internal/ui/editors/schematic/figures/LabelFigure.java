@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -29,6 +30,7 @@ import org.eclipse.draw2d.text.FlowBox;
 import org.eclipse.draw2d.text.FlowFigure;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
+import org.eclipse.draw2d.text.TextFragmentBox;
 import org.eclipse.swt.graphics.Font;
 
 import com.ibm.icu.text.BreakIterator;
@@ -61,7 +63,9 @@ public class LabelFigure extends ReportElementFigure {
 	}
 
 	/**
-	 * @return
+	 * Get the display of the label figure
+	 *
+	 * @return the label figure
 	 */
 	public String getDisplay() {
 		return display;
@@ -82,15 +86,12 @@ public class LabelFigure extends ReportElementFigure {
 			public void postValidate() {
 				if (DesignChoiceConstants.DISPLAY_BLOCK.equals(display)
 						|| DesignChoiceConstants.DISPLAY_INLINE.equals(display)) {
-					List list = getFragments();
-					FlowBox box;
+					List<? extends TextFragmentBox> listBox = getFragments();
 
 					int left = Integer.MAX_VALUE, top = left;
 					int bottom = Integer.MIN_VALUE;
 
-					for (int i = 0; i < list.size(); i++) {
-						box = (FlowBox) list.get(i);
-
+					for (FlowBox box : listBox) {
 						left = Math.min(left, box.getX());
 						top = Math.min(top, box.getBaseline() - box.getAscent());
 						bottom = Math.max(bottom, box.getBaseline() + box.getDescent());
@@ -110,9 +111,9 @@ public class LabelFigure extends ReportElementFigure {
 						child.setBounds(new Rectangle(rect.x, rect.y, width, rect.height));
 					}
 
-					list = getChildren();
-					for (int i = 0; i < list.size(); i++) {
-						((FlowFigure) list.get(i)).postValidate();
+					List<? extends IFigure> listFigure = getChildren();
+					for (IFigure flowFigure : listFigure) {
+						((FlowFigure) flowFigure).postValidate();
 					}
 				} else {
 					super.postValidate();
@@ -212,9 +213,8 @@ public class LabelFigure extends ReportElementFigure {
 			dim = super.getMinimumSize(tempHint <= 0 ? -1 : tempHint, hHint);
 
 			return new Dimension(Math.max(dim.width, rx), Math.max(dim.height, ry));
-		} else {
-			dim = super.getMinimumSize(rx == 0 ? -1 : rx, hHint);
 		}
+		dim = super.getMinimumSize(rx == 0 ? -1 : rx, hHint);
 
 		if (dim.width < wHint) {
 			return new Dimension(Math.max(dim.width, rx), Math.max(dim.height, ry));
@@ -336,7 +336,7 @@ public class LabelFigure extends ReportElementFigure {
 	/**
 	 * Gets the recommended size.
 	 *
-	 * @return
+	 * @return the recommended size.
 	 */
 	public Dimension getRecommendSize() {
 		return recommendSize;
@@ -538,10 +538,20 @@ public class LabelFigure extends ReportElementFigure {
 		return new Dimension(width, height);
 	}
 
+	/**
+	 * Is the fixed layout in use
+	 *
+	 * @return is fixed layout in use
+	 */
 	public boolean isFixLayout() {
 		return isFixLayout;
 	}
 
+	/**
+	 * Set the fixed layout
+	 *
+	 * @param isFixLayout fixed layout is used
+	 */
 	public void setFixLayout(boolean isFixLayout) {
 		this.isFixLayout = isFixLayout;
 	}

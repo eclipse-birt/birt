@@ -24,6 +24,12 @@ import java.util.Vector;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 
+/**
+ * Emitter context class for WordProcessingML
+ *
+ * @since 3.3
+ *
+ */
 public class EmitterContext {
 
 	private LinkedList<TableInfo> tables = new LinkedList<>();
@@ -46,38 +52,65 @@ public class EmitterContext {
 	}
 
 	/**
-	 * Checks if we just finished a table element.
+	 * Checks if we just finished a table element
 	 *
-	 * @return
+	 * @return check if the position after a table element
 	 */
 	public boolean isAfterTable() {
 		return this.isAfterTable;
 	}
 
+	/**
+	 * Set start inline
+	 */
 	public void startInline() {
 		isFirst = false;
 	}
 
+	/**
+	 * Is first inline
+	 *
+	 * @return is first inline
+	 */
 	public boolean isFirstInline() {
 		return isFirst;
 	}
 
+	/**
+	 * Set end inline
+	 */
 	public void endInline() {
 		isFirst = true;
 	}
 
+	/**
+	 * Set start cell
+	 */
 	public void startCell() {
 		cellind.push(true);
 	}
 
+	/**
+	 * Remove cell from cell list by end of cell
+	 */
 	public void endCell() {
 		cellind.pop();
 	}
 
+	/**
+	 * Empty paragraph is needed
+	 *
+	 * @return is empty paragraph is needed
+	 */
 	public boolean needEmptyP() {
 		return cellind.peek();
 	}
 
+	/**
+	 * Add container
+	 *
+	 * @param isContainer is container flag
+	 */
 	public void addContainer(boolean isContainer) {
 		if (!cellind.isEmpty()) {
 			cellind.pop();
@@ -85,50 +118,110 @@ public class EmitterContext {
 		}
 	}
 
+	/**
+	 * Add width to registry
+	 *
+	 * @param witdh width
+	 */
 	public void addWidth(int witdh) {
 		widthList.addLast(witdh);
 	}
 
+	/**
+	 * Reset width registry
+	 */
 	public void resetWidth() {
 		widthList.clear();
 	}
 
+	/**
+	 * Get current width from registry
+	 *
+	 * @return current width from registry
+	 */
 	public int getCurrentWidth() {
 		return widthList.getLast();
 	}
 
+	/**
+	 * Remove width from registry
+	 */
 	public void removeWidth() {
 		widthList.removeLast();
 	}
 
+	/**
+	 * Get current table columns
+	 *
+	 * @return the current table columns
+	 */
 	public int[] getCurrentTableColmns() {
 		return tables.getLast().getColumnWidths();
 	}
 
+	/**
+	 * Add table
+	 *
+	 * @param cols  table columns
+	 * @param style table style
+	 */
 	public void addTable(int[] cols, IStyle style) {
 		tables.addLast(new TableInfo(cols, style));
 	}
 
+	/**
+	 * Get the table style
+	 *
+	 * @return the table style
+	 */
 	public IStyle getTableStyle() {
 		return tables.getLast().getTableStyle();
 	}
 
+	/**
+	 * Create new row
+	 */
 	public void newRow() {
 		tables.getLast().newRow();
 	}
 
+	/**
+	 * Add span
+	 *
+	 * @param colmunId   column id
+	 * @param columnSpan column span count
+	 * @param cellWidth  cell width
+	 * @param rowSpan    row span count
+	 * @param style      cell style
+	 */
 	public void addSpan(int colmunId, int columnSpan, int cellWidth, int rowSpan, IStyle style) {
 		tables.getLast().addSpan(colmunId, columnSpan, cellWidth, rowSpan, style);
 	}
 
+	/**
+	 * Remove table
+	 */
 	public void removeTable() {
 		tables.removeLast();
 	}
 
+	/**
+	 * Get column span
+	 *
+	 * @param col column
+	 * @return span info
+	 */
 	public List<SpanInfo> getSpans(int col) {
 		return tables.getLast().getSpans(col);
 	}
 
+	/**
+	 * Get the cell width
+	 *
+	 * @param columnId   column id
+	 * @param columnSpan column span
+	 * @return the cell width
+	 */
 	public int getCellWidth(int columnId, int columnSpan) {
 		int[] cols = getCurrentTableColmns();
 

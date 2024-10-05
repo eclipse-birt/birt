@@ -96,7 +96,9 @@ public class LabelEditPart extends ReportElementEditPart {
 	}
 
 	/**
-	 * @return
+	 * Get the label adapter
+	 *
+	 * @return the label adapter
 	 */
 	protected LabelHandleAdapter getLabelAdapter() {
 		return (LabelHandleAdapter) getModelAdapter();
@@ -155,7 +157,7 @@ public class LabelEditPart extends ReportElementEditPart {
 	/**
 	 * Returns if the model element has explicit text set.
 	 *
-	 * @return
+	 * @return if the model element has explicit text set.
 	 */
 	protected boolean hasText() {
 		if (StringUtil.isBlank(((LabelHandle) getModel()).getDisplayText())) {
