@@ -50,9 +50,10 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 				getFieldEditorParent());
 		addField(tempFolder);
 
-		addField(new BooleanFieldEditor(PreferenceConstants.CLEAM_TEMP, "&Clean temporary folder on exist", //$NON-NLS-1$
-				getFieldEditorParent()));
-
+		BooleanFieldEditor cleanTemp = new BooleanFieldEditor(PreferenceConstants.CLEAM_TEMP, "&Clean temporary folder on exist", //$NON-NLS-1$
+				getFieldEditorParent());
+		cleanTemp.setEnabled(true, getFieldEditorParent());
+		addField(cleanTemp);
 	}
 
 	/*

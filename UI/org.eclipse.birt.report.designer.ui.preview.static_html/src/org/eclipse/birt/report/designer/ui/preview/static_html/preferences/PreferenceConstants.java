@@ -17,7 +17,10 @@ package org.eclipse.birt.report.designer.ui.preview.static_html.preferences;
  */
 public class PreferenceConstants {
 
+	/** property: temporary path preference */
 	public static final String TEMP_PATH = "tempPathPreference"; //$NON-NLS-1$
+
+	/** property: clean up preference of temporary path */
 	public static final String CLEAM_TEMP = "cleanTempPreference"; //$NON-NLS-1$
 
 }
