@@ -37,8 +37,8 @@ import javax.swing.ImageIcon;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -57,20 +57,33 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.Image;
 
+/**
+ * Utility class for emitter
+ *
+ * @since 3.3
+ *
+ */
 public class EmitterUtil {
 
 	protected static Logger logger = Logger.getLogger(EmitterUtil.class.getName());
 
 	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
-	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
 	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
 
+	/**
+	 * Get output stream
+	 *
+	 * @param services          service
+	 * @param defaultOutputFile output file
+	 * @return output stream
+	 * @throws EngineException
+	 */
 	public static OutputStream getOuputStream(IEmitterServices services, String defaultOutputFile)
 			throws EngineException {
 		OutputStream out = null;
-		Object fd = services.getOption(RenderOption.OUTPUT_FILE_NAME);
+		Object fd = services.getOption(IRenderOption.OUTPUT_FILE_NAME);
 		File file = null;
 		try {
 			if (fd != null) {
@@ -86,9 +99,9 @@ public class EmitterUtil {
 		}
 
 		if (out == null) {
-			Object value = services.getOption(RenderOption.OUTPUT_STREAM);
+			Object value = services.getOption(IRenderOption.OUTPUT_STREAM);
 			if (value instanceof OutputStream) {
-				Object closeOnExitValue = services.getOption(RenderOption.CLOSE_OUTPUTSTREAM_ON_EXIT);
+				Object closeOnExitValue = services.getOption(IRenderOption.CLOSE_OUTPUTSTREAM_ON_EXIT);
 				boolean closeOnExit = false;
 				if (closeOnExitValue instanceof Boolean) {
 					closeOnExit = ((Boolean) closeOnExitValue).booleanValue();
@@ -136,6 +149,12 @@ public class EmitterUtil {
 		}
 	}
 
+	/**
+	 * Get the image
+	 *
+	 * @param content image content
+	 * @return the image
+	 */
 	public static Image getImage(IImageContent content) {
 		Image image = null;
 		try {
@@ -210,12 +229,24 @@ public class EmitterUtil {
 		return buffer;
 	}
 
+	/** property: italic horizontal coefficient */
 	public static float ITALIC_HORIZONTAL_COEFFICIENT = (float) Math.tan(15f * Math.PI / 180);
 
+	/**
+	 * Get the italic horizontal coefficient
+	 *
+	 * @return the italic horizontal coefficient
+	 */
 	public static float getItalicHorizontalCoefficient() {
 		return ITALIC_HORIZONTAL_COEFFICIENT;
 	}
 
+	/**
+	 * Get the color as hex value
+	 *
+	 * @param color rgb color
+	 * @return the hex color value
+	 */
 	public static String getColorString(Color color) {
 		StringBuffer buffer = new StringBuffer();
 		appendComponent(buffer, color.getRed());
@@ -224,6 +255,12 @@ public class EmitterUtil {
 		return buffer.toString();
 	}
 
+	/**
+	 * Append the component to buffer
+	 *
+	 * @param buffer    buffer
+	 * @param component rgb color value
+	 */
 	public static void appendComponent(StringBuffer buffer, int component) {
 		String hex = Integer.toHexString(component);
 		if (hex.length() == 1) {
@@ -232,6 +269,12 @@ public class EmitterUtil {
 		buffer.append(hex);
 	}
 
+	/**
+	 * Get the image extension
+	 *
+	 * @param imageURI image URI
+	 * @return the image extension
+	 */
 	public static String getImageExtension(String imageURI) {
 		String rectifiedImageURI = imageURI.replace('.', '&');
 		String extension = imageURI.substring(rectifiedImageURI.lastIndexOf('&') + 1).toLowerCase();
@@ -242,6 +285,12 @@ public class EmitterUtil {
 		return extension;
 	}
 
+	/**
+	 * Get the image size
+	 *
+	 * @param imageURI image URI
+	 * @return the image size
+	 */
 	public static Position getImageSize(String imageURI) {
 		InputStream imageStream = null;
 		Position imageSize = new Position(0, 0);
@@ -265,6 +314,13 @@ public class EmitterUtil {
 		return imageSize;
 	}
 
+	/**
+	 * Get the image data
+	 *
+	 * @param imageURI image URI
+	 * @return the image data
+	 * @throws IOException
+	 */
 	public static byte[] getImageData(String imageURI) throws IOException {
 		byte[] imageData = null;
 		if (SvgFile.isSvg(imageURI)) {
@@ -305,6 +361,13 @@ public class EmitterUtil {
 		return imageData;
 	}
 
+	/**
+	 * Read the image data from stream
+	 *
+	 * @param imageStream image stream
+	 * @return the image data
+	 * @throws IOException
+	 */
 	public static byte[] readData(InputStream imageStream) throws IOException {
 		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
 		int data = -1;
@@ -315,7 +378,15 @@ public class EmitterUtil {
 		return byteArrayStream.toByteArray();
 	}
 
-	public static String getBackgroundImageUrl(IStyle style, ReportDesignHandle reportDesign, Map context) {
+	/**
+	 * Get the background image URL
+	 *
+	 * @param style        style of the context
+	 * @param reportDesign report design
+	 * @param context      context element
+	 * @return the background image URI
+	 */
+	public static String getBackgroundImageUrl(IStyle style, ReportDesignHandle reportDesign, Map<?, ?> context) {
 		String imageUri = PropertyUtil.getBackgroundImage(style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
 		if (imageUri != null) {
 			String url = getImageUrl(imageUri, reportDesign, context);
@@ -326,7 +397,15 @@ public class EmitterUtil {
 		return null;
 	}
 
-	private static String getImageUrl(String imageUri, ReportDesignHandle reportDesign, Map context) {
+	/**
+	 * Get the image URL
+	 *
+	 * @param style        style of the context
+	 * @param reportDesign report design
+	 * @param context      context element
+	 * @return the background image URI
+	 */
+	private static String getImageUrl(String imageUri, ReportDesignHandle reportDesign, Map<?, ?> context) {
 		String imageUrl = imageUri;
 		if (reportDesign != null) {
 			URL url = reportDesign.findResource(imageUri, IResourceLocator.IMAGE, context);
@@ -337,6 +416,17 @@ public class EmitterUtil {
 		return imageUrl;
 	}
 
+	/**
+	 * Parse the image
+	 *
+	 * @param image       image content
+	 * @param imageSource image source
+	 * @param uri         image URI
+	 * @param mimeType    image type
+	 * @param extension   image extension
+	 * @return the image element
+	 * @throws IOException
+	 */
 	public static org.eclipse.birt.report.engine.layout.emitter.Image parseImage(IImageContent image, int imageSource,
 			String uri, String mimeType, String extension) throws IOException {
 		org.eclipse.birt.report.engine.layout.emitter.Image imageInfo = null;
@@ -415,6 +505,15 @@ public class EmitterUtil {
 		return imageInfo;
 	}
 
+	/**
+	 * Parse the image
+	 *
+	 * @param imageData image data
+	 * @param mimeType  image type
+	 * @param extension image extension
+	 * @return image element
+	 * @throws IOException
+	 */
 	public static org.eclipse.birt.report.engine.layout.emitter.Image parseImage(byte[] imageData, String mimeType,
 			String extension) throws IOException {
 		if (imageData != null) {
@@ -428,18 +527,31 @@ public class EmitterUtil {
 		return null;
 	}
 
+	/**
+	 * Get the hyperlink URL
+	 *
+	 * @param linkAction     link action
+	 * @param reportRunnable report
+	 * @param actionHandler  action handler
+	 * @param reportContext  report context
+	 * @return the hyperlink
+	 */
 	public static String getHyperlinkUrl(IHyperlinkAction linkAction, IReportRunnable reportRunnable,
 			IHTMLActionHandler actionHandler, IReportContext reportContext) {
 		String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
 		Action action = new Action(systemId, linkAction);
 		if (actionHandler != null) {
 			return actionHandler.getURL(action, reportContext);
-		} else {
-			return linkAction.getHyperlink();
 		}
+		return linkAction.getHyperlink();
 	}
 
-	// convert valid color format to "000000"
+	/**
+	 * Convert valid color format to "000000"
+	 *
+	 * @param color color
+	 * @return hex color value
+	 */
 	public static String parseColor(String color) {
 		if ("transparent".equalsIgnoreCase(color) || color == null || color.length() == 0) {
 			return null;
@@ -500,6 +612,15 @@ public class EmitterUtil {
 		return value;
 	}
 
+	/**
+	 * Resize table column
+	 *
+	 * @param tableWidth    table width
+	 * @param tblColumns    table columns
+	 * @param count         count
+	 * @param totalAssigned total assigned
+	 * @return resized table columns
+	 */
 	public static int[] resizeTableColumn(int tableWidth, int[] tblColumns, int count, int totalAssigned) {
 		int remainWidth = tableWidth - totalAssigned;
 		int average = 0;

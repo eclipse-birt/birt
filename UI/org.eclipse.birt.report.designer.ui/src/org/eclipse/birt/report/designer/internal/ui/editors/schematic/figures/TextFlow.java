@@ -161,12 +161,12 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	/**
 	 * Paints self to specified graphics with given X,Y offsets.
 	 *
-	 * @param g
-	 * @param xoff
-	 * @param yoff
+	 * @param g    graphic
+	 * @param xoff x offset
+	 * @param yoff y offset
 	 */
 	public void paintTo(Graphics g, int xoff, int yoff) {
-		List fragments = this.getFragments();
+		List<? extends TextFragmentBox> fragments = this.getFragments();
 		assert this.getFont().getFontData().length > 0;
 
 		/**
@@ -187,9 +187,16 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	}
 
 	// bidi_hcg: rename and leave an old method for now.
+	/**
+	 * Paints self to specified graphics with given X,Y offsets.
+	 *
+	 * @param g    graphic
+	 * @param xoff x offset
+	 * @param yoff y offset
+	 */
 	public void paintTo_old(Graphics g, int xoff, int yoff) {
 		TextFragmentBox frag;
-		List fragments = this.getFragments();
+		List<? extends TextFragmentBox> fragments = this.getFragments();
 		assert this.getFont().getFontData().length > 0;
 
 		/**
@@ -201,14 +208,11 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 		 */
 		int totalHeight = 0;
 		for (int i = 0; i < fragments.size(); i++) {
-			// FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
-			// .get( i ) );
-			totalHeight += ((TextFragmentBox) fragments.get(i)).getAscent()
-					+ ((TextFragmentBox) fragments.get(i)).getDescent();
+			totalHeight += fragments.get(i).getAscent() + fragments.get(i).getDescent();
 		}
 
 		for (int i = 0; i < fragments.size(); i++) {
-			frag = (TextFragmentBox) fragments.get(i);
+			frag = fragments.get(i);
 
 			// FlowBoxWrapper wrapper = new FlowBoxWrapper( frag );
 			String draw = null;
@@ -317,7 +321,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	 * @return Next fragment index or -1 if there is no more fragments to process
 	 */
 	private int paintLineTo(Graphics g, int xoff, int yoff, int lineWidth, int fragIndex, boolean isMirrored) {
-		List fragments = this.getFragments();
+		List<? extends TextFragmentBox> fragments = this.getFragments();
 		if (fragments == null) {
 			return -1;
 		}
@@ -331,7 +335,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 		 * Get the total fragments height first
 		 */
 		// bidi_hcg start
-		TextFragmentBox frag = (TextFragmentBox) fragments.get(fragIndex);
+		TextFragmentBox frag = fragments.get(fragIndex);
 		int totalHeight = frag.getAscent() + frag.getDescent();
 		int totalWidth = 0;
 		String[] draws = new String[nFragments - fragIndex];
@@ -381,7 +385,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 				break;
 			}
 
-			frag = (TextFragmentBox) fragments.get(i);
+			frag = fragments.get(i);
 
 			prevLineRoot = lineRoot;
 
@@ -399,7 +403,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 		// bidi_hcg end
 
 		for (i = fragIndex; i < retIndex; i++) {
-			frag = (TextFragmentBox) fragments.get(i);
+			frag = fragments.get(i);
 
 			int fragAscent = frag.getAscent();
 
@@ -546,7 +550,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	 *
 	 * @param compWidth Container width.
 	 * @param textWidth Text width.
-	 * @return
+	 * @return the left coordinate by given container width, text width and
+	 *         horizontal alignment style.
 	 */
 	protected int calculateLeft(int compWidth, int textWidth) {
 		int rlt = 0;
@@ -596,7 +601,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	 *
 	 * @param compHeight Container height.
 	 * @param textHeight text height.
-	 * @return
+	 * @return the top coordinate by given container height, text height and
+	 *         vertical alignment style.
 	 */
 	protected int calculateTop(int compHeight, int textHeight) {
 		int rlt = 0;
@@ -625,7 +631,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow {
 	/**
 	 * Gets the horizontal text alignment style.
 	 *
-	 * @return
+	 * @return the horizontal text alignment style.
 	 */
 	public String getTextAlign() {
 		return textAlign;
