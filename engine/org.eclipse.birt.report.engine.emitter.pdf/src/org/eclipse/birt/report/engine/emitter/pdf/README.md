@@ -33,6 +33,17 @@ The following list get an overview of all supported user properties, the content
 	Since      	4.16
 	Designer  	4.17
 
+
+**PdfEmitter.UAConformance**
+
+	Content    	define the PDF/UA conformance of the created PDF document, e.g. PDF.UA-1
+	Location   	report
+	Data type  	string
+	Values     	PDF.Standard, PDF.UA-1
+	Default    	PDF.Standard
+	Since      	4.16
+	Designer  	4.17
+
 **PdfEmitter.IccColorType**
 
 	Content    	define the ICC color type of the PDF/A document

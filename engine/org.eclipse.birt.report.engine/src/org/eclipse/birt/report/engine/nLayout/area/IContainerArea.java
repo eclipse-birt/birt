@@ -18,7 +18,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
-public interface IContainerArea extends IArea {
+public interface IContainerArea extends IArea, ITagType {
 
 	Iterator<IArea> getChildren();
 
@@ -33,5 +33,7 @@ public interface IContainerArea extends IArea {
 	BoxStyle getBoxStyle();
 
 	String getHelpText();
+
+	String getTagType();
 
 }

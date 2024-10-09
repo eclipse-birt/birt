@@ -250,7 +250,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy {
 	 */
 	@Override
 	public Object getPropertyExceptRomDefault(Module module, DesignElement element, ElementPropertyDefn prop) {
-		if (IListingElementModel.REPEAT_HEADER_PROP.equals(prop.getName()) && element instanceof ListingElement) {
+		if (element instanceof ListingElement && IListingElementModel.REPEAT_HEADER_PROP.equals(prop.getName())) {
 			Object value = super.getPropertyExceptRomDefault(module, element, prop);
 
 			// if report-header is FALSE, return it
