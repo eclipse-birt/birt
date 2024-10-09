@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2005, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -31,9 +31,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
 /**
+ * Utility class to handle properties
  *
  */
-
 abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	private Object structureOrHandle = null;
@@ -121,7 +121,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	 * Syntax check which determines whether to enable the Ok button
 	 *
 	 * @param structureOrHandle
-	 * @return
+	 * @return the validation status
 	 */
 	protected abstract IStatus validateSyntax(Object structureOrHandle);
 
@@ -163,7 +163,7 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	 * Semantics check which determines whether to close the window
 	 *
 	 * @param structureOrHandle
-	 * @return
+	 * @return the validation status
 	 */
 	protected abstract IStatus validateSemantics(Object structureOrHandle);
 
@@ -190,49 +190,54 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
+	 * Is property blank
 	 *
-	 * @param value
-	 * @return
+	 * @param value property value
+	 * @return true, if the property is blank
 	 */
 	protected boolean isBlankProperty(String value) {
 		return Utility.getNonNullString(value).trim().length() == 0;
 	}
 
 	/**
+	 * Get the property status for blank value
 	 *
-	 * @param cellLabel
-	 * @return
+	 * @param cellLabel cell label
+	 * @return the property status for blank value
 	 */
 	protected Status getBlankPropertyStatus(String cellLabel) {
 		return getMiscStatus(IStatus.ERROR,
 				Messages.getFormattedString("PropertyHandleInputDialog.messages.error.blankProperty", //$NON-NLS-1$
-						new String[] { cellLabel }));
+						new String[] { cellLabel.replace("&", "") }));
 	}
 
 	/**
+	 * Get the ok status
 	 *
-	 * @return
+	 * @return the ok status
 	 */
 	protected Status getOKStatus() {
 		return getMiscStatus(IStatus.OK, ""); //$NON-NLS-1$
 	}
 
 	/**
+	 * Get miscellaneous status
 	 *
-	 * @param severity
-	 * @param message
-	 * @return
+	 * @param severity status level
+	 * @param message  status message
+	 * @return miscellaneous status
 	 */
 	protected Status getMiscStatus(int severity, String message) {
 		return new Status(severity, PlatformUI.PLUGIN_ID, IStatus.OK, message, null);
 	}
 
 	/**
+	 * Set property value
 	 *
-	 * @param obj
-	 * @param propertyName
-	 * @param value
-	 * @return
+	 * @param obj          object
+	 * @param propertyName property name
+	 * @param value        property value
+	 * @return the ok status after property set
 	 */
 	protected Status setProperty(Object obj, String propertyName, Object value) {
 		try {
@@ -245,10 +250,11 @@ abstract class PropertyHandleInputDialog extends StatusDialog {
 	}
 
 	/**
+	 * Get the property
 	 *
-	 * @param obj
-	 * @param propertyName
-	 * @return
+	 * @param obj          object
+	 * @param propertyName property name
+	 * @return the property
 	 */
 	protected Object getProperty(Object obj, String propertyName) {
 		try {
