@@ -51,6 +51,7 @@ public class LabelItemExecutor extends QueryItemExecutor {
 	@Override
 	public IContent execute() {
 		LabelItemDesign labelDesign = (LabelItemDesign) getDesign();
+
 		ILabelContent labelContent = report.createLabelContent();
 		setContent(labelContent);
 

@@ -489,6 +489,8 @@ public class ImageAreaLayout implements ILayout {
 			}
 
 			area.setData(data);
+			// area.setHelpText(content.getHelpText());
+			area.setHelpText(content.getAltText());
 
 			if (reader.getType() == ImageReader.TYPE_SVG_OBJECT) {
 				area.setMIMEType("image/svg+xml");

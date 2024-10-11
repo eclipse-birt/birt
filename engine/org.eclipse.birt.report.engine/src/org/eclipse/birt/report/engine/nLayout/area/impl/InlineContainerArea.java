@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITagType;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 public class InlineContainerArea extends InlineStackingArea implements IContainerArea {
@@ -237,6 +238,17 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 	@Override
 	public SplitResult splitLines(int lineCount) throws BirtException {
 		return SplitResult.SUCCEED_WITH_NULL;
+	}
+
+	public String getTagType() {
+		if (content == null) {
+			return "spanTODO";
+		}
+		Object generateBy = content.getGenerateBy();
+		if (generateBy == null) {
+			return "span2TODO";
+		}
+		return ((ITagType) generateBy).getTagType();
 	}
 
 }

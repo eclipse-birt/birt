@@ -52,7 +52,11 @@ import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFileSpecification;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfRectangle;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -81,6 +85,8 @@ public class PDFPage extends AbstractPage {
 
 	protected PDFPageDevice pageDevice;
 
+	protected boolean inArtifact = false;
+
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
 	 * will be thrown.
@@ -108,9 +114,11 @@ public class PDFPage extends AbstractPage {
 		document.setPageSize(pageSize);
 		if (!document.isOpen()) {
 			document.open();
+			pageDevice.initStructure();
 		} else {
 			document.newPage();
 		}
+
 		this.contentByte = writer.getDirectContent();
 	}
 
@@ -214,10 +222,25 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
+
 		// Flash
 		if (FlashFile.isFlash(null, null, extension)) {
 			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
 			return;
+		}
+
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			PdfDictionary dict = new PdfDictionary();
+			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+
+			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
+			if (attributes == null) {
+				attributes = new PdfDictionary();
+				pageDevice.structureCurrentLeaf.put(PdfName.A, attributes);
+			}
+			attributes.put(PdfName.BBOX, new PdfRectangle(imageX, imageY, width, height));
+
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
 		// Cached Image
@@ -228,6 +251,9 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
+				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 		}
@@ -238,9 +264,23 @@ public class PDFPage extends AbstractPage {
 		} else {
 			// PNG/JPG/BMP... images:
 			Image image = Image.getInstance(imageData);
+			image.setAlt(helpText);
+
+			// Transparent images are not allowed in PDF/A-1,
+			// so remove transparency if necessary
+			if (image.isSmask() && pageDevice.isPdfAFormat()) {
+				if (pageDevice.getPdfConformance().startsWith("PDF.A1")) {
+					logger.severe("PDF/A-1 format specified, transparency is not allowed for image " + imageId);
+					image.setSmask(false);
+				}
+			}
+
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
+				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 			template = contentByte.createTemplate(width, height);
@@ -253,6 +293,11 @@ public class PDFPage extends AbstractPage {
 		if (template != null) {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
+
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			contentByte.endMarkedContentSequence();
+		}
+
 	}
 
 	/**
@@ -456,12 +501,21 @@ public class PDFPage extends AbstractPage {
 	private void drawText(String text, float textX, float textY, FontInfo fontInfo, float characterSpacing,
 			float wordSpacing, Color color, CSSValue align) {
 		contentByte.saveState();
+
+		// This is not allowed inbetween beginText/endText, thus it must come first.
+		contentByte.concatCTM(1, 0, 0, 1, textX, transformY(textY, 0, containerHeight));
+
 		// start drawing the text content
 		contentByte.beginText();
+
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
+		}
 		if (null != color && !Color.BLACK.equals(color)) {
 			contentByte.setColorFill(color);
 			contentByte.setColorStroke(color);
 		}
+
 		BaseFont font = getBaseFont(fontInfo);
 		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 
@@ -517,6 +571,9 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
+		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+			contentByte.endMarkedContentSequence();
+		}
 		contentByte.endText();
 		contentByte.restoreState();
 	}
@@ -562,7 +619,7 @@ public class PDFPage extends AbstractPage {
 	}
 
 	private void setTextMatrix(PdfContentByte cb, FontInfo fi, float x, float y) {
-		cb.concatCTM(1, 0, 0, 1, x, y);
+
 		if (!fi.getSimulation()) {
 			cb.setTextMatrix(0, 0);
 			return;
@@ -692,5 +749,28 @@ public class PDFPage extends AbstractPage {
 		transcoder.print(g2D, pg, 0);
 		g2D.dispose();
 		return template;
+	}
+
+	public void beginArtifact() {
+		if (!inArtifact) {
+			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
+			inArtifact = true;
+		}
+		else {
+			logger.warning("beginArtifact called inside artifact!");
+		}
+	}
+
+	public void endArtifact() {
+		if (inArtifact) {
+			contentByte.endMarkedContentSequence();
+			inArtifact = false;
+		} else {
+			logger.warning("endArtifact called outside of an artifact!");
+		}
+	}
+
+	public boolean isInArtifact() {
+		return inArtifact;
 	}
 }

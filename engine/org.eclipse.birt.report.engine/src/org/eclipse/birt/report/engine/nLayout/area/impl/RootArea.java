@@ -33,7 +33,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Definition of the root area
- * 
+ *
  * @since 3.3
  *
  */
@@ -210,4 +210,9 @@ public class RootArea extends BlockContainerArea {
 		page.close();
 		finished = true;
 	}
+
+	public String getTagType() {
+		return null;
+	}
+
 }

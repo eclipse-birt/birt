@@ -470,4 +470,9 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	public String getTagType() {
+		Object generateBy = content.getGenerateBy();
+		return "rowTODO";
+	}
+
 }
