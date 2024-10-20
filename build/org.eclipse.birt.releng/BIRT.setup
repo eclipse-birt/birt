@@ -524,10 +524,6 @@
           optional="true"
           max="0"/>
       <requirement
-          name="org.apache.commons.commons-logging"
-          optional="true"
-          max="0"/>
-      <requirement
           name="org.apache.commons.logging"
           versionRange="[1.2.0,1.2.0]"/>
       <sourceLocator
