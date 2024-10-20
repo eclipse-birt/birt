@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="52">
+<target name="Generated from BIRT" sequenceNumber="53">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -53,20 +53,26 @@
       <unit id="org.apache.commons.commons-collections4" version="0.0.0"/>
       <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
       <unit id="org.apache.commons.commons-io" version="0.0.0"/>
+      <unit id="org.apache.commons.commons-logging" version="0.0.0"/>
       <unit id="org.apache.commons.discovery" version="0.0.0"/>
+      <unit id="org.apache.commons.jxpath" version="0.0.0"/>
       <unit id="org.apache.commons.logging" version="1.2.0"/>
       <unit id="org.apache.commons.math3" version="0.0.0"/>
       <unit id="org.apache.derby" version="0.0.0"/>
       <unit id="org.apache.felix.scr" version="0.0.0"/>
       <unit id="org.apache.logging.log4j.api" version="0.0.0"/>
       <unit id="org.apache.logging.log4j.to.slf4j" version="0.0.0"/>
+      <unit id="org.apache.lucene.facet" version="0.0.0"/>
       <unit id="org.apache.lucene.queries" version="0.0.0"/>
       <unit id="org.apache.lucene.sandbox" version="0.0.0"/>
       <unit id="org.apache.poi" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml" version="0.0.0"/>
       <unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
       <unit id="org.apache.xmlbeans" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics" version="0.0.0"/>
       <unit id="org.apache.xmlgraphics.fop-core" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics.fop-events" version="0.0.0"/>
+      <unit id="org.apache.xmlgraphics.fop-util" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.manager" version="0.0.0"/>
       <unit id="org.bndtools.headless.build.plugin.gradle" version="0.0.0"/>
       <unit id="org.bndtools.templating" version="0.0.0"/>
@@ -127,8 +133,8 @@
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
       <unit id="org.jdom" version="0.0.0"/>
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
-      <unit id="org.mortbay.jasper.apache-el" version="9.0.90"/>
-      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.90"/>
+      <unit id="org.mortbay.jasper.apache-el" version="9.0.96"/>
+      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.96"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.namespace.contract" version="0.0.0"/>
