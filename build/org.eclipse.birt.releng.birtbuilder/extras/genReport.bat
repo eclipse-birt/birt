@@ -1,6 +1,14 @@
 @ECHO off
 setlocal
 
+REM # Copyright (c) 2011, 2024, Actuate, Remain Software and others
+REM # 
+REM # This program and the accompanying materials are made available under the
+REM # terms of the Eclipse Public License 2.0 which is available at
+REM # https://www.eclipse.org/legal/epl-2.0/.
+REM #
+REM # SPDX-License-Identifier: EPL-2.0
+
 PUSHD %~dp0
 set THIS_DIR=%CD%
 POPD
@@ -11,28 +19,27 @@ if not [%1]==[] goto run
 
 :usage
 REM ################## USAGE OF REPORT ENGINE ################
+echo.
+echo example: genReport.bat -f PDF -o hello.pdf -p "paramList=1" -p "paramInteger=123" -p "paramString=Hello, Birt" samples\hello_world.rptdesign 
+echo.
 echo org.eclipse.birt.report.engine.impl.ReportRunner Usage:
 echo --mode/-m [ runrender ^| render ^| run] the default is runrender
 echo.
 echo For runrender mode:
-echo  we should add it in the end ^<design file^>
 echo     --format/-f [ HTML ^| PDF ]
-echo     --output/-o ^<target file^>
+echo     --output/-o ^<target directory^>
 echo     --htmlType/-t ^< HTML ^| ReportletNoCSS ^>
 echo     --locale/-l ^<locale^>
 echo     --parameter/-p ^<"parameterName=parameterValue"^>
 echo     --file/-F ^<parameter file^>
 echo     --encoding/-e ^<target encoding^>
 echo.
-echo example: genReport.bat -m runrender -f PDF samples\hello_world.rptdesign
-echo.
 echo  Locale: default is English
 echo  parameters in command line will overide parameters in parameter file
 echo  parameter name cannot include characters such as ' ', '=', ':'
 echo.
 echo For RUN mode:
-echo  we should add it in the end ^<design file^>
-echo     --output/-o ^<target file^>
+echo     --output/-o ^<target directory^>
 echo     --locale/-l ^<locale^>
 echo     --parameter/-p ^<"parameterName=parameterValue"^>
 echo     --file/-F ^<parameter file^>
@@ -42,8 +49,7 @@ echo  parameters in command line will overide parameters in parameter file
 echo  parameter name cannot include characters such as ' ', '=', ':'
 echo.
 echo For RENDER mode:
-echo  we should add it in the end ^<design file^>
-echo     --output/-o ^<target file^>
+echo     --output/-o ^<target directory^>
 echo     --page/-p ^<pageNumber^>
 echo     --locale/-l ^<locale^>
 echo.
