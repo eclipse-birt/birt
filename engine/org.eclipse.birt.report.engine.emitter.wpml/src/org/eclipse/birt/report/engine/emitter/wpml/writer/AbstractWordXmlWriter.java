@@ -545,31 +545,11 @@ public abstract class AbstractWordXmlWriter {
 	 * @param paragraphWidth paragraph width
 	 */
 	public void startParagraph(IStyle style, boolean isInline, int paragraphWidth) {
-		writer.openTag("w:p");
-		writer.openTag("w:pPr");
-		writeSpacing((style.getProperty(StyleConstants.STYLE_MARGIN_TOP)),
-				(style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM)));
-		writeAlign(style.getTextAlign(), style.getDirection());
-		int indent = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_TEXT_INDENT), paragraphWidth)
-				/ 1000 * 20;
-
-		int leftMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT),
-				paragraphWidth) / 1000 * 20;
-
-		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
-				paragraphWidth) / 1000 * 20;
-		writeIndent(leftMargin, rightMargin, indent);
-
-		if (!isInline) {
-			writeBackgroundColor(style.getBackgroundColor());
-			writeParagraphBorders(style);
-		}
-		writeBidi(CSSConstants.CSS_RTL_VALUE.equals(style.getDirection()));
-		writer.closeTag("w:pPr");
+		startParagraph(style, isInline, paragraphWidth, null);
 	}
 
 	/**
-	 * Used only in inline text .The text align style of inline text is ignored, but
+	 * Used only in inline text. The text align style of inline text is ignored, but
 	 * its parent text align should be applied.
 	 *
 	 * @param style
@@ -580,8 +560,10 @@ public abstract class AbstractWordXmlWriter {
 	public void startParagraph(IStyle style, boolean isInline, int paragraphWidth, String textAlign) {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
-		writeSpacing((style.getProperty(StyleConstants.STYLE_MARGIN_TOP)),
-				(style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM)));
+		writeSpacing(null, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
+				style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
+				style.getProperty(StyleConstants.STYLE_PADDING_TOP),
+				style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
 		writeAlign(textAlign, style.getDirection());
 		int indent = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_TEXT_INDENT), paragraphWidth)
 				/ 1000 * 20;
@@ -591,6 +573,16 @@ public abstract class AbstractWordXmlWriter {
 
 		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
 				paragraphWidth) / 1000 * 20;
+
+		int leftPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
+				paragraphWidth) / 1000 * 20;
+
+		int rightPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT),
+				paragraphWidth) / 1000 * 20;
+
+		leftMargin += leftPadding;
+		rightMargin += rightPadding;
+
 		writeIndent(leftMargin, rightMargin, indent);
 
 		if (!isInline) {
@@ -601,41 +593,33 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:pPr");
 	}
 
-	private void writeSpacing(CSSValue height) {
+	private void writeSpacing(CSSValue height, CSSValue topMargin, CSSValue bottomMargin, CSSValue topPadding,
+			CSSValue bottomPadding) {
+		writer.openTag("w:spacing");
 		// unit: twentieths of a point(twips)
-		float spacingValue = PropertyUtil.getDimensionValue(height);
-		int spacing = WordUtil.milliPt2Twips(spacingValue);
-		writer.openTag("w:spacing");
-		writer.attribute("w:lineRule", "exact");
-		writer.attribute("w:line", spacing);
-		writer.closeTag("w:spacing");
-	}
-
-	private void writeSpacing(CSSValue top, CSSValue bottom) {
-		float topSpacingValue = PropertyUtil.getDimensionValue(top);
-		float bottomSpacingValue = PropertyUtil.getDimensionValue(bottom);
-		writeSpacing(WordUtil.milliPt2Twips(topSpacingValue), WordUtil.milliPt2Twips(bottomSpacingValue));
-	}
-
-	private void writeSpacing(CSSValue height, CSSValue top, CSSValue bottom) {
-		writer.openTag("w:spacing");
 		if (height != null) {
 			float spacingValue = PropertyUtil.getDimensionValue(height);
 			int spacing = WordUtil.milliPt2Twips(spacingValue);
 			writer.attribute("w:lineRule", "exact");
 			writer.attribute("w:line", spacing);
 		}
-		int beforeTop = WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(top));
-		int afterBottom = WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(bottom));
-		writer.attribute("w:before", beforeTop);
-		writer.attribute("w:after", afterBottom);
-		writer.closeTag("w:spacing");
-	}
 
-	private void writeSpacing(int beforeValue, int afterValue) {
-		writer.openTag("w:spacing");
-		writer.attribute("w:before", beforeValue);
-		writer.attribute("w:after", afterValue);
+		int beforeTop = 0;
+		if (topMargin != null)
+			beforeTop += WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(topMargin));
+		if (topPadding != null)
+			beforeTop += WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(topPadding));
+		if (beforeTop != 0)
+			writer.attribute("w:before", beforeTop);
+
+		int afterBottom = 0;
+		if (bottomMargin != null)
+			afterBottom += WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(bottomMargin));
+		if (bottomPadding != null)
+			afterBottom += WordUtil.milliPt2Twips(PropertyUtil.getDimensionValue(bottomPadding));
+		if (afterBottom != 0)
+			writer.attribute("w:after", afterBottom);
+
 		writer.closeTag("w:spacing");
 	}
 
@@ -1108,10 +1092,14 @@ public abstract class AbstractWordXmlWriter {
 		CSSValue lineHeight = style.getProperty(StyleConstants.STYLE_LINE_HEIGHT);
 		if (!"normal".equalsIgnoreCase(lineHeight.getCssText())) {
 			writeSpacing(lineHeight, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
-					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM));
+					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
+					style.getProperty(StyleConstants.STYLE_PADDING_TOP),
+					style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
 		} else {
-			writeSpacing(style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
-					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM));
+			writeSpacing(null, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
+					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
+					style.getProperty(StyleConstants.STYLE_PADDING_TOP),
+					style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
 		}
 
 		writeAlign(style.getTextAlign(), style.getDirection());
@@ -1126,6 +1114,15 @@ public abstract class AbstractWordXmlWriter {
 
 		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
 				paragraphWidth) / 1000 * 20;
+
+		int leftPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
+				paragraphWidth) / 1000 * 20;
+
+		int rightPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT),
+				paragraphWidth) / 1000 * 20;
+
+		leftMargin += leftPadding;
+		rightMargin += rightPadding;
 		writeIndent(leftMargin, rightMargin, indent);
 
 		writeBidi(CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())); // bidi_hcg
@@ -1169,68 +1166,6 @@ public abstract class AbstractWordXmlWriter {
 			writeTextInParagraph(type, txt, style, fontFamily, info, paragraphWidth, runIsRtl);
 			writer.closeTag("w:p");
 		}
-	}
-
-	/**
-	 * Write the text inline
-	 *
-	 * @param type           text type
-	 * @param txt            text
-	 * @param style          text style
-	 * @param fontFamily     font family
-	 * @param info           hyperlink info object
-	 * @param isInline       is inline text
-	 * @param paragraphWidth paragraph width
-	 * @param runIsRtl       run is rtl flag
-	 */
-	public void writeTextInRun(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info,
-			boolean isInline, int paragraphWidth, boolean runIsRtl) {
-		if ("".equals(txt)) {
-			return;
-		}
-		if (needNewParagraph(txt)) {
-			writer.closeTag("w:p");
-			startParagraph(style, isInline, paragraphWidth);
-			return;
-		}
-
-		openHyperlink(info);
-		boolean isField = WordUtil.isField(type);
-		String direction = style.getDirection();
-
-		if (isField) {
-			writeField(true, style, fontFamily);
-		}
-		writer.openTag("w:r");
-		writer.openTag("w:rPr");
-		writeRunProperties(style, fontFamily, info);
-		if (isInline) {
-			writeAlign(style.getTextAlign(), direction);
-			writeBackgroundColor(style.getBackgroundColor());
-			writePosition(style.getVerticalAlign(), style.getProperty(StyleConstants.STYLE_FONT_SIZE));
-			writeRunBorders(style);
-		}
-		if (!isField && runIsRtl) {
-			writer.openTag("w:rtl");
-			writer.closeTag("w:rtl");
-		}
-		writer.closeTag("w:rPr");
-
-		if (isField) {
-			writeAutoText(type);
-		} else {
-			// get text attribute overflow hidden
-			// and run the function to emulate if true
-			if (CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals(style.getOverflow()) && txt != null) {
-				txt = cropOverflowString(txt, style, fontFamily, paragraphWidth);
-			}
-			writeString(txt, style);
-		}
-		writer.closeTag("w:r");
-		if (isField) {
-			writeField(false, style, fontFamily);
-		}
-		closeHyperlink(info);
 	}
 
 	/**
@@ -1299,6 +1234,23 @@ public abstract class AbstractWordXmlWriter {
 	 * @param isInline       is inline text
 	 * @param paragraphWidth paragraph width
 	 * @param runIsRtl       run is rtl flag
+	 */
+	public void writeTextInRun(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info,
+			boolean isInline, int paragraphWidth, boolean runIsRtl) {
+		writeTextInRun(type, txt, style, fontFamily, info, isInline, paragraphWidth, runIsRtl, null);
+	}
+
+	/**
+	 * Write the text inline
+	 *
+	 * @param type           text type
+	 * @param txt            text
+	 * @param style          text style
+	 * @param fontFamily     font family
+	 * @param info           hyperlink info object
+	 * @param isInline       is inline text
+	 * @param paragraphWidth paragraph width
+	 * @param runIsRtl       run is rtl flag
 	 * @param textAlign      text alignment
 	 */
 	public void writeTextInRun(int type, String txt, IStyle style, String fontFamily, HyperlinkInfo info,
@@ -1311,6 +1263,8 @@ public abstract class AbstractWordXmlWriter {
 			startParagraph(style, isInline, paragraphWidth, textAlign);
 			return;
 		}
+		if (textAlign == null)
+			textAlign = style.getTextAlign();
 
 		openHyperlink(info);
 		boolean isField = WordUtil.isField(type);
@@ -1337,6 +1291,11 @@ public abstract class AbstractWordXmlWriter {
 		if (isField) {
 			writeAutoText(type);
 		} else {
+			// get text attribute overflow hidden
+			// and run the function to emulate if true
+			if (CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals(style.getOverflow()) && txt != null) {
+				txt = cropOverflowString(txt, style, fontFamily, paragraphWidth);
+			}
 			writeString(txt, style);
 		}
 		writer.closeTag("w:r");
