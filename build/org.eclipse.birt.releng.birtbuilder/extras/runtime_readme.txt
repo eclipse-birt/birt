@@ -21,20 +21,19 @@ related data source.
 
  Running the BIRT Engine in Console
  ----------------------------------
-  In order to run the BIRT engine in command you should:
+  In order to run the BIRT engine in the command line shell you should:
 
-    1. set BIRT_HOME to the directory where BIRT Report Runtime Package is extracted.
-    2. enter into $BIRT_HOME/ReportEngine folder.
-    3. generate the report by running
-       genReport xxx.rptdesign
-    3 Here xxx.rptdesign is the design file. if the design file is in the current directory, you have to specify it by ./xxx.rptdesign
+    1. unzip de example zipfile
+    2. navigate to the ReportEngine folder.
+    3. see the generation instructions by running
+       genReport 
 
 
 License
 -------
   The Eclipse Foundation makes available all content in this plug-in ("Content"). Unless otherwise
 indicated below, the Content is provided to you under the terms and conditions of the Eclipse Public
-License Version 1.0 ("EPL"). A copy of the EPL is available at https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
+License Version 2.0 ("EPL"). A copy of the EPL is available at https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 For purposes of the EPL, "Program" will mean the Content.
 
 Redistributed Content
