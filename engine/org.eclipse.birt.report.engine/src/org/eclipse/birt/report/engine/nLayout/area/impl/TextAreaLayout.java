@@ -84,7 +84,7 @@ public class TextAreaLayout implements ILayout {
 		parentLM.setTextIndent(textContent);
 		String text = textContent.getText();
 		if (text != null && text.length() != 0) {
-			transform(textContent);
+			transform(textContent, context);
 		} else {
 			textContent.setText(" ");
 			blankText = true;
@@ -252,17 +252,26 @@ public class TextAreaLayout implements ILayout {
 	 *
 	 * @param textContent text content
 	 */
-	public void transform(ITextContent textContent) {
+	public void transform(ITextContent textContent, LayoutContext context) {
+		String originalText = textContent.getText();
+
+		// If we want to create PDF, replace TAB characters with spaces
+		boolean mustReplaceTabs = "pdf".equals(context.getFormat());
+		if (mustReplaceTabs && originalText != null) {
+			originalText = originalText.replace('\t', ' ');
+			textContent.setText((originalText));
+		}
+
 		String transformType = textContent.getComputedStyle().getTextTransform();
 		if (transformType.equalsIgnoreCase("uppercase")) //$NON-NLS-1$
 		{
-			textContent.setText(textContent.getText().toUpperCase());
+			textContent.setText(originalText.toUpperCase());
 		} else if (transformType.equalsIgnoreCase("lowercase")) //$NON-NLS-1$
 		{
-			textContent.setText(textContent.getText().toLowerCase());
+			textContent.setText(originalText.toLowerCase());
 		} else if (transformType.equalsIgnoreCase("capitalize")) //$NON-NLS-1$
 		{
-			textContent.setText(capitalize(textContent.getText()));
+			textContent.setText(capitalize(originalText));
 		}
 
 		ArabicShaping shaping = new ArabicShaping(ArabicShaping.LETTERS_SHAPE);
