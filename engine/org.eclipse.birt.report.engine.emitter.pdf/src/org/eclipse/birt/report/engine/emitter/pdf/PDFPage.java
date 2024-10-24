@@ -456,12 +456,17 @@ public class PDFPage extends AbstractPage {
 	private void drawText(String text, float textX, float textY, FontInfo fontInfo, float characterSpacing,
 			float wordSpacing, Color color, CSSValue align) {
 		contentByte.saveState();
+
+		// This is not allowed inbetween beginText/endText, thus it must come first.
+		contentByte.concatCTM(1, 0, 0, 1, textX, transformY(textY, 0, containerHeight));
+
 		// start drawing the text content
 		contentByte.beginText();
 		if (null != color && !Color.BLACK.equals(color)) {
 			contentByte.setColorFill(color);
 			contentByte.setColorStroke(color);
 		}
+
 		BaseFont font = getBaseFont(fontInfo);
 		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 
@@ -562,7 +567,7 @@ public class PDFPage extends AbstractPage {
 	}
 
 	private void setTextMatrix(PdfContentByte cb, FontInfo fi, float x, float y) {
-		cb.concatCTM(1, 0, 0, 1, x, y);
+
 		if (!fi.getSimulation()) {
 			cb.setTextMatrix(0, 0);
 			return;
