@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -164,8 +164,12 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		log.debug("Details rows from ", startDetailsRow, " to ", endDetailsRow);
 
 		if ((startDetailsRow > 0) && (endDetailsRow > startDetailsRow)) {
+			boolean defaultAutoColWidth = EmitterServices.booleanOption(state.getRenderOptions(), table,
+					ExcelEmitter.STREAMING_XLSX, false);
+			// force automated column width calculation if streaming mode of XLSX is enabled
 			boolean forceAutoColWidths = EmitterServices.booleanOption(state.getRenderOptions(), table,
-					ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP, false);
+					ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP, defaultAutoColWidth);
+
 			for (int col = 0; col < table.getColumnCount(); ++col) {
 				int oldWidth = state.currentSheet.getColumnWidth(col);
 				if (forceAutoColWidths || (oldWidth == 256 * state.currentSheet.getDefaultColumnWidth())) {
