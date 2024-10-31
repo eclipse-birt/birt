@@ -539,6 +539,19 @@ public class ClonedCellContent implements ICellContent {
 		cellContent.setAltText(alt);
 	}
 
+	private String tagType;
+
+	@Override
+	public String getTagType() {
+		return tagType;
+	}
+
+	@Override
+	public void setTagType(String tagType) {
+		this.tagType = tagType;
+
+	}
+
 	@Override
 	public void setAltTextKey(String altKey) {
 		cellContent.setAltText(altKey);

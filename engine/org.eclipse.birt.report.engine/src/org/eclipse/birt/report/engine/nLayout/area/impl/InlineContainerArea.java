@@ -242,11 +242,15 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 
 	public String getTagType() {
 		if (content == null) {
-			return "spanTODO";
+			return null;
+		}
+		String tagType = content.getTagType();
+		if (tagType != null) {
+			return tagType;
 		}
 		Object generateBy = content.getGenerateBy();
 		if (generateBy == null) {
-			return "span2TODO";
+			return "Span";
 		}
 		return ((ITagType) generateBy).getTagType();
 	}

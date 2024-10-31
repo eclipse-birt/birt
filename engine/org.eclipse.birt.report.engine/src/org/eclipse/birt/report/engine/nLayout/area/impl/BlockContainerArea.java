@@ -505,13 +505,17 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 	}
 
 	public String getTagType() {
-
+		String tagType = null;
 		ContainerArea base = this;
 		if (base.getContent() == null)
 			return null;
+		tagType = base.getContent().getTagType();
+		if (tagType != null) {
+			return tagType;
+		}
 		Object generateBy = base.getContent().getGenerateBy();
 		if (generateBy instanceof ReportItemDesign) {
-			String tagType = ((ReportItemDesign) generateBy).getTagType();
+			tagType = ((ReportItemDesign) generateBy).getTagType();
 			if (tagType != null) {
 				return tagType;
 			}

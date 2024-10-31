@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -1374,6 +1375,19 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	@Override
 	public String getHelpText() {
 		return null;
+	}
+
+	public String getTagType() {
+		String tagType = content.getTagType();
+		if (tagType != null) {
+			return tagType;
+		}
+		Object generateBy = content.getGenerateBy();
+		if (generateBy instanceof ReportItemDesign) {
+			ReportItemDesign rid = (ReportItemDesign) generateBy;
+			tagType = rid.getTagType();
+		}
+		return tagType;
 	}
 
 }

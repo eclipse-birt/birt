@@ -505,15 +505,16 @@ public class PDFPage extends AbstractPage {
 		// This is not allowed inbetween beginText/endText, thus it must come first.
 		contentByte.concatCTM(1, 0, 0, 1, textX, transformY(textY, 0, containerHeight));
 
+		if (null != color && !Color.BLACK.equals(color)) {
+			contentByte.setColorFill(color);
+			contentByte.setColorStroke(color);
+		}
+
 		// start drawing the text content
 		contentByte.beginText();
 
 		if (pageDevice.isPDFUAFormat() && !inArtifact) {
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
-		}
-		if (null != color && !Color.BLACK.equals(color)) {
-			contentByte.setColorFill(color);
-			contentByte.setColorStroke(color);
 		}
 
 		BaseFont font = getBaseFont(fontInfo);

@@ -253,4 +253,14 @@ public interface ICellContent extends IContainerContent {
 	 */
 	void setRepeatContent(boolean repeatContent);
 
+	/**
+	 * @return Returns the tagType.
+	 */
+	public String getTagType();
+
+	/**
+	 * @param tagType The tagType to set.
+	 */
+	public void setTagType(String tagType);
+
 }

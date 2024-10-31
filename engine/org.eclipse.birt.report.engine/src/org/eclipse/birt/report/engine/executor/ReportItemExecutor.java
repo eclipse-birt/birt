@@ -608,7 +608,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		content.setInstanceID(id);
 		content.setGenerateBy(design);
 		if (design instanceof ReportItemDesign) {
-			processAltText((ReportItemDesign) design, content);
+			ReportItemDesign rid = (ReportItemDesign) design;
+			processAltText(rid, content);
+			DesignElementHandle h = ((DesignElementHandle) (rid.getHandle()));
+			if (h != null) {
+				content.setTagType(h.getTagType());
+			} else {
+				System.err.println("ReportItemDesign has no handle " + rid.toString());
+			}
 		}
 	}
 

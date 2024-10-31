@@ -245,16 +245,6 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel {
 	}
 
 	/**
-	 * Returns the tag type of this label item.
-	 *
-	 * @return the tag type value
-	 */
-
-	public String getTagType() {
-		return getStringProperty(TAG_TYPE_PROP);
-	}
-
-	/**
 	 * Sets the tag type of this label item.
 	 *
 	 * @param tag type the tag type
