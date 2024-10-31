@@ -45,6 +45,8 @@ import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -59,6 +61,7 @@ import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
 import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
@@ -1181,7 +1184,7 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * @param tagType
 	 */
-	public void pushTag(String tagType) {
+	public void pushTag(String tagType, IArea area) {
 //		logger.finest("pushTag " + tagType);
 		if ("pageHeader".equals(tagType)) {
 			currentPage.beginArtifact();
@@ -1201,6 +1204,25 @@ public class PDFPageDevice implements IPageDevice {
 					}
 					attributes.put(new PdfName("Placement"), new PdfName("Block"));
 					attributes.put(PdfName.O, new PdfName("Layout"));
+				}
+			}
+			if ("TD".equals(tagType) || "TH".equals(tagType)) {
+				if (area instanceof CellArea) {
+					CellArea cellArea = (CellArea) area;
+					int rowspan = cellArea.getRowSpan();
+					int colspan = cellArea.getColSpan();
+					if (rowspan != 1 || colspan != 1) {
+						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+						if (attributes == null) {
+							attributes = new PdfDictionary();
+							structureCurrentLeaf.put(PdfName.A, attributes);
+						}
+						attributes.put(PdfName.O, PdfName.TABLE);
+						// FIXME This does not have the desired effect.
+						PdfDictionary tableAttributes = new PdfDictionary();
+						attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
+						attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+					}
 				}
 			}
 		}

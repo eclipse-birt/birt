@@ -288,7 +288,7 @@ public class PDFRender extends PageDeviceRender {
 			if (container.getChildrenCount() > 0) {
 				tagType = container.getTagType();
 				if (tagType != null) {
-					currentPageDevice.pushTag(tagType);
+					currentPageDevice.pushTag(tagType, container);
 				}
 			}
 		}
