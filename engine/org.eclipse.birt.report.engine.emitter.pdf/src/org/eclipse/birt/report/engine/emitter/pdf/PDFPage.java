@@ -150,17 +150,20 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		y = transformY(y, height);
+		beginArtifact();
 		contentByte.saveState();
 		contentByte.setColorFill(color);
 		contentByte.concatCTM(1, 0, 0, 1, x, y);
 		contentByte.rectangle(0, 0, width, height);
 		contentByte.fill();
 		contentByte.restoreState();
+		endArtifact();
 	}
 
 	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
+		beginArtifact();
 		contentByte.saveState();
 		clip(x, y, width, height);
 
@@ -217,6 +220,7 @@ public class PDFPage extends AbstractPage {
 			startY += imageHeight;
 		} while (startY < height && yExtended);
 		contentByte.restoreState();
+		endArtifact();
 	}
 
 	@Override
@@ -355,6 +359,18 @@ public class PDFPage extends AbstractPage {
 			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
 		}
 		contentByte.restoreState();
+	}
+
+	@Override
+	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
+			Color color) {
+
+		// FIXME: Can we really treat a strike-through line as an artifact?
+		// Probably one should mark the text itself as "deleted" instead, but how can we
+		// do this?
+		beginArtifact();
+		super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+		endArtifact();
 	}
 
 	@Override

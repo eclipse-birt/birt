@@ -933,6 +933,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			drawBorder(new BorderInfo(currentX + sx, currentY + y, currentX + ex, currentY + y,
 					getScaledValue(seg.width), seg.color, seg.style, BorderInfo.BOTTOM_BORDER));
 		}
+
 	}
 
 	/**

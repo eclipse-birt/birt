@@ -1194,6 +1194,7 @@ public class PDFPageDevice implements IPageDevice {
 			;
 		} else {
 			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+			// FIXME Adding attributes should be made a method of the IArea classes.
 			if ("Figure".equals(tagType)) {
 				// Top-Level figure elements must have a placement attribute.
 				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
