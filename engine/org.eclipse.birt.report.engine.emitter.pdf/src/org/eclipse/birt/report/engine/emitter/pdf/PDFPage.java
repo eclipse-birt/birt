@@ -510,7 +510,9 @@ public class PDFPage extends AbstractPage {
 		contentByte.lineTo(endX - startX, endY - startY);
 
 		contentByte.setLineWidth(width);
-		contentByte.setColorStroke(color);
+		if (!pageDevice.blackAndWhiteMode) {
+			contentByte.setColorStroke(color);
+		}
 		contentByte.stroke();
 	}
 
@@ -521,7 +523,7 @@ public class PDFPage extends AbstractPage {
 		// This is not allowed inbetween beginText/endText, thus it must come first.
 		contentByte.concatCTM(1, 0, 0, 1, textX, transformY(textY, 0, containerHeight));
 
-		if (null != color && !Color.BLACK.equals(color)) {
+		if (!pageDevice.blackAndWhiteMode && null != color && !Color.BLACK.equals(color)) {
 			contentByte.setColorFill(color);
 			contentByte.setColorStroke(color);
 		}
