@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
@@ -1216,17 +1217,44 @@ public class PDFPageDevice implements IPageDevice {
 						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
 						if (attributes == null) {
 							attributes = new PdfDictionary();
+							attributes.put(PdfName.O, PdfName.TABLE);
 							structureCurrentLeaf.put(PdfName.A, attributes);
 						}
-						attributes.put(PdfName.O, PdfName.TABLE);
-						// FIXME This does not have the desired effect.
-						PdfDictionary tableAttributes = new PdfDictionary();
 						attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
 						attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+					}
+					String scope = ((CellContent) (cellArea.getContent())).getScope();
+					if (scope != null) {
+						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+						if (attributes == null) {
+							attributes = new PdfDictionary();
+							attributes.put(PdfName.O, PdfName.TABLE);
+							structureCurrentLeaf.put(PdfName.A, attributes);
+						}
+						attributes.put(new PdfName("Scope"), pdfScope((scope)));
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param scope scope as set in the rptdesign file.
+	 * @return scope as needed for PDF "/Table" attribute "/Scope".
+	 */
+	private PdfName pdfScope(String scope) {
+		if (scope == null) {
+			return null;
+		}
+		if ("col".equals(scope)) {
+			return new PdfName("Column");
+		}
+		if ("row".equals(scope)) {
+			return new PdfName("Row");
+		}
+		// FIXME better error handling
+		System.err.println("Unsupported scope: " + scope);
+		return null;
 	}
 
 	/**
@@ -1244,4 +1272,6 @@ public class PDFPageDevice implements IPageDevice {
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
 	}
+
+	public final boolean blackAndWhiteMode = "true".equals(System.getProperty("blackAndWhiteMode"));
 }
