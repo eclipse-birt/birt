@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -339,6 +339,16 @@ public interface IWordWriter {
 	 * @param wrappedTable   foreign text is wrapped with table
 	 */
 	void writeForeign(IForeignContent foreignContent, boolean wrappedTable);
+
+	/**
+	 * Write foreign
+	 *
+	 * @param foreignContent               foreign content
+	 * @param wrappedTable                 foreign text is wrapped with table
+	 * @param combineMarginPadding         foreign text handling of margin and
+	 *                                     padding
+	 */
+	void writeForeign(IForeignContent foreignContent, boolean wrappedTable, boolean combineMarginPadding);
 
 	/**
 	 * Write content

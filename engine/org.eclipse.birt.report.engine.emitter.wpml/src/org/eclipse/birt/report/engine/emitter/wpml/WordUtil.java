@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Inetsoft Technology Corp.
+ * Copyright (c) 2006, 2024 Inetsoft Technology Corp and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -399,4 +399,30 @@ public class WordUtil {
 		}
 		return false;
 	}
+
+	/**
+	 * Converting method to calculate the pt value of given unit
+	 *
+	 * @param size size value
+	 * @return size of pt
+	 */
+	public static int convertToPt(String size) {
+		try {
+			int s = Integer.parseInt(size.substring(0, size.length() - 2));
+			if (size.endsWith("in")) {
+				return s * 72;
+			} else if (size.endsWith("cm")) {
+				return (int) (s / 2.54 * 72);
+			} else if (size.endsWith("mm")) {
+				return (int) (s * 10 / 2.54 * 72);
+			} else if (size.endsWith("pc")) {
+				return s;
+			} else {
+				return s;
+			}
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
 }

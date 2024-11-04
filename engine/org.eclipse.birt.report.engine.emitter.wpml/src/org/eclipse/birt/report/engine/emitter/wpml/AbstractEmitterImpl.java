@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -236,7 +237,19 @@ public abstract class AbstractEmitterImpl {
 
 	private boolean fixedLayout;
 
+	private ULocale locale = null;
+
 	protected int reportDpi;
+
+	protected boolean combineMarginPadding = true;
+
+	protected boolean wrappedTableForMarginPadding = false;
+
+	protected boolean wrappedTableHeaderFooter = false;
+	
+	protected boolean addEmptyParagraphToForAllCells = false;
+
+	protected boolean addEmptyParagraphToListCell=false;
 
 	/**
 	 * The original DOCX emitters generated output for word version 2010. Newer
@@ -264,8 +277,6 @@ public abstract class AbstractEmitterImpl {
 	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 
 	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
-
-	private ULocale locale = null;
 
 	/**
 	 * Initialize of the service
@@ -323,6 +334,28 @@ public abstract class AbstractEmitterImpl {
 				}
 			}
 			fixedLayout = IHTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals(layoutPreference);
+		}
+
+		// foreign text: wrap HTML-text with table to simulate margin & padding
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_MARGIN_PADDING_WRAPPED_TABLE, false)) {
+			wrappedTableForMarginPadding = true;
+		}
+		// foreign text: use for indent calculation margin & padding
+		if (!wrappedTableForMarginPadding && EmitterServices.booleanOption(null, report, DocEmitter.WORD_MARGIN_PADDING_COMBINE, false)) {
+			combineMarginPadding = true;
+		}
+		// header & footer: wrap header and footer with table
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_HEADER_FOOTER_WRAPPED_TABLE, false)) {
+			wrappedTableHeaderFooter = true;
+		}
+		// list: add empty paragraph to list table cell
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS, false)) {
+			addEmptyParagraphToForAllCells = true;
+		}
+		
+		// list: add empty paragraph to list table cell
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL, false)) {
+			addEmptyParagraphToListCell = true;
 		}
 	}
 
@@ -775,6 +808,7 @@ public abstract class AbstractEmitterImpl {
 		return diagonalLineInfo;
 	}
 
+	@SuppressWarnings("unused")
 	private void drawDiagonalLine(ICellContent cell, double cellWidth) {
 		if (cellWidth == 0) {
 			return;
@@ -899,7 +933,15 @@ public abstract class AbstractEmitterImpl {
 	public void endCell(ICellContent cell) {
 		adjustInline();
 		context.removeWidth();
-		wordWriter.endTableCell(context.needEmptyP());
+		if (addEmptyParagraphToForAllCells) {
+			wordWriter.endTableCell(context.needEmptyP());
+		} else {
+			boolean needEmptyPara = !cell.hasChildren();
+			if (needEmptyPara) {
+				needEmptyPara = context.needEmptyP();
+			}
+			wordWriter.endTableCell(needEmptyPara, true);
+		}
 		context.endCell();
 	}
 
@@ -927,7 +969,12 @@ public abstract class AbstractEmitterImpl {
 	 */
 	public void endList(IListContent list) {
 		adjustInline();
-		wordWriter.endTableCell(context.needEmptyP());
+		// main handle of the usage of empty list cell paragraph
+		boolean needEmptyP = addEmptyParagraphToListCell;
+		if (needEmptyP) {
+			needEmptyP = context.needEmptyP();
+		}
+		wordWriter.endTableCell(needEmptyP);
 		context.endCell();
 		wordWriter.endTableRow();
 		if (!styles.isEmpty()) {

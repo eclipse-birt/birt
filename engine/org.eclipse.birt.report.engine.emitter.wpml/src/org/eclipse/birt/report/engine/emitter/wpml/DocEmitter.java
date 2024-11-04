@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Inetsoft Technology Corp.
+ * Copyright (c) 2006, 2024 Inetsoft Technology Corp and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -42,11 +42,58 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
+/**
+ * Representation of standard doc emitter
+ *
+ * @since 3.3
+ *
+ */
 public class DocEmitter extends ContentEmitterAdapter {
 
-	private static Logger logger = Logger.getLogger(DocEmitter.class.getName());
-
+	/** property: DocxEmitter maximum column count */
 	public final static int MAX_COLUMN = 63;
+
+	/**
+	 * property: Word emitter, use wrapped styling table to get margin and padding
+	 * (standard up to BIRT 4.17)
+	 *
+	 * @since 4.18
+	 */
+	public static final String WORD_MARGIN_PADDING_WRAPPED_TABLE = "WordEmitter.WrappedTableForMarginPadding";
+
+	/**
+	 * property: Word emitter, use a standard grid like master structure for header
+	 * and footer area independent of the content (standard up to BIRT 4.17)
+	 *
+	 * @since 4.18
+	 */
+	public static final String WORD_HEADER_FOOTER_WRAPPED_TABLE = "WordEmitter.WrappedTableHeaderFooter";
+
+	/**
+	 * property: Word emitter, use combined calculation of margin and padding
+	 *
+	 * @since 4.18
+	 */
+	public static final String WORD_MARGIN_PADDING_COMBINE = "WordEmitter.CombineMarginPadding";
+
+	/**
+	 * property: Word emitter, add empty paragraph for all cells independent of the
+	 * cell content (standard up to BIRT 4.17)
+	 *
+	 * @since 4.18
+	 */
+	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS = "WordEmitter.AddEmptyParagraphForAllCells";
+
+	/**
+	 * property: Word emitter, add empty paragraph for the list table cell
+	 * independent of the cell content (standard up to BIRT 4.17)
+	 *
+	 * @since 4.18
+	 */
+	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL = "WordEmitter.AddEmptyParagraphForListCell";
+
+
+	private static Logger logger = Logger.getLogger(DocEmitter.class.getName());
 
 	protected AbstractEmitterImpl emitterImplement = null;
 
@@ -140,6 +187,11 @@ public class DocEmitter extends ContentEmitterAdapter {
 		emitterImplement.endGroup(group);
 	}
 
+	/**
+	 * Compute accounted page properties
+	 *
+	 * @param page page content
+	 */
 	public void accountPageProp(IPageContent page) {
 		emitterImplement.computePageProperties(page);
 	}
@@ -329,7 +381,7 @@ public class DocEmitter extends ContentEmitterAdapter {
 	}
 
 	private ITableContent getPartTable(ITableContent table) {
-		List columns = table.getColumns();
+		List<?> columns = table.getColumns();
 		columns = columns.subList(0, MAX_COLUMN);
 		ITableContent content = new TableContentWrapper(table, columns);
 		return content;

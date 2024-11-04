@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
+ * Copyright (c) 2013, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -56,6 +56,8 @@ public class DocxWriter implements IWordWriter {
 
 	private String documentLanguage = "en";
 
+	private boolean wrappedTableHeaderFooter = false;
+
 	/**
 	 * Constructor
 	 *
@@ -64,10 +66,12 @@ public class DocxWriter implements IWordWriter {
 	 * @param compressionMode compression mode
 	 * @param wordVersion     word version
 	 */
-	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion) {
+	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion,
+			boolean wrappedTableHeaderFooter) {
 		pkg = Package.createInstance(out, tempFileDir, compressionMode);
 		pkg.setExtensionData(new ImageManager());
 		this.wordVersion = wordVersion;
+		this.wrappedTableHeaderFooter = wrappedTableHeaderFooter;
 	}
 
 	@Override
@@ -133,6 +137,7 @@ public class DocxWriter implements IWordWriter {
 				rtl, wordVersion, this.getDocumentLanguage());
 		document.start();
 		currentComponent = document;
+		currentComponent.wrappedTableHeaderFooter = this.wrappedTableHeaderFooter;
 	}
 
 	@Override
@@ -313,7 +318,12 @@ public class DocxWriter implements IWordWriter {
 
 	@Override
 	public void writeForeign(IForeignContent foreignContent, boolean embedHTML) {
-		currentComponent.writeForeign(foreignContent, embedHTML);
+		currentComponent.writeForeign(foreignContent, embedHTML, true);
+	}
+
+	@Override
+	public void writeForeign(IForeignContent foreignContent, boolean embedHTML, boolean combineMarginPadding) {
+		currentComponent.writeForeign(foreignContent, embedHTML, combineMarginPadding);
 	}
 
 	@Override
