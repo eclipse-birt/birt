@@ -9,7 +9,8 @@
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
+ *  Thomas Gutmann - added single handling of margin-attributes for MHT-files
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx.writer;
@@ -601,61 +602,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		// displayed correctly
 		boolean marginStyleMultipleAttr = !wrappedTable;
 		if (marginStyleMultipleAttr) {
-			if (null != topMargin) {
-				if (combineMarginPadding) {
-					int marginTopPt = WordUtil.convertToPt(topMargin);
-					String topPadding = style.getPaddingTop();
-					if (topPadding != null) {
-						marginTopPt += WordUtil.convertToPt(topPadding);
-						topMargin = marginTopPt + "pt";
-					}
-				}
-				addPropName(styleBuffer, HTMLTags.ATTR_MARGIN_TOP);
-				addPropValue(styleBuffer, topMargin);
-				styleBuffer.append(';');
-			}
-
-			if (null != rightMargin) {
-				if (combineMarginPadding) {
-					int marginRightPt = WordUtil.convertToPt(rightMargin);
-					String rightPadding = style.getPaddingRight();
-					if (rightPadding != null) {
-						marginRightPt += WordUtil.convertToPt(rightPadding);
-						rightMargin = marginRightPt + "pt";
-					}
-				}
-				addPropName(styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT);
-				addPropValue(styleBuffer, rightMargin);
-				styleBuffer.append(';');
-			}
-
-			if (null != bottomMargin) {
-				if (combineMarginPadding) {
-					int marginBottomPt = WordUtil.convertToPt(bottomMargin);
-					String bottomPadding = style.getPaddingBottom();
-					if (bottomPadding != null) {
-						marginBottomPt += WordUtil.convertToPt(bottomPadding);
-						bottomMargin = marginBottomPt + "pt";
-					}
-				}
-				addPropName(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM);
-				addPropValue(styleBuffer, bottomMargin);
-				styleBuffer.append(';');
-			}
-
-			if (null != leftMargin) {
-				if (combineMarginPadding) {
-					int marginLeftPt = WordUtil.convertToPt(leftMargin);
-					String leftPadding = style.getPaddingLeft();
-					if (leftPadding != null) {
-						marginLeftPt += WordUtil.convertToPt(leftPadding);
-						leftMargin = marginLeftPt + "pt";
-					}
-				}
-				addPropName(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT);
-				addPropValue(styleBuffer, leftMargin);
-				styleBuffer.append(';');
-			}
+			buildMarginMultipleAttributes(styleBuffer, style, topMargin, rightMargin, bottomMargin, leftMargin);
 		} else {
 			if (null != topMargin && null != rightMargin && null != bottomMargin && null != leftMargin) {
 				if (rightMargin.equals(leftMargin)) {
@@ -695,6 +642,36 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM, bottomMargin);
 				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin);
 			}
+		}
+	}
+
+	/**
+	 * Build the single attributes of margin
+	 */
+	private void buildMarginMultipleAttributes(StringBuffer styleBuffer, IStyle style, String topMargin,
+			String rightMargin, String bottomMargin, String leftMargin) {
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_TOP, topMargin, style.getPaddingTop());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT, rightMargin, style.getPaddingRight());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM, bottomMargin, style.getPaddingBottom());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin, style.getPaddingLeft());
+	}
+
+	/**
+	 * Build the single attribute of each margin position (top, right, bottom, left)
+	 */
+	private void buildMarginAttribute(StringBuffer styleBuffer, String attribute, String marginValue,
+			String paddingValue) {
+		if (null != marginValue) {
+			if (combineMarginPadding) {
+				int marginPt = WordUtil.convertToPt(marginValue);
+				if (paddingValue != null) {
+					marginPt += WordUtil.convertToPt(paddingValue);
+					marginValue = marginPt + "pt";
+				}
+			}
+			addPropName(styleBuffer, attribute);
+			addPropValue(styleBuffer, marginValue);
+			styleBuffer.append(';');
 		}
 	}
 

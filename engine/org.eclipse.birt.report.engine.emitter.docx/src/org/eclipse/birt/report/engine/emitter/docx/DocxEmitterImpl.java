@@ -10,6 +10,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
+ *  Thomas Gutmann - optimized handling option of docx output
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx;
