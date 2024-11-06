@@ -522,7 +522,7 @@ public abstract class AbstractWordXmlWriter {
 		}
 	}
 
-	private boolean hasBorder(String borderStyle) {
+	protected boolean hasBorder(String borderStyle) {
 		return !(borderStyle == null || "none".equalsIgnoreCase(borderStyle));
 	}
 
