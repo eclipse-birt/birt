@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
+ * Copyright (c) 2013, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -9,7 +9,8 @@
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
+ *  Thomas Gutmann - added single handling of margin-attributes for MHT-files
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx.writer;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
@@ -46,7 +48,6 @@ import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.writer.AbstractWordXmlWriter;
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
@@ -59,6 +60,7 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -104,6 +106,10 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	private ReportDesignHandle handle;
 
 	protected boolean wrappedTable = true;
+
+	protected boolean combineMarginPadding = true;
+
+	protected boolean wrappedTableHeaderFooter = true;
 
 	protected BasicComponent(IPart part) throws IOException {
 		this.part = part;
@@ -316,8 +322,9 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		bookmarkId++;
 	}
 
-	protected void writeForeign(IForeignContent foreignContent, boolean wrappedTable) {
+	protected void writeForeign(IForeignContent foreignContent, boolean wrappedTable, boolean combineMarginPadding) {
 		this.wrappedTable = wrappedTable;
+		this.combineMarginPadding = combineMarginPadding;
 		writeForeign(foreignContent);
 	}
 
@@ -469,13 +476,13 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			display = style.getDisplay();
 		}
 
-		if (EngineIRConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
+		if (DesignChoiceConstants.DISPLAY_NONE.equalsIgnoreCase(display)) {
 			type |= DISPLAY_NONE;
 		}
 
 		if (x != null || y != null) {
 			return type | DISPLAY_BLOCK;
-		} else if (EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
+		} else if (DesignChoiceConstants.DISPLAY_INLINE.equalsIgnoreCase(display)) {
 			type |= DISPLAY_INLINE;
 			if (width != null || height != null) {
 				type |= DISPLAY_INLINE_BLOCK;
@@ -499,6 +506,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		return tag;
 	}
 
+	@SuppressWarnings("unused")
 	private void buildForeignStyles(IForeignContent foreignContent, StringBuffer foreignStyles, int display) {
 		IStyle style = foreignContent.getComputedStyle();
 		foreignStyles.setLength(0);
@@ -590,43 +598,80 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			leftMargin = style.getMarginLeft();
 		}
 
-		if (null != topMargin && null != rightMargin && null != bottomMargin && null != leftMargin) {
-			if (rightMargin.equals(leftMargin)) {
-				if (topMargin.equals(bottomMargin)) {
-					if (topMargin.equals(rightMargin)) {
-						// The four margins have the same value
-						buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN, topMargin);
+		// MHT-files for DOCX needs for each margin-attribute an own style tag to be
+		// displayed correctly
+		boolean marginStyleMultipleAttr = !wrappedTable;
+		if (marginStyleMultipleAttr) {
+			buildMarginMultipleAttributes(styleBuffer, style, topMargin, rightMargin, bottomMargin, leftMargin);
+		} else {
+			if (null != topMargin && null != rightMargin && null != bottomMargin && null != leftMargin) {
+				if (rightMargin.equals(leftMargin)) {
+					if (topMargin.equals(bottomMargin)) {
+						if (topMargin.equals(rightMargin)) {
+							// The four margins have the same value
+							buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN, topMargin);
+						} else {
+							// The top & bottom margins have the same value. The
+							// right & left margins have the same value.
+							addPropName(styleBuffer, HTMLTags.ATTR_MARGIN);
+							addPropValue(styleBuffer, topMargin);
+							addPropValue(styleBuffer, rightMargin);
+							styleBuffer.append(';');
+						}
 					} else {
-						// The top & bottom margins have the same value. The
-						// right & left margins have the same value.
+						// only the right & left margins have the same value.
 						addPropName(styleBuffer, HTMLTags.ATTR_MARGIN);
 						addPropValue(styleBuffer, topMargin);
 						addPropValue(styleBuffer, rightMargin);
+						addPropValue(styleBuffer, bottomMargin);
 						styleBuffer.append(';');
 					}
 				} else {
-					// only the right & left margins have the same value.
+					// four margins have different values.
 					addPropName(styleBuffer, HTMLTags.ATTR_MARGIN);
 					addPropValue(styleBuffer, topMargin);
 					addPropValue(styleBuffer, rightMargin);
 					addPropValue(styleBuffer, bottomMargin);
+					addPropValue(styleBuffer, leftMargin);
 					styleBuffer.append(';');
 				}
 			} else {
-				// four margins have different values.
-				addPropName(styleBuffer, HTMLTags.ATTR_MARGIN);
-				addPropValue(styleBuffer, topMargin);
-				addPropValue(styleBuffer, rightMargin);
-				addPropValue(styleBuffer, bottomMargin);
-				addPropValue(styleBuffer, leftMargin);
-				styleBuffer.append(';');
+				// At least one margin has null value.
+				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_TOP, topMargin);
+				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT, rightMargin);
+				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM, bottomMargin);
+				buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin);
 			}
-		} else {
-			// At least one margin has null value.
-			buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_TOP, topMargin);
-			buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT, rightMargin);
-			buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM, bottomMargin);
-			buildProperty(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin);
+		}
+	}
+
+	/**
+	 * Build the single attributes of margin
+	 */
+	private void buildMarginMultipleAttributes(StringBuffer styleBuffer, IStyle style, String topMargin,
+			String rightMargin, String bottomMargin, String leftMargin) {
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_TOP, topMargin, style.getPaddingTop());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_RIGHT, rightMargin, style.getPaddingRight());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_BOTTOM, bottomMargin, style.getPaddingBottom());
+		buildMarginAttribute(styleBuffer, HTMLTags.ATTR_MARGIN_LEFT, leftMargin, style.getPaddingLeft());
+	}
+
+	/**
+	 * Build the single attribute of each margin position (top, right, bottom, left)
+	 */
+	private void buildMarginAttribute(StringBuffer styleBuffer, String attribute, String marginValue,
+			String paddingValue) {
+		if (null != marginValue) {
+			if (combineMarginPadding) {
+				int marginPt = WordUtil.convertToPt(marginValue);
+				if (paddingValue != null) {
+					marginPt += WordUtil.convertToPt(paddingValue);
+					marginValue = marginPt + "pt";
+				}
+			}
+			addPropName(styleBuffer, attribute);
+			addPropValue(styleBuffer, marginValue);
+			styleBuffer.append(';');
 		}
 	}
 
@@ -696,20 +741,20 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	}
 
 	private void buildTextDecoration(StringBuffer styleBuffer, IStyle style) {
-		CSSValue linethrough = style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH);
-		CSSValue underline = style.getProperty(IStyle.STYLE_TEXT_UNDERLINE);
-		CSSValue overline = style.getProperty(IStyle.STYLE_TEXT_OVERLINE);
+		CSSValue linethrough = style.getProperty(StyleConstants.STYLE_TEXT_LINETHROUGH);
+		CSSValue underline = style.getProperty(StyleConstants.STYLE_TEXT_UNDERLINE);
+		CSSValue overline = style.getProperty(StyleConstants.STYLE_TEXT_OVERLINE);
 
-		if (linethrough == IStyle.LINE_THROUGH_VALUE || underline == IStyle.UNDERLINE_VALUE
-				|| overline == IStyle.OVERLINE_VALUE) {
+		if (linethrough == CSSValueConstants.LINE_THROUGH_VALUE || underline == CSSValueConstants.UNDERLINE_VALUE
+				|| overline == CSSValueConstants.OVERLINE_VALUE) {
 			styleBuffer.append(" text-decoration:"); //$NON-NLS-1$
-			if (IStyle.LINE_THROUGH_VALUE == linethrough) {
+			if (CSSValueConstants.LINE_THROUGH_VALUE == linethrough) {
 				addPropValue(styleBuffer, "line-through");
 			}
-			if (IStyle.UNDERLINE_VALUE == underline) {
+			if (CSSValueConstants.UNDERLINE_VALUE == underline) {
 				addPropValue(styleBuffer, "underline");
 			}
-			if (IStyle.OVERLINE_VALUE == overline) {
+			if (CSSValueConstants.OVERLINE_VALUE == overline) {
 				addPropValue(styleBuffer, "overline");
 			}
 			styleBuffer.append(';');
@@ -915,9 +960,8 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		Matcher matcher = pattern.matcher(foreignText);
 		if (matcher.matches()) {
 			return foreignText;
-		} else {
-			return "<html>" + foreignText + "</html>";
 		}
+		return "<html>" + foreignText + "</html>";
 	}
 
 	protected String getRelationshipId() {
@@ -1078,7 +1122,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	/**
 	 * Get the corrected font size to solve the MS Word (DOCX) / MHT font size issue
-	 * MHT font size 12pt will be changed to at MS Word side to font size 10pt
+	 * MHT font size 12pt will be changed at MS Word side to font size 10pt
 	 *
 	 * @param nodeTag   html tag to validate the font size
 	 * @param cssStyles CSS style around the tag
@@ -1092,6 +1136,19 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 					nodeStyle.replace((String) key, DOCX_MHT_FONT_SIZE_REPLACEMENT);
 					break;
 			}
+		}
+	}
+
+	protected void startHeaderFooterContainer(int headerHeight, int headerWidth, boolean writeColumns) {
+		if (wrappedTableHeaderFooter) {
+			super.startHeaderFooterContainer(headerHeight, headerWidth, writeColumns);
+		}
+	}
+
+	@Override
+	protected void endHeaderFooterContainer() {
+		if (wrappedTableHeaderFooter) {
+			super.endHeaderFooterContainer();
 		}
 	}
 }

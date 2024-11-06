@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
+ * Copyright (c) 2013, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
+ *  Thomas Gutmann - optimized handling option of docx output
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx;
@@ -71,7 +72,8 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 			this.embedHtml = (Boolean) value;
 		}
 
-		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue(), getWordVersion());
+		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue(), getWordVersion(),
+				wrappedTableHeaderFooter);
 	}
 
 	private CompressionMode getCompressionMode(IEmitterServices service) {
@@ -102,14 +104,21 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 				wordWriter.insertHiddenParagraph();
 				context.setIsAfterTable(false);
 			}
-			if (embedHtml) {
+			if (embedHtml && !wrappedTableForMarginPadding) {
+				writeBookmark(foreign);
+				writeToc(foreign);
+				wordWriter.writeForeign(foreign, false, combineMarginPadding);
+				adjustInline();
+				context.setIsAfterTable(false);
+				context.addContainer(true);
+			} else if (embedHtml) {
 				writeBookmark(foreign);
 				int width = WordUtil.convertTo(foreign.getWidth(), context.getCurrentWidth(), reportDpi);
 				width = Math.min(width, context.getCurrentWidth());
 				wordWriter.startTable(foreign.getComputedStyle(), width, true);
 				wordWriter.startTableRow(-1);
 				wordWriter.startTableCell(width, foreign.getComputedStyle(), null, null);
-				// TODO:need text paser for foreign raw value
+				// TODO:need text parser for foreign raw value
 				wordWriter.writeForeign(foreign, true);
 				if (isInSpannedCell(foreign)) {
 					// insert empty line after embed html
