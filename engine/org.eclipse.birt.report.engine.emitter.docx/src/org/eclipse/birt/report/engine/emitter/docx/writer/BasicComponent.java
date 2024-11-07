@@ -511,6 +511,9 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		IStyle style = foreignContent.getComputedStyle();
 		foreignStyles.setLength(0);
 		buildTextAlign(foreignStyles, style);
+		if (!wrappedTable) {
+			buildForeignBorders(foreignStyles, style);
+		}
 		style = getElementStyle(foreignContent);
 		if (style == null) {
 			return;
@@ -520,6 +523,41 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		buildText(foreignStyles, style);
 		buildVisual(foreignStyles, style);
 		buildTextDecoration(foreignStyles, style);
+	}
+
+	protected void buildForeignBorders(StringBuffer foreignStyles, IStyle style) {
+		String borderStyle = style.getBorderBottomStyle();
+		if (hasBorder(borderStyle)) {
+			buildBorder(HTMLTags.ATTR_BORDER_BOTTOM, foreignStyles, borderStyle, style.getBorderBottomColor(),
+					style.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
+		}
+
+		borderStyle = style.getBorderTopStyle();
+		if (hasBorder(borderStyle)) {
+			buildBorder(HTMLTags.ATTR_BORDER_TOP, foreignStyles, borderStyle, style.getBorderTopColor(),
+					style.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
+		}
+
+		borderStyle = style.getBorderLeftStyle();
+		if (hasBorder(borderStyle)) {
+			buildBorder(HTMLTags.ATTR_BORDER_LEFT, foreignStyles, borderStyle, style.getBorderLeftColor(),
+					style.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
+		}
+
+		borderStyle = style.getBorderRightStyle();
+		if (hasBorder(borderStyle)) {
+			buildBorder(HTMLTags.ATTR_BORDER_RIGHT, foreignStyles, borderStyle, style.getBorderRightColor(),
+					style.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
+		}
+
+	}
+
+	private void buildBorder(String borderAttributeName, StringBuffer styleBuffer, String style, String color,
+			CSSValue width) {
+		addPropName(styleBuffer, borderAttributeName);
+		addPropValue(styleBuffer, width.getCssText() + " " + style + " #"
+				+ WordUtil.parseColor(color));
+		styleBuffer.append(';');
 	}
 
 	private IStyle getElementStyle(IContent content) {

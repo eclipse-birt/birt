@@ -348,8 +348,8 @@ public abstract class AbstractEmitterImpl {
 		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_HEADER_FOOTER_WRAPPED_TABLE, false)) {
 			wrappedTableHeaderFooter = true;
 		}
-		// list: add empty paragraph to list table cell
-		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS, false)) {
+		// foreign text: add empty paragraph to wrapper table cell
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS, wrappedTableForMarginPadding)) {
 			addEmptyParagraphToForAllCells = true;
 		}
 		
