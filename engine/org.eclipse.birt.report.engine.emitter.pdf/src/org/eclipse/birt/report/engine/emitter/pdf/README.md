@@ -1,8 +1,8 @@
 # Eclipse BIRT 
-Introduction to use the specialist user properties of the PdfEmitter.
+Introduction to use the specialized user properties of the PdfEmitter.
 
 ## Reason
-The PdfEmitter provides a set of specialist user properties to optimize the pdf output according of the reporting based requirements.
+The PdfEmitter provides a set of specialized user properties to optimize the pdf output according of the reporting based requirements.
 
 Each of the user properties starts with the master prefix "PdfEmitter".
 
