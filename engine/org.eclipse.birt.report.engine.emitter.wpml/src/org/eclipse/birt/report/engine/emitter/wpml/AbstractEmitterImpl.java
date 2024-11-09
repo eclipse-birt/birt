@@ -241,7 +241,7 @@ public abstract class AbstractEmitterImpl {
 
 	protected int reportDpi;
 
-	protected boolean combineMarginPadding = true;
+	protected boolean combineMarginPadding = false;
 
 	protected boolean wrappedTableForMarginPadding = false;
 
@@ -249,7 +249,7 @@ public abstract class AbstractEmitterImpl {
 	
 	protected boolean addEmptyParagraphToForAllCells = false;
 
-	protected boolean addEmptyParagraphToListCell=false;
+	protected boolean addEmptyParagraphToListCell = false;
 
 	/**
 	 * The original DOCX emitters generated output for word version 2010. Newer
@@ -341,7 +341,7 @@ public abstract class AbstractEmitterImpl {
 			wrappedTableForMarginPadding = true;
 		}
 		// foreign text: use for indent calculation margin & padding
-		if (!wrappedTableForMarginPadding && EmitterServices.booleanOption(null, report, DocEmitter.WORD_MARGIN_PADDING_COMBINE, false)) {
+		if (!wrappedTableForMarginPadding && EmitterServices.booleanOption(null, report, DocEmitter.WORD_MARGIN_PADDING_COMBINE, true)) {
 			combineMarginPadding = true;
 		}
 		// header & footer: wrap header and footer with table

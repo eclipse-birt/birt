@@ -107,8 +107,6 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	protected boolean wrappedTable = true;
 
-	protected boolean combineMarginPadding = true;
-
 	protected boolean wrappedTableHeaderFooter = true;
 
 	protected BasicComponent(IPart part) throws IOException {

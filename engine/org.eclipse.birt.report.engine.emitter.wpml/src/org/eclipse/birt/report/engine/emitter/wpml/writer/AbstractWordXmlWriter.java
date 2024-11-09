@@ -48,6 +48,8 @@ public abstract class AbstractWordXmlWriter {
 
 	protected final String BOTTOM = "bottom";
 
+	protected boolean combineMarginPadding = true;
+
 	/** constant property: space */
 	public static final char SPACE = ' ';
 
@@ -560,30 +562,39 @@ public abstract class AbstractWordXmlWriter {
 	public void startParagraph(IStyle style, boolean isInline, int paragraphWidth, String textAlign) {
 		writer.openTag("w:p");
 		writer.openTag("w:pPr");
+
+		CSSValue paddingTop = style.getProperty(StyleConstants.STYLE_PADDING_TOP);
+		CSSValue paddingBottom = style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM);
+		int paddingLeft = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
+				paragraphWidth) / 1000
+				* 20;
+		int paddingRight = PropertyUtil
+				.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT), paragraphWidth) / 1000 * 20;
+
+		if (!combineMarginPadding) {
+			paddingTop = null;
+			paddingBottom = null;
+			paddingLeft = 0;
+			paddingRight = 0;
+		}
+
 		writeSpacing(null, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
 				style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
-				style.getProperty(StyleConstants.STYLE_PADDING_TOP),
-				style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
+				paddingTop, paddingBottom);
 		writeAlign(textAlign, style.getDirection());
 		int indent = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_TEXT_INDENT), paragraphWidth)
 				/ 1000 * 20;
 
-		int leftMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT),
+		int marginLeft = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_LEFT),
 				paragraphWidth) / 1000 * 20;
 
-		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
+		int marginRight = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
 				paragraphWidth) / 1000 * 20;
 
-		int leftPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
-				paragraphWidth) / 1000 * 20;
+		marginLeft += paddingLeft;
+		marginRight += paddingRight;
 
-		int rightPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT),
-				paragraphWidth) / 1000 * 20;
-
-		leftMargin += leftPadding;
-		rightMargin += rightPadding;
-
-		writeIndent(leftMargin, rightMargin, indent);
+		writeIndent(marginLeft, marginRight, indent);
 
 		if (!isInline) {
 			writeBackgroundColor(style.getBackgroundColor());
@@ -1090,17 +1101,25 @@ public abstract class AbstractWordXmlWriter {
 		writer.openTag("w:pPr");
 
 		CSSValue lineHeight = style.getProperty(StyleConstants.STYLE_LINE_HEIGHT);
-		if (!"normal".equalsIgnoreCase(lineHeight.getCssText())) {
-			writeSpacing(lineHeight, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
-					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
-					style.getProperty(StyleConstants.STYLE_PADDING_TOP),
-					style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
-		} else {
-			writeSpacing(null, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
-					style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
-					style.getProperty(StyleConstants.STYLE_PADDING_TOP),
-					style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
+		CSSValue paddingTop = style.getProperty(StyleConstants.STYLE_PADDING_TOP);
+		CSSValue paddingBottom = style.getProperty(StyleConstants.STYLE_PADDING_BOTTOM);
+		int paddingLeft = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
+				paragraphWidth) / 1000 * 20;
+		int paddingRight = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT),
+				paragraphWidth) / 1000 * 20;
+
+		if ("normal".equalsIgnoreCase(lineHeight.getCssText())) {
+			lineHeight = null;
 		}
+		if (!combineMarginPadding) {
+			paddingTop = null;
+			paddingBottom = null;
+			paddingLeft = 0;
+			paddingRight = 0;
+		}
+		writeSpacing(lineHeight, style.getProperty(StyleConstants.STYLE_MARGIN_TOP),
+				style.getProperty(StyleConstants.STYLE_MARGIN_BOTTOM),
+				paddingTop, paddingBottom);
 
 		writeAlign(style.getTextAlign(), style.getDirection());
 		writeBackgroundColor(style.getBackgroundColor());
@@ -1115,14 +1134,8 @@ public abstract class AbstractWordXmlWriter {
 		int rightMargin = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_MARGIN_RIGHT),
 				paragraphWidth) / 1000 * 20;
 
-		int leftPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_LEFT),
-				paragraphWidth) / 1000 * 20;
-
-		int rightPadding = PropertyUtil.getDimensionValue(style.getProperty(StyleConstants.STYLE_PADDING_RIGHT),
-				paragraphWidth) / 1000 * 20;
-
-		leftMargin += leftPadding;
-		rightMargin += rightPadding;
+		leftMargin += paddingLeft;
+		rightMargin += paddingRight;
 		writeIndent(leftMargin, rightMargin, indent);
 
 		writeBidi(CSSConstants.CSS_RTL_VALUE.equals(style.getDirection())); // bidi_hcg
