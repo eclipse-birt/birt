@@ -405,12 +405,12 @@ public class EmitterServices {
 	private static Object getReportDesignConfiguration(IReportContent reportContent, String name) {
 		Object value = null;
 
+		// TODO: implementation of designer options
 		if (name.equalsIgnoreCase(DocEmitter.WORD_MARGIN_PADDING_WRAPPED_TABLE)) {
-			value = reportContent.getDesign().getReportDesign().getExcelAutoFilter();
+			// value = reportContent.getDesign().getReportDesign().getWordWrappedTable();
 
 		} else if (name.equalsIgnoreCase(DocEmitter.WORD_MARGIN_PADDING_COMBINE)) {
-			value = reportContent.getDesign().getReportDesign().getExcelDisableGrouping();
-
+			// value = reportContent.getDesign().getReportDesign().getWordMarginPaddingCombined();
 		}
 		return value;
 	}
