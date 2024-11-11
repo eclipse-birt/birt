@@ -342,7 +342,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 				bookmark = tmp.toString();
 				BookmarkManager bookmarkManager = context.getBookmarkManager();
 				if (bookmarkManager.exist(bookmark)) {
-					bookmark = bookmarkManager.createBookmark(bookmark);
+					bookmark = bookmarkManager.createBookmark(bookmark); // FIXME if we use the same value for TOC entry
+					// and bookmark, this causes a mismatch,
+					// because the prefix "_recreated_" is added.
+					// Why is is necessary at all to call createBookmark here?
 				} else {
 					bookmarkManager.addBookmark(bookmark);
 				}
@@ -625,8 +628,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 						content.setTagType("TH");
 					}
 				}
-			} else {
-				System.err.println("ReportItemDesign has no handle " + rid.toString());
 			}
 		}
 	}

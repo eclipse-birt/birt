@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
@@ -638,8 +639,15 @@ public class CellContent extends AbstractContent implements ICellContent {
 			return headers;
 		} else if (cellDesign != null) {
 			Expression expr = cellDesign.getHeaders();
-			if (expr != null && expr.getType() == Expression.CONSTANT) {
-				return expr.getScriptText();
+			if (expr != null) {
+				ExecutionContext exeContext = ((ReportContent) getReportContent()).getExecutionContext();
+				try {
+					return (String) exeContext.evaluate(expr);
+				} catch (BirtException be) {
+					be.printStackTrace();
+					// FIXME correct error handling
+					return null;
+				}
 			}
 		}
 		return null;

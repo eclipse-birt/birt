@@ -211,9 +211,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		if (content == null) {
 			return null;
 		}
-		System.out.println("getTagType for " + this.toString());
 		if (content instanceof ITextContent) {
-			System.out.println("  text=" + ((ITextContent) content).getText());
 			tagType = ((ITextContent) content).getTagType();
 			if (tagType != null) {
 				return tagType;
@@ -221,7 +219,6 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		}
 		ReportItemDesign generateBy = (ReportItemDesign) content.getGenerateBy();
 		if (generateBy == null) {
-			System.out.println("generateBy is null for " + this.toString());
 			return null;
 		}
 		tagType = generateBy.getTagType();

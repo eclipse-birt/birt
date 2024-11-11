@@ -1213,29 +1213,51 @@ public class PDFPageDevice implements IPageDevice {
 					CellArea cellArea = (CellArea) area;
 					int rowspan = cellArea.getRowSpan();
 					int colspan = cellArea.getColSpan();
-					if (rowspan != 1 || colspan != 1) {
-						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
-						if (attributes == null) {
-							attributes = new PdfDictionary();
-							attributes.put(PdfName.O, PdfName.TABLE);
-							structureCurrentLeaf.put(PdfName.A, attributes);
-						}
-						attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
-						attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
-					}
 					String scope = ((CellContent) (cellArea.getContent())).getScope();
-					if (scope != null) {
+					String bookmark = cellArea.getBookmark();
+					if (bookmark != null) {
+						structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
+					}
+
+					String headers = ((CellContent) (cellArea.getContent())).getHeaders();
+					if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
 						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
 						if (attributes == null) {
 							attributes = new PdfDictionary();
 							attributes.put(PdfName.O, PdfName.TABLE);
 							structureCurrentLeaf.put(PdfName.A, attributes);
 						}
-						attributes.put(new PdfName("Scope"), pdfScope((scope)));
+						if (rowspan != 1) {
+							attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
+						}
+						if (colspan != 1) {
+							attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+						}
+						if (scope != null && "TH".equals(tagType)) {
+							attributes.put(new PdfName("Scope"), pdfScope((scope)));
+						}
+						if (headers != null) {
+							attributes.put(new PdfName("Headers"), commaSeparatedToPdfByteStringArray((headers)));
+						}
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Split a comma-separated string into a PDF bytestring array. Note that blanks
+	 * are not stripped and empty values are allowed.
+	 *
+	 * @param cav
+	 * @return A PDF bytestring array
+	 */
+	private PdfArray commaSeparatedToPdfByteStringArray(String csv) {
+		String[] arr = csv.split(",");
+		PdfArray pdfArr = new PdfArray();
+		for (String s : arr)
+			pdfArr.add(new PdfString(s));
+		return pdfArr;
 	}
 
 	/**
@@ -1272,6 +1294,4 @@ public class PDFPageDevice implements IPageDevice {
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
 	}
-
-	public final boolean blackAndWhiteMode = "true".equals(System.getProperty("blackAndWhiteMode"));
 }
