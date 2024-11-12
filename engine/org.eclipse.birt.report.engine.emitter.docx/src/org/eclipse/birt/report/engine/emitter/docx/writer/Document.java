@@ -311,20 +311,20 @@ public class Document extends BasicComponent {
 		writer.closeTag("w:footerReference");
 	}
 
-	Header createHeader(int headerHeight, int headerWidth) throws IOException {
+	Header createHeader(int headerHeight, int headerWidth, boolean wrapHeader) throws IOException {
 		String uri = "header" + getHeaderID() + ".xml";
 		String type = ContentTypes.WORD_HEADER;
 		String relationshipType = RelationshipTypes.HEADER;
 		IPart headerPart = part.getPart(uri, type, relationshipType);
-		return new Header(headerPart, this, headerHeight, headerWidth);
+		return new Header(headerPart, this, headerHeight, headerWidth, wrapHeader);
 	}
 
-	Footer createFooter(int footerHeight, int footerWidth) throws IOException {
+	Footer createFooter(int footerHeight, int footerWidth, boolean wrapHeader) throws IOException {
 		String uri = "footer" + getFooterID() + ".xml";
 		String type = ContentTypes.WORD_FOOTER;
 		String relationshipType = RelationshipTypes.FOOTER;
 		IPart footerPart = part.getPart(uri, type, relationshipType);
-		return new Footer(footerPart, this, footerHeight, footerWidth);
+		return new Footer(footerPart, this, footerHeight, footerWidth, wrapHeader);
 	}
 
 	private int getHeaderID() {

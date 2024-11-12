@@ -6,7 +6,7 @@
  * https://www.eclipse.org/legal/epl-2.0/.
  * 
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,12 +23,14 @@ public class Footer extends BasicComponent {
 	Document document;
 	int footerHeight;
 	int footerWidth;
+	boolean wrapFooter;
 
-	Footer(IPart part, Document document, int footerHeight, int footerWidth) throws IOException {
+	Footer(IPart part, Document document, int footerHeight, int footerWidth, boolean wrapFooter) throws IOException {
 		super(part);
 		this.document = document;
 		this.footerHeight = footerHeight;
 		this.footerWidth = footerWidth;
+		this.wrapFooter = wrapFooter;
 	}
 
 	@Override
@@ -36,12 +38,14 @@ public class Footer extends BasicComponent {
 		writer.startWriter();
 		writer.openTag("w:ftr");
 		writeXmlns();
-		startHeaderFooterContainer(footerHeight, footerWidth);
+		if (this.wrapFooter)
+			startHeaderFooterContainer(footerHeight, footerWidth);
 	}
 
 	@Override
 	void end() {
-		endHeaderFooterContainer();
+		if (wrapFooter)
+			endHeaderFooterContainer();
 		writer.closeTag("w:ftr");
 		writer.endWriter();
 		writer.close();

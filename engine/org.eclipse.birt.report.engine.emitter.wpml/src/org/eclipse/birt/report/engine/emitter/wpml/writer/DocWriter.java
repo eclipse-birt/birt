@@ -606,4 +606,14 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 	public String getDocumentLanguage() {
 		return this.documentLanguage;
 	}
+
+	@Override
+	public void setWrappedTableHeaderFooter(boolean useWrappedTable) {
+		this.wrappedTableHeaderFooter = useWrappedTable;
+	}
+
+	@Override
+	public boolean getWrappedTableHeaderFooter() {
+		return this.wrappedTableHeaderFooter;
+	}
 }

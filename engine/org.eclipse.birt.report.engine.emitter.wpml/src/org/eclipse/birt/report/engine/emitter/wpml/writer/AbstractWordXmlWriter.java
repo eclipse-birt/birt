@@ -50,6 +50,8 @@ public abstract class AbstractWordXmlWriter {
 
 	protected boolean combineMarginPadding = true;
 
+	protected boolean wrappedTableHeaderFooter = false;
+
 	/** constant property: space */
 	public static final char SPACE = ' ';
 
@@ -1456,5 +1458,13 @@ public abstract class AbstractWordXmlWriter {
 
 	private int getLineId() {
 		return lineId++;
+	}
+
+	public void setWrappedTableHeaderFooter(boolean useWrappedTable) {
+		this.wrappedTableHeaderFooter = useWrappedTable;
+	}
+
+	public boolean getWrappedTableHeaderFooter() {
+		return this.wrappedTableHeaderFooter;
 	}
 }

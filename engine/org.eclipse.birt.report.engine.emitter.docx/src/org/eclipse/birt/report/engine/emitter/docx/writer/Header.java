@@ -6,7 +6,7 @@
  * https://www.eclipse.org/legal/epl-2.0/.
  * 
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,12 +32,14 @@ public class Header extends BasicComponent {
 	Document document;
 	int headerHeight;
 	int headerWidth;
+	boolean wrapHeader;
 
-	Header(IPart part, Document document, int headerHeight, int headerWidth) throws IOException {
+	Header(IPart part, Document document, int headerHeight, int headerWidth, boolean wrapHeader) throws IOException {
 		super(part);
 		this.document = document;
 		this.headerHeight = headerHeight;
 		this.headerWidth = headerWidth;
+		this.wrapHeader = wrapHeader;
 	}
 
 	@Override
@@ -45,12 +47,14 @@ public class Header extends BasicComponent {
 		writer.startWriter();
 		writer.openTag("w:hdr");
 		writeXmlns();
-		startHeaderFooterContainer(headerHeight, headerWidth, true);
+		if (this.wrapHeader)
+			startHeaderFooterContainer(headerHeight, headerWidth, true);
 	}
 
 	@Override
 	void end() {
-		endHeaderFooterContainer();
+		if (this.wrapHeader)
+			endHeaderFooterContainer();
 		writer.closeTag("w:hdr");
 		writer.endWriter();
 		writer.close();

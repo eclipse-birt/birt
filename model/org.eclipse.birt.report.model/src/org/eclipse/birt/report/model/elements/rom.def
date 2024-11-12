@@ -1986,6 +1986,24 @@
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.templateFile" name="excelTemplateFile" runtimeSettable="false" since="4.17" type="string" >
       </Property>
 	</PropertyGroup>
+    <PropertyGroup displayNameID="Element.ReportDesign.Emitter.word">
+	  <!-- docx (wpml): combined indent calculation based on margin & padding					-->
+ 	  <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.combineMarginPadding" name="wordCombineMarginPadding" runtimeSettable="true" since="4.18" type="boolean" >
+		<Default>true</Default>
+      </Property>
+	  <!-- docx (wpml): add empty paragraph at the end of list table cell						-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.addEmptyParagraphForListCell" name="wordAddEmptyParagraphForListCell" runtimeSettable="true" since="4.18" type="boolean" >
+		<Default>false</Default>
+      </Property>
+	  <!-- docx (wpml): control the usage of layout-grid for (dynamic) text elements			-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.wrappedTableForMarginPadding" name="wordWrappedTableForMarginPadding" runtimeSettable="true" since="4.18" type="boolean" >
+		<Default>false</Default>
+      </Property>
+	  <!-- docx (wpml): control the usage of layout-grid on page header & footer				-->
+	  <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.wrappedTableHeaderFooter" name="wordWrappedTableHeaderFooter" runtimeSettable="true" since="4.18" type="boolean" >
+		<Default>false</Default>
+	  </Property>
+	</PropertyGroup>
   	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
     </Method> 	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
