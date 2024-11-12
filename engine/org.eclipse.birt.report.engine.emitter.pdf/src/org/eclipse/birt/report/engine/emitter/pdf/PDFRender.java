@@ -288,7 +288,7 @@ public class PDFRender extends PageDeviceRender {
 //			logger.finest("visitChildren " + container.toString() + " tagType=" + container.getTagType());
 
 		String tagType = null;
-		if (currentPageDevice.isPDFUAFormat()) {
+		if (currentPageDevice.isTagged()) {
 			if (container.getChildrenCount() > 0) {
 				tagType = container.getTagType();
 				if (tagType != null) {
@@ -326,9 +326,14 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void drawTableBorder(TableArea table) {
-		currentPage.beginArtifact();
+		boolean tagged = currentPageDevice.isTagged();
+		if (tagged) {
+			currentPage.beginArtifact();
+		}
 		super.drawTableBorder(table);
-		currentPage.endArtifact();
+		if (tagged) {
+			currentPage.endArtifact();
+		}
 	}
 
 }

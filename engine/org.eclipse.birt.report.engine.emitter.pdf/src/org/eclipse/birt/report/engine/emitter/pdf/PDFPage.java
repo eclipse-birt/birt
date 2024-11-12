@@ -96,6 +96,7 @@ public class PDFPage extends AbstractPage {
 	private static Pattern PAGE_LINK_PATTERN = Pattern
 			.compile("^((([a-zA-Z]:))(/(\\w[\\w ]*.*))+\\.(pdf|PDF))+#page=(\\d+)$");
 
+	private final boolean isTagged;
 	/**
 	 * Constructor of the PDF page
 	 *
@@ -112,9 +113,12 @@ public class PDFPage extends AbstractPage {
 		this.containerHeight = this.pageHeight;
 		Rectangle pageSize = new Rectangle(this.pageWidth, this.pageHeight);
 		document.setPageSize(pageSize);
+		isTagged = writer.isTagged();
 		if (!document.isOpen()) {
 			document.open();
-			pageDevice.initStructure();
+			if (isTagged) {
+				pageDevice.initStructure();
+			}
 		} else {
 			document.newPage();
 		}
@@ -233,7 +237,7 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 
-		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+		if (isTagged && !inArtifact) {
 			PdfDictionary dict = new PdfDictionary();
 			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
 
@@ -255,7 +259,7 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
-				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+				if (isTagged && !inArtifact) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -282,7 +286,7 @@ public class PDFPage extends AbstractPage {
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
-				if (pageDevice.isPDFUAFormat() && !inArtifact) {
+				if (isTagged && !inArtifact) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -298,7 +302,7 @@ public class PDFPage extends AbstractPage {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
 
-		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+		if (isTagged && !inArtifact) {
 			contentByte.endMarkedContentSequence();
 		}
 
@@ -526,7 +530,7 @@ public class PDFPage extends AbstractPage {
 		// start drawing the text content
 		contentByte.beginText();
 
-		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+		if (isTagged && !inArtifact) {
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
@@ -590,7 +594,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
-		if (pageDevice.isPDFUAFormat() && !inArtifact) {
+		if (isTagged && !inArtifact) {
 			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
@@ -771,6 +775,9 @@ public class PDFPage extends AbstractPage {
 	}
 
 	public void beginArtifact() {
+		if (!isTagged) {
+			return;
+		}
 		if (!inArtifact) {
 			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
 			inArtifact = true;
@@ -781,6 +788,9 @@ public class PDFPage extends AbstractPage {
 	}
 
 	public void endArtifact() {
+		if (!isTagged) {
+			return;
+		}
 		if (inArtifact) {
 			contentByte.endMarkedContentSequence();
 			inArtifact = false;

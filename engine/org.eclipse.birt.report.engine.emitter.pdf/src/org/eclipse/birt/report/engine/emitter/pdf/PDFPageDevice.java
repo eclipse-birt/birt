@@ -767,6 +767,7 @@ public class PDFPageDevice implements IPageDevice {
 		case PDFPageDevice.PDF_UA_CONFORMANCE_1:
 			this.pdfUAConformance = 1;
 			this.isPdfUAFormat = true;
+			writer.setTagged();
 			break;
 		}
 	}
@@ -857,7 +858,9 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public void setPdfConformance(int pdfConformance) {
 		writer.setPDFXConformance(pdfConformance);
-		writer.setTagged();
+		if (pdfConformance == PdfWriter.PDFA1A) {
+			writer.setTagged();
+		}
 	}
 
 	/**
@@ -1186,6 +1189,9 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param tagType
 	 */
 	public void pushTag(String tagType, IArea area) {
+		if (!writer.isTagged()) {
+			return;
+		}
 //		logger.finest("pushTag " + tagType);
 		if ("pageHeader".equals(tagType)) {
 			currentPage.beginArtifact();
@@ -1283,6 +1289,9 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param tagType
 	 */
 	public void popTag(String tagType) {
+		if (!writer.isTagged()) {
+			return;
+		}
 //		logger.finest("popTag " + tagType);
 		if ("pageHeader".equals(tagType)) {
 			currentPage.endArtifact();
@@ -1293,5 +1302,12 @@ public class PDFPageDevice implements IPageDevice {
 		} else {
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
+	}
+
+	/**
+	 * if the writer is expected to create tagged PDF..
+	 */
+	public boolean isTagged() {
+		return writer.isTagged();
 	}
 }
