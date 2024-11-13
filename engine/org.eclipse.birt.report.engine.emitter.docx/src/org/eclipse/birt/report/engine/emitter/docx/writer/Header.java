@@ -1,15 +1,16 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
- * 
+ * Copyright (c) 2013, 2024 Actuate Corporation.
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation	- initial API and implementation
+ *  Thomas Gutmann		- add option to handle header wrapper
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx.writer;
@@ -34,6 +35,16 @@ public class Header extends BasicComponent {
 	int headerWidth;
 	boolean wrapHeader;
 
+	/**
+	 * Constructor 1
+	 */
+	Header(IPart part, Document document, int headerHeight, int headerWidth) throws IOException {
+		this(part, document, headerHeight, headerWidth, true);
+	}
+
+	/**
+	 * Constructor 2
+	 */
 	Header(IPart part, Document document, int headerHeight, int headerWidth, boolean wrapHeader) throws IOException {
 		super(part);
 		this.document = document;

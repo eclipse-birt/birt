@@ -1,15 +1,16 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
- * 
+ * Copyright (c) 2013, 2024 Actuate Corporation and others
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  *
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation	- initial API and implementation
+ *  Thomas Gutmann		- add option to handle footer wrapper
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.docx.writer;
@@ -25,6 +26,16 @@ public class Footer extends BasicComponent {
 	int footerWidth;
 	boolean wrapFooter;
 
+	/**
+	 * Constructor 1
+	 */
+	Footer(IPart part, Document document, int footerHeight, int footerWidth) throws IOException {
+		this(part, document, footerHeight, footerWidth, true);
+	}
+
+	/**
+	 * Constructor 2
+	 */
 	Footer(IPart part, Document document, int footerHeight, int footerWidth, boolean wrapFooter) throws IOException {
 		super(part);
 		this.document = document;

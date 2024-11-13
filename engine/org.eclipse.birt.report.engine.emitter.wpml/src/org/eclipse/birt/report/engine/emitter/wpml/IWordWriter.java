@@ -380,16 +380,20 @@ public interface IWordWriter {
 
 	/**
 	 * Set the layout attribute for header and footer wrapping
-	 * 
-	 * @param useWrappedTable use layout grid to wrap header and footer 
+	 *
+	 * @param useWrappedTable use layout grid to wrap header and footer
 	 */
-	void setWrappedTableHeaderFooter(boolean useWrappedTable);
+	default void setWrappedTableHeaderFooter(boolean useWrappedTable) {
+		// do nothing
+	}
 
 	/**
 	 * Get the configuration of layout-grid usage for header and footer
-	 * 
-	 * @return the configuration of layout-grid usage for header and footer 
+	 *
+	 * @return the configuration of layout-grid usage for header and footer
 	 */
-	boolean getWrappedTableHeaderFooter();
+	default boolean getWrappedTableHeaderFooter() {
+		return true;
+	}
 
 }
