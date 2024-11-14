@@ -622,10 +622,12 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 				if (content instanceof CellContent) {
 					CellContent cell = (CellContent) content;
 					RowContent row = (RowContent)cell.getParent();
-					int bandType = row.getBand().getBandType();
-					// FIXME This prevents that the report designer can override the tag type.
-					if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
-						content.setTagType("TH");
+					if (row.getBand() != null) {
+						int bandType = row.getBand().getBandType();
+						// FIXME This prevents that the report designer can override the tag type.
+						if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
+							content.setTagType("TH");
+						}
 					}
 				}
 			}
