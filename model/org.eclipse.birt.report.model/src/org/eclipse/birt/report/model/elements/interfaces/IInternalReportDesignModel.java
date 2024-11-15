@@ -333,4 +333,20 @@ public interface IInternalReportDesignModel {
 	 */
 	String PDFA_DOCUMENT_EMBED_TITLE = "pdfaDocumentTitleEmbed"; //$NON-NLS-1$
 
+	/**
+	 * Word option, use margin & padding for spacing (only without layout-grid)
+	 */
+	String WORD_COMBINE_MARGIN_PADDING = "wordCombineMarginPadding"; //$NON-NLS-1$
+	/**
+	 * Word option, list element, add empty line of cell end
+	 */
+	String WORD_LIST_CELL_ADD_EMPTY_PARA = "wordAddEmptyParagraphForListCell"; //$NON-NLS-1$
+	/**
+	 * Word option, text element, use layout-grid for margin & padding
+	 */
+	String WORD_WRAP_TABLE_FOR_MARGIN_PADDING = "wordWrappedTableForMarginPadding"; //$NON-NLS-1$
+	/**
+	 * Word option, page header & footer, use layout-grid
+	 */
+	String WORD_WRAP_TABLE_FOR_HEADER_FOOTER = "wordWrappedTableHeaderFooter"; //$NON-NLS-1$
 }

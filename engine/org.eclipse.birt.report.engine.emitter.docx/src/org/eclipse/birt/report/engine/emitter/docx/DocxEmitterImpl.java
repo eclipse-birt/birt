@@ -72,8 +72,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 			this.embedHtml = (Boolean) value;
 		}
 
-		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue(), getWordVersion(),
-				wrappedTableHeaderFooter);
+		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue(), getWordVersion());
 	}
 
 	private CompressionMode getCompressionMode(IEmitterServices service) {
