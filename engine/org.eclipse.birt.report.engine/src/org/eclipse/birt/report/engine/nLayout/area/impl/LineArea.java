@@ -23,7 +23,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -672,19 +671,6 @@ public class LineArea extends InlineStackingArea implements ITagType {
 					return candidate;
 				}
 			}
-		}
-		return null;
-	}
-
-	public String getTagType() {
-		ContainerArea base = this;
-		if (base.getContent() == null) {
-			return null;
-		}
-		ReportItemDesign generateBy = (ReportItemDesign) base.getContent().getGenerateBy();
-		String tagType = generateBy.getTagType();
-		if (tagType != null) {
-			return tagType;
 		}
 		return null;
 	}

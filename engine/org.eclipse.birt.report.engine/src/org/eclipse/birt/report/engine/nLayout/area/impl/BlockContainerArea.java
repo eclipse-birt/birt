@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -504,22 +503,4 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		}
 	}
 
-	public String getTagType() {
-		String tagType = null;
-		ContainerArea base = this;
-		if (base.getContent() == null)
-			return null;
-		tagType = base.getContent().getTagType();
-		if (tagType != null) {
-			return tagType;
-		}
-		Object generateBy = base.getContent().getGenerateBy();
-		if (generateBy instanceof ReportItemDesign) {
-			tagType = ((ReportItemDesign) generateBy).getTagType();
-			if (tagType != null) {
-				return tagType;
-			}
-		}
-		return null;
-	}
 }
