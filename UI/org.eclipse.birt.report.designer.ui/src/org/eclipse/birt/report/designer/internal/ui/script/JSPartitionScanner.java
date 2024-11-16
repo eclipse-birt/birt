@@ -176,7 +176,11 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 	 * syntax highlights
 	 */
 	private void fetchJSCommonObjectsMethods() {
+		this.globalObjectTokens.add("_jsContext"); //$NON-NLS-1$
+		this.globalObjectTokens.add("_statusHandle"); //$NON-NLS-1$
+		this.globalObjectTokens.add("report"); //$NON-NLS-1$
 		this.globalObjectTokens.add("reportContext"); //$NON-NLS-1$
+		this.globalObjectTokens.add("config"); //$NON-NLS-1$
 		this.globalObjectTokens.add("params"); //$NON-NLS-1$
 		this.globalObjectTokens.add("vars"); //$NON-NLS-1$
 		this.globalObjectTokens.add("row"); //$NON-NLS-1$
@@ -190,6 +194,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 		this.keywordMethods.add("value"); //$NON-NLS-1$
 		this.keywordMethods.add("data"); //$NON-NLS-1$
 		this.keywordMethods.add("displayText"); //$NON-NLS-1$
+		this.keywordMethods.add("currentPage"); //$NON-NLS-1$
 		this.keywordMethods.add("pageNumber"); //$NON-NLS-1$
 		this.keywordMethods.add("totalPage"); //$NON-NLS-1$
 
