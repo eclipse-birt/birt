@@ -66,12 +66,10 @@ public class DocxWriter implements IWordWriter {
 	 * @param compressionMode compression mode
 	 * @param wordVersion     word version
 	 */
-	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion,
-			boolean wrappedTableHeaderFooter) {
+	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode, int wordVersion) {
 		pkg = Package.createInstance(out, tempFileDir, compressionMode);
 		pkg.setExtensionData(new ImageManager());
 		this.wordVersion = wordVersion;
-		this.wrappedTableHeaderFooter = wrappedTableHeaderFooter;
 	}
 
 	@Override
@@ -137,7 +135,6 @@ public class DocxWriter implements IWordWriter {
 				rtl, wordVersion, this.getDocumentLanguage());
 		document.start();
 		currentComponent = document;
-		currentComponent.wrappedTableHeaderFooter = this.wrappedTableHeaderFooter;
 	}
 
 	@Override
@@ -162,7 +159,7 @@ public class DocxWriter implements IWordWriter {
 
 	@Override
 	public void startHeader(boolean showHeaderOnFirst, int headerHeight, int headerWidth) throws IOException {
-		currentComponent = document.createHeader(headerHeight, headerWidth);
+		currentComponent = document.createHeader(headerHeight, headerWidth, this.wrappedTableHeaderFooter);
 		currentComponent.start();
 		this.showHeaderOnFirst = showHeaderOnFirst;
 	}
@@ -176,7 +173,7 @@ public class DocxWriter implements IWordWriter {
 
 	@Override
 	public void startFooter(int footerHeight, int footerWidth) throws IOException {
-		currentComponent = document.createFooter(footerHeight, footerWidth);
+		currentComponent = document.createFooter(footerHeight, footerWidth, this.wrappedTableHeaderFooter);
 		currentComponent.start();
 	}
 
@@ -368,4 +365,13 @@ public class DocxWriter implements IWordWriter {
 		return this.documentLanguage;
 	}
 
+	@Override
+	public void setWrappedTableHeaderFooter(boolean useWrappedTable) {
+		this.wrappedTableHeaderFooter = useWrappedTable;
+	}
+
+	@Override
+	public boolean getWrappedTableHeaderFooter() {
+		return this.wrappedTableHeaderFooter;
+	}
 }

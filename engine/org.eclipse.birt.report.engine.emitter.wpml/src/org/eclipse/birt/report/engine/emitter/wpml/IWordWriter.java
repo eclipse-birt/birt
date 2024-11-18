@@ -377,4 +377,23 @@ public interface IWordWriter {
 	 * End page
 	 */
 	void endPage();
+
+	/**
+	 * Set the layout attribute for header and footer wrapping
+	 *
+	 * @param useWrappedTable use layout grid to wrap header and footer
+	 */
+	default void setWrappedTableHeaderFooter(boolean useWrappedTable) {
+		// do nothing
+	}
+
+	/**
+	 * Get the configuration of layout-grid usage for header and footer
+	 *
+	 * @return the configuration of layout-grid usage for header and footer
+	 */
+	default boolean getWrappedTableHeaderFooter() {
+		return true;
+	}
+
 }

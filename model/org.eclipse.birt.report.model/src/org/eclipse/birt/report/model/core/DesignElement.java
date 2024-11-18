@@ -949,14 +949,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		ElementPropertyDefn prop = getPropertyDefn(propName);
 
 		// If the property is not found, then the value is null.
-
 		if (prop == null) {
 			return null;
 		}
 
 		if (ODA_PASSWORD.contentEquals(propName) && prop.isEncryptable() && getEncryptionID(prop) != null
 				&& JavaScriptExecutionStatus.isExecuting()) {
-			throw new RuntimeException("Invalid operation: Can not access encrypted password from script");
+			// throw new RuntimeException("Invalid operation: Can not access encrypted password from script");
+			return null;
 		}
 
 		return getProperty(module, prop);
@@ -2317,7 +2317,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public boolean canDrop(Module module) {
 		// if the root of element is included by report/library. Do not allow
 		// drop; if module is read-only, forbid drop too
-		
+
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
@@ -3032,7 +3032,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			String key = iter.next();
 			ElementPropertyDefn propDefn = getPropertyDefn(key);
 			Object value = propValues.get(key);
-			
+
 
 			// if the property is element type, then set-up the container
 			// relationship

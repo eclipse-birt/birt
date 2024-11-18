@@ -479,7 +479,7 @@ public class ExcelUtil {
 			} else if (size.endsWith("cm")) {
 				return (int) (s / 2.54 * 72);
 			} else if (size.endsWith("mm")) {
-				return (int) (s * 10 / 2.54 * 72);
+				return (int) (s / 10 / 2.54 * 72);
 			} else if (size.endsWith("pc")) {
 				return s;
 			} else {

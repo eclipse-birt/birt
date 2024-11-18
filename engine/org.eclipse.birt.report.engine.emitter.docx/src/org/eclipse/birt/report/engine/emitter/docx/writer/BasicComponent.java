@@ -107,8 +107,6 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	protected boolean wrappedTable = true;
 
-	protected boolean wrappedTableHeaderFooter = true;
-
 	protected BasicComponent(IPart part) throws IOException {
 		this.part = part;
 		this.imageManager = (ImageManager) part.getPackage().getExtensionData();
@@ -327,17 +325,18 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	}
 
 	protected void writeForeign(IForeignContent foreignContent) {
-		if (foreignContent.getRawValue() != null) {
-			String uri = "mhtText" + getMhtTextId() + ".mht";
-			MimeType type = MimeType.MHT;
-			String relationshipType = RelationshipTypes.AFCHUNK;
-			IPart mhtPart = part.getPart(uri, type, relationshipType);
-			handle = foreignContent.getReportContent().getDesign().getReportDesign();
-			writeMhtPart(mhtPart, foreignContent);
-			writer.openTag("w:altChunk");
-			writer.attribute("r:id", mhtPart.getRelationshipId());
-			writer.closeTag("w:altChunk");
-		}
+		if (foreignContent.getRawValue() == null)
+			foreignContent.setRawValue(new String(""));
+
+		String uri = "mhtText" + getMhtTextId() + ".mht";
+		MimeType type = MimeType.MHT;
+		String relationshipType = RelationshipTypes.AFCHUNK;
+		IPart mhtPart = part.getPart(uri, type, relationshipType);
+		handle = foreignContent.getReportContent().getDesign().getReportDesign();
+		writeMhtPart(mhtPart, foreignContent);
+		writer.openTag("w:altChunk");
+		writer.attribute("r:id", mhtPart.getRelationshipId());
+		writer.closeTag("w:altChunk");
 	}
 
 	private void writeMhtPart(IPart mhtPart, IForeignContent foreignContent) {
@@ -1175,16 +1174,4 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		}
 	}
 
-	protected void startHeaderFooterContainer(int headerHeight, int headerWidth, boolean writeColumns) {
-		if (wrappedTableHeaderFooter) {
-			super.startHeaderFooterContainer(headerHeight, headerWidth, writeColumns);
-		}
-	}
-
-	@Override
-	protected void endHeaderFooterContainer() {
-		if (wrappedTableHeaderFooter) {
-			super.endHeaderFooterContainer();
-		}
-	}
 }

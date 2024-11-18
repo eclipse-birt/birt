@@ -1867,8 +1867,87 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	 * @param embedTitle embed title
 	 * @throws SemanticException
 	 */
-	public void setPdfAEmbedTitle(String embedTitle) throws SemanticException {
-		setStringProperty(PDFA_DOCUMENT_EMBED_TITLE, embedTitle);
+	public void setPdfAEmbedTitle(boolean embedTitle) throws SemanticException {
+		setBooleanProperty(PDFA_DOCUMENT_EMBED_TITLE, embedTitle);
+	}
+
+	/**
+	 * Get the configuration to the combined usage of margin & padding for spacing
+	 *
+	 * @return the configuration to use the combined calculation of margin & padding
+	 */
+	public boolean getWordCombineMarginPadding() {
+		return getBooleanProperty(WORD_COMBINE_MARGIN_PADDING);
+	}
+
+	/**
+	 * Set the configuration to the combined usage of margin & padding for spacing
+	 *
+	 * @param combineMarginPadding use combination of margin & padding for spacing
+	 * @throws SemanticException
+	 */
+	public void setWordCombineMarginPadding(boolean combineMarginPadding) throws SemanticException {
+		setBooleanProperty(WORD_COMBINE_MARGIN_PADDING, combineMarginPadding);
+	}
+
+	/**
+	 * Get the configuration if an empty paragraph is to use at the end of a list
+	 * cell
+	 *
+	 * @return the configuration if an empty paragraph is to use at the end of a
+	 *         list cell
+	 */
+	public boolean getWordListCellAddEmptyPara() {
+		return getBooleanProperty(WORD_LIST_CELL_ADD_EMPTY_PARA);
+	}
+
+	/**
+	 * Set the configuration if an empty paragraph is to use at the end of a list
+	 * cell
+	 *
+	 * @param addEmptyPara add empty paragraph
+	 * @throws SemanticException
+	 */
+	public void setWordListCellAddEmptyPara(boolean addEmptyPara) throws SemanticException {
+		setBooleanProperty(WORD_LIST_CELL_ADD_EMPTY_PARA, addEmptyPara);
+	}
+
+	/**
+	 * Get the configuration to use a wrapping table for margin and padding
+	 *
+	 * @return the configuration to use a wrapping table for margin and padding
+	 */
+	public boolean getWordWrapTableForMarginPadding() {
+		return getBooleanProperty(WORD_WRAP_TABLE_FOR_MARGIN_PADDING);
+	}
+
+	/**
+	 * Set the configuration to use a wrapping table for margin and padding
+	 *
+	 * @param wrapTable wrap table for margin and padding
+	 * @throws SemanticException
+	 */
+	public void setWordWrapTableForMarginPadding(boolean wrapTable) throws SemanticException {
+		setBooleanProperty(WORD_WRAP_TABLE_FOR_MARGIN_PADDING, wrapTable);
+	}
+
+	/**
+	 * Get the configuration to use a layout table for header and footer
+	 *
+	 * @return the configuration to use a layout table for header and footer
+	 */
+	public boolean getWordWrapTableForHeaderFooter() {
+		return getBooleanProperty(WORD_WRAP_TABLE_FOR_HEADER_FOOTER);
+	}
+
+	/**
+	 * Set the configuration to use a layout table for header and footer
+	 *
+	 * @param wrapTable layout table for header and footer
+	 * @throws SemanticException
+	 */
+	public void setWordWrapTableForHeaderFooter(boolean wrapTable) throws SemanticException {
+		setBooleanProperty(WORD_WRAP_TABLE_FOR_HEADER_FOOTER, wrapTable);
 	}
 
 }

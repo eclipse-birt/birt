@@ -22,6 +22,7 @@ The following list get an overview of all supported user properties, the content
 	          	false, margin will be used for text indent (without padding)
 	Default   	true
 	Since      	4.18
+	Designer    	4.18
 
 **WordEmitter.AddEmptyParagraphForAllCells**
 
@@ -34,6 +35,7 @@ The following list get an overview of all supported user properties, the content
 	          	true, if wrappedTableForMarginPadding is set to true
 	Relation   	WordEmitter.WrappedTableForMarginPadding
 	Since      	4.18
+	Designer    	4.18
 
 **WordEmitter.AddEmptyParagraphForListCell**
 
@@ -44,6 +46,7 @@ The following list get an overview of all supported user properties, the content
 	          	false, avoid empty paragraph at list table cell end
 	Default   	false
 	Since      	4.18
+	Designer    	4.18
 
 **WordEmitter.WrappedTableForMarginPadding**
 
@@ -55,6 +58,7 @@ The following list get an overview of all supported user properties, the content
 	Default   	false
 	Relation   	WordEmitter.AddEmptyParagraphForAllCells
 	Since      	4.18
+	Designer    	4.18
 
 
 **WordEmitter.WrappedTableHeaderFooter**
@@ -66,3 +70,5 @@ The following list get an overview of all supported user properties, the content
 	          	false, use optimized handling and avoid wrapper layout table for page header and footer
 	Default   	false
 	Since      	4.18
+	Designer    	4.18
+	
