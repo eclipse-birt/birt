@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -8,7 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
- *     Actuate Corporation - Initial implementation.
+ *     Actuate Corporation	- Initial implementation.
+ *     Thomas Gutmann		- Implementation of display text for multi selections
  ************************************************************************************/
 
 package org.eclipse.birt.report.utility;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -31,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.ServletException;
@@ -77,13 +80,13 @@ import com.ibm.icu.util.ULocale;
  */
 public class BirtUtility {
 
-	/*
+	/**
 	 * none value
 	 */
 	public final static String NONE = "none"; //$NON-NLS-1$
 
-	/*
-	 * Request attribute name that indicates the viewer markder has been cleared
+	/**
+	 * Request attribute name that indicates the viewer marker has been cleared
 	 */
 	public final static String VIEWER_MARKER_CLEARED = "ViewerMarkerCleared"; //$NON-NLS-1$
 
@@ -302,23 +305,28 @@ public class BirtUtility {
 	 * @param request
 	 * @return Map
 	 */
-	public static Map getDisplayTexts(Collection parameters, Map displayTexts, HttpServletRequest request) {
+	public static Map<String, Serializable> getDisplayTexts(Collection<?> parameters,
+			Map<String, Serializable> displayTexts,
+			HttpServletRequest request) {
 		if (displayTexts == null) {
-			displayTexts = new HashMap();
+			displayTexts = new HashMap<String, Serializable>();
 		}
 
-		Enumeration params = request.getParameterNames();
+		Enumeration<String> params = request.getParameterNames();
 		while (params != null && params.hasMoreElements()) {
 			String param = DataUtil.getString(params.nextElement());
 			String paramName = ParameterAccessor.isDisplayText(param);
 			if (paramName != null) {
 				ParameterDefinition parameter = findParameterDefinition(parameters, paramName);
-
-				// TODO: Currently, Multi-value parameter doesn't support
-				// displayText.( set to NULL value )
 				if (parameter != null) {
 					if (parameter.isMultiValue()) {
-						displayTexts.put(paramName, null);
+						ArrayList<String> tmpDisplayTexts = new ArrayList<String>();
+						Set<String> setDisplayText = ParameterAccessor.getParameterValues(request, param);
+						Iterator<?> displayTextIter = setDisplayText.iterator();
+						while (displayTextIter.hasNext()) {
+							tmpDisplayTexts.add((String) displayTextIter.next());
+						}
+						displayTexts.put(paramName, tmpDisplayTexts);
 					} else {
 						displayTexts.put(paramName, ParameterAccessor.getParameter(request, param));
 					}
@@ -413,15 +421,15 @@ public class BirtUtility {
 	 * @param displayTexts
 	 * @throws Exception
 	 */
-	public static void handleOperation(Operation operation, ViewerAttributeBean bean, Map parameterMap,
-			Map displayTexts) throws Exception {
+	public static void handleOperation(Operation operation, ViewerAttributeBean bean, Map<String, Object> parameterMap,
+			Map<String, Object> displayTexts) throws Exception {
 		if (operation == null || bean == null || parameterMap == null || displayTexts == null) {
 			return;
 		}
 
 		// convert parameter from SOAP operation
-		List locs = new ArrayList();
-		Map params = new HashMap();
+		List<Object> locs = new ArrayList();
+		Map<String, List> params = new HashMap<String, List>();
 		String displayTextParam = null;
 		Oprand[] oprands = operation.getOprand();
 		for (int i = 0; i < oprands.length; i++) {
@@ -439,12 +447,15 @@ public class BirtUtility {
 			// display text of parameter
 			else if ((displayTextParam = ParameterAccessor.isDisplayText(paramName)) != null) {
 				ParameterDefinition parameter = bean.findParameterDefinition(displayTextParam);
-
-				// TODO: Currently, Multi-value parameter doesn't support
-				// displayText.( set to NULL value )
 				if (parameter != null) {
 					if (parameter.isMultiValue()) {
-						displayTexts.put(displayTextParam, null);
+						ArrayList<String> tmpDisplayTexts = new ArrayList<String>();
+						if (displayTexts.containsKey(displayTextParam)) {
+							tmpDisplayTexts = (ArrayList<String>) displayTexts.get(displayTextParam);
+							displayTexts.remove(displayTextParam);
+						}
+						tmpDisplayTexts.add((String) paramValue);
+						displayTexts.put(displayTextParam, tmpDisplayTexts);
 					} else {
 						displayTexts.put(displayTextParam, paramValue);
 					}

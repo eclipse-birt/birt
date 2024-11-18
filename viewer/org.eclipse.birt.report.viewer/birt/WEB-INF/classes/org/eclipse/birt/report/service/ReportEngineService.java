@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -8,7 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
- *     Actuate Corporation - Initial implementation.
+ *     Actuate Corporation	- Initial implementation
+ *     Thomas Gutmann		- Enhanced exchange of display text for multi selections
  ************************************************************************************/
 
 package org.eclipse.birt.report.service;
@@ -783,9 +784,13 @@ public class ReportEngineService {
 		}
 	}
 
+	/**
+	 * @throws ReportServiceException
+	 */
 	private IRunAndRenderTask createRunAndRenderTask(IReportRunnable runnable, OutputStream outputStream,
-			InputOptions inputOptions, Map parameters, Boolean embeddable, List activeIds, RenderOption aRenderOption,
-			Map displayTexts, String reportTitle, Integer maxRows) throws ReportServiceException {
+			InputOptions inputOptions, Map<?, ?> parameters, Boolean embeddable, List<?> activeIds,
+			RenderOption aRenderOption,
+			Map<?, ?> displayTexts, String reportTitle, Integer maxRows) throws ReportServiceException {
 		RenderOption renderOption = aRenderOption;
 
 		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
@@ -819,13 +824,19 @@ public class ReportEngineService {
 			runAndRenderTask.setParameterValues(parameters);
 		}
 
-		// Set display Text for select parameters
+		// Set display text for selected parameters
 		if (displayTexts != null) {
-			Iterator keys = displayTexts.keySet().iterator();
+			Iterator<?> keys = displayTexts.keySet().iterator();
 			while (keys.hasNext()) {
 				String paramName = DataUtil.getString(keys.next());
-				String displayText = DataUtil.getString(displayTexts.get(paramName));
-				runAndRenderTask.setParameterDisplayText(paramName, displayText);
+				if (displayTexts.get(paramName) instanceof ArrayList) {
+					ArrayList<String> displayTextList = (ArrayList<String>) displayTexts.get(paramName);
+					String[] displayText = displayTextList.toArray(new String[displayTextList.size()]);
+					runAndRenderTask.setParameterDisplayText(paramName, displayText);
+				} else {
+					String displayText = DataUtil.getString(displayTexts.get(paramName));
+					runAndRenderTask.setParameterDisplayText(paramName, displayText);
+				}
 			}
 		}
 
@@ -1033,21 +1044,21 @@ public class ReportEngineService {
 	 * @param request
 	 *
 	 * @param runnable
-	 * @param archive
 	 * @param documentName
 	 * @param locale
+	 * @param timeZone
 	 * @param parameters
 	 * @param displayTexts
 	 * @param maxRows
-	 * @return list of exceptions which occured during the run or null
+	 * @return list of exceptions which occurred during the run or null
 	 * @throws RemoteException
 	 */
 	public List<Exception> runReport(HttpServletRequest request, IReportRunnable runnable, String documentName,
-			Locale locale, TimeZone timeZone, Map parameters, Map displayTexts, Integer maxRows)
+			Locale locale, TimeZone timeZone, Map<?, ?> parameters, Map<?, ?> displayTexts, Integer maxRows)
 			throws RemoteException {
 		assert runnable != null;
 
-		// Preapre the run report task.
+		// Prepare the run report task.
 		IRunTask runTask;
 		runTask = engine.createRunTask(runnable);
 		runTask.setLocale(locale);
@@ -1067,13 +1078,19 @@ public class ReportEngineService {
 		// add task into session
 		BirtUtility.addTask(request, runTask);
 
-		// Set display Text for select parameters
+		// Set display text for selected parameters
 		if (displayTexts != null) {
-			Iterator keys = displayTexts.keySet().iterator();
+			Iterator<?> keys = displayTexts.keySet().iterator();
 			while (keys.hasNext()) {
 				String paramName = DataUtil.getString(keys.next());
-				String displayText = DataUtil.getString(displayTexts.get(paramName));
-				runTask.setParameterDisplayText(paramName, displayText);
+				if (displayTexts.get(paramName) instanceof ArrayList) {
+					ArrayList<String> displayTextList = (ArrayList<String>) displayTexts.get(paramName);
+					String[] displayText = displayTextList.toArray(new String[displayTextList.size()]);
+					runTask.setParameterDisplayText(paramName, displayText);
+				} else {
+					String displayText = DataUtil.getString(displayTexts.get(paramName));
+					runTask.setParameterDisplayText(paramName, displayText);
+				}
 			}
 		}
 
