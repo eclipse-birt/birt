@@ -106,8 +106,6 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void visitText(ITextArea textArea) {
-//		if (logger.isLoggable(Level.FINEST))
-//			logger.finest("visitText " + textArea.getText());
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
 		int y = currentY + getY(textArea);
@@ -157,13 +155,9 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	protected void drawContainer(IContainerArea container) {
-
-		// FIXME Warum wird das zweimal aufgerufen?
-
 		super.drawContainer(container);
 		int x = currentX + getX(container);
 		int y = currentY + getY(container);
-
 		createBookmark(container, x, y);
 		createHyperlink(container, x, y);
 	}
@@ -276,17 +270,7 @@ public class PDFRender extends PageDeviceRender {
 	}
 
 	@Override
-	public void visitContainer(IContainerArea container) {
-//		if (logger.isLoggable(Level.FINEST))
-//			logger.finest("visitContainer " + container.toString() + " tagType=" + container.getTagType());
-		super.visitContainer(container);
-	}
-
-	@Override
 	protected void visitChildren(IContainerArea container) {
-//		if (logger.isLoggable(Level.FINEST))
-//			logger.finest("visitChildren " + container.toString() + " tagType=" + container.getTagType());
-
 		String tagType = null;
 		if (currentPageDevice.isTagged()) {
 			if (container.getChildrenCount() > 0) {
@@ -300,20 +284,6 @@ public class PDFRender extends PageDeviceRender {
 		if (tagType != null) {
 			currentPageDevice.popTag(tagType);
 		}
-	}
-
-	@Override
-	protected void startContainer(IContainerArea container) {
-//		if (logger.isLoggable(Level.FINEST))
-//			logger.finest("startContainer " + container.toString() + " tagType=" + container.getTagType());
-		super.startContainer(container);
-	}
-
-	@Override
-	protected void endContainer(IContainerArea container) {
-//		if (logger.isLoggable(Level.FINEST))
-//			logger.finest("endContainer " + container.toString() + " tagType=" + container.getTagType());
-		super.endContainer(container);
 	}
 
 	private void createTOC() {

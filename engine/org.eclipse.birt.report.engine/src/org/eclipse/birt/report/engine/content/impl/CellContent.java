@@ -59,7 +59,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 	protected int column = -1;
 
 	/**
-	 * Flag indicading if this cell is the start of a group.
+	 * Flag indicating if this cell is the start of a group.
 	 */
 	protected Boolean displayGroupIcon;
 
@@ -198,7 +198,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 	}
 
 	/**
-	 * Set te drop property
+	 * Set the drop property
 	 *
 	 * @param drop drop value
 	 */
@@ -645,7 +645,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 					return (String) exeContext.evaluate(expr);
 				} catch (BirtException be) {
 					be.printStackTrace();
-					// FIXME correct error handling
+					exeContext.addException(be);
 					return null;
 				}
 			}

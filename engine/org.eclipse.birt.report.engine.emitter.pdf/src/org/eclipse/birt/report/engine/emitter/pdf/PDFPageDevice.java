@@ -953,10 +953,10 @@ public class PDFPageDevice implements IPageDevice {
 					continue;
 				if (PdfName.TITLE.equals(key)) {
 					// The XMPMetadata allows defining the title for different languages.
-					// We add the title in the default language
-					// and a german translation of the title.
+					// We add the title in the default language.
 					LangAlt langAlt = new LangAlt(((PdfString) obj).toUnicodeString());
-					langAlt.addLanguage("de_DE", "Das ist der Titel für deutsche Leser");
+					// Example: How to add a translation of the title in a different language.
+					// langAlt.addLanguage("de_DE", "Das ist der Titel für deutsche Leser");
 					dc.setProperty(DublinCoreSchema.TITLE, langAlt);
 				}
 				if (PdfName.AUTHOR.equals(key)) {
@@ -1076,7 +1076,7 @@ public class PDFPageDevice implements IPageDevice {
 		}
 
 		try {
-			// PDF create the xmp metaddata based on the document information
+			// PDF create the XMP metadata based on the document information
 			byte[] xmpMetadata = this.createXmpMetadataBytes();
 			writer.setXmpMetadata(xmpMetadata);
 		} catch (Exception e) {
@@ -1192,7 +1192,6 @@ public class PDFPageDevice implements IPageDevice {
 		if (!writer.isTagged()) {
 			return;
 		}
-//		logger.finest("pushTag " + tagType);
 		if ("pageHeader".equals(tagType)) {
 			currentPage.beginArtifact();
 		} else if ("pageFooter".equals(tagType)) {
@@ -1280,8 +1279,7 @@ public class PDFPageDevice implements IPageDevice {
 		if ("row".equals(scope)) {
 			return new PdfName("Row");
 		}
-		// FIXME better error handling
-		System.err.println("Unsupported scope: " + scope);
+		logger.warning("Unsupported scope: " + scope);
 		return null;
 	}
 
@@ -1292,7 +1290,6 @@ public class PDFPageDevice implements IPageDevice {
 		if (!writer.isTagged()) {
 			return;
 		}
-//		logger.finest("popTag " + tagType);
 		if ("pageHeader".equals(tagType)) {
 			currentPage.endArtifact();
 		} else if ("pageFooter".equals(tagType)) {
@@ -1305,7 +1302,7 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * if the writer is expected to create tagged PDF..
+	 * Is the writer is expected to create tagged PDF or not?
 	 */
 	public boolean isTagged() {
 		return writer.isTagged();
