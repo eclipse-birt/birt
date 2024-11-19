@@ -86,6 +86,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<storeCreationTime>false</storeCreationTime>
 					<products>
 						<product>
 							<id>org.eclipse.birt.report.designer.all</id>
