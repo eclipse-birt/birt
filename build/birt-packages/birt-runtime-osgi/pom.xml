@@ -60,6 +60,7 @@
 				<artifactId>tycho-p2-director-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+					<storeCreationTime>false</storeCreationTime>
 					<products>
 						<product>
 							<id>org.eclipse.birt.engine.runtime</id>
