@@ -1,7 +1,7 @@
 package org.eclipse.birt.report.engine.nLayout.area;
 
 /**
- * @since 4.17
+ * @since 4.18
  *
  */
 public interface ITagType {

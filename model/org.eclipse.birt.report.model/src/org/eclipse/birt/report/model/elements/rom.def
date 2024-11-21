@@ -1918,7 +1918,7 @@
       <Property detailType="emitterPdfConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.conformance" name="pdfConformance" runtimeSettable="false" since="4.17" type="choice" >
         <Default>PDF.Standard</Default>
       </Property>
-      <Property detailType="emitterPdfUAConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.ua.conformance" name="pdfUAConformance" runtimeSettable="false" since="4.17" type="choice" >
+      <Property detailType="emitterPdfUAConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.ua.conformance" name="pdfUAConformance" runtimeSettable="false" since="4.18" type="choice" >
         <Default>PDF.Standard</Default>
       </Property>
       <Property detailType="emitterPdfIccColorType" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.icc.color.type" name="pdfIccColorType" runtimeSettable="false" since="4.17" type="choice" >

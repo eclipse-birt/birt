@@ -41,8 +41,8 @@ The following list get an overview of all supported user properties, the content
 	Data type  	string
 	Values     	PDF.Standard, PDF.UA-1
 	Default    	PDF.Standard
-	Since      	4.16
-	Designer  	4.17
+	Since      	4.18
+	Designer  	4.18
 
 **PdfEmitter.IccColorType**
 
