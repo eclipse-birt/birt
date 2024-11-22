@@ -212,28 +212,32 @@ public interface ICellContent extends IContainerContent {
 	void setAntidiagonalColor(String antidiagonalColor);
 
 	/**
-	 * Get the headers
+	 * Get the headers (which TH cells belong to this TH/TD cell?). This is for
+	 * TH/TD cells when creating tagged PDF / accessible PDF / PDF/UA.
 	 *
 	 * @return the headers
 	 */
 	String getHeaders();
 
 	/**
-	 * Set the headers
+	 * Set the headers (which TH cells belong to this TH/TD cell?). This is for
+	 * TH/TD cells when creating tagged PDF / accessible PDF / PDF/UA.
 	 *
 	 * @param headers
 	 */
 	void setHeaders(String headers);
 
 	/**
-	 * Get the scope
+	 * Get the scope. This is for TH cells when creating tagged PDF / accessible PDF
+	 * / PDF/UA.
 	 *
 	 * @return the scope
 	 */
 	String getScope();
 
 	/**
-	 * Set the scope
+	 * Set the scope. This is for TH cells when creating tagged PDF / accessible PDF
+	 * / PDF/UA.
 	 *
 	 * @param scope scope
 	 */
@@ -252,5 +256,15 @@ public interface ICellContent extends IContainerContent {
 	 * @param repeatContent repeat content
 	 */
 	void setRepeatContent(boolean repeatContent);
+
+	/**
+	 * @return Returns the tagType.
+	 */
+	public String getTagType();
+
+	/**
+	 * @param tagType The tagType to set.
+	 */
+	public void setTagType(String tagType);
 
 }

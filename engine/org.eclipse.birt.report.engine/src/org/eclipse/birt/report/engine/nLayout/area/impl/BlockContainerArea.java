@@ -502,4 +502,5 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 			setContentHeight(0);
 		}
 	}
+
 }

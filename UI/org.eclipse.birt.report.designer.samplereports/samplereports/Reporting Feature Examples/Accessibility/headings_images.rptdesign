@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
+    <property name="author">Henning von Bargen</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.17.0.qualifier Build &lt;@BUILD@></property>
+    <text-property name="title">Das ist der Titel</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <property name="locale">de_DE</property>
+    <property name="pdfVersion">1.7</property>
+    <property name="pdfConformance">PDF.A1A</property>
+    <property name="pdfUAConformance">PDF.UA-1</property>
+    <property name="pdfaDocumentTitleEmbed">true</property>
+    <styles>
+        <style name="report" id="6">
+            <property name="fontFamily">"Arial"</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <page-header>
+                <label id="7">
+                    <text-property name="text">Das ist ein Label im Header der MasterPage</text-property>
+                </label>
+            </page-header>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="8">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <text-property name="text">Überschrift auf Ebene 1</text-property>
+            <property name="tagType">H1</property>
+        </label>
+        <label id="9">
+            <property name="fontSize">11pt</property>
+            <property name="fontWeight">bold</property>
+            <text-property name="text">Erste Überschrift auf Ebene 2</text-property>
+            <property name="tagType">H2</property>
+        </label>
+        <label id="5">
+            <text-property name="text">Und das ist normaler Text.</text-property>
+        </label>
+        <label id="10">
+            <text-property name="text">Noch mehr Text</text-property>
+        </label>
+        <label id="11">
+            <property name="fontSize">11pt</property>
+            <property name="fontWeight">bold</property>
+            <text-property name="text">Zweite Überschrift auf Ebene 2</text-property>
+            <property name="tagType">H2</property>
+        </label>
+        <label id="12">
+            <text-property name="text">Und das ist normaler Text innerhalb der zweiten Überschrift 2.</text-property>
+        </label>
+        <image id="13">
+            <property name="height">5.171717171717172in</property>
+            <property name="width">5.171717171717172in</property>
+            <expression name="altText">"Eine gemalte Sonne mit Gesicht"</expression>
+            <property name="source">file</property>
+            <expression name="uri" type="constant">./sonne.png</expression>
+        </image>
+    </body>
+</report>

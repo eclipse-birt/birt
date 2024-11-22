@@ -37,9 +37,11 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -62,6 +64,8 @@ public class PDFRender extends PageDeviceRender {
 	protected PDFPageDevice currentPageDevice = null;
 
 	protected HashSet<String> bookmarks = new HashSet<>();
+
+	private PdfName ARTIFACT = new PdfName("Artifact");
 
 	/**
 	 * Constructor
@@ -265,12 +269,41 @@ public class PDFRender extends PageDeviceRender {
 		}
 	}
 
+	@Override
+	protected void visitChildren(IContainerArea container) {
+		String tagType = null;
+		if (currentPageDevice.isTagged()) {
+			if (container.getChildrenCount() > 0) {
+				tagType = container.getTagType();
+				if (tagType != null) {
+					currentPageDevice.pushTag(tagType, container);
+				}
+			}
+		}
+		super.visitChildren(container);
+		if (tagType != null) {
+			currentPageDevice.popTag(tagType);
+		}
+	}
+
 	private void createTOC() {
 		currentPageDevice.createTOC(bookmarks);
 	}
 
 	private void createTotalPageTemplate(int x, int y, int width, int height, float scale) {
 		currentPage.createTotalPageTemplate(x, y, width, height, scale);
+	}
+
+	@Override
+	public void drawTableBorder(TableArea table) {
+		boolean tagged = currentPageDevice.isTagged();
+		if (tagged) {
+			currentPage.beginArtifact();
+		}
+		super.drawTableBorder(table);
+		if (tagged) {
+			currentPage.endArtifact();
+		}
 	}
 
 }

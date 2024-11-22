@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITagType;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
@@ -39,7 +40,7 @@ import com.ibm.icu.text.Bidi;
  * @since 3.3
  *
  */
-public class LineArea extends InlineStackingArea {
+public class LineArea extends InlineStackingArea implements ITagType {
 
 	protected byte baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 

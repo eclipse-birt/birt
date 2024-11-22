@@ -459,4 +459,15 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement {
 	 * @param values extensions
 	 */
 	void setExtensions(Map<String, Object> values);
+
+	/**
+	 * @return PDF tag type
+	 */
+	public String getTagType();
+
+	/**
+	 * Set the PDF tag type
+	 */
+	public void setTagType(String tagType);
+
 }

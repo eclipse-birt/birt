@@ -202,4 +202,5 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
+
 }

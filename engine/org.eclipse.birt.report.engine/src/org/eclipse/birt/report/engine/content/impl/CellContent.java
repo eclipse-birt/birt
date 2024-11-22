@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
@@ -58,7 +59,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 	protected int column = -1;
 
 	/**
-	 * Flag indicading if this cell is the start of a group.
+	 * Flag indicating if this cell is the start of a group.
 	 */
 	protected Boolean displayGroupIcon;
 
@@ -197,7 +198,7 @@ public class CellContent extends AbstractContent implements ICellContent {
 	}
 
 	/**
-	 * Set te drop property
+	 * Set the drop property
 	 *
 	 * @param drop drop value
 	 */
@@ -638,8 +639,15 @@ public class CellContent extends AbstractContent implements ICellContent {
 			return headers;
 		} else if (cellDesign != null) {
 			Expression expr = cellDesign.getHeaders();
-			if (expr != null && expr.getType() == Expression.CONSTANT) {
-				return expr.getScriptText();
+			if (expr != null) {
+				ExecutionContext exeContext = ((ReportContent) getReportContent()).getExecutionContext();
+				try {
+					return (String) exeContext.evaluate(expr);
+				} catch (BirtException be) {
+					be.printStackTrace();
+					exeContext.addException(be);
+					return null;
+				}
 			}
 		}
 		return null;

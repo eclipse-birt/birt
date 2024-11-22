@@ -2755,4 +2755,15 @@ public abstract class DesignElementHandle implements IDesignElementModel {
 		}
 		return null;
 	}
+
+	/**
+	 * Returns the tag type of this item.
+	 *
+	 * @return the tag type value
+	 */
+
+	public String getTagType() {
+		return getStringProperty("tagType");
+	}
+
 }

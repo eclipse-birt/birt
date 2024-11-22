@@ -52,7 +52,11 @@ import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFileSpecification;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfRectangle;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -81,6 +85,8 @@ public class PDFPage extends AbstractPage {
 
 	protected PDFPageDevice pageDevice;
 
+	protected boolean inArtifact = false;
+
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
 	 * will be thrown.
@@ -90,6 +96,7 @@ public class PDFPage extends AbstractPage {
 	private static Pattern PAGE_LINK_PATTERN = Pattern
 			.compile("^((([a-zA-Z]:))(/(\\w[\\w ]*.*))+\\.(pdf|PDF))+#page=(\\d+)$");
 
+	private final boolean isTagged;
 	/**
 	 * Constructor of the PDF page
 	 *
@@ -106,11 +113,16 @@ public class PDFPage extends AbstractPage {
 		this.containerHeight = this.pageHeight;
 		Rectangle pageSize = new Rectangle(this.pageWidth, this.pageHeight);
 		document.setPageSize(pageSize);
+		isTagged = writer.isTagged();
 		if (!document.isOpen()) {
 			document.open();
+			if (isTagged) {
+				pageDevice.initStructure();
+			}
 		} else {
 			document.newPage();
 		}
+
 		this.contentByte = writer.getDirectContent();
 	}
 
@@ -142,17 +154,20 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		y = transformY(y, height);
+		beginArtifact();
 		contentByte.saveState();
 		contentByte.setColorFill(color);
 		contentByte.concatCTM(1, 0, 0, 1, x, y);
 		contentByte.rectangle(0, 0, width, height);
 		contentByte.fill();
 		contentByte.restoreState();
+		endArtifact();
 	}
 
 	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
+		beginArtifact();
 		contentByte.saveState();
 		clip(x, y, width, height);
 
@@ -209,15 +224,31 @@ public class PDFPage extends AbstractPage {
 			startY += imageHeight;
 		} while (startY < height && yExtended);
 		contentByte.restoreState();
+		endArtifact();
 	}
 
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
+
 		// Flash
 		if (FlashFile.isFlash(null, null, extension)) {
 			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
 			return;
+		}
+
+		if (isTagged && !inArtifact) {
+			PdfDictionary dict = new PdfDictionary();
+			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+
+			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
+			if (attributes == null) {
+				attributes = new PdfDictionary();
+				pageDevice.structureCurrentLeaf.put(PdfName.A, attributes);
+			}
+			attributes.put(PdfName.BBOX, new PdfRectangle(imageX, imageY, width, height));
+
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
 		// Cached Image
@@ -228,6 +259,9 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
+				if (isTagged && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 		}
@@ -238,9 +272,23 @@ public class PDFPage extends AbstractPage {
 		} else {
 			// PNG/JPG/BMP... images:
 			Image image = Image.getInstance(imageData);
+			image.setAlt(helpText);
+
+			// Transparent images are not allowed in PDF/A-1,
+			// so remove transparency if necessary
+			if (image.isSmask() && pageDevice.isPdfAFormat()) {
+				if (pageDevice.getPdfConformance().startsWith("PDF.A1")) {
+					logger.severe("PDF/A-1 format specified, transparency is not allowed for image " + imageId);
+					image.setSmask(false);
+				}
+			}
+
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
+				if (isTagged && !inArtifact) {
+					contentByte.endMarkedContentSequence();
+				}
 				return;
 			}
 			template = contentByte.createTemplate(width, height);
@@ -253,6 +301,11 @@ public class PDFPage extends AbstractPage {
 		if (template != null) {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
+
+		if (isTagged && !inArtifact) {
+			contentByte.endMarkedContentSequence();
+		}
+
 	}
 
 	/**
@@ -310,6 +363,18 @@ public class PDFPage extends AbstractPage {
 			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
 		}
 		contentByte.restoreState();
+	}
+
+	@Override
+	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
+			Color color) {
+
+		// FIXME: Can we really treat a strike-through line as an artifact?
+		// Probably one should mark the text itself as "deleted" instead, but how can we
+		// do this?
+		beginArtifact();
+		super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+		endArtifact();
 	}
 
 	@Override
@@ -449,7 +514,9 @@ public class PDFPage extends AbstractPage {
 		contentByte.lineTo(endX - startX, endY - startY);
 
 		contentByte.setLineWidth(width);
-		contentByte.setColorStroke(color);
+		if (null != color && !Color.BLACK.equals(color)) {
+			contentByte.setColorStroke(color);
+		}
 		contentByte.stroke();
 	}
 
@@ -462,6 +529,11 @@ public class PDFPage extends AbstractPage {
 
 		// start drawing the text content
 		contentByte.beginText();
+
+		if (isTagged && !inArtifact) {
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
+		}
+
 		if (null != color && !Color.BLACK.equals(color)) {
 			contentByte.setColorFill(color);
 			contentByte.setColorStroke(color);
@@ -521,6 +593,9 @@ public class PDFPage extends AbstractPage {
 			}
 		} else {
 			contentByte.showText(text);
+		}
+		if (isTagged && !inArtifact) {
+			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
 		contentByte.restoreState();
@@ -697,5 +772,34 @@ public class PDFPage extends AbstractPage {
 		transcoder.print(g2D, pg, 0);
 		g2D.dispose();
 		return template;
+	}
+
+	public void beginArtifact() {
+		if (!isTagged) {
+			return;
+		}
+		if (!inArtifact) {
+			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
+			inArtifact = true;
+		}
+		else {
+			logger.warning("beginArtifact called inside artifact!");
+		}
+	}
+
+	public void endArtifact() {
+		if (!isTagged) {
+			return;
+		}
+		if (inArtifact) {
+			contentByte.endMarkedContentSequence();
+			inArtifact = false;
+		} else {
+			logger.warning("endArtifact called outside of an artifact!");
+		}
+	}
+
+	public boolean isInArtifact() {
+		return inArtifact;
 	}
 }

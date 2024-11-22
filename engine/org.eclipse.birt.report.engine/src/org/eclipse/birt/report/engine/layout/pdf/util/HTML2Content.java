@@ -566,6 +566,7 @@ public class HTML2Content implements HTMLConstants {
 		{
 			IReportContent report = content.getReportContent();
 			ITableContent table = report.createTableContent();
+			table.setTagType("L");
 			addChild(content, table);
 			Column column1 = new Column(report);
 			column1.setWidth(new DimensionType(2, "em"));
@@ -582,6 +583,7 @@ public class HTML2Content implements HTMLConstants {
 			IRowContent row = report.createRowContent();
 			addChild(content, row);
 			handleStyle(ele, cssStyles, row);
+			row.setTagType("LI");
 
 			// fix scr 157259In PDF <li> effect is incorrect when page break
 			// happens.
@@ -631,6 +633,7 @@ public class HTML2Content implements HTMLConstants {
 				if ("".equals(text.getText())) // add default list type when tag <ul> attribute is empty.
 				{
 					text.setText("\u2022"); // the disc type
+					text.setTagType("Lbl"); // TODO HVB check if this is correct
 				}
 			}
 
@@ -639,6 +642,7 @@ public class HTML2Content implements HTMLConstants {
 			childCell.setColumn(1);
 			childCell.setColSpan(1);
 			childCell.setInlineStyle(style);
+			childCell.setTagType("LBody");
 			addChild(row, childCell);
 
 			processNodes(ele, cssStyles, childCell, action, nestCount + 1);

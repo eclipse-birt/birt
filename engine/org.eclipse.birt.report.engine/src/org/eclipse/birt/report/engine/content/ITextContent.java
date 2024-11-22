@@ -38,4 +38,5 @@ public interface ITextContent extends IContent {
 	 * @param text the text value.
 	 */
 	void setText(String text);
+
 }

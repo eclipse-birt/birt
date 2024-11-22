@@ -1,5 +1,4 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -18,8 +17,10 @@ import java.awt.color.ColorSpace;
 import java.awt.color.ICC_Profile;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -38,12 +39,15 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -51,16 +55,28 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfBoolean;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfStructureElement;
+import com.lowagie.text.pdf.PdfStructureTreeRoot;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.xml.xmp.DublinCoreSchema;
+import com.lowagie.text.xml.xmp.LangAlt;
+import com.lowagie.text.xml.xmp.PdfA1Schema;
+import com.lowagie.text.xml.xmp.PdfSchema;
+import com.lowagie.text.xml.xmp.XmpBasicSchema;
+import com.lowagie.text.xml.xmp.XmpWriter;
 
 /**
  * Definition of the PDF emitter page
@@ -93,6 +109,8 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_CONFORMANCE_A1B = "PDF.A1B";
 	/** PDF conformance PDF X-1a:2001, unsupported (TODO: CMYK of PDF.X1A2001 */
 
+	private static final String PDF_UA_CONFORMANCE_1 = "PDF.UA-1";
+
 	/** PDF ICC color profile */
 	/** PDF ICC default color profile RGB */
 	private static final String PDF_ICC_PROFILE_DEFAULT = "sRGB IEC61966-2.1";
@@ -110,6 +128,11 @@ public class PDFPageDevice implements IPageDevice {
 	 * The Pdf Writer
 	 */
 	protected PdfWriter writer = null;
+
+	// The StructureTree defines the logical structure of the content.
+	PdfStructureTreeRoot structureRoot = null;
+	PdfStructureElement structureDocument = null;
+	PdfStructureElement structureCurrentLeaf = null;
 
 	protected IReportContext context;
 
@@ -149,6 +172,8 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	private final static String PDF_CONFORMANCE = "PdfEmitter.Conformance";
 
+	private final static String PDF_UA_CONFORMANCE = "PdfEmitter.PDFUAConformance";
+
 	/**
 	 * PDF/A ICC color profile (default: sRGB IEC61966-2.1, standard by: HP &
 	 * Microsoft)
@@ -174,7 +199,11 @@ public class PDFPageDevice implements IPageDevice {
 
 	private int pdfConformance = PdfWriter.PDFXNONE;
 
+	private int pdfUAConformance = PdfWriter.PDFXNONE;
+
 	private boolean isPdfAFormat = false;
+
+	private boolean isPdfUAFormat = false;
 
 	private boolean addPdfADocumentTitle = false;
 
@@ -209,6 +238,10 @@ public class PDFPageDevice implements IPageDevice {
 			this.setPdfVersion();
 			// PDF/A & PDF/X conformance user property based
 			this.setPdfConformance();
+
+			// PDFU/UA conformance user property based
+			this.setPdfUAConformance();
+
 			// PDF/A, set the default font of not embeddable fonts
 			this.setDefaultFontPdfA();
 			// PDF include font CID set stream
@@ -239,6 +272,23 @@ public class PDFPageDevice implements IPageDevice {
 			}
 			if (description != null) {
 				doc.addHeader("Description", description);
+			}
+
+			if (this.isPdfUAFormat) {
+				String localeString = report.getDesign().getLocale();
+				if (localeString == null || localeString.isEmpty()) {
+					throw new BirtException("The report needs a locale property for PDF/UA!");
+				}
+				Locale locale = new Locale(localeString);
+				String language = locale.toLanguageTag();
+				doc.setDocumentLanguage(language);
+				// In order to declare the main language of the document,
+				// we need to use the extraCatalog. That way we don't need to
+				// modify existing OpenPDF source code.
+				PdfDictionary extraCatalog = writer.getExtraCatalog();
+				extraCatalog.put(PdfName.LANG, new PdfString(language, PdfObject.TEXT_UNICODE));
+
+				writer.addViewerPreference(PdfName.DISPLAYDOCTITLE, PdfBoolean.PDFTRUE);
 			}
 
 			// Add in prepending PDF's
@@ -339,6 +389,14 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	public void initStructure() {
+
+		structureRoot = writer.getStructureTreeRoot();
+		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
+		structureCurrentLeaf = structureDocument;
+
+	}
+
 	/**
 	 * Constructor for test
 	 *
@@ -356,7 +414,7 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Set pdf template
 	 *
-	 * @param key               the inex key of the pdf template
+	 * @param key               the index key of the pdf template
 	 * @param totalPageTemplate pdf template document
 	 */
 	public void setPDFTemplate(Float key, PdfTemplate totalPageTemplate) {
@@ -503,6 +561,9 @@ public class PDFPageDevice implements IPageDevice {
 		}
 
 		writer.setPageEmpty(false);
+		if (this.isPdfUAFormat) {
+			writer.setTabs(PdfName.S);
+		}
 		if (doc.isOpen()) {
 			doc.close();
 		}
@@ -683,6 +744,49 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
+	 * Set the PDF/UA conformance based on the user property
+	 */
+	private void setPdfUAConformance() {
+		String userPdfUAConformance;
+		// PDF version based on user property
+		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_UA_CONFORMANCE)) {
+			userPdfUAConformance = this.userProperties.get(PDFPageDevice.PDF_UA_CONFORMANCE).toString().toUpperCase();
+		} else {
+			userPdfUAConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_UA_CONFORMANCE);
+		}
+		this.setPdfUAConformance(userPdfUAConformance);
+	}
+
+	/**
+	 * Set the PDF version
+	 *
+	 * @param conformance key to set the PDF version (e.g. 1.7)
+	 */
+	public void setPdfUAConformance(String conformance) {
+		switch (conformance) {
+		case PDFPageDevice.PDF_UA_CONFORMANCE_1:
+			this.pdfUAConformance = 1;
+			this.isPdfUAFormat = true;
+			writer.setTagged();
+			break;
+		}
+	}
+
+	/**
+	 * Get the PDF conformance
+	 *
+	 * @return Return the PDF/UA conformance (e.g. PDF.UA-1)
+	 */
+	public String getPdfUAConformance() {
+		switch (this.pdfUAConformance) {
+		case 1:
+			return PDFPageDevice.PDF_UA_CONFORMANCE_1;
+		default:
+			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
+		}
+	}
+
+	/**
 	 * Get the PDF version
 	 *
 	 * @return Return the PDF version (e.g. 1.7)
@@ -754,7 +858,9 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public void setPdfConformance(int pdfConformance) {
 		writer.setPDFXConformance(pdfConformance);
-		writer.setTagged();
+		if (pdfConformance == PdfWriter.PDFA1A) {
+			writer.setTagged();
+		}
 	}
 
 	/**
@@ -782,6 +888,127 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public boolean isPdfAFormat() {
 		return this.isPdfAFormat;
+	}
+
+	/**
+	 * Check if PDF/UA conformance is specified
+	 *
+	 * @return Return if PDF/UA conformance is specified.
+	 */
+	public boolean isPDFUAFormat() {
+		return this.isPdfUAFormat;
+	}
+
+	/**
+	 * We need to override getXmlns because we have to define the pdfuaid namespace.
+	 */
+	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
+
+		public DublinCoreAccessibleSchema() {
+			super();
+		}
+
+		@Override
+		public String getXmlns() {
+			return super.getXmlns() + " xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"";
+		}
+
+		/**
+		 * This is what declares the document to be PDF/UA-1, so it must be called.
+		 */
+		public void addPdfUAId(int version) {
+			setProperty("pdfuaid:part", String.valueOf(version));
+		}
+
+	}
+
+	/**
+	 * Create the XML for the XMPMetadata. We use the same method from PdfWriter as
+	 * a template and add what is neeeded for PDF/UA.
+	 *
+	 * @return an XmpMetadata byte array
+	 */
+	private byte[] createXmpMetadataBytes() {
+		PdfDictionary info = writer.getInfo();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+
+			// We could declare the document to be PDF/A conformant.
+			// Note: PDF/A is something completely different from PDF/UA.
+			// But the same document can be PDF/A conformant and PDF/UA conformant.
+			// Not tested.
+			int PdfXConformance = writer.getPDFXConformance();
+			XmpWriter xmp = new XmpWriter(baos, "UTF-8", 4);
+			DublinCoreAccessibleSchema dc = new DublinCoreAccessibleSchema();
+			PdfSchema p = new PdfSchema();
+			XmpBasicSchema basic = new XmpBasicSchema();
+
+			// Use the properties from the PDF info to define some XMPMetadata properties.
+			PdfName key;
+			PdfObject obj;
+			for (PdfName pdfName : info.getKeys()) {
+				key = pdfName;
+				obj = info.get(key);
+				if (obj == null)
+					continue;
+				if (PdfName.TITLE.equals(key)) {
+					// The XMPMetadata allows defining the title for different languages.
+					// We add the title in the default language.
+					LangAlt langAlt = new LangAlt(((PdfString) obj).toUnicodeString());
+					// Example: How to add a translation of the title in a different language.
+					// langAlt.addLanguage("de_DE", "Das ist der Titel für deutsche Leser");
+					dc.setProperty(DublinCoreSchema.TITLE, langAlt);
+				}
+				if (PdfName.AUTHOR.equals(key)) {
+					dc.addAuthor(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.SUBJECT.equals(key)) {
+					dc.addSubject(((PdfString) obj).toUnicodeString());
+					dc.addDescription(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.KEYWORDS.equals(key)) {
+					p.addKeywords(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.CREATOR.equals(key)) {
+					basic.addCreatorTool(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.PRODUCER.equals(key)) {
+					p.addProducer(((PdfString) obj).toUnicodeString());
+				}
+				if (PdfName.CREATIONDATE.equals(key)) {
+					basic.addCreateDate(((PdfDate) obj).getW3CDate());
+				}
+				if (PdfName.MODDATE.equals(key)) {
+					basic.addModDate(((PdfDate) obj).getW3CDate());
+				}
+			}
+			if (this.isPDFUAFormat()) {
+				// Declare the document to be PDF/UA conformant.
+				dc.addPdfUAId(this.pdfUAConformance);
+			}
+
+			if (dc.size() > 0)
+				xmp.addRdfDescription(dc);
+			if (p.size() > 0)
+				xmp.addRdfDescription(p);
+			if (basic.size() > 0)
+				xmp.addRdfDescription(basic);
+
+			// Declare the document to be PDF/A conformant, if requested by the developer.
+			if (PdfXConformance == PdfWriter.PDFA1A || PdfXConformance == PdfWriter.PDFA1B) {
+				PdfA1Schema a1 = new PdfA1Schema();
+				if (PdfXConformance == PdfWriter.PDFA1A)
+					a1.addConformance("A");
+				else
+					a1.addConformance("B");
+				xmp.addRdfDescription(a1);
+			}
+
+			xmp.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return baos.toByteArray();
 	}
 
 	/**
@@ -849,8 +1076,9 @@ public class PDFPageDevice implements IPageDevice {
 		}
 
 		try {
-			// PDF create the xmp metaddata based on the document information
-			writer.createXmpMetadata();
+			// PDF create the XMP metadata based on the document information
+			byte[] xmpMetadata = this.createXmpMetadataBytes();
+			writer.setXmpMetadata(xmpMetadata);
 		} catch (Exception e) {
 			logger.log(Level.WARNING, e.getMessage(), e);
 		}
@@ -930,6 +1158,9 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_CONFORMANCE)) {
 			value = reportContent.getDesign().getReportDesign().getPdfConformance();
 
+		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_UA_CONFORMANCE)) {
+			value = reportContent.getDesign().getReportDesign().getPdfUAConformance();
+
 		} else if (name.equalsIgnoreCase(PDFPageDevice.PDF_ICC_COLOR_TYPE)) {
 			value = reportContent.getDesign().getReportDesign().getPdfIccColorType();
 
@@ -952,5 +1183,128 @@ public class PDFPageDevice implements IPageDevice {
 			value = reportContent.getDesign().getReportDesign().getPdfAEmbedTitle();
 		}
 		return value;
+	}
+
+	/**
+	 * @param tagType
+	 */
+	public void pushTag(String tagType, IArea area) {
+		if (!writer.isTagged()) {
+			return;
+		}
+		if ("pageHeader".equals(tagType)) {
+			currentPage.beginArtifact();
+		} else if ("pageFooter".equals(tagType)) {
+			currentPage.beginArtifact();
+		} else if (currentPage.isInArtifact()) {
+			;
+		} else {
+			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+			// FIXME Adding attributes should be made a method of the IArea classes.
+			if ("Figure".equals(tagType)) {
+				// Top-Level figure elements must have a placement attribute.
+				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
+					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+					if (attributes == null) {
+						attributes = new PdfDictionary();
+						structureCurrentLeaf.put(PdfName.A, attributes);
+					}
+					attributes.put(new PdfName("Placement"), new PdfName("Block"));
+					attributes.put(PdfName.O, new PdfName("Layout"));
+				}
+			}
+			if ("TD".equals(tagType) || "TH".equals(tagType)) {
+				if (area instanceof CellArea) {
+					CellArea cellArea = (CellArea) area;
+					int rowspan = cellArea.getRowSpan();
+					int colspan = cellArea.getColSpan();
+					String scope = ((CellContent) (cellArea.getContent())).getScope();
+					String bookmark = cellArea.getBookmark();
+					if (bookmark != null) {
+						structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
+					}
+
+					String headers = ((CellContent) (cellArea.getContent())).getHeaders();
+					if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
+						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+						if (attributes == null) {
+							attributes = new PdfDictionary();
+							attributes.put(PdfName.O, PdfName.TABLE);
+							structureCurrentLeaf.put(PdfName.A, attributes);
+						}
+						if (rowspan != 1) {
+							attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
+						}
+						if (colspan != 1) {
+							attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+						}
+						if (scope != null && "TH".equals(tagType)) {
+							attributes.put(new PdfName("Scope"), pdfScope((scope)));
+						}
+						if (headers != null) {
+							attributes.put(new PdfName("Headers"), commaSeparatedToPdfByteStringArray((headers)));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Split a comma-separated string into a PDF bytestring array. Note that blanks
+	 * are not stripped and empty values are allowed.
+	 *
+	 * @param cav
+	 * @return A PDF bytestring array
+	 */
+	private PdfArray commaSeparatedToPdfByteStringArray(String csv) {
+		String[] arr = csv.split(",");
+		PdfArray pdfArr = new PdfArray();
+		for (String s : arr)
+			pdfArr.add(new PdfString(s));
+		return pdfArr;
+	}
+
+	/**
+	 * @param scope scope as set in the rptdesign file.
+	 * @return scope as needed for PDF "/Table" attribute "/Scope".
+	 */
+	private PdfName pdfScope(String scope) {
+		if (scope == null) {
+			return null;
+		}
+		if ("col".equals(scope)) {
+			return new PdfName("Column");
+		}
+		if ("row".equals(scope)) {
+			return new PdfName("Row");
+		}
+		logger.warning("Unsupported scope: " + scope);
+		return null;
+	}
+
+	/**
+	 * @param tagType
+	 */
+	public void popTag(String tagType) {
+		if (!writer.isTagged()) {
+			return;
+		}
+		if ("pageHeader".equals(tagType)) {
+			currentPage.endArtifact();
+		} else if ("pageFooter".equals(tagType)) {
+			currentPage.endArtifact();
+		} else if (currentPage.isInArtifact()) {
+			;
+		} else {
+			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+		}
+	}
+
+	/**
+	 * Is the writer is expected to create tagged PDF or not?
+	 */
+	public boolean isTagged() {
+		return writer.isTagged();
 	}
 }

@@ -1376,4 +1376,16 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		return null;
 	}
 
+	/**
+	 * Get the value of the PDF tag from the content.
+	 */
+	public String getTagType() {
+		IContent content = this.getContent();
+		String tagType = null;
+		if (content != null) {
+			tagType = content.getTagType();
+		}
+		return tagType;
+	}
+
 }

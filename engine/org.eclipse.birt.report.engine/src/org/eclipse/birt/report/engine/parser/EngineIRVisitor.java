@@ -29,8 +29,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -40,7 +42,6 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
@@ -133,13 +134,16 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.core.runtime.Assert;
 
 import com.ibm.icu.util.ULocale;
@@ -323,7 +327,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		for (VariableElementHandle varElement : varElements) {
 			String scope = varElement.getType();
 			String name = varElement.getVariableName();
-			ExpressionHandle exprHandle = varElement.getExpressionProperty(VariableElementHandle.VALUE_PROP);
+			ExpressionHandle exprHandle = varElement.getExpressionProperty(IVariableElementModel.VALUE_PROP);
 			Expression defaultValue = createExpression(exprHandle);
 			PageVariableDesign pv = new PageVariableDesign(name, scope);
 			pv.setDefaultValue(defaultValue);
@@ -333,7 +337,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		String onPageEnd = handle.getOnPageEnd();
 		Expression.Script onPageEndScript = createScript(onPageEnd);
 		if (onPageEndScript != null) {
-			String scriptId = ModuleUtil.getScriptUID(handle.getPropertyHandle(IReportDesignModel.ON_PAGE_END_METHOD));
+			String scriptId = ModuleUtil
+					.getScriptUID(handle.getPropertyHandle(IInternalReportDesignModel.ON_PAGE_END_METHOD));
 			onPageEndScript.setFileName(scriptId);
 			report.setOnPageEnd(onPageEndScript);
 		}
@@ -341,7 +346,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		Expression.Script onPageStartScript = createScript(onPageStart);
 		if (onPageStartScript != null) {
 			String scriptId = ModuleUtil
-					.getScriptUID(handle.getPropertyHandle(IReportDesignModel.ON_PAGE_START_METHOD));
+					.getScriptUID(handle.getPropertyHandle(IInternalReportDesignModel.ON_PAGE_START_METHOD));
 			onPageStartScript.setFileName(scriptId);
 			report.setOnPageStart(onPageStartScript);
 		}
@@ -558,7 +563,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle headerSlot = handle.getHeader();
 		if (headerSlot.getCount() > 0) {
 			ListBandDesign header = createListBand(headerSlot);
-			header.setBandType(ListBandDesign.BAND_HEADER);
+			header.setBandType(BandDesign.BAND_HEADER);
 			listItem.setHeader(header);
 		}
 		listItem.setRepeatHeader(handle.repeatHeader());
@@ -578,7 +583,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle detailSlot = handle.getDetail();
 		if (detailSlot.getCount() > 0) {
 			ListBandDesign detail = createListBand(detailSlot);
-			detail.setBandType(ListBandDesign.BAND_DETAIL);
+			detail.setBandType(BandDesign.BAND_DETAIL);
 			listItem.setDetail(detail);
 		}
 
@@ -586,7 +591,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle footerSlot = handle.getFooter();
 		if (footerSlot.getCount() > 0) {
 			ListBandDesign footer = createListBand(footerSlot);
-			footer.setBandType(ListBandDesign.BAND_FOOTER);
+			footer.setBandType(BandDesign.BAND_FOOTER);
 			listItem.setFooter(footer);
 		}
 
@@ -617,7 +622,7 @@ public class EngineIRVisitor extends DesignVisitor {
 
 		setupReportItem(dynamicTextItem, handle);
 
-		ExpressionHandle valueExprHandle = handle.getExpressionProperty(TextDataHandle.VALUE_EXPR_PROP);
+		ExpressionHandle valueExprHandle = handle.getExpressionProperty(ITextDataItemModel.VALUE_EXPR_PROP);
 		Expression valueExpr = createExpression(valueExprHandle);
 		String contentType = handle.getContentType();
 
@@ -762,21 +767,21 @@ public class EngineIRVisitor extends DesignVisitor {
 		// Handle Image Source
 		String imageSrc = handle.getSource();
 
-		if (EngineIRConstants.IMAGE_REF_TYPE_URL.equals(imageSrc)) {
-			ExpressionHandle urlExpr = handle.getExpressionProperty(ImageHandle.URI_PROP);
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals(imageSrc)) {
+			ExpressionHandle urlExpr = handle.getExpressionProperty(IImageItemModel.URI_PROP);
 			image.setImageUri(createExpression(urlExpr));
-		} else if (EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals(imageSrc)) {
-			ExpressionHandle valueExpr = handle.getExpressionProperty(ImageHandle.VALUE_EXPR_PROP);
-			ExpressionHandle typeExpr = handle.getExpressionProperty(ImageHandle.TYPE_EXPR_PROP);
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equals(imageSrc)) {
+			ExpressionHandle valueExpr = handle.getExpressionProperty(IImageItemModel.VALUE_EXPR_PROP);
+			ExpressionHandle typeExpr = handle.getExpressionProperty(IImageItemModel.TYPE_EXPR_PROP);
 			image.setImageExpression(createExpression(valueExpr), createExpression(typeExpr));
-		} else if (EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals(imageSrc)) {
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals(imageSrc)) {
 			String imageName = handle.getImageName();
 			// FIXME: MODEL doesn't support the expression image name
 			// ExpressionHandle nameExpr = handle
 			// .getExpressionProperty( ImageHandle.IMAGE_NAME_PROP );
 			image.setImageName(Expression.newConstant(imageName));
-		} else if (EngineIRConstants.IMAGE_REF_TYPE_FILE.equals(imageSrc)) {
-			ExpressionHandle fileExpr = handle.getExpressionProperty(ImageHandle.URI_PROP);
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals(imageSrc)) {
+			ExpressionHandle fileExpr = handle.getExpressionProperty(IImageItemModel.URI_PROP);
 			image.setImageFile(createExpression(fileExpr));
 		} else {
 			assert false;
@@ -786,7 +791,7 @@ public class EngineIRVisitor extends DesignVisitor {
 	}
 
 	private void handleAltText(ReportItemHandle handle, ReportItemDesign design) {
-		ExpressionHandle altTextExpr = handle.getExpressionProperty(IReportItemModel.ALTTEXT_PROP);
+		ExpressionHandle altTextExpr = handle.getExpressionProperty(IInternalReportItemModel.ALTTEXT_PROP);
 		design.setAltText(createExpression(altTextExpr));
 		design.setAltTextKey(handle.getAltTextKey());
 	}
@@ -829,7 +834,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle headerSlot = handle.getHeader();
 		if (headerSlot.getCount() > 0) {
 			TableBandDesign header = createTableBand(headerSlot);
-			header.setBandType(TableBandDesign.BAND_HEADER);
+			header.setBandType(BandDesign.BAND_HEADER);
 			table.setHeader(header);
 		}
 
@@ -848,7 +853,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle detailSlot = handle.getDetail();
 		if (detailSlot.getCount() > 0) {
 			TableBandDesign detail = createTableBand(detailSlot);
-			detail.setBandType(TableBandDesign.BAND_DETAIL);
+			detail.setBandType(BandDesign.BAND_DETAIL);
 			table.setDetail(detail);
 		}
 
@@ -856,7 +861,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle footerSlot = handle.getFooter();
 		if (footerSlot.getCount() > 0) {
 			TableBandDesign footer = createTableBand(footerSlot);
-			footer.setBandType(TableBandDesign.BAND_FOOTER);
+			footer.setBandType(BandDesign.BAND_FOOTER);
 			table.setFooter(footer);
 		}
 
@@ -1146,7 +1151,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		row.setHeight(height);
 
 		// Book mark
-		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(RowHandle.BOOKMARK_PROP);
+		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(ITableRowModel.BOOKMARK_PROP);
 		row.setBookmark(createExpression(bookmarkExpr));
 
 		// Visibility
@@ -1284,9 +1289,9 @@ public class EngineIRVisitor extends DesignVisitor {
 	}
 
 	private void setupAuralInfomation(CellDesign cell, CellHandle handle) {
-		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(CellHandle.BOOKMARK_PROP);
+		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(ICellModel.BOOKMARK_PROP);
 		cell.setBookmark(createExpression(bookmarkExpr));
-		ExpressionHandle headersExpr = handle.getExpressionProperty(CellHandle.HEADERS_PROP);
+		ExpressionHandle headersExpr = handle.getExpressionProperty(ICellModel.HEADERS_PROP);
 		cell.setHeaders(createExpression(headersExpr));
 		String scope = handle.getScope();
 		if (scope != null) {
@@ -1301,7 +1306,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			if (groupHandle instanceof TableGroupHandle) {
 				SlotHandle slot = rowHandle.getContainerSlotHandle();
 				if (slot != null) {
-					if (slot.getSlotID() == GroupHandle.HEADER_SLOT) {
+					if (slot.getSlotID() == IGroupElementModel.HEADER_SLOT) {
 						return true;
 					}
 				}
@@ -1346,7 +1351,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle headerSlot = handle.getHeader();
 		if (headerSlot.getCount() > 0) {
 			ListBandDesign header = createListBand(headerSlot);
-			header.setBandType(ListBandDesign.GROUP_HEADER);
+			header.setBandType(BandDesign.GROUP_HEADER);
 			header.setGroup(listGroup);
 			listGroup.setHeader(header);
 			listGroup.setHeaderRepeat(handle.repeatHeader());
@@ -1362,7 +1367,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle footerSlot = handle.getFooter();
 		if (footerSlot.getCount() > 0) {
 			ListBandDesign footer = createListBand(footerSlot);
-			footer.setBandType(ListBandDesign.GROUP_FOOTER);
+			footer.setBandType(BandDesign.GROUP_FOOTER);
 			footer.setGroup(listGroup);
 			listGroup.setFooter(footer);
 		}
@@ -1387,7 +1392,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle headerSlot = handle.getHeader();
 		if (headerSlot.getCount() > 0) {
 			TableBandDesign header = createTableBand(handle.getHeader());
-			header.setBandType(TableBandDesign.GROUP_HEADER);
+			header.setBandType(BandDesign.GROUP_HEADER);
 			header.setGroup(tableGroup);
 			tableGroup.setHeader(header);
 			tableGroup.setHeaderRepeat(handle.repeatHeader());
@@ -1403,7 +1408,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		SlotHandle footerSlot = handle.getFooter();
 		if (footerSlot.getCount() > 0) {
 			TableBandDesign footer = createTableBand(handle.getFooter());
-			footer.setBandType(TableBandDesign.GROUP_FOOTER);
+			footer.setBandType(BandDesign.GROUP_FOOTER);
 			footer.setGroup(tableGroup);
 			tableGroup.setFooter(footer);
 		}
@@ -1512,7 +1517,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			group.setTOC(createExpression(tocExpr));
 		}
 		// bookmark
-		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(GroupHandle.BOOKMARK_PROP);
+		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(IGroupElementModel.BOOKMARK_PROP);
 		group.setBookmark(createExpression(bookmarkExpr));
 
 		// set up OnCreate, OnRender, OnPageBreak
@@ -1633,13 +1638,13 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 
 		// setup book mark
-		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(ReportItemHandle.BOOKMARK_PROP);
+		ExpressionHandle bookmarkExpr = handle.getExpressionProperty(IInternalReportItemModel.BOOKMARK_PROP);
 		item.setBookmark(createExpression(bookmarkExpr));
 
 		String onCreate = handle.getOnCreate();
 		Expression.Script onCreateScript = createScript(onCreate);
 		if (onCreateScript != null) {
-			String id = ModuleUtil.getScriptUID(handle.getPropertyHandle(IReportItemModel.ON_CREATE_METHOD));
+			String id = ModuleUtil.getScriptUID(handle.getPropertyHandle(IInternalReportItemModel.ON_CREATE_METHOD));
 			onCreateScript.setFileName(id);
 			item.setOnCreate(onCreateScript);
 		}
@@ -1647,7 +1652,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		String onRender = handle.getOnRender();
 		Expression.Script onRenderScript = createScript(onRender);
 		if (onRenderScript != null) {
-			String id = ModuleUtil.getScriptUID(handle.getPropertyHandle(IReportItemModel.ON_RENDER_METHOD));
+			String id = ModuleUtil.getScriptUID(handle.getPropertyHandle(IInternalReportItemModel.ON_RENDER_METHOD));
 			onRenderScript.setFileName(id);
 			item.setOnRender(onRenderScript);
 		}
@@ -1655,7 +1660,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		String onPageBreak = handle.getOnPageBreak();
 		Expression.Script onPageBreakScript = createScript(onPageBreak);
 		if (onPageBreakScript != null) {
-			String id = ModuleUtil.getScriptUID(handle.getPropertyHandle(IReportItemModel.ON_PAGE_BREAK_METHOD));
+			String id = ModuleUtil
+					.getScriptUID(handle.getPropertyHandle(IInternalReportItemModel.ON_PAGE_BREAK_METHOD));
 			onPageBreakScript.setFileName(id);
 			item.setOnPageBreak(onPageBreakScript);
 		}
@@ -1724,14 +1730,14 @@ public class EngineIRVisitor extends DesignVisitor {
 		String linkType = handle.getLinkType();
 		action.setTooltip(handle.getToolTip());
 
-		if (EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals(linkType)) {
+		if (DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals(linkType)) {
 			ExpressionHandle urlExpr = handle.getExpressionProperty(Action.URI_MEMBER);
 			action.setHyperlink(createExpression(urlExpr));
 			action.setTargetWindow(handle.getTargetWindow());
-		} else if (EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(linkType)) {
+		} else if (DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals(linkType)) {
 			ExpressionHandle bookmarkExpr = handle.getExpressionProperty(Action.TARGET_BOOKMARK_MEMBER);
 			action.setBookmark(createExpression(bookmarkExpr));
-		} else if (EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals(linkType)) {
+		} else if (DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals(linkType)) {
 			action.setTargetWindow(handle.getTargetWindow());
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign();
 			action.setDrillThrough(drillThrough);
@@ -1979,38 +1985,38 @@ public class EngineIRVisitor extends DesignVisitor {
 			return null;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals(pageBreak) || DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals(pageBreak)) {
-			return IStyle.CSS_ALWAYS_VALUE;
+			return CSSConstants.CSS_ALWAYS_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO.equals(pageBreak)) {
-			return IStyle.CSS_AUTO_VALUE;
+			return CSSConstants.CSS_AUTO_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID.equals(pageBreak)) {
-			return IStyle.CSS_AVOID_VALUE;
+			return CSSConstants.CSS_AVOID_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals(pageBreak)) {
-			return IStyle.CSS_ALWAYS_VALUE;
+			return CSSConstants.CSS_ALWAYS_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals(pageBreak)) {
-			return IStyle.CSS_ALWAYS_VALUE;
+			return CSSConstants.CSS_ALWAYS_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_BEFORE_AUTO.equals(pageBreak)) {
-			return IStyle.CSS_AUTO_VALUE;
+			return CSSConstants.CSS_AUTO_VALUE;
 		}
 		if (DesignChoiceConstants.PAGE_BREAK_BEFORE_AVOID.equals(pageBreak)) {
-			return IStyle.CSS_AVOID_VALUE;
+			return CSSConstants.CSS_AVOID_VALUE;
 		}
-		return IStyle.CSS_AUTO_VALUE;
+		return CSSConstants.CSS_AUTO_VALUE;
 	}
 
 	protected StyleDeclaration createColumnStyle(ReportElementHandle handle) {
 		StyleDeclaration style = new StyleDeclaration(cssEngine);
 
-		String pageBreakAfter = getElementProperty(handle, StyleHandle.PAGE_BREAK_AFTER_PROP);
+		String pageBreakAfter = getElementProperty(handle, IStyleModel.PAGE_BREAK_AFTER_PROP);
 		style.setPageBreakAfter(decodePageBreak(pageBreakAfter));
-		String pageBreakBefore = getElementProperty(handle, StyleHandle.PAGE_BREAK_BEFORE_PROP);
+		String pageBreakBefore = getElementProperty(handle, IStyleModel.PAGE_BREAK_BEFORE_PROP);
 		style.setPageBreakBefore(decodePageBreak(pageBreakBefore));
 
-		String display = getElementProperty(handle, StyleHandle.DISPLAY_PROP);
+		String display = getElementProperty(handle, IStyleModel.DISPLAY_PROP);
 		style.setDisplay(display);
 		return style;
 
@@ -2026,31 +2032,31 @@ public class EngineIRVisitor extends DesignVisitor {
 			if (BIRTConstants.BIRT_STYLE_DATA_FORMAT.equalsIgnoreCase(propertyName)) {
 				DataFormatValue formatSet = new DataFormatValue();
 				boolean formatSetValid = false;
-				FormatValue modelValue = (FormatValue) handle.getProperty(StyleHandle.STRING_FORMAT_PROP);
+				FormatValue modelValue = (FormatValue) handle.getProperty(IStyleModel.STRING_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setStringFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.NUMBER_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.NUMBER_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setNumberFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.DATE_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.DATE_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setDateFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.TIME_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.TIME_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setTimeFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.DATE_TIME_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.DATE_TIME_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setDateTimeFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
@@ -2140,31 +2146,31 @@ public class EngineIRVisitor extends DesignVisitor {
 			if (BIRTConstants.BIRT_STYLE_DATA_FORMAT.equalsIgnoreCase(propertyName)) {
 				DataFormatValue formatSet = new DataFormatValue();
 				boolean formatSetValid = false;
-				FormatValue modelValue = (FormatValue) handle.getProperty(StyleHandle.STRING_FORMAT_PROP);
+				FormatValue modelValue = (FormatValue) handle.getProperty(IStyleModel.STRING_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setStringFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.NUMBER_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.NUMBER_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setNumberFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.DATE_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.DATE_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setDateFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.TIME_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.TIME_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setTimeFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
 					formatSetValid = true;
 				}
-				modelValue = (FormatValue) handle.getProperty(StyleHandle.DATE_TIME_FORMAT_PROP);
+				modelValue = (FormatValue) handle.getProperty(IStyleModel.DATE_TIME_FORMAT_PROP);
 				if (modelValue != null) {
 					ULocale locale = modelValue.getLocale();
 					formatSet.setDateTimeFormat(modelValue.getPattern(), locale == null ? null : locale.toString());
@@ -2257,74 +2263,74 @@ public class EngineIRVisitor extends DesignVisitor {
 		inheritableReportStyle = new StyleDeclaration(cssEngine);
 
 		// Background
-		addReportDefaultPropertyValue(Style.BACKGROUND_COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.BACKGROUND_IMAGE_PROP, handle);
-		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_X_PROP, handle);
-		addReportDefaultPropertyValue(Style.BACKGROUND_POSITION_Y_PROP, handle);
-		addReportDefaultPropertyValue(Style.BACKGROUND_REPEAT_PROP, handle);
-		addReportDefaultPropertyValue(Style.BACKGROUND_IMAGE_TYPE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_IMAGE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_POSITION_X_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_POSITION_Y_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_REPEAT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BACKGROUND_IMAGE_TYPE_PROP, handle);
 
 		// bidi_hcg: Bidi related.
-		addReportDefaultPropertyValue(Style.TEXT_DIRECTION_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_DIRECTION_PROP, handle);
 
 		// Text related
-		addReportDefaultPropertyValue(Style.TEXT_ALIGN_PROP, handle);
-		addReportDefaultPropertyValue(Style.TEXT_INDENT_PROP, handle);
-		addReportDefaultPropertyValue(Style.LETTER_SPACING_PROP, handle);
-		addReportDefaultPropertyValue(Style.LINE_HEIGHT_PROP, handle);
-		addReportDefaultPropertyValue(Style.ORPHANS_PROP, handle);
-		addReportDefaultPropertyValue(Style.TEXT_TRANSFORM_PROP, handle);
-		addReportDefaultPropertyValue(Style.VERTICAL_ALIGN_PROP, handle);
-		addReportDefaultPropertyValue(Style.WHITE_SPACE_PROP, handle);
-		addReportDefaultPropertyValue(Style.WIDOWS_PROP, handle);
-		addReportDefaultPropertyValue(Style.WORD_SPACING_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_ALIGN_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_INDENT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.LETTER_SPACING_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.LINE_HEIGHT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.ORPHANS_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_TRANSFORM_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.VERTICAL_ALIGN_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.WHITE_SPACE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.WIDOWS_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.WORD_SPACING_PROP, handle);
 
 		// Section properties
-		addReportDefaultPropertyValue(Style.DISPLAY_PROP, handle);
-		addReportDefaultPropertyValue(Style.MASTER_PAGE_PROP, handle);
-		addReportDefaultPropertyValue(Style.PAGE_BREAK_AFTER_PROP, handle);
-		addReportDefaultPropertyValue(Style.PAGE_BREAK_BEFORE_PROP, handle);
-		addReportDefaultPropertyValue(Style.PAGE_BREAK_INSIDE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.DISPLAY_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.MASTER_PAGE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PAGE_BREAK_AFTER_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PAGE_BREAK_BEFORE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PAGE_BREAK_INSIDE_PROP, handle);
 
 		// Font related
-		addReportDefaultPropertyValue(Style.FONT_FAMILY_PROP, handle);
-		addReportDefaultPropertyValue(Style.COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.FONT_SIZE_PROP, handle);
-		addReportDefaultPropertyValue(Style.FONT_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.FONT_WEIGHT_PROP, handle);
-		addReportDefaultPropertyValue(Style.FONT_VARIANT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.FONT_FAMILY_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.FONT_SIZE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.FONT_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.FONT_WEIGHT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.FONT_VARIANT_PROP, handle);
 
 		// Text decoration
-		addReportDefaultPropertyValue(Style.TEXT_LINE_THROUGH_PROP, handle);
-		addReportDefaultPropertyValue(Style.TEXT_HYPERLINK_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.TEXT_OVERLINE_PROP, handle);
-		addReportDefaultPropertyValue(Style.TEXT_UNDERLINE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_LINE_THROUGH_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_HYPERLINK_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_OVERLINE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.TEXT_UNDERLINE_PROP, handle);
 
 		// Border
-		addReportDefaultPropertyValue(Style.BORDER_BOTTOM_COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.BORDER_BOTTOM_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_BOTTOM_WIDTH_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_LEFT_COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.BORDER_LEFT_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_LEFT_WIDTH_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_RIGHT_COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.BORDER_RIGHT_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_RIGHT_WIDTH_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_TOP_COLOR_PROP, handle, true);
-		addReportDefaultPropertyValue(Style.BORDER_TOP_STYLE_PROP, handle);
-		addReportDefaultPropertyValue(Style.BORDER_TOP_WIDTH_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_BOTTOM_COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_BOTTOM_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_BOTTOM_WIDTH_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_LEFT_COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_LEFT_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_LEFT_WIDTH_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_RIGHT_COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_RIGHT_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_RIGHT_WIDTH_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_TOP_COLOR_PROP, handle, true);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_TOP_STYLE_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.BORDER_TOP_WIDTH_PROP, handle);
 
 		// Margin
-		addReportDefaultPropertyValue(Style.MARGIN_TOP_PROP, handle);
-		addReportDefaultPropertyValue(Style.MARGIN_LEFT_PROP, handle);
-		addReportDefaultPropertyValue(Style.MARGIN_BOTTOM_PROP, handle);
-		addReportDefaultPropertyValue(Style.MARGIN_RIGHT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.MARGIN_TOP_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.MARGIN_LEFT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.MARGIN_BOTTOM_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.MARGIN_RIGHT_PROP, handle);
 
 		// Padding
-		addReportDefaultPropertyValue(Style.PADDING_TOP_PROP, handle);
-		addReportDefaultPropertyValue(Style.PADDING_LEFT_PROP, handle);
-		addReportDefaultPropertyValue(Style.PADDING_BOTTOM_PROP, handle);
-		addReportDefaultPropertyValue(Style.PADDING_RIGHT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PADDING_TOP_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PADDING_LEFT_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PADDING_BOTTOM_PROP, handle);
+		addReportDefaultPropertyValue(IStyleModel.PADDING_RIGHT_PROP, handle);
 
 		// Format
 		/*
@@ -2354,13 +2360,16 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 
 		StyleDeclaration contentStyle = new StyleDeclaration(cssEngine);
-		contentStyle.setProperty(IStyle.STYLE_BACKGROUND_COLOR, style.getProperty(IStyle.STYLE_BACKGROUND_COLOR));
-		contentStyle.setProperty(IStyle.STYLE_BACKGROUND_IMAGE, style.getProperty(IStyle.STYLE_BACKGROUND_IMAGE));
-		contentStyle.setProperty(IStyle.STYLE_BACKGROUND_POSITION_Y,
-				style.getProperty(IStyle.STYLE_BACKGROUND_POSITION_Y));
-		contentStyle.setProperty(IStyle.STYLE_BACKGROUND_POSITION_X,
-				style.getProperty(IStyle.STYLE_BACKGROUND_POSITION_X));
-		contentStyle.setProperty(IStyle.STYLE_BACKGROUND_REPEAT, style.getProperty(IStyle.STYLE_BACKGROUND_REPEAT));
+		contentStyle.setProperty(StyleConstants.STYLE_BACKGROUND_COLOR,
+				style.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR));
+		contentStyle.setProperty(StyleConstants.STYLE_BACKGROUND_IMAGE,
+				style.getProperty(StyleConstants.STYLE_BACKGROUND_IMAGE));
+		contentStyle.setProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y,
+				style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_Y));
+		contentStyle.setProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X,
+				style.getProperty(StyleConstants.STYLE_BACKGROUND_POSITION_X));
+		contentStyle.setProperty(StyleConstants.STYLE_BACKGROUND_REPEAT,
+				style.getProperty(StyleConstants.STYLE_BACKGROUND_REPEAT));
 
 		String bodyStyleName = assignStyleName(contentStyle);
 		return bodyStyleName;

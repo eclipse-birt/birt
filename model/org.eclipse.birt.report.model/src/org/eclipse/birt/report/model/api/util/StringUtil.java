@@ -65,7 +65,7 @@ public class StringUtil {
 			return null;
 		}
 		value = value.trim();
-		if (value.length() == 0) {
+		if (value.isEmpty()) {
 			return null;
 		}
 		return value;
@@ -133,6 +133,7 @@ public class StringUtil {
 	 */
 
 	public static boolean isBlank(String str) {
+		// FIXME This could be optimized for performance.
 		return trimString(str) == null;
 	}
 
@@ -151,7 +152,7 @@ public class StringUtil {
 	 */
 
 	public static boolean isEmpty(String value) {
-		if (value == null || value.length() == 0) {
+		if (value == null || value.isEmpty()) {
 			return true;
 		}
 

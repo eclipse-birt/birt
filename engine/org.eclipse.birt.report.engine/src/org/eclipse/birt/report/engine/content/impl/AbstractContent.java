@@ -972,4 +972,21 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	public void setExtensions(Map<String, Object> properties) {
 		this.extProperties = properties;
 	}
+
+	private String tagType = null;
+
+	/**
+	 * @return Returns the tagType.
+	 */
+	public String getTagType() {
+		return tagType;
+	}
+
+	/**
+	 * @param tagType The tagType to set.
+	 */
+	public void setTagType(String tagType) {
+		this.tagType = tagType;
+	}
+
 }
