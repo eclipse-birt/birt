@@ -38,6 +38,9 @@ public class CommonUtil {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		// Disable XML External Entity to avoid hack
 		factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
+		factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false); //$NON-NLS-1$
+		factory.setFeature("http://xml.org/sax/features/external-general-entities", false); //$NON-NLS-1$
+		factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false); //$NON-NLS-1$
 		SAXParser parser = factory.newSAXParser();
 
 		return parser;
