@@ -252,16 +252,22 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 
 	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
+		final SplitResult ret;
 		if (force) {
-			return _split(height, true);
+			ret = _split(height, true);
 		} else if (isPageBreakInsideAvoid()) {
 			if (isPageBreakBeforeAvoid()) {
-				return SplitResult.BEFORE_AVOID_WITH_NULL;
+				ret = SplitResult.BEFORE_AVOID_WITH_NULL;
+			} else {
+				ret = SplitResult.SUCCEED_WITH_NULL;
 			}
-			return SplitResult.SUCCEED_WITH_NULL;
 		} else {
-			return _split(height, false);
+			ret = _split(height, false);
 		}
+		if (ret.getResult() != null) {
+			setPreviousPart(ret.getResult());
+		}
+		return ret;
 	}
 
 	protected SplitResult _split(int height, boolean force) throws BirtException {

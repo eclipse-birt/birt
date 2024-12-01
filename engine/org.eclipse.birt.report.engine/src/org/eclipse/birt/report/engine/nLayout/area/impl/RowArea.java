@@ -470,4 +470,15 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
+	public String getTagType() {
+		ContainerArea parent = getParent();
+//		if (parent instanceof TableArea) {
+//			if (((TableArea) parent).isInHeaderBand() && !parent.isFirstPart()) {
+//				return "Artifact";
+//			}
+//		}
+		return super.getTagType();
+	}
+
 }

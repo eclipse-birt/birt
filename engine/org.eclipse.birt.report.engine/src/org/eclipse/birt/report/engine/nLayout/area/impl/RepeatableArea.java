@@ -142,7 +142,8 @@ public abstract class RepeatableArea extends BlockContainerArea {
 				}
 			}
 		}
-		return super.split(height, force);
+		SplitResult ret = super.split(height, force);
+		return ret;
 	}
 
 	@Override

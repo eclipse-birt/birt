@@ -311,7 +311,7 @@ public class TableArea extends RepeatableArea {
 					InstanceID unresolvedTableIID = unresolvedRow.getTableArea().getContent().getInstanceID();
 					// this iid can be null, because the table may be generated
 					// from HTML2Content.
-					// in this case, they are ignored by unresloved row hint.
+					// in this case, they are ignored by unresolved row hint.
 					// Currently, large HTML text is not supported to be split.
 					if (unresolvedTableIID != null) {
 						pageHintGenerator.addUnresolvedRowHint(unresolvedTableIID.toUniqueString(),

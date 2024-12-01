@@ -47,6 +47,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Image;
+import com.lowagie.text.pdf.PdfStructureElement;
 
 /**
  *
@@ -97,7 +98,75 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected transient boolean isInInlineStacking = false;
 
+	/**
+	 * This is true if the area is not split or if it has been split and is the
+	 * first one in the logical split sequence. It is false if the area has been
+	 * split and it is not the first one
+	 *
+	 * This could serve as an indicator for where we have to do something for tagged
+	 * PDF page breaks. (In a tagged PDF, e.g. a multi-page table must still be a
+	 * single Table tag element).
+	 *
+	 * It seems as if this variable is no longer used. I cannot find any place where
+	 * it is actually read, except in a cloning constructor.
+	 *
+	 * So my idea is to logically replace it with a bit more information: What we
+	 * really need is a link from following parts to the first part, or to be more
+	 * precise, to its tag element in the PDF tag tree. So we need the PDF tag
+	 * element object for the first part, and the same object (or the first part)
+	 * for following parts. I think it also makes sense to *count* the splits, thus
+	 * giving us the relative page number of each part.
+	 */
 	protected transient boolean first = true;
+
+	protected transient ContainerArea firstPart = null;
+	protected transient int partNumber = 1;
+	protected transient int lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
+
+	/*
+	 * Track the split. Link to the first part, increment the last part number and
+	 * set the partNumber.
+	 *
+	 * Note: previousPart was just created.
+	 */
+	protected void setPreviousPart(ContainerArea previousPart) {
+		if (partNumber == 1) {
+			previousPart.firstPart = null;
+			firstPart = previousPart;
+		} else {
+			previousPart.firstPart = this.firstPart;
+		}
+		previousPart.partNumber = firstPart.lastPartNumber;
+		firstPart.lastPartNumber++;
+		this.partNumber = firstPart.lastPartNumber;
+	}
+
+	public boolean isFirstPart() {
+		return partNumber == 1;
+	}
+
+	public ContainerArea getFirstPart() {
+		return firstPart;
+	}
+
+	public int getLastPartNumber() {
+		return lastPartNumber;
+	}
+
+	PdfStructureElement structureElement;
+
+	public PdfStructureElement getStructureElement() {
+		return structureElement;
+	}
+
+	public void setStructureElement(PdfStructureElement structureElement) throws BirtException {
+		if (!isFirstPart()) {
+			throw new BirtException("Can only store a PdfStructureElement for the first part of a split Area");
+
+		}
+		this.structureElement = structureElement;
+	}
+
 	protected transient boolean finished = false;
 
 	protected CSSValue pageBreakAfter = null;

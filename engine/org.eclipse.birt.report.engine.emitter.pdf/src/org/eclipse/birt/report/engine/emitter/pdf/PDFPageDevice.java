@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -1199,7 +1200,25 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (currentPage.isInArtifact()) {
 			;
 		} else {
-			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+			if (area instanceof ContainerArea) {
+				final ContainerArea container = (ContainerArea)area;
+				if (container.isFirstPart()) {
+					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+					try {
+						container.setStructureElement(structureCurrentLeaf);
+						// FIXME This is ugly. Should find a better place for tracking this information.
+						// And we only need this for PDF output, but it needs some dozen bytes per
+						// Area...
+					} catch (BirtException be) {
+						be.printStackTrace();
+						structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+					}
+				} else {
+					structureCurrentLeaf = container.getFirstPart().getStructureElement();
+				}
+			} else {
+				structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+			}
 			// FIXME Adding attributes should be made a method of the IArea classes.
 			if ("Figure".equals(tagType)) {
 				// Top-Level figure elements must have a placement attribute.
