@@ -85,7 +85,7 @@ public class PDFPage extends AbstractPage {
 
 	protected PDFPageDevice pageDevice;
 
-	protected boolean inArtifact = false;
+	protected short artifactDepth = 0;
 
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
@@ -237,7 +237,7 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			PdfDictionary dict = new PdfDictionary();
 			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
 
@@ -259,7 +259,7 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
-				if (isTagged && !inArtifact) {
+				if (isTagged && artifactDepth == 0) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -286,7 +286,7 @@ public class PDFPage extends AbstractPage {
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
-				if (isTagged && !inArtifact) {
+				if (isTagged && artifactDepth == 0) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -302,7 +302,7 @@ public class PDFPage extends AbstractPage {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
 
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
 		}
 
@@ -530,7 +530,7 @@ public class PDFPage extends AbstractPage {
 		// start drawing the text content
 		contentByte.beginText();
 
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
@@ -594,7 +594,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
@@ -778,28 +778,23 @@ public class PDFPage extends AbstractPage {
 		if (!isTagged) {
 			return;
 		}
-		if (!inArtifact) {
+		if (artifactDepth == 0) {
 			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
-			inArtifact = true;
 		}
-		else {
-			logger.warning("beginArtifact called inside artifact!");
-		}
+		artifactDepth++;
 	}
 
 	public void endArtifact() {
 		if (!isTagged) {
 			return;
 		}
-		if (inArtifact) {
+		artifactDepth--;
+		if (artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
-			inArtifact = false;
-		} else {
-			logger.warning("endArtifact called outside of an artifact!");
 		}
 	}
 
 	public boolean isInArtifact() {
-		return inArtifact;
+		return artifactDepth > 0;
 	}
 }

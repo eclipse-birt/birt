@@ -1197,6 +1197,8 @@ public class PDFPageDevice implements IPageDevice {
 			currentPage.beginArtifact();
 		} else if ("pageFooter".equals(tagType)) {
 			currentPage.beginArtifact();
+		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
+			currentPage.beginArtifact();
 		} else if (currentPage.isInArtifact()) {
 			;
 		} else {
@@ -1305,13 +1307,15 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * @param tagType
 	 */
-	public void popTag(String tagType) {
+	public void popTag(String tagType, IArea area) {
 		if (!writer.isTagged()) {
 			return;
 		}
 		if ("pageHeader".equals(tagType)) {
 			currentPage.endArtifact();
 		} else if ("pageFooter".equals(tagType)) {
+			currentPage.endArtifact();
+		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
 			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
 			;

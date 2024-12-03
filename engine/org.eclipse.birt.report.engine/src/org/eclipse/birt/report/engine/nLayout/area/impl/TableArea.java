@@ -246,6 +246,8 @@ public class TableArea extends RepeatableArea {
 		StyleDeclaration style = new StyleDeclaration(report.getCSSEngine());
 		style.setProperty(StyleConstants.STYLE_TEXT_ALIGN, CSSValueConstants.CENTER_VALUE);
 		captionLabel.setInlineStyle(style);
+		// FIXME: This does not work as intended:
+		// captionLabel.setTagType("Caption");
 		RowArea captionRow = new RowArea(this, context, row);
 		captionRow.isDummy = true;
 		captionRow.setParent(this);

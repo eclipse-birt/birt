@@ -122,8 +122,25 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	protected transient ContainerArea firstPart = null;
 	protected transient int partNumber = 1;
 	protected transient int lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
+	protected transient boolean artifact = false;
 
-	/*
+	/**
+	 * Mark this area is a paging artifact.
+	 */
+	public void setArtifact() {
+		artifact = true;
+	}
+
+	/**
+	 * Is this a paging artifact or not?
+	 *
+	 * @return true if is a paging artifact.
+	 */
+	public boolean isArtifact() {
+		return artifact;
+	}
+
+	/**
 	 * Track the split. Link to the first part, increment the last part number and
 	 * set the partNumber.
 	 *
@@ -141,24 +158,56 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		this.partNumber = firstPart.lastPartNumber;
 	}
 
+	/**
+	 * @return true if this Area is not split at all or if it is the first part of
+	 *         the split areas sequence.
+	 */
 	public boolean isFirstPart() {
 		return partNumber == 1;
 	}
 
+	/**
+	 * This links to the first part of the split sequence.
+	 *
+	 * @return First area of the split sequence, or null if this is already the
+	 *         first area (or not split at all).
+	 */
 	public ContainerArea getFirstPart() {
 		return firstPart;
 	}
 
+	/**
+	 * Get the number of the last part of the split sequence. This is equal to split
+	 * sequence length.
+	 *
+	 * @return a natural number.
+	 */
 	public int getLastPartNumber() {
 		return lastPartNumber;
 	}
 
 	PdfStructureElement structureElement;
 
+	/**
+	 * The PDF structure element (that is, a node inside the tag structure tree).
+	 *
+	 * This is only defined for the first part of the split sequence.
+	 *
+	 * @return The structure element, or null if not called for the first part of
+	 *         the split sequence.
+	 */
 	public PdfStructureElement getStructureElement() {
 		return structureElement;
 	}
 
+	/**
+	 * Set the PDF structure element (that is, a node inside the tag structure
+	 * tree).
+	 *
+	 * @param structureElement a PDF structure element, derived from the PDF tag
+	 *                         type.
+	 * @throws BirtException if not called for the first part of the split sequence.
+	 */
 	public void setStructureElement(PdfStructureElement structureElement) throws BirtException {
 		if (!isFirstPart()) {
 			throw new BirtException("Can only store a PdfStructureElement for the first part of a split Area");

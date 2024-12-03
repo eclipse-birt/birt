@@ -282,7 +282,7 @@ public class PDFRender extends PageDeviceRender {
 		}
 		super.visitChildren(container);
 		if (tagType != null) {
-			currentPageDevice.popTag(tagType);
+			currentPageDevice.popTag(tagType, container);
 		}
 	}
 
