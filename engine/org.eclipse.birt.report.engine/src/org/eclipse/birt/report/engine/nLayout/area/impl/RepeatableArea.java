@@ -148,7 +148,7 @@ public abstract class RepeatableArea extends BlockContainerArea {
 			Iterator<IArea> i = children.iterator();
 			while (i.hasNext()) {
 				ContainerArea area = (ContainerArea) i.next();
-				if (isInRepeatHeader(area)) {
+				if (isInRepeatHeader(area) || "Caption".equals(area.getTagType())) {
 					area.setArtifact();
 				}
 			}
