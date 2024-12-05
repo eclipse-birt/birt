@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.editors.nl1
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Version: 4.18.0.qualifier
+Bundle-Version: 4.19.0.qualifier
 Fragment-Host: org.eclipse.birt.report.designer.ui.editors;bundle-version="[2.1.0,5.0.0)"
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.editors.nl1

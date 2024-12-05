@@ -416,7 +416,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.18">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>

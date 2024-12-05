@@ -45,8 +45,8 @@
 			}
 		</style>
 	<%
-		String viewerVersion = "4.18.0";
-		String engineVersion = "4.18.0";
+		String viewerVersion = "4.19.0";
+		String engineVersion = "4.19.0";
 
 		String javaVersion	= System.getProperty("java.version");
 		String javaVendor	= System.getProperty("java.vendor");
