@@ -25,15 +25,22 @@
 			}
 
 			.info_large {
-				width:				280px;
+				width:				264px;
 			}
+			
 			.li {
 				padding:			4px;
 			}
 			
 			.li-label {
 				display:			inline-block;
-				min-width:			148px;
+				min-width:			264px;
+			}
+
+			.li-value {
+				display:			inline-block;
+				min-width:			132px;
+				font-size:			12pt;
 			}
 			
 			.installed_message {
@@ -61,11 +68,17 @@
 			ul li, p {
 				font-size:			10.5pt;
 			}
+			
+			.ul-beside {
+				display:			inline-block;
+				margin-left:		32px;
+			}
+
 		</style>
 	<%
-		String viewerVersion = "4.18.0";
-		String engineVersion = "4.18.0";
-		String qualifierVersion = "4.18.0.qualifier";
+		String viewerVersion = "4.19.0";
+		String engineVersion = "4.19.0";
+		String qualifierVersion = "4.19.0.qualifier";
 
 		String javaVersion	= System.getProperty("java.version");
 		String javaVendor	= System.getProperty("java.vendor");
@@ -132,7 +145,18 @@
 						<!-- Page title -->
 						<div class="installed_message"><img src="webcontent/birt/images/BIRT-Icon-large.png" alt="BIRT Logo" style="vertical-align:middle; border:0; margin-right:12px; height:48px;">BIRT viewer has been installed.</div>
 						<!-- Content area -->
-						<div style="background-color:#4682b4; color:white; padding:8px 8px 8px 16px; font-weight:bold;">Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</div>
+						<div style="background-color:#4682b4; color:white; padding:8px 8px 8px 16px; font-weight:bold;">
+							<span style="display:inline-block;">Thank you for your choosing BIRT (Business Intelligence Reporting Tool)</span>
+							<ul class="ul-beside">
+								<li class="li"><span class="li-value"><a  style="text-decoration:none; color:white;" href="https://eclipse-birt.github.io/birt-website/" target="blank">BIRT Homepage</a></span></li>
+							</ul>
+							<ul class="ul-beside">
+								<li class="li"><span class="li-value"><a  style="text-decoration:none; color:white;" href="https://download.eclipse.org/birt/updates/release/latest/" target="blank">BIRT Download Page</a></span></li>
+							</ul>
+							<ul class="ul-beside">
+								<li class="li"><span class="li-value"><a  style="text-decoration:none; color:white;" href="https://github.com/eclipse-birt/birt" target="blank">BIRT Project at GitHub</a></span></li>
+							</ul>
+						</div>
 						<div>
 							<%
 								String javaVersionMessage = javaVersion;
