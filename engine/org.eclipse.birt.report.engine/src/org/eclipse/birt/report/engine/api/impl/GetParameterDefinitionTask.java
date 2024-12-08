@@ -77,6 +77,8 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 
 	protected static Logger log = Logger.getLogger(GetParameterDefinitionTask.class.getName());
 
+	private boolean normalFlowModeEnabled = false;
+
 	/**
 	 * @param engine   reference to the report engine
 	 * @param runnable the runnable report design
@@ -509,8 +511,11 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		DataRequestSession dteSession = getDataSession();
 
 		// Set flow mode to PARAM_EVALUATION_FLOW to exclude filers defined on data set
-		// in data engine execution.
-		dteSession.getDataSessionContext().getDataEngineContext().setFlowMode(DataEngineFlowMode.PARAM_EVALUATION_FLOW);
+		// in data engine execution. Otherwise use normal mode to apply the data set
+		// filters.
+		DataEngineFlowMode flowModeToUse = isNormalFlowModeEnabled() ? DataEngineFlowMode.NORMAL
+				: DataEngineFlowMode.PARAM_EVALUATION_FLOW;
+		dteSession.getDataSessionContext().getDataEngineContext().setFlowMode(flowModeToUse);
 
 		// Define data source and data set
 		dataEngine.defineDataSet(dataSet);
@@ -1192,6 +1197,16 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 		}
 
 		return allParameters;
+	}
+
+	@Override
+	public boolean isNormalFlowModeEnabled() {
+		return normalFlowModeEnabled;
+	}
+
+	@Override
+	public void setNormalFlowModeEnabled(boolean normalFlowModeEnabled) {
+		this.normalFlowModeEnabled = normalFlowModeEnabled;
 	}
 
 	static class ParameterBinding {
