@@ -350,4 +350,16 @@ public class MockGetParameterDefinitionTask implements IGetParameterDefinitionTa
 
 	}
 
+	@Override
+	public boolean isNormalFlowModeEnabled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setNormalFlowModeEnabled(boolean normalFlowModeEnabled) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
