@@ -165,7 +165,9 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 *
 	 * @param normalFlowModeEnabled Set to true to enable the normal flow mode.
 	 */
-	void setNormalFlowModeEnabled(boolean normalFlowModeEnabled);
+	default void setNormalFlowModeEnabled(boolean normalFlowModeEnabled) {
+		// nothing
+	}
 
 	/**
 	 * Is the normal flow mode enabled or not? If enabled, filters can be applied on
@@ -173,6 +175,8 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 *
 	 * @return Returns true if the normal flow mode is enabled. Otherwise false.
 	 */
-	boolean isNormalFlowModeEnabled();
+	default boolean isNormalFlowModeEnabled() {
+		return false; // normal mode is disabled by default
+	}
 
 }
