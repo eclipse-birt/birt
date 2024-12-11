@@ -99,36 +99,44 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	protected transient boolean isInInlineStacking = false;
 
 	/**
-	 * This is true if the area is not split or if it has been split and is the
-	 * first one in the logical split sequence. It is false if the area has been
-	 * split and it is not the first one
-	 *
-	 * This could serve as an indicator for where we have to do something for tagged
-	 * PDF page breaks. (In a tagged PDF, e.g. a multi-page table must still be a
-	 * single Table tag element).
-	 *
 	 * It seems as if this variable is no longer used. I cannot find any place where
 	 * it is actually read, except in a cloning constructor.
-	 *
-	 * So my idea is to logically replace it with a bit more information: What we
-	 * really need is a link from following parts to the first part, or to be more
-	 * precise, to its tag element in the PDF tag tree. So we need the PDF tag
-	 * element object for the first part, and the same object (or the first part)
-	 * for following parts. I think it also makes sense to *count* the splits, thus
-	 * giving us the relative page number of each part.
 	 */
 	protected transient boolean first = true;
 
-	protected transient ContainerArea firstPart = null;
-	protected transient int partNumber = 1;
-	protected transient int lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
-	protected transient boolean artifact = false;
+	/**
+	 * This is needed for split tracking in PDF/UA. For example, if a table is
+	 * longer than one page, it must be a single table in the tag structure
+	 * nevertheless, and the table element on the next page must be marked as an
+	 * artifact.
+	 *
+	 * @since 4.19
+	 *
+	 */
+	public static class SplitTrackingData {
+		public SplitTrackingData() {
+		};
+
+		public ContainerArea firstPart = null;
+		public short partNumber = 1;
+		public short lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
+		public boolean artifact = false;
+	}
+
+	/**
+	 * Split tracking data is only present if a split actually occurs and we
+	 * generate tagged PDF output, to save memory.
+	 */
+	protected transient SplitTrackingData splitTracking = null;
 
 	/**
 	 * Mark this area is a paging artifact.
 	 */
 	public void setArtifact() {
-		artifact = true;
+		if (splitTracking == null) {
+			splitTracking = new SplitTrackingData();
+			splitTracking.artifact = true;
+		}
 	}
 
 	/**
@@ -137,7 +145,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 * @return true if is a paging artifact.
 	 */
 	public boolean isArtifact() {
-		return artifact;
+		if (splitTracking == null) {
+			return false;
+		}
+		return splitTracking.artifact;
 	}
 
 	/**
@@ -145,17 +156,24 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 * set the partNumber.
 	 *
 	 * Note: previousPart was just created.
+	 *
+	 * Some parts of the tracking data are stored in the firstPart, while others are
+	 * stored in the current area.
+	 *
 	 */
 	protected void setPreviousPart(ContainerArea previousPart) {
-		if (partNumber == 1) {
-			previousPart.firstPart = null;
-			firstPart = previousPart;
-		} else {
-			previousPart.firstPart = this.firstPart;
+		if (splitTracking == null) {
+			splitTracking = new SplitTrackingData();
 		}
-		previousPart.partNumber = firstPart.lastPartNumber;
-		firstPart.lastPartNumber++;
-		this.partNumber = firstPart.lastPartNumber;
+		previousPart.splitTracking = new SplitTrackingData();
+		if (splitTracking.partNumber == 1) {
+			splitTracking.firstPart = previousPart;
+		} else {
+			previousPart.splitTracking.firstPart = splitTracking.firstPart;
+		}
+		previousPart.splitTracking.partNumber = splitTracking.firstPart.splitTracking.lastPartNumber;
+		splitTracking.firstPart.splitTracking.lastPartNumber++;
+		splitTracking.partNumber = splitTracking.firstPart.splitTracking.lastPartNumber;
 	}
 
 	/**
@@ -163,7 +181,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 *         the split areas sequence.
 	 */
 	public boolean isFirstPart() {
-		return partNumber == 1;
+		if (splitTracking == null) {
+			return true;
+		}
+		return splitTracking.partNumber == 1;
 	}
 
 	/**
@@ -173,7 +194,10 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 *         first area (or not split at all).
 	 */
 	public ContainerArea getFirstPart() {
-		return firstPart;
+		if (splitTracking == null) {
+			return null;
+		}
+		return splitTracking.firstPart;
 	}
 
 	/**
@@ -182,8 +206,11 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 *
 	 * @return a natural number.
 	 */
-	public int getLastPartNumber() {
-		return lastPartNumber;
+	public short getLastPartNumber() {
+		if (splitTracking == null) {
+			return 1;
+		}
+		return splitTracking.lastPartNumber;
 	}
 
 	PdfStructureElement structureElement;

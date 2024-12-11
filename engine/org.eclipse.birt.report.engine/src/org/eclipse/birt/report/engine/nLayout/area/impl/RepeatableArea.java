@@ -144,7 +144,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 		}
 		SplitResult ret = super.split(height, force);
 		if (ret.status == SplitResult.SPLIT_SUCCEED_WITH_PART) {
-			// This mean
 			Iterator<IArea> i = children.iterator();
 			while (i.hasNext()) {
 				ContainerArea area = (ContainerArea) i.next();
