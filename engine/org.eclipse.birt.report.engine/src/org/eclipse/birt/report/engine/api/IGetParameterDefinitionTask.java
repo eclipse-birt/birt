@@ -159,4 +159,24 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 */
 	Collection getSelectionTreeForCascadingGroup(String parameterGroupName);
 
+	/**
+	 * Enable or disable the normal flow mode. The normal flow mode can be used to
+	 * apply filters on data sets in data engine execution.
+	 *
+	 * @param normalFlowModeEnabled Set to true to enable the normal flow mode.
+	 */
+	default void setNormalFlowModeEnabled(boolean normalFlowModeEnabled) {
+		// nothing
+	}
+
+	/**
+	 * Is the normal flow mode enabled or not? If enabled, filters can be applied on
+	 * data sets.
+	 *
+	 * @return Returns true if the normal flow mode is enabled. Otherwise false.
+	 */
+	default boolean isNormalFlowModeEnabled() {
+		return false; // normal mode is disabled by default
+	}
+
 }
