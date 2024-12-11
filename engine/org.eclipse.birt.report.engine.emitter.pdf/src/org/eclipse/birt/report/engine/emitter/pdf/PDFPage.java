@@ -774,16 +774,25 @@ public class PDFPage extends AbstractPage {
 		return template;
 	}
 
+	/**
+	 * Mark the beginning of an artifact. Artifact content is whatever is not
+	 * essential for the reader, such as page headers and footers, or repeated table
+	 * headers, or graphical elements like lines or boxes which do not really have a
+	 * meaning.
+	 */
 	public void beginArtifact() {
 		if (!isTagged) {
 			return;
 		}
 		if (artifactDepth == 0) {
-			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
+			contentByte.beginMarkedContentSequence(PdfTag.ARTIFACT);
 		}
 		artifactDepth++;
 	}
 
+	/**
+	 * Mark the end of and artifact.
+	 */
 	public void endArtifact() {
 		if (!isTagged) {
 			return;
@@ -794,6 +803,9 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
+	/**
+	 * @return if we are currently in an artifact or not.
+	 */
 	public boolean isInArtifact() {
 		return artifactDepth > 0;
 	}

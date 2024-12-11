@@ -41,7 +41,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -64,8 +63,6 @@ public class PDFRender extends PageDeviceRender {
 	protected PDFPageDevice currentPageDevice = null;
 
 	protected HashSet<String> bookmarks = new HashSet<>();
-
-	private PdfName ARTIFACT = new PdfName("Artifact");
 
 	/**
 	 * Constructor

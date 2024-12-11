@@ -1190,12 +1190,12 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param tagType
 	 */
 	public void pushTag(String tagType, IArea area) {
-		if (!writer.isTagged()) {
+		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
-		if ("pageHeader".equals(tagType)) {
+		if (PdfTag.PAGE_HEADER.equals(tagType)) {
 			currentPage.beginArtifact();
-		} else if ("pageFooter".equals(tagType)) {
+		} else if (PdfTag.PAGE_FOOTER.equals(tagType)) {
 			currentPage.beginArtifact();
 		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
 			currentPage.beginArtifact();
@@ -1222,7 +1222,7 @@ public class PDFPageDevice implements IPageDevice {
 				structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
 			}
 			// FIXME Adding attributes should be made a method of the IArea classes.
-			if ("Figure".equals(tagType)) {
+			if (PdfTag.FIGURE.equals(tagType)) {
 				// Top-Level figure elements must have a placement attribute.
 				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
 					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
@@ -1230,11 +1230,11 @@ public class PDFPageDevice implements IPageDevice {
 						attributes = new PdfDictionary();
 						structureCurrentLeaf.put(PdfName.A, attributes);
 					}
-					attributes.put(new PdfName("Placement"), new PdfName("Block"));
-					attributes.put(PdfName.O, new PdfName("Layout"));
+					attributes.put(new PdfName(PdfAttr.PLACEMENT), new PdfName(PdfAttr.BLOCK));
+					attributes.put(PdfName.O, new PdfName(PdfAttr.LAYOUT));
 				}
 			}
-			if ("TD".equals(tagType) || "TH".equals(tagType)) {
+			if (PdfTag.TD.equals(tagType) || PdfTag.TH.equals(tagType)) {
 				if (area instanceof CellArea) {
 					CellArea cellArea = (CellArea) area;
 					int rowspan = cellArea.getRowSpan();
@@ -1254,16 +1254,16 @@ public class PDFPageDevice implements IPageDevice {
 							structureCurrentLeaf.put(PdfName.A, attributes);
 						}
 						if (rowspan != 1) {
-							attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
+							attributes.put(new PdfName(PdfAttr.ROWSPAN), new PdfNumber(rowspan));
 						}
 						if (colspan != 1) {
-							attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+							attributes.put(new PdfName(PdfAttr.COLSPAN), new PdfNumber(colspan));
 						}
-						if (scope != null && "TH".equals(tagType)) {
-							attributes.put(new PdfName("Scope"), pdfScope((scope)));
+						if (scope != null && PdfTag.TH.equals(tagType)) {
+							attributes.put(new PdfName(PdfAttr.SCOPE), pdfScope((scope)));
 						}
 						if (headers != null) {
-							attributes.put(new PdfName("Headers"), commaSeparatedToPdfByteStringArray((headers)));
+							attributes.put(new PdfName(PdfAttr.HEADERS), commaSeparatedToPdfByteStringArray((headers)));
 						}
 					}
 				}
@@ -1308,7 +1308,7 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param tagType
 	 */
 	public void popTag(String tagType, IArea area) {
-		if (!writer.isTagged()) {
+		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
 		if ("pageHeader".equals(tagType)) {
