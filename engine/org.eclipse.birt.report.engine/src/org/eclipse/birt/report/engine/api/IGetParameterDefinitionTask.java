@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -97,7 +97,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * get parameter definitions.
 	 *
 	 * @param name parameter name
-	 * @return
+	 * @return the parameter definitions
 	 * @deprecated
 	 */
 	@Deprecated
@@ -164,6 +164,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * apply filters on data sets in data engine execution.
 	 *
 	 * @param normalFlowModeEnabled Set to true to enable the normal flow mode.
+	 * @since 4.19
 	 */
 	default void setNormalFlowModeEnabled(boolean normalFlowModeEnabled) {
 		// nothing
@@ -173,7 +174,8 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * Is the normal flow mode enabled or not? If enabled, filters can be applied on
 	 * data sets.
 	 *
-	 * @return Returns true if the normal flow mode is enabled. Otherwise false.
+	 * @return true if the normal flow mode is enabled otherwise false
+	 * @since 4.19
 	 */
 	default boolean isNormalFlowModeEnabled() {
 		return false; // normal mode is disabled by default
