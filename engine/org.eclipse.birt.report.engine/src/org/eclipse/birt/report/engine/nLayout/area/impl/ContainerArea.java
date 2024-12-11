@@ -588,20 +588,31 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	public abstract void initialize() throws BirtException;
 
 	/**
-	 * Split container lines
+	 * Split container lines.
+	 *
+	 * This method need better documentation. What is its purpose?
 	 *
 	 * @param lineCount
-	 * @return Return the splitted results
+	 * @return Return the split result
 	 * @throws BirtException
 	 */
 	public abstract SplitResult splitLines(int lineCount) throws BirtException;
 
 	/**
-	 * Split container lines
+	 * Try to split the container which does not fit into the current page.
 	 *
-	 * @param height
-	 * @param force
-	 * @return Return the splitted results
+	 * If the container is actually split, then the result status is
+	 * SPLIT_SUCCEED_WITH_PART, and the result container is a new container which
+	 * contains the first part of the split sequence, while this container is
+	 * modified in place to remove that first part.
+	 *
+	 * If we think of this containers content as a List (which is isn't), this is
+	 * logically similar to firtPart = this.content.remove(0);
+	 *
+	 * @param height The remaining page height.
+	 * @param force  If this is true, ignore "page-break-inside: avoid" and
+	 *               "page-break-before: avoid" properties.
+	 * @return The split result.
 	 * @throws BirtException
 	 */
 	public abstract SplitResult split(int height, boolean force) throws BirtException;
