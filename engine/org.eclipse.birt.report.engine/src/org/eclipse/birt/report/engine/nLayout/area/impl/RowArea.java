@@ -262,7 +262,11 @@ public class RowArea extends ContainerArea {
 	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
 		if (force) {
-			return _split(height, force);
+			SplitResult ret = _split(height, force);
+			if (ret.getResult() != null) {
+				setPreviousPart(ret.getResult());
+			}
+			return ret;
 		} else if (isPageBreakInsideAvoid()) {
 			if (isPageBreakBeforeAvoid()) {
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
@@ -271,7 +275,11 @@ public class RowArea extends ContainerArea {
 			needResolveBorder = true;
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
-		return _split(height, force);
+		SplitResult ret = _split(height, force);
+		if (ret.getResult() != null) {
+			setPreviousPart(ret.getResult());
+		}
+		return ret;
 	}
 
 	protected void _splitSpanCell(int height, boolean force) throws BirtException {
@@ -468,17 +476,6 @@ public class RowArea extends ContainerArea {
 				((CellArea) cell).updateBackgroundImage();
 			}
 		}
-	}
-
-	@Override
-	public String getTagType() {
-		ContainerArea parent = getParent();
-//		if (parent instanceof TableArea) {
-//			if (((TableArea) parent).isInHeaderBand() && !parent.isFirstPart()) {
-//				return "Artifact";
-//			}
-//		}
-		return super.getTagType();
 	}
 
 }

@@ -233,7 +233,7 @@ public class TableArea extends RepeatableArea {
 		row.setTagType("Caption");
 		row.setParent(content);
 		ICellContent cell = report.createCellContent();
-		cell.setTagType("NonStruct");
+		cell.setTagType(null);
 		cell.setColSpan(getColumnCount());
 		cell.setColumn(0);
 		StyleDeclaration cstyle = new StyleDeclaration(report.getCSSEngine());
@@ -249,7 +249,7 @@ public class TableArea extends RepeatableArea {
 		StyleDeclaration style = new StyleDeclaration(report.getCSSEngine());
 		style.setProperty(StyleConstants.STYLE_TEXT_ALIGN, CSSValueConstants.CENTER_VALUE);
 		captionLabel.setInlineStyle(style);
-		captionLabel.setTagType("NonStruct");
+		captionLabel.setTagType(null);
 		RowArea captionRow = new RowArea(this, context, row);
 		captionRow.isDummy = true;
 		captionRow.setParent(this);
