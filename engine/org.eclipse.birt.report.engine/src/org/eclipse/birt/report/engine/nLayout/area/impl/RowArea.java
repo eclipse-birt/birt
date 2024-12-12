@@ -482,6 +482,7 @@ public class RowArea extends ContainerArea {
 	public String getTagType() {
 		String tagType = super.getTagType();
 		if ("auto".equals(tagType)) {
+			tagType = "TR";
 			if (getTableArea().isGridDesign()) {
 				tagType = null;
 			}
