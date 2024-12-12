@@ -203,4 +203,13 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		this.helpText = helpText;
 	}
 
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if ("auto".equals(tagType)) {
+			tagType = "P";
+		}
+		return tagType;
+	}
+
 }

@@ -30,14 +30,11 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -619,17 +616,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 			DesignElementHandle h = ((DesignElementHandle) (rid.getHandle()));
 			if (h != null) {
 				content.setTagType(h.getTagType());
-				if (content instanceof CellContent) {
-					CellContent cell = (CellContent) content;
-					RowContent row = (RowContent)cell.getParent();
-					if (row.getBand() != null) {
-						int bandType = row.getBand().getBandType();
-						// FIXME This prevents that the report designer can override the tag type.
-						if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
-							content.setTagType("TH");
-						}
-					}
-				}
 			}
 		}
 	}

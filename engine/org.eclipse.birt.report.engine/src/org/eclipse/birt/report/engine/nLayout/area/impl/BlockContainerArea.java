@@ -23,6 +23,7 @@ import java.util.ListIterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -507,6 +508,17 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		} else {
 			setContentHeight(0);
 		}
+	}
+
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if ("auto".equals(tagType)) {
+			if (getContent() instanceof ForeignContent) {
+				tagType = "NonStruct";
+			}
+		}
+		return tagType;
 	}
 
 }

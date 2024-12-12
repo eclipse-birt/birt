@@ -478,4 +478,15 @@ public class RowArea extends ContainerArea {
 		}
 	}
 
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if ("auto".equals(tagType)) {
+			if (getTableArea().isGridDesign()) {
+				tagType = null;
+			}
+		}
+		return tagType;
+	}
+
 }

@@ -633,7 +633,7 @@ public class HTML2Content implements HTMLConstants {
 				if ("".equals(text.getText())) // add default list type when tag <ul> attribute is empty.
 				{
 					text.setText("\u2022"); // the disc type
-					text.setTagType("Lbl"); // TODO HVB check if this is correct
+					text.setTagType("Lbl");
 				}
 			}
 
@@ -684,11 +684,42 @@ public class HTML2Content implements HTMLConstants {
 		} else if (htmlBlockDisplay.contains(lTagName) || htmlInlineDisplay.contains(lTagName)) {
 			IContainerContent container = content.getReportContent().createContainerContent();
 			handleStyle(ele, cssStyles, container);
+			mapHtmlTagToPdfTag(container, lTagName);
 			addChild(content, container);
 			// handleStyle(ele, cssStyles, container);
 			processNodes(ele, cssStyles, container, action, nestCount);
 		} else {
 			processNodes(ele, cssStyles, content, action, nestCount);
+		}
+	}
+
+	// FIXME: The mapping should be configurable.
+	// FIXME: In particular, it should be possible to adjust the heading levels,
+	// (i.e to specify a positive or negative offset, such that H1->H2, H2->H3).
+	static final Map<String, String> HTML_TAG_TO_PDF_TAG = Map.of(
+			"DIV", "DIV",
+			"P", "P",
+			"EM", "Em",
+			"STRONG", "Strong",
+			"H1", "H1",
+			"H2", "H2",
+			"H3", "H3",
+			"H4", "H4"
+		);
+
+	/**
+	 * This sets the container's tag type corresponding to the HTML tag, if
+	 * possible.
+	 *
+	 * @param container
+	 * @param lTagName
+	 */
+	private static void mapHtmlTagToPdfTag(IContainerContent container, String lTagName) {
+		if (lTagName == null)
+			return;
+		String mapped = HTML_TAG_TO_PDF_TAG.get(lTagName.toUpperCase());
+		if (mapped != null) {
+			container.setTagType(mapped);
 		}
 	}
 

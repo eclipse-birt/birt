@@ -1193,6 +1193,10 @@ public class PDFPageDevice implements IPageDevice {
 		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
+		if ("auto".equals(tagType)) {
+			System.err.println("TODO: auto TagType found for area: " + area);
+		}
+
 		if (PdfTag.PAGE_HEADER.equals(tagType)) {
 			currentPage.beginArtifact();
 		} else if (PdfTag.PAGE_FOOTER.equals(tagType)) {
