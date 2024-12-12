@@ -154,7 +154,9 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		y = transformY(y, height);
-		beginArtifact();
+		PdfDictionary properties = new PdfDictionary();
+		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
+		beginArtifact(properties);
 		contentByte.saveState();
 		contentByte.setColorFill(color);
 		contentByte.concatCTM(1, 0, 0, 1, x, y);
@@ -167,7 +169,9 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
-		beginArtifact();
+		PdfDictionary properties = new PdfDictionary();
+		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
+		beginArtifact(properties);
 		contentByte.saveState();
 		clip(x, y, width, height);
 
@@ -239,7 +243,7 @@ public class PDFPage extends AbstractPage {
 
 		if (isTagged && artifactDepth == 0) {
 			PdfDictionary dict = new PdfDictionary();
-			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+			pageDevice.structureCurrentLeaf.put(PdfNames.ALT, new PdfString(helpText));
 
 			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
 			if (attributes == null) {
@@ -372,7 +376,9 @@ public class PDFPage extends AbstractPage {
 		// FIXME: Can we really treat a strike-through line as an artifact?
 		// Probably one should mark the text itself as "deleted" instead, but how can we
 		// do this?
-		beginArtifact();
+		PdfDictionary properties = new PdfDictionary();
+		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
+		beginArtifact(properties);
 		super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
 		endArtifact();
 	}
@@ -785,7 +791,23 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		if (artifactDepth == 0) {
-			contentByte.beginMarkedContentSequence(PdfTag.ARTIFACT);
+			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT);
+		}
+		artifactDepth++;
+	}
+
+	/**
+	 * Mark the beginning of an artifact. Artifact content is whatever is not
+	 * essential for the reader, such as page headers and footers, or repeated table
+	 * headers, or graphical elements like lines or boxes which do not really have a
+	 * meaning.
+	 */
+	public void beginArtifact(PdfDictionary properties) {
+		if (!isTagged) {
+			return;
+		}
+		if (artifactDepth == 0) {
+			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT, properties, false);
 		}
 		artifactDepth++;
 	}

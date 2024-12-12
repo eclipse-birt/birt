@@ -41,6 +41,8 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -295,7 +297,9 @@ public class PDFRender extends PageDeviceRender {
 	public void drawTableBorder(TableArea table) {
 		boolean tagged = currentPageDevice.isTagged();
 		if (tagged) {
-			currentPage.beginArtifact();
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(new PdfName("Type"), new PdfName("Background"));
+			currentPage.beginArtifact(properties);
 		}
 		super.drawTableBorder(table);
 		if (tagged) {

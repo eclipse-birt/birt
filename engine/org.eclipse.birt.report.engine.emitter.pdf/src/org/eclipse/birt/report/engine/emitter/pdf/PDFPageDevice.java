@@ -1198,11 +1198,21 @@ public class PDFPageDevice implements IPageDevice {
 		}
 
 		if (PdfTag.PAGE_HEADER.equals(tagType)) {
-			currentPage.beginArtifact();
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+			properties.put(PdfNames.SUBTYPE, PdfNames.HEADER);
+			currentPage.beginArtifact(properties);
 		} else if (PdfTag.PAGE_FOOTER.equals(tagType)) {
-			currentPage.beginArtifact();
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+			properties.put(PdfNames.SUBTYPE, PdfNames.FOOTER);
+			currentPage.beginArtifact(properties);
 		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
-			currentPage.beginArtifact();
+			PdfDictionary properties = new PdfDictionary();
+			// FIXME: It is not clear if Pagination or Page is the appropriate type for
+			// repeated header rows.
+			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+			currentPage.beginArtifact(properties);
 		} else if (currentPage.isInArtifact()) {
 			;
 		} else {
@@ -1234,8 +1244,8 @@ public class PDFPageDevice implements IPageDevice {
 						attributes = new PdfDictionary();
 						structureCurrentLeaf.put(PdfName.A, attributes);
 					}
-					attributes.put(new PdfName(PdfAttr.PLACEMENT), new PdfName(PdfAttr.BLOCK));
-					attributes.put(PdfName.O, new PdfName(PdfAttr.LAYOUT));
+					attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
+					attributes.put(PdfName.O, PdfNames.LAYOUT);
 				}
 			}
 			if (PdfTag.TD.equals(tagType) || PdfTag.TH.equals(tagType)) {
@@ -1258,16 +1268,16 @@ public class PDFPageDevice implements IPageDevice {
 							structureCurrentLeaf.put(PdfName.A, attributes);
 						}
 						if (rowspan != 1) {
-							attributes.put(new PdfName(PdfAttr.ROWSPAN), new PdfNumber(rowspan));
+							attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
 						}
 						if (colspan != 1) {
-							attributes.put(new PdfName(PdfAttr.COLSPAN), new PdfNumber(colspan));
+							attributes.put(PdfNames.COLSPAN, new PdfNumber(colspan));
 						}
 						if (scope != null && PdfTag.TH.equals(tagType)) {
-							attributes.put(new PdfName(PdfAttr.SCOPE), pdfScope((scope)));
+							attributes.put(PdfNames.SCOPE, pdfScope((scope)));
 						}
 						if (headers != null) {
-							attributes.put(new PdfName(PdfAttr.HEADERS), commaSeparatedToPdfByteStringArray((headers)));
+							attributes.put(PdfNames.HEADERS, commaSeparatedToPdfByteStringArray((headers)));
 						}
 					}
 				}
@@ -1299,10 +1309,10 @@ public class PDFPageDevice implements IPageDevice {
 			return null;
 		}
 		if ("col".equals(scope)) {
-			return new PdfName("Column");
+			return PdfNames.COLUMN;
 		}
 		if ("row".equals(scope)) {
-			return new PdfName("Row");
+			return PdfNames.ROW;
 		}
 		logger.warning("Unsupported scope: " + scope);
 		return null;

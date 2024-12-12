@@ -699,8 +699,6 @@ public class HTML2Content implements HTMLConstants {
 	static final Map<String, String> HTML_TAG_TO_PDF_TAG = Map.of(
 			"DIV", "DIV",
 			"P", "P",
-			"EM", "Em",
-			"STRONG", "Strong",
 			"H1", "H1",
 			"H2", "H2",
 			"H3", "H3",
