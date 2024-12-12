@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -52,6 +52,8 @@ public abstract class HTMLEmitter {
 	protected boolean fixedReport = false;
 	protected boolean enableInlineStyle = false;
 	protected int browserVersion = -1;
+
+	private static String BORDER_STYLE_NONE = "none";
 
 	/**
 	 * The <code>containerDisplayStack</code> that stores the display value of
@@ -243,7 +245,7 @@ public abstract class HTMLEmitter {
 
 	/**
 	 * Build size style string say, "width: 10.0mm;". The min-height should be
-	 * implemented by sepcial way.
+	 * implemented by special way.
 	 *
 	 * @param content The <code>StringBuffer</code> to which the result is output.
 	 * @param name    The property name
@@ -316,11 +318,74 @@ public abstract class HTMLEmitter {
 		if (style == null || style.isEmpty()) {
 			return null;
 		}
+		style = inheritBorderStyle(style, content.getComputedStyle());
+		return style;
+	}
+
+	/**
+	 * The border style needs inherit properties based on the designer configuration
+	 * The style information will be transferred to the style if it set on designer
+	 * but unset at style object
+	 *
+	 */
+	private IStyle inheritBorderStyle(IStyle style, IStyle computedStyle) {
+
+		// properties: border top
+		if (computedStyle.getBorderTopStyle() != null && !computedStyle.getBorderTopStyle().equals(BORDER_STYLE_NONE)) {
+			if (style.getBorderTopColor() == null && computedStyle.getBorderTopColor() != null)
+				style.setBorderTopColor(computedStyle.getBorderTopColor());
+
+			if (style.getBorderTopWidth() == null && computedStyle.getBorderTopWidth() != null)
+				style.setBorderTopWidth(computedStyle.getBorderTopWidth());
+
+			if (style.getBorderTopStyle() == null && computedStyle.getBorderTopStyle() != null)
+				style.setBorderTopStyle(computedStyle.getBorderTopStyle());
+		}
+
+		// properties: border bottom
+		if (computedStyle.getBorderBottomStyle() != null
+				&& !computedStyle.getBorderBottomStyle().equals(BORDER_STYLE_NONE)) {
+			if (style.getBorderBottomColor() == null && computedStyle.getBorderBottomColor() != null)
+				style.setBorderBottomColor(computedStyle.getBorderBottomColor());
+
+			if (style.getBorderBottomWidth() == null && computedStyle.getBorderBottomWidth() != null)
+				style.setBorderBottomWidth(computedStyle.getBorderBottomWidth());
+
+			if (style.getBorderBottomStyle() == null && computedStyle.getBorderBottomStyle() != null)
+				style.setBorderBottomStyle(computedStyle.getBorderBottomStyle());
+		}
+
+		// properties: border left
+		if (computedStyle.getBorderLeftStyle() != null
+				&& !computedStyle.getBorderLeftStyle().equals(BORDER_STYLE_NONE)) {
+			if (style.getBorderLeftColor() == null && computedStyle.getBorderLeftColor() != null)
+				style.setBorderLeftColor(computedStyle.getBorderLeftColor());
+
+			if (style.getBorderLeftWidth() == null && computedStyle.getBorderLeftWidth() != null)
+				style.setBorderLeftWidth(computedStyle.getBorderLeftWidth());
+
+			if (style.getBorderLeftStyle() == null && computedStyle.getBorderLeftStyle() != null)
+				style.setBorderLeftStyle(computedStyle.getBorderLeftStyle());
+		}
+
+		// properties: border right
+		if (computedStyle.getBorderRightStyle() != null
+				&& !computedStyle.getBorderRightStyle().equals(BORDER_STYLE_NONE)) {
+			if (style.getBorderRightColor() == null && computedStyle.getBorderRightColor() != null)
+				style.setBorderRightColor(computedStyle.getBorderRightColor());
+
+			if (style.getBorderRightWidth() == null && computedStyle.getBorderRightWidth() != null)
+				style.setBorderRightWidth(computedStyle.getBorderRightWidth());
+
+			if (style.getBorderRightStyle() == null && computedStyle.getBorderRightStyle() != null)
+				style.setBorderRightStyle(computedStyle.getBorderRightStyle());
+		}
+
 		return style;
 	}
 
 	// FIXME: code review: We should remove all the codes about the x and y.
-	// BIRT doesn't supoort the x and y now.
+	// BIRT doesn't support the x and y now.
 	/**
 	 * Checks whether the element is block, inline or inline-block level. In BIRT,
 	 * the absolute positioning model is used and a box is explicitly offset with
