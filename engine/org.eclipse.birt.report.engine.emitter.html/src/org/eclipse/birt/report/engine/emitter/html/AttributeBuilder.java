@@ -153,7 +153,6 @@ public class AttributeBuilder {
 			String h = backgroundImage.getHeight() + "px";
 			String w = backgroundImage.getWidth() + "px";
 			String propertyValue = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY);
-			String propertyValue2 = style.getPropertyValue(CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY);
 			if (propertyValue != null && (DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(propertyValue)
 					|| DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue))) {
 				if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(propertyValue)) {
