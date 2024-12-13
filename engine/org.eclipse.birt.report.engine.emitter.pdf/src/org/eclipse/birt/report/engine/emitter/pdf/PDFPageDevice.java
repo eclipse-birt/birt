@@ -38,8 +38,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
@@ -1193,95 +1195,160 @@ public class PDFPageDevice implements IPageDevice {
 		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
-		if ("auto".equals(tagType)) {
+		PdfDictionary properties = null;
+		switch (tagType) {
+		case "auto":
 			System.err.println("TODO: auto TagType found for area: " + area);
-		}
-
-		if (PdfTag.PAGE_HEADER.equals(tagType)) {
-			PdfDictionary properties = new PdfDictionary();
+			break;
+		case PdfTag.PAGE_HEADER:
+			properties = new PdfDictionary();
 			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
 			properties.put(PdfNames.SUBTYPE, PdfNames.HEADER);
 			currentPage.beginArtifact(properties);
-		} else if (PdfTag.PAGE_FOOTER.equals(tagType)) {
-			PdfDictionary properties = new PdfDictionary();
+			break;
+		case PdfTag.PAGE_FOOTER:
+			properties = new PdfDictionary();
 			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
 			properties.put(PdfNames.SUBTYPE, PdfNames.FOOTER);
 			currentPage.beginArtifact(properties);
-		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
-			PdfDictionary properties = new PdfDictionary();
-			// FIXME: It is not clear if Pagination or Page is the appropriate type for
-			// repeated header rows.
-			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
-			currentPage.beginArtifact(properties);
-		} else if (currentPage.isInArtifact()) {
-			;
-		} else {
-			if (area instanceof ContainerArea) {
-				final ContainerArea container = (ContainerArea)area;
-				if (container.isFirstPart()) {
-					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
-					try {
-						container.setStructureElement(structureCurrentLeaf);
-						// FIXME This is ugly. Should find a better place for tracking this information.
-						// And we only need this for PDF output, but it needs some dozen bytes per
-						// Area...
-					} catch (BirtException be) {
-						be.printStackTrace();
+			break;
+		default:
+			if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
+				properties = new PdfDictionary();
+				// FIXME: It is not clear if Pagination or Page is the appropriate type for
+				// repeated header rows.
+				properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+				currentPage.beginArtifact(properties);
+			} else if (currentPage.isInArtifact()) {
+				// Do not push a tag inside artifacts.
+				;
+			} else {
+				if (area instanceof ContainerArea) {
+					final ContainerArea container = (ContainerArea) area;
+					if (container.isFirstPart()) {
+						if (PdfTag.TR.equals(tagType)) {
+							pushTableSectionTag(container);
+						}
 						structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+						try {
+							container.setStructureElement(structureCurrentLeaf);
+						} catch (BirtException be) {
+							be.printStackTrace();
+							structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+						}
+					} else {
+						structureCurrentLeaf = container.getFirstPart().getStructureElement();
 					}
 				} else {
-					structureCurrentLeaf = container.getFirstPart().getStructureElement();
+					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
 				}
-			} else {
-				structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
-			}
-			// FIXME Adding attributes should be made a method of the IArea classes.
-			if (PdfTag.FIGURE.equals(tagType)) {
-				// Top-Level figure elements must have a placement attribute.
-				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
-					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
-					if (attributes == null) {
-						attributes = new PdfDictionary();
-						structureCurrentLeaf.put(PdfName.A, attributes);
-					}
-					attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
-					attributes.put(PdfName.O, PdfNames.LAYOUT);
+				if (PdfTag.FIGURE.equals(tagType)) {
+					addFigureAttributes();
+				}
+				if (PdfTag.TD.equals(tagType) || PdfTag.TH.equals(tagType)) {
+					addTableCellAttributes(tagType, area);
 				}
 			}
-			if (PdfTag.TD.equals(tagType) || PdfTag.TH.equals(tagType)) {
-				if (area instanceof CellArea) {
-					CellArea cellArea = (CellArea) area;
-					int rowspan = cellArea.getRowSpan();
-					int colspan = cellArea.getColSpan();
-					String scope = ((CellContent) (cellArea.getContent())).getScope();
-					String bookmark = cellArea.getBookmark();
-					if (bookmark != null) {
-						structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
-					}
+		}
+	}
 
-					String headers = ((CellContent) (cellArea.getContent())).getHeaders();
-					if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
-						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
-						if (attributes == null) {
-							attributes = new PdfDictionary();
-							attributes.put(PdfName.O, PdfName.TABLE);
-							structureCurrentLeaf.put(PdfName.A, attributes);
-						}
-						if (rowspan != 1) {
-							attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
-						}
-						if (colspan != 1) {
-							attributes.put(PdfNames.COLSPAN, new PdfNumber(colspan));
-						}
-						if (scope != null && PdfTag.TH.equals(tagType)) {
-							attributes.put(PdfNames.SCOPE, pdfScope((scope)));
-						}
-						if (headers != null) {
-							attributes.put(PdfNames.HEADERS, commaSeparatedToPdfByteStringArray((headers)));
-						}
-					}
+	/**
+	 * Push a tag for the table section THead, TBody, TFoot when necessary.
+	 *
+	 * When pushing a row, we want to push e.g. a TBody tag if it is the first row
+	 * of the table body. If we are still in the wrong section, we have to pop that
+	 * section tag first before pushing the new section tag.
+	 *
+	 * @param row the RowArea.
+	 */
+	private void pushTableSectionTag(final ContainerArea row) {
+		PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+		RowContent rowContent = (RowContent) row.getContent();
+		PdfName inject = null;
+		boolean pop = false;
+		switch (rowContent.getBand().getBandType()) {
+		case IBandContent.BAND_HEADER:
+			// THead
+			if (!currentTag.equals(PdfName.THEAD)) {
+				inject = PdfName.THEAD;
+			}
+			break;
+		case IBandContent.BAND_FOOTER:
+			// TFoot
+			if (!currentTag.equals(PdfName.TFOOT)) {
+				inject = PdfName.TFOOT;
+				pop = !currentTag.equals(PdfName.TABLE);
+			}
+			break;
+		default:
+			// TBody
+			if (!currentTag.equals(PdfName.TBODY)) {
+				inject = PdfName.TBODY;
+				pop = !currentTag.equals(PdfName.TABLE);
+			}
+		}
+		if (pop) {
+			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+		}
+		if (inject != null) {
+			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, inject);
+		}
+	}
+
+	/**
+	 * Add attributes for a table cell.
+	 *
+	 * They are necessary to connect TD cells with their corresponding TH cells.
+	 */
+	private void addTableCellAttributes(String tagType, IArea area) {
+		if (area instanceof CellArea) {
+			CellArea cellArea = (CellArea) area;
+			int rowspan = cellArea.getRowSpan();
+			int colspan = cellArea.getColSpan();
+			String scope = ((CellContent) (cellArea.getContent())).getScope();
+			String bookmark = cellArea.getBookmark();
+			if (bookmark != null) {
+				structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
+			}
+
+			String headers = ((CellContent) (cellArea.getContent())).getHeaders();
+			if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
+				PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+				if (attributes == null) {
+					attributes = new PdfDictionary();
+					attributes.put(PdfName.O, PdfName.TABLE);
+					structureCurrentLeaf.put(PdfName.A, attributes);
+				}
+				if (rowspan != 1) {
+					attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
+				}
+				if (colspan != 1) {
+					attributes.put(PdfNames.COLSPAN, new PdfNumber(colspan));
+				}
+				if (scope != null && PdfTag.TH.equals(tagType)) {
+					attributes.put(PdfNames.SCOPE, pdfScope((scope)));
+				}
+				if (headers != null) {
+					attributes.put(PdfNames.HEADERS, commaSeparatedToPdfByteStringArray((headers)));
 				}
 			}
+		}
+	}
+
+	/**
+	 * Add necessary attributes for figure tags.
+	 *
+	 * Top-Level figure elements must have a placement attribute.
+	 */
+	private void addFigureAttributes() {
+		if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
+			PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+			if (attributes == null) {
+				attributes = new PdfDictionary();
+				structureCurrentLeaf.put(PdfName.A, attributes);
+			}
+			attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
+			attributes.put(PdfName.O, PdfNames.LAYOUT);
 		}
 	}
 
@@ -1334,6 +1401,13 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (currentPage.isInArtifact()) {
 			;
 		} else {
+			if (PdfTag.TABLE.equals(tagType)) {
+				PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+				if (!currentTag.equals(PdfNames.TR)) {
+					// Pop the THead/TBody/TFoot tag also
+					structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+				}
+			}
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
 	}

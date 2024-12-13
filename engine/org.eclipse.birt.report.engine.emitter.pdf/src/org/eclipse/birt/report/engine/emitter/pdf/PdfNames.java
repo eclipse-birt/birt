@@ -25,5 +25,5 @@ public final class PdfNames {
 	public static final PdfName SCOPE = new PdfName("Scope");
 	public static final PdfName SUBTYPE = PdfName.SUBTYPE;
 	public static final PdfName TYPE = PdfName.TYPE;
-
+	public static final PdfName TR = new PdfName(PdfTag.TR);
 }
