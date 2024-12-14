@@ -1,4 +1,5 @@
 /*******************************************************************************
+ * Copyright (c) 2004, 2024 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -118,6 +119,42 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_ICC_COLOR_RGB = "RGB";
 	/** PDF ICC color profile CMYK */
 	private static final String PDF_ICC_COLOR_CMYK = "CMYK";
+
+	/** PDF tagged element: table header cell */
+	private static final String PDF_TAG_TYPE_TABLE_HEADER_CELL = "TH";
+	/** PDF tagged element: table body cell */
+	private static final String PDF_TAG_TYPE_TABLE_BODY_CELL = "TD";
+	/** PDF tagged element: page header */
+	private static final String PDF_TAG_TYPE_PAGE_HEADER = "pageHeader";
+	/** PDF tagged element: page footer */
+	private static final String PDF_TAG_TYPE_PAGE_FOOTER = "pageFooter";
+	/** PDF tagged element: figure */
+	private static final String PDF_TAG_TYPE_FIGURE = "Figure";
+	/** PDF tagged element: column */
+	private static final String PDF_TAG_TYPE_COLUMN = "col";
+	/** PDF tagged element: column */
+	private static final String PDF_TAG_TYPE_ROW = "row";
+
+	/** PDF tag name: document */
+	private static final String PDF_TAG_NAME_DOCUMENT = "Document";
+	/** PDF tag name: placement */
+	private static final String PDF_TAG_NAME_PLACEMENT = "Placement";
+	/** PDF tag name: block */
+	private static final String PDF_TAG_NAME_BLOCK = "Block";
+	/** PDF tag name: layout */
+	private static final String PDF_TAG_NAME_LAYOUT = "Layout";
+	/** PDF tag name: column */
+	private static final String PDF_TAG_NAME_COLUMN = "Column";
+	/** PDF tag name: row */
+	private static final String PDF_TAG_NAME_ROW = "Row";
+	/** PDF tag name: row span */
+	private static final String PDF_TAG_NAME_ROW_SPAN = "RowSpan";
+	/** PDF tag name: column span */
+	private static final String PDF_TAG_NAME_COL_SPAN = "ColSpan";
+	/** PDF tag name: scope */
+	private static final String PDF_TAG_NAME_SCOPE = "Scope";
+	/** PDF tag name: headers */
+	private static final String PDF_TAG_NAME_HEADERS = "Headers";
 
 	/**
 	 * The pdf Document object created by iText
@@ -389,10 +426,13 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	/**
+	 * Initialize the structure of the current leaf
+	 */
 	public void initStructure() {
 
 		structureRoot = writer.getStructureTreeRoot();
-		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
+		structureDocument = new PdfStructureElement(structureRoot, new PdfName(PDF_TAG_NAME_DOCUMENT));
 		structureCurrentLeaf = structureDocument;
 
 	}
@@ -503,18 +543,17 @@ public class PDFPageDevice implements IPageDevice {
 							// Just graceffully let the user know that there was an error with the variable.
 							try {
 								String fileName = s.trim().replace("\\", "\\\\");
-								;
-									File f = new File(fileName);
-									if (f.exists()) {
-										FileInputStream fis = new FileInputStream(f);
-										pdfs.add(fis);
-									} else {
-										// get the file using context.getResource() for relative or universal paths
-										URL url = context.getResource(fileName);
-										InputStream is = new BufferedInputStream(url.openStream());
-										pdfs.add(is);
+								File f = new File(fileName);
+								if (f.exists()) {
+									FileInputStream fis = new FileInputStream(f);
+									pdfs.add(fis);
+								} else {
+									// get the file using context.getResource() for relative or universal paths
+									URL url = context.getResource(fileName);
+									InputStream is = new BufferedInputStream(url.openStream());
+									pdfs.add(is);
 								}
-								} catch (Exception e) {
+							} catch (Exception e) {
 									logger.log(Level.WARNING, e.getMessage(), e);
 							}
 						}
@@ -904,6 +943,14 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
 
+		/**
+		 * Serial version UID for the serializable class
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Constructor
+		 */
 		public DublinCoreAccessibleSchema() {
 			super();
 		}
@@ -915,6 +962,8 @@ public class PDFPageDevice implements IPageDevice {
 
 		/**
 		 * This is what declares the document to be PDF/UA-1, so it must be called.
+		 *
+		 * @param version version number of tag PDF/UA id
 		 */
 		public void addPdfUAId(int version) {
 			setProperty("pdfuaid:part", String.valueOf(version));
@@ -1146,7 +1195,7 @@ public class PDFPageDevice implements IPageDevice {
 		return this.includeFontCidSet;
 	}
 
-	/*
+	/**
 	 * Read the configuration from the report design if no user property is set
 	 */
 	private Object getReportDesignConfiguration(IReportContent reportContent, String name) {
@@ -1186,22 +1235,25 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * @param tagType
+	 * Tagged PDF, push attributes to the leaf tag structure
+	 *
+	 * @param tagType tag type
+	 * @param area    cell area
 	 */
 	public void pushTag(String tagType, IArea area) {
 		if (!writer.isTagged()) {
 			return;
 		}
-		if ("pageHeader".equals(tagType)) {
+		if (PDF_TAG_TYPE_PAGE_HEADER.equals(tagType)) {
 			currentPage.beginArtifact();
-		} else if ("pageFooter".equals(tagType)) {
+		} else if (PDF_TAG_TYPE_PAGE_FOOTER.equals(tagType)) {
 			currentPage.beginArtifact();
 		} else if (currentPage.isInArtifact()) {
-			;
+			// do nothing
 		} else {
 			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
 			// FIXME Adding attributes should be made a method of the IArea classes.
-			if ("Figure".equals(tagType)) {
+			if (PDF_TAG_TYPE_FIGURE.equals(tagType)) {
 				// Top-Level figure elements must have a placement attribute.
 				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
 					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
@@ -1209,11 +1261,11 @@ public class PDFPageDevice implements IPageDevice {
 						attributes = new PdfDictionary();
 						structureCurrentLeaf.put(PdfName.A, attributes);
 					}
-					attributes.put(new PdfName("Placement"), new PdfName("Block"));
-					attributes.put(PdfName.O, new PdfName("Layout"));
+					attributes.put(new PdfName(PDF_TAG_NAME_PLACEMENT), new PdfName(PDF_TAG_NAME_BLOCK));
+					attributes.put(PdfName.O, new PdfName(PDF_TAG_NAME_LAYOUT));
 				}
 			}
-			if ("TD".equals(tagType) || "TH".equals(tagType)) {
+			if (PDF_TAG_TYPE_TABLE_BODY_CELL.equals(tagType) || PDF_TAG_TYPE_TABLE_HEADER_CELL.equals(tagType)) {
 				if (area instanceof CellArea) {
 					CellArea cellArea = (CellArea) area;
 					int rowspan = cellArea.getRowSpan();
@@ -1233,16 +1285,17 @@ public class PDFPageDevice implements IPageDevice {
 							structureCurrentLeaf.put(PdfName.A, attributes);
 						}
 						if (rowspan != 1) {
-							attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
+							attributes.put(new PdfName(PDF_TAG_NAME_ROW_SPAN), new PdfNumber(rowspan));
 						}
 						if (colspan != 1) {
-							attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
+							attributes.put(new PdfName(PDF_TAG_NAME_COL_SPAN), new PdfNumber(colspan));
 						}
-						if (scope != null && "TH".equals(tagType)) {
-							attributes.put(new PdfName("Scope"), pdfScope((scope)));
+						if (scope != null && PDF_TAG_TYPE_TABLE_HEADER_CELL.equals(tagType)) {
+							attributes.put(new PdfName(PDF_TAG_NAME_SCOPE), pdfScope((scope)));
 						}
 						if (headers != null) {
-							attributes.put(new PdfName("Headers"), commaSeparatedToPdfByteStringArray((headers)));
+							attributes.put(new PdfName(PDF_TAG_NAME_HEADERS),
+									commaSeparatedToPdfByteStringArray((headers)));
 						}
 					}
 				}
@@ -1266,6 +1319,8 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
+	 * Get the DPF name object of scope
+	 *
 	 * @param scope scope as set in the rptdesign file.
 	 * @return scope as needed for PDF "/Table" attribute "/Scope".
 	 */
@@ -1273,36 +1328,40 @@ public class PDFPageDevice implements IPageDevice {
 		if (scope == null) {
 			return null;
 		}
-		if ("col".equals(scope)) {
-			return new PdfName("Column");
+		if (PDF_TAG_TYPE_COLUMN.equals(scope)) {
+			return new PdfName(PDF_TAG_NAME_COLUMN);
 		}
-		if ("row".equals(scope)) {
-			return new PdfName("Row");
+		if (PDF_TAG_TYPE_ROW.equals(scope)) {
+			return new PdfName(PDF_TAG_NAME_ROW);
 		}
 		logger.warning("Unsupported scope: " + scope);
 		return null;
 	}
 
 	/**
-	 * @param tagType
+	 * Pop tag element
+	 *
+	 * @param tagType tag type
 	 */
 	public void popTag(String tagType) {
 		if (!writer.isTagged()) {
 			return;
 		}
-		if ("pageHeader".equals(tagType)) {
+		if (PDF_TAG_TYPE_PAGE_HEADER.equals(tagType)) {
 			currentPage.endArtifact();
-		} else if ("pageFooter".equals(tagType)) {
+		} else if (PDF_TAG_TYPE_PAGE_FOOTER.equals(tagType)) {
 			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
-			;
+			// do nothing
 		} else {
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
 	}
 
 	/**
-	 * Is the writer is expected to create tagged PDF or not?
+	 * Is the writer configured to create tagged PDF
+	 *
+	 * @return true, if the writer create a tagged PDF, false to create a normal PDF
 	 */
 	public boolean isTagged() {
 		return writer.isTagged();

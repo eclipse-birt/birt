@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -33,6 +33,9 @@ public interface HTMLConstants {
 
 	/** property, html-tag: link */
 	String TAG_A = "a";
+
+	/** property, html-attribute: link target */
+	String TAG_A_TARGET_BLANK = "_blank";
 
 	/** property, html-tag: code */
 	String TAG_CODE = "code";

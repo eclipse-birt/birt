@@ -363,6 +363,17 @@ public class HTML2Content implements HTMLConstants {
 
 	private static final String LIST_STYLE_TYPE = "list-style-type";
 
+	/** PDF tagged: element list (ul and ol) */
+	private static final String PDF_TAG_TYPE_LIST = "L";
+	/** PDF tagged: element list (ul and ol) */
+	private static final String PDF_TAG_TYPE_LIST_ITEM = "LI";
+	/** PDF tagged: list item bullet (standard symbol) */
+	private static final String PDF_TAG_TYPE_LIST_ITEM_BULLET = "Lbl";
+	/** PDF tagged: list item bullet "•" (standard symbol) */
+	private static final String PDF_TAG_TYPE_LIST_ITEM_BULLET_CODE = "\u2022";
+	/** PDF tagged: list body */
+	private static final String PDF_TAG_TYPE_LIST_BODY = "LBody";
+
 	static {
 		htmlInlineDisplay.add(TAG_I);
 		htmlInlineDisplay.add(TAG_FONT);
@@ -528,6 +539,12 @@ public class HTML2Content implements HTMLConstants {
 		}
 	}
 
+//	table.setTagType("L");	// list element
+//	row.setTagType("LI");	// list item
+//	text.setText("\u2022"); // disc type
+//	text.setTagType("Lbl"); // list bullet symbol
+//	childCell.setTagType("LBody"); // list body
+
 	static void handleElement(Element ele, Map<Element, StyleProperties> cssStyles, IContent content,
 			ActionContent action, int index, int nestCount) {
 		StyleProperties sp = cssStyles.get(ele);
@@ -566,10 +583,10 @@ public class HTML2Content implements HTMLConstants {
 		{
 			IReportContent report = content.getReportContent();
 			ITableContent table = report.createTableContent();
-			table.setTagType("L");
+			table.setTagType(PDF_TAG_TYPE_LIST);
 			addChild(content, table);
 			Column column1 = new Column(report);
-			column1.setWidth(new DimensionType(2, "em"));
+			column1.setWidth(new DimensionType(2, TAG_EM));
 			table.addColumn(column1);
 			column1 = new Column(report);
 			table.addColumn(column1);
@@ -583,10 +600,9 @@ public class HTML2Content implements HTMLConstants {
 			IRowContent row = report.createRowContent();
 			addChild(content, row);
 			handleStyle(ele, cssStyles, row);
-			row.setTagType("LI");
+			row.setTagType(PDF_TAG_TYPE_LIST_ITEM);
 
-			// fix scr 157259In PDF <li> effect is incorrect when page break
-			// happens.
+			// fix scr 157259In PDF <li> effect is incorrect when page break happens.
 			// add a container to number serial, keep consistent page-break
 
 			StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
@@ -632,8 +648,8 @@ public class HTML2Content implements HTMLConstants {
 				text.setText(frame.paintBullet(index));
 				if ("".equals(text.getText())) // add default list type when tag <ul> attribute is empty.
 				{
-					text.setText("\u2022"); // the disc type
-					text.setTagType("Lbl"); // TODO HVB check if this is correct
+					text.setText(PDF_TAG_TYPE_LIST_ITEM_BULLET_CODE); // the disc type
+					text.setTagType(PDF_TAG_TYPE_LIST_ITEM_BULLET); // TODO HVB check if this is correct
 				}
 			}
 
@@ -642,7 +658,7 @@ public class HTML2Content implements HTMLConstants {
 			childCell.setColumn(1);
 			childCell.setColSpan(1);
 			childCell.setInlineStyle(style);
-			childCell.setTagType("LBody");
+			childCell.setTagType(PDF_TAG_TYPE_LIST_BODY);
 			addChild(row, childCell);
 
 			processNodes(ele, cssStyles, childCell, action, nestCount + 1);
@@ -665,7 +681,7 @@ public class HTML2Content implements HTMLConstants {
 				{
 					text.setText(" "); //$NON-NLS-1$
 				}
-				style.setTextIndent("2em"); //$NON-NLS-1$
+				style.setTextIndent("2" + TAG_EM); //$NON-NLS-1$
 				text.setInlineStyle(style);
 
 				IContainerContent childContainer = content.getReportContent().createContainerContent();
@@ -720,7 +736,7 @@ public class HTML2Content implements HTMLConstants {
 				} else {
 					String target = ele.getAttribute(PROPERTY_TARGET);
 					if ("".equals(target)) {
-						target = "_blank";
+						target = TAG_A_TARGET_BLANK;
 					}
 					action.setHyperlink(href, target);
 				}

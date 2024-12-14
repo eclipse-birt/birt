@@ -259,11 +259,15 @@ public interface ICellContent extends IContainerContent {
 
 	/**
 	 * @return Returns the tagType.
+	 *
+	 * @since 4.18
 	 */
 	public String getTagType();
 
 	/**
 	 * @param tagType The tagType to set.
+	 *
+	 * @since 4.18
 	 */
 	public void setTagType(String tagType);
 
