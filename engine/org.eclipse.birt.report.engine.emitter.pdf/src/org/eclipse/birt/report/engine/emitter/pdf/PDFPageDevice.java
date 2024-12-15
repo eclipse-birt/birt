@@ -283,7 +283,8 @@ public class PDFPageDevice implements IPageDevice {
 					throw new BirtException("The report needs a locale property for PDF/UA!");
 				}
 				Locale locale = new Locale(localeString);
-				String language = locale.toLanguageTag();
+				String language = locale.toString();
+				language = language.replace('_', '-'); // 'de_de' is invalid, it should be 'de_DE'.
 				doc.setDocumentLanguage(language);
 				// In order to declare the main language of the document,
 				// we need to use the extraCatalog. That way we don't need to
@@ -1238,6 +1239,14 @@ public class PDFPageDevice implements IPageDevice {
 						}
 					} else {
 						structureCurrentLeaf = container.getFirstPart().getStructureElement();
+						PdfName restored = structureCurrentLeaf.getAsName(PdfName.S);
+						if (PdfName.TABLE.equals(restored)) {
+							// Also restore the table section, e.g. TBody.
+							PdfArray kids = structureCurrentLeaf.getAsArray(PdfName.K);
+							if (kids != null && kids.size() > 0) {
+								structureCurrentLeaf = (PdfStructureElement) kids.getAsDict(kids.size() - 1);
+							}
+						}
 					}
 				} else {
 					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
