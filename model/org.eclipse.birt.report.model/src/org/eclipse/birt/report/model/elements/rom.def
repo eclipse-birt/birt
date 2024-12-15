@@ -2000,7 +2000,11 @@
       </Property>
 	  <!-- docx (wpml): add empty paragraph at the end of list table cell						-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.addEmptyParagraphForListCell" name="wordAddEmptyParagraphForListCell" runtimeSettable="true" since="4.18" type="boolean" >
-		<Default>false</Default>
+		<Default>true</Default>
+      </Property>
+	  <!-- docx (wpml): add empty paragraph at the end of table cell						-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.addEmptyParagraphForTableCell" name="wordAddEmptyParagraphForTableCell" runtimeSettable="true" since="4.18" type="boolean" >
+		<Default>true</Default>
       </Property>
 	  <!-- docx (wpml): control the usage of layout-grid for (dynamic) text elements			-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.word.wrappedTableForMarginPadding" name="wordWrappedTableForMarginPadding" runtimeSettable="true" since="4.18" type="boolean" >

@@ -346,6 +346,10 @@ public interface IInternalReportDesignModel {
 	 */
 	String WORD_LIST_CELL_ADD_EMPTY_PARA = "wordAddEmptyParagraphForListCell"; //$NON-NLS-1$
 	/**
+	 * Word option, list element, add empty line of cell end
+	 */
+	String WORD_TABLE_CELL_ADD_EMPTY_PARA = "wordAddEmptyParagraphForTableCell"; //$NON-NLS-1$
+	/**
 	 * Word option, text element, use layout-grid for margin & padding
 	 */
 	String WORD_WRAP_TABLE_FOR_MARGIN_PADDING = "wordWrappedTableForMarginPadding"; //$NON-NLS-1$

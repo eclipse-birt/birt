@@ -82,7 +82,7 @@ public class DocEmitter extends ContentEmitterAdapter {
 	 *
 	 * @since 4.18
 	 */
-	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS = "WordEmitter.AddEmptyParagraphForAllCells";
+	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_TABLE_CELL = "WordEmitter.AddEmptyParagraphForTableCell";
 
 	/**
 	 * property: Word emitter, add empty paragraph for the list table cell
@@ -91,7 +91,6 @@ public class DocEmitter extends ContentEmitterAdapter {
 	 * @since 4.18
 	 */
 	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL = "WordEmitter.AddEmptyParagraphForListCell";
-
 
 	private static Logger logger = Logger.getLogger(DocEmitter.class.getName());
 

@@ -246,7 +246,7 @@ public abstract class AbstractEmitterImpl {
 
 	protected boolean wrappedTableHeaderFooter = false;
 	
-	protected boolean addEmptyParagraphToForAllCells = false;
+	protected boolean addEmptyParagraphToTableCell = false;
 
 	protected boolean addEmptyParagraphToListCell = false;
 
@@ -349,12 +349,12 @@ public abstract class AbstractEmitterImpl {
 			wordWriter.setWrappedTableHeaderFooter(wrappedTableHeaderFooter);
 		}
 		// foreign text: add empty paragraph to wrapper table cell
-		if (wrappedTableForMarginPadding || EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_ALL_CELLS, false)) {
-			addEmptyParagraphToForAllCells = true;
+		if (wrappedTableForMarginPadding || EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_TABLE_CELL, true)) {
+			addEmptyParagraphToTableCell = true;
 		}
 		
 		// list: add empty paragraph to list table cell
-		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL, false)) {
+		if (EmitterServices.booleanOption(null, report, DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL, true)) {
 			addEmptyParagraphToListCell = true;
 		}
 	}
@@ -933,7 +933,7 @@ public abstract class AbstractEmitterImpl {
 	public void endCell(ICellContent cell) {
 		adjustInline();
 		context.removeWidth();
-		if (addEmptyParagraphToForAllCells) {
+		if (addEmptyParagraphToTableCell) {
 			wordWriter.endTableCell(context.needEmptyP());
 		} else {
 			boolean needEmptyPara = !cell.hasChildren();

@@ -153,6 +153,7 @@ class DesignWriterImpl extends ModuleWriter {
 
 		property(obj, IInternalReportDesignModel.WORD_COMBINE_MARGIN_PADDING);
 		property(obj, IInternalReportDesignModel.WORD_LIST_CELL_ADD_EMPTY_PARA);
+		property(obj, IInternalReportDesignModel.WORD_TABLE_CELL_ADD_EMPTY_PARA);
 		property(obj, IInternalReportDesignModel.WORD_WRAP_TABLE_FOR_MARGIN_PADDING);
 		property(obj, IInternalReportDesignModel.WORD_WRAP_TABLE_FOR_HEADER_FOOTER);
 

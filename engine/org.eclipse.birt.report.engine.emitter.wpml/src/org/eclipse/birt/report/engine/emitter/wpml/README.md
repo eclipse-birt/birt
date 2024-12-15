@@ -24,18 +24,17 @@ The following list get an overview of all supported user properties, the content
 	Since      	4.18
 	Designer    	4.18
 
-**WordEmitter.AddEmptyParagraphForAllCells**
+**WordEmitter.AddEmptyParagraphTableCell**
 
-	Content   	use empty paragraph for the grid & table cell at the end independent of the cell content (standard up to BIRT 4.17)
+	Content   	use empty paragraph for the grid & table cell at the end independent of the cell content
 	Location  	report
 	Data type 	boolean
 	Values     	true, add empty paragraph at grid & table cell end
 	          	false, avoid empty paragraph at grid & table cell end
-	Default   	false, if wrappedTableForMarginPadding is set to false
-	          	true, if wrappedTableForMarginPadding is set to true
+	Default   	true
 	Relation   	WordEmitter.WrappedTableForMarginPadding
 	Since      	4.18
-	Designer    	4.18
+	Designer    	4.19
 
 **WordEmitter.AddEmptyParagraphForListCell**
 
@@ -44,7 +43,7 @@ The following list get an overview of all supported user properties, the content
 	Data type 	boolean
 	Values     	true, add empty paragraph at list table cell end
 	          	false, avoid empty paragraph at list table cell end
-	Default   	false
+	Default   	true
 	Since      	4.18
 	Designer    	4.18
 
