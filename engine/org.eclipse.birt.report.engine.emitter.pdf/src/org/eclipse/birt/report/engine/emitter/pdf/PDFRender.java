@@ -37,12 +37,18 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.lowagie.text.pdf.PdfAnnotation;
+import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfIndirectReference;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -100,16 +106,42 @@ public class PDFRender extends PageDeviceRender {
 		int imageY = currentY + getY(imageArea);
 		super.visitImage(imageArea);
 		createBookmark(imageArea, imageX, imageY);
-		createHyperlink(imageArea, imageX, imageY);
+		createHyperlink(imageArea, imageX, imageY); // FIXME Add support for tagged hyperlink and refactor, see
+													// visitText.
 	}
 
 	@Override
 	public void visitText(ITextArea textArea) {
+		IHyperlinkAction hlAction = textArea.getAction();
+		if (null != hlAction) {
+			currentPageDevice.pushTag("Link", textArea);
+		}
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
 		int y = currentY + getY(textArea);
 		createBookmark(textArea, x, y);
-		createHyperlink(textArea, x, y);
+		if (null != hlAction) {
+			PdfAnnotation annotation = createHyperlink(textArea, x, y);
+			PdfArray kids;
+			PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
+			if (kido == null) {
+				kids = new PdfArray();
+				currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+			} else {
+				kids = new PdfArray();
+				kids.add(kido);
+				currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+			}
+			PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
+			PdfIndirectReference annotationRef = annotation.getIndirectReference();
+			objr.put(PdfName.OBJ, annotationRef);
+			kids.add(objr);
+			// FIXME: The link should contain a /Content
+			PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
+			int key = currentPageDevice.structureRoot.addExistingObject(linkref);
+			annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+			currentPageDevice.popTag("Link", textArea);
+		}
 	}
 
 	@Override
@@ -158,7 +190,10 @@ public class PDFRender extends PageDeviceRender {
 		int x = currentX + getX(container);
 		int y = currentY + getY(container);
 		createBookmark(container, x, y);
-		createHyperlink(container, x, y);
+		if (!(container instanceof InlineTextArea)) {
+			// A Hyperlink is created for the text already
+			createHyperlink(container, x, y); // FIXME Add support for tagged hyperlink and refactor, see visitText.
+		}
 	}
 
 	/**
@@ -189,7 +224,8 @@ public class PDFRender extends PageDeviceRender {
 		}
 	}
 
-	private void createHyperlink(IArea area, int x, int y) {
+	private PdfAnnotation createHyperlink(IArea area, int x, int y) {
+		PdfAnnotation annotation = null;
 		IHyperlinkAction hlAction = area.getAction();
 		if (null != hlAction) {
 			try {
@@ -211,24 +247,24 @@ public class PDFRender extends PageDeviceRender {
 				} else {
 					link = hlAction.getHyperlink();
 				}
-
 				switch (type) {
 				case IHyperlinkAction.ACTION_BOOKMARK:
-					currentPage.createHyperlink(link, bookmark, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, bookmark, targetWindow, type, x, y, width, height);
 					break;
 
 				case IHyperlinkAction.ACTION_HYPERLINK:
-					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
 					break;
 
 				case IHyperlinkAction.ACTION_DRILLTHROUGH:
-					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
 					break;
 				}
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
+		return annotation;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -53,7 +53,6 @@ import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfRectangle;
 import com.lowagie.text.pdf.PdfString;
@@ -369,18 +368,26 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
+	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
+			Color color, boolean artifact) {
+		if (artifact) {
+			// FIXME: Can we really treat a strike-through line as an artifact?
+			// Probably one should mark the text itself as "deleted" instead, but how can we
+			// do this?
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.LAYOUT);
+			beginArtifact(properties);
+			super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+			endArtifact();
+		} else {
+			super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+		}
+	}
+
 	@Override
 	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
 			Color color) {
-
-		// FIXME: Can we really treat a strike-through line as an artifact?
-		// Probably one should mark the text itself as "deleted" instead, but how can we
-		// do this?
-		PdfDictionary properties = new PdfDictionary();
-		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
-		beginArtifact(properties);
-		super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
-		endArtifact();
+		drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color, true);
 	}
 
 	@Override
@@ -390,6 +397,13 @@ public class PDFPage extends AbstractPage {
 				convertToPoint(textStyle.getLetterSpacing()), convertToPoint(textStyle.getWordSpacing()),
 				textStyle.getColor(), textStyle.getAlign());
 		if (textStyle.isHasHyperlink() && textStyle.isHasHyperlinkDecoration()) {
+			// FIXME ATM, the underline is marked as Artifact (see drawDecorationLine).
+			// I think this is not quite correct and not necessary.
+			// LibreOffice does not do it this way.
+			// The underline decoration should be included in the /Link element.
+			// For this, we probably have to handle the beginMarkedContentSequence and
+			// endMarkedContentSequence stuff right here instead of in drawDecorationLine
+			// and the overloaded drawText methods.
 			FontInfo fontInfo = textStyle.getFontInfo();
 			float lineWidth = fontInfo.getLineWidth();
 			Color color = textStyle.getColor();
@@ -455,17 +469,20 @@ public class PDFPage extends AbstractPage {
 	 * @param width
 	 * @param height
 	 */
-	public void createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
+	public PdfAnnotation createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
 			int width, int height) {
-		createHyperlink(hyperlink, bookmark, targetWindow, type, convertToPoint(x), convertToPoint(y),
+		return createHyperlink(hyperlink, bookmark, targetWindow, type, convertToPoint(x), convertToPoint(y),
 				convertToPoint(width), convertToPoint(height));
 	}
 
-	private void createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, float x, float y,
+	private PdfAnnotation createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, float x,
+			float y,
 			float width, float height) {
 		y = transformY(y, height);
-		writer.addAnnotation(new PdfAnnotation(writer, x, y, x + width, y + height,
-				createPdfAction(hyperlink, bookmark, targetWindow, type)));
+		PdfAnnotation annotation = new PdfAnnotation(writer, x, y, x + width, y + height,
+				createPdfAction(hyperlink, bookmark, targetWindow, type));
+		writer.addAnnotation(annotation);
+		return annotation;
 	}
 
 	/**
@@ -515,14 +532,14 @@ public class PDFPage extends AbstractPage {
 		startY = transformY(startY);
 		endY = transformY(endY);
 		contentByte.concatCTM(1, 0, 0, 1, startX, startY);
+		if (null != color && !Color.BLACK.equals(color)) {
+			contentByte.setColorStroke(color);
+		}
 
 		contentByte.moveTo(0, 0);
 		contentByte.lineTo(endX - startX, endY - startY);
 
 		contentByte.setLineWidth(width);
-		if (null != color && !Color.BLACK.equals(color)) {
-			contentByte.setColorStroke(color);
-		}
 		contentByte.stroke();
 	}
 
@@ -741,16 +758,7 @@ public class PDFPage extends AbstractPage {
 
 	protected void embedFlash(String flashPath, byte[] flashData, float x, float y, float height, float width,
 			String helpText, Map params) throws IOException {
-		y = transformY(y, height);
-		contentByte.saveState();
-		PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer, flashPath, helpText, flashData);
-		PdfAnnotation annot = PdfAnnotation.createScreen(writer, new Rectangle(x, y, x + width, y + height), helpText,
-				fs, "application/x-shockwave-flash", true);
-		writer.addAnnotation(annot);
-		if (helpText != null) {
-			showHelpText(x, y, width, height, helpText);
-		}
-		contentByte.restoreState();
+		throw new IOException("Flash is no longer supported!");
 	}
 
 	protected PdfTemplate generateTemplateFromSVG(byte[] svgData, float height, float width)
@@ -807,7 +815,7 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		if (artifactDepth == 0) {
-			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT, properties, false);
+			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT, properties, true);
 		}
 		artifactDepth++;
 	}
