@@ -1082,8 +1082,12 @@ public class BirtViewerReportService implements IViewerReportService {
 		long id = scalarParamHandle != null ? scalarParamHandle.getID() : 0L;
 		String pattern = scalarParamHandle == null ? "" //$NON-NLS-1$
 				: scalarParamHandle.getPattern();
+		if (pattern == null)
+			pattern = "";
 		String category = scalarParamHandle == null ? "" //$NON-NLS-1$
 				: scalarParamHandle.getCategory();
+		if (category == null)
+			category = "";
 		String displayFormat = engineParam.getDisplayFormat();
 		String displayName = engineParam.getDisplayName();
 		String helpText = engineParam.getHelpText();
