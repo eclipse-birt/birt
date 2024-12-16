@@ -417,6 +417,9 @@ public class EmitterServices {
 		} else if (name.equalsIgnoreCase(DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL)) {
 			value = reportContent.getDesign().getReportDesign().getWordListCellAddEmptyPara();
 
+		} else if (name.equalsIgnoreCase(DocEmitter.WORD_ADD_EMPTY_PARAGRAPH_FOR_TABLE_CELL)) {
+			value = reportContent.getDesign().getReportDesign().getWordTableCellAddEmptyPara();
+
 		}
 		return value;
 	}

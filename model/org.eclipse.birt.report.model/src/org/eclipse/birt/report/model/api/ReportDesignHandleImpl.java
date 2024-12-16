@@ -1913,6 +1913,28 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	}
 
 	/**
+	 * Get the configuration if an empty paragraph is to use at the end of a table
+	 * cell
+	 *
+	 * @return the configuration if an empty paragraph is to use at the end of a
+	 *         table cell
+	 */
+	public boolean getWordTableCellAddEmptyPara() {
+		return getBooleanProperty(WORD_TABLE_CELL_ADD_EMPTY_PARA);
+	}
+
+	/**
+	 * Set the configuration if an empty paragraph is to use at the end of a table
+	 * cell
+	 *
+	 * @param addEmptyPara add empty paragraph
+	 * @throws SemanticException
+	 */
+	public void setWordTableCellAddEmptyPara(boolean addEmptyPara) throws SemanticException {
+		setBooleanProperty(WORD_TABLE_CELL_ADD_EMPTY_PARA, addEmptyPara);
+	}
+
+	/**
 	 * Get the configuration to use a wrapping table for margin and padding
 	 *
 	 * @return the configuration to use a wrapping table for margin and padding

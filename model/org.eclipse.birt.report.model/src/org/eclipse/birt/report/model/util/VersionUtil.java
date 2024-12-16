@@ -116,6 +116,9 @@ public class VersionUtil {
 	/** property: report design file version 3.2.26 */
 	public static final int VERSION_3_2_26 = 3022600;
 
+	/** property: report design file version 3.2.27 */
+	public static final int VERSION_3_2_27 = 3022700;
+
 	/**
 	 *
 	 * @param version
