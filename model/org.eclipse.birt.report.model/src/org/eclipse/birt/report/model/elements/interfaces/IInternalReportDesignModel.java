@@ -339,14 +339,20 @@ public interface IInternalReportDesignModel {
 
 	/**
 	 * Word option, use margin & padding for spacing (only without layout-grid)
+	 *
+	 * @since 4.18
 	 */
 	String WORD_COMBINE_MARGIN_PADDING = "wordCombineMarginPadding"; //$NON-NLS-1$
 	/**
 	 * Word option, list element, add empty line of cell end
+	 *
+	 * @since 4.18
 	 */
 	String WORD_LIST_CELL_ADD_EMPTY_PARA = "wordAddEmptyParagraphForListCell"; //$NON-NLS-1$
 	/**
 	 * Word option, list element, add empty line of cell end
+	 *
+	 * @since 4.19
 	 */
 	String WORD_TABLE_CELL_ADD_EMPTY_PARA = "wordAddEmptyParagraphForTableCell"; //$NON-NLS-1$
 	/**
@@ -355,6 +361,8 @@ public interface IInternalReportDesignModel {
 	String WORD_WRAP_TABLE_FOR_MARGIN_PADDING = "wordWrappedTableForMarginPadding"; //$NON-NLS-1$
 	/**
 	 * Word option, page header & footer, use layout-grid
+	 *
+	 * @since 4.18
 	 */
 	String WORD_WRAP_TABLE_FOR_HEADER_FOOTER = "wordWrappedTableHeaderFooter"; //$NON-NLS-1$
 }

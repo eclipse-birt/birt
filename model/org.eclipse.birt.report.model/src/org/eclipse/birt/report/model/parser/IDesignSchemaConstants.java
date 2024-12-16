@@ -26,12 +26,12 @@ interface IDesignSchemaConstants {
 	/**
 	 * The version of report design.
 	 */
-	String REPORT_VERSION = "3.2.26"; //$NON-NLS-1$
+	String REPORT_VERSION = "3.2.27"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
-	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_26;
+	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_27;
 
 	String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$
