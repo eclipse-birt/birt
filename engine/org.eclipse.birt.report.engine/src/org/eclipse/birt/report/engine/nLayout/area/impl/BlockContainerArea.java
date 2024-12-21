@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -513,9 +514,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 	@Override
 	public String getTagType() {
 		String tagType = super.getTagType();
-		if ("auto".equals(tagType)) {
+		if (PdfTagConstant.AUTO.equals(tagType)) {
 			if (getContent() instanceof ForeignContent) {
-				tagType = "NonStruct";
+				tagType = PdfTagConstant.NONSTRUCT;
 			}
 		}
 		return tagType;

@@ -1192,13 +1192,13 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * @param tagType
 	 */
-	public void pushTag(String tagType, IArea area) {
+	public void openTag(String tagType, IArea area) {
 		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
 		PdfDictionary properties = null;
 		switch (tagType) {
-		case "auto":
+		case PdfTag.AUTO:
 			System.err.println("TODO: auto TagType found for area: " + area);
 			break;
 		case PdfTag.PAGE_HEADER:
@@ -1221,14 +1221,14 @@ public class PDFPageDevice implements IPageDevice {
 				properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
 				currentPage.beginArtifact(properties);
 			} else if (currentPage.isInArtifact()) {
-				// Do not push a tag inside artifacts.
+				// Do not open a tag inside artifacts.
 				;
 			} else {
 				if (area instanceof ContainerArea) {
 					final ContainerArea container = (ContainerArea) area;
 					if (container.isFirstPart()) {
 						if (PdfTag.TR.equals(tagType)) {
-							pushTableSectionTag(container);
+							beforeOpenTableSectionTag(container);
 						}
 						structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
 						try {
@@ -1262,19 +1262,19 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Push a tag for the table section THead, TBody, TFoot when necessary.
+	 * Open a tag for the table section THead, TBody, TFoot when necessary.
 	 *
-	 * When pushing a row, we want to push e.g. a TBody tag if it is the first row
-	 * of the table body. If we are still in the wrong section, we have to pop that
-	 * section tag first before pushing the new section tag.
+	 * When opening a row, we want to open e.g. a TBody tag if it is the first row
+	 * of the table body. If we are still in the wrong section, we have to close
+	 * that section tag first before opening the new section tag.
 	 *
 	 * @param row the RowArea.
 	 */
-	private void pushTableSectionTag(final ContainerArea row) {
+	private void beforeOpenTableSectionTag(final ContainerArea row) {
 		PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
 		RowContent rowContent = (RowContent) row.getContent();
 		PdfName inject = null;
-		boolean pop = false;
+		boolean closeSection = false;
 		switch (rowContent.getBand().getBandType()) {
 		case IBandContent.BAND_HEADER:
 			// THead
@@ -1286,17 +1286,17 @@ public class PDFPageDevice implements IPageDevice {
 			// TFoot
 			if (!currentTag.equals(PdfName.TFOOT)) {
 				inject = PdfName.TFOOT;
-				pop = !currentTag.equals(PdfName.TABLE);
+				closeSection = !currentTag.equals(PdfName.TABLE);
 			}
 			break;
 		default:
 			// TBody
 			if (!currentTag.equals(PdfName.TBODY)) {
 				inject = PdfName.TBODY;
-				pop = !currentTag.equals(PdfName.TABLE);
+				closeSection = !currentTag.equals(PdfName.TABLE);
 			}
 		}
-		if (pop) {
+		if (closeSection) {
 			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 		}
 		if (inject != null) {
@@ -1395,9 +1395,13 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
+	 * This is the opposite of openTag.
+	 *
+	 * Every tag that has been opened must be closed exactly once.
+	 *
 	 * @param tagType
 	 */
-	public void popTag(String tagType, IArea area) {
+	public void closeTag(String tagType, IArea area) {
 		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
@@ -1413,7 +1417,7 @@ public class PDFPageDevice implements IPageDevice {
 			if (PdfTag.TABLE.equals(tagType)) {
 				PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
 				if (!currentTag.equals(PdfNames.TR)) {
-					// Pop the THead/TBody/TFoot tag also
+					// Close the THead/TBody/TFoot tag also
 					structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
 				}
 			}

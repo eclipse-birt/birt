@@ -114,7 +114,7 @@ public class PDFRender extends PageDeviceRender {
 	public void visitText(ITextArea textArea) {
 		IHyperlinkAction hlAction = textArea.getAction();
 		if (null != hlAction) {
-			currentPageDevice.pushTag("Link", textArea);
+			currentPageDevice.openTag(PdfTag.LINK, textArea);
 		}
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
@@ -140,7 +140,7 @@ public class PDFRender extends PageDeviceRender {
 			PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
 			int key = currentPageDevice.structureRoot.addExistingObject(linkref);
 			annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
-			currentPageDevice.popTag("Link", textArea);
+			currentPageDevice.closeTag(PdfTag.LINK, textArea);
 		}
 	}
 
@@ -311,13 +311,13 @@ public class PDFRender extends PageDeviceRender {
 			if (container.getChildrenCount() > 0) {
 				tagType = container.getTagType();
 				if (tagType != null) {
-					currentPageDevice.pushTag(tagType, container);
+					currentPageDevice.openTag(tagType, container);
 				}
 			}
 		}
 		super.visitChildren(container);
 		if (tagType != null) {
-			currentPageDevice.popTag(tagType, container);
+			currentPageDevice.closeTag(tagType, container);
 		}
 	}
 

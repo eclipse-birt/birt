@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -357,8 +358,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 	@Override
 	public String getTagType() {
 		String tagType = super.getTagType();
-		if ("auto".equals(tagType)) {
-			tagType = "TD";
+		if (PdfTagConstant.AUTO.equals(tagType)) {
+			tagType = PdfTagConstant.TD;
 			// In a table row, either TH or TD depending on the row.
 			// In a grid row, no tag at all is used.
 			RowArea row = (RowArea) getParent();
@@ -368,9 +369,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 				RowContent rowContent = (RowContent)row.getContent();
 				if (rowContent.getBand() != null) {
 					int bandType = rowContent.getBand().getBandType();
-					// FIXME This prevents that the report designer can override the tag type.
 					if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
-						tagType = "TH";
+						tagType = PdfTagConstant.TH;
 					}
 				}
 			}

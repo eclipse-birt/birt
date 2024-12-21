@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
 /**
@@ -481,8 +482,8 @@ public class RowArea extends ContainerArea {
 	@Override
 	public String getTagType() {
 		String tagType = super.getTagType();
-		if ("auto".equals(tagType)) {
-			tagType = "TR";
+		if (PdfTagConstant.AUTO.equals(tagType)) {
+			tagType = PdfTagConstant.TR;
 			if (getTableArea().isGridDesign()) {
 				tagType = null;
 			}
