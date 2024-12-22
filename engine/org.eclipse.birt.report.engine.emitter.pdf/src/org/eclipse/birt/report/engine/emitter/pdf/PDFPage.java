@@ -575,6 +575,7 @@ public class PDFPage extends AbstractPage {
 					String defaultFontPdfA = this.pageDevice.getDefaultFontPdfA();
 					if (defaultFontPdfA != null) {
 						font = BaseFont.createFont(defaultFontPdfA, BaseFont.IDENTITY_H, true);
+						font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 					}
 					logger.log(Level.WARNING,
 							"PDF/A: " + fontInfo.getFontName() + " not embeddable, fallback font used.");

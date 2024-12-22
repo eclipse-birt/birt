@@ -110,6 +110,7 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_CONFORMANCE_A1A = "PDF.A1A";
 	/** PDF conformance PDF A1B */
 	private static final String PDF_CONFORMANCE_A1B = "PDF.A1B";
+
 	/** PDF conformance PDF X-1a:2001, unsupported (TODO: CMYK of PDF.X1A2001 */
 
 	private static final String PDF_UA_CONFORMANCE_1 = "PDF.UA-1";
@@ -1035,10 +1036,13 @@ public class PDFPageDevice implements IPageDevice {
 			String fullFileNameIcc = "";
 			if (this.userProperties != null
 					&& userProperties.containsKey(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)) {
-				fullFileNameIcc = userProperties.get(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE).toString().trim();
+				fullFileNameIcc = userProperties.get(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE).toString();
 			} else {
 				fullFileNameIcc = ((String) getReportDesignConfiguration(this.report,
-						PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)).trim();
+						PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE));
+			}
+			if (fullFileNameIcc != null) {
+				fullFileNameIcc = fullFileNameIcc.trim();
 			}
 			if (fullFileNameIcc != null && fullFileNameIcc.length() > 0) {
 				try {

@@ -49,6 +49,7 @@ import com.lowagie.text.pdf.PdfIndirectReference;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfNumber;
 import com.lowagie.text.pdf.PdfObject;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -104,10 +105,16 @@ public class PDFRender extends PageDeviceRender {
 	public void visitImage(IImageArea imageArea) {
 		int imageX = currentX + getX(imageArea);
 		int imageY = currentY + getY(imageArea);
+		IHyperlinkAction hlAction = imageArea.getAction();
+		if (null != hlAction) {
+			currentPageDevice.openTag(PdfTag.LINK, imageArea);
+		}
 		super.visitImage(imageArea);
 		createBookmark(imageArea, imageX, imageY);
-		createHyperlink(imageArea, imageX, imageY); // FIXME Add support for tagged hyperlink and refactor, see
-													// visitText.
+		if (null != hlAction) {
+			createHyperlink(imageArea, imageX, imageY);
+			currentPageDevice.closeTag(PdfTag.LINK, imageArea);
+		}
 	}
 
 	@Override
@@ -121,25 +128,7 @@ public class PDFRender extends PageDeviceRender {
 		int y = currentY + getY(textArea);
 		createBookmark(textArea, x, y);
 		if (null != hlAction) {
-			PdfAnnotation annotation = createHyperlink(textArea, x, y);
-			PdfArray kids;
-			PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
-			if (kido == null) {
-				kids = new PdfArray();
-				currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
-			} else {
-				kids = new PdfArray();
-				kids.add(kido);
-				currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
-			}
-			PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
-			PdfIndirectReference annotationRef = annotation.getIndirectReference();
-			objr.put(PdfName.OBJ, annotationRef);
-			kids.add(objr);
-			// FIXME: The link should contain a /Content
-			PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
-			int key = currentPageDevice.structureRoot.addExistingObject(linkref);
-			annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+			createHyperlink(textArea, x, y);
 			currentPageDevice.closeTag(PdfTag.LINK, textArea);
 		}
 	}
@@ -186,13 +175,21 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	protected void drawContainer(IContainerArea container) {
+		IHyperlinkAction hlAction = container.getAction();
+		if (container instanceof InlineTextArea) {
+			// A Hyperlink is created for the text already, we don't need it here.
+			hlAction = null;
+		}
+		if (null != hlAction) {
+			currentPageDevice.openTag(PdfTag.LINK, container);
+		}
 		super.drawContainer(container);
 		int x = currentX + getX(container);
 		int y = currentY + getY(container);
 		createBookmark(container, x, y);
-		if (!(container instanceof InlineTextArea)) {
-			// A Hyperlink is created for the text already
-			createHyperlink(container, x, y); // FIXME Add support for tagged hyperlink and refactor, see visitText.
+		if (hlAction != null) {
+			createHyperlink(container, x, y);
+			currentPageDevice.closeTag(PdfTag.LINK, container);
 		}
 	}
 
@@ -263,6 +260,36 @@ public class PDFRender extends PageDeviceRender {
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
+			if (currentPageDevice.isTagged()) {
+				PdfArray kids;
+				PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
+				if (kido == null) {
+					kids = new PdfArray();
+					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+				} else {
+					kids = new PdfArray();
+					kids.add(kido);
+					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+				}
+				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
+				PdfIndirectReference annotationRef = annotation.getIndirectReference();
+				objr.put(PdfName.OBJ, annotationRef);
+				kids.add(objr);
+				// The link should contain a /Contents key, because it is required by PDF/UA-1.
+				// However, according to the PDF/UA Best Practice Guide, many or most current
+				// generation AT do not process this key and relaxation of the /Contents key
+				// requirement is anticipated in PDF/UA-2.
+				// If the area has a tooltip, we use that for the /Contents, otherwise we do
+				// not generate the /Contents entry.
+				String tooltip = hlAction.getTooltip();
+				if (tooltip != null) {
+					annotation.put(PdfName.CONTENTS, new PdfString(tooltip));
+				}
+				PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
+				int key = currentPageDevice.structureRoot.addExistingObject(linkref);
+				annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+			}
+
 		}
 		return annotation;
 	}
