@@ -2,12 +2,12 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
     <property name="author">Henning von Bargen</property>
     <property name="createdBy">Eclipse BIRT Designer Version 4.18.0.qualifier Build &lt;@BUILD@></property>
-    <text-property name="title">A table with a group header</text-property>
+    <text-property name="title">Das ist der Titel</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
-    <property name="locale">en_US</property>
+    <property name="locale">de_DE</property>
     <property name="pdfVersion">1.7</property>
     <property name="pdfConformance">PDF.A1A</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
@@ -138,7 +138,7 @@
                     </structure>
                 </list-property>
             </structure>
-            <property name="rowFetchLimit">6</property>
+            <property name="rowFetchLimit">20</property>
             <property name="dataSource">CM</property>
             <list-property name="resultSet">
                 <structure>
@@ -417,7 +417,9 @@ order by productline, productname]]></xml-property>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="type">a4</property>
+            <property name="type">custom</property>
+            <property name="height">60mm</property>
+            <property name="width">210mm</property>
             <page-header>
                 <label id="7">
                     <text-property name="text">Das ist ein Label im Header der MasterPage</text-property>
@@ -426,7 +428,7 @@ order by productline, productname]]></xml-property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="35">
+        <list id="75">
             <property name="dataSet">Products</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -436,96 +438,22 @@ order by productline, productname]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">PRODUCTLINE</property>
-                    <text-property name="displayName">PRODUCTLINE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PRODUCTLINE"]</expression>
+                    <property name="name">Productname</property>
+                    <expression name="expression" type="javascript">row["PRODUCTNAME"]</expression>
                     <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PRODUCTDESCRIPTION</property>
-                    <text-property name="displayName">PRODUCTDESCRIPTION</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PRODUCTDESCRIPTION"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">MSRP</property>
-                    <text-property name="displayName">MSRP</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["MSRP"]</expression>
-                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">9999</property>
-            <column id="59"/>
-            <column id="61"/>
-            <column id="62"/>
             <header>
-                <row id="36">
-                    <property name="backgroundColor">#80FF00</property>
-                    <cell id="37">
-                        <expression name="bookmark" type="javascript">"product"</expression>
-                        <label id="38">
-                            <text-property name="text">Product Name</text-property>
-                        </label>
-                    </cell>
-                    <cell id="41">
-                        <expression name="bookmark" type="javascript">"descr"</expression>
-                        <label id="42">
-                            <text-property name="text">Description</text-property>
-                        </label>
-                    </cell>
-                    <cell id="43">
-                        <expression name="bookmark" type="javascript">"price"</expression>
-                        <label id="44">
-                            <text-property name="text">Price</text-property>
-                        </label>
-                    </cell>
-                </row>
+                <label id="77">
+                    <text-property name="text">Kopfzeile</text-property>
+                </label>
             </header>
-            <group id="63">
-                <property name="groupName">TDProductLine</property>
-                <expression name="keyExpr" type="javascript">row["PRODUCTLINE"]</expression>
-                <expression name="bookmark" type="javascript">row["PRODUCTLINE"]</expression>
-                <structure name="toc">
-                    <expression name="expressionValue" type="javascript">row["PRODUCTLINE"]</expression>
-                </structure>
-                <property name="hideDetail">false</property>
-                <header>
-                    <row id="64">
-                        <cell id="65">
-                            <property name="colSpan">3</property>
-                            <property name="rowSpan">1</property>
-                            <expression name="bookmark" type="javascript">"bm-" + row["PRODUCTLINE"]</expression>
-                            <property name="tagType">TH</property>
-                            <property name="backgroundColor">#80FFFF</property>
-                            <data id="74">
-                                <property name="resultSetColumn">PRODUCTLINE</property>
-                            </data>
-                        </cell>
-                    </row>
-                </header>
-            </group>
             <detail>
-                <row id="45">
-                    <cell id="46">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",product"</expression>
-                        <data id="47">
-                            <property name="resultSetColumn">PRODUCTNAME</property>
-                        </data>
-                    </cell>
-                    <cell id="50">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",descr"</expression>
-                        <data id="51">
-                            <property name="resultSetColumn">PRODUCTDESCRIPTION</property>
-                        </data>
-                    </cell>
-                    <cell id="52">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",price"</expression>
-                        <data id="53">
-                            <property name="resultSetColumn">MSRP</property>
-                        </data>
-                    </cell>
-                </row>
+                <data id="79">
+                    <property name="resultSetColumn">Productname</property>
+                </data>
             </detail>
-        </table>
+        </list>
     </body>
 </report>
