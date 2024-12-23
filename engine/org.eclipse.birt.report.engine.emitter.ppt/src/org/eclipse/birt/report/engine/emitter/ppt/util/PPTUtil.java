@@ -51,18 +51,39 @@ public class PPTUtil {
 	 */
 	public static HyperlinkDef getHyperlink(IArea area, IEmitterServices services, IReportRunnable reportRunnable,
 			IReportContext context) {
+		return getHyperlink(area, services, reportRunnable, context, false);
+	}
+
+	/**
+	 * Get the hyperlink information
+	 *
+	 * @param area                object which contains the link
+	 * @param services            emitter service
+	 * @param reportRunnable      report runnable
+	 * @param context             report context
+	 * @param linkImageToBookmark image line is a bookmark
+	 * @return the hyperlink information
+	 */
+	public static HyperlinkDef getHyperlink(IArea area, IEmitterServices services, IReportRunnable reportRunnable,
+			IReportContext context, boolean linkImageToBookmark) {
 		IHyperlinkAction hyperlinkAction = area.getAction();
 		if (hyperlinkAction != null) {
 			try {
-				if (hyperlinkAction.getType() != IHyperlinkAction.ACTION_BOOKMARK) {
+				// hyperlink definition not for type bookmark,
+				// exceptional bookmark links of images
+				if (hyperlinkAction.getType() != IHyperlinkAction.ACTION_BOOKMARK || linkImageToBookmark) {
 					String link = hyperlinkAction.getHyperlink();
 					String tooltip = hyperlinkAction.getTooltip();
 					Object handler = services.getOption(IRenderOption.ACTION_HANDLER);
 					if (handler instanceof IHTMLActionHandler) {
-						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
-						String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
-						Action action = new Action(systemId, hyperlinkAction);
-						link = actionHandler.getURL(action, context);
+						if (linkImageToBookmark)
+							link = area.getAction().getBookmark();
+						else {
+							IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
+							String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
+							Action action = new Action(systemId, hyperlinkAction);
+							link = actionHandler.getURL(action, context);
+						}
 					}
 					// hyperlink decoration option
 					IStyle computedStyle = null;
@@ -74,7 +95,7 @@ public class PPTUtil {
 									StyleConstants.STYLE_TEXT_HYPERLINK_STYLE) == CSSValueConstants.UNDECORATED);
 						}
 					}
-					return new HyperlinkDef(link, tooltip, hasHyperlinkDecoration);
+					return new HyperlinkDef(link, tooltip, hasHyperlinkDecoration, hyperlinkAction.getType());
 				}
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
@@ -93,6 +114,7 @@ public class PPTUtil {
 		private String link;
 		private String tooltip;
 		private boolean hasHyperlinkDecoration = true;
+		private int hyperlinkActionType = -1;
 
 		/**
 		 * Constructor
@@ -102,9 +124,22 @@ public class PPTUtil {
 		 * @param hasHyperlinkDecoration hyperlink use text decoration
 		 */
 		public HyperlinkDef(String link, String tooltip, boolean hasHyperlinkDecoration) {
+			this(link, tooltip, hasHyperlinkDecoration, -1);
+		}
+
+		/**
+		 * Constructor
+		 *
+		 * @param link                   link URL
+		 * @param tooltip                link tooltip text
+		 * @param hasHyperlinkDecoration hyperlink use text decoration
+		 * @param hyperlinkActionType    action type for the hyperlink
+		 */
+		public HyperlinkDef(String link, String tooltip, boolean hasHyperlinkDecoration, int hyperlinkActionType) {
 			this.link = link;
 			this.tooltip = tooltip;
 			this.hasHyperlinkDecoration = hasHyperlinkDecoration;
+			this.hyperlinkActionType = hyperlinkActionType;
 		}
 
 		/**
@@ -132,6 +167,15 @@ public class PPTUtil {
 		 */
 		public boolean isHasHyperlinkDecoration() {
 			return hasHyperlinkDecoration;
+		}
+
+		/**
+		 * Get the action type of the hyperlink
+		 *
+		 * @return the action type of the hyperlink
+		 */
+		public int getHyperlinkActionType() {
+			return hyperlinkActionType;
 		}
 	}
 }

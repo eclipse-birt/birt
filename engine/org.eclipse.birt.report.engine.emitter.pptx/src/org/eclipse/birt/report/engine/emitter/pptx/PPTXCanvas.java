@@ -24,6 +24,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
@@ -242,7 +243,16 @@ public class PPTXCanvas {
 		writer.attribute("id", shapeId);
 		writer.attribute("name", "Image " + shapeId);
 		writer.attribute("descr", helpText);
-		setHyperlink(link);
+		// handle hyperlink and bookmark of images
+		if (link.getHyperlinkActionType() != IHyperlinkAction.ACTION_BOOKMARK)
+			setHyperlink(link);
+		else {
+			String bmk = link.getLink();
+			if (bmk != null) {
+				String bmk_relationshipid = this.getPresentation().getBookmarkRelationshipid(bmk);
+				setBookmark(bmk_relationshipid);
+			}
+		}
 		writer.closeTag("p:cNvPr");
 		writer.openTag("p:cNvPicPr");
 		writer.openTag("a:picLocks");
