@@ -6,6 +6,7 @@ import com.lowagie.text.pdf.PdfName;
  * @since 4.19
  *
  */
+@SuppressWarnings("javadoc")
 public final class PdfNames {
 
 	public static final PdfName ALT = new PdfName("Alt");

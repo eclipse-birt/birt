@@ -19,7 +19,6 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
@@ -234,14 +232,7 @@ public class PDFPage extends AbstractPage {
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
 
-		// Flash
-		if (FlashFile.isFlash(null, null, extension)) {
-			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
-			return;
-		}
-
 		if (isTagged && artifactDepth == 0) {
-			PdfDictionary dict = new PdfDictionary();
 			pageDevice.structureCurrentLeaf.put(PdfNames.ALT, new PdfString(helpText));
 
 			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
@@ -458,7 +449,7 @@ public class PDFPage extends AbstractPage {
 	}
 
 	/**
-	 * Create the hyperlinks
+	 * Create a hyperlink.
 	 *
 	 * @param hyperlink
 	 * @param bookmark
@@ -468,6 +459,8 @@ public class PDFPage extends AbstractPage {
 	 * @param y
 	 * @param width
 	 * @param height
+	 *
+	 * @return a new PdfAnnotation describing the hyperlink.
 	 */
 	public PdfAnnotation createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
 			int width, int height) {
@@ -596,7 +589,7 @@ public class PDFPage extends AbstractPage {
 		if (wordSpacing != 0) {
 			contentByte.setWordSpacing(wordSpacing);
 		}
-		setTextMatrix(contentByte, fontInfo, textX, transformY(textY, 0, containerHeight));
+		setTextMatrix(contentByte, fontInfo);
 		if ((font.getFontType() == BaseFont.FONT_TYPE_TTUNI) && CSSValueConstants.JUSTIFY_VALUE.equals(align)
 				&& wordSpacing > 0) {
 			int idx = text.indexOf(' ');
@@ -665,7 +658,7 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
-	private void setTextMatrix(PdfContentByte cb, FontInfo fi, float x, float y) {
+	private void setTextMatrix(PdfContentByte cb, FontInfo fi) {
 
 		if (!fi.getSimulation()) {
 			cb.setTextMatrix(0, 0);
@@ -757,11 +750,6 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
-	protected void embedFlash(String flashPath, byte[] flashData, float x, float y, float height, float width,
-			String helpText, Map params) throws IOException {
-		throw new IOException("Flash is no longer supported!");
-	}
-
 	protected PdfTemplate generateTemplateFromSVG(byte[] svgData, float height, float width)
 			throws Exception {
 		return transSVG(null, svgData, height, width);
@@ -810,6 +798,9 @@ public class PDFPage extends AbstractPage {
 	 * essential for the reader, such as page headers and footers, or repeated table
 	 * headers, or graphical elements like lines or boxes which do not really have a
 	 * meaning.
+	 *
+	 * @param properties additional properties which are used in the call to
+	 *                   beginMarkedContentSequence.
 	 */
 	public void beginArtifact(PdfDictionary properties) {
 		if (!isTagged) {

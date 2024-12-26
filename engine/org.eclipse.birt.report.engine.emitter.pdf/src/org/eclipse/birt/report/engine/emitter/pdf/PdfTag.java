@@ -2,8 +2,8 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 
 /**
  * @since 4.19
- *
  */
+@SuppressWarnings("javadoc")
 public final class PdfTag {
 	public static final String AUTO = "auto";
 	public static final String PAGE_HEADER = "pageHeader";

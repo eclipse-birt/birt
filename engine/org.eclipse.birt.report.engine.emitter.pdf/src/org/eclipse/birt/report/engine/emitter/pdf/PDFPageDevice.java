@@ -329,7 +329,7 @@ public class PDFPageDevice implements IPageDevice {
 							// iterate over the list, and create a file inputstream for each file location.
 							for (String s : list.split(",")) {
 								// If there is an exception creating the input stream, don't stop execution.
-								// Just graceffully let the user know that there was an error with the variable.
+								// Just gracefully let the user know that there was an error with the variable.
 								try {
 									String fileName = s.trim().replace("\\", "\\\\");
 									File f = new File(fileName);
@@ -351,15 +351,13 @@ public class PDFPageDevice implements IPageDevice {
 				}
 
 				// The other is a "Named Expression", which is basically a user property that is
-				// the result
-				// of an expression instead of a string literal. This should be set as an
-				// arraylist through
-				// BIRT script
+				// the result of an expression instead of a string literal. This should be set
+				// as an arraylist through BIRT script
 				if (result instanceof ArrayList) {
 					ArrayList<String> pdfList = (ArrayList<String>) result;
 						for (String fileName : pdfList) {
 						// If there is an exception creating the input stream, don't stop execution.
-						// Just graceffully let the user know that there was an error with the variable.
+						// Just gracefully let the user know that there was an error with the variable.
 						fileName = fileName.replace("\\", "\\\\");
 						try {
 							File f = new File(fileName);
@@ -394,6 +392,9 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	/**
+	 * Initialize the attributes for the PDF tag tree structure.
+	 */
 	public void initStructure() {
 
 		structureRoot = writer.getStructureTreeRoot();
@@ -505,19 +506,18 @@ public class PDFPageDevice implements IPageDevice {
 						// iterate over the list, and create a fileinputstream for each file location.
 						for (String s : list.split(",")) {
 							// If there is an exception creating the input stream, don't stop execution.
-							// Just graceffully let the user know that there was an error with the variable.
+							// Just gracefully let the user know that there was an error with the variable.
 							try {
 								String fileName = s.trim().replace("\\", "\\\\");
-								;
-									File f = new File(fileName);
-									if (f.exists()) {
-										FileInputStream fis = new FileInputStream(f);
-										pdfs.add(fis);
-									} else {
-										// get the file using context.getResource() for relative or universal paths
-										URL url = context.getResource(fileName);
-										InputStream is = new BufferedInputStream(url.openStream());
-										pdfs.add(is);
+								File f = new File(fileName);
+								if (f.exists()) {
+									FileInputStream fis = new FileInputStream(f);
+									pdfs.add(fis);
+								} else {
+									// get the file using context.getResource() for relative or universal paths
+									URL url = context.getResource(fileName);
+									InputStream is = new BufferedInputStream(url.openStream());
+									pdfs.add(is);
 								}
 								} catch (Exception e) {
 									logger.log(Level.WARNING, e.getMessage(), e);
@@ -529,14 +529,13 @@ public class PDFPageDevice implements IPageDevice {
 
 			// option 2: "Named Expression", which is basically a user property that is the
 			// result of an expression instead of a string literal. This should be set as an
-			// arraylist through
-			// BIRT script
+			// arraylist through BIRT script
 			if (result instanceof ArrayList) {
 				ArrayList<String> pdfList = (ArrayList<String>) result;
 
 				for (String fileName : pdfList) {
 					// If there is an exception creating the input stream, don't stop execution.
-					// Just graceffully let the user know that there was an error with the variable.
+					// Just gracefully let the user know that there was an error with the variable.
 					fileName = fileName.replace("\\", "\\\\");
 					try {
 						File f = new File(fileName);
@@ -909,6 +908,8 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
 
+		private static final long serialVersionUID = 5500814789307606934L;
+
 		public DublinCoreAccessibleSchema() {
 			super();
 		}
@@ -920,6 +921,8 @@ public class PDFPageDevice implements IPageDevice {
 
 		/**
 		 * This is what declares the document to be PDF/UA-1, so it must be called.
+		 *
+		 * @param version the PDF/UA version. Valid values are 1 or 2.
 		 */
 		public void addPdfUAId(int version) {
 			setProperty("pdfuaid:part", String.valueOf(version));
@@ -1194,7 +1197,22 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * @param tagType
+	 * Open a tag in the tag tree structure.
+	 *
+	 * Basically this means: Create a new child node for structureCurrentLeaf and
+	 * let structureCurrentLeaf point to this child node. But several edge cases
+	 * need special handling. For example, when we are in an artifact, we don't want
+	 * to open a new tag. And containers need special handling for page-breaking to
+	 * avoid the creation of unnecessary tags, e.g. a table that spans two pages
+	 * must still a single table in the tag tree.
+	 *
+	 * If the PDF emitter is not configured to create tagged PDF, then this method
+	 * is a no-op.
+	 *
+	 * @param tagType the tag type. Note that we use some special tag types AUTO,
+	 *                PAGE_HEADER and PAGE_FOOTER which are not actually PDF tags,
+	 *                but plcaeholders which trigger special handling here.
+	 * @param area    the area for which we create a tag.
 	 */
 	public void openTag(String tagType, IArea area) {
 		if (!writer.isTagged() || tagType == null) {
@@ -1226,7 +1244,6 @@ public class PDFPageDevice implements IPageDevice {
 				currentPage.beginArtifact(properties);
 			} else if (currentPage.isInArtifact()) {
 				// Do not open a tag inside artifacts.
-				;
 			} else {
 				if (area instanceof ContainerArea) {
 					final ContainerArea container = (ContainerArea) area;
@@ -1403,7 +1420,12 @@ public class PDFPageDevice implements IPageDevice {
 	 *
 	 * Every tag that has been opened must be closed exactly once.
 	 *
-	 * @param tagType
+	 *
+	 * If the PDF emitter is not configured to create tagged PDF, then this method
+	 * is a no-op.
+	 *
+	 * @param tagType must be the same as in the call to openTag.
+	 * @param area    must be the same as in the call to openTag.
 	 */
 	public void closeTag(String tagType, IArea area) {
 		if (!writer.isTagged() || tagType == null) {
@@ -1416,7 +1438,7 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
 			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
-			;
+			// do nothing
 		} else {
 			if (PdfTag.TABLE.equals(tagType)) {
 				PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
@@ -1430,7 +1452,7 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Is the writer is expected to create tagged PDF or not?
+	 * @return Is the writer is expected to create tagged PDF or not?
 	 */
 	public boolean isTagged() {
 		return writer.isTagged();
