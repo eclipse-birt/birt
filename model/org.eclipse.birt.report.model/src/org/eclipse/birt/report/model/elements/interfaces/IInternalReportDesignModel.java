@@ -315,12 +315,12 @@ public interface IInternalReportDesignModel {
 	/**
 	 * PDF option, prepend document(s)
 	 */
-	String PDF_DOCUMENTS_PREPEND = "pdfDocuemntPrepend"; //$NON-NLS-1$
+	String PDF_DOCUMENTS_PREPEND = "pdfDocumentPrepend"; //$NON-NLS-1$
 
 	/**
 	 * PDF option, append document(s)
 	 */
-	String PDF_DOCUMENTS_APPEND = "pdfDocuemntAppend"; //$NON-NLS-1$
+	String PDF_DOCUMENTS_APPEND = "pdfDocumentAppend"; //$NON-NLS-1$
 
 	/**
 	 * PDF option, PDF/A fallback font
