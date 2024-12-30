@@ -79,6 +79,7 @@ import com.lowagie.text.xml.xmp.LangAlt;
 import com.lowagie.text.xml.xmp.PdfA1Schema;
 import com.lowagie.text.xml.xmp.PdfSchema;
 import com.lowagie.text.xml.xmp.XmpBasicSchema;
+import com.lowagie.text.xml.xmp.XmpSchema;
 import com.lowagie.text.xml.xmp.XmpWriter;
 
 /**
@@ -100,20 +101,36 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_VERSION_1_6 = "1.6";
 	/** PDF version 1.7 */
 	private static final String PDF_VERSION_1_7 = "1.7";
+	/** PDF version 2.0 */
+	private static final String PDF_VERSION_2_0 = "2.0";
 
 	/** PDFX/PDFA conformance */
 	/** PDF conformance PDF Standard */
 	private static final String PDF_CONFORMANCE_STANDARD = "PDF.Standard";
-	/** PDF conformance PDF X-3:2002 */
+	/** PDF conformance PDF/X-3:2002 */
 	private static final String PDF_CONFORMANCE_X32002 = "PDF.X32002";
-	/** PDF conformance PDF A1A */
+	/** PDF conformance PDF/A-1a */
 	private static final String PDF_CONFORMANCE_A1A = "PDF.A1A";
-	/** PDF conformance PDF A1B */
+	/** PDF conformance PDFA-1b */
 	private static final String PDF_CONFORMANCE_A1B = "PDF.A1B";
+	/** PDF conformance PDF/A-2a */
+	private static final String PDF_CONFORMANCE_A2A = "PDF.A2A";
+	/** PDF conformance PDFA-2b */
+	private static final String PDF_CONFORMANCE_A2B = "PDF.A2B";
+	/** PDF conformance PDF/A-3a */
+	private static final String PDF_CONFORMANCE_A3A = "PDF.A3A";
+	/** PDF conformance PDFA-3b */
+	private static final String PDF_CONFORMANCE_A3B = "PDF.A3B";
+	/** PDF conformance PDF/A-3u */
+	private static final String PDF_CONFORMANCE_A3U = "PDF.A3U";
+	/** PDF conformance PDF/A-4f */
+	private static final String PDF_CONFORMANCE_A4F = "PDF.A4F";
 
 	/** PDF conformance PDF X-1a:2001, unsupported (TODO: CMYK of PDF.X1A2001 */
 
 	private static final String PDF_UA_CONFORMANCE_1 = "PDF.UA-1";
+	private static final String PDF_UA_CONFORMANCE_2 = "PDF.UA-2";
+	private static final String PDF_UA_CONFORMANCE_NONE = "none";
 
 	/** PDF ICC color profile */
 	/** PDF ICC default color profile RGB */
@@ -355,7 +372,7 @@ public class PDFPageDevice implements IPageDevice {
 				// as an arraylist through BIRT script
 				if (result instanceof ArrayList) {
 					ArrayList<String> pdfList = (ArrayList<String>) result;
-						for (String fileName : pdfList) {
+					for (String fileName : pdfList) {
 						// If there is an exception creating the input stream, don't stop execution.
 						// Just gracefully let the user know that there was an error with the variable.
 						fileName = fileName.replace("\\", "\\\\");
@@ -519,8 +536,8 @@ public class PDFPageDevice implements IPageDevice {
 									InputStream is = new BufferedInputStream(url.openStream());
 									pdfs.add(is);
 								}
-								} catch (Exception e) {
-									logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (Exception e) {
+								logger.log(Level.WARNING, e.getMessage(), e);
 							}
 						}
 					}
@@ -559,7 +576,7 @@ public class PDFPageDevice implements IPageDevice {
 			}
 		}
 
-		if (this.isPdfAFormat) {
+		if (this.isPdfAFormat || this.isPdfUAFormat) {
 			// PDF/A: set color profile and metadata
 			this.setPdfIccXmp();
 		}
@@ -706,8 +723,10 @@ public class PDFPageDevice implements IPageDevice {
 
 	/**
 	 * Set the PDF version based on the user property
+	 *
+	 * @throws BirtException
 	 */
-	private void setPdfVersion() {
+	private void setPdfVersion() throws BirtException {
 		String userPdfVersion;
 		// PDF version based on user property
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_VERSION)) {
@@ -722,8 +741,9 @@ public class PDFPageDevice implements IPageDevice {
 	 * Set the PDF version
 	 *
 	 * @param version key to set the PDF version (e.g. 1.7)
+	 * @throws BirtException
 	 */
-	public void setPdfVersion(String version) {
+	public void setPdfVersion(String version) throws BirtException {
 		switch (version) {
 		case PDFPageDevice.PDF_VERSION_1_3:
 			this.pdfVersion = PdfWriter.VERSION_1_3;
@@ -740,6 +760,10 @@ public class PDFPageDevice implements IPageDevice {
 		case PDFPageDevice.PDF_VERSION_1_7:
 			this.pdfVersion = PdfWriter.VERSION_1_7;
 			break;
+		case PDFPageDevice.PDF_VERSION_2_0:
+			// this.pdfVersion = PdfWriter.VERSION_2_0;
+			// OpenPDF does not yet support creation of PDF 2.0
+			throw new BirtException("OpenPDF does not yet support creation of PDF 2.0");
 		}
 		// version only set if the PDF version exists
 		if (this.pdfVersion != '0') {
@@ -764,12 +788,17 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Set the PDF version
 	 *
-	 * @param conformance key to set the PDF version (e.g. 1.7)
+	 * @param conformance key to set the PDF/UA version (e.g. PDF/UA-1)
 	 */
 	public void setPdfUAConformance(String conformance) {
 		switch (conformance) {
 		case PDFPageDevice.PDF_UA_CONFORMANCE_1:
 			this.pdfUAConformance = 1;
+			this.isPdfUAFormat = true;
+			writer.setTagged();
+			break;
+		case PDFPageDevice.PDF_UA_CONFORMANCE_2:
+			this.pdfUAConformance = 2;
 			this.isPdfUAFormat = true;
 			writer.setTagged();
 			break;
@@ -785,8 +814,10 @@ public class PDFPageDevice implements IPageDevice {
 		switch (this.pdfUAConformance) {
 		case 1:
 			return PDFPageDevice.PDF_UA_CONFORMANCE_1;
+		case 2:
+			return PDFPageDevice.PDF_UA_CONFORMANCE_2;
 		default:
-			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
+			return PDFPageDevice.PDF_UA_CONFORMANCE_NONE;
 		}
 	}
 
@@ -837,6 +868,30 @@ public class PDFPageDevice implements IPageDevice {
 			this.pdfConformance = PdfWriter.PDFA1B;
 			this.isPdfAFormat = true;
 			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A2A:
+			this.pdfConformance = PDFA2A;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A2B:
+			this.pdfConformance = PDFA2B;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3A:
+			this.pdfConformance = PDFA3A;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3B:
+			this.pdfConformance = PDFA3B;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3U:
+			this.pdfConformance = PDFA3U;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A4F:
+			this.pdfConformance = PDFA4F;
+			this.isPdfAFormat = true;
+			break;
 		default:
 			this.pdfConformance = PdfWriter.PDFXNONE;
 			this.isPdfAFormat = false;
@@ -847,11 +902,11 @@ public class PDFPageDevice implements IPageDevice {
 		// PDFA: overwrite to get the document title independent of the openPDF
 		// issue of PDF/A-conformance
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE)) {
-			this.addPdfADocumentTitle = Boolean.parseBoolean(this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString());
-		} else {
 			this.addPdfADocumentTitle = Boolean
-					.parseBoolean(
-							(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE));
+					.parseBoolean(this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString());
+		} else {
+			this.addPdfADocumentTitle = Boolean.parseBoolean(
+					(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE));
 		}
 	}
 
@@ -862,10 +917,25 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public void setPdfConformance(int pdfConformance) {
 		writer.setPDFXConformance(pdfConformance);
-		if (pdfConformance == PdfWriter.PDFA1A) {
+		switch (pdfConformance) {
+		case PdfWriter.PDFA1A:
+		case PDFA2A:
+		case PDFA3A:
 			writer.setTagged();
+			break;
+		default:
+			// do nothing
 		}
 	}
+
+	// FIXME THis is a workaround for the fact that OpenPDF does not support PDF/A-2
+	// or newer
+	private static final int PDFA2A = 5;
+	private static final int PDFA2B = 6;
+	private static final int PDFA3A = 7;
+	private static final int PDFA3B = 8;
+	private static final int PDFA3U = 9;
+	private static final int PDFA4F = 10;
 
 	/**
 	 * Get the PDF conformance
@@ -880,6 +950,18 @@ public class PDFPageDevice implements IPageDevice {
 			return PDFPageDevice.PDF_CONFORMANCE_A1A;
 		case PdfWriter.PDFA1B:
 			return PDFPageDevice.PDF_CONFORMANCE_A1B;
+		case PDFA2A:
+			return PDFPageDevice.PDF_CONFORMANCE_A2A;
+		case PDFA2B:
+			return PDFPageDevice.PDF_CONFORMANCE_A2B;
+		case PDFA3A:
+			return PDFPageDevice.PDF_CONFORMANCE_A3A;
+		case PDFA3B:
+			return PDFPageDevice.PDF_CONFORMANCE_A3B;
+		case PDFA3U:
+			return PDFPageDevice.PDF_CONFORMANCE_A3U;
+		case PDFA4F:
+			return PDFPageDevice.PDF_CONFORMANCE_A4F;
 		default:
 			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
 		}
@@ -903,20 +985,15 @@ public class PDFPageDevice implements IPageDevice {
 		return this.isPdfUAFormat;
 	}
 
-	/**
-	 * We need to override getXmlns because we have to define the pdfuaid namespace.
-	 */
-	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
+	private static class PDFUASchema extends XmpSchema {
 
-		private static final long serialVersionUID = 5500814789307606934L;
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -6990512370284803429L;
 
-		public DublinCoreAccessibleSchema() {
-			super();
-		}
-
-		@Override
-		public String getXmlns() {
-			return super.getXmlns() + " xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"";
+		public PDFUASchema() {
+			super("xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"");
 		}
 
 		/**
@@ -928,6 +1005,47 @@ public class PDFPageDevice implements IPageDevice {
 			setProperty("pdfuaid:part", String.valueOf(version));
 		}
 
+	}
+
+	private static class PDFAExtensionSchema extends XmpSchema {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 6654512771721220538L;
+
+		public PDFAExtensionSchema() {
+			super("xmlns:pdfaExtension=\"http://www.aiim.org/pdfa/ns/extension/\" xmlns:pdfaProperty=\"http://www.aiim.org/pdfa/ns/property#\" xmlns:pdfaSchema=\"http://www.aiim.org/pdfa/ns/schema#\"");
+		}
+
+		public String toString() {
+			return "            <pdfaExtension:schemas>\r\n" + "                <rdf:Bag>\r\n"
+					+ "                    <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                        <pdfaSchema:namespaceURI>http://www.aiim.org/pdfua/ns/id/</pdfaSchema:namespaceURI>\r\n"
+					+ "                        <pdfaSchema:prefix>pdfuaid</pdfaSchema:prefix>\r\n"
+					+ "                        <pdfaSchema:schema>PDF/UA identification schema</pdfaSchema:schema>\r\n"
+					+ "                        <pdfaSchema:property>\r\n" + "                            <rdf:Seq>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA version identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>part</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Integer</pdfaProperty:valueType>\r\n"
+					+ "                                </rdf:li>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA amendment identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>amd</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Text</pdfaProperty:valueType>\r\n"
+					+ "\r\n" + "                                </rdf:li>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA corrigenda identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>corr</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Text</pdfaProperty:valueType>\r\n"
+					+ "                                </rdf:li>\r\n" + "                            </rdf:Seq>\r\n"
+					+ "                        </pdfaSchema:property>\r\n" + "                    </rdf:li>\r\n"
+					+ "                </rdf:Bag>\r\n" + "            </pdfaExtension:schemas>\r\n" + "";
+		}
 	}
 
 	/**
@@ -947,7 +1065,7 @@ public class PDFPageDevice implements IPageDevice {
 			// Not tested.
 			int PdfXConformance = writer.getPDFXConformance();
 			XmpWriter xmp = new XmpWriter(baos, "UTF-8", 4);
-			DublinCoreAccessibleSchema dc = new DublinCoreAccessibleSchema();
+			DublinCoreSchema dc = new DublinCoreSchema();
 			PdfSchema p = new PdfSchema();
 			XmpBasicSchema basic = new XmpBasicSchema();
 
@@ -990,10 +1108,6 @@ public class PDFPageDevice implements IPageDevice {
 					basic.addModDate(((PdfDate) obj).getW3CDate());
 				}
 			}
-			if (this.isPDFUAFormat()) {
-				// Declare the document to be PDF/UA conformant.
-				dc.addPdfUAId(this.pdfUAConformance);
-			}
 
 			if (dc.size() > 0)
 				xmp.addRdfDescription(dc);
@@ -1002,13 +1116,56 @@ public class PDFPageDevice implements IPageDevice {
 			if (basic.size() > 0)
 				xmp.addRdfDescription(basic);
 
-			// Declare the document to be PDF/A conformant, if requested by the developer.
-			if (PdfXConformance == PdfWriter.PDFA1A || PdfXConformance == PdfWriter.PDFA1B) {
+			if (this.isPDFUAFormat()) {
+				// Declare the document to be PDF/UA conforming.
+				PDFUASchema ua = new PDFUASchema();
+				ua.addPdfUAId(this.pdfUAConformance);
+				xmp.addRdfDescription(ua);
+			}
+
+			// Declare the document to be PDF/A conforming, if requested by the developer.
+			if (isPdfAFormat) {
+
+				// If the document is also PDF/UA conforming, we need to add a description of
+				// that schema as an PDF/A extension.
+				if (isPDFUAFormat()) {
+					PDFAExtensionSchema pdfaext = new PDFAExtensionSchema();
+					xmp.addRdfDescription(pdfaext);
+				}
+
 				PdfA1Schema a1 = new PdfA1Schema();
-				if (PdfXConformance == PdfWriter.PDFA1A)
+				switch (PdfXConformance) {
+				case PdfWriter.PDFA1A:
+				case PdfWriter.PDFA1B:
+					a1.addPart("1");
+					break;
+				case PDFA2A:
+				case PDFA2B:
+					a1.addPart("2");
+					break;
+				case PDFA3A:
+				case PDFA3B:
+				case PDFA3U:
+					a1.addPart("3");
+					break;
+				case PDFA4F:
+					a1.addPart("4");
+					break;
+				}
+				switch (PdfXConformance) {
+				case PdfWriter.PDFA1A:
+				case PDFA2A:
+				case PDFA3A:
 					a1.addConformance("A");
-				else
+					break;
+				case PdfWriter.PDFA1B:
+				case PDFA2B:
+				case PDFA3B:
 					a1.addConformance("B");
+					break;
+				case PDFA4F:
+					a1.addConformance("F");
+				}
 				xmp.addRdfDescription(a1);
 			}
 

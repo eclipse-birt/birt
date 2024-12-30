@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
     <property name="author">Henning von Bargen</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 4.17.0.qualifier Build &lt;@BUILD@></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.18.0.qualifier Build &lt;@BUILD@></property>
     <text-property name="title">Das ist der Titel</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -9,8 +9,9 @@
     <property name="imageDPI">96</property>
     <property name="locale">de_DE</property>
     <property name="pdfVersion">1.7</property>
-    <property name="pdfConformance">PDF.A1A</property>
+    <property name="pdfConformance">PDF.A3A</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
+    <property name="pdfaFontCidEmbed">false</property>
     <property name="pdfaDocumentTitleEmbed">true</property>
     <styles>
         <style name="report" id="6">

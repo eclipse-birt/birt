@@ -695,16 +695,24 @@
   	<Choice displayNameID="Choices.emitterPdfVersion.1.5" name="1.5"/>
   	<Choice displayNameID="Choices.emitterPdfVersion.1.6" name="1.6"/>
   	<Choice displayNameID="Choices.emitterPdfVersion.1.7" name="1.7"/>
+  	<Choice displayNameID="Choices.emitterPdfVersion.2.0" name="2.0"/>
   </ChoiceType>
   <ChoiceType name="emitterPdfConformance">
   	<Choice displayNameID="Choices.emitterPdfConformance.X32002" name="PDF.X32002"/>
   	<Choice displayNameID="Choices.emitterPdfConformance.A1A" name="PDF.A1A"/>
   	<Choice displayNameID="Choices.emitterPdfConformance.A1B" name="PDF.A1B"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A2A" name="PDF.A2A"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A2B" name="PDF.A2B"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A3A" name="PDF.A3A"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A3B" name="PDF.A3B"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A3U" name="PDF.A3U"/>
+  	<Choice displayNameID="Choices.emitterPdfConformance.A4F" name="PDF.A4F"/>
   	<Choice displayNameID="Choices.emitterPdfConformance.Standard" name="PDF.Standard"/>
   </ChoiceType>
   <ChoiceType name="emitterPdfUAConformance">
-  	<Choice displayNameID="Choices.emitterPdfConformance.UA1" name="PDF.UA-1"/>
-  	<Choice displayNameID="Choices.emitterPdfConformance.Standard" name="PDF.Standard"/>
+  	<Choice displayNameID="Choices.emitterPdfUAConformance.UA1" name="PDF.UA-1"/>
+  	<Choice displayNameID="Choices.emitterPdfUAConformance.UA2" name="PDF.UA-2"/>
+  	<Choice displayNameID="Choices.emitterPdfUAConformance.none" name="none"/>
   </ChoiceType>
   <ChoiceType name="emitterPdfIccColorType">
   	<Choice displayNameID="Choices.emitterPdfIccColorType.rgb" name="RGB"/>
@@ -1919,7 +1927,7 @@
         <Default>PDF.Standard</Default>
       </Property>
       <Property detailType="emitterPdfUAConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.ua.conformance" name="pdfUAConformance" runtimeSettable="false" since="4.18" type="choice" >
-        <Default>PDF.Standard</Default>
+        <Default>none</Default>
       </Property>
       <Property detailType="emitterPdfIccColorType" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.icc.color.type" name="pdfIccColorType" runtimeSettable="false" since="4.17" type="choice" >
 		<Default>RGB</Default>
