@@ -1926,9 +1926,9 @@
       </Property>
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.icc.profile.external" name="pdfIccProfileExternal" runtimeSettable="false" since="4.17" type="string" >
       </Property>
-      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.prepend" name="pdfDocuemntPrepend" runtimeSettable="false" since="4.17" type="string" >
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.prepend" name="pdfDocumentPrepend" runtimeSettable="false" since="4.17" type="string" >
       </Property>
-      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.append" name="pdfDocuemntAppend" runtimeSettable="false" since="4.17" type="string" >
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.document.append" name="pdfDocumentAppend" runtimeSettable="false" since="4.17" type="string" >
       </Property>
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdfa.font.fallback" name="pdfaFontFallback" runtimeSettable="false" since="4.17" type="string" >
       </Property>
