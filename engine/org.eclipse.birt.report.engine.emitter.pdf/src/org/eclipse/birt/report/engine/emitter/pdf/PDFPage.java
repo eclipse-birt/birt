@@ -19,7 +19,6 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
@@ -53,7 +51,6 @@ import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfRectangle;
 import com.lowagie.text.pdf.PdfString;
@@ -85,7 +82,7 @@ public class PDFPage extends AbstractPage {
 
 	protected PDFPageDevice pageDevice;
 
-	protected boolean inArtifact = false;
+	protected short artifactDepth = 0;
 
 	/**
 	 * font size must greater than minimum font . if not,illegalArgumentException
@@ -154,7 +151,9 @@ public class PDFPage extends AbstractPage {
 			return;
 		}
 		y = transformY(y, height);
-		beginArtifact();
+		PdfDictionary properties = new PdfDictionary();
+		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
+		beginArtifact(properties);
 		contentByte.saveState();
 		contentByte.setColorFill(color);
 		contentByte.concatCTM(1, 0, 0, 1, x, y);
@@ -167,7 +166,9 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
-		beginArtifact();
+		PdfDictionary properties = new PdfDictionary();
+		properties.put(PdfNames.TYPE, PdfNames.BACKGROUND);
+		beginArtifact(properties);
 		contentByte.saveState();
 		clip(x, y, width, height);
 
@@ -231,15 +232,8 @@ public class PDFPage extends AbstractPage {
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
 
-		// Flash
-		if (FlashFile.isFlash(null, null, extension)) {
-			embedFlash(null, imageData, imageX, imageY, height, width, helpText, params);
-			return;
-		}
-
-		if (isTagged && !inArtifact) {
-			PdfDictionary dict = new PdfDictionary();
-			pageDevice.structureCurrentLeaf.put(new PdfName("Alt"), new PdfString(helpText));
+		if (isTagged && artifactDepth == 0) {
+			pageDevice.structureCurrentLeaf.put(PdfNames.ALT, new PdfString(helpText));
 
 			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
 			if (attributes == null) {
@@ -259,7 +253,7 @@ public class PDFPage extends AbstractPage {
 			}
 			if (template != null) {
 				drawImage(template, imageX, imageY, height, width, helpText);
-				if (isTagged && !inArtifact) {
+				if (isTagged && artifactDepth == 0) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -286,7 +280,7 @@ public class PDFPage extends AbstractPage {
 			if (imageId == null) {
 				// image without imageId, not able to cache.
 				drawImage(image, imageX, imageY, height, width, helpText);
-				if (isTagged && !inArtifact) {
+				if (isTagged && artifactDepth == 0) {
 					contentByte.endMarkedContentSequence();
 				}
 				return;
@@ -302,7 +296,7 @@ public class PDFPage extends AbstractPage {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
 
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
 		}
 
@@ -365,16 +359,26 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
+	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
+			Color color, boolean artifact) {
+		if (artifact) {
+			// FIXME: Can we really treat a strike-through line as an artifact?
+			// Probably one should mark the text itself as "deleted" instead, but how can we
+			// do this?
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.LAYOUT);
+			beginArtifact(properties);
+			super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+			endArtifact();
+		} else {
+			super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
+		}
+	}
+
 	@Override
 	protected void drawDecorationLine(float textX, float textY, float width, float lineWidth, float verticalOffset,
 			Color color) {
-
-		// FIXME: Can we really treat a strike-through line as an artifact?
-		// Probably one should mark the text itself as "deleted" instead, but how can we
-		// do this?
-		beginArtifact();
-		super.drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color);
-		endArtifact();
+		drawDecorationLine(textX, textY, width, lineWidth, verticalOffset, color, true);
 	}
 
 	@Override
@@ -384,6 +388,13 @@ public class PDFPage extends AbstractPage {
 				convertToPoint(textStyle.getLetterSpacing()), convertToPoint(textStyle.getWordSpacing()),
 				textStyle.getColor(), textStyle.getAlign());
 		if (textStyle.isHasHyperlink() && textStyle.isHasHyperlinkDecoration()) {
+			// FIXME ATM, the underline is marked as Artifact (see drawDecorationLine).
+			// I think this is not quite correct and not necessary.
+			// LibreOffice does not do it this way.
+			// The underline decoration should be included in the /Link element.
+			// For this, we probably have to handle the beginMarkedContentSequence and
+			// endMarkedContentSequence stuff right here instead of in drawDecorationLine
+			// and the overloaded drawText methods.
 			FontInfo fontInfo = textStyle.getFontInfo();
 			float lineWidth = fontInfo.getLineWidth();
 			Color color = textStyle.getColor();
@@ -438,7 +449,7 @@ public class PDFPage extends AbstractPage {
 	}
 
 	/**
-	 * Create the hyperlinks
+	 * Create a hyperlink.
 	 *
 	 * @param hyperlink
 	 * @param bookmark
@@ -448,18 +459,23 @@ public class PDFPage extends AbstractPage {
 	 * @param y
 	 * @param width
 	 * @param height
+	 *
+	 * @return a new PdfAnnotation describing the hyperlink.
 	 */
-	public void createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
+	public PdfAnnotation createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, int x, int y,
 			int width, int height) {
-		createHyperlink(hyperlink, bookmark, targetWindow, type, convertToPoint(x), convertToPoint(y),
+		return createHyperlink(hyperlink, bookmark, targetWindow, type, convertToPoint(x), convertToPoint(y),
 				convertToPoint(width), convertToPoint(height));
 	}
 
-	private void createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, float x, float y,
+	private PdfAnnotation createHyperlink(String hyperlink, String bookmark, String targetWindow, int type, float x,
+			float y,
 			float width, float height) {
 		y = transformY(y, height);
-		writer.addAnnotation(new PdfAnnotation(writer, x, y, x + width, y + height,
-				createPdfAction(hyperlink, bookmark, targetWindow, type)));
+		PdfAnnotation annotation = new PdfAnnotation(writer, x, y, x + width, y + height,
+				createPdfAction(hyperlink, bookmark, targetWindow, type));
+		writer.addAnnotation(annotation);
+		return annotation;
 	}
 
 	/**
@@ -509,14 +525,14 @@ public class PDFPage extends AbstractPage {
 		startY = transformY(startY);
 		endY = transformY(endY);
 		contentByte.concatCTM(1, 0, 0, 1, startX, startY);
+		if (null != color && !Color.BLACK.equals(color)) {
+			contentByte.setColorStroke(color);
+		}
 
 		contentByte.moveTo(0, 0);
 		contentByte.lineTo(endX - startX, endY - startY);
 
 		contentByte.setLineWidth(width);
-		if (null != color && !Color.BLACK.equals(color)) {
-			contentByte.setColorStroke(color);
-		}
 		contentByte.stroke();
 	}
 
@@ -530,7 +546,7 @@ public class PDFPage extends AbstractPage {
 		// start drawing the text content
 		contentByte.beginText();
 
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
 		}
 
@@ -552,6 +568,7 @@ public class PDFPage extends AbstractPage {
 					String defaultFontPdfA = this.pageDevice.getDefaultFontPdfA();
 					if (defaultFontPdfA != null) {
 						font = BaseFont.createFont(defaultFontPdfA, BaseFont.IDENTITY_H, true);
+						font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 					}
 					logger.log(Level.WARNING,
 							"PDF/A: " + fontInfo.getFontName() + " not embeddable, fallback font used.");
@@ -572,7 +589,7 @@ public class PDFPage extends AbstractPage {
 		if (wordSpacing != 0) {
 			contentByte.setWordSpacing(wordSpacing);
 		}
-		setTextMatrix(contentByte, fontInfo, textX, transformY(textY, 0, containerHeight));
+		setTextMatrix(contentByte, fontInfo);
 		if ((font.getFontType() == BaseFont.FONT_TYPE_TTUNI) && CSSValueConstants.JUSTIFY_VALUE.equals(align)
 				&& wordSpacing > 0) {
 			int idx = text.indexOf(' ');
@@ -594,7 +611,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
-		if (isTagged && !inArtifact) {
+		if (isTagged && artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
@@ -641,7 +658,7 @@ public class PDFPage extends AbstractPage {
 		}
 	}
 
-	private void setTextMatrix(PdfContentByte cb, FontInfo fi, float x, float y) {
+	private void setTextMatrix(PdfContentByte cb, FontInfo fi) {
 
 		if (!fi.getSimulation()) {
 			cb.setTextMatrix(0, 0);
@@ -733,20 +750,6 @@ public class PDFPage extends AbstractPage {
 		contentByte.restoreState();
 	}
 
-	protected void embedFlash(String flashPath, byte[] flashData, float x, float y, float height, float width,
-			String helpText, Map params) throws IOException {
-		y = transformY(y, height);
-		contentByte.saveState();
-		PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer, flashPath, helpText, flashData);
-		PdfAnnotation annot = PdfAnnotation.createScreen(writer, new Rectangle(x, y, x + width, y + height), helpText,
-				fs, "application/x-shockwave-flash", true);
-		writer.addAnnotation(annot);
-		if (helpText != null) {
-			showHelpText(x, y, width, height, helpText);
-		}
-		contentByte.restoreState();
-	}
-
 	protected PdfTemplate generateTemplateFromSVG(byte[] svgData, float height, float width)
 			throws Exception {
 		return transSVG(null, svgData, height, width);
@@ -774,32 +777,58 @@ public class PDFPage extends AbstractPage {
 		return template;
 	}
 
+	/**
+	 * Mark the beginning of an artifact. Artifact content is whatever is not
+	 * essential for the reader, such as page headers and footers, or repeated table
+	 * headers, or graphical elements like lines or boxes which do not really have a
+	 * meaning.
+	 */
 	public void beginArtifact() {
 		if (!isTagged) {
 			return;
 		}
-		if (!inArtifact) {
-			contentByte.beginMarkedContentSequence(new PdfName("Artifact"));
-			inArtifact = true;
+		if (artifactDepth == 0) {
+			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT);
 		}
-		else {
-			logger.warning("beginArtifact called inside artifact!");
-		}
+		artifactDepth++;
 	}
 
+	/**
+	 * Mark the beginning of an artifact. Artifact content is whatever is not
+	 * essential for the reader, such as page headers and footers, or repeated table
+	 * headers, or graphical elements like lines or boxes which do not really have a
+	 * meaning.
+	 *
+	 * @param properties additional properties which are used in the call to
+	 *                   beginMarkedContentSequence.
+	 */
+	public void beginArtifact(PdfDictionary properties) {
+		if (!isTagged) {
+			return;
+		}
+		if (artifactDepth == 0) {
+			contentByte.beginMarkedContentSequence(PdfNames.ARTIFACT, properties, true);
+		}
+		artifactDepth++;
+	}
+
+	/**
+	 * Mark the end of and artifact.
+	 */
 	public void endArtifact() {
 		if (!isTagged) {
 			return;
 		}
-		if (inArtifact) {
+		artifactDepth--;
+		if (artifactDepth == 0) {
 			contentByte.endMarkedContentSequence();
-			inArtifact = false;
-		} else {
-			logger.warning("endArtifact called outside of an artifact!");
 		}
 	}
 
+	/**
+	 * @return if we are currently in an artifact or not.
+	 */
 	public boolean isInArtifact() {
-		return inArtifact;
+		return artifactDepth > 0;
 	}
 }

@@ -23,9 +23,11 @@ import java.util.ListIterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -252,16 +254,22 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 
 	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
+		final SplitResult ret;
 		if (force) {
-			return _split(height, true);
+			ret = _split(height, true);
 		} else if (isPageBreakInsideAvoid()) {
 			if (isPageBreakBeforeAvoid()) {
-				return SplitResult.BEFORE_AVOID_WITH_NULL;
+				ret = SplitResult.BEFORE_AVOID_WITH_NULL;
+			} else {
+				ret = SplitResult.SUCCEED_WITH_NULL;
 			}
-			return SplitResult.SUCCEED_WITH_NULL;
 		} else {
-			return _split(height, false);
+			ret = _split(height, false);
 		}
+		if (ret.getResult() != null) {
+			setPreviousPart(ret.getResult());
+		}
+		return ret;
 	}
 
 	protected SplitResult _split(int height, boolean force) throws BirtException {
@@ -501,6 +509,17 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 		} else {
 			setContentHeight(0);
 		}
+	}
+
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if (PdfTagConstant.AUTO.equals(tagType)) {
+			if (getContent() instanceof ForeignContent) {
+				tagType = PdfTagConstant.NONSTRUCT;
+			}
+		}
+		return tagType;
 	}
 
 }

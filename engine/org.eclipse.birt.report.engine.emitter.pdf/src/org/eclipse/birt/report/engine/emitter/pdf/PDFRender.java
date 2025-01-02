@@ -37,11 +37,19 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.lowagie.text.pdf.PdfAnnotation;
+import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfIndirectReference;
 import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfNumber;
+import com.lowagie.text.pdf.PdfObject;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 
 /**
@@ -64,8 +72,6 @@ public class PDFRender extends PageDeviceRender {
 	protected PDFPageDevice currentPageDevice = null;
 
 	protected HashSet<String> bookmarks = new HashSet<>();
-
-	private PdfName ARTIFACT = new PdfName("Artifact");
 
 	/**
 	 * Constructor
@@ -99,18 +105,32 @@ public class PDFRender extends PageDeviceRender {
 	public void visitImage(IImageArea imageArea) {
 		int imageX = currentX + getX(imageArea);
 		int imageY = currentY + getY(imageArea);
+		IHyperlinkAction hlAction = imageArea.getAction();
+		if (null != hlAction) {
+			currentPageDevice.openTag(PdfTag.LINK, imageArea);
+		}
 		super.visitImage(imageArea);
 		createBookmark(imageArea, imageX, imageY);
-		createHyperlink(imageArea, imageX, imageY);
+		if (null != hlAction) {
+			createHyperlink(imageArea, imageX, imageY);
+			currentPageDevice.closeTag(PdfTag.LINK, imageArea);
+		}
 	}
 
 	@Override
 	public void visitText(ITextArea textArea) {
+		IHyperlinkAction hlAction = textArea.getAction();
+		if (null != hlAction) {
+			currentPageDevice.openTag(PdfTag.LINK, textArea);
+		}
 		super.visitText(textArea);
 		int x = currentX + getX(textArea);
 		int y = currentY + getY(textArea);
 		createBookmark(textArea, x, y);
-		createHyperlink(textArea, x, y);
+		if (null != hlAction) {
+			createHyperlink(textArea, x, y);
+			currentPageDevice.closeTag(PdfTag.LINK, textArea);
+		}
 	}
 
 	@Override
@@ -155,11 +175,22 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	protected void drawContainer(IContainerArea container) {
+		IHyperlinkAction hlAction = container.getAction();
+		if (container instanceof InlineTextArea) {
+			// A Hyperlink is created for the text already, we don't need it here.
+			hlAction = null;
+		}
+		if (null != hlAction) {
+			currentPageDevice.openTag(PdfTag.LINK, container);
+		}
 		super.drawContainer(container);
 		int x = currentX + getX(container);
 		int y = currentY + getY(container);
 		createBookmark(container, x, y);
-		createHyperlink(container, x, y);
+		if (hlAction != null) {
+			createHyperlink(container, x, y);
+			currentPageDevice.closeTag(PdfTag.LINK, container);
+		}
 	}
 
 	/**
@@ -190,7 +221,8 @@ public class PDFRender extends PageDeviceRender {
 		}
 	}
 
-	private void createHyperlink(IArea area, int x, int y) {
+	private PdfAnnotation createHyperlink(IArea area, int x, int y) {
+		PdfAnnotation annotation = null;
 		IHyperlinkAction hlAction = area.getAction();
 		if (null != hlAction) {
 			try {
@@ -212,24 +244,54 @@ public class PDFRender extends PageDeviceRender {
 				} else {
 					link = hlAction.getHyperlink();
 				}
-
 				switch (type) {
 				case IHyperlinkAction.ACTION_BOOKMARK:
-					currentPage.createHyperlink(link, bookmark, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, bookmark, targetWindow, type, x, y, width, height);
 					break;
 
 				case IHyperlinkAction.ACTION_HYPERLINK:
-					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
 					break;
 
 				case IHyperlinkAction.ACTION_DRILLTHROUGH:
-					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					annotation = currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
 					break;
 				}
 			} catch (Exception e) {
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
+			if (currentPageDevice.isTagged()) {
+				PdfArray kids;
+				PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
+				if (kido == null) {
+					kids = new PdfArray();
+					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+				} else {
+					kids = new PdfArray();
+					kids.add(kido);
+					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+				}
+				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
+				PdfIndirectReference annotationRef = annotation.getIndirectReference();
+				objr.put(PdfName.OBJ, annotationRef);
+				kids.add(objr);
+				// The link should contain a /Contents key, because it is required by PDF/UA-1.
+				// However, according to the PDF/UA Best Practice Guide, many or most current
+				// generation AT do not process this key and relaxation of the /Contents key
+				// requirement is anticipated in PDF/UA-2.
+				// If the area has a tooltip, we use that for the /Contents, otherwise we do
+				// not generate the /Contents entry.
+				String tooltip = hlAction.getTooltip();
+				if (tooltip != null) {
+					annotation.put(PdfName.CONTENTS, new PdfString(tooltip));
+				}
+				PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
+				int key = currentPageDevice.structureRoot.addExistingObject(linkref);
+				annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+			}
+
 		}
+		return annotation;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -276,13 +338,13 @@ public class PDFRender extends PageDeviceRender {
 			if (container.getChildrenCount() > 0) {
 				tagType = container.getTagType();
 				if (tagType != null) {
-					currentPageDevice.pushTag(tagType, container);
+					currentPageDevice.openTag(tagType, container);
 				}
 			}
 		}
 		super.visitChildren(container);
 		if (tagType != null) {
-			currentPageDevice.popTag(tagType);
+			currentPageDevice.closeTag(tagType, container);
 		}
 	}
 
@@ -298,7 +360,9 @@ public class PDFRender extends PageDeviceRender {
 	public void drawTableBorder(TableArea table) {
 		boolean tagged = currentPageDevice.isTagged();
 		if (tagged) {
-			currentPage.beginArtifact();
+			PdfDictionary properties = new PdfDictionary();
+			properties.put(new PdfName("Type"), new PdfName("Background"));
+			currentPage.beginArtifact(properties);
 		}
 		super.drawTableBorder(table);
 		if (tagged) {
