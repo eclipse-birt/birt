@@ -425,7 +425,16 @@ public class PDFPage extends AbstractPage {
 			PdfContentByte tempCB = this.contentByte;
 			this.containerHeight = template.getHeight();
 			this.contentByte = template;
+			int artifactDepthOld = artifactDepth;
+			if (artifactDepthOld == 0) {
+				PdfDictionary properties = new PdfDictionary();
+				properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+				beginArtifact();
+			}
 			drawText(text, textX, textY, width, height, textInfo);
+			if (artifactDepthOld == 0) {
+				endArtifact();
+			}
 			this.contentByte = tempCB;
 			this.containerHeight = pageHeight;
 		}
