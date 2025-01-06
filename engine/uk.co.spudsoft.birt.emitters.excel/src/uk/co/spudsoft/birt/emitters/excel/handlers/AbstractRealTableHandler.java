@@ -163,7 +163,17 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 
 		log.debug("Details rows from ", startDetailsRow, " to ", endDetailsRow);
 
-		if ((startDetailsRow > 0) && (endDetailsRow > startDetailsRow)) {
+		int autoWidthStartRow = startDetailsRow;
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_HEADER,
+				false)) {
+			autoWidthStartRow = startRow;
+		}
+		int autoWidthEndRow = endDetailsRow;
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_FOOTER,
+				false)) {
+			autoWidthEndRow = state.rowNum - 1;
+		}
+		if ((autoWidthStartRow >= 0) && (autoWidthEndRow > autoWidthStartRow)) {
 			boolean defaultAutoColWidth = EmitterServices.booleanOption(state.getRenderOptions(), table,
 					ExcelEmitter.STREAMING_XLSX, false);
 			// force automated column width calculation if streaming mode of XLSX is enabled
@@ -173,15 +183,15 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 			for (int col = 0; col < table.getColumnCount(); ++col) {
 				int oldWidth = state.currentSheet.getColumnWidth(col);
 				if (forceAutoColWidths || (oldWidth == 256 * state.currentSheet.getDefaultColumnWidth())) {
-					FilteredSheet filteredSheet = new FilteredSheet(state.currentSheet, startDetailsRow,
-							Math.min(endDetailsRow, startDetailsRow + 12));
+					FilteredSheet filteredSheet = new FilteredSheet(state.currentSheet, autoWidthStartRow,
+							Math.min(autoWidthEndRow, autoWidthStartRow + 12));
 					double calcWidth = SheetUtil.getColumnWidth(filteredSheet, col, false);
 
 					if (state.currentSheet instanceof XSSFSheet) {
 						state.currentSheet.autoSizeColumn(col, true);
 					}
 					if (calcWidth > 1.0) {
-						calcWidth = state.currentSheet.getColumnWidth(col) * 1.15;	// offset to handle width differences of apache poi
+						calcWidth *= 1.15 * 256; // The factor 1.15 is used to handle width differences of Apache POI.
 						int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255
 														// characters
 						if (calcWidth > maxColumnWidth) {

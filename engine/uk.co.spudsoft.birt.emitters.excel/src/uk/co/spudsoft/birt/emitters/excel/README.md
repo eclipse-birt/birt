@@ -20,6 +20,29 @@ The following list get an overview of all supported user properties, the content
 	          	false, disabled debug log
 	Default   	false
 
+**ExcelEmitter.AutoColWidthsIncludeTableFooter**
+
+	Content   	define if the table footer row (only one footer row is supported) is included in the column width calculation.
+					This is only used when ExcelEmitter.AutoFilter is true.
+	Location  	report
+	Data type 	boolean
+	Values    	true, the table footer row is included in the column width calculation
+	           	false, the table footer row is ignored in the column width calculation
+	Default   	false
+	Designer  	4.19
+
+**ExcelEmitter.AutoColWidthsIncludeTableHeader**
+
+	Content   	define if the table header rows are included in the column width calculation.
+					This is only used when ExcelEmitter.AutoFilter is true.
+	Location  	report
+	Data type 	boolean
+	Values    	true, the table header rows are included in the column width calculation
+	           	false, the table header rows are ignored in the column width calculation
+	Default   	false
+	Designer  	4.19
+	
+	
 **ExcelEmitter.AutoFilter**
 	
 	Content    	activate the auto-filter of excel
