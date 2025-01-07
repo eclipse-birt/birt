@@ -224,6 +224,16 @@ public interface IInternalReportDesignModel {
 	String EXCEL_FORCE_AUTO_COL_WIDTHS = "excelForceAutoColWidths"; //$NON-NLS-1$
 
 	/**
+	 * Excel option, include header rows in auto column width calculation
+	 */
+	String EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER = "excelAutoColWidthsIncludeTableHeader"; //$NON-NLS-1$
+
+	/**
+	 * Excel option, include footer row in auto column width calculation
+	 */
+	String EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER = "excelAutoColWidthsIncludeTableFooter"; //$NON-NLS-1$
+
+	/**
 	 * Excel option, create only singe sheet
 	 */
 	String EXCEL_SINGLE_SHEET = "excelSingleSheet"; //$NON-NLS-1$

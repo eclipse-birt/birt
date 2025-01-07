@@ -73,6 +73,12 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	/** property: ExcelEmitter.ForceAutoColWidths */
 	public static final String FORCEAUTOCOLWIDTHS_PROP = "ExcelEmitter.ForceAutoColWidths";
 
+	/** property: ExcelEmitter.ForceAutoColWidthsIncludeTableHeader */
+	public static final String AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER = "ExcelEmitter.AutoColWidthsIncludeTableHeader";
+
+	/** property: ExcelEmitter.ForceAutoColWidthsIncludeTableFooter */
+	public static final String AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER = "ExcelEmitter.AutoColWidthsIncludeTableFooter";
+
 	/** property: ExcelEmitter.SingleSheet */
 	public static final String SINGLE_SHEET = "ExcelEmitter.SingleSheet";
 
