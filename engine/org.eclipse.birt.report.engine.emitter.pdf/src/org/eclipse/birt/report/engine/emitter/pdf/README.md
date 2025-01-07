@@ -2,7 +2,7 @@
 Introduction to use the specialized user properties of the PdfEmitter.
 
 ## Reason
-The PdfEmitter provides a set of specialized user properties to optimize the pdf output according of the reporting based requirements.
+The PdfEmitter provides a set of specialized user properties to optimize the PDF output according of the reporting based requirements.
 
 Each of the user properties starts with the master prefix "PdfEmitter".
 
@@ -121,3 +121,19 @@ The following list get an overview of all supported user properties, the content
 	Default    	1.5
 	Since      	4.16
 	Designer  	4.17
+
+**PdfEmitter.VerticalTab**
+
+	Content    	Go down to an Y position this far from the top before starting the content.
+					If we are already down this far, this will not go further down.
+					This can be specified in cells of table or grids, or in text/data items.
+					The distance is measured from the top of the page body.
+					For example, a value of "20cm", when the master page has 1cm margin-top
+					and a page header of 15mm, results in the content starting at 225mm from
+					the top of the sheet.
+					This results in the content to be shown *at least* this far down from the top.
+	Location   	cell or text/data.
+	Data type  	string
+	Values     	An absolute length, e.g. "20cm"
+	Default    	empty (null)
+	Since      	4.19

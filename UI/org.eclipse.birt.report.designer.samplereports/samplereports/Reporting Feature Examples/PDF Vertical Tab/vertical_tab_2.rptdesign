@@ -469,11 +469,11 @@
                         <label id="34">
                             <list-property name="userProperties">
                                 <structure>
-                                    <property name="name">FixYPosition</property>
+                                    <property name="name">PdfEmitter.VerticalTab</property>
                                     <property name="type">string</property>
                                 </structure>
                             </list-property>
-                            <property name="FixYPosition">20cm</property>
+                            <property name="PdfEmitter.VerticalTab">20cm</property>
                             <property name="borderBottomStyle">solid</property>
                             <property name="borderBottomWidth">thin</property>
                             <property name="borderLeftStyle">solid</property>

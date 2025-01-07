@@ -240,7 +240,7 @@ public class RowArea extends ContainerArea {
 		// Footer-Row with information that should be shown starting with y=20cm.
 		IContent cellContent = cArea.getContent();
 		if (cellContent != null && cellContent.getUserProperties() != null) {
-			String verticalTab = (String) cellContent.getUserProperties().get("VerticalTab");
+			String verticalTab = (String) cellContent.getUserProperties().get(PDF_VERTICAL_TAB);
 			if (verticalTab != null) {
 				int limit = getDimensionValue(
 						content.getCSSEngine().parsePropertyValue(StyleConstants.STYLE_MARGIN_TOP, verticalTab));

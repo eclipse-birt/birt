@@ -470,11 +470,11 @@
                         <property name="rowSpan">1</property>
                         <list-property name="userProperties">
                             <structure>
-                                <property name="name">VerticalTab</property>
+                                <property name="name">PdfEmitter.VerticalTab</property>
                                 <property name="type">string</property>
                             </structure>
                         </list-property>
-                        <property name="VerticalTab">10cm</property>
+                        <property name="PdfEmitter.VerticalTab">10cm</property>
                         <property name="backgroundColor">#FFC0C0</property>
                         <label id="34">
                             <property name="borderBottomStyle">solid</property>

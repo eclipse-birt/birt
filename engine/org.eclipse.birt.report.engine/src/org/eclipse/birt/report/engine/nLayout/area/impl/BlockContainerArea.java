@@ -78,12 +78,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 				// Variant 1: The property has to be set for a Label, a Dynamic Text Item or
 				// similar (not for a table row or cell).
 				// A possible structure:
-				// Table
-				// Header
-				// Details
-				// Footer Row with Dynamic Text Item with FixYPosition=20cm.
-				// Footer Row with data which should be displayed starting at y=20cm.
-				String fixYPosition = (String) containerContent.getUserProperties().get("FixYPosition");
+				// ...
+				// A dynamic Text Item with FixYPosition=20cm.
+				String fixYPosition = (String) containerContent.getUserProperties().get(PDF_VERTICAL_TAB);
 				if (fixYPosition != null) {
 					int limit = getDimensionValue(
 							content.getCSSEngine().parsePropertyValue(StyleConstants.STYLE_MARGIN_TOP, fixYPosition));

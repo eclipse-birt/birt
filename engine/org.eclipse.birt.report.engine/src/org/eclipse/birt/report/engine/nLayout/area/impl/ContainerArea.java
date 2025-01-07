@@ -57,6 +57,12 @@ import com.lowagie.text.Image;
  */
 public abstract class ContainerArea extends AbstractArea implements IContainerArea {
 
+	/**
+	 * Can be used in the PdfEmitter to create an effect similar to a vertical tab
+	 * stop. See org/eclipse/birt/report/engine/emitter/pdf/README.md for details.
+	 */
+	public static final String PDF_VERTICAL_TAB = "PdfEmitter.VerticalTab";
+
 	protected transient LocalProperties localProperties = LocalProperties.DEFAULT;
 
 	protected BoxStyle boxStyle = BoxStyle.DEFAULT;
