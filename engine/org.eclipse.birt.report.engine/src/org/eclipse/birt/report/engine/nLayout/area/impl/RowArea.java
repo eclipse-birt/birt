@@ -20,6 +20,7 @@ import java.util.Iterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -229,6 +230,28 @@ public class RowArea extends ContainerArea {
 		cArea.setPosition(getTableArea().getXPos(columnID), 0);
 		if (content != null && content.isRTL()) {
 			cArea.flipPositionForRtl();
+		}
+		// Variant 2 . The property must be set for a Cell.
+		// A possible structure:
+		// Table
+		// Header
+		// Details
+		// Footer-Row with Cell with VerticalTab=20cm.
+		// Footer-Row with information that should be shown starting with y=20cm.
+		IContent cellContent = cArea.getContent();
+		if (cellContent != null && cellContent.getUserProperties() != null) {
+			String verticalTab = (String) cellContent.getUserProperties().get(PDF_VERTICAL_TAB);
+			if (verticalTab != null) {
+				int limit = getDimensionValue(
+						content.getCSSEngine().parsePropertyValue(StyleConstants.STYLE_MARGIN_TOP, verticalTab));
+				int absBP = getAbsoluteBP();
+				if (absBP > limit) {
+					// Page break required
+				} else if (absBP < limit) {
+					cArea.localProperties.paddingTop += (limit - absBP);
+					cArea.setAllocatedHeight(cArea.getAllocatedHeight() + (limit - absBP));
+				}
+			}
 		}
 	}
 

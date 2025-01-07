@@ -32,6 +32,8 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.w3c.dom.css.CSSValue;
 
+
+
 /**
  * Implementation of block container area
  *
@@ -69,6 +71,29 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 
 	@Override
 	public void add(AbstractArea area) {
+		if (area instanceof ContainerArea) {
+			ContainerArea c = (ContainerArea) area;
+			IContent containerContent = c.getContent();
+			if (containerContent != null && containerContent.getUserProperties() != null) {
+				// Variant 1: The property has to be set for a Label, a Dynamic Text Item or
+				// similar (not for a table row or cell).
+				// A possible structure:
+				// ...
+				// A dynamic Text Item with FixYPosition=20cm.
+				String fixYPosition = (String) containerContent.getUserProperties().get(PDF_VERTICAL_TAB);
+				if (fixYPosition != null) {
+					int limit = getDimensionValue(
+							content.getCSSEngine().parsePropertyValue(StyleConstants.STYLE_MARGIN_TOP, fixYPosition));
+					int absBP = getAbsoluteBP();
+					if (absBP > limit) {
+						// Page break required
+					} else if (absBP < limit) {
+						// Increment currentBP
+						currentBP += (limit - absBP);
+					}
+				}
+			}
+		}
 		children.add(area);
 		area.setAllocatedPosition(currentIP + getOffsetX(), currentBP + getOffsetY());
 
