@@ -1944,6 +1944,14 @@
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.forceAutoColWidths" name="excelForceAutoColWidths" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>
       </Property>
+	  <!-- excel (Spudsoft): include header in the column width calculation	-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.autoColWidthsIncludeHeader" name="excelAutoColWidthsIncludeTableHeader" runtimeSettable="false" since="4.19" type="boolean" >
+        <Default>false</Default>
+      </Property>
+      <!-- excel (Spudsoft): include footer in the column width calculation	-->
+      <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.autoColWidthsIncludeFooter" name="excelAutoColWidthsIncludeTableFooter" runtimeSettable="false" since="4.19" type="boolean" >
+        <Default>false</Default>
+      </Property>
       <!-- excel (Spudsoft): output of table as single sheet		-->
       <Property canInherit="false" displayNameID="Element.ReportDesign.Emitter.excel.singleSheet" name="excelSingleSheet" runtimeSettable="false" since="4.17" type="boolean" >
         <Default>false</Default>

@@ -354,6 +354,12 @@ public class EmitterServices {
 		} else if (name.equalsIgnoreCase(ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP)) {
 			value = reportContent.getDesign().getReportDesign().getExcelForceAutoColWidths();
 
+		} else if (name.equalsIgnoreCase(ExcelEmitter.AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelAutoColWidthsIncludeTableHeader();
+
+		} else if (name.equalsIgnoreCase(ExcelEmitter.AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER)) {
+			value = reportContent.getDesign().getReportDesign().getExcelAutoColWidthsIncludeTableFooter();
+
 		} else if (name.equalsIgnoreCase(ExcelEmitter.IMAGE_SCALING_CELL_DIMENSION)) {
 			value = reportContent.getDesign().getReportDesign().getExcelImageScaling();
 

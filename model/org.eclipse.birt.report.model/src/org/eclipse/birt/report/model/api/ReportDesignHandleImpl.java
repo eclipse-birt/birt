@@ -1435,6 +1435,48 @@ class ReportDesignHandleImpl extends LayoutModuleHandle implements IReportDesign
 	}
 
 	/**
+	 * Get the auto column width include header flag for the excel output
+	 *
+	 * @return include the header rows in auto columns widths calculation or not
+	 */
+	public boolean getExcelAutoColWidthsIncludeTableHeader() {
+		return getBooleanProperty(EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER);
+	}
+
+	/**
+	 * Set the auto column width include header flag for the excel output
+	 *
+	 * @param autoColWidthsIncludeTableHeader include header rows in auto columns widths
+	 *                                   calculation
+	 * @throws SemanticException
+	 */
+	public void setExcelAutoColWidthsIncludeTableHeader(boolean autoColWidthsIncludeTableHeader)
+			throws SemanticException {
+		setBooleanProperty(EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER, autoColWidthsIncludeTableHeader);
+	}
+
+	/**
+	 * Get the auto column width include footer flag for the excel output
+	 *
+	 * @return include the footer row in auto columns widths calculation or not
+	 */
+	public boolean getExcelAutoColWidthsIncludeTableFooter() {
+		return getBooleanProperty(EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER);
+	}
+
+	/**
+	 * Set the auto column width include footer flag for the excel output
+	 *
+	 * @param autoColWidthsIncludeTableFooter include footer row in auto columns
+	 *                                        widths calculation
+	 * @throws SemanticException
+	 */
+	public void setExcelAutoColWidthsIncludeTableFooter(boolean autoColWidthsIncludeTableFooter)
+			throws SemanticException {
+		setBooleanProperty(EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER, autoColWidthsIncludeTableFooter);
+	}
+
+	/**
 	 * Get the configuration for the excel handling of single sheet result
 	 *
 	 * @return the configuration of single sheet result

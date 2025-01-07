@@ -128,6 +128,8 @@ class DesignWriterImpl extends ModuleWriter {
 
 		property(obj, IInternalReportDesignModel.EXCEL_DISABLE_GROUPING);
 		property(obj, IInternalReportDesignModel.EXCEL_FORCE_AUTO_COL_WIDTHS);
+		property(obj, IInternalReportDesignModel.EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER);
+		property(obj, IInternalReportDesignModel.EXCEL_AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER);
 		property(obj, IInternalReportDesignModel.EXCEL_SINGLE_SHEET);
 		property(obj, IInternalReportDesignModel.EXCEL_DISPLAY_GRIDLINES);
 		property(obj, IInternalReportDesignModel.EXCEL_AUTO_FILTER);

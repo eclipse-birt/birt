@@ -164,12 +164,14 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		log.debug("Details rows from ", startDetailsRow, " to ", endDetailsRow);
 
 		int autoWidthStartRow = startDetailsRow;
-		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_HEADER,
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table,
+				ExcelEmitter.AUTO_COL_WIDTHS_INCLUDE_TABLE_HEADER,
 				false)) {
 			autoWidthStartRow = startRow;
 		}
 		int autoWidthEndRow = endDetailsRow;
-		if (EmitterServices.booleanOption(state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_FOOTER,
+		if (EmitterServices.booleanOption(state.getRenderOptions(), table,
+				ExcelEmitter.AUTO_COL_WIDTHS_INCLUDE_TABLE_FOOTER,
 				false)) {
 			autoWidthEndRow = state.rowNum - 1;
 		}
