@@ -261,20 +261,21 @@ public class PDFRender extends PageDeviceRender {
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 			if (currentPageDevice.isTagged()) {
-				PdfArray kids;
-				PdfObject kido = currentPageDevice.structureCurrentNode.get(PdfName.K);
-				if (kido == null) {
-					kids = new PdfArray();
-					currentPageDevice.structureCurrentNode.put(PdfName.K, kids);
+				PdfArray children;
+				PdfObject childObject = currentPageDevice.structureCurrentNode.get(PdfName.K);
+				// The PdfName K means "kids" in this context.
+				if (childObject == null) {
+					children = new PdfArray();
+					currentPageDevice.structureCurrentNode.put(PdfName.K, children);
 				} else {
-					kids = new PdfArray();
-					kids.add(kido);
-					currentPageDevice.structureCurrentNode.put(PdfName.K, kids);
+					children = new PdfArray();
+					children.add(childObject);
+					currentPageDevice.structureCurrentNode.put(PdfName.K, children);
 				}
 				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
 				PdfIndirectReference annotationRef = annotation.getIndirectReference();
 				objr.put(PdfName.OBJ, annotationRef);
-				kids.add(objr);
+				children.add(objr);
 				// The link should contain a /Contents key, because it is required by PDF/UA-1.
 				// However, according to the PDF/UA Best Practice Guide, many or most current
 				// generation AT do not process this key and relaxation of the /Contents key

@@ -1420,9 +1420,10 @@ public class PDFPageDevice implements IPageDevice {
 						PdfName restored = structureCurrentNode.getAsName(PdfName.S);
 						if (PdfName.TABLE.equals(restored)) {
 							// Also restore the table section, e.g. TBody.
-							PdfArray kids = structureCurrentNode.getAsArray(PdfName.K);
-							if (kids != null && kids.size() > 0) {
-								structureCurrentNode = (PdfStructureElement) kids.getAsDict(kids.size() - 1);
+							PdfArray children = structureCurrentNode.getAsArray(PdfName.K); // K means "kids" in this
+																							// context
+							if (children != null && children.size() > 0) {
+								structureCurrentNode = (PdfStructureElement) children.getAsDict(children.size() - 1);
 							}
 						}
 					}
