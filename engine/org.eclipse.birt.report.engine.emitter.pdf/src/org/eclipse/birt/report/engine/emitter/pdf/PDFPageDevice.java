@@ -855,6 +855,7 @@ public class PDFPageDevice implements IPageDevice {
 		} else {
 			userPdfConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_CONFORMANCE);
 		}
+
 		switch (userPdfConformance) {
 		case PDFPageDevice.PDF_CONFORMANCE_X32002:
 			this.pdfConformance = PdfWriter.PDFX32002;
@@ -869,27 +870,27 @@ public class PDFPageDevice implements IPageDevice {
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A2A:
-			this.pdfConformance = PDFA2A;
+			this.pdfConformance = PDFPageDevice.PDFA2A;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A2B:
-			this.pdfConformance = PDFA2B;
+			this.pdfConformance = PDFPageDevice.PDFA2B;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3A:
-			this.pdfConformance = PDFA3A;
+			this.pdfConformance = PDFPageDevice.PDFA3A;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3B:
-			this.pdfConformance = PDFA3B;
+			this.pdfConformance = PDFPageDevice.PDFA3B;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3U:
-			this.pdfConformance = PDFA3U;
+			this.pdfConformance = PDFPageDevice.PDFA3U;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A4F:
-			this.pdfConformance = PDFA4F;
+			this.pdfConformance = PDFPageDevice.PDFA4F;
 			this.isPdfAFormat = true;
 			break;
 		default:
@@ -928,8 +929,8 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
-	// FIXME THis is a workaround for the fact that OpenPDF does not support PDF/A-2
-	// or newer
+	// FIXME The existence of these constants is a workaround for the fact that
+	// OpenPDF does not yet support PDF/A-2 or newer.
 	private static final int PDFA2A = 5;
 	private static final int PDFA2B = 6;
 	private static final int PDFA3A = 7;
@@ -950,17 +951,17 @@ public class PDFPageDevice implements IPageDevice {
 			return PDFPageDevice.PDF_CONFORMANCE_A1A;
 		case PdfWriter.PDFA1B:
 			return PDFPageDevice.PDF_CONFORMANCE_A1B;
-		case PDFA2A:
+		case PDFPageDevice.PDFA2A:
 			return PDFPageDevice.PDF_CONFORMANCE_A2A;
-		case PDFA2B:
+		case PDFPageDevice.PDFA2B:
 			return PDFPageDevice.PDF_CONFORMANCE_A2B;
-		case PDFA3A:
+		case PDFPageDevice.PDFA3A:
 			return PDFPageDevice.PDF_CONFORMANCE_A3A;
-		case PDFA3B:
+		case PDFPageDevice.PDFA3B:
 			return PDFPageDevice.PDF_CONFORMANCE_A3B;
-		case PDFA3U:
+		case PDFPageDevice.PDFA3U:
 			return PDFPageDevice.PDF_CONFORMANCE_A3U;
-		case PDFA4F:
+		case PDFPageDevice.PDFA4F:
 			return PDFPageDevice.PDF_CONFORMANCE_A4F;
 		default:
 			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
@@ -985,11 +986,14 @@ public class PDFPageDevice implements IPageDevice {
 		return this.isPdfUAFormat;
 	}
 
+	/**
+	 * PDF XMP schema for declaring that the PDF is PDF/UA conforming.
+	 *
+	 * @since 4.18
+	 *
+	 */
 	private static class PDFUASchema extends XmpSchema {
 
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = -6990512370284803429L;
 
 		public PDFUASchema() {
@@ -1007,11 +1011,17 @@ public class PDFPageDevice implements IPageDevice {
 
 	}
 
+	/**
+	 * PDF XMP schema for declaring that the PDF is PDF/A conforming.
+	 *
+	 * Since the document can be PDF/UA conforming at the same time, the PDF/A
+	 * specification requires that this is other schema is also described here.
+	 *
+	 * @since 4.18
+	 *
+	 */
 	private static class PDFAExtensionSchema extends XmpSchema {
 
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = 6654512771721220538L;
 
 		public PDFAExtensionSchema() {
@@ -1049,8 +1059,10 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Create the XML for the XMPMetadata. We use the same method from PdfWriter as
-	 * a template and add what is neeeded for PDF/UA.
+	 * Create the XML for the XMPMetadata.
+	 *
+	 * We use the same method from {@link PdfWriter} as a template and add what is
+	 * needed for PDF/UA.
 	 *
 	 * @return an XmpMetadata byte array
 	 */
@@ -1177,7 +1189,7 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Set the PDF icc color profile and the XMP meta data
+	 * Set the PDF ICC color profile and the XMP meta data
 	 */
 	private void setPdfIccXmp() {
 
