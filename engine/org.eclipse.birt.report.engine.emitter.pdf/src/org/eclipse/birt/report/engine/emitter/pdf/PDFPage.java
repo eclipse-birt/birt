@@ -233,16 +233,16 @@ public class PDFPage extends AbstractPage {
 			float height, float width, String helpText, Map params) throws Exception {
 
 		if (isTagged && artifactDepth == 0) {
-			pageDevice.structureCurrentLeaf.put(PdfNames.ALT, new PdfString(helpText));
+			pageDevice.structureCurrentNode.put(PdfNames.ALT, new PdfString(helpText));
 
-			PdfDictionary attributes = pageDevice.structureCurrentLeaf.getAsDict(PdfName.A);
+			PdfDictionary attributes = pageDevice.structureCurrentNode.getAsDict(PdfName.A);
 			if (attributes == null) {
 				attributes = new PdfDictionary();
-				pageDevice.structureCurrentLeaf.put(PdfName.A, attributes);
+				pageDevice.structureCurrentNode.put(PdfName.A, attributes);
 			}
 			attributes.put(PdfName.BBOX, new PdfRectangle(imageX, imageY, width, height));
 
-			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
 		}
 
 		// Cached Image
@@ -556,7 +556,7 @@ public class PDFPage extends AbstractPage {
 		contentByte.beginText();
 
 		if (isTagged && artifactDepth == 0) {
-			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentLeaf);
+			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
 		}
 
 		if (null != color && !Color.BLACK.equals(color)) {

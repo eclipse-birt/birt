@@ -153,7 +153,7 @@ public class PDFPageDevice implements IPageDevice {
 	// The StructureTree defines the logical structure of the content.
 	PdfStructureTreeRoot structureRoot = null;
 	PdfStructureElement structureDocument = null;
-	PdfStructureElement structureCurrentLeaf = null;
+	PdfStructureElement structureCurrentNode = null;
 
 	protected IReportContext context;
 
@@ -416,7 +416,7 @@ public class PDFPageDevice implements IPageDevice {
 
 		structureRoot = writer.getStructureTreeRoot();
 		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
-		structureCurrentLeaf = structureDocument;
+		structureCurrentNode = structureDocument;
 
 	}
 
@@ -1356,8 +1356,8 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Open a tag in the tag tree structure.
 	 *
-	 * Basically this means: Create a new child node for structureCurrentLeaf and
-	 * let structureCurrentLeaf point to this child node. But several edge cases
+	 * Basically this means: Create a new child node for structureCurrentNode and
+	 * let structureCurrentNode point to this child node. But several edge cases
 	 * need special handling. For example, when we are in an artifact, we don't want
 	 * to open a new tag. And containers need special handling for page-breaking to
 	 * avoid the creation of unnecessary tags, e.g. a table that spans two pages
@@ -1408,26 +1408,26 @@ public class PDFPageDevice implements IPageDevice {
 						if (PdfTag.TR.equals(tagType)) {
 							beforeOpenTableSectionTag(container);
 						}
-						structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+						structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 						try {
-							container.setStructureElement(structureCurrentLeaf);
+							container.setStructureElement(structureCurrentNode);
 						} catch (BirtException be) {
 							be.printStackTrace();
-							structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+							structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 						}
 					} else {
-						structureCurrentLeaf = container.getFirstPart().getStructureElement();
-						PdfName restored = structureCurrentLeaf.getAsName(PdfName.S);
+						structureCurrentNode = container.getFirstPart().getStructureElement();
+						PdfName restored = structureCurrentNode.getAsName(PdfName.S);
 						if (PdfName.TABLE.equals(restored)) {
 							// Also restore the table section, e.g. TBody.
-							PdfArray kids = structureCurrentLeaf.getAsArray(PdfName.K);
+							PdfArray kids = structureCurrentNode.getAsArray(PdfName.K);
 							if (kids != null && kids.size() > 0) {
-								structureCurrentLeaf = (PdfStructureElement) kids.getAsDict(kids.size() - 1);
+								structureCurrentNode = (PdfStructureElement) kids.getAsDict(kids.size() - 1);
 							}
 						}
 					}
 				} else {
-					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+					structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 				}
 				if (PdfTag.FIGURE.equals(tagType)) {
 					addFigureAttributes();
@@ -1449,7 +1449,7 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param row the RowArea.
 	 */
 	private void beforeOpenTableSectionTag(final ContainerArea row) {
-		PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+		PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
 		RowContent rowContent = (RowContent) row.getContent();
 		PdfName inject = null;
 		boolean closeSection = false;
@@ -1475,10 +1475,10 @@ public class PDFPageDevice implements IPageDevice {
 			}
 		}
 		if (closeSection) {
-			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 		if (inject != null) {
-			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, inject);
+			structureCurrentNode = new PdfStructureElement(structureCurrentNode, inject);
 		}
 	}
 
@@ -1495,16 +1495,16 @@ public class PDFPageDevice implements IPageDevice {
 			String scope = ((CellContent) (cellArea.getContent())).getScope();
 			String bookmark = cellArea.getBookmark();
 			if (bookmark != null) {
-				structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
+				structureCurrentNode.put(PdfName.ID, new PdfString(bookmark));
 			}
 
 			String headers = ((CellContent) (cellArea.getContent())).getHeaders();
 			if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
-				PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+				PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
 				if (attributes == null) {
 					attributes = new PdfDictionary();
 					attributes.put(PdfName.O, PdfName.TABLE);
-					structureCurrentLeaf.put(PdfName.A, attributes);
+					structureCurrentNode.put(PdfName.A, attributes);
 				}
 				if (rowspan != 1) {
 					attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
@@ -1528,11 +1528,11 @@ public class PDFPageDevice implements IPageDevice {
 	 * Top-Level figure elements must have a placement attribute.
 	 */
 	private void addFigureAttributes() {
-		if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
-			PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+		if (PdfName.DOCUMENT.equals(structureCurrentNode.getParent().get(PdfName.S))) {
+			PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
 			if (attributes == null) {
 				attributes = new PdfDictionary();
-				structureCurrentLeaf.put(PdfName.A, attributes);
+				structureCurrentNode.put(PdfName.A, attributes);
 			}
 			attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
 			attributes.put(PdfName.O, PdfNames.LAYOUT);
@@ -1598,13 +1598,13 @@ public class PDFPageDevice implements IPageDevice {
 			// do nothing
 		} else {
 			if (PdfTag.TABLE.equals(tagType)) {
-				PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+				PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
 				if (!currentTag.equals(PdfNames.TR)) {
 					// Close the THead/TBody/TFoot tag also
-					structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+					structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 				}
 			}
-			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 	}
 

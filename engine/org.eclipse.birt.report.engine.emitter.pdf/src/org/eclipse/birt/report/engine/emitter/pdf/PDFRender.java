@@ -262,14 +262,14 @@ public class PDFRender extends PageDeviceRender {
 			}
 			if (currentPageDevice.isTagged()) {
 				PdfArray kids;
-				PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
+				PdfObject kido = currentPageDevice.structureCurrentNode.get(PdfName.K);
 				if (kido == null) {
 					kids = new PdfArray();
-					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+					currentPageDevice.structureCurrentNode.put(PdfName.K, kids);
 				} else {
 					kids = new PdfArray();
 					kids.add(kido);
-					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+					currentPageDevice.structureCurrentNode.put(PdfName.K, kids);
 				}
 				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
 				PdfIndirectReference annotationRef = annotation.getIndirectReference();
@@ -285,7 +285,7 @@ public class PDFRender extends PageDeviceRender {
 				if (tooltip != null) {
 					annotation.put(PdfName.CONTENTS, new PdfString(tooltip));
 				}
-				PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
+				PdfIndirectReference linkref = currentPageDevice.structureCurrentNode.getReference();
 				int key = currentPageDevice.structureRoot.addExistingObject(linkref);
 				annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
 			}

@@ -44,4 +44,16 @@ public class TOCEntry extends TreeNode {
 		this.treeNode = treeNode;
 	}
 
+	/**
+	 * Returns the nesting level.
+	 *
+	 * @return 0 for the root note, 1 + parent level otherwise.
+	 */
+	public int getLevel() {
+		if (parent == null) {
+			return 0;
+		}
+		return 1 + parent.getLevel();
+	}
+
 }
