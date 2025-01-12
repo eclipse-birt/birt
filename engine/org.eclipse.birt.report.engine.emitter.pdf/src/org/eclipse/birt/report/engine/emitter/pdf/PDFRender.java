@@ -275,6 +275,7 @@ public class PDFRender extends PageDeviceRender {
 				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
 				PdfIndirectReference annotationRef = annotation.getIndirectReference();
 				objr.put(PdfName.OBJ, annotationRef);
+				objr.put(PdfName.PG, currentPageDevice.writer.getCurrentPage());
 				children.add(objr);
 				// The link should contain a /Contents key, because it is required by PDF/UA-1.
 				// However, according to the PDF/UA Best Practice Guide, many or most current
@@ -289,6 +290,11 @@ public class PDFRender extends PageDeviceRender {
 				PdfIndirectReference linkref = currentPageDevice.structureCurrentNode.getReference();
 				int key = currentPageDevice.structureRoot.addExistingObject(linkref);
 				annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+				if (currentPageDevice.isPdfAFormat()) {
+					// See PDF specification Table 165 - Annotation flags
+					// and PDF/A-3 specification rules 6.3.2-1 and 6.3.2-2
+					annotation.put(PdfName.F, new PdfNumber(4));
+				}
 			}
 
 		}

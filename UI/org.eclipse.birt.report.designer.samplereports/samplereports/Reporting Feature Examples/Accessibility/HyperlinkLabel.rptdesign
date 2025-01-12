@@ -9,7 +9,7 @@
     <property name="imageDPI">96</property>
     <property name="locale">de_DE</property>
     <property name="pdfVersion">1.7</property>
-    <property name="pdfConformance">PDF.A1A</property>
+    <property name="pdfConformance">PDF.A3A</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
     <property name="pdfaFontCidEmbed">false</property>
     <property name="pdfaDocumentTitleEmbed">true</property>
