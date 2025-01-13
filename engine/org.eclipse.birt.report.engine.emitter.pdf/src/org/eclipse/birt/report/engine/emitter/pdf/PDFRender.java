@@ -261,20 +261,22 @@ public class PDFRender extends PageDeviceRender {
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 			if (currentPageDevice.isTagged()) {
-				PdfArray kids;
-				PdfObject kido = currentPageDevice.structureCurrentLeaf.get(PdfName.K);
-				if (kido == null) {
-					kids = new PdfArray();
-					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+				PdfArray children;
+				PdfObject childObject = currentPageDevice.structureCurrentNode.get(PdfName.K);
+				// The PdfName K means "kids" in this context.
+				if (childObject == null) {
+					children = new PdfArray();
+					currentPageDevice.structureCurrentNode.put(PdfName.K, children);
 				} else {
-					kids = new PdfArray();
-					kids.add(kido);
-					currentPageDevice.structureCurrentLeaf.put(PdfName.K, kids);
+					children = new PdfArray();
+					children.add(childObject);
+					currentPageDevice.structureCurrentNode.put(PdfName.K, children);
 				}
 				PdfDictionary objr = new PdfDictionary(PdfName.OBJR);
 				PdfIndirectReference annotationRef = annotation.getIndirectReference();
 				objr.put(PdfName.OBJ, annotationRef);
-				kids.add(objr);
+				objr.put(PdfName.PG, currentPageDevice.writer.getCurrentPage());
+				children.add(objr);
 				// The link should contain a /Contents key, because it is required by PDF/UA-1.
 				// However, according to the PDF/UA Best Practice Guide, many or most current
 				// generation AT do not process this key and relaxation of the /Contents key
@@ -285,9 +287,14 @@ public class PDFRender extends PageDeviceRender {
 				if (tooltip != null) {
 					annotation.put(PdfName.CONTENTS, new PdfString(tooltip));
 				}
-				PdfIndirectReference linkref = currentPageDevice.structureCurrentLeaf.getReference();
+				PdfIndirectReference linkref = currentPageDevice.structureCurrentNode.getReference();
 				int key = currentPageDevice.structureRoot.addExistingObject(linkref);
 				annotation.put(PdfName.STRUCTPARENT, new PdfNumber(key));
+				if (currentPageDevice.isPdfAFormat()) {
+					// See PDF specification Table 165 - Annotation flags
+					// and PDF/A-3 specification rules 6.3.2-1 and 6.3.2-2
+					annotation.put(PdfName.F, new PdfNumber(4));
+				}
 			}
 
 		}

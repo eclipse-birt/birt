@@ -708,10 +708,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	protected void startGroupTOCEntry(IGroupContent group) {
 		TOCBuilder tocBuilder = context.getTOCBuilder();
 		if (tocBuilder != null) {
-			TOCEntry entry = getParentTOCEntry();
+			TOCEntry parentTOCEntry = getParentTOCEntry();
 			String hiddenFormats = group.getStyle().getVisibleFormat();
 			long elementId = getElementId();
-			tocEntry = tocBuilder.startGroupEntry(entry, group.getTOC(), group.getBookmark(), hiddenFormats, elementId);
+			tocEntry = tocBuilder.startGroupEntry(parentTOCEntry, group.getTOC(), group.getBookmark(), hiddenFormats,
+					elementId);
 			String tocId = tocEntry.getNodeId();
 			if (group.getBookmark() == null) {
 				group.setBookmark(tocId);

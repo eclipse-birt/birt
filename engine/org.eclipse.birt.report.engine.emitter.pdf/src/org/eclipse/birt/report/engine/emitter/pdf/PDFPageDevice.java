@@ -153,7 +153,7 @@ public class PDFPageDevice implements IPageDevice {
 	// The StructureTree defines the logical structure of the content.
 	PdfStructureTreeRoot structureRoot = null;
 	PdfStructureElement structureDocument = null;
-	PdfStructureElement structureCurrentLeaf = null;
+	PdfStructureElement structureCurrentNode = null;
 
 	protected IReportContext context;
 
@@ -416,7 +416,7 @@ public class PDFPageDevice implements IPageDevice {
 
 		structureRoot = writer.getStructureTreeRoot();
 		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
-		structureCurrentLeaf = structureDocument;
+		structureCurrentNode = structureDocument;
 
 	}
 
@@ -855,6 +855,7 @@ public class PDFPageDevice implements IPageDevice {
 		} else {
 			userPdfConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_CONFORMANCE);
 		}
+
 		switch (userPdfConformance) {
 		case PDFPageDevice.PDF_CONFORMANCE_X32002:
 			this.pdfConformance = PdfWriter.PDFX32002;
@@ -869,27 +870,27 @@ public class PDFPageDevice implements IPageDevice {
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A2A:
-			this.pdfConformance = PDFA2A;
+			this.pdfConformance = PDFPageDevice.PDFA2A;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A2B:
-			this.pdfConformance = PDFA2B;
+			this.pdfConformance = PDFPageDevice.PDFA2B;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3A:
-			this.pdfConformance = PDFA3A;
+			this.pdfConformance = PDFPageDevice.PDFA3A;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3B:
-			this.pdfConformance = PDFA3B;
+			this.pdfConformance = PDFPageDevice.PDFA3B;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A3U:
-			this.pdfConformance = PDFA3U;
+			this.pdfConformance = PDFPageDevice.PDFA3U;
 			this.isPdfAFormat = true;
 			break;
 		case PDFPageDevice.PDF_CONFORMANCE_A4F:
-			this.pdfConformance = PDFA4F;
+			this.pdfConformance = PDFPageDevice.PDFA4F;
 			this.isPdfAFormat = true;
 			break;
 		default:
@@ -928,8 +929,8 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
-	// FIXME THis is a workaround for the fact that OpenPDF does not support PDF/A-2
-	// or newer
+	// FIXME The existence of these constants is a workaround for the fact that
+	// OpenPDF does not yet support PDF/A-2 or newer.
 	private static final int PDFA2A = 5;
 	private static final int PDFA2B = 6;
 	private static final int PDFA3A = 7;
@@ -950,17 +951,17 @@ public class PDFPageDevice implements IPageDevice {
 			return PDFPageDevice.PDF_CONFORMANCE_A1A;
 		case PdfWriter.PDFA1B:
 			return PDFPageDevice.PDF_CONFORMANCE_A1B;
-		case PDFA2A:
+		case PDFPageDevice.PDFA2A:
 			return PDFPageDevice.PDF_CONFORMANCE_A2A;
-		case PDFA2B:
+		case PDFPageDevice.PDFA2B:
 			return PDFPageDevice.PDF_CONFORMANCE_A2B;
-		case PDFA3A:
+		case PDFPageDevice.PDFA3A:
 			return PDFPageDevice.PDF_CONFORMANCE_A3A;
-		case PDFA3B:
+		case PDFPageDevice.PDFA3B:
 			return PDFPageDevice.PDF_CONFORMANCE_A3B;
-		case PDFA3U:
+		case PDFPageDevice.PDFA3U:
 			return PDFPageDevice.PDF_CONFORMANCE_A3U;
-		case PDFA4F:
+		case PDFPageDevice.PDFA4F:
 			return PDFPageDevice.PDF_CONFORMANCE_A4F;
 		default:
 			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
@@ -985,11 +986,14 @@ public class PDFPageDevice implements IPageDevice {
 		return this.isPdfUAFormat;
 	}
 
+	/**
+	 * PDF XMP schema for declaring that the PDF is PDF/UA conforming.
+	 *
+	 * @since 4.18
+	 *
+	 */
 	private static class PDFUASchema extends XmpSchema {
 
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = -6990512370284803429L;
 
 		public PDFUASchema() {
@@ -1007,11 +1011,17 @@ public class PDFPageDevice implements IPageDevice {
 
 	}
 
+	/**
+	 * PDF XMP schema for declaring that the PDF is PDF/A conforming.
+	 *
+	 * Since the document can be PDF/UA conforming at the same time, the PDF/A
+	 * specification requires that this is other schema is also described here.
+	 *
+	 * @since 4.18
+	 *
+	 */
 	private static class PDFAExtensionSchema extends XmpSchema {
 
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = 6654512771721220538L;
 
 		public PDFAExtensionSchema() {
@@ -1049,8 +1059,10 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Create the XML for the XMPMetadata. We use the same method from PdfWriter as
-	 * a template and add what is neeeded for PDF/UA.
+	 * Create the XML for the XMPMetadata.
+	 *
+	 * We use the same method from {@link PdfWriter} as a template and add what is
+	 * needed for PDF/UA.
 	 *
 	 * @return an XmpMetadata byte array
 	 */
@@ -1177,7 +1189,7 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Set the PDF icc color profile and the XMP meta data
+	 * Set the PDF ICC color profile and the XMP meta data
 	 */
 	private void setPdfIccXmp() {
 
@@ -1356,8 +1368,8 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Open a tag in the tag tree structure.
 	 *
-	 * Basically this means: Create a new child node for structureCurrentLeaf and
-	 * let structureCurrentLeaf point to this child node. But several edge cases
+	 * Basically this means: Create a new child node for structureCurrentNode and
+	 * let structureCurrentNode point to this child node. But several edge cases
 	 * need special handling. For example, when we are in an artifact, we don't want
 	 * to open a new tag. And containers need special handling for page-breaking to
 	 * avoid the creation of unnecessary tags, e.g. a table that spans two pages
@@ -1408,26 +1420,27 @@ public class PDFPageDevice implements IPageDevice {
 						if (PdfTag.TR.equals(tagType)) {
 							beforeOpenTableSectionTag(container);
 						}
-						structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+						structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 						try {
-							container.setStructureElement(structureCurrentLeaf);
+							container.setStructureElement(structureCurrentNode);
 						} catch (BirtException be) {
 							be.printStackTrace();
-							structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+							structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 						}
 					} else {
-						structureCurrentLeaf = container.getFirstPart().getStructureElement();
-						PdfName restored = structureCurrentLeaf.getAsName(PdfName.S);
+						structureCurrentNode = container.getFirstPart().getStructureElement();
+						PdfName restored = structureCurrentNode.getAsName(PdfName.S);
 						if (PdfName.TABLE.equals(restored)) {
 							// Also restore the table section, e.g. TBody.
-							PdfArray kids = structureCurrentLeaf.getAsArray(PdfName.K);
-							if (kids != null && kids.size() > 0) {
-								structureCurrentLeaf = (PdfStructureElement) kids.getAsDict(kids.size() - 1);
+							PdfArray children = structureCurrentNode.getAsArray(PdfName.K); // K means "kids" in this
+																							// context
+							if (children != null && children.size() > 0) {
+								structureCurrentNode = (PdfStructureElement) children.getAsDict(children.size() - 1);
 							}
 						}
 					}
 				} else {
-					structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
+					structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
 				}
 				if (PdfTag.FIGURE.equals(tagType)) {
 					addFigureAttributes();
@@ -1449,7 +1462,7 @@ public class PDFPageDevice implements IPageDevice {
 	 * @param row the RowArea.
 	 */
 	private void beforeOpenTableSectionTag(final ContainerArea row) {
-		PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+		PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
 		RowContent rowContent = (RowContent) row.getContent();
 		PdfName inject = null;
 		boolean closeSection = false;
@@ -1475,10 +1488,10 @@ public class PDFPageDevice implements IPageDevice {
 			}
 		}
 		if (closeSection) {
-			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 		if (inject != null) {
-			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, inject);
+			structureCurrentNode = new PdfStructureElement(structureCurrentNode, inject);
 		}
 	}
 
@@ -1495,16 +1508,16 @@ public class PDFPageDevice implements IPageDevice {
 			String scope = ((CellContent) (cellArea.getContent())).getScope();
 			String bookmark = cellArea.getBookmark();
 			if (bookmark != null) {
-				structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
+				structureCurrentNode.put(PdfName.ID, new PdfString(bookmark));
 			}
 
 			String headers = ((CellContent) (cellArea.getContent())).getHeaders();
 			if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
-				PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+				PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
 				if (attributes == null) {
 					attributes = new PdfDictionary();
 					attributes.put(PdfName.O, PdfName.TABLE);
-					structureCurrentLeaf.put(PdfName.A, attributes);
+					structureCurrentNode.put(PdfName.A, attributes);
 				}
 				if (rowspan != 1) {
 					attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
@@ -1528,11 +1541,11 @@ public class PDFPageDevice implements IPageDevice {
 	 * Top-Level figure elements must have a placement attribute.
 	 */
 	private void addFigureAttributes() {
-		if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
-			PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
+		if (PdfName.DOCUMENT.equals(structureCurrentNode.getParent().get(PdfName.S))) {
+			PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
 			if (attributes == null) {
 				attributes = new PdfDictionary();
-				structureCurrentLeaf.put(PdfName.A, attributes);
+				structureCurrentNode.put(PdfName.A, attributes);
 			}
 			attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
 			attributes.put(PdfName.O, PdfNames.LAYOUT);
@@ -1598,13 +1611,13 @@ public class PDFPageDevice implements IPageDevice {
 			// do nothing
 		} else {
 			if (PdfTag.TABLE.equals(tagType)) {
-				PdfName currentTag = structureCurrentLeaf.getAsName(PdfName.S);
+				PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
 				if (!currentTag.equals(PdfNames.TR)) {
 					// Close the THead/TBody/TFoot tag also
-					structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+					structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 				}
 			}
-			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 	}
 
