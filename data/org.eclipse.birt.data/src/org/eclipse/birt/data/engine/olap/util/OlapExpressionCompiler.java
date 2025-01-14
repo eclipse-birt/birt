@@ -135,7 +135,7 @@ public class OlapExpressionCompiler {
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
 			AstRoot tree = p.parse(expr, null, 0);
-			Node root = new IRFactory(ce).transformTree(tree);
+			Node root = new IRFactory(ce, "").transformTree(tree);
 
 			return getScriptObjectName(root, objectName);
 		} catch (Exception ex) {
@@ -223,7 +223,7 @@ public class OlapExpressionCompiler {
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
 			AstRoot tree = p.parse(expr.getText(), null, 0);
-			Node root = new IRFactory(ce).transformTree(tree);
+			Node root = new IRFactory(ce, "").transformTree(tree);
 
 			populateDimLevels(null, root, result, bindings, onlyFromDirectReferenceExpr);
 			return result;

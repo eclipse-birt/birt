@@ -50,7 +50,7 @@ public class OlapExpressionCompiler {
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
 			AstRoot tree = p.parse(expr, null, 0);
-			IRFactory ir = new IRFactory(ce);
+			IRFactory ir = new IRFactory(ce, "");
 			ScriptNode script = ir.transformTree(tree);
 			getScriptObjectName(script, "measure", result); //$NON-NLS-1$
 
@@ -80,7 +80,7 @@ public class OlapExpressionCompiler {
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
 			AstRoot tree = p.parse(expr, null, 0);
-			IRFactory ir = new IRFactory(ce);
+			IRFactory ir = new IRFactory(ce, "");
 			ScriptNode script = ir.transformTree(tree);
 			populateDimLevels(null, script, result);
 			return result;

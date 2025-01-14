@@ -217,7 +217,7 @@ abstract class AbstractExpressionCompiler {
 		CompilerEnvirons compilerEnv = getCompilerEnv(cx);
 		Parser p = new Parser(compilerEnv, cx.getErrorReporter());
 		AstRoot root = p.parse(expression, null, 0);
-		IRFactory ir = new IRFactory(compilerEnv);
+		IRFactory ir = new IRFactory(compilerEnv, "");
 		ScriptNode script = ir.transformTree(root);
 		return script;
 	}

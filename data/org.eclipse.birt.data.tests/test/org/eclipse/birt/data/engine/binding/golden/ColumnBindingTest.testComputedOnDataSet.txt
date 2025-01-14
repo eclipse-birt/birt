@@ -1,12 +1,12 @@
-CHINA, Beijing, 7000, 14000.0
-US, New York, 100, 200.0
-CHINA, Shanghai, 100, 200.0
-US, Chicago, 700, 1400.0
-US, New York, 100, 200.0
-CHINA, Shanghai, 100, 200.0
-CHINA, Beijing, 400, 800.0
-US, Chicago, 400, 800.0
-UK, London, 600, 1200.0
-UK, London, 700, 1400.0
-UK, Edinburgh, 800, 1600.0
-UK, Edinburgh, 1000, 2000.0
+CHINA, Beijing, 7000, 14000
+US, New York, 100, 200
+CHINA, Shanghai, 100, 200
+US, Chicago, 700, 1400
+US, New York, 100, 200
+CHINA, Shanghai, 100, 200
+CHINA, Beijing, 400, 800
+US, Chicago, 400, 800
+UK, London, 600, 1200
+UK, London, 700, 1400
+UK, Edinburgh, 800, 1600
+UK, Edinburgh, 1000, 2000

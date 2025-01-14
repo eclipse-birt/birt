@@ -313,7 +313,7 @@ public class CubeQueryUtil {
 			CompilerEnvirons ce = new CompilerEnvirons();
 			Parser p = new Parser(ce, cx.getErrorReporter());
 			AstRoot tree = p.parse(expr, null, 0);
-			IRFactory ir = new IRFactory(ce);
+			IRFactory ir = new IRFactory(ce, "");
 			ScriptNode script = ir.transformTree(tree);
 			return getScriptObjectName(script, objectName);
 		} finally {

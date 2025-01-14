@@ -154,7 +154,7 @@ public class ExpressionParserUtility {
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
 		Parser p = new Parser(compilerEnv, cx.getErrorReporter());
 		AstRoot root = p.parse(expression, null, 0);
-		IRFactory ir = new IRFactory(compilerEnv);
+		IRFactory ir = new IRFactory(compilerEnv, "");
 		return ir.transformTree(root);
 	}
 
