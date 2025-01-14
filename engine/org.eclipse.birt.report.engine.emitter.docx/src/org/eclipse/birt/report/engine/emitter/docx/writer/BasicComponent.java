@@ -1078,46 +1078,50 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		Element spanTag = doc.createElement(HTMLTags.TAG_SPAN);
 
 		NamedNodeMap nodeAttributes = nodeFont.getAttributes();
-		if (nodeAttributes != null && nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE) != null) {
-			String size = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE).getNodeValue().trim();
-			// size: absolute value converting
-			if (size.equals("0") || size.equals("1")) {
-				fontSize = "8pt";
-			} else if (size.equals("2")) {
-				fontSize = "10pt";
-			} else if (size.equals("3")) {
-				// MS Word, MHT-file: font size 12pt won't be correct converted
-				fontSize = DOCX_MHT_FONT_SIZE_REPLACEMENT;
-			} else if (size.equals("4")) {
-				fontSize = "14pt";
-			} else if (size.equals("5")) {
-				fontSize = "18pt";
-			} else if (size.equals("6")) {
-				fontSize = "24pt";
-			} else if (size.equals("7")) {
-				fontSize = "36pt";
-			}
-			// size: relative value converting
-			if (fontSize == null) {
-				if (size.length() > 2) {
-					size = size.substring(0, 2);
-				}
-				if (size.equals("-2")) {
-					fontSize = "0.75em";
-				} else if (size.equals("-1")) {
-					fontSize = "1.0em";
-				} else if (size.equals("-0") || size.equals("+0")) {
-					fontSize = "1.25em";
-				} else if (size.equals("+1")) {
-					fontSize = "1.35em";
-				} else if (size.equals("+2")) {
-					fontSize = "1.8em";
-				} else if (size.equals("+3")) {
-					fontSize = "2.4em";
-				} else if (size.equals("+4")) {
-					fontSize = "3.6em";
-				} else {
+		if (nodeAttributes != null) {
+
+			if (nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE) != null) {
+				String size = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_SIZE).getNodeValue().trim();
+
+				// size: absolute value converting
+				if (size.equals("0") || size.equals("1")) {
+					fontSize = "8pt";
+				} else if (size.equals("2")) {
 					fontSize = "10pt";
+				} else if (size.equals("3")) {
+					// MS Word, MHT-file: font size 12pt won't be correct converted
+					fontSize = DOCX_MHT_FONT_SIZE_REPLACEMENT;
+				} else if (size.equals("4")) {
+					fontSize = "14pt";
+				} else if (size.equals("5")) {
+					fontSize = "18pt";
+				} else if (size.equals("6")) {
+					fontSize = "24pt";
+				} else if (size.equals("7")) {
+					fontSize = "36pt";
+				}
+				// size: relative value converting
+				if (fontSize == null) {
+					if (size.length() > 2) {
+						size = size.substring(0, 2);
+					}
+					if (size.equals("-2")) {
+						fontSize = "0.75em";
+					} else if (size.equals("-1")) {
+						fontSize = "1.0em";
+					} else if (size.equals("-0") || size.equals("+0")) {
+						fontSize = "1.25em";
+					} else if (size.equals("+1")) {
+						fontSize = "1.35em";
+					} else if (size.equals("+2")) {
+						fontSize = "1.8em";
+					} else if (size.equals("+3")) {
+						fontSize = "2.4em";
+					} else if (size.equals("+4")) {
+						fontSize = "3.6em";
+					} else {
+						fontSize = "10pt";
+					}
 				}
 			}
 			Node colorNode = nodeAttributes.getNamedItem(HTMLTags.ATTR_TAG_FONT_COLOR);
@@ -1133,10 +1137,10 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		if (fontSize != null && fontSize.length() > 0) {
 			styleValues += HTMLTags.ATTR_FONT_SIZE + ":" + fontSize + ";";
 		}
-		if (fontColor != null && fontSize.length() > 0) {
+		if (fontColor != null && fontColor.length() > 0) {
 			styleValues += HTMLTags.ATTR_COLOR + ":" + fontColor + ";";
 		}
-		if (fontFamily != null && fontSize.length() > 0) {
+		if (fontFamily != null && fontFamily.length() > 0) {
 			styleValues += HTMLTags.ATTR_FONT_FAMILY + ":" + fontFamily + ";";
 		}
 		if (styleValues != null && styleValues.trim().length() > 0) {
@@ -1165,11 +1169,13 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	 */
 	private void getCorrectFontSize(Node nodeTag, HashMap<Node, Object> cssStyles) {
 		HashMap<String, Object> nodeStyle = (HashMap<String, Object>) cssStyles.get(nodeTag);
-		for (Object key : nodeStyle.keySet()) {
-			if (((String) key).contains(HTMLTags.ATTR_FONT_SIZE) && nodeStyle.get(key) != null
-					&& ((String) nodeStyle.get(key)).equalsIgnoreCase(DOCX_MHT_FONT_SIZE_ISSUE)) {
-					nodeStyle.replace((String) key, DOCX_MHT_FONT_SIZE_REPLACEMENT);
-					break;
+		if (nodeStyle != null) {
+			for (Object key : nodeStyle.keySet()) {
+				if (((String) key).contains(HTMLTags.ATTR_FONT_SIZE) && nodeStyle.get(key) != null
+						&& ((String) nodeStyle.get(key)).equalsIgnoreCase(DOCX_MHT_FONT_SIZE_ISSUE)) {
+						nodeStyle.replace((String) key, DOCX_MHT_FONT_SIZE_REPLACEMENT);
+						break;
+				}
 			}
 		}
 	}
