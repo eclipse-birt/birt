@@ -126,7 +126,7 @@ public class ScriptEvalTest {
 		result = ScriptEvalUtil.evaluateJSAsExpr(scontext, scope, script, "", 0);
 		result = ScriptEvalUtil.evaluateJSAsExpr(scontext, scope, script, "", 0);
 		result = ScriptEvalUtil.evaluateJSAsExpr(scontext, scope, script, "", 0);
-		assertEquals(result, new Double(1));
+		assertEquals(result, 1);
 	}
 
 	// Tests error handling

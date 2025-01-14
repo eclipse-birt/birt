@@ -89,7 +89,7 @@ public class ExpressionUtility {
 			m_compilerEnv.initFromContext(context);
 			Parser p = new Parser(m_compilerEnv, context.getErrorReporter());
 			AstRoot root = p.parse(expression, null, 0);
-			IRFactory ir = new IRFactory(m_compilerEnv);
+			IRFactory ir = new IRFactory(m_compilerEnv, "");
 			tree = ir.transformTree(root);
 		} catch (Exception e) {
 			compiledExprCache.put(expression, Boolean.valueOf(false));
