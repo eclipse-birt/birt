@@ -24,7 +24,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transposer;
-import org.eclipse.gef.editparts.ZoomListener;
+import org.eclipse.draw2d.zoom.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.SWT;
