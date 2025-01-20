@@ -19,11 +19,11 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PrecisionDimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.zoom.ZoomListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
