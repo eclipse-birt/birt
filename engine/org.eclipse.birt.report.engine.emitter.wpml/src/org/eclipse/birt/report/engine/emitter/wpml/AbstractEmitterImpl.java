@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2024 Actuate Corporation and others
+ * Copyright (c) 2008, 2024, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -1171,29 +1171,37 @@ public abstract class AbstractEmitterImpl {
 
 	protected void writeSectionInP() throws IOException, BirtException {
 		wordWriter.startSectionInParagraph();
-		writeHeaderFooter();
-		// the border width /8*20 means to convert an eighth of a point to twips.
-		wordWriter.writePageProperties(pageHeight, pageWidth, headerHeight, footerHeight,
-				topMargin + pageTopBorderWidth / 8 * 20, bottomMargin + pageBottomBorderWidth / 8 * 20,
-				leftMargin + pageLeftBorderWidth / 8 * 20, rightMargin + pageRightBorderWidth / 8 * 20,
-				orientation);
-		wordWriter.writePageBorders(previousPage.getComputedStyle(), topMargin, bottomMargin, leftMargin, rightMargin);
+		writeSectionPageProperties();
 		wordWriter.endSectionInParagraph();
 	}
 
 	protected void writeSectionInBody() throws IOException, BirtException {
 		wordWriter.startSection();
-		writeHeaderFooter();
-		wordWriter.writePageProperties(pageHeight, pageWidth, headerHeight, footerHeight,
-				topMargin + pageTopBorderWidth / 8 * 20, bottomMargin + pageBottomBorderWidth / 8 * 20,
-				leftMargin + pageLeftBorderWidth / 8 * 20, rightMargin + pageRightBorderWidth / 8 * 20,
-				orientation);
-		wordWriter.writePageBorders(previousPage.getComputedStyle(), topMargin, bottomMargin, leftMargin, rightMargin);
+		writeSectionPageProperties();
 		wordWriter.endSection();
 	}
 
-	// TOC must not contain space,word may not process TOC with
-	// space
+	protected void writeSectionPageProperties() throws IOException, BirtException {
+		writeHeaderFooter();
+
+		// WPML, header/footer without layout grid:
+		// a recalculation of the "header margin top"/"header margin bottom" is necessary
+		// WPML, borders:
+		// the border width 8*20 means to convert an eighth of a point to twips.
+		int topMarginComputed = topMargin + (this.wrappedTableHeaderFooter ? 0 : headerHeight) + pageTopBorderWidth / 8 * 20;
+		int bottomMarginComputed = bottomMargin + (this.wrappedTableHeaderFooter ? 0 : footerHeight) + pageBottomBorderWidth / 8 * 20;
+		int leftMarginComputed = leftMargin + pageLeftBorderWidth / 8 * 20;
+		int rightMarginComputed = rightMargin + pageRightBorderWidth / 8 * 20;
+
+		int headerHeightComputed = topMargin;
+		int footerHeightComputed = bottomMargin;
+
+		wordWriter.writePageProperties(pageHeight, pageWidth, headerHeightComputed, footerHeightComputed,
+				topMarginComputed, bottomMarginComputed, leftMarginComputed, rightMarginComputed, orientation);
+		wordWriter.writePageBorders(previousPage.getComputedStyle(), topMargin, bottomMargin, leftMargin, rightMargin);
+	}
+		
+	// TOC must not contain space, word may not process TOC with space
 	protected void writeToc(IContent content) {
 		writeToc(content, false);
 	}

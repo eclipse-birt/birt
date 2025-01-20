@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009, 2024 Actuate Corporation and others
+ * Copyright (c) 2008, 2009, 2024, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -243,16 +243,16 @@ public abstract class AbstractWordXmlWriter {
 	}
 
 	/**
-	 * Write page properties
+	 * Write page properties for page margin and the header & footer start margin
 	 *
 	 * @param pageHeight   page height
 	 * @param pageWidth    page width
 	 * @param headerHeight header height
 	 * @param footerHeight footer height
-	 * @param topMargin    top margin
-	 * @param bottomMargin bottom margin
-	 * @param leftMargin   left margin
-	 * @param rightMargin  right margin
+	 * @param topMargin    top margin of the page
+	 * @param bottomMargin bottom margin of the page
+	 * @param leftMargin   left margin of the page
+	 * @param rightMargin  right margin of the page
 	 * @param orient       page orientation
 	 */
 	public void writePageProperties(int pageHeight, int pageWidth, int headerHeight, int footerHeight, int topMargin,
@@ -268,8 +268,8 @@ public abstract class AbstractWordXmlWriter {
 		writer.attribute("w:bottom", bottomMargin);
 		writer.attribute("w:left", leftMargin);
 		writer.attribute("w:right", rightMargin);
-		writer.attribute("w:header", topMargin);
-		writer.attribute("w:footer", bottomMargin);
+		writer.attribute("w:header", headerHeight);
+		writer.attribute("w:footer", footerHeight);
 		writer.closeTag("w:pgMar");
 	}
 
@@ -1460,10 +1460,22 @@ public abstract class AbstractWordXmlWriter {
 		return lineId++;
 	}
 
+	/**
+	 * Set the option to wrap the header and footer with an layout grid
+	 *
+	 * @param useWrappedTable true, a wrapped layout grid for header & footer is to
+	 *                        be used
+	 */
 	public void setWrappedTableHeaderFooter(boolean useWrappedTable) {
 		this.wrappedTableHeaderFooter = useWrappedTable;
 	}
 
+	/**
+	 * Get the information whether a wrapped layout grid is to be used for header
+	 * and footer
+	 *
+	 * @return is a wrapped layout grid is to be used for header and footer
+	 */
 	public boolean getWrappedTableHeaderFooter() {
 		return this.wrappedTableHeaderFooter;
 	}
