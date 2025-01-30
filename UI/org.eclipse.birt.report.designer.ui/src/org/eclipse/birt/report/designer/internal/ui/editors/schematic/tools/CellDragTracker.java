@@ -34,9 +34,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.SharedCursors;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -83,9 +83,9 @@ public class CellDragTracker extends DragEditPartsTracker implements IDelaySelec
 	// private List allChildren = new ArrayList( );
 	private List selectedEditParts;
 
-	private Request targetRequest;
+	private ChangeBoundsRequest targetRequest;
 
-	public static final Request MARQUEE_REQUEST = new Request(RequestConstants.REQ_SELECTION);
+	public static final ChangeBoundsRequest MARQUEE_REQUEST = new ChangeBoundsRequest(RequestConstants.REQ_SELECTION);
 
 	private List calculateNewSelection() {
 
@@ -103,7 +103,7 @@ public class CellDragTracker extends DragEditPartsTracker implements IDelaySelec
 	}
 
 	@Override
-	protected Request createTargetRequest() {
+	protected ChangeBoundsRequest createTargetRequest() {
 		return MARQUEE_REQUEST;
 	}
 
@@ -177,7 +177,7 @@ public class CellDragTracker extends DragEditPartsTracker implements IDelaySelec
 	 * @see org.eclipse.gef.tools.TargetingTool#getTargetRequest()
 	 */
 	@Override
-	protected Request getTargetRequest() {
+	protected ChangeBoundsRequest getTargetRequest() {
 		if (targetRequest == null) {
 			targetRequest = createTargetRequest();
 		}
