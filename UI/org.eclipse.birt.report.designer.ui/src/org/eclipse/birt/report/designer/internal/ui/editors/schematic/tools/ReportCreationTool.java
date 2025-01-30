@@ -35,6 +35,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.swt.widgets.Display;
@@ -153,7 +154,7 @@ public class ReportCreationTool extends CreationTool {
 	 * @see org.eclipse.gef.tools.TargetingTool#getTargetRequest()
 	 */
 	@Override
-	public Request getTargetRequest() {
+	public CreateRequest getTargetRequest() {
 		return super.getTargetRequest();
 	}
 
