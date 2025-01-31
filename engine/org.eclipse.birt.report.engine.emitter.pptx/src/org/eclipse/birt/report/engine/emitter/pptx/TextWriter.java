@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation and others
+ * Copyright (c) 2021, 2024, 2025 Contributors to the Eclipse Foundation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -288,6 +288,19 @@ public class TextWriter {
 			writer.attribute("type", "slidenum");
 			setTextProperty("a:rPr", text.getStyle());
 			writer.openTag("a:pPr");
+			TextStyle style = text.getStyle();
+			// text alignment of slide number
+			if (style != null) {
+				if (hAlign != null) {
+					writer.attribute("algn", hAlign);
+				}
+				if (render.isRTL() || style.isRtl()) {
+					writer.attribute("rtl", 1);
+					if (hAlign == null) {
+						writer.attribute("algn", "r");
+					}
+				}
+			}
 			writer.closeTag("a:pPr");
 			writer.openTag("a:t");
 			canvas.writeText("‹#›");
