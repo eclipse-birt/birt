@@ -283,22 +283,25 @@ public class BackgroundImageInfo extends AreaConstants {
 	 * @param mimeType
 	 */
 	private void setMimeType(String mimeType) {
-
+		String validationType = null;
 		if (mimeType != null) {
-			this.mimeType = mimeType;
-
+			validationType = mimeType;
 		} else if (this.url.contains(DATA_PROTOCOL)) {
 			try {
 				if (url.contains(";") && url.contains(DATA_PROTOCOL)) {
 					String partMimeType = url.split(";")[1];
-					this.mimeType = partMimeType.split(DATA_PROTOCOL)[0];
+					validationType = partMimeType.split(DATA_PROTOCOL)[0];
 				}
 			} catch (IndexOutOfBoundsException ioobe) {
 				this.mimeType = null;
 			}
 		} else {
+			validationType = this.url;
+		}
+		if (validationType != null) {
 			for (int index = 0; index < SUPPORTED_MIME_TYPES.length; index++) {
-				if (this.url.toLowerCase().contains(SUPPORTED_MIME_TYPES[index][0])) {
+				if (validationType.toLowerCase().contains(SUPPORTED_MIME_TYPES[index][0])
+						|| validationType.toLowerCase().contains(SUPPORTED_MIME_TYPES[index][1])) {
 					this.mimeType = SUPPORTED_MIME_TYPES[index][1];
 					this.fileExtension = SUPPORTED_MIME_TYPES[index][2];
 					break;

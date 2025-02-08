@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -59,6 +60,8 @@ public class ImageManager {
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 
 	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
+
+	private static final String URL_PROTOCOL_TYPE_DATA_UTF8 = ";utf8,";
 
 	private static final ImageManager instance = new ImageManager();
 
@@ -278,15 +281,44 @@ public class ImageManager {
 			removeCachedImage(key);
 		}
 		InputStream in = null;
-		String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_BASE);
-		String imageDataBase64 = imageDataArray[1];
+
 		Decoder decoder = java.util.Base64.getDecoder();
 
 		try {
-			if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
+			if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)
+					&& key.toLowerCase().contains(URL_PROTOCOL_TYPE_DATA_BASE))
 			{
+				String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_BASE);
+				String imageDataBase64 = imageDataArray[0];
+				if (imageDataArray.length == 2)
+					imageDataBase64 = imageDataArray[1];
 				in = convertSvgToRasterImage(new String(decoder.decode(imageDataBase64)));
+
+			} else if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)
+					&& key.toLowerCase().contains(URL_PROTOCOL_TYPE_DATA_UTF8))
+			{
+				String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_UTF8);
+				String imageDataUtf8 = imageDataArray[0];
+				if (imageDataArray.length == 2)
+					imageDataUtf8 = imageDataArray[1];
+				in = convertSvgToRasterImage(new String(imageDataUtf8));
+
+			} else if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
+				String decodedKey = "x";
+				String[] imageDataArray = url.split("svg\\+xml,");
+				String imageDataUtf8 = imageDataArray[0];
+				if (imageDataArray.length == 2)
+					imageDataUtf8 = imageDataArray[1];
+
+				try {
+					decodedKey = java.net.URLDecoder.decode(imageDataUtf8, StandardCharsets.UTF_8.name());
+				} catch (UnsupportedEncodingException e) {
+				}
+				in = convertSvgToRasterImage(new String(decodedKey));
+
 			} else {
+				String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_BASE);
+				String imageDataBase64 = imageDataArray[1];
 				in = new ByteArrayInputStream(decoder.decode(imageDataBase64));
 			}
 			ImageData[] datas = new ImageLoader().load(in);
@@ -477,7 +509,7 @@ public class ImageManager {
 	 */
 	private InputStream convertSvgToRasterImage(String imageSvg) throws IOException {
 
-		// convert svg image to JPEG image bytes
+		// convert svg image to PNG image bytes
 		PNGTranscoder pngTranscoder = new PNGTranscoder();
 		// create the transcoder input
 		StringReader reader = new StringReader(imageSvg);
@@ -487,7 +519,7 @@ public class ImageManager {
 		TranscoderOutput output = new TranscoderOutput(ostream);
 		try {
 			pngTranscoder.transcode(input, output);
-		} catch (TranscoderException eJpeg) {
+		} catch (TranscoderException e) {
 		}
 		// flush the stream
 		ostream.flush();
