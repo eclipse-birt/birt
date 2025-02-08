@@ -48,6 +48,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -811,13 +812,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart
 		} catch (IOException e) {
 			in = null;
 		}
-
-		int dpi = UIUtil.getImageResolution(in)[0];
-		if (in != null) {
-			try {
-				in.close();
-			} catch (IOException e) {
-				ExceptionHandler.handle(e);
+		int dpi = 96;
+		if (!SvgFile.isSvg(backGroundImage, backGroundImage, backGroundImage)) {
+			dpi = UIUtil.getImageResolution(in)[0];
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					ExceptionHandler.handle(e);
+				}
 			}
 		}
 		return dpi;

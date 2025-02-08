@@ -52,6 +52,9 @@ import com.lowagie.text.Font;
  */
 public class PropertyUtil {
 
+	/** property: default dpi of resolution, 96dpi */
+	public static final int DEFAULT_DPI = 96;
+
 	private static Logger logger = Logger.getLogger(PropertyUtil.class.getName());
 
 	private static Pattern colorPattern = Pattern.compile("rgb\\(.+,.+,.+\\)");
@@ -332,7 +335,7 @@ public class PropertyUtil {
 			resolution = getScreenDpi();
 		}
 		if (0 == resolution) {
-			resolution = 96;
+			resolution = DEFAULT_DPI;
 		}
 		return resolution;
 	}
@@ -363,7 +366,7 @@ public class PropertyUtil {
 			} catch (HeadlessException e) {
 				screenDpi = 0;
 			}
-			if (screenDpi < 96 || screenDpi > 120) {
+			if (screenDpi < DEFAULT_DPI || screenDpi > 120) {
 				screenDpi = 0;
 			}
 		}
@@ -377,7 +380,7 @@ public class PropertyUtil {
 	 * @return Return the dimension value
 	 */
 	public static int getDimensionValue(CSSValue value) {
-		return getDimensionValue(value, 96, 0);
+		return getDimensionValue(value, DEFAULT_DPI, 0);
 	}
 
 	/**
@@ -390,7 +393,7 @@ public class PropertyUtil {
 	 */
 	@Deprecated
 	public static int getDimensionValue(CSSValue value, int referenceLength) {
-		return getDimensionValue(value, 96, referenceLength);
+		return getDimensionValue(value, DEFAULT_DPI, referenceLength);
 	}
 
 	/**
@@ -421,7 +424,7 @@ public class PropertyUtil {
 				ReportDesignHandle designHandle = content.getReportContent().getDesign().getReportDesign();
 				int dpi = designHandle.getImageDPI();
 				if (dpi == 0) {
-					dpi = 96;
+					dpi = DEFAULT_DPI;
 				}
 				return (int) (v / dpi * 72000f);
 
