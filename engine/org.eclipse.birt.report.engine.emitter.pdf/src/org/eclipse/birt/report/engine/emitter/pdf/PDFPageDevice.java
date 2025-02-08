@@ -193,6 +193,8 @@ public class PDFPageDevice implements IPageDevice {
 
 	private final static String PDF_FONT_CID_SET = "PdfEmitter.IncludeCidSet";
 
+	private final static String PDF_BACKGROUND_IMAGE_SVG_TO_RASTER = "PdfEmitter.BackGroundImageSvgToRaster";
+
 	protected Map<String, Expression> userProperties;
 
 	private char pdfVersion = '0';
@@ -210,6 +212,8 @@ public class PDFPageDevice implements IPageDevice {
 	private String defaultFontPdfA = null;
 
 	private boolean includeFontCidSet = true;
+
+	private boolean useBackgroundImageSvg = true;
 
 	/**
 	 *
@@ -244,8 +248,12 @@ public class PDFPageDevice implements IPageDevice {
 
 			// PDF/A, set the default font of not embeddable fonts
 			this.setDefaultFontPdfA();
+
 			// PDF include font CID set stream
 			this.setIncludeCidSet();
+
+			// Validate the usage of SVG images for background images
+			this.useBackgroundImageSvgToRasterImage();
 
 			// PDF/A (A1A, A1B), avoid compression and transparency
 			if (!this.isPdfAFormat) {
@@ -1126,6 +1134,25 @@ public class PDFPageDevice implements IPageDevice {
 			this.includeFontCidSet = Boolean
 					.parseBoolean((String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_FONT_CID_SET));
 
+	}
+
+	/**
+	 * SVG background images are use native or converted to raster images
+	 */
+	private void useBackgroundImageSvgToRasterImage() {
+		if (this.userProperties != null
+				&& this.userProperties.containsKey(PDFPageDevice.PDF_BACKGROUND_IMAGE_SVG_TO_RASTER))
+			this.useBackgroundImageSvg = !Boolean
+					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_BACKGROUND_IMAGE_SVG_TO_RASTER).toString());
+	}
+
+	/**
+	 * Get the usage of SVG background images
+	 *
+	 * @return the usage of SVG background images
+	 */
+	public boolean useBackgroundImageSvg() {
+		return this.useBackgroundImageSvg;
 	}
 
 	/**

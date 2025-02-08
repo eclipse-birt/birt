@@ -22,6 +22,20 @@ The following list get an overview of all supported user properties, the content
 	Reference  	see PdfEmitter.PrependDocumentList
 	Designer  	4.17
 
+**PdfEmitter.BackGroundImageSvgToRaster**
+
+	Content    	PDF documents use SVG images directly.
+              	If it is necessary to convert the images before to raster images this option can be set.
+              	Afterwards the SVG images will be transformed to PNG images. 
+	Location   	report
+	Data type  	boolean
+	Values     	true, SVG images has to be converted to raster images
+	           	false, SVG images used directly
+	Default    	false
+	Reference  	-
+	Since	    	4.19
+	Designer  	-
+
 **PdfEmitter.Conformance**
 
 	Content    	define the PDF conformance of the created PDF document, e.g. PDF.A1A
