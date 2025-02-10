@@ -193,6 +193,8 @@ public class PDFPage extends AbstractPage {
 				}
 			} catch (Exception e) {
 				// default handling, use raster image
+				logger.log(Level.WARNING,
+						"SVG file not usable, the raster image will be used instead. " + e.getMessage());
 			}
 
 			// raster images & fallback of SVG images
