@@ -47,6 +47,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Image;
+import com.lowagie.text.pdf.PdfStructureElement;
 
 /**
  *
@@ -103,7 +104,151 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected transient boolean isInInlineStacking = false;
 
+	/**
+	 * It seems as if this variable is no longer used. I cannot find any place where
+	 * it is actually read, except in a cloning constructor.
+	 */
 	protected transient boolean first = true;
+
+	/**
+	 * This is needed for split tracking in PDF/UA. For example, if a table is
+	 * longer than one page, it must be a single table in the tag structure
+	 * nevertheless, and the table element on the next page must be marked as an
+	 * artifact.
+	 *
+	 * @since 4.19
+	 *
+	 */
+	public static class SplitTrackingData {
+		public SplitTrackingData() {
+		};
+
+		public ContainerArea firstPart = null;
+		public short partNumber = 1;
+		public short lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
+		public boolean artifact = false;
+	}
+
+	/**
+	 * Split tracking data is only present if a split actually occurs and we
+	 * generate tagged PDF output, to save memory.
+	 */
+	protected transient SplitTrackingData splitTracking = null;
+
+	/**
+	 * Mark this area is a paging artifact.
+	 */
+	public void setArtifact() {
+		if (splitTracking == null) {
+			splitTracking = new SplitTrackingData();
+			splitTracking.artifact = true;
+		}
+	}
+
+	/**
+	 * Is this a paging artifact or not?
+	 *
+	 * @return true if is a paging artifact.
+	 */
+	public boolean isArtifact() {
+		if (splitTracking == null) {
+			return false;
+		}
+		return splitTracking.artifact;
+	}
+
+	/**
+	 * Track the split. Link to the first part, increment the last part number and
+	 * set the partNumber.
+	 *
+	 * Note: previousPart was just created.
+	 *
+	 * Some parts of the tracking data are stored in the firstPart, while others are
+	 * stored in the current area.
+	 *
+	 */
+	protected void setPreviousPart(ContainerArea previousPart) {
+		if (splitTracking == null) {
+			splitTracking = new SplitTrackingData();
+		}
+		previousPart.splitTracking = new SplitTrackingData();
+		if (splitTracking.partNumber == 1) {
+			splitTracking.firstPart = previousPart;
+		} else {
+			previousPart.splitTracking.firstPart = splitTracking.firstPart;
+		}
+		previousPart.splitTracking.partNumber = splitTracking.firstPart.splitTracking.lastPartNumber;
+		splitTracking.firstPart.splitTracking.lastPartNumber++;
+		splitTracking.partNumber = splitTracking.firstPart.splitTracking.lastPartNumber;
+	}
+
+	/**
+	 * @return true if this Area is not split at all or if it is the first part of
+	 *         the split areas sequence.
+	 */
+	public boolean isFirstPart() {
+		if (splitTracking == null) {
+			return true;
+		}
+		return splitTracking.partNumber == 1;
+	}
+
+	/**
+	 * This links to the first part of the split sequence.
+	 *
+	 * @return First area of the split sequence, or null if this is already the
+	 *         first area (or not split at all).
+	 */
+	public ContainerArea getFirstPart() {
+		if (splitTracking == null) {
+			return null;
+		}
+		return splitTracking.firstPart;
+	}
+
+	/**
+	 * Get the number of the last part of the split sequence. This is equal to split
+	 * sequence length.
+	 *
+	 * @return a natural number.
+	 */
+	public short getLastPartNumber() {
+		if (splitTracking == null) {
+			return 1;
+		}
+		return splitTracking.lastPartNumber;
+	}
+
+	PdfStructureElement structureElement;
+
+	/**
+	 * The PDF structure element (that is, a node inside the tag structure tree).
+	 *
+	 * This is only defined for the first part of the split sequence.
+	 *
+	 * @return The structure element, or null if not called for the first part of
+	 *         the split sequence.
+	 */
+	public PdfStructureElement getStructureElement() {
+		return structureElement;
+	}
+
+	/**
+	 * Set the PDF structure element (that is, a node inside the tag structure
+	 * tree).
+	 *
+	 * @param structureElement a PDF structure element, derived from the PDF tag
+	 *                         type.
+	 * @throws BirtException if not called for the first part of the split sequence.
+	 */
+	public void setStructureElement(PdfStructureElement structureElement) throws BirtException {
+		if (!isFirstPart()) {
+			throw new BirtException("Can only store a PdfStructureElement for the first part of a split Area");
+
+		}
+		this.structureElement = structureElement;
+	}
+
 	protected transient boolean finished = false;
 
 	protected CSSValue pageBreakAfter = null;
@@ -476,20 +621,31 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	public abstract void initialize() throws BirtException;
 
 	/**
-	 * Split container lines
+	 * Split container lines.
+	 *
+	 * This method need better documentation. What is its purpose?
 	 *
 	 * @param lineCount
-	 * @return Return the splitted results
+	 * @return Return the split result
 	 * @throws BirtException
 	 */
 	public abstract SplitResult splitLines(int lineCount) throws BirtException;
 
 	/**
-	 * Split container lines
+	 * Try to split the container which does not fit into the current page.
 	 *
-	 * @param height
-	 * @param force
-	 * @return Return the splitted results
+	 * If the container is actually split, then the result status is
+	 * SPLIT_SUCCEED_WITH_PART, and the result container is a new container which
+	 * contains the first part of the split sequence, while this container is
+	 * modified in place to remove that first part.
+	 *
+	 * If we think of this containers content as a List (which is isn't), this is
+	 * logically similar to firtPart = this.content.remove(0);
+	 *
+	 * @param height The remaining page height.
+	 * @param force  If this is true, ignore "page-break-inside: avoid" and
+	 *               "page-break-before: avoid" properties.
+	 * @return The split result.
 	 * @throws BirtException
 	 */
 	public abstract SplitResult split(int height, boolean force) throws BirtException;

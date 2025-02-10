@@ -86,8 +86,8 @@ public class TOCHandler {
 	/**
 	 * create a PDF outline for tocNode, using the pol as the parent PDF outline.
 	 *
-	 * @param tocNode   The tocNode whose kids need to build a PDF outline tree
-	 * @param pol       The parent PDF outline for these kids
+	 * @param tocNode   The tocNode whose children need to build a PDF outline tree
+	 * @param pol       The parent PDF outline for these children
 	 * @param bookmarks All bookMarks created during rendering
 	 */
 	protected void createTOC(TOCNode tocNode, PdfOutline pol, Set<String> bookmarks) {

@@ -38,8 +38,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
@@ -48,6 +50,7 @@ import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
@@ -76,6 +79,7 @@ import com.lowagie.text.xml.xmp.LangAlt;
 import com.lowagie.text.xml.xmp.PdfA1Schema;
 import com.lowagie.text.xml.xmp.PdfSchema;
 import com.lowagie.text.xml.xmp.XmpBasicSchema;
+import com.lowagie.text.xml.xmp.XmpSchema;
 import com.lowagie.text.xml.xmp.XmpWriter;
 
 /**
@@ -97,19 +101,36 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_VERSION_1_6 = "1.6";
 	/** PDF version 1.7 */
 	private static final String PDF_VERSION_1_7 = "1.7";
+	/** PDF version 2.0 */
+	private static final String PDF_VERSION_2_0 = "2.0";
 
 	/** PDFX/PDFA conformance */
 	/** PDF conformance PDF Standard */
 	private static final String PDF_CONFORMANCE_STANDARD = "PDF.Standard";
-	/** PDF conformance PDF X-3:2002 */
+	/** PDF conformance PDF/X-3:2002 */
 	private static final String PDF_CONFORMANCE_X32002 = "PDF.X32002";
-	/** PDF conformance PDF A1A */
+	/** PDF conformance PDF/A-1a */
 	private static final String PDF_CONFORMANCE_A1A = "PDF.A1A";
-	/** PDF conformance PDF A1B */
+	/** PDF conformance PDFA-1b */
 	private static final String PDF_CONFORMANCE_A1B = "PDF.A1B";
+	/** PDF conformance PDF/A-2a */
+	private static final String PDF_CONFORMANCE_A2A = "PDF.A2A";
+	/** PDF conformance PDFA-2b */
+	private static final String PDF_CONFORMANCE_A2B = "PDF.A2B";
+	/** PDF conformance PDF/A-3a */
+	private static final String PDF_CONFORMANCE_A3A = "PDF.A3A";
+	/** PDF conformance PDFA-3b */
+	private static final String PDF_CONFORMANCE_A3B = "PDF.A3B";
+	/** PDF conformance PDF/A-3u */
+	private static final String PDF_CONFORMANCE_A3U = "PDF.A3U";
+	/** PDF conformance PDF/A-4f */
+	private static final String PDF_CONFORMANCE_A4F = "PDF.A4F";
+
 	/** PDF conformance PDF X-1a:2001, unsupported (TODO: CMYK of PDF.X1A2001 */
 
 	private static final String PDF_UA_CONFORMANCE_1 = "PDF.UA-1";
+	private static final String PDF_UA_CONFORMANCE_2 = "PDF.UA-2";
+	private static final String PDF_UA_CONFORMANCE_NONE = "none";
 
 	/** PDF ICC color profile */
 	/** PDF ICC default color profile RGB */
@@ -132,7 +153,7 @@ public class PDFPageDevice implements IPageDevice {
 	// The StructureTree defines the logical structure of the content.
 	PdfStructureTreeRoot structureRoot = null;
 	PdfStructureElement structureDocument = null;
-	PdfStructureElement structureCurrentLeaf = null;
+	PdfStructureElement structureCurrentNode = null;
 
 	protected IReportContext context;
 
@@ -288,7 +309,8 @@ public class PDFPageDevice implements IPageDevice {
 					throw new BirtException("The report needs a locale property for PDF/UA!");
 				}
 				Locale locale = new Locale(localeString);
-				String language = locale.toLanguageTag();
+				String language = locale.toString();
+				language = language.replace('_', '-'); // 'de_de' is invalid, it should be 'de-DE'.
 				doc.setDocumentLanguage(language);
 				// In order to declare the main language of the document,
 				// we need to use the extraCatalog. That way we don't need to
@@ -332,7 +354,7 @@ public class PDFPageDevice implements IPageDevice {
 							// iterate over the list, and create a file inputstream for each file location.
 							for (String s : list.split(",")) {
 								// If there is an exception creating the input stream, don't stop execution.
-								// Just graceffully let the user know that there was an error with the variable.
+								// Just gracefully let the user know that there was an error with the variable.
 								try {
 									String fileName = s.trim().replace("\\", "\\\\");
 									File f = new File(fileName);
@@ -354,15 +376,13 @@ public class PDFPageDevice implements IPageDevice {
 				}
 
 				// The other is a "Named Expression", which is basically a user property that is
-				// the result
-				// of an expression instead of a string literal. This should be set as an
-				// arraylist through
-				// BIRT script
+				// the result of an expression instead of a string literal. This should be set
+				// as an arraylist through BIRT script
 				if (result instanceof ArrayList) {
 					ArrayList<String> pdfList = (ArrayList<String>) result;
-						for (String fileName : pdfList) {
+					for (String fileName : pdfList) {
 						// If there is an exception creating the input stream, don't stop execution.
-						// Just graceffully let the user know that there was an error with the variable.
+						// Just gracefully let the user know that there was an error with the variable.
 						fileName = fileName.replace("\\", "\\\\");
 						try {
 							File f = new File(fileName);
@@ -397,11 +417,14 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	/**
+	 * Initialize the attributes for the PDF tag tree structure.
+	 */
 	public void initStructure() {
 
 		structureRoot = writer.getStructureTreeRoot();
 		structureDocument = new PdfStructureElement(structureRoot, new PdfName("Document"));
-		structureCurrentLeaf = structureDocument;
+		structureCurrentNode = structureDocument;
 
 	}
 
@@ -508,22 +531,21 @@ public class PDFPageDevice implements IPageDevice {
 						// iterate over the list, and create a fileinputstream for each file location.
 						for (String s : list.split(",")) {
 							// If there is an exception creating the input stream, don't stop execution.
-							// Just graceffully let the user know that there was an error with the variable.
+							// Just gracefully let the user know that there was an error with the variable.
 							try {
 								String fileName = s.trim().replace("\\", "\\\\");
-								;
-									File f = new File(fileName);
-									if (f.exists()) {
-										FileInputStream fis = new FileInputStream(f);
-										pdfs.add(fis);
-									} else {
-										// get the file using context.getResource() for relative or universal paths
-										URL url = context.getResource(fileName);
-										InputStream is = new BufferedInputStream(url.openStream());
-										pdfs.add(is);
+								File f = new File(fileName);
+								if (f.exists()) {
+									FileInputStream fis = new FileInputStream(f);
+									pdfs.add(fis);
+								} else {
+									// get the file using context.getResource() for relative or universal paths
+									URL url = context.getResource(fileName);
+									InputStream is = new BufferedInputStream(url.openStream());
+									pdfs.add(is);
 								}
-								} catch (Exception e) {
-									logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (Exception e) {
+								logger.log(Level.WARNING, e.getMessage(), e);
 							}
 						}
 					}
@@ -532,14 +554,13 @@ public class PDFPageDevice implements IPageDevice {
 
 			// option 2: "Named Expression", which is basically a user property that is the
 			// result of an expression instead of a string literal. This should be set as an
-			// arraylist through
-			// BIRT script
+			// arraylist through BIRT script
 			if (result instanceof ArrayList) {
 				ArrayList<String> pdfList = (ArrayList<String>) result;
 
 				for (String fileName : pdfList) {
 					// If there is an exception creating the input stream, don't stop execution.
-					// Just graceffully let the user know that there was an error with the variable.
+					// Just gracefully let the user know that there was an error with the variable.
 					fileName = fileName.replace("\\", "\\\\");
 					try {
 						File f = new File(fileName);
@@ -563,7 +584,7 @@ public class PDFPageDevice implements IPageDevice {
 			}
 		}
 
-		if (this.isPdfAFormat) {
+		if (this.isPdfAFormat || this.isPdfUAFormat) {
 			// PDF/A: set color profile and metadata
 			this.setPdfIccXmp();
 		}
@@ -710,8 +731,10 @@ public class PDFPageDevice implements IPageDevice {
 
 	/**
 	 * Set the PDF version based on the user property
+	 *
+	 * @throws BirtException
 	 */
-	private void setPdfVersion() {
+	private void setPdfVersion() throws BirtException {
 		String userPdfVersion;
 		// PDF version based on user property
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDF_VERSION)) {
@@ -726,8 +749,9 @@ public class PDFPageDevice implements IPageDevice {
 	 * Set the PDF version
 	 *
 	 * @param version key to set the PDF version (e.g. 1.7)
+	 * @throws BirtException
 	 */
-	public void setPdfVersion(String version) {
+	public void setPdfVersion(String version) throws BirtException {
 		switch (version) {
 		case PDFPageDevice.PDF_VERSION_1_3:
 			this.pdfVersion = PdfWriter.VERSION_1_3;
@@ -744,6 +768,10 @@ public class PDFPageDevice implements IPageDevice {
 		case PDFPageDevice.PDF_VERSION_1_7:
 			this.pdfVersion = PdfWriter.VERSION_1_7;
 			break;
+		case PDFPageDevice.PDF_VERSION_2_0:
+			// this.pdfVersion = PdfWriter.VERSION_2_0;
+			// OpenPDF does not yet support creation of PDF 2.0
+			throw new BirtException("OpenPDF does not yet support creation of PDF 2.0");
 		}
 		// version only set if the PDF version exists
 		if (this.pdfVersion != '0') {
@@ -768,12 +796,17 @@ public class PDFPageDevice implements IPageDevice {
 	/**
 	 * Set the PDF version
 	 *
-	 * @param conformance key to set the PDF version (e.g. 1.7)
+	 * @param conformance key to set the PDF/UA version (e.g. PDF/UA-1)
 	 */
 	public void setPdfUAConformance(String conformance) {
 		switch (conformance) {
 		case PDFPageDevice.PDF_UA_CONFORMANCE_1:
 			this.pdfUAConformance = 1;
+			this.isPdfUAFormat = true;
+			writer.setTagged();
+			break;
+		case PDFPageDevice.PDF_UA_CONFORMANCE_2:
+			this.pdfUAConformance = 2;
 			this.isPdfUAFormat = true;
 			writer.setTagged();
 			break;
@@ -789,8 +822,10 @@ public class PDFPageDevice implements IPageDevice {
 		switch (this.pdfUAConformance) {
 		case 1:
 			return PDFPageDevice.PDF_UA_CONFORMANCE_1;
+		case 2:
+			return PDFPageDevice.PDF_UA_CONFORMANCE_2;
 		default:
-			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
+			return PDFPageDevice.PDF_UA_CONFORMANCE_NONE;
 		}
 	}
 
@@ -828,6 +863,7 @@ public class PDFPageDevice implements IPageDevice {
 		} else {
 			userPdfConformance = (String) getReportDesignConfiguration(this.report, PDFPageDevice.PDF_CONFORMANCE);
 		}
+
 		switch (userPdfConformance) {
 		case PDFPageDevice.PDF_CONFORMANCE_X32002:
 			this.pdfConformance = PdfWriter.PDFX32002;
@@ -841,6 +877,30 @@ public class PDFPageDevice implements IPageDevice {
 			this.pdfConformance = PdfWriter.PDFA1B;
 			this.isPdfAFormat = true;
 			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A2A:
+			this.pdfConformance = PDFPageDevice.PDFA2A;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A2B:
+			this.pdfConformance = PDFPageDevice.PDFA2B;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3A:
+			this.pdfConformance = PDFPageDevice.PDFA3A;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3B:
+			this.pdfConformance = PDFPageDevice.PDFA3B;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A3U:
+			this.pdfConformance = PDFPageDevice.PDFA3U;
+			this.isPdfAFormat = true;
+			break;
+		case PDFPageDevice.PDF_CONFORMANCE_A4F:
+			this.pdfConformance = PDFPageDevice.PDFA4F;
+			this.isPdfAFormat = true;
+			break;
 		default:
 			this.pdfConformance = PdfWriter.PDFXNONE;
 			this.isPdfAFormat = false;
@@ -851,11 +911,11 @@ public class PDFPageDevice implements IPageDevice {
 		// PDFA: overwrite to get the document title independent of the openPDF
 		// issue of PDF/A-conformance
 		if (this.userProperties != null && this.userProperties.containsKey(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE)) {
-			this.addPdfADocumentTitle = Boolean.parseBoolean(this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString());
-		} else {
 			this.addPdfADocumentTitle = Boolean
-					.parseBoolean(
-							(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE));
+					.parseBoolean(this.userProperties.get(PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE).toString());
+		} else {
+			this.addPdfADocumentTitle = Boolean.parseBoolean(
+					(String) getReportDesignConfiguration(this.report, PDFPageDevice.PDFA_ADD_DOCUMENT_TITLE));
 		}
 	}
 
@@ -866,10 +926,25 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public void setPdfConformance(int pdfConformance) {
 		writer.setPDFXConformance(pdfConformance);
-		if (pdfConformance == PdfWriter.PDFA1A) {
+		switch (pdfConformance) {
+		case PdfWriter.PDFA1A:
+		case PDFA2A:
+		case PDFA3A:
 			writer.setTagged();
+			break;
+		default:
+			// do nothing
 		}
 	}
+
+	// FIXME The existence of these constants is a workaround for the fact that
+	// OpenPDF does not yet support PDF/A-2 or newer.
+	private static final int PDFA2A = 5;
+	private static final int PDFA2B = 6;
+	private static final int PDFA3A = 7;
+	private static final int PDFA3B = 8;
+	private static final int PDFA3U = 9;
+	private static final int PDFA4F = 10;
 
 	/**
 	 * Get the PDF conformance
@@ -884,6 +959,18 @@ public class PDFPageDevice implements IPageDevice {
 			return PDFPageDevice.PDF_CONFORMANCE_A1A;
 		case PdfWriter.PDFA1B:
 			return PDFPageDevice.PDF_CONFORMANCE_A1B;
+		case PDFPageDevice.PDFA2A:
+			return PDFPageDevice.PDF_CONFORMANCE_A2A;
+		case PDFPageDevice.PDFA2B:
+			return PDFPageDevice.PDF_CONFORMANCE_A2B;
+		case PDFPageDevice.PDFA3A:
+			return PDFPageDevice.PDF_CONFORMANCE_A3A;
+		case PDFPageDevice.PDFA3B:
+			return PDFPageDevice.PDF_CONFORMANCE_A3B;
+		case PDFPageDevice.PDFA3U:
+			return PDFPageDevice.PDF_CONFORMANCE_A3U;
+		case PDFPageDevice.PDFA4F:
+			return PDFPageDevice.PDF_CONFORMANCE_A4F;
 		default:
 			return PDFPageDevice.PDF_CONFORMANCE_STANDARD;
 		}
@@ -908,21 +995,23 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * We need to override getXmlns because we have to define the pdfuaid namespace.
+	 * PDF XMP schema for declaring that the PDF is PDF/UA conforming.
+	 *
+	 * @since 4.18
+	 *
 	 */
-	private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
+	private static class PDFUASchema extends XmpSchema {
 
-		public DublinCoreAccessibleSchema() {
-			super();
-		}
+		private static final long serialVersionUID = -6990512370284803429L;
 
-		@Override
-		public String getXmlns() {
-			return super.getXmlns() + " xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"";
+		public PDFUASchema() {
+			super("xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\"");
 		}
 
 		/**
 		 * This is what declares the document to be PDF/UA-1, so it must be called.
+		 *
+		 * @param version the PDF/UA version. Valid values are 1 or 2.
 		 */
 		public void addPdfUAId(int version) {
 			setProperty("pdfuaid:part", String.valueOf(version));
@@ -931,8 +1020,57 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Create the XML for the XMPMetadata. We use the same method from PdfWriter as
-	 * a template and add what is neeeded for PDF/UA.
+	 * PDF XMP schema for declaring that the PDF is PDF/A conforming.
+	 *
+	 * Since the document can be PDF/UA conforming at the same time, the PDF/A
+	 * specification requires that this is other schema is also described here.
+	 *
+	 * @since 4.18
+	 *
+	 */
+	private static class PDFAExtensionSchema extends XmpSchema {
+
+		private static final long serialVersionUID = 6654512771721220538L;
+
+		public PDFAExtensionSchema() {
+			super("xmlns:pdfaExtension=\"http://www.aiim.org/pdfa/ns/extension/\" xmlns:pdfaProperty=\"http://www.aiim.org/pdfa/ns/property#\" xmlns:pdfaSchema=\"http://www.aiim.org/pdfa/ns/schema#\"");
+		}
+
+		public String toString() {
+			return "            <pdfaExtension:schemas>\r\n" + "                <rdf:Bag>\r\n"
+					+ "                    <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                        <pdfaSchema:namespaceURI>http://www.aiim.org/pdfua/ns/id/</pdfaSchema:namespaceURI>\r\n"
+					+ "                        <pdfaSchema:prefix>pdfuaid</pdfaSchema:prefix>\r\n"
+					+ "                        <pdfaSchema:schema>PDF/UA identification schema</pdfaSchema:schema>\r\n"
+					+ "                        <pdfaSchema:property>\r\n" + "                            <rdf:Seq>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA version identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>part</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Integer</pdfaProperty:valueType>\r\n"
+					+ "                                </rdf:li>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA amendment identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>amd</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Text</pdfaProperty:valueType>\r\n"
+					+ "\r\n" + "                                </rdf:li>\r\n"
+					+ "                                <rdf:li rdf:parseType=\"Resource\">\r\n"
+					+ "                                    <pdfaProperty:category>internal</pdfaProperty:category>\r\n"
+					+ "                                    <pdfaProperty:description>PDF/UA corrigenda identifier</pdfaProperty:description>\r\n"
+					+ "                                    <pdfaProperty:name>corr</pdfaProperty:name>\r\n"
+					+ "                                    <pdfaProperty:valueType>Text</pdfaProperty:valueType>\r\n"
+					+ "                                </rdf:li>\r\n" + "                            </rdf:Seq>\r\n"
+					+ "                        </pdfaSchema:property>\r\n" + "                    </rdf:li>\r\n"
+					+ "                </rdf:Bag>\r\n" + "            </pdfaExtension:schemas>\r\n" + "";
+		}
+	}
+
+	/**
+	 * Create the XML for the XMPMetadata.
+	 *
+	 * We use the same method from {@link PdfWriter} as a template and add what is
+	 * needed for PDF/UA.
 	 *
 	 * @return an XmpMetadata byte array
 	 */
@@ -947,7 +1085,7 @@ public class PDFPageDevice implements IPageDevice {
 			// Not tested.
 			int PdfXConformance = writer.getPDFXConformance();
 			XmpWriter xmp = new XmpWriter(baos, "UTF-8", 4);
-			DublinCoreAccessibleSchema dc = new DublinCoreAccessibleSchema();
+			DublinCoreSchema dc = new DublinCoreSchema();
 			PdfSchema p = new PdfSchema();
 			XmpBasicSchema basic = new XmpBasicSchema();
 
@@ -990,10 +1128,6 @@ public class PDFPageDevice implements IPageDevice {
 					basic.addModDate(((PdfDate) obj).getW3CDate());
 				}
 			}
-			if (this.isPDFUAFormat()) {
-				// Declare the document to be PDF/UA conformant.
-				dc.addPdfUAId(this.pdfUAConformance);
-			}
 
 			if (dc.size() > 0)
 				xmp.addRdfDescription(dc);
@@ -1002,13 +1136,56 @@ public class PDFPageDevice implements IPageDevice {
 			if (basic.size() > 0)
 				xmp.addRdfDescription(basic);
 
-			// Declare the document to be PDF/A conformant, if requested by the developer.
-			if (PdfXConformance == PdfWriter.PDFA1A || PdfXConformance == PdfWriter.PDFA1B) {
+			if (this.isPDFUAFormat()) {
+				// Declare the document to be PDF/UA conforming.
+				PDFUASchema ua = new PDFUASchema();
+				ua.addPdfUAId(this.pdfUAConformance);
+				xmp.addRdfDescription(ua);
+			}
+
+			// Declare the document to be PDF/A conforming, if requested by the developer.
+			if (isPdfAFormat) {
+
+				// If the document is also PDF/UA conforming, we need to add a description of
+				// that schema as an PDF/A extension.
+				if (isPDFUAFormat()) {
+					PDFAExtensionSchema pdfaext = new PDFAExtensionSchema();
+					xmp.addRdfDescription(pdfaext);
+				}
+
 				PdfA1Schema a1 = new PdfA1Schema();
-				if (PdfXConformance == PdfWriter.PDFA1A)
+				switch (PdfXConformance) {
+				case PdfWriter.PDFA1A:
+				case PdfWriter.PDFA1B:
+					a1.addPart("1");
+					break;
+				case PDFA2A:
+				case PDFA2B:
+					a1.addPart("2");
+					break;
+				case PDFA3A:
+				case PDFA3B:
+				case PDFA3U:
+					a1.addPart("3");
+					break;
+				case PDFA4F:
+					a1.addPart("4");
+					break;
+				}
+				switch (PdfXConformance) {
+				case PdfWriter.PDFA1A:
+				case PDFA2A:
+				case PDFA3A:
 					a1.addConformance("A");
-				else
+					break;
+				case PdfWriter.PDFA1B:
+				case PDFA2B:
+				case PDFA3B:
 					a1.addConformance("B");
+					break;
+				case PDFA4F:
+					a1.addConformance("F");
+				}
 				xmp.addRdfDescription(a1);
 			}
 
@@ -1020,7 +1197,7 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * Set the PDF icc color profile and the XMP meta data
+	 * Set the PDF ICC color profile and the XMP meta data
 	 */
 	private void setPdfIccXmp() {
 
@@ -1039,10 +1216,13 @@ public class PDFPageDevice implements IPageDevice {
 			String fullFileNameIcc = "";
 			if (this.userProperties != null
 					&& userProperties.containsKey(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)) {
-				fullFileNameIcc = userProperties.get(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE).toString().trim();
+				fullFileNameIcc = userProperties.get(PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE).toString();
 			} else {
 				fullFileNameIcc = ((String) getReportDesignConfiguration(this.report,
-						PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE)).trim();
+						PDFPageDevice.PDF_ICC_PROFILE_EXTERNAL_FILE));
+			}
+			if (fullFileNameIcc != null) {
+				fullFileNameIcc = fullFileNameIcc.trim();
 			}
 			if (fullFileNameIcc != null && fullFileNameIcc.length() > 0) {
 				try {
@@ -1213,67 +1393,189 @@ public class PDFPageDevice implements IPageDevice {
 	}
 
 	/**
-	 * @param tagType
+	 * Open a tag in the tag tree structure.
+	 *
+	 * Basically this means: Create a new child node for structureCurrentNode and
+	 * let structureCurrentNode point to this child node. But several edge cases
+	 * need special handling. For example, when we are in an artifact, we don't want
+	 * to open a new tag. And containers need special handling for page-breaking to
+	 * avoid the creation of unnecessary tags, e.g. a table that spans two pages
+	 * must still a single table in the tag tree.
+	 *
+	 * If the PDF emitter is not configured to create tagged PDF, then this method
+	 * is a no-op.
+	 *
+	 * @param tagType the tag type. Note that we use some special tag types AUTO,
+	 *                PAGE_HEADER and PAGE_FOOTER which are not actually PDF tags,
+	 *                but plcaeholders which trigger special handling here.
+	 * @param area    the area for which we create a tag.
 	 */
-	public void pushTag(String tagType, IArea area) {
-		if (!writer.isTagged()) {
+	public void openTag(String tagType, IArea area) {
+		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
-		if ("pageHeader".equals(tagType)) {
-			currentPage.beginArtifact();
-		} else if ("pageFooter".equals(tagType)) {
-			currentPage.beginArtifact();
-		} else if (currentPage.isInArtifact()) {
-			;
-		} else {
-			structureCurrentLeaf = new PdfStructureElement(structureCurrentLeaf, new PdfName(tagType));
-			// FIXME Adding attributes should be made a method of the IArea classes.
-			if ("Figure".equals(tagType)) {
-				// Top-Level figure elements must have a placement attribute.
-				if (PdfName.DOCUMENT.equals(structureCurrentLeaf.getParent().get(PdfName.S))) {
-					PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
-					if (attributes == null) {
-						attributes = new PdfDictionary();
-						structureCurrentLeaf.put(PdfName.A, attributes);
+		PdfDictionary properties = null;
+		switch (tagType) {
+		case PdfTag.AUTO:
+			System.err.println("TODO: auto TagType found for area: " + area);
+			break;
+		case PdfTag.PAGE_HEADER:
+			properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+			properties.put(PdfNames.SUBTYPE, PdfNames.HEADER);
+			currentPage.beginArtifact(properties);
+			break;
+		case PdfTag.PAGE_FOOTER:
+			properties = new PdfDictionary();
+			properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+			properties.put(PdfNames.SUBTYPE, PdfNames.FOOTER);
+			currentPage.beginArtifact(properties);
+			break;
+		default:
+			if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
+				properties = new PdfDictionary();
+				// FIXME: It is not clear if Pagination or Page is the appropriate type for
+				// repeated header rows.
+				properties.put(PdfNames.TYPE, PdfNames.PAGINATION);
+				currentPage.beginArtifact(properties);
+			} else if (currentPage.isInArtifact()) {
+				// Do not open a tag inside artifacts.
+			} else {
+				if (area instanceof ContainerArea) {
+					final ContainerArea container = (ContainerArea) area;
+					if (container.isFirstPart()) {
+						if (PdfTag.TR.equals(tagType)) {
+							beforeOpenTableSectionTag(container);
+						}
+						structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
+						try {
+							container.setStructureElement(structureCurrentNode);
+						} catch (BirtException be) {
+							be.printStackTrace();
+							structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
+						}
+					} else {
+						structureCurrentNode = container.getFirstPart().getStructureElement();
+						PdfName restored = structureCurrentNode.getAsName(PdfName.S);
+						if (PdfName.TABLE.equals(restored)) {
+							// Also restore the table section, e.g. TBody.
+							PdfArray children = structureCurrentNode.getAsArray(PdfName.K); // K means "kids" in this
+																							// context
+							if (children != null && children.size() > 0) {
+								structureCurrentNode = (PdfStructureElement) children.getAsDict(children.size() - 1);
+							}
+						}
 					}
-					attributes.put(new PdfName("Placement"), new PdfName("Block"));
-					attributes.put(PdfName.O, new PdfName("Layout"));
+				} else {
+					structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
+				}
+				if (PdfTag.FIGURE.equals(tagType)) {
+					addFigureAttributes();
+				}
+				if (PdfTag.TD.equals(tagType) || PdfTag.TH.equals(tagType)) {
+					addTableCellAttributes(tagType, area);
 				}
 			}
-			if ("TD".equals(tagType) || "TH".equals(tagType)) {
-				if (area instanceof CellArea) {
-					CellArea cellArea = (CellArea) area;
-					int rowspan = cellArea.getRowSpan();
-					int colspan = cellArea.getColSpan();
-					String scope = ((CellContent) (cellArea.getContent())).getScope();
-					String bookmark = cellArea.getBookmark();
-					if (bookmark != null) {
-						structureCurrentLeaf.put(PdfName.ID, new PdfString(bookmark));
-					}
+		}
+	}
 
-					String headers = ((CellContent) (cellArea.getContent())).getHeaders();
-					if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
-						PdfDictionary attributes = structureCurrentLeaf.getAsDict(PdfName.A);
-						if (attributes == null) {
-							attributes = new PdfDictionary();
-							attributes.put(PdfName.O, PdfName.TABLE);
-							structureCurrentLeaf.put(PdfName.A, attributes);
-						}
-						if (rowspan != 1) {
-							attributes.put(new PdfName("RowSpan"), new PdfNumber(rowspan));
-						}
-						if (colspan != 1) {
-							attributes.put(new PdfName("ColSpan"), new PdfNumber(colspan));
-						}
-						if (scope != null && "TH".equals(tagType)) {
-							attributes.put(new PdfName("Scope"), pdfScope((scope)));
-						}
-						if (headers != null) {
-							attributes.put(new PdfName("Headers"), commaSeparatedToPdfByteStringArray((headers)));
-						}
-					}
+	/**
+	 * Open a tag for the table section THead, TBody, TFoot when necessary.
+	 *
+	 * When opening a row, we want to open e.g. a TBody tag if it is the first row
+	 * of the table body. If we are still in the wrong section, we have to close
+	 * that section tag first before opening the new section tag.
+	 *
+	 * @param row the RowArea.
+	 */
+	private void beforeOpenTableSectionTag(final ContainerArea row) {
+		PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
+		RowContent rowContent = (RowContent) row.getContent();
+		PdfName inject = null;
+		boolean closeSection = false;
+		switch (rowContent.getBand().getBandType()) {
+		case IBandContent.BAND_HEADER:
+			// THead
+			if (!currentTag.equals(PdfName.THEAD)) {
+				inject = PdfName.THEAD;
+			}
+			break;
+		case IBandContent.BAND_FOOTER:
+			// TFoot
+			if (!currentTag.equals(PdfName.TFOOT)) {
+				inject = PdfName.TFOOT;
+				closeSection = !currentTag.equals(PdfName.TABLE);
+			}
+			break;
+		default:
+			// TBody
+			if (!currentTag.equals(PdfName.TBODY)) {
+				inject = PdfName.TBODY;
+				closeSection = !currentTag.equals(PdfName.TABLE);
+			}
+		}
+		if (closeSection) {
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
+		}
+		if (inject != null) {
+			structureCurrentNode = new PdfStructureElement(structureCurrentNode, inject);
+		}
+	}
+
+	/**
+	 * Add attributes for a table cell.
+	 *
+	 * They are necessary to connect TD cells with their corresponding TH cells.
+	 */
+	private void addTableCellAttributes(String tagType, IArea area) {
+		if (area instanceof CellArea) {
+			CellArea cellArea = (CellArea) area;
+			int rowspan = cellArea.getRowSpan();
+			int colspan = cellArea.getColSpan();
+			String scope = ((CellContent) (cellArea.getContent())).getScope();
+			String bookmark = cellArea.getBookmark();
+			if (bookmark != null) {
+				structureCurrentNode.put(PdfName.ID, new PdfString(bookmark));
+			}
+
+			String headers = ((CellContent) (cellArea.getContent())).getHeaders();
+			if (rowspan != 1 || colspan != 1 || scope != null || headers != null) {
+				PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
+				if (attributes == null) {
+					attributes = new PdfDictionary();
+					attributes.put(PdfName.O, PdfName.TABLE);
+					structureCurrentNode.put(PdfName.A, attributes);
+				}
+				if (rowspan != 1) {
+					attributes.put(PdfNames.ROWSPAN, new PdfNumber(rowspan));
+				}
+				if (colspan != 1) {
+					attributes.put(PdfNames.COLSPAN, new PdfNumber(colspan));
+				}
+				if (scope != null && PdfTag.TH.equals(tagType)) {
+					attributes.put(PdfNames.SCOPE, pdfScope((scope)));
+				}
+				if (headers != null) {
+					attributes.put(PdfNames.HEADERS, commaSeparatedToPdfByteStringArray((headers)));
 				}
 			}
+		}
+	}
+
+	/**
+	 * Add necessary attributes for figure tags.
+	 *
+	 * Top-Level figure elements must have a placement attribute.
+	 */
+	private void addFigureAttributes() {
+		if (PdfName.DOCUMENT.equals(structureCurrentNode.getParent().get(PdfName.S))) {
+			PdfDictionary attributes = structureCurrentNode.getAsDict(PdfName.A);
+			if (attributes == null) {
+				attributes = new PdfDictionary();
+				structureCurrentNode.put(PdfName.A, attributes);
+			}
+			attributes.put(PdfNames.PLACEMENT, PdfNames.BLOCK);
+			attributes.put(PdfName.O, PdfNames.LAYOUT);
 		}
 	}
 
@@ -1301,35 +1603,53 @@ public class PDFPageDevice implements IPageDevice {
 			return null;
 		}
 		if ("col".equals(scope)) {
-			return new PdfName("Column");
+			return PdfNames.COLUMN;
 		}
 		if ("row".equals(scope)) {
-			return new PdfName("Row");
+			return PdfNames.ROW;
 		}
 		logger.warning("Unsupported scope: " + scope);
 		return null;
 	}
 
 	/**
-	 * @param tagType
+	 * This is the opposite of openTag.
+	 *
+	 * Every tag that has been opened must be closed exactly once.
+	 *
+	 *
+	 * If the PDF emitter is not configured to create tagged PDF, then this method
+	 * is a no-op.
+	 *
+	 * @param tagType must be the same as in the call to openTag.
+	 * @param area    must be the same as in the call to openTag.
 	 */
-	public void popTag(String tagType) {
-		if (!writer.isTagged()) {
+	public void closeTag(String tagType, IArea area) {
+		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
 		if ("pageHeader".equals(tagType)) {
 			currentPage.endArtifact();
 		} else if ("pageFooter".equals(tagType)) {
 			currentPage.endArtifact();
+		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
+			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
-			;
+			// do nothing
 		} else {
-			structureCurrentLeaf = (PdfStructureElement) structureCurrentLeaf.getParent();
+			if (PdfTag.TABLE.equals(tagType)) {
+				PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
+				if (!currentTag.equals(PdfNames.TR)) {
+					// Close the THead/TBody/TFoot tag also
+					structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
+				}
+			}
+			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 	}
 
 	/**
-	 * Is the writer is expected to create tagged PDF or not?
+	 * @return Is the writer is expected to create tagged PDF or not?
 	 */
 	public boolean isTagged() {
 		return writer.isTagged();

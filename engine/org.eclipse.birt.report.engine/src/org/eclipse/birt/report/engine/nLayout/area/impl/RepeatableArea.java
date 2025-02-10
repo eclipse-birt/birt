@@ -142,7 +142,17 @@ public abstract class RepeatableArea extends BlockContainerArea {
 				}
 			}
 		}
-		return super.split(height, force);
+		SplitResult ret = super.split(height, force);
+		if (ret.status == SplitResult.SPLIT_SUCCEED_WITH_PART) {
+			Iterator<IArea> i = children.iterator();
+			while (i.hasNext()) {
+				ContainerArea area = (ContainerArea) i.next();
+				if (isInRepeatHeader(area) || "Caption".equals(area.getTagType())) {
+					area.setArtifact();
+				}
+			}
+		}
+		return ret;
 	}
 
 	@Override

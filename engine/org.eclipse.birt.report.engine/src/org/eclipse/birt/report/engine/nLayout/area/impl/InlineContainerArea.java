@@ -251,8 +251,13 @@ public class InlineContainerArea extends InlineStackingArea implements IContaine
 		Object generateBy = content.getGenerateBy();
 		if (generateBy == null) {
 			return "Span";
+			// Hmm... I would also like to just return null, but that results
+			// in an InvalidArgumentException: "The structure has kids" when rendered.
 		}
-		return ((ITagType) generateBy).getTagType();
+		if (generateBy instanceof ITagType) {
+			return ((ITagType) generateBy).getTagType();
+		}
+		return null;
 	}
 
 }
