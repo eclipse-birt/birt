@@ -17,14 +17,17 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.awt.Color;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.content.impl.RowContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -350,6 +353,29 @@ public class CellArea extends BlockContainerArea implements IContainerArea {
 			cell.setHeight(currentBP + getOffsetY() + localProperties.getPaddingBottom());
 		}
 		return cell;
+	}
+
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if (PdfTagConstant.AUTO.equals(tagType)) {
+			tagType = PdfTagConstant.TD;
+			// In a table row, either TH or TD depending on the row.
+			// In a grid row, no tag at all is used.
+			RowArea row = (RowArea) getParent();
+			if (row.getTableArea().isGridDesign()) {
+				tagType = null;
+			} else {
+				RowContent rowContent = (RowContent)row.getContent();
+				if (rowContent.getBand() != null) {
+					int bandType = rowContent.getBand().getBandType();
+					if (bandType == IBandContent.BAND_HEADER || bandType == IBandContent.BAND_GROUP_HEADER) {
+						tagType = PdfTagConstant.TH;
+					}
+				}
+			}
+		}
+		return tagType;
 	}
 
 }

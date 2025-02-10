@@ -108,7 +108,7 @@ public class LayoutTable {
 	}
 
 	/**
-	 * Return a cell element with the given poistion. Uses this method to find cells
+	 * Return a cell element with the given position. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
 	 *
 	 * @param slotId the slot index,

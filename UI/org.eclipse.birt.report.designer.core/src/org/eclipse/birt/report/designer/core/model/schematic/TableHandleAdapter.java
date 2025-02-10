@@ -59,7 +59,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	private static final String NAME_NULL = ""; //$NON-NLS-1$
 	private static final String NAME_DETAIL = Messages.getString("TableHandleAdapter.name.detail"); //$NON-NLS-1$
 	private static final String NAME_FOOTER = Messages.getString("TableHandleAdapter.name.footer"); //$NON-NLS-1$
-	private static final String NAME_HEADRER = Messages.getString("TableHandleAdapter.name.header"); //$NON-NLS-1$
+	private static final String NAME_HEADER = Messages.getString("TableHandleAdapter.name.header"); //$NON-NLS-1$
 	private static final String TRANS_LABEL_NOT_INCLUDE = Messages
 			.getString("TableHandleAdapter.transLabel.notInclude"); //$NON-NLS-1$
 	private static final String TRANS_LABEL_INCLUDE = Messages.getString("TableHandleAdapter.transLabel.include"); //$NON-NLS-1$
@@ -1502,7 +1502,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter {
 	protected static String getOperationName(int id) {
 		switch (id) {
 		case HEADER:
-			return NAME_HEADRER;
+			return NAME_HEADER;
 		case FOOTER:
 			return NAME_FOOTER;
 		case DETAIL:

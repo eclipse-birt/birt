@@ -9,9 +9,8 @@
     <property name="imageDPI">96</property>
     <property name="locale">de_DE</property>
     <property name="pdfVersion">1.7</property>
-    <property name="pdfConformance">PDF.A3A</property>
+    <property name="pdfConformance">PDF.A1A</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
-    <property name="pdfaFontCidEmbed">false</property>
     <property name="pdfaDocumentTitleEmbed">true</property>
     <styles>
         <style name="report" id="6">
@@ -21,16 +20,37 @@
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
+            <page-header>
+                <label id="7">
+                    <text-property name="text">Das ist ein Label im Header der MasterPage</text-property>
+                </label>
+            </page-header>
         </simple-master-page>
     </page-setup>
     <body>
-        <label id="4">
+        <label id="8">
             <property name="fontSize">12pt</property>
-            <text-property name="text">Das ist die Überschrift</text-property>
+            <property name="fontWeight">bold</property>
+            <text-property name="text">Überschrift auf Ebene 1</text-property>
             <property name="tagType">H1</property>
         </label>
         <label id="5">
             <text-property name="text">Und das ist normaler Text.</text-property>
         </label>
+        <image id="13">
+            <property name="height">5.171717171717172in</property>
+            <property name="width">5.171717171717172in</property>
+            <expression name="altText">"Eine gemalte Sonne mit Gesicht"</expression>
+            <property name="source">file</property>
+            <expression name="uri" type="constant">./sonne.png</expression>
+            <list-property name="action">
+                <structure>
+                    <property name="linkType">hyperlink</property>
+                    <property name="toolTip">Die Website der Eclipse Stiftung</property>
+                    <expression name="uri" type="constant">https://eclipse.org</expression>
+                    <property name="targetWindow">_blank</property>
+                </structure>
+            </list-property>
+        </image>
     </body>
 </report>
