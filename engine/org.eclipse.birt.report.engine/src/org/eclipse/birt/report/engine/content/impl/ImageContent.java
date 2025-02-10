@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2009 Actuate Corporation.
+ * Copyright (c) 2004, 2009, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -31,6 +32,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
+/**
+ * Representation of the image content
+ *
+ * @since 3.3
+ *
+ */
 public class ImageContent extends AbstractContent implements IImageContent {
 	protected String helpTextKey;
 	protected String extension;
@@ -192,6 +199,15 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	@Override
 	public void setAltText(String altText) {
 		this.altText = altText;
+	}
+
+	@Override
+	public boolean isFitToContainer() {
+		boolean fit = false;
+		if (generateBy instanceof ImageItemDesign) {
+			fit = ((ImageItemDesign) generateBy).isFitToContainer();
+		}
+		return fit;
 	}
 
 	private void setImageName(String name) {
@@ -438,10 +454,10 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	private ImageSize calculateImageSize() {
 
 		double contentWidthValue = 100;
-		String contentWidthUnit = "%";
+		String contentWidthUnit = DimensionType.UNITS_PERCENTAGE;
 
 		double contentHeightValue = 100;
-		String contentHeightUnit = "%";
+		String contentHeightUnit = DimensionType.UNITS_PERCENTAGE;
 
 		double calculatedWidthValue = 200;
 		double calculatedHeightValue = 200;
@@ -462,12 +478,16 @@ public class ImageContent extends AbstractContent implements IImageContent {
 			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(contentWidthUnit)) {
 				calculatedWidthValue = (this.imageRawSize.getWidth() * contentWidthValue / 100);
 
+			} else {
+				calculatedWidthValue = this.imageRawSize.getWidth();
 			}
 
 			// calculate the image height size in "px"
 			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(contentHeightUnit)) {
 				calculatedHeightValue = (this.imageRawSize.getHeight() * contentHeightValue / 100);
 
+			} else {
+				calculatedHeightValue = this.imageRawSize.getHeight();
 			}
 		}
 		return new ImageSize("px", (float) calculatedWidthValue, (float) calculatedHeightValue);
@@ -499,4 +519,5 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	public ImageSize getImageCalculatedSize() {
 		return this.imageCalcSize;
 	}
+
 }

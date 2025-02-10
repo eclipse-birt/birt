@@ -252,9 +252,34 @@ public abstract class HTMLEmitter {
 	 * @param value   The values of the property
 	 */
 	public void buildSize(StringBuffer content, String name, DimensionType value) {
-		if (value != null) {
-			boolean percentageUnit = value.getUnits().equals(DesignChoiceConstants.UNITS_PERCENTAGE);
-			String size = formatSize(value);
+		buildSize(content, name, value, null);
+	}
+
+	/**
+	 * Build size style string say, "width: 10.0mm;". The min-height should be
+	 * implemented by special way.
+	 *
+	 * @param content The <code>StringBuffer</code> to which the result is output.
+	 * @param name    The property name
+	 * @param value   The values of the property like string
+	 *
+	 * @since 4.19
+	 */
+	public void buildSize(StringBuffer content, String name, String value) {
+		buildSize(content, name, null, value);
+	}
+
+	private void buildSize(StringBuffer content, String name, DimensionType value, String directValue) {
+		if (value != null || directValue != null) {
+			boolean percentageUnit = false;
+			String size = "auto";
+			if (value != null) {
+				percentageUnit = value.getUnits().equals(DesignChoiceConstants.UNITS_PERCENTAGE);
+				size = formatSize(value);
+			} else if (directValue != null) {
+				percentageUnit = directValue.equals(DesignChoiceConstants.UNITS_PERCENTAGE);
+				size = directValue;
+			}
 			if (HTMLTags.ATTR_MIN_HEIGHT.equals(name)) {
 				// Percentage unit cannot use auto
 				if (fixedReport || percentageUnit) {

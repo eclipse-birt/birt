@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import static org.eclipse.birt.report.engine.ir.DimensionType.UNITS_IN;
-
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -63,8 +61,7 @@ public class ImageItemExecutor extends QueryItemExecutor {
 	/**
 	 * Creates an ImageItemExecutor using this constructor.
 	 *
-	 * @param context The execution context.
-	 * @param visitor The report visitor.
+	 * @param manager The execution manager.
 	 */
 	public ImageItemExecutor(ExecutorManager manager) {
 		super(manager, ExecutorManager.IMAGEITEM);
@@ -129,6 +126,7 @@ public class ImageItemExecutor extends QueryItemExecutor {
 
 		if (imageDesign.isProportionalScale() && width != null && height != null) {
 			com.lowagie.text.Image imageData = EmitterUtil.getImage(imageContent);
+			String targetUnit = DimensionType.UNITS_PX;
 
 			if (imageData != null) {
 				double iw = imageData.getWidth();
@@ -138,15 +136,15 @@ public class ImageItemExecutor extends QueryItemExecutor {
 
 				double rw = 0;
 				double rh = 0;
-				String targetUnit = UNITS_IN;
-				if (width.getUnits().equalsIgnoreCase(height.getUnits())) {
+				targetUnit = DimensionType.UNITS_IN;
+				if (width != null && width.getUnits().equalsIgnoreCase(height.getUnits())) {
 					targetUnit = width.getUnits();
 					rw = width.getMeasure();
 					rh = height.getMeasure();
 				} else {
 					try {
-						rw = width.convertTo(UNITS_IN);
-						rh = height.convertTo(UNITS_IN);
+						rw = width.convertTo(DimensionType.UNITS_IN);
+						rh = height.convertTo(DimensionType.UNITS_IN);
 					} catch (IllegalArgumentException e) {
 						rw = PropertyUtil.getDimensionValue(imageContent, width) / 1000.0;
 						rh = PropertyUtil.getDimensionValue(imageContent, height) / 1000.0;
