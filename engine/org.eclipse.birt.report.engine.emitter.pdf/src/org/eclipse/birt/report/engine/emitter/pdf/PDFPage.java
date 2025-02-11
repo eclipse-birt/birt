@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2007, 2024, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -19,6 +19,9 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -163,6 +166,7 @@ public class PDFPage extends AbstractPage {
 		endArtifact();
 	}
 
+
 	@Override
 	protected void drawBackgroundImage(float x, float y, float width, float height, float imageWidth, float imageHeight,
 			int repeat, String imageUrl, byte[] imageData, float offsetX, float offsetY) throws Exception {
@@ -179,20 +183,39 @@ public class PDFPage extends AbstractPage {
 			}
 		}
 		if (image == null) {
-			Image img = Image.getInstance(imageData);
-			if (imageHeight == 0 || imageWidth == 0) {
-				int resolutionX = img.getDpiX();
-				int resolutionY = img.getDpiY();
-				if (0 == resolutionX || 0 == resolutionY) {
-					resolutionX = 96;
-					resolutionY = 96;
+
+			// SVG images
+			try {
+				if (this.pageDevice.useBackgroundImageSvg() && SvgFile.isSvg(null, null, imageUrl)
+						&& (new File((new URL(imageUrl)).toURI().getPath())).exists()) {
+					image = transSVG(imageUrl, null, imageHeight, imageWidth);
+					if (image != null) {
+						drawImage(image, x, y, imageHeight, imageWidth, null);
+					}
 				}
-				imageWidth = img.getPlainWidth() / resolutionX * 72;
-				imageHeight = img.getPlainHeight() / resolutionY * 72;
+			} catch (Exception e) {
+				// default handling, use raster image
+				logger.log(Level.WARNING,
+						"SVG file not usable, the raster image will be used instead. " + e.getMessage());
 			}
 
-			image = contentByte.createTemplate(imageWidth, imageHeight);
-			image.addImage(img, imageWidth, 0, 0, imageHeight, 0, 0);
+			// raster images & fallback of SVG images
+			if (image == null) {
+				Image img = Image.getInstance(imageData);
+				if (imageHeight == 0 || imageWidth == 0) {
+					int resolutionX = img.getDpiX();
+					int resolutionY = img.getDpiY();
+					if (0 == resolutionX || 0 == resolutionY) {
+						resolutionX = 96;
+						resolutionY = 96;
+					}
+					imageWidth = img.getPlainWidth() / resolutionX * 72;
+					imageHeight = img.getPlainHeight() / resolutionY * 72;
+				}
+
+				image = contentByte.createTemplate(imageWidth, imageHeight);
+				image.addImage(img, imageWidth, 0, 0, imageHeight, 0, 0);
+			}
 
 			if (imageUrl != null && image != null) {
 				pageDevice.getImageCache().put(imageUrl, image);
