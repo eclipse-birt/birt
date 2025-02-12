@@ -418,7 +418,7 @@ public class EngineIRVisitor extends DesignVisitor {
 	 * @param namedExpressions the data structure that hold named expressions
 	 */
 	private Map<String, Expression> createUserProperties(DesignElementHandle handle) {
-		List propDefns = handle.getUserProperties();
+		List<?> propDefns = handle.getUserProperties();
 		if (propDefns == null || propDefns.isEmpty()) {
 			return null;
 		}
@@ -1043,7 +1043,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		if (columnBindingName == null) {
 			return null;
 		}
-		Iterator iterator = tableHandle.columnBindingsIterator();
+		Iterator<?> iterator = tableHandle.columnBindingsIterator();
 		while (iterator.hasNext()) {
 			ComputedColumnHandle columnBinding = (ComputedColumnHandle) iterator.next();
 			if (columnBindingName.equals(columnBinding.getName())) {
@@ -1197,8 +1197,8 @@ public class EngineIRVisitor extends DesignVisitor {
 	/**
 	 * Sets up cell element's style attribute.
 	 *
-	 * @param cell   engine's styled cell element.
-	 * @param handle DE's styled cell element.
+	 * @param design engine's styled element
+	 * @param handle element handle
 	 */
 	protected void setupStyledElement(StyledElementDesign design, ReportElementHandle handle) {
 		// Styled element is a report element
@@ -1340,7 +1340,6 @@ public class EngineIRVisitor extends DesignVisitor {
 	 * create a list group using the DE's ListGroup.
 	 *
 	 * @param handle De's list group
-	 * @return engine's list group
 	 */
 	@Override
 	public void visitListGroup(ListGroupHandle handle) {
@@ -1381,7 +1380,6 @@ public class EngineIRVisitor extends DesignVisitor {
 	 * create a table group using the DE's TableGroup.
 	 *
 	 * @param handle De's table group
-	 * @return engine's table group
 	 */
 	@Override
 	public void visitTableGroup(TableGroupHandle handle) {
@@ -1464,14 +1462,14 @@ public class EngineIRVisitor extends DesignVisitor {
 			return;
 		}
 
-		Iterator propIter = extendedHandle.getPropertyIterator();
+		Iterator<?> propIter = extendedHandle.getPropertyIterator();
 		while (propIter.hasNext()) {
 			PropertyHandle propHandle = (PropertyHandle) propIter.next();
 			IElementPropertyDefn property = propHandle.getPropertyDefn();
 			if (property.getTypeCode() == IPropertyType.ELEMENT_TYPE) {
 				Object children = propHandle.getValue();
 				if (children instanceof List) {
-					List tempList = (List) children;
+					List<?> tempList = (List<?>) children;
 					for (int i = 0; tempList != null && i < tempList.size(); i++) {
 						Object tempObj = tempList.get(i);
 						if (tempObj instanceof ReportItemHandle) {
@@ -1578,7 +1576,7 @@ public class EngineIRVisitor extends DesignVisitor {
 	 * @return null only if the iterator is null or it contains no rules, otherwise
 	 *         VisibilityDesign
 	 */
-	protected VisibilityDesign createVisibility(Iterator visibilityRulesIterator) {
+	protected VisibilityDesign createVisibility(Iterator<?> visibilityRulesIterator) {
 		if (visibilityRulesIterator != null) {
 			if (visibilityRulesIterator.hasNext()) {
 				VisibilityDesign visibility = new VisibilityDesign();
@@ -1667,7 +1665,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 
 		// Sets up the visibility
-		Iterator visibilityIter = handle.visibilityRulesIterator();
+		Iterator<?> visibilityIter = handle.visibilityRulesIterator();
 		VisibilityDesign visibility = createVisibility(visibilityIter);
 		item.setVisibility(visibility);
 
@@ -1714,7 +1712,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		setupReportElement(element, handle);
 
 		// Sets up the visibility
-		Iterator visibilityIter = handle.visibilityRulesIterator();
+		Iterator<?> visibilityIter = handle.visibilityRulesIterator();
 		VisibilityDesign visibility = createVisibility(visibilityIter);
 		element.setVisibility(visibility);
 	}
@@ -1756,7 +1754,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			drillThrough.setBookmarkType(
 					!DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals(handle.getTargetBookmarkType()));
 			Map<String, List<Expression>> params = new HashMap<>();
-			Iterator paramIte = handle.paramBindingsIterator();
+			Iterator<?> paramIte = handle.paramBindingsIterator();
 			while (paramIte.hasNext()) {
 				ParamBindingHandle member = (ParamBindingHandle) paramIte.next();
 				String name = member.getParamName();
@@ -1823,7 +1821,7 @@ public class EngineIRVisitor extends DesignVisitor {
 			return;
 		}
 		// highlight Rules
-		Iterator iter = handle.highlightRulesIterator();
+		Iterator<?> iter = handle.highlightRulesIterator();
 
 		if (iter == null) {
 			return;
@@ -1854,7 +1852,7 @@ public class EngineIRVisitor extends DesignVisitor {
 		if (handle == null) {
 			return;
 		}
-		Iterator iter = handle.mapRulesIterator();
+		Iterator<?> iter = handle.mapRulesIterator();
 		if (iter == null) {
 			return;
 		}
@@ -1877,7 +1875,8 @@ public class EngineIRVisitor extends DesignVisitor {
 	/**
 	 * create a map rule.
 	 *
-	 * @param obj map rule in DE.
+	 * @param handle      map rule in DE.
+	 * @param defaultExpr map rule in DE.
 	 * @return map rule in ENGINE.
 	 */
 	protected MapRuleDesign createMapRule(MapRuleHandle handle, Expression defaultExpr) {
@@ -1926,8 +1925,8 @@ public class EngineIRVisitor extends DesignVisitor {
 		}
 
 		// Check if the style is already in report's style list
-		Map styles = report.getStyles();
-		Iterator iter = styles.entrySet().iterator();
+		Map<?, ?> styles = report.getStyles();
+		Iterator<?> iter = styles.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry entry = (Map.Entry) iter.next();
 			// Cast the type mandatorily
@@ -2121,9 +2120,8 @@ public class EngineIRVisitor extends DesignVisitor {
 					return null;
 				}
 				return propHandle.getStringValue();
-			} else {
-				return null;
 			}
+			return null;
 		}
 		return null;
 	}
@@ -2405,13 +2403,12 @@ public class EngineIRVisitor extends DesignVisitor {
 			if (ExpressionType.CONSTANT.equals(type)) {
 				String text = expr.getStringExpression();
 				return Expression.newConstant(-1, text);
-			} else {
-				String text = expr.getStringExpression();
-				if (text != null) {
-					text = text.trim();
-					if (text.length() > 0) {
-						return Expression.newScript(type, text);
-					}
+			}
+			String text = expr.getStringExpression();
+			if (text != null) {
+				text = text.trim();
+				if (text.length() > 0) {
+					return Expression.newScript(type, text);
 				}
 			}
 		}
@@ -2426,13 +2423,12 @@ public class EngineIRVisitor extends DesignVisitor {
 					// String valueType = expressionHandle.getValue( );
 					String text = expressionHandle.getStringExpression();
 					return Expression.newConstant(-1, text);
-				} else {
-					String text = expressionHandle.getStringExpression();
-					if (text != null) {
-						text = text.trim();
-						if (text.length() > 0) {
-							return Expression.newScript(type, text);
-						}
+				}
+				String text = expressionHandle.getStringExpression();
+				if (text != null) {
+					text = text.trim();
+					if (text.length() > 0) {
+						return Expression.newScript(type, text);
 					}
 				}
 			}
