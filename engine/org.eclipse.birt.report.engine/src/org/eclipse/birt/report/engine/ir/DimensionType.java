@@ -21,64 +21,122 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
- *
+ * Class of dimension type
  */
 public class DimensionType {
 
 	private static Logger log = Logger.getLogger(DimensionType.class.getName());
 
+	/** property: dimension type */
 	public final static int TYPE_DIMENSION = 1;
+
+	/** property: type choice */
 	public final static int TYPE_CHOICE = 0;
-	public final static String UNITS_CM = EngineIRConstants.UNITS_CM;
-	public final static String UNITS_EM = EngineIRConstants.UNITS_EM;
-	public final static String UNITS_EX = EngineIRConstants.UNITS_EX;
-	public final static String UNITS_IN = EngineIRConstants.UNITS_IN;
-	public final static String UNITS_MM = EngineIRConstants.UNITS_MM;
-	public final static String UNITS_PC = EngineIRConstants.UNITS_PC;
-	public final static String UNITS_PERCENTAGE = EngineIRConstants.UNITS_PERCENTAGE;
-	public final static String UNITS_PT = EngineIRConstants.UNITS_PT;
-	public final static String UNITS_PX = EngineIRConstants.UNITS_PX;
+
+	/** property: unit "cm" */
+	public final static String UNITS_CM = DesignChoiceConstants.UNITS_CM;
+
+	/** property: unit "em" */
+	public final static String UNITS_EM = DesignChoiceConstants.UNITS_EM;
+
+	/** property: unit "ex" */
+	public final static String UNITS_EX = DesignChoiceConstants.UNITS_EX;
+
+	/** property: unit "in" */
+	public final static String UNITS_IN = DesignChoiceConstants.UNITS_IN;
+
+	/** property: unit "mm" */
+	public final static String UNITS_MM = DesignChoiceConstants.UNITS_MM;
+
+	/** property: unit "pc" */
+	public final static String UNITS_PC = DesignChoiceConstants.UNITS_PC;
+
+	/** property: unit "%" */
+	public final static String UNITS_PERCENTAGE = DesignChoiceConstants.UNITS_PERCENTAGE;
+
+	/** property: unit "pt" */
+	public final static String UNITS_PT = DesignChoiceConstants.UNITS_PT;
+
+	/** property: unit "px" */
+	public final static String UNITS_PX = DesignChoiceConstants.UNITS_PX;
+
 	protected int type = -1;
 	protected String unitType;
 	protected double measure = -1;
 	protected String choice;
 
+	/**
+	 * Constructor 1
+	 */
 	public DimensionType() {
 	}
 
+	/**
+	 * Constructor 2
+	 *
+	 * @param choice type choice
+	 */
 	public DimensionType(String choice) {
-		this.type = TYPE_CHOICE;
+		this.type = DimensionType.TYPE_CHOICE;
 		this.choice = choice;
 		this.measure = 0;
 		this.unitType = null;
 	}
 
+	/**
+	 * Constructor 3
+	 *
+	 * @param value dimension value
+	 * @param units dimension unit
+	 */
 	public DimensionType(double value, String units) {
-		this.type = TYPE_DIMENSION;
+		this.type = DimensionType.TYPE_DIMENSION;
 		this.unitType = units;
 		this.measure = value;
 		this.choice = null;
 	}
 
+	/**
+	 * Get the value type
+	 *
+	 * @return the value type
+	 */
 	public int getValueType() {
 		return type;
 	}
 
+	/**
+	 * Get the dimension measure
+	 *
+	 * @return the dimension measure
+	 */
 	public double getMeasure() {
-		assert this.type == TYPE_DIMENSION;
+		assert this.type == DimensionType.TYPE_DIMENSION;
 		return this.measure;
 	}
 
+	/**
+	 * Get the dimension unit
+	 *
+	 * @return the dimension unit
+	 */
 	public String getUnits() {
-		assert this.type == TYPE_DIMENSION;
+		assert this.type == DimensionType.TYPE_DIMENSION;
 		return this.unitType;
 	}
 
+	/**
+	 * Get the dimension choice
+	 *
+	 * @return the dimension choice
+	 */
 	public String getChoice() {
 		return this.choice;
 	}
@@ -99,8 +157,14 @@ public class DimensionType {
 		return choice;
 	}
 
+	/**
+	 * Convert dimension measure to given target unit
+	 *
+	 * @param targetUnit target unit
+	 * @return converted dimension value
+	 */
 	public double convertTo(String targetUnit) {
-		assert type == TYPE_DIMENSION;
+		assert type == DimensionType.TYPE_DIMENSION;
 		DimensionValue value = DimensionUtil.convertTo(this.measure, this.unitType, targetUnit);
 		if (value != null) {
 			return value.getMeasure();
@@ -149,11 +213,14 @@ public class DimensionType {
 	 * </ul>
 	 *
 	 * If the error exists, return the result whose measure is 0.
+	 *
+	 * @param value value to be parsed
+	 * @return parsed value
 	 */
 	public static DimensionType parserUnit(String value) {
 		if (value != null) {
 			try {
-				DimensionValue val = DimensionValue.parse(value);
+				DimensionValue val = StringUtil.parse(value);
 				return new DimensionType(val.getMeasure(), val.getUnits());
 			} catch (PropertyValueException e) {
 				log.log(Level.SEVERE, e.getMessage());
@@ -162,10 +229,23 @@ public class DimensionType {
 		return null;
 	}
 
+	/**
+	 * Parses a dimension string. The string must match the following:
+	 * <ul>
+	 * <li>null</li>
+	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
+	 * </ul>
+	 *
+	 * If the error exists, return the result whose measure is 0.
+	 *
+	 * @param value        value to be parsed
+	 * @param defaultUnits default unit
+	 * @return parsed value
+	 */
 	public static DimensionType parserUnit(String value, String defaultUnits) {
 		if (value != null) {
 			try {
-				DimensionValue val = DimensionValue.parse(value);
+				DimensionValue val = StringUtil.parse(value);
 
 				String units = val.getUnits();
 				if (null == units || "".equals(units)) {
@@ -227,6 +307,12 @@ public class DimensionType {
 		}
 	}
 
+	/**
+	 * Read the object
+	 *
+	 * @param in data input stream to be read
+	 * @throws IOException
+	 */
 	public void readObject(DataInputStream in) throws IOException {
 		int version = IOUtil.readInt(in);
 		int filedId = IOUtil.readInt(in);
@@ -236,6 +322,12 @@ public class DimensionType {
 		}
 	}
 
+	/**
+	 * Write an object
+	 *
+	 * @param out data output stream to be written
+	 * @throws IOException
+	 */
 	public void writeObject(DataOutputStream out) throws IOException {
 		IOUtil.writeInt(out, VERSION);
 		writeFields(out);

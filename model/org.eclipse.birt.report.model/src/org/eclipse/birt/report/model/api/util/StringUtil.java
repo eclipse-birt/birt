@@ -161,14 +161,13 @@ public class StringUtil {
 
 	/**
 	 * Returns if the two string are null or equal. The
-	 * {@link java.lang.String#equals(String)}is used to compare two strings.
+	 * {@link java.lang.String#equals(Object)}is used to compare two strings.
 	 *
 	 * @param str1 the string to compare
 	 * @param str2 the string to compare
 	 * @return true, if the two string are null, or the two string are equal with
 	 *         case sensitive.
 	 */
-
 	public static boolean isEqual(String str1, String str2) {
 		return str1 == str2 || (str1 != null && str1.equals(str2));
 	}
