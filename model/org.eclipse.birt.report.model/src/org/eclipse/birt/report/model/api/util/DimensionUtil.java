@@ -33,31 +33,27 @@ public class DimensionUtil {
 	/**
 	 * Conversion factor from inches to cm.
 	 */
-
-	private static final double CM_PER_INCH = 2.54;
+	public static final double CM_PER_INCH = 2.54;
 
 	/**
 	 * Conversion factor from inches to points.
 	 */
-
-	private static final double POINTS_PER_INCH = 72;
+	public static final double POINTS_PER_INCH = 72;
 
 	/**
 	 * Conversion factor from cm to points.
 	 */
-
-	private static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;
+	public static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;
 
 	/**
 	 * Conversion factor from picas to points.
 	 */
-
-	private static final double POINTS_PER_PICA = 12;
+	public static final double POINTS_PER_PICA = 12;
 
 	/**
 	 * The default DPI value.
 	 */
-	private static final int DEFAULT_DPI = 96;
+	public static final int DEFAULT_DPI = 96;
 
 	/**
 	 * Convert a measure from one units to another. The conversion is between

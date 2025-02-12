@@ -1078,6 +1078,7 @@ public abstract class AbstractEmitterImpl {
 		
 		double width = WordUtil.convertImageSize(image.getWidth(), referenceWidth, reportDpi);
 		double height = WordUtil.convertImageSize(image.getHeight(), referenceHeight, reportDpi);
+		double fitReferenceWidth = WordUtil.convertImageSize(null, referenceWidth, reportDpi);
 		context.addContainer(false);
 
 		if (FlashFile.isFlash(mimeType, uri, extension)) {
@@ -1129,6 +1130,14 @@ public abstract class AbstractEmitterImpl {
 				height = width;
 			}
 
+			// fit image to the container
+			if (image.isFitToContainer() && width > 0 && fitReferenceWidth > 0 && width > fitReferenceWidth) {
+				double ratio = fitReferenceWidth / width;
+				double recalcHeight = height * ratio;
+				width = fitReferenceWidth;
+				height = recalcHeight;
+			}
+			
 			writeBookmark(image);
 			writeToc(image);
 			HyperlinkInfo hyper = getHyperlink(image);

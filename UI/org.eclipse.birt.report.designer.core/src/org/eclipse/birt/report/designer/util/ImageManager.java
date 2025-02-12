@@ -304,7 +304,7 @@ public class ImageManager {
 				in = convertSvgToRasterImage(new String(imageDataUtf8));
 
 			} else if (url.toLowerCase().contains(URL_IMAGE_TYPE_SVG)) {
-				String decodedKey = "x";
+				String decodedKey = "";
 				String[] imageDataArray = url.split("svg\\+xml,");
 				String imageDataUtf8 = imageDataArray[0];
 				if (imageDataArray.length == 2)

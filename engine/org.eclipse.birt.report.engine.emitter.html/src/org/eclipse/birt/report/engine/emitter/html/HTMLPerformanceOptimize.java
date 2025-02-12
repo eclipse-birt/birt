@@ -29,6 +29,8 @@ import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -545,16 +547,57 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 
 		DimensionType imgWidth = image.getWidth();
 		if (imgWidth != null && "%".equals(imgWidth.getUnits()) && image.getImageCalculatedSize().getWidth() > 0) {
-			imgWidth = new DimensionType(image.getImageCalculatedSize().getWidth(), "px");
+			imgWidth = new DimensionType(image.getImageCalculatedSize().getWidth(), DimensionType.UNITS_PX);
 		}
 
 		DimensionType imgHeight = image.getHeight();
 		if (imgHeight != null && "%".equals(imgHeight.getUnits()) && image.getImageCalculatedSize().getHeight() > 0) {
-			imgHeight = new DimensionType(image.getImageCalculatedSize().getHeight(), "px");
+			imgHeight = new DimensionType(image.getImageCalculatedSize().getHeight(), DimensionType.UNITS_PX);
+		}
+
+		boolean useHeightAutoValue = false;
+
+		// column width
+		DimensionType columnWidth = ((ICellContent) image.getParent()).getColumnInstance().getWidth();
+		if (image.isFitToContainer() && columnWidth != null) {
+
+			// convert column with "px" to "mm"
+			DimensionType compareColumnWidth = new DimensionType(columnWidth.getMeasure(), columnWidth.getUnits());
+			if (columnWidth.getUnits().toLowerCase().equals(DimensionType.UNITS_PX)) {
+				double widthMM = (columnWidth.getMeasure() * (DimensionUtil.CM_PER_INCH * 10))
+						/ DimensionUtil.DEFAULT_DPI;
+
+				compareColumnWidth = new DimensionType(widthMM, DimensionType.UNITS_MM);
+			}
+			DimensionValue compareColumnWidthValue = DimensionUtil.convertTo(compareColumnWidth.getMeasure(),
+					compareColumnWidth.getUnits(), DimensionType.UNITS_MM);
+
+			// image width raw size
+			if (imgWidth == null) {
+				imgWidth = new DimensionType(image.getImageCalculatedSize().getWidth(), DimensionType.UNITS_PX);
+			}
+			DimensionType compareImageWidth = new DimensionType(imgWidth.getMeasure(), imgWidth.getUnits());
+
+			// convert image width "px" to "mm"
+			if (imgWidth.getUnits().toLowerCase().equals(DimensionType.UNITS_PX)) {
+				double widthMM = (imgWidth.getMeasure() * (DimensionUtil.CM_PER_INCH * 10)) / DimensionUtil.DEFAULT_DPI;
+				compareImageWidth = new DimensionType(widthMM, DimensionType.UNITS_MM);
+			}
+			DimensionValue compareImageWidthValue = DimensionUtil.convertTo(compareImageWidth.getMeasure(),
+					compareImageWidth.getUnits(), DimensionType.UNITS_MM);
+
+			if (compareImageWidthValue.getMeasure() > compareColumnWidthValue.getMeasure()) {
+				imgWidth = new DimensionType(compareColumnWidthValue.getMeasure(), DimensionType.UNITS_MM);
+				useHeightAutoValue = true;
+			}
 		}
 
 		buildSize(styleBuffer, HTMLTags.ATTR_WIDTH, imgWidth); // $NON-NLS-1$
-		buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, imgHeight); // $NON-NLS-1$
+		if (useHeightAutoValue) {
+			buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, "auto"); // $NON-NLS-1$
+		} else {
+			buildSize(styleBuffer, HTMLTags.ATTR_HEIGHT, imgHeight); // $NON-NLS-1$
+		}
 		// build the value of display
 		// An image is indeed inline by default, and align itself on the text
 		// baseline with room for descenders. That caused the gap and extra height,
