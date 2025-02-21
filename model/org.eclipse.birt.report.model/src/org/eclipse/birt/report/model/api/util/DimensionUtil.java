@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
  */
 public class DimensionUtil {
 
-	private final static String ILLEGAL_UNIT = "must be one of the absolute units(CM, IN, MM, PT, PC, PX)."; //$NON-NLS-1$
+	private final static String ILLEGAL_UNIT = "must be one of the absolute units(CM, IN, MM, PT, PC) or PX."; //$NON-NLS-1$
 
 	/**
 	 * Conversion factor from inches to cm.
@@ -72,6 +72,26 @@ public class DimensionUtil {
 	 * @return <code>DimensionValue</code> in the target unit.
 	 */
 	public static DimensionValue convertTo(double measure, String fromUnits, String targetUnits) {
+		return convertTo(measure, fromUnits, targetUnits, DEFAULT_DPI);
+	}
+
+	/**
+	 * Convert a measure from one units to another. The conversion is between
+	 * absolute the units should be one of the absolute units(CM, IN, MM, PT, PC,
+	 * PX).
+	 *
+	 * @param measure     the numeric measure of the dimension.
+	 * @param fromUnits   unit of the measure, it must be one of the absolute unit.
+	 * @param targetUnits the desired units, it must be one of the absolute unit.
+	 * @param dpi         resolution to calculate px with alternative dpi
+	 *
+	 * @return <code>DimensionValue</code> in the target unit.
+	 */
+	public static DimensionValue convertTo(double measure, String fromUnits, String targetUnits, int dpi) {
+
+		if (dpi <= 0) {
+			dpi = DEFAULT_DPI;
+		}
 
 		if (targetUnits.equalsIgnoreCase(fromUnits)) {
 			return new DimensionValue(measure, fromUnits);
@@ -89,7 +109,7 @@ public class DimensionUtil {
 			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_INCH;
 			} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure / DEFAULT_DPI;
+				targetMeasure = measure / dpi;
 			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
 			}
@@ -103,7 +123,7 @@ public class DimensionUtil {
 			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_CM;
 			} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure * CM_PER_INCH / DEFAULT_DPI;
+				targetMeasure = measure * CM_PER_INCH / dpi;
 			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
 			}
@@ -117,7 +137,7 @@ public class DimensionUtil {
 			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA * 10 / POINTS_PER_CM;
 			} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure * CM_PER_INCH * 10 / DEFAULT_DPI;
+				targetMeasure = measure * CM_PER_INCH * 10 / dpi;
 			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
 			}
@@ -131,7 +151,7 @@ public class DimensionUtil {
 			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * POINTS_PER_PICA;
 			} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure * POINTS_PER_INCH / DEFAULT_DPI;
+				targetMeasure = measure * POINTS_PER_INCH / dpi;
 			} else {
 				throw new IllegalArgumentException("\"fromUnits\"" + ILLEGAL_UNIT); //$NON-NLS-1$
 			}
@@ -151,13 +171,13 @@ public class DimensionUtil {
 			}
 		} else if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(targetUnits)) {
 			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure * DEFAULT_DPI;
+				targetMeasure = measure * dpi;
 			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure / CM_PER_INCH * DEFAULT_DPI;
+				targetMeasure = measure / CM_PER_INCH * dpi;
 			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure / (CM_PER_INCH * 10) * DEFAULT_DPI;
+				targetMeasure = measure / (CM_PER_INCH * 10) * dpi;
 			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnits)) {
-				targetMeasure = measure / POINTS_PER_INCH * DEFAULT_DPI;
+				targetMeasure = measure / POINTS_PER_INCH * dpi;
 			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnits)) {
 				targetMeasure = measure * PIXEL_PER_PICA;
 			} else {
