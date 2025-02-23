@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -27,6 +27,7 @@ import org.w3c.dom.css.CSSValueList;
 
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.LayoutProcessor;
 
 /**
  * the font handler, which maps fontFamily, fontStyle, fontWeight properties to
@@ -99,6 +100,7 @@ public class FontHandler {
 				textContent) / PDFConstants.LAYOUT_TO_PDF_RATIO;
 
 		if (!fontSubstitution) {
+			enableKerningAndLigatures();
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
@@ -110,6 +112,14 @@ public class FontHandler {
 		}
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param fontManager      font manager
+	 * @param fontFamilies     font families
+	 * @param fontStyle        font style
+	 * @param fontSubstitution font substitution
+	 */
 	public FontHandler(FontMappingManager fontManager, String fontFamilies[], int fontStyle, boolean fontSubstitution) {
 		this.fontManager = fontManager;
 
@@ -120,6 +130,7 @@ public class FontHandler {
 		this.fontSize = fontSize / PDFConstants.LAYOUT_TO_PDF_RATIO;
 
 		if (!fontSubstitution) {
+			enableKerningAndLigatures();
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
@@ -192,6 +203,7 @@ public class FontHandler {
 			}
 		}
 		// search in the font family to find one to display the character
+		enableKerningAndLigatures();
 		for (int i = 0; i < fontFamilies.length; i++) {
 			// Translate the font alias to font family
 			String fontFamily = fontManager.getAliasedFont(fontFamilies[i]);
@@ -305,5 +317,16 @@ public class FontHandler {
 		}
 
 		return tmp;
+	}
+
+	/**
+	 * Enable the font mode to handle advanced kerning and ligatures
+	 *
+	 * @since 4.19
+	 */
+	private void enableKerningAndLigatures() {
+		if (!LayoutProcessor.isEnabled()) {
+			LayoutProcessor.enableKernLiga();
+		}
 	}
 }

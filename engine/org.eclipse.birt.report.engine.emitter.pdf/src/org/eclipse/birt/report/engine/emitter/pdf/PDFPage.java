@@ -20,7 +20,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +47,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.LayoutProcessor;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
@@ -599,7 +599,10 @@ public class PDFPage extends AbstractPage {
 					// PDF/A fallback font must be entered fully qualified with path and file name
 					String defaultFontPdfA = this.pageDevice.getDefaultFontPdfA();
 					if (defaultFontPdfA != null) {
-						font = BaseFont.createFont(defaultFontPdfA, BaseFont.IDENTITY_H, true);
+						if (!LayoutProcessor.isEnabled()) {
+							LayoutProcessor.enableKernLiga();
+						}
+						font = BaseFont.createFont(defaultFontPdfA, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 						font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 					}
 					logger.log(Level.WARNING,

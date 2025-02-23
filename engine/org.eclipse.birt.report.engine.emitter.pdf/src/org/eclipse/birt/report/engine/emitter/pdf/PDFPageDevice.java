@@ -685,7 +685,7 @@ public class PDFPageDevice implements IPageDevice {
 			// Create a writer for the outputstream
 			PdfWriter writer = this.writer;
 
-			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); // TGXX
+			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 			PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
 
 			PdfImportedPage page;
