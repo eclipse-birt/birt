@@ -561,30 +561,15 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 		DimensionType columnWidth = ((ICellContent) image.getParent()).getColumnInstance().getWidth();
 		if (image.isFitToContainer() && columnWidth != null) {
 
-			// convert column with "px" to "mm"
-			DimensionType compareColumnWidth = new DimensionType(columnWidth.getMeasure(), columnWidth.getUnits());
-			if (columnWidth.getUnits().toLowerCase().equals(DimensionType.UNITS_PX)) {
-				double widthMM = (columnWidth.getMeasure() * (DimensionUtil.CM_PER_INCH * 10))
-						/ DimensionUtil.DEFAULT_DPI;
-
-				compareColumnWidth = new DimensionType(widthMM, DimensionType.UNITS_MM);
-			}
-			DimensionValue compareColumnWidthValue = DimensionUtil.convertTo(compareColumnWidth.getMeasure(),
-					compareColumnWidth.getUnits(), DimensionType.UNITS_MM);
+			DimensionValue compareColumnWidthValue = DimensionUtil.convertTo(columnWidth.getMeasure(),
+					columnWidth.getUnits(), DimensionType.UNITS_MM);
 
 			// image width raw size
 			if (imgWidth == null) {
 				imgWidth = new DimensionType(image.getImageCalculatedSize().getWidth(), DimensionType.UNITS_PX);
 			}
-			DimensionType compareImageWidth = new DimensionType(imgWidth.getMeasure(), imgWidth.getUnits());
-
-			// convert image width "px" to "mm"
-			if (imgWidth.getUnits().toLowerCase().equals(DimensionType.UNITS_PX)) {
-				double widthMM = (imgWidth.getMeasure() * (DimensionUtil.CM_PER_INCH * 10)) / DimensionUtil.DEFAULT_DPI;
-				compareImageWidth = new DimensionType(widthMM, DimensionType.UNITS_MM);
-			}
-			DimensionValue compareImageWidthValue = DimensionUtil.convertTo(compareImageWidth.getMeasure(),
-					compareImageWidth.getUnits(), DimensionType.UNITS_MM);
+			DimensionValue compareImageWidthValue = DimensionUtil.convertTo(imgWidth.getMeasure(), imgWidth.getUnits(),
+					DimensionType.UNITS_MM);
 
 			if (compareImageWidthValue.getMeasure() > compareColumnWidthValue.getMeasure()) {
 				imgWidth = new DimensionType(compareColumnWidthValue.getMeasure(), DimensionType.UNITS_MM);
