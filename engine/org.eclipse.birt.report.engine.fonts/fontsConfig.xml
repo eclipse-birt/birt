@@ -48,6 +48,9 @@
 	currently "Times-Roman", to denote a place of missing character. 
 -->
 <font>
+	<!-- font advanced kerning ligatures will be used, enabled: false/unused (default), true/used -->
+	<kerning-and-ligatures enabled="false" />
+
 <!--
 	In <font-aliases> section, you can:
 	a. Define a mapping from a generic family to a font family.

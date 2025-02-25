@@ -325,7 +325,7 @@ public class FontHandler {
 	 * @since 4.19
 	 */
 	private void enableKerningAndLigatures() {
-		if (!LayoutProcessor.isEnabled()) {
+		if (fontManager.useFontKerningAdvanced() && !LayoutProcessor.isEnabled()) {
 			LayoutProcessor.enableKernLiga();
 		}
 	}

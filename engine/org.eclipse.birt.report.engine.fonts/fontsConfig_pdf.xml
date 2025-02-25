@@ -14,6 +14,8 @@
  *******************************************************************************
 -->
 <font>
+	<!-- font advanced kerning ligatures will be used, enabled: false/unused (default), true/used -->
+	<!--<kerning-and-ligatures enabled="true" />-->
 	<font-aliases>
 		<mapping name="serif" font-family="Times-Roman" />
 		<mapping name="sans-serif" font-family="Helvetica" />
