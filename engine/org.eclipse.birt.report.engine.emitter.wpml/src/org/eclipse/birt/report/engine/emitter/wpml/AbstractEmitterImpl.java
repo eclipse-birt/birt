@@ -1462,6 +1462,9 @@ public abstract class AbstractEmitterImpl {
 
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage.getGenerateBy();
 		boolean showHeaderOnFirst = master.isShowHeaderOnFirst();
+		if (!wordWriter.isFirstSection()) {
+			showHeaderOnFirst = true;
+		}
 		boolean empty = true; 
 		if (previousPage.getPageHeader() != null || backgroundHeight != null || backgroundWidth != null) {
 			empty = false;

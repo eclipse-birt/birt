@@ -155,6 +155,10 @@ public class DocxWriter implements IWordWriter {
 		document.endSection();
 	}
 
+	public boolean isFirstSection() {
+		return document.isFirstSection();
+	}
+
 	@Override
 	public void startHeader(boolean showHeaderOnFirst, int headerHeight, int headerWidth) throws IOException {
 		currentComponent = document.createHeader(showHeaderOnFirst, headerHeight, headerWidth,
