@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -21,6 +21,12 @@ import java.util.Map;
 
 import com.lowagie.text.pdf.BaseFont;
 
+/**
+ * Manager to handle the font mapping configuration
+ *
+ * @since 3.3
+ *
+ */
 public class FontMappingManager {
 
 	/** all fonts key */
@@ -40,6 +46,9 @@ public class FontMappingManager {
 	/** The font-family replacement */
 	private Map fontAliases = new HashMap();
 
+	/** Usage of the advanced font kerning and ligatures */
+	private boolean fontKerningAdvancedUsage = false;
+
 	/**
 	 * composite fonts
 	 */
@@ -54,10 +63,14 @@ public class FontMappingManager {
 			this.fontAliases.putAll(parent.getFontAliases());
 			this.fontEncodings.putAll(parent.getFontEncodings());
 			this.compositeFonts.putAll(parent.getCompositeFonts());
+			if (!this.fontKerningAdvancedUsage)
+				this.fontKerningAdvancedUsage = parent.fontKerningAdvancedUsage;
 		}
 		this.fontEncodings.putAll(config.fontEncodings);
 		this.searchSequences.putAll(config.searchSequences);
 		this.fontAliases.putAll(config.fontAliases);
+		if (!this.fontKerningAdvancedUsage)
+			this.fontKerningAdvancedUsage = config.fontKerningAdvancedUsage;
 
 		String[] sequence = getSearchSequence(locale);
 		Iterator iter = config.compositeFonts.entrySet().iterator();
@@ -70,24 +83,58 @@ public class FontMappingManager {
 		}
 	}
 
+	/**
+	 * Get the parent font mapping manager
+	 *
+	 * @return the parent font mapping manager
+	 */
 	public FontMappingManager getParent() {
 		return parent;
 	}
 
+	/**
+	 * Get the font encodings
+	 *
+	 * @return the font encodings
+	 */
 	public Map getFontEncodings() {
 		return fontEncodings;
 	}
 
+	/**
+	 * Get the font aliases
+	 *
+	 * @return the font aliases
+	 */
 	public Map getFontAliases() {
 		return fontAliases;
 	}
 
+	/**
+	 * Get the search sequences
+	 *
+	 * @return the search sequences
+	 */
 	public Map getSearchSequences() {
 		return searchSequences;
 	}
 
+	/**
+	 * Get the composite fonts
+	 *
+	 * @return the composite fonts
+	 */
 	public Map getCompositeFonts() {
 		return compositeFonts;
+	}
+
+	/**
+	 * Get the usage of advanced font kerning and ligatures
+	 *
+	 * @return the usage of advanced font kerning and ligatures
+	 */
+	public boolean useFontKerningAdvanced() {
+		return fontKerningAdvancedUsage;
 	}
 
 	protected String[] getSearchSequence(Locale locale) {
@@ -105,10 +152,22 @@ public class FontMappingManager {
 		return null;
 	}
 
+	/**
+	 * Get the composite font based at font name
+	 *
+	 * @param name font name
+	 * @return the composite font based at font name
+	 */
 	public CompositeFont getCompositeFont(String name) {
 		return (CompositeFont) compositeFonts.get(name);
 	}
 
+	/**
+	 * Get the default physical font
+	 *
+	 * @param c special character of the font
+	 * @return the default physical font
+	 */
 	public String getDefaultPhysicalFont(char c) {
 		CompositeFont compositeFont = (CompositeFont) compositeFonts.get(FONT_NAME_ALL_FONTS);
 		if (compositeFont != null) {
@@ -121,6 +180,12 @@ public class FontMappingManager {
 		return null;
 	}
 
+	/**
+	 * Get the aliased font
+	 *
+	 * @param fontAlias font alias name
+	 * @return the aliased font
+	 */
 	public String getAliasedFont(String fontAlias) {
 		String alias = (String) fontAliases.get(fontAlias.toLowerCase());
 		if (alias != null) {
@@ -133,7 +198,7 @@ public class FontMappingManager {
 	 * Creates iText BaseFont with the given font family name.
 	 *
 	 * @param fontFamily the specified font family name.
-	 * @param style      font style
+	 * @param fontStyle  font style
 	 * @return the created BaseFont.
 	 */
 	public BaseFont createFont(String fontFamily, int fontStyle) {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -44,6 +44,9 @@ public class FontMappingConfig {
 	 * large amount of glyph
 	 */
 	protected HashMap<String, CompositeFontConfig> compositeFonts = new HashMap<String, CompositeFontConfig>();
+
+	/** Usage of the advanced font kerning and ligatures */
+	protected boolean fontKerningAdvancedUsage = false;
 
 	/**
 	 * Constructor
@@ -143,5 +146,23 @@ public class FontMappingConfig {
 	 */
 	public Collection<CompositeFontConfig> getAllCompositeFonts() {
 		return compositeFonts.values();
+	}
+
+	/**
+	 * Set the usage of advanced font kerning and ligatures
+	 *
+	 * @param kerning usage of advanced font kerning and ligatures
+	 */
+	public void setFontKerning(boolean kerning) {
+		fontKerningAdvancedUsage = kerning;
+	}
+
+	/**
+	 * Get the usage of advanced font kerning and ligatures
+	 *
+	 * @return the usage of advanced font kerning and ligatures
+	 */
+	public boolean getFontKerning() {
+		return fontKerningAdvancedUsage;
 	}
 }

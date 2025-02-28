@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -111,6 +111,9 @@ public class FontConfigHandler extends DefaultHandler {
 	private final static String TAG_CHARACTER = "character"; //$NON-NLS-1$
 	private final static String ATTR_VALUE = "value"; //$NON-NLS-1$
 
+	private final static String TAG_FONT_KERNING = "kerning-and-ligatures"; //$NON-NLS-1$
+	private final static String ATTR_KERNING_ENABLED = "enabled"; //$NON-NLS-1$
+
 	private class RootState extends ParseState {
 
 		@Override
@@ -146,6 +149,9 @@ public class FontConfigHandler extends DefaultHandler {
 			if (TAG_COMPOSITE_FONT.equals(tagValue)) {
 				return new CompositeFontState();
 			}
+			if (TAG_FONT_KERNING.equals(tagValue)) {
+				return new FontKerningState();
+			}
 			return super.startElement(tagName);
 		}
 	}
@@ -169,6 +175,17 @@ public class FontConfigHandler extends DefaultHandler {
 				if (path != null) {
 					config.addFontPath(path);
 				}
+			}
+		}
+	}
+
+	private class FontKerningState extends ParseState {
+
+		@Override
+		public void parseAttrs(Attributes attrs) {
+			String kerning = getStringValue(attrs, ATTR_KERNING_ENABLED);
+			if (kerning != null) {
+				config.setFontKerning(Boolean.valueOf(kerning));
 			}
 		}
 	}
