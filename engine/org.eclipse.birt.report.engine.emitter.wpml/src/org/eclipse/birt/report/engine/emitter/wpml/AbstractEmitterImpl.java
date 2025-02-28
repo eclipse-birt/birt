@@ -1482,9 +1482,21 @@ public abstract class AbstractEmitterImpl {
 		}
 		if (previousPage.getPageFooter() != null) {
 			empty = false;
-			wordWriter.startFooter(showHeaderOnFirst, footerHeight, contentWidth);
-			contentVisitor.visitChildren(previousPage.getPageFooter(), null);
-			wordWriter.endFooter();
+			// We support showFooterOnLast == false only in separate RunTask and RenderTask.  
+			if (!master.isShowFooterOnLast() &&
+					reportContext.getAppContext().get("EngineTask").getClass().getSimpleName().equals("RenderTask")
+					&& previousPage.getPageNumber() == reportContent.getTotalPage()) {
+				IContent footer = previousPage.getPageFooter();
+				ILabelContent emptyContent = footer.getReportContent().createLabelContent();
+				emptyContent.setText(AbstractEmitterImpl.EMPTY_FOOTER);
+				wordWriter.startFooter(false, footerHeight, contentWidth);
+				contentVisitor.visit(emptyContent, null);
+				wordWriter.endFooter();
+			} else {
+				wordWriter.startFooter(showHeaderOnFirst, footerHeight, contentWidth);
+				contentVisitor.visitChildren(previousPage.getPageFooter(), null);
+				wordWriter.endFooter();
+			}
 		}
 		if (!empty && !showHeaderOnFirst) {
 			wordWriter.writeEmptyElement("w:titlePg");

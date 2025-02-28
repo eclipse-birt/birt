@@ -142,14 +142,20 @@ public abstract class AbstractWordXmlWriter {
 	private boolean firstSection = true;
 
 	/**
-	 * @return Returns the firstSection.
+	 * @return whether we are still in the first section or not.
 	 */
 	public boolean isFirstSection() {
 		return firstSection;
 	}
 
 	/**
-	 * @param firstSection The firstSection to set.
+	 * Set if we are in first section.
+	 *
+	 * Usually only called with a value of false, because we start in the first
+	 * section.
+	 *
+	 * @param firstSection true for first section, false for later sections.
+	 *
 	 */
 	public void setFirstSection(boolean firstSection) {
 		this.firstSection = firstSection;

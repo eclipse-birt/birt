@@ -182,9 +182,7 @@ public class DocxWriter implements IWordWriter {
 
 	@Override
 	public void endFooter() {
-		if (currentComponent == null) {
-			// nothing to do.
-		} else {
+		if (currentComponent != null) {
 			currentComponent.end();
 			document.writeFooterReference(currentComponent, false);
 			currentComponent = document;
