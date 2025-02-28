@@ -318,7 +318,7 @@ public interface IWordWriter {
 	 * @param footerWidth  footer width
 	 * @throws IOException
 	 */
-	void startFooter(int footerHeight, int footerWidth) throws IOException;
+	void startFooter(boolean isFirstPage, int footerHeight, int footerWidth) throws IOException;
 
 	/**
 	 * End footer
@@ -396,4 +396,5 @@ public interface IWordWriter {
 		return true;
 	}
 
+	void writeEmptyElement(String tag);
 }

@@ -1479,4 +1479,9 @@ public abstract class AbstractWordXmlWriter {
 	public boolean getWrappedTableHeaderFooter() {
 		return this.wrappedTableHeaderFooter;
 	}
+
+	public void writeEmptyElement(String tag) {
+		writer.openTag(tag);
+		writer.closeTag(tag);
+	}
 }

@@ -474,10 +474,11 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter {
 		writer.closeTag("w:hdr");
 	}
 
+
 	@Override
-	public void startFooter(int footerHeight, int footerWidth) {
+	public void startFooter(boolean isFirstPage, int footerHeight, int footerWidth) {
 		writer.openTag("w:ftr");
-		writer.attribute("w:type", "odd");
+		writer.attribute("w:type", (isFirstPage ? "first" : "odd"));
 		startHeaderFooterContainer(footerHeight, footerWidth);
 	}
 

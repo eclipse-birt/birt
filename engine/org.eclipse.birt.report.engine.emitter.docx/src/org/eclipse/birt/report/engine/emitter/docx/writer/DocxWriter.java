@@ -50,8 +50,6 @@ public class DocxWriter implements IWordWriter {
 
 	private boolean rtl = false;
 
-	private boolean showHeaderOnFirst;
-
 	private int wordVersion;
 
 	private String documentLanguage = "en";
@@ -159,29 +157,34 @@ public class DocxWriter implements IWordWriter {
 
 	@Override
 	public void startHeader(boolean showHeaderOnFirst, int headerHeight, int headerWidth) throws IOException {
-		currentComponent = document.createHeader(headerHeight, headerWidth, this.wrappedTableHeaderFooter);
+		currentComponent = document.createHeader(showHeaderOnFirst, headerHeight, headerWidth,
+				this.wrappedTableHeaderFooter);
 		currentComponent.start();
-		this.showHeaderOnFirst = showHeaderOnFirst;
 	}
 
 	@Override
 	public void endHeader() {
 		currentComponent.end();
-		document.writeHeaderReference(currentComponent, showHeaderOnFirst);
+		document.writeHeaderReference(currentComponent, false);
 		currentComponent = document;
 	}
 
 	@Override
-	public void startFooter(int footerHeight, int footerWidth) throws IOException {
-		currentComponent = document.createFooter(footerHeight, footerWidth, this.wrappedTableHeaderFooter);
+	public void startFooter(boolean showHeaderOnFirst, int footerHeight, int footerWidth) throws IOException {
+		currentComponent = document.createFooter(showHeaderOnFirst, footerHeight, footerWidth,
+				this.wrappedTableHeaderFooter);
 		currentComponent.start();
 	}
 
 	@Override
 	public void endFooter() {
-		currentComponent.end();
-		document.writeFooterReference(currentComponent);
-		currentComponent = document;
+		if (currentComponent == null) {
+			// nothing to do.
+		} else {
+			currentComponent.end();
+			document.writeFooterReference(currentComponent, false);
+			currentComponent = document;
+		}
 	}
 
 	@Override
@@ -373,5 +376,10 @@ public class DocxWriter implements IWordWriter {
 	@Override
 	public boolean getWrappedTableHeaderFooter() {
 		return this.wrappedTableHeaderFooter;
+	}
+
+	@Override
+	public void writeEmptyElement(String tag) {
+		currentComponent.writeEmptyElement(tag);
 	}
 }
