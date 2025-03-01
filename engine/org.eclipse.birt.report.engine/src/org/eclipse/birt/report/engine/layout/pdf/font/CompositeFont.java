@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007,2008 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -65,6 +65,13 @@ public class CompositeFont {
 	 */
 	CharSegment[] fullIndex;
 
+	/**
+	 * Constructor
+	 *
+	 * @param manager  font mapping manager
+	 * @param config   composite font configuration
+	 * @param sequence font sequence
+	 */
 	public CompositeFont(FontMappingManager manager, CompositeFontConfig config, String[] sequence) {
 		FontMappingManager parentManager = manager.getParent();
 		if (parentManager != null) {
@@ -73,17 +80,17 @@ public class CompositeFont {
 		this.config = config;
 		this.specialCharacters = config.getSpecialCharacters();
 		// create the fonts follows the sequence
-		LinkedHashSet fonts = new LinkedHashSet();
+		LinkedHashSet<String> fonts = new LinkedHashSet<String>();
 		if (sequence != null) {
 			for (int i = 0; i < sequence.length; i++) {
-				Collection catalogFonts = config.getFontByCatalog(sequence[i]);
+				Collection<String> catalogFonts = config.getFontByCatalog(sequence[i]);
 				if (catalogFonts != null) {
 					fonts.addAll(catalogFonts);
 				}
 			}
 		}
 		fonts.addAll(config.getAllFonts());
-		usedFonts = (String[]) fonts.toArray(new String[] {});
+		usedFonts = fonts.toArray(new String[] {});
 
 		fullIndexed = true;
 		fontsIndex = new CharSegment[usedFonts.length][];
@@ -103,10 +110,20 @@ public class CompositeFont {
 		}
 	}
 
+	/**
+	 * Get the font name
+	 *
+	 * @return font name
+	 */
 	public String getFontName() {
 		return config.fontName;
 	}
 
+	/**
+	 * Get the default font name
+	 *
+	 * @return default font name
+	 */
 	public String getDefaultFont() {
 		if (config.defaultFont != null) {
 			return config.defaultFont;
@@ -117,6 +134,12 @@ public class CompositeFont {
 		return null;
 	}
 
+	/**
+	 * Get the used font based on font specific character
+	 *
+	 * @param ch font specific character
+	 * @return font name
+	 */
 	public String getUsedFont(char ch) {
 		String usedFont = findUsedFont(ch);
 		if (usedFont != null) {
