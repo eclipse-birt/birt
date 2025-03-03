@@ -1461,10 +1461,14 @@ public abstract class AbstractEmitterImpl {
 		String backgroundWidth = style.getBackgroundWidth();
 
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage.getGenerateBy();
+		boolean showHeaderOnFirst = master.isShowHeaderOnFirst();
+		if (!wordWriter.isFirstSection()) {
+			showHeaderOnFirst = true;
+		}
+		boolean empty = true; 
 		if (previousPage.getPageHeader() != null || backgroundHeight != null || backgroundWidth != null) {
-			wordWriter.startHeader(!master.isShowHeaderOnFirst() && previousPage.getPageNumber() == 1, headerHeight,
-					contentWidth);
-
+			empty = false;
+			wordWriter.startHeader(showHeaderOnFirst, headerHeight, contentWidth);
 			if (backgroundHeight != null || backgroundWidth != null) {
 				String backgroundImageUrl = EmitterUtil.getBackgroundImageUrl(style,
 						reportContent.getDesign().getReportDesign(), reportContext.getAppContext());
@@ -1477,18 +1481,25 @@ public abstract class AbstractEmitterImpl {
 			wordWriter.endHeader();
 		}
 		if (previousPage.getPageFooter() != null) {
-			if (!master.isShowFooterOnLast() && previousPage.getPageNumber() == reportContent.getTotalPage()) {
+			empty = false;
+			// We support showFooterOnLast == false only in separate RunTask and RenderTask.  
+			if (!master.isShowFooterOnLast() &&
+					reportContext.getAppContext().get("EngineTask").getClass().getSimpleName().equals("RenderTask")
+					&& previousPage.getPageNumber() == reportContent.getTotalPage()) {
 				IContent footer = previousPage.getPageFooter();
 				ILabelContent emptyContent = footer.getReportContent().createLabelContent();
 				emptyContent.setText(AbstractEmitterImpl.EMPTY_FOOTER);
-				wordWriter.startFooter(footerHeight, contentWidth);
+				wordWriter.startFooter(false, footerHeight, contentWidth);
 				contentVisitor.visit(emptyContent, null);
 				wordWriter.endFooter();
 			} else {
-				wordWriter.startFooter(footerHeight, contentWidth);
+				wordWriter.startFooter(showHeaderOnFirst, footerHeight, contentWidth);
 				contentVisitor.visitChildren(previousPage.getPageFooter(), null);
 				wordWriter.endFooter();
 			}
+		}
+		if (!empty && !showHeaderOnFirst) {
+			wordWriter.writeEmptyElement("w:titlePg");
 		}
 	}
 

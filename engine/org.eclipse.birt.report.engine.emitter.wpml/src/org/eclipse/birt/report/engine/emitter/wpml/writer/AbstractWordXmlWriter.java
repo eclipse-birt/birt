@@ -139,11 +139,34 @@ public abstract class AbstractWordXmlWriter {
 		writer.openTag("w:sectPr");
 	}
 
+	private boolean firstSection = true;
+
+	/**
+	 * @return whether we are still in the first section or not.
+	 */
+	public boolean isFirstSection() {
+		return firstSection;
+	}
+
+	/**
+	 * Set if we are in first section.
+	 *
+	 * Usually only called with a value of false, because we start in the first
+	 * section.
+	 *
+	 * @param firstSection true for first section, false for later sections.
+	 *
+	 */
+	public void setFirstSection(boolean firstSection) {
+		this.firstSection = firstSection;
+	}
+
 	/**
 	 * End section
 	 */
 	public void endSection() {
 		writer.closeTag("w:sectPr");
+		setFirstSection(false);
 	}
 
 	protected void drawImageShapeType(int imageId) {
@@ -1478,5 +1501,15 @@ public abstract class AbstractWordXmlWriter {
 	 */
 	public boolean getWrappedTableHeaderFooter() {
 		return this.wrappedTableHeaderFooter;
+	}
+
+	/**
+	 * Write an empty XML element
+	 *
+	 * @param tag the XML element name
+	 */
+	public void writeEmptyElement(String tag) {
+		writer.openTag(tag);
+		writer.closeTag(tag);
 	}
 }
