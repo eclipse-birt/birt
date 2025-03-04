@@ -28,8 +28,20 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * Font cache utils
+ *
+ * @since 3.3
+ *
+ */
 public class FontCacheUtils {
 
+	/**
+	 * Main method of the class
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
 	static public void main(String[] args) throws Exception {
 		createUnicodeText("unicode.txt");
 		createUnicodePDF("pdf", Locale.CHINESE, "unicode.pdf");
@@ -91,7 +103,7 @@ public class FontCacheUtils {
 
 	static void createFontIndex(String fontName, String encoding, Writer writer) throws Exception {
 		BaseFont font = BaseFont.createFont(fontName, encoding, false);
-		ArrayList charSegs = new ArrayList();
+		ArrayList<CharSegment> charSegs = new ArrayList<CharSegment>();
 		int start = 0;
 		int end = 0;
 		for (char ch = 0; ch < 0xFFFF; ch++) {

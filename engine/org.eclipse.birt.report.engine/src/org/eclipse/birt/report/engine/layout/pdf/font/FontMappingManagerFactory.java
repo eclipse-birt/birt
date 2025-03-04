@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -76,6 +76,11 @@ public class FontMappingManagerFactory {
 
 	protected static FontMappingManagerFactory instance;
 
+	/**
+	 * Get instance of font mapping manager factory
+	 *
+	 * @return instance of font mapping manager factory
+	 */
 	public static synchronized FontMappingManagerFactory getInstance() {
 		if (instance == null) {
 			instance = new FontMappingManagerFactory();
@@ -91,12 +96,12 @@ public class FontMappingManagerFactory {
 	/**
 	 * all font paths registered by this factory
 	 */
-	protected HashSet fontPathes = new HashSet();
+	protected HashSet<String> fontPathes = new HashSet<String>();
 
 	/**
 	 * font encodings, it is used by iText to load the Type1 fonts
 	 */
-	protected HashMap fontEncodings = new HashMap();
+	protected HashMap<String, String> fontEncodings = new HashMap<String, String>();
 
 	/**
 	 * all loaded configurations
@@ -107,7 +112,7 @@ public class FontMappingManagerFactory {
 	 * <li>value: FontMappingConfig</li>
 	 * </ul>
 	 */
-	protected HashMap cachedConfigs = new HashMap();
+	protected HashMap<String, FontMappingConfig> cachedConfigs = new HashMap<String, FontMappingConfig>();
 
 	/**
 	 * all created mapping managers.
@@ -138,7 +143,7 @@ public class FontMappingManagerFactory {
 	 * </ul>
 	 *
 	 */
-	protected HashMap cachedManagers = new HashMap();
+	protected HashMap<Object, HashMap<Locale, FontMappingManager>> cachedManagers = new HashMap<Object, HashMap<Locale, FontMappingManager>>();
 
 	protected FontMappingManagerFactory() {
 		// Register java fonts.
@@ -152,13 +157,20 @@ public class FontMappingManagerFactory {
 
 	}
 
+	/**
+	 * Get font mapping manager
+	 *
+	 * @param format format
+	 * @param locale locale
+	 * @return font mapping manager
+	 */
 	public synchronized FontMappingManager getFontMappingManager(String format, Locale locale) {
-		HashMap managers = (HashMap) cachedManagers.get(format);
+		HashMap<Locale, FontMappingManager> managers = cachedManagers.get(format);
 		if (managers == null) {
-			managers = new HashMap();
+			managers = new HashMap<Locale, FontMappingManager>();
 			cachedManagers.put(format, managers);
 		}
-		FontMappingManager manager = (FontMappingManager) managers.get(locale);
+		FontMappingManager manager = managers.get(locale);
 		if (manager == null) {
 			manager = createFontMappingManager(format, locale);
 			managers.put(locale, manager);
@@ -166,14 +178,21 @@ public class FontMappingManagerFactory {
 		return manager;
 	}
 
+	/**
+	 * Create the font mapping manager
+	 *
+	 * @param config
+	 * @param locale
+	 * @return the created font mapping manager
+	 */
 	public FontMappingManager createFontMappingManager(FontMappingConfig config, Locale locale) {
 		// Register the fonts defined in JRE fonts directory.
 		registerJavaFonts();
 
 		// register the fonts defined in the configuration
-		Iterator iter = config.fontPaths.iterator();
+		Iterator<String> iter = config.fontPaths.iterator();
 		while (iter.hasNext()) {
-			String fontPath = (String) iter.next();
+			String fontPath = iter.next();
 			if (!fontPathes.contains(fontPath)) {
 				fontPathes.add(fontPath);
 				registerFontPath(fontPath);
@@ -185,6 +204,11 @@ public class FontMappingManagerFactory {
 		return new FontMappingManager(this, null, config, locale);
 	}
 
+	/**
+	 * Set custom font configuration
+	 *
+	 * @param customFontConfig URL of the custom font configuration
+	 */
 	public static void setCustomFontConfig(final URL customFontConfig) {
 		FontMappingManagerFactory.customFontConfig = customFontConfig;
 	}
@@ -262,12 +286,12 @@ public class FontMappingManagerFactory {
 
 	protected FontMappingManager createFontMappingManager(FontMappingManager parent, FontMappingConfig config,
 			Locale locale) {
-		HashMap managers = (HashMap) cachedManagers.get(config);
+		HashMap<Locale, FontMappingManager> managers = cachedManagers.get(config);
 		if (managers == null) {
-			managers = new HashMap();
+			managers = new HashMap<Locale, FontMappingManager>();
 			cachedManagers.put(config, managers);
 		}
-		FontMappingManager manager = (FontMappingManager) managers.get(locale);
+		FontMappingManager manager = managers.get(locale);
 		if (manager == null) {
 			manager = new FontMappingManager(this, parent, config, locale);
 			managers.put(locale, manager);
@@ -294,7 +318,7 @@ public class FontMappingManagerFactory {
 	}
 
 	protected FontMappingConfig getFontMappingConfig(String configName) {
-		FontMappingConfig config = (FontMappingConfig) cachedConfigs.get(configName);
+		FontMappingConfig config = cachedConfigs.get(configName);
 		if (config == null) {
 			if (!cachedConfigs.containsKey(configName)) {
 				config = loadFontMappingConfig(configName);
@@ -348,9 +372,9 @@ public class FontMappingManagerFactory {
 			logger.info("load font config in " + url + " cost " + (end - start) + "ms");
 			if (config != null) {
 				// try to load the font in the fontPaths
-				Iterator iter = config.fontPaths.iterator();
+				Iterator<String> iter = config.fontPaths.iterator();
 				while (iter.hasNext()) {
-					String fontPath = (String) iter.next();
+					String fontPath = iter.next();
 					if (!fontPathes.contains(fontPath)) {
 						fontPathes.add(fontPath);
 						registerFontPath(fontPath);
@@ -393,15 +417,15 @@ public class FontMappingManagerFactory {
 	 * </li>
 	 * </ul>
 	 */
-	HashMap cachedCompositeFonts = new HashMap();
+	HashMap<CompositeFontConfig, HashMap<String[], CompositeFont>> cachedCompositeFonts = new HashMap<CompositeFontConfig, HashMap<String[], CompositeFont>>();
 
 	CompositeFont createCompositeFont(FontMappingManager manager, CompositeFontConfig fontConfig, String[] sequence) {
-		HashMap fonts = (HashMap) cachedCompositeFonts.get(fontConfig);
+		HashMap<String[], CompositeFont> fonts = cachedCompositeFonts.get(fontConfig);
 		if (fonts == null) {
-			fonts = new HashMap();
+			fonts = new HashMap<String[], CompositeFont>();
 			cachedCompositeFonts.put(fontConfig, fonts);
 		}
-		CompositeFont font = (CompositeFont) fonts.get(sequence);
+		CompositeFont font = fonts.get(sequence);
 		if (font == null) {
 			font = new CompositeFont(manager, fontConfig, sequence);
 			fonts.put(sequence, font);
@@ -409,12 +433,13 @@ public class FontMappingManagerFactory {
 		return font;
 	}
 
-	private HashMap baseFonts = new HashMap();
+	private HashMap<String, BaseFont> baseFonts = new HashMap<String, BaseFont>();
 
 	/**
 	 * Creates iText BaseFont with the given font family name.
 	 *
-	 * @param ffn the specified font family name.
+	 * @param familyName the specified font family name.
+	 * @param fontStyle  specific style index
 	 * @return the created BaseFont.
 	 */
 	public BaseFont createFont(String familyName, int fontStyle) {
@@ -422,10 +447,10 @@ public class FontMappingManagerFactory {
 		BaseFont bf = null;
 		synchronized (baseFonts) {
 			if (baseFonts.containsKey(key)) {
-				bf = (BaseFont) baseFonts.get(key);
+				bf = baseFonts.get(key);
 			} else {
 				try {
-					String fontEncoding = (String) fontEncodings.get(familyName);
+					String fontEncoding = fontEncodings.get(familyName);
 					if (fontEncoding == null) {
 						fontEncoding = BaseFont.IDENTITY_H;
 					}
@@ -482,7 +507,12 @@ public class FontMappingManagerFactory {
 		}
 	}
 
-	public HashSet getFontPathes() {
+	/**
+	 * Get the font paths
+	 *
+	 * @return the font paths
+	 */
+	public HashSet<String> getFontPathes() {
 		return fontPathes;
 	}
 }

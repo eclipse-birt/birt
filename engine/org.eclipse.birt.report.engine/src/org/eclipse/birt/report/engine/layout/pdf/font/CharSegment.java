@@ -18,32 +18,67 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * Class of character segment
+ *
+ * @since 3.3
+ *
+ */
 public class CharSegment {
 
 	int start;
 	int end;
 	String name;
 
+	/**
+	 * Constructor 1
+	 *
+	 * @param start segment start
+	 * @param end   segment end
+	 * @param name  segment name
+	 */
 	public CharSegment(int start, int end, String name) {
 		this.start = start;
 		this.end = end;
 		this.name = name;
 	}
 
+	/**
+	 * Constructor 2
+	 *
+	 * @param seg character segment
+	 */
 	public CharSegment(CharSegment seg) {
 		this.start = seg.start;
 		this.end = seg.end;
 		this.name = seg.name;
 	}
 
+	/**
+	 * Get the segment start
+	 *
+	 * @return the segment start
+	 */
 	public int getStart() {
 		return start;
 	}
 
+	/**
+	 * Get the segment end
+	 *
+	 * @return the segment end
+	 */
 	public int getEnd() {
 		return end;
 	}
 
+	/**
+	 * Search method
+	 *
+	 * @param segments character segments
+	 * @param ch       character index
+	 * @return index of segment
+	 */
 	public static int search(CharSegment[] segments, int ch) {
 		int index = Arrays.binarySearch(segments, Integer.valueOf(ch), new SearchingComparator());
 		if (index < 0) {
@@ -53,33 +88,45 @@ public class CharSegment {
 	}
 
 	/**
-	 * merge the two segments, the mergedSegs must be sorted
+	 * Merge the two segments, the mergedSegs must be sorted
 	 *
-	 * @param mergedSegs
-	 * @return
+	 * @param mergedSegs segments to be merged
+	 * @return merged character segments
 	 */
 	public static CharSegment[] merge(CharSegment[][] mergedSegs) {
-		ArrayList list = new ArrayList();
+		ArrayList<CharSegment> list = new ArrayList<CharSegment>();
 		for (int i = 0; i < mergedSegs.length; i++) {
 			list = merge(list, mergedSegs[i]);
 		}
-		return (CharSegment[]) list.toArray(new CharSegment[] {});
+		return list.toArray(new CharSegment[] {});
 	}
 
-	public static CharSegment[] merge(ArrayList segments) {
-		ArrayList list = new ArrayList();
+	/**
+	 * Merge segments
+	 *
+	 * @param segments segment list
+	 * @return get character segment array
+	 */
+	public static CharSegment[] merge(ArrayList<CharSegment[]> segments) {
+		ArrayList<CharSegment> list = new ArrayList<CharSegment>();
 		for (int i = 0; i < segments.size(); i++) {
-			list = merge(list, (CharSegment[]) segments.get(i));
+			list = merge(list, segments.get(i));
 		}
-		return (CharSegment[]) list.toArray(new CharSegment[] {});
+		return list.toArray(new CharSegment[] {});
 	}
 
+	/**
+	 * Normalize method
+	 *
+	 * @param segs character segments
+	 * @return character segments array
+	 */
 	public static CharSegment[] normalize(CharSegment[] segs) {
 		CharSegment.sort(segs);
 		if (segs.length < 2) {
 			return segs;
 		}
-		ArrayList list = new ArrayList();
+		ArrayList<CharSegment> list = new ArrayList<CharSegment>();
 
 		CharSegment prev = segs[0];
 		for (int i = 1; i < segs.length; i++) {
@@ -94,11 +141,11 @@ public class CharSegment {
 			}
 		}
 		list.add(prev);
-		return (CharSegment[]) list.toArray(new CharSegment[] {});
+		return list.toArray(new CharSegment[] {});
 	}
 
-	protected static ArrayList merge(ArrayList src1, CharSegment[] src2) {
-		ArrayList tgt = new ArrayList(src1.size());
+	protected static ArrayList<CharSegment> merge(ArrayList<CharSegment> src1, CharSegment[] src2) {
+		ArrayList<CharSegment> tgt = new ArrayList<CharSegment>(src1.size());
 
 		int index1 = 0;
 		int index2 = 0;
@@ -106,7 +153,7 @@ public class CharSegment {
 		int end1 = 0;
 
 		for (index1 = 0; index1 < src1.size(); index1++) {
-			CharSegment seg1 = (CharSegment) src1.get(index1);
+			CharSegment seg1 = src1.get(index1);
 			end1 = seg1.start - 1;
 			// now we need find segments in the gap [start1, end1]
 			while (index2 < src2.length) {
@@ -136,12 +183,11 @@ public class CharSegment {
 						tgt.add(seg2);
 						index2++;
 						continue;
-					} else {
-						// _S1________E1__
-						// _____S2_______E2
-						tgt.add(new CharSegment(start2, end1, seg2.name));
-						break;
 					}
+					// _S1________E1__
+					// _____S2_______E2
+					tgt.add(new CharSegment(start2, end1, seg2.name));
+					break;
 				} else if (end2 <= end1) {
 					// ____S1____E1__
 					// __S2____E2____
@@ -180,11 +226,16 @@ public class CharSegment {
 		return tgt;
 	}
 
+	/**
+	 * Sort character segment
+	 *
+	 * @param segments character segment
+	 */
 	public static void sort(CharSegment[] segments) {
 		Arrays.sort(segments, new SortingComparator());
 	}
 
-	static class SortingComparator implements Comparator {
+	static class SortingComparator implements Comparator<Object> {
 
 		@Override
 		public int compare(Object arg0, Object arg1) {
@@ -194,7 +245,7 @@ public class CharSegment {
 		}
 	}
 
-	static class SearchingComparator implements Comparator {
+	static class SearchingComparator implements Comparator<Object> {
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

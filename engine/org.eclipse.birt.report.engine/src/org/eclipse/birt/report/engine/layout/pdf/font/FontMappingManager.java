@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.lowagie.text.pdf.BaseFont;
 
@@ -39,12 +40,12 @@ public class FontMappingManager {
 
 	private FontMappingManager parent;
 
-	private Map fontEncodings = new HashMap();
+	private Map<String, String> fontEncodings = new HashMap<String, String>();
 
-	private Map searchSequences = new HashMap();
+	private Map<String, String[]> searchSequences = new HashMap<String, String[]>();
 
 	/** The font-family replacement */
-	private Map fontAliases = new HashMap();
+	private Map<String, String> fontAliases = new HashMap<String, String>();
 
 	/** Usage of the advanced font kerning and ligatures */
 	private boolean fontKerningAdvancedUsage = false;
@@ -52,7 +53,7 @@ public class FontMappingManager {
 	/**
 	 * composite fonts
 	 */
-	private Map compositeFonts = new HashMap();
+	private Map<String, CompositeFont> compositeFonts = new HashMap<String, CompositeFont>();
 
 	FontMappingManager(FontMappingManagerFactory factory, FontMappingManager parent, FontMappingConfig config,
 			Locale locale) {
@@ -73,11 +74,11 @@ public class FontMappingManager {
 			this.fontKerningAdvancedUsage = config.fontKerningAdvancedUsage;
 
 		String[] sequence = getSearchSequence(locale);
-		Iterator iter = config.compositeFonts.entrySet().iterator();
+		Iterator<Entry<String, CompositeFontConfig>> iter = config.compositeFonts.entrySet().iterator();
 		while (iter.hasNext()) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			String fontName = (String) entry.getKey();
-			CompositeFontConfig fontConfig = (CompositeFontConfig) entry.getValue();
+			Map.Entry<String, CompositeFontConfig> entry = iter.next();
+			String fontName = entry.getKey();
+			CompositeFontConfig fontConfig = entry.getValue();
 			CompositeFont font = factory.createCompositeFont(this, fontConfig, sequence);
 			compositeFonts.put(fontName, font);
 		}
@@ -97,7 +98,7 @@ public class FontMappingManager {
 	 *
 	 * @return the font encodings
 	 */
-	public Map getFontEncodings() {
+	public Map<String, String> getFontEncodings() {
 		return fontEncodings;
 	}
 
@@ -106,7 +107,7 @@ public class FontMappingManager {
 	 *
 	 * @return the font aliases
 	 */
-	public Map getFontAliases() {
+	public Map<String, String> getFontAliases() {
 		return fontAliases;
 	}
 
@@ -115,7 +116,7 @@ public class FontMappingManager {
 	 *
 	 * @return the search sequences
 	 */
-	public Map getSearchSequences() {
+	public Map<String, String[]> getSearchSequences() {
 		return searchSequences;
 	}
 
@@ -124,7 +125,7 @@ public class FontMappingManager {
 	 *
 	 * @return the composite fonts
 	 */
-	public Map getCompositeFonts() {
+	public Map<String, CompositeFont> getCompositeFonts() {
 		return compositeFonts;
 	}
 
@@ -144,7 +145,7 @@ public class FontMappingManager {
 		localeKeys[1] = sb.append('_').append(locale.getCountry()).toString();
 		localeKeys[0] = sb.append('_').append(locale.getVariant()).toString();
 		for (int i = 0; i < localeKeys.length; i++) {
-			String[] sequence = (String[]) searchSequences.get(localeKeys[i]);
+			String[] sequence = searchSequences.get(localeKeys[i]);
 			if (sequence != null) {
 				return sequence;
 			}
@@ -159,7 +160,7 @@ public class FontMappingManager {
 	 * @return the composite font based at font name
 	 */
 	public CompositeFont getCompositeFont(String name) {
-		return (CompositeFont) compositeFonts.get(name);
+		return compositeFonts.get(name);
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class FontMappingManager {
 	 * @return the default physical font
 	 */
 	public String getDefaultPhysicalFont(char c) {
-		CompositeFont compositeFont = (CompositeFont) compositeFonts.get(FONT_NAME_ALL_FONTS);
+		CompositeFont compositeFont = compositeFonts.get(FONT_NAME_ALL_FONTS);
 		if (compositeFont != null) {
 			String font = compositeFont.getUsedFont(c);
 			if (font != null) {
@@ -187,7 +188,7 @@ public class FontMappingManager {
 	 * @return the aliased font
 	 */
 	public String getAliasedFont(String fontAlias) {
-		String alias = (String) fontAliases.get(fontAlias.toLowerCase());
+		String alias = fontAliases.get(fontAlias.toLowerCase());
 		if (alias != null) {
 			return alias;
 		}
