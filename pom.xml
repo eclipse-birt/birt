@@ -35,7 +35,7 @@
 
 		<antrun.version>3.1.0</antrun.version>
 		<build.helper.maven.plugin.version>3.6.0</build.helper.maven.plugin.version>
-		<cbi-version>1.5.0</cbi-version>
+		<cbi-version>1.5.2</cbi-version>
 		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
 		<jetty-jspc-maven-plugin-version>10.0.24</jetty-jspc-maven-plugin-version>
 		<junit-version>4.13.2</junit-version>
@@ -45,7 +45,7 @@
 		<maven-surefire-plugin-version>3.5.0</maven-surefire-plugin-version>
 		<maven-assembly-plugin-version>3.7.1</maven-assembly-plugin-version>
 		<maven-resources-plugin-version>3.3.1</maven-resources-plugin-version>
-		<tycho.version>4.0.10</tycho.version>
+		<tycho.version>4.0.12</tycho.version>
 		<wagon.ssh.version>3.5.3</wagon.ssh.version>
 
 		<build.type>nightly</build.type>
