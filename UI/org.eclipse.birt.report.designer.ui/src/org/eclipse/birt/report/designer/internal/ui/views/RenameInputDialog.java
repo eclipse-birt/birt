@@ -69,6 +69,13 @@ public class RenameInputDialog extends BaseDialog {
 
 	private String[] existedNames;
 
+	/**
+	 * @param parentShell
+	 * @param dialogTitle
+	 * @param dialogMessage
+	 * @param initialValue
+	 * @param helpContextID
+	 */
 	public RenameInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, String initialValue,
 			String helpContextID) {
 		super(dialogTitle);
@@ -77,6 +84,14 @@ public class RenameInputDialog extends BaseDialog {
 		this.helpContextID = helpContextID;
 	}
 
+	/**
+	 * @param parentShell
+	 * @param dialogTitle
+	 * @param dialogMessage
+	 * @param initialValue
+	 * @param existedNames
+	 * @param helpContextID
+	 */
 	public RenameInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, String initialValue,
 			String[] existedNames, String helpContextID) {
 		this(parentShell, dialogTitle, dialogMessage, initialValue, helpContextID);
@@ -158,6 +173,9 @@ public class RenameInputDialog extends BaseDialog {
 		return composite;
 	}
 
+	/**
+	 * @param errorMessage
+	 */
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 		if (errorMessageText != null && !errorMessageText.isDisposed()) {

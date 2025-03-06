@@ -89,7 +89,8 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 			if (level != null) {
 				levelName = level.getName();
 			}
-			return Messages.getString("CrossTabLevelNodeProvider.Level") + levelName; //$NON-NLS-1$
+			logger.info("levelName = " + levelName); //$NON-NLS-1$
+			return Messages.getString("CrossTabLevelNodeProvider.Level") + levelName;
 		} catch (ExtendedElementException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}

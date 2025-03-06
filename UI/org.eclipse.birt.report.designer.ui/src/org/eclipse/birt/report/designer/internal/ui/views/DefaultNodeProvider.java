@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.SearchAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -144,6 +145,13 @@ public class DefaultNodeProvider implements INodeProvider {
 			menu.add(insertAction);
 		}
 
+		if (sourceViewer != null) {
+			SearchAction searchAction = new SearchAction(sourceViewer);
+			if (searchAction.isEnabled()) {// if can search,add to menu
+				menu.add(searchAction);
+			}
+		}
+
 		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		// Rename action
 		if (sourceViewer != null) {
@@ -244,12 +252,14 @@ public class DefaultNodeProvider implements INodeProvider {
 			if (comparator != null) {
 				Arrays.sort(children, comparator);
 			}
+			logger.info("children = " + children);
 			return children;
 		} else if (model instanceof PropertyHandle) {
 			Object[] children = this.getChildrenByPropertyHandle((PropertyHandle) model);
 			if (comparator != null) {
 				Arrays.sort(children, comparator);
 			}
+			logger.info("children = " + children);
 			return children;
 		}
 		return new Object[] {};
