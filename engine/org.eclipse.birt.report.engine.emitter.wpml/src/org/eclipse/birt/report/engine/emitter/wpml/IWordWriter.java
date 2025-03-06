@@ -110,6 +110,16 @@ public interface IWordWriter {
 	void endSection();
 
 	/**
+	 * Get the flag if the writer is still in the first section.
+	 *
+	 * This is initially true and will be false after endSection was called the
+	 * first time.
+	 *
+	 * @return true while in first section, false otherwise.
+	 */
+	boolean isFirstSection();
+
+	/**
 	 *
 	 * Write page property
 	 *
@@ -314,11 +324,12 @@ public interface IWordWriter {
 	/**
 	 * Start footer
 	 *
+	 * @param isFirstPage  true for the first page, otherwise false.
 	 * @param footerHeight footer height
 	 * @param footerWidth  footer width
 	 * @throws IOException
 	 */
-	void startFooter(int footerHeight, int footerWidth) throws IOException;
+	void startFooter(boolean isFirstPage, int footerHeight, int footerWidth) throws IOException;
 
 	/**
 	 * End footer
@@ -395,5 +406,12 @@ public interface IWordWriter {
 	default boolean getWrappedTableHeaderFooter() {
 		return true;
 	}
+
+	/**
+	 * Write an empty XML element.
+	 *
+	 * @param tag XML element name
+	 */
+	void writeEmptyElement(String tag);
 
 }

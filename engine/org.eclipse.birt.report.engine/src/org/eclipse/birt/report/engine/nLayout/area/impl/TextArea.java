@@ -243,9 +243,9 @@ public class TextArea extends AbstractArea implements ITextArea {
 	 *
 	 * @since 4.14
 	 */
-	public void addWord(int textLength, WordWidth wordWidth) {
+	public void addWord(int textLength, WordWidth wordWidth, int letterSpacing) {
 		this.textLength += textLength;
-		this.width += wordWidth.width;
+		this.width += wordWidth.width + textLength * letterSpacing;
 		this.softHyphenWidth = wordWidth.softHyphenWidth;
 	}
 
@@ -332,13 +332,18 @@ public class TextArea extends AbstractArea implements ITextArea {
 		visitor.visitText(this);
 	}
 
+	/**
+	 * Return the text width, ignoring wordSpacing and letterSpacing.
+	 *
+	 * @param text
+	 * @return text width
+	 */
 	public int getTextWidth(String text) {
 		FontInfo fontInfo = style.getFontInfo();
 		if (null != fontInfo) {
 			return (int) (style.getFontInfo().getWordWidth(text) * PDFConstants.LAYOUT_TO_PDF_RATIO);
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	@Override

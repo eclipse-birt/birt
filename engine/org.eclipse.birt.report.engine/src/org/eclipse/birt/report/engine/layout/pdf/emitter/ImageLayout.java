@@ -46,9 +46,17 @@ import org.eclipse.birt.report.engine.util.FlashFile;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
+/**
+ * Image layout hanlder
+ *
+ * @since 3.3
+ *
+ */
 public class ImageLayout extends Layout {
 
+	/** property: image object */
 	public static final int TYPE_IMAGE_OBJECT = 0;
+	/** property: flash object */
 	public static final int TYPE_FLASH_OBJECT = 1;
 
 	private Layout layout = null;
@@ -66,6 +74,13 @@ public class ImageLayout extends Layout {
 		unsupportedFormats.put(TYPE_FLASH_OBJECT, flashUnsupportedFormatList);
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param context       image context layout
+	 * @param parentContext parent context
+	 * @param content       content
+	 */
 	public ImageLayout(LayoutEngineContext context, ContainerLayout parentContext, IContent content) {
 		super(context, parentContext, content);
 		parentLayout = parentContext;
@@ -140,9 +155,8 @@ public class ImageLayout extends Layout {
 		ArrayList<String> formats = unsupportedFormats.get(type);
 		if (formats != null && formats.contains(context.getFormat().toLowerCase())) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 }
 
@@ -182,10 +196,9 @@ class ConcreteImageLayout extends Layout {
 	}
 
 	/**
-	 * get intrinsic dimension of image in pixels. Now only support png, bmp, jpg,
-	 * gif.
+	 * Get intrinsic dimension of image in pixels, supported png, bmp, jpg, gif.
 	 *
-	 * @return
+	 * @return intrinsic dimension of image in pixels
 	 * @throws IOException
 	 * @throws MalformedURLException
 	 * @throws BadElementException

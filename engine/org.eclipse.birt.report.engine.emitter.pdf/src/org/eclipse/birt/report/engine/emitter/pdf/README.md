@@ -22,12 +22,26 @@ The following list get an overview of all supported user properties, the content
 	Reference  	see PdfEmitter.PrependDocumentList
 	Designer  	4.17
 
+**PdfEmitter.BackGroundImageSvgToRaster**
+
+	Content    	PDF documents use SVG images directly.
+              	If it is necessary to convert the images before to raster images this option can be set.
+              	Afterwards the SVG images will be transformed to PNG images. 
+	Location   	report
+	Data type  	boolean
+	Values     	true, SVG images has to be converted to raster images
+	           	false, SVG images used directly
+	Default    	false
+	Reference  	-
+	Since	    	4.19
+	Designer  	-
+
 **PdfEmitter.Conformance**
 
 	Content    	define the PDF conformance of the created PDF document, e.g. PDF.A1A
 	Location   	report
 	Data type  	string
-	Values     	PDF.Standard, PDF.X1A2001, PDF.X32002, PDF.A1A, PDF.A1B
+	Values     	PDF.Standard, PDF.X1A2001, PDF.X32002, PDF.A1A, PDF.A1B, PDF.A2A, PDF.A2B, PDF.A3A, PDF.A3B, PDF.A3U, PDF.A4F
 	Default    	PDF.Standard
 	Reference  	see PdfEmitter.IccColorType, PdfEmitter.IccProfileFile, PdfEmitter.PDFA.AddDocumentTitle, PdfEmitter.PDFA.FallbackFont, PdfEmitter.IncludeCidSet
 	Since      	4.16
@@ -39,8 +53,8 @@ The following list get an overview of all supported user properties, the content
 	Content    	define the PDF/UA conformance of the created PDF document, e.g. PDF.UA-1
 	Location   	report
 	Data type  	string
-	Values     	PDF.Standard, PDF.UA-1
-	Default    	PDF.Standard
+	Values     	none, PDF.UA-1, PDF.UA-2
+	Default    	none
 	Since      	4.18
 	Designer  	4.18
 

@@ -25,8 +25,23 @@ import org.eclipse.birt.core.util.CommonUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Reader to read the font configuration file (fontsConfig*.xml)
+ *
+ * @since 3.3
+ *
+ */
 public class FontConfigReader {
 
+	/**
+	 * Constructor
+	 *
+	 * @param url file url
+	 * @return the configured font mapping
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 */
 	public FontMappingConfig parseConfig(URL url) throws IOException, ParserConfigurationException, SAXException {
 		InputStream input = url.openStream();
 		try (input) {

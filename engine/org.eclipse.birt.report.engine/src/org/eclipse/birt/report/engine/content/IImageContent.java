@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -192,4 +192,14 @@ public interface IImageContent extends IContent {
 	 * @return Return the calculated image size
 	 */
 	public ImageSize getImageCalculatedSize();
+
+	/**
+	 * Fit the image to the wrapping container
+	 *
+	 * @return the image is fit to the wrapping container
+	 * @since 4.19
+	 */
+	public default boolean isFitToContainer() {
+		return false;
+	}
 }

@@ -81,7 +81,6 @@ public class LineArea extends InlineStackingArea implements ITagType {
 
 	@Override
 	public void addChild(IArea area) {
-		// FIXME ?
 		int childHorizontalSpan = area.getX() + area.getWidth();
 		int childVerticalSpan = area.getY() + area.getHeight();
 
@@ -122,8 +121,8 @@ public class LineArea extends InlineStackingArea implements ITagType {
 		boolean isJustified = CSSValueConstants.JUSTIFY_VALUE.equals(align) && !endParagraph;
 
 		// single line
-		int spacing = width - currentIP;
-		spacing -= adjustSpacingForSoftHyphen();
+		int spaceRemaining = width - currentIP;
+		spaceRemaining -= adjustSpacingForSoftHyphen();
 		int adjustLeftWhiteSpace = ignoreLeftMostWhiteSpace();
 		int adjustRightWhiteSpace = ignoreRightMostWhiteSpace();
 		if ((isRightAligned)) {
@@ -131,19 +130,19 @@ public class LineArea extends InlineStackingArea implements ITagType {
 			while (iter.hasNext()) {
 				AbstractArea area = (AbstractArea) iter.next();
 				if (parent.content.isDirectionRTL()) {
-					area.setPosition(spacing + area.getX(), area.getY());
+					area.setPosition(spaceRemaining + area.getX(), area.getY());
 				} else {
-					area.setPosition(spacing + area.getX() + adjustRightWhiteSpace, area.getY());
+					area.setPosition(spaceRemaining + area.getX() + adjustRightWhiteSpace, area.getY());
 				}
 			}
 		} else if (isCentered) {
 			Iterator<IArea> iter = getChildren();
 			while (iter.hasNext()) {
 				AbstractArea area = (AbstractArea) iter.next();
-				area.setPosition(spacing / 2 + area.getX() - adjustLeftWhiteSpace + adjustRightWhiteSpace, area.getY());
+				area.setPosition(spaceRemaining / 2 + area.getX() - adjustLeftWhiteSpace + adjustRightWhiteSpace, area.getY());
 			}
 		} else if (isJustified) {
-			justify(spacing, adjustLeftWhiteSpace, adjustRightWhiteSpace);
+			justify(spaceRemaining, adjustLeftWhiteSpace, adjustRightWhiteSpace);
 		} else {
 			// is left aligned
 			if (parent.content != null && !parent.content.isDirectionRTL()) {
@@ -182,6 +181,7 @@ public class LineArea extends InlineStackingArea implements ITagType {
 	private int ignoreRightMostWhiteSpace() {
 		if (lastTextArea != null) {
 			String text = lastTextArea.getText();
+			int letterSpacing = lastTextArea.getTextStyle().getLetterSpacing();
 			if (null != text) {
 				char[] charArray = text.toCharArray();
 				int len = charArray.length;
@@ -189,7 +189,8 @@ public class LineArea extends InlineStackingArea implements ITagType {
 					len--;
 				}
 				if (len != charArray.length) {
-					return lastTextArea.getTextWidth(text.substring(len));
+					return (1 + charArray.length - len) * letterSpacing
+							+ lastTextArea.getTextWidth(text.substring(len));
 				}
 			}
 		}
@@ -200,6 +201,7 @@ public class LineArea extends InlineStackingArea implements ITagType {
 		TextArea firstTextArea = findFirstNonEmptyTextArea(this);
 		if (firstTextArea != null) {
 			String text = firstTextArea.getText();
+			int letterSpacing = lastTextArea.getTextStyle().getLetterSpacing();
 			if (null != text) {
 				char[] charArray = text.toCharArray();
 				int len = 0;
@@ -207,7 +209,7 @@ public class LineArea extends InlineStackingArea implements ITagType {
 					len++;
 				}
 				if (len > 0) {
-					return firstTextArea.getTextWidth(text.substring(0, len));
+					return len * letterSpacing + firstTextArea.getTextWidth(text.substring(0, len));
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -18,9 +18,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.lowagie.text.pdf.BaseFont;
 
+/**
+ * Manager to handle the font mapping configuration
+ *
+ * @since 3.3
+ *
+ */
 public class FontMappingManager {
 
 	/** all fonts key */
@@ -33,17 +40,20 @@ public class FontMappingManager {
 
 	private FontMappingManager parent;
 
-	private Map fontEncodings = new HashMap();
+	private Map<String, String> fontEncodings = new HashMap<String, String>();
 
-	private Map searchSequences = new HashMap();
+	private Map<String, String[]> searchSequences = new HashMap<String, String[]>();
 
 	/** The font-family replacement */
-	private Map fontAliases = new HashMap();
+	private Map<String, String> fontAliases = new HashMap<String, String>();
+
+	/** Usage of the advanced font kerning and ligatures */
+	private boolean fontKerningAdvancedUsage = false;
 
 	/**
 	 * composite fonts
 	 */
-	private Map compositeFonts = new HashMap();
+	private Map<String, CompositeFont> compositeFonts = new HashMap<String, CompositeFont>();
 
 	FontMappingManager(FontMappingManagerFactory factory, FontMappingManager parent, FontMappingConfig config,
 			Locale locale) {
@@ -54,40 +64,78 @@ public class FontMappingManager {
 			this.fontAliases.putAll(parent.getFontAliases());
 			this.fontEncodings.putAll(parent.getFontEncodings());
 			this.compositeFonts.putAll(parent.getCompositeFonts());
+			if (!this.fontKerningAdvancedUsage)
+				this.fontKerningAdvancedUsage = parent.fontKerningAdvancedUsage;
 		}
 		this.fontEncodings.putAll(config.fontEncodings);
 		this.searchSequences.putAll(config.searchSequences);
 		this.fontAliases.putAll(config.fontAliases);
+		if (!this.fontKerningAdvancedUsage)
+			this.fontKerningAdvancedUsage = config.fontKerningAdvancedUsage;
 
 		String[] sequence = getSearchSequence(locale);
-		Iterator iter = config.compositeFonts.entrySet().iterator();
+		Iterator<Entry<String, CompositeFontConfig>> iter = config.compositeFonts.entrySet().iterator();
 		while (iter.hasNext()) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			String fontName = (String) entry.getKey();
-			CompositeFontConfig fontConfig = (CompositeFontConfig) entry.getValue();
+			Map.Entry<String, CompositeFontConfig> entry = iter.next();
+			String fontName = entry.getKey();
+			CompositeFontConfig fontConfig = entry.getValue();
 			CompositeFont font = factory.createCompositeFont(this, fontConfig, sequence);
 			compositeFonts.put(fontName, font);
 		}
 	}
 
+	/**
+	 * Get the parent font mapping manager
+	 *
+	 * @return the parent font mapping manager
+	 */
 	public FontMappingManager getParent() {
 		return parent;
 	}
 
-	public Map getFontEncodings() {
+	/**
+	 * Get the font encodings
+	 *
+	 * @return the font encodings
+	 */
+	public Map<String, String> getFontEncodings() {
 		return fontEncodings;
 	}
 
-	public Map getFontAliases() {
+	/**
+	 * Get the font aliases
+	 *
+	 * @return the font aliases
+	 */
+	public Map<String, String> getFontAliases() {
 		return fontAliases;
 	}
 
-	public Map getSearchSequences() {
+	/**
+	 * Get the search sequences
+	 *
+	 * @return the search sequences
+	 */
+	public Map<String, String[]> getSearchSequences() {
 		return searchSequences;
 	}
 
-	public Map getCompositeFonts() {
+	/**
+	 * Get the composite fonts
+	 *
+	 * @return the composite fonts
+	 */
+	public Map<String, CompositeFont> getCompositeFonts() {
 		return compositeFonts;
+	}
+
+	/**
+	 * Get the usage of advanced font kerning and ligatures
+	 *
+	 * @return the usage of advanced font kerning and ligatures
+	 */
+	public boolean useFontKerningAdvanced() {
+		return fontKerningAdvancedUsage;
 	}
 
 	protected String[] getSearchSequence(Locale locale) {
@@ -97,7 +145,7 @@ public class FontMappingManager {
 		localeKeys[1] = sb.append('_').append(locale.getCountry()).toString();
 		localeKeys[0] = sb.append('_').append(locale.getVariant()).toString();
 		for (int i = 0; i < localeKeys.length; i++) {
-			String[] sequence = (String[]) searchSequences.get(localeKeys[i]);
+			String[] sequence = searchSequences.get(localeKeys[i]);
 			if (sequence != null) {
 				return sequence;
 			}
@@ -105,12 +153,24 @@ public class FontMappingManager {
 		return null;
 	}
 
+	/**
+	 * Get the composite font based at font name
+	 *
+	 * @param name font name
+	 * @return the composite font based at font name
+	 */
 	public CompositeFont getCompositeFont(String name) {
-		return (CompositeFont) compositeFonts.get(name);
+		return compositeFonts.get(name);
 	}
 
+	/**
+	 * Get the default physical font
+	 *
+	 * @param c special character of the font
+	 * @return the default physical font
+	 */
 	public String getDefaultPhysicalFont(char c) {
-		CompositeFont compositeFont = (CompositeFont) compositeFonts.get(FONT_NAME_ALL_FONTS);
+		CompositeFont compositeFont = compositeFonts.get(FONT_NAME_ALL_FONTS);
 		if (compositeFont != null) {
 			String font = compositeFont.getUsedFont(c);
 			if (font != null) {
@@ -121,8 +181,14 @@ public class FontMappingManager {
 		return null;
 	}
 
+	/**
+	 * Get the aliased font
+	 *
+	 * @param fontAlias font alias name
+	 * @return the aliased font
+	 */
 	public String getAliasedFont(String fontAlias) {
-		String alias = (String) fontAliases.get(fontAlias.toLowerCase());
+		String alias = fontAliases.get(fontAlias.toLowerCase());
 		if (alias != null) {
 			return alias;
 		}
@@ -133,7 +199,7 @@ public class FontMappingManager {
 	 * Creates iText BaseFont with the given font family name.
 	 *
 	 * @param fontFamily the specified font family name.
-	 * @param style      font style
+	 * @param fontStyle  font style
 	 * @return the created BaseFont.
 	 */
 	public BaseFont createFont(String fontFamily, int fontStyle) {

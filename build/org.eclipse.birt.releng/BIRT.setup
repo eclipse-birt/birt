@@ -416,13 +416,13 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="latest">
+      value="4.19">
     <choice
         value="latest"
         label="BIRT Latest"/>
     <choice
-        value="4.18"
-        label="BIRT 4.18"/>
+        value="4.19"
+        label="BIRT 4.19"/>
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
@@ -439,6 +439,13 @@
       sourceURL="${eclipse.latest.p2}"
       targetURL="https://download.eclipse.org/releases/${eclipse.target.platform.latest}/202406121000">
     <description>Redirect the I-Build to the release train for BIRT 4.16</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:RedirectionTask"
+      filter="(birt.version=4.19)"
+      sourceURL="${eclipse.latest.p2}"
+      targetURL="https://download.eclipse.org/releases/2025-03/202503121000">
+    <description>Redirect the I-Build to the release train for BIRT 4.19</description>
   </setupTask>
   <setupTask
       xsi:type="setup.targlets:TargletTask">
@@ -500,6 +507,8 @@
       <requirement
           name="*"/>
       <requirement
+          name="org.eclipse.justj.epp.feature.group"/>
+      <requirement
           name="slf4j.simple"/>
       <requirement
           name="cdi.api"
@@ -522,6 +531,10 @@
           max="0"/>
       <requirement
           name="jakarta.xml.bind"
+          optional="true"
+          max="0"/>
+      <requirement
+          name="org.apache.logging.log4j.slf4j2.impl"
           optional="true"
           max="0"/>
       <requirement
@@ -556,7 +569,7 @@
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       </repositoryList>
       <repositoryList
-          name="4.18">
+          name="4.19">
         <annotation>
           <content
               xsi:type="p2:Repository"
@@ -565,17 +578,17 @@
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.34.0"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.35.0"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.15"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.16"/>
         <repository
-            url="https://download.eclipse.org/releases/2024-12/202412041000"/>
+            url="https://download.eclipse.org/releases/2025-03/202503121000"/>
         <repository
-            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20241024-0603"/>
+            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20250130-0832"/>
         <repository
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
         <repository
-            url="https://download.eclipse.org/datatools/updates/release/1.16.2"/>
+            url="https://download.eclipse.org/datatools/updates/release/1.16.3"/>
       </repositoryList>
     </targlet>
   </setupTask>

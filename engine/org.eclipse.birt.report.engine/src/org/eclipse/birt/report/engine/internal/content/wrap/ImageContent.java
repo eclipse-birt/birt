@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -19,9 +19,20 @@ import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 
+/**
+ * Image content with abstract wrapper
+ *
+ * @since 3.3
+ *
+ */
 public class ImageContent extends AbstractContentWrapper implements IImageContent {
 	IImageContent imageContent;
 
+	/**
+	 * Constructor
+	 *
+	 * @param content image content
+	 */
 	public ImageContent(IImageContent content) {
 		super(content);
 		imageContent = content;
@@ -179,5 +190,10 @@ public class ImageContent extends AbstractContentWrapper implements IImageConten
 	@Override
 	public ImageSize getImageCalculatedSize() {
 		return imageContent.getImageCalculatedSize();
+	}
+
+	@Override
+	public boolean isFitToContainer() {
+		return imageContent.isFitToContainer();
 	}
 }

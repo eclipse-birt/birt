@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="56">
+<target name="Generated from BIRT" sequenceNumber="57">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="bcpg" version="0.0.0"/>
@@ -47,15 +47,12 @@
       <unit id="org.apache.batik.util" version="0.0.0"/>
       <unit id="org.apache.batik.xml" version="0.0.0"/>
       <unit id="org.apache.commons.cli" version="0.0.0"/>
-      <unit id="org.apache.commons.collections" version="0.0.0"/>
-      <unit id="org.apache.commons.commons-beanutils" version="0.0.0"/>
       <unit id="org.apache.commons.commons-codec" version="0.0.0"/>
       <unit id="org.apache.commons.commons-collections4" version="0.0.0"/>
       <unit id="org.apache.commons.commons-compress" version="0.0.0"/>
       <unit id="org.apache.commons.commons-io" version="0.0.0"/>
       <unit id="org.apache.commons.commons-logging" version="0.0.0"/>
       <unit id="org.apache.commons.discovery" version="0.0.0"/>
-      <unit id="org.apache.commons.jxpath" version="0.0.0"/>
       <unit id="org.apache.commons.logging" version="1.2.0"/>
       <unit id="org.apache.commons.math3" version="0.0.0"/>
       <unit id="org.apache.derby" version="0.0.0"/>
@@ -131,7 +128,6 @@
       <unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
-      <unit id="org.jdom" version="0.0.0"/>
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
       <unit id="org.mortbay.jasper.apache-el" version="9.0.96"/>
       <unit id="org.mortbay.jasper.apache-jsp" version="9.0.96"/>
@@ -145,16 +141,13 @@
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.35-I-builds"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
-      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
-      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
-      <repository location="https://download.eclipse.org/webtools/CI/latest"/>
-      <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.35.0"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.16"/>
+      <repository location="https://download.eclipse.org/releases/2025-03/202503121000"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/21.0.0.v20250130-0832"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
+      <repository location="https://download.eclipse.org/datatools/updates/release/1.16.3"/>
     </location>
   </locations>
 </target>

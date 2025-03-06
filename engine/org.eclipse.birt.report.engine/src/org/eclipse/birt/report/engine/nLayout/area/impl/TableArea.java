@@ -230,8 +230,10 @@ public class TableArea extends RepeatableArea {
 		}
 		ReportContent report = (ReportContent) content.getReportContent();
 		IRowContent row = report.createRowContent();
+		row.setTagType("Caption");
 		row.setParent(content);
 		ICellContent cell = report.createCellContent();
+		cell.setTagType(null);
 		cell.setColSpan(getColumnCount());
 		cell.setColumn(0);
 		StyleDeclaration cstyle = new StyleDeclaration(report.getCSSEngine());
@@ -241,11 +243,13 @@ public class TableArea extends RepeatableArea {
 		cell.setInlineStyle(cstyle);
 		cell.setParent(row);
 		ILabelContent captionLabel = report.createLabelContent();
+		captionLabel.setTagType(null);
 		captionLabel.setParent(cell);
 		captionLabel.setText(caption);
 		StyleDeclaration style = new StyleDeclaration(report.getCSSEngine());
 		style.setProperty(StyleConstants.STYLE_TEXT_ALIGN, CSSValueConstants.CENTER_VALUE);
 		captionLabel.setInlineStyle(style);
+		captionLabel.setTagType(null);
 		RowArea captionRow = new RowArea(this, context, row);
 		captionRow.isDummy = true;
 		captionRow.setParent(this);
@@ -257,7 +261,6 @@ public class TableArea extends RepeatableArea {
 		captionCell.initialize();
 		captionCell.isDummy = true;
 		captionCell.setRowSpan(1);
-		captionRow.children.add(captionCell);
 		BlockTextArea captionText = new BlockTextArea(captionCell, context, captionLabel);
 		captionText.isDummy = true;
 		captionText.layout();
@@ -265,7 +268,6 @@ public class TableArea extends RepeatableArea {
 		captionCell.setContentHeight(h);
 		captionRow.setHeight(captionCell.getAllocatedHeight());
 		captionRow.finished = true;
-		add(captionRow);
 		if (repeatList == null) {
 			repeatList = new ArrayList<AbstractArea>();
 		}
@@ -311,7 +313,7 @@ public class TableArea extends RepeatableArea {
 					InstanceID unresolvedTableIID = unresolvedRow.getTableArea().getContent().getInstanceID();
 					// this iid can be null, because the table may be generated
 					// from HTML2Content.
-					// in this case, they are ignored by unresloved row hint.
+					// in this case, they are ignored by unresolved row hint.
 					// Currently, large HTML text is not supported to be split.
 					if (unresolvedTableIID != null) {
 						pageHintGenerator.addUnresolvedRowHint(unresolvedTableIID.toUniqueString(),

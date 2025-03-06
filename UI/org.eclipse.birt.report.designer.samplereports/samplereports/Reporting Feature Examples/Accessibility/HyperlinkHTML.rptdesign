@@ -2,12 +2,12 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
     <property name="author">Henning von Bargen</property>
     <property name="createdBy">Eclipse BIRT Designer Version 4.18.0.qualifier Build &lt;@BUILD@></property>
-    <text-property name="title">A table with a group header</text-property>
+    <text-property name="title">Das ist der Titel</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
-    <property name="locale">en_US</property>
+    <property name="locale">de_DE</property>
     <property name="pdfVersion">1.7</property>
     <property name="pdfConformance">PDF.A1A</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
@@ -46,34 +46,10 @@
                     <text-property name="heading">PRODUCTNAME</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">PRODUCTLINE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">PRODUCTLINE</text-property>
-                    <text-property name="heading">PRODUCTLINE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">PRODUCTSCALE</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">PRODUCTSCALE</text-property>
-                    <text-property name="heading">PRODUCTSCALE</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">PRODUCTVENDOR</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">PRODUCTVENDOR</text-property>
-                    <text-property name="heading">PRODUCTVENDOR</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">PRODUCTDESCRIPTION</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">PRODUCTDESCRIPTION</text-property>
                     <text-property name="heading">PRODUCTDESCRIPTION</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">QUANTITYINSTOCK</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">QUANTITYINSTOCK</text-property>
-                    <text-property name="heading">QUANTITYINSTOCK</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">BUYPRICE</property>
@@ -82,10 +58,16 @@
                     <text-property name="heading">BUYPRICE</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">MSRP</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">MSRP</text-property>
-                    <text-property name="heading">MSRP</text-property>
+                    <property name="columnName">PRODUCTLINE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">PRODUCTLINE</text-property>
+                    <text-property name="heading">PRODUCTLINE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HTMLDESCRIPTION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">HTMLDESCRIPTION</text-property>
+                    <text-property name="heading">HTMLDESCRIPTION</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters"/>
@@ -103,42 +85,27 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">PRODUCTLINE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">PRODUCTSCALE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">PRODUCTVENDOR</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
                         <property name="name">PRODUCTDESCRIPTION</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
-                        <property name="name">QUANTITYINSTOCK</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
+                        <property name="position">4</property>
                         <property name="name">BUYPRICE</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
-                        <property name="name">MSRP</property>
-                        <property name="dataType">float</property>
+                        <property name="position">5</property>
+                        <property name="name">PRODUCTLINE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">HTMLDESCRIPTION</property>
+                        <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
-            <property name="rowFetchLimit">6</property>
+            <property name="rowFetchLimit">100</property>
             <property name="dataSource">CM</property>
             <list-property name="resultSet">
                 <structure>
@@ -157,57 +124,42 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">PRODUCTLINE</property>
-                    <property name="nativeName">PRODUCTLINE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">PRODUCTSCALE</property>
-                    <property name="nativeName">PRODUCTSCALE</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">PRODUCTVENDOR</property>
-                    <property name="nativeName">PRODUCTVENDOR</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
                     <property name="name">PRODUCTDESCRIPTION</property>
                     <property name="nativeName">PRODUCTDESCRIPTION</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
-                    <property name="name">QUANTITYINSTOCK</property>
-                    <property name="nativeName">QUANTITYINSTOCK</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
+                    <property name="position">4</property>
                     <property name="name">BUYPRICE</property>
                     <property name="nativeName">BUYPRICE</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
-                    <property name="name">MSRP</property>
-                    <property name="nativeName">MSRP</property>
-                    <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
+                    <property name="position">5</property>
+                    <property name="name">PRODUCTLINE</property>
+                    <property name="nativeName">PRODUCTLINE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">HTMLDESCRIPTION</property>
+                    <property name="nativeName">HTMLDESCRIPTION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">2005</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select *
+            <xml-property name="queryText"><![CDATA[select products.productcode
+     , products.productname
+     , products.productdescription
+     , products.buyprice
+     , products.productline
+     , productlines.htmldescription
 from products
-order by productline, productname]]></xml-property>
+join productlines on (products.productline = productlines.productline)
+order by products.productline, products.productname]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -418,114 +370,12 @@ order by productline, productname]]></xml-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
-            <page-header>
-                <label id="7">
-                    <text-property name="text">Das ist ein Label im Header der MasterPage</text-property>
-                </label>
-            </page-header>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="35">
-            <property name="dataSet">Products</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">PRODUCTNAME</property>
-                    <text-property name="displayName">PRODUCTNAME</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PRODUCTNAME"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PRODUCTLINE</property>
-                    <text-property name="displayName">PRODUCTLINE</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PRODUCTLINE"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">PRODUCTDESCRIPTION</property>
-                    <text-property name="displayName">PRODUCTDESCRIPTION</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PRODUCTDESCRIPTION"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">MSRP</property>
-                    <text-property name="displayName">MSRP</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["MSRP"]</expression>
-                    <property name="dataType">float</property>
-                </structure>
-            </list-property>
-            <property name="pageBreakInterval">9999</property>
-            <column id="59"/>
-            <column id="61"/>
-            <column id="62"/>
-            <header>
-                <row id="36">
-                    <property name="backgroundColor">#80FF00</property>
-                    <cell id="37">
-                        <expression name="bookmark" type="javascript">"product"</expression>
-                        <label id="38">
-                            <text-property name="text">Product Name</text-property>
-                        </label>
-                    </cell>
-                    <cell id="41">
-                        <expression name="bookmark" type="javascript">"descr"</expression>
-                        <label id="42">
-                            <text-property name="text">Description</text-property>
-                        </label>
-                    </cell>
-                    <cell id="43">
-                        <expression name="bookmark" type="javascript">"price"</expression>
-                        <label id="44">
-                            <text-property name="text">Price</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <group id="63">
-                <property name="groupName">TDProductLine</property>
-                <expression name="keyExpr" type="javascript">row["PRODUCTLINE"]</expression>
-                <expression name="bookmark" type="javascript">row["PRODUCTLINE"]</expression>
-                <structure name="toc">
-                    <expression name="expressionValue" type="javascript">row["PRODUCTLINE"]</expression>
-                </structure>
-                <property name="hideDetail">false</property>
-                <header>
-                    <row id="64">
-                        <cell id="65">
-                            <property name="colSpan">3</property>
-                            <property name="rowSpan">1</property>
-                            <expression name="bookmark" type="javascript">"bm-" + row["PRODUCTLINE"]</expression>
-                            <property name="tagType">TH</property>
-                            <property name="backgroundColor">#80FFFF</property>
-                            <data id="74">
-                                <property name="resultSetColumn">PRODUCTLINE</property>
-                            </data>
-                        </cell>
-                    </row>
-                </header>
-            </group>
-            <detail>
-                <row id="45">
-                    <cell id="46">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",product"</expression>
-                        <data id="47">
-                            <property name="resultSetColumn">PRODUCTNAME</property>
-                        </data>
-                    </cell>
-                    <cell id="50">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",descr"</expression>
-                        <data id="51">
-                            <property name="resultSetColumn">PRODUCTDESCRIPTION</property>
-                        </data>
-                    </cell>
-                    <cell id="52">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",price"</expression>
-                        <data id="53">
-                            <property name="resultSetColumn">MSRP</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-        </table>
+        <text-data id="101">
+            <expression name="valueExpr">'&lt;p>Text with &lt;a href="https://github.com/eclipse-birt/birt">hyperlink&lt;/a>&lt;/p>'</expression>
+            <property name="contentType">html</property>
+        </text-data>
     </body>
 </report>

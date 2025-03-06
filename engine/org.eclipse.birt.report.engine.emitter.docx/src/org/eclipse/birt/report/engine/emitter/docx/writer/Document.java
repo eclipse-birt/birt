@@ -297,21 +297,34 @@ public class Document extends BasicComponent {
 		writer.closeTag("w:background");
 	}
 
-	void writeHeaderReference(BasicComponent header, boolean showHeaderOnFirst) {
-		String type = showHeaderOnFirst ? "first" : "default";
+	void writeHeaderReference(BasicComponent header, boolean first) {
+		String type = first ? "first" : "default";
 		writer.openTag("w:headerReference");
 		writer.attribute("w:type", type);
 		writer.attribute("r:id", header.getRelationshipId());
 		writer.closeTag("w:headerReference");
 	}
 
-	void writeFooterReference(BasicComponent footer) {
+	void writeFooterReference(BasicComponent footer, boolean first) {
+		String type = first ? "first" : "default";
 		writer.openTag("w:footerReference");
+		writer.attribute("w:type", type);
 		writer.attribute("r:id", footer.getRelationshipId());
 		writer.closeTag("w:footerReference");
 	}
 
-	Header createHeader(int headerHeight, int headerWidth, boolean wrapHeader) throws IOException {
+	Header createHeader(boolean showHeaderOnFirst, int headerHeight, int headerWidth, boolean wrapHeader)
+			throws IOException {
+		if (!showHeaderOnFirst) {
+			String uri = "header" + getHeaderID() + ".xml";
+			String type = ContentTypes.WORD_HEADER;
+			String relationshipType = RelationshipTypes.HEADER;
+			IPart headerPart = part.getPart(uri, type, relationshipType);
+			Header firstPageHeader = new Header(headerPart, this, headerHeight, headerWidth);
+			firstPageHeader.start();
+			firstPageHeader.end();
+			writeHeaderReference(firstPageHeader, true);
+		}
 		String uri = "header" + getHeaderID() + ".xml";
 		String type = ContentTypes.WORD_HEADER;
 		String relationshipType = RelationshipTypes.HEADER;
@@ -319,12 +332,20 @@ public class Document extends BasicComponent {
 		return new Header(headerPart, this, headerHeight, headerWidth, wrapHeader);
 	}
 
-	Footer createFooter(int footerHeight, int footerWidth, boolean wrapHeader) throws IOException {
+	Footer createFooter(boolean showHeaderOnFirst, int footerHeight, int footerWidth, boolean wrapHeader)
+			throws IOException {
 		String uri = "footer" + getFooterID() + ".xml";
 		String type = ContentTypes.WORD_FOOTER;
 		String relationshipType = RelationshipTypes.FOOTER;
 		IPart footerPart = part.getPart(uri, type, relationshipType);
-		return new Footer(footerPart, this, footerHeight, footerWidth, wrapHeader);
+		Footer footer = new Footer(footerPart, this, footerHeight, footerWidth, wrapHeader);
+		if (!showHeaderOnFirst) {
+			// This results in the same footer content referenced twice:
+			// Once as header, and once as default.
+			// This is necessary: otherwise Word won't show the footer on the first page.
+			writeFooterReference(footer, true);
+		}
+		return footer;
 	}
 
 	private int getHeaderID() {

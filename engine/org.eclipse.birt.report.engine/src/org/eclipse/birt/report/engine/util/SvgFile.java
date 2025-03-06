@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c)2008 Actuate Corporation.
+ * Copyright (c)2008, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -20,16 +20,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.logging.Logger;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 
+/**
+ * SVG utility class to support SVG images
+ *
+ * @since 3.3
+ *
+ */
 public class SvgFile {
 
-	private static Logger logger = Logger.getLogger(SvgFile.class.getName());
-
+	private static final String FILE_EXTENSION_SVG = ".svg";
 	private static final String URL_IMAGE_TYPE_SVG = "image/svg+xml";
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 	private static final String URL_PROTOCOL_TYPE_DATA_BASE = ";base64,";
@@ -37,8 +41,14 @@ public class SvgFile {
 
 	static boolean isSvg = false;
 
+	/**
+	 * Validation of SVG image
+	 *
+	 * @param uri URI to be validated
+	 * @return the validation result of SVG image
+	 */
 	public static boolean isSvg(String uri) {
-		if (uri != null && (uri.endsWith(".svg") || uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG))) {
+		if (uri != null && (uri.endsWith(FILE_EXTENSION_SVG) || uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG))) {
 			isSvg = true;
 		} else {
 			isSvg = false;
@@ -46,15 +56,31 @@ public class SvgFile {
 		return isSvg;
 	}
 
+	/**
+	 * Validation of SVG image
+	 *
+	 * @param mimeType  mime type to be validated
+	 * @param uri       URI to be validated
+	 * @param extension extension to be validated
+	 * @return the validation result of SVG image
+	 */
 	public static boolean isSvg(String mimeType, String uri, String extension) {
 		isSvg = ((mimeType != null)
 				&& mimeType.equalsIgnoreCase(URL_IMAGE_TYPE_SVG)) // $NON-NLS-1$
 				|| ((uri != null)
-						&& (uri.toLowerCase().endsWith(".svg") || uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG))) //$NON-NLS-1$
-				|| ((extension != null) && extension.toLowerCase().endsWith(".svg")); //$NON-NLS-1$
+						&& (uri.toLowerCase().endsWith(FILE_EXTENSION_SVG)
+								|| uri.toLowerCase().contains(URL_IMAGE_TYPE_SVG))) // $NON-NLS-1$
+				|| ((extension != null) && extension.toLowerCase().endsWith(FILE_EXTENSION_SVG)); // $NON-NLS-1$
 		return isSvg;
 	}
 
+	/**
+	 * Transformation of SVG image to PNG raster image
+	 *
+	 * @param uri SVG URI
+	 * @return the PNG raster image
+	 * @throws Exception
+	 */
 	public static byte[] transSvgToArray(String uri) throws Exception {
 		byte[] data = null;
 
@@ -94,6 +120,13 @@ public class SvgFile {
 		return data;
 	}
 
+	/**
+	 * Transformation of SVG image to PNG raster image
+	 *
+	 * @param inputStream SVG input stream
+	 * @return the PNG raster image
+	 * @throws Exception
+	 */
 	public static byte[] transSvgToArray(InputStream inputStream) throws Exception {
 		PNGTranscoder transcoder = new PNGTranscoder();
 		// create the transcoder input

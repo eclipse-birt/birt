@@ -75,6 +75,17 @@ public class TOCBuilder implements ITOCConstants {
 		return startEntry(parent, tocValue, bookmark, hiddenFormats, false, elementId);
 	}
 
+	/**
+	 * This method seems to be only used in tests, not in the engine!
+	 *
+	 * @param parent
+	 * @param tocValue
+	 * @param bookmark
+	 * @param elementId
+	 * @return
+	 *
+	 * @deprecated for removal. Use the variant with hiddenFormats argument instead.
+	 */
 	public TOCEntry startEntry(TOCEntry parent, Object tocValue, String bookmark, long elementId) {
 		return startEntry(parent, tocValue, bookmark, null, false, elementId);
 	}

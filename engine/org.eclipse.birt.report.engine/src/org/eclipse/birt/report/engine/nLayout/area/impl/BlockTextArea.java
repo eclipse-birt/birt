@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.PdfTagConstant;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.w3c.dom.css.CSSValue;
@@ -201,6 +202,15 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
+	}
+
+	@Override
+	public String getTagType() {
+		String tagType = super.getTagType();
+		if (PdfTagConstant.AUTO.equals(tagType)) {
+			tagType = PdfTagConstant.P;
+		}
+		return tagType;
 	}
 
 }

@@ -2,7 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
     <property name="author">Henning von Bargen</property>
     <property name="createdBy">Eclipse BIRT Designer Version 4.18.0.qualifier Build &lt;@BUILD@></property>
-    <text-property name="title">A table with a group header</text-property>
+    <text-property name="title">Just a grid</text-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -138,7 +138,7 @@
                     </structure>
                 </list-property>
             </structure>
-            <property name="rowFetchLimit">6</property>
+            <property name="rowFetchLimit">50</property>
             <property name="dataSource">CM</property>
             <list-property name="resultSet">
                 <structure>
@@ -426,9 +426,15 @@ order by productline, productname]]></xml-property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="35">
+        <grid id="75">
             <property name="dataSet">Products</property>
             <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">PRODUCTCODE</property>
+                    <text-property name="displayName">PRODUCTCODE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PRODUCTCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
                 <structure>
                     <property name="name">PRODUCTNAME</property>
                     <text-property name="displayName">PRODUCTNAME</text-property>
@@ -442,10 +448,34 @@ order by productline, productname]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
+                    <property name="name">PRODUCTSCALE</property>
+                    <text-property name="displayName">PRODUCTSCALE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PRODUCTSCALE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PRODUCTVENDOR</property>
+                    <text-property name="displayName">PRODUCTVENDOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PRODUCTVENDOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
                     <property name="name">PRODUCTDESCRIPTION</property>
                     <text-property name="displayName">PRODUCTDESCRIPTION</text-property>
                     <expression name="expression" type="javascript">dataSetRow["PRODUCTDESCRIPTION"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">QUANTITYINSTOCK</property>
+                    <text-property name="displayName">QUANTITYINSTOCK</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["QUANTITYINSTOCK"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">BUYPRICE</property>
+                    <text-property name="displayName">BUYPRICE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BUYPRICE"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">MSRP</property>
@@ -454,78 +484,189 @@ order by productline, productname]]></xml-property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">9999</property>
-            <column id="59"/>
-            <column id="61"/>
-            <column id="62"/>
-            <header>
-                <row id="36">
-                    <property name="backgroundColor">#80FF00</property>
-                    <cell id="37">
-                        <expression name="bookmark" type="javascript">"product"</expression>
-                        <label id="38">
-                            <text-property name="text">Product Name</text-property>
-                        </label>
-                    </cell>
-                    <cell id="41">
-                        <expression name="bookmark" type="javascript">"descr"</expression>
-                        <label id="42">
-                            <text-property name="text">Description</text-property>
-                        </label>
-                    </cell>
-                    <cell id="43">
-                        <expression name="bookmark" type="javascript">"price"</expression>
-                        <label id="44">
-                            <text-property name="text">Price</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <group id="63">
-                <property name="groupName">TDProductLine</property>
-                <expression name="keyExpr" type="javascript">row["PRODUCTLINE"]</expression>
-                <expression name="bookmark" type="javascript">row["PRODUCTLINE"]</expression>
-                <structure name="toc">
-                    <expression name="expressionValue" type="javascript">row["PRODUCTLINE"]</expression>
-                </structure>
-                <property name="hideDetail">false</property>
-                <header>
-                    <row id="64">
-                        <cell id="65">
-                            <property name="colSpan">3</property>
-                            <property name="rowSpan">1</property>
-                            <expression name="bookmark" type="javascript">"bm-" + row["PRODUCTLINE"]</expression>
-                            <property name="tagType">TH</property>
-                            <property name="backgroundColor">#80FFFF</property>
-                            <data id="74">
-                                <property name="resultSetColumn">PRODUCTLINE</property>
-                            </data>
-                        </cell>
-                    </row>
-                </header>
-            </group>
-            <detail>
-                <row id="45">
-                    <cell id="46">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",product"</expression>
-                        <data id="47">
-                            <property name="resultSetColumn">PRODUCTNAME</property>
-                        </data>
-                    </cell>
-                    <cell id="50">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",descr"</expression>
-                        <data id="51">
-                            <property name="resultSetColumn">PRODUCTDESCRIPTION</property>
-                        </data>
-                    </cell>
-                    <cell id="52">
-                        <expression name="headers" type="javascript">"bm-" + row["PRODUCTLINE"] + ",price"</expression>
-                        <data id="53">
-                            <property name="resultSetColumn">MSRP</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-        </table>
+            <column id="76"/>
+            <column id="77"/>
+            <column id="94"/>
+            <column id="78"/>
+            <row id="99">
+                <cell id="100">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <label id="104">
+                        <text-property name="text">Product description</text-property>
+                    </label>
+                </cell>
+                <cell id="101">
+                    <property name="colSpan">3</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <text-data id="105">
+                        <expression name="valueExpr">"&lt;h1>Super!&lt;/h1>&lt;p>This is some HTML including &lt;em>emphasized text&lt;/em> and &lt;strong>strong text&lt;/strong>.&lt;/p>"</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="79">
+                <cell id="80">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <label id="95">
+                        <text-property name="text">Code</text-property>
+                    </label>
+                </cell>
+                <cell id="81">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <data id="107">
+                        <property name="resultSetColumn">PRODUCTCODE</property>
+                    </data>
+                </cell>
+                <cell id="91">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <label id="97">
+                        <text-property name="text">MSRP</text-property>
+                    </label>
+                </cell>
+                <cell id="82">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <data id="106">
+                        <property name="resultSetColumn">MSRP</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="83">
+                <cell id="84">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <label id="96">
+                        <text-property name="text">Name</text-property>
+                    </label>
+                </cell>
+                <cell id="85">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <data id="108">
+                        <property name="resultSetColumn">PRODUCTNAME</property>
+                    </data>
+                </cell>
+                <cell id="92">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <label id="98">
+                        <text-property name="text">Scale</text-property>
+                    </label>
+                </cell>
+                <cell id="86">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="paddingTop">6pt</property>
+                    <property name="paddingLeft">6pt</property>
+                    <property name="paddingBottom">6pt</property>
+                    <property name="paddingRight">6pt</property>
+                    <data id="109">
+                        <property name="resultSetColumn">PRODUCTSCALE</property>
+                    </data>
+                </cell>
+            </row>
+        </grid>
     </body>
 </report>

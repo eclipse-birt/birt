@@ -358,7 +358,7 @@ public class TextCompositor {
 
 		int adjustWordSize = fontInfo.getItalicAdjust() + width;
 		if (textArea.hasSpace(adjustWordSize + wordWidth.softHyphenWidth * letterSpacing)) {
-			addWord(textArea, textLength, wordWidth);
+			addWord(textArea, textLength, wordWidth, letterSpacing);
 			wordVestige = null;
 			if (remainWords.hasWord()) {
 				// test if we can append the word spacing
@@ -385,7 +385,7 @@ public class TextCompositor {
 				} else {
 					// If width of a word is larger than the max line width,
 					// add it into the line directly.
-					addWord(textArea, textLength, wordWidth);
+					addWord(textArea, textLength, wordWidth, letterSpacing);
 				}
 			} else {
 				wordVestige = null;
@@ -401,26 +401,27 @@ public class TextCompositor {
 		IHyphenationManager hm = new DefaultHyphenationManager();
 		Hyphenation wb = hm.getHyphenation(str);
 		FontInfo fi = area.getStyle().getFontInfo();
+		int letterSpacing = textStyle.getLetterSpacing();
 		if (area.getMaxWidth() < 0) {
-			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1), letterSpacing);
 			return;
 		}
 		int endHyphenIndex = hyphen(0, area.getMaxWidth() - area.getWidth(), wb, fi);
 		// current line can't even place one character. Force to add the first
 		// character into the line.
 		if (endHyphenIndex == 0 && area.getWidth() == 0) {
-			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1));
+			addWordVestige(area, 1, new WordWidth(fi, wb.getHyphenText(0, 1)), str.substring(1), letterSpacing);
 		} else {
 			WordWidth wordWidth = new WordWidth(fi, wb.getHyphenText(0, endHyphenIndex));
 			// Take letter spacing into account
 			wordWidth = new WordWidth(wordWidth.width + textStyle.getLetterSpacing() * (endHyphenIndex - 1), 0);
-			addWordVestige(area, endHyphenIndex, wordWidth, str.substring(endHyphenIndex));
+			addWordVestige(area, endHyphenIndex, wordWidth, str.substring(endHyphenIndex), letterSpacing);
 		}
 	}
 
 	private void addWordVestige(TextArea area, int vestigeTextLength, WordWidth vestigeWordWidth,
-			String vestigeString) {
-		addWord(area, vestigeTextLength, vestigeWordWidth);
+			String vestigeString, int letterSpacing) {
+		addWord(area, vestigeTextLength, vestigeWordWidth, letterSpacing);
 		if (vestigeString.length() == 0) {
 			wordVestige = null;
 		} else {
@@ -469,8 +470,8 @@ public class TextCompositor {
 		return new WordWidth(fontInfo, word.getValue());
 	}
 
-	private void addWord(TextArea textArea, int textLength, WordWidth wordWidth) {
-		textArea.addWord(textLength, wordWidth);
+	private void addWord(TextArea textArea, int textLength, WordWidth wordWidth, int letterSpacing) {
+		textArea.addWord(textLength, wordWidth, letterSpacing);
 	}
 
 	private void addWord(TextArea textArea, int textLength) {
