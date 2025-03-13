@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.report.designer.internal.ui.views.actions.SearchAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseNonModalWindow;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -26,6 +27,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -34,6 +38,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class SearchInputDialog extends BaseNonModalWindow {
 	private static final int SEARCH_ID = IDialogConstants.INTERNAL_ID - 1;
+	private static final int BACK_ID = IDialogConstants.INTERNAL_ID - 2;
 
 	/**
 	 * The message of the dialog.
@@ -60,6 +65,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	private Button wholeWordButton;
 	private Button regexButton;
 	private Button recursiveButton;
+	private Table table;
 
 	/**
 	 * Error message label widget.
@@ -110,7 +116,8 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		applyDialogFont(composite);
 
 		Composite textContainer = new Composite(composite, SWT.NONE);
-		textContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
+		gd = new GridData(SWT.FILL, SWT.NONE, true, false);
+		textContainer.setLayoutData(gd);
 
 		layout = new GridLayout();
 		layout.numColumns = 1;
@@ -150,6 +157,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 					getButton(SEARCH_ID).setEnabled(true);
 					setErrorMessage(null);
 				}
+				getButton(BACK_ID).setEnabled(false);
 			}
 		});
 
@@ -159,7 +167,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		label.setLayoutData(gd);
 		label.setFont(parent.getFont());
 
-		propCombo = new Combo(textContainer, SWT.BORDER | SWT.SINGLE | SWT.DROP_DOWN | SWT.READ_ONLY);
+		propCombo = new Combo(textContainer, SWT.BORDER | SWT.SINGLE /* | SWT.DROP_DOWN | SWT.READ_ONLY */);
 
 		gd = new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL);
 		gd.widthHint = 250;
@@ -183,7 +191,8 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		errorMessageText.setBackground(errorMessageText.getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
 		Composite optionContainer = new Composite(composite, SWT.NONE);
-		optionContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
+		gd = new GridData(SWT.FILL, SWT.NONE, false, false);
+		optionContainer.setLayoutData(gd);
 
 		ignoreCaseButton = new Button(optionContainer, SWT.CHECK);
 		Label ignoreCaseButtonLabel = new Label(optionContainer, SWT.SINGLE);
@@ -217,6 +226,50 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		layout.numColumns = 2;
 		layout.marginWidth = layout.marginHeight = 0;
 		optionContainer.setLayout(layout);
+
+		Composite tableContainer = new Composite(composite, SWT.NONE);
+		// gd = new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.widthHint = 250;
+		gd.horizontalSpan = 2;
+		tableContainer.setLayoutData(gd);
+
+		layout = new GridLayout();
+		layout.numColumns = 1;
+		layout.marginWidth = layout.marginHeight = 0;
+		tableContainer.setLayout(layout);
+
+		final Table table = new Table(tableContainer, SWT.VIRTUAL | SWT.BORDER);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd.heightHint = 100;
+		table.setLayoutData(gd);
+
+		TableColumn pathColumn = new TableColumn(table, SWT.NONE);
+		pathColumn.setText("Property");
+		table.getColumn(0).pack();
+
+		TableColumn propColumn = new TableColumn(table, SWT.NONE);
+		propColumn.setText("Element");
+		table.getColumn(1).pack();
+
+//		table.setItemCount(6);
+//		table.addListener(SWT.SetData, new Listener() {
+//			public void handleEvent(Event event) {
+//				TableItem item = (TableItem) event.item;
+//				int index = table.indexOf(item);
+//				item.setText(0, "Item " + index);
+//				item.setText(1, "foobar");
+//			}
+//		});
+
+		table.addListener(SWT.Selection, event -> {
+			String string = event.detail == SWT.CHECK ? "Checked" : "Selected";
+			System.out.println(event.item + " " + string);
+			this.itemSelected(event.item.getData());
+		});
+		this.table = table;
 
 		setErrorMessage(errorMessage);
 
@@ -273,6 +326,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		if (valueText.getText().trim().length() == 0) {
 			getButton(SEARCH_ID).setEnabled(false);
 		}
+		getButton(BACK_ID).setEnabled(false);
 		return composite;
 	}
 
@@ -327,19 +381,19 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		 * @param designElementHandle
 		 * @return boolean
 		 */
-		public boolean matches(DesignElementHandle designElementHandle) {
+		public String matches(DesignElementHandle designElementHandle) {
 			if (searchProp == null) {
-				System.out.println("Check " + designElementHandle.getDisplayLabel());
+				// System.out.println("Check " + designElementHandle.getDisplayLabel());
 				DesignElement element = designElementHandle.getElement();
 				List<IElementPropertyDefn> defns = element.getPropertyDefns();
 				for (IElementPropertyDefn defn : defns) {
 					String name = defn.getName();
 					Object value = element.getProperty(designElementHandle.getModule(), name);
-					System.out.println("  Check " + name + " = " + value);
+					// System.out.println(" Check " + name + " = " + value);
 					if (value != null) {
 						if (matches(value)) {
-							System.out.println("    Found");
-							return true;
+							// System.out.println(" Found");
+							return name;
 						}
 					}
 				}
@@ -347,12 +401,12 @@ public class SearchInputDialog extends BaseNonModalWindow {
 				Object value = designElementHandle.getProperty(searchProp);
 				if (value != null) {
 					if (matches(value)) {
-						System.out.println(searchProp + " = " + value);
-						return true;
+						// System.out.println(searchProp + " = " + value);
+						return searchProp;
 					}
 				}
 			}
-			return false;
+			return null;
 		}
 
 		private boolean matches(Object value) {
@@ -437,8 +491,9 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	public interface SearchActionServices {
 		/**
 		 * @param search
+		 * @return List
 		 */
-		void search(Search search);
+		List<SearchAction.SearchResult> search(Search search);
 
 		/**
 		 *
@@ -450,6 +505,17 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		 * @return List<String>
 		 */
 		List<String> getPropertyNames(boolean recursive);
+
+		/**
+		 * @return boolean
+		 *
+		 */
+		boolean back();
+
+		/**
+		 * @param data
+		 */
+		void select(Object data);
 	}
 
 	/**
@@ -477,7 +543,39 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		Search search = new Search(valueText.getText().trim(), searchProp, ignoreCaseButton.getSelection(),
 				wholeWordButton.getSelection(), regexButton.getSelection(), this.recursiveButton.getSelection());
 		if (services != null) {
-			services.search(search);
+			List<SearchAction.SearchResult> searchResults = services.search(search);
+
+			int count = searchResults.size();
+			setErrorMessage(count + " " + Messages.getString("SearchInputDialog.Message.Found")); //$NON-NLS-1$
+			getButton(BACK_ID).setEnabled(count > 0);
+
+			table.setItemCount(0);
+			for (SearchAction.SearchResult searchResult : searchResults) {
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(1, searchResult.getElementName());
+				item.setText(0, searchResult.getPropertyName());
+				item.setData(searchResult);
+			}
+			for (TableColumn tableColumn : table.getColumns()) {
+				tableColumn.pack();
+			}
+		}
+	}
+
+	/**
+	 * @param data
+	 */
+	protected void itemSelected(Object data) {
+		if (services != null) {
+			services.select(data);
+			getButton(BACK_ID).setEnabled(true);
+		}
+	}
+
+	private void backPressed() {
+		if (services != null) {
+			boolean isEmpty = services.back();
+			getButton(BACK_ID).setEnabled(!isEmpty);
 		}
 	}
 
@@ -485,12 +583,15 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, SEARCH_ID, Messages.getString("SearchInputDialog.Label.SearchButton"), true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		createButton(parent, BACK_ID, Messages.getString("SearchInputDialog.Label.BackButton"), false);
 	}
 
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if (SEARCH_ID == buttonId) {
 			searchPressed();
+		} else if (BACK_ID == buttonId) {
+			backPressed();
 		} else {
 			super.buttonPressed(buttonId);
 		}

@@ -3,6 +3,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +24,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -38,6 +41,7 @@ public class SearchAction extends AbstractViewerAction {
 	 */
 	@SuppressWarnings("hiding")
 	public static final String TEXT = Messages.getString("SearchAction.text"); //$NON-NLS-1$
+	private LinkedList<TreeItem[]> selectedItemsStack = new LinkedList<>();
 
 	/**
 	 * Create a new search action under the specific viewer
@@ -58,6 +62,15 @@ public class SearchAction extends AbstractViewerAction {
 	public SearchAction(TreeViewer sourceViewer, String text) {
 		super(sourceViewer, text);
 		setAccelerator(SWT.CTRL | 'F');
+		sourceViewer.getTree().addDisposeListener(new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if (inputDialog != null) {
+					inputDialog.close();
+				}
+			}
+		});
 	}
 
 	/*
@@ -122,8 +135,8 @@ public class SearchAction extends AbstractViewerAction {
 						new SearchInputDialog.SearchActionServices() {
 
 							@Override
-							public void search(Search search) {
-								saveChanges(search);
+							public List<SearchResult> search(Search search) {
+								return saveChanges(search);
 							}
 
 							@Override
@@ -135,11 +148,35 @@ public class SearchAction extends AbstractViewerAction {
 							public List<String> getPropertyNames(boolean recursive) {
 								return SearchAction.this.getPropertyNames(recursive);
 							}
+
+							@Override
+							public boolean back() {
+								return SearchAction.this.back();
+							}
+
+							@Override
+							public void select(Object data) {
+								SearchAction.this.select(data);
+							}
 						});
 				inputDialog.create();
 				inputDialog.open();
 			}
 		}
+	}
+
+	protected boolean back() {
+		LinkedList<TreeItem[]> selectedItemsStack = this.selectedItemsStack;
+		if (!selectedItemsStack.isEmpty()) {
+			TreeItem[] selectedItems = selectedItemsStack.pop();
+			List<Object> list = new ArrayList<>();
+			for (TreeItem item : selectedItems) {
+				list.add(item.getData());
+			}
+			ISelection selection = new StructuredSelection(list);
+			getSourceViewer().setSelection(selection, true);
+		}
+		return selectedItemsStack.isEmpty();
 	}
 
 	/**
@@ -167,10 +204,6 @@ public class SearchAction extends AbstractViewerAction {
 		return propNames;
 	}
 
-	/**
-	 * @param handle
-	 * @param propNameSet
-	 */
 	private void getPropertyNames(DesignElementHandle handle, boolean recursive, Set<String> propNameSet) {
 		DesignElement element = handle.getElement();
 		List<IElementPropertyDefn> defns = element.getPropertyDefns();
@@ -194,24 +227,14 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	private interface SearchPathMember {
-		public String toString();
+		String toString();
 
-		/**
-		 * @param tree
-		 * @return TreeItem
-		 */
-		public TreeItem findItem(Tree tree);
-
-		/**
-		 * @param item
-		 * @return TreeItem
-		 */
-		public TreeItem findItem(TreeItem item);
+		String getName();
 
 		/**
 		 * @return Object
 		 */
-		public Object getObject();
+		Object getObject();
 	}
 
 	private static class SlotSearchPathMember implements SearchPathMember {
@@ -230,25 +253,8 @@ public class SearchAction extends AbstractViewerAction {
 			return sb.toString();
 		}
 
-		@Override
-		public TreeItem findItem(Tree tree) {
-			TreeItem[] items = tree.getItems();
-			if (items.length != 1) {
-				return null;
-			}
-			TreeItem item = items[0];
-			Object data = item.getData();
-			if (data instanceof DesignElementHandle) {
-				return findItem(item);
-			}
-			return null;
-		}
-
-		@Override
-		public TreeItem findItem(TreeItem item) {
-			int slotID = slotHandle.getSlotID();
-			TreeItem[] items = item.getItems();
-			return items[slotID - 1];
+		public String getName() {
+			return slotHandle.getDefn().getDisplayName();
 		}
 
 		@Override
@@ -258,11 +264,9 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	private static class DesignElementSearchPathMember implements SearchPathMember {
-		private final TreeViewer treeViewer;
 		private final DesignElementHandle handle;
 
-		public DesignElementSearchPathMember(final TreeViewer treeViewer, final DesignElementHandle handle) {
-			this.treeViewer = treeViewer;
+		public DesignElementSearchPathMember(final DesignElementHandle handle) {
 			this.handle = handle;
 
 		}
@@ -280,26 +284,8 @@ public class SearchAction extends AbstractViewerAction {
 			return sb.toString();
 		}
 
-		@Override
-		public TreeItem findItem(Tree tree) {
-			TreeItem[] items = tree.getItems();
-			for (TreeItem childItem : items) {
-				return childItem; // top of tree is the report element
-			}
-			return null;
-		}
-
-		@Override
-		public TreeItem findItem(TreeItem item) {
-			treeViewer.setExpandedState(item, true);
-			TreeItem[] items = item.getItems();
-			for (TreeItem childItem : items) {
-				Object data = childItem.getData();
-				if (handle.equals(data)) {
-					return item;
-				}
-			}
-			return null;
+		public String getName() {
+			return handle.getDisplayLabel() + " " + handle.getIndex();
 		}
 
 		@Override
@@ -308,42 +294,69 @@ public class SearchAction extends AbstractViewerAction {
 		}
 	}
 
-	private static class SearchResult {
+	/**
+	 * @since 3.3
+	 *
+	 */
+	public static class SearchResult {
 		private final List<SearchPathMember> path;
 		private final String propertyName;
 
+		/**
+		 * @param path
+		 * @param propertyName
+		 */
 		public SearchResult(final List<SearchPathMember> path, final String propertyName) {
 			this.path = path;
 			this.propertyName = propertyName;
 		}
 
-		/**
-		 * @param index
-		 * @return string
-		 */
-		public String toDebugString(int index) {
+		public String toString() {
 			StringBuilder sb = new StringBuilder();
-			sb.append("Search result " + index + ":\n");
-			sb.append("  path:\n");
+			String sep = "";
 			for (SearchPathMember member : path) {
-				sb.append("    ");
-				sb.append(member.toString());
-				sb.append("\n");
+				sb.append(sep);
+				sep = member instanceof SlotSearchPathMember ? ":" : " / ";
+				sb.append(member.getName());
 			}
-			sb.append("  property: " + propertyName);
 			return sb.toString();
+		}
+
+		/**
+		 * @return Returns the propertyName.
+		 */
+		public String getPropertyName() {
+			return propertyName;
+		}
+
+		/**
+		 * @return String
+		 */
+		public String getElementName() {
+			if (path.isEmpty()) {
+				return null;
+			}
+			SearchPathMember member = path.get(path.size() - 1);
+			return member.getName();
+		}
+
+		/**
+		 * @return Object
+		 */
+		public Object getObject() {
+			if (path.isEmpty()) {
+				return null;
+			}
+			SearchPathMember member = path.get(path.size() - 1);
+			return member.getObject();
 		}
 	}
 
-	/**
-	 * @param b
-	 * @param regex
-	 * @param wholeWord
-	 * @param trim
-	 */
-	private void saveChanges(SearchInputDialog.Search search) {
+	private List<SearchResult> saveChanges(SearchInputDialog.Search search) {
 		List<SearchResult> searchResults = new ArrayList<>();
-		for (TreeItem item : getSelectedItems()) {
+		TreeItem[] selectedItems;
+		selectedItems = getSelectedItems();
+		for (TreeItem item : selectedItems) {
 			Object data = item.getData();
 			if (data instanceof SlotHandle) {
 				SlotHandle slotHandle = (SlotHandle) data;
@@ -361,14 +374,14 @@ public class SearchAction extends AbstractViewerAction {
 			}
 		}
 		print(searchResults);
-		Tree tree = getSourceViewer().getTree();
-		print(tree);
-		select(searchResults);
+//		Tree tree = getSourceViewer().getTree();
+//		print(tree);
+		if (!searchResults.isEmpty()) {
+			select(searchResults);
+		}
+		return searchResults;
 	}
 
-	/**
-	 * @param searchResults
-	 */
 	@SuppressWarnings("unused")
 	private void expand(List<SearchResult> searchResults) {
 		for (SearchResult result : searchResults) {
@@ -379,34 +392,41 @@ public class SearchAction extends AbstractViewerAction {
 		}
 	}
 
-	/**
-	 * @param searchResults
-	 */
 	private void select(List<SearchResult> searchResults) {
 		List<Object> list = new ArrayList<>();
 		for (SearchResult result : searchResults) {
 			SearchPathMember member = result.path.get(result.path.size() - 1);
 			list.add(member.getObject());
 		}
+		this.selectedItemsStack.push(getSelectedItems());
 		ISelection selection = new StructuredSelection(list);
 		getSourceViewer().setSelection(selection, true);
 	}
 
-	/**
-	 * @param searchResults
-	 */
+	private void select(Object object) {
+		List<Object> list = new ArrayList<>();
+		if (object instanceof SearchResult) {
+			SearchResult searchResult = (SearchResult) object;
+			object = searchResult.getObject();
+		}
+		list.add(object);
+		this.selectedItemsStack.push(getSelectedItems());
+		ISelection selection = new StructuredSelection(list);
+		getSourceViewer().setSelection(selection, true);
+	}
+
 	private void print(List<SearchResult> searchResults) {
 		System.out.println("search results: " + searchResults.size());
 		int searchResultsIndex = 0;
 		for (SearchResult result : searchResults) {
-			System.out.println(result.toDebugString(searchResultsIndex));
+			System.out.print(searchResultsIndex);
+			System.out.print(" ");
+			System.out.println(result.toString());
 			searchResultsIndex++;
 		}
 	}
 
-	/**
-	 * @param tree
-	 */
+	@SuppressWarnings("unused")
 	private void print(Tree tree) {
 		System.out.println("tree = " + tree);
 		Control[] children = tree.getChildren();
@@ -419,9 +439,6 @@ public class SearchAction extends AbstractViewerAction {
 		}
 	}
 
-	/**
-	 * @param item
-	 */
 	private void print(int level, TreeItem item) {
 		String text = item.getText();
 		Object data = item.getData();
@@ -441,13 +458,12 @@ public class SearchAction extends AbstractViewerAction {
 		}
 	}
 
-	/**
-	 */
 	private void search(DesignElementHandle designElementHandle, SearchInputDialog.Search search,
 			List<SearchPathMember> path, List<SearchResult> searchResults) {
-		path.add(new DesignElementSearchPathMember(getSourceViewer(), designElementHandle));
-		if (search.matches(designElementHandle)) {
-			searchResults.add(new SearchResult(path, search.getSearchProp()));
+		path.add(new DesignElementSearchPathMember(designElementHandle));
+		String propertyName = search.matches(designElementHandle);
+		if (propertyName != null) {
+			searchResults.add(new SearchResult(path, propertyName));
 		}
 		if (search.isRecursive()) {
 			IElementDefn defn = designElementHandle.getDefn();
@@ -466,5 +482,4 @@ public class SearchAction extends AbstractViewerAction {
 			}
 		}
 	}
-
 }
