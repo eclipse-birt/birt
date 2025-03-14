@@ -16,7 +16,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
@@ -68,9 +67,6 @@ public abstract class AbstractViewerAction extends AbstractViewAction {
 	 * @return Returns selected tree items
 	 */
 	public TreeItem[] getSelectedItems() {
-		TreeViewer treeViewer = getSourceViewer();
-		Tree tree = treeViewer.getTree();
-		TreeItem[] treeItems = tree.getSelection();
-		return treeItems;
+		return getSourceViewer().getTree().getSelection();
 	}
 }

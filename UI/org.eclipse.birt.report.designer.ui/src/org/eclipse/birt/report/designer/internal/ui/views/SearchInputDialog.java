@@ -1,12 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors: See git history
+ *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.views;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.report.designer.internal.ui.views.actions.SearchAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.BaseNonModalWindow;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -33,13 +46,13 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @since 3.3
+ * @since 4.20
  *
  */
-public class SearchInputDialog extends BaseNonModalWindow {
+public class SearchInputDialog extends BaseDialog {
 	private static final int SEARCH_ID = IDialogConstants.INTERNAL_ID - 1;
 	private static final int BACK_ID = IDialogConstants.INTERNAL_ID - 2;
-
+	private static final String ANY = "(any)";
 	/**
 	 * The message of the dialog.
 	 */
@@ -87,6 +100,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	public SearchInputDialog(Shell parentShell, String initialValue, String helpContextID,
 			SearchActionServices services) {
 		super(Messages.getString("SearchInputDialog.DialogTitle")); //$NON-NLS-1$
+		this.setShellStyle(this.getShellStyle() & ~SWT.APPLICATION_MODAL);
 		this.valueLabel = Messages.getString("SearchInputDialog.ValueLabel"); //$NON-NLS-1$
 		this.propLabel = Messages.getString("SearchInputDialog.PropLabel"); //$NON-NLS-1$
 		this.value = initialValue == null ? "" : initialValue;
@@ -177,7 +191,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				String text = propCombo.getText().trim();
-				if (text.length() == 0 || "(any)".equals(text)) {
+				if (text.length() == 0 || ANY.equals(text)) {
 					setErrorMessage(Messages.getString("SearchInputDialog.Message.AllProps")); //$NON-NLS-1$
 				} else {
 					setErrorMessage(null);
@@ -239,7 +253,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		layout.marginWidth = layout.marginHeight = 0;
 		tableContainer.setLayout(layout);
 
-		final Table table = new Table(tableContainer, SWT.VIRTUAL | SWT.BORDER);
+		final Table table = new Table(tableContainer, SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -254,19 +268,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		propColumn.setText("Element");
 		table.getColumn(1).pack();
 
-//		table.setItemCount(6);
-//		table.addListener(SWT.SetData, new Listener() {
-//			public void handleEvent(Event event) {
-//				TableItem item = (TableItem) event.item;
-//				int index = table.indexOf(item);
-//				item.setText(0, "Item " + index);
-//				item.setText(1, "foobar");
-//			}
-//		});
-
 		table.addListener(SWT.Selection, event -> {
-			String string = event.detail == SWT.CHECK ? "Checked" : "Selected";
-			System.out.println(event.item + " " + string);
 			this.itemSelected(event.item.getData());
 		});
 		this.table = table;
@@ -287,8 +289,8 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	private void loadPropCombo() {
 		String text = propCombo.getText();
 		propCombo.removeAll();
-		propCombo.add("(any)");
-		boolean found = text.equals("(any)");
+		propCombo.add(ANY);
+		boolean found = text.equals(ANY);
 		if (services != null) {
 			boolean recursive = this.recursiveButton.getSelection();
 			List<String> list = services.getPropertyNames(recursive);
@@ -300,7 +302,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 			}
 		}
 		if (!found) {
-			text = "(any)";
+			text = ANY;
 		}
 		propCombo.setText(text);
 	}
@@ -331,7 +333,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	}
 
 	/**
-	 * @since 3.3
+	 * @since 4.20
 	 *
 	 */
 	public static class Search {
@@ -383,16 +385,13 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		 */
 		public String matches(DesignElementHandle designElementHandle) {
 			if (searchProp == null) {
-				// System.out.println("Check " + designElementHandle.getDisplayLabel());
 				DesignElement element = designElementHandle.getElement();
 				List<IElementPropertyDefn> defns = element.getPropertyDefns();
 				for (IElementPropertyDefn defn : defns) {
 					String name = defn.getName();
 					Object value = element.getProperty(designElementHandle.getModule(), name);
-					// System.out.println(" Check " + name + " = " + value);
 					if (value != null) {
 						if (matches(value)) {
-							// System.out.println(" Found");
 							return name;
 						}
 					}
@@ -401,7 +400,6 @@ public class SearchInputDialog extends BaseNonModalWindow {
 				Object value = designElementHandle.getProperty(searchProp);
 				if (value != null) {
 					if (matches(value)) {
-						// System.out.println(searchProp + " = " + value);
 						return searchProp;
 					}
 				}
@@ -410,29 +408,30 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		}
 
 		private boolean matches(Object value) {
+			String valueString = value.toString();
 			if (pattern != null) {
-				Matcher matcher = pattern.matcher(value.toString());
+				Matcher matcher = pattern.matcher(valueString);
 				if (matcher.find()) {
 					return true;
 				}
 			} else {
 				if (ignoreCase) {
 					if (wholeWord) {
-						if (value.toString().equalsIgnoreCase(searchValue)) {
+						if (valueString.equalsIgnoreCase(searchValue)) {
 							return true;
 						}
 					} else {
-						if (value.toString().toLowerCase().contains(searchValue.toLowerCase())) {
+						if (valueString.toLowerCase().contains(searchValue.toLowerCase())) {
 							return true;
 						}
 					}
 				} else {
 					if (wholeWord) {
-						if (value.toString().equals(searchValue)) {
+						if (valueString.equals(searchValue)) {
 							return true;
 						}
 					} else {
-						if (value.toString().contains(searchValue)) {
+						if (valueString.contains(searchValue)) {
 							return true;
 						}
 					}
@@ -485,7 +484,7 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	}
 
 	/**
-	 * @since 3.3
+	 * @since 4.20
 	 *
 	 */
 	public interface SearchActionServices {
@@ -518,31 +517,23 @@ public class SearchInputDialog extends BaseNonModalWindow {
 		void select(Object data);
 	}
 
-	/**
-	 * @since 3.3
-	 *
-	 */
-	public interface OnClose {
-	}
-
-	/**
-	 * @since 3.3
-	 *
-	 */
-	public interface PropertyNames {
-	}
-
 	private void searchPressed() {
 		String searchProp = propCombo.getText();
 		if (searchProp != null) {
 			searchProp = searchProp.trim();
-			if (searchProp.length() == 0 || "(any)".equals(searchProp)) {
+			if (searchProp.length() == 0 || ANY.equals(searchProp)) {
 				searchProp = null;
 			}
 		}
-		Search search = new Search(valueText.getText().trim(), searchProp, ignoreCaseButton.getSelection(),
-				wholeWordButton.getSelection(), regexButton.getSelection(), this.recursiveButton.getSelection());
-		if (services != null) {
+		Search search;
+		try {
+			search = new Search(valueText.getText().trim(), searchProp, ignoreCaseButton.getSelection(),
+					wholeWordButton.getSelection(), regexButton.getSelection(), this.recursiveButton.getSelection());
+		} catch (PatternSyntaxException e) {
+			setErrorMessage(Messages.getString("SearchInputDialog.Message.InvalidRegularExpression"));
+			search = null;
+		}
+		if (services != null && search != null) {
 			List<SearchAction.SearchResult> searchResults = services.search(search);
 
 			int count = searchResults.size();
@@ -582,8 +573,8 @@ public class SearchInputDialog extends BaseNonModalWindow {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, SEARCH_ID, Messages.getString("SearchInputDialog.Label.SearchButton"), true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		createButton(parent, BACK_ID, Messages.getString("SearchInputDialog.Label.BackButton"), false);
+		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
 	@Override

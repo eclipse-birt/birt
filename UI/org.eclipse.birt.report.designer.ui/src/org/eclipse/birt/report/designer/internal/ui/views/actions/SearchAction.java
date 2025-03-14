@@ -1,11 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors: See git history
+ *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.views.SearchInputDialog;
@@ -23,24 +34,21 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * @since 3.3
+ * @since 4.20
  *
  */
 public class SearchAction extends AbstractViewerAction {
 	/**
 	 * the default text
 	 */
-	@SuppressWarnings("hiding")
-	public static final String TEXT = Messages.getString("SearchAction.text"); //$NON-NLS-1$
+	private static final String SEARCH_ACTION_TEXT = Messages.getString("SearchAction.text"); //$NON-NLS-1$
+	private static SearchInputDialog inputDialog;
 	private LinkedList<TreeItem[]> selectedItemsStack = new LinkedList<>();
 
 	/**
@@ -50,7 +58,7 @@ public class SearchAction extends AbstractViewerAction {
 	 *
 	 */
 	public SearchAction(TreeViewer sourceViewer) {
-		this(sourceViewer, TEXT);
+		this(sourceViewer, SEARCH_ACTION_TEXT);
 	}
 
 	/**
@@ -61,7 +69,6 @@ public class SearchAction extends AbstractViewerAction {
 	 */
 	public SearchAction(TreeViewer sourceViewer, String text) {
 		super(sourceViewer, text);
-		setAccelerator(SWT.CTRL | 'F');
 		sourceViewer.getTree().addDisposeListener(new DisposeListener() {
 
 			@Override
@@ -80,17 +87,12 @@ public class SearchAction extends AbstractViewerAction {
 	 */
 	@Override
 	public boolean isEnabled() {
-		if (getSelectedObjects().size() == 0) { // no selection
-			return false;
-		}
-		boolean isEnabled = false;
-		for (Object selectedObject : super.getSelectedObjects()) {
+		for (Object selectedObject : getSelectedObjects()) {
 			if (internalIsEnabled(selectedObject)) {
-				isEnabled = true;
-				break;
+				return true;
 			}
 		}
-		return isEnabled;
+		return false;
 	}
 
 	private boolean internalIsEnabled(Object obj) {
@@ -105,10 +107,6 @@ public class SearchAction extends AbstractViewerAction {
 		if (obj instanceof SlotHandle) {
 			return true;
 		}
-//		if (obj instanceof ContentElementHandle) {
-//			return ((ContentElementHandle) obj).getDefn().getNameOption() != MetaDataConstants.NO_NAME
-//					&& ((ContentElementHandle) obj).canEdit();
-//		}
 		// No report element selected
 		return false;
 	}
@@ -122,8 +120,6 @@ public class SearchAction extends AbstractViewerAction {
 	public void run() {
 		doSearch();
 	}
-
-	static SearchInputDialog inputDialog = null;
 
 	private void doSearch() {
 		TreeItem[] selectedItems = getSelectedItems();
@@ -184,7 +180,7 @@ public class SearchAction extends AbstractViewerAction {
 	 * @return List<String>
 	 */
 	public List<String> getPropertyNames(boolean recursive) {
-		Set<String> propNameSet = new HashSet<>();
+		Set<String> propNameSet = new TreeSet<>();
 		for (TreeItem item : getSelectedItems()) {
 			Object data = item.getData();
 			if (data instanceof SlotHandle) {
@@ -199,9 +195,7 @@ public class SearchAction extends AbstractViewerAction {
 				getPropertyNames(handle, recursive, propNameSet);
 			}
 		}
-		List<String> propNames = new ArrayList<>(propNameSet);
-		Collections.sort(propNames);
-		return propNames;
+		return new ArrayList<>(propNameSet);
 	}
 
 	private void getPropertyNames(DesignElementHandle handle, boolean recursive, Set<String> propNameSet) {
@@ -227,8 +221,6 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	private interface SearchPathMember {
-		String toString();
-
 		String getName();
 
 		/**
@@ -295,7 +287,7 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	/**
-	 * @since 3.3
+	 * @since 4.20
 	 *
 	 */
 	public static class SearchResult {
@@ -373,9 +365,6 @@ public class SearchAction extends AbstractViewerAction {
 				search(handle, search, path, searchResults);
 			}
 		}
-		print(searchResults);
-//		Tree tree = getSourceViewer().getTree();
-//		print(tree);
 		if (!searchResults.isEmpty()) {
 			select(searchResults);
 		}
@@ -413,49 +402,6 @@ public class SearchAction extends AbstractViewerAction {
 		this.selectedItemsStack.push(getSelectedItems());
 		ISelection selection = new StructuredSelection(list);
 		getSourceViewer().setSelection(selection, true);
-	}
-
-	private void print(List<SearchResult> searchResults) {
-		System.out.println("search results: " + searchResults.size());
-		int searchResultsIndex = 0;
-		for (SearchResult result : searchResults) {
-			System.out.print(searchResultsIndex);
-			System.out.print(" ");
-			System.out.println(result.toString());
-			searchResultsIndex++;
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void print(Tree tree) {
-		System.out.println("tree = " + tree);
-		Control[] children = tree.getChildren();
-		System.out.println("tree.children = " + children.length);
-		int itemCount = tree.getItemCount();
-		System.out.println("tree item count = " + itemCount);
-		for (int i = 0; i < itemCount; i++) {
-			TreeItem item = tree.getItem(i);
-			print(0, item);
-		}
-	}
-
-	private void print(int level, TreeItem item) {
-		String text = item.getText();
-		Object data = item.getData();
-		String className = data == null ? "null" : data.getClass().getName();
-		int childItemCount = item.getItemCount();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < level; i++) {
-			sb.append(' ');
-		}
-		if (text != null && text.trim().length() > 0) {
-			sb.append(text + " ");
-		}
-		System.out.println(sb.toString() + className + " " + childItemCount);
-		for (int i = 0; i < childItemCount; i++) {
-			TreeItem childItem = item.getItem(i);
-			print(level + 1, childItem);
-		}
 	}
 
 	private void search(DesignElementHandle designElementHandle, SearchInputDialog.Search search,

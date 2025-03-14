@@ -252,14 +252,12 @@ public class DefaultNodeProvider implements INodeProvider {
 			if (comparator != null) {
 				Arrays.sort(children, comparator);
 			}
-			logger.info("children = " + children);
 			return children;
 		} else if (model instanceof PropertyHandle) {
 			Object[] children = this.getChildrenByPropertyHandle((PropertyHandle) model);
 			if (comparator != null) {
 				Arrays.sort(children, comparator);
 			}
-			logger.info("children = " + children);
 			return children;
 		}
 		return new Object[] {};
