@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.tests.data;singleton:=true
 Bundle-ClassPath: .
-Bundle-Version: 4.19.0.qualifier
+Bundle-Version: 4.20.0.qualifier
 Bundle-Activator: org.eclipse.birt.tests.data.engine.plugin.DataPlugin
 Require-Bundle: org.junit,
  org.eclipse.birt.core;bundle-version="4.13.0",

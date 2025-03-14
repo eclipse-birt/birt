@@ -39,8 +39,8 @@
   </setupTask>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="JavaSE-17"
-      location="${jre.location-17}">
+      version="JavaSE-21"
+      location="${jre.location-21}">
     <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
@@ -416,7 +416,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.19">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>
@@ -442,6 +442,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
+      disabled="true"
       filter="(birt.version=4.19)"
       sourceURL="${eclipse.latest.p2}"
       targetURL="https://download.eclipse.org/releases/2025-03/202503121000">
