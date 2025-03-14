@@ -270,7 +270,7 @@ public interface IHelpContextIds {
 	String SUMMARY_FIELD_DIALOG_ID = PREFIX + "SummaryFieldDialog_ID"; //$NON-NLS-1$
 
 	String RENAME_INPUT_DIALOG_ID = PREFIX + "RenameInputDialog_ID"; //$NON-NLS-1$
-
+	String SEARCH_INPUT_DIALOG_ID = PREFIX + "SearchInputDialog_ID"; //$NON-NLS-1$
 	String NEW_THEME_DIALOG_ID = PREFIX + "NewTheme_ID"; //$NON-NLS-1$
 
 	String PREF_PAGE_EXPRESSION_SYNTAX = PREFIX + "Preference_BIRT_ExpressionSyntax_ID"; //$NON-NLS-1$
