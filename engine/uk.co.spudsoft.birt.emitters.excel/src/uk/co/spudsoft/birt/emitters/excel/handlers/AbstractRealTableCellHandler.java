@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2024, 2025 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -14,6 +14,8 @@
  ************************************************************************************/
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
+
+import java.util.Collection;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -34,6 +36,10 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 
 import uk.co.spudsoft.birt.emitters.excel.Area;
@@ -165,7 +171,13 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 					}
 				}
 				if (newAddressRange) {
-					state.currentSheet.addMergedRegion(newMergedRegion);
+					try {
+						state.currentSheet.addMergedRegion(newMergedRegion);
+					} catch (IllegalStateException ise) {
+						log.error(0,
+								"Error of merged regions: " + ise.getLocalizedMessage(),
+								ise);
+					}
 				}
 
 				colSpan = cell.getColSpan();
@@ -254,20 +266,34 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 
 			state.setHandler(new NestedTableHandler(log, this, table, rowSpan));
 			state.getHandler().startTable(state, table);
-		} else if ((tableHandler != null) && (table.getColumnCount() <= colSpan) && !(element instanceof CellContent)) {
-			// This cell is merged over same number of columns as new table
+		} else if ((tableHandler != null) && (table.getColumnCount() <= colSpan)) {
 
-			containsTable = true;
-			parentRow = getAncestor(AbstractRealTableRowHandler.class);
-			interruptCell(state, false);
+			Collection<ReportItemDesign> contentCollection = ((CellDesign) element.getGenerateBy()).getContents();
+			if (contentCollection != null) {
+				for (ReportItemDesign itemDesign : contentCollection) {
+					if ((itemDesign instanceof GridItemDesign || itemDesign instanceof TableItemDesign
+							|| itemDesign instanceof ListItemDesign)) {
+						containsTable = true;
+						break;
+					}
+				}
+			}
 
-			removeMergedCell(state, state.rowNum, state.colNum);
+			// decision which kind of cell content handling will be used
+			if (containsTable) {
+				// This cell is merged over same number of columns as new table
+				parentRow = getAncestor(AbstractRealTableRowHandler.class);
+				interruptCell(state, false);
 
-			NestedTableHandler nestedTableHandler = new NestedTableHandler(log, this, table, rowSpan);
-			nestedTableHandler.setInserted(true);
-			state.setHandler(nestedTableHandler);
+				removeMergedCell(state, state.rowNum, state.colNum);
+
+				NestedTableHandler nestedTableHandler = new NestedTableHandler(log, this, table, rowSpan);
+				nestedTableHandler.setInserted(true);
+				state.setHandler(nestedTableHandler);
+			} else {
+				state.setHandler(new FlattenedTableHandler(this, log, this, table));
+			}
 			state.getHandler().startTable(state, table);
-
 		} else {
 			state.setHandler(new FlattenedTableHandler(this, log, this, table));
 			state.getHandler().startTable(state, table);
