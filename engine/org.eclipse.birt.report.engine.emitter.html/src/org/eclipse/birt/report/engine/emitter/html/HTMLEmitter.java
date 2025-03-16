@@ -561,7 +561,7 @@ public abstract class HTMLEmitter {
 	 * @param styleBuffer
 	 */
 	protected void addDefaultTableStyles(StringBuffer styleBuffer) {
-		styleBuffer.append("border-collapse: collapse; empty-cells: show;"); //$NON-NLS-1$
+		styleBuffer.append("border-collapse: collapse; empty-cells: show; display:table-cell;"); //$NON-NLS-1$
 	}
 
 	/**
