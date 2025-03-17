@@ -1326,7 +1326,14 @@ public abstract class StyleManagerUtils {
 						lastCell.getColumnIndex(), lastCell.getColumnIndex());
 				log.debug("Extend: merging from [", range.getFirstRow(), ",", range.getFirstColumn(), "] to [",
 						range.getLastRow(), ",", range.getLastColumn(), "]");
-				state.currentSheet.addMergedRegion(range);
+
+				try {
+					state.currentSheet.addMergedRegion(range);
+				} catch (IllegalStateException ise) {
+					log.error(0, "Error of merged regions: " + ise.getLocalizedMessage(),
+							ise);
+				}
+
 				for (int rowNum = lastCell.getRowIndex() + 1; rowNum < endRow; ++rowNum) {
 					Row row = state.currentSheet.getRow(rowNum);
 					if (row == null) {
