@@ -209,19 +209,19 @@ public class SearchInputDialog extends BaseDialog {
 		optionContainer.setLayoutData(gd);
 
 		ignoreCaseButton = new Button(optionContainer, SWT.CHECK);
-		Label ignoreCaseButtonLabel = new Label(optionContainer, SWT.SINGLE);
+		Label ignoreCaseButtonLabel = new Label(optionContainer, SWT.NONE);
 		ignoreCaseButtonLabel.setText(Messages.getString("SearchInputDialog.Message.IgnoreCase")); //$NON-NLS-1$
 
 		wholeWordButton = new Button(optionContainer, SWT.CHECK);
-		Label wholeWordButtonLabel = new Label(optionContainer, SWT.SINGLE);
+		Label wholeWordButtonLabel = new Label(optionContainer, SWT.NONE);
 		wholeWordButtonLabel.setText(Messages.getString("SearchInputDialog.Message.WholeWord")); //$NON-NLS-1$
 
 		regexButton = new Button(optionContainer, SWT.CHECK);
-		Label regexButtonLabel = new Label(optionContainer, SWT.SINGLE);
+		Label regexButtonLabel = new Label(optionContainer, SWT.NONE);
 		regexButtonLabel.setText(Messages.getString("SearchInputDialog.Message.RegularExpression")); //$NON-NLS-1$
 
 		recursiveButton = new Button(optionContainer, SWT.CHECK);
-		Label recursiveButtonLabel = new Label(optionContainer, SWT.SINGLE);
+		Label recursiveButtonLabel = new Label(optionContainer, SWT.NONE);
 		recursiveButtonLabel.setText(Messages.getString("SearchInputDialog.Message.Recursive")); //$NON-NLS-1$
 		recursiveButton.addSelectionListener(new SelectionListener() {
 
@@ -438,41 +438,6 @@ public class SearchInputDialog extends BaseDialog {
 				}
 			}
 			return false;
-		}
-
-		/**
-		 * @return Returns the searchProp.
-		 */
-		public String getSearchProp() {
-			return searchProp;
-		}
-
-		/**
-		 * @return Returns the searchValue.
-		 */
-		public String getSearchValue() {
-			return searchValue;
-		}
-
-		/**
-		 * @return Returns the pattern.
-		 */
-		public Pattern getPattern() {
-			return pattern;
-		}
-
-		/**
-		 * @return Returns the ignoreCase.
-		 */
-		public boolean isIgnoreCase() {
-			return ignoreCase;
-		}
-
-		/**
-		 * @return Returns the wholeWord.
-		 */
-		public boolean isWholeWord() {
-			return wholeWord;
 		}
 
 		/**
