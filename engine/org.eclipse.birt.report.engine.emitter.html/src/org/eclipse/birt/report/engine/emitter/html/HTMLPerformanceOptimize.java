@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -17,6 +17,7 @@ package org.eclipse.birt.report.engine.emitter.html;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -558,8 +559,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 		boolean useHeightAutoValue = false;
 
 		// column width
-		DimensionType columnWidth = ((ICellContent) image.getParent()).getColumnInstance().getWidth();
-		if (image.isFitToContainer() && columnWidth != null) {
+		DimensionType columnWidth = null;
+		IElement parent = image.getParent();
+		if (parent != null && parent instanceof ICellContent) {
+			columnWidth = ((ICellContent) image.getParent()).getColumnInstance().getWidth();
+		}
+		if (columnWidth != null && image.isFitToContainer()) {
 
 			DimensionValue compareColumnWidthValue = DimensionUtil.convertTo(columnWidth.getMeasure(),
 					columnWidth.getUnits(), DimensionType.UNITS_MM);
