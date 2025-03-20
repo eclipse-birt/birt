@@ -562,7 +562,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter {
 		DimensionType columnWidth = null;
 		IElement parent = image.getParent();
 		if (parent != null && parent instanceof ICellContent) {
-			columnWidth = ((ICellContent) image.getParent()).getColumnInstance().getWidth();
+			columnWidth = ((ICellContent)parent).getColumnInstance().getWidth();
 		}
 		if (columnWidth != null && image.isFitToContainer()) {
 
