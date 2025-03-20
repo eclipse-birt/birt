@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
+ * Copyright (c) 2011, 2012, 2013, 2024, 2025 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -184,7 +184,8 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 
 			for (int col = 0; col < table.getColumnCount(); ++col) {
 				int oldWidth = state.currentSheet.getColumnWidth(col);
-				if (forceAutoColWidths || (oldWidth == 256 * state.currentSheet.getDefaultColumnWidth())) {
+				if (forceAutoColWidths || (!(state.currentSheet instanceof XSSFSheet)
+						&& oldWidth == 256 * state.currentSheet.getDefaultColumnWidth())) {
 					FilteredSheet filteredSheet = new FilteredSheet(state.currentSheet, autoWidthStartRow,
 							Math.min(autoWidthEndRow, autoWidthStartRow + 12));
 					double calcWidth = SheetUtil.getColumnWidth(filteredSheet, col, false);
