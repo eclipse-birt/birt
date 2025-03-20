@@ -48,7 +48,7 @@
 			</script>
 		</head>
 		<body style=" margin:0px;">
-			<table cellpadding="0" style="empty-cells: show; display:table-cell; border-collapse:collapse;width:100%;">
+			<table cellpadding="0" style="empty-cells: show; border-collapse:collapse;width:100%;">
 				<tr>
 					<td valign="top"></td>
 				</tr>
