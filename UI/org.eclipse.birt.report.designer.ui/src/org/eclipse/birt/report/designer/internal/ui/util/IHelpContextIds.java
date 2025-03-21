@@ -17,6 +17,7 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 /**
  * The interface is used for context-sensitive help IDs.
  */
+@SuppressWarnings("javadoc")
 public interface IHelpContextIds {
 
 	String PREFIX = "org.eclipse.birt.cshelp."; //$NON-NLS-1$
@@ -271,6 +272,7 @@ public interface IHelpContextIds {
 
 	String RENAME_INPUT_DIALOG_ID = PREFIX + "RenameInputDialog_ID"; //$NON-NLS-1$
 
+	String SEARCH_INPUT_DIALOG_ID = PREFIX + "SearchInputDialog_ID"; //$NON-NLS-1$
 	String NEW_THEME_DIALOG_ID = PREFIX + "NewTheme_ID"; //$NON-NLS-1$
 
 	String PREF_PAGE_EXPRESSION_SYNTAX = PREFIX + "Preference_BIRT_ExpressionSyntax_ID"; //$NON-NLS-1$
