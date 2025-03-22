@@ -230,6 +230,10 @@ public class SearchAction extends AbstractViewerAction {
 	private interface SearchPathMember {
 		String getName();
 
+		String getElementType();
+
+		Long getElementId();
+
 		Object getObject();
 	}
 
@@ -251,6 +255,14 @@ public class SearchAction extends AbstractViewerAction {
 
 		public String getName() {
 			return slotHandle.getDefn().getDisplayName();
+		}
+
+		public String getElementType() {
+			return slotHandle.getDefn().getDisplayName();
+		}
+
+		public Long getElementId() {
+			return slotHandle.getElement().getID();
 		}
 
 		@Override
@@ -281,7 +293,15 @@ public class SearchAction extends AbstractViewerAction {
 		}
 
 		public String getName() {
-			return handle.getDisplayLabel() + ", ID: " + handle.getID();
+			return handle.getDisplayLabel();
+		}
+
+		public String getElementType() {
+			return handle.getElement().getDefn().getDisplayName();
+		}
+
+		public Long getElementId() {
+			return handle.getID();
 		}
 
 		@Override
@@ -339,6 +359,32 @@ public class SearchAction extends AbstractViewerAction {
 			}
 			SearchPathMember member = path.get(path.size() - 1);
 			return member.getName();
+		}
+
+		/**
+		 * Returns the element type of the last path element.
+		 *
+		 * @return the element type of the last path element.
+		 */
+		public String getElementType() {
+			if (path.isEmpty()) {
+				return null;
+			}
+			SearchPathMember member = path.get(path.size() - 1);
+			return member.getElementType();
+		}
+
+		/**
+		 * Returns the id of the last path element.
+		 *
+		 * @return the id of the last path element.
+		 */
+		public Long getElementId() {
+			if (path.isEmpty()) {
+				return null;
+			}
+			SearchPathMember member = path.get(path.size() - 1);
+			return member.getElementId();
 		}
 
 		/**
@@ -420,12 +466,25 @@ public class SearchAction extends AbstractViewerAction {
 		getSourceViewer().setSelection(selection, true);
 	}
 
+	private boolean isEntryRegistered(List<SearchResult> searchResults, SearchResult newResult) {
+		for (SearchResult entry : searchResults) {
+			if (entry.getElementName().equals(newResult.getElementName()) &&
+						entry.getElementId().equals(newResult.getElementId())
+			)
+				return true;
+		}
+		return false;
+	}
+
 	private void search(DesignElementHandle designElementHandle, SearchInputDialog.Search search,
 			List<SearchPathMember> path, List<SearchResult> searchResults) {
 		path.add(new DesignElementSearchPathMember(designElementHandle));
 		String propertyName = search.matches(designElementHandle);
 		if (propertyName != null) {
-			searchResults.add(new SearchResult(path, propertyName));
+			SearchResult newResultEntry = new SearchResult(path, propertyName);
+			if (!isEntryRegistered(searchResults, newResultEntry)) {
+				searchResults.add(newResultEntry);
+			}
 		}
 		if (search.isRecursive()) {
 			IElementDefn defn = designElementHandle.getDefn();

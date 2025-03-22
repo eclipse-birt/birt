@@ -250,6 +250,14 @@ public class SearchInputDialog extends BaseDialog {
 		propColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.Element")); //$NON-NLS-1$
 		table.getColumn(1).pack();
 
+		TableColumn typeColumn = new TableColumn(table, SWT.NONE);
+		typeColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.ElementType")); //$NON-NLS-1$
+		table.getColumn(2).pack();
+
+		TableColumn idColumn = new TableColumn(table, SWT.NONE);
+		idColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.ElementId")); //$NON-NLS-1$
+		table.getColumn(3).pack();
+
 		table.addListener(SWT.Selection, event -> {
 			this.itemSelected(event.item.getData());
 		});
@@ -486,8 +494,10 @@ public class SearchInputDialog extends BaseDialog {
 			table.setItemCount(0);
 			for (SearchAction.SearchResult searchResult : searchResults) {
 				TableItem item = new TableItem(table, SWT.NONE);
-				item.setText(1, searchResult.getElementName());
 				item.setText(0, searchResult.getPropertyName());
+				item.setText(1, searchResult.getElementName());
+				item.setText(2, searchResult.getElementType());
+				item.setText(3, searchResult.getElementId().toString());
 				item.setData(searchResult);
 			}
 			for (TableColumn tableColumn : table.getColumns()) {
