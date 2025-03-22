@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -950,6 +950,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// If the property is not found, then the value is null.
 		if (prop == null) {
+			if (propName.equals("id")) {
+				return this.getID();
+			}
 			return null;
 		}
 
