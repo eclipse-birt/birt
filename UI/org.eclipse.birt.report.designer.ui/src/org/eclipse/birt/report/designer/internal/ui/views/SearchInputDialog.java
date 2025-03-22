@@ -45,6 +45,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
+ * Search dialog to search elements based on element properties
+ *
  * @since 4.20
  *
  */
@@ -55,6 +57,8 @@ public class SearchInputDialog extends BaseDialog {
 	private static final int BACK_ID = IDialogConstants.CLIENT_ID + 2;
 
 	private static final String ANY = "(any)";
+
+	private static final String PROPERTY_NAME_ID = "id";
 
 	private static final String VALUE_LABEL = Messages.getString("SearchInputDialog.ValueLabel"); //$NON-NLS-1$
 
@@ -178,24 +182,24 @@ public class SearchInputDialog extends BaseDialog {
 		});
 
 		Composite optionContainer = new Composite(composite, SWT.NONE);
-		gd = new GridData(SWT.FILL, SWT.NONE, false, false);
+		gd = new GridData(SWT.NONE, SWT.NONE, false, false);
 		optionContainer.setLayoutData(gd);
 
 		ignoreCaseButton = new Button(optionContainer, SWT.CHECK);
-		Label ignoreCaseButtonLabel = new Label(optionContainer, SWT.NONE);
-		ignoreCaseButtonLabel.setText(Messages.getString("SearchInputDialog.Message.IgnoreCase")); //$NON-NLS-1$
+		ignoreCaseButton.setText(Messages.getString("SearchInputDialog.Message.IgnoreCase")); //$NON-NLS-1$
+		ignoreCaseButton.setToolTipText(Messages.getString("SearchInputDialog.Message.IgnoreCase.ToolTip")); //$NON-NLS-1$
 
 		wholeWordButton = new Button(optionContainer, SWT.CHECK);
-		Label wholeWordButtonLabel = new Label(optionContainer, SWT.NONE);
-		wholeWordButtonLabel.setText(Messages.getString("SearchInputDialog.Message.WholeWord")); //$NON-NLS-1$
+		wholeWordButton.setText(Messages.getString("SearchInputDialog.Message.WholeWord")); //$NON-NLS-1$
+		wholeWordButton.setToolTipText(Messages.getString("SearchInputDialog.Message.WholeWord.ToolTip")); //$NON-NLS-1$
 
 		regexButton = new Button(optionContainer, SWT.CHECK);
-		Label regexButtonLabel = new Label(optionContainer, SWT.NONE);
-		regexButtonLabel.setText(Messages.getString("SearchInputDialog.Message.RegularExpression")); //$NON-NLS-1$
+		regexButton.setText(Messages.getString("SearchInputDialog.Message.RegularExpression")); //$NON-NLS-1$
+		regexButton.setToolTipText(Messages.getString("SearchInputDialog.Message.RegularExpression.ToolTip")); //$NON-NLS-1$
 
 		recursiveButton = new Button(optionContainer, SWT.CHECK);
-		Label recursiveButtonLabel = new Label(optionContainer, SWT.NONE);
-		recursiveButtonLabel.setText(Messages.getString("SearchInputDialog.Message.Recursive")); //$NON-NLS-1$
+		recursiveButton.setText(Messages.getString("SearchInputDialog.Message.Recursive")); //$NON-NLS-1$
+		recursiveButton.setToolTipText(Messages.getString("SearchInputDialog.Message.Recursive.ToolTip")); //$NON-NLS-1$
 		recursiveButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -209,7 +213,7 @@ public class SearchInputDialog extends BaseDialog {
 		});
 
 		layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 1;
 		layout.marginWidth = layout.marginHeight = 0;
 		optionContainer.setLayout(layout);
 
@@ -239,11 +243,11 @@ public class SearchInputDialog extends BaseDialog {
 		table.setLayoutData(gd);
 
 		TableColumn pathColumn = new TableColumn(table, SWT.NONE);
-		pathColumn.setText("Property");
+		pathColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.Property")); //$NON-NLS-1$
 		table.getColumn(0).pack();
 
 		TableColumn propColumn = new TableColumn(table, SWT.NONE);
-		propColumn.setText("Element");
+		propColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.Element")); //$NON-NLS-1$
 		table.getColumn(1).pack();
 
 		table.addListener(SWT.Selection, event -> {
@@ -363,6 +367,10 @@ public class SearchInputDialog extends BaseDialog {
 							return name;
 						}
 					}
+				}
+				// validation of the element id
+				if (matches(element.getID())) {
+					return PROPERTY_NAME_ID;
 				}
 			} else {
 				Object value = designElementHandle.getProperty(searchProp);
@@ -485,6 +493,7 @@ public class SearchInputDialog extends BaseDialog {
 			for (TableColumn tableColumn : table.getColumns()) {
 				tableColumn.pack();
 			}
+			table.redraw();
 		}
 	}
 

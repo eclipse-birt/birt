@@ -51,6 +51,8 @@ public class SearchAction extends AbstractViewerAction {
 
 	private static final String SEARCH_ACTION_TEXT = Messages.getString("SearchAction.text"); //$NON-NLS-1$
 
+	private static final String PROPERTY_NAME_ID = "id";
+
 	private static SearchInputDialog inputDialog;
 
 	private final LinkedList<TreeItem[]> selectedItemsStack = new LinkedList<>();
@@ -221,6 +223,8 @@ public class SearchAction extends AbstractViewerAction {
 				}
 			}
 		}
+		// element-property "id"
+		propNameSet.add(PROPERTY_NAME_ID);
 	}
 
 	private interface SearchPathMember {
@@ -277,7 +281,7 @@ public class SearchAction extends AbstractViewerAction {
 		}
 
 		public String getName() {
-			return handle.getDisplayLabel() + " " + handle.getIndex();
+			return handle.getDisplayLabel() + ", ID: " + handle.getID();
 		}
 
 		@Override
