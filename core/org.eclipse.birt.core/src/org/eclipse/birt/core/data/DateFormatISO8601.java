@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2005, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -41,11 +41,16 @@ public class DateFormatISO8601 {
 	/**
 	 * Parse a date/time string.
 	 *
-	 * @param source
-	 * @return
+	 * @param source   date string to be parsed
+	 * @param timeZone time zone
+	 * @return the parsed string as date
+	 * @throws BirtException
 	 * @throws ParseException
 	 */
 	public static Date parse(String source, TimeZone timeZone) throws BirtException, ParseException {
+		if (source == null || source.trim().length() == 0) {
+			return null;
+		}
 		DateFormat dateFormat = getSimpleDateFormat(source, timeZone);
 		TimeZone savedTimeZone = dateFormat.getTimeZone();
 		Date resultDate = null;
@@ -81,9 +86,8 @@ public class DateFormatISO8601 {
 	 *
 	 * @param source
 	 * @param timeZone
-	 * @return
+	 * @return the parsed date/time string
 	 * @throws BirtException
-	 * @throws ParseException
 	 */
 	public static SimpleDateFormat getSimpleDateFormat(String source, TimeZone timeZone) throws BirtException {
 		if (source == null || source.trim().length() == 0) {
@@ -124,7 +128,7 @@ public class DateFormatISO8601 {
 	 *
 	 * @param date
 	 * @param timeZone
-	 * @return
+	 * @return formated date/time object
 	 * @throws BirtException
 	 */
 	public static String format(Date date, TimeZone timeZone) throws BirtException {
@@ -151,9 +155,10 @@ public class DateFormatISO8601 {
 	/**
 	 * Parse a date/time string.
 	 *
-	 * @param source
-	 * @return
-	 * @throws ParseException
+	 * @param date date to be formated
+	 *
+	 * @return the formated date/time
+	 * @throws BirtException
 	 */
 	public static String format(Date date) throws BirtException {
 		return format(date, TimeZone.getDefault());
