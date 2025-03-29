@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2025 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -36,11 +36,12 @@ public class ClientAnchorConversions {
 
 	// Constants that defines how many pixels and points there are in a
 	// millimetre. These values are required for the conversion algorithm.
-	private static final double PIXELS_PER_MILLIMETRES = 3.78; // MB
+	private static final double PIXELS_PER_MILLIMETRES = 3.78;
 	private static final short EXCEL_COLUMN_WIDTH_FACTOR = 256;
 	private static final int UNIT_OFFSET_LENGTH = 7;
 	private static final int[] UNIT_OFFSET_MAP = { 0, 36, 73, 109, 146, 182, 219 };
 	private static final double MILLIMETRE_INDENT_FACTOR = 2.38;
+	private static final double UNITS_PER_MILLIMETRES = 2.83;
 
 	/**
 	 * Convert a measure in column width units (1/256th of a character) to a measure
@@ -67,6 +68,17 @@ public class ClientAnchorConversions {
 		int pixels = (int) (millimetres * PIXELS_PER_MILLIMETRES);
 		int widthUnits = (EXCEL_COLUMN_WIDTH_FACTOR * (pixels / UNIT_OFFSET_LENGTH));
 		widthUnits += UNIT_OFFSET_MAP[(pixels % UNIT_OFFSET_LENGTH)];
+		return widthUnits;
+	}
+
+	/**
+	 * Convert a measure of millimetres to height units.
+	 *
+	 * @param millimetres The size in millimetres.
+	 * @return The size in height units.
+	 */
+	public static int millimetres2HeightPoints(double millimetres) {
+		int widthUnits = (int) (millimetres * UNITS_PER_MILLIMETRES);
 		return widthUnits;
 	}
 
