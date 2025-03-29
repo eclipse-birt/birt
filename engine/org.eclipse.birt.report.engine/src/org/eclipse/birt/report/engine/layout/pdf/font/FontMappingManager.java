@@ -48,7 +48,7 @@ public class FontMappingManager {
 	private Map<String, String> fontAliases = new HashMap<String, String>();
 
 	/** Usage of the advanced font kerning and ligatures */
-	private boolean fontKerningAdvancedUsage = false;
+	private boolean fontKerningAndLigaturesUsage = false;
 
 	/**
 	 * composite fonts
@@ -64,14 +64,14 @@ public class FontMappingManager {
 			this.fontAliases.putAll(parent.getFontAliases());
 			this.fontEncodings.putAll(parent.getFontEncodings());
 			this.compositeFonts.putAll(parent.getCompositeFonts());
-			if (!this.fontKerningAdvancedUsage)
-				this.fontKerningAdvancedUsage = parent.fontKerningAdvancedUsage;
+			if (!this.fontKerningAndLigaturesUsage)
+				this.fontKerningAndLigaturesUsage = parent.fontKerningAndLigaturesUsage;
 		}
 		this.fontEncodings.putAll(config.fontEncodings);
 		this.searchSequences.putAll(config.searchSequences);
 		this.fontAliases.putAll(config.fontAliases);
-		if (!this.fontKerningAdvancedUsage)
-			this.fontKerningAdvancedUsage = config.fontKerningAdvancedUsage;
+		if (!this.fontKerningAndLigaturesUsage)
+			this.fontKerningAndLigaturesUsage = config.fontKerningAndLigaturesUsage;
 
 		String[] sequence = getSearchSequence(locale);
 		Iterator<Entry<String, CompositeFontConfig>> iter = config.compositeFonts.entrySet().iterator();
@@ -134,8 +134,8 @@ public class FontMappingManager {
 	 *
 	 * @return the usage of advanced font kerning and ligatures
 	 */
-	public boolean useFontKerningAdvanced() {
-		return fontKerningAdvancedUsage;
+	public boolean useFontKerningAndLigatures() {
+		return fontKerningAndLigaturesUsage;
 	}
 
 	protected String[] getSearchSequence(Locale locale) {

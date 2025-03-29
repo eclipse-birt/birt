@@ -151,3 +151,29 @@ The following list get an overview of all supported user properties, the content
 	Values     	An absolute length, e.g. "20cm"
 	Default    	empty (null)
 	Since      	4.19
+
+
+## PDF font configuration
+
+The configuration of additional fonts for pdf-output can be configured at special font-configuration files.  
+All font-configuration files are located into the folder **org.eclipse.birt.report.engine.fonts_<version-no.>**.  
+The setup can be done through cascading configurations through the different configuration levels:  
+- Level 01: fontsConfig.xml
+- Level 02: fontsConfig_win32.xml or fontsConfig_linux.xml
+- Level 03: fontsConfig_pdf.xml
+
+A detailed description is given at the top level configuration file fontsConfig.xml.
+
+**Kerning and Ligatures**
+
+	Content    	The font configuration allows to enable advanced font handling
+					to handle complex fonts and supports kerning and ligatures.
+					To enable the special handling an according configuration tag
+					"kerning-and-ligatures" can be used.
+					The tag contains the attribute "enabled" which handle the enabling.
+	Location   	fontsConfig.xml, fontsConfig_win32.xml, fontsConfig_linux.xml, fontsConfig_pdf.xml
+	Data type  	boolean
+	Values     	true, complex font handling with kerning and ligatures is enabled
+					false, complex font handling is disabled
+	Default    	false
+	Since      	4.19
