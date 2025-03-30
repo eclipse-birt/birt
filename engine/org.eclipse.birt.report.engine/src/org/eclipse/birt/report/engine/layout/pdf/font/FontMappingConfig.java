@@ -46,7 +46,7 @@ public class FontMappingConfig {
 	protected HashMap<String, CompositeFontConfig> compositeFonts = new HashMap<String, CompositeFontConfig>();
 
 	/** Usage of the advanced font kerning and ligatures */
-	protected boolean fontKerningAdvancedUsage = false;
+	protected boolean fontKerningAndLigaturesUsage = false;
 
 	/**
 	 * Constructor
@@ -151,10 +151,10 @@ public class FontMappingConfig {
 	/**
 	 * Set the usage of advanced font kerning and ligatures
 	 *
-	 * @param kerning usage of advanced font kerning and ligatures
+	 * @param useKerningLigatures usage of advanced font kerning and ligatures
 	 */
-	public void setFontKerning(boolean kerning) {
-		fontKerningAdvancedUsage = kerning;
+	public void setFontKerningAndLigatures(boolean useKerningLigatures) {
+		fontKerningAndLigaturesUsage = useKerningLigatures;
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class FontMappingConfig {
 	 *
 	 * @return the usage of advanced font kerning and ligatures
 	 */
-	public boolean getFontKerning() {
-		return fontKerningAdvancedUsage;
+	public boolean getFontKerningAndLigatures() {
+		return fontKerningAndLigaturesUsage;
 	}
 }

@@ -145,8 +145,8 @@ public class FontConfigHandler extends DefaultHandler {
 	private final static String TAG_CHARACTER = "character"; //$NON-NLS-1$
 	private final static String ATTR_VALUE = "value"; //$NON-NLS-1$
 
-	private final static String TAG_FONT_KERNING = "kerning-and-ligatures"; //$NON-NLS-1$
-	private final static String ATTR_KERNING_ENABLED = "enabled"; //$NON-NLS-1$
+	private final static String TAG_FONT_KERNING_AND_LIGATURES = "kerning-and-ligatures"; //$NON-NLS-1$
+	private final static String ATTR_KERNING_AND_LIGATURES_ENABLED = "enabled"; //$NON-NLS-1$
 
 	private class RootState extends ParseState {
 
@@ -183,8 +183,8 @@ public class FontConfigHandler extends DefaultHandler {
 			if (TAG_COMPOSITE_FONT.equals(tagValue)) {
 				return new CompositeFontState();
 			}
-			if (TAG_FONT_KERNING.equals(tagValue)) {
-				return new FontKerningState();
+			if (TAG_FONT_KERNING_AND_LIGATURES.equals(tagValue)) {
+				return new FontKerningAndLigaturesState();
 			}
 			return super.startElement(tagName);
 		}
@@ -213,13 +213,13 @@ public class FontConfigHandler extends DefaultHandler {
 		}
 	}
 
-	private class FontKerningState extends ParseState {
+	private class FontKerningAndLigaturesState extends ParseState {
 
 		@Override
 		public void parseAttrs(Attributes attrs) {
-			String kerning = getStringValue(attrs, ATTR_KERNING_ENABLED);
-			if (kerning != null) {
-				config.setFontKerning(Boolean.valueOf(kerning));
+			String configKerningLigatures = getStringValue(attrs, ATTR_KERNING_AND_LIGATURES_ENABLED);
+			if (configKerningLigatures != null) {
+				config.setFontKerningAndLigatures(Boolean.valueOf(configKerningLigatures));
 			}
 		}
 	}
