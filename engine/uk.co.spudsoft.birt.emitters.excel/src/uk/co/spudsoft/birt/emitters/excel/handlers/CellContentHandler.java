@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013, 2024 James Talbut and others
+ * Copyright (c) 2011, 2012, 2013, 2024, 2025 James Talbut and others
  *  jim-emitters@spudsoft.co.uk
  *
  *
@@ -658,7 +658,7 @@ public class CellContentHandler extends AbstractHandler {
 			formula = value != null ? value.toString() : null;
 			value = null;
 		}
-		if (formula != null) {
+		if (lastFormula == null && formula != null) {
 			lastFormula = formula;
 		}
 
@@ -697,7 +697,9 @@ public class CellContentHandler extends AbstractHandler {
 
 		StyleManager sm = state.getSm();
 
-		if (lastValue != null) {
+		if (lastValue != null && (value != null || formula != null)) {
+
+			value = (value != null) ? value : formula;
 
 			// Both to be improved to include formatting
 			String oldValue = lastValue.toString();
@@ -714,6 +716,10 @@ public class CellContentHandler extends AbstractHandler {
 
 			String newValue = oldValue + newComponent;
 			lastValue = newValue;
+
+			String oldformula = (lastFormula != null) ? lastFormula.toString() : "";
+			String newFormula = (formula != null) ? formula.toString() : "";
+			lastFormula = oldformula + "\n" + newFormula;
 
 			if (element != null) {
 				BirtStyle elementStyle = new BirtStyle(element);
