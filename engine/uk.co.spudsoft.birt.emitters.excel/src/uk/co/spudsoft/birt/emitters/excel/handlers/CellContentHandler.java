@@ -278,10 +278,6 @@ public class CellContentHandler extends AbstractHandler {
 									new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_PRE_VALUE));
 						}
 					}
-					if (!richTextRuns.isEmpty()) {
-						birtCellStyle.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN,
-								new StringValue(CSSPrimitiveValue.CSS_STRING, CSSConstants.CSS_TOP_VALUE));
-					}
 					if (preferredAlignment != null) {
 						birtCellStyle.setProperty(StyleConstants.STYLE_TEXT_ALIGN, preferredAlignment);
 					}
@@ -717,9 +713,14 @@ public class CellContentHandler extends AbstractHandler {
 			String newValue = oldValue + newComponent;
 			lastValue = newValue;
 
-			String oldformula = (lastFormula != null) ? lastFormula.toString() : "";
-			String newFormula = (formula != null) ? formula.toString() : "";
-			lastFormula = oldformula + "\n" + newFormula;
+			String oldformula = (lastFormula != null) ? lastFormula.toString() : lastFormula;
+			String newFormula = (formula != null) ? formula.toString() : formula;
+			if (oldformula != null) {
+				lastFormula = oldformula + "\n";
+			}
+			if (newFormula != null) {
+				lastFormula += newFormula;
+			}
 
 			if (element != null) {
 				BirtStyle elementStyle = new BirtStyle(element);
