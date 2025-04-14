@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-full" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true">
+  <validationSets label="Main">
+    <contributions label="BIRT">
+      <repositories location="https://download.eclipse.org/birt/updates/release/latest">
+        <features name="org.eclipse.birt.chart.osgi.runtime.feature.group"/>
+        <features name="org.eclipse.birt.engine.runtime.feature.group"/>
+      </repositories>
+    </contributions>
+  </validationSets>
+  <configurations operatingSystem="linux" windowSystem="gtk" architecture="aarch64"/>
+  <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>
+  <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="aarch64"/>
+  <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
+  <configurations architecture="x86_64"/>
+  <mavenMappings namePattern="(org\.eclipse\.datatools)(.*)$" groupId="org.eclipse.birt.dependencies" artifactId="$1$2" snapshot="false"/>
+  <mavenMappings namePattern="(org\.eclipse\.birt)(.*)$" groupId="$1" artifactId="$1$2" snapshot="false"/>
+  <mavenMappings namePattern="(org\.eclipse)((?!(\.emf|\.jetty|\.ecf|\.orbit)).*)$" groupId="$1.platform" artifactId="$1$2" snapshot="false"/>
+  <mavenMappings namePattern="(com\.jcraft)\.(.*)" groupId="$1" artifactId="$2"/>
+  <mavenMappings namePattern="javax\.annotation" groupId="jakarta.annotation" artifactId="jakarta.annotation-api"/>
+  <mavenMappings namePattern="(javax.inject)" groupId="$1" artifactId="$1" versionPattern="([^.]+)\.0(?:\..*)?" versionTemplate="$1"/>
+  <mavenMappings namePattern="org\.apache\.commons\.(jxpath|logging)" groupId="commons-$1" artifactId="commons-$1" versionPattern="([^.]+)\.([^.]+)\.0(?:\..*)?" versionTemplate="$1.$2"/>
+  <mavenMappings namePattern="org\.apache\.lucene\.(.*)" groupId="org.apache.lucene" artifactId="lucene-$1"/>
+  <mavenMappings namePattern="org\.apache\.ant$" groupId="org.apache.ant" artifactId="ant"/>
+  <mavenMappings namePattern="org.apache.batik.([^.]+)" groupId="org.apache.xmlgraphics" artifactId="batik-$1" versionPattern="([^.]+)\.([^.]+)\.0(?:\..*)?" versionTemplate="$1.$2"/>
+  <mavenMappings namePattern="org.apache.batik.([^.]+)\.([^.]+)" groupId="org.apache.xmlgraphics" artifactId="batik-$1-$2" versionPattern="([^.]+)\.([^.]+)\.0(?:\..*)?" versionTemplate="$1.$2"/>
+  <mavenMappings namePattern="org.junit" groupId="junit" artifactId="junit" versionPattern="([^.]+)\.([^.]+)\.0(?:\..*)?" versionTemplate="$1.$2"/>
+  <mavenMappings namePattern="org.eclipse.orbit.xml-apis-ext" groupId="xml-apis" artifactId="xml-apis-ext" versionPattern=".*" versionTemplate="1.3.04"/>
+  <mavenMappings namePattern="(com\.sun\.el|org.apache.jasper.glassfish)" groupId="org.eclipse.jetty.orbit" artifactId="$1"/>
+  <mavenMappings namePattern="com\.sun\.jna" groupId="net.java.dev.jna" artifactId="jna"/>
+  <mavenMappings namePattern="com\.zaxxer\.sparsebits" groupId="com.zaxxer" artifactId="SparseBits"/>
+  <mavenMappings namePattern="javax\.wsdl" groupId="wsdl4j" artifactId="wsdl4j"/>
+  <mavenMappings namePattern="org\.apache\.xerces" groupId="xerces" artifactId="xercesImpl"/>
+  <mavenMappings namePattern="org\.apache\.xml\.resolver" groupId="xml-resolver" artifactId="xml-resolver"/>
+  <mavenMappings namePattern=".*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern=".*" versionTemplate="\$maven-version\$"/>
+  <mavenDependencyMapping iuNamePattern="(?!.*(org\.eclipse\.)).*|org\.eclipse\.emf.*|org\.eclipse\.ecf.*|org\.eclipse\.jetty.*|org\.eclipse\.orbit.*" namespacePattern=".*" namePattern=".*" groupId="!" artifactId="!"/>
+  <mavenDependencyMapping namespacePattern="osgi\.bundle|org\.eclipse\.equinox\.p2\.iu" namePattern="(?!.*(org\.eclipse\.(emf|ecf))).*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
+  <mavenDependencyMapping namespacePattern="java\.package" namePattern=".*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
+</aggregator:Aggregation>
