@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analyzer:Analysis
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:analyzer="https://www.eclipse.org/cbi/p2repo/2021/aggregator/analyzer"
+    aggregation="BIRT-Runtime.aggr#/">
+  <contribution
+      enabled="false"
+      label="Platform"
+      match="org.eclipse.swt.*|org.eclipse.equinox.*|org.eclipse.core.*|org.eclipse.osgi"/>
+  <contribution
+      enabled="false"
+      label="DataTools"
+      match="org.eclipse.datatools.*"/>
+  <contribution
+      enabled="false"
+      label="EMF"
+      match="org.eclipse.emf.*"/>
+  <contribution
+      contribution="BIRT-Runtime.aggr#//@validationSets[label='Main']/@contributions[label='BIRT']"/>
+</analyzer:Analysis>

@@ -320,13 +320,24 @@ public class FontHandler {
 	}
 
 	/**
-	 * Enable the font mode to handle advanced kerning and ligatures
+	 * Enable the font mode to handle advanced kerning and ligatures. The formatting
+	 * option has priority instead disabled behavior. The configuration controls the
+	 * LayouProcessor of openPDF.
 	 *
 	 * @since 4.19
 	 */
 	private void enableKerningAndLigatures() {
-		if (fontManager.useFontKerningAndLigatures() && !LayoutProcessor.isEnabled()) {
+		if (fontManager.useFontKerningAndLigatures()) {
+			// layout processor enable kerning and ligature if the configuration is enabled
+			if (LayoutProcessor.isEnabled()) {
+				LayoutProcessor.disable();
+			}
 			LayoutProcessor.enableKernLiga();
+		} else {
+			// layout processor disable kerning and ligature only if the processor is unused
+			if (!LayoutProcessor.isEnabled()) {
+				LayoutProcessor.enable(0);
+			}
 		}
 	}
 }

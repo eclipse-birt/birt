@@ -8,6 +8,7 @@
     xmlns:p2="http://www.eclipse.org/oomph/p2/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+    xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
@@ -72,6 +73,10 @@
     <setupTask
         xsi:type="setup:CompoundTask"
         name="org.eclipse.core.resources">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.core.resources/description.disableLinking"
+          value="false"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.core.resources/encoding"
@@ -207,6 +212,16 @@
       &lt;/launchHistory>
 
     </content>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="CBI Aggregator">
+    <requirement
+        name="org.eclipse.cbi.p2repo.aggregator.editor.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.cbi.p2repo.aggregator.analyzer.editor.feature.feature.group"/>
+    <repository
+        url="https://download.eclipse.org/cbi/updates/p2-aggregator/tools/nightly/latest"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
