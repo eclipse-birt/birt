@@ -500,6 +500,11 @@
             id="org.eclipse.birt.report.designer.ui.command.resetImageSizeCommand"
             name="%command.name.31">
       </command>
+      <command
+            defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.SearchHandler"
+            id="org.eclipse.birt.report.designer.ui.command.searchAction"
+            name="%command.name.32">
+      </command>
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.DNDServices">
@@ -876,6 +881,14 @@
                type="org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider">
          </adapter>
       </adaptable>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.birt.report.designer.ui.command.searchAction"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+F">
+      </key>
    </extension>
    
 </plugin>
