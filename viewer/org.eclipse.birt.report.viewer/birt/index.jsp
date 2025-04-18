@@ -73,6 +73,41 @@
 				display:			inline-block;
 				margin-left:		32px;
 			}
+			.doc-li-item {
+				margin-top	: 8px;
+				font-size	: 0.95em;
+			}
+			.doc-chapter-title {
+				font-weight	: bold;
+				margin		: 24px 0px 0px 20px;
+				font-size	: 0.9em;
+			}
+			.doc-content-slot {
+				margin			: 12px 0px 0px 36px;
+				text-decoration	: none;
+				font-size		: 0.9em;
+			}
+			.link-img {
+				margin			: 0px 4px 0px 0px;
+				vertical-align	: middle;
+				height			: 12px;
+			}
+			a:link {
+				text-decoration: none;
+				color: #06c;
+			}
+			a:visited {
+				text-decoration: none;
+				color: #06c;
+			}
+			a:hover {
+				text-decoration: none;
+				color: #06c;
+			}
+			a:active {
+				text-decoration: none;
+				color: #06c;
+			}
 
 		</style>
 	<%
@@ -157,7 +192,7 @@
 								<li class="li"><span class="li-value"><a  style="text-decoration:none; color:white;" href="https://github.com/eclipse-birt/birt" target="blank">BIRT Project at GitHub</a></span></li>
 							</ul>
 						</div>
-						<div>
+						<div style="float:left;width:75%;">
 							<%
 								String javaVersionMessage = javaVersion;
 								
@@ -218,6 +253,85 @@
 								<li class="li"><span class="li-label info_large">Application Server, Working Directory:</span><span><%= workingDirectoryApplicationServer %></span></li>
 								<li class="li"><span class="li-label info_large">Web Application, Working Directory:</span><span><%= workingDirectoryApplicationServlet %></span></li>
 							</ul>
+						</div>
+						<div style="float:left;width:0.5%;">&nbsp;</div>
+						<div style="float:left; width:24.5%;">
+							<div class="info_group">BIRT documentation</div>
+							<div class="doc-chapter-title">Global BIRT configuration</div>
+							<div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/fontsConfig.xml" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>Font configuration</span>
+									</a>
+									<ul><li class="doc-li-item">handling of external fonts, mapping and kerning &amp; ligatures</li></ul>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/data/org.eclipse.birt.report.engine.script.javascript/src/org/eclipse/birt/report/engine/javascript/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>JavaScript configuration</span>
+									</a>
+									<ul><li class="doc-li-item">JS version setup and security configuration</li></ul>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/data/org.eclipse.birt.report.data.oda.jdbc/src/org/eclipse/birt/report/data/oda/jdbc/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>JDBC driver configuration</span>
+									</a>
+									<ul><li class="doc-li-item">configuration of validation roles for JDBC driver</li></ul>
+								</div>
+							</div>
+							<div class="doc-chapter-title">Output emitter configuration</div>
+							<div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/uk.co.spudsoft.birt.emitters.excel/src/uk/co/spudsoft/birt/emitters/excel/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>Microsoft Excel, XLSX (Spudsoft)</span>
+									</a>
+									<ul><li class="doc-li-item">setup of additional Excel output functions</li></ul>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.emitter.wpml/src/org/eclipse/birt/report/engine/emitter/wpml/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>Microsoft Word, DOCX</span>
+									</a>
+									<ul><li class="doc-li-item">setup of additional Word output details</li></ul>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.emitter.pdf/src/org/eclipse/birt/report/engine/emitter/pdf/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>Adobe PDF</span>
+									</a>
+									<ul><li class="doc-li-item">setup of additional PDF output details</li></ul>
+								</div>
+							</div>
+							<div  class="doc-chapter-title">BIRT project</div>
+							<div>
+								<div class="doc-content-slot">
+									<a href="https://eclipse-birt.github.io/birt-website/" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>BIRT Homepage</span>
+									</a>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://download.eclipse.org/birt/updates/release/latest/" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>BIRT Download Site</span>
+									</a>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>BIRT Project at Github</span>
+									</a>
+								</div>
+								<div class="doc-content-slot">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/README.md" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>BIRT Version & Contribution</span>
+									</a>
+								</div>
+							</div>
 						</div>
 						<div class="info_separator"></div>
 					</td>
