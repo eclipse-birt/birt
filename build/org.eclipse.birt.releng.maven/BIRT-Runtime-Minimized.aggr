@@ -40,6 +40,7 @@
   <mavenMappings namePattern="uk\.co\.spudsoft\.birt\.emitters\.excel" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern="([^.]+)\.([^.]+)\.([^.]+)(\..*)?" versionTemplate="$1.$2.$3"/>
   <mavenMappings namePattern=".*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern=".*" versionTemplate="\$maven-version\$"/>
   <mavenMappings namePattern=".*" groupId="\$maven-wrapped-groupId\$" artifactId="\$maven-wrapped-artifactId\$" versionPattern=".*" versionTemplate="\$maven-wrapped-version\$"/>
+  <mavenDependencyMapping namespacePattern="osgi\.bundle" namePattern="org\.apache\.derby" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="[major.minor.micro,major+1)"/>
   <mavenDependencyMapping iuNamePattern="(?!.*(org\.eclipse\.)).*|org\.eclipse\.emf.*|org\.eclipse\.ecf.*|org\.eclipse\.jetty.*|org\.eclipse\.orbit.*" namespacePattern=".*" namePattern=".*" groupId="!" artifactId="!"/>
   <mavenDependencyMapping namespacePattern="osgi\.bundle|org\.eclipse\.equinox\.p2\.iu" namePattern="(?!.*(org\.eclipse\.(emf|ecf))).*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
   <mavenDependencyMapping namespacePattern="java\.package" namePattern=".*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
