@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true">
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true" excludeFeatures="true">
   <validationSets label="Main">
     <contributions label="BIRT">
       <repositories location="https://download.eclipse.org/birt/updates/release/latest">
+        <bundles name="org.apache.axis"/>
         <features name="org.eclipse.birt.chart.osgi.runtime.feature.group"/>
         <features name="org.eclipse.birt.engine.runtime.feature.group"/>
       </repositories>
