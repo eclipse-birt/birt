@@ -21,7 +21,21 @@ The font configuration files are located at different locations dependent at the
    
 	- **location:** .../WEB-INF/platform/plugins/org.eclipse.birt.report.engine.fonts_*version*
    
-	- the configuration can be entered into the xml files
+	- the configuration can be entered into the xml files  
+   
+* **BIRT engine configuration**  
+   
+	- With the usage of code the font configuration can be located independent from the original file location.  
+	To use this option the path of the configuration file can be set with `engineConfig.setFontConfig(fontsConfigurationURL)`   
+	Code example for configuration path "C:\conf\birt\font\fontsConfig.xml":  
+	  	
+	(1) setup a global system property at JVM start
+		-Dbirt.font.config.xml=file:///C:/conf/birt/font  
+
+	(2) code sequence to read the config file
+	
+		fontsConfigurationURL = new URI(System.getProperty("birt.font.config.xml") + "/fontsConfig.xml").toURL();
+		engineConfig.setFontConfig(fontsConfigurationURL);
 
 ### Handling of fonts configuration files
 

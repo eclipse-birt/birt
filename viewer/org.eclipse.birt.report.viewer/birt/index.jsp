@@ -260,9 +260,13 @@
 							<div class="doc-chapter-title">Global BIRT configuration</div>
 							<div>
 								<div class="doc-content-slot">
-									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/fontsConfig.xml" target="blank">
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/README.md" target="blank">
 										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
 										<span>Font configuration</span>
+									</a>
+									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/fontsConfig.xml" target="blank">
+										<span style="font-weight: bold;margin-left: 4px;font-size: 10pt;">&lt;/&gt;</span>
+										<span style="font-size: 10pt;margin-left: 2px;">Setup-XML</span>
 									</a>
 									<ul><li class="doc-li-item">handling of external fonts, mapping and kerning &amp; ligatures</li></ul>
 								</div>
