@@ -14,7 +14,7 @@
 			         bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;
 			         bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;
 			         bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;
-			         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;
+			         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'		;
 			         bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;
 			         bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;
 			         bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;
@@ -48,7 +48,7 @@
 			</script>
 		</head>
 		<body style=" margin:0px;">
-			<table cellpadding="0" style="empty-cells: show; border-collapse:collapse;width:100%;">
+			<table id="contentPage" cellpadding="0" style="empty-cells: show; border-collapse:collapse;width:100%;">
 				<tr>
 					<td valign="top"></td>
 				</tr>
