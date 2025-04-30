@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009, 2023, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2009, 2023, 2024, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -232,6 +232,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected boolean isEmbeddable = false;
 
 	/**
+	 * specifies if the HTML output is embeddable
+	 */
+	protected boolean useViewerPageLayout = true;
+
+	/**
 	 * the url encoding
 	 */
 	protected String urlEncoding = null;
@@ -355,6 +360,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected Set<String> outputtedStyles = new HashSet<String>();
 
 	protected boolean needFixTransparentPNG = false;
+
 	protected ITableContent cachedStartTable = null;
 
 	protected TableLayout tableLayout = new TableLayout(this);
@@ -371,6 +377,21 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	private static final String URL_PROTOCOL_TYPE_FILE = "file:";
 	private static final String URL_PROTOCOL_TYPE_DATA = "data:";
 	private static final String URL_PROTOCOL_URL_ENCODED_SPACE = "%20";
+
+	/** CSS class of desktop background */
+	private static final String CSS_CLASS_DESK_BACKGROUND = "desk-background";
+
+	/** CSS class of page layout */
+	private static final String CSS_CLASS_PREVIEW_PAGE = "preview-page-layout";
+
+	/** tag id of the preview page container */
+	private static final String PREVIEW_PAGE_ID = "previewPageLayout";
+
+	/** tag id of the background container */
+	private static final String BACKGROUND_CONTAINER_ID = "backgroundContainer";
+
+	/** tag id of the content page container */
+	private static final String CONTENT_PAGE_ID = "contentPage";
 
 	/**
 	 * the constructor
@@ -411,6 +432,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		if (renderOption != null) {
 			HTMLRenderOption htmlOption = new HTMLRenderOption(renderOption);
 			isEmbeddable = htmlOption.getEmbeddable();
+			useViewerPageLayout = isEmbeddable && htmlOption.getViewerPageLayout();
 			// Map<?, ?> options = renderOption.getOutputSetting();
 			Map<?, ?> options = renderOption.getOptions();
 
@@ -591,7 +613,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		writer.writeCode("         bgStyle += 'background-image:' + diagUri + ', ' + nStyle.backgroundImage + ';'	;");
 		writer.writeCode("         bgStyle += 'background-size:100% 100%, ' + nStyle.backgroundSize + ';'			;");
 		writer.writeCode("         bgStyle += 'background-repeat:no-repeat, ' + nStyle.backgroundRepeat + ';'		;");
-		writer.writeCode("         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'	;");
+		writer.writeCode("         bgStyle += 'background-position: center, ' + nStyle.backgroundPosition + ';'		;");
 		writer.writeCode("         bgStyle += 'background-position-x:' + nStyle.backgroundPositionY + ';'			;");
 		writer.writeCode("         bgStyle += 'background-position-y:' + nStyle.backgroundPositionX + ';'			;");
 		writer.writeCode("         bgStyle += 'background-attachment:' + nStyle.backgroundAttachment + ';'			;");
@@ -607,6 +629,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	protected void addStyleTextHyperlinkDecorationNone() {
 		writer.writeCode(
 				"<style type=\"text/css\">.hyperlink-undecorated {text-decoration: none; color: inherit;}</style>"); //$NON-NLS-1$
+	}
+
+	protected void addPreviewPageLayout() {
+		if (useViewerPageLayout) {
+			writer.writeCode("<style type=\"text/css\">");
+			writer.writeCode(" #Document {background-color: #EBEBEB;}");
+			writer.writeCode("." + CSS_CLASS_DESK_BACKGROUND
+					+ " {padding: 16px 16px 32px 16px; display:flex; justify-content:center;}");
+			writer.writeCode(" ." + CSS_CLASS_PREVIEW_PAGE + " {display:flex; box-shadow:1px 1px 2px 2px silver;}");
+			writer.writeCode("</style>");
+		} else {
+			writer.writeCode("<style type=\"text/css\">#previewLayoutButton {display: none;} </style>");
+		}
 	}
 
 	protected void outputBirtJs() {
@@ -711,6 +746,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		} else {
 			fixedReport = IHTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals(layoutPreference);
 		}
+		// page preview only of fixed layout
+		useViewerPageLayout = useViewerPageLayout && fixedReport;
 		if (enableAgentStyleEngine) {
 			htmlEmitter = new HTMLPerformanceOptimize(this, writer, fixedReport, enableInlineStyle, browserVersion);
 		} else {
@@ -724,16 +761,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		 * div-tag (there won't be created a full HTML-document)
 		 */
 		if (isEmbeddable) {
-			outputCSSStyles(reportDesign, designHandle);
-
 			// CSS hyperlink text undecoration
 			addStyleTextHyperlinkDecorationNone();
+
+			// CSS style of preview page
+			addPreviewPageLayout();
+
+			// diagonal & antidiagonal special function
+			addCellDiagonalSpecialJs();
+
+			outputCSSStyles(reportDesign, designHandle);
 
 			if (needFixTransparentPNG) {
 				fixTransparentPNG();
 			}
-			// diagonal & antidiagonal special function
-			addCellDiagonalSpecialJs();
 
 			fixRedirect();
 
@@ -754,8 +795,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					} else if (htmlIDNamespace != null) {
 						writer.attribute(HTMLTags.ATTR_CLASS, htmlIDNamespace + defaultStyleName);
 					} else {
+						if (useViewerPageLayout) {
+							defaultStyleName += " " + CSS_CLASS_DESK_BACKGROUND;
+						}
 						writer.attribute(HTMLTags.ATTR_CLASS, defaultStyleName);
 					}
+				} else {
+					writer.attribute(HTMLTags.ATTR_CLASS, CSS_CLASS_DESK_BACKGROUND);
 				}
 			}
 
@@ -1438,24 +1484,59 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 					" <div style=\"visibility: hidden; height: 0px; overflow: hidden; page-break-after: always;\">page separator</div>");
 		}
 
+		// Set the container for the page layout
+		if (useViewerPageLayout) {
+			writer.openTag(HTMLTags.TAG_DIV);
+			writer.attribute(HTMLTags.ATTR_ID, PREVIEW_PAGE_ID);
+			writer.attribute(HTMLTags.ATTR_CLASS, CSS_CLASS_PREVIEW_PAGE);
+		}
+
 		// out put the page tag
 		DimensionType width = null;
 		DimensionType height = null;
 		if (page != null && outputMasterPageContent) {
+			DimensionType widthContainer = null;
+			DimensionType heightContainer = null;
 			width = getPageWidth(page);
 			height = getPageHeight(page);
-			if (width != null && height != null && fixedReport && !pageFooterFloatFlag) {
-				startBackgroundContainer(page.getStyle(), width, height);
+			if (useViewerPageLayout) {
+				widthContainer = page.getPageWidth();
+				heightContainer = page.getPageHeight();
+			} else {
+				widthContainer = width;
+				heightContainer = height;
+			}
+			if (width != null && height != null
+					&& (fixedReport && !pageFooterFloatFlag || useViewerPageLayout)) {
+				startBackgroundContainer(page.getStyle(), widthContainer, heightContainer);
 			}
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
 		writer.openTag(HTMLTags.TAG_TABLE);
+		writer.attribute(HTMLTags.ATTR_ID, CONTENT_PAGE_ID);
 		writer.attribute("cellpadding", "0");
 		styleBuffer.append("empty-cells: show; border-collapse:collapse;"); //$NON-NLS-1$
+		// table page container get margin for the preview page
+		if (useViewerPageLayout && page != null) {
+			if (page.getMarginTop() != null) {
+				styleBuffer.append(HTMLTags.ATTR_MARGIN_TOP + ":" + page.getMarginTop().toString() + ";");
+			}
+			if (page.getMarginRight() != null) {
+				styleBuffer.append(HTMLTags.ATTR_MARGIN_RIGHT + ":" + page.getMarginRight().toString() + ";");
+			}
+			if (page.getMarginBottom() != null) {
+				styleBuffer.append(
+						HTMLTags.ATTR_MARGIN_BOTTOM + ":" + page.getMarginBottom().toString() + ";");
+			}
+			if (page.getMarginLeft() != null) {
+				styleBuffer.append(HTMLTags.ATTR_MARGIN_LEFT + ":" + page.getMarginLeft().toString() + ";");
+			}
+		}
 
 		if (page != null && outputMasterPageContent) {
-			htmlEmitter.buildPageStyle(page, styleBuffer, needOutputBackgroundSize);
+			if (!useViewerPageLayout)
+				htmlEmitter.buildPageStyle(page, styleBuffer, needOutputBackgroundSize);
 			// build the width
 			if (fixedReport && width != null) {
 				styleBuffer.append(" width:");
@@ -1465,7 +1546,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				styleBuffer.append(" width:100%;");
 			}
 
-			if (!pageFooterFloatFlag && height != null) {
+			if ((useViewerPageLayout || !pageFooterFloatFlag) && height != null) {
 				styleBuffer.append(" height:");
 				styleBuffer.append(height.toString());
 				styleBuffer.append(";");
@@ -1507,6 +1588,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginLeft());
 				}
+				writer.attribute(HTMLTags.ATTR_HEIGHT, page.getHeaderHeight());
 				outputPageBand(page, page.getPageHeader(), page.getHeaderHeight());
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginRight());
@@ -1529,30 +1611,41 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 	}
 
 	private void startBackgroundContainer(IStyle style, DimensionType pageWidth, DimensionType pageHeight) {
+		boolean backgroundSize = true;
+		StringBuffer sb = new StringBuffer();
 		String backgroundHeight = parseBackgroundSize(style.getBackgroundHeight(), pageHeight);
 		String backgroundWidth = parseBackgroundSize(style.getBackgroundWidth(), pageWidth);
+		if (style.getBackgroundColor() == null)
+			style.setBackgroundColor("white");
+
 		if (backgroundHeight == null && backgroundWidth == null) {
-			return;
-		}
-		if (backgroundHeight == null) {
-			backgroundHeight = "auto";
-		}
-		if (backgroundWidth == null) {
-			backgroundWidth = "auto";
+			backgroundSize = false;
+		} else {
+			if (backgroundHeight == null) {
+				backgroundHeight = "auto";
+			}
+			if (backgroundWidth == null) {
+				backgroundWidth = "auto";
+			}
 		}
 
 		String image = style.getBackgroundImage();
 		if (image == null || "none".equalsIgnoreCase(image)) //$NON-NLS-1$
 		{
-			return;
+			backgroundSize = false;
 		}
-		needOutputBackgroundSize = true;
+
+		needOutputBackgroundSize = backgroundSize;
 		writer.openTag(HTMLTags.TAG_DIV);
-		StringBuffer sb = new StringBuffer();
-		sb.append("width:").append(pageWidth).append(";");
-		sb.append("height:").append(pageHeight).append(";");
-		AttributeBuilder.buildBackground(sb, style, this, null);
-		sb.append("background-size:").append(backgroundWidth).append(" ").append(backgroundHeight).append(";");
+		writer.attribute(HTMLTags.ATTR_ID, BACKGROUND_CONTAINER_ID);
+		sb.append(HTMLTags.ATTR_WIDTH + ":").append(pageWidth).append(";");
+		sb.append(HTMLTags.ATTR_HEIGHT + ":").append(pageHeight).append(";");
+		sb.append(HTMLTags.ATTR_BACKGROUND_COLOR + ":").append(style.getBackgroundColor()).append(";");
+		if (needOutputBackgroundSize) {
+			AttributeBuilder.buildBackground(sb, style, this, null);
+			sb.append(HTMLTags.ATTR_BACKGROUND_SIZE + ":").append(backgroundWidth).append(" ").append(backgroundHeight)
+					.append(";");
+		}
 		writer.attribute(HTMLTags.ATTR_STYLE, sb.toString());
 	}
 
@@ -1605,6 +1698,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginLeft());
 				}
+				writer.attribute(HTMLTags.ATTR_HEIGHT, page.getFooterHeight());
 				outputPageBand(page, page.getPageFooter(), page.getFooterHeight());
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginRight());
@@ -1617,11 +1711,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 		}
 		// close the page tag ( TABLE )
 		writer.closeTag(HTMLTags.TAG_TABLE);
+
+		// close the background container
 		if (needOutputBackgroundSize) {
 			endBackgroundContainer();
 			needOutputBackgroundSize = false;
 		}
 
+		// close the preview page container
+		if (useViewerPageLayout) {
+			writer.closeTag(HTMLTags.TAG_DIV);
+		}
 	}
 
 	/*

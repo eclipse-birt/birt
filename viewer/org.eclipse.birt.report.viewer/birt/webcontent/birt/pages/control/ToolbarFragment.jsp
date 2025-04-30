@@ -1,5 +1,5 @@
 <%-----------------------------------------------------------------------------
-	Copyright (c) 2004 Actuate Corporation and others.
+	Copyright (c) 2004, 2025 Actuate Corporation and others.
 	All rights reserved. This program and the accompanying materials 
 	are made available under the terms of the Eclipse Public License v2.0
 	which accompanies this distribution, and is available at
@@ -88,6 +88,17 @@
 					<%
 					}
 					%>										
+					<TD WIDTH="6px"/>
+					<TD WIDTH="15px">
+						<INPUT id="previewLayoutButton" TYPE="image" NAME="previewLayout" SRC="birt/images/PreviewPageLayout.png" VALUE="page"
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.page" )%>"
+							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.page" )%>"
+							PAGE_TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.page" )%>"
+							PAGE_ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.page" )%>"
+							HTML_TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.html" )%>"
+							HTML_ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.html" )%>"
+							CLASS="birtviewer_clickable icon_main_functions">
+					</TD>
 					<TD ALIGN='right'>
 					</TD>
 					<TD WIDTH="6px"/>

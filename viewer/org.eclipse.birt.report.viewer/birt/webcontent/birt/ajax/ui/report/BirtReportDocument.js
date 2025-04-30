@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -17,6 +17,11 @@ BirtReportDocument = Class.create( );
 
 BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 {
+	__original_background_width : null,
+	__original_background_height : null,
+	__original_page_height : null,
+	__original_page_width : null,
+	__original_page_margin : null,
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *
@@ -42,6 +47,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_cancelTask_closure = this.__beh_cancelTask.bind( this );
 		this.__beh_getPageAll_closure = this.__beh_getPageAll.bind( this );
 		this.__beh_exportReport_closure = this.__beh_exportReport.bind( this );
+		this.__beh_preview_layout_closure = this.__beh_preview_layout.bind( this );
 				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
@@ -59,6 +65,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CANCEL_TASK, this.__instance.id, this.__beh_cancelTask_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_GETPAGE_ALL, this.__instance.id, this.__beh_getPageAll_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_EXPORT_REPORT, this.__instance.id, this.__beh_exportReport_closure );
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_PREVIEW_LAYOUT, this.__instance.id, this.__beh_preview_layout_closure );
 						
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
@@ -105,6 +112,95 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	__beh_print : function( id )
 	{
 		birtPrintReportDialog.__cb_bind( );
+	},
+	
+	/**
+	 *	Birt event handler for "preview layout" event to switch between preview page & html layout
+	 *
+	 *	@id, document id (optional since there's only one document instance)
+	 */
+	__beh_preview_layout : function( id )
+	{
+		console.log("TGXX BirtReportDocument.__beh_preview_layout(), id: " + id);
+		var oDocument		= document.getElementById("Document");
+		var oBirtRoot		= document.getElementById("__BIRT_ROOT");
+		var oPreview		= document.getElementById("previewPageLayout");
+		var oBackground		= document.getElementById("backgroundContainer");
+		var oContentPage	= document.getElementById("contentPage");
+		var oOptionPreview	= document.getElementById("previewLayoutButton");
+
+		// preview switch only if all necessary objects are detected
+		if (	oBirtRoot		== null
+			||	oPreview		== null
+			||	oBackground		== null
+			||	oContentPage	== null
+			||	oDocument		== null
+			||	oOptionPreview	== null) {
+			return;
+		}
+		
+		try {
+			var previewStatus = oOptionPreview.value;
+
+			// store the original dimensions and margins to restore the page layout
+			if (oContentPage.style.height != "" && oContentPage.style.width != "" ) {
+				this.__original_background_width	= oBackground.style.width;
+				this.__original_background_height	= oBackground.style.height;
+				this.__original_page_height			= oContentPage.style.height;
+				this.__original_page_width			= oContentPage.style.width;
+				this.__original_page_margin			= oContentPage.style.margin;
+			}
+
+			// post process, refresh the current preview layout
+			if (id === "postProcess") {
+				if (previewStatus === "page") {
+					previewStatus = "standard";
+				} else {
+					previewStatus = "page";					
+				}
+			}
+
+			var imgSrc = oOptionPreview.src;
+			// validate preview state
+			if (previewStatus === "page") {
+				// switch from page to standard
+				oDocument.style.backgroundColor	= "inherit";
+
+				oOptionPreview.value		= "standard";
+				oOptionPreview.src			= imgSrc.replace("PreviewPageLayout", "PreviewStandardLayout");
+				oOptionPreview.title		= oOptionPreview.getAttribute("html_title");
+				oOptionPreview.alt			= oOptionPreview.getAttribute("html_alt");
+				
+				// remove desk background & page shadow
+				oBirtRoot.classList.remove("desk-background");
+				oPreview.classList.remove("preview-page-layout");
+	
+				oBackground.style.width		= oContentPage.style.width;
+				oBackground.style.height	= "";
+				oContentPage.style.height	= "";
+				oContentPage.style.margin	= "0px";
+			} else {
+				// switch from standard to page
+				oDocument.style.backgroundColor	= "";
+
+				oOptionPreview.value		= "page";
+				oOptionPreview.src			= imgSrc.replace("PreviewStandardLayout", "PreviewPageLayout");
+				oOptionPreview.title		= oOptionPreview.getAttribute("page_title");
+				oOptionPreview.alt			= oOptionPreview.getAttribute("page_alt");
+	
+				// remove desk background & page shadow
+				oBirtRoot.classList.add("desk-background")
+				oPreview.classList.add("preview-page-layout");		
+	
+				oBackground.style.width		= this.__original_background_width;
+				oBackground.style.height	= this.__original_background_height;
+				oContentPage.style.width	= this.__original_page_width;
+				oContentPage.style.height	= this.__original_page_height;
+				oContentPage.style.margin	= this.__original_page_margin;
+			}
+		} catch (e) {
+			console.log("BIRT page layout preview message, __beh_preview_layout: " + e.message)
+		}
 	},
 	
 	/**
