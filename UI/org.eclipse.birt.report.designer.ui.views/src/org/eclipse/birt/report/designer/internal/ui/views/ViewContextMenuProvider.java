@@ -15,6 +15,7 @@ package org.eclipse.birt.report.designer.internal.ui.views;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.command.SearchHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
@@ -36,7 +37,6 @@ import org.eclipse.ui.IWorkbenchActionConstants;
  *
  */
 public class ViewContextMenuProvider extends ContextMenuProvider {
-
 	/**
 	 * constructor
 	 *
@@ -45,6 +45,7 @@ public class ViewContextMenuProvider extends ContextMenuProvider {
 	 */
 	public ViewContextMenuProvider(ISelectionProvider viewer) {
 		super(viewer);
+		SearchHandler.treeViewer = (TreeViewer) viewer;
 	}
 
 	/**
