@@ -100,6 +100,20 @@
 							CLASS="birtviewer_clickable icon_main_functions">
 					</TD>
 					<TD ALIGN='right'>
+						<div class="navbar-toggle-right">
+						   <div id="toggle-button-frame" class="toggle-frame" onclick="birtToolbarTheme.toggleSwitch('toggleButton')">
+						      <div class="toggle-track" tabindex="-1">
+						         <div class="toggle-track-dark"><span class="toggle-icon-left">🌜</span></div>
+						         <div class="toggle-track-light"><span class="toggle-icon-right">🌞</span></div>
+						         <div id="toggle-track-icon" class="toggle-track-icon"></div>
+						      </div>
+						      <input id="toggle-track-checkbox" type="checkbox" class="toggle-track-checkbox" aria-label="Switch between dark and light mode">
+						   </div>
+						</div>
+						<script>
+							var birtToolbarTheme = new BirtToolbarTheme();
+							birtToolbarTheme.initToggle();
+						</script>
 					</TD>
 					<TD WIDTH="6px"/>
 				</TR>

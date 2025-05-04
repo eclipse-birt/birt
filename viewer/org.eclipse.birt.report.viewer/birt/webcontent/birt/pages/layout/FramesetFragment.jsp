@@ -1,5 +1,5 @@
 <%-----------------------------------------------------------------------------
-	Copyright (c) 2004-2008 Actuate Corporation and others.
+	Copyright (c) 2004-2008, 2025 Actuate Corporation and others.
 	All rights reserved. This program and the accompanying materials 
 	are made available under the terms of the Eclipse Public License v2.0
 	which accompanies this distribution, and is available at
@@ -105,6 +105,7 @@
 		<script src="birt/ajax/ui/app/AbstractUIComponent.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/AbstractBaseToolbar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToolbar.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/app/BirtToolbarTheme.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtNavigationBar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/AbstractBaseToc.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToc.js" type="text/javascript"></script>

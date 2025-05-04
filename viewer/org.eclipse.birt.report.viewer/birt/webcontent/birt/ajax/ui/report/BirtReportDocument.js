@@ -68,7 +68,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PREVIEW_LAYOUT, this.__instance.id, this.__beh_preview_layout_closure );
 						
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
-  		
+
 		// TODO: rename it to birt event
 		this.__cb_installEventHandlers( id );
 	},
@@ -121,7 +121,6 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 */
 	__beh_preview_layout : function( id )
 	{
-		console.log("TGXX BirtReportDocument.__beh_preview_layout(), id: " + id);
 		var oDocument		= document.getElementById("Document");
 		var oBirtRoot		= document.getElementById("__BIRT_ROOT");
 		var oPreview		= document.getElementById("previewPageLayout");

@@ -402,9 +402,9 @@ input[type="text"]:focus {
 
 .birtviewer_navbar_input
 {
-	font: icon;
-	border-style: inset;
-	border-width: 2px;
+	font			: icon;
+	border-style	: solid;
+	border-width	: 2px;
 }
 
 /******************************************************************************
@@ -515,4 +515,123 @@ input[type="text"]:focus {
 	font-family: monospace;
 	direction: ltr;
 	text-align: left;
+}
+
+/******************************************************************************
+ * Birt theme mode.
+ *****************************************************************************/
+.navbar-toggle-right {
+	align-items		: center;
+	display			: flex;
+	min-width		: 0;
+	justify-content	: flex-end;
+}
+
+.toggle-frame::before {
+	position		: absolute;
+}
+
+.toggle-frame {
+	cursor			: pointer;
+	position		: relative;
+	margin-right	: 10px;
+	font-size		: 11pt;
+}
+
+.toggle-track {
+	background-color: #4d4d4d;
+	border-radius	: 30px;
+	height			: 24px;
+	transition		: 0.2s;
+	width			: 50px;
+}
+
+.toggle-icon-left {
+	align-items		: center;
+	display			: flex;
+	justify-content	: center; /* flex-end; */
+	width			: 10px;
+	height			: 10px;
+}
+
+.toggle-icon-right {
+	align-items		: center;
+	display			: flex;
+	justify-content	: center; /* flex-start; */
+	width			: 10px;
+	height			: 10px;
+}
+
+.toggle-track-dark {
+	left			: 8px;
+	opacity			: 1;
+	transition		: opacity .25s;
+	width			: 14px;
+}
+
+.toggle-track-dark, .toggle-track-light {
+	bottom			: 0;
+	height			: 10px;
+	margin			: auto 0;
+	top				: 0;
+
+	position		: absolute;
+}
+
+.toggle-track-light {
+	right			: 10px;
+	width			: 10px;
+	opacity			: 1;
+	transition		: opacity .25s;
+}
+
+.toggle-track-icon {
+	background-color: #fafafa;
+	border			: 1px solid #4d4d4d;
+	border-radius	: 50%;
+	height			: 20px;
+	width			: 20px;
+	top				: 1px;
+	left			: 1px;
+	position		: absolute;
+	transition		:.25s;
+}
+
+.toggle-track-checkbox {
+	clip				: rect(0 0 0 0);
+	border			: 0;
+	height			: 1px;
+	margin			: -1px;
+	overflow		: hidden;
+	position		: absolute;
+	width			: 1px;
+}
+
+.toggle-track-icon-checked {
+  left: 27px;
+}
+
+div[id='toggle-track-icon']:hover {
+  box-shadow: 0px 0px 4px 2px #66d4bd;
+}
+
+/******************************************************************************
+ * Theme dark mode
+ *****************************************************************************/
+.dark_theme_caption {
+	background-color	: #242526 !important;
+	color				: white !important;
+	border-color		: #0f3a5e !important;
+}
+
+.dark_theme_toolbar {
+	background-color	: #0f3a5e !important;
+}
+
+.dark_theme_document {
+	background-color	: gray !important;
+}
+
+.dark_theme_exception_dialog {
+	background-color	: inherit !important;
 }

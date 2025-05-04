@@ -53,6 +53,7 @@ BirtCommunicationManager.prototype =
 		//activate delay message manager;
 		this.__active = true;
 		birtProgressBar.__start( );
+		birtToolbarTheme.initToggle();
 		
 		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
 		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: xmlDoc,
