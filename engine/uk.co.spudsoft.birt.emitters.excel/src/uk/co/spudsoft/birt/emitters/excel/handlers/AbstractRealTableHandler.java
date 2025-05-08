@@ -182,10 +182,10 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 			boolean forceAutoColWidths = EmitterServices.booleanOption(state.getRenderOptions(), table,
 					ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP, defaultAutoColWidth);
 
+			int defaultColumnWidth = 256 * state.currentSheet.getDefaultColumnWidth();
 			for (int col = 0; col < table.getColumnCount(); ++col) {
-				int oldWidth = state.currentSheet.getColumnWidth(col);
-				if (forceAutoColWidths || (!(state.currentSheet instanceof XSSFSheet)
-						&& oldWidth == 256 * state.currentSheet.getDefaultColumnWidth())) {
+				int columnWidth = state.currentSheet.getColumnWidth(col);
+				if (forceAutoColWidths || columnWidth == defaultColumnWidth) {
 					FilteredSheet filteredSheet = new FilteredSheet(state.currentSheet, autoWidthStartRow,
 							Math.min(autoWidthEndRow, autoWidthStartRow + 12));
 					double calcWidth = SheetUtil.getColumnWidth(filteredSheet, col, false);
@@ -200,7 +200,7 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 						if (calcWidth > maxColumnWidth) {
 							calcWidth = maxColumnWidth;
 						}
-						if (calcWidth > oldWidth) {
+						if (calcWidth > columnWidth) {
 							state.currentSheet.setColumnWidth(col, (int) calcWidth);
 						}
 					}

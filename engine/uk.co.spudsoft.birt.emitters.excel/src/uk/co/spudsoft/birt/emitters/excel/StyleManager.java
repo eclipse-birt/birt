@@ -174,7 +174,6 @@ public class StyleManager {
 		}
 
 		// Alignment
-		// poiStyle.setAlignment(smu.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN)));
 		HorizontalAlignment alignment = smu
 				.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN));
 		poiStyle.setAlignment(alignment);
