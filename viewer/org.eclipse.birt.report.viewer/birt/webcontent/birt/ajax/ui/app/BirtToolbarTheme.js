@@ -97,7 +97,7 @@
 			else
 				button.classList.remove("dark_theme_toolbar");
 		}
-		var nodeDocument = document.querySelectorAll("[id='documentView'], [id='Document'], [id='display0']");
+		var nodeDocument = document.querySelectorAll("[id='documentView'], [id='Document'], [id='display0'], [id='frameset-page']");
 		for (doc of nodeDocument) {
 			if(themeDark)
 				doc.classList.add("dark_theme_document");
