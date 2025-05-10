@@ -177,3 +177,27 @@ A detailed description is given at the top level configuration file fontsConfig.
 					false, complex font handling is disabled
 	Default    	false
 	Since      	4.19
+
+**Glyph Substitution**
+
+	Content    	configuration of the font glyph substitution for PDF output
+	Parameter  	-Dbirt.pdf.glyph.substitution.enabled
+	Location   	JVM
+	Data type  	boolean
+	Values     	true, glyph tution enabled
+					false, glyph substitution disabled
+	Default    	false
+	Reference  	see PdfEmitter.GlyphSubstitution
+	Since      	4.20
+
+**PdfEmitter.GlyphSubstitution**
+
+	Content    	configuration of the font glyph substitution for PDF output
+					The user property works only if the global configuration of glyph substitution is disabled.
+	Location   	report
+	Data type  	boolean
+	Values     	true, glyph tution enabled
+					false, glyph substitution disabled
+	Default    	false
+	Reference  	see -Dbirt.pdf.glyph.substitution.enabled
+	Since      	4.20

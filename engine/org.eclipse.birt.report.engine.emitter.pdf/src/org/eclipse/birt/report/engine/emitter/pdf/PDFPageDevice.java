@@ -216,6 +216,11 @@ public class PDFPageDevice implements IPageDevice {
 
 	private final static String PDF_BACKGROUND_IMAGE_SVG_TO_RASTER = "PdfEmitter.BackGroundImageSvgToRaster";
 
+	private final static String PDF_GLYPH_SUBSTITUTION = "PdfEmitter.GlyphSubstitutionEnabled";
+
+	/** System property of the JavaScript version */
+	private static final String PDF_GLYPH_SUBSTITUTION_PROPERTY_KEY = "birt.pdf.glyph.substitution.enabled"; //$NON-NLS-1$
+
 	protected Map<String, Expression> userProperties;
 
 	private char pdfVersion = '0';
@@ -253,6 +258,7 @@ public class PDFPageDevice implements IPageDevice {
 		this.context = context;
 		this.report = report;
 		doc = new Document();
+		doc.setGlyphSubstitutionEnabled(isPdfFontGlypSubstitutionEnabled());
 		try {
 			writer = PdfWriter.getInstance(doc, new BufferedOutputStream(output));
 			EngineResourceHandle handle = new EngineResourceHandle(ULocale.forLocale(context.getLocale()));
@@ -435,6 +441,7 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public PDFPageDevice(OutputStream output) {
 		doc = new Document();
+		doc.setGlyphSubstitutionEnabled(isPdfFontGlypSubstitutionEnabled());
 		try {
 			writer = PdfWriter.getInstance(doc, new BufferedOutputStream(output));
 		} catch (DocumentException de) {
@@ -1653,5 +1660,21 @@ public class PDFPageDevice implements IPageDevice {
 	 */
 	public boolean isTagged() {
 		return writer.isTagged();
+	}
+
+	/**
+	 * Evaluate the system property to use the PDF glyph substitution. The default
+	 * configuration is disabled substitution.
+	 */
+	private boolean isPdfFontGlypSubstitutionEnabled() {
+		/* System property: -Dbirt.pdf.glyph.substitution.enabled */
+		boolean enableGlyphSubstitution = Boolean.getBoolean(PDF_GLYPH_SUBSTITUTION_PROPERTY_KEY);
+
+		if (this.userProperties != null && !enableGlyphSubstitution
+				&& this.userProperties.containsKey(PDFPageDevice.PDF_GLYPH_SUBSTITUTION))
+			enableGlyphSubstitution = Boolean
+					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_GLYPH_SUBSTITUTION).toString());
+
+		return enableGlyphSubstitution;
 	}
 }
