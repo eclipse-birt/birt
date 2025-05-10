@@ -1588,7 +1588,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginLeft());
 				}
-				writer.attribute(HTMLTags.ATTR_HEIGHT, page.getHeaderHeight());
+				writer.attribute(HTMLTags.ATTR_STYLE, HTMLTags.ATTR_HEIGHT + ":" + page.getHeaderHeight() + ";");
 				outputPageBand(page, page.getPageHeader(), page.getHeaderHeight());
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginRight());
@@ -1698,7 +1698,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginLeft());
 				}
-				writer.attribute(HTMLTags.ATTR_HEIGHT, page.getFooterHeight());
+				writer.attribute(HTMLTags.ATTR_STYLE, HTMLTags.ATTR_HEIGHT + ":" + page.getFooterHeight() + ";");
 				outputPageBand(page, page.getPageFooter(), page.getFooterHeight());
 				if (outputMasterPageMargins) {
 					outputHMargin(page.getMarginRight());
