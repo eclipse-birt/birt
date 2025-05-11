@@ -51,22 +51,22 @@ public class WidgetUtil implements WidgetConstants {
 
 	public static GridLayout createGridLayout(int columns, int marginWidth) {
 		GridLayout layout = new GridLayout(columns, false);
-		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
+		layout.marginHeight = WidgetConstants.MARGIN_HEIGHT;
 
 		layout.marginWidth = marginWidth;
-		layout.horizontalSpacing = WidgetUtil.SPACING;
-		layout.verticalSpacing = WidgetUtil.SPACING;
+		layout.horizontalSpacing = WidgetConstants.SPACING;
+		layout.verticalSpacing = WidgetConstants.SPACING;
 		return layout;
 	}
 
 	public static GridLayout createGridLayout(int columns, int marginWidth, int marginHeight) {
 		GridLayout layout = new GridLayout(columns, false);
-		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;
+		layout.marginHeight = WidgetConstants.MARGIN_HEIGHT;
 
 		layout.marginWidth = marginWidth;
 		layout.marginHeight = marginHeight;
-		layout.horizontalSpacing = WidgetUtil.SPACING;
-		layout.verticalSpacing = WidgetUtil.SPACING;
+		layout.horizontalSpacing = WidgetConstants.SPACING;
+		layout.verticalSpacing = WidgetConstants.SPACING;
 		return layout;
 	}
 
@@ -213,7 +213,6 @@ public class WidgetUtil implements WidgetConstants {
 	/**
 	 * Error processor, shows the Error message.
 	 *
-	 * @param shell the parent window.
 	 * @param e     Exception object.
 	 *
 	 * @deprecated use {@link ExceptionUtil#handle(Throwable)} instead.
