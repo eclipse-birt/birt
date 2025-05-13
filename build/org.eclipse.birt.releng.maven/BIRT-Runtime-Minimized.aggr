@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true" excludeFeatures="true">
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true" excludeFeatures="true" includedIUPattern="org.eclipse.birt.*|uk.co.spudsoft.*|org.eclipse.datatools.*|org.apache.axis(.source)?" validateNexusPublishingRequirements="true">
   <validationSets label="Main">
     <contributions label="BIRT">
-      <repositories location="https://download.eclipse.org/birt/updates/release/latest">
+      <repositories location="https://download.eclipse.org/birt/updates/nightly/latest">
         <bundles name="org.apache.axis"/>
         <features name="org.eclipse.birt.chart.osgi.runtime.feature.group"/>
         <features name="org.eclipse.birt.engine.runtime.feature.group"/>
       </repositories>
     </contributions>
-    <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.35/R-4.35-202502280140"/>
-    <validationRepositories location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.35.0"/>
   </validationSets>
   <configurations operatingSystem="linux" windowSystem="gtk" architecture="aarch64"/>
   <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>
@@ -17,7 +15,7 @@
   <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
   <configurations architecture="x86_64"/>
   <mavenMappings namePattern="(org\.eclipse\.datatools)(.*)$" groupId="org.eclipse.birt.dependencies" artifactId="$1$2" snapshot="false"/>
-  <mavenMappings namePattern="(org.apache.axis)" groupId="org.eclipse.birt.dependencies" artifactId="$1" snapshot="false"/>
+  <mavenMappings namePattern="(org.apache.axis(.source)?)" groupId="org.eclipse.birt.dependencies" artifactId="$1" snapshot="false"/>
   <mavenMappings namePattern="(org\.eclipse\.birt)(.*)$" groupId="$1" artifactId="$1$2" snapshot="false"/>
   <mavenMappings namePattern="(org\.eclipse)((?!(\.emf|\.jetty|\.ecf|\.orbit)).*)$" groupId="$1.platform" artifactId="$1$2" snapshot="false"/>
   <mavenMappings namePattern="(com\.jcraft)\.(.*)" groupId="$1" artifactId="$2"/>
