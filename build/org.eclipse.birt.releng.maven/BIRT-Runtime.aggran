@@ -3,6 +3,7 @@
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:analyzer="https://www.eclipse.org/cbi/p2repo/2021/aggregator/analyzer"
+    exclusion=".*\.source"
     aggregation="BIRT-Runtime.aggr#/">
   <contribution
       enabled="false"
