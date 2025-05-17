@@ -114,5 +114,10 @@
 				</TR>
 			</TABLE>
 		</DIV>
+		<script>
+			if (birtToolbarTheme) {
+				birtToolbarTheme.initToggle();
+			}
+		</script>
 	</TD>
 </TR>

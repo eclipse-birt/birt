@@ -795,9 +795,9 @@ public class BirtUtility {
 		if (isCloseWin) {
 			message.append(" onload=\"javascript:window.close()\""); //$NON-NLS-1$
 		}
-		message.append(" style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor //$NON-NLS-1$
-				+ "\">" //$NON-NLS-1$
-				+ content + "</font></div></body></html>"); //$NON-NLS-1$
+		message.append(" style=\"background-color: silver; color:" //$NON-NLS-1$
+				+ fontColor + "; font-size:10pt;\">" //$NON-NLS-1$
+				+ content + "</body></html>"); //$NON-NLS-1$
 		out.write(message.toString().getBytes("UTF-8")); //$NON-NLS-1$
 		out.flush();
 		out.close();

@@ -183,14 +183,16 @@ input[type="text"]:focus {
  *****************************************************************************/
 .birtviewer_exportdata_dialog_single_select
 {
-	width: 250px;
-	font-size: 8pt;
+	width		: 250px;
+	font-size	: 9pt;
+	padding		: 4px 4px 4px 8px;
 }
 
 .birtviewer_exportdata_dialog_select
 {
-	width: 180px;
-	font-size: 8pt;
+	width		: 180px;
+	font-size	: 9pt;
+	padding		: 4px 4px 4px 8px;
 }
 
 .birtviewer_exportdata_dialog_button
@@ -204,11 +206,13 @@ input[type="text"]:focus {
 
 .birtviewer_exportdata_dialog_input
 {
-	width: 80px;
-	font-family: Arial;
-	font-size: 8pt;
+	width		: 80px;
+	font-family	: Arial;
+	font-size	: 9pt;
 	border-style: inset;
 	border-width: 1px;	
+	border-radius: 4px;
+	padding		: 4px 4px 4px 8px;
 }
 
 /******************************************************************************
@@ -216,18 +220,21 @@ input[type="text"]:focus {
  *****************************************************************************/
 .birtviewer_exportreport_dialog_select
 {
-	width: 120px;
-	font-family: Arial;
-	font-size: 8pt;
+	width		: 200px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	padding		: 4px 4px 4px 4px;
 } 
  
 .birtviewer_exportreport_dialog_input
 {
-	width: 120px;
-	font-family: Arial;
-	font-size: 8pt;
+	width		: 100px;
+	font-family	: Arial;
+	font-size	: 9pt;
 	border-style: inset;
 	border-width: 1px;	
+	border-radius: 4px;
+	padding		: 4px 4px 4px 8px;
 } 
 
 /******************************************************************************
@@ -235,18 +242,21 @@ input[type="text"]:focus {
  *****************************************************************************/
 .birtviewer_printreport_dialog_select
 {
-	width: 150px;
-	font-family: Arial;
-	font-size: 8pt;
+	width		: 150px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	padding		: 4px 4px 4px 8px;
 } 
 
 .birtviewer_printreport_dialog_input
 {
-	width: 120px;
-	font-family: Arial;
-	font-size: 8pt;
-	border-style: inset;
-	border-width: 1px;	
+	width		: 100px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	border-style: groove;
+	border-width: 1px;
+	border-radius: 4px;
+	padding		: 4px 4px 4px 8px;
 }
 
 /******************************************************************************
@@ -254,27 +264,32 @@ input[type="text"]:focus {
  *****************************************************************************/
 .birtviewer_printreportserver_dialog_select
 {
-	width: 200px;
-	font-family: Arial;
-	font-size: 8pt;
-} 
+	width		: 200px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	padding		: 4px 4px 4px 8px;
+}
  
 .birtviewer_printreportserver_dialog_input
 {
-	width: 120px;
-	font-family: Arial;
-	font-size: 8pt;
-	border-style: inset;
+	width		: 100px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	border-style: groove;
 	border-width: 1px;	
+	border-radius: 4px;
+	padding		: 4px 4px 4px 8px;
 } 
 
 .birtviewer_printreportserver_dialog_input_short
 {
-	width: 60px;
-	font-family: Arial;
-	font-size: 8pt;
-	border-style: inset;
-	border-width: 1px;	
+	width		: 60px;
+	font-family	: Arial;
+	font-size	: 9pt;
+	border-style: groove;
+	border-width: 1px;
+	border-radius: 4px;
+	padding		: 4px 4px 4px 8px;
 } 
 
 /******************************************************************************
@@ -288,9 +303,9 @@ input[type="text"]:focus {
 
 .birtviewer_progresspage
 {
-	font-family: Arial;
-	font-size: 8pt;
-	cursor: default;	
+	font-family	: Arial;
+	font-size	: 9pt;
+	cursor		: default;	
 }
   
 /******************************************************************************
