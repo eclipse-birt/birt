@@ -136,7 +136,7 @@
 				printer.setModeSupported( false );
 				<%
 				}
-				%>				
+				%>
 
 				// Duplex attribute
 				<%
@@ -168,7 +168,7 @@
 						String mediaSizeName = DataUtil.trimString( (String)mediaSizeNames[j] );
 						mediaSizeName = ParameterAccessor.htmlEncode( mediaSizeName );
 					%>
-				printer.addMediaSizeName( "<%= mediaSizeName %>" );						
+				printer.addMediaSizeName( "<%= mediaSizeName %>" );
 				<%
 					}
 				}
@@ -180,7 +180,7 @@
 				}
 				%>	
 				
-				if( !printers[index] )								
+				if( !printers[index] )
 					printers[index] = {};
 					
 				printers[index].name = printer.getName( );
@@ -200,8 +200,8 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD>
-			<INPUT TYPE="checkbox" ID="print_onserver" <%if( !enable ) { %>DISABLED="true"<%}%>/>
-			<%=BirtResources.getMessage( "birt.viewer.dialog.printserver.onserver" )%>
+			<input type="checkbox" id="print_onserver" <%if( !enable ) { %>disabled="true"<%}%>/>
+			<label for="print_onserver"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.onserver" )%></label>
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
@@ -242,36 +242,36 @@
 					</TD>
 					<TD>
 						<INPUT TYPE="text" CLASS="birtviewer_printreportserver_dialog_input_short" ID="printer_copies"/>
-						&nbsp;&nbsp;<%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.collate" )%>&nbsp;&nbsp;<INPUT TYPE="checkbox" ID="printer_collate"/>						
+						&nbsp;&nbsp;<label for="printer_collate"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.collate" )%></label>&nbsp;&nbsp;<input type="checkbox" id="printer_collate"/>
 					</TD>
-				</TR>	
+				</TR>
 				<TR>
 					<TD>
 						<%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex" )%>
 					</TD>
-					<TD>						
-						<INPUT TYPE="radio" ID="printer_duplexSimplex" NAME="printerDuplex"/><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.simplex" )%>
-						&nbsp;&nbsp;<INPUT TYPE="radio" ID="printer_duplexHorz" NAME="printerDuplex"/><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.horizontal" )%>
-						&nbsp;&nbsp;<INPUT TYPE="radio" ID="printer_duplexVert" NAME="printerDuplex"/><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.vertical" )%>			
+					<TD>
+						<input type="radio" id="printer_duplexSimplex" name="printerDuplex"/><label for="printer_duplexSimplex"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.simplex" )%></label>
+						&nbsp;&nbsp;<input type="radio" id="printer_duplexHorz" name="printerDuplex"/><label for="printer_duplexHorz"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.horizontal" )%></label>
+						&nbsp;&nbsp;<input type="radio" id="printer_duplexVert" name="printerDuplex"/><label for="printer_duplexVert"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.duplex.vertical" )%></label>
 					</TD>
 				</TR>
 				<TR>
 					<TD>
 						<%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.mode" )%>
 					</TD>
-					<TD>						
-						<INPUT TYPE="radio" ID="printer_modeBW" NAME="printerMode"/><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.mode.bw" )%>
-						&nbsp;&nbsp;<INPUT TYPE="radio" ID="printer_modeColor" NAME="printerMode"/><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.mode.color" )%>			
+					<TD>
+						<input type="radio" id="printer_modeBW" name="printerMode"/><label for="printer_modeBW"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.mode.bw" )%></label>
+						&nbsp;&nbsp;<input type="radio" id="printer_modeColor" name="printerMode"/><label for="printer_modeColor"><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.mode.color" )%></label>
 					</TD>
 				</TR>
 				<TR>
 					<TD>
 						<%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.pagesize" )%>
-					</TD>				
-					<TD>						
-						<SELECT ID="printer_mediasize" CLASS="birtviewer_printreportserver_dialog_select"></SELECT>
 					</TD>
-				</TR>					
+					<TD>
+						<select id="printer_mediasize" class="birtviewer_printreportserver_dialog_select"></select>
+					</TD>
+				</TR>
 			</TABLE>
 		</TD>
 	</TR>	
@@ -283,23 +283,23 @@
 					<TR>
 						<TD><%=BirtResources.getMessage( "birt.viewer.dialog.printserver.settings.print" )%></TD>
 						<TD STYLE="padding-left:5px">
-							<INPUT TYPE="radio" ID="printServerPageAll" NAME="printServerPages" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.page.all" )%>
+							<input type="radio" id="printServerPageAll" name="printServerPages" CHECKED/><label for="printServerPageAll"><%=BirtResources.getMessage( "birt.viewer.dialog.page.all" )%></label>
 						</TD>
-						<TD STYLE="padding-left:5px">	
-							<INPUT TYPE="radio" ID="printServerPageCurrent" NAME="printServerPages"/><%=BirtResources.getMessage( "birt.viewer.dialog.page.current" )%>
+						<TD STYLE="padding-left:5px">
+							<input type="radio" id="printServerPageCurrent" name="printServerPages"/><label for="printServerPageCurrent"><%=BirtResources.getMessage( "birt.viewer.dialog.page.current" )%></label>
 						</TD>
-						<TD STYLE="padding-left:5px">	
-							<INPUT TYPE="radio" ID="printServerPageRange" NAME="printServerPages"/><%=BirtResources.getMessage( "birt.viewer.dialog.page.range" )%>
-							<INPUT TYPE="text" CLASS="birtviewer_printreportserver_dialog_input" ID="printServerPageRange_input"/>
+						<TD STYLE="padding-left:5px">
+							<input type="radio" id="printServerPageRange" name="printServerPages"/><label for="printServerPageRange"><%=BirtResources.getMessage( "birt.viewer.dialog.page.range" )%></label>
+							<input type="text" class="birtviewer_printreportserver_dialog_input" id="printServerPageRange_input"/>
 						</TD>
 					</TR>
-				</TABLE>			
-			</DIV>						
+				</TABLE>
+			</DIV>
 		</TD>
-	</TR>	
+	</TR>
 	<TR>
 		<TD>&nbsp;&nbsp;<%=BirtResources.getMessage( "birt.viewer.dialog.page.range.description" )%></TD>
-	</TR>	
+	</TR>
 	<TR HEIGHT="5px"><TD><HR/></TD></TR>
 	<TR>
 		<TD>
@@ -307,17 +307,17 @@
 				<TABLE>
 					<TR>
 						<TD>
-							<INPUT TYPE="radio" ID="printServerFitToAuto" NAME="printServerFit" CHECKED/><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittoauto" )%>
+							<input type="radio" ID="printServerFitToAuto" name="printServerFit" checked/><label for="printServerFitToAuto"><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittoauto" )%></label>
 						</TD>
 						<TD>
-							<INPUT TYPE="radio" ID="printServerFitToActual" NAME="printServerFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
+							<input type="radio" ID="printServerFitToActual" name="printServerFit"/><label for="printServerFitToActual"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%></label>
 						</TD>
-						<TD STYLE="padding-left:5px">							
-							<INPUT TYPE="radio" ID="printServerFitToWhole" NAME="printServerFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%>
+						<TD STYLE="padding-left:5px">
+							<input type="radio" ID="printServerFitToWhole" name="printServerFit"/><label for="printServerFitToWhole"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%></label>
 						</TD>
-					<TR>
-				</TABLE>			
-			</DIV>			
+					</TR>
+				</TABLE>
+			</DIV>
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>	

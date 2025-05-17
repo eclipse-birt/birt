@@ -68,6 +68,10 @@
 				</DIV>		
 			</TD>
 		</TR>
-		
-	</TABLE>	
+	</TABLE>
+	<script>
+		if (birtToolbarTheme) {
+			birtToolbarTheme.initToggle();
+		}
+	</script>
 </DIV>
