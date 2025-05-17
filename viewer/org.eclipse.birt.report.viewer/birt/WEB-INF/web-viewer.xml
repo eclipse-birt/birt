@@ -167,6 +167,15 @@
 	</context-param>
 
 	<!--
+		Flag whether to allow that BIRT information dialog is usable. Possible values are "ON"
+		and "OFF". Defaults to "ON".
+	-->
+	<context-param>
+		<param-name>BIRT_VIEWER_INFO_DIALOG</param-name>
+		<param-value>ON</param-value>
+	</context-param>
+
+	<!--
 		Flag whether to force browser-optimized HTML output. Defaults to true
 	-->
 	<context-param>

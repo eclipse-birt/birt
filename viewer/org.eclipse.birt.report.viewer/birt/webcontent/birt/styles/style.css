@@ -35,32 +35,32 @@
 
 .BirtViewer_parameter_dialog_Input
 {
-	font-family: Arial;
-	font-size: 8.5pt;
-	width: 68%;
-	padding: 4px 4px;
-	margin: 4px 0;
-	border: 1px solid #ccc;
-	border-radius: 2px;
-	box-sizing: border-box;
+	font-family		: Arial;
+	font-size		: 9pt;
+	width			: 68%;
+	padding			: 4px 4px;
+	margin			: 4px 0;
+	border			: 1px solid #ccc;
+	border-radius	: 2px;
+	box-sizing		: border-box;
 }
 
 .birtviewer_parameter_dialog_Select
 {
-	font-family: Arial;
-	font-size: 8.5pt;
-	width: 68%;
-	padding: 4px 4px;
-	margin: 4px 0;
-	border: 1px solid #ccc;
-	border-radius: 2px;
-	box-sizing: border-box;
+	font-family		: Arial;
+	font-size		: 9pt;
+	width			: 68%;
+	padding			: 4px 4px;
+	margin			: 4px 0;
+	border			: 1px solid #ccc;
+	border-radius	: 2px;
+	box-sizing		: border-box;
 }
 
 .birtviewer_parameter_dialog_Label
 {
-	font-family: Arial;
-	font-size: 8.5pt;
+	font-family		: Arial;
+	font-size		: 9pt;
 }
 
 
@@ -198,7 +198,7 @@ input[type="text"]:focus {
 	width			: 16px;
 	height			: 16px;
 	cursor			: pointer;
-	border			: 1px solid #4682b4;
+	border			: 1px solid gray;
 	border-radius	: 4px;
 }
 
@@ -308,21 +308,18 @@ input[type="text"]:focus {
 
 .birtviewer_dialog_caption
 {
-	width: 100%;
-	font-size: 12px;
-	color: white;
+	width			: 100%;
+	font-size		: 12px;
+	color			: white;
 	background-color: #4682b4;
 }
 
 .birtviewer_dialog_body
 {
-	/*background-color:#dbe4ee;*/
-	border-width: 1px;
-	border-style: inset;
-	width: 100%;
-	height: 100%;
-	font-family: Arial;
-	font-size: 8.5pt;
+	width			: 100%;
+	height			: 100%;
+	font-family		: Arial;
+	font-size		: 9pt;
 }
 
 .birtviewer_dialog_button
@@ -638,12 +635,21 @@ div[id='toggle-track-icon']:hover {
 /******************************************************************************
  * Theme dark mode
  *****************************************************************************/
-.dark_theme_caption {
-	background-color	: #242526 !important;
-	color				: white !important;
-	border-color		: #0f3a5e !important;
+.light_theme_dialog_border {
+	border-color		: silver;
+	background-color	: #F9F9F9;
 }
 
+.light_theme_dialog_title {
+	color				: #444;
+	background-color	: #ddd;
+}
+
+.dark_theme_caption, .dark_theme_dialog_border {
+	color				: white !important;
+	border-color		: silver !important;
+	background-color	: #242526 !important;
+}
 .dark_theme_toolbar {
 	background-color	: #0f3a5e !important;
 }
@@ -654,4 +660,129 @@ div[id='toggle-track-icon']:hover {
 
 .dark_theme_exception_dialog {
 	background-color	: inherit !important;
+}
+
+.dark_theme_dialog_title {
+	background-color	: gray;
+	color				: #281f1f;
+}
+
+/******************************************************************************
+ * Style of the birt information dialog
+ *****************************************************************************/
+.info_dialog_light {
+	background-color: white;
+	border			: 1px outset silver;
+	color			: black;
+/*	box-shadow		: 2px 2px 1px 1px silver; */
+}
+
+.info_dialog_dark {
+	background-color: #242526;
+	border			: 1px outset white;
+	color			: white;
+/*	box-shadow		: 2px 2px 1px 1px gray; */
+}
+
+.info_dialog_layer {
+	font-family		: Arial;
+	font-size		: 10pt;
+	text-align		: left;
+	width			: 100%;
+	height			: 100%;
+	position		: absolute;
+	top				: 0;
+	left			: 50%;
+	transform		: translateX(-50%);
+	padding			: 48px 48px 48px 48px;
+	z-index			: 998;
+	background-color: rgba(128, 128, 128, 0.3);
+}
+
+.info_dialog_frame {
+	width			: 500px;
+	position		: absolute;
+	margin-top		: 0;
+	left			: 50%;
+	transform		: translateX(-50%);
+	border-radius	: 8px;
+	padding			: 0px 12px 24px 12px;
+	z-index			: 999;
+}
+
+.info_group_dark {
+	background-color: gray;
+	color			: #281f1f;
+}
+
+.info_group_light {
+	background-color: #ddd;
+	color			: #444;
+}
+
+.info_group_frame {
+	margin-top		: 16px;
+	padding			: 6px 8px 6px 20px;
+	border-radius	: 2px;
+	font-weight		: bold;
+	font-size		: 11pt;
+}
+
+.info_line_common {
+	height			: 1px;
+	background-color:gray;
+	border-width	: 0px;
+	margin			: 0px 16px 0px 16px;
+}
+
+.info_line_button {
+	margin-top		: 16px;
+	height			: 2px;
+	background-color:silver;
+	border-width	: 0px;
+}
+
+.doc_li_item {
+	margin-top		: 8px;
+}
+
+.doc_chapter_title {
+	font-weight		: bold;
+	margin			: 18px 0px 0px 20px;
+	font-size		: 0.9em;
+}
+
+.doc_content_slot {
+	margin			: 12px 0px 0px 36px;
+	text-decoration	: none;
+	font-size		: 0.9em;
+}
+
+.doc_link_image {
+	margin			: 0px 4px 0px 0px;
+	vertical-align	: middle;
+	height			: 12px;
+}
+
+a:link, a:visited, a:hover, a:active {
+	text-decoration	: none;
+	color			: #4785b8; /* #06c; */
+}
+
+.info_dialog_close		{
+	color			: #aaaaaa;
+	float			: right;
+	font-size		: 28px;
+	font-weight		: bold;
+}
+
+.info_dialog_close:hover,
+.info_dialog_close:focus {
+	color			: #000;
+	text-decoration	: none;
+	cursor			: pointer;
+}
+
+.icon_main_size {
+	height			: 30px;
 }

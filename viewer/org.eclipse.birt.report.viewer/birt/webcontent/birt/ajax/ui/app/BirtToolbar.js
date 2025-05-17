@@ -108,7 +108,10 @@ BirtToolbar.prototype = Object.extend( new AbstractBaseToolbar( ),
 					birtEventDispatcher.broadcastEvent( birtEvent.__E_PREVIEW_LAYOUT );
 					break;
 				}
-
+				case 'infoDialog':
+				{
+					break;
+				}
 				default:
 				{
 					alert( oBtn.name );

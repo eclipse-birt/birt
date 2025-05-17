@@ -87,7 +87,7 @@
 					</TD>
 					<%
 					}
-					%>										
+					%>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 						<INPUT id="previewLayoutButton" TYPE="image" NAME="previewLayout" SRC="birt/images/PreviewPageLayout.png" VALUE="page"
@@ -99,6 +99,127 @@
 							HTML_ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.preview.layout.html" )%>"
 							CLASS="birtviewer_clickable icon_main_functions">
 					</TD>
+						<%
+						if( ParameterAccessor.isSupportedInfoDialog )
+						{
+						%>
+						<TD WIDTH="6px"/>
+						<TD WIDTH="15px">
+							<!--<div id="info-open-dialog" onclick="displayDialog('block')">xIx</div>-->
+							<input id="info-open-dialog" type="image" name='infoDialog' src="birt/images/Info.png"
+									title="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.printserver" )%>"
+									alt="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.printserver" )%>"
+									class="icon_main_size"
+									onclick="displayDialog('block')" >
+							<div id="birt-info-dialog-layer" class="info_dialog_layer" style="display:none"> 
+							<div id="birt-info-dialog" class="info_dialog_frame info_dialog_light">
+								<div id="modal-content" class="modal-content"> 
+									<div id="birt-info-group-frame" class="info_group_frame info_group_light"><span>BIRT Documentation</span><span onclick="displayDialog('none')" style="text-align:left;" id="info_dialog_close" class="info_dialog_close dialogCloseBtn"></span></div>
+									<div class="doc_chapter_title"><span>Global BIRT Configuration</span></div>
+									<div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>Font configuration</span>
+											</a>
+											<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/fontsConfig.xml" target="blank">
+												<span style="font-weight: bold;margin-left: 4px;font-size: 10pt;">&lt;/&gt;</span>
+												<span style="font-size: 10pt;margin-left: 2px;">Setup-XML</span>
+											</a>
+											<ul><li class="doc_li_item">Handling of external fonts, mapping and kerning &amp; ligatures</li></ul>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/data/org.eclipse.birt.report.engine.script.javascript/src/org/eclipse/birt/report/engine/javascript/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>JavaScript configuration</span>
+											</a>
+											<ul><li class="doc_li_item">JS version setup and security configuration</li></ul>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/data/org.eclipse.birt.report.data.oda.jdbc/src/org/eclipse/birt/report/data/oda/jdbc/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>JDBC driver configuration</span>
+											</a>
+											<ul><li class="doc_li_item">Configuration of validation roles for JDBC driver</li></ul>
+										</div>
+									</div>
+									<hr class="info_line_common">
+									<div class="doc_chapter_title">Output emitter configuration</div>
+									<div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/engine/uk.co.spudsoft.birt.emitters.excel/src/uk/co/spudsoft/birt/emitters/excel/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>Microsoft Excel, XLSX (Spudsoft)</span>
+											</a>
+											<ul><li class="doc_li_item">Setup of additional Excel output functions</li></ul>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.emitter.wpml/src/org/eclipse/birt/report/engine/emitter/wpml/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>Microsoft Word, DOCX</span>
+											</a>
+											<ul><li class="doc_li_item">Setup of additional Word output details</li></ul>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.emitter.pdf/src/org/eclipse/birt/report/engine/emitter/pdf/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>Adobe PDF</span>
+											</a>
+											<ul><li class="doc_li_item">Setup of additional PDF output details</li></ul>
+										</div>
+									</div>
+									<hr class="info_line_common">
+									<div class="doc_chapter_title">BIRT project</div>
+									<div>
+										<div class="doc_content_slot">
+											<a href="https://eclipse-birt.github.io/birt-website/" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>BIRT Homepage</span>
+											</a>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://download.eclipse.org/birt/updates/release/latest/" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>BIRT Download Site</span>
+											</a>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>BIRT Project at Github</span>
+											</a>
+										</div>
+										<div class="doc_content_slot">
+											<a href="https://github.com/eclipse-birt/birt/blob/master/README.md" target="blank">
+												<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+												<span>BIRT Version &amp; Contribution</span>
+											</a>
+										</div>
+									</div>
+									<hr class="info_line_button">
+								</div>
+							</div>
+							</div>
+							<script>
+								// When the user clicks the button, open the info dialog 
+								var infoDialog = document.getElementById("birt-info-dialog-layer");
+								function displayDialog(mode) {
+									if (infoDialog) {
+										infoDialog.style.display = mode;
+									}
+								}
+
+								// When the user clicks anywhere outside of the infoDialog, close it
+								window.onclick = function(event) {
+									if (infoDialog!== null && event.target == infoDialog) {
+										infoDialog.style.display = "none";
+									}
+								}
+							</script>
+						</TD>
+						<%
+						}
+						%>
 					<TD ALIGN='right'>
 						<div class="navbar-toggle-right">
 						   <div id="toggle-button-frame" class="toggle-frame" onclick="birtToolbarTheme.toggleSwitch('toggleButton')">

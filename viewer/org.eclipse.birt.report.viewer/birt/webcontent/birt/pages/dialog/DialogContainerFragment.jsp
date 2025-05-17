@@ -25,19 +25,15 @@
 <%-----------------------------------------------------------------------------
 	Dialog container fragment, shared by all standard dialogs.
 -----------------------------------------------------------------------------%>
-<div id="<%= fragment.getClientId( ) %>" class="dialogBorder" style="display:none;position:absolute;z-index:220">
+<div id="<%= fragment.getClientId( ) %>" class="dialogBorder light_theme_dialog_border" style="display:none;position:absolute;z-index:220">
 	<iframe id="<%= fragment.getClientId( ) %>iframe"  name="<%= fragment.getClientId( ) %>iframe" style="z-index:-1; display: none; left:0px; top:0px;
 					 background-color: #ff0000; opacity: .0; filter: alpha(opacity = 0); position: absolute;" frameBorder="0" scrolling="no" src="birt/pages/common/blank.html">
 	</iframe>	
-	<div id="<%= fragment.getClientId( ) %>dialogTitleBar" class="dialogTitleBar dTitleBar">
+	<div id="<%= fragment.getClientId( ) %>dialogTitleBar" class="dialogTitleBar dTitleBar light_theme_dialog_title">
 		<div class="dTitleTextContainer">
-			<table style="width: 100%; height: 100%;">
-				<tr>
-					<td class="dialogTitleText dTitleText">
-						<%= fragment.getTitle( ) %>
-					</td>
-				</tr>
-			</table>
+			<div class="dialogTitleText dTitleText">
+				<%= fragment.getTitle( ) %>
+			</div>
 		</div>
 		<div class="dialogCloseBtnContainer dCloseBtnContainer">
 			<table style="width: 100%; height: 100%; border-collapse: collapse">
