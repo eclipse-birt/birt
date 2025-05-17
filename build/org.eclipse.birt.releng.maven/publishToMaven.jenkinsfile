@@ -1,0 +1,239 @@
+
+pipeline {
+	options {
+		timestamps()
+		timeout(time: 30, unit: 'MINUTES')
+		buildDiscarder(logRotator(numToKeepStr:'10'))
+		checkoutToSubdirectory('git-repo')
+	}
+
+	agent {
+		label 'basic'
+	}
+
+	tools {
+		jdk 'temurin-jdk21-latest'
+		maven 'apache-maven-latest'
+	}
+
+	environment {
+		REPO = "${WORKSPACE}/repo"
+		PATH = "${installMavenDaemon('1.0.2')}/bin:${PATH}"
+		CBI_AGGR = "${installLatestCbiAggr()}"
+
+		PROJECT = "birt"
+		PROJECT_AGGR = "build/org.eclipse.birt.releng.maven/BIRT-Runtime.aggr"
+
+		// Folder ~/.m2 is not writable for builds, ensure mvnd metadata are written within the workspace.
+		// prevent jline warning about inability to create a system terminal and increase keep-alive timeouts to increase stability in concurrent usage
+		MVND = "mvnd -Dmvnd.daemonStorage=${WORKSPACE}/tools/mvnd -Dorg.jline.terminal.type=dumb -Dmvnd.keepAlive=1000 -Dmvnd.maxLostKeepAlive=600"
+	}
+
+	parameters {
+		choice(
+			name: 'REPOSITORY',
+			choices: [
+				'https://download.eclipse.org/birt/updates/milestone/latest',
+				'https://download.eclipse.org/birt/updates/release/latest'
+			],
+			description: '''
+				Choose the repository to publish.
+				Note that a milestone build will publish to repo.eclipse.org.
+			'''
+		)
+
+		booleanParam(
+			name: 'PROMOTE',
+			defaultValue: false,
+			description: 'Whether to promote the repository to the Maven repository.'
+		)
+	}
+
+	// parameters declared in the definition of the invoking job
+	stages {
+		stage('Aggregate Maven Repository') {
+			steps {
+				script {
+					def description = """
+BUILD_TYPE=${params.REPOSITORY}
+PROMOTE=${params.PROMOTE}
+""".trim()
+					echo description
+					currentBuild.description = description.replace("\n", "<br/>")
+					env.REPOSITORY = params.REPOSITORY
+					env.PROMOTE = params.PROMOTE
+				}
+
+				sh '''#!/bin/bash -e
+					# set -x
+
+					FILE_SDK_AGGR="${WORKSPACE}/git-repo/${PROJECT_AGGR}"
+
+					# Set whether this is a snapshot build or not.
+					if [[ ${REPOSITORY} =~ .*/milestone/.* ]]; then
+						sed -e 's/snapshot=".*"/snapshot="true"/g' -i ${FILE_SDK_AGGR}
+					else
+						sed -e 's/snapshot=".*"/snapshot="false"/g' -i ${FILE_SDK_AGGR}
+					fi
+
+					repoRaw="${WORKSPACE}/repo-raw"
+					mkdir ${repoRaw}
+
+					echo "Running the aggregator with build model ${FILE_SDK_AGGR} ..."
+					"${CBI_AGGR}" aggregate \\
+						--buildModel ${FILE_SDK_AGGR} \\
+						--action CLEAN_BUILD \\
+						--buildRoot ${repoRaw} \\
+						-vmargs \\
+						-Dorg.eclipse.ecf.provider.filetransfer.excludeContributors=org.eclipse.ecf.provider.filetransfer.httpclientjava \\
+						-Dp2.${PROJECT}=${REPOSITORY}
+
+					mv ${repoRaw}/final ${REPO}
+					rm -rf ${repoRaw}
+
+					pushd ${REPO}
+
+					echo "========== Repo aggregation completed ========="
+
+					# Find all the artifact folders for all projects
+					for pomPath in org/eclipse/${PROJECT}/*/*/*.pom org/eclipse/${PROJECT}/dependencies/*/*/*.pom; do
+						artifactId=$(basename $(dirname $(dirname ${pomPath})))
+						version=$(basename $(dirname ${pomPath}))
+						groupPath=$(dirname $(dirname $(dirname ${pomPath})))
+						groupId=${groupPath//'/'/.}
+						# And transform each path to a Maven artifact coordinate groupId:artifactId:version.
+						echo "${groupId}:${artifactId}:${version}" >> "${WORKSPACE}/coordinates-${PROJECT}.txt" # append the GAV
+						echo "${pomPath}" >> "${WORKSPACE}/artifacts-${PROJECT}.txt"  # append the in-repo path
+					done
+
+					popd
+				'''
+			}
+		}
+
+		stage('Validate repository') {
+			// Tests that each to-be-published artifact can transitively resolve all its dependencies.
+			steps {
+				dir('repo-validation') { // Do the work in a clean folder without a pom.xml
+					sh '''#!/bin/bash -xe
+						# Get each artifact and all its transitive dependencies from the Mavenized repository.
+						for i in $(cat ${WORKSPACE}/coordinates-*.txt); do
+							${MVND} dependency:get --no-transfer-progress -Dosgi.platform=gtk.linux.x86_64 -Dartifact=$i -DremoteRepositories=file://${REPO}
+						done
+					'''
+				}
+			}
+		}
+
+		stage('Publish Artifacts to Maven') {
+			steps {
+				withCredentials([
+					file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')
+				]) {
+					dir("publish-${PROJECT}"){
+						sh '''#!/bin/sh -xe
+							pwd
+							ls -sail
+							for pomFile in $(cat "${WORKSPACE}/artifacts-${PROJECT}.txt"); do
+								set +x
+								pomFolder=$(dirname ${pomFile})
+								version=$(basename ${pomFolder})
+								if [[ $version == *-SNAPSHOT ]]; then
+									URL=https://repo.eclipse.org/content/repositories/${PROJECT}-snapshots/
+									REPO_ID=repo.eclipse.org # server-id in the settings.xml, used for authentication
+									MAVEN_CENTRAL_URL=https://repo1.maven.org/maven2/${pomFolder%-SNAPSHOT}
+									echo "Checking ${MAVEN_CENTRAL_URL}"
+									if curl --output /dev/null --silent --head --fail "$MAVEN_CENTRAL_URL"; then
+										echo "The released version of file "${pomFile}" is already present at $MAVEN_CENTRAL_URL."
+									fi
+								else
+									URL=https://oss.sonatype.org/service/local/staging/deploy/maven2/
+									REPO_ID=ossrh # server-id in the settings.xml, used for authentication
+									MAVEN_CENTRAL_URL=https://repo1.maven.org/maven2/${pomFolder}
+									echo "Checking ${MAVEN_CENTRAL_URL}"
+									if curl --output /dev/null --silent --head --fail "$MAVEN_CENTRAL_URL"; then
+										echo "Skipping file "${pomFile}" which is already present at $MAVEN_CENTRAL_URL"
+										continue;
+									fi
+								fi
+
+								pomFile="${REPO}/${pomFile}"
+								file=$(echo "${pomFile}" | sed -e "s|\\(.*\\)\\.pom|\\1.jar|")
+								sourcesFile=$(echo "${pomFile}" | sed -e "s|\\(.*\\)\\.pom|\\1-sources.jar|")
+								javadocFile=$(echo "${pomFile}" | sed -e "s|\\(.*\\)\\.pom|\\1-javadoc.jar|")
+								echo "${file}"
+
+								if [ -f "${sourcesFile}" ]; then
+									echo "${sourcesFile}"
+									SOURCES_ARG="-Dsources=${sourcesFile}"
+								else
+									SOURCES_ARG=""
+									echo "NO ${sourcesFile}."
+								fi
+
+								if [ -f "${javadocFile}" ]; then
+									echo "${javadocFile}"
+									JAVADOC_ARG="-Djavadoc=${javadocFile}"
+								else
+									JAVADOC_ARG=""
+									echo "NO ${javadocFile}."
+								fi
+
+
+								if [ ${PROMOTE} == 'true' ]; then
+									ECHO=""
+								else
+									ECHO="echo "
+								fi
+
+								set -x
+
+								${ECHO} ${MVND} \\
+									gpg:sign-and-deploy-file \\
+									-DretryFailedDeploymentCount=5 \\
+									-Dgpg.signer=bc \\
+									-Dgpg.keyFilePath=${KEYRING} \\
+									-Durl=${URL} \\
+									-DrepositoryId=${REPO_ID} \\
+									-DpomFile=${pomFile} \\
+									-Dfile=${file} \\
+									${SOURCES_ARG} \\
+									${JAVADOC_ARG}
+							done
+						'''
+					}
+				}
+			}
+		}
+	}
+
+	post {
+		always {
+			archiveArtifacts allowEmptyArchive: true, artifacts: '\
+				repo/**, \
+				coordinates*.txt, artifacts*.txt'
+		}
+		/*
+		unsuccessful {
+			emailext subject: "Publication of Maven artifacts failed",
+				body: "Please go to ${BUILD_URL}console and check the build failure.", mimeType: 'text/plain',
+				to: 'ed.merks@gmail.com', from:'genie.releng@eclipse.org'
+		}
+		*/
+	}
+}
+
+def installMavenDaemon(String version) {
+	return install('mvnd', "https://downloads.apache.org/maven/mvnd/${version}/maven-mvnd-${version}-linux-amd64.tar.gz")
+}
+
+def installLatestCbiAggr(){
+	return install('cbiAggr', "https://download.eclipse.org/cbi/updates/p2-aggregator/products/nightly/latest/org.eclipse.cbi.p2repo.cli.product-linux.gtk.x86_64.tar.gz") + '/cbiAggr'
+}
+
+def install(String toolType, String url) {
+	dir("${WORKSPACE}/tools/${toolType}") {
+		sh "curl -L ${url} | tar -xzf -"
+		return "${pwd()}/" + sh(script: 'ls', returnStdout: true).trim()
+	}
+}
