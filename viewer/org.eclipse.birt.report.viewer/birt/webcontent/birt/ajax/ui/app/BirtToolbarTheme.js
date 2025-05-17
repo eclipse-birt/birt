@@ -90,7 +90,7 @@
 			else
 				caption.classList.remove("dark_theme_caption");
 		}
-		var nodeToolBar		= document.querySelectorAll("[class*='birtviewer_toolbar'], [class*='body_caption_top'], [class*='dialogTitleBar']");
+		var nodeToolBar		= document.querySelectorAll("[class*='birtviewer_toolbar'], [class*='body_caption_top']");
 		for (button of nodeToolBar	) {
 			if(themeDark)
 				button.classList.add("dark_theme_toolbar");
@@ -110,6 +110,46 @@
 				dialog.classList.add("dark_theme_exception_dialog");
 			else
 				dialog.classList.remove("dark_theme_exception_dialog");
+		}
+		var nodeInfoDialog = document.getElementById("birt-info-dialog");
+		if (nodeInfoDialog) {
+			if(themeDark) {
+				nodeInfoDialog.classList.remove("info_dialog_light");
+				nodeInfoDialog.classList.add("info_dialog_dark");
+			} else {
+				nodeInfoDialog.classList.add("info_dialog_light");
+				nodeInfoDialog.classList.remove("info_dialog_dark");
+			}			
+		}
+		var nodeInfoGroup = document.getElementById("birt-info-group-frame");
+		if (nodeInfoGroup) {
+			if(themeDark) {
+				nodeInfoGroup.classList.remove("info_group_light");
+				nodeInfoGroup.classList.add("info_group_dark");
+			} else {
+				nodeInfoGroup.classList.add("info_group_light");
+				nodeInfoGroup.classList.remove("info_group_dark");
+			}						
+		}
+		var nodeDialogTitle = document.querySelectorAll("[class*='dialogTitleBar']");
+		for (title of nodeDialogTitle) {
+			if(themeDark) {
+				title.classList.remove("light_theme_dialog_title");
+				title.classList.add("dark_theme_dialog_title");
+			} else {
+				title.classList.add("light_theme_dialog_title");
+				title.classList.remove("dark_theme_dialog_title");
+			}						
+		}
+		var nodeDialogBorder = document.getElementsByClassName("dialogBorder");
+		for (border of nodeDialogBorder) {
+			if(themeDark) {
+				border.classList.remove("light_theme_dialog_border");
+				border.classList.add("dark_theme_dialog_border");
+			} else {
+				border.classList.add("light_theme_dialog_border");
+				border.classList.remove("dark_theme_dialog_border");
+			}
 		}
 	}
 	,

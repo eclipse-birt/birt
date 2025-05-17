@@ -5,53 +5,50 @@
 /* Border around dialog */
 .dialogBorder
 {
-	border-style: outset;
-	border-width: 1px;
-	border-color: #CCCCCC;
-	background-color: gray;
-	direction: ltr;
+	border-style	: outset;
+	border-width	: 1px;
+	padding			: 8px 16px 8px 16px;
+	border-radius	: 8px;
+	direction		: ltr;
 }
 
 /* Title bar background area */
 .dialogTitleBar
 {
-	height: 20px;
-	background-color: #4682b4;
-	cursor: move;	
-	direction: rtl;
+	height			: 20px;
+	cursor			: move;	
+	direction		: rtl;
 }
 
 .dTitleBar
 {
-	padding-left: 7px;
-	padding-right: 7px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	position: relative;
+	position		: relative;
+	margin-top		: 8px;
+	padding			: 6px 8px 6px 16px;
+	border-radius	: 2px;
 }
 
 /* Title text */
 .dialogTitleText
 {
-	font-size: 11px; 
-	font-weight: bold; 
-	font-family: tahoma, verdana, arial, sans-serif;
-	color: white;
+	font-size		: 11pt;
+	font-weight		: bold; 
+	font-family		: arial, tahoma, verdana, sans-serif;
 }
 
 .dTitleText
 {
-	vertical-align: middle; 
-	white-space: nowrap;
-	cursor: move;
+	white-space		: nowrap;
+	cursor			: move;
+	padding-top		: 2px;
 }
 
 .dTitleTextContainer
 {
-	float: right; 
-	position: relative;
-	height: 100%;	
-	width: 250px;
+	float			: right; 
+	position		: relative;
+	height			: 100%;	
+	width			: 250px;
 }
 
 /* Close button - width should match those of .dialogCloseBtnContainer */
@@ -180,9 +177,6 @@
 	width: 80px;
 	overflow: hidden;
 	color: #999999; /* Font color */
-	/*background-color: #9C9C9C;
-	background-repeat: repeat-x;
-	background-position: top left;*/
 }
 
 /* Left background image for OK and CANCEL buttons */
@@ -236,7 +230,7 @@
 /* Text for OK and CANCEL buttons */
 .dialogBtnBarButtonText
 {	
-	font-family: tahoma, verdana, arial, sans-serif;
+	font-family: arial, tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
 	font-weight: 400;
 	text-align: center;
