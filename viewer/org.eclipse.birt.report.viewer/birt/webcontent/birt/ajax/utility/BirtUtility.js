@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004-2008 Actuate Corporation and others.
+ *	Copyright (c) 2004-2008, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -752,6 +752,54 @@ BirtUtility.prototype = {
 		this.getHeadElement().appendChild(element);
 	},
 
+	/**
+	 * extended dialog closing handling based on escape key
+	 * 
+	 * @param e
+	 *            event object of key down
+	 * @returns void
+	 */
+	closeDialogsKeyBased : function(e) {
+		var keyCode = e.keyCode;
+		if (keyCode === 27) {
+
+			if (birtParameterDialog && birtParameterDialog.visible) {
+				birtParameterDialog.__neh_cancel()
+			}
+
+			if (birtSimpleExportDataDialog && birtSimpleExportDataDialog.visible) {
+				birtSimpleExportDataDialog.__neh_cancel()
+			}
+			
+			if (birtExportReportDialog.visible) {
+				birtExportReportDialog.__neh_cancel();
+			}
+
+			if (birtPrintReportDialog.visible) {
+				birtPrintReportDialog.__neh_cancel();
+			}
+			
+			if (birtPrintReportServerDialog.visible) {
+				birtPrintReportServerDialog.__neh_cancel();
+			}
+
+			if (birtExceptionDialog.visible) {
+				birtExceptionDialog.__neh_cancel();
+			}
+
+			if (birtConfirmationDialog.visible) {
+				birtConfirmationDialog.__neh_cancel();
+			}
+			if (birtProgressBar.visible) {
+				birtProgressBar.__neh_click();
+			}
+			
+			if (infoDialog && infoDialog.style.display != "none") {
+				infoDialog.style.display = "none";
+			}
+		}
+	},
+	
 	noComma : "" // just to avoid javascript syntax errors
 }
 
@@ -788,4 +836,9 @@ if (BrowserUtility.isIE && !BrowserUtility.isIE8) {
 			Event.stop(e);
 		}
 	});
+}
+
+// Move the key handling of dialog closing to the document
+if (birtUtility) {
+	document.onkeydown = birtUtility.closeDialogsKeyBased;
 }
