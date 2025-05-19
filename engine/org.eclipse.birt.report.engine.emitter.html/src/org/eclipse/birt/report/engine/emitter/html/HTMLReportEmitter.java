@@ -640,7 +640,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			writer.writeCode(" ." + CSS_CLASS_PREVIEW_PAGE + " {display:flex; box-shadow:1px 1px 2px 2px silver;}");
 			writer.writeCode("</style>");
 		} else {
-			writer.writeCode("<style type=\"text/css\">#previewLayoutButton {display: none;} </style>");
+			writer.writeCode(
+					"<style type=\"text/css\">#previewLayoutButton {cursor: none; opacity: 0.65; pointer-events: none;} </style>");
 		}
 	}
 
