@@ -114,7 +114,7 @@ public class ParamDefTag extends BodyTagSupport {
 	/**
 	 * value string list
 	 */
-	private List valueStringList;
+	private List<String> valueStringList;
 
 	/**
 	 * display text string
@@ -172,7 +172,7 @@ public class ParamDefTag extends BodyTagSupport {
 	/**
 	 * validate the tag
 	 *
-	 * @return
+	 * @return is tag valid
 	 * @throws Exception
 	 */
 	protected boolean __validate() throws Exception {
@@ -315,7 +315,7 @@ public class ParamDefTag extends BodyTagSupport {
 		// handle value string
 		if (this.paramDef.isMultiValue()) {
 			// handle multi-value parameter
-			this.valueStringList = new ArrayList();
+			this.valueStringList = new ArrayList<String>();
 			Object[] values = (Object[]) param.getValue();
 			if (values != null) {
 				for (int i = 0; i < values.length; i++) {
@@ -1212,7 +1212,7 @@ public class ParamDefTag extends BodyTagSupport {
 						"param.setRequired(" + paramDef.isRequired() + ");\n" + //$NON-NLS-1$ //$NON-NLS-2$
 						this.groupObjName + ".addParameter( param );\n" //$NON-NLS-1$
 		);
-		ParameterGroupDefinition group = (ParameterGroupDefinition) paramDef.getGroup();
+		ParameterGroupDefinition group = paramDef.getGroup();
 		int index = group.getParameters().indexOf(paramDef);
 
 		// if it is the last cascading parameter, return
@@ -1258,7 +1258,7 @@ public class ParamDefTag extends BodyTagSupport {
 	 */
 	private Collection getParameterSelectionListForCascadingGroup() throws ReportServiceException {
 
-		ParameterGroupDefinition group = (ParameterGroupDefinition) paramDef.getGroup();
+		ParameterGroupDefinition group = paramDef.getGroup();
 		int index = group.getParameters().indexOf(paramDef);
 		Object[] groupKeys = new Object[index];
 		for (int i = 0; i < index; i++) {
