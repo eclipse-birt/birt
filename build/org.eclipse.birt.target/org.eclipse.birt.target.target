@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="60">
+<target name="Generated from BIRT" sequenceNumber="62">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="aQute.libg" version="0.0.0"/>
       <unit id="bcpg" version="0.0.0"/>
+      <unit id="bcpkix" version="0.0.0"/>
       <unit id="bcprov" version="0.0.0"/>
       <unit id="bcutil" version="0.0.0"/>
       <unit id="biz.aQute.bnd.util" version="0.0.0"/>
