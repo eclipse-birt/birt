@@ -3,8 +3,6 @@
   <validationSets label="Main">
     <contributions label="BIRT">
       <repositories location="${p2.birt}">
-        <bundles name="org.apache.axis"/>
-        <features name="org.eclipse.birt.chart.osgi.runtime.feature.group"/>
         <features name="org.eclipse.birt.engine.runtime.feature.group"/>
       </repositories>
     </contributions>
