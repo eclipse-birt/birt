@@ -38,6 +38,10 @@
       <discovery label="%updateSiteName" url="https://download.eclipse.org/birt/updates/release/latest"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.datatools.connectivity.oda.flatfile"/>
+   </requires>
+
    <plugin
          id="org.eclipse.birt.core"
          version="0.0.0"/>
