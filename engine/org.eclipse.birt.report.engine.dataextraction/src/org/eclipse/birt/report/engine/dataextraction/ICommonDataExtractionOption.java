@@ -27,13 +27,19 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 public interface ICommonDataExtractionOption extends IDataExtractionOption {
 
 	/**
-	 * constants to indicate whether to output the column name, column display name
-	 * or both of them.
+	 * constants to indicate the output of header line with the column name
 	 */
 	int OPTION_COLUMN_NAME = 1;
 
+	/**
+	 * constants to indicate the output of header line with the column display name
+	 */
 	int OPTION_COLUMN_DISPLAY_NAME = 2;
 
+	/**
+	 * constants to indicate the output of header line with the column name &
+	 * display name
+	 */
 	int OPTION_BOTH = 3;
 
 	/**
@@ -180,7 +186,7 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption {
 	/**
 	 * Sets the flag that indicates whether export column header.
 	 *
-	 * @param isExportDataType
+	 * @param isExportColumnHeader set export header for output
 	 */
 	void setExportColumnHeader(boolean isExportColumnHeader);
 
@@ -243,8 +249,9 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption {
 	void setLocaleNeutralFlags(Map localeNeutralFlags);
 
 	/**
+	 * Return the locale neutral flag
 	 *
-	 * @return
+	 * @return the locale neutral flag
 	 */
 	Map getLocaleNeutralFlags();
 
@@ -294,7 +301,7 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption {
 	/**
 	 * Returns the localize option for the columns
 	 *
-	 * @return
+	 * @return the localize option for the columns
 	 */
 	int getColumnLocalizeOption();
 }

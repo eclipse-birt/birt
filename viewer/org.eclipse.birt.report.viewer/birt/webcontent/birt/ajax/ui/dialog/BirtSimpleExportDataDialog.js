@@ -552,6 +552,29 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		else
 			hiddenCarriageReturn.value = "false";
 		hiddenForm.appendChild( hiddenCarriageReturn );		
+
+		// Exports data with header line based on column display name
+		var oColumnDisplayName = $( 'exportDataWithColumnDisplayName' );
+		var hiddenColumnDisplayName = document.createElement( 'input' );
+		hiddenColumnDisplayName.type = 'hidden';
+		hiddenColumnDisplayName.name = Constants.PARAM_COLUMNDISPLAYNAME;
+		if( oColumnDisplayName && oColumnDisplayName.checked )
+			hiddenColumnDisplayName.value = "true";
+		else
+			hiddenColumnDisplayName.value = "false";
+		hiddenForm.appendChild( hiddenColumnDisplayName );		
+
+		// Exports data with header line based on column name
+		var oColumnName = $( 'exportDataWithColumnName' );
+		var hiddenColumnName = document.createElement( 'input' );
+		hiddenColumnName.type = 'hidden';
+		hiddenColumnName.name = Constants.PARAM_COLUMNNAME;
+		if( oColumnName && oColumnName.checked )
+			hiddenColumnName.value = "true";
+		else
+			hiddenColumnName.value = "false";
+		hiddenForm.appendChild( hiddenColumnName );		
+				
 				
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';
