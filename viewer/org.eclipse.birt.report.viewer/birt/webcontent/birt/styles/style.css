@@ -293,6 +293,16 @@ input[type="text"]:focus {
 } 
 
 /******************************************************************************
+ * Birt export csv dialog.
+ *****************************************************************************/
+#selectedColumnSelect, #availableColumnSelect {
+	border-radius	: 4px;
+	border-style	: inset;
+	border-width	: 1px;
+	height			: 192px;
+}
+  
+/******************************************************************************
  * Birt confirmation dialog.
  *****************************************************************************/
 .birtviewer_confirmation_dialog_iframe

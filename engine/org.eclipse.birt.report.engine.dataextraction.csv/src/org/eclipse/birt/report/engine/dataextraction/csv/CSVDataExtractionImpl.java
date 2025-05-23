@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -40,13 +40,19 @@ import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionIm
  * Implements the logic to extract data as CSV format.
  */
 public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
+
+	/** plugin id */
 	public static final String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction.csv"; //$NON-NLS-1$
+
+	/** default encoding id */
 	public static final String DEFAULT_ENCODING = Charset.defaultCharset().name();
 
 	private OutputStream outputStream;
 	private String encoding;
 	private String sep;
 	private boolean addCR;
+	private boolean addColumnDisplayName;
+	private boolean addColumnName;
 	private boolean isExportDataType;
 	private boolean isExportColumnHeader;
 	private String[] selectedColumnNames;
@@ -96,6 +102,8 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 		}
 
 		addCR = csvOptions.getAddCR();
+		addColumnDisplayName = csvOptions.getAddColumnDisplayName();
+		addColumnName = csvOptions.getAddColumnName();
 		isExportDataType = csvOptions.isExportDataType();
 		isExportColumnHeader = csvOptions.isExportColumnHeader();
 		selectedColumnNames = csvOptions.getSelectedColumns();
@@ -154,11 +162,24 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 				iData = results.nextResultIterator();
 				if (iData != null && columnNames.length > 0) {
 					if (isExportColumnHeader) {
+
+						// if the column option is standard and not set due to interface use UI options
+						if (columnLocalizeOption == ICommonDataExtractionOption.OPTION_COLUMN_DISPLAY_NAME) {
+							if (addColumnName && addColumnDisplayName) {
+								columnLocalizeOption = ICommonDataExtractionOption.OPTION_BOTH;
+							} else if (addColumnName) {
+								columnLocalizeOption = ICommonDataExtractionOption.OPTION_COLUMN_NAME;
+							} else if (addColumnDisplayName) {
+								columnLocalizeOption = ICommonDataExtractionOption.OPTION_COLUMN_DISPLAY_NAME;
+							} else {
+								columnLocalizeOption = 0;
+							}
+						}
 						if ((columnLocalizeOption & ICommonDataExtractionOption.OPTION_COLUMN_NAME) != 0) {
 							output(CSVUtil.makeCSVRow(columnNames, sep, addCR));
 						}
-
-						if ((columnLocalizeOption & ICommonDataExtractionOption.OPTION_COLUMN_DISPLAY_NAME) != 0) {
+						if ((columnLocalizeOption
+								& ICommonDataExtractionOption.OPTION_COLUMN_DISPLAY_NAME) != 0) {
 							output(CSVUtil.makeCSVRow(columnLabels, sep, addCR));
 						}
 					}
@@ -175,8 +196,6 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl {
 					while (iData.next()) {
 						for (int i = 0; i < columnNames.length; i++) {
 							if (columnTypes[i] != DataType.BLOB_TYPE && columnTypes[i] != DataType.BINARY_TYPE) {
-								System.out.println("getStringValue(iData, columnNames, i): "
-										+ getStringValue(iData, columnNames, i));
 								values[i] = getStringValue(iData, columnNames, i);
 							} else {
 								values[i] = null;

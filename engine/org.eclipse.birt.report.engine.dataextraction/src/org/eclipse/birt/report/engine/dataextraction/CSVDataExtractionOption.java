@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -22,11 +22,19 @@ import java.util.Map;
  */
 public class CSVDataExtractionOption extends CommonDataExtractionOption implements ICSVDataExtractionOption {
 
+	/**
+	 * Constructor
+	 */
 	public CSVDataExtractionOption() {
 		super();
 	}
 
-	public CSVDataExtractionOption(Map options) {
+	/**
+	 * Constructor
+	 *
+	 * @param options extraction options
+	 */
+	public CSVDataExtractionOption(Map<String, Object> options) {
 		super(options);
 	}
 
@@ -54,6 +62,26 @@ public class CSVDataExtractionOption extends CommonDataExtractionOption implemen
 	@Override
 	public void setAddCR(boolean addCR) {
 		setOption(ADD_CR_LINE_BREAK, addCR);
+	}
+
+	@Override
+	public boolean getAddColumnDisplayName() {
+		return getBooleanOption(ADD_COLUMN_DISPLAY_NAME, true);
+	}
+
+	@Override
+	public void setAddColumnDisplayName(boolean addColumnDisplayName) {
+		setOption(ADD_COLUMN_DISPLAY_NAME, addColumnDisplayName);
+	}
+
+	@Override
+	public boolean getAddColumnName() {
+		return getBooleanOption(ADD_COLUMN_NAME, false);
+	}
+
+	@Override
+	public void setAddColumnName(boolean addColumnName) {
+		setOption(ADD_COLUMN_NAME, addColumnName);
 	}
 
 }

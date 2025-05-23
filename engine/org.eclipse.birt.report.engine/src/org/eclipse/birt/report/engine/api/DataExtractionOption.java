@@ -17,13 +17,27 @@ package org.eclipse.birt.report.engine.api;
 import java.io.OutputStream;
 import java.util.Map;
 
+/**
+ * Handle extended extraction options
+ *
+ * @since 3.3
+ *
+ */
 public class DataExtractionOption extends TaskOption implements IDataExtractionOption {
 
+	/**
+	 * Constructor 1
+	 */
 	public DataExtractionOption() {
 		super();
 	}
 
-	public DataExtractionOption(Map options) {
+	/**
+	 * Constructor 2
+	 *
+	 * @param options extraction option
+	 */
+	public DataExtractionOption(Map<String, Object> options) {
 		super(options);
 	}
 
