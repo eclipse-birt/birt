@@ -45,10 +45,10 @@
 		var nodeToggleTrackCheckbox	= document.getElementById("toggle-track-checkbox");
 		var themeValue				= "light";
 		var themeValueRestored		= null;
-
 		if (nodeToggleTrackIcon && nodeToggleTrackCheckbox) {
 			if (mode === "initTheme") {
 				themeValueRestored = this.getThemeMode(theme_layout_key);
+				if (themeValueRestored === null) themeValueRestored = themeValue;
 			}
 			if (mode === "initTheme" && themeValueRestored != null) {
 				themeValue = themeValueRestored;
@@ -111,24 +111,24 @@
 			else
 				dialog.classList.remove("dark_theme_exception_dialog");
 		}
-		var nodeInfoDialog = document.getElementById("birt-info-dialog");
-		if (nodeInfoDialog) {
+		var nodeDialogList = document.querySelectorAll("[id='birt-info-dialog'], [id='birt-message-dialog']");
+		for (nodeDialog of nodeDialogList) {
 			if(themeDark) {
-				nodeInfoDialog.classList.remove("info_dialog_light");
-				nodeInfoDialog.classList.add("info_dialog_dark");
+				nodeDialog.classList.remove("info_dialog_light");
+				nodeDialog.classList.add("info_dialog_dark");
 			} else {
-				nodeInfoDialog.classList.add("info_dialog_light");
-				nodeInfoDialog.classList.remove("info_dialog_dark");
+				nodeDialog.classList.add("info_dialog_light");
+				nodeDialog.classList.remove("info_dialog_dark");
 			}			
 		}
-		var nodeInfoGroup = document.getElementById("birt-info-group-frame");
-		if (nodeInfoGroup) {
+		var nodeGroupList = document.querySelectorAll("[id='birt-info-group-frame'], [id='birt-message-group-frame']");
+		for (nodeGroup of nodeGroupList) {
 			if(themeDark) {
-				nodeInfoGroup.classList.remove("info_group_light");
-				nodeInfoGroup.classList.add("info_group_dark");
+				nodeGroup.classList.remove("info_group_light");
+				nodeGroup.classList.add("info_group_dark");
 			} else {
-				nodeInfoGroup.classList.add("info_group_light");
-				nodeInfoGroup.classList.remove("info_group_dark");
+				nodeGroup.classList.add("info_group_light");
+				nodeGroup.classList.remove("info_group_dark");
 			}						
 		}
 		var nodeDialogTitle = document.querySelectorAll("[class*='dialogTitleBar']");
@@ -154,13 +154,14 @@
 	}
 	,
 	/**
-	 *	Store the selected mode as cookie
+	 *	Store the selected mode as cookie incl expiration date
 	 *
 	 *	@param cname, key name of the cookie
 	 *	@param cvalue, value of the cookie
 	 */
 	saveThemeMode : function(cname, cvalue) {
-		document.cookie = cname + "=" + cvalue;
+		var now = new Date((new Date()).getTime() + 8760000 * 36000);
+		document.cookie = cname + "=" + cvalue + ";expires=" + now.toUTCString() + ";path=/viewer";
 	}
 	,
 	/**
