@@ -132,7 +132,7 @@ input[type="text"]:focus {
 	border-color: #cccccc;
 	background-color: #ffffff;
 	border-width: 1px;
-} 
+}
 
 .birtviewer_exception_dialog_container
 {
@@ -696,7 +696,7 @@ div[id='toggle-track-icon']:hover {
  * Style of the birt information dialog
  *****************************************************************************/
 .info_dialog_light {
-	background-color: white;
+	background-color: #F9F9F9;
 	border			: 1px outset silver;
 	color			: black;
 /*	box-shadow		: 2px 2px 1px 1px silver; */
@@ -722,6 +722,13 @@ div[id='toggle-track-icon']:hover {
 	padding			: 48px 48px 48px 48px;
 	z-index			: 998;
 	background-color: rgba(128, 128, 128, 0.3);
+}
+
+.message_content_slot {
+	font-family		: Arial;
+	font-size		: 10pt;
+	margin			: 24px 0px 24px 20px;
+	text-decoration	: none;
 }
 
 .info_dialog_frame {
@@ -762,8 +769,8 @@ div[id='toggle-track-icon']:hover {
 
 .info_line_button {
 	margin-top		: 16px;
-	height			: 2px;
-	background-color:silver;
+	height			: 1px;
+	background-color:gray;
 	border-width	: 0px;
 }
 
@@ -788,6 +795,7 @@ div[id='toggle-track-icon']:hover {
 	vertical-align	: middle;
 	height			: 12px;
 }
+
 
 a:link, a:visited, a:hover, a:active {
 	text-decoration	: none;

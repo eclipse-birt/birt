@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -112,7 +112,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( Constants.error.generateReportFirst );
+			birtMessageDialog.showMessage(Constants.error.generateReportFirst);
 			return false;
 		}	
 		else
@@ -154,7 +154,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				var pageRange = birtUtility.trim( $( 'printPageRange_input' ).value );
 				if ( !birtUtility.checkPageRange( pageRange ) )
 				{
-					alert( Constants.error.invalidPageRange );
+					birtMessageDialog.showMessage(Constants.error.invalidPageRange);
 					return false;
 				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
@@ -232,7 +232,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			if ( previewExists )
 			{
 				// workaround for Bugzilla Bug 227937
-				window.setTimeout( function () { alert( Constants.error.printPreviewAlreadyOpen ) }, 0 );
+				window.setTimeout( function () {
+					birtMessageDialog.showMessage(Constants.error.printPreviewAlreadyOpen);
+				}, 0 );
 				return false;
 			}
 			else

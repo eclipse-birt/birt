@@ -761,41 +761,51 @@ BirtUtility.prototype = {
 	 */
 	closeDialogsKeyBased : function(e) {
 		var keyCode = e.keyCode;
+
 		if (keyCode === 27) {
+			if (birtMessageDialog && birtMessageDialog.visible) {
+				// birtUtility.displayDialog('message', false);
+				birtMessageDialog.__neh_cancel();
 
-			if (birtParameterDialog && birtParameterDialog.visible) {
-				birtParameterDialog.__neh_cancel()
-			}
-
-			if (birtSimpleExportDataDialog && birtSimpleExportDataDialog.visible) {
-				birtSimpleExportDataDialog.__neh_cancel()
-			}
-			
-			if (birtExportReportDialog.visible) {
-				birtExportReportDialog.__neh_cancel();
-			}
-
-			if (birtPrintReportDialog.visible) {
+			} else if (birtParameterDialog && birtParameterDialog.visible) {
+				birtParameterDialog.__neh_cancel();
+				
+			} else if (birtSimpleExportDataDialog && birtSimpleExportDataDialog.visible) {
+				birtSimpleExportDataDialog.__neh_cancel();
+				
+			} else if (birtExportReportDialog.visible) {
+				birtExportReportDialog.__neh_cancel();;
+				
+			} else if (birtPrintReportDialog.visible) {
 				birtPrintReportDialog.__neh_cancel();
-			}
-			
-			if (birtPrintReportServerDialog.visible) {
+				
+			} else if (birtPrintReportServerDialog.visible) {
 				birtPrintReportServerDialog.__neh_cancel();
-			}
-
-			if (birtExceptionDialog.visible) {
+				
+			} else if (birtExceptionDialog.visible) {
 				birtExceptionDialog.__neh_cancel();
-			}
-
-			if (birtConfirmationDialog.visible) {
+				
+			} else if (birtConfirmationDialog.visible) {
 				birtConfirmationDialog.__neh_cancel();
-			}
-			if (birtProgressBar.visible) {
+				
+			} else if (birtProgressBar.visible) {
 				birtProgressBar.__neh_click();
-			}
-			
-			if (infoDialog && infoDialog.style.display != "none") {
+				
+			} else if (infoDialog && infoDialog.style.display != "none") {
 				infoDialog.style.display = "none";
+				
+			}
+		}
+	},
+	
+	// Dialog handling, show and hide the info dialog 
+	displayInfoDialog : function(show) {
+		var objDialog = infoDialog;
+		var displayDialog = ((show) ? "block" : "none");
+		if (objDialog) {
+			objDialog.style.display = displayDialog;
+			if (displayDialog === "none") {
+				birtMessageDialog = null;
 			}
 		}
 	},

@@ -114,7 +114,7 @@ BirtToolbar.prototype = Object.extend( new AbstractBaseToolbar( ),
 				}
 				default:
 				{
-					alert( oBtn.name );
+					birtMessageDialog.showMessage(oBtn.name);
 					break;
 				}	
 			}

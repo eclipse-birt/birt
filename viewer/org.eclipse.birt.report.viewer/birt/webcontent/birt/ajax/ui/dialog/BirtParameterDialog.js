@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -428,7 +428,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[idxBIRTParam].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}
 						
@@ -437,7 +437,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[idxBIRTParam].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 							return false;							
 						}	
 													
@@ -497,7 +497,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						&& birtUtility.trim( paramValue ) == '' && this.visible )
 					{
 						oIEC[2].focus( );
-						alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+						birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 						return false;
 					}
 
@@ -506,7 +506,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						&& birtUtility.trim( paramValue ) == '' && this.visible )
 					{
 						oIEC[2].focus( );
-						alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+						birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 						return false;							
 					}	
 												
@@ -558,7 +558,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 									&& birtUtility.trim( oIEC[j].value ) == '' && this.visible )
 								{
 									oIEC[j].focus( );
-									alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, oIEC[j].name ) );
+									birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, oIEC[j].name ) );
 									return false;							
 								}	
 							
@@ -607,7 +607,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					if ( this.__is_parameter_required( oIEC ) && oSEC[0].selectedIndex < 0 && this.visible )
 					{
 						oSEC[0].focus( );
-						alert( birtUtility.formatMessage( Constants.error.parameterNotSelected, paramName ) );
+						birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotSelected, paramName ) );
 						return false;
 					}
 																									
@@ -627,7 +627,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								&& birtUtility.trim( tempValue ) == '' && this.visible )
 							{
 								oSEC[0].focus( );
-								alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+								birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 								return false;									
 							}
 							
@@ -639,7 +639,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								&& birtUtility.trim( tempValue ) == '' && this.visible )
 							{
 								oSEC[0].focus( );
-								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 								return false;							
 							}									
 						}
@@ -654,7 +654,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							 && birtUtility.trim( tempValue ) == '' && this.visible )
 						{
 							oSEC[0].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}
 
@@ -672,7 +672,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							&& birtUtility.trim( tempValue ) == '' && this.visible )
 						{
 							oSEC[0].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 							return false;							
 						}							
 					}					
@@ -723,7 +723,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							 && birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[5].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}						
 
@@ -732,7 +732,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[5].focus( );
-							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 							return false;							
 						}	
 						
@@ -1096,7 +1096,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							if( oInputs.length >0 && oInputs[1].value != Constants.TYPE_STRING )
 							{
 								// Only String parameter allows blank value
-								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								birtMessageDialog.showMessage( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 								this.__clearSubCascadingParameter( this.__cascadingParameter[i], j );
 								return;
 							}

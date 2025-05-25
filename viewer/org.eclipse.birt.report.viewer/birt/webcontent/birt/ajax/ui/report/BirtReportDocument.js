@@ -213,7 +213,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( Constants.error.generateReportFirst );	
+			birtMessageDialog.showMessage(Constants.error.generateReportFirst);	
 			return;
 		}	
 		else

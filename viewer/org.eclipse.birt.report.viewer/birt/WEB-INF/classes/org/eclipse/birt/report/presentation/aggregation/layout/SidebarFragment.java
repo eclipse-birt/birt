@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -18,6 +18,7 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.ConfirmationDialo
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ExportReportDialogFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.MessageDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.PrintReportDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.PrintReportServerDialogFragment;
@@ -43,5 +44,6 @@ public class SidebarFragment extends BirtBaseFragment {
 		addChild(new DialogContainerFragment(new PrintReportDialogFragment()));
 		addChild(new DialogContainerFragment(new PrintReportServerDialogFragment()));
 		addChild(new DialogContainerFragment(new ConfirmationDialogFragment()));
+		addChild(new DialogContainerFragment(new MessageDialogFragment()));
 	}
 }
