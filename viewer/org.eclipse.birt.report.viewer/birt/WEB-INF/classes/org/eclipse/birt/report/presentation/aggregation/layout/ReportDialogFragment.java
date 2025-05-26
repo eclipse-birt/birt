@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -16,6 +16,7 @@ package org.eclipse.birt.report.presentation.aggregation.layout;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.DialogContainerFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ExceptionDialogFragment;
+import org.eclipse.birt.report.presentation.aggregation.dialog.MessageDialogFragment;
 import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFragment;
 
 /**
@@ -33,5 +34,6 @@ public class ReportDialogFragment extends BirtBaseFragment {
 	protected void build() {
 		addChild(new DialogContainerFragment(new ExceptionDialogFragment()));
 		addChild(new DialogContainerFragment(new ParameterDialogFragment()));
+		addChild(new DialogContainerFragment(new MessageDialogFragment()));
 	}
 }

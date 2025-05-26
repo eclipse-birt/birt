@@ -423,7 +423,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}
 		else
 		{
-			alert ( Constants.error.columnRequired );	
+			birtMessageDialog.showMessage( Constants.error.columnRequired );	
 		}
 	},
 	

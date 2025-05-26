@@ -2,7 +2,7 @@
 
 <!--
  *******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -308,6 +308,11 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.MessageDialogFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.MessageDialogFragment_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-name>
         <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-class>
     </servlet>
@@ -475,6 +480,11 @@ Automatically created by Apache Tomcat JspC.
     <servlet-mapping>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
         <url-pattern>/webcontent/birt/pages/dialog/ExceptionDialogFragment.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.MessageDialogFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/dialog/MessageDialogFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

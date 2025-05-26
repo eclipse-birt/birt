@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -85,7 +85,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
-			alert ( Constants.error.generateReportFirst );	
+			birtMessageDialog.showMessage(Constants.error.generateReportFirst);	
 			return false;
 		}	
 		else
@@ -127,7 +127,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				var pageRange = birtUtility.trim( $( 'exportPageRange_input' ).value );
 				if ( !birtUtility.checkPageRange( pageRange ) )
 				{
-					alert( Constants.error.invalidPageRange );
+					birtMessageDialog.showMessage(Constants.error.invalidPageRange);
 					return false;
 				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;

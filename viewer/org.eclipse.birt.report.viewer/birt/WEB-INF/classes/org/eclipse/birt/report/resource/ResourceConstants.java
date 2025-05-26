@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -14,6 +14,12 @@
 
 package org.eclipse.birt.report.resource;
 
+/**
+ * Constant values of resource labels
+ *
+ * @since 3.3
+ *
+ */
 public interface ResourceConstants {
 
 	// dialog title
@@ -24,6 +30,7 @@ public interface ResourceConstants {
 	String PRINT_REPORTSERVER_DIALOG_TITLE = "birt.viewer.dialog.printReportServer.title"; //$NON-NLS-1$
 	String PRINT_REPORT_DIALOG_TITLE = "birt.viewer.dialog.printReport.title"; //$NON-NLS-1$
 	String CONFIRMATION_DIALOG_TITLE = "birt.viewer.dialog.confirmation.title"; //$NON-NLS-1$
+	String MESSAGE_DIALOG_TITLE = "birt.viewer.dialog.message.title"; //$NON-NLS-1$
 
 	/**
 	 * Page title for the "web viewer", "html" preview.

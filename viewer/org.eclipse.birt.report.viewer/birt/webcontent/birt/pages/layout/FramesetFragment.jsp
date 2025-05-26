@@ -126,6 +126,7 @@
 		<script src="birt/ajax/ui/dialog/AbstractExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtConfirmationDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtMessageDialog.js" type="text/javascript"></script>
 		
 		<script src="birt/ajax/utility/BirtPosition.js" type="text/javascript"></script>
 		<script src="birt/ajax/utility/Printer.js" type="text/javascript"></script>
@@ -226,6 +227,7 @@
 		var birtPrintReportServerDialog = new BirtPrintReportServerDialog( 'printReportServerDialog' );
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
+		var birtMessageDialog = new BirtMessageDialog( 'messageDialog' );
 
 		// register the base elements to the mask, so their input
 		// will be disabled when a dialog is popped up.
