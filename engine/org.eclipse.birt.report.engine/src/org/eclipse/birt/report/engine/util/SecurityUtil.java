@@ -22,8 +22,13 @@ public class SecurityUtil {
 		return System.getProperty(name);
 	}
 
+	/**
+	 * Returns a copy of {@link System#getProperties()}
+	 *
+	 * @return a copy of {@link System#getProperties()}
+	 */
 	public static Properties getSystemProperties() {
-		return System.getProperties();
+		return (Properties) System.getProperties().clone();
 	}
 
 	public static ClassLoader setContextClassLoader(final ClassLoader loader) {
