@@ -22,7 +22,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.views.SearchInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.SearchInputDialog.Search;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -30,6 +35,7 @@ import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
@@ -87,10 +93,8 @@ public class SearchAction extends AbstractViewerAction {
 
 	@Override
 	public boolean isEnabled() {
-		for (Object selectedObject : getSelectedObjects()) {
-			if (internalIsEnabled(selectedObject)) {
-				return true;
-			}
+		if (canSearch(getSelection())) {
+			return super.isEnabled();
 		}
 		return false;
 	}
@@ -402,22 +406,54 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	/**
-	 * Keep this in sync with {@link #saveChanges(Search)}.
+	 * Determine if this action should be enabled
+	 *
+	 * @param selection TreeViewer, ITreeSelection, SlotHandle, ReportDesignHandle,
+	 *                  ReportElementHandle, or an array of those things
+	 * @return boolean true if the search action should be enabled
 	 */
-	private boolean internalIsEnabled(Object obj) {
-		if (obj instanceof DesignElementHandle) {
+	public static boolean canSearch(Object selection) {
+		System.out.println("SearchAction.canSearch " + (selection == null ? "null" : selection.getClass().getName()));
+		if (selection instanceof TreeViewer) {
+			TreeViewer treeViewer = (TreeViewer) selection;
+			return canSearch(treeViewer.getStructuredSelection());
+		}
+		if (selection instanceof ITreeSelection) {
+			ITreeSelection treeSelection = (ITreeSelection) selection;
+			return canSearch(treeSelection.toArray());
+		}
+		if (selection instanceof Object[]) {
+			Object[] array = (Object[]) selection;
+			if (array.length == 0) {
+				System.out.println("  return false because selection array is empty");
+				return false;
+			}
+			for (Object object : array) {
+				// what is this for?
+				if (DNDUtil.checkContainerExists(object, array)) {
+					System.out.println("container exists so skipping canSearch test");
+					continue;
+				}
+				if (!canSearch(object)) {
+					return false;
+				}
+			}
+			System.out.println("  return true");
 			return true;
 		}
-		if (obj instanceof SlotHandle) {
-			return true;
+		System.out.println("  testing object " + selection.getClass().getName());
+		if (selection instanceof SlotHandle) {
+			SlotHandle slot = (SlotHandle) selection;
+			DesignElementHandle handle = slot.getElementHandle();
+			boolean qualified = slot.getContents().size() > 0 && (handle instanceof ReportDesignHandle
+					|| handle instanceof ListHandle || handle instanceof ListGroupHandle);
+			System.out.println("  SlotHandle element is acceptable: " + qualified);
+			return qualified;
 		}
-		// No report element selected
-		return false;
+		boolean qualified = selection instanceof ReportDesignHandle || selection instanceof ReportElementHandle;
+		return qualified;
 	}
 
-	/**
-	 * Keep this in sync with {@link SearchAction#internalIsEnabled(Object)}
-	 */
 	private List<SearchResult> saveChanges(SearchInputDialog.Search search) {
 		List<SearchResult> searchResults = new ArrayList<>();
 		TreeItem[] selectedItems = getSelectedItems();
@@ -444,6 +480,7 @@ public class SearchAction extends AbstractViewerAction {
 	}
 
 	private void select(List<SearchResult> searchResults) {
+		System.out.println("select search results");
 		List<Object> list = new ArrayList<>();
 		for (SearchResult result : searchResults) {
 			SearchPathMember member = result.path.get(result.path.size() - 1);
@@ -468,9 +505,8 @@ public class SearchAction extends AbstractViewerAction {
 
 	private boolean isEntryRegistered(List<SearchResult> searchResults, SearchResult newResult) {
 		for (SearchResult entry : searchResults) {
-			if (entry.getElementName().equals(newResult.getElementName()) &&
-						entry.getElementId().equals(newResult.getElementId())
-			)
+			if (entry.getElementName().equals(newResult.getElementName())
+					&& entry.getElementId().equals(newResult.getElementId()))
 				return true;
 		}
 		return false;

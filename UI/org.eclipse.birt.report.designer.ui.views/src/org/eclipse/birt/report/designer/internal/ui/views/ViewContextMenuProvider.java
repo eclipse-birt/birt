@@ -45,7 +45,15 @@ public class ViewContextMenuProvider extends ContextMenuProvider {
 	 */
 	public ViewContextMenuProvider(ISelectionProvider viewer) {
 		super(viewer);
+		System.out.println("Setting treeViewer to " + viewer);
 		SearchHandler.treeViewer = (TreeViewer) viewer;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		System.out.println("Clearing treeViewer");
+		SearchHandler.treeViewer = null;
 	}
 
 	/**
