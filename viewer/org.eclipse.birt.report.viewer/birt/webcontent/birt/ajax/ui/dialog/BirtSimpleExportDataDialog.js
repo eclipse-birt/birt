@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -199,48 +199,48 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		
 		if( !rtl )
 		{
-			oInputs[0].src = canAdd ? "birt/images/AddAll.gif" : "birt/images/AddAll_disabled.gif";
+			oInputs[0].src = canAdd ? "birt/images/AddAll.png" : "birt/images/AddAll_disabled.png";
 		}
 		else
 		{
-			oInputs[0].src = canAdd ? "birt/images/AddAll_rtl.gif" : "birt/images/AddAll_disabled_rtl.gif";
+			oInputs[0].src = canAdd ? "birt/images/AddAll_rtl.png" : "birt/images/AddAll_disabled_rtl.png";
 		}
 		oInputs[0].style.cursor = canAdd ? "pointer" : "default";
 		
 		if( !rtl )
 		{
-			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add.gif" : "birt/images/Add_disabled.gif";
+			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add.png" : "birt/images/Add_disabled.png";
 		}
 		else
 		{
-			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add_rtl.gif" : "birt/images/Add_disabled_rtl.gif";
+			oInputs[1].src = canAdd && srcSelectedIndex >= 0 ? "birt/images/Add_rtl.png" : "birt/images/Add_disabled_rtl.png";
 		}	
 		oInputs[1].style.cursor = canAdd ? "pointer" : "default";
 		
 		if( !rtl )
 		{ 
-			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove.gif" : "birt/images/Remove_disabled.gif";
+			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove.png" : "birt/images/Remove_disabled.png";
 		}
 		else
 		{
-			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove_rtl.gif" : "birt/images/Remove_disabled_rtl.gif";
+			oInputs[2].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Remove_rtl.png" : "birt/images/Remove_disabled_rtl.png";
 		}	
 		oInputs[2].style.cursor = canRemove ? "pointer" : "default";
 
 		if( !rtl )
 		{
-			oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
+			oInputs[3].src = canRemove ? "birt/images/RemoveAll.png" : "birt/images/RemoveAll_disabled.png";
 		}
 		else
 		{
-			oInputs[3].src = canRemove ? "birt/images/RemoveAll_rtl.gif" : "birt/images/RemoveAll_disabled_rtl.gif";
+			oInputs[3].src = canRemove ? "birt/images/RemoveAll_rtl.png" : "birt/images/RemoveAll_disabled_rtl.png";
 		}
 		oInputs[3].style.cursor = canRemove ? "pointer" : "default";
 
-		oInputs[4].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Up.gif" : "birt/images/Up_disabled.gif";
+		oInputs[4].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Up.png" : "birt/images/Up_disabled.png";
 		oInputs[4].style.cursor = canRemove ? "pointer" : "default";
 
-		oInputs[5].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Down.gif" : "birt/images/Down_disabled.gif";
+		oInputs[5].src = canRemove && destSelectedIndex >= 0 ? "birt/images/Down.png" : "birt/images/Down_disabled.png";
 		oInputs[5].style.cursor = canRemove ? "pointer" : "default";
 		
 		if( canExport )
@@ -423,7 +423,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		}
 		else
 		{
-			alert ( Constants.error.columnRequired );	
+			birtMessageDialog.showMessage( Constants.error.columnRequired );	
 		}
 	},
 	
@@ -552,6 +552,29 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		else
 			hiddenCarriageReturn.value = "false";
 		hiddenForm.appendChild( hiddenCarriageReturn );		
+
+		// Exports data with header line based on column display name
+		var oColumnDisplayName = $( 'exportDataWithColumnDisplayName' );
+		var hiddenColumnDisplayName = document.createElement( 'input' );
+		hiddenColumnDisplayName.type = 'hidden';
+		hiddenColumnDisplayName.name = Constants.PARAM_COLUMNDISPLAYNAME;
+		if( oColumnDisplayName && oColumnDisplayName.checked )
+			hiddenColumnDisplayName.value = "true";
+		else
+			hiddenColumnDisplayName.value = "false";
+		hiddenForm.appendChild( hiddenColumnDisplayName );		
+
+		// Exports data with header line based on column name
+		var oColumnName = $( 'exportDataWithColumnName' );
+		var hiddenColumnName = document.createElement( 'input' );
+		hiddenColumnName.type = 'hidden';
+		hiddenColumnName.name = Constants.PARAM_COLUMNNAME;
+		if( oColumnName && oColumnName.checked )
+			hiddenColumnName.value = "true";
+		else
+			hiddenColumnName.value = "false";
+		hiddenForm.appendChild( hiddenColumnName );		
+				
 				
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';

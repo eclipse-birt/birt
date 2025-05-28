@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -63,6 +63,8 @@ var Constants = {
 	PARAM_EXPORT_DATATYPE : '__exportdatatype',
 	PARAM_LOCALENEUTRAL : '__localeneutral',
 	PARAM_CARRIAGERETURN : '__carriagereturn',
+	PARAM_COLUMNDISPLAYNAME : '__columndisplayname',
+	PARAM_COLUMNNAME : '__columnname',
 	PARAM_DATA_EXTRACT_FORMAT : '__extractformat',
 	PARAM_DATA_EXTRACT_EXTENSION : '__extractextension',
 	PARAM_ISNULL : '__isnull',

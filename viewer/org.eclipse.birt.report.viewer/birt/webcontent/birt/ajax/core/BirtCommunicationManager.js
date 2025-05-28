@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -53,6 +53,7 @@ BirtCommunicationManager.prototype =
 		//activate delay message manager;
 		this.__active = true;
 		birtProgressBar.__start( );
+		birtToolbarTheme.initToggle();
 		
 		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
 		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: xmlDoc,
@@ -114,6 +115,7 @@ BirtCommunicationManager.prototype =
 	{
 	    //deactivate delay message manager
 		birtProgressBar.__stop( );
+		birtReportDocument.__beh_preview_layout("postProcess");
 	    this.__active = false;
 	}
 }

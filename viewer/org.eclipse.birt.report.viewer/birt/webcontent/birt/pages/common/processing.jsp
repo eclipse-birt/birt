@@ -1,5 +1,5 @@
 <%-----------------------------------------------------------------------------
-	Copyright (c) 2004 Actuate Corporation and others.
+	Copyright (c) 2004, 2025 Actuate Corporation and others.
 	All rights reserved. This program and the accompanying materials 
 	are made available under the terms of the Eclipse Public License v2.0
 	which accompanies this distribution, and is available at
@@ -29,7 +29,7 @@
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
 		<LINK REL="stylesheet" HREF="<%= request.getContextPath( ) + "/webcontent/birt/styles/style.css" %>" TYPE="text/css">
 	</HEAD>
-	<BODY STYLE="background-color: #ECE9D8;">
+	<BODY">
 		<DIV ID="progressBar" ALIGN="center">
 			<TABLE WIDTH="250px" CLASS="birtviewer_progresspage" CELLSPACING="10px">
 				<TR>

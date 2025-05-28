@@ -249,6 +249,16 @@
 			<BR/>
 			<DIV>
 				<TABLE cellpadding="0" cellspacing="0">
+					<TR>
+						<TD><INPUT TYPE="checkbox" ID="exportDataWithColumnDisplayName" checked=true></TD>
+						<TD nowrap="nowrap">
+							<label for="exportDataWithColumnDisplayName"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.column.display.name" )%></label>
+						</TD>
+						<TD style="padding-left:20px;"><INPUT TYPE="checkbox" ID="exportDataWithColumnName"></TD>
+						<TD nowrap="nowrap">
+							<label for="exportDataWithColumnName"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.column.name" )%></label>
+						</TD>
+					</TR>
 					<TR >
 						<TD><INPUT TYPE="checkbox" ID="exportColumnDataType"></TD>
 						<TD>

@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -141,11 +141,9 @@ SoapResponseHelper.prototype =
 	 	var faultStrings = data.getElementsByTagName( 'faultstring' );
 	 	if ( faultStrings[0] && faultStrings[0].firstChild )
 	 	{
-			alert( faultStrings[0].firstChild.data );
-		}
-		else
-		{
-			alert( Constants.error.unknownError );
+			birtMessageDialog.showMessage(faultStrings[0].firstChild.data);
+		} else {
+			birtMessageDialog.showMessage(Constants.error.unknownError);
 		}	
 	},
 	

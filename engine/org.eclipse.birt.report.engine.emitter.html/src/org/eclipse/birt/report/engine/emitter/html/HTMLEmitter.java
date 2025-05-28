@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2007, 2024, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -232,13 +232,14 @@ public abstract class HTMLEmitter {
 	 * @param needOutputBackgroundSize need output background size
 	 */
 	public void buildPageStyle(IPageContent page, StringBuffer styleBuffer, boolean needOutputBackgroundSize) {
-		// The method getStyle( ) will nevel return a null value;
+		// The method getStyle( ) will never return a null value;
 		IStyle style = page.getStyle();
+		if (style.getBackgroundColor() == null) {
+			style.setBackgroundColor("white");
+		}
 		if (!needOutputBackgroundSize) {
 			DimensionType[] pageSize = { page.getPageHeight(), page.getPageWidth() };
 			AttributeBuilder.buildBackground(styleBuffer, style, reportEmitter, pageSize);
-		} else {
-			AttributeBuilder.buildBackgroundColor(styleBuffer, style, reportEmitter);
 		}
 		AttributeBuilder.buildBorders(styleBuffer, style);
 	}

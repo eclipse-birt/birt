@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -101,28 +101,46 @@ public interface IHTMLRenderOption extends IRenderOption {
 	 */
 	String HTML_DISPLAY_GROUP_ICON = "displayGroupIcon"; //$NON-NLS-1$ //false
 
+	/** property key: image directory */
 	String IMAGE_DIRECTROY = "imageDirectory";
 
+	/** property key: base image URL */
 	String BASE_IMAGE_URL = "baseImageURL";
 
+	/** property key: layout preference fixed layout */
 	String LAYOUT_PREFERENCE_FIXED = "fixed"; //$NON-NLS-1$
 
+	/** property key: layout preference auto layout */
 	String LAYOUT_PREFERENCE_AUTO = "auto"; //$NON-NLS-1$
 
+	/** property key: viewport meta */
 	String HTML_VIEWPORT_META = "viewport"; //$NON-NLS-1$
 
+	/** property key: viewport meta */
+	String VIEWER_PREVIEW_LAYOUT = "preview_layout"; //$NON-NLS-1$
+
+	/** property key: viewer preview like page layout */
+	String VIEWER_PREVIEW_PAGE_LAYOUT = "preview_page"; //$NON-NLS-1$
+
+	/** property key: viewer preview like html layout (w/o page simulation) */
+	String VIEWER_PREVIEW_HTML_LAYOUT = "preview_html"; //$NON-NLS-1$
+
 	/**
+	 * Get the Instance IDs
+	 *
 	 * @return Returns the instanceIDs.
 	 */
 	List getInstanceIDs();
 
 	/**
+	 * Set instance IDs
+	 *
 	 * @param instanceIDs The instanceIDs to set.
 	 */
 	void setInstanceIDs(List instanceIDs);
 
 	/**
-	 * sets whether the HTML output can be embedded directly into an HTML page
+	 * Sets whether the HTML output can be embedded directly into an HTML page
 	 *
 	 * @param embeddable whether the HTML output can be embedded directly into an
 	 *                   HTML page
@@ -130,6 +148,8 @@ public interface IHTMLRenderOption extends IRenderOption {
 	void setEmbeddable(boolean embeddable);
 
 	/**
+	 * Get the information if the content is embeddable
+	 *
 	 * @return whether the output is embeddable
 	 */
 	boolean getEmbeddable();
@@ -140,14 +160,23 @@ public interface IHTMLRenderOption extends IRenderOption {
 	void setUserAgent(String userAgent);
 
 	/**
+	 * Get the user agent of the request
+	 *
 	 * @return the user agent for the request
 	 */
 	String getUserAgent();
 
+	/**
+	 * Set the URL encoding
+	 *
+	 * @param encoding
+	 */
 	void setUrlEncoding(String encoding);
 
 	/**
-	 * @return the user agent for the request
+	 * Get the URL encoding
+	 *
+	 * @return the URL encoding
 	 */
 	String getUrlEncoding();
 
@@ -161,7 +190,7 @@ public interface IHTMLRenderOption extends IRenderOption {
 	/**
 	 * Get master page content.
 	 *
-	 * @return
+	 * @return the master page content
 	 */
 	boolean getMasterPageContent();
 
@@ -173,44 +202,54 @@ public interface IHTMLRenderOption extends IRenderOption {
 	void setHtmlPagination(boolean paginate);
 
 	/**
-	 * Get Html pagination.
+	 * Get html pagination.
 	 *
-	 * @return
+	 * @return the html pagination
 	 */
 	boolean getHtmlPagination();
 
 	/**
+	 * Set if the selection handle must be included
+	 *
+	 * @param option include the selection handle
 	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
 	 */
 	@Deprecated
 	void setIncludeSelectionHandle(boolean option);
 
 	/**
+	 * Get the information whether the selection handle is included
+	 *
+	 * @return is the selection handle included
 	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
 	 */
 	@Deprecated
 	boolean getIncludeSelectionHandle();
 
 	/**
-	 * Set Html RTL flag.
+	 * Set html RTL flag.
 	 *
 	 * @param flag
 	 */
 	void setHtmlRtLFlag(boolean flag);
 
 	/**
-	 * Get Html RTL flag.
+	 * Get html RTL flag.
 	 *
-	 * @return
+	 * @return the html RTL flag
 	 */
 	boolean getHtmlRtLFlag();
 
 	/**
-	 * @param htmlTile
+	 * Set the html title
+	 *
+	 * @param htmlTitle html title
 	 */
 	void setHtmlTitle(String htmlTitle);
 
 	/**
+	 * Get the html title
+	 *
 	 * @return the default html title
 	 */
 	String getHtmlTitle();
@@ -225,7 +264,7 @@ public interface IHTMLRenderOption extends IRenderOption {
 	/**
 	 * Get page footer float flag.
 	 *
-	 * @return
+	 * @return the page footer float flag
 	 */
 	boolean getPageFooterFloatFlag();
 
@@ -299,7 +338,7 @@ public interface IHTMLRenderOption extends IRenderOption {
 	 * returns whether to use compact mode for the HTML output, whose default value
 	 * is false.
 	 *
-	 * @return
+	 * @return returns whether to use compact mode for the HTML output
 	 */
 	boolean isEnableCompactMode();
 
@@ -375,4 +414,21 @@ public interface IHTMLRenderOption extends IRenderOption {
 	 * the URL of head.js file
 	 */
 	String BIRT_JS_URL_KEY = "birtJsUrl"; //$NON-NLS-1$
+
+	/**
+	 * Set the viewer page layout is to be used
+	 *
+	 * @param pageLayout page layout for the preview
+	 */
+	void setViewerPageLayout(boolean pageLayout);
+
+	/**
+	 * Get the viewer preview is page layout
+	 *
+	 * @return true, if the viewer preview is page layout
+	 */
+	default boolean getViewerPageLayout() {
+		return true;
+	}
+
 }

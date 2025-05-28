@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -17,7 +17,7 @@ BirtNavigationBar = Class.create( );
 BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 {
 	_IMAGE_PATH : "birt/images/",
-	_IMAGE_EXTENSION : ".gif",
+	_IMAGE_EXTENSION : ".png",
 	_IMAGE_FIRST_PAGE : !rtl?"FirstPage":"LastPage",
 	_IMAGE_LAST_PAGE : !rtl?"LastPage":"FirstPage",
 	_IMAGE_PREVIOUS_PAGE : !rtl?"PreviousPage":"NextPage",
@@ -158,9 +158,9 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE, { name : Constants.PARAM_PAGE, value : oGotoPage.value } );
 		}
 		else
-		{			
-			alert( Constants.error.invalidPageNumber );
-			oGotoPage.focus( );
+		{
+			birtMessageDialog.showMessage(Constants.error.invalidPageNumber);
+			oGotoPage.focus();
 		}
 	},
 	

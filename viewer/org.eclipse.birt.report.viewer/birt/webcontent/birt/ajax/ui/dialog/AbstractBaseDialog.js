@@ -1,5 +1,5 @@
 /******************************************************************************
- *	Copyright (c) 2004 Actuate Corporation and others.
+ *	Copyright (c) 2004, 2025 Actuate Corporation and others.
  *	All rights reserved. This program and the accompanying materials 
  *	are made available under the terms of the Eclipse Public License v2.0
  *	which accompanies this distribution, and is available at
@@ -434,8 +434,8 @@ AbstractBaseDialog.prototype =
 		var difference = outerWidth - innerWidth;			
 		contentHolder.style.width = this.contentHolderWidth + 'px';
 		var newOuterWidth = contentHolder.offsetWidth + difference;
-		this.__instance.style.width = newOuterWidth + 'px';
-			
+		// 202505517 TG width will be set based on CSS handling
+		// this.__instance.style.width = newOuterWidth + 'px';
 		this.__iframe.style.width = this.__instance.offsetWidth + 'px';
 		this.__iframe.style.height = this.__instance.offsetHeight + 'px';
 		

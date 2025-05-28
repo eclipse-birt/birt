@@ -608,6 +608,10 @@
       </repositoryList>
     </targlet>
   </setupTask>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="p2.birt"
+      value="https://download.eclipse.org/birt/updates/nightly/latest"/>
   <stream name="master"
       label="Workspace setup for branch master">
     <setupTask

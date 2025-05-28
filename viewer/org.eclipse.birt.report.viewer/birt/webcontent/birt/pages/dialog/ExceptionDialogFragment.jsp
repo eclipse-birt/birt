@@ -1,5 +1,5 @@
 <%-----------------------------------------------------------------------------
-	Copyright (c) 2004 Actuate Corporation and others.
+	Copyright (c) 2004, 2025 Actuate Corporation and others.
 	All rights reserved. This program and the accompanying materials 
 	are made available under the terms of the Eclipse Public License v2.0
 	which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@
 		<TD CLASS="birtviewer_exception_dialog">
 			<TABLE CELLSPACING="2" CELLPADDING="2">
 				<TR>
-					<TD VALIGN="top"><IMG SRC="birt/images/Error.gif" /></TD>
+					<TD VALIGN="top"><IMG style="width:36px; height:36px;" src="birt/images/Error.png" /></TD>
 					
 					<TD>
 					

@@ -47,6 +47,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.LayoutProcessor;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
@@ -587,8 +588,9 @@ public class PDFPage extends AbstractPage {
 		}
 
 		BaseFont font = getBaseFont(fontInfo);
+		validateSymbolicFont(font);
 		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
-
+		
 		float fontSize = fontInfo.getFontSize();
 		try {
 			// PDF/A: if font not embeddable then use the configured PDF/A fallback font
@@ -861,5 +863,19 @@ public class PDFPage extends AbstractPage {
 	 */
 	public boolean isInArtifact() {
 		return artifactDepth > 0;
+	}
+
+	/**
+	 * Validate the font property of "specific". This is a marker of symbolic font
+	 * and needs enabled handling of OpenPDF LayoutProcessor for kerning to display
+	 * the font correctly.
+	 */
+	private void validateSymbolicFont(BaseFont font) {
+		if (font.isFontSpecific()) {
+			if (LayoutProcessor.isEnabled()) {
+				LayoutProcessor.disable();
+			}
+			LayoutProcessor.setKerning();
+		}
 	}
 }

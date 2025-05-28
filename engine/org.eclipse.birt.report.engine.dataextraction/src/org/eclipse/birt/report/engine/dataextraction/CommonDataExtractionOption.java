@@ -24,11 +24,20 @@ import org.eclipse.birt.report.engine.api.DataExtractionOption;
  *
  */
 public class CommonDataExtractionOption extends DataExtractionOption implements ICommonDataExtractionOption {
+
+	/**
+	 * Constructor 1
+	 */
 	public CommonDataExtractionOption() {
 		super();
 	}
 
-	public CommonDataExtractionOption(Map options) {
+	/**
+	 * Constructor 2
+	 *
+	 * @param options extraction options
+	 */
+	public CommonDataExtractionOption(Map<String, Object> options) {
 		super(options);
 	}
 
@@ -211,6 +220,6 @@ public class CommonDataExtractionOption extends DataExtractionOption implements 
 
 	@Override
 	public int getColumnLocalizeOption() {
-		return getIntOption(LOCALIZE_COLUMN_NAME, OPTION_COLUMN_NAME);
+		return getIntOption(LOCALIZE_COLUMN_NAME, OPTION_COLUMN_DISPLAY_NAME);
 	}
 }
