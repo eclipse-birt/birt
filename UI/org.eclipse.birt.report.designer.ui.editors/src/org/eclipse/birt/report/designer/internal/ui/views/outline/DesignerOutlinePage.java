@@ -42,6 +42,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ViewContextMenuProvide
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.SearchAction;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
@@ -72,6 +73,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -447,6 +450,16 @@ public class DesignerOutlinePage extends ContentOutlinePage
 		getSite().registerContextMenu("outlinemenu", menuManager, //$NON-NLS-1$
 				getSite().getSelectionProvider());
 		getSite().setSelectionProvider(getTreeViewer());
+
+		// Add a key listener for opening the search dialog.
+		getTreeViewer().getTree().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.stateMask == SWT.CTRL && e.keyCode == 'f') {
+					new SearchAction(getTreeViewer()).run();
+				}
+			}
+		});
 	}
 
 	/**
