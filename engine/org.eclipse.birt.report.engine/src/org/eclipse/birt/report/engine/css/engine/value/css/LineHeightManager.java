@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -13,11 +13,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.css.engine.value.css;
 
-import org.apache.batik.css.engine.StyleMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
-import org.eclipse.birt.report.engine.css.engine.ValueManager;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.AbstractLengthManager;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringMap;
@@ -27,6 +26,12 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
+/**
+ * Line height manager controls the properties and methods for the line height
+ *
+ * @since 3.3
+ *
+ */
 public class LineHeightManager extends AbstractLengthManager {
 
 	/**
@@ -37,6 +42,9 @@ public class LineHeightManager extends AbstractLengthManager {
 		values.put(CSSConstants.CSS_NORMAL_VALUE, CSSValueConstants.NORMAL_VALUE);
 	}
 
+	/**
+	 * Constructor
+	 */
 	public LineHeightManager() {
 	}
 
@@ -70,23 +78,25 @@ public class LineHeightManager extends AbstractLengthManager {
 //		throw createInvalidLexicalUnitDOMException(lu.getLexicalUnitType());
 	}
 
-	/**
-	 * Implements
-	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
-	 */
 	@Override
 	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			switch (value.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_IDENT:
 				return value;
+			case CSSPrimitiveValue.CSS_NUMBER:
 			case CSSPrimitiveValue.CSS_PERCENTAGE:
 				float scale = value.getFloatValue();
-				IStyle cs = (IStyle) elt.getComputedStyle();
+				IStyle cs = elt.getComputedStyle();
 				assert cs != null;
-				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
+				Value fontSize = (Value) cs.getProperty(StyleConstants.STYLE_FONT_SIZE);
 				assert fontSize != null;
 				float fs = fontSize.getFloatValue();
+				// convert the line height standard numbers to line height for unit pt
+				// according to the percentage calculation
+				if (value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER) {
+					return new FloatValue(fontSize.getPrimitiveType(), fs * scale);
+				}
 				return new FloatValue(fontSize.getPrimitiveType(), fs * scale / 100.0f);
 			}
 		}
