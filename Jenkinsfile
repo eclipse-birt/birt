@@ -1,6 +1,6 @@
 pipeline {
   options {
-    timeout(time: 120, unit: 'MINUTES')
+    timeout(time: 90, unit: 'MINUTES')
     buildDiscarder(logRotator(numToKeepStr:'10'))
     disableConcurrentBuilds(abortPrevious: true)
   }
@@ -146,7 +146,7 @@ Console: <a href='${env.BUILD_URL}/console'>${env.BUILD_URL}/console</a>
 def void mvn() {
   wrap([$class: 'Xvnc', useXauthority: true]) {
     sh '''
-      export MAVEN_OPTS="-XX:MaxRAMPercentage=25"
+      export MAVEN_OPTS="-XX:MaxRAMPercentage=20"
       mvn \
       clean \
       verify \
