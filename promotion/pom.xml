@@ -37,7 +37,7 @@ SPDX-License-Identifier: EPL-2.0
         <artifactId>tycho-eclipse-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <executionEnvironment>JavaSE-21</executionEnvironment>
+          <executionEnvironment>JavaSE-17</executionEnvironment>
           <dependencies>
             <dependency>
               <artifactId>org.eclipse.justj.p2</artifactId>
@@ -69,7 +69,7 @@ SPDX-License-Identifier: EPL-2.0
             </goals>
             <phase>package</phase>
             <configuration>
-              <argLine>-XX:MaxRAMPercentage=30</argLine>
+              <argLine>-XX:MaxRAMPercentage=35</argLine>
               <appArgLine>
                 -consoleLog
                 -application org.eclipse.justj.p2.manager
