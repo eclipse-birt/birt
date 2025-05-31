@@ -21,7 +21,7 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * Fragment for report tool bar.
  * <p>
  *
- * @see BaseFragment
+ * @see BaseDialogFragment
  */
 public class MessageDialogFragment extends BaseDialogFragment {
 

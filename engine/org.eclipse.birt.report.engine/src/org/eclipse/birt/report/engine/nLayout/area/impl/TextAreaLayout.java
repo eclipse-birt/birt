@@ -251,6 +251,7 @@ public class TextAreaLayout implements ILayout {
 	 * Transform the text content
 	 *
 	 * @param textContent text content
+	 * @param context     layout context
 	 */
 	public void transform(ITextContent textContent, LayoutContext context) {
 		String originalText = textContent.getText();
