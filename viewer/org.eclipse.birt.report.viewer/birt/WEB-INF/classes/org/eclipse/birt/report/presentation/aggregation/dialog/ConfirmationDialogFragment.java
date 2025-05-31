@@ -20,7 +20,7 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * Fragment for confirmation dialog.
  * <p>
  *
- * @see BaseFragment
+ * @see BaseDialogFragment
  */
 public class ConfirmationDialogFragment extends BaseDialogFragment {
 
