@@ -120,12 +120,22 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 	 *
 	 */
 	public static class SplitTrackingData {
+		/**
+		 * Constructor
+		 */
 		public SplitTrackingData() {
-		};
+		}
 
+		/** property: is first part */
 		public ContainerArea firstPart = null;
+
+		/** property: count of part */
 		public short partNumber = 1;
+
+		/** property: last part number */
 		public short lastPartNumber = 1; // This is only defined for the first part (when partNumber is 1).
+
+		/** property: is artifact */
 		public boolean artifact = false;
 	}
 
