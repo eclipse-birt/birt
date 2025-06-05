@@ -5,7 +5,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
     xmlns:jdt="http://www.eclipse.org/oomph/setup/jdt/1.0"
-    xmlns:p2="http://www.eclipse.org/oomph/p2/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
@@ -431,37 +430,20 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="latest">
+      value="4.20">
     <choice
         value="latest"
         label="BIRT Latest"/>
     <choice
-        value="4.19"
-        label="BIRT 4.19"/>
+        value="4.20"
+        label="BIRT 4.20"/>
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
-      disabled="true"
-      filter="(birt.version=4.16x)"
-      sourceURL="https://download.eclipse.org/eclipse/updates/4.32-I-builds"
-      targetURL="https://download.eclipse.org/eclipse/updates/4.32-I-builds/I20240601-0610">
-    <description>Redirect the I-Build to the release train for BIRT 4.16</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:RedirectionTask"
-      disabled="true"
-      filter="(birt.version=4.16)"
+      filter="(birt.version=4.20)"
       sourceURL="${eclipse.latest.p2}"
-      targetURL="https://download.eclipse.org/releases/${eclipse.target.platform.latest}/202406121000">
-    <description>Redirect the I-Build to the release train for BIRT 4.16</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:RedirectionTask"
-      disabled="true"
-      filter="(birt.version=4.19)"
-      sourceURL="${eclipse.latest.p2}"
-      targetURL="https://download.eclipse.org/releases/2025-03/202503121000">
-    <description>Redirect the I-Build to the release train for BIRT 4.19</description>
+      targetURL="https://download.eclipse.org/releases/2025-06/202506111000">
+    <description>Redirect the I-Build to the release train for BIRT 4.20</description>
   </setupTask>
   <setupTask
       xsi:type="setup.targlets:TargletTask">
@@ -585,22 +567,17 @@
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       </repositoryList>
       <repositoryList
-          name="4.19">
-        <annotation>
-          <content
-              xsi:type="p2:Repository"
-              url="https://download.eclipse.org/datatools/updates/release/1.16.2"/>
-        </annotation>
+          name="4.20">
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.35.0"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.36.0"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.16"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.21"/>
         <repository
-            url="https://download.eclipse.org/releases/2025-03/202503121000"/>
+            url="https://download.eclipse.org/releases/2025-06/202506111000"/>
         <repository
-            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20250130-0832"/>
+            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20250503-1036"/>
         <repository
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
         <repository
