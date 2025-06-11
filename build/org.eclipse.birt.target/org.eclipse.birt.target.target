@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="63">
+<target name="Generated from BIRT" sequenceNumber="64">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="aQute.libg" version="0.0.0"/>
@@ -28,7 +28,6 @@
       <unit id="jakarta.xml.bind-api" version="2.3.3"/>
       <unit id="jakarta.xml.bind-api" version="4.0.2"/>
       <unit id="jakarta.xml.soap-api" version="0.0.0"/>
-      <unit id="javax.annotation" version="0.0.0"/>
       <unit id="javax.servlet-api" version="0.0.0"/>
       <unit id="javax.xml.rpc-api" version="0.0.0"/>
       <unit id="org.apache.aries.spifly.dynamic.bundle" version="0.0.0"/>
@@ -61,6 +60,9 @@
       <unit id="org.apache.commons.math3" version="0.0.0"/>
       <unit id="org.apache.derby" version="0.0.0"/>
       <unit id="org.apache.felix.scr" version="0.0.0"/>
+      <unit id="org.apache.httpcomponents.client5.httpclient5" version="0.0.0"/>
+      <unit id="org.apache.httpcomponents.core5.httpcore5" version="0.0.0"/>
+      <unit id="org.apache.httpcomponents.core5.httpcore5-h2" version="0.0.0"/>
       <unit id="org.apache.logging.log4j.api" version="0.0.0"/>
       <unit id="org.apache.logging.log4j.to.slf4j" version="0.0.0"/>
       <unit id="org.apache.lucene.facet" version="0.0.0"/>
@@ -133,8 +135,8 @@
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
-      <unit id="org.mortbay.jasper.apache-el" version="9.0.102"/>
-      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.102"/>
+      <unit id="org.mortbay.jasper.apache-el" version="9.0.105"/>
+      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.105"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.namespace.contract" version="0.0.0"/>
@@ -145,13 +147,16 @@
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.37-I-builds"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.36.0"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.0.21"/>
-      <repository location="https://download.eclipse.org/releases/2025-06/202506111000"/>
-      <repository location="https://download.eclipse.org/justj/epp/release/21.0.0.v20250503-1036"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
+      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
+      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
+      <repository location="https://download.eclipse.org/webtools/CI/latest"/>
+      <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
-      <repository location="https://download.eclipse.org/datatools/updates/release/1.16.3"/>
     </location>
   </locations>
 </target>

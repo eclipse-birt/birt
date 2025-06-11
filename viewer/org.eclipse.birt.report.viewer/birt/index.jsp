@@ -111,8 +111,8 @@
 
 		</style>
 	<%
-		String viewerVersion = "4.20.0";
-		String engineVersion = "4.20.0";
+		String viewerVersion = "4.21.0";
+		String engineVersion = "4.21.0";
 		String qualifierVersion = "4.19.0.qualifier";
 
 		String javaVersion	= System.getProperty("java.version");
