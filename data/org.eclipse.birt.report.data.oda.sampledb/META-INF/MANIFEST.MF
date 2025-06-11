@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.sampledb;singleton:=true
-Bundle-Version: 4.20.0.qualifier
+Bundle-Version: 4.21.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.data.oda.sampledb.SampledbPlugin
 Bundle-Vendor: %Bundle-Vendor
