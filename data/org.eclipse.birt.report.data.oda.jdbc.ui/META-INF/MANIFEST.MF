@@ -7,13 +7,13 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.report.data.oda.jdbc;bundle-version="[2.2.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.report.data.oda.jdbc;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.datatools.connectivity.oda.design.ui;bundle-version="[3.0.4,4.0.0)",
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.jface.text;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.birt.core;bundle-version="[2.5.0,5.0.0)",
- org.eclipse.birt.report.data.bidi.utils;bundle-version="[2.5.1,5.0.0)",
+ org.eclipse.birt.core;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.data.bidi.utils;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.birt.report.data.bidi.utils.ui;bundle-version="[2.5.1,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

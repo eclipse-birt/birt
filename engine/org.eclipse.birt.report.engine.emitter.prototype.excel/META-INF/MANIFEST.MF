@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel;singleton:=true
 Bundle-Version: 4.21.0.qualifier
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.13.0",
- org.eclipse.birt.chart.engine;bundle-version="4.13.0",
- org.eclipse.birt.chart.engine.extension;bundle-version="4.13.0",
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.chart.engine;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.chart.engine.extension;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.birt.chart.reportitem;bundle-version="4.13.0"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
