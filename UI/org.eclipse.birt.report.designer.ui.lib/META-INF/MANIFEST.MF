@@ -17,7 +17,7 @@ Export-Package: org.eclipse.birt.report.designer.internal.lib.commands,
  org.eclipse.birt.report.designer.ui,
  org.eclipse.birt.report.designer.ui.editors,
  org.eclipse.birt.report.designer.ui.wizards
-Require-Bundle: org.eclipse.birt.report.designer.ui;bundle-version="[2.1.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.report.designer.ui;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.gef;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
@@ -26,11 +26,11 @@ Require-Bundle: org.eclipse.birt.report.designer.ui;bundle-version="[2.1.0,5.0.0
  org.eclipse.ui.cheatsheets;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.ui.forms;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.ui.workbench.texteditor;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.model;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.designer.core;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.designer.ui.editors;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.designer.ui.editors.schematic;bundle-version="[2.1.0,5.0.0)",
+ org.eclipse.birt.core;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.model;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.designer.core;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.designer.ui.editors;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.designer.ui.editors.schematic;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.birt.report.designer.ui.views;bundle-version="[2.2.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

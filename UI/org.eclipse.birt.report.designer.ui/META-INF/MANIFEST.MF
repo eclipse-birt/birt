@@ -88,12 +88,12 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.gef;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.eclipse.ui.workbench.texteditor;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.jface.text;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.model;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.data;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.engine;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.data.adapter;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.report.designer.core;bundle-version="[2.1.0,5.0.0)",
+ org.eclipse.birt.core;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.model;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.data;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.engine;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.data.adapter;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.designer.core;bundle-version="[4.21.0,5.0.0)",
  org.eclipse.ui.cheatsheets;bundle-version="[3.2.0,4.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
