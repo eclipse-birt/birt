@@ -18,5 +18,5 @@ Export-Package: org.eclipse.birt.report.designer.samplereports.description;x-int
  org.eclipse.birt.report.designer.ui.samplesview.sampleslocator,
  org.eclipse.birt.report.designer.ui.samplesview.util,
  org.eclipse.birt.report.designer.ui.samplesview.view
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.samplesview

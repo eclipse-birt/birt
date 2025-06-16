@@ -9,7 +9,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Require-Bundle: org.eclipse.birt.report.engine.emitter.pdf;bundle-version="4.13.0",
  org.junit;bundle-version="4.7.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pdf.tests
 Export-Package: org.eclipse.birt.report.engine.emitter.pdf.tests;x-internal:=true

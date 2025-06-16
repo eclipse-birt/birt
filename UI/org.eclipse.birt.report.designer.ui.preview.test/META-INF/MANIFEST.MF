@@ -7,7 +7,7 @@ Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.birt.report.designer.ui.preview;bundle-version="4.13.0",
  org.eclipse.birt.report.engine;bundle-version="4.13.0",
  org.junit;bundle-version="4.13.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.preview.test
 Export-Package: org.eclipse.birt.report.designer.ui.preview;x-internal:=true,
  org.eclipse.birt.report.designer.ui.preview.parameter;x-internal:=true,

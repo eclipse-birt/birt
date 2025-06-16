@@ -9,5 +9,5 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.1.0,5.0.0)",
  com.github.librepdf.openpdf;bundle-version="[1.3.0,3.0.0)"
 Export-Package: org.eclipse.birt.report.engine.emitter.postscript,
  org.eclipse.birt.report.engine.emitter.postscript.util
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.postscript

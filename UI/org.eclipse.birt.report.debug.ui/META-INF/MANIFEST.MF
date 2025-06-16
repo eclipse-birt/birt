@@ -48,5 +48,5 @@ Require-Bundle: org.eclipse.core.variables;bundle-version="3.5.100",
  org.eclipse.core.expressions;bundle-version="3.8.0"
 Bundle-ActivationPolicy: lazy
 Plugin-Class: org.eclipse.birt.report.debug.ui.DebugUI
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.debug.ui

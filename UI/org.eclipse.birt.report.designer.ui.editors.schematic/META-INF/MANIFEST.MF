@@ -30,5 +30,5 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.editors.layout,
  org.eclipse.birt.report.designer.ui.editors.schematic,
  org.eclipse.birt.report.designer.ui.editors.schematic.action
 Bundle-Vendor: %Bundle-Vendor
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.editors.schematic

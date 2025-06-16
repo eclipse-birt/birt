@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
  org.eclipse.birt.chart.device.extension;bundle-version="4.7.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.chart.device.pdf
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
 Import-Package: org.apache.batik.ext.awt.color;version="1.17.0",

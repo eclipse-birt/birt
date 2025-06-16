@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
  org.junit
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.report.model.adapter.oda;x-internal:=true,
  org.eclipse.birt.report.model.adapter.oda.api;x-internal:=true,
  org.eclipse.birt.report.model.adapter.oda.api.golden;x-internal:=true,

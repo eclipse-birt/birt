@@ -6,7 +6,7 @@ Bundle-Version: 4.21.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.integration.wtp.ui.BirtWTPUIPlugin
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.integration.wtp.ui,
  org.eclipse.birt.integration.wtp.ui.internal.actions,
  org.eclipse.birt.integration.wtp.ui.internal.dialogs,

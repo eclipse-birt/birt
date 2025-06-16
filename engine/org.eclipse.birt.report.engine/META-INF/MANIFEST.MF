@@ -81,7 +81,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:
  org.apache.batik.util;bundle-version="1.17.0"
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.engine
 Import-Package: org.apache.batik.css.engine;version="1.17.0",
  org.apache.batik.css.engine.value;version="1.17.0",

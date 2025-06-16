@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.birt.report.data.oda.jdbc;bundle-version="[2.2.0,5.0
  org.eclipse.birt.report.data.bidi.utils;bundle-version="[2.5.1,5.0.0)",
  org.eclipse.birt.report.data.bidi.utils.ui;bundle-version="[2.5.1,5.0.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.editors;x-internal:=true,

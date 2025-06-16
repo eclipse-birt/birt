@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="4.13.0",
  org.junit
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.postscript.tests
 Export-Package: org.eclipse.birt.report.engine.emitter.postscript;x-internal:=true,
  org.eclipse.birt.report.engine.emitter.postscript.golden.PostscriptRenderTest;x-internal:=true,

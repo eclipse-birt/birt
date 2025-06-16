@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.eclipse.birt.report.model.api; singleton:=true
 Bundle-Version: 4.21.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21

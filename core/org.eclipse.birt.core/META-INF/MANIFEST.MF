@@ -41,5 +41,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibili
  com.ibm.icu;bundle-version="70.1.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: javax.servlet

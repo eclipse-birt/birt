@@ -16,5 +16,5 @@ Export-Package: org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.data.adapter.impl
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.data.adapter
