@@ -36,5 +36,5 @@ Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.editors.action
  org.eclipse.birt.report.item.crosstab.ui.views.attributes.section;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;x-internal:=true,
  org.eclipse.birt.report.item.crosstab.ui.views.dialogs
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.item.crosstab.ui

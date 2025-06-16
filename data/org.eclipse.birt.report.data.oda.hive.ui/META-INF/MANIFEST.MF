@@ -19,5 +19,5 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.hive.ui.i18n;x-internal:=true,
  org.eclipse.birt.report.data.oda.hive.ui.plugin,
  org.eclipse.birt.report.data.oda.hive.ui.profile
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.hive.ui

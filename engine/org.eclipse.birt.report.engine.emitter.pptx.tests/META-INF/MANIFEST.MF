@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
  org.apache.poi.ooxml;bundle-version="[5.0.0,6.0.0)"
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pptx.tests
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.report.engine.emitter.pptx.tests;x-internal:=true,
  org.eclipse.birt.report.engine.emitter.pptx.tests.designs.pptx_project;x-internal:=true

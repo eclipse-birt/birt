@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.13.0",
  org.apache.poi.ooxml.schemas;bundle-version="[5.0.0,6.0.0)",
  org.apache.xmlbeans;bundle-version="[5.0.0,6.0.0)",
  org.apache.commons.commons-compress;bundle-version="[1.24.0,2.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,

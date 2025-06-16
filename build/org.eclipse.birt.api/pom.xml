@@ -24,14 +24,6 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.api</artifactId>
 	<packaging>pom</packaging>
-	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>org.eclipse.birt.p2updatesite</artifactId>
-			<version>${project.version}</version>
-			<type>eclipse-repository</type>
-		</dependency>
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>

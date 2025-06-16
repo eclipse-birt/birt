@@ -49,6 +49,6 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
  org.eclipse.emf.ecore.xmi;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
 Automatic-Module-Name: org.eclipse.birt.chart.engine

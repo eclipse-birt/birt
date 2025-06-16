@@ -18,5 +18,5 @@ Export-Package: org.eclipse.birt.report.engine.emitter.ppt,
  org.eclipse.birt.report.engine.emitter.ppt.util
 Import-Package: org.apache.commons.codec,
  org.apache.commons.codec.net
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.ppt

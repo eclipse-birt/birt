@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.13.0",
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.wpml.plugin.WordemitterPlugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.report.engine.emitter.wpml,
  org.eclipse.birt.report.engine.emitter.wpml.plugin;x-internal:=true,
  org.eclipse.birt.report.engine.emitter.wpml.writer

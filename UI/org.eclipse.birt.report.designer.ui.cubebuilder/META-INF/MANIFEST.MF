@@ -21,5 +21,5 @@ Export-Package: org.eclipse.birt.report.designer.ui.cubebuilder,
  org.eclipse.birt.report.designer.ui.cubebuilder.page,
  org.eclipse.birt.report.designer.ui.cubebuilder.provider,
  org.eclipse.birt.report.designer.ui.cubebuilder.util
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.cubebuilder

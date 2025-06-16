@@ -37,7 +37,7 @@ SPDX-License-Identifier: EPL-2.0
         <artifactId>tycho-eclipse-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <executionEnvironment>JavaSE-17</executionEnvironment>
+          <executionEnvironment>JavaSE-21</executionEnvironment>
           <dependencies>
             <dependency>
               <artifactId>org.eclipse.justj.p2</artifactId>

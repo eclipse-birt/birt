@@ -10,7 +10,7 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
 Require-Bundle: org.apache.ant;bundle-version="[1.10.11,2.0.0)"
 Automatic-Module-Name: org.eclipse.birt.build
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: org.dom4j;version="2.1.1",
  org.dom4j.dom;version="2.1.1",
  org.dom4j.io;version="2.1.1",

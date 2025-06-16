@@ -14,5 +14,5 @@ Export-Package: org.eclipse.birt.report.engine.emitter.odp,
  org.eclipse.birt.report.engine.emitter.odp.device;x-internal:=true,
  org.eclipse.birt.report.engine.emitter.odp.plugin;x-internal:=true,
  org.eclipse.birt.report.engine.emitter.odp.util
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.odp

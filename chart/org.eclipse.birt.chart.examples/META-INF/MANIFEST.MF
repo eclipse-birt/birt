@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.birt.chart.device.extension;bundle-version="[2.1.0,5
  org.eclipse.birt.data;bundle-version="[2.3.0,5.0.0)",
  org.eclipse.birt.chart.examples.core;bundle-version="[2.6.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.chart.examples.radar.ui.series,
  org.eclipse.birt.chart.examples.radar.ui.type
 Automatic-Module-Name: org.eclipse.birt.chart.examples

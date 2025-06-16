@@ -15,7 +15,7 @@ Require-Bundle: org.junit,
  org.eclipse.birt.report.engine.emitter.html;bundle-version="4.13.0",
  org.eclipse.birt.report.model;bundle-version="4.13.0"
 Bundle-Vendor: %Bundle-Vendor
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.report.tests.engine
 Export-Package: org.eclipse.birt.report.tests.engine;x-internal:=true,
  org.eclipse.birt.report.tests.engine.api;x-internal:=true,

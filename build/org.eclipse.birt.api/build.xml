@@ -15,7 +15,7 @@
 -->
 <project default="test" basedir=".">
 	<target name="test" depends="build-api-package" />
-	<property name="BIRT_VERSION" value="4.13.0" />
+	<property name="BIRT_VERSION" value="4.21.0" />
 	<property name="HERE" location="." />
 	<property name="LIB_DIR" location="./target/lib" />
 	<property name="ROOT_DIR" location="../../" />
@@ -136,7 +136,7 @@
 	<target name="build-api-manifest">
 		<property name="MANIFEST_TEMPLATE" location="./MANIFEST.MF.template" />
 		<property name="MANIFEST_MF" location="./target/manifest.mf" />
-		<java classname="CreateManifest">
+		<java classname="CreateManifest" fork="yes">
 			<classpath>
 				<pathelement location="${HERE}" />
 			</classpath>
@@ -145,6 +145,6 @@
 			<sysproperty key="LIB_DIR" value="${LIB_DIR}" />
 		</java>
 		<!-- update manifest version -->
-		<replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.13.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}" />
+		<replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.21.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}" />
 	</target>
 </project>

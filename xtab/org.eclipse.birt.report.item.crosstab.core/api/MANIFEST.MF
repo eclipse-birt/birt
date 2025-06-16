@@ -4,4 +4,4 @@ Bundle-Name: BIRT Crosstab API
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core.api;singleton:=true
 Bundle-Version: 4.21.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21

@@ -4,7 +4,7 @@ Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.axis.overlay;singleton:=true
 Bundle-Version: 4.21.0.qualifier
 Fragment-Host: org.apache.axis;bundle-version="1.4.1"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.axis.overlay
 Export-Package: org.eclipse.birt.axis.utility;x-internal:=true

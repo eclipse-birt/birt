@@ -16,6 +16,6 @@ Export-Package: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.internal.executor.load,
  org.eclipse.birt.report.engine.internal.index.v2
 Require-Bundle: org.junit;bundle-version="4.13.0";resolution:=optional;visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.engine.testhelper

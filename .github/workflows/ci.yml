@@ -34,11 +34,11 @@ jobs:
       run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
     - name: Checkout
       uses: actions/checkout@v1
-    - name: Set up OpenJDK 17
+    - name: Set up OpenJDK 21 
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:

@@ -5,6 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt;singleton:=true
 Bundle-Version: 4.21.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt
 

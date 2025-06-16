@@ -35,12 +35,13 @@ public class CursorableList implements List {
 		cursor = index;
 	}
 
-	public void removeLast() {
+	public Object removeLast() {
 		if ((cursor > 0) && (cursor <= list.size())) {
-			list.remove(cursor - 1);
+			Object result = list.remove(cursor - 1);
 			cursor--;
+			return result;
 		}
-
+		return null;
 	}
 
 	public Object getCurrent() {
