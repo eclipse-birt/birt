@@ -224,13 +224,25 @@
 							<p>
 								<a href="<%= request.getContextPath( ) + "/frameset?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
 									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>View Example 01: Integrated simple report</span>
+									<span>View Example 01, frameset run: Integrated simple report</span>
 								</a>
 							</p>
 							<p>
 								<a href="<%= request.getContextPath( ) + "/frameset?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
 									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>View Example 02: Integrated chart report</span>
+									<span>View Example 02, frameset run: Integrated chart report</span>
+								</a>
+							</p>
+							<p>
+								<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
+									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+									<span>HTML Example 03, direct run: Integrated simple report</span>
+								</a>
+							</p>
+							<p>
+								<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
+									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+									<span>HTML Example 04, direct run: Integrated chart report</span>
 								</a>
 							</p>
 							<div class="info_separator"></div>
