@@ -158,10 +158,17 @@ public class IOUtil {
 	 * @throws IOException
 	 */
 	public final static int readInt(InputStream inputStream) throws IOException {
-		int ch1 = inputStream.read();
-		int ch2 = inputStream.read();
-		int ch3 = inputStream.read();
-		int ch4 = inputStream.read();
+		byte[] bytebuffer = new byte[4];
+		int bytesRead = inputStream.read(bytebuffer, 0, 4);
+		if (bytesRead != 4) {
+			throw new EOFException();
+		}
+
+		int ch1 = bytebuffer[0] & 0xFF;
+		int ch2 = bytebuffer[1] & 0xFF;
+		int ch3 = bytebuffer[2] & 0xFF;
+		int ch4 = bytebuffer[3] & 0xFF;
+
 		if (ch1 == -1 || ch2 == -1 || ch3 == -1 || ch4 == -1) {
 			throw new EOFException();
 		}
