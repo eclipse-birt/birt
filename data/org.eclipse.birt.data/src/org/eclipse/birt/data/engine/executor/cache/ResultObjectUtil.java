@@ -130,32 +130,35 @@ public class ResultObjectUtil {
 		ByteArrayInputStream bais;
 		DataInputStream dis;
 
-		for (int i = 0; i < length; i++) {
-			if (session.getStopSign().isStopped()) {
-				break;
-			}
-			rowLen = IOUtil.readInt(bis);
-			rowDataBytes = new byte[rowLen];
-			int readSize = bis.read(rowDataBytes);
-			int totalSize = readSize;
-			while (readSize > 0 && totalSize < rowLen) {
-				readSize = bis.read(rowDataBytes, totalSize, rowLen - totalSize);
-				totalSize += readSize;
-			}
+		synchronized (bis) {
+			for (int i = 0; i < length; i++) {
+				if (session.getStopSign().isStopped()) {
+					break;
+				}
+				rowLen = IOUtil.readInt(bis);
+				rowDataBytes = new byte[rowLen];
+				int readSize = bis.read(rowDataBytes);
+				int totalSize = readSize;
+				while (readSize > 0 && totalSize < rowLen) {
+					readSize = bis.read(rowDataBytes, totalSize, rowLen - totalSize);
+					totalSize += readSize;
+				}
 
-			bais = new ByteArrayInputStream(rowDataBytes);
-			dis = new DataInputStream(bais);
+				bais = new ByteArrayInputStream(rowDataBytes);
+				synchronized (bais) {
+					dis = new DataInputStream(bais);
+					Object[] obs = new Object[columnCount];
+					for (int j = 0; j < columnCount; j++) {
+						Class fieldType = typeArray[j];
+						obs[j] = readObject(dis, fieldType, classLoader, VersionManager.getLatestVersion());
+					}
+					rowDatas[i] = newResultObject(obs);
+				}
 
-			Object[] obs = new Object[columnCount];
-			for (int j = 0; j < columnCount; j++) {
-				Class fieldType = typeArray[j];
-				obs[j] = readObject(dis, fieldType, classLoader, VersionManager.getLatestVersion());
+				rowDataBytes = null;
+				dis = null;
+				bais = null;
 			}
-			rowDatas[i] = newResultObject(obs);
-
-			rowDataBytes = null;
-			dis = null;
-			bais = null;
 		}
 
 		return rowDatas;
