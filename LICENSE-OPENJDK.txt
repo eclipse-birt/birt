@@ -1,0 +1,40 @@
+This file contains the licensing terms for portions of this project derived
+from OpenJDK source code, specifically the classes:
+
+- java.io.ByteArrayInputStream
+- java.io.ByteArrayOutputStream
+
+-------------------------------------------------------------------------------
+GNU GENERAL PUBLIC LICENSE
+Version 2, June 1991
+
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+Full text available at:
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+-------------------------------------------------------------------------------
+"CLASSPATH" EXCEPTION TO THE GPL
+
+Certain source files distributed by Oracle are subject to the following
+clarification and special exception to the GNU General Public License, version 2:
+
+You may link this library with independent modules to produce an executable,
+regardless of the license terms of these independent modules, and you may copy
+and distribute the resulting executable under terms of your choice, provided
+that you also meet, for each linked independent module, the terms and conditions
+of the license of that module.
+
+An independent module is a module which is not derived from or based on this
+library. If you modify this library, you may extend this exception to your
+version of the library, but you are not obligated to do so. If you do not wish
+to do so, delete this exception statement from your version.
+
+-------------------------------------------------------------------------------
+This project includes modified versions of classes originally from the OpenJDK
+project (https://openjdk.org/), redistributed under the terms of GPLv2 with the
+Classpath Exception.
