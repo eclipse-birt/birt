@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,6 +27,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
+import org.apache.commons.io.output.UnsynchronizedByteArrayOutputStream;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -127,7 +127,7 @@ public class ResultObjectUtil {
 		int rowLen;
 		byte[] rowDataBytes;
 
-		ByteArrayInputStream bais;
+		UnsynchronizedByteArrayInputStream bais;
 		DataInputStream dis;
 
 		for (int i = 0; i < length; i++) {
@@ -143,7 +143,7 @@ public class ResultObjectUtil {
 				totalSize += readSize;
 			}
 
-			bais = new ByteArrayInputStream(rowDataBytes);
+			bais = new UnsynchronizedByteArrayInputStream.Builder().setByteArray(rowDataBytes).get();
 			dis = new DataInputStream(bais);
 
 			Object[] obs = new Object[columnCount];
@@ -260,7 +260,7 @@ public class ResultObjectUtil {
 	public void writeData(OutputStream bos, IResultObject resultObject) throws IOException, DataException {
 		byte[] rowsDataBytes;
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		UnsynchronizedByteArrayOutputStream baos = new UnsynchronizedByteArrayOutputStream.Builder().get();
 		DataOutputStream dos = new DataOutputStream(baos);
 
 		for (int j = 0; j < columnCount; j++) {

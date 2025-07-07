@@ -55,6 +55,8 @@ Export-Package: javax.olap,
  org.eclipse.birt.data.engine.olap.util.filter,
  org.eclipse.birt.data.engine.plugin,
  org.eclipse.birt.data.engine.script
+Import-Package: org.apache.commons.io.input,
+ org.apache.commons.io.output
 Require-Bundle: org.eclipse.birt.core;bundle-version="[4.21.0,5.0.0)";visibility:=reexport,
  org.eclipse.datatools.connectivity.oda.consumer;bundle-version="[3.2.5,4.0.0)";visibility:=reexport,
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.7,4.0.0)"
