@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.24" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
     <property name="author">Bertie the Platypus</property>
     <property name="comments">Not a very interesting report, just a "Hello World" with a param.</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 4.14.0.v202306101704</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.21.0.qualifier</property>
     <text-property name="title">Birt Engine Simple Example</text-property>
     <html-property name="description">Sample report used to test the BIRT viewer.</html-property>
     <property name="units">mm</property>
@@ -81,6 +81,86 @@
             <property name="leftMargin">1.25in</property>
             <property name="bottomMargin">1in</property>
             <property name="rightMargin">1.25in</property>
+            <page-header>
+                <grid id="2408">
+                    <property name="backgroundColor">#413962</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="color">white</property>
+                    <property name="marginLeft">4pt</property>
+                    <property name="marginRight">4pt</property>
+                    <column id="2409"/>
+                    <row id="2410">
+                        <cell id="2411">
+                            <label id="2412">
+                                <property name="marginTop">4pt</property>
+                                <property name="marginLeft">16pt</property>
+                                <property name="marginBottom">4pt</property>
+                                <property name="marginRight">4pt</property>
+                                <text-property name="text">BIRT Sample Report "Auto Layout" (Version 1.0.0)</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="2413">
+                    <property name="backgroundColor">#413962</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="fontSize">9pt</property>
+                    <property name="fontWeight">normal</property>
+                    <property name="color">white</property>
+                    <property name="marginLeft">4pt</property>
+                    <property name="marginRight">4pt</property>
+                    <column id="2414"/>
+                    <column id="2437">
+                        <property name="textAlign">center</property>
+                        <property name="width">72mm</property>
+                    </column>
+                    <column id="2433">
+                        <property name="width">56mm</property>
+                    </column>
+                    <column id="2419">
+                        <property name="textAlign">center</property>
+                        <property name="width">32mm</property>
+                    </column>
+                    <row id="2415">
+                        <cell id="2416">
+                            <label id="2417">
+                                <property name="marginTop">4pt</property>
+                                <property name="marginLeft">16pt</property>
+                                <property name="marginBottom">4pt</property>
+                                <property name="marginRight">4pt</property>
+                                <text-property name="text">BIRT Sample Report "Auto Layout"</text-property>
+                            </label>
+                        </cell>
+                        <cell id="2436">
+                            <text id="2438">
+                                <property name="marginTop">4pt</property>
+                                <property name="marginBottom">4pt</property>
+                                <property name="contentType">auto</property>
+                                <text-property name="content"><![CDATA[Filename: example_simple.rptdesign]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="2432">
+                            <text id="2435">
+                                <property name="marginTop">4pt</property>
+                                <property name="marginBottom">4pt</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[Created on: <value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="2418">
+                            <label id="2431">
+                                <property name="marginTop">4pt</property>
+                                <property name="marginBottom">4pt</property>
+                                <method name="onRender"><![CDATA[this.text = "Pages: " + pageNumber + " of " + totalPage;]]></method>
+                                <text-property name="text">PageNo-Script</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
@@ -106,6 +186,7 @@
             <column id="28"/>
             <row id="36">
                 <property name="backgroundColor">#4682B4</property>
+                <property name="verticalAlign">middle</property>
                 <cell id="37">
                     <grid id="38">
                         <column id="39">
@@ -118,6 +199,7 @@
                             <property name="fontWeight">bold</property>
                             <property name="color">white</property>
                             <property name="verticalAlign">middle</property>
+                            <property name="height">24mm</property>
                             <cell id="42">
                                 <label id="50">
                                     <property name="fontSize">12pt</property>
