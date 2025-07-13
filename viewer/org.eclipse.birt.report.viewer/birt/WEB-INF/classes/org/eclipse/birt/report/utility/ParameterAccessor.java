@@ -491,6 +491,12 @@ public class ParameterAccessor {
 	public static final String INIT_PARAM_INFO_DIALOG = "BIRT_VIEWER_INFO_DIALOG"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that define if the system detail option is accessible
+	 * at info dialog
+	 */
+	public static final String INIT_PARAM_INFO_DIALOG_SYSTEM_DETAILS = "BIRT_VIEWER_INFO_DIALOG_SYSTEM_DETAILS"; //$NON-NLS-1$
+
+	/**
 	 * Context parameter name that if force optimized HTML output.
 	 */
 	public static final String INIT_PARAM_AGENTSTYLE_ENGINE = "HTML_ENABLE_AGENTSTYLE_ENGINE"; //$NON-NLS-1$
@@ -670,6 +676,11 @@ public class ParameterAccessor {
 	 * Flag that indicated if support info dialog.
 	 */
 	public static boolean isSupportedInfoDialog = true;
+
+	/**
+	 * Flag that indicated if support info dialog includes system details option.
+	 */
+	public static boolean isSupportedInfoDialogSystemDetails = true;
 
 	/**
 	 * Optimized HTML output flag
@@ -1563,6 +1574,15 @@ public class ParameterAccessor {
 			isSupportedInfoDialog = true;
 		} else if (IBirtConstants.VAR_OFF.equalsIgnoreCase(infoDialog)) {
 			isSupportedInfoDialog = false;
+		}
+
+		// info dialog shows option system details
+		String infoDialogSystemDetails = DataUtil
+				.trimString(context.getInitParameter(INIT_PARAM_INFO_DIALOG_SYSTEM_DETAILS));
+		if (IBirtConstants.VAR_ON.equalsIgnoreCase(infoDialogSystemDetails)) {
+			isSupportedInfoDialogSystemDetails = true;
+		} else if (IBirtConstants.VAR_OFF.equalsIgnoreCase(infoDialogSystemDetails)) {
+			isSupportedInfoDialogSystemDetails = false;
 		}
 
 		// get agent style flag

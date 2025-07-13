@@ -195,17 +195,52 @@
 												</a>
 											</div>
 										</div>
+										<%
+										if( ParameterAccessor.isSupportedInfoDialogSystemDetails )
+										{
+										%>
+										<hr class="info_line_common">
+										<div class="doc_chapter_title"><%= BirtResources.getHtmlMessage( "birt.viewer.dialog.info.birt.system.title" )%></div>
+										<div>
+											<div class="doc_content_slot">
+												<a href="javascript:getSystemOverview(true);">
+													<img src="../webcontent/birt/images/Link_Icon.png" alt="Link" class="doc_link_image">
+													<span><%= BirtResources.getHtmlMessage( "birt.viewer.dialog.info.birt.system.details" )%></span>
+												</a>
+											</div>
+										</div>
+										<%
+										}
+										%>
 										<hr class="info_line_button">
 									</div>
 								</div>
 							</div>
 							<script>
-								var infoDialog		= document.getElementById("birt-info-dialog-layer");
+								var infoDialog = document.getElementById("birt-info-dialog-layer");
 
 								// Dialog handling, hide dialog when click event is anywhere outside of the dialog close it
 								window.onclick = function(event) {
 									if (infoDialog!== null && event.target == infoDialog) {
 										infoDialog.style.display = "none";
+									}
+								}
+								
+								// function to show the system overview or return the according URL-string
+								function getSystemOverview(openTab) {
+									const frameType = "frameset";
+									var baseUrlString = birtSoapRequest.getURL();
+									
+									if (birtSoapRequest.getURL().includes(frameType)) {
+										var  baseUrlArray = birtSoapRequest.getURL().split(frameType);
+										if (baseUrlArray.length > 0) {
+											baseUrlString = baseUrlArray[0];
+										}
+									}
+									if (openTab != null && openTab) {
+										window.open(baseUrlString, '_blank');
+									} else {
+										return baseUrlString;
 									}
 								}
 							</script>
