@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="64">
+<target name="Generated from BIRT" sequenceNumber="65">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="aQute.libg" version="0.0.0"/>
@@ -81,6 +81,8 @@
       <unit id="org.bndtools.templating" version="0.0.0"/>
       <unit id="org.bndtools.versioncontrol.ignores.manager" version="0.0.0"/>
       <unit id="org.bndtools.versioncontrol.ignores.plugin.git" version="0.0.0"/>
+      <unit id="org.commonmark" version="0.0.0"/>
+      <unit id="org.commonmark.ext-gfm-tables" version="0.0.0"/>
       <unit id="org.dom4j" version="0.0.0"/>
       <unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
@@ -135,8 +137,8 @@
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
       <unit id="org.mongodb.mongo-java-driver" version="0.0.0"/>
-      <unit id="org.mortbay.jasper.apache-el" version="9.0.105"/>
-      <unit id="org.mortbay.jasper.apache-jsp" version="9.0.105"/>
+      <unit id="org.mortbay.jasper.apache-el" version="0.0.0"/>
+      <unit id="org.mortbay.jasper.apache-jsp" version="0.0.0"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
       <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.namespace.contract" version="0.0.0"/>
