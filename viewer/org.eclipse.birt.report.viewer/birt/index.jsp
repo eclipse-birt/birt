@@ -10,13 +10,13 @@
 			.warningMessage {
 				color:				red; 
 			}
-			
+
 			.main_font {
 				font-family:		Arial, sans-serif; 
 			}
 			
 			.info_group {
-				margin-top:			16px;
+				margin-top:			12px;
 				padding:			6px 8px 6px 20px;
 				background-color:	#ddd;
 				color:				#5c5c5c;
@@ -50,8 +50,8 @@
 				font-size:			14pt;
 				color:				#5c5c5c;
 				background-color:	white;
-				margin:				16px 0px 24px 0px;
-				padding:			16px;
+				margin:				8px 0px 16px 0px;
+				padding:			12px 16px 12px 16px;
 
 			}
 			
@@ -73,42 +73,60 @@
 				display:			inline-block;
 				margin-left:		32px;
 			}
+
 			.doc-li-item {
 				margin-top	: 8px;
 				font-size	: 0.95em;
 			}
+
 			.doc-chapter-title {
 				font-weight	: bold;
-				margin		: 24px 0px 0px 20px;
+				margin		: 20px 0px 0px 20px;
 				font-size	: 0.9em;
 			}
+
 			.doc-content-slot {
 				margin			: 12px 0px 0px 36px;
 				text-decoration	: none;
 				font-size		: 0.9em;
 			}
+
 			.link-img {
 				margin			: 0px 4px 0px 0px;
 				vertical-align	: middle;
 				height			: 12px;
 			}
+
 			a:link {
 				text-decoration: none;
 				color: #06c;
 			}
+
 			a:visited {
 				text-decoration: none;
 				color: #06c;
 			}
+
 			a:hover {
 				text-decoration: none;
 				color: #06c;
 			}
+
 			a:active {
 				text-decoration: none;
 				color: #06c;
 			}
 
+			.output-type-ship-long {
+				display:		inline-block;
+				min-width:		420px;
+			}
+
+			.output-type-ship-short {
+				display:		inline-block;
+				margin-right: 4px;
+				font-size:		0.8em;
+			}
 		</style>
 	<%
 		String viewerVersion = "4.21.0";
@@ -176,11 +194,11 @@
 		<table class="main_font" style="padding:0px; width:100%; border:0;">
 			<tbody>
 				<tr>
-					<td class="content" style="padding:10px;" >
+					<td class="content" style="padding:8px;" >
 						<!-- Page title -->
 						<div class="installed_message"><img src="webcontent/birt/images/BIRT-Icon-large.png" alt="BIRT Logo" style="vertical-align:middle; border:0; margin-right:12px; height:48px;">BIRT viewer has been installed.</div>
 						<!-- Content area -->
-						<div style="background-color:#4682b4; color:white; padding:8px 8px 8px 16px; font-weight:bold;">
+						<div style="background-color:#4682b4; color:white; padding:4px 8px 4px 16px; font-weight:bold;">
 							<span style="display:inline-block;">Thank you for your choosing BIRT (Business Intelligence Reporting Tool)</span>
 							<ul class="ul-beside">
 								<li class="li"><span class="li-value"><a  style="text-decoration:none; color:white;" href="https://eclipse-birt.github.io/birt-website/" target="blank">BIRT Homepage</a></span></li>
@@ -222,29 +240,86 @@
 							</ul>
 							<div class="info_separator"></div>
 							<p>
-								<a href="<%= request.getContextPath( ) + "/frameset?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
-									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>View Example 01, frameset run: Integrated simple report</span>
-								</a>
+								<span class="output-type-ship-long">
+									<a href="<%= request.getContextPath( ) + "/frameset?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+										<span>View Example 01, frameset run: Integrated simple report</span>
+									</a>
+								</span>
 							</p>
 							<p>
-								<a href="<%= request.getContextPath( ) + "/frameset?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
-									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>View Example 02, frameset run: Integrated chart report</span>
-								</a>
+								<span class="output-type-ship-long">
+									<a href="<%= request.getContextPath( ) + "/frameset?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+										<span>View Example 02, frameset run: Integrated chart report</span>
+									</a>
+								</span>
 							</p>
 							<p>
-								<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
-									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>HTML Example 03, direct run: Integrated simple report</span>
-								</a>
+								<span class="output-type-ship-long">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2" %>" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+										<span>Output Example 03, direct run: Integrated simple report</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2&__format=html" %>" target="blank">
+										<span>[HTML]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2&__format=pdf" %>" target="blank">
+										<span>[PDF]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2&__format=docx" %>" target="blank">
+										<span>[DOCX]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2&__format=pptx" %>" target="blank">
+										<span>[PPTX]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_simple.rptdesign&paramString=my+parameter&paramInteger=2&paramList=2&__format=postscript" %>" target="blank">
+										<span>[PS]</span>
+									</a>
+								</span>
 							</p>
 							<p>
-								<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
-									<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
-									<span>HTML Example 04, direct run: Integrated chart report</span>
-								</a>
-							</p>
+								<span class="output-type-ship-long">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130" %>" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" style="margin-left:24px; margin-right:8px; vertical-align:middle; height:16px;">
+										<span>Output Example 04, direct run: Integrated chart report</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130&__format=html" %>" target="blank">
+										<span>[HTML]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130&__format=pdf" %>" target="blank">
+										<span>[PDF]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130&__format=docx" %>" target="blank">
+										<span>[DOCX]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130&__format=pptx" %>" target="blank">
+										<span>[PPTX]</span>
+									</a>
+								</span>
+								<span class="output-type-ship-short">
+									<a href="<%= request.getContextPath( ) + "/run?__report=example_chart.rptdesign&paramCust=130&__format=postscript" %>" target="blank">
+										<span>[PS]</span>
+									</a>
+								</span>							</p>
 							<div class="info_separator"></div>
 							<div class="info_group">OS details</div>
 							<ul>
@@ -271,6 +346,13 @@
 							<div class="info_group">BIRT documentation</div>
 							<div class="doc-chapter-title">Global BIRT configuration</div>
 							<div>
+								<div class="doc-content-slot">
+									<a href="https://eclipse-birt.github.io/birt-website/docs/integrating/viewer-usage" target="blank">
+										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
+										<span>Viewer configuration</span>
+									</a>
+									<ul><li class="doc-li-item">viewer integration and parameter options</li></ul>
+								</div>
 								<div class="doc-content-slot">
 									<a href="https://github.com/eclipse-birt/birt/blob/master/engine/org.eclipse.birt.report.engine.fonts/README.md" target="blank">
 										<img src="webcontent/birt/images/Link_Icon.png" alt="Link" class="link-img">
