@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -192,6 +192,9 @@ public interface HTMLConstants {
 
 	/** property, property: src */
 	String PROPERTY_SRC = "src";//$NON-NLS-1$
+
+	/** property, property: start */
+	String PROPERTY_OL_START = "start";//$NON-NLS-1$
 
 	/** property, property: bgcolor */
 	String PROPERTY_BGCOLOR = "bgcolor";//$NON-NLS-1$
