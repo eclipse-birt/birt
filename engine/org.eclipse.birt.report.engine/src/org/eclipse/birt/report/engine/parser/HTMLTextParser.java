@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -16,6 +16,7 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
@@ -27,6 +28,11 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -54,14 +60,18 @@ public class HTMLTextParser {
 
 	/** Supported tags in HTML */
 	protected static HashSet<String> supportedTags = new HashSet<String>();
+
 	/**
 	 * Tidy instance
 	 */
 	protected Tidy tidy = new Tidy();
+
 	/**
 	 * Initializes and sets configuration
 	 */
 	protected static Properties props;
+
+	private static final boolean DEBUG_LOG_DOCUMENT = false;
 
 	static {
 		supportedTags.add("a"); //$NON-NLS-1$
@@ -188,8 +198,9 @@ public class HTMLTextParser {
 				copyNode(body, desBody);
 			}
 		}
-		return desDoc;
+		logDocumentTree(desDoc, true);
 
+		return desDoc;
 	}
 
 	/**
@@ -297,4 +308,32 @@ public class HTMLTextParser {
 		}
 	}
 
+	/**
+	 * Transform the document tree to String with output option with System.out
+	 *
+	 * @desDoc document
+	 * @useSystemOut print the document string with system out (default: logger)
+	 */
+	private String logDocumentTree(Document desDoc, boolean useSystemOut) {
+		if (!DEBUG_LOG_DOCUMENT) {
+			return null;
+		}
+
+		String documentTree = new String();
+		try {
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			StringWriter stringWriter = new StringWriter();
+			transformer.transform(new DOMSource(desDoc), new StreamResult(stringWriter));
+			documentTree = stringWriter.toString();
+		} catch (TransformerException te) {
+			logger.log(Level.SEVERE, te.getMessage(), te);
+		}
+		if (useSystemOut) {
+			System.out.println(documentTree);
+		} else {
+			logger.log(Level.INFO, documentTree);
+		}
+		return documentTree;
+	}
 }
