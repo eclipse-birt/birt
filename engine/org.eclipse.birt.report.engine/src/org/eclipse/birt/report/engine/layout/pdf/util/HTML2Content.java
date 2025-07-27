@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil;
 import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil.DataUrlInfo;
@@ -52,6 +53,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -363,6 +365,10 @@ public class HTML2Content implements HTMLConstants {
 
 	private static final String LIST_STYLE_TYPE = "list-style-type";
 
+	private static final int DEFAULT_LIST_ICON_PADDING_NUMBER = 2500;
+
+	private static final int DEFAULT_LIST_ICON_PADDING_SYMBOLE = 5000;
+
 	static {
 		htmlInlineDisplay.add(TAG_I);
 		htmlInlineDisplay.add(TAG_FONT);
@@ -501,6 +507,17 @@ public class HTML2Content implements HTMLConstants {
 	static void processNodes(Element ele, Map<Element, StyleProperties> cssStyles, IContent content,
 			ActionContent action, int nestCount) {
 		int level = 0;
+
+		// ordered list, handling of start level by attribute start
+		if (ele.getTagName().toLowerCase().equals(TAG_OL) && ele.hasAttribute(PROPERTY_OL_START)) {
+			int olStartIndex = 0;
+			try {
+				olStartIndex = Integer.valueOf(ele.getAttribute(PROPERTY_OL_START));
+				level += olStartIndex - 1;
+			} catch (NumberFormatException nfe) {
+				// on error the default index will be used
+			}
+		}
 		for (Node node = ele.getFirstChild(); node != null; node = node.getNextSibling()) {
 			if (node.getNodeName().equals(TAG_VALUEOF)) // $NON-NLS-1$
 			{
@@ -519,10 +536,7 @@ public class HTML2Content implements HTMLConstants {
 				if (action != null) {
 					label.setHyperlinkAction(action);
 				}
-			} else if ( // supportedHTMLElementTags.contains(node.getNodeName().
-			// toUpperCase())
-			// &&
-			node.getNodeType() == Node.ELEMENT_NODE) {
+			} else if (node.getNodeType() == Node.ELEMENT_NODE) {
 				handleElement((Element) node, cssStyles, content, action, ++level, nestCount);
 			}
 		}
@@ -585,21 +599,23 @@ public class HTML2Content implements HTMLConstants {
 			handleStyle(ele, cssStyles, row);
 			row.setTagType("LI");
 
-			// fix scr 157259In PDF <li> effect is incorrect when page break
-			// happens.
+			// fix scr 157259In PDF <li> effect is incorrect when page break happens.
 			// add a container to number serial, keep consistent page-break
 
-			StyleDeclaration style = new StyleDeclaration(content.getCSSEngine());
-			style.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
-			style.setProperty(StyleConstants.STYLE_PADDING_BOTTOM, CSSValueConstants.NUMBER_0);
-			style.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
-			style.setProperty(StyleConstants.STYLE_PADDING_RIGHT, CSSValueConstants.NUMBER_0);
-			style.setProperty(StyleConstants.STYLE_PADDING_TOP, CSSValueConstants.NUMBER_0);
+			StyleDeclaration styleListIcon = new StyleDeclaration(content.getCSSEngine());
+			// list item, set text alignment
+			if (!content.isDirectionRTL()) {
+				styleListIcon.setProperty(StyleConstants.STYLE_TEXT_ALIGN, CSSValueConstants.RIGHT_VALUE);
+			}
+			styleListIcon.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
+			styleListIcon.setProperty(StyleConstants.STYLE_PADDING_BOTTOM, CSSValueConstants.NUMBER_0);
+			styleListIcon.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
+			styleListIcon.setProperty(StyleConstants.STYLE_PADDING_TOP, CSSValueConstants.NUMBER_0);
 			ICellContent orderCell = report.createCellContent();
 			orderCell.setRowSpan(1);
 			orderCell.setColumn(0);
 			orderCell.setColSpan(1);
-			orderCell.setInlineStyle(style);
+			orderCell.setInlineStyle(styleListIcon);
 			addChild(row, orderCell);
 			TextContent text = (TextContent) report.createTextContent();
 			addChild(orderCell, text);
@@ -626,6 +642,8 @@ public class HTML2Content implements HTMLConstants {
 				BulletFrame frame = new BulletFrame(styleType);
 				// index mean the order in the list
 				text.setText(frame.paintBullet(index) + "."); //$NON-NLS-1$
+				styleListIcon.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
+						new FloatValue(CSSPrimitiveValue.CSS_NUMBER, DEFAULT_LIST_ICON_PADDING_NUMBER));
 			} else if (ele.getParentNode().getNodeName().equals(TAG_UL) && !nestList) // $NON-NLS-1$
 			{
 				BulletFrame frame = new BulletFrame(styleType);
@@ -635,13 +653,20 @@ public class HTML2Content implements HTMLConstants {
 					text.setText("\u2022"); // the disc type
 					text.setTagType("Lbl");
 				}
+				styleListIcon.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
+						new FloatValue(CSSPrimitiveValue.CSS_NUMBER, DEFAULT_LIST_ICON_PADDING_SYMBOLE));
 			}
-
+			StyleDeclaration styleListItem = new StyleDeclaration(content.getCSSEngine());
+			styleListItem.setProperty(StyleConstants.STYLE_VERTICAL_ALIGN, CSSValueConstants.TOP_VALUE);
+			styleListItem.setProperty(StyleConstants.STYLE_PADDING_BOTTOM, CSSValueConstants.NUMBER_0);
+			styleListItem.setProperty(StyleConstants.STYLE_PADDING_LEFT, CSSValueConstants.NUMBER_0);
+			styleListItem.setProperty(StyleConstants.STYLE_PADDING_RIGHT, CSSValueConstants.NUMBER_0);
+			styleListItem.setProperty(StyleConstants.STYLE_PADDING_TOP, CSSValueConstants.NUMBER_0);
 			ICellContent childCell = report.createCellContent();
 			childCell.setRowSpan(1);
 			childCell.setColumn(1);
 			childCell.setColSpan(1);
-			childCell.setInlineStyle(style);
+			childCell.setInlineStyle(styleListItem);
 			childCell.setTagType("LBody");
 			addChild(row, childCell);
 
@@ -682,11 +707,19 @@ public class HTML2Content implements HTMLConstants {
 		{
 			TableProcessor.processTable(ele, cssStyles, content, action);
 		} else if (htmlBlockDisplay.contains(lTagName) || htmlInlineDisplay.contains(lTagName)) {
+			//
+			StyleProperties spEle = cssStyles.get(ele);
+			if (spEle.getStyle().getMarginTop() == null) {
+				spEle.getStyle().setMarginTop("0px");
+			}
+			if (spEle.getStyle().getMarginBottom() == null) {
+				String marginBottom = (lTagName.equals(TAG_P)) ? "1em" : "0px";
+				spEle.getStyle().setMarginBottom(marginBottom);
+			}
 			IContainerContent container = content.getReportContent().createContainerContent();
 			handleStyle(ele, cssStyles, container);
 			mapHtmlTagToPdfTag(container, lTagName);
 			addChild(content, container);
-			// handleStyle(ele, cssStyles, container);
 			processNodes(ele, cssStyles, container, action, nestCount);
 		} else {
 			processNodes(ele, cssStyles, content, action, nestCount);
