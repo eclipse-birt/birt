@@ -34,6 +34,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTPropertyManagerFactory;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -74,6 +75,13 @@ import org.w3c.dom.Element;
  */
 public class ReportDesignWriter {
 
+	/**
+	 * Write the report design
+	 *
+	 * @param out    output stream of report design
+	 * @param report report for output
+	 * @throws Exception
+	 */
 	public void write(OutputStream out, Report report) throws Exception {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 
@@ -139,7 +147,7 @@ public class ReportDesignWriter {
 		}
 
 		protected void popTag() {
-			element = (Element) elements.pop();
+			element = elements.pop();
 		}
 
 		private void outputMap(String name, Map<?, ?> map) {
@@ -215,7 +223,7 @@ public class ReportDesignWriter {
 
 		private void outputStyle(String name, IStyle style) {
 			pushTag(name);
-			for (int i = 0; i < IStyle.NUMBER_OF_STYLE; i++) {
+			for (int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++) {
 				Object v = style.getProperty(i);
 				if (v != null) {
 					attribute(getStyleName(i), v.toString());
