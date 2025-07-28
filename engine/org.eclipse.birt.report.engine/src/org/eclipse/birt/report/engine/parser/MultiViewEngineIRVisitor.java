@@ -54,6 +54,11 @@ import org.eclipse.birt.report.model.api.TableHandle;
  */
 public class MultiViewEngineIRVisitor extends EngineIRVisitor {
 
+	/**
+	 * Constructor
+	 *
+	 * @param handle
+	 */
 	public MultiViewEngineIRVisitor(ReportDesignHandle handle) {
 		super(handle);
 	}

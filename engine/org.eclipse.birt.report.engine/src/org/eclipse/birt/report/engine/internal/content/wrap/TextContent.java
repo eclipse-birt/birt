@@ -18,9 +18,20 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
+/**
+ * Handle of the text content of an element
+ *
+ * @since 3.3
+ *
+ */
 public class TextContent extends AbstractContentWrapper implements ITextContent {
 	ITextContent textContent;
 
+	/**
+	 * Constructor
+	 *
+	 * @param content text content of the element
+	 */
 	public TextContent(ITextContent content) {
 		super(content);
 		textContent = content;

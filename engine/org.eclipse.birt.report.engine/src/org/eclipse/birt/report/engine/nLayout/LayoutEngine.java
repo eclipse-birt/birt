@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.report.engine.nLayout;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -549,11 +550,11 @@ public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitte
 
 	protected void visitContent(IContent content, IContentEmitter emitter) throws BirtException {
 		ContentEmitterUtil.startContent(content, emitter);
-		java.util.Collection children = content.getChildren();
+		Collection<IContent> children = content.getChildren();
 		if (children != null && !children.isEmpty()) {
-			Iterator iter = children.iterator();
+			Iterator<IContent> iter = children.iterator();
 			while (iter.hasNext()) {
-				IContent child = (IContent) iter.next();
+				IContent child = iter.next();
 				visitContent(child, emitter);
 			}
 		}
@@ -561,11 +562,11 @@ public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitte
 	}
 
 	protected void visitChildren(IContent content, IContentEmitter emitter) throws BirtException {
-		java.util.Collection children = content.getChildren();
+		Collection<IContent> children = content.getChildren();
 		if (children != null && !children.isEmpty()) {
-			Iterator iter = children.iterator();
+			Iterator<IContent> iter = children.iterator();
 			while (iter.hasNext()) {
-				IContent child = (IContent) iter.next();
+				IContent child = iter.next();
 				visitContent(child, emitter);
 			}
 		}
@@ -583,10 +584,10 @@ public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitte
 			if (IForeignContent.HTML_TYPE.equals(foreign.getRawType())) {
 				// build content DOM tree for HTML text
 				HTML2Content.html2Content(foreign);
-				java.util.Collection children = foreign.getChildren();
+				Collection<IContent> children = foreign.getChildren();
 				if (children != null && !children.isEmpty()) {
-					Iterator iter = children.iterator();
-					IContent child = (IContent) iter.next();
+					Iterator<IContent> iter = children.iterator();
+					IContent child = iter.next();
 					visitContent(child, this);
 				}
 				// FIXME
@@ -652,7 +653,7 @@ public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitte
 				Dimension d = new Dimension(
 						(int) (c.getFontInfo().getWordWidth(c.getText()) * PDFConstants.LAYOUT_TO_PDF_RATIO),
 						(int) (c.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));
-				totalPageArea = createTextArea(totalPageContent, c.getFontInfo(), false);
+				totalPageArea = createTextArea(totalPageContent, c.getFontInfo());
 				totalPageArea.setWidth(Math.min(context.getMaxWidth(), d.getWidth()));
 				totalPageArea.setHeight(Math.min(context.getMaxHeight(), d.getHeight()));
 			}
@@ -677,7 +678,7 @@ public class LayoutEngine extends LayoutEmitterAdapter implements IContentEmitte
 		}
 	}
 
-	protected TextArea createTextArea(IAutoTextContent content, FontInfo fontInfo, boolean blankLine) {
+	protected TextArea createTextArea(IAutoTextContent content, FontInfo fontInfo) {
 		TextStyle textStyle = TextAreaLayout.buildTextStyle(content, fontInfo);
 		String text = content.getText();
 		TextArea area = new TextArea(text, textStyle);
