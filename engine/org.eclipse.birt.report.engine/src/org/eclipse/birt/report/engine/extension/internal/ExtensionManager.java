@@ -68,32 +68,32 @@ public class ExtensionManager {
 	/**
 	 * stores references to all the generation extensions
 	 */
-	protected HashMap generationExtensions = new HashMap();
+	protected HashMap<Object, Object> generationExtensions = new HashMap<>();
 
 	/**
 	 * stores references to all the presentation extensions
 	 */
-	protected HashMap presentationExtensions = new HashMap();
+	protected HashMap<Object, Object> presentationExtensions = new HashMap<>();
 
 	/**
 	 * reference to all the query extesions.
 	 */
-	protected HashMap queryExtensions = new HashMap();
+	protected HashMap<Object, Object> queryExtensions = new HashMap<>();
 
 	/*
 	 * stores references to extended event handlers
 	 */
-	protected HashMap eventHandlerExtensions = new HashMap();
+	protected HashMap<String, IConfigurationElement> eventHandlerExtensions = new HashMap<>();
 
 	/*
 	 * references to prepare extentions
 	 */
-	protected HashMap preparationExtensions = new HashMap();
+	protected HashMap<Object, Object> preparationExtensions = new HashMap<>();
 
 	/**
 	 * extended item factory
 	 */
-	protected HashMap factories = new HashMap();
+	protected HashMap<String, IConfigurationElement> factories = new HashMap<>();
 
 	/**
 	 * emitterId to emitter info mapping
@@ -123,7 +123,7 @@ public class ExtensionManager {
 		format2DefaultEmitterID.put("xls", "org.eclipse.birt.report.engine.emitter.prototype.excel");
 	}
 
-	protected Map dataExtractionFormats = new HashMap();
+	protected Map<String, DataExtractionFormatInfo> dataExtractionFormats = new HashMap<>();
 
 	/**
 	 * HTML pagination.
@@ -193,6 +193,7 @@ public class ExtensionManager {
 	}
 
 	/**
+	 * @param manager
 	 * @param itemType
 	 * @return an object that is used for generation time extended item processing
 	 */
@@ -284,7 +285,7 @@ public class ExtensionManager {
 		if (id == null) {
 			return null;
 		}
-		DataExtractionFormatInfo info = (DataExtractionFormatInfo) dataExtractionFormats.get(id);
+		DataExtractionFormatInfo info = dataExtractionFormats.get(id);
 		IConfigurationElement config = info.getDataExtractionExtension();
 		if (config != null) {
 			Object object = createObject(config, "class"); //$NON-NLS-1$
@@ -306,9 +307,9 @@ public class ExtensionManager {
 			return null;
 		}
 		IConfigurationElement config = null;
-		Iterator extensions = dataExtractionFormats.values().iterator();
+		Iterator<DataExtractionFormatInfo> extensions = dataExtractionFormats.values().iterator();
 		while (extensions.hasNext()) {
-			DataExtractionFormatInfo info = (DataExtractionFormatInfo) extensions.next();
+			DataExtractionFormatInfo info = extensions.next();
 			if (format.equals(info.getFormat())) {
 				config = info.getDataExtractionExtension();
 				break;
@@ -328,7 +329,7 @@ public class ExtensionManager {
 	 * @return an object that extended items use to handle java event
 	 */
 	public IReportEventHandler createEventHandler(String itemType) {
-		IConfigurationElement config = (IConfigurationElement) eventHandlerExtensions.get(itemType);
+		IConfigurationElement config = eventHandlerExtensions.get(itemType);
 		if (config != null) {
 			Object object = createObject(config, "class"); //$NON-NLS-1$
 			if (object instanceof IReportEventHandler) {
@@ -359,7 +360,7 @@ public class ExtensionManager {
 	 * @return
 	 */
 	public IExtendedItemFactory createExtendedItemFactory(String itemType) {
-		IConfigurationElement config = (IConfigurationElement) factories.get(itemType);
+		IConfigurationElement config = factories.get(itemType);
 		if (config != null) {
 			Object object = createObject(config, "class");
 			if (object instanceof IExtendedItemFactory) {
@@ -372,7 +373,7 @@ public class ExtensionManager {
 	/**
 	 * @return all the emitter extensions
 	 */
-	public Collection getSupportedFormat() {
+	public Collection<String> getSupportedFormat() {
 		return format2MIMEType.keySet();
 	}
 
@@ -385,7 +386,7 @@ public class ExtensionManager {
 		EmitterInfo[] infos = new EmitterInfo[emitters.size()];
 		Object[] keys = emitters.keySet().toArray();
 		for (int index = 0, length = keys.length; index < length; index++) {
-			infos[index] = (EmitterInfo) emitters.get(keys[index].toString());
+			infos[index] = emitters.get(keys[index].toString());
 		}
 		return infos;
 	}
@@ -665,7 +666,7 @@ public class ExtensionManager {
 
 	public String getSupportedImageFormats(String emitterId) {
 		if (emitterId != null) {
-			EmitterInfo emitterInfo = (EmitterInfo) emitters.get(emitterId);
+			EmitterInfo emitterInfo = emitters.get(emitterId);
 			if (emitterInfo != null) {
 				String supportedImageFormats = emitterInfo.getSupportedImageFormats();
 				if (null != supportedImageFormats) {
@@ -708,10 +709,10 @@ public class ExtensionManager {
 
 	public boolean isSupportedFormat(String format) {
 		boolean supported = false;
-		Collection supportedFormats = getSupportedFormat();
-		Iterator iter = supportedFormats.iterator();
+		Collection<String> supportedFormats = getSupportedFormat();
+		Iterator<String> iter = supportedFormats.iterator();
 		while (iter.hasNext()) {
-			String supportedFormat = (String) iter.next();
+			String supportedFormat = iter.next();
 			if (supportedFormat != null && supportedFormat.equalsIgnoreCase(format)) {
 				supported = true;
 				break;
@@ -721,10 +722,10 @@ public class ExtensionManager {
 	}
 
 	public String getSupportedFormat(String format) {
-		Collection supportedFormats = getSupportedFormat();
-		Iterator iter = supportedFormats.iterator();
+		Collection<String> supportedFormats = getSupportedFormat();
+		Iterator<String> iter = supportedFormats.iterator();
 		while (iter.hasNext()) {
-			String supportedFormat = (String) iter.next();
+			String supportedFormat = iter.next();
 			if (supportedFormat != null && supportedFormat.equalsIgnoreCase(format)) {
 				return supportedFormat;
 			}
@@ -744,7 +745,7 @@ public class ExtensionManager {
 		String emitterId = format2DefaultEmitterID.get(format);
 		if (emitterId == null) {
 			for (String id : emitters.keySet()) {
-				EmitterInfo emitterInfo = (EmitterInfo) emitters.get(id);
+				EmitterInfo emitterInfo = emitters.get(id);
 				if (format.equalsIgnoreCase(emitterInfo.getFormat())) {
 					emitterId = emitterInfo.getID();
 					break;

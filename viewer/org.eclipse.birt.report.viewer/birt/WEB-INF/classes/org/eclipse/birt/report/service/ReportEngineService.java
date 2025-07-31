@@ -319,13 +319,21 @@ public class ReportEngineService {
 			engine = factory.createReportEngine(config);
 
 			// Get supported output formats
-			ParameterAccessor.supportedFormats = engine.getSupportedFormats();
+			// exclude formats which are comment out at viewer.properties
+			ArrayList<String> tmpSupportedFormats = new ArrayList<String>();
+			for (String format : engine.getSupportedFormats()) {
+				if (ParameterAccessor.initProps.get("viewer.extension." + format) != null) {
+					tmpSupportedFormats.add(format);
+				}
+			}
+			ParameterAccessor.supportedFormats = new String[tmpSupportedFormats.size()];
+			ParameterAccessor.supportedFormats = tmpSupportedFormats.toArray(ParameterAccessor.supportedFormats);
 
 			// Get supported data extraction extensions
 			ParameterAccessor.supportedDataExtractions = engine.getDataExtractionFormatInfo();
 
 			// Get the supported emitters
-			Map supportedEmitters = new HashMap();
+			Map<Object, Object> supportedEmitters = new HashMap<>();
 			EmitterInfo[] emitterInfos = engine.getEmitterInfo();
 			for (int i = 0; i < emitterInfos.length; i++) {
 				EmitterInfo emitterInfo = emitterInfos[i];
