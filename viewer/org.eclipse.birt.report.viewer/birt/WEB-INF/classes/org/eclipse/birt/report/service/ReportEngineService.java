@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004, 2024 Actuate Corporation and others.
+ * Copyright (c) 2004, 2024, 2025 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -61,6 +61,8 @@ import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -116,6 +118,11 @@ public class ReportEngineService {
 
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Constructor
+		 *
+		 * @param cause
+		 */
 		public DummyRemoteException(Throwable cause) {
 			super(null, cause);
 		}
@@ -172,7 +179,7 @@ public class ReportEngineService {
 		// Prepare ScriptLib location
 		String scriptLibDir = ParameterAccessor.scriptLibDir;
 
-		ArrayList jarFileList = new ArrayList();
+		ArrayList<Object> jarFileList = new ArrayList<>();
 		if (scriptLibDir != null) {
 			File dir = new File(scriptLibDir);
 			getAllJarFiles(dir, jarFileList);
@@ -196,7 +203,7 @@ public class ReportEngineService {
 			}
 		}
 
-		Map appContext = new HashMap();
+		Map<String, Object> appContext = new HashMap<>();
 
 		appContext.put(EngineConstants.WEBAPP_CLASSPATH_KEY, scriptlibClassPath.toString());
 
@@ -262,7 +269,7 @@ public class ReportEngineService {
 	 * @param dir      - the folder to look into
 	 * @param fileList - the fileList to be returned
 	 */
-	private void getAllJarFiles(File dir, ArrayList fileList) {
+	private void getAllJarFiles(File dir, ArrayList<Object> fileList) {
 		if (dir.exists() && dir.isDirectory()) {
 			File[] files = dir.listFiles();
 			if (files == null) {
@@ -408,6 +415,7 @@ public class ReportEngineService {
 	 * createGetParameterDefinitionTask.
 	 *
 	 * @param runnable
+	 * @param options
 	 * @return the get parameter definition task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable runnable,
@@ -428,7 +436,7 @@ public class ReportEngineService {
 			}
 
 			// set app context
-			Map context = BirtUtility.getAppContext(request);
+			Map<String, Object> context = BirtUtility.getAppContext(request);
 			task.setAppContext(context);
 		} catch (Exception e) {
 		}
@@ -593,23 +601,23 @@ public class ReportEngineService {
 		// page overflow setting
 		switch (pageOverflow) {
 		case IBirtConstants.PAGE_OVERFLOW_AUTO:
-			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW,
-					Integer.valueOf(PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
+			renderOption.setOption(IPDFRenderOption.PAGE_OVERFLOW,
+					Integer.valueOf(IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
 			break;
 		case IBirtConstants.PAGE_OVERFLOW_ACTUAL:
-			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW, Integer.valueOf(PDFRenderOption.ENLARGE_PAGE_SIZE));
+			renderOption.setOption(IPDFRenderOption.PAGE_OVERFLOW, Integer.valueOf(IPDFRenderOption.ENLARGE_PAGE_SIZE));
 			break;
 		case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE:
-			renderOption.setOption(PDFRenderOption.FIT_TO_PAGE, Boolean.TRUE);
+			renderOption.setOption(IPDFRenderOption.FIT_TO_PAGE, Boolean.TRUE);
 			break;
 		default:
-			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW,
-					Integer.valueOf(PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
+			renderOption.setOption(IPDFRenderOption.PAGE_OVERFLOW,
+					Integer.valueOf(IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
 		}
 
 		// pagebreak pagination only setting
 		// Bug 238716
-		renderOption.setOption(PDFRenderOption.PAGEBREAK_PAGINATION_ONLY, Boolean.FALSE);
+		renderOption.setOption(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, Boolean.FALSE);
 
 		return renderOption;
 	}
@@ -629,7 +637,6 @@ public class ReportEngineService {
 	 * @param svgFlag
 	 * @deprecated
 	 * @throws RemoteException
-	 * @throws IOException
 	 */
 	@Deprecated
 	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
@@ -657,7 +664,6 @@ public class ReportEngineService {
 	 * @param reportTitle
 	 * @deprecated
 	 * @throws RemoteException
-	 * @throws IOException
 	 */
 	@Deprecated
 	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
@@ -685,7 +691,6 @@ public class ReportEngineService {
 	 * @param reportTitle
 	 * @param maxRows
 	 * @throws RemoteException
-	 * @throws IOException
 	 * @deprecated
 	 */
 	@Deprecated
@@ -703,11 +708,13 @@ public class ReportEngineService {
 	 *
 	 * @param runnable
 	 * @param outputStream
+	 * @param format
 	 * @param locale
 	 * @param rtl
 	 * @param parameters
 	 * @param masterPage
 	 * @param svgFlag
+	 * @param embeddable
 	 * @param activeIds
 	 * @param renderOption
 	 * @param displayTexts
@@ -715,7 +722,6 @@ public class ReportEngineService {
 	 * @param reportTitle
 	 * @param maxRows
 	 * @throws RemoteException
-	 * @throws IOException
 	 * @deprecated
 	 */
 	@Deprecated
@@ -739,14 +745,12 @@ public class ReportEngineService {
 
 	/**
 	 *
-	 * @param request
 	 * @param runnable
 	 * @param outputStream
 	 * @param inputOptions
 	 * @param parameters
 	 * @param embeddable
 	 * @param activeIds
-	 * @param renderOption
 	 * @param displayTexts
 	 * @param reportTitle
 	 * @param maxRows
@@ -854,7 +858,7 @@ public class ReportEngineService {
 		}
 
 		// set app context
-		Map context = BirtUtility.getAppContext(request);
+		Map<String, Object> context = BirtUtility.getAppContext(request);
 		runAndRenderTask.setAppContext(context);
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler(locale, timeZone, rtl, masterPage, format,
@@ -929,9 +933,8 @@ public class ReportEngineService {
 	private void throwDummyException(Exception e) throws DummyRemoteException {
 		if (e instanceof ReportServiceException) {
 			throw new DummyRemoteException(e);
-		} else {
-			throw new DummyRemoteException(new ReportServiceException(e.getLocalizedMessage(), e));
 		}
+		throw new DummyRemoteException(new ReportServiceException(e.getLocalizedMessage(), e));
 	}
 
 	/**
@@ -996,7 +999,6 @@ public class ReportEngineService {
 	 * @param request
 	 *
 	 * @param runnable
-	 * @param archive
 	 * @param documentName
 	 * @param locale
 	 * @param parameters
@@ -1015,7 +1017,6 @@ public class ReportEngineService {
 	 * @param request
 	 *
 	 * @param runnable
-	 * @param archive
 	 * @param documentName
 	 * @param locale
 	 * @param parameters
@@ -1103,7 +1104,7 @@ public class ReportEngineService {
 		}
 
 		// set app context
-		Map context = BirtUtility.getAppContext(request);
+		Map<String, Object> context = BirtUtility.getAppContext(request);
 		runTask.setAppContext(context);
 
 		// Run report.
@@ -1122,7 +1123,7 @@ public class ReportEngineService {
 			BirtUtility.removeTask(request);
 
 			// Append errors
-			List<Exception> errors = (List<Exception>) runTask.getErrors();
+			List<Exception> errors = runTask.getErrors();
 			if (ParameterAccessor.isDesigner()) {
 				BirtUtility.error(request, runTask.getErrors());
 			}
@@ -1246,6 +1247,14 @@ public class ReportEngineService {
 
 	/**
 	 * Render report page.
+	 *
+	 * @param out
+	 * @param reportDocument
+	 * @param pageNumber
+	 * @param pageRange
+	 * @param inputOptions
+	 * @param activeIds
+	 * @throws RemoteException
 	 */
 	public void renderReport(OutputStream out, IReportDocument reportDocument, long pageNumber, String pageRange,
 			InputOptions inputOptions, List activeIds) throws RemoteException {
@@ -1445,7 +1454,6 @@ public class ReportEngineService {
 	 * @param reportDocument
 	 * @param reportletId
 	 * @param masterPage
-	 * @param pageNumber
 	 * @param svgFlag
 	 * @param activeIds
 	 * @param locale
@@ -1469,7 +1477,6 @@ public class ReportEngineService {
 	 * @param reportDocument
 	 * @param reportletId
 	 * @param masterPage
-	 * @param pageNumber
 	 * @param svgFlag
 	 * @param activeIds
 	 * @param locale
@@ -1494,7 +1501,6 @@ public class ReportEngineService {
 	 * @param reportletId
 	 * @param format
 	 * @param masterPage
-	 * @param pageNumber
 	 * @param svgFlag
 	 * @param activeIds
 	 * @param locale
@@ -1524,7 +1530,6 @@ public class ReportEngineService {
 	 * @param reportletId
 	 * @param format
 	 * @param masterPage
-	 * @param pageNumber
 	 * @param svgFlag
 	 * @param activeIds
 	 * @param locale
@@ -1671,17 +1676,20 @@ public class ReportEngineService {
 	 * Extract data that call user extended extension
 	 *
 	 * @param document
-	 * @param extractFormat
+	 * @param aExtractFormat
 	 * @param extractExtension
 	 * @param resultSetName
 	 * @param instanceId
+	 * @param columns
 	 * @param locale
+	 * @param timeZone
 	 * @param options
 	 * @param out
 	 * @throws RemoteException
 	 */
 	public void extractDataEx(IReportDocument document, String aExtractFormat, String extractExtension,
-			String resultSetName, String instanceId, Collection columns, Locale locale, TimeZone timeZone, Map options,
+			String resultSetName, String instanceId, Collection<String> columns, Locale locale, TimeZone timeZone,
+			Map options,
 			OutputStream out) throws RemoteException {
 		assert document != null;
 		IDataExtractionTask dataTask = null;
@@ -1753,7 +1761,6 @@ public class ReportEngineService {
 	 * @param document
 	 * @param resultSetName
 	 * @param columns
-	 * @param filters
 	 * @param locale
 	 * @param outputStream
 	 * @param encoding
@@ -1762,7 +1769,7 @@ public class ReportEngineService {
 	 *             {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
 	 */
 	@Deprecated
-	public void extractData(IReportDocument document, String resultSetName, Collection columns, Locale locale,
+	public void extractData(IReportDocument document, String resultSetName, Collection<String> columns, Locale locale,
 			OutputStream outputStream, String encoding) throws RemoteException {
 		extractData(document, resultSetName, columns, locale, outputStream, encoding,
 				DataExtractionParameterUtil.DEFAULT_SEP.charAt(0), false);
@@ -1774,7 +1781,6 @@ public class ReportEngineService {
 	 * @param document
 	 * @param resultSetName
 	 * @param columns
-	 * @param filters
 	 * @param locale
 	 * @param outputStream
 	 * @param encoding
@@ -1791,7 +1797,7 @@ public class ReportEngineService {
 		assert resultSetName != null && resultSetName.length() > 0;
 		assert columns != null && !columns.isEmpty();
 
-		Map options = new HashMap();
+		Map<String, Object> options = new HashMap<>();
 		options.put(DataExtractionParameterUtil.PARAM_SEP, Character.toString(sep));
 		options.put(DataExtractionParameterUtil.PARAM_EXPORT_DATATYPE, Boolean.valueOf(isExportDataType));
 		options.put(DataExtractionParameterUtil.PARAM_EXPORT_ENCODING, encoding);
@@ -1814,11 +1820,11 @@ public class ReportEngineService {
 	public HashMap parseParameters(HttpServletRequest request, IGetParameterDefinitionTask task, Map configVars,
 			Locale locale) {
 		assert task != null;
-		HashMap params = new HashMap();
+		HashMap<String, Object> params = new HashMap<>();
 
-		Collection parameterList = task.getParameterDefns(false);
-		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next();
+		Collection<IScalarParameterDefn> parameterList = task.getParameterDefns(false);
+		for (Iterator<IScalarParameterDefn> iter = parameterList.iterator(); iter.hasNext();) {
+			IScalarParameterDefn parameterObj = iter.next();
 
 			String paramValue = null;
 			Object paramValueObj = null;
@@ -1866,12 +1872,9 @@ public class ReportEngineService {
 
 		boolean missingParameter = false;
 
-		Collection parameterList = task.getParameterDefns(false);
-		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next();
-			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
-			// parameterObj
-			// .getHandle( );
+		Collection<IScalarParameterDefn> parameterList = task.getParameterDefns(false);
+		for (Iterator<IScalarParameterDefn> iter = parameterList.iterator(); iter.hasNext();) {
+			IScalarParameterDefn parameterObj = iter.next();
 
 			String parameterName = parameterObj.getName();
 			Object parameterValue = parameters.get(parameterName);
@@ -1885,7 +1888,7 @@ public class ReportEngineService {
 				break;
 			}
 
-			if (IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType()) {
+			if (IParameterDefn.TYPE_STRING == parameterObj.getDataType()) {
 				String parameterStringValue = (String) parameterValue;
 				if (parameterStringValue != null && parameterStringValue.length() <= 0 && !parameterObj.allowBlank()) {
 					missingParameter = true;
@@ -2029,6 +2032,9 @@ public class ReportEngineService {
 	/**
 	 * Gets the mime-type of the given format.
 	 *
+	 * @param format
+	 * @return the mime-type of the given format.
+	 *
 	 * @deprecated use ParameterAccessor#getEmitterMimeType(String,String)
 	 */
 	@Deprecated
@@ -2037,7 +2043,9 @@ public class ReportEngineService {
 	}
 
 	/**
-	 * Returns the engine config
+	 * Get the engine configuration
+	 *
+	 * @return the engine config
 	 */
 	public EngineConfig getEngineConfig() {
 		return config;
