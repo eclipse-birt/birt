@@ -69,7 +69,10 @@ SPDX-License-Identifier: EPL-2.0
             </goals>
             <phase>package</phase>
             <configuration>
-              <argLine>-XX:MaxRAMPercentage=35</argLine>
+              <argLine>
+                -XX:MaxRAMPercentage=35
+                -Dorg.eclipse.justj.p2.P2Manager.wait=30
+              </argLine>
               <appArgLine>
                 -consoleLog
                 -application org.eclipse.justj.p2.manager
