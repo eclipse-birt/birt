@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2009, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -855,7 +855,9 @@ public class LocalizedContentVisitor {
 		info.setActionHandler(context.getActionHandler());
 		info.setOutputFormat(getOutputFormat());
 
-		itemPresentation.init(info);
+		if (itemPresentation != null) {
+			itemPresentation.init(info);
+		}
 
 		if ("Chart".equals(tagName)) {
 			IHTMLImageHandler imageHandler = context.getImageHandler();
