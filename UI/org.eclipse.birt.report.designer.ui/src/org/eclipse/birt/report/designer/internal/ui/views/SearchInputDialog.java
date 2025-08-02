@@ -12,6 +12,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,6 +81,8 @@ public class SearchInputDialog extends BaseDialog {
 
 	private Button recursiveButton;
 
+	private Button propertyDisplayButton;
+
 	private Table table;
 
 	private String errorMessage;
@@ -87,6 +90,8 @@ public class SearchInputDialog extends BaseDialog {
 	private Label errorMessageText;
 
 	private final SearchActionServices services;
+
+	private HashMap<String, String> propDisplay;
 
 	/**
 	 * Creates an instance.
@@ -200,7 +205,24 @@ public class SearchInputDialog extends BaseDialog {
 		recursiveButton = new Button(optionContainer, SWT.CHECK);
 		recursiveButton.setText(Messages.getString("SearchInputDialog.Message.Recursive")); //$NON-NLS-1$
 		recursiveButton.setToolTipText(Messages.getString("SearchInputDialog.Message.Recursive.ToolTip")); //$NON-NLS-1$
+		recursiveButton.setSelection(true);
 		recursiveButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateProperties();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				updateProperties();
+			}
+		});
+
+		propertyDisplayButton = new Button(optionContainer, SWT.CHECK);
+		propertyDisplayButton.setText(Messages.getString("SearchInputDialog.Message.LabelDisplay")); //$NON-NLS-1$
+		propertyDisplayButton.setToolTipText(Messages.getString("SearchInputDialog.Message.LabelDisplay.ToolTip")); //$NON-NLS-1$
+		propertyDisplayButton.setSelection(true);
+		propertyDisplayButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateProperties();
@@ -243,19 +265,28 @@ public class SearchInputDialog extends BaseDialog {
 		table.setLayoutData(gd);
 
 		TableColumn pathColumn = new TableColumn(table, SWT.NONE);
+		String navigationToolTip = ", " + Messages.getString("SearchInputDialog.ResultTableColumn.Navigation.ToolTip");
 		pathColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.Property")); //$NON-NLS-1$
+		table.getColumn(0).setToolTipText(
+				Messages.getString("SearchInputDialog.ResultTableColumn.Property.ToolTip") + navigationToolTip);
 		table.getColumn(0).pack();
 
 		TableColumn propColumn = new TableColumn(table, SWT.NONE);
 		propColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.Element")); //$NON-NLS-1$
+		table.getColumn(1).setToolTipText(
+				Messages.getString("SearchInputDialog.ResultTableColumn.Element.ToolTip") + navigationToolTip);
 		table.getColumn(1).pack();
 
 		TableColumn typeColumn = new TableColumn(table, SWT.NONE);
 		typeColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.ElementType")); //$NON-NLS-1$
+		table.getColumn(2).setToolTipText(
+				Messages.getString("SearchInputDialog.ResultTableColumn.ElementType.ToolTip") + navigationToolTip);
 		table.getColumn(2).pack();
 
 		TableColumn idColumn = new TableColumn(table, SWT.NONE);
 		idColumn.setText(Messages.getString("SearchInputDialog.ResultTableColumn.ElementId")); //$NON-NLS-1$
+		table.getColumn(3).setToolTipText(
+				Messages.getString("SearchInputDialog.ResultTableColumn.ElementId.ToolTip") + navigationToolTip);
 		table.getColumn(3).pack();
 
 		table.addListener(SWT.Selection, event -> {
@@ -283,9 +314,16 @@ public class SearchInputDialog extends BaseDialog {
 		boolean found = text.equals(ANY);
 		if (services != null) {
 			boolean recursive = this.recursiveButton.getSelection();
+			boolean displayLabelFull = this.propertyDisplayButton.getSelection();
 			List<String> list = services.getPropertyNames(recursive);
+			propDisplay = services.getPropertyDisplayList();
 			for (String name : list) {
-				propCombo.add(name);
+				// create the display label for the property list
+				if (displayLabelFull) {
+					propCombo.add(propDisplay.get(name).toString() + " (" + name + ")");
+				} else {
+					propCombo.add(name);
+				}
 				if (!found && text.trim().length() > 0 && name.equals(text)) {
 					found = true;
 				}
@@ -454,6 +492,11 @@ public class SearchInputDialog extends BaseDialog {
 		 * @return List<String>
 		 */
 		List<String> getPropertyNames(boolean recursive);
+
+		/**
+		 * @return List<String>
+		 */
+		HashMap<String, String> getPropertyDisplayList();
 
 		/**
 		 * @return boolean

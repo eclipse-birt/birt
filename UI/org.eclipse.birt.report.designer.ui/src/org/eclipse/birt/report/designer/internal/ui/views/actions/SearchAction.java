@@ -13,6 +13,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,8 @@ public class SearchAction extends AbstractViewerAction {
 	private static SearchInputDialog inputDialog;
 
 	private final LinkedList<TreeItem[]> selectedItemsStack = new LinkedList<>();
+
+	private HashMap<String, String> propNameDisplay = new HashMap<String, String>();
 
 	/**
 	 * Create a new search action under the specific viewer.
@@ -148,6 +151,11 @@ public class SearchAction extends AbstractViewerAction {
 						}
 
 						@Override
+						public HashMap<String, String> getPropertyDisplayList() {
+							return SearchAction.this.getPropertyDisplayList();
+						}
+
+						@Override
 						public boolean back() {
 							return SearchAction.this.back();
 						}
@@ -200,7 +208,16 @@ public class SearchAction extends AbstractViewerAction {
 				getPropertyNames(handle, recursive, propNameSet);
 			}
 		}
-		return new ArrayList<>(propNameSet);
+		return new ArrayList<String>(propNameSet);
+	}
+
+	/**
+	 * Get the display name of properties
+	 *
+	 * @return the display name of properties
+	 */
+	public HashMap<String, String> getPropertyDisplayList() {
+		return propNameDisplay;
 	}
 
 	private void getPropertyNames(DesignElementHandle handle, boolean recursive, Set<String> propNameSet) {
@@ -209,6 +226,7 @@ public class SearchAction extends AbstractViewerAction {
 		for (IElementPropertyDefn defn : defns) {
 			String name = defn.getName();
 			propNameSet.add(name);
+			propNameDisplay.putIfAbsent(name, defn.getDisplayName());
 		}
 		if (recursive) {
 			IElementDefn defn = handle.getDefn();
@@ -225,6 +243,8 @@ public class SearchAction extends AbstractViewerAction {
 		}
 		// element-property "id"
 		propNameSet.add(PROPERTY_NAME_ID);
+		if (!propNameDisplay.containsKey(PROPERTY_NAME_ID))
+			propNameDisplay.put(PROPERTY_NAME_ID, "ID");
 	}
 
 	private interface SearchPathMember {
