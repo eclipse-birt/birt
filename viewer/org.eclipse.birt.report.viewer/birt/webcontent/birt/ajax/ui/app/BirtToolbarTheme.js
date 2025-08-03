@@ -15,10 +15,6 @@
 /**
  *	BirtToolbarTheme, Theme handling for the report viewer
  */
- /**
-  *	BirtToolbar
-  *	...
-  */
  BirtToolbarTheme = Class.create( );
 
  BirtToolbarTheme.prototype = 
@@ -149,6 +145,16 @@
 			} else {
 				border.classList.add("light_theme_dialog_border");
 				border.classList.remove("dark_theme_dialog_border");
+			}
+		}
+		var nodeZoomFrame = document.getElementById("documentZoomFrame");
+		if (nodeZoomFrame) {
+			if(themeDark) {
+				nodeZoomFrame.classList.remove("zoom_frame_light");
+				nodeZoomFrame.classList.add("zoom_frame_dark");
+			} else {
+				nodeZoomFrame.classList.add("zoom_frame_light");
+				nodeZoomFrame.classList.remove("zoom_frame_dark");
 			}
 		}
 	}

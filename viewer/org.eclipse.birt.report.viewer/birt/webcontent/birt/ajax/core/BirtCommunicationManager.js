@@ -118,6 +118,9 @@ BirtCommunicationManager.prototype =
 	    //deactivate delay message manager
 		birtProgressBar.__stop( );
 		birtReportDocument.__beh_preview_layout("postProcess");
+		if(typeof birtZoomer != "undefined" && birtZoomer != null) {
+			birtZoomer.zoomRefresh();
+		}
 	    this.__active = false;
 	}
 }
