@@ -106,6 +106,7 @@
 		<script src="birt/ajax/ui/app/AbstractBaseToolbar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToolbar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToolbarTheme.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/app/BirtZoomer.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtNavigationBar.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/AbstractBaseToc.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtToc.js" type="text/javascript"></script>
@@ -153,18 +154,18 @@
 			<TR CLASS='body_caption_top'>
 				<TD COLSPAN='2'></TD>
 			</TR>
-			<TR CLASS='body_caption' VALIGN='bottom'>
+			<TR CLASS='body_caption'>
 				<TD COLSPAN='2'>
 					<TABLE BORDER=0 CELLSPACING="0" CELLPADDING="1px" WIDTH="100%">
 						<TR>
-							<TD WIDTH="3px"/>
+							<TD WIDTH="4px"/>
 							<TD>
 								<B><%= ParameterAccessor.htmlEncode( attributeBean.getReportTitle( ) ) %>
 								</B>
 							</TD>
 							<TD ALIGN='right'>
 							</TD>
-							<TD WIDTH="3px"/>
+							<TD WIDTH="4px"/>
 						</TR>
 					</TABLE>
 				</TD>

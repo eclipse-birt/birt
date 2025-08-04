@@ -262,11 +262,22 @@
 						<script>
 							var birtToolbarTheme = new BirtToolbarTheme();
 							birtToolbarTheme.initToggle();
+							
+							var birtZoomer = new BirtZoomer();
 						</script>
 					</TD>
 					<TD WIDTH="6px"/>
 				</TR>
 			</TABLE>
 		</DIV>
+		<div id="documentZoomFrame" style="font-family:Arial;" class="zoom_frame zoom_frame_light">
+			<button id="zoomIn" class="zoom_round_buttons" style="cursor:pointer;" onclick="birtZoomer.zoomIn()" title="<%= BirtResources.getHtmlMessage( "birt.viewer.zoom.in" )%>">
+				<img src="birt/images/ZoomPlus.svg" style="width: 20px;" alt="<%= BirtResources.getHtmlMessage( "birt.viewer.zoom.in.alt" )%>">
+			</button>
+			<button id="zoomScale" class="zoom_label_frame" onclick="birtZoomer.resetZoom()" title="<%= BirtResources.getHtmlMessage( "birt.viewer.zoom.reset" )%>">100%</button>
+			<button id="zoomOut" class="zoom_round_buttons" style="cursor:pointer;" onclick="birtZoomer.zoomOut()" title="<%= BirtResources.getHtmlMessage( "birt.viewer.zoom.out" )%>">
+				<img src="birt/images/ZoomMinus.svg" style="width: 20px;" alt="<%= BirtResources.getHtmlMessage( "birt.viewer.zoom.out.alt" )%>">
+			</button>
+		</div>
 	</TD>
 </TR>

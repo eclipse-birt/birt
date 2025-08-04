@@ -819,3 +819,50 @@ a:link, a:visited, a:hover, a:active {
 .icon_main_size {
 	height			: 30px;
 }
+
+/******************************************************************************
+ * Style of zoomer of the birt viewer
+ *****************************************************************************/
+.zoom_round_buttons {
+	display			: inline-block;
+	width			: 32px;
+	height			: 32px;
+	border			: 0.0px solid silver;
+	border-radius	: 8px;
+	color			: #1f1f1f;
+	font-weight		: bold;
+}
+
+.zoom_label_frame {
+	display				: inline-block;
+	width				: 52px;
+	height				: 32px;
+	border				: 0.5px solid #d7d7d7;
+	border-radius		: 8px;
+	font-size			: 10pt;
+	font-weight			: bold;
+	font-family			: Arial;
+	color				: #4d4d4d;
+	background-color	: #f4f4f4;
+	vertical-align		: top;
+	cursor				: pointer;
+}
+
+.zoom_frame {
+	border				: 1px solid #d6d6d6;
+	padding				: 4px 4px 4px 4px;
+	border-radius		: 8px;
+	text-align			: center;
+	position			: fixed;
+	bottom				: 16px;
+	right				: 18px;
+	z-index				: 999;
+}
+
+.zoom_frame_dark {
+	background-color	: #4d4d4d;
+}
+
+.zoom_frame_light {
+	background-color	: #f9f9f9;
+}

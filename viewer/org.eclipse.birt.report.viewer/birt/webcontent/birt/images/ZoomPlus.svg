@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <ellipse cx="32.584" cy="33.084" rx="26.048" ry="26.048" style="stroke: rgb(100, 100, 100); fill: none; fill-rule: nonzero; stroke-width: 8px;"/>
+  <path d="M 55.82 51.414 L 71.703 63.486" style="stroke-linecap: round; stroke-width: 10px; stroke: rgb(100, 100, 100); "/>
+  <path style="stroke-linecap: round; stroke-width: 6px; stroke: rgb(100, 100, 100);" d="M 20.881 33.584 L 44.881 33.584"/>
+  <path d="M 32.881 44.584 L 32.881 21.584" style="stroke-linecap: round; stroke-width: 6px; stroke: rgb(100, 100, 100);"/>
+</svg>

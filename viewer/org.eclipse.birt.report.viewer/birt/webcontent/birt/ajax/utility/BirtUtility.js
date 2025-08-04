@@ -761,7 +761,24 @@ BirtUtility.prototype = {
 	 */
 	closeDialogsKeyBased : function(e) {
 		var keyCode = e.keyCode;
+		var evtobj = window.event ? window.event : e;
 
+		/* preview zoom: handle the ctrl-key & function code */
+		if (evtobj.ctrlKey && birtZoomer) {
+			console.log("closeDialogsKeyBased : function(e), evtobj.ctrlKey");
+			if (evtobj.keyCode == 37) {
+				// document zoom: enlarge - key code left
+				birtZoomer.zoomIn();
+			} else if (evtobj.keyCode == 39) {
+				// document zoom: shrink - key code right
+				birtZoomer.zoomOut();
+			} else if (evtobj.keyCode == 96) {
+				// document zoom: reset to default - key code 0
+				birtZoomer.resetZoom();
+			}
+		}
+
+		/* preview dialog: handle the escape key code */
 		if (keyCode === 27) {
 			if (birtMessageDialog && birtMessageDialog.visible) {
 				// birtUtility.displayDialog('message', false);
