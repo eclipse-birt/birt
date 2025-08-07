@@ -32,7 +32,6 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
-import org.eclipse.birt.report.model.core.JavaScriptExecutionStatus;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.LazilyLoadedCtor;
@@ -249,7 +248,6 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 		// String source = ( (CompiledJavascript) compiledScript )
 		// .getScriptText( );
 		try {
-			JavaScriptExecutionStatus.setExeucting(true);
 			Script script = ((CompiledJavascript) compiledScript).getCompiledScript();
 			Object value = script.exec(context, getJSScope(scriptContext));
 			return jsToJava(value);
@@ -259,8 +257,6 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 			// ResourceConstants.JAVASCRIPT_COMMON_ERROR,
 			// new Object[]{source, e.getMessage( )}, e );
 			throw new CoreException(ResourceConstants.INVALID_EXPRESSION, e.getMessage(), e);
-		} finally {
-			JavaScriptExecutionStatus.remove();
 		}
 	}
 
