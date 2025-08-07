@@ -530,8 +530,6 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 */
 	private static final int MAX_DISPLAY_LABEL_LEN = 30;
 
-	private static final String ODA_PASSWORD = "odaPassword";
-
 	/**
 	 * Elements have an optional name. The name may be required by some element
 	 * types. If so, the derived element class should enforce the use of the name.
@@ -953,12 +951,6 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			if (propName.equals("id")) {
 				return this.getID();
 			}
-			return null;
-		}
-
-		if (ODA_PASSWORD.contentEquals(propName) && prop.isEncryptable() && getEncryptionID(prop) != null
-				&& JavaScriptExecutionStatus.isExecuting()) {
-			// throw new RuntimeException("Invalid operation: Can not access encrypted password from script");
 			return null;
 		}
 
