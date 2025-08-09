@@ -189,21 +189,15 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 					FilteredSheet filteredSheet = new FilteredSheet(state.currentSheet, autoWidthStartRow,
 							Math.min(autoWidthEndRow, autoWidthStartRow + 12));
 					double calcWidth = SheetUtil.getColumnWidth(filteredSheet, col, false);
-
-					if (state.currentSheet instanceof XSSFSheet) {
-						state.currentSheet.autoSizeColumn(col, true);
+					calcWidth *= 1.15 * 256; // The factor 1.15 is used to handle width differences of Apache POI.
+					int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255
+													// characters
+					if (calcWidth > maxColumnWidth) {
+						calcWidth = maxColumnWidth;
+					} else if (calcWidth < defaultColumnWidth) {
+						calcWidth = defaultColumnWidth;
 					}
-					if (calcWidth > 1.0) {
-						calcWidth *= 1.15 * 256; // The factor 1.15 is used to handle width differences of Apache POI.
-						int maxColumnWidth = 255 * 256; // The maximum column width for an individual cell is 255
-														// characters
-						if (calcWidth > maxColumnWidth) {
-							calcWidth = maxColumnWidth;
-						}
-						if (calcWidth > columnWidth) {
-							state.currentSheet.setColumnWidth(col, (int) calcWidth);
-						}
-					}
+					state.currentSheet.setColumnWidth(col, (int) calcWidth);
 				}
 			}
 		}
