@@ -10,11 +10,16 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
+
+import javax.servlet.ServletContext;
 
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.jetty.ee8.webapp.WebAppClassLoader;
@@ -61,6 +66,15 @@ public class ViewerWebApp {
 			URI resolvedWebDescriptorUrl = URIUtil.toURI(FileLocator.resolve(webDescriptorUrl)).normalize();
 			this.webAppContext.setBaseResourceAsString(resolvedWebAppUrl.toString());
 			this.webAppContext.setDescriptor(resolvedWebDescriptorUrl.toString());
+			String workingPath = System.getProperty(IBirtConstants.SYS_PROP_WORKING_PATH);
+			File scratchDir;
+			if (workingPath == null) {
+				scratchDir = Files.createTempDirectory("birt-web-viewer-").toFile();
+				scratchDir.deleteOnExit();
+			} else {
+				scratchDir = new File(workingPath);
+			}
+			this.webAppContext.setAttribute(ServletContext.TEMPDIR, scratchDir);
 		}
 
 		if (encoding != null) {

@@ -27,3 +27,13 @@ To build BIRT with the latest Eclipse platform, run:
 ## Latest Snapshots towards 4.22.0
 * https://download.eclipse.org/birt/updates/nightly/latest
 
+## Runtime Requirements
+The current version of BIRT 4.20 is runable with JDK:
+* JDK 17 (LTS), JDK 21 (LTS)
+
+Tomcat version support:
+
+* Tomcat 9.0.76, 9.0.85, 9.0.89, 9.0.93, 9.0.102, 9.0.105
+* Tomcat 10 is not supported due to Jakarta EE dependencies
+
+
