@@ -8,10 +8,10 @@
     <!-- =========================================================== -->
     <Call name="addBean">
       <Arg>
-        <New id="DeploymentManager" class="org.eclipse.jetty.deploy.DeploymentManager">
-          <Set name="contexts">
+        <New id="DeploymentManager" class="org.eclipse.jetty.deploy.StandardDeployer">
+          <Arg name="contexts">
             <Ref refid="Contexts" />
-          </Set>
+          </Arg>
         </New>
       </Arg>
     </Call>
