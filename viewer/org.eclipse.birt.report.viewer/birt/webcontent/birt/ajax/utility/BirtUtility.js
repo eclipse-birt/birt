@@ -765,7 +765,6 @@ BirtUtility.prototype = {
 
 		/* preview zoom: handle the ctrl-key & function code */
 		if (evtobj.ctrlKey && birtZoomer) {
-			console.log("closeDialogsKeyBased : function(e), evtobj.ctrlKey");
 			if (evtobj.keyCode == 37) {
 				// document zoom: enlarge - key code left
 				birtZoomer.zoomIn();

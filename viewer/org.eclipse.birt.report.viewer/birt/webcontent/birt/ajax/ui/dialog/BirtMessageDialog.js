@@ -129,7 +129,6 @@ BirtMessageDialog.prototype = Object.extend( new AbstractBaseDialog(),
 	*/
 	__preShow: function()
 	{
-		console.log("BirtMessageDialog, __preShow: function()")
 		// disable the toolbar buttons
 		birtUtility.setButtonsDisabled ( "toolbar", true );
 		
@@ -144,8 +143,6 @@ BirtMessageDialog.prototype = Object.extend( new AbstractBaseDialog(),
 	*/
 	__preHide: function()
 	{
-		console.log("BirtMessageDialog, __preHide: function()")
-
 		// enable the toolbar buttons
 		birtUtility.setButtonsDisabled ( "toolbar", false );
 		
