@@ -7,7 +7,19 @@ pipeline {
   }
 
   agent {
-    label "centos-latest"
+    kubernetes {
+      inheritFrom "ubuntu-latest"
+      yaml '''
+      spec:
+        containers:
+        - name: "jnlp"
+          resources:
+            limits:
+              memory: "6Gi"
+            requests:
+              memory: "6Gi"
+      '''
+    }
   }
 
   tools {
