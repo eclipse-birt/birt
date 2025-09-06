@@ -23,12 +23,19 @@ import java.util.List;
 public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption {
 
 	/**
-	 * Constructor
+	 * Constructor 1
+	 *
+	 * @param options render options
 	 */
 	public HTMLRenderOption(IRenderOption options) {
 		super(options);
 	}
 
+	/**
+	 * Constructor 2
+	 *
+	 * @param options render options as map
+	 */
 	public HTMLRenderOption(HashMap options) {
 		super(options);
 	}
@@ -41,6 +48,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 	}
 
 	/**
+	 * Get the instance IDs
+	 *
 	 * @return Returns the instanceIDs.
 	 */
 	@Override
@@ -53,6 +62,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 	}
 
 	/**
+	 * Set instance IDs
+	 *
 	 * @param instanceIDs The instanceIDs to set.
 	 */
 	@Override
@@ -104,14 +115,17 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 	}
 
 	/**
-	 * Get the viewer preview is page layout
+	 * Get the viewer preview is page layout, but for run-task it is always single
+	 * page
 	 *
 	 * @return true, if the viewer preview is page layout
 	 */
 	@Override
 	public boolean getViewerPageLayout() {
 		String viewerPreview = getStringOption(VIEWER_PREVIEW_LAYOUT);
-		if (VIEWER_PREVIEW_HTML_LAYOUT.equals(viewerPreview)) {
+		String executionPath = getStringOption(BIRT_VIEWER_SERVLET_PATH);
+		if (VIEWER_PREVIEW_HTML_LAYOUT.equals(viewerPreview)
+				|| executionPath != null && executionPath.toLowerCase().contains("run")) {
 			return false;
 		}
 		return true;
@@ -216,7 +230,9 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 	}
 
 	/**
-	 * @param htmlTile
+	 * Set the HTML title
+	 *
+	 * @param htmlTitle
 	 */
 	@Override
 	public void setHtmlTitle(String htmlTitle) {
@@ -469,15 +485,19 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 		return true;
 	}
 
-	/*
-	 * set the metadata filter.
+	/**
+	 * Set the metadata filter.
+	 *
+	 * @param filter metadata filter
 	 */
 	public void setMetadataFilter(IMetadataFilter filter) {
 		setOption(METADATA_FILTER, filter);
 	}
 
-	/*
-	 * get the metadata filter.
+	/**
+	 * Get the metadata filter.
+	 *
+	 * @return the metadata filter
 	 */
 	public IMetadataFilter getMetadataFilter() {
 		Object filter = getOption(METADATA_FILTER);
@@ -540,7 +560,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption 
 	/**
 	 * set the URL of head.js file
 	 *
-	 * @param headJsUrl
+	 * @param birtJsUrl
 	 */
 	public void setBirtJsUrl(String birtJsUrl) {
 		setOption(BIRT_JS_URL_KEY, birtJsUrl);
