@@ -125,6 +125,9 @@ public interface IHTMLRenderOption extends IRenderOption {
 	/** property key: viewer preview like html layout (w/o page simulation) */
 	String VIEWER_PREVIEW_HTML_LAYOUT = "preview_html"; //$NON-NLS-1$
 
+	/** property key: get the servlet property from render options */
+	String BIRT_VIEWER_SERVLET_PATH = "BirtViewerServletPath"; //$NON-NLS-1$
+
 	/**
 	 * Get the Instance IDs
 	 *
