@@ -38,6 +38,12 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase {
 		return "./htmlEmitterOptimizeTest";
 	}
 
+	/**
+	 * Test the performance optimization
+	 *
+	 * @throws EngineException
+	 * @throws IOException
+	 */
 	public void testPerformanceOptimize() throws EngineException, IOException {
 		HTMLRenderOption options = new HTMLRenderOption();
 		options.setEnableAgentStyleEngine(true);
@@ -64,6 +70,12 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase {
 		assertEquals(false, matcher.find());
 	}
 
+	/**
+	 * Test the optimized vision
+	 *
+	 * @throws EngineException
+	 * @throws IOException
+	 */
 	public void testVisionOptimize() throws EngineException, IOException {
 		HTMLRenderOption options = new HTMLRenderOption();
 		options.setEnableAgentStyleEngine(false);
