@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true" excludeFeatures="true" includedIUPattern="org.eclipse.birt.*|uk.co.spudsoft.*|org.eclipse.datatools.*|org.apache.axis(.source)?" validateNexusPublishingRequirements="true">
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="BIRT" buildRoot="target/maven-minimized" packedStrategy="UNPACK_AS_SIBLING" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeValidationSetUnits="true" excludeFeatures="true" includedIUPattern="org.eclipse.birt.*|uk.co.spudsoft.*|org.eclipse.datatools.*|org.apache.axis(.source)?" validateNexusPublishingRequirements="true" validatePOMDependencies="true" filterPublishedArtifacts="true">
   <validationSets label="Main">
     <contributions label="BIRT">
       <repositories location="https://download.eclipse.org/birt/updates/nightly/latest">
@@ -39,7 +39,6 @@
   <mavenMappings namePattern=".*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern=".*" versionTemplate="\$maven-version\$"/>
   <mavenMappings namePattern=".*" groupId="\$maven-wrapped-groupId\$" artifactId="\$maven-wrapped-artifactId\$" versionPattern=".*" versionTemplate="\$maven-wrapped-version\$"/>
   <mavenDependencyMapping namespacePattern="osgi\.bundle" namePattern="org\.apache\.derby" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="[major.minor.micro,major+1)"/>
-  <mavenDependencyMapping iuNamePattern="(?!.*(org\.eclipse\.)).*|org\.eclipse\.emf.*|org\.eclipse\.ecf.*|org\.eclipse\.jetty.*|org\.eclipse\.orbit.*" namespacePattern=".*" namePattern=".*" groupId="!" artifactId="!"/>
   <mavenDependencyMapping namespacePattern="osgi\.bundle|org\.eclipse\.equinox\.p2\.iu" namePattern="(?!.*(org\.eclipse\.(emf|ecf))).*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
   <mavenDependencyMapping namespacePattern="java\.package" namePattern=".*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
 </aggregator:Aggregation>
