@@ -442,7 +442,7 @@
       xsi:type="setup:RedirectionTask"
       filter="(birt.version=4.21)"
       sourceURL="${eclipse.latest.p2}"
-      targetURL="https://download.eclipse.org/releases/2025-09/202509101000">
+      targetURL="https://download.eclipse.org/releases/2025-09/202509101001">
     <description>Redirect the I-Build to the release train for BIRT 4.21</description>
   </setupTask>
   <setupTask
@@ -575,7 +575,7 @@
         <repository
             url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.0"/>
         <repository
-            url="https://download.eclipse.org/releases/2025-09/202509101000"/>
+            url="https://download.eclipse.org/releases/2025-09/202509101001"/>
         <repository
             url="https://download.eclipse.org/justj/epp/release/21.0.0.v20250724-1739"/>
         <repository

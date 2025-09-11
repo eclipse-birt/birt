@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="68">
+<target name="Generated from BIRT" sequenceNumber="69">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="aQute.libg" version="0.0.0"/>
@@ -152,7 +152,7 @@
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.37.0"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.0"/>
-      <repository location="https://download.eclipse.org/releases/2025-09/202509101000"/>
+      <repository location="https://download.eclipse.org/releases/2025-09/202509101001"/>
       <repository location="https://download.eclipse.org/justj/epp/release/21.0.0.v20250724-1739"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       <repository location="https://download.eclipse.org/datatools/updates/release/1.16.3"/>
