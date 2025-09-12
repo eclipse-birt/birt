@@ -2,25 +2,25 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.examples; singleton:=true
-Bundle-Version: 4.21.0.qualifier
+Bundle-Version: 4.22.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Activator: org.eclipse.birt.chart.examples.ChartExamplesPlugin
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.chart.device.extension;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.device.swt;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.device.svg;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.device.pdf;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.engine.extension;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.ui;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.chart.ui.extension;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.report.engine;bundle-version="[4.21.0,5.0.0)";resolution:=optional,
- org.eclipse.birt.report.model;bundle-version="[4.21.0,5.0.0)";resolution:=optional,
+Require-Bundle: org.eclipse.birt.chart.device.extension;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.device.swt;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.device.svg;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.device.pdf;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.engine.extension;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.ui;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.ui.extension;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)";resolution:=optional,
+ org.eclipse.birt.report.model;bundle-version="[4.22.0,5.0.0)";resolution:=optional,
  org.eclipse.ui.workbench.texteditor;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.filesystem;bundle-version="[1.0.0,2.0.0)",
  org.eclipse.core.resources;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.ui.ide;bundle-version="[3.2.0,4.0.0)";resolution:=optional,
- org.eclipse.birt.data.aggregation;bundle-version="[4.21.0,5.0.0)",
- org.eclipse.birt.data;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.data.aggregation;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.data;bundle-version="[4.22.0,5.0.0)",
  org.eclipse.birt.chart.examples.core;bundle-version="[2.6.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

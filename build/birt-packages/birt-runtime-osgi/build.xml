@@ -14,7 +14,7 @@
  *******************************************************************************
 -->
 <project basedir=".">
-  <property name="BIRT_VERSION" value="4.21.0"/>
+  <property name="BIRT_VERSION" value="4.22.0"/>
   <property name="ROOT_DIR" location="../../../"/>
   <property name="STAGE_DIR" location="./target/package"/>
   <property name="ENGINE_DIR" location="${STAGE_DIR}/ReportEngine/"/>

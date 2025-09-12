@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.21.0-SNAPSHOT</version>
+		<version>4.22.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.report.engine.emitter.config.ods</artifactId>

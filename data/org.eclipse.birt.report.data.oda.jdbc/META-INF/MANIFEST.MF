@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc;singleton:=true
-Bundle-Version: 4.21.0.qualifier
+Bundle-Version: 4.22.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.data.oda.plugin.OdaJdbcPlugin
 Bundle-Vendor: %Bundle-Vendor
@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,5.0.0)",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.2.0,4.0.0)",
  org.apache.derby;bundle-version="[10.1.2,11.0.0)";resolution:=optional,
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.7,4.0.0)";resolution:=optional,
- org.eclipse.birt.report.data.bidi.utils;bundle-version="[4.21.0,5.0.0)",
+ org.eclipse.birt.report.data.bidi.utils;bundle-version="[4.22.0,5.0.0)",
  org.eclipse.birt.core;bundle-version="[2.3.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.i18n;x-friends:="org.eclipse.birt.report.data.oda.jdbc.tests",
