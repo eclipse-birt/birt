@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.device.extension; singleton:=true
-Bundle-Version: 4.21.0.qualifier
+Bundle-Version: 4.22.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.chart.device.extension.i18n,
@@ -11,7 +11,7 @@ Export-Package: org.eclipse.birt.chart.device.extension.i18n,
  org.eclipse.birt.chart.device.plugin,
  org.eclipse.birt.chart.device.swing,
  org.eclipse.birt.chart.device.util
-Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[4.21.0,5.0.0)"
+Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[4.22.0,5.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.birt.chart.device.extension

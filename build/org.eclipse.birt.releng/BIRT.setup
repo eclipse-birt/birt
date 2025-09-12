@@ -430,7 +430,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.21">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>
@@ -440,6 +440,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
+      disabled="true"
       filter="(birt.version=4.21)"
       sourceURL="${eclipse.latest.p2}"
       targetURL="https://download.eclipse.org/releases/2025-09/202509101001">
@@ -483,7 +484,7 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>org.mortbay.jasper.apache-.*|jakarta.activation-api|jakarta.xml.bind-api|org.apache.commons.logging</value>
+          <value>org.mortbay.jasper.mortbay-apache-.*|jakarta.activation-api|jakarta.xml.bind-api|org.apache.commons.logging</value>
         </detail>
         <detail
             key="minimizeImplicitUnits">

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.build
-Bundle-Version: 4.21.0.qualifier
+Bundle-Version: 4.22.0.qualifier
 Export-Package: org.eclipse.birt.build.ant;x-internal:=true,
  org.eclipse.birt.build.framework;x-internal:=true,
  org.eclipse.birt.build.pack;x-internal:=true
