@@ -2,13 +2,13 @@
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -26,7 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +52,7 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.core.runtime.FileLocator;
 
 import uk.co.spudsoft.birt.emitters.bugfix.FixedRenderTask;
 import uk.co.spudsoft.birt.emitters.excel.ExcelEmitter;
@@ -432,28 +432,16 @@ public class ReportRunner {
 		return reportEngine;
 	}
 
-	protected String deriveFilepath(String filename) throws MalformedURLException {
+	protected String deriveFilepath(String filename) throws IOException {
 		String filepath = null;
 
 		File file = new File(filename);
 		if ((file.isAbsolute()) && (file.exists())) {
 			return filename;
 		} else if (Activator.getContext() != null) {
-			URL bundleLocation = new URL(Activator.getContext().getBundle().getLocation());
-			// System.err.println( "Activator.getContext().getBundle().getLocation() = " +
-			// bundleLocation );
-			String bundleLocationFile = bundleLocation.getFile();
-			if (bundleLocationFile.startsWith("file:/")) {
-				bundleLocationFile = bundleLocationFile.substring(6);
-			}
-			// System.err.println( "bundleLocationFile = " + bundleLocationFile );
-
 			URL resourceLocation = this.getClass().getResource(filename);
-			String resourceLocationFile = resourceLocation.getFile();
-			// System.err.println( "resourceLocationFile = " + resourceLocationFile );
-
-			filepath = bundleLocationFile + "bin" + resourceLocationFile;
-			// System.err.println( "filepath = " + filepath );
+			URL fileURL = FileLocator.toFileURL(resourceLocation);
+			filepath = new File(fileURL.getFile()).toString();
 		}
 		return filepath;
 	}
