@@ -23,13 +23,7 @@
    <feature id="org.eclipse.birt.chart.osgi.runtime.sdk">
       <category name="ChartSDK"/>
    </feature>
-   <feature id="org.eclipse.birt.chart.osgi.runtime.source">
-      <category name="ChartSDK"/>
-   </feature>
    <feature id="org.eclipse.birt.chart.osgi.runtime">
-      <category name="ChartSDK"/>
-   </feature>
-   <feature id="org.eclipse.birt.chart.source">
       <category name="ChartSDK"/>
    </feature>
    <feature id="org.eclipse.birt.chart">

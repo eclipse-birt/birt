@@ -42,7 +42,7 @@ jobs:
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
-        maven-version: 3.9.5
+        maven-version: 3.9.11
     - name: Set up Maven 2
       run: echo "MAVEN_OPTS='-Xmx4096m'" > ~/.mavenrc
     - name: Build with Maven

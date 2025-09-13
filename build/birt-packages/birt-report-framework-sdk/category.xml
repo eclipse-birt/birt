@@ -23,13 +23,7 @@
    <feature id="org.eclipse.birt.chart.osgi.runtime.sdk">
       <category name="BRFSDK"/>
    </feature>
-   <feature id="org.eclipse.birt.chart.osgi.runtime.source">
-      <category name="BRFSDK"/>
-   </feature>
    <feature id="org.eclipse.birt.chart.osgi.runtime">
-      <category name="BRFSDK"/>
-   </feature>
-   <feature id="org.eclipse.birt.chart.source">
       <category name="BRFSDK"/>
    </feature>
    <feature id="org.eclipse.birt.chart">
@@ -44,19 +38,10 @@
    <feature id="org.eclipse.birt.doc">
       <category name="BRFSDK"/>
    </feature>
-   <feature id="org.eclipse.birt.example.source">
-      <category name="BRFSDK"/>
-   </feature>
    <feature id="org.eclipse.birt.example">
       <category name="BRFSDK"/>
    </feature>
-   <feature id="org.eclipse.birt.report.designer.editor.xml.wtp.source">
-      <category name="BRFSDK"/>
-   </feature>
    <feature id="org.eclipse.birt.report.designer.editor.xml.wtp">
-      <category name="BRFSDK"/>
-   </feature>
-   <feature id="org.eclipse.birt.source">
       <category name="BRFSDK"/>
    </feature>
    <feature id="org.eclipse.birt">

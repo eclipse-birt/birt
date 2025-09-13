@@ -42,8 +42,4 @@
          id="org.eclipse.birt.chart.osgi.runtime"
          version="0.0.0"/>
 
-   <includes
-         id="org.eclipse.birt.chart.osgi.runtime.source"
-         version="0.0.0"/>
-
 </feature>

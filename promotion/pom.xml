@@ -104,7 +104,6 @@ SPDX-License-Identifier: EPL-2.0
                 ${project.basedir}/../build/birt-packages/birt-runtime-osgi/target/birt-runtime-osgi-${birt.version}-${maven.build.timestamp}.zip
                 ${project.basedir}/../build/birt-packages/birt-runtime/target/birt-runtime-${birt.version}-${maven.build.timestamp}.zip
                 ${project.basedir}/../build/birt-packages/birt-sample-plugins/target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip
-                ${project.basedir}/../build/birt-packages/birt-source/target/birt-source-${birt.version}-${maven.build.timestamp}.zip
                 ${project.basedir}/../build/birt-packages/birt-tests-suite/target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip
                 -breadcrumb "BIRT https://www.eclipse.org/birt"
                 -favicon https://eclipse-birt.github.io/birt-website/img/BIRT-Icon.ico

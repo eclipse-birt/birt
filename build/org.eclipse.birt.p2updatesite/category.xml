@@ -75,9 +75,7 @@
       <category name="BirtRcp"/>
    </feature>
 
-   <feature id="org.eclipse.birt.source"/>
-
-   <category-def name="Birt" label="BIRT Reporting SDK"/>
+   <category-def name="Birt" label="BIRT Reporting DK"/>
    <category-def name="Chart" label="BIRT Charting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
    <category-def name="wtpIntegration" label="BIRT Web Tools Integration SDK"/>
