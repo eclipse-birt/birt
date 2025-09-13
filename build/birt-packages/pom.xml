@@ -39,7 +39,6 @@
 		<module>birt-runtime-osgi</module>
 		<module>birt-sample-plugins</module>
 		<module>birt-tests-suite</module>
-		<module>birt-source</module>
 		<module>birt-nl</module>
 		<module>birt-runtime-test</module>
 	</modules>

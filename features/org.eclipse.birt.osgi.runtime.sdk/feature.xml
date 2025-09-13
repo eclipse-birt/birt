@@ -41,7 +41,4 @@
    <includes
          id="org.eclipse.birt.osgi.runtime"
          version="0.0.0"/>
-   <includes
-         id="org.eclipse.birt.osgi.runtime.source"
-         version="0.0.0"/>
 </feature>
