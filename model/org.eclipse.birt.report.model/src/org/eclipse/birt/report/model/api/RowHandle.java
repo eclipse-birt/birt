@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -17,6 +17,8 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -247,7 +249,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel {
 	/**
 	 * Sets the tag type of this label item.
 	 *
-	 * @param tag type the tag type
+	 * @param tagType type the tag type
 	 *
 	 * @throws SemanticException if the property is locked.
 	 */
@@ -276,5 +278,27 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel {
 
 	public void setLanguage(String language) throws SemanticException {
 		setStringProperty(LANGUAGE_PROP, language);
+	}
+
+	/**
+	 * Set the row height based on unit string without locale handling
+	 *
+	 * @param height row height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(String height) throws SemanticException {
+		setProperty(ITableRowModel.HEIGHT_PROP, StringUtil.parse(height));
+	}
+
+	/**
+	 * Set the row height based on dimension value
+	 *
+	 * @param height row height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(DimensionValue height) throws SemanticException {
+		setProperty(ITableRowModel.HEIGHT_PROP, height);
 	}
 }

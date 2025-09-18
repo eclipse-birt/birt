@@ -17,6 +17,7 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.Point;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -311,4 +312,49 @@ public abstract class MasterPageHandle extends ReportElementHandle implements IM
 	public DimensionHandle getColumnSpacing() {
 		return super.getDimensionProperty(COLUMN_SPACING_PROP);
 	}
+
+	/**
+	 * Set the master page width based on unit string without locale handling
+	 *
+	 * @param width master page width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(String width) throws SemanticException {
+		setProperty(IMasterPageModel.WIDTH_PROP, StringUtil.parse(width));
+	}
+
+	/**
+	 * Set the master page width based on dimension value
+	 *
+	 * @param width master page width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(DimensionValue width) throws SemanticException {
+		setProperty(IMasterPageModel.WIDTH_PROP, width);
+	}
+
+	/**
+	 * Set the master page height based on unit string without locale handling
+	 *
+	 * @param height master page height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(String height) throws SemanticException {
+		setProperty(IMasterPageModel.HEIGHT_PROP, StringUtil.parse(height));
+	}
+
+	/**
+	 * Set the master page height based on dimension value
+	 *
+	 * @param height master page height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(DimensionValue height) throws SemanticException {
+		setProperty(IMasterPageModel.HEIGHT_PROP, height);
+	}
+
 }
