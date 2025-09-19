@@ -41,7 +41,7 @@ import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.util.OOXmlUtil;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
-import com.lowagie.text.Font;
+import org.openpdf.text.Font;
 
 /**
  * This class is used use to generate PPTX shapes.

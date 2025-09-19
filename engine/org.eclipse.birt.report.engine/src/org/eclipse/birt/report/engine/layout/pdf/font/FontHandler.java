@@ -25,9 +25,9 @@ import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValueList;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.LayoutProcessor;
+import org.openpdf.text.Font;
+import org.openpdf.text.pdf.BaseFont;
+import org.openpdf.text.pdf.LayoutProcessor;
 
 /**
  * the font handler, which maps fontFamily, fontStyle, fontWeight properties to

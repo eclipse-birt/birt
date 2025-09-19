@@ -51,36 +51,36 @@ import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.openpdf.text.Document;
+import org.openpdf.text.DocumentException;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.BaseFont;
+import org.openpdf.text.pdf.PdfArray;
+import org.openpdf.text.pdf.PdfBoolean;
+import org.openpdf.text.pdf.PdfContentByte;
+import org.openpdf.text.pdf.PdfDate;
+import org.openpdf.text.pdf.PdfDictionary;
+import org.openpdf.text.pdf.PdfICCBased;
+import org.openpdf.text.pdf.PdfImportedPage;
+import org.openpdf.text.pdf.PdfName;
+import org.openpdf.text.pdf.PdfNumber;
+import org.openpdf.text.pdf.PdfObject;
+import org.openpdf.text.pdf.PdfOutline;
+import org.openpdf.text.pdf.PdfReader;
+import org.openpdf.text.pdf.PdfString;
+import org.openpdf.text.pdf.PdfStructureElement;
+import org.openpdf.text.pdf.PdfStructureTreeRoot;
+import org.openpdf.text.pdf.PdfTemplate;
+import org.openpdf.text.pdf.PdfWriter;
+import org.openpdf.text.xml.xmp.DublinCoreSchema;
+import org.openpdf.text.xml.xmp.LangAlt;
+import org.openpdf.text.xml.xmp.PdfA1Schema;
+import org.openpdf.text.xml.xmp.PdfSchema;
+import org.openpdf.text.xml.xmp.XmpBasicSchema;
+import org.openpdf.text.xml.xmp.XmpSchema;
+import org.openpdf.text.xml.xmp.XmpWriter;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfArray;
-import com.lowagie.text.pdf.PdfBoolean;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDate;
-import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfICCBased;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfNumber;
-import com.lowagie.text.pdf.PdfObject;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.PdfStructureElement;
-import com.lowagie.text.pdf.PdfStructureTreeRoot;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.xml.xmp.DublinCoreSchema;
-import com.lowagie.text.xml.xmp.LangAlt;
-import com.lowagie.text.xml.xmp.PdfA1Schema;
-import com.lowagie.text.xml.xmp.PdfSchema;
-import com.lowagie.text.xml.xmp.XmpBasicSchema;
-import com.lowagie.text.xml.xmp.XmpSchema;
-import com.lowagie.text.xml.xmp.XmpWriter;
 
 /**
  * Definition of the PDF emitter page
@@ -223,7 +223,7 @@ public class PDFPageDevice implements IPageDevice {
 
 	protected Map<String, Expression> userProperties;
 
-	private char pdfVersion = '0';
+	private String pdfVersion = "0";
 
 	private int pdfConformance = PdfWriter.PDFXNONE;
 
@@ -781,7 +781,7 @@ public class PDFPageDevice implements IPageDevice {
 			throw new BirtException("OpenPDF does not yet support creation of PDF 2.0");
 		}
 		// version only set if the PDF version exists
-		if (this.pdfVersion != '0') {
+		if (!this.pdfVersion.equals("0")) {
 			writer.setAtLeastPdfVersion(this.pdfVersion);
 		}
 	}

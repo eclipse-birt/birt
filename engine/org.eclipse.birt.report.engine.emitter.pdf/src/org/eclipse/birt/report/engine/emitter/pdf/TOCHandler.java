@@ -22,8 +22,8 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfOutline;
+import org.openpdf.text.pdf.PdfAction;
+import org.openpdf.text.pdf.PdfOutline;
 
 /**
  * Class of PDF TOC handler

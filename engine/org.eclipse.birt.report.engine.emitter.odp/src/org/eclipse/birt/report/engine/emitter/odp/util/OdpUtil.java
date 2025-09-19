@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.odf.style.HyperlinkInfo;
 
-import com.lowagie.text.pdf.BaseFont;
+import org.openpdf.text.pdf.BaseFont;
 
 public class OdpUtil {
 

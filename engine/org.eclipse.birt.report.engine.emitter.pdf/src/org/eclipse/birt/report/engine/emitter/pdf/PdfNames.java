@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
-import com.lowagie.text.pdf.PdfName;
+import org.openpdf.text.pdf.PdfName;
 
 /**
  * Some standard PdfName constants which are used inside BIRT code, but are
@@ -19,7 +19,7 @@ import com.lowagie.text.pdf.PdfName;
  * If you wonder, why we only have some constants here and create other PdfName
  * objects from strings on the fly: It's because we hope to get the best
  * performance this way. This class is related to class {@link PdfTag}. Creating
- * a {@link com.lowagie.text.pdf.PdfName} involves a little overhead, and
+ * a {@link org.openpdf.text.pdf.PdfName} involves a little overhead, and
  * comparing it to another instance is a bit more complex than comparing two
  * strings. We create these constant values here a priori when we need the name
  * in source code, whereas we create the PdfName objects on the fly when the

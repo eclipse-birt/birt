@@ -41,25 +41,25 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.LayoutProcessor;
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfAnnotation;
-import com.lowagie.text.pdf.PdfBorderDictionary;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfRectangle;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfTextArray;
-import com.lowagie.text.pdf.PdfWriter;
+import org.openpdf.text.Document;
+import org.openpdf.text.DocumentException;
+import org.openpdf.text.Font;
+import org.openpdf.text.Image;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.BaseFont;
+import org.openpdf.text.pdf.LayoutProcessor;
+import org.openpdf.text.pdf.PdfAction;
+import org.openpdf.text.pdf.PdfAnnotation;
+import org.openpdf.text.pdf.PdfBorderDictionary;
+import org.openpdf.text.pdf.PdfContentByte;
+import org.openpdf.text.pdf.PdfDestination;
+import org.openpdf.text.pdf.PdfDictionary;
+import org.openpdf.text.pdf.PdfName;
+import org.openpdf.text.pdf.PdfRectangle;
+import org.openpdf.text.pdf.PdfString;
+import org.openpdf.text.pdf.PdfTemplate;
+import org.openpdf.text.pdf.PdfTextArray;
+import org.openpdf.text.pdf.PdfWriter;
 
 /**
  * Definition of the PDF page

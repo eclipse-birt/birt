@@ -125,7 +125,7 @@ public class ImageItemExecutor extends QueryItemExecutor {
 		DimensionType height = imageDesign.getHeight();
 
 		if (imageDesign.isProportionalScale() && width != null && height != null) {
-			com.lowagie.text.Image imageData = EmitterUtil.getImage(imageContent);
+			org.openpdf.text.Image imageData = EmitterUtil.getImage(imageContent);
 			String targetUnit = DimensionType.UNITS_PX;
 
 			if (imageData != null) {

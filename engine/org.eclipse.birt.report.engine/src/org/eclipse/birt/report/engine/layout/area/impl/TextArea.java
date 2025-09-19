@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.ibm.icu.text.Bidi;
-import com.lowagie.text.Font;
+import org.openpdf.text.Font;
 
 public class TextArea extends AbstractArea implements ITextArea {
 	protected String text;

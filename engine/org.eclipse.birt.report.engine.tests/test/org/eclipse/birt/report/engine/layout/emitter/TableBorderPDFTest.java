@@ -22,11 +22,11 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
+import org.openpdf.text.Document;
+import org.openpdf.text.DocumentException;
+import org.openpdf.text.Rectangle;
+import org.openpdf.text.pdf.PdfContentByte;
+import org.openpdf.text.pdf.PdfWriter;
 
 import junit.framework.TestCase;
 

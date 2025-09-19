@@ -29,10 +29,10 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.pdf.IntHashtable;
-import com.lowagie.text.pdf.RandomAccessFileOrArray;
+import org.openpdf.text.DocumentException;
+import org.openpdf.text.ExceptionConverter;
+import org.openpdf.text.pdf.IntHashtable;
+import org.openpdf.text.pdf.RandomAccessFileOrArray;
 
 /**
  * Reads a Truetype font

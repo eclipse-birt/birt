@@ -44,7 +44,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.Image;
+import org.openpdf.text.Image;
 
 /**
  *

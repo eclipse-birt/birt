@@ -14,7 +14,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-import com.lowagie.text.pdf.hyphenation.Hyphen;
+import org.openpdf.text.pdf.hyphenation.Hyphen;
 
 /**
  * This class represents a hyphenated word.
