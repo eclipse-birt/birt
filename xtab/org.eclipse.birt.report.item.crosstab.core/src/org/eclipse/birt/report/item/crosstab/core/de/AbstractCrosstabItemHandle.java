@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 
 /**
  * Abstract report item class for all crosstab items.
@@ -54,8 +55,9 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	protected static final CompatibilityStatus COMP_OK_STATUS = new CompatibilityStatus();
 
 	/**
+	 * Constructor
 	 *
-	 * @param handle
+	 * @param element
 	 */
 	protected AbstractCrosstabItemHandle(DesignElementHandle element) {
 		if (!(element instanceof ExtendedItemHandle)) {
@@ -108,7 +110,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 		DesignElementHandle e = handle;
 		while (e != null) {
 			if (ICrosstabConstants.CROSSTAB_EXTENSION_NAME
-					.equals(e.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP))) {
+					.equals(e.getStringProperty(IExtendedItemModel.EXTENSION_NAME_PROP))) {
 				return e;
 			}
 			e = e.getContainer();
@@ -119,7 +121,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	/**
 	 * Gets the crosstab report item.
 	 *
-	 * @return
+	 * @return the crosstab report item
 	 */
 	public CrosstabReportItemHandle getCrosstab() {
 		return (CrosstabReportItemHandle) CrosstabUtil.getReportItem(getCrosstabHandle());
@@ -129,7 +131,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	 * Find level handle by full name.
 	 *
 	 * @param fullLevelName
-	 * @return
+	 * @return the level handle
 	 */
 	public LevelHandle findLevelHandle(String fullLevelName) {
 		if (fullLevelName == null) {
@@ -171,7 +173,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 				return null;
 			}
 
-			String exName = deh.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP);
+			String exName = deh.getStringProperty(IExtendedItemModel.EXTENSION_NAME_PROP);
 
 			if (CROSSTAB_EXTENSION_NAME.equals(exName) || CROSSTAB_VIEW_EXTENSION_NAME.equals(exName)
 					|| DIMENSION_VIEW_EXTENSION_NAME.equals(exName) || LEVEL_VIEW_EXTENSION_NAME.equals(exName)
@@ -202,7 +204,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	/**
 	 * Gets the logger instance for this class.
 	 *
-	 * @return
+	 * @return the logger instance for this class
 	 */
 	public Logger getLogger() {
 		return logger;
@@ -211,7 +213,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements ICrosstabC
 	/**
 	 * Gets the module handle for this report item.
 	 *
-	 * @return
+	 * @return the module handle for this report item
 	 */
 	public ModuleHandle getModuleHandle() {
 		return this.moduleHandle;
