@@ -43,8 +43,8 @@ import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Image;
+import org.openpdf.text.BadElementException;
+import org.openpdf.text.Image;
 
 /**
  * Image layout hanlder

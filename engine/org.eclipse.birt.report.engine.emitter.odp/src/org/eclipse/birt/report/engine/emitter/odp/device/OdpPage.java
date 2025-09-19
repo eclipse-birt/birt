@@ -35,8 +35,8 @@ import org.eclipse.birt.report.engine.odf.style.StyleConstant;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
+import org.openpdf.text.Font;
+import org.openpdf.text.pdf.BaseFont;
 
 /**
  * @since 3.3

@@ -46,8 +46,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfStructureElement;
+import org.openpdf.text.Image;
+import org.openpdf.text.pdf.PdfStructureElement;
 
 /**
  *

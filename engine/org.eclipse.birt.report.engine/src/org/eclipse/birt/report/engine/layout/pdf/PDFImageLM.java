@@ -40,8 +40,8 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Image;
+import org.openpdf.text.BadElementException;
+import org.openpdf.text.Image;
 
 /**
  *

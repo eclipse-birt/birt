@@ -53,7 +53,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Image;
+import org.openpdf.text.Image;
 
 /**
  * Representation of the background image information includes attributes and

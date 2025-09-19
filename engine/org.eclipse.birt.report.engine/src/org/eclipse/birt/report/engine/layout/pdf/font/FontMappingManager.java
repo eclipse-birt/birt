@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.lowagie.text.pdf.BaseFont;
+import org.openpdf.text.pdf.BaseFont;
 
 /**
  * Manager to handle the font mapping configuration

@@ -42,7 +42,7 @@ import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.core.Module;
 
-import com.lowagie.text.Image;
+import org.openpdf.text.Image;
 
 /**
  * Definition of the page area
