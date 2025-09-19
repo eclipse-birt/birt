@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -166,7 +166,7 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 		String propName = null;
 
 		if (element instanceof ReportItem) {
-			propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
+			propName = IInternalReportItemModel.BOUND_DATA_COLUMNS_PROP;
 		} else if (element instanceof ScalarParameter) {
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
 		} else {
@@ -238,7 +238,7 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr {
 		super.dealReportItem(element, module);
 
 		List<ComputedColumn> columnBindings = (List<ComputedColumn>) element.getLocalProperty(module,
-				IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+				IInternalReportItemModel.BOUND_DATA_COLUMNS_PROP);
 		if (columnBindings != null) {
 			for (int i = 0; i < columnBindings.size(); i++) {
 				ComputedColumn paramValue = columnBindings.get(i);

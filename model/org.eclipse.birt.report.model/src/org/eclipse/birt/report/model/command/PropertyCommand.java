@@ -70,10 +70,10 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -168,7 +168,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// Backward for TOC expression.
 
 		String propName = prop.getName();
-		if ((IReportItemModel.TOC_PROP.equals(propName) || IGroupElementModel.TOC_PROP.equals(propName))
+		if ((IInternalReportItemModel.TOC_PROP.equals(propName) || IGroupElementModel.TOC_PROP.equals(propName))
 				&& (value instanceof String)) {
 			Structure oldValue = (Structure) element.getLocalProperty(module, prop);
 			if (oldValue != null) {
@@ -279,16 +279,17 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		}
 
 		if (element instanceof ReportItem
-				&& (IReportItemModel.DATA_SET_PROP.equals(propName) || IReportItemModel.CUBE_PROP.equals(propName))) {
+				&& (IInternalReportItemModel.DATA_SET_PROP.equals(propName)
+						|| IInternalReportItemModel.CUBE_PROP.equals(propName))) {
 			DesignElement container = element.getContainer();
 			DataSet dataSet = null;
 			Cube cube = null;
-			if (IReportItemModel.DATA_SET_PROP.equals(propName)) {
+			if (IInternalReportItemModel.DATA_SET_PROP.equals(propName)) {
 				ElementRefValue refValue = (ElementRefValue) value;
 				if (refValue != null) {
 					dataSet = (DataSet) refValue.getElement();
 				}
-			} else if (IReportItemModel.CUBE_PROP.equals(propName)) {
+			} else if (IInternalReportItemModel.CUBE_PROP.equals(propName)) {
 				ElementRefValue refValue = (ElementRefValue) value;
 				if (refValue != null) {
 					cube = (Cube) refValue.getElement();
@@ -337,7 +338,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			} else if (value instanceof DesignElementHandle) {
 				cmd.add(((DesignElementHandle) value).getElement());
 			} else if (value instanceof List) {
-				contents = (List) value;
+				contents = (List<DesignElement>) value;
 				for (int i = 0; i < contents.size(); i++) {
 					Object item = contents.get(i);
 					if (item instanceof DesignElement) {
@@ -507,7 +508,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 		stack.execute(record);
 
-		if (IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase(propName)) {
+		if (IInternalReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase(propName)) {
 			try {
 
 				// if element is table/list, we must localize group structure in
@@ -670,7 +671,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	 *
 	 */
 
-	private void recoverReferredReportItem(DesignElement source, DesignElement targetElement) throws SemanticException {
+	private void recoverReferredReportItem(DesignElement source, DesignElement targetElement) {
 		Iterator<String> propNames = null;
 
 		if (targetElement instanceof ReportItem) {
@@ -691,7 +692,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 			ElementPropertyDefn sourcePropDefn = (ElementPropertyDefn) source.getDefn().getProperty(propName);
 
-			
+
 
 			// the filter is the special case. See
 			// IListingElementModel.FILTER_PROP and
@@ -706,7 +707,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			Object value = targetElement.getStrategy().getPropertyExceptRomDefault(module, targetElement, propDefn);
 
 			// do some special handle for column bindings
-			if (IReportItemModel.BOUND_DATA_COLUMNS_PROP.equals(propName)) {
+			if (IInternalReportItemModel.BOUND_DATA_COLUMNS_PROP.equals(propName)) {
 				value = getValidColumnBindings(source, targetElement, (List<ComputedColumn>) value);
 			}
 			value = ModelUtil.copyValue(propDefn, value);
@@ -885,7 +886,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	public void setMember(StructureContext ref, Object value) throws SemanticException {
 		checkAllowedOperation();
-		PropertyDefn memberDefn = (PropertyDefn) ref.getPropDefn();
+		PropertyDefn memberDefn = ref.getPropDefn();
 		PropertyDefn propDefn = ref.getElementProp();
 		assert propDefn != null;
 		assertExtendedElement(module, element, propDefn);
@@ -975,7 +976,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 		// if the element is the container or the content of the input
 		// element throws exception
-		if (IReportItemModel.DATA_BINDING_REF_PROP.equals(propDefn.getName()) && refValue.isResolved()
+		if (IInternalReportItemModel.DATA_BINDING_REF_PROP.equals(propDefn.getName()) && refValue.isResolved()
 				&& ModelUtil.checkContainerOrContent(element, refValue.getElement())) {
 			throw new SemanticError(element, new String[] { element.getName(), refValue.getName() },
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF);

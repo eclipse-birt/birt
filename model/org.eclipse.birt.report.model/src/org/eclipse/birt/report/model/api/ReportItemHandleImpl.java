@@ -514,12 +514,12 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 *
 	 * @return each item is a <code>ComputedColumnHandle</code> instance.
 	 */
-	public Iterator getAvailableBindings() {
+	public Iterator<Object> getAvailableBindings() {
 
-		List bindings = new ArrayList();
+		List<Object> bindings = new ArrayList<>();
 		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
 		if (propHandle != null) {
-			Iterator iter1 = propHandle.iterator();
+			Iterator<?> iter1 = propHandle.iterator();
 			while (iter1.hasNext()) {
 				bindings.add(iter1.next());
 			}
