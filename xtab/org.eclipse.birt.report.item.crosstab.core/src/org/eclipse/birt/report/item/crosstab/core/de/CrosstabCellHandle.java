@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -26,9 +26,11 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.PropertyRecord;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -57,7 +59,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns an unmodifiable list of model handles for contents in this cell.
 	 *
-	 * @return
+	 * @return the model handles of the cell content
 	 */
 	public List getContents() {
 		return Collections.unmodifiableList(getContentProperty().getContents());
@@ -98,7 +100,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	 * @return cell width dimension value handle
 	 */
 	public DimensionHandle getWidth() {
-		return handle.getDimensionProperty(IReportItemModel.WIDTH_PROP);
+		return handle.getDimensionProperty(IInternalReportItemModel.WIDTH_PROP);
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	 * @return cell height dimension value handle
 	 */
 	public DimensionHandle getHeight() {
-		return handle.getDimensionProperty(IReportItemModel.HEIGHT_PROP);
+		return handle.getDimensionProperty(IInternalReportItemModel.HEIGHT_PROP);
 	}
 
 	/*
@@ -117,10 +119,10 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	 * org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles ()
 	 */
 	@Override
-	public List getPredefinedStyles() {
+	public List<String> getPredefinedStyles() {
 		AbstractCrosstabItemHandle container = getContainer();
 		if (container == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		List<String> styles = new ArrayList<>();
@@ -142,10 +144,10 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 			LevelViewHandle levelView = (LevelViewHandle) container;
 			int axisType = levelView.getAxisType();
 			switch (axisType) {
-			case LevelViewHandle.ROW_AXIS_TYPE:
+			case ICrosstabConstants.ROW_AXIS_TYPE:
 				styles.add(CROSSTAB_ROW_HEADER_SELECTOR);
 				break;
-			case LevelViewHandle.COLUMN_AXIS_TYPE:
+			case ICrosstabConstants.COLUMN_AXIS_TYPE:
 				styles.add(CROSSTAB_COLUMN_HEADER_SELECTOR);
 				break;
 			default:
@@ -205,6 +207,50 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 			getCommandStack().execute(record);
 
 		}
+	}
+
+	/**
+	 * Set the cross table cell width based on unit string without locale handling
+	 *
+	 * @param width cross table cell width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(String width) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.WIDTH_PROP, StringUtil.parse(width));
+	}
+
+	/**
+	 * Set the cross table cell width based on dimension value
+	 *
+	 * @param width cross table cell width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(DimensionValue width) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.WIDTH_PROP, width);
+	}
+
+	/**
+	 * Set the cross table cell height based on unit string without locale handling
+	 *
+	 * @param height cross table cell height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(String height) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.HEIGHT_PROP, StringUtil.parse(height));
+	}
+
+	/**
+	 * Set the cross table cell height based on dimension value
+	 *
+	 * @param height cross table cell height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(DimensionValue height) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.HEIGHT_PROP, height);
 	}
 
 }

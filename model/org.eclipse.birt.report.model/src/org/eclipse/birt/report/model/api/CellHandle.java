@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -15,6 +15,8 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -626,5 +628,49 @@ public class CellHandle extends ReportElementHandle implements ICellModel {
 
 	public void setAltTextKey(String altTextKey) throws SemanticException {
 		setProperty(ALT_TEXT_KEY_PROP, altTextKey);
+	}
+
+	/**
+	 * Set the cell width based on unit string without locale handling
+	 *
+	 * @param width cell width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(String width) throws SemanticException {
+		setProperty(WIDTH_PROP, StringUtil.parse(width));
+	}
+
+	/**
+	 * Set the cell width based on dimension value
+	 *
+	 * @param width cell width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(DimensionValue width) throws SemanticException {
+		setProperty(WIDTH_PROP, width);
+	}
+
+	/**
+	 * Set the cell height based on unit string without locale handling
+	 *
+	 * @param height cell height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(String height) throws SemanticException {
+		setProperty(HEIGHT_PROP, StringUtil.parse(height));
+	}
+
+	/**
+	 * Set the cell height based on dimension value
+	 *
+	 * @param height cell height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(DimensionValue height) throws SemanticException {
+		setProperty(HEIGHT_PROP, height);
 	}
 }

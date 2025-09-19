@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -38,7 +38,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -49,6 +48,8 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 
 /**
  * CrosstabReportItemHandle.
@@ -207,7 +208,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
 	 *
 	 * @param axisType
-	 * @return
+	 * @return the row/column crosstab view for this crosstab
 	 */
 	public CrosstabViewHandle getCrosstabView(int axisType) {
 		PropertyHandle propHandle = getCrosstabViewProperty(axisType);
@@ -223,7 +224,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
 	 *
 	 * @param axisType
-	 * @return
+	 * @return the row/column crosstab view for this crosstab
+	 * @throws SemanticException
 	 *
 	 */
 	public CrosstabViewHandle addCrosstabView(int axisType) throws SemanticException {
@@ -353,6 +355,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <li><code>PAGE_LAYOUT_OVER_THEN_DOWN</code>
 	 *
 	 * </ul>
+	 *
+	 * @param value page layout
+	 * @throws SemanticException
 	 */
 	public void setPageLayout(String value) throws SemanticException {
 		handle.setProperty(PAGE_LAYOUT_PROP, value);
@@ -361,6 +366,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Sets if repeat crosstab row header for each page. The row header is normally
 	 * on left of the detail area.
+	 *
+	 * @param value flag of repeat row header
+	 * @throws SemanticException
 	 */
 	public void setRepeatRowHeader(boolean value) throws SemanticException {
 		handle.setProperty(REPEAT_ROW_HEADER_PROP, Boolean.valueOf(value));
@@ -369,6 +377,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Sets if repeat crosstab column header for each page. The column header is
 	 * normally on top of the detail area.
+	 *
+	 * @param value flaf of repeat column header
+	 * @throws SemanticException
 	 */
 	public void setRepeatColumnHeader(boolean value) throws SemanticException {
 		handle.setProperty(REPEAT_COLUMN_HEADER_PROP, Boolean.valueOf(value));
@@ -376,6 +387,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets if hide measure header for this crosstab.
+	 *
+	 * @param value flag of hide measure header
+	 * @throws SemanticException
 	 */
 	public void setHideMeasureHeader(boolean value) throws SemanticException {
 		if (value == isHideMeasureHeader()) {
@@ -407,7 +421,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Returns if repeat crosstab row header for each page. The row header is
 	 * normally on left of the detail area.
 	 *
-	 * @return
+	 * @return if repeat crosstab row header for each page
 	 */
 	public boolean isRepeatRowHeader() {
 		return handle.getBooleanProperty(REPEAT_ROW_HEADER_PROP);
@@ -417,7 +431,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Returns if repeat crosstab column header for each page. The column header is
 	 * normally on top of the detail area.
 	 *
-	 * @return
+	 * @return if repeat crosstab column header for each page
 	 */
 	public boolean isRepeatColumnHeader() {
 		return handle.getBooleanProperty(REPEAT_COLUMN_HEADER_PROP);
@@ -426,7 +440,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Returns if hide measure header for this crosstab.
 	 *
-	 * @return
+	 * @return if hide measure header for this crosstab
 	 */
 	public boolean isHideMeasureHeader() {
 		return handle.getBooleanProperty(HIDE_MEASURE_HEADER_PROP);
@@ -443,6 +457,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets the empty cell value of this crosstab.
+	 *
+	 * @param value flag of empty cell value
+	 * @throws SemanticException
 	 */
 	public void setEmptyCellValue(String value) throws SemanticException {
 		handle.setStringProperty(EMPTY_CELL_VALUE_PROP, value);
@@ -507,6 +524,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
+	 * Get the crosstab ahndle
+	 *
+	 * @return the crosstab ahndle
 	 * @since 2.3
 	 */
 	public CrosstabCellHandle getHeader() {
@@ -526,7 +546,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 */
 
 	public CubeHandle getCube() {
-		return ((ReportItemHandle) handle).getCube();
+		return handle.getCube();
 	}
 
 	/**
@@ -535,7 +555,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @throws SemanticException
 	 */
 	public void setCube(CubeHandle cube) throws SemanticException {
-		handle.setProperty(ReportItemHandle.CUBE_PROP, cube);
+		handle.setProperty(IInternalReportItemModel.CUBE_PROP, cube);
 	}
 
 	/**
@@ -544,7 +564,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @return name of the referred OLAP cube element.
 	 */
 	public String getCubeName() {
-		String cubeName = handle.getStringProperty(ReportItemHandle.CUBE_PROP);
+		String cubeName = handle.getStringProperty(IInternalReportItemModel.CUBE_PROP);
 		if (cubeName == null && this.getCube() != null) {
 			cubeName = this.getCube().getName();
 		}
@@ -616,7 +636,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * Gets the level by full level name.
 	 *
 	 * @param fullLevelName
-	 * @return
+	 * @return the level by full level name
 	 */
 	public LevelViewHandle getLevel(String fullLevelName) {
 		String[] slices = CubeUtil.splitLevelName(fullLevelName);
@@ -668,6 +688,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		return getMeasuresProperty().getContentCount();
 	}
 
+	/**
+	 * Get all measures of crosstab
+	 *
+	 * @return all measures of crosstab
+	 */
 	public List<MeasureViewHandle> getAllMeasures() {
 		List<MeasureViewHandle> measureList = new ArrayList<>();
 		for (int i = 0; i < getMeasureCount(); i++) {
@@ -685,7 +710,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @param dimensionHandle the OLAP dimension handle to use
 	 * @param axisType        row/column axis type
 	 * @param index           insert position, a 0-based integer
-	 * @return
+	 * @return the dimension view handle
 	 * @throws SemanticException
 	 */
 	public DimensionViewHandle insertDimension(DimensionHandle dimensionHandle, int axisType, int index)
@@ -698,7 +723,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 *
 	 * @param measureHandle the OLAP measure handle to use
 	 * @param index         insert position, a 0-based integer
-	 * @return
+	 * @return the measure view handle
 	 * @throws SemanticException
 	 */
 	public MeasureViewHandle insertMeasure(MeasureHandle measureHandle, int index) throws SemanticException {
@@ -740,10 +765,27 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		return mv;
 	}
 
+	/**
+	 * Get the computed measure view handle
+	 *
+	 * @param name
+	 * @param index
+	 * @return the computed measure view handle
+	 * @throws SemanticException
+	 */
 	public ComputedMeasureViewHandle insertComputedMeasure(String name, int index) throws SemanticException {
 		return this.insertComputedMeasure(name, index, false);
 	}
 
+	/**
+	 * Get the computed measure view handle
+	 *
+	 * @param name
+	 * @param index
+	 * @param isMeasureView
+	 * @return the computed measure view handle
+	 * @throws SemanticException
+	 */
 	public ComputedMeasureViewHandle insertComputedMeasure(String name, int index, boolean isMeasureView)
 			throws SemanticException {
 		if (name == null) {
@@ -787,6 +829,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		return mv;
 	}
 
+	/**
+	 * List with all computed measure views
+	 *
+	 * @return all computed measure views
+	 */
 	public List<ComputedMeasureViewHandle> getComputedMeasures() {
 		List<ComputedMeasureViewHandle> ms = new ArrayList<>();
 
@@ -956,6 +1003,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 *
 	 * @param axisType row/column axis type
 	 * @return the row/column grand total of this crosstab
+	 * @throws SemanticException
 	 *
 	 */
 	public CrosstabCellHandle addGrandTotal(int axisType) throws SemanticException {
@@ -979,6 +1027,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
 	 *
 	 * @param axisType
+	 * @throws SemanticException
 	 */
 	public void removeGrandTotal(int axisType) throws SemanticException {
 		new CrosstabReportItemTask(this).removeGrandTotal(axisType);
@@ -991,6 +1040,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
 	 *
 	 * @param axisType
+	 * @param measureIndex
+	 * @throws SemanticException
 	 */
 	public void removeGrandTotal(int axisType, int measureIndex) throws SemanticException {
 		new CrosstabReportItemTask(this).removeGrandTotal(axisType, measureIndex);
@@ -1002,7 +1053,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @return crosstab width dimension value handle
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getWidth() {
-		return handle.getDimensionProperty(ReportItemHandle.WIDTH_PROP);
+		return handle.getDimensionProperty(IInternalReportItemModel.WIDTH_PROP);
 	}
 
 	/**
@@ -1011,7 +1062,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @return crosstab height dimension value handle
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getHeight() {
-		return handle.getDimensionProperty(ReportItemHandle.HEIGHT_PROP);
+		return handle.getDimensionProperty(IInternalReportItemModel.HEIGHT_PROP);
 	}
 
 	/**
@@ -1078,10 +1129,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 *                     aggregations by the grand-total
 	 * @param functionList the list of the aggregation that the measure will be
 	 *                     applied by the grand-total
-	 * @return
+	 * @return the grand-total in the specified axis typ
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addGrandTotal(int axisType, List measureList, List functionList)
+	public CrosstabCellHandle addGrandTotal(int axisType, List<MeasureViewHandle> measureList,
+			List<String> functionList)
 			throws SemanticException {
 		return new CrosstabReportItemTask(this).addGrandTotal(axisType, measureList, functionList);
 	}
@@ -1092,19 +1144,19 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>MeasureViewHandle</code>.
 	 *
 	 * @param axisType
-	 * @return
+	 * @return the measure view list that define aggregations
 	 */
-	public List getAggregationMeasures(int axisType) {
+	public List<MeasureViewHandle> getAggregationMeasures(int axisType) {
 		return new CrosstabReportItemTask(this).getAggregationMeasures(axisType);
 	}
 
 	/**
 	 * Gets the aggregation function for the row/column grand total in the crosstab.
 	 *
-	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
-	 * @return
+	 * @return the aggregation function for the row/column grand total in the
+	 *         crosstab
 	 */
 	public String getAggregationFunction(int axisType, MeasureViewHandle measureView) {
 		return new CrosstabReportItemTask(this).getAggregationFunction(axisType, measureView);
@@ -1113,11 +1165,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Gets the aggregation function for the row/column grand total in the crosstab.
 	 *
-	 * @param crosstab
 	 * @param axisType
 	 * @param measureView
 	 * @param function
-	 * @return
 	 * @throws SemanticException
 	 */
 	public void setAggregationFunction(int axisType, MeasureViewHandle measureView, String function)
@@ -1239,7 +1289,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 			return status;
 		} else if (compStatus > 0) {
-			return new CompatibilityStatus(Collections.EMPTY_LIST, CompatibilityStatus.NOT_SUPPORTED_TYPE);
+			return new CompatibilityStatus(Collections.emptyList(), CompatibilityStatus.NOT_SUPPORTED_TYPE);
 		}
 
 		return COMP_OK_STATUS;
@@ -1252,7 +1302,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 */
 	@Override
 	public List validate() {
-		List list = new ArrayList();
+		List<Object> list = new ArrayList<>();
 
 		if (!(this.getModelHandle().isInTemplateParameter()) && this.getCube() == null
 				&& !(this.getModelHandle().getRoot() instanceof LibraryHandle)) {
@@ -1267,8 +1317,12 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		return list;
 	}
 
-	// Support the multiple left coner head cells
-
+	/**
+	 * Get the crosstab cell header
+	 *
+	 * @param index
+	 * @return the crosstab cell header
+	 */
 	public CrosstabCellHandle getHeader(int index) {
 		PropertyHandle headerHandle = handle.getPropertyHandle(HEADER_PROP);
 		if (headerHandle == null) {
@@ -1282,6 +1336,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 	}
 
+	/**
+	 * Get the header count
+	 *
+	 * @return the header count
+	 */
 	public int getHeaderCount() {
 		PropertyHandle headerHandle = handle.getPropertyHandle(HEADER_PROP);
 		if (headerHandle == null) {
@@ -1290,4 +1349,47 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		return headerHandle.getContentCount();
 	}
 
+	/**
+	 * Set the cross table item width based on unit string without locale handling
+	 *
+	 * @param width cross table item width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(String width) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.WIDTH_PROP, StringUtil.parse(width));
+	}
+
+	/**
+	 * Set the cross table item width based on dimension value
+	 *
+	 * @param width cross table item width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(DimensionValue width) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.WIDTH_PROP, width);
+	}
+
+	/**
+	 * Set the cross table item height based on unit string without locale handling
+	 *
+	 * @param height cross table item height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(String height) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.HEIGHT_PROP, StringUtil.parse(height));
+	}
+
+	/**
+	 * Set the cross table item height based on dimension value
+	 *
+	 * @param height cross table item height
+	 *
+	 * @throws SemanticException
+	 */
+	public void setHeight(DimensionValue height) throws SemanticException {
+		handle.setProperty(IInternalReportItemModel.HEIGHT_PROP, height);
+	}
 }

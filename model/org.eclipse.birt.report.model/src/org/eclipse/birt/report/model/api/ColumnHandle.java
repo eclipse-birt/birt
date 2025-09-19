@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
@@ -176,4 +177,27 @@ public class ColumnHandle extends ReportElementHandle implements ITableColumnMod
 			}
 		}
 	}
+
+	/**
+	 * Set the column width based on unit string without locale handling
+	 *
+	 * @param width column width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(String width) throws SemanticException {
+		setProperty(ITableColumnModel.WIDTH_PROP, StringUtil.parse(width));
+	}
+
+	/**
+	 * Set the column width based on dimension value
+	 *
+	 * @param width column width
+	 *
+	 * @throws SemanticException
+	 */
+	public void setWidth(DimensionValue width) throws SemanticException {
+		setProperty(ITableColumnModel.WIDTH_PROP, width);
+	}
+
 }
