@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2025 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -115,21 +115,20 @@ public class AttributeBuilder {
 				addPropName(styleBuffer, HTMLTags.ATTR_BACKGROUND_SIZE);
 
 				if (style.getBackgroundWidth() != null && style.getBackgroundHeight() != null) {
-					addPropValue(styleBuffer, "100%");
-					addPropValue(styleBuffer, "auto");
-					addPropValue(styleBuffer, "auto");
-				} else {
-				if (style.getBackgroundWidth() != null) {
 					addPropValue(styleBuffer, style.getBackgroundWidth());
-				} else {
-					addPropValue(styleBuffer, "auto");
-				}
-				if (style.getBackgroundHeight() != null) {
 					addPropValue(styleBuffer, style.getBackgroundHeight());
 				} else {
-					addPropValue(styleBuffer, "auto");
+					if (style.getBackgroundWidth() != null) {
+						addPropValue(styleBuffer, style.getBackgroundWidth());
+					} else {
+						addPropValue(styleBuffer, "auto");
+					}
+					if (style.getBackgroundHeight() != null) {
+						addPropValue(styleBuffer, style.getBackgroundHeight());
+					} else {
+						addPropValue(styleBuffer, "auto");
+					}
 				}
-			}
 				styleBuffer.append(';');
 			}
 			return;
