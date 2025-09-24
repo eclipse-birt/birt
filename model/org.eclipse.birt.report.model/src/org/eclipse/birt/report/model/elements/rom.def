@@ -1921,7 +1921,7 @@
   	<Property displayNameID="Element.ReportDesign.language" name="language" since="4.3" type="string" />
     <PropertyGroup displayNameID="Element.ReportDesign.Emitter.pdf">
       <Property detailType="emitterPdfVersion" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.version" name="pdfVersion" runtimeSettable="false" since="4.17" type="choice" >
-        <Default>1.5</Default>
+        <Default>2.0</Default>
       </Property>
       <Property detailType="emitterPdfConformance" canInherit="false" displayNameID="Element.ReportDesign.Emitter.pdf.conformance" name="pdfConformance" runtimeSettable="false" since="4.17" type="choice" >
         <Default>PDF.Standard</Default>
