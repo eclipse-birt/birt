@@ -314,7 +314,7 @@ public class PDFPageDevice implements IPageDevice {
 				if (localeString == null || localeString.isEmpty()) {
 					throw new BirtException("The report needs a locale property for PDF/UA!");
 				}
-				Locale locale = new Locale(localeString);
+				Locale locale = Locale.of(localeString);
 				String language = locale.toString();
 				language = language.replace('_', '-'); // 'de_de' is invalid, it should be 'de-DE'.
 				doc.setDocumentLanguage(language);
@@ -764,25 +764,27 @@ public class PDFPageDevice implements IPageDevice {
 			this.pdfVersion = PdfWriter.VERSION_1_3;
 			break;
 		case PDFPageDevice.PDF_VERSION_1_4:
-			this.pdfVersion = PdfWriter.VERSION_1_3;
+			this.pdfVersion = PdfWriter.VERSION_1_4;
 			break;
 		case PDFPageDevice.PDF_VERSION_1_5:
-			this.pdfVersion = PdfWriter.VERSION_1_3;
+			this.pdfVersion = PdfWriter.VERSION_1_5;
 			break;
 		case PDFPageDevice.PDF_VERSION_1_6:
-			this.pdfVersion = PdfWriter.VERSION_1_3;
+			this.pdfVersion = PdfWriter.VERSION_1_6;
 			break;
 		case PDFPageDevice.PDF_VERSION_1_7:
 			this.pdfVersion = PdfWriter.VERSION_1_7;
 			break;
 		case PDFPageDevice.PDF_VERSION_2_0:
-			// this.pdfVersion = PdfWriter.VERSION_2_0;
-			// OpenPDF does not yet support creation of PDF 2.0
-			throw new BirtException("OpenPDF does not yet support creation of PDF 2.0");
+			this.pdfVersion = PdfWriter.VERSION_2_0;
+			break;
+		default:
+			// OpenPDF does not support requested version
+			throw new BirtException("OpenPDF does not support creation of PDF: " + version);
 		}
 		// version only set if the PDF version exists
 		if (!this.pdfVersion.equals("0")) {
-			writer.setAtLeastPdfVersion(this.pdfVersion);
+			writer.setPdfVersion(this.pdfVersion);
 		}
 	}
 
