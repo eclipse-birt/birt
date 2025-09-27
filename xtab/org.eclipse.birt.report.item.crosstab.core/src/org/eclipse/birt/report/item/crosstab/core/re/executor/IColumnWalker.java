@@ -14,7 +14,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import javax.olap.OLAPException;
+import jakarta.olap.OLAPException;
 
 /**
  * IColumnWalker

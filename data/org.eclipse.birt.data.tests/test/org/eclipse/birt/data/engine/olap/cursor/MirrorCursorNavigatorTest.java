@@ -17,10 +17,10 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.DimensionCursor;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;

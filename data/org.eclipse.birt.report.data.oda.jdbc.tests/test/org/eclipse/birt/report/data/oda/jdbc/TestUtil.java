@@ -27,16 +27,16 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.naming.Binding;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.Name;
-import javax.naming.NameClassPair;
-import javax.naming.NameParser;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
-import javax.sql.DataSource;
+import jakarta.naming.Binding;
+import jakarta.naming.Context;
+import jakarta.naming.InitialContext;
+import jakarta.naming.Name;
+import jakarta.naming.NameClassPair;
+import jakarta.naming.NameParser;
+import jakarta.naming.NamingEnumeration;
+import jakarta.naming.NamingException;
+import jakarta.naming.spi.InitialContextFactory;
+import jakarta.sql.DataSource;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
 

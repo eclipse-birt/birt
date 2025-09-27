@@ -17,12 +17,12 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.Blob;
+import jakarta.olap.cursor.Date;
+import jakarta.olap.cursor.RowDataMetaData;
+import jakarta.olap.cursor.Time;
+import jakarta.olap.cursor.Timestamp;
 
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 

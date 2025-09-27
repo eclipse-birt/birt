@@ -15,9 +15,9 @@ package org.eclipse.birt.report.listener;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 
 import org.eclipse.birt.report.IBirtConstants;
 
@@ -31,7 +31,7 @@ public class ViewerHttpSessionListener implements HttpSessionListener {
 	/**
 	 * After session created
 	 *
-	 * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
+	 * @see jakarta.servlet.http.HttpSessionListener#sessionCreated(jakarta.servlet.http.HttpSessionEvent)
 	 */
 	@Override
 	public void sessionCreated(HttpSessionEvent event) {
@@ -43,7 +43,7 @@ public class ViewerHttpSessionListener implements HttpSessionListener {
 	/**
 	 * When session destroyed
 	 *
-	 * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
+	 * @see jakarta.servlet.http.HttpSessionListener#sessionDestroyed(jakarta.servlet.http.HttpSessionEvent)
 	 */
 	@Override
 	public void sessionDestroyed(HttpSessionEvent event) {

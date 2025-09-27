@@ -14,17 +14,18 @@
  * Java(TM) OLAP Interface
  */
 
-package javax.olap.cursor;
+package jakarta.olap.cursor;
 
-public interface Date extends javax.olap.query.querycoremodel.NamedObject {
+public interface Blob extends jakarta.olap.query.querycoremodel.NamedObject {
 
-	void date(long date) throws javax.olap.OLAPException;
+	long length() throws jakarta.olap.OLAPException;
 
-	void setTime(long date) throws javax.olap.OLAPException;
+	byte[] getBytes(long arg0, int arg1) throws jakarta.olap.OLAPException;
 
-	javax.olap.cursor.Date valueOf(java.lang.String s) throws javax.olap.OLAPException;
+	java.io.InputStream getBinaryStream() throws jakarta.olap.OLAPException;
 
-	@Override
-	java.lang.String toString();
+	long position(byte[] arg0, long arg1) throws jakarta.olap.OLAPException;
+
+	long position(Blob arg0, long arg1) throws jakarta.olap.OLAPException;
 
 }

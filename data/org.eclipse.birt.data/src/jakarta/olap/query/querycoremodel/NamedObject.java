@@ -14,15 +14,16 @@
  * Java(TM) OLAP Interface
  */
 
-package javax.olap.cursor;
+package jakarta.olap.query.querycoremodel;
 
-public interface Time extends javax.olap.query.querycoremodel.NamedObject {
+public interface NamedObject {
 
-	javax.olap.cursor.Time valueOf(java.lang.String s) throws javax.olap.OLAPException;
+	java.lang.String getName() throws jakarta.olap.OLAPException;
 
-	@Override
-	java.lang.String toString();
+	void setName(java.lang.String value) throws jakarta.olap.OLAPException;
 
-	void setTime(long time) throws javax.olap.OLAPException;
+	java.lang.String getId() throws jakarta.olap.OLAPException;
+
+	void setId(java.lang.String value) throws jakarta.olap.OLAPException;
 
 }

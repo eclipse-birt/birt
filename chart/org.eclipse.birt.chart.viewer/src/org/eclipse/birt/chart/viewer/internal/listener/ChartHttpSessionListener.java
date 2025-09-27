@@ -14,8 +14,8 @@
 
 package org.eclipse.birt.chart.viewer.internal.listener;
 
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 
 import org.eclipse.birt.chart.viewer.internal.util.ChartImageManager;
 
@@ -29,7 +29,7 @@ public class ChartHttpSessionListener implements HttpSessionListener
 	/**
 	 * After session created
 	 * 
-	 * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
+	 * @see jakarta.servlet.http.HttpSessionListener#sessionCreated(jakarta.servlet.http.HttpSessionEvent)
 	 */
 	public void sessionCreated( HttpSessionEvent event )
 	{
@@ -38,7 +38,7 @@ public class ChartHttpSessionListener implements HttpSessionListener
 	/**
 	 * When session destroyed
 	 * 
-	 * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
+	 * @see jakarta.servlet.http.HttpSessionListener#sessionDestroyed(jakarta.servlet.http.HttpSessionEvent)
 	 */
 	public void sessionDestroyed( HttpSessionEvent event )
 	{

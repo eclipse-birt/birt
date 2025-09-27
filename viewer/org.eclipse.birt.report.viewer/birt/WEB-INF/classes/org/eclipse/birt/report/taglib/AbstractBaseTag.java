@@ -15,11 +15,11 @@ package org.eclipse.birt.report.taglib;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.report.taglib.component.ViewerField;
 
@@ -71,7 +71,7 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 	/**
 	 * Initialize pageContext
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#setPageContext(jakarta.servlet.jsp.PageContext)
 	 */
 	@Override
 	public void setPageContext(PageContext context) {
@@ -82,7 +82,7 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 	/**
 	 * When reach the start tag, fire this operation
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#doStartTag()
 	 */
 	@Override
 	public int doStartTag() throws JspException {
@@ -92,7 +92,7 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 	/**
 	 * When reach the end tag, fire this operation
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#doEndTag()
 	 */
 	@Override
 	public int doEndTag() throws JspException {

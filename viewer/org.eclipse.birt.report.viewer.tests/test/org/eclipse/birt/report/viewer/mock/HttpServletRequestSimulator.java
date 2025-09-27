@@ -24,20 +24,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 /**
  * Mock a HttpServletRequest class for Viewer UnitTest
@@ -106,7 +106,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
+	 * @see jakarta.servlet.ServletRequest#getParameter(java.lang.String)
 	 */
 	@Override
 	public String getParameter(String name) {
@@ -129,7 +129,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getParameterMap()
+	 * @see jakarta.servlet.ServletRequest#getParameterMap()
 	 */
 	@Override
 	public Map getParameterMap() {
@@ -139,7 +139,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getParameterNames()
+	 * @see jakarta.servlet.ServletRequest#getParameterNames()
 	 */
 	@Override
 	public Enumeration getParameterNames() {
@@ -149,7 +149,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getParameterValues( java.lang.String )
+	 * @see jakarta.servlet.ServletRequest#getParameterValues( java.lang.String )
 	 */
 	@Override
 	public String[] getParameterValues(String name) {
@@ -172,7 +172,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#setAttribute(java.lang.String,
+	 * @see jakarta.servlet.ServletRequest#setAttribute(java.lang.String,
 	 * java.lang.Object)
 	 */
 	@Override
@@ -185,7 +185,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletRequest#getAttribute(java.lang.String)
 	 */
 	@Override
 	public Object getAttribute(String name) {
@@ -195,7 +195,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getAttributeNames()
+	 * @see jakarta.servlet.ServletRequest#getAttributeNames()
 	 */
 	@Override
 	public Enumeration getAttributeNames() {
@@ -205,7 +205,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#removeAttribute(java.lang.String)
+	 * @see jakarta.servlet.ServletRequest#removeAttribute(java.lang.String)
 	 */
 	@Override
 	public void removeAttribute(String name) {
@@ -215,7 +215,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getHeader(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletRequest#getHeader(java.lang.String)
 	 */
 	@Override
 	public String getHeader(String name) {
@@ -225,7 +225,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
+	 * @see jakarta.servlet.http.HttpServletRequest#getHeaderNames()
 	 */
 	@Override
 	public Enumeration getHeaderNames() {
@@ -235,7 +235,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
 	 */
 	@Override
 	public Enumeration getHeaders(String name) {
@@ -245,7 +245,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
 	 */
 	@Override
 	public int getIntHeader(String name) {
@@ -255,7 +255,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
 	 */
 	@Override
 	public long getDateHeader(String name) {
@@ -265,7 +265,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getCookies()
+	 * @see jakarta.servlet.http.HttpServletRequest#getCookies()
 	 */
 	@Override
 	public Cookie[] getCookies() {
@@ -280,7 +280,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getScheme()
+	 * @see jakarta.servlet.ServletRequest#getScheme()
 	 */
 	@Override
 	public String getScheme() {
@@ -290,7 +290,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getProtocol()
+	 * @see jakarta.servlet.ServletRequest#getProtocol()
 	 */
 	@Override
 	public String getProtocol() {
@@ -300,7 +300,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
+	 * @see jakarta.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
 	 */
 	@Override
 	public void setCharacterEncoding(String encoding) {
@@ -310,7 +310,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getCharacterEncoding()
+	 * @see jakarta.servlet.ServletRequest#getCharacterEncoding()
 	 */
 	@Override
 	public String getCharacterEncoding() {
@@ -320,7 +320,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getContentType()
+	 * @see jakarta.servlet.ServletRequest#getContentType()
 	 */
 	@Override
 	public String getContentType() {
@@ -330,7 +330,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletRequest#getContentLength()
+	 * @see jakarta.servlet.ServletRequest#getContentLength()
 	 */
 	@Override
 	public int getContentLength() {
@@ -340,7 +340,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getAuthType()
+	 * @see jakarta.servlet.http.HttpServletRequest#getAuthType()
 	 */
 	@Override
 	public String getAuthType() {
@@ -350,7 +350,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getContextPath()
+	 * @see jakarta.servlet.http.HttpServletRequest#getContextPath()
 	 */
 	@Override
 	public String getContextPath() {
@@ -360,7 +360,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getMethod()
+	 * @see jakarta.servlet.http.HttpServletRequest#getMethod()
 	 */
 	@Override
 	public String getMethod() {
@@ -370,7 +370,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getPathInfo()
+	 * @see jakarta.servlet.http.HttpServletRequest#getPathInfo()
 	 */
 	@Override
 	public String getPathInfo() {
@@ -380,7 +380,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
+	 * @see jakarta.servlet.http.HttpServletRequest#getPathTranslated()
 	 */
 	@Override
 	public String getPathTranslated() {
@@ -390,7 +390,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getQueryString()
+	 * @see jakarta.servlet.http.HttpServletRequest#getQueryString()
 	 */
 	@Override
 	public String getQueryString() {
@@ -400,7 +400,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
+	 * @see jakarta.servlet.http.HttpServletRequest#getRemoteUser()
 	 */
 	@Override
 	public String getRemoteUser() {
@@ -410,7 +410,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRequestURI()
+	 * @see jakarta.servlet.http.HttpServletRequest#getRequestURI()
 	 */
 	@Override
 	public String getRequestURI() {
@@ -420,7 +420,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRequestURL()
+	 * @see jakarta.servlet.http.HttpServletRequest#getRequestURL()
 	 */
 	@Override
 	public StringBuffer getRequestURL() {
@@ -430,7 +430,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
+	 * @see jakarta.servlet.http.HttpServletRequest#getRequestedSessionId()
 	 */
 	@Override
 	public String getRequestedSessionId() {
@@ -444,7 +444,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getServletPath()
+	 * @see jakarta.servlet.http.HttpServletRequest#getServletPath()
 	 */
 	@Override
 	public String getServletPath() {
@@ -454,7 +454,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getSession()
+	 * @see jakarta.servlet.http.HttpServletRequest#getSession()
 	 */
 	@Override
 	public HttpSession getSession() {
@@ -464,7 +464,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getSession( boolean )
+	 * @see jakarta.servlet.http.HttpServletRequest#getSession( boolean )
 	 */
 	@Override
 	public HttpSession getSession(boolean flag) {
@@ -489,7 +489,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getUserPrincipal
+	 * @see jakarta.servlet.http.HttpServletRequest#getUserPrincipal
 	 */
 	@Override
 	public Principal getUserPrincipal() {
@@ -499,7 +499,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie
+	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie
 	 */
 	@Override
 	public boolean isRequestedSessionIdFromCookie() {
@@ -509,7 +509,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL
+	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL
 	 */
 	@Override
 	public boolean isRequestedSessionIdFromURL() {
@@ -519,7 +519,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl
+	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl
 	 */
 	@Override
 	public boolean isRequestedSessionIdFromUrl() {
@@ -529,7 +529,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid
+	 * @see jakarta.servlet.http.HttpServletRequest#isRequestedSessionIdValid
 	 */
 	@Override
 	public boolean isRequestedSessionIdValid() {
@@ -543,7 +543,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isUserInRole( java.lang.String )
+	 * @see jakarta.servlet.http.HttpServletRequest#isUserInRole( java.lang.String )
 	 */
 	@Override
 	public boolean isUserInRole(String role) {
@@ -557,7 +557,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getInputStream
+	 * @see jakarta.servlet.http.HttpServletRequest#getInputStream
 	 */
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
@@ -567,7 +567,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getLocalAddr
+	 * @see jakarta.servlet.http.HttpServletRequest#getLocalAddr
 	 */
 	@Override
 	public String getLocalAddr() {
@@ -577,7 +577,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getLocalName
+	 * @see jakarta.servlet.http.HttpServletRequest#getLocalName
 	 */
 	@Override
 	public String getLocalName() {
@@ -587,7 +587,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getLocalPort
+	 * @see jakarta.servlet.http.HttpServletRequest#getLocalPort
 	 */
 	@Override
 	public int getLocalPort() {
@@ -597,7 +597,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getLocale
+	 * @see jakarta.servlet.http.HttpServletRequest#getLocale
 	 */
 	@Override
 	public Locale getLocale() {
@@ -607,7 +607,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getLocales
+	 * @see jakarta.servlet.http.HttpServletRequest#getLocales
 	 */
 	@Override
 	public Enumeration getLocales() {
@@ -617,7 +617,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getReader
+	 * @see jakarta.servlet.http.HttpServletRequest#getReader
 	 */
 	@Override
 	public BufferedReader getReader() throws IOException {
@@ -627,7 +627,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/**
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRealPath( java.lang.String )
+	 * @see jakarta.servlet.http.HttpServletRequest#getRealPath( java.lang.String )
 	 * @deprecated
 	 */
 	@Deprecated
@@ -643,7 +643,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRemoteAddr
+	 * @see jakarta.servlet.http.HttpServletRequest#getRemoteAddr
 	 */
 	@Override
 	public String getRemoteAddr() {
@@ -653,7 +653,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRemoteHost
+	 * @see jakarta.servlet.http.HttpServletRequest#getRemoteHost
 	 */
 	@Override
 	public String getRemoteHost() {
@@ -663,7 +663,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRemotePort
+	 * @see jakarta.servlet.http.HttpServletRequest#getRemotePort
 	 */
 	@Override
 	public int getRemotePort() {
@@ -673,7 +673,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getRequestDispatcher(
+	 * @see jakarta.servlet.http.HttpServletRequest#getRequestDispatcher(
 	 * java.ang.String )
 	 */
 	@Override
@@ -684,7 +684,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getServerName
+	 * @see jakarta.servlet.http.HttpServletRequest#getServerName
 	 */
 	@Override
 	public String getServerName() {
@@ -694,7 +694,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#getServerPort
+	 * @see jakarta.servlet.http.HttpServletRequest#getServerPort
 	 */
 	@Override
 	public int getServerPort() {
@@ -704,7 +704,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletRequest#isSecure
+	 * @see jakarta.servlet.http.HttpServletRequest#isSecure
 	 */
 	@Override
 	public boolean isSecure() {

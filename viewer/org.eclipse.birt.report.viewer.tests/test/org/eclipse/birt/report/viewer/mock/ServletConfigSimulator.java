@@ -16,8 +16,8 @@ package org.eclipse.birt.report.viewer.mock;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 /**
  * Mock a ServletConfig class for Viewer UnitTest
@@ -40,7 +40,7 @@ public class ServletConfigSimulator implements ServletConfig {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletConfig#getInitParameter(java.lang.String)
+	 * @see jakarta.servlet.ServletConfig#getInitParameter(java.lang.String)
 	 */
 	@Override
 	public String getInitParameter(String name) {
@@ -59,7 +59,7 @@ public class ServletConfigSimulator implements ServletConfig {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletConfig#getInitParameterNames()
+	 * @see jakarta.servlet.ServletConfig#getInitParameterNames()
 	 */
 	@Override
 	public Enumeration getInitParameterNames() {
@@ -69,7 +69,7 @@ public class ServletConfigSimulator implements ServletConfig {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletConfig#getServletContext()
+	 * @see jakarta.servlet.ServletConfig#getServletContext()
 	 */
 	@Override
 	public ServletContext getServletContext() {
@@ -79,7 +79,7 @@ public class ServletConfigSimulator implements ServletConfig {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletConfig#getServletName()
+	 * @see jakarta.servlet.ServletConfig#getServletName()
 	 */
 	@Override
 	public String getServletName() {

@@ -14,8 +14,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;

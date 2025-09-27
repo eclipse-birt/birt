@@ -16,8 +16,8 @@ package org.eclipse.birt.data.engine.olap.script;
 
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;

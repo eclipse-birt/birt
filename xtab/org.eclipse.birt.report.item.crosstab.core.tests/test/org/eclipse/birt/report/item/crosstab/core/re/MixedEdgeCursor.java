@@ -14,8 +14,8 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.DimensionCursor;
 
 /**
  *

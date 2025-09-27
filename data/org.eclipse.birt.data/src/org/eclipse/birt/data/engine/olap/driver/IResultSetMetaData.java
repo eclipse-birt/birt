@@ -18,31 +18,31 @@ package org.eclipse.birt.data.engine.olap.driver;
  *
  */
 public interface IResultSetMetaData {
-	int getColumnCount() throws javax.olap.OLAPException;
+	int getColumnCount() throws jakarta.olap.OLAPException;
 
-	boolean isCaseSensitive(int arg0) throws javax.olap.OLAPException;
+	boolean isCaseSensitive(int arg0) throws jakarta.olap.OLAPException;
 
-	boolean isCurrency(int arg0) throws javax.olap.OLAPException;
+	boolean isCurrency(int arg0) throws jakarta.olap.OLAPException;
 
-	boolean isNullable(int arg0) throws javax.olap.OLAPException;
+	boolean isNullable(int arg0) throws jakarta.olap.OLAPException;
 
-	boolean isSigned(int arg0) throws javax.olap.OLAPException;
+	boolean isSigned(int arg0) throws jakarta.olap.OLAPException;
 
-	int getColumnDisplaySize(int arg0) throws javax.olap.OLAPException;
+	int getColumnDisplaySize(int arg0) throws jakarta.olap.OLAPException;
 
-	java.lang.String getColumnLabel(int arg0) throws javax.olap.OLAPException;
+	java.lang.String getColumnLabel(int arg0) throws jakarta.olap.OLAPException;
 
-	java.lang.String getColumnName(int arg0) throws javax.olap.OLAPException;
+	java.lang.String getColumnName(int arg0) throws jakarta.olap.OLAPException;
 
-	int getPrecision(int arg0) throws javax.olap.OLAPException;
+	int getPrecision(int arg0) throws jakarta.olap.OLAPException;
 
-	int getScale(int arg0) throws javax.olap.OLAPException;
+	int getScale(int arg0) throws jakarta.olap.OLAPException;
 
-	int getColumnType(int arg0) throws javax.olap.OLAPException;
+	int getColumnType(int arg0) throws jakarta.olap.OLAPException;
 
-	java.lang.String getColumnTypeName(int arg0) throws javax.olap.OLAPException;
+	java.lang.String getColumnTypeName(int arg0) throws jakarta.olap.OLAPException;
 
-	java.lang.String getColumnClassName(int arg0) throws javax.olap.OLAPException;
+	java.lang.String getColumnClassName(int arg0) throws jakarta.olap.OLAPException;
 
 	int getLevelCount();
 }
