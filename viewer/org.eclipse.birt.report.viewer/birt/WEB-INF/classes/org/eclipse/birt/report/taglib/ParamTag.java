@@ -13,10 +13,10 @@
 
 package org.eclipse.birt.report.taglib;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyTagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.report.taglib.component.ParamValueField;
 import org.eclipse.birt.report.taglib.component.ParameterField;
@@ -40,7 +40,7 @@ public class ParamTag extends BodyTagSupport {
 	/**
 	 * Initialize pageContext
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#setPageContext(jakarta.servlet.jsp.PageContext)
 	 */
 	@Override
 	public void setPageContext(PageContext context) {
@@ -51,7 +51,7 @@ public class ParamTag extends BodyTagSupport {
 	/**
 	 * When reach the end tag, fire this operation
 	 *
-	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+	 * @see jakarta.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
 	@Override
 	public int doEndTag() throws JspException {

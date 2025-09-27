@@ -14,7 +14,7 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
-import javax.script.ScriptException;
+import jakarta.script.ScriptException;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
