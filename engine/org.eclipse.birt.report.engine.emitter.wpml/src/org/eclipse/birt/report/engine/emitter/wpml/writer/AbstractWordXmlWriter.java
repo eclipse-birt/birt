@@ -683,7 +683,7 @@ public abstract class AbstractWordXmlWriter {
 				txt = txt.toLowerCase();
 			}
 		}
-
+		
 		writer.openTag("w:t");
 		writer.attribute("xml:space", "preserve");
 		int length = txt.length();
@@ -699,7 +699,7 @@ public abstract class AbstractWordXmlWriter {
 				if (ch == '\r' && start < length && txt.charAt(start) == '\n') {
 					start++;
 				}
-				end = start + 1;
+				end = start;
 			} else if (ch == SOFT_HYPHEN) {
 				// Output a special WordML tag for the SHY symbol.
 				writeText(txt.substring(start, end));
