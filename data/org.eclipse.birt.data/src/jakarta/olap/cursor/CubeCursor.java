@@ -14,20 +14,14 @@
  * Java(TM) OLAP Interface
  */
 
-package javax.olap.cursor;
+package jakarta.olap.cursor;
 
-public interface Clob extends javax.olap.query.querycoremodel.NamedObject {
+public interface CubeCursor extends jakarta.olap.cursor.RowDataAccessor, jakarta.olap.cursor.Cursor {
 
-	long length() throws javax.olap.OLAPException;
+	java.util.List getOrdinateEdge() throws jakarta.olap.OLAPException;
 
-	java.lang.String getSubString(long arg0, int arg1) throws javax.olap.OLAPException;
+	java.util.Collection getPageEdge() throws jakarta.olap.OLAPException;
 
-	java.io.Reader getCharacterStream() throws javax.olap.OLAPException;
-
-	java.io.InputStream getAsciiStream() throws javax.olap.OLAPException;
-
-	long position(java.lang.String arg0, long arg1) throws javax.olap.OLAPException;
-
-	long position(Clob arg0, long arg1) throws javax.olap.OLAPException;
+	void synchronizePages() throws jakarta.olap.OLAPException;
 
 }

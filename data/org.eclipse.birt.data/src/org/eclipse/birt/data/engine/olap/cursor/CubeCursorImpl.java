@@ -19,9 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -91,7 +91,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	}
 
 	/*
-	 * @see javax.olap.cursor.CubeCursor#getOrdinateEdge()
+	 * @see jakarta.olap.cursor.CubeCursor#getOrdinateEdge()
 	 */
 	@Override
 	public List getOrdinateEdge() throws OLAPException {
@@ -99,7 +99,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	}
 
 	/*
-	 * @see javax.olap.cursor.CubeCursor#getPageEdge()
+	 * @see jakarta.olap.cursor.CubeCursor#getPageEdge()
 	 */
 	@Override
 	public Collection getPageEdge() throws OLAPException {
@@ -107,7 +107,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	}
 
 	/*
-	 * @see javax.olap.cursor.CubeCursor#synchronizePages()
+	 * @see jakarta.olap.cursor.CubeCursor#synchronizePages()
 	 */
 	@Override
 	public void synchronizePages() throws OLAPException {

@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 
-import javax.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;

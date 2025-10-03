@@ -16,8 +16,8 @@ package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.RowDataMetaData;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.RowDataMetaData;
 
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;

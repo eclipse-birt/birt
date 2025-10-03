@@ -14,7 +14,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.script;
 
-import javax.olap.OLAPException;
+import jakarta.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;

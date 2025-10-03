@@ -16,7 +16,7 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;

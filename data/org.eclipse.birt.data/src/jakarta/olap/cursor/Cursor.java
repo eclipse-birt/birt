@@ -14,8 +14,16 @@
  * Java(TM) OLAP Interface
  */
 
-package javax.olap.cursor;
+package jakarta.olap.cursor;
 
-public interface Types {
+public interface Cursor extends jakarta.olap.query.querycoremodel.NamedObject {
+
+	java.lang.Object clone();
+
+	@Override
+	boolean equals(java.lang.Object arg0);
+
+	@Override
+	int hashCode();
 
 }

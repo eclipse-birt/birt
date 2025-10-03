@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IDimLevel;

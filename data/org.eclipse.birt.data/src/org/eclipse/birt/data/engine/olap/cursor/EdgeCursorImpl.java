@@ -17,9 +17,9 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
@@ -57,7 +57,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getDimensionCursor()
+	 * @see jakarta.olap.cursor.EdgeCursor#getDimensionCursor()
 	 */
 	@Override
 	public List getDimensionCursor() throws OLAPException {
@@ -65,7 +65,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getOrdinateOwner()
+	 * @see jakarta.olap.cursor.EdgeCursor#getOrdinateOwner()
 	 */
 	@Override
 	public CubeCursor getOrdinateOwner() throws OLAPException {
@@ -73,7 +73,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getPageOwner()
+	 * @see jakarta.olap.cursor.EdgeCursor#getPageOwner()
 	 */
 	@Override
 	public CubeCursor getPageOwner() throws OLAPException {
@@ -82,7 +82,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 
 	/*
 	 * @see
-	 * javax.olap.cursor.EdgeCursor#setOrdinateOwner(javax.olap.cursor.CubeCursor)
+	 * jakarta.olap.cursor.EdgeCursor#setOrdinateOwner(jakarta.olap.cursor.CubeCursor)
 	 */
 	@Override
 	public void setOrdinateOwner(CubeCursor value) throws OLAPException {
@@ -90,7 +90,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#setPageOwner(javax.olap.cursor.CubeCursor)
+	 * @see jakarta.olap.cursor.EdgeCursor#setPageOwner(jakarta.olap.cursor.CubeCursor)
 	 */
 	@Override
 	public void setPageOwner(CubeCursor value) throws OLAPException {

@@ -16,10 +16,10 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.DimensionCursor;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;

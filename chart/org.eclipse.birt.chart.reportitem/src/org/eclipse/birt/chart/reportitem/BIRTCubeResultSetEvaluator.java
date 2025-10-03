@@ -17,8 +17,8 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
