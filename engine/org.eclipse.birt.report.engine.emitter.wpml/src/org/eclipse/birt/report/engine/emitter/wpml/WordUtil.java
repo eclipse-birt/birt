@@ -382,7 +382,8 @@ public class WordUtil {
 	 * @return is auto text field
 	 */
 	public static boolean isField(int autoTextType) {
-		return autoTextType == IAutoTextContent.PAGE_NUMBER || autoTextType == IAutoTextContent.TOTAL_PAGE;
+		return autoTextType == IAutoTextContent.PAGE_NUMBER || autoTextType == IAutoTextContent.TOTAL_PAGE
+				|| autoTextType == AbstractEmitterImpl.CUSTOM_FIELD;
 	}
 
 	/**

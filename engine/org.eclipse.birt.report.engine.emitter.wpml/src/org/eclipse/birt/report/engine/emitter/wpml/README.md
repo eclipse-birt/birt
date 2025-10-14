@@ -70,4 +70,16 @@ The following list get an overview of all supported user properties, the content
 	Default   	false
 	Since      	4.18
 	Designer    	4.18
-	
+
+**WordEmitter.FieldFunction**
+
+       Content         Source code for a "field function" of MS Word.
+                                       Note that this is only the source code, BIRT cannot compute/evaluate it.
+                                       But MS Word can, when you open the `*.docx` file generated from BIRT with Word.
+       Location        data item
+       Data type       string
+       Values          The MS Word "field function" source code, e.g. `PAGENUM` or `DOCPROPERTY Title`
+       Default         none
+       Since           4.22
+       Designer        n/a
+       

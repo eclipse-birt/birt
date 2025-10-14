@@ -92,6 +92,14 @@ public class DocEmitter extends ContentEmitterAdapter {
 	 */
 	public static final String WORD_ADD_EMPTY_PARAGRAPH_FOR_LIST_CELL = "WordEmitter.AddEmptyParagraphForListCell";
 
+	/**
+	 * property: Word emitter, define source code for a Word "field function", only
+	 * supported for Data Items.
+	 *
+	 * @since 4.22
+	 */
+	public static final String WORD_FIELD_FUNCTION = "WordEmitter.FieldFunction";
+
 	private static Logger logger = Logger.getLogger(DocEmitter.class.getName());
 
 	protected AbstractEmitterImpl emitterImplement = null;

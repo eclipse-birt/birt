@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -74,6 +75,8 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
@@ -102,6 +105,9 @@ public abstract class AbstractEmitterImpl {
 
 	/** static flag: normal */
 	public final static int NORMAL = -1;
+	
+	/** flag for a word field function */
+	public final static int CUSTOM_FIELD = -2;
 
 	/**
 	 * Enumeration definition of the inline flag
@@ -510,6 +516,35 @@ public abstract class AbstractEmitterImpl {
 	}
 
 	/**
+	 * Get the value of a user property.
+	 * 
+	 * @param elem      a report element, e.g. a IListContent
+	 * @param propName  a property name.
+	 * @return the value, if the user property is present, otherwise null.
+	 */
+	protected Object getUserProperty(IContent elem, String propName) {
+		Object val = null;
+		Map<String, Object> userprops = elem.getUserProperties();
+		if (userprops != null) {
+			val = userprops.get(propName);
+		}
+		if (val == null) {
+			ReportItemDesign designElem = (ReportItemDesign )elem.getGenerateBy();
+			if (designElem != null) {
+				Map<String,Expression> designUserprops = designElem.getUserProperties();
+				if (designUserprops != null) {
+					Expression expression = designUserprops.get(propName);
+					if( expression instanceof Expression.Constant ) {
+						Expression.Constant constant = (Expression.Constant)expression;
+						val = constant.getValue();
+					}
+				}
+			}
+		}
+		return val;
+	}
+	
+	/**
 	 * Start the auto text content handling
 	 * 
 	 * @param autoText auto text content
@@ -535,7 +570,18 @@ public abstract class AbstractEmitterImpl {
 	public void startLabel(ILabelContent label) {
 		String txt = label.getText() == null ? label.getLabelText() : label.getText();
 		txt = txt == null ? "" : txt;
-		writeContent(AbstractEmitterImpl.NORMAL, txt, label);
+		int type = AbstractEmitterImpl.NORMAL;
+		String fieldFunction = (String)getUserProperty(label, DocEmitter.WORD_FIELD_FUNCTION);
+		if (fieldFunction != null && !(fieldFunction.isEmpty())){
+			type = AbstractEmitterImpl.CUSTOM_FIELD;
+			writeContent(type, fieldFunction + "\n" + txt, label);
+			// We transfer the fieldFunction piggyback using the label text.
+			// The function is the first line, the label text is the rest.
+			// We use the label text as the placeholder value for displaying the field function,
+			// because we don't actually evaluate the function - that's a task for MS Word later.
+		} else {
+			writeContent(type, txt, label);
+		}
 	}
 
 	/**
