@@ -1349,7 +1349,7 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:rPr");
 
 		if (isField) {
-			if (!(type == AbstractEmitterImpl.CUSTOM_FIELD)) {
+			if (type != AbstractEmitterImpl.CUSTOM_FIELD) {
 				writeAutoText(type);
 			} else {
 				final int newLineIndex = txt.indexOf("\n");
