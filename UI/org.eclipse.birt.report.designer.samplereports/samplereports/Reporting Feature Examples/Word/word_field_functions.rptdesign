@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <property name="author">This is the report's author property</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.22.0.qualifier Build &lt;@BUILD@></property>
+    <text-property name="title">This is the report's title property</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <styles>
+        <style name="report" id="18">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="4">
+            <text-property name="text">Test report for "Word field functions"</text-property>
+        </label>
+        <grid id="5">
+            <column id="6">
+                <property name="width">5cm</property>
+            </column>
+            <column id="7"/>
+            <row id="8">
+                <cell id="9">
+                    <label id="14">
+                        <text-property name="text">Document title:</text-property>
+                    </label>
+                </cell>
+                <cell id="10">
+                    <label id="17">
+                        <list-property name="userProperties">
+                            <structure>
+                                <property name="name">WordEmitter.FieldFunction</property>
+                                <property name="type">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="WordEmitter.FieldFunction">DOCPROPERTY Title</property>
+                        <text-property name="text">Use word refresh fields...</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="11">
+                <cell id="12">
+                    <label id="15">
+                        <text-property name="text">Document Author:</text-property>
+                    </label>
+                </cell>
+                <cell id="13">
+                    <label id="16">
+                        <list-property name="userProperties">
+                            <structure>
+                                <property name="name">WordEmitter.FieldFunction</property>
+                                <property name="type">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="WordEmitter.FieldFunction">DOCPROPERTY Author</property>
+                        <text-property name="text">Use word refresh fields...</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
