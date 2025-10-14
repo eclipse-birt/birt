@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
+import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
@@ -660,13 +661,19 @@ public abstract class AbstractWordXmlWriter {
 	}
 
 	protected void writeAutoText(int type) {
-		writer.openTag("w:instrText");
 		if (type == IAutoTextContent.PAGE_NUMBER) {
-			writer.text("PAGE");
+			writeFieldFunction("PAGE");
 		} else if (type == IAutoTextContent.TOTAL_PAGE) {
-			writer.text("NUMPAGES");
+			writeFieldFunction("NUMPAGES");
 		}
-		writer.closeTag("w:instrText");
+	}
+
+	protected void writeFieldFunction(String fieldFunction) {
+		if (fieldFunction != null) {
+			writer.openTag("w:instrText");
+			writer.text(fieldFunction);
+			writer.closeTag("w:instrText");
+		}
 	}
 
 	private void writeString(String txt, IStyle style) {
@@ -788,6 +795,9 @@ public abstract class AbstractWordXmlWriter {
 		writer.openTag("w:r");
 		writer.openTag("w:fldChar");
 		writer.attribute("w:fldCharType", fldCharType);
+		if (isStart) {
+			writer.attribute("w:dirty", "true");
+		}
 		writer.closeTag("w:fldChar");
 		writer.closeTag("w:r");
 	}
@@ -798,6 +808,18 @@ public abstract class AbstractWordXmlWriter {
 		writeFieldRunProperties(style, fontName);
 		writer.openTag("w:fldChar");
 		writer.attribute("w:fldCharType", fldCharType);
+		if (isStart) {
+			writer.attribute("w:dirty", "true");
+		}
+		writer.closeTag("w:fldChar");
+		writer.closeTag("w:r");
+	}
+
+	protected void writeFieldSeparator(IStyle style, String fontName) {
+		writer.openTag("w:r");
+		writeFieldRunProperties(style, fontName);
+		writer.openTag("w:fldChar");
+		writer.attribute("w:fldCharType", "separate");
 		writer.closeTag("w:fldChar");
 		writer.closeTag("w:r");
 	}
@@ -1327,7 +1349,35 @@ public abstract class AbstractWordXmlWriter {
 		writer.closeTag("w:rPr");
 
 		if (isField) {
-			writeAutoText(type);
+			if (!(type == AbstractEmitterImpl.CUSTOM_FIELD)) {
+				writeAutoText(type);
+			} else {
+				final int newLineIndex = txt.indexOf("\n");
+				String fieldFunction = txt;
+				String placeHolder = txt;
+				if (newLineIndex >= 0) {
+					fieldFunction = txt.substring(0, newLineIndex);
+					placeHolder = txt.substring(newLineIndex + 1);
+				}
+				writeFieldFunction(fieldFunction);
+				writer.closeTag("w:r"); //$NON-NLS-1$
+				writeFieldSeparator(style, fontFamily);
+				writer.openTag("w:r"); //$NON-NLS-1$
+				writer.openTag("w:rPr"); //$NON-NLS-1$
+				writeRunProperties(style, fontFamily, info);
+				if (isInline) {
+					writeAlign(style.getTextAlign(), direction);
+					writeBackgroundColor(style.getBackgroundColor());
+					writePosition(style.getVerticalAlign(), style.getProperty(StyleConstants.STYLE_FONT_SIZE));
+					writeRunBorders(style);
+				}
+				if (!isField && runIsRtl) {
+					writer.openTag("w:rtl"); //$NON-NLS-1$
+					writer.closeTag("w:rtl"); //$NON-NLS-1$
+				}
+				writer.closeTag("w:rPr"); //$NON-NLS-1$
+				writeString(placeHolder, style);
+			}
 		} else {
 			// get text attribute overflow hidden
 			// and run the function to emulate if true
