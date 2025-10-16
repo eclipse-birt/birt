@@ -1,14 +1,14 @@
 /*************************************************************************************
- * Copyright (c) 2011, 2012, 2013 James Talbut.
+ * Copyright (c) 2011, 2012, 2013, 2025 James Talbut. and others
  *  jim-emitters@spudsoft.co.uk
  *
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -329,7 +329,9 @@ public class DateFormatConverter {
 			if (token.startsWith("'")) {
 				result.append(token.replace('\'', '"'));
 			} else if (!Character.isLetter(token.charAt(0))) {
+				result.append("\"");
 				result.append(token);
+				result.append("\"");
 			} else {
 				// It's a code, translate it if necessary
 				String mappedToken = tokenConversions.get(token);
@@ -344,19 +346,18 @@ public class DateFormatConverter {
 		DateFormat df = DateFormat.getDateInstance(style, locale);
 		if (df instanceof SimpleDateFormat) {
 			return ((SimpleDateFormat) df).toPattern();
-		} else {
-			switch (style) {
-			case DateFormat.SHORT:
-				return "d/MM/yy";
-			case DateFormat.MEDIUM:
-				return "MMM d, yyyy";
-			case DateFormat.LONG:
-				return "MMMM d, yyyy";
-			case DateFormat.FULL:
-				return "dddd, MMMM d, yyyy";
-			default:
-				return "MMM d, yyyy";
-			}
+		}
+		switch (style) {
+		case DateFormat.SHORT:
+			return "d/MM/yy";
+		case DateFormat.MEDIUM:
+			return "MMM d, yyyy";
+		case DateFormat.LONG:
+			return "MMMM d, yyyy";
+		case DateFormat.FULL:
+			return "dddd, MMMM d, yyyy";
+		default:
+			return "MMM d, yyyy";
 		}
 	}
 
@@ -364,19 +365,18 @@ public class DateFormatConverter {
 		DateFormat df = DateFormat.getTimeInstance(style, locale);
 		if (df instanceof SimpleDateFormat) {
 			return ((SimpleDateFormat) df).toPattern();
-		} else {
-			switch (style) {
-			case DateFormat.SHORT:
-				return "h:mm a";
-			case DateFormat.MEDIUM:
-				return "h:mm:ss a";
-			case DateFormat.LONG:
-				return "h:mm:ss a";
-			case DateFormat.FULL:
-				return "h:mm:ss a";
-			default:
-				return "h:mm:ss a";
-			}
+		}
+		switch (style) {
+		case DateFormat.SHORT:
+			return "h:mm a";
+		case DateFormat.MEDIUM:
+			return "h:mm:ss a";
+		case DateFormat.LONG:
+			return "h:mm:ss a";
+		case DateFormat.FULL:
+			return "h:mm:ss a";
+		default:
+			return "h:mm:ss a";
 		}
 	}
 
@@ -384,20 +384,18 @@ public class DateFormatConverter {
 		DateFormat df = DateFormat.getDateTimeInstance(style, style, locale);
 		if (df instanceof SimpleDateFormat) {
 			return ((SimpleDateFormat) df).toPattern();
-		} else {
-			switch (style) {
-			case DateFormat.SHORT:
-				return "M/d/yy h:mm a";
-			case DateFormat.MEDIUM:
-				return "MMM d, yyyy h:mm:ss a";
-			case DateFormat.LONG:
-				return "MMMM d, yyyy h:mm:ss a";
-			case DateFormat.FULL:
-				return "dddd, MMMM d, yyyy h:mm:ss a";
-			default:
-				return "MMM d, yyyy h:mm:ss a";
-			}
+		}
+		switch (style) {
+		case DateFormat.SHORT:
+			return "M/d/yy h:mm a";
+		case DateFormat.MEDIUM:
+			return "MMM d, yyyy h:mm:ss a";
+		case DateFormat.LONG:
+			return "MMMM d, yyyy h:mm:ss a";
+		case DateFormat.FULL:
+			return "dddd, MMMM d, yyyy h:mm:ss a";
+		default:
+			return "MMM d, yyyy h:mm:ss a";
 		}
 	}
-
 }
