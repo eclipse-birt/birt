@@ -14,9 +14,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.script;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.RowDataMetaData;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.DimensionCursor;
+import jakarta.olap.cursor.RowDataMetaData;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;

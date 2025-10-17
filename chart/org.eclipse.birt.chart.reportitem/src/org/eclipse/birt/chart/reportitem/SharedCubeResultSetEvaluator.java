@@ -21,9 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
-import javax.olap.cursor.RowDataNavigation;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.EdgeCursor;
+import jakarta.olap.cursor.RowDataNavigation;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;

@@ -14,14 +14,15 @@
  * Java(TM) OLAP Interface
  */
 
-package javax.olap.cursor;
+package jakarta.olap.cursor;
 
-public interface CubeCursor extends javax.olap.cursor.RowDataAccessor, javax.olap.cursor.Cursor {
+public interface Time extends jakarta.olap.query.querycoremodel.NamedObject {
 
-	java.util.List getOrdinateEdge() throws javax.olap.OLAPException;
+	jakarta.olap.cursor.Time valueOf(java.lang.String s) throws jakarta.olap.OLAPException;
 
-	java.util.Collection getPageEdge() throws javax.olap.OLAPException;
+	@Override
+	java.lang.String toString();
 
-	void synchronizePages() throws javax.olap.OLAPException;
+	void setTime(long time) throws jakarta.olap.OLAPException;
 
 }

@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.olap.OLAPException;
+import jakarta.olap.OLAPException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;

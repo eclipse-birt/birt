@@ -17,8 +17,8 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 
