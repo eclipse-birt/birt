@@ -52,6 +52,31 @@ import jakarta.servlet.ServletException;
 - **File**: `data/org.eclipse.birt.data/pom.xml`
 - **Change**: Updated JAR inclusion path from `javax/olap/` to `jakarta/olap/`
 
+### 6. OSGi Manifest Updates
+- **Scope**: 5 MANIFEST.MF files updated
+- **Files Updated**:
+  - `chart/org.eclipse.birt.chart.viewer/META-INF/MANIFEST.MF`
+  - `chart/org.eclipse.birt.chart.examples/META-INF/MANIFEST.MF`
+  - `viewer/org.eclipse.birt.report.viewer/META-INF/MANIFEST.MF`
+  - `viewer/org.eclipse.birt.report.viewer.tests/META-INF/MANIFEST.MF`
+  - `core/org.eclipse.birt.core/META-INF/MANIFEST.MF`
+- **Changes**: 
+  - Updated `Import-Package` declarations from `javax.servlet.*` to `jakarta.servlet.*`
+  - Updated servlet API versions from 2.4.0/3.1.0 to 5.0.0 (Jakarta EE 9+)
+  - Updated JSP API versions from 2.0.0/2.1.0 to 3.0.0 (Jakarta EE 9+)
+  - Updated `Require-Bundle` from `javax.servlet-api` to `jakarta.servlet-api`
+
+**Example**:
+```manifest
+# Before
+Import-Package: javax.servlet;version="3.1.0",
+ javax.servlet.http;version="3.1.0"
+
+# After  
+Import-Package: jakarta.servlet;version="5.0.0",
+ jakarta.servlet.http;version="5.0.0"
+```
+
 ## APIs NOT Migrated
 
 The following `javax.*` APIs remain unchanged as they are part of Java SE (not Jakarta EE):
