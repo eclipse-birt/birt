@@ -27,8 +27,8 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;

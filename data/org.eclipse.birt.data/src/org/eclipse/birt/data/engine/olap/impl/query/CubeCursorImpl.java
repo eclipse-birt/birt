@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Clob;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.Blob;
+import jakarta.olap.cursor.Clob;
+import jakarta.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.Date;
+import jakarta.olap.cursor.DimensionCursor;
+import jakarta.olap.cursor.RowDataMetaData;
+import jakarta.olap.cursor.Time;
+import jakarta.olap.cursor.Timestamp;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;

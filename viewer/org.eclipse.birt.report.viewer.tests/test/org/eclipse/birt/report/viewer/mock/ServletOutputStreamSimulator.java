@@ -16,8 +16,8 @@ package org.eclipse.birt.report.viewer.mock;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
 
 /**
  * This class extends and mocks an abstract ServletOutputStream class for Viewer

@@ -12,7 +12,7 @@
  ************************************************************************************/
 package org.eclipse.birt.report.utility.filename;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * Factory interface for the implementors of IFilenameGenerator.
