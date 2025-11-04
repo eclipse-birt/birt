@@ -484,7 +484,11 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>org.mortbay.jasper.mortbay-apache-.*|jakarta.activation-api|jakarta.xml.bind-api|org.apache.commons.logging</value>
+          <value>org.apache.commons.logging</value>
+        </detail>
+        <detail
+            key="generateVersionRanges">
+          <value>org.mortbay.jasper.mortbay-apache-.*|jakarta.activation-api|jakarta.xml.bind-api</value>
         </detail>
         <detail
             key="minimizeImplicitUnits">
