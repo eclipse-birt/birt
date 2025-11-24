@@ -42,4 +42,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibili
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Import-Package: jakarta.servlet
+Import-Package: jakarta.servlet;version="5.0.0"
