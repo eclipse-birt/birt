@@ -15,7 +15,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.tomcat.InstanceManager;
 import org.apache.tomcat.SimpleInstanceManager;

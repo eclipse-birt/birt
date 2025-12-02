@@ -26,9 +26,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
+import jakarta.naming.Context;
+import jakarta.naming.InitialContext;
+import jakarta.sql.DataSource;
 
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
@@ -79,7 +79,7 @@ import com.ibm.icu.util.ULocale;
  * drivers sub-folder. <br>
  * Its use is optional. When such file is not found or problem reading from it,
  * an initial context adopts the default behavior to locate any JNDI resource
- * files, as defined by <code>javax.naming.Context</code>. <br>
+ * files, as defined by <code>jakarta.naming.Context</code>. <br>
  * Note that it is the user responsibility to configure the classpath to include
  * the classes referenced by the environment properties.
  * <p>

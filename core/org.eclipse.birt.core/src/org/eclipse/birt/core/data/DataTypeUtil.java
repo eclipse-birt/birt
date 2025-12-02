@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import javax.sql.rowset.serial.SerialBlob;
+import jakarta.sql.rowset.serial.SerialBlob;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;

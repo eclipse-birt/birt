@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.util.List;
 
-import javax.olap.OLAPException;
+import jakarta.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;

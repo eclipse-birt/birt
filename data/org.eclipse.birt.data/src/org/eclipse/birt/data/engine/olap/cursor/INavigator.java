@@ -16,7 +16,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.util.Collection;
 
-import javax.olap.OLAPException;
+import jakarta.olap.OLAPException;
 
 /**
  * INavigator interface provide a cursor pointing to its current row of data.

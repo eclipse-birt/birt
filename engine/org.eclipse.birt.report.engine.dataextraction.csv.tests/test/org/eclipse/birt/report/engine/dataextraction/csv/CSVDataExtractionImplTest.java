@@ -32,8 +32,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
+import jakarta.sql.rowset.serial.SerialBlob;
+import jakarta.sql.rowset.serial.SerialException;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;

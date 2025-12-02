@@ -41,7 +41,7 @@
 							<includes>
 								<include>org/eclipse/birt/data/engine/api/**/*.class</include>
 								<include>org/eclipse/birt/data/engine/olap/api/**/*.class</include>
-								<include>javax/olap/**/*.class</include>
+								<include>jakarta/olap/**/*.class</include>
 								<include>org/eclipse/birt/data/engine/core/DataException.class</include>
 								<include>org/eclipse/birt/data/engine/core/security/*.class</include>
 								<include>org/eclipse/birt/data/engine/i18n/*.*</include>

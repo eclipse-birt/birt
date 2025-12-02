@@ -23,16 +23,16 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Clob;
-import javax.olap.cursor.Cursor;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.RowDataAccessor;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.RowDataNavigation;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
+import jakarta.olap.OLAPException;
+import jakarta.olap.cursor.Blob;
+import jakarta.olap.cursor.Clob;
+import jakarta.olap.cursor.Cursor;
+import jakarta.olap.cursor.Date;
+import jakarta.olap.cursor.RowDataAccessor;
+import jakarta.olap.cursor.RowDataMetaData;
+import jakarta.olap.cursor.RowDataNavigation;
+import jakarta.olap.cursor.Time;
+import jakarta.olap.cursor.Timestamp;
 
 /**
  * This class implements jolap RowDataAccessor, RowDataNavigation, Cursor
@@ -63,7 +63,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#close()
+	 * @see jakarta.olap.cursor.RowDataAccessor#close()
 	 */
 	@Override
 	public void close() throws OLAPException {
@@ -77,7 +77,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getAsciiStream(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getAsciiStream(int)
 	 */
 	@Override
 	public InputStream getAsciiStream(int arg0) throws OLAPException {
@@ -85,7 +85,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getAsciiStream(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getAsciiStream(java.lang.String)
 	 */
 	@Override
 	public InputStream getAsciiStream(String arg0) throws OLAPException {
@@ -101,7 +101,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBigDecimal(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBigDecimal(int)
 	 */
 	@Override
 	public BigDecimal getBigDecimal(int arg0) throws OLAPException {
@@ -112,7 +112,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBigDecimal(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBigDecimal(java.lang.String)
 	 */
 	@Override
 	public BigDecimal getBigDecimal(String arg0) throws OLAPException {
@@ -123,7 +123,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBinaryStream(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBinaryStream(int)
 	 */
 	@Override
 	public InputStream getBinaryStream(int arg0) throws OLAPException {
@@ -131,7 +131,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBinaryStream(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBinaryStream(java.lang.String)
 	 */
 	@Override
 	public InputStream getBinaryStream(String arg0) throws OLAPException {
@@ -139,7 +139,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBlob(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBlob(int)
 	 */
 	@Override
 	public Blob getBlob(int arg0) throws OLAPException {
@@ -150,7 +150,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBlob(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBlob(java.lang.String)
 	 */
 	@Override
 	public Blob getBlob(String arg0) throws OLAPException {
@@ -161,7 +161,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBoolean(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBoolean(int)
 	 */
 	@Override
 	public boolean getBoolean(int arg0) throws OLAPException {
@@ -172,7 +172,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBoolean(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBoolean(java.lang.String)
 	 */
 	@Override
 	public boolean getBoolean(String arg0) throws OLAPException {
@@ -183,7 +183,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getByte(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getByte(int)
 	 */
 	@Override
 	public byte getByte(int arg0) throws OLAPException {
@@ -191,7 +191,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getByte(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getByte(java.lang.String)
 	 */
 	@Override
 	public byte getByte(String arg0) throws OLAPException {
@@ -199,7 +199,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBytes(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBytes(int)
 	 */
 	@Override
 	public byte[] getBytes(int arg0) throws OLAPException {
@@ -207,7 +207,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getBytes(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getBytes(java.lang.String)
 	 */
 	@Override
 	public byte[] getBytes(String arg0) throws OLAPException {
@@ -215,7 +215,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getCharacterStream(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getCharacterStream(int)
 	 */
 	@Override
 	public Reader getCharacterStream(int arg0) throws OLAPException {
@@ -223,7 +223,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getCharacterStream(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getCharacterStream(java.lang.String)
 	 */
 	@Override
 	public Reader getCharacterStream(String arg0) throws OLAPException {
@@ -231,7 +231,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getClob(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getClob(int)
 	 */
 	@Override
 	public Clob getClob(int arg0) throws OLAPException {
@@ -239,7 +239,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getClob(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getClob(java.lang.String)
 	 */
 	@Override
 	public Clob getClob(String arg0) throws OLAPException {
@@ -247,7 +247,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDate(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDate(int)
 	 */
 	@Override
 	public Date getDate(int arg0) throws OLAPException {
@@ -258,7 +258,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDate(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDate(java.lang.String)
 	 */
 	@Override
 	public Date getDate(String arg0) throws OLAPException {
@@ -269,7 +269,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDate(int, java.util.Calendar)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDate(int, java.util.Calendar)
 	 */
 	@Override
 	public Date getDate(int arg0, Calendar arg1) throws OLAPException {
@@ -280,7 +280,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDate(java.lang.String,
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDate(java.lang.String,
 	 * java.util.Calendar)
 	 */
 	@Override
@@ -292,7 +292,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDouble(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDouble(int)
 	 */
 	@Override
 	public double getDouble(int arg0) throws OLAPException {
@@ -303,7 +303,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getDouble(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getDouble(java.lang.String)
 	 */
 	@Override
 	public double getDouble(String arg0) throws OLAPException {
@@ -314,7 +314,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getFloat(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getFloat(int)
 	 */
 	@Override
 	public float getFloat(int arg0) throws OLAPException {
@@ -325,7 +325,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getFloat(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getFloat(java.lang.String)
 	 */
 	@Override
 	public float getFloat(String arg0) throws OLAPException {
@@ -336,7 +336,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getInt(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getInt(int)
 	 */
 	@Override
 	public int getInt(int arg0) throws OLAPException {
@@ -347,7 +347,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getInt(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getInt(java.lang.String)
 	 */
 	@Override
 	public int getInt(String arg0) throws OLAPException {
@@ -358,7 +358,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getLong(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getLong(int)
 	 */
 	@Override
 	public long getLong(int arg0) throws OLAPException {
@@ -369,7 +369,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getLong(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getLong(java.lang.String)
 	 */
 	@Override
 	public long getLong(String arg0) throws OLAPException {
@@ -380,7 +380,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getMetaData()
+	 * @see jakarta.olap.cursor.RowDataAccessor#getMetaData()
 	 */
 	@Override
 	public RowDataMetaData getMetaData() throws OLAPException {
@@ -391,7 +391,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getObject(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getObject(int)
 	 */
 	@Override
 	public Object getObject(int arg0) throws OLAPException {
@@ -402,7 +402,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getObject(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getObject(java.lang.String)
 	 */
 	@Override
 	public Object getObject(String arg0) throws OLAPException {
@@ -413,7 +413,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getObject(int, java.util.Map)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getObject(int, java.util.Map)
 	 */
 	@Override
 	public Object getObject(int arg0, Map arg1) throws OLAPException {
@@ -424,7 +424,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getObject(java.lang.String,
+	 * @see jakarta.olap.cursor.RowDataAccessor#getObject(java.lang.String,
 	 * java.util.Map)
 	 */
 	@Override
@@ -436,7 +436,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getShort(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getShort(int)
 	 */
 	@Override
 	public short getShort(int arg0) throws OLAPException {
@@ -444,7 +444,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getShort(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getShort(java.lang.String)
 	 */
 	@Override
 	public short getShort(String arg0) throws OLAPException {
@@ -452,7 +452,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getString(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getString(int)
 	 */
 	@Override
 	public String getString(int arg0) throws OLAPException {
@@ -463,7 +463,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getString(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getString(java.lang.String)
 	 */
 	@Override
 	public String getString(String arg0) throws OLAPException {
@@ -474,7 +474,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTime(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTime(int)
 	 */
 	@Override
 	public Time getTime(int arg0) throws OLAPException {
@@ -485,7 +485,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTime(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTime(java.lang.String)
 	 */
 	@Override
 	public Time getTime(String arg0) throws OLAPException {
@@ -496,7 +496,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTime(int, java.util.Calendar)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTime(int, java.util.Calendar)
 	 */
 	@Override
 	public Time getTime(int arg0, Calendar arg1) throws OLAPException {
@@ -507,7 +507,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTime(java.lang.String,
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTime(java.lang.String,
 	 * java.util.Calendar)
 	 */
 	@Override
@@ -519,7 +519,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTimestamp(int)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTimestamp(int)
 	 */
 	@Override
 	public Timestamp getTimestamp(int arg0) throws OLAPException {
@@ -530,7 +530,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTimestamp(java.lang.String)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTimestamp(java.lang.String)
 	 */
 	@Override
 	public Timestamp getTimestamp(String arg0) throws OLAPException {
@@ -541,7 +541,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTimestamp(int, java.util.Calendar)
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTimestamp(int, java.util.Calendar)
 	 */
 	@Override
 	public Timestamp getTimestamp(int arg0, Calendar arg1) throws OLAPException {
@@ -552,7 +552,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataAccessor#getTimestamp(java.lang.String,
+	 * @see jakarta.olap.cursor.RowDataAccessor#getTimestamp(java.lang.String,
 	 * java.util.Calendar)
 	 */
 	@Override
@@ -564,7 +564,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#afterLast()
+	 * @see jakarta.olap.cursor.RowDataNavigation#afterLast()
 	 */
 	@Override
 	public void afterLast() throws OLAPException {
@@ -574,7 +574,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#beforeFirst()
+	 * @see jakarta.olap.cursor.RowDataNavigation#beforeFirst()
 	 */
 	@Override
 	public void beforeFirst() throws OLAPException {
@@ -584,7 +584,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#clearWarnings()
+	 * @see jakarta.olap.cursor.RowDataNavigation#clearWarnings()
 	 */
 	@Override
 	public void clearWarnings() throws OLAPException {
@@ -594,7 +594,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#first()
+	 * @see jakarta.olap.cursor.RowDataNavigation#first()
 	 */
 	@Override
 	public boolean first() throws OLAPException {
@@ -605,7 +605,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#getExtent()
+	 * @see jakarta.olap.cursor.RowDataNavigation#getExtent()
 	 */
 	@Override
 	public long getExtent() throws OLAPException {
@@ -616,7 +616,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#getPosition()
+	 * @see jakarta.olap.cursor.RowDataNavigation#getPosition()
 	 */
 	@Override
 	public long getPosition() throws OLAPException {
@@ -627,7 +627,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#getType()
+	 * @see jakarta.olap.cursor.RowDataNavigation#getType()
 	 */
 	@Override
 	public int getType() throws OLAPException {
@@ -635,7 +635,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#getWarnings()
+	 * @see jakarta.olap.cursor.RowDataNavigation#getWarnings()
 	 */
 	@Override
 	public Collection getWarnings() throws OLAPException {
@@ -647,7 +647,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#isAfterLast()
+	 * @see jakarta.olap.cursor.RowDataNavigation#isAfterLast()
 	 */
 	@Override
 	public boolean isAfterLast() throws OLAPException {
@@ -658,7 +658,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#isBeforeFirst()
+	 * @see jakarta.olap.cursor.RowDataNavigation#isBeforeFirst()
 	 */
 	@Override
 	public boolean isBeforeFirst() throws OLAPException {
@@ -669,7 +669,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#isFirst()
+	 * @see jakarta.olap.cursor.RowDataNavigation#isFirst()
 	 */
 	@Override
 	public boolean isFirst() throws OLAPException {
@@ -680,7 +680,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#isLast()
+	 * @see jakarta.olap.cursor.RowDataNavigation#isLast()
 	 */
 	@Override
 	public boolean isLast() throws OLAPException {
@@ -691,7 +691,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#last()
+	 * @see jakarta.olap.cursor.RowDataNavigation#last()
 	 */
 	@Override
 	public boolean last() throws OLAPException {
@@ -702,7 +702,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#next()
+	 * @see jakarta.olap.cursor.RowDataNavigation#next()
 	 */
 	@Override
 	public boolean next() throws OLAPException {
@@ -713,7 +713,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#previous()
+	 * @see jakarta.olap.cursor.RowDataNavigation#previous()
 	 */
 	@Override
 	public boolean previous() throws OLAPException {
@@ -724,7 +724,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#relative(int)
+	 * @see jakarta.olap.cursor.RowDataNavigation#relative(int)
 	 */
 	@Override
 	public boolean relative(int arg0) throws OLAPException {
@@ -735,7 +735,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.cursor.RowDataNavigation#setPosition(long)
+	 * @see jakarta.olap.cursor.RowDataNavigation#setPosition(long)
 	 */
 	@Override
 	public void setPosition(long position) throws OLAPException {
@@ -751,7 +751,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.query.querycoremodel.NamedObject#getName()
+	 * @see jakarta.olap.query.querycoremodel.NamedObject#getName()
 	 */
 	@Override
 	public String getName() throws OLAPException {
@@ -765,7 +765,7 @@ public class AbstractCursorSupport implements RowDataAccessor, RowDataNavigation
 	}
 
 	/*
-	 * @see javax.olap.query.querycoremodel.NamedObject#setName(java.lang.String)
+	 * @see jakarta.olap.query.querycoremodel.NamedObject#setName(java.lang.String)
 	 */
 	@Override
 	public void setName(String value) throws OLAPException {

@@ -14,8 +14,8 @@
 
 package org.eclipse.birt.chart.viewer.internal.listener;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import org.eclipse.birt.chart.viewer.internal.util.ChartImageManager;
 

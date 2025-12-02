@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;

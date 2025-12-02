@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.JspWriter;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -66,7 +66,7 @@ public class RequesterTag extends AbstractBaseTag {
 	 * When reach the start tag, fire this operation If set isCustom as true, use
 	 * FORM to create user-defined parameter page
 	 *
-	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+	 * @see jakarta.servlet.jsp.tagext.TagSupport#doStartTag()
 	 */
 	@Override
 	public int doStartTag() throws JspException {

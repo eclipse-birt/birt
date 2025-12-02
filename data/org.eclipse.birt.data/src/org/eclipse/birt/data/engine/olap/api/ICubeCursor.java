@@ -14,7 +14,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api;
 
-import javax.olap.cursor.CubeCursor;
+import jakarta.olap.cursor.CubeCursor;
 
 import org.mozilla.javascript.Scriptable;
 
