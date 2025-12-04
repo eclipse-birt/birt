@@ -128,12 +128,12 @@ mvn package -DskipTests
 ## Runtime Environment
 
 - **Supported JDK**: Java 21 (LTS)
-- **Tomcat**: 9.0.7x through 9.0.10x (note: Tomcat 10 & 11 not supported)
+- **Tomcat**: 9.0.7*, 9.0.8*, 9.0.9*, 9.0.10* (including 9.0.109) - Note: Tomcat 10 & 11 not supported
 - **Important**: BIRT 4.21+ requires JVM argument: `-add-opens=java.base/java.net=ALL-UNNAMED`
 
 ## Important Notes
 
-- This is a multi-module Maven project with 279 pom.xml files
+- This is a large multi-module Maven project with hundreds of pom.xml files
 - Build times can be significant; be patient with CI/CD pipelines
 - The project uses Tycho for Eclipse plugin builds, which has specific requirements
 - Changes should maintain backward compatibility where possible
