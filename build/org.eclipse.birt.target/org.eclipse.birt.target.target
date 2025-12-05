@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="72">
+<target name="Generated from BIRT" sequenceNumber="73">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="aQute.libg" version="0.0.0"/>
@@ -105,6 +105,7 @@
       <unit id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.equinox.http.service.api" version="0.0.0"/>
       <unit id="org.eclipse.jetty.deploy" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee.webapp" version="0.0.0"/>
       <unit id="org.eclipse.jetty.ee8.apache-jsp" version="0.0.0"/>
@@ -143,19 +144,17 @@
       <unit id="org.osgi.namespace.extender" version="0.0.0"/>
       <unit id="org.osgi.namespace.service" version="0.0.0"/>
       <unit id="org.osgi.service.coordinator" version="0.0.0"/>
+      <unit id="org.osgi.service.http.whiteboard" version="0.0.0"/>
       <unit id="org.osgi.service.repository" version="0.0.0"/>
       <unit id="slf4j.api" version="0.0.0"/>
       <unit id="slf4j.simple" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.38-I-builds"/>
       <repository location="https://download.eclipse.org/cbi/updates/license"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/nightly/latest"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/latest"/>
-      <repository location="https://download.eclipse.org/datatools/updates/milestone/latest"/>
-      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-      <repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/>
-      <repository location="https://download.eclipse.org/webtools/CI/latest"/>
-      <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.38.0"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.4"/>
+      <repository location="https://download.eclipse.org/releases/2025-12/202512101000"/>
+      <repository location="https://download.eclipse.org/justj/epp/release/21.0.0.v20251110-0804"/>
       <repository location="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
+      <repository location="https://download.eclipse.org/datatools/updates/release/1.16.3"/>
     </location>
   </locations>
 </target>

@@ -430,21 +430,20 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="latest">
+      value="4.22">
     <choice
         value="latest"
         label="BIRT Latest"/>
     <choice
-        value="4.21"
-        label="BIRT 4.21"/>
+        value="4.22"
+        label="BIRT 4.22"/>
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
-      disabled="true"
-      filter="(birt.version=4.21)"
+      filter="(birt.version=4.22)"
       sourceURL="${eclipse.latest.p2}"
-      targetURL="https://download.eclipse.org/releases/2025-09/202509101001">
-    <description>Redirect the I-Build to the release train for BIRT 4.21</description>
+      targetURL="https://download.eclipse.org/releases/2025-12/202512101000">
+    <description>Redirect the I-Build to the release train for BIRT 4.22</description>
   </setupTask>
   <setupTask
       xsi:type="setup.targlets:TargletTask">
@@ -572,17 +571,17 @@
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       </repositoryList>
       <repositoryList
-          name="4.21">
+          name="4.22">
         <repository
             url="https://download.eclipse.org/cbi/updates/license"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.37.0"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.38.0"/>
         <repository
-            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.0"/>
+            url="https://download.eclipse.org/tools/orbit/simrel/maven-jetty/release/12.1.4"/>
         <repository
-            url="https://download.eclipse.org/releases/2025-09/202509101001"/>
+            url="https://download.eclipse.org/releases/2025-12/202512101000"/>
         <repository
-            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20250724-1739"/>
+            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20251110-0804"/>
         <repository
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
         <repository
