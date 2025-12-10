@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.chart.tests;singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.chart.tests.TestsPlugin
 Bundle-Vendor: %Bundle-Vendor
@@ -25,17 +25,17 @@ Export-Package: org.eclipse.birt.chart.tests,
  org.eclipse.birt.chart.tests.i18n,
  org.eclipse.birt.chart.tests.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.23.0",
- org.eclipse.birt.chart.device.extension;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.chart.device.svg;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.chart.engine;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.chart.engine.extension;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.core;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.device.extension;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.chart.device.svg;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.chart.engine;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.chart.engine.extension;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.core;bundle-version="[4.23.0,5.0.0)",
  org.eclipse.emf.ecore;bundle-version="2.25.0",
  org.junit;bundle-version="4.13.0",
- org.eclipse.birt.chart.device.pdf;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.report.model;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.chart.reportitem;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.tests.core;bundle-version="[4.22.0,5.0.0)",
+ org.eclipse.birt.chart.device.pdf;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.report.model;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.chart.reportitem;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.tests.core;bundle-version="[4.23.0,5.0.0)",
  org.apache.batik.transcoder,
  org.apache.batik.codec
 Bundle-ActivationPolicy: lazy

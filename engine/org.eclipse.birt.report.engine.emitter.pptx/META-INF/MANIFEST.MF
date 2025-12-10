@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.pptx;singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %Bundle-Vendor
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.report.engine.ooxml;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.report.engine.emitter.ppt;bundle-version="[4.22.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.report.engine.ooxml;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.report.engine.emitter.ppt;bundle-version="[4.23.0,5.0.0)",
  com.github.librepdf.openpdf;bundle-version="[3.0.0,4.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pptx.plugin.PPTXEmitterPlugin

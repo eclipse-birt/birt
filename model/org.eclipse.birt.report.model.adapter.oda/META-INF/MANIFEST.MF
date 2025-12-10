@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.model.adapter.oda; singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterOdaPlugin
 Bundle-ClassPath: .
 Eclipse-ExtensibleAPI: true 
@@ -13,8 +13,8 @@ Export-Package: org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.birt.report.model.adapter.oda.model;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",
  org.eclipse.birt.report.model.adapter.oda.model.util;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",
  org.eclipse.birt.report.model.adapter.oda.util;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests"
-Require-Bundle: org.eclipse.birt.core;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.report.model;bundle-version="[4.22.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.core;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.report.model;bundle-version="[4.23.0,5.0.0)",
  org.eclipse.datatools.connectivity.oda.design;bundle-version="[3.0.2,4.0.0)",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.0.2,4.0.0)"
 Bundle-ActivationPolicy: lazy

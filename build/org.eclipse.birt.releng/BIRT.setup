@@ -430,7 +430,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.22">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>
@@ -440,6 +440,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
+      disabled="true"
       filter="(birt.version=4.22)"
       sourceURL="${eclipse.latest.p2}"
       targetURL="https://download.eclipse.org/releases/2025-12/202512101000">

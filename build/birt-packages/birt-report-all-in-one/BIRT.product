@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer All-In-One" uid="org.eclipse.birt.report.designer.all" id="org.eclipse.birt.branding.birt_all_in_one" application="org.eclipse.ui.ide.workbench" version="4.22.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="BIRT Report Designer All-In-One" uid="org.eclipse.birt.report.designer.all" id="org.eclipse.birt.branding.birt_all_in_one" application="org.eclipse.ui.ide.workbench" version="4.23.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/org.eclipse.birt.branding/images/about.png"/>
