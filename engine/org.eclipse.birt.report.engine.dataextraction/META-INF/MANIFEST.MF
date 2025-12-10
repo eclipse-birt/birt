@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction;singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)"
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.23.0,5.0.0)"
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.birt.report.engine.dataextraction,
  org.eclipse.birt.report.engine.dataextraction.i18n,

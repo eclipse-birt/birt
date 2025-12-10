@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel.tests
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.prototype.excel.tests.Activator
-Require-Bundle: org.eclipse.birt.report.engine.emitter.prototype.excel;bundle-version="[4.22.0,5.0.0)",
- org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.report.engine.emitter.prototype.excel;bundle-version="[4.23.0,5.0.0)",
+ org.eclipse.birt.report.engine;bundle-version="[4.23.0,5.0.0)",
  org.junit;bundle-version="4.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-21

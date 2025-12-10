@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config;singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)"
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.23.0,5.0.0)"
 Export-Package: org.eclipse.birt.report.engine.emitter.config,
  org.eclipse.birt.report.engine.emitter.config.i18n,
  org.eclipse.birt.report.engine.emitter.config.impl

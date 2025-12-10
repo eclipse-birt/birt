@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.co.spudsoft.birt.emitters.excel;singleton:=true
-Bundle-Version: 4.22.0.qualifier
+Bundle-Version: 4.23.0.qualifier
 Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.framework.ExcelEmitterPlugin
 Bundle-Vendor: %Bundle-Vendor
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.22.0,5.0.0)",
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.23.0,5.0.0)",
  org.apache.poi;bundle-version="[5.0.0,6.0.0)",
  org.apache.poi.ooxml;bundle-version="[5.0.0,6.0.0)",
  org.apache.poi.ooxml.schemas;bundle-version="[5.0.0,6.0.0)",
