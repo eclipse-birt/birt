@@ -415,6 +415,11 @@ public class RowArea extends ContainerArea {
 		}
 		updateRow();
 		needResolveBorder = true;
+		// If force is true but we couldn't split anything, return BEFORE_AVOID_WITH_NULL
+		// to signal that the row cannot be placed on the current page, preventing infinite loops
+		if (force) {
+			return SplitResult.BEFORE_AVOID_WITH_NULL;
+		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
