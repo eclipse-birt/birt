@@ -50,6 +50,8 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Static utility methods to help evaluating Javascript expressions
  *
@@ -307,7 +309,7 @@ public class BaseScriptEvalUtil {
 			if (MiscUtil.isSameType(obj1, obj2)) {
 				if (obj1 instanceof String) {
 					if (compareHints == null) {
-						return ((String) obj1).compareTo((String) obj2);
+						return Collator.getInstance().compare((String) obj1, (String) obj2);
 					}
 					return compareAsString(obj1, obj2, compareHints);
 				} else if (obj1 instanceof Boolean) {
