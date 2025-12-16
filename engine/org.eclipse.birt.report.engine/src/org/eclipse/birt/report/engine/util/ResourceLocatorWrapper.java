@@ -86,12 +86,14 @@ public class ResourceLocatorWrapper {
 					in.close();
 					cache.put(url, inBytes);
 				} catch (IOException e) {
-					String errorBody = extractErrorBody(connection);
 					LogRecord record = new LogRecord(Level.WARNING, MessageConstants.RESOURCE_NOT_ACCESSIBLE);
 					record.setParameters(new Object[] { url.toExternalForm() });
 					record.setLoggerName(logger.getName());
-					if (!errorBody.isEmpty()) {
-						record.setThrown(new IOException(errorBody));
+					if (connection instanceof HttpURLConnection httpConn) {
+						String errorBody = extractErrorBody(httpConn);
+						if (!errorBody.isEmpty()) {
+							record.setThrown(new IOException(errorBody));
+						}
 					}
 					logger.log(record);
 					cache.put(url, DUMMY_BYTES);
@@ -119,11 +121,7 @@ public class ResourceLocatorWrapper {
 		return buffer;
 	}
 
-	private String extractErrorBody(URLConnection connection) {
-		if (!(connection instanceof HttpURLConnection httpConn)) {
-			return "No HTTP-Protocol";
-		}
-
+	private String extractErrorBody(HttpURLConnection httpConn) {
 		try {
 			InputStream errorStream = httpConn.getErrorStream();
 			if (errorStream == null) {
