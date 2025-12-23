@@ -700,6 +700,43 @@ public class ParameterAccessor {
 	private static List<String> fUrlReportPathDomains;
 
 	/**
+	 * definition of locale name mappings
+	 */
+	private static final HashMap<String, String> localeNameMap = new HashMap<String, String>();
+
+	// mapping of locale names: (national) locale - (ICU4J) locale
+	static {
+		localeNameMap.put("az", "az_Cyrl");
+		localeNameMap.put("az_AZ", "az_Cyrl_AZ");
+		localeNameMap.put("bs_BA", "bs_Cyrl_BA");
+		localeNameMap.put("ca_ES_VALENCIA", "ca_ES");
+		localeNameMap.put("ff_GN", "ff_Adlm_GN");
+		localeNameMap.put("ff_SN", "ff_Adlm_SN");
+		localeNameMap.put("frr", "de");
+		localeNameMap.put("frr_DE", "de_DE");
+		localeNameMap.put("kok_IN", "kok_Deva_IN");
+		localeNameMap.put("ks_IN", "ks_Arab_IN");
+		localeNameMap.put("mni_IN", "mni_Beng_IN");
+		localeNameMap.put("pa_PK", "pa_Arab_PK");
+		localeNameMap.put("pa_IN", "pa_Guru_IN");
+		localeNameMap.put("sat_IN", "sat_Olck_IN");
+		localeNameMap.put("sd_PK", "sd_Arab_PK");
+		localeNameMap.put("sd_IN", "sd_Deva_IN");
+		localeNameMap.put("shi_MA", "shi_Tfng_MA");
+		localeNameMap.put("su_ID", "su_Latn_ID");
+		localeNameMap.put("uz_AF", "uz_Arab_AF");
+		localeNameMap.put("uz_UZ", "uz_Cyrl_UZ");
+		localeNameMap.put("vai_LR", "vai_Vaii_LR");
+		localeNameMap.put("yue_CN", "yue_Hans");
+		localeNameMap.put("yue_HK", "yue_Hant_HK");
+		localeNameMap.put("zh_CN", "zh_Hans_CN");
+		localeNameMap.put("zh_HK", "zh_Hans_HK");
+		localeNameMap.put("zh_MO", "zh_Hans_MO");
+		localeNameMap.put("zh_SG", "zh_Hans_MY");
+		localeNameMap.put("zh_TW", "zh_Hant_TW");
+	}
+
+	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 *
 	 * @param request
@@ -925,7 +962,7 @@ public class ParameterAccessor {
 	}
 
 	/**
-	 * Get report locale from a given string.
+	 * Get report locale from a given string (using ICU4J)
 	 *
 	 * @param locale locale string
 	 * @return report locale
@@ -934,6 +971,8 @@ public class ParameterAccessor {
 		if (locale == null || locale.length() <= 0) {
 			return null;
 		}
+		locale = getMappedLocaleString(locale.replace("-", "_"));
+
 		// Use icu4j to normalize the locale string
 		ULocale ulocale = new ULocale(locale);
 
@@ -946,6 +985,16 @@ public class ParameterAccessor {
 		}
 
 		return ulocale.toLocale();
+	}
+
+	/**
+	 * Get the mapped locale from standard locale subtypes to ICU4J locale
+	 *
+	 * @param locale locale string of standard locale
+	 * @return mapped locale string of ICU4J locale
+	 */
+	private static String getMappedLocaleString(String locale) {
+		return (localeNameMap.containsKey(locale) ? localeNameMap.get(locale) : locale);
 	}
 
 	/**
@@ -1552,7 +1601,7 @@ public class ParameterAccessor {
 				String loggerName = name.replaceFirst("logger.", //$NON-NLS-1$
 						"" //$NON-NLS-1$
 				);
-				String levelName = (String) initProps.get(name);
+				String levelName = initProps.get(name);
 
 				loggers.put(loggerName, levelName);
 
