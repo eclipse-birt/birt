@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -226,6 +227,63 @@ public class ParameterAccessorTest extends BaseTestCase {
 
 	private static final String DEFAULT_TEST_REPORT = "test.rptdesign"; //$NON-NLS-1$
 
+	
+	/**
+	 * Definition of locale names for the name mapping test case
+	 */
+	private String[] localeNameMap = { "az", "az_AZ", "bs_BA", "ca_ES_VALENCIA", "ff_GN", "ff_SN", "frr", "frr_DE",
+			"kok_IN", "ks_IN", "mni_IN", "pa_PK", "pa_IN", "sat_IN", "sd_PK", "sd_IN", "shi_MA", "su_ID", "uz_AF",
+			"uz_UZ", "vai_LR", "yue_CN", "yue__#Hant", "yue_HK", "yue_HK_#Hant", "zh_CN", "zh_HK", "zh_MO", "zh_SG",
+			"zh__#Hans", "zh_CN_#Hans", "zh_HK_#Hans", "zh_MO_#Hans", "zh_SG_#Hans", "zh__#Hant", "zh_TW",
+			"zh_HK_#Hant", "zh_MO_#Hant", "zh_TW_#Hant" };
+
+	/**
+	 * Definition of locale variant versions for the name mapping test case
+	 */
+	private static final HashMap<String, Locale> localeFullNameVariant = new HashMap<String, Locale>();
+
+	static {
+		localeFullNameVariant.put("az", Locale.of("az", "", "#Cyrl"));
+		localeFullNameVariant.put("az_AZ", Locale.of("az", "AZ", "#Cyrl"));
+		localeFullNameVariant.put("bs_BA", Locale.of("bs", "BA", "#Cyrl"));
+		localeFullNameVariant.put("ca_ES_VALENCIA", Locale.of("ca", "ES", ""));
+		localeFullNameVariant.put("ff_GN", Locale.of("ff", "GN", "#Adlm"));
+		localeFullNameVariant.put("ff_SN", Locale.of("ff", "SN", "#Adlm"));
+		localeFullNameVariant.put("frr", Locale.of("de", "", ""));
+		localeFullNameVariant.put("frr_DE", Locale.of("de", "DE", ""));
+		localeFullNameVariant.put("kok_IN", Locale.of("kok", "IN", "#Deva"));
+		localeFullNameVariant.put("ks_IN", Locale.of("ks", "IN", "#Arab"));
+		localeFullNameVariant.put("mni_IN", Locale.of("mni", "IN", "#Beng"));
+		localeFullNameVariant.put("pa_PK", Locale.of("pa", "PK", "#Arab"));
+		localeFullNameVariant.put("pa_IN", Locale.of("pa", "IN", "#Guru"));
+		localeFullNameVariant.put("sat_IN", Locale.of("sat", "IN", "#Olck"));
+		localeFullNameVariant.put("sd_PK", Locale.of("sd", "PK", "#Arab"));
+		localeFullNameVariant.put("sd_IN", Locale.of("sd", "IN", "#Deva"));
+		localeFullNameVariant.put("shi_MA", Locale.of("shi", "MA", "#Tfng"));
+		localeFullNameVariant.put("su_ID", Locale.of("su", "ID", "#Latn"));
+		localeFullNameVariant.put("uz_AF", Locale.of("uz", "AF", "#Arab"));
+		localeFullNameVariant.put("uz_UZ", Locale.of("uz", "UZ", "#Cyrl"));
+		localeFullNameVariant.put("vai_LR", Locale.of("vai", "LR", "#Vaii"));
+		localeFullNameVariant.put("yue_CN", Locale.of("yue", "", "#Hans"));
+		localeFullNameVariant.put("yue__#Hant", Locale.of("yue", "", "#Hant"));
+		localeFullNameVariant.put("yue_HK", Locale.of("yue", "HK", "#Hant"));
+		localeFullNameVariant.put("yue_HK_#Hant", Locale.of("yue", "HK", "#Hant"));
+		localeFullNameVariant.put("zh_CN", Locale.of("zh", "CN", "#Hans"));
+		localeFullNameVariant.put("zh_HK", Locale.of("zh", "HK", "#Hans"));
+		localeFullNameVariant.put("zh_MO", Locale.of("zh", "MO", "#Hans"));
+		localeFullNameVariant.put("zh_SG", Locale.of("zh", "MY", "#Hans"));
+		localeFullNameVariant.put("zh__#Hans", Locale.of("zh", "", "#Hans"));
+		localeFullNameVariant.put("zh_CN_#Hans", Locale.of("zh", "CN", "#Hans"));
+		localeFullNameVariant.put("zh_HK_#Hans", Locale.of("zh", "HK", "#Hans"));
+		localeFullNameVariant.put("zh_MO_#Hans", Locale.of("zh", "MO", "#Hans"));
+		localeFullNameVariant.put("zh_SG_#Hans", Locale.of("zh", "MY", "#Hans"));
+		localeFullNameVariant.put("zh__#Hant", Locale.of("zh", "", "#Hant"));
+		localeFullNameVariant.put("zh_TW", Locale.of("zh", "TW", "#Hant"));
+		localeFullNameVariant.put("zh_HK_#Hant", Locale.of("zh", "HK", "#Hant"));
+		localeFullNameVariant.put("zh_MO_#Hant", Locale.of("zh", "MO", "#Hant"));
+		localeFullNameVariant.put("zh_TW_'Hant", Locale.of("zh", "TW", "#Hant"));
+	}
+
 	@Override
 	public void setUp() throws Exception {
 		ParameterAccessor.reset();
@@ -388,7 +446,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 	public void testGetLocaleFromString() {
 		assertNull(ParameterAccessor.getLocaleFromString(null));
 		assertEquals(Locale.US, ParameterAccessor.getLocaleFromString("en_US")); //$NON-NLS-1$
-		assertEquals(new Locale("test"), ParameterAccessor //$NON-NLS-1$
+		assertEquals(null, ParameterAccessor // $NON-NLS-1$
 				.getLocaleFromString("test")); //$NON-NLS-1$
 	}
 
@@ -406,8 +464,22 @@ public class ParameterAccessorTest extends BaseTestCase {
 	public void testGetLocale() {
 		// Locale in URL
 		request.addParameter(ParameterAccessor.PARAM_LOCALE, "zh_CN"); //$NON-NLS-1$
-		assertEquals(Locale.PRC, ParameterAccessor.getLocale(request));
+		assertEquals(Locale.of("zh", "CN", "#Hans").toString().toLowerCase(),
+				ParameterAccessor.getLocale(request).toString().toLowerCase());
 		request.removeParameter(ParameterAccessor.PARAM_LOCALE);
+
+		request.addParameter(ParameterAccessor.PARAM_LOCALE, "zh_TW"); //$NON-NLS-1$
+		assertEquals(Locale.of("zh", "TW", "#Hant").toString().toLowerCase(),
+				ParameterAccessor.getLocale(request).toString().toLowerCase());
+		request.removeParameter(ParameterAccessor.PARAM_LOCALE);
+
+		// Locale in URL, testing name mapping due to Locale and ULocale conversion
+		for (int i = 0; i < localeNameMap.length; i++) {
+			request.addParameter(ParameterAccessor.PARAM_LOCALE, localeNameMap[i]);
+			assertEquals(localeFullNameVariant.get(localeNameMap[i]).toString().toLowerCase(),
+					ParameterAccessor.getLocale(request).toString().toLowerCase());
+			request.removeParameter(ParameterAccessor.PARAM_LOCALE);
+		}
 
 		// Get Locale from Request
 		request.setLocale(Locale.UK);
@@ -415,7 +487,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 		request.setLocale(null);
 
 		// Get Locale from ServletContext
-		assertEquals(new Locale(DEFAULT_LOCALE).toString().toLowerCase(),
+		assertEquals(Locale.forLanguageTag(DEFAULT_LOCALE.replace("_", "-")).toString().toLowerCase(),
 				ParameterAccessor.getLocale(request).toString().toLowerCase());
 	}
 
@@ -431,7 +503,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 		request.addParameterValues(paramName, values);
 
 		// Wrong parameter name
-		Collection params = ParameterAccessor.getParameterValues(request, "WrongParamName"); //$NON-NLS-1$
+		Set<String> params = ParameterAccessor.getParameterValues(request, "WrongParamName"); //$NON-NLS-1$
 		assertNull(params);
 
 		// Correct parameter name
@@ -818,7 +890,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "1", "column2"); //$NON-NLS-1$ //$NON-NLS-2$
 		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "2", "column3"); //$NON-NLS-1$//$NON-NLS-2$
 
-		Collection columns = ParameterAccessor.getSelectedColumns(request);
+		Collection<String> columns = ParameterAccessor.getSelectedColumns(request);
 		assertNotNull(columns);
 		assertTrue(columns.size() == 3);
 		assertTrue(columns.contains("column1")); //$NON-NLS-1$
@@ -854,18 +926,19 @@ public class ParameterAccessorTest extends BaseTestCase {
 	 *
 	 */
 	public void testPushAppContext() {
-		Map map = null;
+		Map<String, Object> map = null;
 		assertNotNull(ParameterAccessor.pushAppContext(map, request));
 
 		String contextKey = "appContextKey"; //$NON-NLS-1$
 		request.setAttribute(ParameterAccessor.ATTR_APPCONTEXT_KEY, contextKey);
 		assertNull(ParameterAccessor.pushAppContext(map, request).get(contextKey));
 
-		Map appContext = new HashMap();
+		Map<String, String> appContext = new HashMap<String, String>();
 		appContext.put("key1", "value1"); //$NON-NLS-1$//$NON-NLS-2$
 		request.setAttribute(ParameterAccessor.ATTR_APPCONTEXT_VALUE, appContext);
 
 		assertNotNull(ParameterAccessor.pushAppContext(map, request).get(contextKey));
-		assertTrue(((HashMap) (ParameterAccessor.pushAppContext(map, request).get(contextKey))).containsKey("key1")); //$NON-NLS-1$
+		assertTrue(((HashMap) (ParameterAccessor.pushAppContext(map, request).get(contextKey)))
+				.containsKey("key1")); //$NON-NLS-1$
 	}
 }

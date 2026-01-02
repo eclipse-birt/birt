@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004, 2025 Actuate Corporation and others.
+ * Copyright (c) 2004, 2026 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -704,7 +704,20 @@ public class ParameterAccessor {
 	 */
 	private static final HashMap<String, String> localeNameMap = new HashMap<String, String>();
 
-	// mapping of locale names: (national) locale - (ICU4J) locale
+	/**
+	 * Mapping of locale names to handle the correct converting between Locale and
+	 * ULocale
+	 *
+	 * This mapping is necessary due to the environment start with Locale and the
+	 * BIRT-usage with ULocale. The language-codes of Locale are not for all cases
+	 * the same codes like for ULocale. In this case if a code not found the ULocale
+	 * is unset and the default Locale en-US will be used.
+	 *
+	 * This mapping will optimize naming conflicts.
+	 *
+	 * Map structure: Locale (Java) - ULocale (ICU4J)
+	 *
+	 */
 	static {
 		localeNameMap.put("az", "az_Cyrl");
 		localeNameMap.put("az_AZ", "az_Cyrl_AZ");
@@ -728,12 +741,23 @@ public class ParameterAccessor {
 		localeNameMap.put("uz_UZ", "uz_Cyrl_UZ");
 		localeNameMap.put("vai_LR", "vai_Vaii_LR");
 		localeNameMap.put("yue_CN", "yue_Hans");
+		localeNameMap.put("yue__#Hant", "yue_Hant");
 		localeNameMap.put("yue_HK", "yue_Hant_HK");
+		localeNameMap.put("yue_HK_#Hant", "yue_Hant_HK");
 		localeNameMap.put("zh_CN", "zh_Hans_CN");
 		localeNameMap.put("zh_HK", "zh_Hans_HK");
 		localeNameMap.put("zh_MO", "zh_Hans_MO");
 		localeNameMap.put("zh_SG", "zh_Hans_MY");
 		localeNameMap.put("zh_TW", "zh_Hant_TW");
+		localeNameMap.put("zh__#Hans", "zh_Hans");
+		localeNameMap.put("zh_CN_#Hans", "zh_Hans_CN");
+		localeNameMap.put("zh_HK_#Hans", "zh_Hans_HK");
+		localeNameMap.put("zh_MO_#Hans", "zh_Hans_MO");
+		localeNameMap.put("zh_SG_#Hans", "zh_Hans_MY");
+		localeNameMap.put("zh__#Hant", "zh_Hant");
+		localeNameMap.put("zh_HK_#Hant", "zh_Hant_HK");
+		localeNameMap.put("zh_MO_#Hant", "zh_Hant_MO");
+		localeNameMap.put("zh_TW_'Hant", "zh_Hant_TW");
 	}
 
 	/**
