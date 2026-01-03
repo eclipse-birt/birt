@@ -1,5 +1,5 @@
 /**************************************************************************
- * Copyright (c) 2005, 2024 Actuate Corporation and others
+ * Copyright (c) 2005, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -229,6 +229,8 @@ public class JavascriptEvalUtil {
 			}
 		} else if (inputObj instanceof Wrapper) {
 			return ((Wrapper) inputObj).unwrap();
+		} else if (inputObj instanceof NativeArray) {
+			return ((NativeArray) inputObj).toArray();
 		} else if (inputObj instanceof Scriptable) {
 			return ((Scriptable) inputObj).getDefaultValue(null);
 		}

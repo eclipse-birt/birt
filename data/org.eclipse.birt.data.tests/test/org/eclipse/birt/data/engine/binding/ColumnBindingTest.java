@@ -436,7 +436,7 @@ public class ColumnBindingTest extends APITestCase {
 
 		List combinedList = new ArrayList();
 		String script1 = "obj = new Array();obj[0]=\"Shanghai\"; obj[1]=\"Chicago\";obj";
-		String script2 = "obj = new Array();obj[0]= new Array(); obj[0][0]=\"London\"; obj[1]=\"Edinburgh\";obj";
+		String script2 = "obj = new Array();obj[0]= new Array(); obj[0]/*[0]*/=\"London\"; obj[1]=\"Edinburgh\";obj";
 		combinedList.add(script1);
 		combinedList.add(script2);
 		IConditionalExpression filter = new ConditionalExpression("row.testColumn2", IConditionalExpression.OP_IN,

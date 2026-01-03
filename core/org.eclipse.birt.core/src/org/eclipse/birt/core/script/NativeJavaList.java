@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2026 Actuate Corporation and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class NativeJavaList extends NativeJavaObject {
 	}
 
 	public NativeJavaList(Scriptable scope, Object javaObject, Class staticType) {
-		super(scope, javaObject, staticType);
+		super(scope, javaObject, TypeInfoFactory.GLOBAL.create(staticType));
 	}
 
 	@Override

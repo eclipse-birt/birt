@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2007, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -103,7 +103,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 				// cache package and classloader information.
 				// so we need rewrite this property.
 				new LazilyLoadedCtor(global, "Packages", "org.mozilla.javascript.NativeJavaTopPackage", false);
-				global.exportAsJSClass(3, global, false);
+				global.initStandardObjects(context, false);
 				global.delete("constructor");
 				global.setPrototype(root);
 			} else {
@@ -232,7 +232,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 		JavascriptContext jsContext = new JavascriptContext(context, jsScope);
 		// Register writeStatus method in root context.
 		if (parent == null) {
-			cachedScript.exec(this.context, jsScope);
+			cachedScript.exec(this.context, jsScope, jsScope);
 		}
 		Map<String, Object> attrs = context.getAttributes();
 		for (Entry<String, Object> entry : attrs.entrySet()) {
@@ -249,7 +249,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine {
 		// .getScriptText( );
 		try {
 			Script script = ((CompiledJavascript) compiledScript).getCompiledScript();
-			Object value = script.exec(context, getJSScope(scriptContext));
+			Scriptable jsScope = getJSScope(scriptContext);
+			Object value = script.exec(context, jsScope, jsScope);
 			return jsToJava(value);
 		} catch (Throwable e) {
 			// Do not include javascript source code

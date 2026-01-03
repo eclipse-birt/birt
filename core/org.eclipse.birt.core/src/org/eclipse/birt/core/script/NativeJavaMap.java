@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -21,6 +21,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.lc.type.TypeInfoFactory;
 
 /**
  * Represents the scriptable object for Java object which implements the
@@ -37,8 +38,8 @@ public class NativeJavaMap extends NativeJavaObject {
 	public NativeJavaMap() {
 	}
 
-	public NativeJavaMap(Scriptable scope, Object javaObject, Class staticType) {
-		super(scope, javaObject, staticType);
+	public NativeJavaMap(Scriptable scope, Object javaObject, Class<?> staticType) {
+		super(scope, javaObject, TypeInfoFactory.GLOBAL.create(staticType));
 	}
 
 	/*
