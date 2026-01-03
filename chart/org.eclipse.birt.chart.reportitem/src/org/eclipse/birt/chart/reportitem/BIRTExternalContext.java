@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.lc.type.TypeInfo;
 
 /**
  * An external context implementation for BIRT environment.
@@ -54,7 +55,7 @@ public class BIRTExternalContext implements IExternalContext {
 		try {
 			Scriptable scope = new ImporterTopLevel(cx);
 
-			scriptableContext = cx.getWrapFactory().wrapAsJavaObject(cx, scope, context, null);
+			scriptableContext = cx.getWrapFactory().wrapAsJavaObject(cx, scope, context, TypeInfo.NONE);
 		} catch (Exception e) {
 			logger.log(e);
 		} finally {

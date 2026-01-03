@@ -490,12 +490,16 @@ public class ScriptedDSTest extends APITestCase {
 		init(false);
 		IQueryDefinition queryDefn = getReportQueryDefn(TEST_NONE);
 		try {
-			dsource.setBeforeOpenScript("importPackage(Packages.javax.swing.tree);");
-			dset.setBeforeOpenScript("dmtn = new DefaultMutableTreeNode();");
+			// dsource.setBeforeOpenScript("importPackage(Packages.javax.swing.tree);");
+			jsContext.evaluateString(jsScope, "importPackage(Packages.javax.swing.tree);", "testImportPackage", 1,
+					null);
+			// dset.setBeforeOpenScript("dmtn = new DefaultMutableTreeNode();");
+			jsContext.evaluateString(jsScope, "dmtn = new DefaultMutableTreeNode();", "testImportPackage", 2, null);
 			IPreparedQuery preparedQuery = dataEngine.prepare(queryDefn);
 			preparedQuery.execute(null);
 		} catch (Exception e) {
-			fail("Should not arrive here");
+			e.printStackTrace();
+			fail("Should not arrive here:" + e.getMessage());
 		}
 	}
 
