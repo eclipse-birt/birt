@@ -32,6 +32,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeArray;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
@@ -208,16 +209,16 @@ public class JavascriptEvalUtil {
 		if (inputObj instanceof Undefined) {
 			return null;
 		}
-		if (inputObj instanceof IdScriptableObject) {
+		if (inputObj instanceof IdScriptableObject idScriptableObject) {
 			// Return type is possibly a Javascript native object
 			// Convert to Java object with same value
-			String jsClass = ((Scriptable) inputObj).getClassName();
+			String jsClass = idScriptableObject.getClassName();
 			if ("Date".equals(jsClass)) {
 				return Context.toType(inputObj, Date.class);
 			} else if ("Boolean".equals(jsClass)) {
-				return Boolean.valueOf(Context.toBoolean(inputObj));
+				return Context.toBoolean(inputObj);
 			} else if ("Number".equals(jsClass)) {
-				return new Double(Context.toNumber(inputObj));
+				return Context.toNumber(inputObj);
 			} else if ("String".equals(jsClass)) {
 				return inputObj.toString();
 			} else if ("Array".equals(jsClass)) {
@@ -229,10 +230,17 @@ public class JavascriptEvalUtil {
 			}
 		} else if (inputObj instanceof Wrapper) {
 			return ((Wrapper) inputObj).unwrap();
-		} else if (inputObj instanceof NativeArray) {
-			return ((NativeArray) inputObj).toArray();
-		} else if (inputObj instanceof Scriptable) {
-			return ((Scriptable) inputObj).getDefaultValue(null);
+		} else if (inputObj instanceof NativeArray nativeArray) {
+			Object[] result = nativeArray.toArray();
+			for (int i = 0, length = result.length; i < length; i++) {
+				result[i] = convertJavascriptValue(result[i]);
+			}
+			return result;
+		} else if (inputObj instanceof NativeObject) {
+			// This is a java.util.Map.
+			return inputObj;
+		} else if (inputObj instanceof Scriptable scriptable) {
+			return scriptable.getDefaultValue(null);
 		}
 
 		return inputObj;
