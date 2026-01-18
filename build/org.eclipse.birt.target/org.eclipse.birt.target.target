@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from BIRT" sequenceNumber="74">
+<target name="Generated from BIRT" sequenceNumber="1">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="aQute.libg" version="0.0.0"/>
@@ -16,6 +16,7 @@
       <unit id="com.github.librepdf.openpdf" version="0.0.0"/>
       <unit id="com.github.virtuald.curvesapi" version="0.0.0"/>
       <unit id="com.github.weisj.jsvg" version="0.0.0"/>
+      <unit id="com.jcraft.jsch" version="0.0.0"/>
       <unit id="com.sun.el.javax.el" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
       <unit id="jakarta.activation-api" version="[1.0.0,2.0.0)"/>
@@ -120,7 +121,7 @@
       <unit id="org.eclipse.jetty.plus" version="0.0.0"/>
       <unit id="org.eclipse.jetty.security" version="0.0.0"/>
       <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.servlet-api" version="0.0.0"/>
+      <unit id="org.eclipse.jetty.servlet-api" version="4.0.6"/>
       <unit id="org.eclipse.jetty.session" version="0.0.0"/>
       <unit id="org.eclipse.jetty.util" version="0.0.0"/>
       <unit id="org.eclipse.jetty.xml" version="0.0.0"/>

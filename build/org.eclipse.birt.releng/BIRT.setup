@@ -484,7 +484,7 @@
         </detail>
         <detail
             key="generateVersions">
-          <value>org.apache.commons.logging</value>
+          <value>org.apache.commons.logging|org.eclipse.jetty.servlet-api</value>
         </detail>
         <detail
             key="generateVersionRanges">
@@ -543,6 +543,9 @@
       <requirement
           name="org.apache.commons.logging"
           versionRange="[1.2.0,1.2.0]"/>
+      <requirement
+          name="org.eclipse.jetty.servlet-api"
+          versionRange="[4.0.6,4.0.6]"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>
