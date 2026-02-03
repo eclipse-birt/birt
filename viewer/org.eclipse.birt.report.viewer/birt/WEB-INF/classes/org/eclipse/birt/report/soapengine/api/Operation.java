@@ -19,11 +19,22 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Operation")
+@XmlAccessorType(XmlAccessType.NONE)
 public class Operation implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	@XmlElement(name = "Target")
 	private org.eclipse.birt.report.soapengine.api.ReportId target;
+	@XmlElement(name = "Operator")
 	private java.lang.String operator;
+	@XmlElement(name = "Oprand")
 	private org.eclipse.birt.report.soapengine.api.Oprand[] oprand;
+	@XmlElement(name = "Data")
 	private org.eclipse.birt.report.soapengine.api.Data data;
 
 	public Operation() {
@@ -179,61 +190,4 @@ public class Operation implements java.io.Serializable {
 		return _hashCode;
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			Operation.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Operation"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("target");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Target"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportId"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("operator");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Operator"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("oprand");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Oprand"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		elemField.setMaxOccursUnbounded(true);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("data");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
-}

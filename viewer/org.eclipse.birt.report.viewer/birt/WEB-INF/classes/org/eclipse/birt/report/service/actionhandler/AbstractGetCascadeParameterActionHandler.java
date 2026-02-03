@@ -15,6 +15,7 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -88,7 +89,7 @@ public abstract class AbstractGetCascadeParameterActionHandler extends AbstractB
 				selectionLists[i].setSelections(SelectItemChoices);
 				i++;
 			}
-			cascadeParameter.setSelectionList(selectionLists);
+			cascadeParameter.setSelectionLists(Arrays.asList(selectionLists));
 		}
 		handleUpdate(cascadeParameter);
 	}

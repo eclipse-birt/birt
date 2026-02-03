@@ -13,9 +13,10 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
-import javax.servlet.ServletOutputStream;
+import java.rmi.RemoteException;
 
-import org.apache.axis.AxisFault;
+import jakarta.servlet.ServletOutputStream;
+
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -64,10 +65,8 @@ public class BirtCustomerExtractDataActionHandler extends AbstractBaseActionHand
 			// check extract extension
 			boolean flag = ParameterAccessor.validateExtractExtension(extractExtension);
 			if (!flag) {
-				AxisFault fault = new AxisFault();
-				fault.setFaultReason(
+				throw new RemoteException(
 						BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION));
-				throw fault;
 			}
 
 			extractFormat = ParameterAccessor.getExtractFormat(extractExtension);
@@ -76,10 +75,8 @@ public class BirtCustomerExtractDataActionHandler extends AbstractBaseActionHand
 		// check extract format
 		boolean flag = ParameterAccessor.validateExtractFormat(extractFormat);
 		if (!flag) {
-			AxisFault fault = new AxisFault();
-			fault.setFaultReason(
+			throw new RemoteException(
 					BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT));
-			throw fault;
 		}
 
 		ServletOutputStream out = context.getResponse().getOutputStream();

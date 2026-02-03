@@ -8,10 +8,7 @@ Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Eclipse-ExtensibleAPI: true
-Export-Package: javax.olap,
- javax.olap.cursor,
- javax.olap.query.querycoremodel,
- org.eclipse.birt.data.engine.aggregation;x-friends:="org.eclipse.birt.data.tests,org.eclipse.birt.data.aggregation",
+Export-Package: org.eclipse.birt.data.engine.aggregation;x-friends:="org.eclipse.birt.data.tests,org.eclipse.birt.data.aggregation",
  org.eclipse.birt.data.engine.api,
  org.eclipse.birt.data.engine.api.aggregation,
  org.eclipse.birt.data.engine.api.querydefn,
@@ -54,7 +51,10 @@ Export-Package: javax.olap,
  org.eclipse.birt.data.engine.olap.util;x-friends:="org.eclipse.birt.data.tests,org.eclipse.birt.report.data.adapter",
  org.eclipse.birt.data.engine.olap.util.filter,
  org.eclipse.birt.data.engine.plugin,
- org.eclipse.birt.data.engine.script
+ org.eclipse.birt.data.engine.script,
+ org.eclipse.birt.olap,
+ org.eclipse.birt.olap.cursor,
+ org.eclipse.birt.olap.query.querycoremodel
 Import-Package: org.apache.commons.io.input,
  org.apache.commons.io.output
 Require-Bundle: org.eclipse.birt.core;bundle-version="[4.23.0,5.0.0)";visibility:=reexport,

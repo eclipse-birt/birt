@@ -1,103 +1,115 @@
-/*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   See git history
- *******************************************************************************/
-/**
- * Data.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
- */
-
 package org.eclipse.birt.report.soapengine.api;
 
-public class Data implements java.io.Serializable {
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Data")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Data implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	private org.eclipse.birt.report.soapengine.api.Font font;
-	private org.eclipse.birt.report.soapengine.api.ResultSets resultSets;
-	private org.eclipse.birt.report.soapengine.api.Format format;
-	private org.eclipse.birt.report.soapengine.api.TOC TOC;
-	private org.eclipse.birt.report.soapengine.api.Export export;
-	private org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter;
-	private org.eclipse.birt.report.soapengine.api.Filter filter;
-	private org.eclipse.birt.report.soapengine.api.FilterList filterList;
-	private org.eclipse.birt.report.soapengine.api.Vector columnValues;
-	private org.eclipse.birt.report.soapengine.api.Page page;
-	private org.eclipse.birt.report.soapengine.api.DataSetList dataSets;
-	private org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList;
-	private org.eclipse.birt.report.soapengine.api.ThemeList themes;
-	private org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs;
-	private org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail;
-	private org.eclipse.birt.report.soapengine.api.CellDefinition cellDef;
-	private org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef;
-	private org.eclipse.birt.report.soapengine.api.ChartProperties chart;
-	private java.lang.String labelText;
-	private org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing;
-	private org.eclipse.birt.report.soapengine.api.DataSourceList dataSources;
-	private org.eclipse.birt.report.soapengine.api.BindingList bindingList;
-	private org.eclipse.birt.report.soapengine.api.DataSet dataSetDef;
-	private org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse;
-	private org.eclipse.birt.report.soapengine.api.DesignState designState;
-	private org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState;
-	private java.lang.String redirectURL;
-	private java.lang.String popupURL;
-	private org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression;
-	private org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata;
-	private org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList;
-	private org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList;
-	private org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu;
-	private org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu;
-	private org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu;
-	private java.lang.String confirmation;
-	private org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList;
-	private org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation;
-	private org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList;
+
+	@XmlElement(name = "Font")
+	private Font font;
+	@XmlElement(name = "ResultSets")
+	private ResultSets resultSets;
+	@XmlElement(name = "Format")
+	private Format format;
+	@XmlElement(name = "TOC")
+	private TOC TOC;
+	@XmlElement(name = "Export")
+	private Export export;
+	@XmlElement(name = "CascadeParameter")
+	private CascadeParameter cascadeParameter;
+	@XmlElement(name = "Filter")
+	private Filter filter;
+	@XmlElement(name = "FilterList")
+	private FilterList filterList;
+	@XmlElement(name = "ColumnValues")
+	private Vector columnValues;
+	@XmlElement(name = "Page")
+	private Page page;
+	@XmlElement(name = "DataSets")
+	private DataSetList dataSets;
+	@XmlElement(name = "ReportElementList")
+	private ReportElementList reportElementList;
+	@XmlElement(name = "Themes")
+	private ThemeList themes;
+	@XmlElement(name = "ColumnDefs")
+	private ColumnDefinitionGroup columnDefs;
+	@XmlElement(name = "GroupDetail")
+	private GroupDetail groupDetail;
+	@XmlElement(name = "CellDef")
+	private CellDefinition cellDef;
+	@XmlElement(name = "SectionDef")
+	private SectionDefinition sectionDef;
+	@XmlElement(name = "Chart")
+	private ChartProperties chart;
+	@XmlElement(name = "LabelText")
+	private String labelText;
+	@XmlElement(name = "FileBrowsing")
+	private FileBrowsing fileBrowsing;
+	@XmlElement(name = "DataSources")
+	private DataSourceList dataSources;
+	@XmlElement(name = "BindingList")
+	private BindingList bindingList;
+	@XmlElement(name = "DataSetDef")
+	private DataSet dataSetDef;
+	@XmlElement(name = "DataSetsToUse")
+	private DataSetList dataSetsToUse;
+	@XmlElement(name = "DesignState")
+	private DesignState designState;
+	@XmlElement(name = "ToolbarState")
+	private ToolbarState toolbarState;
+	@XmlElement(name = "RedirectURL")
+	private String redirectURL;
+	@XmlElement(name = "PopupURL")
+	private String popupURL;
+	@XmlElement(name = "BRDExpression")
+	private BRDExpression BRDExpression;
+	@XmlElement(name = "JoinMetadata")
+	private JoinMetadata joinMetadata;
+	@XmlElement(name = "BoundDataColumnList")
+	private BoundDataColumnList boundDataColumnList;
+	@XmlElement(name = "IOInfoList")
+	private IOInfoList IOInfoList;
+	@XmlElement(name = "TableColContextMenu")
+	private TableColContextMenuState tableColContextMenu;
+	@XmlElement(name = "TableSectContextMenu")
+	private TableSectionContextMenuState tableSectContextMenu;
+	@XmlElement(name = "TableContextMenu")
+	private TableContextMenuState tableContextMenu;
+	@XmlElement(name = "Confirmation")
+	private String confirmation;
+	@XmlElement(name = "TableLayoutList")
+	private TableLayoutList tableLayoutList;
+	@XmlElement(name = "AvailableOperation")
+	private AvailableOperation availableOperation;
+	@XmlElement(name = "SortDefinitionList")
+	private SortDefinitionList sortDefinitionList;
 
 	public Data() {
 	}
 
-	public Data(org.eclipse.birt.report.soapengine.api.Font font,
-			org.eclipse.birt.report.soapengine.api.ResultSets resultSets,
-			org.eclipse.birt.report.soapengine.api.Format format, org.eclipse.birt.report.soapengine.api.TOC TOC,
-			org.eclipse.birt.report.soapengine.api.Export export,
-			org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter,
-			org.eclipse.birt.report.soapengine.api.Filter filter,
-			org.eclipse.birt.report.soapengine.api.FilterList filterList,
-			org.eclipse.birt.report.soapengine.api.Vector columnValues,
-			org.eclipse.birt.report.soapengine.api.Page page,
-			org.eclipse.birt.report.soapengine.api.DataSetList dataSets,
-			org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList,
-			org.eclipse.birt.report.soapengine.api.ThemeList themes,
-			org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs,
-			org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail,
-			org.eclipse.birt.report.soapengine.api.CellDefinition cellDef,
-			org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef,
-			org.eclipse.birt.report.soapengine.api.ChartProperties chart, java.lang.String labelText,
-			org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing,
-			org.eclipse.birt.report.soapengine.api.DataSourceList dataSources,
-			org.eclipse.birt.report.soapengine.api.BindingList bindingList,
-			org.eclipse.birt.report.soapengine.api.DataSet dataSetDef,
-			org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse,
-			org.eclipse.birt.report.soapengine.api.DesignState designState,
-			org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState, java.lang.String redirectURL,
-			java.lang.String popupURL, org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression,
-			org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata,
-			org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList,
-			org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList,
-			org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu,
-			org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu,
-			org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu,
-			java.lang.String confirmation, org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList,
-			org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation,
-			org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
+	// Generický konštruktor s parametrami môžeš zachovať, alebo vynechať pre
+	// jednoduchší POJO
+	public Data(Font font, ResultSets resultSets, Format format, TOC TOC, Export export,
+			CascadeParameter cascadeParameter, Filter filter, FilterList filterList, Vector columnValues, Page page,
+			DataSetList dataSets, ReportElementList reportElementList, ThemeList themes,
+			ColumnDefinitionGroup columnDefs, GroupDetail groupDetail, CellDefinition cellDef,
+			SectionDefinition sectionDef, ChartProperties chart, String labelText, FileBrowsing fileBrowsing,
+			DataSourceList dataSources, BindingList bindingList, DataSet dataSetDef, DataSetList dataSetsToUse,
+			DesignState designState, ToolbarState toolbarState, String redirectURL, String popupURL,
+			BRDExpression BRDExpression, JoinMetadata joinMetadata, BoundDataColumnList boundDataColumnList,
+			IOInfoList IOInfoList, TableColContextMenuState tableColContextMenu,
+			TableSectionContextMenuState tableSectContextMenu, TableContextMenuState tableContextMenu,
+			String confirmation, TableLayoutList tableLayoutList, AvailableOperation availableOperation,
+			SortDefinitionList sortDefinitionList) {
 		this.font = font;
 		this.resultSets = resultSets;
 		this.format = format;
@@ -139,1252 +151,359 @@ public class Data implements java.io.Serializable {
 		this.sortDefinitionList = sortDefinitionList;
 	}
 
-	/**
-	 * Gets the font value for this Data.
-	 *
-	 * @return font
-	 */
-	public org.eclipse.birt.report.soapengine.api.Font getFont() {
+	// Getter / Setter metódy pre všetky polia
+	public Font getFont() {
 		return font;
 	}
 
-	/**
-	 * Sets the font value for this Data.
-	 *
-	 * @param font
-	 */
-	public void setFont(org.eclipse.birt.report.soapengine.api.Font font) {
+	public void setFont(Font font) {
 		this.font = font;
 	}
 
-	/**
-	 * Gets the resultSets value for this Data.
-	 *
-	 * @return resultSets
-	 */
-	public org.eclipse.birt.report.soapengine.api.ResultSets getResultSets() {
+	public ResultSets getResultSets() {
 		return resultSets;
 	}
 
-	/**
-	 * Sets the resultSets value for this Data.
-	 *
-	 * @param resultSets
-	 */
-	public void setResultSets(org.eclipse.birt.report.soapengine.api.ResultSets resultSets) {
+	public void setResultSets(ResultSets resultSets) {
 		this.resultSets = resultSets;
 	}
 
-	/**
-	 * Gets the format value for this Data.
-	 *
-	 * @return format
-	 */
-	public org.eclipse.birt.report.soapengine.api.Format getFormat() {
+	public Format getFormat() {
 		return format;
 	}
 
-	/**
-	 * Sets the format value for this Data.
-	 *
-	 * @param format
-	 */
-	public void setFormat(org.eclipse.birt.report.soapengine.api.Format format) {
+	public void setFormat(Format format) {
 		this.format = format;
 	}
 
-	/**
-	 * Gets the TOC value for this Data.
-	 *
-	 * @return TOC
-	 */
-	public org.eclipse.birt.report.soapengine.api.TOC getTOC() {
+	public TOC getTOC() {
 		return TOC;
 	}
 
-	/**
-	 * Sets the TOC value for this Data.
-	 *
-	 * @param TOC
-	 */
-	public void setTOC(org.eclipse.birt.report.soapengine.api.TOC TOC) {
+	public void setTOC(TOC TOC) {
 		this.TOC = TOC;
 	}
 
-	/**
-	 * Gets the export value for this Data.
-	 *
-	 * @return export
-	 */
-	public org.eclipse.birt.report.soapengine.api.Export getExport() {
+	public Export getExport() {
 		return export;
 	}
 
-	/**
-	 * Sets the export value for this Data.
-	 *
-	 * @param export
-	 */
-	public void setExport(org.eclipse.birt.report.soapengine.api.Export export) {
+	public void setExport(Export export) {
 		this.export = export;
 	}
 
-	/**
-	 * Gets the cascadeParameter value for this Data.
-	 *
-	 * @return cascadeParameter
-	 */
-	public org.eclipse.birt.report.soapengine.api.CascadeParameter getCascadeParameter() {
+	public CascadeParameter getCascadeParameter() {
 		return cascadeParameter;
 	}
 
-	/**
-	 * Sets the cascadeParameter value for this Data.
-	 *
-	 * @param cascadeParameter
-	 */
-	public void setCascadeParameter(org.eclipse.birt.report.soapengine.api.CascadeParameter cascadeParameter) {
+	public void setCascadeParameter(CascadeParameter cascadeParameter) {
 		this.cascadeParameter = cascadeParameter;
 	}
 
-	/**
-	 * Gets the filter value for this Data.
-	 *
-	 * @return filter
-	 */
-	public org.eclipse.birt.report.soapengine.api.Filter getFilter() {
+	public Filter getFilter() {
 		return filter;
 	}
 
-	/**
-	 * Sets the filter value for this Data.
-	 *
-	 * @param filter
-	 */
-	public void setFilter(org.eclipse.birt.report.soapengine.api.Filter filter) {
+	public void setFilter(Filter filter) {
 		this.filter = filter;
 	}
 
-	/**
-	 * Gets the filterList value for this Data.
-	 *
-	 * @return filterList
-	 */
-	public org.eclipse.birt.report.soapengine.api.FilterList getFilterList() {
+	public FilterList getFilterList() {
 		return filterList;
 	}
 
-	/**
-	 * Sets the filterList value for this Data.
-	 *
-	 * @param filterList
-	 */
-	public void setFilterList(org.eclipse.birt.report.soapengine.api.FilterList filterList) {
+	public void setFilterList(FilterList filterList) {
 		this.filterList = filterList;
 	}
 
-	/**
-	 * Gets the columnValues value for this Data.
-	 *
-	 * @return columnValues
-	 */
-	public org.eclipse.birt.report.soapengine.api.Vector getColumnValues() {
+	public Vector getColumnValues() {
 		return columnValues;
 	}
 
-	/**
-	 * Sets the columnValues value for this Data.
-	 *
-	 * @param columnValues
-	 */
-	public void setColumnValues(org.eclipse.birt.report.soapengine.api.Vector columnValues) {
+	public void setColumnValues(Vector columnValues) {
 		this.columnValues = columnValues;
 	}
 
-	/**
-	 * Gets the page value for this Data.
-	 *
-	 * @return page
-	 */
-	public org.eclipse.birt.report.soapengine.api.Page getPage() {
+	public Page getPage() {
 		return page;
 	}
 
-	/**
-	 * Sets the page value for this Data.
-	 *
-	 * @param page
-	 */
-	public void setPage(org.eclipse.birt.report.soapengine.api.Page page) {
+	public void setPage(Page page) {
 		this.page = page;
 	}
 
-	/**
-	 * Gets the dataSets value for this Data.
-	 *
-	 * @return dataSets
-	 */
-	public org.eclipse.birt.report.soapengine.api.DataSetList getDataSets() {
+	public DataSetList getDataSets() {
 		return dataSets;
 	}
 
-	/**
-	 * Sets the dataSets value for this Data.
-	 *
-	 * @param dataSets
-	 */
-	public void setDataSets(org.eclipse.birt.report.soapengine.api.DataSetList dataSets) {
+	public void setDataSets(DataSetList dataSets) {
 		this.dataSets = dataSets;
 	}
 
-	/**
-	 * Gets the reportElementList value for this Data.
-	 *
-	 * @return reportElementList
-	 */
-	public org.eclipse.birt.report.soapengine.api.ReportElementList getReportElementList() {
+	public ReportElementList getReportElementList() {
 		return reportElementList;
 	}
 
-	/**
-	 * Sets the reportElementList value for this Data.
-	 *
-	 * @param reportElementList
-	 */
-	public void setReportElementList(org.eclipse.birt.report.soapengine.api.ReportElementList reportElementList) {
+	public void setReportElementList(ReportElementList reportElementList) {
 		this.reportElementList = reportElementList;
 	}
 
-	/**
-	 * Gets the themes value for this Data.
-	 *
-	 * @return themes
-	 */
-	public org.eclipse.birt.report.soapengine.api.ThemeList getThemes() {
+	public ThemeList getThemes() {
 		return themes;
 	}
 
-	/**
-	 * Sets the themes value for this Data.
-	 *
-	 * @param themes
-	 */
-	public void setThemes(org.eclipse.birt.report.soapengine.api.ThemeList themes) {
+	public void setThemes(ThemeList themes) {
 		this.themes = themes;
 	}
 
-	/**
-	 * Gets the columnDefs value for this Data.
-	 *
-	 * @return columnDefs
-	 */
-	public org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup getColumnDefs() {
+	public ColumnDefinitionGroup getColumnDefs() {
 		return columnDefs;
 	}
 
-	/**
-	 * Sets the columnDefs value for this Data.
-	 *
-	 * @param columnDefs
-	 */
-	public void setColumnDefs(org.eclipse.birt.report.soapengine.api.ColumnDefinitionGroup columnDefs) {
+	public void setColumnDefs(ColumnDefinitionGroup columnDefs) {
 		this.columnDefs = columnDefs;
 	}
 
-	/**
-	 * Gets the groupDetail value for this Data.
-	 *
-	 * @return groupDetail
-	 */
-	public org.eclipse.birt.report.soapengine.api.GroupDetail getGroupDetail() {
+	public GroupDetail getGroupDetail() {
 		return groupDetail;
 	}
 
-	/**
-	 * Sets the groupDetail value for this Data.
-	 *
-	 * @param groupDetail
-	 */
-	public void setGroupDetail(org.eclipse.birt.report.soapengine.api.GroupDetail groupDetail) {
+	public void setGroupDetail(GroupDetail groupDetail) {
 		this.groupDetail = groupDetail;
 	}
 
-	/**
-	 * Gets the cellDef value for this Data.
-	 *
-	 * @return cellDef
-	 */
-	public org.eclipse.birt.report.soapengine.api.CellDefinition getCellDef() {
+	public CellDefinition getCellDef() {
 		return cellDef;
 	}
 
-	/**
-	 * Sets the cellDef value for this Data.
-	 *
-	 * @param cellDef
-	 */
-	public void setCellDef(org.eclipse.birt.report.soapengine.api.CellDefinition cellDef) {
+	public void setCellDef(CellDefinition cellDef) {
 		this.cellDef = cellDef;
 	}
 
-	/**
-	 * Gets the sectionDef value for this Data.
-	 *
-	 * @return sectionDef
-	 */
-	public org.eclipse.birt.report.soapengine.api.SectionDefinition getSectionDef() {
+	public SectionDefinition getSectionDef() {
 		return sectionDef;
 	}
 
-	/**
-	 * Sets the sectionDef value for this Data.
-	 *
-	 * @param sectionDef
-	 */
-	public void setSectionDef(org.eclipse.birt.report.soapengine.api.SectionDefinition sectionDef) {
+	public void setSectionDef(SectionDefinition sectionDef) {
 		this.sectionDef = sectionDef;
 	}
 
-	/**
-	 * Gets the chart value for this Data.
-	 *
-	 * @return chart
-	 */
-	public org.eclipse.birt.report.soapengine.api.ChartProperties getChart() {
+	public ChartProperties getChart() {
 		return chart;
 	}
 
-	/**
-	 * Sets the chart value for this Data.
-	 *
-	 * @param chart
-	 */
-	public void setChart(org.eclipse.birt.report.soapengine.api.ChartProperties chart) {
+	public void setChart(ChartProperties chart) {
 		this.chart = chart;
 	}
 
-	/**
-	 * Gets the labelText value for this Data.
-	 *
-	 * @return labelText
-	 */
-	public java.lang.String getLabelText() {
+	public String getLabelText() {
 		return labelText;
 	}
 
-	/**
-	 * Sets the labelText value for this Data.
-	 *
-	 * @param labelText
-	 */
-	public void setLabelText(java.lang.String labelText) {
+	public void setLabelText(String labelText) {
 		this.labelText = labelText;
 	}
 
-	/**
-	 * Gets the fileBrowsing value for this Data.
-	 *
-	 * @return fileBrowsing
-	 */
-	public org.eclipse.birt.report.soapengine.api.FileBrowsing getFileBrowsing() {
+	public FileBrowsing getFileBrowsing() {
 		return fileBrowsing;
 	}
 
-	/**
-	 * Sets the fileBrowsing value for this Data.
-	 *
-	 * @param fileBrowsing
-	 */
-	public void setFileBrowsing(org.eclipse.birt.report.soapengine.api.FileBrowsing fileBrowsing) {
+	public void setFileBrowsing(FileBrowsing fileBrowsing) {
 		this.fileBrowsing = fileBrowsing;
 	}
 
-	/**
-	 * Gets the dataSources value for this Data.
-	 *
-	 * @return dataSources
-	 */
-	public org.eclipse.birt.report.soapengine.api.DataSourceList getDataSources() {
+	public DataSourceList getDataSources() {
 		return dataSources;
 	}
 
-	/**
-	 * Sets the dataSources value for this Data.
-	 *
-	 * @param dataSources
-	 */
-	public void setDataSources(org.eclipse.birt.report.soapengine.api.DataSourceList dataSources) {
+	public void setDataSources(DataSourceList dataSources) {
 		this.dataSources = dataSources;
 	}
 
-	/**
-	 * Gets the bindingList value for this Data.
-	 *
-	 * @return bindingList
-	 */
-	public org.eclipse.birt.report.soapengine.api.BindingList getBindingList() {
+	public BindingList getBindingList() {
 		return bindingList;
 	}
 
-	/**
-	 * Sets the bindingList value for this Data.
-	 *
-	 * @param bindingList
-	 */
-	public void setBindingList(org.eclipse.birt.report.soapengine.api.BindingList bindingList) {
+	public void setBindingList(BindingList bindingList) {
 		this.bindingList = bindingList;
 	}
 
-	/**
-	 * Gets the dataSetDef value for this Data.
-	 *
-	 * @return dataSetDef
-	 */
-	public org.eclipse.birt.report.soapengine.api.DataSet getDataSetDef() {
+	public DataSet getDataSetDef() {
 		return dataSetDef;
 	}
 
-	/**
-	 * Sets the dataSetDef value for this Data.
-	 *
-	 * @param dataSetDef
-	 */
-	public void setDataSetDef(org.eclipse.birt.report.soapengine.api.DataSet dataSetDef) {
+	public void setDataSetDef(DataSet dataSetDef) {
 		this.dataSetDef = dataSetDef;
 	}
 
-	/**
-	 * Gets the dataSetsToUse value for this Data.
-	 *
-	 * @return dataSetsToUse
-	 */
-	public org.eclipse.birt.report.soapengine.api.DataSetList getDataSetsToUse() {
+	public DataSetList getDataSetsToUse() {
 		return dataSetsToUse;
 	}
 
-	/**
-	 * Sets the dataSetsToUse value for this Data.
-	 *
-	 * @param dataSetsToUse
-	 */
-	public void setDataSetsToUse(org.eclipse.birt.report.soapengine.api.DataSetList dataSetsToUse) {
+	public void setDataSetsToUse(DataSetList dataSetsToUse) {
 		this.dataSetsToUse = dataSetsToUse;
 	}
 
-	/**
-	 * Gets the designState value for this Data.
-	 *
-	 * @return designState
-	 */
-	public org.eclipse.birt.report.soapengine.api.DesignState getDesignState() {
+	public DesignState getDesignState() {
 		return designState;
 	}
 
-	/**
-	 * Sets the designState value for this Data.
-	 *
-	 * @param designState
-	 */
-	public void setDesignState(org.eclipse.birt.report.soapengine.api.DesignState designState) {
+	public void setDesignState(DesignState designState) {
 		this.designState = designState;
 	}
 
-	/**
-	 * Gets the toolbarState value for this Data.
-	 *
-	 * @return toolbarState
-	 */
-	public org.eclipse.birt.report.soapengine.api.ToolbarState getToolbarState() {
+	public ToolbarState getToolbarState() {
 		return toolbarState;
 	}
 
-	/**
-	 * Sets the toolbarState value for this Data.
-	 *
-	 * @param toolbarState
-	 */
-	public void setToolbarState(org.eclipse.birt.report.soapengine.api.ToolbarState toolbarState) {
+	public void setToolbarState(ToolbarState toolbarState) {
 		this.toolbarState = toolbarState;
 	}
 
-	/**
-	 * Gets the redirectURL value for this Data.
-	 *
-	 * @return redirectURL
-	 */
-	public java.lang.String getRedirectURL() {
+	public String getRedirectURL() {
 		return redirectURL;
 	}
 
-	/**
-	 * Sets the redirectURL value for this Data.
-	 *
-	 * @param redirectURL
-	 */
-	public void setRedirectURL(java.lang.String redirectURL) {
+	public void setRedirectURL(String redirectURL) {
 		this.redirectURL = redirectURL;
 	}
 
-	/**
-	 * Gets the popupURL value for this Data.
-	 *
-	 * @return popupURL
-	 */
-	public java.lang.String getPopupURL() {
+	public String getPopupURL() {
 		return popupURL;
 	}
 
-	/**
-	 * Sets the popupURL value for this Data.
-	 *
-	 * @param popupURL
-	 */
-	public void setPopupURL(java.lang.String popupURL) {
+	public void setPopupURL(String popupURL) {
 		this.popupURL = popupURL;
 	}
 
-	/**
-	 * Gets the BRDExpression value for this Data.
-	 *
-	 * @return BRDExpression
-	 */
-	public org.eclipse.birt.report.soapengine.api.BRDExpression getBRDExpression() {
+	public BRDExpression getBRDExpression() {
 		return BRDExpression;
 	}
 
-	/**
-	 * Sets the BRDExpression value for this Data.
-	 *
-	 * @param BRDExpression
-	 */
-	public void setBRDExpression(org.eclipse.birt.report.soapengine.api.BRDExpression BRDExpression) {
+	public void setBRDExpression(BRDExpression BRDExpression) {
 		this.BRDExpression = BRDExpression;
 	}
 
-	/**
-	 * Gets the joinMetadata value for this Data.
-	 *
-	 * @return joinMetadata
-	 */
-	public org.eclipse.birt.report.soapengine.api.JoinMetadata getJoinMetadata() {
+	public JoinMetadata getJoinMetadata() {
 		return joinMetadata;
 	}
 
-	/**
-	 * Sets the joinMetadata value for this Data.
-	 *
-	 * @param joinMetadata
-	 */
-	public void setJoinMetadata(org.eclipse.birt.report.soapengine.api.JoinMetadata joinMetadata) {
+	public void setJoinMetadata(JoinMetadata joinMetadata) {
 		this.joinMetadata = joinMetadata;
 	}
 
-	/**
-	 * Gets the boundDataColumnList value for this Data.
-	 *
-	 * @return boundDataColumnList
-	 */
-	public org.eclipse.birt.report.soapengine.api.BoundDataColumnList getBoundDataColumnList() {
+	public BoundDataColumnList getBoundDataColumnList() {
 		return boundDataColumnList;
 	}
 
-	/**
-	 * Sets the boundDataColumnList value for this Data.
-	 *
-	 * @param boundDataColumnList
-	 */
-	public void setBoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumnList boundDataColumnList) {
+	public void setBoundDataColumnList(BoundDataColumnList boundDataColumnList) {
 		this.boundDataColumnList = boundDataColumnList;
 	}
 
-	/**
-	 * Gets the IOInfoList value for this Data.
-	 *
-	 * @return IOInfoList
-	 */
-	public org.eclipse.birt.report.soapengine.api.IOInfoList getIOInfoList() {
+	public IOInfoList getIOInfoList() {
 		return IOInfoList;
 	}
 
-	/**
-	 * Sets the IOInfoList value for this Data.
-	 *
-	 * @param IOInfoList
-	 */
-	public void setIOInfoList(org.eclipse.birt.report.soapengine.api.IOInfoList IOInfoList) {
+	public void setIOInfoList(IOInfoList IOInfoList) {
 		this.IOInfoList = IOInfoList;
 	}
 
-	/**
-	 * Gets the tableColContextMenu value for this Data.
-	 *
-	 * @return tableColContextMenu
-	 */
-	public org.eclipse.birt.report.soapengine.api.TableColContextMenuState getTableColContextMenu() {
+	public TableColContextMenuState getTableColContextMenu() {
 		return tableColContextMenu;
 	}
 
-	/**
-	 * Sets the tableColContextMenu value for this Data.
-	 *
-	 * @param tableColContextMenu
-	 */
-	public void setTableColContextMenu(
-			org.eclipse.birt.report.soapengine.api.TableColContextMenuState tableColContextMenu) {
+	public void setTableColContextMenu(TableColContextMenuState tableColContextMenu) {
 		this.tableColContextMenu = tableColContextMenu;
 	}
 
-	/**
-	 * Gets the tableSectContextMenu value for this Data.
-	 *
-	 * @return tableSectContextMenu
-	 */
-	public org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState getTableSectContextMenu() {
+	public TableSectionContextMenuState getTableSectContextMenu() {
 		return tableSectContextMenu;
 	}
 
-	/**
-	 * Sets the tableSectContextMenu value for this Data.
-	 *
-	 * @param tableSectContextMenu
-	 */
-	public void setTableSectContextMenu(
-			org.eclipse.birt.report.soapengine.api.TableSectionContextMenuState tableSectContextMenu) {
+	public void setTableSectContextMenu(TableSectionContextMenuState tableSectContextMenu) {
 		this.tableSectContextMenu = tableSectContextMenu;
 	}
 
-	/**
-	 * Gets the tableContextMenu value for this Data.
-	 *
-	 * @return tableContextMenu
-	 */
-	public org.eclipse.birt.report.soapengine.api.TableContextMenuState getTableContextMenu() {
+	public TableContextMenuState getTableContextMenu() {
 		return tableContextMenu;
 	}
 
-	/**
-	 * Sets the tableContextMenu value for this Data.
-	 *
-	 * @param tableContextMenu
-	 */
-	public void setTableContextMenu(org.eclipse.birt.report.soapengine.api.TableContextMenuState tableContextMenu) {
+	public void setTableContextMenu(TableContextMenuState tableContextMenu) {
 		this.tableContextMenu = tableContextMenu;
 	}
 
-	/**
-	 * Gets the confirmation value for this Data.
-	 *
-	 * @return confirmation
-	 */
-	public java.lang.String getConfirmation() {
+	public String getConfirmation() {
 		return confirmation;
 	}
 
-	/**
-	 * Sets the confirmation value for this Data.
-	 *
-	 * @param confirmation
-	 */
-	public void setConfirmation(java.lang.String confirmation) {
+	public void setConfirmation(String confirmation) {
 		this.confirmation = confirmation;
 	}
 
-	/**
-	 * Gets the tableLayoutList value for this Data.
-	 *
-	 * @return tableLayoutList
-	 */
-	public org.eclipse.birt.report.soapengine.api.TableLayoutList getTableLayoutList() {
+	public TableLayoutList getTableLayoutList() {
 		return tableLayoutList;
 	}
 
-	/**
-	 * Sets the tableLayoutList value for this Data.
-	 *
-	 * @param tableLayoutList
-	 */
-	public void setTableLayoutList(org.eclipse.birt.report.soapengine.api.TableLayoutList tableLayoutList) {
+	public void setTableLayoutList(TableLayoutList tableLayoutList) {
 		this.tableLayoutList = tableLayoutList;
 	}
 
-	/**
-	 * Gets the availableOperation value for this Data.
-	 *
-	 * @return availableOperation
-	 */
-	public org.eclipse.birt.report.soapengine.api.AvailableOperation getAvailableOperation() {
+	public AvailableOperation getAvailableOperation() {
 		return availableOperation;
 	}
 
-	/**
-	 * Sets the availableOperation value for this Data.
-	 *
-	 * @param availableOperation
-	 */
-	public void setAvailableOperation(org.eclipse.birt.report.soapengine.api.AvailableOperation availableOperation) {
+	public void setAvailableOperation(AvailableOperation availableOperation) {
 		this.availableOperation = availableOperation;
 	}
 
-	/**
-	 * Gets the sortDefinitionList value for this Data.
-	 *
-	 * @return sortDefinitionList
-	 */
-	public org.eclipse.birt.report.soapengine.api.SortDefinitionList getSortDefinitionList() {
+	public SortDefinitionList getSortDefinitionList() {
 		return sortDefinitionList;
 	}
 
-	/**
-	 * Sets the sortDefinitionList value for this Data.
-	 *
-	 * @param sortDefinitionList
-	 */
-	public void setSortDefinitionList(org.eclipse.birt.report.soapengine.api.SortDefinitionList sortDefinitionList) {
+	public void setSortDefinitionList(SortDefinitionList sortDefinitionList) {
 		this.sortDefinitionList = sortDefinitionList;
 	}
 
-	private java.lang.Object __equalsCalc = null;
-
 	@Override
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Data)) {
-			return false;
-		}
-		Data other = (Data) obj;
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = true
-				&& ((this.font == null && other.getFont() == null)
-						|| (this.font != null && this.font.equals(other.getFont())))
-				&& ((this.resultSets == null && other.getResultSets() == null)
-						|| (this.resultSets != null && this.resultSets.equals(other.getResultSets())))
-				&& ((this.format == null && other.getFormat() == null)
-						|| (this.format != null && this.format.equals(other.getFormat())))
-				&& ((this.TOC == null && other.getTOC() == null)
-						|| (this.TOC != null && this.TOC.equals(other.getTOC())))
-				&& ((this.export == null && other.getExport() == null)
-						|| (this.export != null && this.export.equals(other.getExport())))
-				&& ((this.cascadeParameter == null && other.getCascadeParameter() == null)
-						|| (this.cascadeParameter != null && this.cascadeParameter.equals(other.getCascadeParameter())))
-				&& ((this.filter == null && other.getFilter() == null)
-						|| (this.filter != null && this.filter.equals(other.getFilter())))
-				&& ((this.filterList == null && other.getFilterList() == null)
-						|| (this.filterList != null && this.filterList.equals(other.getFilterList())))
-				&& ((this.columnValues == null && other.getColumnValues() == null)
-						|| (this.columnValues != null && this.columnValues.equals(other.getColumnValues())))
-				&& ((this.page == null && other.getPage() == null)
-						|| (this.page != null && this.page.equals(other.getPage())))
-				&& ((this.dataSets == null && other.getDataSets() == null)
-						|| (this.dataSets != null && this.dataSets.equals(other.getDataSets())))
-				&& ((this.reportElementList == null && other.getReportElementList() == null)
-						|| (this.reportElementList != null
-								&& this.reportElementList.equals(other.getReportElementList())))
-				&& ((this.themes == null && other.getThemes() == null)
-						|| (this.themes != null && this.themes.equals(other.getThemes())))
-				&& ((this.columnDefs == null && other.getColumnDefs() == null)
-						|| (this.columnDefs != null && this.columnDefs.equals(other.getColumnDefs())))
-				&& ((this.groupDetail == null && other.getGroupDetail() == null)
-						|| (this.groupDetail != null && this.groupDetail.equals(other.getGroupDetail())))
-				&& ((this.cellDef == null && other.getCellDef() == null)
-						|| (this.cellDef != null && this.cellDef.equals(other.getCellDef())))
-				&& ((this.sectionDef == null && other.getSectionDef() == null)
-						|| (this.sectionDef != null && this.sectionDef.equals(other.getSectionDef())))
-				&& ((this.chart == null && other.getChart() == null)
-						|| (this.chart != null && this.chart.equals(other.getChart())))
-				&& ((this.labelText == null && other.getLabelText() == null)
-						|| (this.labelText != null && this.labelText.equals(other.getLabelText())))
-				&& ((this.fileBrowsing == null && other.getFileBrowsing() == null)
-						|| (this.fileBrowsing != null && this.fileBrowsing.equals(other.getFileBrowsing())))
-				&& ((this.dataSources == null && other.getDataSources() == null)
-						|| (this.dataSources != null && this.dataSources.equals(other.getDataSources())))
-				&& ((this.bindingList == null && other.getBindingList() == null)
-						|| (this.bindingList != null && this.bindingList.equals(other.getBindingList())))
-				&& ((this.dataSetDef == null && other.getDataSetDef() == null)
-						|| (this.dataSetDef != null && this.dataSetDef.equals(other.getDataSetDef())))
-				&& ((this.dataSetsToUse == null && other.getDataSetsToUse() == null)
-						|| (this.dataSetsToUse != null && this.dataSetsToUse.equals(other.getDataSetsToUse())))
-				&& ((this.designState == null && other.getDesignState() == null)
-						|| (this.designState != null && this.designState.equals(other.getDesignState())))
-				&& ((this.toolbarState == null && other.getToolbarState() == null)
-						|| (this.toolbarState != null && this.toolbarState.equals(other.getToolbarState())))
-				&& ((this.redirectURL == null && other.getRedirectURL() == null)
-						|| (this.redirectURL != null && this.redirectURL.equals(other.getRedirectURL())))
-				&& ((this.popupURL == null && other.getPopupURL() == null)
-						|| (this.popupURL != null && this.popupURL.equals(other.getPopupURL())))
-				&& ((this.BRDExpression == null && other.getBRDExpression() == null)
-						|| (this.BRDExpression != null && this.BRDExpression.equals(other.getBRDExpression())))
-				&& ((this.joinMetadata == null && other.getJoinMetadata() == null)
-						|| (this.joinMetadata != null && this.joinMetadata.equals(other.getJoinMetadata())))
-				&& ((this.boundDataColumnList == null && other.getBoundDataColumnList() == null)
-						|| (this.boundDataColumnList != null
-								&& this.boundDataColumnList.equals(other.getBoundDataColumnList())))
-				&& ((this.IOInfoList == null && other.getIOInfoList() == null)
-						|| (this.IOInfoList != null && this.IOInfoList.equals(other.getIOInfoList())))
-				&& ((this.tableColContextMenu == null && other.getTableColContextMenu() == null)
-						|| (this.tableColContextMenu != null
-								&& this.tableColContextMenu.equals(other.getTableColContextMenu())))
-				&& ((this.tableSectContextMenu == null && other.getTableSectContextMenu() == null)
-						|| (this.tableSectContextMenu != null
-								&& this.tableSectContextMenu.equals(other.getTableSectContextMenu())))
-				&& ((this.tableContextMenu == null && other.getTableContextMenu() == null)
-						|| (this.tableContextMenu != null && this.tableContextMenu.equals(other.getTableContextMenu())))
-				&& ((this.confirmation == null && other.getConfirmation() == null)
-						|| (this.confirmation != null && this.confirmation.equals(other.getConfirmation())))
-				&& ((this.tableLayoutList == null && other.getTableLayoutList() == null)
-						|| (this.tableLayoutList != null && this.tableLayoutList.equals(other.getTableLayoutList())))
-				&& ((this.availableOperation == null && other.getAvailableOperation() == null)
-						|| (this.availableOperation != null
-								&& this.availableOperation.equals(other.getAvailableOperation())))
-				&& ((this.sortDefinitionList == null && other.getSortDefinitionList() == null)
-						|| (this.sortDefinitionList != null
-								&& this.sortDefinitionList.equals(other.getSortDefinitionList())));
-		__equalsCalc = null;
-		return _equals;
+		if (!(o instanceof Data))
+			return false;
+		Data data = (Data) o;
+		return Objects.equals(font, data.font) && Objects.equals(resultSets, data.resultSets)
+				&& Objects.equals(format, data.format) && Objects.equals(TOC, data.TOC)
+				&& Objects.equals(export, data.export) && Objects.equals(cascadeParameter, data.cascadeParameter)
+				&& Objects.equals(filter, data.filter) && Objects.equals(filterList, data.filterList)
+				&& Objects.equals(columnValues, data.columnValues) && Objects.equals(page, data.page)
+				&& Objects.equals(dataSets, data.dataSets) && Objects.equals(reportElementList, data.reportElementList)
+				&& Objects.equals(themes, data.themes) && Objects.equals(columnDefs, data.columnDefs)
+				&& Objects.equals(groupDetail, data.groupDetail) && Objects.equals(cellDef, data.cellDef)
+				&& Objects.equals(sectionDef, data.sectionDef) && Objects.equals(chart, data.chart)
+				&& Objects.equals(labelText, data.labelText) && Objects.equals(fileBrowsing, data.fileBrowsing)
+				&& Objects.equals(dataSources, data.dataSources) && Objects.equals(bindingList, data.bindingList)
+				&& Objects.equals(dataSetDef, data.dataSetDef) && Objects.equals(dataSetsToUse, data.dataSetsToUse)
+				&& Objects.equals(designState, data.designState) && Objects.equals(toolbarState, data.toolbarState)
+				&& Objects.equals(redirectURL, data.redirectURL) && Objects.equals(popupURL, data.popupURL)
+				&& Objects.equals(BRDExpression, data.BRDExpression) && Objects.equals(joinMetadata, data.joinMetadata)
+				&& Objects.equals(boundDataColumnList, data.boundDataColumnList)
+				&& Objects.equals(IOInfoList, data.IOInfoList)
+				&& Objects.equals(tableColContextMenu, data.tableColContextMenu)
+				&& Objects.equals(tableSectContextMenu, data.tableSectContextMenu)
+				&& Objects.equals(tableContextMenu, data.tableContextMenu)
+				&& Objects.equals(confirmation, data.confirmation)
+				&& Objects.equals(tableLayoutList, data.tableLayoutList)
+				&& Objects.equals(availableOperation, data.availableOperation)
+				&& Objects.equals(sortDefinitionList, data.sortDefinitionList);
 	}
-
-	private boolean __hashCodeCalc = false;
 
 	@Override
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = 1;
-		if (getFont() != null) {
-			_hashCode += getFont().hashCode();
-		}
-		if (getResultSets() != null) {
-			_hashCode += getResultSets().hashCode();
-		}
-		if (getFormat() != null) {
-			_hashCode += getFormat().hashCode();
-		}
-		if (getTOC() != null) {
-			_hashCode += getTOC().hashCode();
-		}
-		if (getExport() != null) {
-			_hashCode += getExport().hashCode();
-		}
-		if (getCascadeParameter() != null) {
-			_hashCode += getCascadeParameter().hashCode();
-		}
-		if (getFilter() != null) {
-			_hashCode += getFilter().hashCode();
-		}
-		if (getFilterList() != null) {
-			_hashCode += getFilterList().hashCode();
-		}
-		if (getColumnValues() != null) {
-			_hashCode += getColumnValues().hashCode();
-		}
-		if (getPage() != null) {
-			_hashCode += getPage().hashCode();
-		}
-		if (getDataSets() != null) {
-			_hashCode += getDataSets().hashCode();
-		}
-		if (getReportElementList() != null) {
-			_hashCode += getReportElementList().hashCode();
-		}
-		if (getThemes() != null) {
-			_hashCode += getThemes().hashCode();
-		}
-		if (getColumnDefs() != null) {
-			_hashCode += getColumnDefs().hashCode();
-		}
-		if (getGroupDetail() != null) {
-			_hashCode += getGroupDetail().hashCode();
-		}
-		if (getCellDef() != null) {
-			_hashCode += getCellDef().hashCode();
-		}
-		if (getSectionDef() != null) {
-			_hashCode += getSectionDef().hashCode();
-		}
-		if (getChart() != null) {
-			_hashCode += getChart().hashCode();
-		}
-		if (getLabelText() != null) {
-			_hashCode += getLabelText().hashCode();
-		}
-		if (getFileBrowsing() != null) {
-			_hashCode += getFileBrowsing().hashCode();
-		}
-		if (getDataSources() != null) {
-			_hashCode += getDataSources().hashCode();
-		}
-		if (getBindingList() != null) {
-			_hashCode += getBindingList().hashCode();
-		}
-		if (getDataSetDef() != null) {
-			_hashCode += getDataSetDef().hashCode();
-		}
-		if (getDataSetsToUse() != null) {
-			_hashCode += getDataSetsToUse().hashCode();
-		}
-		if (getDesignState() != null) {
-			_hashCode += getDesignState().hashCode();
-		}
-		if (getToolbarState() != null) {
-			_hashCode += getToolbarState().hashCode();
-		}
-		if (getRedirectURL() != null) {
-			_hashCode += getRedirectURL().hashCode();
-		}
-		if (getPopupURL() != null) {
-			_hashCode += getPopupURL().hashCode();
-		}
-		if (getBRDExpression() != null) {
-			_hashCode += getBRDExpression().hashCode();
-		}
-		if (getJoinMetadata() != null) {
-			_hashCode += getJoinMetadata().hashCode();
-		}
-		if (getBoundDataColumnList() != null) {
-			_hashCode += getBoundDataColumnList().hashCode();
-		}
-		if (getIOInfoList() != null) {
-			_hashCode += getIOInfoList().hashCode();
-		}
-		if (getTableColContextMenu() != null) {
-			_hashCode += getTableColContextMenu().hashCode();
-		}
-		if (getTableSectContextMenu() != null) {
-			_hashCode += getTableSectContextMenu().hashCode();
-		}
-		if (getTableContextMenu() != null) {
-			_hashCode += getTableContextMenu().hashCode();
-		}
-		if (getConfirmation() != null) {
-			_hashCode += getConfirmation().hashCode();
-		}
-		if (getTableLayoutList() != null) {
-			_hashCode += getTableLayoutList().hashCode();
-		}
-		if (getAvailableOperation() != null) {
-			_hashCode += getAvailableOperation().hashCode();
-		}
-		if (getSortDefinitionList() != null) {
-			_hashCode += getSortDefinitionList().hashCode();
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
+	public int hashCode() {
+		return Objects.hash(font, resultSets, format, TOC, export, cascadeParameter, filter, filterList, columnValues,
+				page, dataSets, reportElementList, themes, columnDefs, groupDetail, cellDef, sectionDef, chart,
+				labelText, fileBrowsing, dataSources, bindingList, dataSetDef, dataSetsToUse, designState, toolbarState,
+				redirectURL, popupURL, BRDExpression, joinMetadata, boundDataColumnList, IOInfoList,
+				tableColContextMenu, tableSectContextMenu, tableContextMenu, confirmation, tableLayoutList,
+				availableOperation, sortDefinitionList);
 	}
-
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(Data.class,
-			true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Data"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("font");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Font"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Font"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("resultSets");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ResultSets"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("format");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Format"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("TOC");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TOC"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("export");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Export"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("cascadeParameter");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CascadeParameter"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("filter");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Filter"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("filterList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FilterList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("columnValues");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnValues"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Vector"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("page");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Page"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("dataSets");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSets"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("reportElementList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ReportElementList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("themes");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Themes"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ThemeList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("columnDefs");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefs"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ColumnDefinitionGroup"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("groupDetail");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupDetail"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "GroupDetail"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("cellDef");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CellDef"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CellDefinition"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("sectionDef");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SectionDef"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SectionDefinition"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("chart");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Chart"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartProperties"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("labelText");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "LabelText"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("fileBrowsing");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileBrowsing"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "FileBrowsing"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("dataSources");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSources"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSourceList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("bindingList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BindingList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("dataSetDef");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetDef"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("dataSetsToUse");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetsToUse"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("designState");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DesignState"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DesignState"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("toolbarState");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ToolbarState"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ToolbarState"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("redirectURL");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RedirectURL"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("popupURL");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "PopupURL"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("BRDExpression");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BRDExpression"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BRDExpression"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("joinMetadata");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinMetadata"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinMetadata"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("boundDataColumnList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("IOInfoList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOInfoList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("tableColContextMenu");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenu"));
-		elemField.setXmlType(
-				new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableColContextMenuState"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("tableSectContextMenu");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectContextMenu"));
-		elemField.setXmlType(
-				new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectionContextMenuState"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("tableContextMenu");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableContextMenu"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableContextMenuState"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("confirmation");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Confirmation"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("tableLayoutList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableLayoutList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("availableOperation");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "AvailableOperation"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("sortDefinitionList");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SortDefinitionList"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
 }

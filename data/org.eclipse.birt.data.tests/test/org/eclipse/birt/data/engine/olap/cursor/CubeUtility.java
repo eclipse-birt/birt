@@ -18,11 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -53,6 +48,10 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  * Define one cube sample

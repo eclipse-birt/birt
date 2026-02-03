@@ -17,11 +17,6 @@ package org.eclipse.birt.data.engine.olap.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -37,6 +32,10 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.junit.Test;
 
 import testutil.BaseTestCase;

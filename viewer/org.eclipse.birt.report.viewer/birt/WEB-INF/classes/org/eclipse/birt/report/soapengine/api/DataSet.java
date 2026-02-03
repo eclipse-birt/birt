@@ -19,15 +19,30 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "DataSet")
+@XmlAccessorType(XmlAccessType.NONE)
 public class DataSet implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	@XmlElement(name = "Id")
 	private long id;
+	@XmlElement(name = "Name")
 	private java.lang.String name;
+	@XmlElement(name = "DisplayName")
 	private java.lang.String displayName;
+	@XmlElement(name = "Description")
 	private java.lang.String description;
+	@XmlElement(name = "IsDeletable")
 	private boolean isDeletable;
+	@XmlElement(name = "IsModifiable")
 	private boolean isModifiable;
+	@XmlElement(name = "Definition")
 	private org.eclipse.birt.report.soapengine.api.DataSetDefinition definition;
+	@XmlElement(name = "DataSource")
 	private org.eclipse.birt.report.soapengine.api.DataSource dataSource;
 
 	public DataSet() {
@@ -257,88 +272,4 @@ public class DataSet implements java.io.Serializable {
 		return _hashCode;
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			DataSet.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSet"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("id");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Id"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("name");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("displayName");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DisplayName"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("description");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Description"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("isDeletable");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IsDeletable"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("isModifiable");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IsModifiable"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("definition");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Definition"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSetDefinition"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("dataSource");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSource"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "DataSource"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
-}

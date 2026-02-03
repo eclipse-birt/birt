@@ -21,10 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
-import javax.olap.cursor.RowDataNavigation;
-
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
@@ -43,6 +39,9 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
+import org.eclipse.birt.olap.cursor.RowDataNavigation;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
 /**

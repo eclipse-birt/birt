@@ -19,10 +19,20 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "JoinDefinition")
+@XmlAccessorType(XmlAccessType.NONE)
 public class JoinDefinition implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	@XmlElement(name = "leftIO")
 	private org.eclipse.birt.report.soapengine.api.IOReference leftIO;
+	@XmlElement(name = "rightIO")
 	private org.eclipse.birt.report.soapengine.api.IOReference rightIO;
+	@XmlElement(name = "joinConditions")
 	private org.eclipse.birt.report.soapengine.api.JoinCondition[] joinConditions;
 
 	public JoinDefinition() {
@@ -153,56 +163,6 @@ public class JoinDefinition implements java.io.Serializable {
 		}
 		__hashCodeCalc = false;
 		return _hashCode;
-	}
-
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			JoinDefinition.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinDefinition"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("leftIO");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "LeftIO"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOReference"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("rightIO");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "RightIO"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "IOReference"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("joinConditions");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinConditions"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "JoinCondition"));
-		elemField.setNillable(false);
-		elemField.setMaxOccursUnbounded(true);
-		typeDesc.addFieldDesc(elemField);
-	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 
 }

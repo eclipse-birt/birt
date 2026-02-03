@@ -19,17 +19,29 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "TableSectionContextMenuState")
+@XmlAccessorType(XmlAccessType.NONE)
 public class TableSectionContextMenuState implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/** Can insert a chart in this section */
+	@XmlElement(name = "canAddChart")
 	private boolean canAddChart;
 	/** Can edit a chart in this section */
+	@XmlElement(name = "canEditChart")
 	private boolean canEditChart;
 	/** Can delete a chart in this section */
+	@XmlElement(name = "canDeleteChart")
 	private boolean canDeleteChart;
 	/** Can expand a section */
+	@XmlElement(name = "canExpand")
 	private boolean canExpand;
 	/** Can collapse a section */
+	@XmlElement(name = "canCollapse")
 	private boolean canCollapse;
 
 	public TableSectionContextMenuState() {
@@ -178,66 +190,4 @@ public class TableSectionContextMenuState implements java.io.Serializable {
 		return _hashCode;
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			TableSectionContextMenuState.class, true);
-
-	static {
-		typeDesc.setXmlType(
-				new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "TableSectionContextMenuState"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("canAddChart");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanAddChart"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("canEditChart");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanEditChart"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("canDeleteChart");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanDeleteChart"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("canExpand");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanExpand"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("canCollapse");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CanCollapse"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
-}

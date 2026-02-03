@@ -15,13 +15,12 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -72,10 +71,9 @@ public abstract class AbstractChangeParameterActionHandler extends AbstractBaseA
 				pageNumber = getReportService().getPageNumberByBookmark(docName, bookmark, options);
 
 				if (!isValidPageNumber(context.getRequest(), pageNumber, docName)) {
-					AxisFault fault = new AxisFault();
-					fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
+					throw new ViewerException(
+							BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_BOOKMARK,
 							new String[] { getBookmark(operation.getOprand(), attrBean) }));
-					throw fault;
 				}
 				useBookmark = true;
 			}
@@ -127,23 +125,17 @@ public abstract class AbstractChangeParameterActionHandler extends AbstractBaseA
 					try {
 						pageNumber = Integer.parseInt(params[i].getValue());
 					} catch (NumberFormatException e) {
-						AxisFault fault = new AxisFault();
-						fault.setFaultCode(new QName("DocumentProcessor.getPageNumber( )")); //$NON-NLS-1$
-						fault.setFaultString(
+						throw new ReportServiceException(
 								BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_PAGE_NUMBER_PARSE_ERROR,
 										new Object[] { params[i].getValue() }));
-						throw fault;
 					}
 					InputOptions options = new InputOptions();
 					options.setOption(InputOptions.OPT_REQUEST, request);
 					long totalPageNumber = getReportService().getPageCount(documentName, options, new OutputOptions());
 					if (pageNumber <= 0 || pageNumber > totalPageNumber) {
-						AxisFault fault = new AxisFault();
-						fault.setFaultCode(new QName("DocumentProcessor.getPageNumber( )")); //$NON-NLS-1$
-						fault.setFaultString(
+						throw new ReportServiceException(
 								BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 										new Object[] { Long.valueOf(pageNumber), Long.valueOf(totalPageNumber) }));
-						throw fault;
 					}
 
 					break;

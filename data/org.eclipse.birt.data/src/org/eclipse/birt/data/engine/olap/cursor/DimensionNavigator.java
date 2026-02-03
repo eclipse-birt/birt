@@ -16,9 +16,8 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  * A dimensionNavigator maintains a cursor pointing to the dimension result set

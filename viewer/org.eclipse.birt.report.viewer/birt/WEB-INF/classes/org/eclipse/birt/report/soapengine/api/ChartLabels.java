@@ -1,205 +1,87 @@
-/*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   See git history
- *******************************************************************************/
-/**
- * ChartLabels.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
- */
-
 package org.eclipse.birt.report.soapengine.api;
 
-public class ChartLabels implements java.io.Serializable {
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "ChartLabels")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ChartLabels implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private java.lang.String title;
-	private java.lang.String XAxis;
-	private java.lang.String[] YAxis;
+	@XmlElement(name = "Title")
+	private String title;
+	@XmlElement(name = "XAxis")
+	private String XAxis;
+	@XmlElement(name = "YAxis")
+	private String[] YAxis;
 
 	public ChartLabels() {
 	}
 
-	public ChartLabels(java.lang.String title, java.lang.String XAxis, java.lang.String[] YAxis) {
+	public ChartLabels(String title, String XAxis, String[] YAxis) {
 		this.title = title;
 		this.XAxis = XAxis;
 		this.YAxis = YAxis;
 	}
 
-	/**
-	 * Gets the title value for this ChartLabels.
-	 *
-	 * @return title
-	 */
-	public java.lang.String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	/**
-	 * Sets the title value for this ChartLabels.
-	 *
-	 * @param title
-	 */
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	/**
-	 * Gets the XAxis value for this ChartLabels.
-	 *
-	 * @return XAxis
-	 */
-	public java.lang.String getXAxis() {
+	public String getXAxis() {
 		return XAxis;
 	}
 
-	/**
-	 * Sets the XAxis value for this ChartLabels.
-	 *
-	 * @param XAxis
-	 */
-	public void setXAxis(java.lang.String XAxis) {
+	public void setXAxis(String XAxis) {
 		this.XAxis = XAxis;
 	}
 
-	/**
-	 * Gets the YAxis value for this ChartLabels.
-	 *
-	 * @return YAxis
-	 */
-	public java.lang.String[] getYAxis() {
+	public String[] getYAxis() {
 		return YAxis;
 	}
 
-	/**
-	 * Sets the YAxis value for this ChartLabels.
-	 *
-	 * @param YAxis
-	 */
-	public void setYAxis(java.lang.String[] YAxis) {
+	public void setYAxis(String[] YAxis) {
 		this.YAxis = YAxis;
 	}
 
-	public java.lang.String getYAxis(int i) {
-		return this.YAxis[i];
+	public String getYAxis(int index) {
+		return YAxis[index];
 	}
 
-	public void setYAxis(int i, java.lang.String _value) {
-		this.YAxis[i] = _value;
+	public void setYAxis(int index, String value) {
+		YAxis[index] = value;
 	}
-
-	private java.lang.Object __equalsCalc = null;
 
 	@Override
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ChartLabels)) {
-			return false;
-		}
-		ChartLabels other = (ChartLabels) obj;
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = true
-				&& ((this.title == null && other.getTitle() == null)
-						|| (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.XAxis == null && other.getXAxis() == null)
-						|| (this.XAxis != null && this.XAxis.equals(other.getXAxis())))
-				&& ((this.YAxis == null && other.getYAxis() == null)
-						|| (this.YAxis != null && java.util.Arrays.equals(this.YAxis, other.getYAxis())));
-		__equalsCalc = null;
-		return _equals;
+		if (!(o instanceof ChartLabels))
+			return false;
+		ChartLabels that = (ChartLabels) o;
+		return Objects.equals(title, that.title) && Objects.equals(XAxis, that.XAxis)
+				&& Arrays.equals(YAxis, that.YAxis);
 	}
-
-	private boolean __hashCodeCalc = false;
 
 	@Override
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = 1;
-		if (getTitle() != null) {
-			_hashCode += getTitle().hashCode();
-		}
-		if (getXAxis() != null) {
-			_hashCode += getXAxis().hashCode();
-		}
-		if (getYAxis() != null) {
-			for (int i = 0; i < java.lang.reflect.Array.getLength(getYAxis()); i++) {
-				java.lang.Object obj = java.lang.reflect.Array.get(getYAxis(), i);
-				if (obj != null && !obj.getClass().isArray()) {
-					_hashCode += obj.hashCode();
-				}
-			}
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
+	public int hashCode() {
+		int result = Objects.hash(title, XAxis);
+		result = 31 * result + Arrays.hashCode(YAxis);
+		return result;
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			ChartLabels.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartLabels"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("title");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Title"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("XAxis");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "X-axis"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("YAxis");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Y-axis"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
+	@Override
+	public String toString() {
+		return "ChartLabels{" + "title='" + title + '\'' + ", XAxis='" + XAxis + '\'' + ", YAxis="
+				+ Arrays.toString(YAxis) + '}';
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
 }

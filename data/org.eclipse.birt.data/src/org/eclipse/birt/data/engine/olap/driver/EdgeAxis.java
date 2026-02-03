@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor;
@@ -28,6 +26,7 @@ import org.eclipse.birt.data.engine.olap.cursor.SubRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  *

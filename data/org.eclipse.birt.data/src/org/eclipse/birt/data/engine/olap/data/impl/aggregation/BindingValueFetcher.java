@@ -19,16 +19,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationRowAccessor;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  * This class is used to fetch binding values from cube cursor

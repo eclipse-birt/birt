@@ -14,10 +14,9 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 
 public interface ICubeResultSet extends IBaseResultSet {
 

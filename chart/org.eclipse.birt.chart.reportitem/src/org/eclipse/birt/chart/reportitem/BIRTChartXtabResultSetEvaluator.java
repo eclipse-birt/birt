@@ -16,15 +16,14 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;

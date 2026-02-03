@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -46,6 +43,8 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutorHints;
 import org.eclipse.birt.data.engine.olap.impl.query.IPreparedCubeOperation;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.mozilla.javascript.Scriptable;
 
 /**

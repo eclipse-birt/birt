@@ -81,7 +81,6 @@
 			<fileset dir="${PRODUCT_DIR}/plugins">
 				<include name="org.apache.commons.cli_*.jar" />
 				<include name="org.apache.commons.commons-codec_*.jar" />
-				<include name="org.eclipse.birt.axis.overlay_*.jar" />
 				<include name="org.eclipse.emf.common_*.jar" />
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 				<include name="org.eclipse.emf.ecore_*.jar" />
@@ -90,7 +89,7 @@
 				-->
 				<include name="org.w3c.css.sac_*.jar" />
 				<include name="com.ibm.icu_*.jar" />
-				<include name="javax*.jar" />
+				<include name="jakarta*.jar" />
 			</fileset>
 		</copy>
 	</target>

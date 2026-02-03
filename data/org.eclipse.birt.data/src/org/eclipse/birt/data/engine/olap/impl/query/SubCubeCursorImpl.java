@@ -16,14 +16,13 @@
  */
 package org.eclipse.birt.data.engine.olap.impl.query;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.mozilla.javascript.Scriptable;
 
 public class SubCubeCursorImpl extends CubeCursorImpl {

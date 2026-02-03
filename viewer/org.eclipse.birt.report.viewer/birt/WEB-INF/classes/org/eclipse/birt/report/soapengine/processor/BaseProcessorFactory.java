@@ -16,8 +16,11 @@ package org.eclipse.birt.report.soapengine.processor;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
+import org.eclipse.birt.report.soapengine.endpoint.BirtSoapException;
+
+import jakarta.xml.bind.MarshalException;
+import jakarta.xml.bind.ValidationException;
 
 /**
  * Processor factory class.
@@ -38,7 +41,7 @@ public class BaseProcessorFactory implements IProcessorFactory {
 	 * @throws UnsupportedEncodingException
 	 * @throws FileNotFoundException
 	 */
-	public static synchronized IProcessorFactory getInstance() throws AxisFault {
+	public static synchronized IProcessorFactory getInstance() throws BirtSoapException {
 		if (instance != null) {
 			return instance;
 		}
@@ -67,15 +70,15 @@ public class BaseProcessorFactory implements IProcessorFactory {
 	 * @throws FileNotFoundException
 	 */
 	@Override
-	public void init() throws AxisFault {
+	public void init() throws BirtSoapException {
 	}
 
 	@Override
 	public IComponentProcessor createProcessor(String category, ReportIdType component) {
 		if (component != null) {
-			if (ReportIdType._Document.equalsIgnoreCase(component.getValue())) {
+			if (ReportIdType.Document.equals(component)) {
 				return new BirtDocumentProcessor();
-			} else if (ReportIdType._Table.equalsIgnoreCase(component.getValue())) {
+			} else if (ReportIdType.Table.equals(component)) {
 				return new BirtTableProcessor();
 			}
 		}

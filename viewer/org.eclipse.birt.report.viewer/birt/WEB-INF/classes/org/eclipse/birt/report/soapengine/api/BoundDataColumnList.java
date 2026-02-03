@@ -1,145 +1,66 @@
-/*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   See git history
- *******************************************************************************/
-/**
- * BoundDataColumnList.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
- */
-
 package org.eclipse.birt.report.soapengine.api;
 
-public class BoundDataColumnList implements java.io.Serializable {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "BoundDataColumnList")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class BoundDataColumnList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumn;
+	@XmlElement(name = "BoundDataColumn")
+	private List<BoundDataColumn> boundDataColumns = new ArrayList<>();
 
 	public BoundDataColumnList() {
 	}
 
-	public BoundDataColumnList(org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumn) {
-		this.boundDataColumn = boundDataColumn;
+	public BoundDataColumnList(List<BoundDataColumn> boundDataColumns) {
+		this.boundDataColumns = boundDataColumns;
 	}
 
-	/**
-	 * Gets the boundDataColumn value for this BoundDataColumnList.
-	 *
-	 * @return boundDataColumn
-	 */
-	public org.eclipse.birt.report.soapengine.api.BoundDataColumn[] getBoundDataColumn() {
-		return boundDataColumn;
+	public List<BoundDataColumn> getBoundDataColumns() {
+		return boundDataColumns;
 	}
 
-	/**
-	 * Sets the boundDataColumn value for this BoundDataColumnList.
-	 *
-	 * @param boundDataColumn
-	 */
-	public void setBoundDataColumn(org.eclipse.birt.report.soapengine.api.BoundDataColumn[] boundDataColumn) {
-		this.boundDataColumn = boundDataColumn;
+	public void setBoundDataColumns(List<BoundDataColumn> boundDataColumns) {
+		this.boundDataColumns = boundDataColumns;
 	}
 
-	public org.eclipse.birt.report.soapengine.api.BoundDataColumn getBoundDataColumn(int i) {
-		return this.boundDataColumn[i];
+	public void addBoundDataColumn(BoundDataColumn column) {
+		this.boundDataColumns.add(column);
 	}
 
-	public void setBoundDataColumn(int i, org.eclipse.birt.report.soapengine.api.BoundDataColumn _value) {
-		this.boundDataColumn[i] = _value;
+	public BoundDataColumn get(int index) {
+		return this.boundDataColumns.get(index);
 	}
 
-	private java.lang.Object __equalsCalc = null;
+	public void set(int index, BoundDataColumn column) {
+		this.boundDataColumns.set(index, column);
+	}
 
 	@Override
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof BoundDataColumnList)) {
-			return false;
-		}
-		BoundDataColumnList other = (BoundDataColumnList) obj;
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = true && ((this.boundDataColumn == null && other.getBoundDataColumn() == null)
-				|| (this.boundDataColumn != null
-						&& java.util.Arrays.equals(this.boundDataColumn, other.getBoundDataColumn())));
-		__equalsCalc = null;
-		return _equals;
+		if (!(o instanceof BoundDataColumnList))
+			return false;
+		BoundDataColumnList that = (BoundDataColumnList) o;
+		return Objects.equals(boundDataColumns, that.boundDataColumns);
 	}
-
-	private boolean __hashCodeCalc = false;
 
 	@Override
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = 1;
-		if (getBoundDataColumn() != null) {
-			for (int i = 0; i < java.lang.reflect.Array.getLength(getBoundDataColumn()); i++) {
-				java.lang.Object obj = java.lang.reflect.Array.get(getBoundDataColumn(), i);
-				if (obj != null && !obj.getClass().isArray()) {
-					_hashCode += obj.hashCode();
-				}
-			}
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
+	public int hashCode() {
+		return Objects.hash(boundDataColumns);
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			BoundDataColumnList.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumnList"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("boundDataColumn");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "BoundDataColumn"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		elemField.setMaxOccursUnbounded(true);
-		typeDesc.addFieldDesc(elemField);
+	@Override
+	public String toString() {
+		return "BoundDataColumnList{" + "boundDataColumns=" + boundDataColumns + '}';
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
 }

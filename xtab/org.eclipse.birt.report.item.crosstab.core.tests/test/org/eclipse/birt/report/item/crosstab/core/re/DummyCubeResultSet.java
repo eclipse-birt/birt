@@ -18,13 +18,12 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;

@@ -1,0 +1,81 @@
+# ------------------------------------------------------------
+# Stage 1: build CBI Aggregator from Git (HEAD)
+# ------------------------------------------------------------
+FROM maven:3.9.9-eclipse-temurin-21 AS cbi-build
+
+WORKDIR /build
+
+# clone CBI Aggregator
+RUN git clone https://github.com/eclipse-cbi/p2repo-aggregator.git
+
+WORKDIR /build/p2repo-aggregator/releng/org.eclipse.cbi.p2repo.releng.parent
+
+# create Maven toolchains for Tycho
+RUN mkdir -p /root/.m2 && \
+    cat <<EOF > /root/.m2/toolchains.xml
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>17</version>
+      <vendor>temurin</vendor>
+    </provides>
+    <configuration>
+      <jdkHome>/opt/java/openjdk</jdkHome>
+    </configuration>
+  </toolchain>
+</toolchains>
+EOF
+
+# build CLI product
+RUN mvn -B -Pproduct -DskipTests package
+
+# ------------------------------------------------------------
+# Stage 2: runtime image (headless)
+# ------------------------------------------------------------
+
+
+FROM eclipse-temurin:21-jdk-jammy
+
+ENV AGGR_HOME=/opt/cbiAggr
+ENV WORKSPACE=/workspace
+
+# ------------------------------------------------------------
+# System deps
+# ------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    curl \
+    tar \
+    ca-certificates \
+    bash \
+    sed \
+    && rm -rf /var/lib/apt/lists/*
+
+# ------------------------------------------------------------
+# Install CBI Aggregator CLI (official nightly product)
+# ------------------------------------------------------------
+	ENV AGGR_HOME=/opt/cbiAggr
+
+# without build 
+# RUN mkdir -p /opt && \
+#    curl -L https://download.eclipse.org/cbi/updates/p2-aggregator/products/nightly/latest/org.eclipse.cbi.p2repo.cli.product-linux.gtk.x86_64.tar.gz \
+#    | tar -xzf - -C /opt
+
+	
+	# copy built product
+	COPY --from=cbi-build \
+	  /build/p2repo-aggregator/products/org.eclipse.cbi.p2repo.cli.product/target/products/org.eclipse.cbi.p2repo.cli.product-linux.gtk.x86_64.tar.gz \
+	  /tmp
+	
+	RUN mkdir -p /opt && \		
+	  tar  -xzf /tmp/org.eclipse.cbi.p2repo.cli.product-linux.gtk.x86_64.tar.gz -C /opt	
+# ------------------------------------------------------------
+# Workspace
+# ------------------------------------------------------------
+WORKDIR ${WORKSPACE}
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

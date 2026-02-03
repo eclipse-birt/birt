@@ -17,9 +17,6 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -32,6 +29,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
 /**

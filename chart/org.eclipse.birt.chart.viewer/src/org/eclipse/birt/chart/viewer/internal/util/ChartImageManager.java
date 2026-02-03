@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,9 +25,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
@@ -51,9 +48,12 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * Class for managing image resources, including generating and disposing.
- * 
+ *
  */
 public class ChartImageManager
 {
@@ -353,7 +353,7 @@ public class ChartImageManager
 
 	/**
 	 * Clear the temporary files when session is expired
-	 * 
+	 *
 	 * @param id
 	 *            session id
 	 * @param context
@@ -416,7 +416,7 @@ public class ChartImageManager
 	 * Process folder settings with absolute path. If path is a relative path,
 	 * first relative to context. If set canWrite to true, then check the folder
 	 * if writable.If not, relative to ${java.io.tmpdir} folder.
-	 * 
+	 *
 	 * @param context
 	 * @param path
 	 * @param defaultPath
@@ -469,7 +469,7 @@ public class ChartImageManager
 
 	/**
 	 * Returns real path relative to context
-	 * 
+	 *
 	 * @param path
 	 * @param context
 	 * @return
@@ -501,7 +501,7 @@ public class ChartImageManager
 
 	/**
 	 * Trim the end separator
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -518,7 +518,7 @@ public class ChartImageManager
 
 	/**
 	 * Returns trim string, not null
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -532,7 +532,7 @@ public class ChartImageManager
 
 	/**
 	 * Make directory
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */

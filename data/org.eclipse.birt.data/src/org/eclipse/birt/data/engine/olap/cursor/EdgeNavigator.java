@@ -18,10 +18,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  *

@@ -263,10 +263,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.birt.axis.overlay"
-         version="0.0.0"/>
-
-   <plugin
          id="uk.co.spudsoft.birt.emitters.excel"
          version="0.0.0"/>
 

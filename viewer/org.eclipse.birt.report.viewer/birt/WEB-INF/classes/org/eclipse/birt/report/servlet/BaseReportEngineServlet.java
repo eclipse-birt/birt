@@ -15,30 +15,28 @@ package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
-import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.session.IViewingSession;
 import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-abstract public class BaseReportEngineServlet extends AxisServlet {
+/**
+ * Jakarta-compatible BaseReportEngineServlet (Axis-free).
+ */
+public abstract class BaseReportEngineServlet extends HttpServlet {
 
-	/**
-	 * TODO: what's this?
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,22 +48,18 @@ abstract public class BaseReportEngineServlet extends AxisServlet {
 	 * Viewer fragment references.
 	 */
 	protected IFragment engine = null;
-
 	protected IFragment requester = null;
 
-	/**
-	 * Abstract methods.
-	 */
-	abstract protected void __init(ServletConfig config);
+	protected abstract void __init(ServletConfig config);
 
-	abstract protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response);
+	protected abstract boolean __authenticate(HttpServletRequest request, HttpServletResponse response);
 
-	abstract protected IContext __getContext(HttpServletRequest request, HttpServletResponse response)
+	protected abstract IContext __getContext(HttpServletRequest request, HttpServletResponse response)
 			throws BirtException;
 
-	abstract protected void __doGet(IContext context) throws ServletException, IOException, BirtException;
+	protected abstract void __doGet(IContext context) throws ServletException, IOException, BirtException;
 
-	abstract protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
+	protected abstract void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
 			Exception exception) throws ServletException, IOException;
 
 	/**
@@ -86,30 +80,23 @@ abstract public class BaseReportEngineServlet extends AxisServlet {
 	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		// Workaround for using axis bundle
-		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-
 		super.init(config);
 		ParameterAccessor.initParameters(config);
 		BirtResources.setLocale(ParameterAccessor.getWebAppLocale());
 		__init(config);
 	}
 
+
 	/**
-	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.ServletRequest,
+	 *      jakarta.servlet.ServletResponse)
 	 */
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		// TODO: since eclipse Jetty doesn't support filter, set it here for
-		// workaround
 		if (req.getCharacterEncoding() == null) {
 			req.setCharacterEncoding(IBirtConstants.DEFAULT_ENCODE);
 		}
-
-		// workaround for Jetty
-		req.setAttribute("ServletPath", ((HttpServletRequest) req).getServletPath()); //$NON-NLS-1$
-
+		req.setAttribute("ServletPath", ((HttpServletRequest) req).getServletPath());
 		super.service(req, res);
 	}
 
@@ -129,53 +116,27 @@ abstract public class BaseReportEngineServlet extends AxisServlet {
 		}
 
 		try {
-
-			// refresh the current BIRT viewing session by accessing it
-			String requestType = request.getHeader(ParameterAccessor.HEADER_REQUEST_TYPE);
-			boolean isSoapRequest = ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(requestType);
-			// refresh the current BIRT viewing session by accessing it
 			IViewingSession session = ViewingSessionUtil.getSession(request);
-			if (session == null && !isSoapRequest && !ParameterAccessor.isGetImageOperator(request)) {
-				if (ViewingSessionUtil.getSessionId(request) == null) {
-					session = ViewingSessionUtil.createSession(request);
+			if (session == null) {
+				session = ViewingSessionUtil.createSession(request);
+			}
+			session.lock();
+			try {
+				IContext context = __getContext(request, response);
+				if (context.getBean().getException() != null) {
+					__handleNonSoapException(request, response, context.getBean().getException());
 				} else {
-					// if session id passed through the URL, it means this request
-					// was expected to run using a session that has already expired
-					throw new ViewerException(
-							BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
+					__doGet(context);
+				}
+			} finally {
+				session.unlock();
+				if (!session.isLocked() && !__getContext(request, response).getBean().isShowParameterPage()) {
+					session.invalidate();
 				}
 			}
-
-			IContext context = __getContext(request, response);
-
-			if (context.getBean().getException() != null) {
-				__handleNonSoapException(request, response, context.getBean().getException());
-			} else if (session != null) {
-				session.lock();
-				try {
-					if (isSoapRequest) {
-						// Workaround for using axis bundle to invoke SOAP request
-						Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-
-						super.doPost(request, response);
-					} else {
-
-						__doGet(context);
-					}
-				} finally {
-					session.unlock();
-					if (!session.isLocked() && !context.getBean().isShowParameterPage()
-							&& (ParameterAccessor.isServlet(request, IBirtConstants.SERVLET_PATH_DOCUMENT))) {
-						// clean cached files
-						session.invalidate();
-					}
-				}
-			}
-
 		} catch (BirtException e) {
 			__handleNonSoapException(request, response, e);
 		}
-
 	}
 
 	/**

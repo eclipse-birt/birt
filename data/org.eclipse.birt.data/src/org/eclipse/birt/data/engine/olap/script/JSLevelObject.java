@@ -14,12 +14,11 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.script;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.RowDataMetaData;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.RowDataMetaData;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 

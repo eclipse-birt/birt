@@ -7,6 +7,8 @@ Fragment-Host: org.eclipse.birt.report.viewer;bundle-version="2.3.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.birt.report.viewer
 Require-Bundle: org.junit,
- javax.servlet-api;bundle-version="3.1.0"
+ jakarta.servlet-api,
+ org.glassfish.jaxb.runtime;bundle-version="4.0.6",
+ jakarta.xml.bind-api;bundle-version="4.0.4"
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.eclipse.birt.report.viewer.tests

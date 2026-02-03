@@ -17,9 +17,6 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -30,6 +27,8 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.eclipse.birt.report.engine.adapter.CubeUtil;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;

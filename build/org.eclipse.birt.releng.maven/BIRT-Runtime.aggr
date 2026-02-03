@@ -13,7 +13,6 @@
   <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
   <configurations architecture="x86_64"/>
   <mavenMappings namePattern="(org\.eclipse\.datatools)(.*)$" groupId="org.eclipse.birt.dependencies" artifactId="$1$2" snapshot="false"/>
-  <mavenMappings namePattern="(org.apache.axis(.source)?)" groupId="org.eclipse.birt.dependencies" artifactId="$1" snapshot="false"/>
   <mavenMappings namePattern="((?:org\.eclipse|uk\.co\.spudsoft)\.birt)(.*)$" groupId="org.eclipse.birt" artifactId="$1$2" snapshot="false"/>
   <mavenMappings namePattern="(org\.eclipse)((?!(\.emf|\.jetty|\.ecf|\.orbit)).*)$" groupId="$1.platform" artifactId="$1$2" snapshot="false"/>
   <mavenMappings namePattern="org.apache.batik.([^.]+)" groupId="org.apache.xmlgraphics" artifactId="batik-$1" versionPattern="([^.]+)\.([^.]+)\.0(?:\..*)?" versionTemplate="$1.$2"/>

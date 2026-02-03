@@ -16,10 +16,9 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.util.List;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  * This class is to position on dimension cursor.

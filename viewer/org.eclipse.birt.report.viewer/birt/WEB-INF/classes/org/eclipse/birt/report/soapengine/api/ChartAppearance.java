@@ -1,38 +1,33 @@
-/*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   See git history
- *******************************************************************************/
-/**
- * ChartAppearance.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
- */
-
 package org.eclipse.birt.report.soapengine.api;
 
-public class ChartAppearance implements java.io.Serializable {
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "ChartAppearance")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ChartAppearance implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private java.lang.Boolean showLegend;
-	private java.lang.Boolean showValues;
-	private org.eclipse.birt.report.soapengine.api.ChartLocation location;
-	private java.lang.String width;
-	private java.lang.String height;
+	@XmlElement(name = "ShowLegend")
+	private Boolean showLegend;
+	@XmlElement(name = "ShowValues")
+	private Boolean showValues;
+	@XmlElement(name = "Location")
+	private ChartLocation location;
+	@XmlElement(name = "Width")
+	private String width;
+	@XmlElement(name = "Height")
+	private String height;
 
 	public ChartAppearance() {
 	}
 
-	public ChartAppearance(java.lang.Boolean showLegend, java.lang.Boolean showValues,
-			org.eclipse.birt.report.soapengine.api.ChartLocation location, java.lang.String width,
-			java.lang.String height) {
+	public ChartAppearance(Boolean showLegend, Boolean showValues, ChartLocation location, String width,
+			String height) {
 		this.showLegend = showLegend;
 		this.showValues = showValues;
 		this.location = location;
@@ -40,220 +35,66 @@ public class ChartAppearance implements java.io.Serializable {
 		this.height = height;
 	}
 
-	/**
-	 * Gets the showLegend value for this ChartAppearance.
-	 *
-	 * @return showLegend
-	 */
-	public java.lang.Boolean getShowLegend() {
+	public Boolean getShowLegend() {
 		return showLegend;
 	}
 
-	/**
-	 * Sets the showLegend value for this ChartAppearance.
-	 *
-	 * @param showLegend
-	 */
-	public void setShowLegend(java.lang.Boolean showLegend) {
+	public void setShowLegend(Boolean showLegend) {
 		this.showLegend = showLegend;
 	}
 
-	/**
-	 * Gets the showValues value for this ChartAppearance.
-	 *
-	 * @return showValues
-	 */
-	public java.lang.Boolean getShowValues() {
+	public Boolean getShowValues() {
 		return showValues;
 	}
 
-	/**
-	 * Sets the showValues value for this ChartAppearance.
-	 *
-	 * @param showValues
-	 */
-	public void setShowValues(java.lang.Boolean showValues) {
+	public void setShowValues(Boolean showValues) {
 		this.showValues = showValues;
 	}
 
-	/**
-	 * Gets the location value for this ChartAppearance.
-	 *
-	 * @return location
-	 */
-	public org.eclipse.birt.report.soapengine.api.ChartLocation getLocation() {
+	public ChartLocation getLocation() {
 		return location;
 	}
 
-	/**
-	 * Sets the location value for this ChartAppearance.
-	 *
-	 * @param location
-	 */
-	public void setLocation(org.eclipse.birt.report.soapengine.api.ChartLocation location) {
+	public void setLocation(ChartLocation location) {
 		this.location = location;
 	}
 
-	/**
-	 * Gets the width value for this ChartAppearance.
-	 *
-	 * @return width
-	 */
-	public java.lang.String getWidth() {
+	public String getWidth() {
 		return width;
 	}
 
-	/**
-	 * Sets the width value for this ChartAppearance.
-	 *
-	 * @param width
-	 */
-	public void setWidth(java.lang.String width) {
+	public void setWidth(String width) {
 		this.width = width;
 	}
 
-	/**
-	 * Gets the height value for this ChartAppearance.
-	 *
-	 * @return height
-	 */
-	public java.lang.String getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	/**
-	 * Sets the height value for this ChartAppearance.
-	 *
-	 * @param height
-	 */
-	public void setHeight(java.lang.String height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	private java.lang.Object __equalsCalc = null;
-
 	@Override
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ChartAppearance)) {
-			return false;
-		}
-		ChartAppearance other = (ChartAppearance) obj;
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = true
-				&& ((this.showLegend == null && other.getShowLegend() == null)
-						|| (this.showLegend != null && this.showLegend.equals(other.getShowLegend())))
-				&& ((this.showValues == null && other.getShowValues() == null)
-						|| (this.showValues != null && this.showValues.equals(other.getShowValues())))
-				&& ((this.location == null && other.getLocation() == null)
-						|| (this.location != null && this.location.equals(other.getLocation())))
-				&& ((this.width == null && other.getWidth() == null)
-						|| (this.width != null && this.width.equals(other.getWidth())))
-				&& ((this.height == null && other.getHeight() == null)
-						|| (this.height != null && this.height.equals(other.getHeight())));
-		__equalsCalc = null;
-		return _equals;
+		if (!(o instanceof ChartAppearance))
+			return false;
+		ChartAppearance that = (ChartAppearance) o;
+		return Objects.equals(showLegend, that.showLegend) && Objects.equals(showValues, that.showValues)
+				&& Objects.equals(location, that.location) && Objects.equals(width, that.width)
+				&& Objects.equals(height, that.height);
 	}
-
-	private boolean __hashCodeCalc = false;
 
 	@Override
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = 1;
-		if (getShowLegend() != null) {
-			_hashCode += getShowLegend().hashCode();
-		}
-		if (getShowValues() != null) {
-			_hashCode += getShowValues().hashCode();
-		}
-		if (getLocation() != null) {
-			_hashCode += getLocation().hashCode();
-		}
-		if (getWidth() != null) {
-			_hashCode += getWidth().hashCode();
-		}
-		if (getHeight() != null) {
-			_hashCode += getHeight().hashCode();
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
+	public int hashCode() {
+		return Objects.hash(showLegend, showValues, location, width, height);
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			ChartAppearance.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartAppearance"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("showLegend");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ShowLegend"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("showValues");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ShowValues"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("location");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Location"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "ChartLocation"));
-		elemField.setMinOccurs(0);
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("width");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Width"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
-		elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("height");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Height"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-		elemField.setNillable(false);
-		typeDesc.addFieldDesc(elemField);
+	@Override
+	public String toString() {
+		return "ChartAppearance{" + "showLegend=" + showLegend + ", showValues=" + showValues + ", location=" + location
+				+ ", width='" + width + '\'' + ", height='" + height + '\'' + '}';
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
 }

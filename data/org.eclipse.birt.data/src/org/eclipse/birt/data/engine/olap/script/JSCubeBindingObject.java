@@ -14,10 +14,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.script;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.olap.OLAPException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;

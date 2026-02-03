@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
@@ -363,7 +363,7 @@ public class ParameterAccessorTest extends BaseTestCase {
 				generateFileName(request, "pdf")); //$NON-NLS-1$
 		request.removeParameter(ParameterAccessor.PARAM_REPORT);
 		request.removeParameter(IBirtConstants.ATTRIBUTE_BEAN);
-		request.setCharacterEncoding(null);
+		request.setCharacterEncoding((String) null);
 	}
 
 	private String generateFileName(HttpServletRequest request, String format) {

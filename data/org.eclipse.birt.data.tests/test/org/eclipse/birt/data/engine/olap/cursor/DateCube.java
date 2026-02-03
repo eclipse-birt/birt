@@ -17,8 +17,6 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -41,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.olap.OLAPException;
 
 public class DateCube {
 	public static final String cubeName = "DateCube";

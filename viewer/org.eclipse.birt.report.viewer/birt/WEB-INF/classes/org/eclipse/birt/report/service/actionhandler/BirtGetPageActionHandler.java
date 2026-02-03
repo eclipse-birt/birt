@@ -14,8 +14,8 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
+import java.rmi.RemoteException;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -58,17 +58,13 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 
 		file = new File(__docName);
 		if (!file.exists()) {
-			AxisFault fault = new AxisFault();
-			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
-			throw fault;
+			throw new RemoteException(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 		} else {
 			// If document isn't completed, throw Exception
 			BaseAttributeBean bean = (BaseAttributeBean) context.getBean();
 			if (bean.isDocumentProcessing()) {
-				AxisFault fault = new AxisFault();
-				fault.setFaultReason(
+				throw new RemoteException(
 						BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING));
-				throw fault;
 			}
 		}
 	}

@@ -13,9 +13,9 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -98,10 +98,8 @@ public abstract class AbstractQueryExportActionHandler extends AbstractBaseActio
 
 		if (exportedResultSets == null) {
 			// No result sets available
-			AxisFault fault = new AxisFault();
-			fault.setFaultReason(
+			throw new RemoteException(
 					BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET));
-			throw fault;
 		}
 
 		ResultSet[] resultSetArray = getResultSetArray(exportedResultSets);

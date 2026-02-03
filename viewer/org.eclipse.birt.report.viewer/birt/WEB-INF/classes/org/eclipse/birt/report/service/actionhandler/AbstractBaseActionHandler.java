@@ -16,10 +16,6 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
-
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -39,6 +35,8 @@ import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
 import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 abstract public class AbstractBaseActionHandler implements IActionHandler {
 
@@ -127,23 +125,17 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 					try {
 						pageNumber = Integer.parseInt(params[i].getValue());
 					} catch (NumberFormatException e) {
-						AxisFault fault = new AxisFault();
-						fault.setFaultCode(new QName("DocumentProcessor.getPageNumber( )")); //$NON-NLS-1$
-						fault.setFaultString(
+						throw new RemoteException(
 								BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_PAGE_NUMBER_PARSE_ERROR,
 										new Object[] { params[i].getValue() }));
-						throw fault;
 					}
 					InputOptions options = new InputOptions();
 					options.setOption(InputOptions.OPT_REQUEST, request);
 					long totalPageNumber = getReportService().getPageCount(documentName, options, new OutputOptions());
 					if (pageNumber <= 0 || pageNumber > totalPageNumber) {
-						AxisFault fault = new AxisFault();
-						fault.setFaultCode(new QName("DocumentProcessor.getPageNumber( )")); //$NON-NLS-1$
-						fault.setFaultString(
+						throw new RemoteException(
 								BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_PAGE_NUMBER,
 										new Object[] { Long.valueOf(pageNumber), Long.valueOf(totalPageNumber) }));
-						throw fault;
 					}
 
 					break;
@@ -231,11 +223,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 			String id = (String) activeIds.get(i);
 			int firstComma = id.indexOf(',');
 			if (firstComma == -1) {
-				AxisFault fault = new AxisFault();
-				fault.setFaultCode(new QName("DocumentProcessor.parseReportId( )")); //$NON-NLS-1$
-				fault.setFaultString(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_ID_FORMAT,
+				throw new RemoteException(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_INVALID_ID_FORMAT,
 						new String[] { id }));
-				throw fault;
 			}
 
 			int secondComma = id.indexOf(',', firstComma + 1);
@@ -243,25 +232,28 @@ abstract public class AbstractBaseActionHandler implements IActionHandler {
 				secondComma = id.length();
 			}
 			String type = id.substring(firstComma + 1, secondComma);
-			if (ReportIdType._Document.equalsIgnoreCase(type) || ReportIdType._Table.equalsIgnoreCase(type)
-					|| ReportIdType._Chart.equalsIgnoreCase(type) || ReportIdType._Extended.equalsIgnoreCase(type)
-					|| ReportIdType._Label.equalsIgnoreCase(type) || ReportIdType._Group.equalsIgnoreCase(type)
+			if (ReportIdType.Document.value().equalsIgnoreCase(type)
+					|| ReportIdType.Table.value().equalsIgnoreCase(type)
+					|| ReportIdType.Chart.value().equalsIgnoreCase(type)
+					|| ReportIdType.Extended.value().equalsIgnoreCase(type)
+					|| ReportIdType.Label.value().equalsIgnoreCase(type)
+					|| ReportIdType.Group.value().equalsIgnoreCase(type)
 					|| "ColoumnInfo".equalsIgnoreCase(type)) //$NON-NLS-1$
 			// TODO: emitter need to fix its name.
 			{
 				ReportId reportId = new ReportId();
 				reportId.setId(id.substring(0, id.indexOf(',')));
 
-				if (ReportIdType._Document.equalsIgnoreCase(type)) {
+				if (ReportIdType.Document.value().equalsIgnoreCase(type)) {
 					reportId.setType(ReportIdType.Document);
-				} else if (ReportIdType._Table.equalsIgnoreCase(type)) {
+				} else if (ReportIdType.Table.value().equalsIgnoreCase(type)) {
 					reportId.setType(ReportIdType.Table);
-				} else if (ReportIdType._Chart.equalsIgnoreCase(type)
-						|| ReportIdType._Extended.equalsIgnoreCase(type)) {
+				} else if (ReportIdType.Chart.value().equalsIgnoreCase(type)
+						|| ReportIdType.Extended.value().equalsIgnoreCase(type)) {
 					reportId.setType(ReportIdType.Chart);
-				} else if (ReportIdType._Label.equalsIgnoreCase(type)) {
+				} else if (ReportIdType.Label.value().equalsIgnoreCase(type)) {
 					reportId.setType(ReportIdType.Label);
-				} else if (ReportIdType._Group.equalsIgnoreCase(type)) {
+				} else if (ReportIdType.Group.value().equalsIgnoreCase(type)) {
 					reportId.setType(ReportIdType.Group);
 				} else if ("ColoumnInfo".equalsIgnoreCase(type)) //$NON-NLS-1$
 				{

@@ -22,19 +22,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Clob;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.Blob;
+import org.eclipse.birt.olap.cursor.Clob;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.Date;
+import org.eclipse.birt.olap.cursor.RowDataMetaData;
+import org.eclipse.birt.olap.cursor.Time;
+import org.eclipse.birt.olap.cursor.Timestamp;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;

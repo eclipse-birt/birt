@@ -23,9 +23,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.BirtException;
@@ -62,6 +59,8 @@ import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.mozilla.javascript.Scriptable;
 
 /**

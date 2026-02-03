@@ -21,20 +21,20 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Clob;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.Blob;
+import org.eclipse.birt.olap.cursor.Clob;
+import org.eclipse.birt.olap.cursor.Date;
+import org.eclipse.birt.olap.cursor.RowDataMetaData;
+import org.eclipse.birt.olap.cursor.Time;
+import org.eclipse.birt.olap.cursor.Timestamp;
 
 /**
  *
  */
 
 class DummyCursorSupport
-		implements javax.olap.cursor.RowDataNavigation, javax.olap.cursor.RowDataAccessor, javax.olap.cursor.Cursor {
+		implements org.eclipse.birt.olap.cursor.RowDataNavigation, org.eclipse.birt.olap.cursor.RowDataAccessor, org.eclipse.birt.olap.cursor.Cursor {
 
 	@Override
 	public Object clone() {

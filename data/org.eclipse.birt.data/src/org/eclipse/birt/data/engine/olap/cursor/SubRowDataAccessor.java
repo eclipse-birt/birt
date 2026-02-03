@@ -15,9 +15,8 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  *

@@ -37,10 +37,9 @@ import javax.print.attribute.standard.PrinterIsAcceptingJobs;
 import javax.print.attribute.standard.PrinterMakeAndModel;
 import javax.print.attribute.standard.SheetCollate;
 import javax.print.attribute.standard.Sides;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
 
-import org.apache.axis.AxisFault;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.eclipse.birt.report.exception.ViewerException;
 
 /**
@@ -151,10 +150,7 @@ public class PrintUtility {
 				job.print(doc, pas);
 			}
 		} catch (PrintException e) {
-			AxisFault fault = new AxisFault(e.getLocalizedMessage(), e);
-			fault.setFaultCode(new QName("PrintUtility.execPrint( )")); //$NON-NLS-1$
-			fault.setFaultString(e.getLocalizedMessage());
-			throw fault;
+			throw new RemoteException(e.getLocalizedMessage(), e);
 		}
 	}
 

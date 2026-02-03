@@ -2,18 +2,19 @@
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
@@ -26,8 +27,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-jspc-maven-plugin</artifactId>
+				<groupId>org.eclipse.jetty.ee10</groupId>
+				<artifactId>jetty-ee10-jspc-maven-plugin</artifactId>
 				<version>${jetty-jspc-maven-plugin-version}</version>
 				<executions>
 					<execution>
@@ -68,6 +69,49 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>attach-viewservlets-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<!-- source classes -->
+							<classesDirectory>
+								${project.build.directory}/birt/WEB-INF/lib/viewservlets.jar-classes
+							</classesDirectory>
+							<!-- different artifact -->
+							<classifier>viewservlets</classifier>
+							<finalName>viewservlets</finalName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-viewer</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${project.build.directory}/viewservlets-viewservlets.jar</file>
+							<groupId>org.eclipse.birt</groupId>
+							<artifactId>viewservlets</artifactId>
+							<version>${project.version}</version>
+							<packaging>jar</packaging>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

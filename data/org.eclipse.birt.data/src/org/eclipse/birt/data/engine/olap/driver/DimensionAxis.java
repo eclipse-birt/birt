@@ -16,13 +16,12 @@ package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.RowDataMetaData;
-
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataMetaDataImpl;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.RowDataMetaData;
 
 /**
  * A DimensionAxis represents an axis based on certain level. It provides

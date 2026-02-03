@@ -37,7 +37,7 @@
 		<build.helper.maven.plugin.version>3.6.0</build.helper.maven.plugin.version>
 		<cbi-version>1.5.2</cbi-version>
 		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
-		<jetty-jspc-maven-plugin-version>10.0.24</jetty-jspc-maven-plugin-version>
+		<jetty-jspc-maven-plugin-version>12.1.6</jetty-jspc-maven-plugin-version>
 		<junit-version>4.13.2</junit-version>
 		<maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
 		<maven.dependency.plugin.version>3.8.0</maven.dependency.plugin.version>
@@ -310,7 +310,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin-version}</version>
 				<configuration>
-					<release>11</release>
+					<release>21</release>
 				</configuration>
 			</plugin>
 

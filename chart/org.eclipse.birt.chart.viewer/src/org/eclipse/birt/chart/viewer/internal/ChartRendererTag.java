@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,11 +16,6 @@ package org.eclipse.birt.chart.viewer.internal;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -32,10 +27,15 @@ import org.eclipse.birt.chart.viewer.internal.util.ChartImageManager;
 import org.eclipse.birt.chart.viewer.internal.util.ChartWebHelper;
 import org.eclipse.birt.chart.viewer.internal.util.ImageHTMLEmitter;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.TagSupport;
+
 /**
- * 
+ *
  * Tag for generating chart image and HTML
- * 
+ *
  */
 public class ChartRendererTag extends TagSupport
 {

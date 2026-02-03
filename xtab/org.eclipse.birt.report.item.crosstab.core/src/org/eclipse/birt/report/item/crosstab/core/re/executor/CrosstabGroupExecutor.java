@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;

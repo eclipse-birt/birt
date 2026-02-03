@@ -18,8 +18,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -35,6 +33,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

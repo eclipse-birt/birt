@@ -28,16 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.Blob;
-import javax.olap.cursor.Clob;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.Date;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.RowDataMetaData;
-import javax.olap.cursor.Time;
-import javax.olap.cursor.Timestamp;
-
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -63,6 +53,15 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.Blob;
+import org.eclipse.birt.olap.cursor.Clob;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.Date;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.RowDataMetaData;
+import org.eclipse.birt.olap.cursor.Time;
+import org.eclipse.birt.olap.cursor.Timestamp;
 import org.mozilla.javascript.Scriptable;
 
 /**

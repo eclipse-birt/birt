@@ -14,9 +14,8 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.EdgeCursor;
-
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.DummyCubeCursor;

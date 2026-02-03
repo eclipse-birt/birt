@@ -25,11 +25,6 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
@@ -93,6 +88,10 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.SubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;

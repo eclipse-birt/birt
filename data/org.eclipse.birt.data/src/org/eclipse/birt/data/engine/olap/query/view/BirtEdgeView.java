@@ -18,12 +18,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  * An BirtEdgeView is part of the logical layout of a BirtCubeView.It aggregates

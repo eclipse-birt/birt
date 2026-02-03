@@ -14,11 +14,10 @@
 
 package org.eclipse.birt.data.engine.olap.cursor;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  *
@@ -44,7 +43,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	}
 
 	/*
-	 * @see javax.olap.cursor.DimensionCursor#getEdgeCursor()
+	 * @see org.eclipse.olap.cursor.DimensionCursor#getEdgeCursor()
 	 */
 	@Override
 	public EdgeCursor getEdgeCursor() throws OLAPException {
@@ -52,7 +51,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	}
 
 	/*
-	 * @see javax.olap.cursor.DimensionCursor#getEdgeEnd()
+	 * @see org.eclipse.olap.cursor.DimensionCursor#getEdgeEnd()
 	 */
 	@Override
 	public long getEdgeEnd() throws OLAPException {
@@ -60,7 +59,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 	}
 
 	/*
-	 * @see javax.olap.cursor.DimensionCursor#getEdgeStart()
+	 * @see org.eclipse.olap.cursor.DimensionCursor#getEdgeStart()
 	 */
 	@Override
 	public long getEdgeStart() throws OLAPException {
@@ -79,7 +78,7 @@ class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCurs
 
 	/*
 	 * @see
-	 * javax.olap.cursor.DimensionCursor#setEdgeCursor(javax.olap.cursor.EdgeCursor)
+	 * org.eclipse.olap.cursor.DimensionCursor#setEdgeCursor(org.eclipse.olap.cursor.EdgeCursor)
 	 */
 	@Override
 	public void setEdgeCursor(EdgeCursor value) throws OLAPException {

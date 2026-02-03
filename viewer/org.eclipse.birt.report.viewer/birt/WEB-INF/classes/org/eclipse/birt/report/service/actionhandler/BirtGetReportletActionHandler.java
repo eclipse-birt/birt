@@ -19,7 +19,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -121,9 +120,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 
 		file = new File(__docName);
 		if (!file.exists()) {
-			AxisFault fault = new AxisFault();
-			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
-			throw fault;
+			throw new RemoteException(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 		}
 	}
 

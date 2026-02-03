@@ -21,12 +21,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
@@ -166,10 +165,8 @@ public class FramesetFragment extends BirtBaseFragment {
 
 			// If document isn't completed, throw Exception
 			if (attrBean.isDocumentProcessing()) {
-				AxisFault fault = new AxisFault();
-				fault.setFaultReason(
+				throw new RemoteException(
 						BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING));
-				throw fault;
 			}
 
 			// Print report on server

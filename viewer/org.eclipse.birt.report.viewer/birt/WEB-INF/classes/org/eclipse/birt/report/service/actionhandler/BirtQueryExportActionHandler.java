@@ -16,7 +16,6 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.io.File;
 import java.rmi.RemoteException;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -86,9 +85,8 @@ public class BirtQueryExportActionHandler extends AbstractQueryExportActionHandl
 		File file = new File(__docName);
 		if (!file.exists()) {
 			// if document file doesn't exist, throw exception
-			AxisFault fault = new AxisFault();
-			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST));
-			throw fault;
+			throw new RemoteException(
+					BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST));
 		}
 	}
 }

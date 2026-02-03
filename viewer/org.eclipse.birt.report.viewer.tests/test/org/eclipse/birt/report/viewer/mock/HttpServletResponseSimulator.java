@@ -21,9 +21,9 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import junit.framework.AssertionFailedError;
 
@@ -101,8 +101,8 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * javax.servlet.http.HttpServletResponse#addCookie(javax.servlet.http.Cookie)
+	 * @see jakarta.servlet.http.HttpServletResponse#addCookie(jakarta.servlet.http.
+	 * Cookie)
 	 */
 	@Override
 	public void addCookie(Cookie cookie) {
@@ -131,7 +131,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#addDateHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#addDateHeader(java.lang.String,
 	 * long)
 	 */
 	@Override
@@ -142,7 +142,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#addHeader(java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
@@ -157,7 +157,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#addIntHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#addIntHeader(java.lang.String,
 	 * int)
 	 */
 	@Override
@@ -168,7 +168,8 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#containsHeader(java.lang.String)
+	 * @see
+	 * jakarta.servlet.http.HttpServletResponse#containsHeader(java.lang.String)
 	 */
 	@Override
 	public boolean containsHeader(String name) {
@@ -195,7 +196,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * javax.servlet.http.HttpServletResponse#encodeRedirectURL(java.lang.String)
+	 * jakarta.servlet.http.HttpServletResponse#encodeRedirectURL(java.lang.String)
 	 */
 	@Override
 	public String encodeRedirectURL(String url) {
@@ -205,18 +206,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * javax.servlet.http.HttpServletResponse#encodeRedirectUrl(java.lang.String)
-	 */
-	@Override
-	public String encodeRedirectUrl(String url) {
-		return encodeRedirectURL(url);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.servlet.http.HttpServletResponse#encodeURL(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletResponse#encodeURL(java.lang.String)
 	 */
 	@Override
 	public String encodeURL(String url) {
@@ -226,17 +216,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#encodeUrl(java.lang.String)
-	 */
-	@Override
-	public String encodeUrl(String url) {
-		return encodeURL(url);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.servlet.http.HttpServletResponse#sendError(int)
+	 * @see jakarta.servlet.http.HttpServletResponse#sendError(int)
 	 */
 	@Override
 	public void sendError(int status) throws IOException {
@@ -247,7 +227,8 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletResponse#sendError(int,
+	 * java.lang.String)
 	 */
 	@Override
 	public void sendError(int status, String message) throws IOException {
@@ -259,7 +240,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
+	 * @see jakarta.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
 	 */
 	@Override
 	public void sendRedirect(String url) throws IOException {
@@ -269,7 +250,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#setDateHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#setDateHeader(java.lang.String,
 	 * long)
 	 */
 	@Override
@@ -280,7 +261,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#setHeader(java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
@@ -303,7 +284,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#setIntHeader(java.lang.String,
+	 * @see jakarta.servlet.http.HttpServletResponse#setIntHeader(java.lang.String,
 	 * int)
 	 */
 	@Override
@@ -323,19 +304,17 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.http.HttpServletResponse#setStatus(int)
+	 * @see jakarta.servlet.http.HttpServletResponse#setStatus(int)
 	 */
 	@Override
 	public void setStatus(int status) {
 		setStatus(status, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see javax.servlet.http.HttpServletResponse#setStatus(int, java.lang.String)
+	/**
+	 * @param status
+	 * @param message
 	 */
-	@Override
 	public void setStatus(int status, String message) {
 		this.status = status;
 		this.message = message;
@@ -344,7 +323,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#flushBuffer()
+	 * @see jakarta.servlet.ServletResponse#flushBuffer()
 	 */
 	@Override
 	public void flushBuffer() throws IOException {
@@ -354,7 +333,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getBufferSize()
+	 * @see jakarta.servlet.ServletResponse#getBufferSize()
 	 */
 	@Override
 	public int getBufferSize() {
@@ -364,7 +343,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getCharacterEncoding()
+	 * @see jakarta.servlet.ServletResponse#getCharacterEncoding()
 	 */
 	@Override
 	public String getCharacterEncoding() {
@@ -374,7 +353,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getContentType()
+	 * @see jakarta.servlet.ServletResponse#getContentType()
 	 */
 	@Override
 	public String getContentType() {
@@ -384,7 +363,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getLocale()
+	 * @see jakarta.servlet.ServletResponse#getLocale()
 	 */
 	@Override
 	public Locale getLocale() {
@@ -394,7 +373,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getOutputStream()
+	 * @see jakarta.servlet.ServletResponse#getOutputStream()
 	 */
 	@Override
 	public ServletOutputStream getOutputStream() throws IOException {
@@ -417,7 +396,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#getWriter()
+	 * @see jakarta.servlet.ServletResponse#getWriter()
 	 */
 	@Override
 	public PrintWriter getWriter() throws IOException {
@@ -448,7 +427,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#isCommitted()
+	 * @see jakarta.servlet.ServletResponse#isCommitted()
 	 */
 	@Override
 	public boolean isCommitted() {
@@ -467,7 +446,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#reset()
+	 * @see jakarta.servlet.ServletResponse#reset()
 	 */
 	@Override
 	public void reset() {
@@ -486,7 +465,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#resetBuffer()
+	 * @see jakarta.servlet.ServletResponse#resetBuffer()
 	 */
 	@Override
 	public void resetBuffer() {
@@ -496,7 +475,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#setBufferSize(int)
+	 * @see jakarta.servlet.ServletResponse#setBufferSize(int)
 	 */
 	@Override
 	public void setBufferSize(int size) {
@@ -506,7 +485,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#setCharacterEncoding(java.lang.String)
+	 * @see jakarta.servlet.ServletResponse#setCharacterEncoding(java.lang.String)
 	 */
 	@Override
 	public void setCharacterEncoding(String encoding) {
@@ -516,7 +495,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#setContentLength(int)
+	 * @see jakarta.servlet.ServletResponse#setContentLength(int)
 	 */
 	@Override
 	public void setContentLength(int contentLength) {
@@ -526,7 +505,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
+	 * @see jakarta.servlet.ServletResponse#setContentType(java.lang.String)
 	 */
 	@Override
 	public void setContentType(String contentType) {
@@ -536,7 +515,7 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see javax.servlet.ServletResponse#setLocale(java.util.Locale)
+	 * @see jakarta.servlet.ServletResponse#setLocale(java.util.Locale)
 	 */
 	@Override
 	public void setLocale(Locale locale) {
@@ -590,6 +569,11 @@ public class HttpServletResponseSimulator implements HttpServletResponse {
 	public void setContentLengthLong(long arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+		throw new UnsupportedOperationException("Do not support sendRedirect operation!"); //$NON-NLS-1$
 	}
 
 }

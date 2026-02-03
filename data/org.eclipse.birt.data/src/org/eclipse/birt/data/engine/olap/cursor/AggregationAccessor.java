@@ -21,10 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -36,6 +32,9 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.Relationship;
 import org.eclipse.birt.data.engine.olap.util.CubeRunningNestAggrDefn;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.DimensionCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  * This class is to access all aggregation value's according to its result set

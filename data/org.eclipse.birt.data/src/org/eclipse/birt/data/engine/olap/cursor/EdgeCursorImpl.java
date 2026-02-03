@@ -17,12 +17,11 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 
 /**
  * An EdgeCursor is a cursor used to navigate along an EdgeView. User could
@@ -57,7 +56,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getDimensionCursor()
+	 * @see org.eclipse.olap.cursor.EdgeCursor#getDimensionCursor()
 	 */
 	@Override
 	public List getDimensionCursor() throws OLAPException {
@@ -65,7 +64,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getOrdinateOwner()
+	 * @see org.eclipse.olap.cursor.EdgeCursor#getOrdinateOwner()
 	 */
 	@Override
 	public CubeCursor getOrdinateOwner() throws OLAPException {
@@ -73,7 +72,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#getPageOwner()
+	 * @see org.eclipse.olap.cursor.EdgeCursor#getPageOwner()
 	 */
 	@Override
 	public CubeCursor getPageOwner() throws OLAPException {
@@ -82,7 +81,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 
 	/*
 	 * @see
-	 * javax.olap.cursor.EdgeCursor#setOrdinateOwner(javax.olap.cursor.CubeCursor)
+	 * org.eclipse.olap.cursor.EdgeCursor#setOrdinateOwner(org.eclipse.olap.cursor.CubeCursor)
 	 */
 	@Override
 	public void setOrdinateOwner(CubeCursor value) throws OLAPException {
@@ -90,7 +89,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor {
 	}
 
 	/*
-	 * @see javax.olap.cursor.EdgeCursor#setPageOwner(javax.olap.cursor.CubeCursor)
+	 * @see org.eclipse.olap.cursor.EdgeCursor#setPageOwner(org.eclipse.olap.cursor.CubeCursor)
 	 */
 	@Override
 	public void setPageOwner(CubeCursor value) throws OLAPException {

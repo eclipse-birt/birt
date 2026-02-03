@@ -1,144 +1,60 @@
-/*******************************************************************************
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0/.
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   See git history
- *******************************************************************************/
-/**
- * CategoryChoiceList.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.2.1 Jun 14, 2005 (09:15:57 EDT) WSDL2Java emitter.
- */
-
 package org.eclipse.birt.report.soapengine.api;
 
-public class CategoryChoiceList implements java.io.Serializable {
+import java.io.Serializable;
+import java.util.Arrays;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "CategoryChoiceList")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class CategoryChoiceList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private org.eclipse.birt.report.soapengine.api.CategoryChoice[] categoryChoice;
+	@XmlElement(name = "CategoryChoice")
+	private CategoryChoice[] categoryChoice;
 
 	public CategoryChoiceList() {
 	}
 
-	public CategoryChoiceList(org.eclipse.birt.report.soapengine.api.CategoryChoice[] categoryChoice) {
+	public CategoryChoiceList(CategoryChoice[] categoryChoice) {
 		this.categoryChoice = categoryChoice;
 	}
 
-	/**
-	 * Gets the categoryChoice value for this CategoryChoiceList.
-	 *
-	 * @return categoryChoice
-	 */
-	public org.eclipse.birt.report.soapengine.api.CategoryChoice[] getCategoryChoice() {
+	public CategoryChoice[] getCategoryChoice() {
 		return categoryChoice;
 	}
 
-	/**
-	 * Sets the categoryChoice value for this CategoryChoiceList.
-	 *
-	 * @param categoryChoice
-	 */
-	public void setCategoryChoice(org.eclipse.birt.report.soapengine.api.CategoryChoice[] categoryChoice) {
+	public void setCategoryChoice(CategoryChoice[] categoryChoice) {
 		this.categoryChoice = categoryChoice;
 	}
 
-	public org.eclipse.birt.report.soapengine.api.CategoryChoice getCategoryChoice(int i) {
-		return this.categoryChoice[i];
+	public CategoryChoice getCategoryChoice(int i) {
+		return categoryChoice[i];
 	}
 
-	public void setCategoryChoice(int i, org.eclipse.birt.report.soapengine.api.CategoryChoice _value) {
-		this.categoryChoice[i] = _value;
+	public void setCategoryChoice(int i, CategoryChoice value) {
+		categoryChoice[i] = value;
 	}
-
-	private java.lang.Object __equalsCalc = null;
 
 	@Override
-	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof CategoryChoiceList)) {
-			return false;
-		}
-		CategoryChoiceList other = (CategoryChoiceList) obj;
-		if (obj == null) {
-			return false;
-		}
-		if (this == obj) {
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		}
-		if (__equalsCalc != null) {
-			return (__equalsCalc == obj);
-		}
-		__equalsCalc = obj;
-		boolean _equals;
-		_equals = true
-				&& ((this.categoryChoice == null && other.getCategoryChoice() == null) || (this.categoryChoice != null
-						&& java.util.Arrays.equals(this.categoryChoice, other.getCategoryChoice())));
-		__equalsCalc = null;
-		return _equals;
+		if (!(o instanceof CategoryChoiceList))
+			return false;
+		CategoryChoiceList that = (CategoryChoiceList) o;
+		return Arrays.equals(categoryChoice, that.categoryChoice);
 	}
-
-	private boolean __hashCodeCalc = false;
 
 	@Override
-	public synchronized int hashCode() {
-		if (__hashCodeCalc) {
-			return 0;
-		}
-		__hashCodeCalc = true;
-		int _hashCode = 1;
-		if (getCategoryChoice() != null) {
-			for (int i = 0; i < java.lang.reflect.Array.getLength(getCategoryChoice()); i++) {
-				java.lang.Object obj = java.lang.reflect.Array.get(getCategoryChoice(), i);
-				if (obj != null && !obj.getClass().isArray()) {
-					_hashCode += obj.hashCode();
-				}
-			}
-		}
-		__hashCodeCalc = false;
-		return _hashCode;
+	public int hashCode() {
+		return Arrays.hashCode(categoryChoice);
 	}
 
-	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
-			CategoryChoiceList.class, true);
-
-	static {
-		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CategoryChoiceList"));
-		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-		elemField.setFieldName("categoryChoice");
-		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CategoryChoice"));
-		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "CategoryChoice"));
-		elemField.setNillable(false);
-		elemField.setMaxOccursUnbounded(true);
-		typeDesc.addFieldDesc(elemField);
+	@Override
+	public String toString() {
+		return "CategoryChoiceList{" + "categoryChoice=" + Arrays.toString(categoryChoice) + '}';
 	}
-
-	/**
-	 * Return type metadata object
-	 */
-	public static org.apache.axis.description.TypeDesc getTypeDesc() {
-		return typeDesc;
-	}
-
-	/**
-	 * Get Custom Serializer
-	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
-	}
-
-	/**
-	 * Get Custom Deserializer
-	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
-			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
-		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
-	}
-
 }

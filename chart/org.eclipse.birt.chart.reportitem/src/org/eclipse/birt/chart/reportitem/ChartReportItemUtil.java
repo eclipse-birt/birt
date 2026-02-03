@@ -23,8 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
@@ -56,6 +54,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.olap.cursor.CubeCursor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;

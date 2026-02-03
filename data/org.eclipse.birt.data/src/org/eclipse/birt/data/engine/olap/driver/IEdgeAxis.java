@@ -13,10 +13,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.driver;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.olap.OLAPException;
 
 public interface IEdgeAxis {
 

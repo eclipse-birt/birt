@@ -13,11 +13,11 @@
 
 package org.eclipse.birt.report.soapengine.processor;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
+import org.eclipse.birt.report.soapengine.endpoint.BirtSoapException;
 
 public interface IProcessorFactory {
-	void init() throws AxisFault;
+	void init() throws BirtSoapException;
 
 	IComponentProcessor createProcessor(String category, ReportIdType component);
 }

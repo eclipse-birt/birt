@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
-import javax.servlet.ServletContext;
-
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -34,6 +32,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 
+import jakarta.servlet.ServletContext;
+
 /**
  * Utility class for web component
  */
@@ -43,7 +43,7 @@ public class ChartWebHelper
 
 	/**
 	 * Parses a XML file to chart model instance
-	 * 
+	 *
 	 * @param strPath
 	 *            chart XML file path
 	 * @return chart model
@@ -93,7 +93,7 @@ public class ChartWebHelper
 
 	/**
 	 * Checks if the output type is supported
-	 * 
+	 *
 	 * @param type
 	 *            output type
 	 * @return supported or not
@@ -112,7 +112,7 @@ public class ChartWebHelper
 
 	/**
 	 * Checks if current chart has runtime data sets.
-	 * 
+	 *
 	 * @param cm
 	 *            chart model
 	 * @return has runtime data or not
@@ -156,7 +156,7 @@ public class ChartWebHelper
 
 	/**
 	 * Returns the real path of the file in the web folder
-	 * 
+	 *
 	 * @param context
 	 *            servlet context
 	 * @param fileName

@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -36,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResult
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  * This class is a wrapper class of AggregationResultSet in the case of using

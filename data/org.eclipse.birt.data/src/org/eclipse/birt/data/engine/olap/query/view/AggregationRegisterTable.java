@@ -17,10 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.olap.OLAPException;
 
 /**
  * AggregationRegisterTable class is to search measure index based on its

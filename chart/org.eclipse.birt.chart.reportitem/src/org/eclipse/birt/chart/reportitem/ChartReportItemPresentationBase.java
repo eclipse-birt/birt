@@ -27,9 +27,6 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
-
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
@@ -72,6 +69,8 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.olap.OLAPException;
+import org.eclipse.birt.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;

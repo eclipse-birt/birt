@@ -36,13 +36,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
-import org.apache.axis.AxisFault;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
@@ -62,7 +62,6 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
@@ -655,10 +654,8 @@ public class BirtUtility {
 	 * @param e     exception
 	 * @return axis fault
 	 */
-	public static AxisFault makeAxisFault(String qName, Exception e) {
-		AxisFault fault = makeAxisFault(e);
-		fault.setFaultCode(new QName(qName));
-		return fault;
+	public static RemoteException makeAxisFault(String qName, Exception e) {
+		return new RemoteException(new QName(qName).toString(), e);
 	}
 
 	/**
@@ -668,14 +665,11 @@ public class BirtUtility {
 	 * @param e     exception
 	 * @return axis fault
 	 */
-	public static AxisFault makeAxisFault(Exception e) {
-		if (e instanceof AxisFault) {
-			return (AxisFault) e;
-		} else {
-			AxisFault fault = AxisFault.makeFault(e);
-			fault.addFaultDetailString(BirtUtility.getStackTrace(e));
-			return fault;
+	public static RemoteException makeAxisFault(Exception e) {
+		if (e instanceof RemoteException) {
+			return (RemoteException) e;
 		}
+		return new RemoteException("", e);
 	}
 
 	/**
@@ -686,20 +680,22 @@ public class BirtUtility {
 	 * @return axis fault
 	 */
 	public static Exception makeAxisFault(String qName, Collection<Exception> exceptions) {
-		if (exceptions.size() == 1) {
+		if (exceptions.size() >= 1) {
 			return makeAxisFault(qName, exceptions.iterator().next());
-		} else {
-			QName exceptionQName = new QName("string");
-			AxisFault fault = new AxisFault(
-					BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_MULTIPLE_EXCEPTIONS));
-			fault.setFaultCode(new QName(qName));
-
-			for (Iterator i = exceptions.iterator(); i.hasNext();) {
-				Exception e = (Exception) i.next();
-				fault.addFaultDetail(exceptionQName, getStackTrace(e));
-			}
-			return fault;
 		}
+//		else {
+//			QName exceptionQName = new QName("string");
+//			AxisFault fault = new AxisFault(
+//					BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_MULTIPLE_EXCEPTIONS));
+//			fault.setFaultCode(new QName(qName));
+//
+//			for (Iterator i = exceptions.iterator(); i.hasNext();) {
+//				Exception e = (Exception) i.next();
+//				fault.addFaultDetail(exceptionQName, getStackTrace(e));
+//			}
+//			return fault;
+//		}
+		return null;
 	}
 
 	/**
@@ -729,8 +725,8 @@ public class BirtUtility {
 						+ onClick + "\" > + </span>\n"); //$NON-NLS-1$
 
 		String errorMessage = null;
-		if (e instanceof AxisFault) {
-			errorMessage = ((AxisFault) e).getFaultString();
+		if (e instanceof RemoteException) {
+			errorMessage = ((RemoteException) e).getMessage();
 		} else {
 			errorMessage = e.getLocalizedMessage();
 

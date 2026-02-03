@@ -6,3 +6,9 @@ build.log
 /updates/
 /workspace/
 /data/org.eclipse.birt.report.data.oda.jdbc/drivers/*.jar
+/repo-platform/
+/repo-birt/
+.home
+pom-maven.xml
+.settings/
+configuration/
