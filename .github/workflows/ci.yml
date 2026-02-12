@@ -26,7 +26,6 @@ concurrency:
 
 permissions:
   contents: read
-  actions: write
 
 jobs:
   build:
@@ -52,31 +51,6 @@ jobs:
     - name: Build with Maven
       run: mvn clean verify --no-transfer-progress -U -DskipTests=false
 
-    # Keep only the last run's artifacts: delete all previous artifacts starting with "birt-"
-    - name: Delete previous artifacts (keep only latest run)
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const owner = context.repo.owner;
-          const repo = context.repo.repo;
-
-          const artifacts = await github.paginate(
-            github.rest.actions.listArtifactsForRepo,
-            { owner, repo, per_page: 100 }
-          );
-
-          const toDelete = artifacts.filter(a => (a.name || "").startsWith("birt-"));
-
-          core.info(`Found ${toDelete.length} artifacts starting with 'birt-' to delete.`);
-          for (const a of toDelete) {
-            core.info(`Deleting artifact id=${a.id}, name=${a.name}, created_at=${a.created_at}`);
-            await github.rest.actions.deleteArtifact({
-              owner,
-              repo,
-              artifact_id: a.id
-            });
-          }
-
     # Upload each output as its own artifact (so they appear individually in the UI)
     - name: Upload birt-report-designer linux aarch64
       uses: actions/upload-artifact@v4
@@ -85,7 +59,8 @@ jobs:
         if-no-files-found: error
         compression-level: 0
         path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-linux.gtk.aarch64.tar.gz
-
+        retention-days: 3
+        
     - name: Upload birt-report-designer linux x86_64
       uses: actions/upload-artifact@v4
       with:
@@ -93,6 +68,7 @@ jobs:
         if-no-files-found: error
         compression-level: 0
         path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-linux.gtk.x86_64.tar.gz
+        retention-days: 3
 
     - name: Upload birt-report-designer macos aarch64
       uses: actions/upload-artifact@v4
@@ -101,6 +77,7 @@ jobs:
         if-no-files-found: error
         compression-level: 0
         path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-macosx.cocoa.aarch64.tar.gz
+        retention-days: 3
 
     - name: Upload birt-report-designer macos x86_64
       uses: actions/upload-artifact@v4
@@ -109,6 +86,7 @@ jobs:
         if-no-files-found: error
         compression-level: 0
         path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-macosx.cocoa.x86_64.tar.gz
+        retention-days: 3
 
     - name: Upload birt-report-designer windows x86_64
       uses: actions/upload-artifact@v4
@@ -117,3 +95,13 @@ jobs:
         if-no-files-found: error
         compression-level: 0
         path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-win32.win32.x86_64.zip
+        retention-days: 3
+
+    - name: Upload birt-report-designer windows aarch64
+      uses: actions/upload-artifact@v4
+      with:
+        name: birt-report-designer-win32-aarch64
+        if-no-files-found: error
+        compression-level: 0
+        path: build/birt-packages/birt-report-all-in-one/target/products/birt-report-designer-all-in-one-*-win32.win32.aarch64.zip
+        retention-days: 3
