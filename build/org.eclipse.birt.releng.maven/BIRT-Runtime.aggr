@@ -12,6 +12,7 @@
   <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="aarch64"/>
   <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
   <configurations architecture="x86_64"/>
+  <configurations architecture="aarch64"/>
   <mavenMappings namePattern="(org\.eclipse\.datatools)(.*)$" groupId="org.eclipse.birt.dependencies" artifactId="$1$2" snapshot="false"/>
   <mavenMappings namePattern="(org.apache.axis(.source)?)" groupId="org.eclipse.birt.dependencies" artifactId="$1" snapshot="false"/>
   <mavenMappings namePattern="((?:org\.eclipse|uk\.co\.spudsoft)\.birt)(.*)$" groupId="org.eclipse.birt" artifactId="$1$2" snapshot="false"/>
