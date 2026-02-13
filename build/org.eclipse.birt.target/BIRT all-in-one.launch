@@ -745,6 +745,7 @@
         <setEntry value="org.eclipse.birt.report.model.testhelper@default:false"/>
         <setEntry value="org.eclipse.birt.report.model.testresources@default:false"/>
         <setEntry value="org.eclipse.birt.report.model@default:default"/>
+        <setEntry value="org.eclipse.birt.report.viewer.jasper9.fragment@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewer@default:default"/>
         <setEntry value="org.eclipse.birt.report.viewers.nl1@default:false"/>
         <setEntry value="org.eclipse.birt.resources.nl1@default:false"/>

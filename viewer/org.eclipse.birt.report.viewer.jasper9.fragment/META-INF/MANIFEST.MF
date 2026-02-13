@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Fragment Jasper9 Fix Import
+Bundle-Vendor: Eclipse BIRT Project
+Bundle-SymbolicName: org.eclipse.birt.report.viewer.jasper9.fragment
+Bundle-Version: 4.23.0.qualifier
+Fragment-Host: org.mortbay.jasper.mortbay-apache-jsp;bundle-version="[9.0.111,10.0.0)"
+Import-Package: org.apache.jasper.el;version="[9.0.0,10.0.0)",
+ org.apache.tomcat.util.descriptor.tagplugin;version="[9.0,10)"
+Automatic-Module-Name: org.eclipse.birt.report.viewer.jasper9.fragment
+Bundle-RequiredExecutionEnvironment: JavaSE-21

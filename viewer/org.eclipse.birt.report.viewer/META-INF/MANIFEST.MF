@@ -9,15 +9,38 @@ Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Import-Package: jakarta.servlet;version="2.4.0",
+Import-Package: jakarta.el,
+ jakarta.servlet;version="2.4.0",
  jakarta.servlet.http;version="2.4.0",
- jakarta.xml.bind;version="[4.0.0,5.0.0)",
- jakarta.xml.bind.annotation;version="[4.0.0,5.0.0)",
  jakarta.servlet.jsp;version="[3.1.1,4.0.0)",
  jakarta.servlet.jsp.tagext;version="[3.1.1,4.0.0)",
- jakarta.el,
+ jakarta.xml.bind;version="[4.0.0,5.0.0)",
+ jakarta.xml.bind.annotation;version="[4.0.0,5.0.0)",
  org.apache.commons.logging,
  org.eclipse.equinox.http.jetty,
+ org.glassfish.jaxb.core.v2;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.model.annotation;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.model.core;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.model.impl;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.model.nav;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.model.util;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.runtime;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.runtime.unmarshaller;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.schemagen.episode;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.core.v2.util;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.model.annotation;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.model.impl;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.model.runtime;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime.output;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime.property;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime.reflect;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime.reflect.opt;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.runtime.unmarshaller;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.schemagen;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.schemagen.xmlschema;version="[4.0.0,5.0.0)",
+ org.glassfish.jaxb.runtime.v2.util;version="[4.0.0,5.0.0)",
  org.osgi.service.http;version="1.2.0"
 Export-Package: org.eclipse.birt.report.filter,
  org.eclipse.birt.report.viewer,
@@ -56,9 +79,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.jetty.ee10.apache-jsp;bundle-version="12.1.0",
  org.mortbay.jasper.mortbay-apache-el;bundle-version="[10.0.0,12.0.0)",
  org.mortbay.jasper.mortbay-apache-jsp;bundle-version="[10.0.0,12.0.0)",
- jakarta.servlet.jsp-api;bundle-version="[3.1.1,4.0.0)",
- org.glassfish.expressly;bundle-version="[5.0.0,6.0.0)",
- org.glassfish.jaxb.runtime;bundle-version="[4.0.0,5.0.0)"
+ jakarta.servlet.jsp-api;bundle-version="[3.1.1,4.0.0)"
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Eclipse-BundleShape: dir
