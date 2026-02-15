@@ -46,6 +46,8 @@
 									<signFiles>
 										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birt.exe</signFile>
 										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birtc.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/aarch64/eclipse/birt.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/aarch64/eclipse/birtc.exe</signFile>
 									</signFiles>
 								</configuration>
 							</execution>
