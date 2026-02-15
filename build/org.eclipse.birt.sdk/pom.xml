@@ -54,7 +54,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.birt</groupId>
-			<artifactId>org.eclipse.birt.model.adapter.oda</artifactId>
+			<artifactId>org.eclipse.birt.report.model.adapter.oda</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

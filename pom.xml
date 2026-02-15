@@ -42,10 +42,11 @@
 		<maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
 		<maven.dependency.plugin.version>3.8.0</maven.dependency.plugin.version>
 		<maven-jar-plugin-version>3.4.2</maven-jar-plugin-version>
+		<maven-install-plugin-version>3.1.4</maven-install-plugin-version>
 		<maven-surefire-plugin-version>3.5.0</maven-surefire-plugin-version>
 		<maven-assembly-plugin-version>3.7.1</maven-assembly-plugin-version>
 		<maven-resources-plugin-version>3.3.1</maven-resources-plugin-version>
-		<tycho.version>5.0.1</tycho.version>
+		<tycho.version>5.0.2</tycho.version>
 		<wagon.ssh.version>3.5.3</wagon.ssh.version>
 
 		<build.type>nightly</build.type>
