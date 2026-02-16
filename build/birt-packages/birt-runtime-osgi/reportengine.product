@@ -17,8 +17,8 @@
 
    <vm>
    </vm>
- 
-    <license>
+
+   <license>
         <url>http://eclipse.org/legal/epl/notice.php</url>
         <text>
    Eclipse Foundation Software User Agreement
@@ -165,6 +165,7 @@ United States, other countries, or both.
    </license>
 
    <plugins>
+      <plugin id="com.sun.xml.bind.jaxb-osgi"/>
       <plugin id="org.apache.felix.scr"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.equinox.common"/>

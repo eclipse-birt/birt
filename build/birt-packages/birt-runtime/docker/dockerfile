@@ -1,0 +1,41 @@
+FROM ubuntu:24.04
+
+#Update
+RUN apt-get update
+RUN apt-get -y upgrade
+
+#Pre-Installation
+RUN apt -y install openjdk-21-jdk wget
+
+#ENV TOMCAT_VERSION="9"
+#ENV TOMCAT_SUBVERSION=".0.115"
+ENV TOMCAT_VERSION="10"
+ENV TOMCAT_SUBVERSION=".1.52"
+#ENV TOMCAT_VERSION="11"
+#ENV TOMCAT_SUBVERSION=".0.18"
+RUN wget "https://downloads.apache.org/tomcat/tomcat-${TOMCAT_VERSION}/v${TOMCAT_VERSION}${TOMCAT_SUBVERSION}/bin/apache-tomcat-${TOMCAT_VERSION}${TOMCAT_SUBVERSION}.tar.gz" -P /opt/tomcat
+RUN tar xzvf /opt/tomcat/apache-tomcat-$TOMCAT_VERSION*tar.gz -C /opt/tomcat --strip-components=1
+
+RUN apt -y install unzip
+COPY birt-runtime*.zip /opt/tomcat/webapps/birt-runtime.zip
+RUN unzip "/opt/tomcat/webapps/birt-runtime.zip" -d /opt/tomcat/webapps/birt-runtime
+RUN mv "/opt/tomcat/webapps/birt-runtime/WebViewerExample" "/opt/tomcat/webapps/birt"
+RUN rm /opt/tomcat/webapps/birt-runtime.zip
+RUN rm -f -r "/opt/tomcat/webapps/birt-runtime"
+
+#RUN mkdir /usr/share/tomcat && mkdir /etc/tomcat
+RUN cd /opt/tomcat && ln -s /etc/tomcat conf
+
+# Map Reports folder
+VOLUME /opt/tomcat/webapps/birt/reports
+VOLUME /opt/tomcat/webapps/birt
+
+# Modify birt viewer setting for reports path issue
+RUN perl -i -p0e "s/BIRT_VIEWER_WORKING_FOLDER<\/param-name>\n\t\t<param-value>/BIRT_VIEWER_WORKING_FOLDER<\/param-name>\n\t\t<param-value>\/opt\/tomcat\/webapps\/birt\//smg" /opt/tomcat/webapps/birt/WEB-INF/web.xml
+
+#Start
+CMD /opt/tomcat/bin/catalina.sh run
+# CMD ["catalina.sh", "run"]
+
+#Port
+EXPOSE 8080
