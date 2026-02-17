@@ -74,6 +74,7 @@
         <include name="org.apache.commons.discovery_*.jar"/>
         <include name="jakarta.inject.jakarta.inject-api_*.jar"/>
         <include name="jakarta.xml.soap-api_*.jar"/>
+        <include name="com.sun.xml.bind.jaxb-osgi_*.jar"/>
       </fileset>
       <fileset dir="${REPOSITORY_DIR}/plugins">
         <include name="jakarta.xml.soap-api_*.jar"/>
