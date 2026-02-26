@@ -133,6 +133,8 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 
+			action = action + "&__htmlPagination=" + $( 'useHtmlPaginationCheckbox' ).checked;
+
 			// If output format is pdf/ppt/postscript, set some options
 			if( this.__isExcelLayout( format ) )
 			{

@@ -92,6 +92,12 @@
 	<TR>
 		<TD>&nbsp;&nbsp;<%=BirtResources.getHtmlMessage( "birt.viewer.dialog.page.range.description" )%></TD>
 	</TR>
+	<TR>
+		<TD>
+			<INPUT TYPE="checkbox" ID="useHtmlPaginationCheckbox" CHECKED/>
+			<label for="useHtmlPaginationCheckbox"><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.usehtmlpagination" )%></label>
+		</TD>
+	</TR>
 	<TR HEIGHT="5px"><TD><HR/></TD></TR>
 	<TR>
 		<TD>
