@@ -23,11 +23,10 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.w3c.dom.css.CSSValueList;
-
 import org.openpdf.text.Font;
 import org.openpdf.text.pdf.BaseFont;
 import org.openpdf.text.pdf.LayoutProcessor;
+import org.w3c.dom.css.CSSValueList;
 
 /**
  * the font handler, which maps fontFamily, fontStyle, fontWeight properties to
@@ -325,13 +324,15 @@ public class FontHandler {
 	 * LayouProcessor of OpenPDF.
 	 */
 	private void enableKerningAndLigatures() {
-		if (!LayoutProcessor.isEnabled()) {
-			if (fontManager.useFontKerningAndLigatures()) {
-				if (!LayoutProcessor.isEnabled()) {
-					LayoutProcessor.enableKernLiga();
+		synchronized (LayoutProcessor.class) {
+			if (!LayoutProcessor.isEnabled()) {
+				if (fontManager.useFontKerningAndLigatures()) {
+					if (!LayoutProcessor.isEnabled()) {
+						LayoutProcessor.enableKernLiga();
+					}
+				} else {
+					LayoutProcessor.enable(0);
 				}
-			} else {
-				LayoutProcessor.enable(0);
 			}
 		}
 	}
