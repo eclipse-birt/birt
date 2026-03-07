@@ -39,8 +39,6 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.SvgFile;
-import org.w3c.dom.css.CSSValue;
-
 import org.openpdf.text.Document;
 import org.openpdf.text.DocumentException;
 import org.openpdf.text.Font;
@@ -60,6 +58,7 @@ import org.openpdf.text.pdf.PdfString;
 import org.openpdf.text.pdf.PdfTemplate;
 import org.openpdf.text.pdf.PdfTextArray;
 import org.openpdf.text.pdf.PdfWriter;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * Definition of the PDF page
@@ -590,7 +589,7 @@ public class PDFPage extends AbstractPage {
 		BaseFont font = getBaseFont(fontInfo);
 		validateSymbolicFont(font);
 		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
-		
+
 		float fontSize = fontInfo.getFontSize();
 		try {
 			// PDF/A: if font not embeddable then use the configured PDF/A fallback font
@@ -871,11 +870,13 @@ public class PDFPage extends AbstractPage {
 	 * the font correctly.
 	 */
 	private void validateSymbolicFont(BaseFont font) {
-		if (font.isFontSpecific()) {
-			if (LayoutProcessor.isEnabled()) {
-				LayoutProcessor.disable();
+		synchronized (LayoutProcessor.class) {
+			if (font.isFontSpecific()) {
+				if (LayoutProcessor.isEnabled()) {
+					LayoutProcessor.disable();
+				}
+				LayoutProcessor.setKerning();
 			}
-			LayoutProcessor.setKerning();
 		}
 	}
 }
