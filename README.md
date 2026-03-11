@@ -32,15 +32,24 @@ To build BIRT with the latest Eclipse platform, run:
 
 ## Runtime Requirements
 
-The current version of BIRT 4.21 is runnable with JDK:
+The current version **4.23** is runnable with JDK:
 * JDK 21 (LTS)
 
-Tomcat version support:
+### Tomcat version support:
+
+**4.23**
+
+* Tomcat 10
+* Tomcat 11 is untested. Please report any issues
+ 
+
+**Pre 4.23**
 
 * Tomcat 9.0.7x, 9.0.8x, 9.0.9x, 9.0.10x (incl. 9.0.109)
   - BIRT 4.22.0 requires Tomcat to be launched with JVM argument `-add-opens=java.base/java.net=ALL-UNNAMED`.
     - This can be accomplished by setting the following environment variable before starting Tomcat.
       - `CATALINA_OPTS="-add-opens=java.base/java.net=ALL-UNNAMED"`
     - See [issue 2271](https://github.com/eclipse-birt/birt/issues/2271). 
-    - See [discussion 2278](https://github.com/eclipse-birt/birt/discussions/2278). 
-* Tomcat 10 & 11 is not supported due to Jakarta EE dependencies
+    - See [discussion 2278](https://github.com/eclipse-birt/birt/discussions/2278).
+
+
