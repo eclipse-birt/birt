@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ColumnDefinitionGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "ColumnDefinition")
+	@XmlElement(name = "ColumnDef")
 	private ColumnDefinition[] columnDef;
 
 	public ColumnDefinitionGroup() {

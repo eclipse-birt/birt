@@ -18,7 +18,7 @@ public class ChartProperties implements Serializable {
 	private ChartDataBinding dataBinding;
 	@XmlElement(name = "Labels")
 	private ChartLabels labels;
-	@XmlElement(name = "Appearance")
+	@XmlElement(name = "Apperance")
 	private ChartAppearance appearance;
 
 	public ChartProperties() {

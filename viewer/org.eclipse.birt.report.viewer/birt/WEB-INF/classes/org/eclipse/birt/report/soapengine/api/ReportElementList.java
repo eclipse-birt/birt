@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ReportElementList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "element")
+	@XmlElement(name = "Element", required = true)
 	private org.eclipse.birt.report.soapengine.api.ReportElement[] element;
 
 	public ReportElementList() {

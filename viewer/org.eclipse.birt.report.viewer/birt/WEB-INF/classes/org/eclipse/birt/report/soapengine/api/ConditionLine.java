@@ -11,23 +11,23 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ConditionLine implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "reportParameterList")
+	@XmlElement(name = "ReportParameterList")
 	private ReportParameterList reportParameterList;
-	@XmlElement(name = "logicOp")
+	@XmlElement(name = "LogicOp")
 	private String logicOp;
-	@XmlElement(name = "hasLeftBracket")
+	@XmlElement(name = "HasLeftBracket", required = true)
 	private boolean hasLeftBracket;
-	@XmlElement(name = "hasNot")
+	@XmlElement(name = "HasNot", required = true)
 	private boolean hasNot;
-	@XmlElement(name = "row")
+	@XmlElement(name = "Row", required = true)
 	private String row;
-	@XmlElement(name = "operator")
+	@XmlElement(name = "Operator", required = true)
 	private String operator;
-	@XmlElement(name = "value1")
+	@XmlElement(name = "Value1")
 	private String value1;
-	@XmlElement(name = "value2")
+	@XmlElement(name = "Value2")
 	private String value2;
-	@XmlElement(name = "hasRightBracket")
+	@XmlElement(name = "HasRightBracket", required = true)
 	private boolean hasRightBracket;
 
 	public ConditionLine() {

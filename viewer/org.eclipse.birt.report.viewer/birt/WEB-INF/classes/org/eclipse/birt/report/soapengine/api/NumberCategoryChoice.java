@@ -28,17 +28,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class NumberCategoryChoice implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "categoryChoice")
+	@XmlElement(name = "CategoryChoice", required = true)
 	private org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice;
-	@XmlElement(name = "decimalPlaces")
+	@XmlElement(name = "DecimalPlaces")
 	private org.eclipse.birt.report.soapengine.api.Vector decimalPlaces;
-	@XmlElement(name = "symbol")
+	@XmlElement(name = "Symbol")
 	private org.eclipse.birt.report.soapengine.api.Vector symbol;
-	@XmlElement(name = "symbolPosition")
+	@XmlElement(name = "SymbolPosition")
 	private org.eclipse.birt.report.soapengine.api.Vector symbolPosition;
-	@XmlElement(name = "negativeNumberFormat")
+	@XmlElement(name = "NegativeNumberFormat")
 	private org.eclipse.birt.report.soapengine.api.Vector negativeNumberFormat;
-	@XmlElement(name = "useSeparator")
+	@XmlElement(name = "UseSeparator")
 	private java.lang.Boolean useSeparator;
 
 	public NumberCategoryChoice() {

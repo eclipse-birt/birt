@@ -28,13 +28,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class SectionDefinition implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "id")
+	@XmlElement(name = "Id")
 	private java.lang.String id;
-	@XmlElement(name = "tableId")
+	@XmlElement(name = "TableId")
 	private java.lang.String tableId;
-	@XmlElement(name = "level")
+	@XmlElement(name = "Level")
 	private java.lang.Integer level;
-	@XmlElement(name = "sortDir")
+	@XmlElement(name = "SortDir")
 	private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;
 
 	public SectionDefinition() {

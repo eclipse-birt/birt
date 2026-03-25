@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ExportCriteria implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "ColumnName")
+	@XmlElement(name = "ColumnName", required = true)
 	private java.lang.String columnName;
-	@XmlElement(name = "Operator")
+	@XmlElement(name = "Operator", required = true)
 	private java.lang.String operator;
 	@XmlElement(name = "Value")
 	private java.lang.String value;

@@ -17,11 +17,11 @@ public class ChartDataBinding implements Serializable {
 	private String tableId;
 	@XmlElement(name = "Section")
 	private SectionDefinition section;
-	@XmlElement(name = "XAxis")
+	@XmlElement(name = "X-axis", required = true)
 	private AxisDataBinding XAxis;
-	@XmlElement(name = "YAxis")
+	@XmlElement(name = "Y-axis", required = true)
 	private AxisDataBinding[] YAxis;
-	@XmlElement(name = "ShowXLabelsVertically")
+	@XmlElement(name = "ShowXLabelsVertically", required = true)
 	private int showXLabelsVertically;
 
 	public ChartDataBinding() {

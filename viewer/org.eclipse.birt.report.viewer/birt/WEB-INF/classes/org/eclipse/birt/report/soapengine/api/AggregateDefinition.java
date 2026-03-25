@@ -22,10 +22,10 @@ public class AggregateDefinition implements Serializable {
 	@XmlElement(name = "Func", required = true)
 	private String func;
 
-	@XmlElement(name = "SubTotal")
+	@XmlElement(name = "SubTotal", required = true)
 	private AggregateSetting subTotal;
 
-	@XmlElement(name = "GrandTotal")
+	@XmlElement(name = "GrandTotal", required = true)
 	private AggregateSetting grandTotal;
 
 	@XmlElement(name = "IntParameter")

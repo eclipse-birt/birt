@@ -28,17 +28,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class File implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "index")
+	@XmlElement(name = "Index", required = true)
 	private int index;
-	@XmlElement(name = "isFile")
+	@XmlElement(name = "IsFile", required = true)
 	private boolean isFile;
-	@XmlElement(name = "name")
+	@XmlElement(name = "Name", required = true)
 	private java.lang.String name;
-	@XmlElement(name = "fileType")
+	@XmlElement(name = "FileType")
 	private java.lang.String fileType;
-	@XmlElement(name = "displayName")
+	@XmlElement(name = "DisplayName")
 	private java.lang.String displayName;
-	@XmlElement(name = "description")
+	@XmlElement(name = "Description")
 	private java.lang.String description;
 
 	public File() {

@@ -29,7 +29,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class GetUpdatedObjects implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Operation")
+	@XmlElement(name = "Operation", required = true)
 	private org.eclipse.birt.report.soapengine.api.Operation[] operation;
 
 	public GetUpdatedObjects() {

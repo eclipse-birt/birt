@@ -30,9 +30,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class SelectItemChoice implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "value")
+	@XmlElement(name = "Value", required = true)
 	private java.lang.String value;
-	@XmlElement(name = "label")
+	@XmlElement(name = "Label")
 	private java.lang.String label;
 
 	public static final SelectItemChoice NULL_VALUE = new SelectItemChoice(IBirtConstants.NULL_VALUE,

@@ -28,13 +28,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Operation implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Target")
+	@XmlElement(name = "Target", required = true)
 	private org.eclipse.birt.report.soapengine.api.ReportId target;
-	@XmlElement(name = "Operator")
+	@XmlElement(name = "Operator", required = true)
 	private java.lang.String operator;
 	@XmlElement(name = "Oprand")
 	private org.eclipse.birt.report.soapengine.api.Oprand[] oprand;
-	@XmlElement(name = "Data")
+	@XmlElement(name = "Data", required = true)
 	private org.eclipse.birt.report.soapengine.api.Data data;
 
 	public Operation() {

@@ -28,11 +28,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class JoinDefinition implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "leftIO")
+	@XmlElement(name = "LeftIO", required = true)
 	private org.eclipse.birt.report.soapengine.api.IOReference leftIO;
-	@XmlElement(name = "rightIO")
+	@XmlElement(name = "RightIO", required = true)
 	private org.eclipse.birt.report.soapengine.api.IOReference rightIO;
-	@XmlElement(name = "joinConditions")
+	@XmlElement(name = "JoinConditions", required = true)
 	private org.eclipse.birt.report.soapengine.api.JoinCondition[] joinConditions;
 
 	public JoinDefinition() {

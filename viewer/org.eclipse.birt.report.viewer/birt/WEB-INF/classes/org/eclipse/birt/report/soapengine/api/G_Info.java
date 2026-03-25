@@ -31,18 +31,18 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class G_Info implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "level")
+	@XmlElement(name = "Level", required = true)
 	private int level;
-	@XmlElement(name = "groupName")
+	@XmlElement(name = "GroupName", required = true)
 	private java.lang.String groupName;
 	/** The number of rows in group header */
-	@XmlElement(name = "h_Count")
+	@XmlElement(name = "H_Count", required = true)
 	private int h_Count;
 	/** The number of rows in group footer */
-	@XmlElement(name = "f_Count")
+	@XmlElement(name = "F_Count", required = true)
 	private int f_Count;
 	/** The index of group header row */
-	@XmlElement(name = "HR_Index")
+	@XmlElement(name = "HR_Index", required = true)
 	private int HR_Index;
 
 	public G_Info() {

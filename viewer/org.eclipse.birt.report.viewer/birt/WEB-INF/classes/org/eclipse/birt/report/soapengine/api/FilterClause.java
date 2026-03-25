@@ -28,13 +28,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class FilterClause implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "column")
+	@XmlElement(name = "Column")
 	private org.eclipse.birt.report.soapengine.api.ColumnDefinition column;
-	@XmlElement(name = "columnName")
+	@XmlElement(name = "ColumnName")
 	private org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName;
-	@XmlElement(name = "filterOp")
+	@XmlElement(name = "FilterOp", required = true)
 	private java.lang.String filterOp;
-	@XmlElement(name = "operand")
+	@XmlElement(name = "Operand")
 	private java.lang.String[] operand;
 
 	public FilterClause() {
