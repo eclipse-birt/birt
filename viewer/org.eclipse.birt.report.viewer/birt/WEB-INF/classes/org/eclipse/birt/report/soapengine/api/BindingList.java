@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "BindingList")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BindingList {
-	@XmlElement(name = "Binding")
+	@XmlElement(name = "Binding", required = true)
 	private Binding[] binding;
 
 	public BindingList() {

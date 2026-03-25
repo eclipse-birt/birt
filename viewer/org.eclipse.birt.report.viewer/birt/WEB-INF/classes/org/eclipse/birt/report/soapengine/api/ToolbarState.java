@@ -29,17 +29,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class ToolbarState implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/** can create a new report */
-	@XmlElement(name = "canNew")
+	@XmlElement(name = "CanNew", required = true)
 	private boolean canNew;
-	@XmlElement(name = "canUndo")
+	@XmlElement(name = "CanUndo", required = true)
 	private boolean canUndo;
-	@XmlElement(name = "canRedo")
+	@XmlElement(name = "CanRedo", required = true)
 	private boolean canRedo;
 	/** where to save the design is known */
-	@XmlElement(name = "canSave")
+	@XmlElement(name = "CanSave", required = true)
 	private boolean canSave;
 	/** the design is dirty */
-	@XmlElement(name = "isDirty")
+	@XmlElement(name = "IsDirty", required = true)
 	private boolean isDirty;
 
 	public ToolbarState() {

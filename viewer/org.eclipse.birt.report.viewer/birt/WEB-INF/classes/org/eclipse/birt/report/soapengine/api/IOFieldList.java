@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class IOFieldList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "IOFullPath")
+	@XmlElement(name = "IOFullPath", required = true)
 	private java.lang.String IOFullPath;
-	@XmlElement(name = "fields")
+	@XmlElement(name = "Fields")
 	private org.eclipse.birt.report.soapengine.api.IOField[] fields;
 
 	public IOFieldList() {

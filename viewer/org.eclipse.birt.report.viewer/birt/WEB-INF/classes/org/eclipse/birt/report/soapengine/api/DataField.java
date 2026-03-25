@@ -13,9 +13,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class DataField implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Name")
+	@XmlElement(name = "Name", required = true)
 	private String name;
-	@XmlElement(name = "Id")
+	@XmlElement(name = "Id", required = true)
 	private String id;
 	@XmlElement(name = "Type")
 	private String type;

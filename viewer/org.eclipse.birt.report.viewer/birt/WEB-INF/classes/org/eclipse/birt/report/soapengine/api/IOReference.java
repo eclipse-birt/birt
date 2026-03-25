@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class IOReference implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "id")
+	@XmlElement(name = "Id", required = true)
 	private java.lang.String id;
-	@XmlElement(name = "fullPath")
+	@XmlElement(name = "FullPath", required = true)
 	private java.lang.String fullPath;
 
 	public IOReference() {

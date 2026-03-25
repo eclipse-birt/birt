@@ -28,29 +28,29 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Font implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "family")
+	@XmlElement(name = "Family")
 	private java.lang.String family;
-	@XmlElement(name = "style")
+	@XmlElement(name = "Style")
 	private java.lang.String style;
-	@XmlElement(name = "size")
+	@XmlElement(name = "Size")
 	private java.lang.Integer size;
-	@XmlElement(name = "effect")
+	@XmlElement(name = "Effect")
 	private java.lang.String effect;
-	@XmlElement(name = "super")
+	@XmlElement(name = "Super")
 	private java.lang.String _super;
-	@XmlElement(name = "weight")
+	@XmlElement(name = "Weight")
 	private java.lang.String weight;
-	@XmlElement(name = "color")
+	@XmlElement(name = "Color")
 	private java.lang.String color;
-	@XmlElement(name = "backgroundColor")
+	@XmlElement(name = "BackgroundColor")
 	private java.lang.String backgroundColor;
-	@XmlElement(name = "bold")
+	@XmlElement(name = "Bold")
 	private java.lang.Boolean bold;
-	@XmlElement(name = "italic")
+	@XmlElement(name = "Italic")
 	private java.lang.Boolean italic;
-	@XmlElement(name = "underline")
+	@XmlElement(name = "Underline")
 	private java.lang.Boolean underline;
-	@XmlElement(name = "lineThrough")
+	@XmlElement(name = "LineThrough")
 	private java.lang.Boolean lineThrough;
 
 	public Font() {

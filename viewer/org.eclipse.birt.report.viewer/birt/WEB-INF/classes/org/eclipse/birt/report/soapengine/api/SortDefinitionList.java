@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class SortDefinitionList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "SortDefinition")
+	@XmlElement(name = "SortDefinition", required = true)
 	private org.eclipse.birt.report.soapengine.api.SortDefinition[] sortDefinition;
 
 	public SortDefinitionList() {

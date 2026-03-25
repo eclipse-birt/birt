@@ -28,11 +28,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class RepositoryPathSegment implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "index")
+	@XmlElement(name = "Index", required = true)
 	private int index;
-	@XmlElement(name = "name")
+	@XmlElement(name = "Name", required = true)
 	private java.lang.String name;
-	@XmlElement(name = "RPath")
+	@XmlElement(name = "RPath", required = true)
 	private java.lang.String RPath;
 
 	public RepositoryPathSegment() {

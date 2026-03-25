@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class IOField implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "name")
+	@XmlElement(name = "Name", required = true)
 	private java.lang.String name;
-	@XmlElement(name = "displayName")
+	@XmlElement(name = "DisplayName", required = true)
 	private java.lang.String displayName;
 
 	public IOField() {

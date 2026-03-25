@@ -34,16 +34,16 @@ public class TableRowInfo implements java.io.Serializable {
 	/**
 	 * The group level of this row. -1 is used to indicated table level rows.
 	 */
-	@XmlElement(name = "level")
+	@XmlElement(name = "Level", required = true)
 	private int level;
 	/**
 	 * The position of this row in the group header or group footer. Index starts
 	 * from 0.
 	 */
-	@XmlElement(name = "index")
+	@XmlElement(name = "Index", required = true)
 	private int index;
 	/** Whether the row is in header or in footer */
-	@XmlElement(name = "isHeader")
+	@XmlElement(name = "IsHeader", required = true)
 	private boolean isHeader;
 
 	public TableRowInfo() {

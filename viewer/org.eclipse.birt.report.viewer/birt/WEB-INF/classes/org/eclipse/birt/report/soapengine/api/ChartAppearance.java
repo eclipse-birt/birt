@@ -18,9 +18,9 @@ public class ChartAppearance implements Serializable {
 	private Boolean showValues;
 	@XmlElement(name = "Location")
 	private ChartLocation location;
-	@XmlElement(name = "Width")
+	@XmlElement(name = "Width", required = true)
 	private String width;
-	@XmlElement(name = "Height")
+	@XmlElement(name = "Height", required = true)
 	private String height;
 
 	public ChartAppearance() {

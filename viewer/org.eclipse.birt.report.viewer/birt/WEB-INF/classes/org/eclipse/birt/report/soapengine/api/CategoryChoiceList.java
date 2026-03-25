@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CategoryChoiceList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "CategoryChoice")
+	@XmlElement(name = "CategoryChoice", required = true)
 	private CategoryChoice[] categoryChoice;
 
 	public CategoryChoiceList() {

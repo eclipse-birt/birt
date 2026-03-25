@@ -29,19 +29,19 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class TableSectionContextMenuState implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/** Can insert a chart in this section */
-	@XmlElement(name = "canAddChart")
+	@XmlElement(name = "CanAddChart", required = true)
 	private boolean canAddChart;
 	/** Can edit a chart in this section */
-	@XmlElement(name = "canEditChart")
+	@XmlElement(name = "CanEditChart", required = true)
 	private boolean canEditChart;
 	/** Can delete a chart in this section */
-	@XmlElement(name = "canDeleteChart")
+	@XmlElement(name = "CanDeleteChart", required = true)
 	private boolean canDeleteChart;
 	/** Can expand a section */
-	@XmlElement(name = "canExpand")
+	@XmlElement(name = "CanExpand", required = true)
 	private boolean canExpand;
 	/** Can collapse a section */
-	@XmlElement(name = "canCollapse")
+	@XmlElement(name = "CanCollapse", required = true)
 	private boolean canCollapse;
 
 	public TableSectionContextMenuState() {

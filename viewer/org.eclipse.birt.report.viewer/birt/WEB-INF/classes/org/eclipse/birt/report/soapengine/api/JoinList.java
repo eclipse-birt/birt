@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class JoinList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "join")
+	@XmlElement(name = "Join")
 	private org.eclipse.birt.report.soapengine.api.JoinDefinition[] join;
 
 	public JoinList() {

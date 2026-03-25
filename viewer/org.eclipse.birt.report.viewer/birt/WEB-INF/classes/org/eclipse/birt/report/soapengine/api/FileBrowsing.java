@@ -28,17 +28,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class FileBrowsing implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "path")
+	@XmlElement(name = "Path")
 	private java.lang.String path;
-	@XmlElement(name = "fileName")
+	@XmlElement(name = "FileName")
 	private java.lang.String fileName;
-	@XmlElement(name = "search")
+	@XmlElement(name = "Search")
 	private org.eclipse.birt.report.soapengine.api.FileSearch search;
-	@XmlElement(name = "pathSeparator")
+	@XmlElement(name = "PathSeparator")
 	private java.lang.String pathSeparator;
-	@XmlElement(name = "currentWorkingFolder")
+	@XmlElement(name = "CurrentWorkingFolder")
 	private org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList currentWorkingFolder;
-	@XmlElement(name = "fileList")
+	@XmlElement(name = "FileList")
 	private org.eclipse.birt.report.soapengine.api.FileList fileList;
 
 	public FileBrowsing() {

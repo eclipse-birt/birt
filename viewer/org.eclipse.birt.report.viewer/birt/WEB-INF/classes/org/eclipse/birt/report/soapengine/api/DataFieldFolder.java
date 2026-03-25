@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class DataFieldFolder implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Name")
+	@XmlElement(name = "Name", required = true)
 	private java.lang.String name;
 	@XmlElement(name = "Folder")
 	private org.eclipse.birt.report.soapengine.api.DataFieldFolder[] folder;

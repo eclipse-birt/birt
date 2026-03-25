@@ -28,19 +28,19 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class GroupDetail implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "columnIdx")
+	@XmlElement(name = "ColumnIdx", required = true)
 	private int columnIdx;
-	@XmlElement(name = "groupOn")
+	@XmlElement(name = "GroupOn", required = true)
 	private java.lang.String groupOn;
-	@XmlElement(name = "createSection")
+	@XmlElement(name = "CreateSection", required = true)
 	private boolean createSection;
-	@XmlElement(name = "dataType")
+	@XmlElement(name = "DataType", required = true)
 	private int dataType;
-	@XmlElement(name = "intervalType")
+	@XmlElement(name = "IntervalType")
 	private java.lang.Integer intervalType;
-	@XmlElement(name = "intervalRange")
+	@XmlElement(name = "IntervalRange")
 	private java.lang.Double intervalRange;
-	@XmlElement(name = "intervalBase")
+	@XmlElement(name = "IntervalBase")
 	private java.lang.String intervalBase;
 
 	public GroupDetail() {

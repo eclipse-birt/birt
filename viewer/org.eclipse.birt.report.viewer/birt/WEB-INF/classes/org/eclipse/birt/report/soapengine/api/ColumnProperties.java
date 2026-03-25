@@ -11,9 +11,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ColumnProperties implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Width")
+	@XmlElement(name = "Width", required = true)
 	private double width;
-	@XmlElement(name = "Alignment")
+	@XmlElement(name = "Alignment", required = true)
 	private Alignment alignment;
 
 	public ColumnProperties() {

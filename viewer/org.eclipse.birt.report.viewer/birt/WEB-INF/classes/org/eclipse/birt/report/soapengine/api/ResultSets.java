@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ResultSets implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "ResultSet")
+	@XmlElement(name = "ResultSet", required = true)
 	private org.eclipse.birt.report.soapengine.api.ResultSet[] resultSet;
 
 	public ResultSets() {

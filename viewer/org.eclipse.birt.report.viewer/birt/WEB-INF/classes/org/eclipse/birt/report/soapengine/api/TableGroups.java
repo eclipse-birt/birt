@@ -31,7 +31,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class TableGroups implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "group")
+	@XmlElement(name = "Group", required = true)
 	private org.eclipse.birt.report.soapengine.api.G_Info[] group;
 
 	public TableGroups() {

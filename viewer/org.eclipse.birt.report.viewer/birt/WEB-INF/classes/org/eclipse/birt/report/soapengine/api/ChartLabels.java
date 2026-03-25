@@ -13,11 +13,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ChartLabels implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Title")
+	@XmlElement(name = "Title", required = true)
 	private String title;
-	@XmlElement(name = "XAxis")
+	@XmlElement(name = "X-axis", required = true)
 	private String XAxis;
-	@XmlElement(name = "YAxis")
+	@XmlElement(name = "Y-axis", required = true)
 	private String[] YAxis;
 
 	public ChartLabels() {

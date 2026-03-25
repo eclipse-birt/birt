@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "BRDExpression")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BRDExpression {
-	@XmlElement(name = "Expression")
+	@XmlElement(name = "Expression", required = true)
 	private String expression;
 	@XmlElement(name = "IsValid")
 	private Boolean isValid;

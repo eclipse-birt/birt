@@ -12,13 +12,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CellDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Level")
+	@XmlElement(name = "Level", required = true)
 	private int level;
-	@XmlElement(name = "IsHeader")
+	@XmlElement(name = "IsHeader", required = true)
 	private boolean isHeader;
-	@XmlElement(name = "RowIndex")
+	@XmlElement(name = "RowIndex", required = true)
 	private int rowIndex;
-	@XmlElement(name = "CellIndex")
+	@XmlElement(name = "CellIndex", required = true)
 	private int cellIndex;
 	@XmlElement(name = "Font")
 	private Font font;

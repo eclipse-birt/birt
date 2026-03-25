@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class DataSourceList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "DataSource")
+	@XmlElement(name = "DataSource", required = true)
 	private org.eclipse.birt.report.soapengine.api.DataSource[] dataSource;
 
 	public DataSourceList() {

@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class RepositoryPathSegmentList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "segment")
+	@XmlElement(name = "Segment", required = true)
 	private org.eclipse.birt.report.soapengine.api.RepositoryPathSegment[] segment;
 
 	public RepositoryPathSegmentList() {

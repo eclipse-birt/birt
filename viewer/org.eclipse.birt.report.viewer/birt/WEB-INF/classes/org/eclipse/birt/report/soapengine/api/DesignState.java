@@ -28,15 +28,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class DesignState implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "isBlank")
+	@XmlElement(name = "IsBlank")
 	private java.lang.Boolean isBlank;
-	@XmlElement(name = "editable")
+	@XmlElement(name = "Editable")
 	private java.lang.Boolean editable;
 	/** can create a new report */
-	@XmlElement(name = "canNew")
+	@XmlElement(name = "CanNew")
 	private java.lang.Boolean canNew;
 	/** report name */
-	@XmlElement(name = "rptName")
+	@XmlElement(name = "RptName", required = true)
 	private java.lang.String rptName;
 
 	public DesignState() {
