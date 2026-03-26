@@ -17,10 +17,14 @@ package org.eclipse.birt.report.engine.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -74,15 +78,30 @@ public class ResourceLocatorWrapper {
 			}
 			byte[] inBytes = cache.get(url);
 			if (inBytes == null) {
+				URLConnection connection = null;
 				try {
-					InputStream in = url.openStream();
+					connection = url.openConnection();
+					InputStream in = connection.getInputStream();
 					inBytes = getByteArrayFromInputStream(in);
 					in.close();
 					cache.put(url, inBytes);
 				} catch (IOException e) {
-					logger.log(Level.WARNING, MessageConstants.RESOURCE_NOT_ACCESSIBLE, url.toExternalForm());
+					LogRecord record = new LogRecord(Level.WARNING, MessageConstants.RESOURCE_NOT_ACCESSIBLE);
+					record.setParameters(new Object[] { url.toExternalForm() });
+					record.setLoggerName(logger.getName());
+					if (connection instanceof HttpURLConnection httpConn) {
+						String errorBody = extractErrorBody(httpConn);
+						if (!errorBody.isEmpty()) {
+							record.setThrown(new IOException(errorBody));
+						}
+					}
+					logger.log(record);
 					cache.put(url, DUMMY_BYTES);
 					return DUMMY_BYTES;
+				} finally {
+					if (connection instanceof HttpURLConnection httpConn) {
+						httpConn.disconnect();
+					}
 				}
 			}
 			return inBytes;
@@ -100,6 +119,22 @@ public class ResourceLocatorWrapper {
 		buffer = out.toByteArray();
 		out.close();
 		return buffer;
+	}
+
+	private String extractErrorBody(HttpURLConnection httpConn) {
+		try {
+			InputStream errorStream = httpConn.getErrorStream();
+			if (errorStream == null) {
+				return "No Error-Body";
+			}
+
+			try (errorStream) {
+				String body = new String(errorStream.readAllBytes(), StandardCharsets.UTF_8);
+				return body.length() > 1024 ? body.substring(0, 1024) + "..." : body;
+			}
+		} catch (Exception ex) {
+			return "Can't read Error-Body: " + ex.getMessage();
+		}
 	}
 
 }
