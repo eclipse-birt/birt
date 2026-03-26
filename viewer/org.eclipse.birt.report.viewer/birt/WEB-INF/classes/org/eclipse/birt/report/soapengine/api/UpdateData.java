@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class UpdateData implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Target", required = true)
+	@XmlElement(name = "Target")
 	private java.lang.String target;
-	@XmlElement(name = "Data", required = true)
+	@XmlElement(name = "Data")
 	private org.eclipse.birt.report.soapengine.api.Data data;
 
 	public UpdateData() {

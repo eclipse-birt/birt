@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ConditionLineList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "ConditionLine", required = true)
+	@XmlElement(name = "ConditionLine")
 	private ConditionLine[] conditionLine;
 
 	public ConditionLineList() {

@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class SortDefinition implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "columnIndex")
+	@XmlElement(name = "ColumnIndex")
 	private int columnIndex;
-	@XmlElement(name = "sortDir")
+	@XmlElement(name = "SortDir")
 	private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;
 
 	public SortDefinition() {

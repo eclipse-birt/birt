@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class UpdateDialog implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "DialogId", required = true)
+	@XmlElement(name = "DialogId")
 	private java.lang.String dialogId;
-	@XmlElement(name = "Content", required = true)
+	@XmlElement(name = "Content")
 	private java.lang.String content;
 
 	public UpdateDialog() {

@@ -29,13 +29,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class TableLayout implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/** Design id of table */
-	@XmlElement(name = "id")
+	@XmlElement(name = "Id")
 	private long id;
 	/** Number of sections */
-	@XmlElement(name = "s_Count")
+	@XmlElement(name = "S_Count")
 	private int s_Count;
 	/** Number of ERNI groups */
-	@XmlElement(name = "g_Count")
+	@XmlElement(name = "G_Count")
 	private int g_Count;
 	/** The information of column header row */
 	@XmlElement(name = "CH_Row")
@@ -43,9 +43,9 @@ public class TableLayout implements java.io.Serializable {
 	/** The information of the table level chart row */
 	@XmlElement(name = "TC_Row")
 	private org.eclipse.birt.report.soapengine.api.TableRowInfo TC_Row;
-	@XmlElement(name = "sections")
+	@XmlElement(name = "Sections")
 	private org.eclipse.birt.report.soapengine.api.TableSections sections;
-	@XmlElement(name = "groups")
+	@XmlElement(name = "Groups")
 	private org.eclipse.birt.report.soapengine.api.TableGroups groups;
 
 	public TableLayout() {

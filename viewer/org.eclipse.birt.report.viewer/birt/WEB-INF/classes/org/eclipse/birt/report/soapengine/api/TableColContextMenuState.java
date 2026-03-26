@@ -29,16 +29,16 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class TableColContextMenuState implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	/** Can set NoRepeatValue in a table column */
-	@XmlElement(name = "CanNoRepeatValue", required = true)
+	@XmlElement(name = "CanNoRepeatValue")
 	private boolean canNoRepeatValue;
 	/** Can unset NoRepeatValue in a table column */
-	@XmlElement(name = "CanRepeatValue", required = true)
+	@XmlElement(name = "CanRepeatValue")
 	private boolean canRepeatValue;
 	/** Can expand a group column */
-	@XmlElement(name = "CanExpand", required = true)
+	@XmlElement(name = "CanExpand")
 	private boolean canExpand;
 	/** Can collapse a group column */
-	@XmlElement(name = "CanCollapse", required = true)
+	@XmlElement(name = "CanCollapse")
 	private boolean canCollapse;
 
 	public TableColContextMenuState() {

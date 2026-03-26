@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class FileSearch implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "FileType", required = true)
+	@XmlElement(name = "FileType")
 	private java.lang.String fileType;
 
 	public FileSearch() {
