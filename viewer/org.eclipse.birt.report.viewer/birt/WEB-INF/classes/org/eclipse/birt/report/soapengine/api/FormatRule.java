@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class FormatRule implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Condition", required = true)
+	@XmlElement(name = "Condition")
 	private org.eclipse.birt.report.soapengine.api.FormatRuleCondition condition;
-	@XmlElement(name = "Effect", required = true)
+	@XmlElement(name = "Effect")
 	private org.eclipse.birt.report.soapengine.api.FormatRuleEffect effect;
 
 	public FormatRule() {

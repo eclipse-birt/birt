@@ -15,19 +15,19 @@ public class ConditionLine implements Serializable {
 	private ReportParameterList reportParameterList;
 	@XmlElement(name = "LogicOp")
 	private String logicOp;
-	@XmlElement(name = "HasLeftBracket", required = true)
+	@XmlElement(name = "HasLeftBracket")
 	private boolean hasLeftBracket;
-	@XmlElement(name = "HasNot", required = true)
+	@XmlElement(name = "HasNot")
 	private boolean hasNot;
-	@XmlElement(name = "Row", required = true)
+	@XmlElement(name = "Row")
 	private String row;
-	@XmlElement(name = "Operator", required = true)
+	@XmlElement(name = "Operator")
 	private String operator;
 	@XmlElement(name = "Value1")
 	private String value1;
 	@XmlElement(name = "Value2")
 	private String value2;
-	@XmlElement(name = "HasRightBracket", required = true)
+	@XmlElement(name = "HasRightBracket")
 	private boolean hasRightBracket;
 
 	public ConditionLine() {

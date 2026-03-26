@@ -28,11 +28,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class JoinCondition implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "leftExpr")
+	@XmlElement(name = "LeftExpr")
 	private java.lang.String leftExpr;
-	@XmlElement(name = "operator")
+	@XmlElement(name = "Operator")
 	private java.lang.String operator;
-	@XmlElement(name = "rightExpr")
+	@XmlElement(name = "RightExpr")
 	private java.lang.String rightExpr;
 
 	public JoinCondition() {

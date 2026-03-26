@@ -34,7 +34,7 @@ public class Page implements java.io.Serializable {
 	private java.lang.String totalPage;
 	@XmlElement(name = "Completed")
 	private java.lang.Boolean completed;
-	@XmlElement(name = "rtl")
+	@XmlElement(name = "Rtl")
 	private java.lang.Boolean rtl;
 
 	public Page() {

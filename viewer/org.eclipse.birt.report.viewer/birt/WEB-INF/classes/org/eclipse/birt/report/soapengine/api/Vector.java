@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Vector implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "value")
+	@XmlElement(name = "Value")
 	private java.lang.String[] value;
 
 	public Vector() {

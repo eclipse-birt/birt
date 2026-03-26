@@ -36,7 +36,7 @@ public class DesignState implements java.io.Serializable {
 	@XmlElement(name = "CanNew")
 	private java.lang.Boolean canNew;
 	/** report name */
-	@XmlElement(name = "RptName", required = true)
+	@XmlElement(name = "RptName")
 	private java.lang.String rptName;
 
 	public DesignState() {

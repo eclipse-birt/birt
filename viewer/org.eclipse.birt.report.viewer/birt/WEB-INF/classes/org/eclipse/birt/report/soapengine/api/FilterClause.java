@@ -32,7 +32,7 @@ public class FilterClause implements java.io.Serializable {
 	private org.eclipse.birt.report.soapengine.api.ColumnDefinition column;
 	@XmlElement(name = "ColumnName")
 	private org.eclipse.birt.report.soapengine.api.BoundDataColumn columnName;
-	@XmlElement(name = "FilterOp", required = true)
+	@XmlElement(name = "FilterOp")
 	private java.lang.String filterOp;
 	@XmlElement(name = "Operand")
 	private java.lang.String[] operand;

@@ -28,9 +28,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class JoinMetadata implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "IOList", required = true)
+	@XmlElement(name = "IOList")
 	private org.eclipse.birt.report.soapengine.api.IOList IOList;
-	@XmlElement(name = "JoinList", required = true)
+	@XmlElement(name = "JoinList")
 	private org.eclipse.birt.report.soapengine.api.JoinList joinList;
 
 	public JoinMetadata() {

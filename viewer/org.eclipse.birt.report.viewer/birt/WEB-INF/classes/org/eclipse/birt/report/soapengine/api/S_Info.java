@@ -31,19 +31,19 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class S_Info implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "Level", required = true)
+	@XmlElement(name = "Level")
 	private int level;
 	/** The number of rows in section header */
-	@XmlElement(name = "H_Count", required = true)
+	@XmlElement(name = "H_Count")
 	private int h_Count;
 	/** The number of rows in section footer */
-	@XmlElement(name = "F_Count", required = true)
+	@XmlElement(name = "F_Count")
 	private int f_Count;
 	/** The index of section header row */
-	@XmlElement(name = "HR_Index", required = true)
+	@XmlElement(name = "HR_Index")
 	private int HR_Index;
 	/** The index of chart row */
-	@XmlElement(name = "CR_Index", required = true)
+	@XmlElement(name = "CR_Index")
 	private int CR_Index;
 
 	public S_Info() {

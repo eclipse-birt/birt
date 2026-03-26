@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "BoundDataColumn")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BoundDataColumn {
-	@XmlElement(name = "Name", required = true)
+	@XmlElement(name = "Name")
 	private String name;
 	@XmlElement(name = "Expression")
 	private String expression;

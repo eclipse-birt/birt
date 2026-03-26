@@ -28,11 +28,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class ReportParameter implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "name")
+	@XmlElement(name = "Name")
 	private java.lang.String name;
-	@XmlElement(name = "promptString")
+	@XmlElement(name = "PromptString")
 	private java.lang.String promptString;
-	@XmlElement(name = "defaultValue")
+	@XmlElement(name = "DefaultValue")
 	private java.lang.String defaultValue;
 
 	public ReportParameter() {

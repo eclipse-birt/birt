@@ -19,7 +19,7 @@ public class Column implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Name", required = true)
+	@XmlElement(name = "Name")
 	private String name;
 
 	@XmlElement(name = "Label")

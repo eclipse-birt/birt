@@ -19,13 +19,13 @@ public class AggregateDefinition implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Func", required = true)
+	@XmlElement(name = "Func")
 	private String func;
 
-	@XmlElement(name = "SubTotal", required = true)
+	@XmlElement(name = "SubTotal")
 	private AggregateSetting subTotal;
 
-	@XmlElement(name = "GrandTotal", required = true)
+	@XmlElement(name = "GrandTotal")
 	private AggregateSetting grandTotal;
 
 	@XmlElement(name = "IntParameter")
