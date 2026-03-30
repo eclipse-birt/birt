@@ -17,27 +17,18 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.RequesterFragment;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.session.IViewingSession;
-import org.eclipse.birt.report.session.ViewingSessionUtil;
-import org.eclipse.birt.report.utility.BirtUtility;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class BirtEngineServlet extends BaseReportEngineServlet {
 
-	/**
-	 * TODO: what's this?
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,7 +37,7 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 	 * @return
 	 */
 	@Override
-	protected void __init(ServletConfig config) {
+	public void __init(ServletConfig config) {
 		BirtReportServiceFactory.init(new BirtViewerReportService(config.getServletContext()));
 
 		engine = new EngineFragment();
@@ -54,32 +45,6 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 		requester = new RequesterFragment();
 		requester.buildComposite();
 		requester.setJSPRootPath("/webcontent/birt"); //$NON-NLS-1$
-	}
-
-	/**
-	 * Init context.
-	 *
-	 * @param request  incoming http request
-	 * @param response http response
-	 * @exception BirtException
-	 * @return IContext
-	 */
-	@Override
-	protected IContext __getContext(HttpServletRequest request, HttpServletResponse response) throws BirtException {
-		BirtReportServiceFactory.getReportService().setContext(getServletContext(), null);
-		return new BirtContext(request, response);
-	}
-
-	/**
-	 * Local authentication.
-	 *
-	 * @param request  incoming http request
-	 * @param response http response
-	 * @return
-	 */
-	@Override
-	protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response) {
-		return true;
 	}
 
 	/**
@@ -101,58 +66,4 @@ public class BirtEngineServlet extends BaseReportEngineServlet {
 			engine.service(context.getRequest(), context.getResponse());
 		}
 	}
-
-	/**
-	 * Process exception for non soap request.
-	 *
-	 * @param request   incoming http request
-	 * @param response  http response
-	 * @param exception
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	@Override
-	protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
-			Exception exception) throws ServletException, IOException {
-		exception.printStackTrace();
-		response.setContentType("text/html; charset=utf-8"); //$NON-NLS-1$
-		BirtUtility.appendErrorMessage(response.getOutputStream(), exception);
-	}
-
-	/**
-	 * Handle HTTP GET method.
-	 *
-	 * @param request  incoming http request
-	 * @param response http response
-	 * @exception ServletException
-	 * @exception IOException
-	 * @return
-	 */
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!__authenticate(request, response)) {
-			return;
-		}
-
-		try {
-			IViewingSession session = ViewingSessionUtil.getSession(request);
-			if (session == null) {
-				session = ViewingSessionUtil.createSession(request);
-			}
-			session.lock();
-			try {
-				IContext context = __getContext(request, response);
-				if (context.getBean().getException() != null) {
-					__handleNonSoapException(request, response, context.getBean().getException());
-				} else {
-					__doGet(context);
-				}
-			} finally {
-				session.unlock();
-			}
-		} catch (BirtException e) {
-			__handleNonSoapException(request, response, e);
-		}
-	}
-
 }
