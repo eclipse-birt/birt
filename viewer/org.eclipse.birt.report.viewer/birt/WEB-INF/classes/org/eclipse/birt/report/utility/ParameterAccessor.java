@@ -39,11 +39,6 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -62,6 +57,11 @@ import org.eclipse.birt.report.utility.filename.IFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory;
 
 import com.ibm.icu.util.ULocale;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Utilities class for all types of URl related operations.
@@ -2247,6 +2247,11 @@ public class ParameterAccessor {
 		String resourceFolder = getParameter(request, PARAM_RESOURCE_FOLDER);
 
 		resourceFolder = decodeFilePath(request, resourceFolder);
+
+		if (resourceFolder != null && !resourceFolder.trim().isEmpty() && !isValidFilePath(request, resourceFolder)) {
+			throw new RuntimeException("The _resourceFolder value '" + resourceFolder
+					+ "' is invalid or not permitted by the policy '" + urlReportPathPolicy + "'.");
+		}
 
 		// set it as init params from web.xml
 		if (resourceFolder == null || resourceFolder.trim().length() <= 0) {
