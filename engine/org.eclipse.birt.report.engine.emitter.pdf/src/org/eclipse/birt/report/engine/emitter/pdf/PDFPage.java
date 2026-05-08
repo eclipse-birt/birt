@@ -185,9 +185,14 @@ public class PDFPage extends AbstractPage {
 
 			// SVG images
 			try {
-				if (this.pageDevice.useBackgroundImageSvg() && SvgFile.isSvg(null, null, imageUrl)
-						&& (new File((new URL(imageUrl)).toURI().getPath())).exists()) {
-					image = transSVG(imageUrl, null, imageHeight, imageWidth);
+				boolean isSvgImage = this.pageDevice.useBackgroundImageSvg()
+						&& SvgFile.isSvg(null, imageUrl, null, imageData);
+				if (isSvgImage) {
+					if ((new File((new URL(imageUrl)).toURI().getPath())).exists()) {
+						image = transSVG(imageUrl, null, imageHeight, imageWidth);
+					} else if (imageData != null) {
+						image = transSVG(null, imageData, imageHeight, imageWidth);
+					}
 					if (image != null) {
 						drawImage(image, x, y, imageHeight, imageWidth, null);
 					}
@@ -283,7 +288,7 @@ public class PDFPage extends AbstractPage {
 		}
 
 		// Not cached yet
-		if (SvgFile.isSvg(null, null, extension)) {
+		if (SvgFile.isSvg(null, null, extension, imageData)) {
 			template = generateTemplateFromSVG(imageData, height, width);
 		} else {
 			// PNG/JPG/BMP... images:
