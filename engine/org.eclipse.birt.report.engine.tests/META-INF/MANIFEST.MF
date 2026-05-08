@@ -53,3 +53,6 @@ Export-Package: org.eclipse.birt.report.engine;x-internal:=true,
  org.eclipse.birt.report.engine.tests;x-internal:=true,
  org.eclipse.birt.report.engine.toc;x-internal:=true,
  org.eclipse.birt.report.engine.util;x-internal:=true
+Import-Package: org.apache.batik.transcoder;version="1.19.0",
+ org.apache.batik.transcoder.print;version="1.19.0"
+
