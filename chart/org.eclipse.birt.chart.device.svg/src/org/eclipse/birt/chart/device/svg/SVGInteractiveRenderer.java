@@ -1115,10 +1115,20 @@ public class SVGInteractiveRenderer {
 		mapOnloadAdded.clear();
 	}
 
+	/**
+	 * Returns the layer mapping elements to events.
+	 *
+	 * @return a node with events mapped to elements.
+	 */
 	public Node getHotspotLayer() {
 		return hotspotLayer;
 	}
 
+	/**
+	 * Creates a transparent general node as a layer to map events to SVG elements.
+	 *
+	 * @param dom is the document used to create the element.
+	 */
 	public void createHotspotLayer(Document dom) {
 		hotspotLayer = dom.createElement("g"); //$NON-NLS-1$
 		hotspotLayer.setAttribute("id", "hotSpots"); //$NON-NLS-1$ //$NON-NLS-2$
