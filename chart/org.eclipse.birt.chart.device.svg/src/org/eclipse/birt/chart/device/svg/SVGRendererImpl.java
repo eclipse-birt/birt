@@ -214,11 +214,15 @@ public class SVGRendererImpl extends SwingRendererImpl {
 		super.after();
 
 		ivRenderer.addInteractivity();
+
 		addScripts();
 		((SVGGraphics2D) _g2d).flush();
 
-		// make sure we add the hotspot layer to the bottom layer of the svg
-		dom.getDocumentElement().appendChild(ivRenderer.getHotspotLayer());
+		// Interactivity must not be used with PDF/A-1 conformance levels
+		if (ivRenderer.isInteractive()) {
+			// make sure we add the hotspot layer to the bottom layer of the svg
+			dom.getDocumentElement().appendChild(ivRenderer.getHotspotLayer());
+		}
 
 		if (oOutputIdentifier instanceof OutputStream) // OUTPUT STREAM
 		{

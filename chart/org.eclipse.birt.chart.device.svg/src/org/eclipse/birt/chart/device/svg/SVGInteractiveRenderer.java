@@ -1093,6 +1093,17 @@ public class SVGInteractiveRenderer {
 
 	}
 
+	/**
+	 * Indicates if SVG elements are interactive. Hotspot layer must have child
+	 * nodes if SVG elements are mapped to events.
+	 *
+	 * @return {@code true} if some SVG elements are interactive.
+	 * @see SVGInteractiveRenderer#addInteractivity()
+	 */
+	public boolean isInteractive() {
+		return hotspotLayer != null && hotspotLayer.hasChildNodes();
+	}
+
 	protected void setCursor(Element currentElement, Cursor cursor, String defaultCursor) {
 		setCursorAttribute(currentElement, cursor, defaultCursor);
 	}
