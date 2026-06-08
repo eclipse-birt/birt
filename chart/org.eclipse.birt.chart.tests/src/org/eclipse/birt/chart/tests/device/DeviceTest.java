@@ -16,6 +16,7 @@ package org.eclipse.birt.chart.tests.device;
 
 import org.eclipse.birt.chart.tests.device.render.ImageRenderTest;
 import org.eclipse.birt.chart.tests.device.svg.SVGGradientPaintTest;
+import org.eclipse.birt.chart.tests.device.svg.SVGInteractiveRendererTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -27,6 +28,7 @@ public class DeviceTest {
 		// $JUnit-BEGIN$
 		suite.addTest(ImageRenderTest.suite());
 		suite.addTestSuite(SVGGradientPaintTest.class);
+		suite.addTestSuite(SVGInteractiveRendererTest.class);
 
 		// $JUnit-END$
 		return suite;
