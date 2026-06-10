@@ -21,24 +21,21 @@ To build BIRT with the latest Eclipse platform, run:
 * Maven 3.9.11
 * [https://ci.eclipse.org/birt/job/build](https://ci.eclipse.org/birt/job/build/)
 
-## Latest Version 4.23.0
+## Latest Version 4.24.0
 
 * https://download.eclipse.org/birt/updates/release/latest
-* https://download.eclipse.org/birt/updates/release/4.23.0
+* https://download.eclipse.org/birt/updates/release/4.24.0
 
-## Latest Snapshots towards 4.24.0
+## Latest Snapshots towards 4.25.0
 
 * https://download.eclipse.org/birt/updates/nightly/latest
 
 ## Runtime Requirements
 
-The current version **4.23** is runnable with JDK:
+The current version **4.24** is runnable with JDK:
 * JDK 21 (LTS)
 
 ### Tomcat version support:
-
-**4.23**
-
 * Tomcat 10
 * Tomcat 11 is untested. Please report any issues
  
