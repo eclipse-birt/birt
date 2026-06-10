@@ -430,7 +430,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="birt.version"
-      value="4.24">
+      value="latest">
     <choice
         value="latest"
         label="BIRT Latest"/>
@@ -440,6 +440,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:RedirectionTask"
+      disabled="true"
       filter="(birt.version=4.24)"
       sourceURL="${eclipse.latest.p2}"
       targetURL="https://download.eclipse.org/releases/2026-06/202606101000">
@@ -546,7 +547,15 @@
         <repository
             url="https://download.eclipse.org/webtools/CI/latest"/>
         <repository
-            url="https://download.eclipse.org/justj/epp/milestone/latest"/>
+            url="https://download.eclipse.org/justj/epp/release/21.0.0.v20260515-1739">
+          <annotation
+              source="justification">
+            <detail
+                key="reason">
+              <value>EPP has switched to Java 25 and we wish to deter that for now or maybe entirely for this release, depending on what the dependencies in SimRel do.</value>
+            </detail>
+          </annotation>
+        </repository>
         <repository
             url="https://download.eclipse.org/justj/jres/21/updates/release/latest"/>
       </repositoryList>
