@@ -642,6 +642,7 @@ public class HTML2Content implements HTMLConstants {
 				BulletFrame frame = new BulletFrame(styleType);
 				// index mean the order in the list
 				text.setText(frame.paintBullet(index) + "."); //$NON-NLS-1$
+				text.setTagType("Lbl"); // Fix: numbered list markers must be wrapped in Lbl for PDF/UA
 				styleListIcon.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
 						new FloatValue(CSSPrimitiveValue.CSS_NUMBER, DEFAULT_LIST_ICON_PADDING_NUMBER));
 			} else if (ele.getParentNode().getNodeName().equals(TAG_UL) && !nestList) // $NON-NLS-1$
@@ -651,8 +652,8 @@ public class HTML2Content implements HTMLConstants {
 				if ("".equals(text.getText())) // add default list type when tag <ul> attribute is empty.
 				{
 					text.setText("\u2022"); // the disc type
-					text.setTagType("Lbl");
 				}
+				text.setTagType("Lbl"); // Fix: all UL markers (not just disc fallback) must be wrapped in Lbl
 				styleListIcon.setProperty(StyleConstants.STYLE_PADDING_RIGHT,
 						new FloatValue(CSSPrimitiveValue.CSS_NUMBER, DEFAULT_LIST_ICON_PADDING_SYMBOLE));
 			}

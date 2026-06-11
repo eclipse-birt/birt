@@ -314,7 +314,7 @@ public class PDFPageDevice implements IPageDevice {
 				if (localeString == null || localeString.isEmpty()) {
 					throw new BirtException("The report needs a locale property for PDF/UA!");
 				}
-				Locale locale = Locale.of(localeString);
+				Locale locale = new Locale(localeString); // Locale.of() requires Java 19+
 				String language = locale.toString();
 				language = language.replace('_', '-'); // 'de_de' is invalid, it should be 'de-DE'.
 				doc.setDocumentLanguage(language);
@@ -1456,27 +1456,45 @@ public class PDFPageDevice implements IPageDevice {
 						if (PdfTag.TR.equals(tagType)) {
 							beforeOpenTableSectionTag(container);
 						}
-						structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
-						try {
-							container.setStructureElement(structureCurrentNode);
-						} catch (BirtException be) {
-							be.printStackTrace();
-							structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
+						PdfStructureElement created = safeCreateStructureElement(structureCurrentNode,
+								new PdfName(tagType));
+						if (created != null) {
+							structureCurrentNode = created;
+							try {
+								container.setStructureElement(structureCurrentNode);
+							} catch (BirtException be) {
+								// setStructureElement is used for page-break bookkeeping only.
+								// The structure element was already created successfully, so we
+								// just log the error and continue with the current node.
+								logger.log(Level.WARNING,
+										"Could not store structure element for container (tagType=" + tagType + "): "
+												+ be.getMessage());
+							}
 						}
 					} else {
 						structureCurrentNode = container.getFirstPart().getStructureElement();
 						PdfName restored = structureCurrentNode.getAsName(PdfName.S);
 						if (PdfName.TABLE.equals(restored)) {
 							// Also restore the table section, e.g. TBody.
-							PdfArray children = structureCurrentNode.getAsArray(PdfName.K); // K means "kids" in this
-																							// context
+							// K may be a single PdfDictionary (first page) or a PdfArray
+							// (subsequent pages). Handle both cases.
+							PdfArray children = structureCurrentNode.getAsArray(PdfName.K);
 							if (children != null && children.size() > 0) {
 								structureCurrentNode = (PdfStructureElement) children.getAsDict(children.size() - 1);
+							} else {
+								PdfObject singleChild = structureCurrentNode.get(PdfName.K);
+								if (singleChild instanceof PdfStructureElement) {
+									structureCurrentNode = (PdfStructureElement) singleChild;
+								}
 							}
 						}
 					}
 				} else {
-					structureCurrentNode = new PdfStructureElement(structureCurrentNode, new PdfName(tagType));
+					PdfStructureElement inlineCreated = safeCreateStructureElement(structureCurrentNode,
+							new PdfName(tagType));
+					if (inlineCreated != null) {
+						structureCurrentNode = inlineCreated;
+					}
 				}
 				if (PdfTag.FIGURE.equals(tagType)) {
 					addFigureAttributes();
@@ -1527,7 +1545,47 @@ public class PDFPageDevice implements IPageDevice {
 			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
 		}
 		if (inject != null) {
-			structureCurrentNode = new PdfStructureElement(structureCurrentNode, inject);
+			PdfStructureElement sectionElement = safeCreateStructureElement(structureCurrentNode, inject);
+			if (sectionElement != null) {
+				structureCurrentNode = sectionElement;
+			}
+		}
+	}
+
+	/**
+	 * Safely creates a new PdfStructureElement as a child of the given parent.
+	 *
+	 * <p>
+	 * Works around a bug in older OpenPDF versions where adding a second child to a
+	 * parent whose K (kids) field already contains a single non-array entry causes
+	 * an {@code IllegalArgumentException} with the message "The parent has already
+	 * another function." The fix pre-converts the K field to a {@link PdfArray}
+	 * before calling the constructor, so that OpenPDF always appends to an array.
+	 * </p>
+	 *
+	 * @param parent the parent structure element (must not be null)
+	 * @param role   the PDF role / tag name for the new element
+	 * @return the newly created element, or {@code null} if creation failed
+	 */
+	private PdfStructureElement safeCreateStructureElement(PdfStructureElement parent, PdfName role) {
+		if (parent == null || role == null) {
+			logger.warning("safeCreateStructureElement: parent or role is null, skipping (role=" + role + ")");
+			return null;
+		}
+		// Fix: if K is already set to a single non-array object, wrap it in a PdfArray
+		// so that OpenPDF can append the new child without throwing.
+		PdfObject kField = parent.get(PdfName.K);
+		if (kField != null && !kField.isArray()) {
+			PdfArray kids = new PdfArray();
+			kids.add(kField);
+			parent.put(PdfName.K, kids);
+		}
+		try {
+			return new PdfStructureElement(parent, role);
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.WARNING, "Could not create PDF structure element (role=" + role + ", parent="
+					+ parent.getAsName(PdfName.S) + "): " + e.getMessage());
+			return null;
 		}
 	}
 
@@ -1646,14 +1704,30 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (currentPage.isInArtifact()) {
 			// do nothing
 		} else {
+			if (structureCurrentNode == null) {
+				logger.warning("closeTag: structureCurrentNode is null, skipping (tagType=" + tagType + ")");
+				return;
+			}
 			if (PdfTag.TABLE.equals(tagType)) {
 				PdfName currentTag = structureCurrentNode.getAsName(PdfName.S);
-				if (!currentTag.equals(PdfNames.TR)) {
-					// Close the THead/TBody/TFoot tag also
-					structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
+				// Move up from THead/TBody/TFoot level to TABLE level before the final
+				// parent-step. Only do this when we are at a section level, not at TABLE
+				// level itself (which can happen when safeCreateStructureElement had to
+				// skip a section tag due to an error).
+				if (currentTag != null && !currentTag.equals(PdfName.TABLE) && !currentTag.equals(PdfNames.TR)) {
+					PdfStructureElement sectionParent = (PdfStructureElement) structureCurrentNode.getParent();
+					if (sectionParent != null) {
+						structureCurrentNode = sectionParent;
+					}
 				}
 			}
-			structureCurrentNode = (PdfStructureElement) structureCurrentNode.getParent();
+			PdfStructureElement parent = (PdfStructureElement) structureCurrentNode.getParent();
+			if (parent == null) {
+				logger.warning("closeTag: parent of structureCurrentNode is null, cannot navigate up (tagType="
+						+ tagType + ", currentNode=" + structureCurrentNode.getAsName(PdfName.S) + ")");
+				return;
+			}
+			structureCurrentNode = parent;
 		}
 	}
 
