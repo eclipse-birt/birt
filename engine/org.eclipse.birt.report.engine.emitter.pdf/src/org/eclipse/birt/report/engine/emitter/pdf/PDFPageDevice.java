@@ -1192,6 +1192,9 @@ public class PDFPageDevice implements IPageDevice {
 				case PDFA3B:
 					a1.addConformance("B");
 					break;
+				case PDFA3U:
+					a1.addConformance("U");
+					break;
 				case PDFA4F:
 					a1.addConformance("F");
 				}
