@@ -48,13 +48,16 @@ import org.openpdf.text.pdf.BaseFont;
 import org.openpdf.text.pdf.LayoutProcessor;
 import org.openpdf.text.pdf.PdfAction;
 import org.openpdf.text.pdf.PdfAnnotation;
+import org.openpdf.text.pdf.PdfArray;
 import org.openpdf.text.pdf.PdfBorderDictionary;
 import org.openpdf.text.pdf.PdfContentByte;
 import org.openpdf.text.pdf.PdfDestination;
 import org.openpdf.text.pdf.PdfDictionary;
+import org.openpdf.text.pdf.PdfObject;
 import org.openpdf.text.pdf.PdfName;
 import org.openpdf.text.pdf.PdfRectangle;
 import org.openpdf.text.pdf.PdfString;
+import org.openpdf.text.pdf.PdfStructureElement;
 import org.openpdf.text.pdf.PdfTemplate;
 import org.openpdf.text.pdf.PdfTextArray;
 import org.openpdf.text.pdf.PdfWriter;
@@ -258,7 +261,7 @@ public class PDFPage extends AbstractPage {
 	@Override
 	protected void drawImage(String imageId, byte[] imageData, String extension, float imageX, float imageY,
 			float height, float width, String helpText, Map params) throws Exception {
-
+		boolean isMarkedContentSequence = false;
 		if (isTagged && artifactDepth == 0) {
 			pageDevice.structureCurrentNode.put(PdfNames.ALT, new PdfString(helpText));
 
@@ -268,8 +271,10 @@ public class PDFPage extends AbstractPage {
 				pageDevice.structureCurrentNode.put(PdfName.A, attributes);
 			}
 			attributes.put(PdfName.BBOX, new PdfRectangle(imageX, imageY, width, height));
-
-			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
+			isMarkedContentSequence = isMarkedContentSequence(pageDevice.structureCurrentNode);
+			if (isMarkedContentSequence) {
+				contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
+			}
 		}
 
 		// Cached Image
@@ -323,10 +328,9 @@ public class PDFPage extends AbstractPage {
 			drawImage(template, imageX, imageY, height, width, helpText);
 		}
 
-		if (isTagged && artifactDepth == 0) {
+		if (isMarkedContentSequence) {
 			contentByte.endMarkedContentSequence();
 		}
-
 	}
 
 	/**
@@ -572,6 +576,21 @@ public class PDFPage extends AbstractPage {
 		contentByte.stroke();
 	}
 
+	private boolean isMarkedContentSequence(PdfStructureElement struc) {
+		if (struc == null)
+			return false;
+		PdfObject k = struc.get(PdfName.K);
+		if (k == null)
+			return true;
+		if (k.isNumber())
+			return true;
+		if (k.isArray()) {
+			PdfArray arr = (PdfArray) k;
+			return arr.isEmpty() || arr.getPdfObject(0).isNumber();
+		}
+		return false;
+	}
+
 	private void drawText(String text, float textX, float textY, FontInfo fontInfo, float characterSpacing,
 			float wordSpacing, Color color, CSSValue align) {
 		contentByte.saveState();
@@ -581,9 +600,12 @@ public class PDFPage extends AbstractPage {
 
 		// start drawing the text content
 		contentByte.beginText();
-
+		boolean isMarkedContentSequence = false;
 		if (isTagged && artifactDepth == 0) {
-			contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
+			isMarkedContentSequence = isMarkedContentSequence(pageDevice.structureCurrentNode);
+			if (isMarkedContentSequence) {
+				contentByte.beginMarkedContentSequence(pageDevice.structureCurrentNode);
+			}
 		}
 
 		if (null != color && !Color.BLACK.equals(color)) {
@@ -648,7 +670,7 @@ public class PDFPage extends AbstractPage {
 		} else {
 			contentByte.showText(text);
 		}
-		if (isTagged && artifactDepth == 0) {
+		if (isMarkedContentSequence) {
 			contentByte.endMarkedContentSequence();
 		}
 		contentByte.endText();
