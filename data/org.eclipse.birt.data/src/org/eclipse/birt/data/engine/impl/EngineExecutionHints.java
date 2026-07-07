@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -104,6 +105,13 @@ public class EngineExecutionHints implements IEngineExecutionHints {
 				}
 			}
 
+			// The cache stores only rows; a cache hit would return null output parameters.
+			for (Object cachedName : new HashSet(this.cachedDataSetNames)) {
+				if (hasOutputParameter(dataEngine.getDataSetDesign(cachedName.toString()))) {
+					this.cachedDataSetNames.remove(cachedName);
+				}
+			}
+
 			// The query filter's type is Only supported in extension, so data set should
 			// not be cached anymore.
 			for (IDataQueryDefinition query : queryDefns) {
@@ -126,6 +134,18 @@ public class EngineExecutionHints implements IEngineExecutionHints {
 				}
 			}
 		}
+	}
+
+	private static boolean hasOutputParameter(IBaseDataSetDesign dataSet) {
+		if (dataSet == null || dataSet.getParameters() == null) {
+			return false;
+		}
+		for (IParameterDefinition param : dataSet.getParameters()) {
+			if (param.isOutputMode()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*
