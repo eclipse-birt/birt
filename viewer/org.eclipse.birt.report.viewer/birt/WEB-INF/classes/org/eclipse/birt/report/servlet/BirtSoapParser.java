@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPath;
@@ -14,6 +13,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjects;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -48,9 +48,7 @@ public class BirtSoapParser {
 		try (InputStream is = request.getInputStream()) {
 
 			// JAXB unmarshal
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			Document doc = dbf.newDocumentBuilder().parse(is);
+			Document doc = CommonUtil.newDocumentBuilder(true).parse(is);
 
 			// XPath to GetUpdatedObjects
 			XPath xpath = XPathFactory.newInstance().newXPath();

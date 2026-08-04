@@ -20,10 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.TreeVisitor;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -35,9 +34,7 @@ public class TreeVisitorTest extends TreeVisitor<String> {
 
 	public TreeNode initTree(String xmldoc) throws ParserConfigurationException, SAXException, IOException {
 		File tree = new File(xmldoc);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(tree);
+		Document doc = CommonUtil.newDocumentBuilder().parse(tree);
 		doc.getDocumentElement().normalize();
 		TreeNode parent = new TreeNode(null, 0, doc.getDocumentElement().getNodeName());
 		NodeList nodes = doc.getElementsByTagName("node");

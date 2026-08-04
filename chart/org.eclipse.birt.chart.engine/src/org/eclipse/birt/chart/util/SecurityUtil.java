@@ -47,6 +47,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
+import org.eclipse.birt.core.util.CommonUtil;
+
 /**
  * Utility class to support application level security policy.
  */
@@ -591,7 +593,10 @@ public class SecurityUtil {
 	 * Instantiate a new DocumentBuilderFactory.
 	 *
 	 * @return Return the new document builder factory
+	 *
+	 * @deprecated use {@link CommonUtil#newDocumentBuilder()}
 	 */
+	@Deprecated(since = "4.25", forRemoval = true)
 	public static DocumentBuilderFactory newDocumentBuilderFactory() {
 
 		DocumentBuilderFactory piTmp0;

@@ -10,7 +10,6 @@
 package org.eclipse.birt.chart.tests.device.svg;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.chart.device.svg.SVGGraphics2D;
@@ -27,7 +26,7 @@ import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl;
-import org.eclipse.birt.chart.util.SecurityUtil;
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -76,9 +75,7 @@ public class SVGInteractiveRendererTest extends TestCase {
 	 *                                      impossible to create.
 	 */
 	private Document createSVGDocument() throws ParserConfigurationException {
-		final DocumentBuilderFactory documentBuilderFactory = SecurityUtil.newDocumentBuilderFactory();
-		final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		final DOMImplementation domImplementation = documentBuilder.getDOMImplementation();
+		final DOMImplementation domImplementation = CommonUtil.newDOMImplementation();
 		final DocumentType documentType = domImplementation.createDocumentType("svg", "-//W3C//DTD SVG 1.0//EN",
 				"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd");
 		final Document svgDocument = domImplementation.createDocument("http://www.w3.org/2000/svg", "svg",

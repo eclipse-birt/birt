@@ -38,6 +38,7 @@
       <unit id="org.apache.batik.bridge" version="0.0.0"/>
       <unit id="org.apache.batik.codec" version="0.0.0"/>
       <unit id="org.apache.batik.constants" version="0.0.0"/>
+      <unit id="org.apache.batik.css" version="0.0.0"/>
       <unit id="org.apache.batik.dom" version="0.0.0"/>
       <unit id="org.apache.batik.dom.svg" version="0.0.0"/>
       <unit id="org.apache.batik.ext" version="0.0.0"/>

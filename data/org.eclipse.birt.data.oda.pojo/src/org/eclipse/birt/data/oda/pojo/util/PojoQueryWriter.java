@@ -15,17 +15,15 @@ package org.eclipse.birt.data.oda.pojo.util;
 
 import java.io.StringWriter;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.birt.data.oda.pojo.querymodel.IColumnsMapping;
 import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
@@ -41,10 +39,8 @@ public class PojoQueryWriter {
 		if (query == null) {
 			return null;
 		}
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.newDocument();
+			Document doc = CommonUtil.newDocumentBuilder().newDocument();
 			Element root = doc.createElement(Constants.ELEMENT_ROOT);
 			doc.appendChild(root);
 			if (query.getVersion() != null) {

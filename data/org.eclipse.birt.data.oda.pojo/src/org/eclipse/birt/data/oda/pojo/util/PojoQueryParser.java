@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.birt.data.oda.pojo.i18n.Messages;
 import org.eclipse.birt.data.oda.pojo.querymodel.ClassColumnMappings;
@@ -69,9 +69,6 @@ public class PojoQueryParser {
 		if (query == null) {
 			throw new NullPointerException("query is null"); //$NON-NLS-1$
 		}
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = null;
-		Document doc = null;
 		InputStream in = null;
 		try {
 			in = new ByteArrayInputStream(query.getBytes("UTF8")); //$NON-NLS-1$
@@ -80,8 +77,8 @@ public class PojoQueryParser {
 					query), e));
 		}
 		try {
-			builder = dbf.newDocumentBuilder();
-			doc = builder.parse(in);
+			DocumentBuilder builder = CommonUtil.newDocumentBuilder();
+			Document doc = builder.parse(in);
 			Element root = doc.getDocumentElement();
 			if (root == null) {
 				throw new OdaException(Messages.getString("Query.FailedToParse", //$NON-NLS-1$
@@ -107,10 +104,6 @@ public class PojoQueryParser {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new OdaException(new Exception(Messages.getString("Query.FailedToParse", //$NON-NLS-1$
 					query), e));
-		} finally {
-			doc = null;
-			builder = null;
-			dbf = null;
 		}
 	}
 

@@ -16,9 +16,7 @@ package org.eclipse.birt.report.model.util;
 import java.io.InputStream;
 import java.util.HashSet;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -84,14 +82,8 @@ public class DesignFileCompareUtil {
 	}
 
 	private Document getDocumentFromInputStream(InputStream is) throws Exception {
-		DocumentBuilderFactory factory = null;
-		DocumentBuilder builder = null;
-		Document doc = null;
 		try {
-			factory = DocumentBuilderFactory.newInstance();
-			builder = factory.newDocumentBuilder();
-			doc = builder.parse(is);
-			return doc;
+			return CommonUtil.newDocumentBuilder().parse(is);
 		} catch (Exception e) {
 			throw e;
 		}

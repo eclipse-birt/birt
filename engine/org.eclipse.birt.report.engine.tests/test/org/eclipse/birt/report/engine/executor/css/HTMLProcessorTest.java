@@ -16,8 +16,7 @@ package org.eclipse.birt.report.engine.executor.css;
 
 import java.util.HashMap;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,7 +61,7 @@ public class HTMLProcessorTest extends TestCase {
 	}
 
 	private Document getDomTree() throws Exception {
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		Document doc = CommonUtil.newDocumentBuilder().newDocument();
 		Element body = doc.createElement("body");
 		doc.appendChild(body);
 		Element iEle = doc.createElement("i");
