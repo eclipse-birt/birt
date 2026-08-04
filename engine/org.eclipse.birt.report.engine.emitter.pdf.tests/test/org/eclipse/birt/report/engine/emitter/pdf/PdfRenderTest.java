@@ -16,6 +16,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.io.File;
 
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 
@@ -29,6 +30,9 @@ public class PdfRenderTest extends EngineCase {
 		String resultFolder = "testresult/";
 		for (int i = 0; i < designs.length; i++) {
 			options.setOutputFileName(resultFolder + designs[i] + ".pdf");
+			options.setOption(IPDFRenderOption.PAGE_OVERFLOW, IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES);
+			options.setOption(IPDFRenderOption.PDF_TEXT_WRAPPING, true);
+			options.setOption(IPDFRenderOption.PDF_WORDBREAK, true);
 			String design = thePackage + designs[i] + suffix;
 			IRunAndRenderTask runAndRenderTask = createRunAndRenderTask(design);
 			runAndRenderTask.setRenderOption(options);

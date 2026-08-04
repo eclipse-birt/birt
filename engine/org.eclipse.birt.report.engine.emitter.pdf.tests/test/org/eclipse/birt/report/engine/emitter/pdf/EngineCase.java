@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.report.engine.emitter.pdf;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -21,7 +24,6 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 
 import junit.framework.TestCase;
 
@@ -34,16 +36,19 @@ abstract public class EngineCase extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		engine = new ReportEngine(new EngineConfig());
+		engine = createReportEngine();
 	}
 
-	public IReportEngine createReportEngine() {
+	public IReportEngine createReportEngine() throws MalformedURLException, URISyntaxException {
 		return createReportEngine(null);
 	}
 
-	public IReportEngine createReportEngine(EngineConfig config) {
+	public IReportEngine createReportEngine(EngineConfig config) throws MalformedURLException, URISyntaxException {
 		if (config == null) {
 			config = new EngineConfig();
+			config.setFontConfig(
+					new java.net.URI("file:test/org/eclipse/birt/report/engine/emitter/pdf/fonts/fontsConfig.xml")
+							.toURL());
 		}
 
 		// assume we has in the platform

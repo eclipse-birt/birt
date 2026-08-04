@@ -12,7 +12,7 @@
     <property name="pdfVersion">1.7</property>
     <property name="pdfConformance">PDF.A3B</property>
     <property name="pdfUAConformance">PDF.UA-1</property>
-    <property name="pdfaFontFallback">C:\windows\fonts\segoeui.ttf</property>
+    <property name="pdfaFontFallback">test/org/eclipse/birt/report/engine/emitter/pdf/fonts/NotoSans-Regular.ttf</property>
     <property name="pdfaFontCidEmbed">false</property>
     <property name="pdfaDocumentTitleEmbed">true</property>
     <data-sources>
@@ -567,7 +567,7 @@ where productline = ?]]></xml-property>
     </data-sets>
     <styles>
         <style name="report" id="11479">
-            <property name="fontFamily">"Segoe UI"</property>
+            <property name="fontFamily">"Noto Sans"</property>
         </style>
     </styles>
     <page-setup>
