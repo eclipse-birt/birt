@@ -12,7 +12,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.emitter.pdf.tests;
+package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.io.File;
 
@@ -20,10 +20,9 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 
 public class PdfRenderTest extends EngineCase {
-
 	public void testRenderReport() throws Exception {
-		String thePackage = "org/eclipse/birt/report/engine/emitter/pdf/tests";
-		String[] designs = { "issue2429" };
+		String thePackage = "test/org/eclipse/birt/report/engine/emitter/pdf/";
+		String[] designs = { "issue-2429" };
 		String suffix = ".rptdesign";
 		PDFRenderOption options = new PDFRenderOption();
 		options.setOutputFormat("pdf");

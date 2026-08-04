@@ -10,7 +10,7 @@
  * Contributors:
  *   See git history
  *******************************************************************************/
-package org.eclipse.birt.report.engine.emitter.pdf.tests;
+package org.eclipse.birt.report.engine.emitter.pdf;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

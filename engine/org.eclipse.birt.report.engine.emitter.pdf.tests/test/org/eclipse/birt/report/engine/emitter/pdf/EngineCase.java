@@ -12,7 +12,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.emitter.pdf.tests;
+package org.eclipse.birt.report.engine.emitter.pdf;
 
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -62,7 +62,7 @@ abstract public class EngineCase extends TestCase {
 	 * @throws EngineException
 	 */
 	protected IRunAndRenderTask createRunAndRenderTask(String designFile) throws EngineException {
-		IReportRunnable reportDesign = engine.openReportDesign(REPORT_DESIGN);
+		IReportRunnable reportDesign = engine.openReportDesign(designFile);
 		IRunAndRenderTask runAndRenderTask = engine.createRunAndRenderTask(reportDesign);
 		return runAndRenderTask;
 	}

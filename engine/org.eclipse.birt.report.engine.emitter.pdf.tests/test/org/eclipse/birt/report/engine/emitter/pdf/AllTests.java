@@ -12,7 +12,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.report.engine.emitter.pdf.tests;
+package org.eclipse.birt.report.engine.emitter.pdf;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -28,7 +28,7 @@ public class AllTests {
 		// $JUnit-BEGIN$
 
 		/* in package: org.eclipse.birt.report.engine.emitter.pdf */
-		suite.addTestSuite(org.eclipse.birt.report.engine.emitter.pdf.tests.PdfRenderTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.emitter.pdf.PdfRenderTest.class);
 
 		// $JUnit-END$
 		return suite;
