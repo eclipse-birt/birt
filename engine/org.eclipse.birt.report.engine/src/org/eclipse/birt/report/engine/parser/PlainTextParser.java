@@ -24,8 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -61,7 +60,7 @@ public class PlainTextParser {
 	 */
 	private Document parsePlainText(Reader reader) {
 		try {
-			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+			Document doc = CommonUtil.newDocumentBuilder().newDocument();
 			Element body = doc.createElement("body"); //$NON-NLS-1$
 			doc.appendChild(body);
 

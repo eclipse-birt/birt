@@ -26,8 +26,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -66,6 +64,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -300,11 +299,7 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	 * @throws Exception
 	 */
 	protected Document createSvgDocument() throws Exception {
-		DocumentBuilderFactory factory = SecurityUtil.newDocumentBuilderFactory();
-		DocumentBuilder builder;
-
-		builder = factory.newDocumentBuilder();
-		DOMImplementation domImpl = builder.getDOMImplementation();
+		DOMImplementation domImpl = CommonUtil.newDOMImplementation();
 		DocumentType dType = domImpl.createDocumentType("svg", //$NON-NLS-1$
 				SVG_VERSION, SVG_DTD);
 		Document svgDocument = domImpl.createDocument(XMLNS, "svg", dType); //$NON-NLS-1$

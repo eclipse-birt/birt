@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -28,6 +26,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -37,10 +36,8 @@ public class RomImage {
 	Document document = null;
 
 	public void open() throws RomException {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			document = builder.parse(new File("orig/rom.def"));
+			document = CommonUtil.newDocumentBuilder().parse(new File("orig/rom.def"));
 		} catch (SAXException sxe) {
 			// Error generated during parsing
 			Exception x = sxe;

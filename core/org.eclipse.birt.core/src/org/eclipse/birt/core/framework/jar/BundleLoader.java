@@ -23,10 +23,9 @@ import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -120,9 +119,7 @@ public class BundleLoader {
 			return;
 		}
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(in);
+			Document document = CommonUtil.newDocumentBuilder().parse(in);
 
 			Element root = document.getDocumentElement();
 

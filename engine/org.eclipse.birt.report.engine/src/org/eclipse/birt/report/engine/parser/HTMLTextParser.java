@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -34,6 +33,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -299,8 +299,7 @@ public class HTMLTextParser {
 
 		private static DocumentBuilder newDocumentBuilder() {
 			try {
-				DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-				return docBuilder;
+				return CommonUtil.newDocumentBuilder();
 			} catch (ParserConfigurationException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 				return null;

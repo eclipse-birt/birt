@@ -25,13 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTPropertyManagerFactory;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -83,7 +83,7 @@ public class ReportDesignWriter {
 	 * @throws Exception
 	 */
 	public void write(OutputStream out, Report report) throws Exception {
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		Document document = CommonUtil.newDocumentBuilder().newDocument();
 
 		new ReportDumpVisitor(document).createDocument(report);
 

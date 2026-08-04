@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -193,6 +194,11 @@ public class Bundle {
 			InputStream in = entry.getInputStream();
 			if (in != null) {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+				factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
+				factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false); //$NON-NLS-1$
+				factory.setFeature("http://xml.org/sax/features/external-general-entities", false); //$NON-NLS-1$
+				factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false); //$NON-NLS-1$
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document document = builder.parse(in, path);
 				return document;

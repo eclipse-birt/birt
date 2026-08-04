@@ -18,9 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -148,9 +146,7 @@ public abstract class BaseSmokeTest extends EngineCase {
 		domwriter.setCanonical(true);
 
 		// reporting.
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = builderFactory.newDocumentBuilder();
-		Document doc = builder.newDocument();
+		Document doc = CommonUtil.newDocumentBuilder().newDocument();
 
 		Element testsuite = doc.createElement("testsuite"); //$NON-NLS-1$
 		testsuite.setAttribute("name", getName()); //$NON-NLS-1$
