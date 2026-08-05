@@ -77,4 +77,10 @@ public class TextLineArea extends LineArea {
 	public boolean isPageBreakInsideAvoid() {
 		return true;
 	}
+
+	@Override
+	public String getTagType() {
+		final String tag = super.getTagType();
+		return (tag != null) ? tag : "Span";
+	}
 }
