@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.api.PDFRenderOption;
 public class PdfRenderTest extends EngineCase {
 	public void testRenderReport() throws Exception {
 		String thePackage = "test/org/eclipse/birt/report/engine/emitter/pdf/";
-		String[] designs = { "issue-2429" };
+		String[] designs = { "issue-2429", "issue-2445" };
 		String suffix = ".rptdesign";
 		PDFRenderOption options = new PDFRenderOption();
 		options.setOutputFormat("pdf");

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <property name="author">Henning von Bargen</property>
+    <property name="comments">Copyright (c) 2014-2024 Triestram &amp; Partner GmbH</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.25.0.qualifier Build &lt;@BUILD@></property>
+    <property name="language">German</property>
+    <text-property name="title">BIRT Issue 2445</text-property>
+    <property name="units">mm</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <property name="locale">de_DE</property>
+    <property name="pdfVersion">1.7</property>
+    <property name="pdfConformance">PDF.A3B</property>
+    <property name="pdfUAConformance">PDF.UA-1</property>
+    <property name="pdfaFontFallback">test/org/eclipse/birt/report/engine/emitter/pdf/fonts/NotoSans-Regular.ttf</property>
+    <property name="pdfaFontCidEmbed">false</property>
+    <property name="pdfaDocumentTitleEmbed">true</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CM" id="11480">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Productlines" id="11481">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">DATE_DUMMY</property>
+                    <text-property name="displayName">DATE_DUMMY</text-property>
+                    <text-property name="heading">DATE_DUMMY</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DATE_DUMMY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CM</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">DATE_DUMMY</property>
+                    <property name="nativeName">DATE_DUMMY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 'Heute' as DATE_DUMMY
+from productlines
+where productline = 'Motorcycles']]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATE_DUMMY</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATE_DUMMY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATE_DUMMY</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="11479">
+            <property name="fontFamily">"Noto Sans"</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="11478">
+            <property name="type">a4</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <list name="Auftrag" id="7205">
+            <property name="fontSize">9pt</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="dataSet">Productlines</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">DATE_DUMMY</property>
+                    <text-property name="displayName">DATE_DUMMY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DATE_DUMMY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">1</property>
+            <detail>
+                <list name="Pruefbericht" id="7297">
+                    <property name="dataSet">Productlines</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">DATE_DUMMY</property>
+                            <text-property name="displayName">DATE_DUMMY</text-property>
+                            <expression name="expression" type="javascript">dataSetRow["DATE_DUMMY"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                    </list-property>
+                    <property name="repeatHeader">false</property>
+                    <property name="pageBreakInterval">10000</property>
+                    <group id="9482">
+                        <property name="groupName">Dummy</property>
+                        <expression name="keyExpr" type="javascript">"X"</expression>
+                        <property name="hideDetail">false</property>
+                        <property name="pageBreakInside">auto</property>
+                    </group>
+                    <detail>
+                        <text-data id="7354">
+                            <property name="fontSize">14pt</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="marginTop">6mm</property>
+                            <property name="whiteSpace">nowrap</property>
+                            <expression name="valueExpr">"Auftrag 1234"</expression>
+                            <property name="contentType">plain</property>
+                            <property name="tagType">H1</property>
+                        </text-data>
+                        <grid name="Auftragsdetails" id="7355">
+                            <property name="marginTop">2mm</property>
+                            <property name="pageBreakInside">auto</property>
+                            <property name="tagType">L</property>
+                            <column id="7356">
+                                <property name="width">51.5mm</property>
+                            </column>
+                            <column id="7357"/>
+                            <row id="7361">
+                                <property name="tagType">LI</property>
+                                <property name="pageBreakAfter">avoid</property>
+                                <property name="pageBreakInside">avoid</property>
+                                <cell id="7362">
+                                    <property name="tagType">Lbl</property>
+                                    <property name="paddingTop">0.25pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0.25pt</property>
+                                    <property name="paddingRight">2mm</property>
+                                    <text-data id="7419">
+                                        <property name="whiteSpace">nowrap</property>
+                                        <expression name="valueExpr">"Datum des Auftrages:"</expression>
+                                        <property name="contentType">plain</property>
+                                    </text-data>
+                                </cell>
+                                <cell id="7363">
+                                    <property name="tagType">LBody</property>
+                                    <property name="paddingTop">0.25pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0.25pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <data id="7424">
+                                        <property name="resultSetColumn">DATE_DUMMY</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </grid>
+                    </detail>
+                    <footer>
+                        <grid name="marked as artifact" id="11482">
+                            <property name="tagType">artifact</property>
+                            <column id="11483"/>
+                            <row id="11484">
+                                <property name="backgroundColor">blue</property>
+                                <property name="height">4pt</property>
+                                <cell id="11485"/>
+                            </row>
+                        </grid>
+                    </footer>
+                </list>
+            </detail>
+        </list>
+    </body>
+</report>
