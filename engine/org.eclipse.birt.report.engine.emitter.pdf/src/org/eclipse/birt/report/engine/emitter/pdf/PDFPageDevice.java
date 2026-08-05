@@ -1443,6 +1443,9 @@ public class PDFPageDevice implements IPageDevice {
 			properties.put(PdfNames.SUBTYPE, PdfNames.FOOTER);
 			currentPage.beginArtifact(properties);
 			break;
+		case PdfTag.ARTIFACT:
+			currentPage.beginArtifact(new PdfDictionary());
+			break;
 		default:
 			if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
 				properties = new PdfDictionary();
@@ -1703,6 +1706,8 @@ public class PDFPageDevice implements IPageDevice {
 		} else if ("pageFooter".equals(tagType)) {
 			currentPage.endArtifact();
 		} else if (area instanceof ContainerArea && ((ContainerArea) area).isArtifact()) {
+			currentPage.endArtifact();
+		} else if (PdfTag.ARTIFACT.equals(tagType)) {
 			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
 			// do nothing

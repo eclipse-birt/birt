@@ -579,6 +579,7 @@ public class LocalizedContentVisitor {
 
 		if (IForeignContent.VALUE_TYPE.equals(rawFormat)) {
 			IDataContent dataContent = reportContent.createDataContent(foreignContent);
+			dataContent.setTagType(foreignContent.getTagType());
 			dataContent.setParent(foreignContent.getParent());
 			dataContent.setValue(rawValue);
 			processData(dataContent);
