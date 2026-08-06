@@ -731,7 +731,7 @@ public class HTML2Content implements HTMLConstants {
 	// FIXME: In particular, it should be possible to adjust the heading levels,
 	// (i.e to specify a positive or negative offset, such that H1->H2, H2->H3).
 	static final Map<String, String> HTML_TAG_TO_PDF_TAG = Map.of(
-			"DIV", "DIV",
+			"DIV", "P",
 			"P", "P",
 			"H1", "H1",
 			"H2", "H2",
