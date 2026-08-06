@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <property name="author">Henning von Bargen</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.25.0.qualifier Build &lt;@BUILD@></property>
+    <property name="language">English</property>
+    <text-property name="title">BIRT Issue 2429</text-property>
+    <property name="units">mm</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <property name="locale">en_US</property>
+    <property name="pdfVersion">1.7</property>
+    <property name="pdfConformance">PDF.A3B</property>
+    <property name="pdfUAConformance">PDF.UA-1</property>
+    <property name="pdfaFontFallback">test/org/eclipse/birt/report/engine/emitter/pdf/fonts/NotoSans-Regular.ttf</property>
+    <property name="pdfaFontCidEmbed">false</property>
+    <property name="pdfaDocumentTitleEmbed">true</property>
+    <styles>
+        <style name="report" id="11479">
+            <property name="fontFamily">"Noto Sans"</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="11478">
+            <property name="type">a4</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="11511">
+            <text-property name="text">This report demonstrates open-only and close-only PDF tags and the "none" PDF tag. It also uses the NonStruct tag.</text-property>
+        </label>
+        <grid id="11512">
+            <property name="tagType">none</property>
+            <column id="11513">
+                <property name="width">20mm</property>
+            </column>
+            <column id="11514"/>
+            <column id="11515">
+                <property name="width">20mm</property>
+            </column>
+            <column id="11516"/>
+            <column id="11517">
+                <property name="width">20mm</property>
+            </column>
+            <column id="11518"/>
+            <row id="11519">
+                <property name="tagType">H1</property>
+                <cell id="11520">
+                    <property name="colSpan">6</property>
+                    <property name="rowSpan">1</property>
+                    <property name="tagType">none</property>
+                    <label id="11540">
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Acronyms</text-property>
+                        <property name="tagType">NonStruct</property>
+                    </label>
+                </cell>
+            </row>
+            <row id="11526">
+                <property name="tagType">&lt;L</property>
+                <cell id="11527">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11541">
+                        <text-property name="text">ABBR1</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11528">
+                    <property name="tagType">LI></property>
+                    <label id="11547">
+                        <text-property name="text">Explanation for Abbreviation 1</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+                <cell id="11529">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11542">
+                        <text-property name="text">ABBR2</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11530">
+                    <property name="tagType">LI></property>
+                    <label id="11548">
+                        <text-property name="text">Explanation 2</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+                <cell id="11531">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11543">
+                        <text-property name="text">ABBR3</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11532">
+                    <property name="tagType">LI></property>
+                    <label id="11549">
+                        <text-property name="text">Explanation 3</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+            </row>
+            <row id="11533">
+                <property name="tagType">L></property>
+                <cell id="11534">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11544">
+                        <text-property name="text">ABBR4</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11535">
+                    <property name="tagType">LI></property>
+                    <label id="11550">
+                        <text-property name="text">Explanation 4</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+                <cell id="11536">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11545">
+                        <text-property name="text">ABBR5</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11537">
+                    <property name="tagType">LI></property>
+                    <label id="11551">
+                        <text-property name="text">Explanation 5</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+                <cell id="11538">
+                    <property name="tagType">&lt;LI</property>
+                    <label id="11546">
+                        <text-property name="text">ABBR6</text-property>
+                        <property name="tagType">Lbl</property>
+                    </label>
+                </cell>
+                <cell id="11539">
+                    <property name="tagType">LI></property>
+                    <label id="11552">
+                        <text-property name="text">Explanation 6</text-property>
+                        <property name="tagType">LBody</property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

@@ -1427,7 +1427,17 @@ public class PDFPageDevice implements IPageDevice {
 			return;
 		}
 		PdfDictionary properties = null;
+		if (tagType.startsWith("<")) {
+			// open tag, strip <
+			tagType = tagType.substring(1, tagType.length());
+		}
+		if (tagType.endsWith(">")) {
+			// close tag, do not use here
+			return;
+		}
 		switch (tagType) {
+		case PdfTag.NONE:
+			break;
 		case PdfTag.AUTO:
 			System.err.println("TODO: auto TagType found for area: " + area);
 			break;
@@ -1701,6 +1711,14 @@ public class PDFPageDevice implements IPageDevice {
 		if (!writer.isTagged() || tagType == null) {
 			return;
 		}
+		if (tagType.startsWith("<")) {
+			// open tag, do not use here
+			return;
+		}
+		if (tagType.endsWith(">")) {
+			// close tag, strip >
+			tagType = tagType.substring(0, tagType.length() - 1);
+		}
 		if ("pageHeader".equals(tagType)) {
 			currentPage.endArtifact();
 		} else if ("pageFooter".equals(tagType)) {
@@ -1710,6 +1728,8 @@ public class PDFPageDevice implements IPageDevice {
 		} else if (PdfTag.ARTIFACT.equals(tagType)) {
 			currentPage.endArtifact();
 		} else if (currentPage.isInArtifact()) {
+			// do nothing
+		} else if (PdfTag.NONE.equals(tagType)) {
 			// do nothing
 		} else {
 			if (structureCurrentNode == null) {

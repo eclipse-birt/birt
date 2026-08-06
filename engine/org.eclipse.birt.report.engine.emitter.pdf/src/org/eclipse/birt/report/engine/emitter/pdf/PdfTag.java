@@ -47,4 +47,12 @@ public final class PdfTag {
 	 * @since 4.25
 	 */
 	public static final String ARTIFACT = "artifact";
+
+	/**
+	 * Explicitly do NOT generate a tag. This is not an official PDF tag.
+	 * 
+	 * @since 4.25
+	 * 
+	 */
+	public static final String NONE = "none";
 }
