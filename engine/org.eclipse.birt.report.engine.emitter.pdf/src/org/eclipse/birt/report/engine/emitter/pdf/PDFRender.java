@@ -37,11 +37,12 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-
 import org.openpdf.text.pdf.PdfAnnotation;
 import org.openpdf.text.pdf.PdfArray;
 import org.openpdf.text.pdf.PdfDictionary;
@@ -119,6 +120,25 @@ public class PDFRender extends PageDeviceRender {
 
 	@Override
 	public void visitText(ITextArea textArea) {
+
+		if (textArea instanceof TextArea) {
+			final TextArea ta = (TextArea) textArea;
+			if (ta.isLastInLine() && ta.isLineBreak() && "".equals(ta.getText())) {
+				final PDFPageDevice p = (PDFPageDevice) pageDevice;
+				ContainerArea parent = ta.getParent(); // Usually a TextLineArea
+				while (parent != null && parent.getTagType() == null) {
+					parent = parent.getParent(); // Usually a BlockTextArea
+				}
+				if (parent != null) {
+					final String parentTag = parent.getTagType();
+					if (parentTag != null) {
+						p.closeTag(parentTag, parent);
+						p.openTag(parentTag, parent);
+					}
+				}
+			}
+		}
+
 		IHyperlinkAction hlAction = textArea.getAction();
 		if (null != hlAction) {
 			currentPageDevice.openTag(PdfTag.LINK, textArea);
