@@ -78,9 +78,4 @@ public class TextLineArea extends LineArea {
 		return true;
 	}
 
-	@Override
-	public String getTagType() {
-		final String tag = super.getTagType();
-		return (tag != null) ? tag : "Span";
-	}
 }
