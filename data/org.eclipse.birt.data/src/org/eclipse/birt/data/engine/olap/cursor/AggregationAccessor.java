@@ -36,6 +36,8 @@ import org.eclipse.birt.olap.OLAPException;
 import org.eclipse.birt.olap.cursor.DimensionCursor;
 import org.eclipse.birt.olap.cursor.EdgeCursor;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * This class is to access all aggregation value's according to its result set
  * ID and its index. Aggregation with same aggrOn level list will be assigned
@@ -589,10 +591,14 @@ public class AggregationAccessor extends Accessor {
 		if (value2 == null) {
 			return 1;
 		}
+		Collator instance = Collator.getInstance();
+		if (value1 instanceof CharSequence && value2 instanceof CharSequence) {
+			return instance.compare(value1, value2);
+		}
 		if (value1 instanceof Comparable) {
 			return ((Comparable) value1).compareTo(value2);
 		}
-		return value1.toString().compareTo(value2.toString());
+		return instance.compare(value1.toString(), value2.toString());
 	}
 
 }
