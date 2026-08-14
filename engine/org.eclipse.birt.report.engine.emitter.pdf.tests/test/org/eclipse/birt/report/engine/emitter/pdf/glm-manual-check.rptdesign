@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.25.0.qualifier</property>
+    <property name="language">English</property>
+    <text-property name="title">BIRT Issue 2444 - manual glyph layout check</text-property>
+    <property name="units">mm</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <property name="locale">en_US</property>
+    <property name="pdfVersion">1.7</property>
+    <styles>
+		<style name="report" id="2">
+			<property name="fontFamily">"Noto Sans"</property>
+		</style>
+	</styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3">
+            <property name="type">a4</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="10">
+            <property name="fontSize">10pt</property>
+            <property name="marginBottom">8pt</property>
+            <text-property name="text">Manual check for issue #2444. Render this report twice: once with -Dbirt.pdf.complex.font.layout.enabled=false and once with =true, then compare the two PDFs side by side. Kerning is visible in the letter pairs below (AV, VA, WA, AW, Ma, Va).</text-property>
+        </label>
+
+        <label id="11">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">8pt</property>
+            <text-property name="text">Kerning (Latin, Noto Sans)</text-property>
+        </label>
+        <label id="12">
+            <property name="fontSize">40pt</property>
+            <property name="marginBottom">6pt</property>
+            <text-property name="text">AV cables VA Maya Vase WM WA AW with Kerning</text-property>
+        </label>
+        <label id="13">
+            <property name="fontSize">40pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginBottom">6pt</property>
+            <text-property name="text">AV cables VA Maya Vase WM WA AW with Kerning</text-property>
+        </label>
+
+        <label id="14">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">8pt</property>
+            <text-property name="text">Ligatures (Latin, Noto Sans)</text-property>
+        </label>
+        <label id="15">
+            <property name="fontSize">40pt</property>
+            <property name="marginBottom">6pt</property>
+            <text-property name="text">office waffle affix fjord flight</text-property>
+        </label>
+
+        <label id="16">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">8pt</property>
+            <text-property name="text">Arabic (needs an Arabic-capable font to be registered)</text-property>
+        </label>
+        <label id="17">
+            <property name="fontSize">28pt</property>
+            <property name="marginBottom">6pt</property>
+            <text-property name="text">مرحبا بالعالم العربية</text-property>
+        </label>
+
+        <label id="18">
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">8pt</property>
+            <text-property name="text">Chinese (needs a CJK-capable font to be registered)</text-property>
+        </label>
+        <label id="19">
+            <property name="fontSize">28pt</property>
+            <property name="marginBottom">6pt</property>
+            <text-property name="text">中文测试 汉字 排版</text-property>
+        </label>
+    </body>
+</report>
