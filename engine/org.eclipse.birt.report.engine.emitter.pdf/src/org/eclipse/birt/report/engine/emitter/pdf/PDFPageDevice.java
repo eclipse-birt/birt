@@ -1,4 +1,5 @@
 /*******************************************************************************
+ * Copyright (c) 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -26,6 +27,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -48,13 +50,18 @@ import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.openpdf.text.Document;
 import org.openpdf.text.DocumentException;
+import org.openpdf.text.Font;
+import org.openpdf.text.FontFactory;
 import org.openpdf.text.Rectangle;
 import org.openpdf.text.pdf.BaseFont;
+import org.openpdf.text.pdf.GlyphLayoutFontManager.FontOptions;
+import org.openpdf.text.pdf.GlyphLayoutManager;
 import org.openpdf.text.pdf.PdfArray;
 import org.openpdf.text.pdf.PdfBoolean;
 import org.openpdf.text.pdf.PdfContentByte;
@@ -132,6 +139,14 @@ public class PDFPageDevice implements IPageDevice {
 	private static final String PDF_UA_CONFORMANCE_2 = "PDF.UA-2";
 	private static final String PDF_UA_CONFORMANCE_NONE = "none";
 
+	/**
+	 * Font size passed to {@code loadFont}. The value is irrelevant for layout: it
+	 * is only used to build the returned {@code Font} wrapper, which is discarded —
+	 * the manager keys its AWT font map on the {@code BaseFont}, and the actual
+	 * size is applied per draw via {@code setFontAndSize}.
+	 */
+	private static final float FONT_LOAD_SIZE = 1f;
+
 	/** PDF ICC color profile */
 	/** PDF ICC default color profile RGB */
 	private static final String PDF_ICC_PROFILE_DEFAULT = "sRGB IEC61966-2.1";
@@ -144,6 +159,29 @@ public class PDFPageDevice implements IPageDevice {
 	 * The pdf Document object created by iText
 	 */
 	protected Document doc = null;
+
+	/**
+	 * The per-document glyph layout manager (issue #2444). It is null when the
+	 * complex font layout feature is disabled.
+	 */
+	private GlyphLayoutManager glyphLayoutManager;
+
+	/** Whether kerning and ligatures are enabled in the font configuration. */
+	private boolean useKerningAndLigatures;
+
+	/** Whether the kerning and ligature configuration has been read yet. */
+	private boolean configRead;
+
+	/** Fonts known NOT loadable into the manager - decided once, never retried. */
+	private final Set<BaseFont> managerUnloadableFonts = new HashSet<>();
+
+	/**
+	 * Maps the base font BIRT resolved to the one the glyph layout manager created
+	 * when loading it. The manager only recognises its own instance, so drawing
+	 * must use the substitute for the layout to be applied. Also serves as the
+	 * record of which fonts have been loaded.
+	 */
+	private final Map<BaseFont, BaseFont> managerFontSubstitutes = new HashMap<>();
 
 	/**
 	 * The Pdf Writer
@@ -220,6 +258,15 @@ public class PDFPageDevice implements IPageDevice {
 
 	/** System property of the JavaScript version */
 	private static final String PDF_GLYPH_SUBSTITUTION_PROPERTY_KEY = "birt.pdf.glyph.substitution.enabled"; //$NON-NLS-1$
+
+	/** User property to enable per-document complex font layout */
+	private final static String PDF_COMPLEX_FONT_LAYOUT = "PdfEmitter.ComplexFontLayoutEnabled"; //$NON-NLS-1$
+
+	/**
+	 * System property to enable per-document complex font layout
+	 * (GlyphLayoutManager)
+	 */
+	private static final String PDF_COMPLEX_FONT_LAYOUT_PROPERTY_KEY = "birt.pdf.complex.font.layout.enabled"; //$NON-NLS-1$
 
 	protected Map<String, Expression> userProperties;
 
@@ -1780,5 +1827,168 @@ public class PDFPageDevice implements IPageDevice {
 					.parseBoolean(this.userProperties.get(PDFPageDevice.PDF_GLYPH_SUBSTITUTION).toString());
 
 		return enableGlyphSubstitution;
+	}
+
+	/**
+	 * Evaluate whether per-document complex font layout (OpenPDF's
+	 * {@code GlyphLayoutManager}) is enabled. Disabled by default; can be enabled
+	 * via the system property {@code birt.pdf.complex.font.layout.enabled} or the
+	 * report user property {@code PdfEmitter.ComplexFontLayoutEnabled}.
+	 *
+	 * @return {@code true} if complex font layout should be used
+	 */
+	private boolean isPdfComplexFontLayoutEnabled() {
+		boolean enabled = Boolean.getBoolean(PDF_COMPLEX_FONT_LAYOUT_PROPERTY_KEY);
+
+		if (userProperties != null && !enabled && userProperties.containsKey(PDFPageDevice.PDF_COMPLEX_FONT_LAYOUT)) {
+			enabled = Boolean.parseBoolean(userProperties.get(PDFPageDevice.PDF_COMPLEX_FONT_LAYOUT).toString());
+		}
+		return enabled;
+	}
+
+	/**
+	 * Decide whether the given font should be drawn through the glyph layout
+	 * manager, loading it into the manager on first use. Only TrueType/OpenType
+	 * fonts whose file can be resolved are eligible; base-14, Type1 and symbolic
+	 * fonts return {@code false} and are drawn on the normal path, because
+	 * {@code supportsFont} throws for any font not loaded through the manager. The
+	 * outcome is cached per font, so each font is resolved and loaded only once.
+	 *
+	 * @param font the base font about to be drawn
+	 * @return {@code true} if the manager should be attached for this font. Callers
+	 *         that attach the manager must also draw with
+	 *         {@link #getManagerFont(BaseFont)}.
+	 */
+	boolean useManagerForFont(BaseFont font) {
+		if (font == null) {
+			return false;
+		}
+		ensureGlyphLayoutInitialised();
+		if (glyphLayoutManager == null) {
+			return false;
+		}
+
+		if (managerFontSubstitutes.containsKey(font)) {
+			return true;
+		}
+		if (managerUnloadableFonts.contains(font)) {
+			return false;
+		}
+		// Only TrueType/OpenType fonts can be loaded into the manager.
+		if (font.getFontType() != BaseFont.FONT_TYPE_TTUNI) {
+			managerUnloadableFonts.add(font);
+			return false;
+		}
+		Object path = FontFactory.getFontImp().getFontPath(font.getPostscriptFontName());
+		if (!(path instanceof String)) {
+			managerUnloadableFonts.add(font);
+			return false;
+		}
+		File file = new File((String) path);
+		if (!isOpenTypeFontFile(file)) {
+			managerUnloadableFonts.add(font);
+			return false;
+		}
+		return tryLoadFont(file, font);
+	}
+
+	/**
+	 * Get the per-document glyph layout manager, used by the page to attach or
+	 * detach it per draw. Returns {@code null} when complex font layout is
+	 * disabled.
+	 *
+	 * @return the glyph layout manager, or {@code null}
+	 */
+	GlyphLayoutManager getGlyphLayoutManager() {
+		return glyphLayoutManager;
+	}
+
+	/**
+	 * Get the base font to draw with. The glyph layout manager creates its own base
+	 * font when loading, and only recognises that instance, so drawing must use it
+	 * rather than the one BIRT resolved. Returns the given font unchanged when it
+	 * is not handled by the manager.
+	 *
+	 * @param font the base font BIRT resolved for the text
+	 * @return the font to pass to the content byte
+	 */
+	BaseFont getManagerFont(BaseFont font) {
+		BaseFont substitute = managerFontSubstitutes.get(font);
+		return substitute == null ? font : substitute;
+	}
+
+	/**
+	 * Test whether a file is a TrueType/OpenType font file (by {@code .ttf} /
+	 * {@code .otf} extension).
+	 *
+	 * @param file the file to test
+	 * @return {@code true} if it is a loadable TrueType/OpenType font file
+	 */
+	private boolean isOpenTypeFontFile(File file) {
+		if (file == null || !file.isFile()) {
+			return false;
+		}
+		String n = file.getName().toLowerCase(Locale.ROOT);
+		return n.endsWith(".ttf") || n.endsWith(".otf");
+	}
+
+	/**
+	 * Attempt to load a single font file into the glyph layout manager, applying
+	 * kerning and ligatures if they are enabled in the font configuration. On
+	 * success the base font the manager created is recorded against the given font,
+	 * so drawing can use it; on failure the font is recorded as unloadable. Either
+	 * way the decision is made only once per font.
+	 * <p>
+	 * The run direction is fixed to left-to-right because BIRT has already applied
+	 * bidi reordering and shaping before the text reaches the emitter:
+	 * right-to-left text arrives in visual order using Arabic presentation forms.
+	 * Letting the manager detect direction from the text would reverse it a second
+	 * time.
+	 *
+	 * @param file the font file to load
+	 * @param font the base font being drawn, used as the key at draw time
+	 * @return {@code true} if the font was loaded and can be drawn through the
+	 *         manager
+	 */
+	private boolean tryLoadFont(File file, BaseFont font) {
+		try {
+			FontOptions options = new FontOptions();
+			// BIRT delivers text already reordered and shaped, so it must be drawn as-is.
+			options.setRunDirectionLtr();
+			if (useKerningAndLigatures) {
+				options.setKerningOn().setLigaturesOn();
+			}
+			Font loaded = glyphLayoutManager.loadFont(file.getAbsolutePath(), FONT_LOAD_SIZE, options);
+			if (loaded == null || loaded.getBaseFont() == null) {
+				managerUnloadableFonts.add(font);
+				return false;
+			}
+			managerFontSubstitutes.put(font, loaded.getBaseFont());
+			return true;
+		} catch (Throwable t) {
+			managerUnloadableFonts.add(font);
+			logger.log(Level.FINE, "Font not loadable into GlyphLayoutManager: " + file + " - " + t.getMessage());
+			return false;
+		}
+	}
+
+	/**
+	 * Create the glyph layout manager and read the kerning and ligature setting,
+	 * once, on first use. Neither the report's user properties nor the font
+	 * configuration are available when this device is constructed, so both are
+	 * resolved lazily at draw time.
+	 */
+	private void ensureGlyphLayoutInitialised() {
+		if (configRead) {
+			return;
+		}
+		configRead = true;
+		if (!isPdfComplexFontLayoutEnabled()) {
+			return;
+		}
+		glyphLayoutManager = new GlyphLayoutManager();
+		Locale locale = context == null ? Locale.getDefault() : context.getLocale();
+		useKerningAndLigatures = FontMappingManagerFactory.getInstance().getFontMappingManager("pdf", locale) //$NON-NLS-1$
+				.useFontKerningAndLigatures();
 	}
 }

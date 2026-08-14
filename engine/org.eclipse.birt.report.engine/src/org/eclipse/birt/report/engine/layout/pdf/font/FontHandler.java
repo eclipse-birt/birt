@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008, 2025 Actuate Corporation and others
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.openpdf.text.Font;
 import org.openpdf.text.pdf.BaseFont;
-import org.openpdf.text.pdf.LayoutProcessor;
 import org.w3c.dom.css.CSSValueList;
 
 /**
@@ -99,7 +98,6 @@ public class FontHandler {
 				textContent) / PDFConstants.LAYOUT_TO_PDF_RATIO;
 
 		if (!fontSubstitution) {
-			enableKerningAndLigatures();
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
@@ -129,7 +127,6 @@ public class FontHandler {
 		this.fontSize = fontSize / PDFConstants.LAYOUT_TO_PDF_RATIO;
 
 		if (!fontSubstitution) {
-			enableKerningAndLigatures();
 			for (int i = 0; i < fontFamilies.length; i++) {
 				String fontName = fontManager.getAliasedFont(fontFamilies[i]);
 				bf = fontManager.createFont(fontName, fontStyle);
@@ -202,7 +199,6 @@ public class FontHandler {
 			}
 		}
 		// search in the font family to find one to display the character
-		enableKerningAndLigatures();
 		for (int i = 0; i < fontFamilies.length; i++) {
 			// Translate the font alias to font family
 			String fontFamily = fontManager.getAliasedFont(fontFamilies[i]);
@@ -316,24 +312,5 @@ public class FontHandler {
 		}
 
 		return tmp;
-	}
-
-	/**
-	 * Enable the font mode to handle advanced kerning and ligatures. The formatting
-	 * option has priority instead disabled behavior. The configuration controls the
-	 * LayouProcessor of OpenPDF.
-	 */
-	private void enableKerningAndLigatures() {
-		synchronized (LayoutProcessor.class) {
-			if (!LayoutProcessor.isEnabled()) {
-				if (fontManager.useFontKerningAndLigatures()) {
-					if (!LayoutProcessor.isEnabled()) {
-						LayoutProcessor.enableKernLiga();
-					}
-				} else {
-					LayoutProcessor.enable(0);
-				}
-			}
-		}
 	}
 }

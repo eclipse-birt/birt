@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2024, 2025 Actuate Corporation and others
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -45,7 +45,6 @@ import org.openpdf.text.Font;
 import org.openpdf.text.Image;
 import org.openpdf.text.Rectangle;
 import org.openpdf.text.pdf.BaseFont;
-import org.openpdf.text.pdf.LayoutProcessor;
 import org.openpdf.text.pdf.PdfAction;
 import org.openpdf.text.pdf.PdfAnnotation;
 import org.openpdf.text.pdf.PdfArray;
@@ -53,8 +52,8 @@ import org.openpdf.text.pdf.PdfBorderDictionary;
 import org.openpdf.text.pdf.PdfContentByte;
 import org.openpdf.text.pdf.PdfDestination;
 import org.openpdf.text.pdf.PdfDictionary;
-import org.openpdf.text.pdf.PdfObject;
 import org.openpdf.text.pdf.PdfName;
+import org.openpdf.text.pdf.PdfObject;
 import org.openpdf.text.pdf.PdfRectangle;
 import org.openpdf.text.pdf.PdfString;
 import org.openpdf.text.pdf.PdfStructureElement;
@@ -614,7 +613,6 @@ public class PDFPage extends AbstractPage {
 		}
 
 		BaseFont font = getBaseFont(fontInfo);
-		validateSymbolicFont(font);
 		font.setIncludeCidSet(this.pageDevice.isIncludeCidSet());
 
 		float fontSize = fontInfo.getFontSize();
@@ -635,6 +633,16 @@ public class PDFPage extends AbstractPage {
 					logger.log(Level.WARNING,
 							"PDF/A: " + fontInfo.getFontName() + " not embeddable." + e.getMessage());
 				}
+			}
+			// issue #2444: OpenPDF's showText routes through the glyph layout manager when
+			// one is set on the writer. The manager only recognises the base font it
+			// created itself, so the font is swapped for its own instance; fonts it cannot
+			// load (base-14/Type1/symbolic) draw on the normal path with no manager set.
+			if (pageDevice.useManagerForFont(font)) {
+				writer.setGlyphLayoutManager(pageDevice.getGlyphLayoutManager());
+				font = pageDevice.getManagerFont(font);
+			} else {
+				writer.setGlyphLayoutManager(null);
 			}
 			contentByte.setFontAndSize(font, fontSize);
 		} catch (IllegalArgumentException iae) {
@@ -889,21 +897,5 @@ public class PDFPage extends AbstractPage {
 	 */
 	public boolean isInArtifact() {
 		return artifactDepth > 0;
-	}
-
-	/**
-	 * Validate the font property of "specific". This is a marker of symbolic font
-	 * and needs enabled handling of OpenPDF LayoutProcessor for kerning to display
-	 * the font correctly.
-	 */
-	private void validateSymbolicFont(BaseFont font) {
-		synchronized (LayoutProcessor.class) {
-			if (font.isFontSpecific()) {
-				if (LayoutProcessor.isEnabled()) {
-					LayoutProcessor.disable();
-				}
-				LayoutProcessor.setKerning();
-			}
-		}
 	}
 }

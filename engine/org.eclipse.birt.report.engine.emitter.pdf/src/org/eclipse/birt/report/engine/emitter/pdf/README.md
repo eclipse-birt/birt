@@ -201,3 +201,34 @@ A detailed description is given at the top level configuration file fontsConfig.
 	Default    	false
 	Reference  	see -Dbirt.pdf.glyph.substitution.enabled
 	Since      	4.20
+	
+**Complex Font Layout**
+
+	Content    	configuration to enable per-document complex font layout for PDF output
+					using OpenPDF's GlyphLayoutManager which is created per document and holds
+					no static state, so it is safe for concurrent multi-document rendering.
+					When enabled, TrueType/OpenType fonts are rendered through the manager;
+					base-14 and Type1 fonts continue to use the standard rendering path.
+					Kerning and ligatures are applied only if they are also enabled by the
+					"kerning-and-ligatures" configuration tag.
+					This replaces the deprecated global LayoutProcessor.
+	Parameter  	-Dbirt.pdf.complex.font.layout.enabled
+	Location   	JVM
+	Data type  	boolean
+	Values     	true, complex font layout is enabled
+					false, complex font layout is disabled
+	Default    	false
+	Reference  	see PdfEmitter.ComplexFontLayoutEnabled, Kerning and Ligatures
+	Since      	4.25
+
+**PdfEmitter.ComplexFontLayoutEnabled**
+
+	Content    	configuration to enable per-document complex font layout for PDF output
+					The user property works only if the global configuration of complex font layout is disabled.
+	Location   	report
+	Data type  	boolean
+	Values     	true, complex font layout is enabled
+					false, complex font layout is disabled
+	Default    	false
+	Reference  	see -Dbirt.pdf.complex.font.layout.enabled, Kerning and Ligatures
+	Since      	4.25
