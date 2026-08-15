@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.MetricUtility;
@@ -52,7 +53,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
-import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
@@ -201,6 +201,10 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 		return attachedEditParts;
 	}
 
+	private double getZoom() {
+		return UIUtil.getZoom(getGuideEditPart().getZoomManager(), getHost().getRoot().getViewer().getControl());
+	}
+
 	/*
 	 * Gets the commande with specific request (non-Javadoc)
 	 *
@@ -220,10 +224,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 				pDelta = req.getMoveDelta().x;
 			}
 			if (isMoveValid(getGuideEditPart().getZoomedPosition() + pDelta)) {
-				ZoomManager zoomManager = getGuideEditPart().getZoomManager();
-				if (zoomManager != null) {
-					pDelta = (int) Math.round(pDelta / zoomManager.getZoom());
-				}
+				pDelta = (int) Math.round(pDelta / getZoom());
 				cmd = getGuideEditPart().getRulerProvider().getMoveGuideCommand(getHost().getModel(), pDelta);
 			} else {
 				cmd = UnexecutableCommand.INSTANCE;
@@ -433,10 +434,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy {
 			pDelta = req.getMoveDelta().x;
 		}
 
-		ZoomManager zoomManager = getGuideEditPart().getZoomManager();
-		if (zoomManager != null) {
-			pDelta = (int) Math.round(pDelta / zoomManager.getZoom());
-		}
+		pDelta = (int) Math.round(pDelta / getZoom());
 
 		int marginValue = ((EditorRulerProvider) getGuideEditPart().getRulerProvider())
 				.getMarginValue(getHost().getModel(), pDelta);

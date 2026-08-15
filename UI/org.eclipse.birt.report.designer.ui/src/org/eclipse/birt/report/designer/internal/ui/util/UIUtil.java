@@ -141,6 +141,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -2836,5 +2837,21 @@ public class UIUtil {
 		}
 
 		return groupList;
+	}
+
+	/**
+	 * Returns the zoom also considering the zoom of the control's shell.
+	 *
+	 * @param zoomManager
+	 * @param control
+	 * @return the zoom also considering the zoom of the control's shell.
+	 *
+	 * @since 4.25
+	 */
+	public static double getZoom(ZoomManager zoomManager, Control control) {
+		double zoom = zoomManager == null ? 1.0d : zoomManager.getZoom();
+		int shellZoom = control.getShell().getZoom();
+		zoom *= shellZoom / 100d;
+		return zoom;
 	}
 }

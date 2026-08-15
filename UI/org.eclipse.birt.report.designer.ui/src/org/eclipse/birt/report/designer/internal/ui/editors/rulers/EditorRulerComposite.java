@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -372,7 +373,7 @@ public class EditorRulerComposite extends Composite {
 	}
 
 	private double getZoom() {
-		return getZoomManager().getZoom();
+		return UIUtil.getZoom(getZoomManager(), this);
 	}
 
 	/**
