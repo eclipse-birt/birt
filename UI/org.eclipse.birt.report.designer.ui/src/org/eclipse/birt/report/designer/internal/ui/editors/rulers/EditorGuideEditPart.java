@@ -17,6 +17,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -264,9 +265,8 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart {
 	 */
 	public int getZoomedPosition() {
 		double position = getRulerProvider().getGuidePosition(getModel());
-		if (getZoomManager() != null) {
-			position = Math.round(position * getZoomManager().getZoom());
-		}
+		double scale = UIUtil.getZoom(getZoomManager(), getRoot().getViewer().getControl());
+		position = Math.round(position * scale);
 		return (int) position;
 	}
 

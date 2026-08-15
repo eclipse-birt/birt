@@ -107,6 +107,14 @@ public class EditorRulerFigure extends Figure {
 	}
 
 	/**
+	 * @return the zoom manager's zoom or 1.0 if none.
+	 * @since 4.25
+	 */
+	protected double getZoom() {
+		return zoomManager == null ? 1.0d : zoomManager.getZoom();
+	}
+
+	/**
 	 * @return
 	 */
 	protected double getDPU() {
@@ -117,9 +125,7 @@ public class EditorRulerFigure extends Figure {
 				dpu1 = transposer.t(new Dimension(Display.getCurrent().getDPI())).height;
 				dpu1 = dpu1 / getUnitConver(getUnit());
 			}
-			if (zoomManager != null) {
-				dpu1 = dpu1 * zoomManager.getZoom();
-			}
+			dpu1 = dpu1 * getZoom();
 		}
 		return dpu1;
 	}
@@ -520,7 +526,7 @@ public class EditorRulerFigure extends Figure {
 	}
 
 	private void setIntervalForPaint() {
-		double zoom = zoomManager.getZoom();
+		double zoom = getZoom();
 		if (unit == EditorRulerProvider.UNIT_INCHES) {
 			interval = 1;
 			divisions = 8;
@@ -595,7 +601,7 @@ public class EditorRulerFigure extends Figure {
 	 */
 	public Rectangle getScaleLeftSpace() {
 		PrecisionRectangle rect = new PrecisionRectangle(getLeftSpace());
-		rect.performScale(zoomManager.getZoom());
+		rect.performScale(getZoom());
 		return rect;
 	}
 

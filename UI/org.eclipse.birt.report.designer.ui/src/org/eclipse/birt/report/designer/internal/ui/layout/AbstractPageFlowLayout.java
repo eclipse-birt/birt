@@ -16,6 +16,7 @@ package org.eclipse.birt.report.designer.internal.ui.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PrecisionDimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -183,9 +184,7 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout {
 
 		PrecisionDimension dim = new PrecisionDimension(containerSize.width, containerSize.height);
 
-		double scale = getZoomManager().getZoom();
-		int zoom = owner.getViewer().getControl().getShell().getZoom();
-		scale *= zoom / 100f;
+		double scale = UIUtil.getZoom(getZoomManager(), control);
 		dim.performScale(1 / scale);
 		if (dim.width > reportSize.width + MINLEFTSPACE + MINRIGHTSPACE) {
 			revValue.reportSize.x = (dim.width - reportSize.width) / 2;

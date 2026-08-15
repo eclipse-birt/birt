@@ -17,6 +17,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -106,7 +107,12 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 	 */
 	@Override
 	protected IFigure createFigure() {
-		EditorRulerFigure ruler = new EditorRulerFigure(isHorizontal(), getRulerProvider().getUnit());
+		EditorRulerFigure ruler = new EditorRulerFigure(isHorizontal(), getRulerProvider().getUnit()) {
+			@Override
+			protected double getZoom() {
+				return UIUtil.getZoom(zoomManager, getRoot().getViewer().getControl());
+			}
+		};
 		if (ruler.getUnit() == RulerProvider.UNIT_PIXELS) {
 			ruler.setInterval(100, 2);
 		}
