@@ -129,7 +129,7 @@ public class LabelEditManager extends DirectEditManager {
 		FontData data = scaledFont.getFontData()[0];
 		Dimension fontSize = new Dimension(0, data.getHeight());
 		labelFigure.translateToAbsolute(fontSize);
-		data.setHeight(fontSize.height);
+		data.setHeight(Math.round(fontSize.height / (text.getShell().getZoom() / 100f)));
 		scaledFont = new Font(null, data);
 
 		text.setFont(scaledFont);
