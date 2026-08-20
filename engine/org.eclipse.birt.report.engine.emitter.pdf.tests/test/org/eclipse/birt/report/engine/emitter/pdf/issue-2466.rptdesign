@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <property name="author">Henning von Bargen</property>
+    <property name="comments">Copyright (c) 2014-2024 Triestram &amp; Partner GmbH</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.25.0.qualifier Build &lt;@BUILD@></property>
+    <property name="language">German</property>
+    <text-property name="title">BIRT Issue 2466</text-property>
+    <property name="units">mm</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <property name="locale">de_DE</property>
+    <property name="pdfVersion">1.7</property>
+    <property name="pdfConformance">PDF.A3B</property>
+    <property name="pdfUAConformance">PDF.UA-1</property>
+    <property name="pdfaFontFallback">test/org/eclipse/birt/report/engine/emitter/pdf/fonts/NotoSans-Regular.ttf</property>
+    <property name="pdfaFontCidEmbed">false</property>
+    <property name="pdfaDocumentTitleEmbed">true</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CM" id="11480">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CM" id="11484">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">PRODUCTLINE</property>
+                    <text-property name="displayName">PRODUCTLINE</text-property>
+                    <text-property name="heading">PRODUCTLINE</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">PRODUCTLINE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="afterOpen"><![CDATA[java.lang.System.out.println("afterOpen DataSource CM");]]></method>
+            <property name="dataSource">CM</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">PRODUCTLINE</property>
+                    <property name="nativeName">PRODUCTLINE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select productline
+from productlines
+order by 1]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PRODUCTLINE</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PRODUCTLINE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCTLINE</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="11479">
+            <property name="fontFamily">"Noto Sans"</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="11478">
+            <property name="type">a4</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="11483">
+            <text-property name="text">This report is a test for BIRT issue 2466: We want to modify the PDF title dynamically.</text-property>
+        </label>
+        <text-data id="11485">
+            <property name="dataSet">CM</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">PRODUCTLINE</property>
+                    <text-property name="displayName">PRODUCTLINE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PRODUCTLINE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <expression name="valueExpr">reportContext.getAppContext().put("PDF Title", "Dynamically modified title");&#13;
+reportContext.getAppContext().put("PDF Subject", "Dynamically modified PDF metadata");&#13;
+reportContext.getAppContext().put("PDF Keywords", "PDF Title, PDF Subject, PDF Keywords, PDF Description, PDF Language");&#13;
+reportContext.getAppContext().put("PDF Description", "This report shows how to dynamically change PDF metadata.");&#13;
+reportContext.getAppContext().put("PDF Language", "en-EN");&#13;
+&#13;
+row["PRODUCTLINE"]</expression>
+            <property name="contentType">html</property>
+        </text-data>
+    </body>
+</report>

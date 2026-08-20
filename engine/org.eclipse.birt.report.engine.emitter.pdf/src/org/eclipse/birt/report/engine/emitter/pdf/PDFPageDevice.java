@@ -310,8 +310,6 @@ public class PDFPageDevice implements IPageDevice {
 			writer = PdfWriter.getInstance(doc, new BufferedOutputStream(output));
 			EngineResourceHandle handle = new EngineResourceHandle(ULocale.forLocale(context.getLocale()));
 
-			this.userProperties = report.getDesign().getUserProperties();
-
 			// PDF version user property based
 			this.setPdfVersion();
 			// PDF/A & PDF/X conformance user property based
@@ -338,23 +336,9 @@ public class PDFPageDevice implements IPageDevice {
 			String creator = handle.getMessage(MessageConstants.PDF_CREATOR, versionInfo);
 			doc.addCreator(creator);
 
-			if (null != author) {
-				doc.addAuthor(author);
-			}
-			// openPDF 1.3.30: title of PDF/A won't be set correctly,
-			// issue on xmp meta data at "dc:title"
-			if (!this.isPdfAFormat || this.addPdfADocumentTitle) {
-				if (null != title) {
-					doc.addTitle(title);
-				}
-			}
-			if (null != subject) {
-				doc.addSubject(subject);
-				doc.addKeywords(subject);
-			}
-			if (description != null) {
-				doc.addHeader("Description", description);
-			}
+			updateMetadata(title, author, subject, subject, description); // The old behavior is actually to put the
+																			// subject as "subject" and "keywords"
+
 
 			if (this.isPdfUAFormat) {
 				String localeString = report.getDesign().getLocale();
@@ -364,13 +348,7 @@ public class PDFPageDevice implements IPageDevice {
 				Locale locale = Locale.of(localeString);
 				String language = locale.toString();
 				language = language.replace('_', '-'); // 'de_de' is invalid, it should be 'de-DE'.
-				doc.setDocumentLanguage(language);
-				// In order to declare the main language of the document,
-				// we need to use the extraCatalog. That way we don't need to
-				// modify existing OpenPDF source code.
-				PdfDictionary extraCatalog = writer.getExtraCatalog();
-				extraCatalog.put(PdfName.LANG, new PdfString(language, PdfObject.TEXT_UNICODE));
-
+				updateLanguage(language);
 				writer.addViewerPreference(PdfName.DISPLAYDOCTITLE, PdfBoolean.PDFTRUE);
 			}
 
@@ -470,6 +448,41 @@ public class PDFPageDevice implements IPageDevice {
 		}
 	}
 
+	private void updateMetadata(String title, String author, String subject, String keywords, String description) {
+
+		if (null != author) {
+			doc.addAuthor(author);
+		}
+		// openPDF 1.3.30: title of PDF/A won't be set correctly,
+		// issue on xmp meta data at "dc:title"
+		if (null != title) {
+			if (!this.isPdfAFormat || this.addPdfADocumentTitle) {
+				doc.addTitle(title);
+			}
+		}
+		if (null != subject) {
+			doc.addSubject(subject);
+		}
+		if (null != keywords) {
+			doc.addKeywords(keywords);
+		}
+		if (description != null) {
+			doc.addHeader("Description", description);
+		}
+
+	}
+
+	private void updateLanguage(String language) {
+		if (language == null)
+			return;
+		doc.setDocumentLanguage(language);
+		// In order to declare the main language of the document,
+		// we need to use the extraCatalog. That way we don't need to
+		// modify existing OpenPDF source code.
+		PdfDictionary extraCatalog = writer.getExtraCatalog();
+		extraCatalog.put(PdfName.LANG, new PdfString(language, PdfObject.TEXT_UNICODE));
+	}
+
 	/**
 	 * Initialize the attributes for the PDF tag tree structure.
 	 */
@@ -544,8 +557,30 @@ public class PDFPageDevice implements IPageDevice {
 		return imageCache;
 	}
 
+	private String getPDFUserProperty(String name) {
+		Object o = context.getAppContext().getOrDefault(name, null);
+		if (o == null)
+			return null;
+		String s = o.toString();
+		if (s.isEmpty())
+			return null;
+		return s;
+	}
+
 	@Override
 	public void close() throws Exception {
+
+		// Issue 2446: Update metadata again, to allow using DB data for some important
+		// metadata like the title and the document language.
+		String title = getPDFUserProperty("PDF Title");
+		String author = getPDFUserProperty("PDF Author");
+		String subject = getPDFUserProperty("PDF Subject");
+		String keywords = getPDFUserProperty("PDF Keywords");
+		String description = getPDFUserProperty("PDF Description");
+		String language = getPDFUserProperty("PDF Language");
+		updateMetadata(title, author, subject, keywords, description);
+		updateLanguage(language);
+
 		if (!doc.isOpen()) {
 			// to ensure we create a PDF file
 			doc.open();
