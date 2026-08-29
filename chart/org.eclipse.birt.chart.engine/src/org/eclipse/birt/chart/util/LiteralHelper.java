@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -93,6 +94,10 @@ public class LiteralHelper {
 	 * Comment for <code>riserTypeSet</code>
 	 */
 	public static final NameSet riserTypeSet = getRiserTypeSet();
+	/**
+	 * Comment for <code>lineInterpolationSet</code>
+	 */
+	public static final NameSet lineInterpolationSet = getLineInterpolationSet();
 	/**
 	 * Comment for <code>scaleUnitTypeSet</code>
 	 */
@@ -292,6 +297,13 @@ public class LiteralHelper {
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet(prefix, suffix, toStringNameArray(RiserType.VALUES));
+	}
+
+	private static NameSet getLineInterpolationSet() {
+		String prefix = "LineInterpolation."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet(prefix, suffix, toStringNameArray(LineInterpolation.VALUES));
 	}
 
 	private static NameSet getMarkerTypeSet() {
