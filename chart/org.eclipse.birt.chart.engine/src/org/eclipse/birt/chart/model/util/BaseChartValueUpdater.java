@@ -936,6 +936,14 @@ public class BaseChartValueUpdater {
 			}
 		}
 
+		if (!eObj.isSetInterpolation()) {
+			if (eRefObj != null && eRefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eRefObj.getInterpolation());
+			} else if (eDefObj != null && eDefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eDefObj.getInterpolation());
+			}
+		}
+
 		// list attributes
 
 		// references
@@ -1199,6 +1207,14 @@ public class BaseChartValueUpdater {
 				eObj.setConnectMissingValue(eRefObj.isConnectMissingValue());
 			} else if (eDefObj != null && eDefObj.isSetConnectMissingValue()) {
 				eObj.setConnectMissingValue(eDefObj.isConnectMissingValue());
+			}
+		}
+
+		if (!eObj.isSetInterpolation()) {
+			if (eRefObj != null && eRefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eRefObj.getInterpolation());
+			} else if (eDefObj != null && eDefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eDefObj.getInterpolation());
 			}
 		}
 
@@ -1469,6 +1485,14 @@ public class BaseChartValueUpdater {
 				eObj.setConnectMissingValue(eRefObj.isConnectMissingValue());
 			} else if (eDefObj != null && eDefObj.isSetConnectMissingValue()) {
 				eObj.setConnectMissingValue(eDefObj.isConnectMissingValue());
+			}
+		}
+
+		if (!eObj.isSetInterpolation()) {
+			if (eRefObj != null && eRefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eRefObj.getInterpolation());
+			} else if (eDefObj != null && eDefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eDefObj.getInterpolation());
 			}
 		}
 
@@ -1859,6 +1883,14 @@ public class BaseChartValueUpdater {
 				eObj.setConnectMissingValue(eRefObj.isConnectMissingValue());
 			} else if (eDefObj != null && eDefObj.isSetConnectMissingValue()) {
 				eObj.setConnectMissingValue(eDefObj.isConnectMissingValue());
+			}
+		}
+
+		if (!eObj.isSetInterpolation()) {
+			if (eRefObj != null && eRefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eRefObj.getInterpolation());
+			} else if (eDefObj != null && eDefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eDefObj.getInterpolation());
 			}
 		}
 
@@ -2262,6 +2294,14 @@ public class BaseChartValueUpdater {
 				eObj.setConnectMissingValue(eRefObj.isConnectMissingValue());
 			} else if (eDefObj != null && eDefObj.isSetConnectMissingValue()) {
 				eObj.setConnectMissingValue(eDefObj.isConnectMissingValue());
+			}
+		}
+
+		if (!eObj.isSetInterpolation()) {
+			if (eRefObj != null && eRefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eRefObj.getInterpolation());
+			} else if (eDefObj != null && eDefObj.isSetInterpolation()) {
+				eObj.setInterpolation(eDefObj.getInterpolation());
 			}
 		}
 

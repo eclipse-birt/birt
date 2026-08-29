@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
@@ -70,6 +71,7 @@ import com.ibm.icu.util.ULocale;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isConnectMissingValue <em>Connect Missing Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getInterpolation <em>Interpolation</em>}</li>
  * </ul>
  *
  * @generated
@@ -195,6 +197,35 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	 * @ordered
 	 */
 	protected boolean connectMissingValueESet;
+
+	/**
+	 * The default value of the '{@link #getInterpolation() <em>Interpolation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see #getInterpolation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final LineInterpolation INTERPOLATION_EDEFAULT = LineInterpolation.LINEAR_LITERAL;
+
+	/**
+	 * The cached value of the '{@link #getInterpolation() <em>Interpolation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see #getInterpolation()
+	 * @generated
+	 * @ordered
+	 */
+	protected LineInterpolation interpolation = INTERPOLATION_EDEFAULT;
+
+	/**
+	 * This is true if the Interpolation attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean interpolationESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -521,6 +552,60 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	 * @generated
 	 */
 	@Override
+	public LineInterpolation getInterpolation() {
+		return interpolation;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void setInterpolation(LineInterpolation newInterpolation) {
+		LineInterpolation oldInterpolation = interpolation;
+		interpolation = newInterpolation == null ? INTERPOLATION_EDEFAULT : newInterpolation;
+		boolean oldInterpolationESet = interpolationESet;
+		interpolationESet = true;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__INTERPOLATION,
+					oldInterpolation, interpolation, !oldInterpolationESet));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public void unsetInterpolation() {
+		LineInterpolation oldInterpolation = interpolation;
+		boolean oldInterpolationESet = interpolationESet;
+		interpolation = INTERPOLATION_EDEFAULT;
+		interpolationESet = false;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__INTERPOLATION,
+					oldInterpolation, INTERPOLATION_EDEFAULT, oldInterpolationESet));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
+	public boolean isSetInterpolation() {
+		return interpolationESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 		case TypePackage.LINE_SERIES__MARKERS:
@@ -556,6 +641,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 			return getShadowColor();
 		case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE:
 			return isConnectMissingValue();
+		case TypePackage.LINE_SERIES__INTERPOLATION:
+			return getInterpolation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -590,6 +677,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE:
 			setConnectMissingValue((Boolean) newValue);
 			return;
+		case TypePackage.LINE_SERIES__INTERPOLATION:
+			setInterpolation((LineInterpolation) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -622,6 +712,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE:
 			unsetConnectMissingValue();
 			return;
+		case TypePackage.LINE_SERIES__INTERPOLATION:
+			unsetInterpolation();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -647,6 +740,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 			return shadowColor != null;
 		case TypePackage.LINE_SERIES__CONNECT_MISSING_VALUE:
 			return isSetConnectMissingValue();
+		case TypePackage.LINE_SERIES__INTERPOLATION:
+			return isSetInterpolation();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -676,6 +771,12 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 			result.append(connectMissingValue);
 		else
 			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", interpolation: "); //$NON-NLS-1$
+		if (interpolationESet) {
+			result.append(interpolation);
+		} else {
+			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -996,6 +1097,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		connectMissingValue = src.isConnectMissingValue();
 
 		connectMissingValueESet = src.isSetConnectMissingValue();
+
+		interpolation = src.getInterpolation();
+
+		interpolationESet = src.isSetInterpolation();
 
 	}
 

@@ -251,13 +251,22 @@ public interface TypePackage extends EPackage {
 	int LINE_SERIES__CONNECT_MISSING_VALUE = ComponentPackage.SERIES_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Interpolation</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_SERIES__INTERPOLATION = ComponentPackage.SERIES_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>Line Series</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 7;
+	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl <em>Area Series</em>}' class.
@@ -430,6 +439,15 @@ public interface TypePackage extends EPackage {
 	 * @ordered
 	 */
 	int AREA_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Interpolation</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int AREA_SERIES__INTERPOLATION = LINE_SERIES__INTERPOLATION;
 
 	/**
 	 * The number of structural features of the '<em>Area Series</em>' class. <!--
@@ -782,6 +800,15 @@ public interface TypePackage extends EPackage {
 	int SCATTER_SERIES__CONNECT_MISSING_VALUE = LINE_SERIES__CONNECT_MISSING_VALUE;
 
 	/**
+	 * The feature id for the '<em><b>Interpolation</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__INTERPOLATION = LINE_SERIES__INTERPOLATION;
+
+	/**
 	 * The number of structural features of the '<em>Scatter Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -960,6 +987,15 @@ public interface TypePackage extends EPackage {
 	 * @ordered
 	 */
 	int BUBBLE_SERIES__CONNECT_MISSING_VALUE = SCATTER_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Interpolation</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int BUBBLE_SERIES__INTERPOLATION = SCATTER_SERIES__INTERPOLATION;
 
 	/**
 	 * The feature id for the '<em><b>Acc Line Attributes</b></em>' containment reference.
@@ -1280,6 +1316,15 @@ public interface TypePackage extends EPackage {
 	 * @ordered
 	 */
 	int DIFFERENCE_SERIES__CONNECT_MISSING_VALUE = AREA_SERIES__CONNECT_MISSING_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Interpolation</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENCE_SERIES__INTERPOLATION = AREA_SERIES__INTERPOLATION;
 
 	/**
 	 * The feature id for the '<em><b>Negative Markers</b></em>' containment reference list.
@@ -2227,6 +2272,18 @@ public interface TypePackage extends EPackage {
 	EAttribute getLineSeries_ConnectMissingValue();
 
 	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
+	 * <em>Interpolation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for the attribute '<em>Interpolation</em>'.
+	 * @see org.eclipse.birt.chart.model.type.LineSeries#getInterpolation()
+	 * @see #getLineSeries()
+	 * @generated
+	 */
+	EAttribute getLineSeries_Interpolation();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Pie Series</em>'.
@@ -2704,6 +2761,14 @@ public interface TypePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LINE_SERIES__CONNECT_MISSING_VALUE = eINSTANCE.getLineSeries_ConnectMissingValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Interpolation</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @generated
+		 */
+		EAttribute LINE_SERIES__INTERPOLATION = eINSTANCE.getLineSeries_Interpolation();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.

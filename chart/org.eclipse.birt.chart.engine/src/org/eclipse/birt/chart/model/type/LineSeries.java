@@ -16,6 +16,7 @@ package org.eclipse.birt.chart.model.type;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.emf.common.util.EList;
@@ -40,6 +41,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#isConnectMissingValue <em>Connect Missing Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation <em>Interpolation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries()
@@ -310,6 +312,71 @@ public interface LineSeries extends Series {
 	 * @generated
 	 */
 	boolean isSetConnectMissingValue();
+
+	/**
+	 * Returns the value of the '<em><b>Interpolation</b></em>' attribute. The
+	 * default value is <code>"Linear"</code>. The literals are from the
+	 * enumeration {@link org.eclipse.birt.chart.model.attribute.LineInterpolation}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Specifies how consecutive data points are joined: Linear, StepAfter,
+	 * StepBefore or StepCenter. A step mode takes precedence over Curve, and is
+	 * ignored by series and chart types that do not support it. <!-- end-model-doc
+	 * -->
+	 *
+	 * @return the value of the '<em>Interpolation</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @see #isSetInterpolation()
+	 * @see #unsetInterpolation()
+	 * @see #setInterpolation(LineInterpolation)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_Interpolation()
+	 * @model default="Linear" unsettable="true"
+	 *        extendedMetaData="kind='element' name='Interpolation'"
+	 * @generated
+	 * @since 4.25
+	 */
+	LineInterpolation getInterpolation();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
+	 * <em>Interpolation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @param value the new value of the '<em>Interpolation</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @see #isSetInterpolation()
+	 * @see #unsetInterpolation()
+	 * @see #getInterpolation()
+	 * @generated
+	 */
+	void setInterpolation(LineInterpolation value);
+
+	/**
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
+	 * <em>Interpolation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @see #isSetInterpolation()
+	 * @see #getInterpolation()
+	 * @see #setInterpolation(LineInterpolation)
+	 * @generated
+	 */
+	void unsetInterpolation();
+
+	/**
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
+	 * <em>Interpolation</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 *
+	 * @return whether the value of the '<em>Interpolation</em>' attribute is set.
+	 * @see #unsetInterpolation()
+	 * @see #getInterpolation()
+	 * @see #setInterpolation(LineInterpolation)
+	 * @generated
+	 */
+	boolean isSetInterpolation();
 
 	/**
 	 * @generated
