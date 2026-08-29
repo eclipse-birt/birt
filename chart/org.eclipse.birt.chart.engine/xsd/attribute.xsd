@@ -1719,4 +1719,16 @@ itself to formatting a string value.
 			<xsd:enumeration value="file"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="LineInterpolation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This type represents how a Line Series joins two consecutive data points: a straight segment (Linear), or a staircase that steps at the first point (StepBefore), at the second (StepAfter) or half way between (StepCenter).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Linear"/>
+			<xsd:enumeration value="StepBefore"/>
+			<xsd:enumeration value="StepAfter"/>
+			<xsd:enumeration value="StepCenter"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 </xsd:schema>
