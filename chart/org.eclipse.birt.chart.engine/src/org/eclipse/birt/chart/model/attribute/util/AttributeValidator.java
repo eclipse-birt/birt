@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
@@ -343,6 +344,8 @@ public class AttributeValidator extends EObjectValidator {
 			return validateUnitsOfMeasurement((UnitsOfMeasurement) value, diagnostics, context);
 		case AttributePackage.VERTICAL_ALIGNMENT:
 			return validateVerticalAlignment((VerticalAlignment) value, diagnostics, context);
+		case AttributePackage.LINE_INTERPOLATION:
+			return validateLineInterpolation((LineInterpolation) value, diagnostics, context);
 		case AttributePackage.ACTION_TYPE_OBJECT:
 			return validateActionTypeObject((ActionType) value, diagnostics, context);
 		case AttributePackage.ANCHOR_OBJECT:
@@ -429,6 +432,8 @@ public class AttributeValidator extends EObjectValidator {
 			return validateUnitsOfMeasurementObject((UnitsOfMeasurement) value, diagnostics, context);
 		case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
 			return validateVerticalAlignmentObject((VerticalAlignment) value, diagnostics, context);
+		case AttributePackage.LINE_INTERPOLATION_OBJECT:
+			return validateLineInterpolationObject((LineInterpolation) value, diagnostics, context);
 		default:
 			return true;
 		}
@@ -1123,6 +1128,16 @@ public class AttributeValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateLineInterpolation(LineInterpolation lineInterpolation, DiagnosticChain diagnostics,
+			Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
 	public boolean validateActionTypeObject(ActionType actionTypeObject, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		return true;
@@ -1612,6 +1627,16 @@ public class AttributeValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateVerticalAlignmentObject(VerticalAlignment verticalAlignmentObject,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	public boolean validateLineInterpolationObject(LineInterpolation lineInterpolationObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}

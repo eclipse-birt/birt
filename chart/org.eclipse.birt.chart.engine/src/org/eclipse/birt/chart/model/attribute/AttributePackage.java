@@ -2850,6 +2850,27 @@ public interface AttributePackage extends EPackage {
 	int VERTICAL_ALIGNMENT_OBJECT = 122;
 
 	/**
+	 * The meta object id for the
+	 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
+	 * Interpolation</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolation()
+	 * @generated
+	 */
+	int LINE_INTERPOLATION = 123;
+
+	/**
+	 * The meta object id for the '<em>Line Interpolation Object</em>' data type.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolationObject()
+	 * @generated
+	 */
+	int LINE_INTERPOLATION_OBJECT = 124;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue <em>Accessibility Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Accessibility Value</em>'.
@@ -4789,6 +4810,17 @@ public interface AttributePackage extends EPackage {
 	EEnum getVerticalAlignment();
 
 	/**
+	 * Returns the meta object for enum
+	 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
+	 * Interpolation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for enum '<em>Line Interpolation</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @generated
+	 */
+	EEnum getLineInterpolation();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type Object</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Action Type Object</em>'.
@@ -5284,6 +5316,20 @@ public interface AttributePackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getVerticalAlignmentObject();
+
+	/**
+	 * Returns the meta object for data type
+	 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
+	 * Interpolation Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @return the meta object for data type '<em>Line Interpolation Object</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LineInterpolation"
+	 *        extendedMetaData="name='LineInterpolation:Object'
+	 *        baseType='LineInterpolation'"
+	 * @generated
+	 */
+	EDataType getLineInterpolationObject();
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--
@@ -6911,6 +6957,17 @@ public interface AttributePackage extends EPackage {
 		EEnum VERTICAL_ALIGNMENT = eINSTANCE.getVerticalAlignment();
 
 		/**
+		 * The meta object literal for the
+		 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
+		 * Interpolation</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+		 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolation()
+		 * @generated
+		 */
+		EEnum LINE_INTERPOLATION = eINSTANCE.getLineInterpolation();
+
+		/**
 		 * The meta object literal for the '<em>Action Type Object</em>' data type. <!--
 		 * begin-user-doc --> <!-- end-user-doc -->
 		 *
@@ -7316,6 +7373,16 @@ public interface AttributePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType VERTICAL_ALIGNMENT_OBJECT = eINSTANCE.getVerticalAlignmentObject();
+
+		/**
+		 * The meta object literal for the '<em>Line Interpolation Object</em>' data
+		 * type. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 *
+		 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+		 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolationObject()
+		 * @generated
+		 */
+		EDataType LINE_INTERPOLATION_OBJECT = eINSTANCE.getLineInterpolationObject();
 
 	}
 

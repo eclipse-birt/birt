@@ -63,6 +63,7 @@ import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
@@ -609,6 +610,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum lineInterpolationEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
 	private EDataType actionTypeObjectEDataType = null;
 
 	/**
@@ -862,6 +870,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 	 * @generated
 	 */
 	private EDataType verticalAlignmentObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	private EDataType lineInterpolationObjectEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -2746,6 +2761,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 	 * @generated
 	 */
 	@Override
+	public EEnum getLineInterpolation() {
+		return lineInterpolationEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public EDataType getActionTypeObject() {
 		return actionTypeObjectEDataType;
 	}
@@ -3151,6 +3176,16 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 	 * @generated
 	 */
 	@Override
+	public EDataType getLineInterpolationObject() {
+		return lineInterpolationObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @generated
+	 */
+	@Override
 	public AttributeFactory getAttributeFactory() {
 		return (AttributeFactory) getEFactoryInstance();
 	}
@@ -3463,6 +3498,13 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		triggerFlowObjectEDataType = createEDataType(TRIGGER_FLOW_OBJECT);
 		unitsOfMeasurementObjectEDataType = createEDataType(UNITS_OF_MEASUREMENT_OBJECT);
 		verticalAlignmentObjectEDataType = createEDataType(VERTICAL_ALIGNMENT_OBJECT);
+
+		// createEClassifier appends, so creation order - not the id argument - decides the position
+		// in getEClassifiers(). The two LineInterpolation ids were appended to the package instead
+		// of renumbering it, and the model lists both classifiers last, so the enum is created here
+		// rather than with the other enums to keep list index and classifier id in step.
+		lineInterpolationEEnum = createEEnum(LINE_INTERPOLATION);
+		lineInterpolationObjectEDataType = createEDataType(LINE_INTERPOLATION_OBJECT);
 	}
 
 	/**
@@ -4221,6 +4263,12 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.CENTER_LITERAL);
 		addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.BOTTOM_LITERAL);
 
+		initEEnum(lineInterpolationEEnum, LineInterpolation.class, "LineInterpolation"); //$NON-NLS-1$
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.LINEAR_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_BEFORE_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_AFTER_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_CENTER_LITERAL);
+
 		// Initialize data types
 		initEDataType(actionTypeObjectEDataType, ActionType.class, "ActionTypeObject", IS_SERIALIZABLE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
@@ -4304,6 +4352,8 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		initEDataType(unitsOfMeasurementObjectEDataType, UnitsOfMeasurement.class, "UnitsOfMeasurementObject", //$NON-NLS-1$
 				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(verticalAlignmentObjectEDataType, VerticalAlignment.class, "VerticalAlignmentObject", //$NON-NLS-1$
+				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(lineInterpolationObjectEDataType, LineInterpolation.class, "LineInterpolationObject", //$NON-NLS-1$
 				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
@@ -5019,6 +5069,11 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		});
 		addAnnotation(verticalAlignmentObjectEDataType, source, new String[] { "name", "VerticalAlignment:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+		});
+		addAnnotation(lineInterpolationEEnum, source, new String[] { "name", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
+		});
+		addAnnotation(lineInterpolationObjectEDataType, source, new String[] { "name", "LineInterpolation:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
 		});
 	}
 
