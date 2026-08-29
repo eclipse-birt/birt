@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
@@ -392,7 +393,11 @@ public class Line extends AxesRenderer {
 			addComparsionPolygon(ipr, goFactory.createLocation3Ds(faX, faY, faZ), dpha);
 		}
 
-		if (ls.isCurve()) {
+		// A step interpolation takes precedence over the curve flag.
+		final boolean bStep = isStepInterpolation(ls, bRendering3D, bShowAsTape);
+		final LineInterpolation liLine = bStep ? ls.getInterpolation() : LineInterpolation.LINEAR_LITERAL;
+
+		if (ls.isCurve() && !bStep) {
 			// RENDER AS CURVE
 			renderAsCurve(ipr, ls.getLineAttributes(), bRendering3D ? (ISeriesRenderingHints) srh3d : srh,
 					bRendering3D ? goFactory.createLocation3Ds(faX, faY, faZ) : goFactory.createLocations(faX, faY),
@@ -438,13 +443,14 @@ public class Line extends AxesRenderer {
 			}
 		} else {
 			// RENDER THE SHADOW OF THE LINE IF APPLICABLE
-			renderShadow(ipr, p, lia,
-					bRendering3D ? goFactory.createLocation3Ds(faX, faY, faZ) : goFactory.createLocations(faX, faY),
-					bShowAsTape, dpha);
+			LinePoints lp = computeLinePoints(faX, faY, faZ, dpha, bRendering3D, liLine, ls.isConnectMissingValue(),
+					cwa.isTransposed());
+			renderShadow(ipr, p, lia, lp.loa, bShowAsTape, lp.dpha);
 
 			// RENDER THE SERIES DATA POINTS
-			renderDataPoints(ipr, p, bRendering3D ? (ISeriesRenderingHints) srh3d : srh, dpha, lia,
-					bRendering3D ? goFactory.createLocation3Ds(faX, faY, faZ) : goFactory.createLocations(faX, faY),
+			lp = computeLinePoints(faX, faY, faZ, dpha, bRendering3D, liLine, ls.isConnectMissingValue(),
+					cwa.isTransposed());
+			renderDataPoints(ipr, p, bRendering3D ? (ISeriesRenderingHints) srh3d : srh, lp.dpha, lia, lp.loa,
 					bShowAsTape, dTapeWidth, fPaletteEntry, ls.isPaletteLineColor());
 
 			// RENDER THE MARKERS NEXT
@@ -632,6 +638,99 @@ public class Line extends AxesRenderer {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Immutable class to hold the vertices to draw and their data point hints.
+	 * A corner vertex reuses the hints of the data point whose value it carries.
+	 */
+	protected static final class LinePoints {
+
+		public final DataPointHints[] dpha;
+		public final Location[] loa;
+
+		protected LinePoints(DataPointHints[] dpha, Location[] loa) {
+			this.dpha = dpha;
+			this.loa = loa;
+		}
+	}
+
+	/**
+	 * Tells whether this series is drawn as a piecewise-constant line.
+	 */
+	protected boolean isStepInterpolation(LineSeries ls, boolean bRendering3D, boolean bShowAsTape) {
+		LineInterpolation li = ls.getInterpolation();
+		if (li == null || li == LineInterpolation.LINEAR_LITERAL) {
+			return false;
+		}
+		if (bRendering3D || bShowAsTape) {
+			return false; // not supported in 3D or tape
+		}
+		// The stacked area renderer closes each polygon on the previous series'
+		// vertices by index, which needs identical expansions across series.
+		if (ls instanceof AreaSeries && (ls.isStacked() || getAxis().isPercent())) {
+			return false; // not supported in stacked or percent area
+		}
+		return true;
+	}
+
+	/**
+	 * Builds the vertices to draw, expanding a step interpolation. A 3D chart
+	 * stays linear: the 3D renderer casts the array to {@code Location3D[]},
+	 * and a corner vertex is two-dimensional.
+	 *
+	 * @param faX                 the x coordinate of every data point
+	 * @param faY                 the y coordinate of every data point
+	 * @param faZ                 the z coordinate of every data point, read
+	 *                            only when {@code bRendering3D}
+	 * @param dpha                the data point hints, one per coordinate
+	 * @param bRendering3D        {@code true} for a 3D chart, which is always
+	 *                            linear
+	 * @param interpolation       the interpolation to expand; {@code null}
+	 *                            and {@link LineInterpolation#LINEAR_LITERAL}
+	 *                            leave the data points unchanged
+	 * @param connectMissingValue {@code true} to bridge a run of missing
+	 *                            values instead of ending the line there
+	 * @param transposed          {@code true} if the chart is transposed,
+	 *                            which swaps the base and the value axis
+	 * @return the vertices to draw and their data point hints
+	 */
+	protected LinePoints computeLinePoints(double[] faX, double[] faY, double[] faZ, DataPointHints[] dpha,
+			boolean bRendering3D, LineInterpolation interpolation, boolean connectMissingValue, boolean transposed) {
+		Location[] loa = bRendering3D ? goFactory.createLocation3Ds(faX, faY, faZ)
+				: goFactory.createLocations(faX, faY);
+		if (bRendering3D || interpolation == null || interpolation == LineInterpolation.LINEAR_LITERAL) {
+			return new LinePoints(dpha, loa);
+		}
+
+		// Transposition hides the axis swap of a transposed chart.
+		Transposition t = transposed ? Transposition.TRANSPOSED : Transposition.NOT_TRANSPOSED;
+		int n = loa.length;
+		double[] base = new double[n];
+		double[] value = new double[n];
+		boolean[] isNull = new boolean[n];
+		for (int i = 0; i < n; i++) {
+			base[i] = t.getX(loa[i]);
+			value[i] = t.getY(loa[i]);
+			isNull[i] = isNaN(dpha[i].getOrthogonalValue());
+		}
+
+		LineStepExpander.Expansion x = LineStepExpander.expand(base, value, isNull, interpolation, connectMissingValue);
+		int m = x.size();
+		Location[] out = new Location[m];
+		DataPointHints[] hints = new DataPointHints[m];
+		for (int k = 0; k < m; k++) {
+			int owner = x.owner[k];
+			hints[k] = dpha[owner];
+			if (x.real[k]) {
+				out[k] = loa[owner];
+			} else {
+				Location corner = goFactory.createLocation(0, 0);
+				t.set(corner, x.base[k], x.value[k]);
+				out[k] = corner;
+			}
+		}
+		return new LinePoints(hints, out);
 	}
 
 	/*
