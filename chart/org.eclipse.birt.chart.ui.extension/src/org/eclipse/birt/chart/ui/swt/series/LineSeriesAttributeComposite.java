@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LineInterpolation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -29,12 +30,15 @@ import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -72,6 +76,10 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 	private ChartCheckbox btnCurve;
 
 	private ChartCheckbox btnMissingValue;
+
+	private Label lblInterpolation;
+
+	private ChartCombo cmbInterpolation;
 
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.ui.extension/swt.series"); //$NON-NLS-1$
 
@@ -201,6 +209,29 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 			btnCurve.addSelectionListener(this);
 		}
 
+		if (isInterpolationNeeded()) {
+			Composite cmpInterpolation = new Composite(cmp, SWT.NONE);
+			{
+				GridLayout glInterpolation = new GridLayout(2, false);
+				glInterpolation.marginHeight = 0;
+				glInterpolation.marginWidth = 0;
+				cmpInterpolation.setLayout(glInterpolation);
+				cmpInterpolation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			}
+			lblInterpolation = new Label(cmpInterpolation, SWT.NONE);
+			lblInterpolation.setText(Messages.getString("LineSeriesAttributeComposite.Lbl.Interpolation")); //$NON-NLS-1$
+
+			cmbInterpolation = context.getUIFactory().createChartCombo(cmpInterpolation,
+					SWT.DROP_DOWN | SWT.READ_ONLY, series, "interpolation", //$NON-NLS-1$
+					defSeries.getInterpolation().getName());
+			cmbInterpolation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			NameSet ns = LiteralHelper.lineInterpolationSet;
+			cmbInterpolation.setItems(ns.getDisplayNames());
+			cmbInterpolation.setItemData(ns.getNames());
+			cmbInterpolation.setSelection(((LineSeries) series).getInterpolation().getName());
+			cmbInterpolation.addSelectionListener(this);
+		}
+
 		if (!(series instanceof AreaSeries && (series.isSetStacked() && series.isStacked()))) {
 			btnMissingValue = context.getUIFactory().createChartCheckbox(cmp, SWT.NONE,
 					defSeries.isConnectMissingValue());
@@ -239,6 +270,12 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 			ChartElementUtil.setEObjectAttribute(series, "connectMissingValue", //$NON-NLS-1$
 					btnMissingValue.getSelectionState() == ChartCheckbox.STATE_SELECTED,
 					btnMissingValue.getSelectionState() == ChartCheckbox.STATE_GRAYED);
+		} else if (cmbInterpolation != null && e.getSource().equals(cmbInterpolation)) {
+			String name = cmbInterpolation.getSelectedItemData();
+			if (name != null) {
+				ChartElementUtil.setEObjectAttribute(series, "interpolation", //$NON-NLS-1$
+						LineInterpolation.getByName(name), false);
+			}
 		}
 	}
 
@@ -287,6 +324,11 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 				&& context.getModel().getDimension().getValue() != ChartDimension.THREE_DIMENSIONAL;
 	}
 
+	protected boolean isInterpolationNeeded() {
+		return !(series instanceof ScatterSeries) && !ChartUIUtil.is3DType(context.getModel())
+				&& !(series instanceof AreaSeries && series.isSetStacked() && series.isStacked());
+	}
+
 	protected void enableLineSettings(boolean isEnabled) {
 		if (lblShadow != null) {
 			lblShadow.setEnabled(isEnabled);
@@ -301,6 +343,10 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 			btnMissingValue.setEnabled(isEnabled);
 		}
 		btnCurve.setEnabled(isEnabled);
+		if (cmbInterpolation != null) {
+			lblInterpolation.setEnabled(isEnabled);
+			cmbInterpolation.setEnabled(isEnabled);
+		}
 	}
 
 }
