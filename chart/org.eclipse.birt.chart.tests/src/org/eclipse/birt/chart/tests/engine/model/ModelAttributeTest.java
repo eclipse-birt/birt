@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.tests.engine.model.attribute.HorizontalAlignmentTe
 import org.eclipse.birt.chart.tests.engine.model.attribute.IntersectionTypeTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.LeaderLineStyleTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.LegendItemTypeTest;
+import org.eclipse.birt.chart.tests.engine.model.attribute.LineInterpolationTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.LineStyleTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.MarkerTypeTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.OrientationTest;
@@ -70,6 +71,7 @@ public class ModelAttributeTest {
 		suite.addTestSuite(LeaderLineStyleTest.class);
 		suite.addTestSuite(LegendItemTypeTest.class);
 		suite.addTestSuite(LineStyleTest.class);
+		suite.addTestSuite(LineInterpolationTest.class);
 		suite.addTestSuite(MarkerTypeTest.class);
 		suite.addTestSuite(OrientationTest.class);
 		suite.addTestSuite(PositionTest.class);

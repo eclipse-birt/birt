@@ -21,6 +21,7 @@ Export-Package: org.eclipse.birt.chart.tests,
  org.eclipse.birt.chart.tests.engine.internal,
  org.eclipse.birt.chart.tests.engine.model,
  org.eclipse.birt.chart.tests.engine.model.attribute,
+ org.eclipse.birt.chart.tests.engine.render,
  org.eclipse.birt.chart.tests.engine.util,
  org.eclipse.birt.chart.tests.i18n,
  org.eclipse.birt.chart.tests.util

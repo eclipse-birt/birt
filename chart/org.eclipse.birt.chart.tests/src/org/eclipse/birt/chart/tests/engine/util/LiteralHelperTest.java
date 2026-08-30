@@ -15,6 +15,7 @@
 package org.eclipse.birt.chart.tests.engine.util;
 
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 
 import junit.framework.TestCase;
 
@@ -46,5 +47,13 @@ public class LiteralHelperTest extends TestCase {
 		for (int i = 1; i < types.length; i++) {
 			assertEquals(types[i], result[i]);
 		}
+	}
+
+	public void testLineInterpolationSet() {
+		NameSet ns = LiteralHelper.lineInterpolationSet;
+		assertEquals(4, ns.getNames().length);
+		// The set follows LineInterpolation.VALUES: Linear, StepBefore, StepAfter, StepCenter.
+		assertEquals("StepAfter", ns.getNames()[2]); //$NON-NLS-1$
+		assertEquals("Step After", ns.getDisplayNameByName("StepAfter")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
