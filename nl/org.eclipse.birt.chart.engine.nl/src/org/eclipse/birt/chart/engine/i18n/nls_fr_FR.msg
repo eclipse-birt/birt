@@ -517,6 +517,14 @@ RiserType.Tube.displayName=Barre
 
 RiserType.Cone.displayName=Cône
 
+LineInterpolation.Linear.displayName=Linéaire
+
+LineInterpolation.StepBefore.displayName=Escalonné (précédent)
+
+LineInterpolation.StepAfter.displayName=Escalonné (suivant)
+
+LineInterpolation.StepCenter.displayName=Escalonné (centre)
+
 Anchor.North.displayName=Haut
 
 Anchor.NorthEast.displayName=En haut à droite

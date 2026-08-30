@@ -517,6 +517,14 @@ RiserType.Tube.displayName=튜브
 
 RiserType.Cone.displayName=원뿔
 
+LineInterpolation.Linear.displayName=선형
+
+LineInterpolation.StepBefore.displayName=스텝（이전）
+
+LineInterpolation.StepAfter.displayName=스텝（이후）
+
+LineInterpolation.StepCenter.displayName=스텝（중앙）
+
 Anchor.North.displayName=위쪽
 
 Anchor.NorthEast.displayName=오른쪽 위

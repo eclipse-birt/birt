@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 L
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=선을 곡선으로 표시(&H)
 
+LineSeriesAttributeComposite.Lbl.Interpolation=보간(&I):
+
 LineChart.Txt.HelpText=선은 렌더링되는 각 계열을 나타냅니다. 선택적인 표지를 사용하여 데이터를 그리는 시점을 강조할 수 있습니다. 누적된 선은 그 아래 있는 선 계열 데이터 요소의 위치에 상대적인 각 범주 요소를 표시합니다. 누적된 백분율 선은 해당 범주에 대한 백분율로 그려진 각 데이터 요소를 표시합니다.
 
 ScatterChart.Txt.Description=분산형 차트에는 범주와 값 데이터를 좌표로 사용하여 플롯 위에 정렬된 값이 표시됩니다. \n각 데이터 값은 표지로 표시됩니다.

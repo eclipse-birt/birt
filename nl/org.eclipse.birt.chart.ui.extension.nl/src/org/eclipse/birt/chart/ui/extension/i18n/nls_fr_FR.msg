@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=A&fficher les lignes sous la forme de courbes
 
+LineSeriesAttributeComposite.Lbl.Interpolation=I&nterpolation :
+
 LineChart.Txt.HelpText=Une ligne représente chaque série en cours de rendu. Vous pouvez utiliser des repères facultatifs pour mettre en surbrillance les points pour lesquels les données sont tracées. Les lignes empilées affichent chaque point de catégorie par rapport à l'emplacement du point de données de série de la ligne inférieure. Les lignes de pourcentage empilées affichent chaque valeur de donnée sous la forme d'un pourcentage du total de la catégorie.
 
 ScatterChart.Txt.Description=Les graphiques en nuage de points affichent les valeurs disposées sur le tracé en utilisant les données de catégorie et de valeur comme coordonnées. \nChaque valeur de données est indiquée par un repère.

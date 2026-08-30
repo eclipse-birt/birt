@@ -517,6 +517,14 @@ RiserType.Tube.displayName=Röhre
 
 RiserType.Cone.displayName=Kegel
 
+LineInterpolation.Linear.displayName=Linear
+
+LineInterpolation.StepBefore.displayName=Stufenweise (vorher)
+
+LineInterpolation.StepAfter.displayName=Stufenweise (nachher)
+
+LineInterpolation.StepCenter.displayName=Stufenweise (Mitte)
+
 Anchor.North.displayName=Oben
 
 Anchor.NorthEast.displayName=Oben rechts

@@ -517,6 +517,14 @@ RiserType.Tube.displayName=Tubo
 
 RiserType.Cone.displayName=Cono
 
+LineInterpolation.Linear.displayName=Lineal
+
+LineInterpolation.StepBefore.displayName=Escalonado (anterior)
+
+LineInterpolation.StepAfter.displayName=Escalonado (posterior)
+
+LineInterpolation.StepCenter.displayName=Escalonado (centro)
+
 Anchor.North.displayName=Superior
 
 Anchor.NorthEast.displayName=Superior derecha

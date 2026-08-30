@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} is
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=L&inien als Kurven anzeigen
 
+LineSeriesAttributeComposite.Lbl.Interpolation=I&nterpolation:
+
 LineChart.Txt.HelpText=Jede abgebildete Datenreihe wird durch eine Linie dargestellt. Mit optionalen Markierungen können die Punkte hervorgehoben werden, für die Daten gezeichnet werden. Gestapelte Linien zeigen jeden Kategoriepunkt relativ zur Position des unterhalb liegenden Datenpunkts der Liniendatenreihe an. Gestapelte Prozentlinien zeigen jeden gezeichneten Datenwert als Prozentsatz der Gesamtzahl in der Kategorie an.
 
 ScatterChart.Txt.Description=In Punktdiagrammen sind die Werte entsprechend den Koordinatenwerten auf der Kategorie- und der Wertachse angeordnet.\nJeder Datenwert wird durch eine Markierung gekennzeichnet.

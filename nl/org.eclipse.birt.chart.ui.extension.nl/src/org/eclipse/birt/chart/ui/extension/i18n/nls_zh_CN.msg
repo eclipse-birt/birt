@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument=对于 LineSeriesAttribut
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=将线条显示为曲线(&H)
 
+LineSeriesAttributeComposite.Lbl.Interpolation=插值(&I):
+
 LineChart.Txt.HelpText=线段表示每个正在绘制的系列。（可选）标记可用于突出显示正在为其绘制数据的点。堆积折线图显示的每个类别点位置是相对于它下面的折线系列数据点的位置。堆积百分比折线图将绘制的每个数据值显示为该类别总计的百分比。
 
 ScatterChart.Txt.Description=散点图使用类别和值数据作为坐标，以在图形上显示经过排列的值。\n每个数据值由一个标记表示。

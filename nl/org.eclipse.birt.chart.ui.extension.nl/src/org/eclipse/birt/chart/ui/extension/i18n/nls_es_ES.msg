@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no e
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=M&ostrar líneas como curvas
 
+LineSeriesAttributeComposite.Lbl.Interpolation=I&nterpolación:
+
 LineChart.Txt.HelpText=Una línea representa una serie en procesamiento. Se pueden usar marcadores opcionales para resaltar los puntos para los que se está dibujando datos. Las líneas apiladas muestran cada punto de categoría con relación a la posición inferior del punto de datos de la serie de línea. Las líneas de porcentaje apiladas muestran los valores de los datos dibujados como el porcentaje total de la categoría.
 
 ScatterChart.Txt.Description=Los diagramas de dispersión organizan los valores en el dibujo usando los datos de categoría y de valor como coordenadas. \nCada valor de datos se indica con un marcador.

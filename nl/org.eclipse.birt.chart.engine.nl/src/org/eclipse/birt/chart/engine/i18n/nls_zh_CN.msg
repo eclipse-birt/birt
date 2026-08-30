@@ -517,6 +517,14 @@ RiserType.Tube.displayName=管形
 
 RiserType.Cone.displayName=圆锥
 
+LineInterpolation.Linear.displayName=线性
+
+LineInterpolation.StepBefore.displayName=阶梯（前）
+
+LineInterpolation.StepAfter.displayName=阶梯（后）
+
+LineInterpolation.StepCenter.displayName=阶梯（中）
+
 Anchor.North.displayName=上
 
 Anchor.NorthEast.displayName=右上

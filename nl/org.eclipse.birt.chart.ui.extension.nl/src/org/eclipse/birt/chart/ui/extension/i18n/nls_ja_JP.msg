@@ -526,6 +526,8 @@ LineSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、Lin
 
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=直線を曲線で表示する(&H)
 
+LineSeriesAttributeComposite.Lbl.Interpolation=補間(&I):
+
 LineChart.Txt.HelpText=線グラフは、レンダリングされる各系列を表します。オプションのマーカを使用して、プロット中のデータに対応するポイントを強調表示することもできます。積み上げ線グラフは、線系列のデータポイントに対して低い位置にあるカテゴリポイントを表します。積み上げ線グラフ (割合) では、各データ値が、カテゴリの合計の割合でプロットされます。
 
 ScatterChart.Txt.Description=分布グラフ。カテゴリデータと値データを座標とし、値を点でプロットします。\n各データ値はマーカで示します。
