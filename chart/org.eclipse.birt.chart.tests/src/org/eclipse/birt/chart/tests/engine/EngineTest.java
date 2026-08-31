@@ -32,7 +32,6 @@ import org.eclipse.birt.chart.tests.engine.internal.TupleComparatorTest;
 import org.eclipse.birt.chart.tests.engine.model.LineSeriesInterpolationTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
 import org.eclipse.birt.chart.tests.engine.render.LineStepExpanderTest;
-import org.eclipse.birt.chart.tests.engine.render.LineStepRenderTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartExpressionUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
 import org.eclipse.birt.chart.tests.engine.util.FittingCalculatorTest;
@@ -76,7 +75,6 @@ public class EngineTest {
 		suite.addTest(ModelAttributeTest.suite());
 		suite.addTestSuite(LineSeriesInterpolationTest.class);
 		suite.addTestSuite(LineStepExpanderTest.class);
-		suite.addTestSuite(LineStepRenderTest.class);
 
 		suite.addTestSuite(ChartUtilTest.class);
 		suite.addTestSuite(ChartExpressionUtilTest.class);

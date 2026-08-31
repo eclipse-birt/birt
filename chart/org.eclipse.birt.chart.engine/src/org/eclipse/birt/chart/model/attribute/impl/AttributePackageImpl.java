@@ -3453,6 +3453,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		triggerFlowEEnum = createEEnum(TRIGGER_FLOW);
 		unitsOfMeasurementEEnum = createEEnum(UNITS_OF_MEASUREMENT);
 		verticalAlignmentEEnum = createEEnum(VERTICAL_ALIGNMENT);
+		lineInterpolationEEnum = createEEnum(LINE_INTERPOLATION);
 
 		// Create data types
 		actionTypeObjectEDataType = createEDataType(ACTION_TYPE_OBJECT);
@@ -3499,11 +3500,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		unitsOfMeasurementObjectEDataType = createEDataType(UNITS_OF_MEASUREMENT_OBJECT);
 		verticalAlignmentObjectEDataType = createEDataType(VERTICAL_ALIGNMENT_OBJECT);
 
-		// createEClassifier appends, so creation order - not the id argument - decides the position
-		// in getEClassifiers(). The two LineInterpolation ids were appended to the package instead
-		// of renumbering it, and the model lists both classifiers last, so the enum is created here
-		// rather than with the other enums to keep list index and classifier id in step.
-		lineInterpolationEEnum = createEEnum(LINE_INTERPOLATION);
 		lineInterpolationObjectEDataType = createEDataType(LINE_INTERPOLATION_OBJECT);
 	}
 
