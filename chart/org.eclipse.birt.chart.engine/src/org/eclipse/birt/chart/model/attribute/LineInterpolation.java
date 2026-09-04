@@ -46,7 +46,8 @@ public enum LineInterpolation implements Enumerator {
 	 */
 	LINEAR_LITERAL(0, "Linear", "Linear"),
 	/**
-	 * The '<em><b>Step Before</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step Before</b></em>' literal object. <!-- begin-user-doc -->
+	 * <!--
 	 * end-user-doc -->
 	 *
 	 * @see #STEP_BEFORE
@@ -64,7 +65,8 @@ public enum LineInterpolation implements Enumerator {
 	 */
 	STEP_AFTER_LITERAL(2, "StepAfter", "StepAfter"),
 	/**
-	 * The '<em><b>Step Center</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step Center</b></em>' literal object. <!-- begin-user-doc -->
+	 * <!--
 	 * end-user-doc -->
 	 *
 	 * @see #STEP_CENTER
@@ -174,87 +176,45 @@ public enum LineInterpolation implements Enumerator {
 	 */
 	public static LineInterpolation get(int value) {
 		switch (value) {
-		case LINEAR:
-			return LINEAR_LITERAL;
-		case STEP_BEFORE:
-			return STEP_BEFORE_LITERAL;
-		case STEP_AFTER:
-			return STEP_AFTER_LITERAL;
-		case STEP_CENTER:
-			return STEP_CENTER_LITERAL;
+			case LINEAR:
+				return LINEAR_LITERAL;
+			case STEP_BEFORE:
+				return STEP_BEFORE_LITERAL;
+			case STEP_AFTER:
+				return STEP_AFTER_LITERAL;
+			case STEP_CENTER:
+				return STEP_CENTER_LITERAL;
 		}
 		return null;
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	private final int value;
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	private final String name;
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	private final String literal;
 
-	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 *
-	 * @generated
-	 */
 	LineInterpolation(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	@Override
 	public int getValue() {
 		return value;
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	@Override
 	public String getLiteral() {
 		return literal;
 	}
 
-	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @generated
-	 */
 	@Override
 	public String toString() {
 		return literal;

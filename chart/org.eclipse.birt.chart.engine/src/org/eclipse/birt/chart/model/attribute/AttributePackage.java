@@ -2417,6 +2417,17 @@ public interface AttributePackage extends EPackage {
 	int VERTICAL_ALIGNMENT = 79;
 
 	/**
+	 * The meta object id for the
+	 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
+	 * Interpolation</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 *
+	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolation()
+	 * @generated
+	 */
+	int LINE_INTERPOLATION = 80;
+
+	/**
 	 * The meta object id for the '<em>Action Type Object</em>' data type. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -2848,17 +2859,6 @@ public interface AttributePackage extends EPackage {
 	 * @generated
 	 */
 	int VERTICAL_ALIGNMENT_OBJECT = 123;
-
-	/**
-	 * The meta object id for the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineInterpolation <em>Line
-	 * Interpolation</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
-	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineInterpolation()
-	 * @generated
-	 */
-	int LINE_INTERPOLATION = 80;
 
 	/**
 	 * The meta object id for the '<em>Line Interpolation Object</em>' data type.
