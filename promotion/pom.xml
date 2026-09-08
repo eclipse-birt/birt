@@ -18,7 +18,7 @@ SPDX-License-Identifier: EPL-2.0
   <parent>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
-	<version>4.25.0-SNAPSHOT</version>
+	<version>4.26.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -37,7 +37,7 @@ SPDX-License-Identifier: EPL-2.0
         <artifactId>tycho-eclipse-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <executionEnvironment>JavaSE-21</executionEnvironment>
+          <executionEnvironment>JavaSE-25</executionEnvironment>
           <dependencies>
             <dependency>
               <artifactId>org.eclipse.justj.p2</artifactId>

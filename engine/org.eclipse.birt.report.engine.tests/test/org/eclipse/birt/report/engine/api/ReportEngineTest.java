@@ -64,8 +64,8 @@ public class ReportEngineTest extends EngineCase {
 	 */
 	public void testOpenReportDesign() {
 		try {
-			String rootPath = new File("").toURL().toString();
-			String goldenReportName = rootPath + "/" + REPORT_DESIGN;
+			String rootPath = new File(REPORT_DESIGN).toURL().toString();
+			String goldenReportName = rootPath;
 
 			ReportEngine engine = new ReportEngine(new EngineConfig());
 			IReportRunnable runnable = engine.openReportDesign(REPORT_DESIGN);

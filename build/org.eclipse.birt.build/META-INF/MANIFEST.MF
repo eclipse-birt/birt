@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.build
-Bundle-Version: 4.25.0.qualifier
+Bundle-Version: 4.26.0.qualifier
 Export-Package: org.eclipse.birt.build.ant;x-internal:=true,
  org.eclipse.birt.build.framework;x-internal:=true,
  org.eclipse.birt.build.pack;x-internal:=true
@@ -10,7 +10,7 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: .
 Require-Bundle: org.apache.ant;bundle-version="[1.10.11,2.0.0)"
 Automatic-Module-Name: org.eclipse.birt.build
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Import-Package: org.dom4j;version="2.1.1",
  org.dom4j.dom;version="2.1.1",
  org.dom4j.io;version="2.1.1",

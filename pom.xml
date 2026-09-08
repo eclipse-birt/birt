@@ -21,11 +21,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
-	<version>4.25.0-SNAPSHOT</version>
+	<version>4.26.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<birt.version>4.25.0</birt.version>
+		<birt.version>4.26.0</birt.version>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse-birt/birt.git</tycho.scmUrl>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>false</skipTests>
@@ -36,8 +36,8 @@
 		<antrun.version>3.1.0</antrun.version>
 		<build.helper.maven.plugin.version>3.6.0</build.helper.maven.plugin.version>
 		<cbi-version>1.5.7</cbi-version>
-		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
-		<jetty-jspc-maven-plugin-version>12.1.6</jetty-jspc-maven-plugin-version>
+		<jacoco.maven.plugin.version>0.8.15</jacoco.maven.plugin.version>
+		<jetty-jspc-maven-plugin-version>12.1.13</jetty-jspc-maven-plugin-version>
 		<junit-version>4.13.2</junit-version>
 		<maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
 		<maven.dependency.plugin.version>3.8.0</maven.dependency.plugin.version>
@@ -257,10 +257,10 @@
 						<artifact>
 							<groupId>org.eclipse.birt</groupId>
 							<artifactId>org.eclipse.birt.target</artifactId>
-							<version>4.25.0-SNAPSHOT</version>
+							<version>4.26.0-SNAPSHOT</version>
 						</artifact>
 					</target>
-					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-21</executionEnvironment>
+					<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-25</executionEnvironment>
 					<environments>
 						<environment>
 							<os>win32</os>
@@ -316,7 +316,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin-version}</version>
 				<configuration>
-					<release>21</release>
+					<release>25</release>
 				</configuration>
 			</plugin>
 

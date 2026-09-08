@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.birt.integration.wtp.ui;singleton:=true
-Bundle-Version: 4.25.0.qualifier
+Bundle-Version: 4.26.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.integration.wtp.ui.BirtWTPUIPlugin
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Export-Package: org.eclipse.birt.integration.wtp.ui,
  org.eclipse.birt.integration.wtp.ui.internal.actions,
  org.eclipse.birt.integration.wtp.ui.internal.dialogs,
