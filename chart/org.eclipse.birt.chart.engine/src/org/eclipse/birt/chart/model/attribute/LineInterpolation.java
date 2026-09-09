@@ -37,38 +37,38 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum LineInterpolation implements Enumerator {
 	/**
-	 * The '<em><b>Linear</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Linear</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LINEAR
 	 * @generated
 	 * @ordered
 	 */
 	LINEAR_LITERAL(0, "Linear", "Linear"),
 	/**
-	 * The '<em><b>Step Before</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Step Before</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_BEFORE
 	 * @generated
 	 * @ordered
 	 */
 	STEP_BEFORE_LITERAL(1, "StepBefore", "StepBefore"),
 	/**
-	 * The '<em><b>Step After</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step After</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_AFTER
 	 * @generated
 	 * @ordered
 	 */
 	STEP_AFTER_LITERAL(2, "StepAfter", "StepAfter"),
 	/**
-	 * The '<em><b>Step Center</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Step Center</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_CENTER
 	 * @generated
 	 * @ordered
@@ -76,9 +76,9 @@ public enum LineInterpolation implements Enumerator {
 	STEP_CENTER_LITERAL(3, "StepCenter", "StepCenter");
 
 	/**
-	 * The '<em><b>Linear</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Linear</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LINEAR_LITERAL
 	 * @model name="Linear"
 	 * @generated
@@ -87,9 +87,9 @@ public enum LineInterpolation implements Enumerator {
 	public static final int LINEAR = 0;
 
 	/**
-	 * The '<em><b>Step Before</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step Before</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_BEFORE_LITERAL
 	 * @model name="StepBefore"
 	 * @generated
@@ -98,9 +98,9 @@ public enum LineInterpolation implements Enumerator {
 	public static final int STEP_BEFORE = 1;
 
 	/**
-	 * The '<em><b>Step After</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step After</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_AFTER_LITERAL
 	 * @model name="StepAfter"
 	 * @generated
@@ -109,9 +109,9 @@ public enum LineInterpolation implements Enumerator {
 	public static final int STEP_AFTER = 2;
 
 	/**
-	 * The '<em><b>Step Center</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Step Center</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STEP_CENTER_LITERAL
 	 * @model name="StepCenter"
 	 * @generated
@@ -125,21 +125,21 @@ public enum LineInterpolation implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final LineInterpolation[] VALUES_ARRAY = { LINEAR_LITERAL, STEP_BEFORE_LITERAL, STEP_AFTER_LITERAL,
-			STEP_CENTER_LITERAL, };
+	private static final LineInterpolation[] VALUES_ARRAY = new LineInterpolation[] { LINEAR_LITERAL,
+			STEP_BEFORE_LITERAL, STEP_AFTER_LITERAL, STEP_CENTER_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Line Interpolation</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Line Interpolation</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<LineInterpolation> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineInterpolation get(String literal) {
@@ -153,9 +153,10 @@ public enum LineInterpolation implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineInterpolation getByName(String name) {
@@ -169,21 +170,22 @@ public enum LineInterpolation implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Line Interpolation</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineInterpolation get(int value) {
 		switch (value) {
-			case LINEAR:
-				return LINEAR_LITERAL;
-			case STEP_BEFORE:
-				return STEP_BEFORE_LITERAL;
-			case STEP_AFTER:
-				return STEP_AFTER_LITERAL;
-			case STEP_CENTER:
-				return STEP_CENTER_LITERAL;
+		case LINEAR:
+			return LINEAR_LITERAL;
+		case STEP_BEFORE:
+			return STEP_BEFORE_LITERAL;
+		case STEP_AFTER:
+			return STEP_AFTER_LITERAL;
+		case STEP_CENTER:
+			return STEP_CENTER_LITERAL;
 		}
 		return null;
 	}

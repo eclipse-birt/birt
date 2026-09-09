@@ -252,6 +252,10 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 		connectMissingValueESet = src.isSetConnectMissingValue();
 
+		interpolation = src.getInterpolation();
+
+		interpolationESet = src.isSetInterpolation();
+
 	}
 
 } // AreaSeriesImpl

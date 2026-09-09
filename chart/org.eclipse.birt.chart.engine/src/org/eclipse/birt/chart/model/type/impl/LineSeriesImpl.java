@@ -199,9 +199,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	protected boolean connectMissingValueESet;
 
 	/**
-	 * The default value of the '{@link #getInterpolation() <em>Interpolation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getInterpolation() <em>Interpolation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInterpolation()
 	 * @generated
 	 * @ordered
@@ -209,9 +208,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 	protected static final LineInterpolation INTERPOLATION_EDEFAULT = LineInterpolation.LINEAR_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getInterpolation() <em>Interpolation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getInterpolation() <em>Interpolation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInterpolation()
 	 * @generated
 	 * @ordered
@@ -558,7 +556,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -567,15 +564,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		interpolation = newInterpolation == null ? INTERPOLATION_EDEFAULT : newInterpolation;
 		boolean oldInterpolationESet = interpolationESet;
 		interpolationESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.LINE_SERIES__INTERPOLATION,
 					oldInterpolation, interpolation, !oldInterpolationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -584,15 +579,13 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		boolean oldInterpolationESet = interpolationESet;
 		interpolation = INTERPOLATION_EDEFAULT;
 		interpolationESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.LINE_SERIES__INTERPOLATION,
 					oldInterpolation, INTERPOLATION_EDEFAULT, oldInterpolationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -602,7 +595,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -772,11 +764,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries {
 		else
 			result.append("<unset>"); //$NON-NLS-1$
 		result.append(", interpolation: "); //$NON-NLS-1$
-		if (interpolationESet) {
+		if (interpolationESet)
 			result.append(interpolation);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

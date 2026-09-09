@@ -150,6 +150,12 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineDecorator/Circle"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineDecorator/None"/>
     </genEnums>
+    <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/Linear"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepBefore"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepAfter"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepCenter"/>
+    </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LineStyle">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineStyle/Solid"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineStyle/Dashed"/>
@@ -276,12 +282,6 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignment/Center"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignment/Bottom"/>
     </genEnums>
-    <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation">
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/Linear"/>
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepBefore"/>
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepAfter"/>
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolation/StepCenter"/>
-    </genEnums>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ActionTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//AnchorObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//AngleTypeObject"/>
@@ -303,6 +303,7 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LegendItemTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineDecoratorObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolationObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineStyleObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//MarkerTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//MenuStylesKeyTypeObject"/>
@@ -325,7 +326,6 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlowObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//UnitsOfMeasurementObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignmentObject"/>
-    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineInterpolationObject"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/text"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AccessibilityValue/accessibility"/>

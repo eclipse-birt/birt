@@ -248,6 +248,10 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 		connectMissingValueESet = src.isSetConnectMissingValue();
 
+		interpolation = src.getInterpolation();
+
+		interpolationESet = src.isSetInterpolation();
+
 	}
 
 } // ScatterSeriesImpl

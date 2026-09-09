@@ -516,7 +516,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

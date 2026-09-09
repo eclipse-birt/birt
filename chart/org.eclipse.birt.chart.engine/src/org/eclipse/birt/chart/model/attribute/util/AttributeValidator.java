@@ -312,6 +312,8 @@ public class AttributeValidator extends EObjectValidator {
 			return validateLegendItemType((LegendItemType) value, diagnostics, context);
 		case AttributePackage.LINE_DECORATOR:
 			return validateLineDecorator((LineDecorator) value, diagnostics, context);
+		case AttributePackage.LINE_INTERPOLATION:
+			return validateLineInterpolation((LineInterpolation) value, diagnostics, context);
 		case AttributePackage.LINE_STYLE:
 			return validateLineStyle((LineStyle) value, diagnostics, context);
 		case AttributePackage.MARKER_TYPE:
@@ -344,8 +346,6 @@ public class AttributeValidator extends EObjectValidator {
 			return validateUnitsOfMeasurement((UnitsOfMeasurement) value, diagnostics, context);
 		case AttributePackage.VERTICAL_ALIGNMENT:
 			return validateVerticalAlignment((VerticalAlignment) value, diagnostics, context);
-		case AttributePackage.LINE_INTERPOLATION:
-			return validateLineInterpolation((LineInterpolation) value, diagnostics, context);
 		case AttributePackage.ACTION_TYPE_OBJECT:
 			return validateActionTypeObject((ActionType) value, diagnostics, context);
 		case AttributePackage.ANCHOR_OBJECT:
@@ -388,6 +388,8 @@ public class AttributeValidator extends EObjectValidator {
 			return validateLegendItemTypeObject((LegendItemType) value, diagnostics, context);
 		case AttributePackage.LINE_DECORATOR_OBJECT:
 			return validateLineDecoratorObject((LineDecorator) value, diagnostics, context);
+		case AttributePackage.LINE_INTERPOLATION_OBJECT:
+			return validateLineInterpolationObject((LineInterpolation) value, diagnostics, context);
 		case AttributePackage.LINE_STYLE_OBJECT:
 			return validateLineStyleObject((LineStyle) value, diagnostics, context);
 		case AttributePackage.MARKER_TYPE_OBJECT:
@@ -432,8 +434,6 @@ public class AttributeValidator extends EObjectValidator {
 			return validateUnitsOfMeasurementObject((UnitsOfMeasurement) value, diagnostics, context);
 		case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
 			return validateVerticalAlignmentObject((VerticalAlignment) value, diagnostics, context);
-		case AttributePackage.LINE_INTERPOLATION_OBJECT:
-			return validateLineInterpolationObject((LineInterpolation) value, diagnostics, context);
 		default:
 			return true;
 		}
@@ -1135,7 +1135,6 @@ public class AttributeValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateActionTypeObject(ActionType actionTypeObject, DiagnosticChain diagnostics,
@@ -1633,7 +1632,6 @@ public class AttributeValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateLineInterpolationObject(LineInterpolation lineInterpolationObject,

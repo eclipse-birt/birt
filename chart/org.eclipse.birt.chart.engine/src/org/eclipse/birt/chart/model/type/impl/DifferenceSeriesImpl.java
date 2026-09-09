@@ -471,6 +471,10 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 		connectMissingValueESet = src.isSetConnectMissingValue();
 
+		interpolation = src.getInterpolation();
+
+		interpolationESet = src.isSetInterpolation();
+
 	}
 
 	@Override

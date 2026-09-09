@@ -503,6 +503,10 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 		connectMissingValueESet = src.isSetConnectMissingValue();
 
+		interpolation = src.getInterpolation();
+
+		interpolationESet = src.isSetInterpolation();
+
 		accOrientation = src.getAccOrientation();
 
 		accOrientationESet = src.isSetAccOrientation();

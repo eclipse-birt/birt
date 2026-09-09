@@ -289,6 +289,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return createLegendItemTypeFromString(eDataType, initialValue);
 		case AttributePackage.LINE_DECORATOR:
 			return createLineDecoratorFromString(eDataType, initialValue);
+		case AttributePackage.LINE_INTERPOLATION:
+			return createLineInterpolationFromString(eDataType, initialValue);
 		case AttributePackage.LINE_STYLE:
 			return createLineStyleFromString(eDataType, initialValue);
 		case AttributePackage.MARKER_TYPE:
@@ -321,8 +323,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return createUnitsOfMeasurementFromString(eDataType, initialValue);
 		case AttributePackage.VERTICAL_ALIGNMENT:
 			return createVerticalAlignmentFromString(eDataType, initialValue);
-		case AttributePackage.LINE_INTERPOLATION:
-			return createLineInterpolationFromString(eDataType, initialValue);
 		case AttributePackage.ACTION_TYPE_OBJECT:
 			return createActionTypeObjectFromString(eDataType, initialValue);
 		case AttributePackage.ANCHOR_OBJECT:
@@ -365,6 +365,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return createLegendItemTypeObjectFromString(eDataType, initialValue);
 		case AttributePackage.LINE_DECORATOR_OBJECT:
 			return createLineDecoratorObjectFromString(eDataType, initialValue);
+		case AttributePackage.LINE_INTERPOLATION_OBJECT:
+			return createLineInterpolationObjectFromString(eDataType, initialValue);
 		case AttributePackage.LINE_STYLE_OBJECT:
 			return createLineStyleObjectFromString(eDataType, initialValue);
 		case AttributePackage.MARKER_TYPE_OBJECT:
@@ -409,8 +411,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return createUnitsOfMeasurementObjectFromString(eDataType, initialValue);
 		case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
 			return createVerticalAlignmentObjectFromString(eDataType, initialValue);
-		case AttributePackage.LINE_INTERPOLATION_OBJECT:
-			return createLineInterpolationObjectFromString(eDataType, initialValue);
 		default:
 			throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -463,6 +463,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return convertLegendItemTypeToString(eDataType, instanceValue);
 		case AttributePackage.LINE_DECORATOR:
 			return convertLineDecoratorToString(eDataType, instanceValue);
+		case AttributePackage.LINE_INTERPOLATION:
+			return convertLineInterpolationToString(eDataType, instanceValue);
 		case AttributePackage.LINE_STYLE:
 			return convertLineStyleToString(eDataType, instanceValue);
 		case AttributePackage.MARKER_TYPE:
@@ -495,8 +497,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return convertUnitsOfMeasurementToString(eDataType, instanceValue);
 		case AttributePackage.VERTICAL_ALIGNMENT:
 			return convertVerticalAlignmentToString(eDataType, instanceValue);
-		case AttributePackage.LINE_INTERPOLATION:
-			return convertLineInterpolationToString(eDataType, instanceValue);
 		case AttributePackage.ACTION_TYPE_OBJECT:
 			return convertActionTypeObjectToString(eDataType, instanceValue);
 		case AttributePackage.ANCHOR_OBJECT:
@@ -539,6 +539,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return convertLegendItemTypeObjectToString(eDataType, instanceValue);
 		case AttributePackage.LINE_DECORATOR_OBJECT:
 			return convertLineDecoratorObjectToString(eDataType, instanceValue);
+		case AttributePackage.LINE_INTERPOLATION_OBJECT:
+			return convertLineInterpolationObjectToString(eDataType, instanceValue);
 		case AttributePackage.LINE_STYLE_OBJECT:
 			return convertLineStyleObjectToString(eDataType, instanceValue);
 		case AttributePackage.MARKER_TYPE_OBJECT:
@@ -583,8 +585,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 			return convertUnitsOfMeasurementObjectToString(eDataType, instanceValue);
 		case AttributePackage.VERTICAL_ALIGNMENT_OBJECT:
 			return convertVerticalAlignmentObjectToString(eDataType, instanceValue);
-		case AttributePackage.LINE_INTERPOLATION_OBJECT:
-			return convertLineInterpolationObjectToString(eDataType, instanceValue);
 		default:
 			throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -1755,16 +1755,14 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 	 */
 	public LineInterpolation createLineInterpolationFromString(EDataType eDataType, String initialValue) {
 		LineInterpolation result = LineInterpolation.get(initialValue);
-		if (result == null) {
+		if (result == null)
 			throw new IllegalArgumentException(
 					"The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertLineInterpolationToString(EDataType eDataType, Object instanceValue) {
@@ -1773,7 +1771,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public ActionType createActionTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -2473,7 +2470,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertLineInterpolationObjectToString(EDataType eDataType, Object instanceValue) {
@@ -2482,7 +2478,6 @@ public class AttributeFactoryImpl extends EFactoryImpl implements AttributeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

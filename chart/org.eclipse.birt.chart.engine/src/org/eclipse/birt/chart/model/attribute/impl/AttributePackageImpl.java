@@ -614,7 +614,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType actionTypeObjectEDataType = null;
@@ -873,7 +872,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType lineInterpolationObjectEDataType = null;
@@ -2767,7 +2765,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3182,7 +3179,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3437,6 +3433,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		legendBehaviorTypeEEnum = createEEnum(LEGEND_BEHAVIOR_TYPE);
 		legendItemTypeEEnum = createEEnum(LEGEND_ITEM_TYPE);
 		lineDecoratorEEnum = createEEnum(LINE_DECORATOR);
+		lineInterpolationEEnum = createEEnum(LINE_INTERPOLATION);
 		lineStyleEEnum = createEEnum(LINE_STYLE);
 		markerTypeEEnum = createEEnum(MARKER_TYPE);
 		menuStylesKeyTypeEEnum = createEEnum(MENU_STYLES_KEY_TYPE);
@@ -3453,7 +3450,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		triggerFlowEEnum = createEEnum(TRIGGER_FLOW);
 		unitsOfMeasurementEEnum = createEEnum(UNITS_OF_MEASUREMENT);
 		verticalAlignmentEEnum = createEEnum(VERTICAL_ALIGNMENT);
-		lineInterpolationEEnum = createEEnum(LINE_INTERPOLATION);
 
 		// Create data types
 		actionTypeObjectEDataType = createEDataType(ACTION_TYPE_OBJECT);
@@ -3477,6 +3473,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		legendBehaviorTypeObjectEDataType = createEDataType(LEGEND_BEHAVIOR_TYPE_OBJECT);
 		legendItemTypeObjectEDataType = createEDataType(LEGEND_ITEM_TYPE_OBJECT);
 		lineDecoratorObjectEDataType = createEDataType(LINE_DECORATOR_OBJECT);
+		lineInterpolationObjectEDataType = createEDataType(LINE_INTERPOLATION_OBJECT);
 		lineStyleObjectEDataType = createEDataType(LINE_STYLE_OBJECT);
 		markerTypeObjectEDataType = createEDataType(MARKER_TYPE_OBJECT);
 		menuStylesKeyTypeObjectEDataType = createEDataType(MENU_STYLES_KEY_TYPE_OBJECT);
@@ -3499,8 +3496,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		triggerFlowObjectEDataType = createEDataType(TRIGGER_FLOW_OBJECT);
 		unitsOfMeasurementObjectEDataType = createEDataType(UNITS_OF_MEASUREMENT_OBJECT);
 		verticalAlignmentObjectEDataType = createEDataType(VERTICAL_ALIGNMENT_OBJECT);
-
-		lineInterpolationObjectEDataType = createEDataType(LINE_INTERPOLATION_OBJECT);
 	}
 
 	/**
@@ -4133,6 +4128,12 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		addEEnumLiteral(lineDecoratorEEnum, LineDecorator.CIRCLE_LITERAL);
 		addEEnumLiteral(lineDecoratorEEnum, LineDecorator.NONE_LITERAL);
 
+		initEEnum(lineInterpolationEEnum, LineInterpolation.class, "LineInterpolation"); //$NON-NLS-1$
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.LINEAR_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_BEFORE_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_AFTER_LITERAL);
+		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_CENTER_LITERAL);
+
 		initEEnum(lineStyleEEnum, LineStyle.class, "LineStyle"); //$NON-NLS-1$
 		addEEnumLiteral(lineStyleEEnum, LineStyle.SOLID_LITERAL);
 		addEEnumLiteral(lineStyleEEnum, LineStyle.DASHED_LITERAL);
@@ -4259,12 +4260,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.CENTER_LITERAL);
 		addEEnumLiteral(verticalAlignmentEEnum, VerticalAlignment.BOTTOM_LITERAL);
 
-		initEEnum(lineInterpolationEEnum, LineInterpolation.class, "LineInterpolation"); //$NON-NLS-1$
-		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.LINEAR_LITERAL);
-		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_BEFORE_LITERAL);
-		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_AFTER_LITERAL);
-		addEEnumLiteral(lineInterpolationEEnum, LineInterpolation.STEP_CENTER_LITERAL);
-
 		// Initialize data types
 		initEDataType(actionTypeObjectEDataType, ActionType.class, "ActionTypeObject", IS_SERIALIZABLE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
@@ -4307,6 +4302,8 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 				IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(lineDecoratorObjectEDataType, LineDecorator.class, "LineDecoratorObject", IS_SERIALIZABLE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(lineInterpolationObjectEDataType, LineInterpolation.class, "LineInterpolationObject", //$NON-NLS-1$
+				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(lineStyleObjectEDataType, LineStyle.class, "LineStyleObject", IS_SERIALIZABLE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(markerTypeObjectEDataType, MarkerType.class, "MarkerTypeObject", IS_SERIALIZABLE, //$NON-NLS-1$
@@ -4348,8 +4345,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		initEDataType(unitsOfMeasurementObjectEDataType, UnitsOfMeasurement.class, "UnitsOfMeasurementObject", //$NON-NLS-1$
 				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(verticalAlignmentObjectEDataType, VerticalAlignment.class, "VerticalAlignmentObject", //$NON-NLS-1$
-				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(lineInterpolationObjectEDataType, LineInterpolation.class, "LineInterpolationObject", //$NON-NLS-1$
 				IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
@@ -4760,6 +4755,11 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		addAnnotation(lineDecoratorObjectEDataType, source, new String[] { "name", "LineDecorator:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "LineDecorator" //$NON-NLS-1$ //$NON-NLS-2$
 		});
+		addAnnotation(lineInterpolationEEnum, source, new String[] { "name", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
+		});
+		addAnnotation(lineInterpolationObjectEDataType, source, new String[] { "name", "LineInterpolation:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
+		});
 		addAnnotation(lineStyleEEnum, source, new String[] { "name", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$
 		});
 		addAnnotation(lineStyleObjectEDataType, source, new String[] { "name", "LineStyle:Object", //$NON-NLS-1$ //$NON-NLS-2$
@@ -5065,11 +5065,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		});
 		addAnnotation(verticalAlignmentObjectEDataType, source, new String[] { "name", "VerticalAlignment:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
-		});
-		addAnnotation(lineInterpolationEEnum, source, new String[] { "name", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
-		});
-		addAnnotation(lineInterpolationObjectEDataType, source, new String[] { "name", "LineInterpolation:Object", //$NON-NLS-1$ //$NON-NLS-2$
-				"baseType", "LineInterpolation" //$NON-NLS-1$ //$NON-NLS-2$
 		});
 	}
 

@@ -2272,10 +2272,8 @@ public interface TypePackage extends EPackage {
 	EAttribute getLineSeries_ConnectMissingValue();
 
 	/**
-	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
-	 * <em>Interpolation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation <em>Interpolation</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Interpolation</em>'.
 	 * @see org.eclipse.birt.chart.model.type.LineSeries#getInterpolation()
 	 * @see #getLineSeries()
@@ -2763,9 +2761,8 @@ public interface TypePackage extends EPackage {
 		EAttribute LINE_SERIES__CONNECT_MISSING_VALUE = eINSTANCE.getLineSeries_ConnectMissingValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Interpolation</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 *
+		 * The meta object literal for the '<em><b>Interpolation</b></em>' attribute feature.
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute LINE_SERIES__INTERPOLATION = eINSTANCE.getLineSeries_Interpolation();

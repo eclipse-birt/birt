@@ -1309,6 +1309,24 @@
       <details key="baseType" value="LineDecorator"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LineInterpolation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This type represents how a Line Series joins two consecutive data points: a straight segment (Linear), or a staircase that steps at the first point (StepBefore), at the second (StepAfter) or half way between (StepCenter).&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="LineInterpolation"/>
+    </eAnnotations>
+    <eLiterals name="Linear"/>
+    <eLiterals name="StepBefore" value="1"/>
+    <eLiterals name="StepAfter" value="2"/>
+    <eLiterals name="StepCenter" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LineInterpolationObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="LineInterpolation:Object"/>
+      <details key="baseType" value="LineInterpolation"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LineStyle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="This type represents the possible values for line styles.&#xA;&#x9;&#x9;&#x9;"/>
@@ -2328,24 +2346,6 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="VerticalAlignment:Object"/>
       <details key="baseType" value="VerticalAlignment"/>
-    </eAnnotations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="LineInterpolation">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents how a Line Series joins two consecutive data points: a straight segment (Linear), or a staircase that steps at the first point (StepBefore), at the second (StepAfter) or half way between (StepCenter).&#xA;&#x9;&#x9;&#x9;"/>
-    </eAnnotations>
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="LineInterpolation"/>
-    </eAnnotations>
-    <eLiterals name="Linear"/>
-    <eLiterals name="StepBefore" value="1"/>
-    <eLiterals name="StepAfter" value="2"/>
-    <eLiterals name="StepCenter" value="3"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LineInterpolationObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="LineInterpolation:Object"/>
-      <details key="baseType" value="LineInterpolation"/>
     </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>

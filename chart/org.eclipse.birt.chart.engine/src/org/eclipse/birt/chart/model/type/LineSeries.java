@@ -337,11 +337,9 @@ public interface LineSeries extends Series {
 	LineInterpolation getInterpolation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
-	 * <em>Interpolation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation <em>Interpolation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Interpolation</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LineInterpolation
 	 * @see #isSetInterpolation()
@@ -352,11 +350,9 @@ public interface LineSeries extends Series {
 	void setInterpolation(LineInterpolation value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
-	 * <em>Interpolation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation <em>Interpolation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetInterpolation()
 	 * @see #getInterpolation()
 	 * @see #setInterpolation(LineInterpolation)
@@ -365,11 +361,9 @@ public interface LineSeries extends Series {
 	void unsetInterpolation();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation
-	 * <em>Interpolation</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getInterpolation <em>Interpolation</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Interpolation</em>' attribute is set.
 	 * @see #unsetInterpolation()
 	 * @see #getInterpolation()
